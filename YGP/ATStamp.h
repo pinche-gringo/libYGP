@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.21 2003/11/14 20:27:55 markus Rel $
+//$Id: ATStamp.h,v 1.22 2003/12/22 21:26:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@ namespace std {
 
 namespace YGP {
 
-/**Class for timestamp (containing of date and time; as e.g. files)
-   attributes. As every AttributValue is supports undefined values.
+/**Class for timestamp (containing date and time) attributes. As every
+   AttributValue is supports undefined values.
 */
 class ATimestamp : virtual public ADate, virtual public ATime {
  public:
