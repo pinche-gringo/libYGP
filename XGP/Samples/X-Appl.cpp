@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.13 2003/07/23 06:07:47 markus Exp $
+//$Id: X-Appl.cpp,v 1.14 2003/07/25 00:20:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -39,12 +39,14 @@
 #include <Trace_.h>
 
 #include <File.h>
+#include <ConnMgr.h>
 #include <ANumeric.h>
 
 #include <XDate.h>
 #include <XAbout.h>
 #include <XFileDlg.h>
 #include <XPrintDlg.h>
+#include <ConnectDlg.h>
 
 #include "Dialog.h"
 #include "X-Appl.h"
@@ -167,14 +169,15 @@ const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 
 XApplication::MenuEntry XAppl::menuItems[] = {
     { "_File",                  "<alt>F",      0,       BRANCH },
-    { "_Open",                  "<ctl>O",      OPEN,    ITEM },
-    { "_Save",                  "<ctl>S",      SAVE,    ITEM },
-    { "_Print",                 "<ctl>P",      PRINT,   ITEM },
+    { "_Open ...",              "<ctl>O",      OPEN,    ITEM },
+    { "_Save ...",              "<ctl>S",      SAVE,    ITEM },
+    { "_Print ...",             "<ctl>P",      PRINT,   ITEM },
     { "",                       "",            0,       SEPARATOR },
     { "E_xit",                  "<ctl>Q",      EXIT,    ITEM },
     { "_Dialogs",               "<alt>D",      0,       BRANCH },
-    { "_Dialog",                "<ctl>D",      DIALOG,  ITEM },
-    { "Da_te",                  "<ctl>T",      DATE,    ITEM },
+    { "_Dialog ...",            "<ctl>D",      DIALOG,  ITEM },
+    { "Da_te ...",              "<ctl>T",      DATE,    ITEM },
+    { "_Connection ...",        "<ctl>C",      CONNECT, ITEM },
     { "_Menus",                 "<alt>M",      0,       BRANCH },
     { "_Radiobuttons",          "<alt>R",      0,       SUBMENU },
     {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
@@ -236,20 +239,19 @@ XAppl::XAppl ()
 void XAppl::command (int menu) {
    switch (menu) {
    case OPEN:
-      TFileDialog<XAppl>::perform (Glib::locale_to_utf8 (_("Add file...")),
+      TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Add file...")),
                                    *this, &XAppl::addFile,
                                    IFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
-      TFileDialog<XAppl>::perform (Glib::locale_to_utf8 (_("Save search result to ...")),
+      TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Save search result to ...")),
                                    *this, &XAppl::saveToFile,
                                    IFileDialog::ASK_OVERWRITE);
       break;
-      break;
 
    case PRINT:
-      TPrintDialog<XAppl>::perform (*this, &XAppl::writeToStream);
+      TPrintDialog<XAppl>::create (*this, &XAppl::writeToStream);
       break;
 
    case EXIT:
@@ -257,12 +259,17 @@ void XAppl::command (int menu) {
       break;
 
    case DATE:
-      XDate::perform ("Enter date", time);
+      XDate::create ("Enter date", time);
       break;
+
+   case CONNECT: {
+      static ConnectionMgr cmgr;
+      ConnectDlg::perform (4, 4711, cmgr); 
+      break; }
 
    case DIALOG:
       TRACE9 ("XAppl::command (int) - Num: " << num << "; File: " << file);
-      TDialog<XAppl>::perform (*this, &XAppl::addActFile, num, file);
+      TDialog<XAppl>::create (*this, &XAppl::addActFile, num, file);
       break;
 
    default:
@@ -274,10 +281,10 @@ void XAppl::command (int menu) {
 //Purpose   : Shows the about box
 /*--------------------------------------------------------------------------*/
 void XAppl::showAboutbox () {
-   XAbout* about (new XAbout ("Anticopyright (A) 2003 Markus Schwab\n"
-                              "e-mail: g17m0@lycos.com\n"
-                              "\nCompiled on " __DATE__ " at " __TIME__,
-                              "X" PACKAGE " V" VERSION));
+   XAbout* about (XAbout::create ("Anticopyright (A) 2003 Markus Schwab\n"
+                                  "e-mail: g17m0@lycos.com\n"
+                                  "\nCompiled on " __DATE__ " at " __TIME__,
+                                  "X" PACKAGE " V" VERSION));
    about->setIconProgram (xpmXAppl);
    about->setIconAuthor (xpmAuthor);
 }

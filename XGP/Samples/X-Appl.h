@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.7 2003/07/23 06:07:47 markus Exp $
+//$Id: X-Appl.h,v 1.8 2003/07/25 00:20:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ class XAppl : public XApplication {
    ~XAppl () { }
 
  protected:
-   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE };
+   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE, CONNECT };
 
  private:
    // Protected manager functions
