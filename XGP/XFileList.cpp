@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.22 2003/02/06 19:56:34 markus Exp $
+//$Id: XFileList.cpp,v 1.23 2003/02/09 22:55:15 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -322,6 +322,8 @@ gint XFileList::listSelected (GdkEvent* event) {
                (Gtk::Menu_Helpers::MenuElem
                 (_("Delete"),
                  bind (slot (this, &XFileList::remove), entry)));
+
+            addMenus (*pMenuPopAction, entry);
             pMenuPopAction->popup (bev->button, bev->time);
          }
          return true;
@@ -405,7 +407,7 @@ void XFileList::move (unsigned int line) {
          try {
             File objFile (file.c_str ());
             setIcon (line, objFile);
-            cell (line, 1).set_text (file.c_str ());
+            setFilename (line, file);
          }
          catch (const char* error) {
             XMessageBox::Show  (error, XMessageBox::ERROR | XMessageBox::OK);
@@ -434,4 +436,14 @@ void XFileList::remove (unsigned int line) {
 /*--------------------------------------------------------------------------*/
 string XFileList::getFilename (unsigned int line) const {
    return get_text (line, 1);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Retrieves the file name of the passed line; which is considered
+//            to be stored in the column 1
+//Parameters: line: Line in list to get the filename from
+//            file: Filename to set
+/*--------------------------------------------------------------------------*/
+void XFileList::setFilename (unsigned int line, const string& file) {
+   cell (line, 1).set_text (const_cast <string&> (file));
 }

@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.15 2003/02/06 19:56:34 markus Exp $
+//$Id: XFileList.h,v 1.16 2003/02/09 22:55:15 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ class XFileList : public Gtk::CList {
    void setIcon (int row, const File& pFile);
 
    virtual string getFilename (unsigned int line) const;
+   virtual void setFilename (unsigned int line, const string& file);
 
  protected:
    virtual void realize_impl ();
@@ -75,6 +76,8 @@ class XFileList : public Gtk::CList {
    void executeProgram (const char* file, unsigned int line);
 
    bool execProgram (const char* file, const char* const args[], bool sync);
+
+   virtual void addMenus (Gtk::Menu& menu, unsigned int line) { };
 
  private:
    // Prohibited manager-functions
