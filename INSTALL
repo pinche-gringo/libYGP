@@ -36,8 +36,8 @@ Additional prerequiste software:
 
 Inside the directory containing the source code type
 
-  gettextize
-  aclocal && automake -a && autoconf    # Create configure.in
+  gettextize --intl --no-changelog
+  aclocal -I m4 && automake -a && autoconf    # Create configure.in
   ./configure [configure-options]
   make [make-options]
 
