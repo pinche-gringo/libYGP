@@ -1,4 +1,4 @@
-<!-- $Id: RDirSrchSrv.html,v 1.2 2001/10/02 23:01:35 markus Exp $ -->
+<!-- $Id: RDirSrchSrv.html,v 1.3 2001/10/17 22:35:02 markus Exp $ -->
 
 <html>
   <head>
@@ -30,24 +30,44 @@
     <p>Class to search for files in a certain directory. This is the
       server for the RemoteDirSearch-class.</p>
 
-    <p>Supported commands are:</p>
-    <ul>
-      <li>Check="&lt;<i>file</i>&gt;"</li>
-      <li>Find="&lt;<i>file</i>&gt;";Attr=&lt;<i>attr</i>&gt;</li>
-      <li>Next</li>
-      <li>End</li>
+    <p>Supported commands are (following the answers in case of success):</p>
+    <ul break>
+      <li><b>-&gt;</b>: <font color="blue">Check</font>="&lt;<i>file</i>&gt;"<br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
+      <li><b>-&gt;</b>: <font color="blue">Find</font>="&lt;<i>file</i>&gt;";<font color="purple">Attr=&lt;</font><i>attr</i>&gt;</br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0;File</font>="&lt;<i>file</i>&gt;";<font color="purple">Size</font>=&lt;<i>size</i>&gt;;<font color="purple">Time</font>=&lt;<i>timestamp</i>&gt;;<font color="purple">Attr</font>=&lt;<i>attributes</i>&gt;</li>
+      <li><b>-&gt;</b>: <font color="blue">Next</font></br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0;File</font>="&lt;<i>file</i>&gt;";<font color="purple">Size</font>=&lt;<i>size</i>&gt;;<font color="purple">Time</font>=&lt;<i>timestamp</i>&gt;;<font color="purple">Attr</font>=&lt;<i>attributes</i>&gt;</li>
+      <li><b>-&gt;</b>: <font color="blue">End</font><br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
+      <li><b>-&gt;</b>: <font color="blue">Open</font>="&lt;file&gt;";<font color="purple">Mode</font>=&lt;mode&gt;<br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0;<font color="purple">ID</font></font>=&lt;ID&gt;</li>
+      <li><b>-&gt;</b>: <font color="blue">Read</font>=&lt;ID&gt;;<font color="purple">Length</font>=&lt;length&gt;<br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0;<font color="purple">Length</font>=&lt;length&gt;;<font color="purple">Data</font>=&lt;data&gt;</li>
+      <li><b>-&gt;</b>: <font color="blue">Write</font>=&lt;ID&gt;;<font color="purple">Length</font>=&lt;length&gt;;<font color="purple">Data</font>=&lt;data&gt;<br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
+      <li><b>-&gt;</b>: <font color="blue">EOF</font>=&lt;ID&gt;<br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
+      <li><b>-&gt;</b>: <font color="blue">Close</font>=&lt;ID&gt;<br>
+          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
     </ul>
 
-    <p>Possible answers to those commands are:</p>
+    <p>Errors are reported in the following format:</p>
 
     <ul>
-      <li>RC=&lt;<i>status</i>&gt;[;E=&lt;<i>errortext</i>&gt;]</li>
-      <li>RC=0;File="&lt;<i>file</i>&gt;";Size=&lt;<i>size</i>&gt;;Time=&lt;<i>timestamp</i>&gt;;Attr=&lt;<i>attributes</i>&gt;
+      <li><b>&lt;-</b>: RC=&lt;<i>status</i>&gt;[;E=&lt;<i>errortext</i>&gt;]</li>
     </ul>
 
     <p>RC=0 always means, that the commands completed
-      successfully. This is also true for the "Check"-command; RC=0
-      means in that case, that the file has been found!</p>
+      successfully. This is also true for the <font color="blue">Check</font>-
+      or the <font color="blue">EOF</font>- command; RC=0 means in that case,
+      that the file has been found (respectively is at EOF)!</p>
+
+    <p>If in case of an error there is a following description the error is an
+      unexpected one (in counterpart to errors which might happen, like for the
+      the <font color="blue">Check</font>-command in case the filename is not
+      valid or for the the <font color="blue">Next</font>-command when there is
+      no more matching file.</p>
 
     <hr noshade>
     <table border="0">
