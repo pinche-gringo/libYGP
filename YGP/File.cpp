@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.14 2002/12/17 02:08:06 markus Exp $
+//$Id: File.cpp,v 1.15 2002/12/17 20:31:17 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -128,7 +128,7 @@ bool File::isExecuteable () const {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the modification time of the file in the format of the
 //            system-time.
-//Returns   : struct tm*: Pointer to time
+//Returns   : time_t: Filetime in system format
 //Remarks   : - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
 time_t File::time () const {
@@ -139,7 +139,7 @@ time_t File::time () const {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Returns the (local) time of the file in a (C-)struct tm.
-//Returns   : time: Broken down time structure to set
+//Parameters: time: Broken down time structure to set
 //Remarks   : - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
 void File::localtime (struct tm& time) const {
