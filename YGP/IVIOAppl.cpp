@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.29 2002/12/09 00:11:26 markus Rel $
+///$Id: IVIOAppl.cpp,v 1.30 2003/07/01 04:57:31 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -42,8 +42,6 @@
 #include "IVIOAppl.h"
 
 
-using namespace std;
-
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks char if it starts an option
 //Parameters: ch: Character to check
@@ -70,9 +68,8 @@ static inline bool isOptionChar (const char ch) {
 /*--------------------------------------------------------------------------*/
 IVIOApplication::IVIOApplication (const int argc, const char* argv[],
                                   const longOptions* pOpt)
-   : args (argc), ppArgs (argv), startArg (1), pOptionParam (NULL)
-   , longOpt (NULL), startOpt (1)
-   , numLongOpt (0) {
+   : args (argc), ppArgs (argv), startArg (1), startOpt (1), pOptionParam (NULL)
+   , longOpt (NULL), numLongOpt (0) {
    Check1 (args > 0); Check1 (ppArgs);
 
    signal (SIGSEGV, handleSignal);
@@ -175,7 +172,7 @@ int IVIOApplication::run () {
       }
 
    if (shallShowInfo ())
-      cout << name () << " V" << description () << "\n\n";
+      std::cout << name () << " V" << description () << "\n\n";
 
    if (showHlp) {
       showHelp ();
@@ -274,7 +271,7 @@ char IVIOApplication::getOption () {
                         else {
                            std::string error (_("-error: Option `%1' is ambiguous"));
                            error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
-                           cerr << name () << error.c_str () << '\n';
+                           std::cerr << name () << error.c_str () << '\n';
                            return '?';
                         } // end-else option ambigous
                      } // endif option matches
@@ -283,7 +280,7 @@ char IVIOApplication::getOption () {
                   if (found == (unsigned int)-1) {     // No long-option found
                      std::string error (_("-error: Unrecognized option `%1'"));
                      error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
-                     cerr << name () << error.c_str () << '\n';
+                     std::cerr << name () << error.c_str () << '\n';
                      return '?';
                    } // endif no longopt found
                   else {
