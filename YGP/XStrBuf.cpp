@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.10 2000/02/11 23:22:42 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.11 2000/03/04 22:35:56 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -72,9 +72,9 @@ extStreambuf::extStreambuf (streambuf* source)
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
+//Remarks   : Don't delete pBuffer as this is done by the streambuf-dtr
 /*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
-   delete [] pBuffer;
 }
 
 
