@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.14 1999/08/29 20:54:56 Markus Exp $
+// $Id: Test.cpp,v 1.15 1999/09/05 01:27:53 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -225,7 +225,7 @@ int Application::perform (int argc, char* argv[]) {
    char       numBuf[10];
    ostrstream stream (numBuf, sizeof (numBuf));
    stream << num2 << ends;
-   check (strlen (numBuf) <= 4);
+   check (strlen (numBuf) >= 4);
 
    cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
