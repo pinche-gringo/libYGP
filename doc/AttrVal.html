@@ -1,4 +1,4 @@
-<!-- $Id: AttrVal.html,v 1.3 2000/03/22 22:04:01 Markus Exp $ -->
+<!-- $Id: AttrVal.html,v 1.4 2000/04/02 14:25:40 Markus Exp $ -->
 
 <html>
   <head>
@@ -66,44 +66,62 @@
     <hr noshade="noshade">
     <h2>Member descriptions</h2>
 
-    <h4>Constructors &amp; assignment</h4>
-    <p><a name="AttributValue"><i>AttributValue ()</i> -
-	Defaultconstructor; the attribute is not defined</a></p>
-    <p><a name="AttributValue2"><i>AttributValue (const AttributValue&amp; other)</i>
-	- Copy-constructor</a></p>
+    <h4>Management functions</h4>
+    <pre><a name="AttributValue">AttributValue ()</a></pre>
+    <dl>
+      <dd>Defaultconstructor; the attribute is not defined.</dd>
+    </dl>
+    <pre><a name="AttributValue2">AttributValue (const AttributValue&amp; other)</a></pre>
 
-    <p><a name="~AttributValue"><i>~AttributValue ()</i> - Destructor</a></p>
+    <pre><a name="~AttributValue">~AttributValue ()</a></pre>
 
-    <p><a name="operator="><i>AttributValue&amp; operator= (const
-	  AttributValue&amp; other)</i> - Assignmentoperator.</a></p>
+    <pre><a name="operator=">AttributValue&amp; operator= (const AttributValue&amp; other)</a></pre>
 
-   <h4>In- &amp; output</h4>
-    <p><a name="operatorrshift"><i>friend istream&amp; operator&gt;&gt;
-	  (istream&amp;	in, AttributValue&amp; inValue)</i> - Reads the object
-	from the passed stream using the virtual method</a>
-        <a href="AttrVal.html#readFromStream">readFromStream</a>.</p>
+    <h4>In- &amp; output</h4>
+    <pre><a name="operatorrshift">friend istream&amp; operator&gt;&gt; (istream&amp;	in, AttributValue&amp; inValue)</a></pre>
+    <dl>
+      <dd>Reads the object from the passed stream using the virtual method
+        <a href="AttrVal.html#readFromStream">readFromStream</a>.</dd>
+    </dl>
 
-    <p><a name="operatorlshift"><i>friend ostream&amp; operator&gt;&gt;
-	  (ostream&amp;	out, const AttributValue&amp; outValue)</i> - Writes
-	the attributvalue to the stream using the virtual method</a>
-      <a href="AttrVal.html#toString">toString</a>.</p>
+    <pre><a name="operatorlshift">friend ostream&amp; operator&gt;&gt; (ostream&amp;	out, const AttributValue&amp; outValue)</a></pre>
+    <dl>
+      <dd>Writes the object to the stream using the virtual method
+	<a href="AttrVal.html#toString">toString</a>.</dd>
+    </dl>
 
-    <p><a name="toString"><i>virtual std::string toString () const</i> -
-	Converts the attribute to a string.</a></p>
+    <pre><a name="toString">virtual std::string toString () const</a></pre>
+    <dl>
+      <dd>Converts the attribute into a string.</dd>
+    </dl>
 
-    <p><a name="toString2"><i>void toString (std::string&amp; result) const</i> -
-	Converts the attribute to a string.</a></p>
+    <pre><a name="toString2">void toString (std::string&amp; result) const</a></pre>
+    <dl>
+      <dd>Converts the attribute into a string.</dd>
+    </dl>
 
-    <p><a name="readFromStream"><i>virtual void readFromStream (istream&amp;)</i>
-	- Reads data from a stream into the attribute.</a></p>
+    <pre><a name="readFromStream">virtual void readFromStream (istream&amp;)</a></pre>
+    <dl>
+      <dd>Reads data from a stream into the attribute.</dd>
+    </dl>
 	
 
     <h4>Handling of the state</h4>
-    <p><a name="isDefined"><i>bool isDefined () const</i> - Returns true if the attribute
-	is already defined.</a></p>
+    <pre><a name="isDefined">bool isDefined () const</a></pre>
+    <dl>
+      <dd>Returns true if the attribute	is already defined; else false</dd>
+    </dl>
 
-    <p><a name="undefine"><i>virtual void undefine ()</i> - Undefines the attribute.</a></p>
+    <pre><a name="undefine">virtual void undefine ()</a></pre>
+    <dl>
+      <dd>Undefines the attribute.</dd>
+    </dl>
 
-    <p><a name="define"><i>virtual void define () = 0</i> - Defines the attribute.</a></p>
+    <pre><a name="define">virtual void define () = 0</a></pre>
+    <dl>
+      <dd>Defines the attribute; to be implemented by derived objects.
+	<p>Derived objects must call define of their superclass!</p>
+      </dd>
+    </dl>
   </body>
 </html>

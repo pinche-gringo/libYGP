@@ -1,4 +1,4 @@
-<!-- $Id: ADate.html,v 1.4 2000/03/21 22:42:12 Markus Exp $ -->
+<!-- $Id: ADate.html,v 1.5 2000/04/02 14:25:40 Markus Exp $ -->
 
 <html>
   <head>
@@ -162,202 +162,268 @@
     <hr noshade="noshade">
     <h2>Member descriptions</h2>
 
-    <h4>Constructors & assignment</h4>
-    <p><a name="ADate"><i>ADate ()</i> -
-	Defaultconstructor; the date is not defined</a></p>
+    <h4>Management functions</h4>
+    <pre><a name="ADate">ADate ()</a></pre>
+    <dl>
+      <dd>Defaultconstructor; the date is not defined</dd>
+    </dl>
 
-    <p><a name="ADate3"><i>ADate (const ADate& other)</i> -
-	Copyconstructor</a></p>
+    <pre><a name="ADate3">ADate (const ADate& other)</a></pre>
+    <pre><a name="ADate2">ADate (bool now)</a></pre>
+    <dl>
+      <dd>Constructor; depending on the parameter the date is either set to the
+        first of January, 1900 (now = false), or to the current day (now =
+	true).</dd><dd></dd>
+    </dl>
 
-    <p><a name="ADate2"><i>ADate (bool now)</i> -
-	Constructor; depending on the parameter the date is either set to the
-        first of January, 1900 (now = false), or to the current day (now = true).
-      </a></p>
+    <pre><a name="ADate4">ADate (char Day, char Month, int Year)</a></pre>
+    <dl>
+      <dd>Constructor; sets the passed date. The date is undefined, if the
+	passed parameters represent no valid day.</dd>
+    </dl>
 
-    <p><a name="ADate4"><i>ADate (char Day, char Month, int Year)</i>
-	- Constructor; sets the passed date. The date is undefined, if the
-	passed parameters represent no valid day.</a></p>
-
-    <p><a name="ADate5"><i>ADate (const char* pDate)</i>
-	- Constructor; sets the passed date, which must be represented as
+    <pre><a name="ADate5">ADate (const char* pDate)</a></pre>
+    <dl>
+      <dd>Constructor; sets the passed date, which must be represented as
         <i>day.month.year</i>. If the buffer does not represent a valid day,
 	the date is set to undefined. A NULL-pointer as parameter
-	is not permitted!</a></p>
+	is not permitted!</dd>
+    </dl>
 
-    <p><a name="ADate6"><i>virtual ADate (std::string&amp; date)</i> -
-	- Constructor; sets the passed date, which must be represented as
+    <pre><a name="ADate6">virtual ADate (std::string&amp; date)</a></pre>
+    <dl>
+      <dd>Constructor; sets the passed date, which must be represented as
         <i>day.month.year</i>. If the string does not represent a valid day,
-	the date is set to undefined.</a></p>
+	the date is set to undefined.</dd>
+    </dl>
 
-    <p><a name="ADate7"><i>ADate (const struct tm&amp; date)</i> - Constructor;
-	assigns the values from the passed struct tm to the date.</a></p>
+    <pre><a name="ADate7">ADate (const struct tm&amp; date)</a></pre>
+    <dl>
+      <dd>Constructor; assigns the values from the passed struct tm to the
+	date.</dd>
+    </dl>
 
-    <p><a name="ADate8"><i>ADate (const time_t date)</i> - Constructor;
-	sets the date to the value represented by the parameter.</a></p>
+    <pre><a name="ADate8">ADate (const time_t date)</a></pre>
+    <dl>
+      <dd>Constructor; sets the date to the value represented by the parameter.</dd>
+    </dl>
 
-    <p><a name="~ADate"><i>virtual ~ADate ()</i> - Destructor</a></p>
+    <pre><a name="~ADate">virtual ~ADate ()</a></pre>
+    <pre><a name="operator=">ADate&amp; operator= (const ADate&amp; other)</a></pre>
 
-    <p><a name="operator="><i>ADate&amp; operator= (const ADate&amp; other)</i>
-	- Assignment-operator</a></p>
-
-    <p><a name="operator=2"><i>ADate&amp; operator= (const char* pDate)</i>
-	- Assignment-operator from an const char-pointer. The date must be
+    <pre><a name="operator=2">ADate&amp; operator= (const char* pDate)</a></pre>
+    <dl>
+      <dd>Assignment-operator from an const char-pointer. The date must be
 	passed as <i>day.month.year</i>. If the buffer does not represent a
-	valid day, the date is set to undefined.</a></p>
+	valid day, the date is set to undefined.</dd>
+    </dl>
 
-    <p><a name="operator=3"><i>ADate&amp; operator= (const std::string&amp; date)</i>
-	- Assignment-operator from a const string. The date must be
-	passed as <i>day.month.year</i>. If the string does not represent a
-	valid day, the date is set to undefined.</a></p>
+    <pre><a name="operator=3">ADate&amp; operator= (const std::string&amp; date)</a></pre>
+    <dl>
+      <dd>Assignment-operator from a const string. The date must be passed as
+	<i>day.month.year</i>. If the string does not represent a valid day,
+	the date is set to undefined.</dd>
+    </dl>
 
-    <p><a name="operator=4"><i>ADate&amp; operator= (const struct tm&amp; date)</i>
-	- Assignment-operator; assigns the values from the passed struct tm.</a></p>
+    <pre><a name="operator=4">ADate&amp; operator= (const struct tm&amp; date)</a></pre>
+    <dl>
+      <dd>Assignment-operator; assigns the values from the passed struct tm.</dd>
+    </dl>
 
-    <p><a name="operator=5"><i>ADate&amp; operator= (const time_t date)</i>
-	- Assignment-operator; sets the date to the value represented by the
-	parameter.</a></p>
+    <pre><a name="operator=5">ADate&amp; operator= (const time_t date)</a></pre>
+    <dl>
+      <dd>Assignment-operator; sets the date to the value represented by the
+	parameter.</dd>
+    </dl>
 
-    <p><a name="define"><i>void define ()</i> - Sets the date to the 1st of
-	January, 1900.</a></p>
+    <pre><a name="define">void define ()</a></pre>
+    <dl>
+      <dd>Sets the date to the 1st of January, 1900.</dd>
+    </dl>
 
-    <p><a name="setDay"><i>void setDay (char Day)</i> - Sets the day to the 
-	passed value. If the date is not valid, it is set to undefined.</a></p>
+    <pre><a name="setDay">void setDay (char Day)</a></pre>
+    <dl>
+      <dd>Sets the day to the passed value. If the date is not valid, it is
+	set to undefined.</dd>
+    </dl>
 
-    <p><a name="setMonth"><i>void setMonth (char Month)</i> - Sets the month to
-	the passed value. If the date is not valid, it is set to undefined.</a></p>
+    <pre><a name="setMonth">void setMonth (char Month)</a></pre>
+    <dl>
+      <dd>Sets the month to the passed value. If the date is not valid, it is
+	set to undefined.</dd>
+    </dl>
 
-    <p><a name="setYear"><i>void setYear (int Year)</i> - Sets the year to
-	the passed value.</a></p>
+    <pre><a name="setYear">void setYear (int Year)</a></pre>
+    <dl>
+      <dd>Sets the year to the passed value.</dd>
+    </dl>
 
     <h4>In- &amp; output, conversion</h4>
-    <p><a name="readFromStream"><i>virtual void readFromStream (istream& in)</i>
-	- Reads a date as <i>day.month.year</i> from a stream. If the input is
-	not valid, the object is set to undefined.</a></p>
+    <pre><a name="readFromStream">virtual void readFromStream (istream& in)</a></pre>
+    <dl>
+      <dd>Reads a date as <i>day.month.year</i> from a stream. If the input is
+	not valid, the object is set to undefined.</dd>
+    </dl>
 
-    <p><a name="toString"><i>virtual std::string toString () const</i> -
-	Converts the date into a string, in the format specified by the current
-	locale.</a></p>
+    <pre><a name="toString">virtual std::string toString () const</a></pre>
+    <dl>
+      <dd>Converts the date into a string, in the format specified by the
+	current locale.</dd>
+    </dl>
 
-    <p><a name="toString2"><i>virtual std::string toString (const char* format)
-	  const</i> - Converts the date into a string, in the specified format.
-      The parameter format can be any value accepted by the <i>strftime</i>
-      library-routine.</a></p>
+    <pre><a name="toString2">virtual std::string toString (const char* format) const</a></pre>
+    <dl>
+      <dd>Converts the date into a string, in the specified format. The
+	parameter format can be any value accepted by the <i>strftime</i>
+	library-routine.
+	<p><b>Note</b>: The maximal length of the resulting string is 80
+	  characters!</p></dd>
+    </dl>
 
-    <p><a name="toStructTM"><i>virtual struct tm toStructTM () const</i> -
-	Converts the date to a struct tm.</a></p>
+    <pre><a name="toStructTM">virtual struct tm toStructTM () const</a></pre>
+    <dl>
+      <dd>Converts the date to a struct tm.</dd>
+    </dl>
 
-    <p><a name="toSysTime"><i>time_t toSysTime () const</i> - Converts
-	the date to a system-timestructure.</a></p>
+    <pre><a name="toSysTime">time_t toSysTime () const</a></pre>
+    <dl>
+      <dd>Converts the date to a system-timestructure.</dd>
+    </dl>
 
     <h4>Query</h4>
-    <p><a name="getDay"><i>char getDay () const</i> - Retrieves the day stored
-	in the object.</a></p>
+    <pre><a name="getDay">char getDay () const</a></pre>
+    <dl>
+      <dd>Retrieves the day stored in the object.</dd>
+    </dl>
 
-    <p><a name="getMonth"><i>char getMonth () const</i> - Retrieves the month.</a></p>
+    <pre><a name="getMonth">char getMonth () const</a></pre>
+    <dl>
+      <dd>Retrieves the month.</dd>
+    </dl>
 
-    <p><a name="getYear"><i>int getYear () const</i> - Retrieves the  year.</a></p>
+    <pre><a name="getYear">int getYear () const</a></pre>
+    <dl>
+      <dd>Retrieves the  year.</dd>
+    </dl>
 
-    <p><a name="today"><i>static ADate today ()</i> - Returns a date-object
-	representing the current day.</a></p>
+    <pre><a name="today">static ADate today ()</a></pre>
+    <dl>
+      <dd>Returns a date-object	representing the current day.</dd>
+    </dl>
 
     <h4>Calculation</h4>
-    <p><a name="operator+="><i>ADate&amp; operator+= (const ADate&amp; rhs)</i>
-	- Adds another date-value to the date-object. An undefined date is
-	treated as "0.0.0"; if both objects are undefined, the result is
-	undefined. Overflows (of day or month) are corrected.</a></p>
+    <pre><a name="operator+=">ADate&amp; operator+= (const ADate&amp; rhs)</a></pre>
+    <dl>
+      <dd>Adds another date-value to the date-object. An undefined date is
+	treated as "0.0.0"; so only if both objects are undefined, the result
+	is (remains) undefined. Overflows (of day or month) are corrected.</dd>
+    </dl>
 
-    <p><a name="operator-="><i>ADate&amp; operator-= (const ADate&amp; rhs)</i>
-	- Substracts another date-value from the date-object. An undefined date
-	is treated as "0.0.0"; the result is undefined if both objects are
-	undefined. Underflows (of day or month) are corrected.</a></p>
+    <pre><a name="operator-=">ADate&amp; operator-= (const ADate&amp; rhs)</a></pre>
+    <dl>
+      <dd>Substracts another date-value from the date-object. An undefined date
+	is treated as "0.0.0"; the result is (remains) undefined if both
+	objects are undefined. Underflows (of day or month) are corrected.</dd>
+    </dl>
 
-    <p><a name="operator+"><i>ADate&amp; operator+ (const ADate&amp; lhs, 
-	  const ADate&amp; rhs)</i> - Adds two date-values and returns the
-	result. An undefined date is treated as "0.0.0"; the result is 
-	undefined if both objects are undefined. Overflows (of day or month)
-	are corrected.</a></p>
+    <pre><a name="operator+">ADate&amp; operator+ (const ADate&amp; lhs, const ADate&amp; rhs)</a></pre>
+    <dl>
+      <dd>Adds two date-values and returns the result. An undefined date is
+	treated as "0.0.0"; the result is (remains) undefined if both objects
+	re undefined. Overflows (of day or month) are corrected.</dd>
+    </dl>
 
-    <p><a name="operator-"><i>ADate&amp; operator- (const ADate&amp; lhs, 
-	  const ADate&amp; rhs)</i> - Substracts two date-values and returns
-	the result. An undefined date is treated as "0.0.0"; the result is
-	undefined if both objects are undefined. Overflows (of day or month)
-	are corrected.</a></p>
+    <pre><a name="operator-">ADate&amp; operator- (const ADate&amp; lhs, const ADate&amp; rhs)</a></pre>
+    <dl>
+      <dd>Substracts two date-values and returns the result. An undefined date
+	is treated as "0.0.0"; the result is (remains) undefined if both objects
+	are undefined. Overflows (of day or month) are corrected.</dd>
+    </dl>
 
-    <p><a name="add"><i>ADate&amp; add (char Day, char Month = 0, int Year = 0)</i>
-	- If this is not undefined, the passed values are added (with attention
-	to overflows). The result is returned.</a></p>
+    <pre><a name="add">ADate&amp; add (char Day, char Month = 0, int Year = 0)</a></pre>
+    <dl>
+      <dd>If this is not undefined, the passed values are added (with attention
+	to overflows). The result is returned.
+	<p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
+	  this method does <b>not</b> change the object if it is undefined!</p></dd>
+    </dl>
 
-    <p><a name="sub"><i>ADate&amp; sub (char Day, char Month = 0, int Year = 0)</i>
-	- If this is not undefined, the passed values are substracted (with
-	attention to underflows). The result is returned.</a></p>
+    <pre><a name="sub">ADate&amp; sub (char Day, char Month = 0, int Year = 0)</a></pre>
+    <dl>
+      <dd>If this is not undefined, the passed values are substracted (with
+	attention to underflows). The result is returned.
+	<p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
+	  this method does <b>not</b> change the object if it is undefined!</p></dd>
+    </dl>
 
     <h4>Comparison</h4>
-    <p><a name="operator=="><i>bool operator== (const ADate&amp; other)</i> -
+    <pre><a name="operator==">bool operator== (const ADate&amp; other)</a></pre><dl><dd>
 	Compares two date-objects and returns true, if they are equal (either
-	the same day or both undefined).</a></p>
+	the same day or both undefined).</dd></dl>
 
-    <p><a name="operator!="><i>bool operator!= (const ADate&amp; other)</i> -
+    <pre><a name="operator!=">bool operator!= (const ADate&amp; other)</a></pre><dl><dd>
 	Compares two date-objects and returns true, if they are not equal
-	(different days and not both undefined).</a></p>
+	(different days and not both undefined).</dd></dl>
 
-    <p><a name="operatorl"><i>bool operator&lt; (const ADate&amp; other)</i> -
+    <pre><a name="operatorl">bool operator&lt; (const ADate&amp; other)</a></pre><dl><dd>
 	Compares two date-objects and returns true, if this is "older" (further
 	in the past) than other (e.g. "yesterday" &lt; "today" == true).
-	Undefined values are considered as older than any other date.</a></p>
+	Undefined values are considered as older than any other date.</dd></dl>
 
-    <p><a name="operatorg"><i>bool operator&gt; (const ADate&amp; other)</i> -
+    <pre><a name="operatorg">bool operator&gt; (const ADate&amp; other)</a></pre><dl><dd>
 	Compares two date-objects and returns true, if this is "younger" (later
 	on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).
-	Undefined values are considered as older than any other date.</a></p>
+	Undefined values are considered as older than any other date.</dd></dl>
 
-    <p><a name="operatorl="><i>bool operator&lt;= (const ADate&amp; other)</i> -
+    <pre><a name="operatorl=">bool operator&lt;= (const ADate&amp; other)</a></pre><dl><dd>
 	Compares two date-objects and returns true, if this is "older" (further
 	in the past) than other or equal to it (e.g. "yesterday" &lt;= "today"
 	== true; two undefined values are also considered as equal).
-	Undefined values are considered as older than any other date.</a></p>
+	Undefined values are considered as older than any other date.</dd></dl>
 
-    <p><a name="operatorg="><i>bool operator&gt;= (const ADate&amp; other)</i> -
+    <pre><a name="operatorg=">bool operator&gt;= (const ADate&amp; other)</a></pre><dl><dd>
 	Compares two date-objects and returns true, if this is "younger" (later
 	on a time-line) than other or equal to it (e.g. "tomorrow" &gt;= "today"
 	== true; two undefined values are also considered as equal).
-	Undefined values are considered as older than any other date.</a></p>
+	Undefined values are considered as older than any other date.</dd></dl>
 
-    <p><a name="compare"><i>long compare (const ADate&amp; other)</i> -
+    <pre><a name="compare">long compare (const ADate&amp; other)</a></pre><dl><dd>
 	Returns the (approximated) difference in days between two dates. If
 	both dates are undefined, those difference is "0", if only this is
 	undefined the result is MINLONG; if other is undefined MAXLONG is
 	returned (-&gt; undefined dates are considered as (incredible)
-	old).</a></p>
+	old).</dd></dl>
 
     <h4>Utility-functions</h4>
-    <p><a name="maxDayOf"><i>char maxDayOf () const</i> - Returns the maximal
-	day the month/year-combination of the current object could have.</a></p>
+    <pre><a name="maxDayOf">char maxDayOf () const</a></pre><dl><dd>Returns the maximal
+	day the month/year-combination of the current object could have.</dd></dl>
 
-    <p><a name="maxDayOf2"><i>static char maxDayOf (char month, int year)</i> -
-	Returns the maximal day the specified month could have.</a></p>
+    <pre><a name="maxDayOf2">static char maxDayOf (char month, int year)</a></pre><dl><dd>
+	Returns the maximal day the specified month could have.</dd></dl>
 
-    <p><a name="isLeapYear"><i>bool isLeapYear () const</i> - Returns true, if
-	the current object is a leap-year.</a></p>
+    <pre><a name="isLeapYear">bool isLeapYear () const</a></pre><dl><dd>Returns true, if
+	the current object is a leap-year.</dd></dl>
 
-    <p><a name="isLeapYear2"><i>static bool isLeapYear (int year)</i> - Returns
-	true, if the specified year is a leap-year.</a></p>
+    <pre><a name="isLeapYear2">static bool isLeapYear (int year)</a></pre><dl><dd>Returns
+	true, if the specified year is a leap-year.</dd></dl>
 
-    <p><a name="incDay"><i>void incDay ()</i> - Increments the day of the
-	current object with regard of overflows.</a></p>
+    <pre><a name="incDay">void incDay ()</a></pre><dl><dd>Increments the day of the
+	current object with regard of overflows.</dd></dl>
 
-    <p><a name="decDay"><i>void decDay ()</i> - Decrements the day of the
-	current object with regard of underflows.</a></p>
+    <pre><a name="decDay">void decDay ()</a></pre><dl><dd>Decrements the day of the
+	current object with regard of underflows.</dd></dl>
 
-    <p><a name="minAdapt"><i>virtual bool minAdapt ()</i> - Corrects the object
+    <pre><a name="minAdapt">virtual bool minAdapt ()</a></pre><dl><dd>Corrects the object
 	after underflows. If the object is integer after this operation, true 
-	is returned.</a></p>
+	is returned.</dd></dl>
 
-    <p><a name="maxAdapt"><i>virtual bool maxAdapt ()</i> - Corrects the object
+    <pre><a name="maxAdapt">virtual bool maxAdapt ()</a></pre><dl><dd>Corrects the object
 	after overflows. If the object is integer after this operation, true 
-	is returned.</a></p>
+	is returned.</dd></dl>
 
-    <p><a name="checkIntegrity"><i>virtual int checkIntegrity () const</i> -
+    <pre><a name="checkIntegrity">virtual int checkIntegrity () const</a></pre>
+			      <dd><dl>
 	Checks if this object represents a valid date. Note: Even undefined
-	dates have valid values!</a></p>
+	dates have valid values!</dl></dd></dl>
   </body>
 </html>

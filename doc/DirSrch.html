@@ -1,4 +1,4 @@
-<!-- $Id: DirSrch.html,v 1.2 2000/03/23 21:12:25 Markus Exp $ -->
+<!-- $Id: DirSrch.html,v 1.3 2000/04/02 14:25:40 Markus Exp $ -->
 
 <html>
   <head>
@@ -10,7 +10,7 @@
       <tr><td><a href="index.html">Class Index</a></td></tr>
     </table>
 
-    <h1 align="center">Class DirectorySearch </h1>
+    <h1 align="center">Class DirectorySearch</h1>
     <p>Derived from: <i>None</i></p>
 
     <p>Header-file: DirSrch.h</p>
@@ -72,66 +72,83 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="DirectorySearch"><i>DirectorySearch ()</i> -
-	Defaultconstructor</a></p>
-    <p><a name="DirectorySearch2"><i>DirectorySearch (const std::string &amp; search)</i>
-	- Constructor; creates an object with the files to search. The
-	parameter can include path-information.</a></p>
-    <p><a name="~DirectorySearch"><i>~DirectorySearch ()</i> - Destructor</a></p>
+    <pre><a name="DirectorySearch">DirectorySearch ()</a></pre>
+    <pre><a name="DirectorySearch2">DirectorySearch (const std::string &amp; search)</a></pre>
+    <dl>
+      <dd>Constructor; creates an object with the files to search. The
+	parameter can include path-information.</dd>
+    </dl>
+    <pre><a name="~DirectorySearch">~DirectorySearch ()</a></pre>
 
-    <p><a name="setFile"><i>void setFile (const std::string&amp; search)</i> -
-	Sets the files to search for (and the path where to search).</a></p>
-    <p><a name="getFile"><i>std::string getFile ()</i> -
-	Retrieves path and files to search for.</a></p>
+    <pre><a name="setFile">void setFile (const std::string&amp; search)</a></pre>
+    <dl>
+      <dd>Sets the files to search for (and the path where to search).</dd>
+    </dl>
+    <pre><a name="getFile">std::string getFile ()</a></pre>
+    <dl>
+      <dd>Retrieves path and files to search for.</dd>
+    </dl>
 
     <h4>Find functions</h4>
-    <p><a name="find"><i>int find (const std::string&amp; search,
-      <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result, unsigned long
-      attribs = FILE_NORMAL)</i></a> - Searches for files specified by search; if
-      at least one is found, the result is placed into result. The parameter
-      attribs specify which kind of files to find. Possible values are
-      FILE_NORMAL for "ordinary" files, FILE_READONLY for files which can not
-      be changed (no w-flag in UNIX or read-only attribute set in DOS/WINDOZE),
-      FILE_DIRECTORY searches for directories and FILE_HIDDEN for files not
-      visible (files starting with a dot (.) in UNIX or with hidden- or
-      system-flag set in DOS/WINDOZE).</a></p>
+    <pre><a name="find">int find (const std::string&amp; search, <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+          unsigned long attribs = FILE_NORMAL)</a></pre>
+    <dl>
+      <dd>Searches for files specified by search; if at least one is found, the
+	result is placed into result.
+	<p>The parameter <i>attribs</i> specify which kind of files to find.
+	  Possible values are FILE_NORMAL for "ordinary" files, FILE_READONLY
+	  for files which can not be changed (no w-flag in UNIX or read-only
+	  attribute set in DOS/WINDOZE), FILE_DIRECTORY searches for
+	  directories and FILE_HIDDEN for files not visible (files starting
+	  with a dot (.) in UNIX or with hidden- or system-flag set in
+	  DOS/WINDOZE).</p>
+	<p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+    </dl>
 
-    <p>This call returns 0, if a file was found, errno otherwise.</p>
 
-    <p><a name="find2"><i>int find (const std::string&amp; search)</i> -
-	Searches for files specified by search; the purpose is to change the
+    <pre><a name="find2">int find (const std::string&amp; search)</a></pre>
+    <dl>
+      <dd>Searches for files specified by search; the purpose is to change the
 	files to search for during/after a previous search, so this call is
 	only valid, if a previous find has already defined a place for the
 	output (which is propably only usefull for derived classes, so this
-	call might be moved to the protected methods).</a></p>
+	call might be moved to the protected methods).
+	<p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+    </dl>
 
-    <p>This call returns 0, if a file was found, errno otherwise.</p>
+    <pre><a name="find3">virtual int find (<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+                  unsigned long attribs = FILE_NORMAL)</a></pre>
+    <dl>
+      <dd>Searches for the first file matching the input specified by the
+	constructor or the setFile-method. The first found file is placed into
+	result.
+	<p>The parameter attribs specify which kind of files to find. Possible
+	  values are FILE_NORMAL for "ordinary" files, FILE_READONLY for files
+	  which can not be changed (no w-flag in UNIX or read-only attribute
+	  set in DOS/WINDOZE), FILE_DIRECTORY searches for directories and
+	  FILE_HIDDEN for files not visible (files starting with a dot (.) in
+	  UNIX or with hidden- or system-flag set in DOS/WINDOZE).
+	<p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+    </dl>
 
-    <p><a name="find3"><i>virtual int find (<a href="DirSrch.html#dirEntry">dirEntry</a>&amp;
-      result, unsigned long attribs = FILE_NORMAL)</i> - Searches for the
-      first file matching the input specified by the constructor or the
-      setFile-method. The first found file is placed into  result, the parameter
-      attribs specify which kind of files to find. Possible values are
-      FILE_NORMAL for "ordinary" files, FILE_READONLY for files which can not
-      be changed (no w-flag in UNIX or read-only attribute set in DOS/WINDOZE),
-      FILE_DIRECTORY searches for directories and FILE_HIDDEN for files not
-      visible (files starting with a dot (.) in UNIX or with hidden- or
-      system-flag set in DOS/WINDOZE).</a></p>
-
-    <p>This call returns 0, if a file was found, errno otherwise.</p>
-
-    <p><a name="find4"><i>virtual int find ()</i> - Returns the next matching
-	file according to parameters specified in early find-calls. If a file
-	was found 0 is returned, errno otherwise.</a></p>
+    <pre><a name="find4">virtual int find ()</a></pre>
+    <dl>
+      <dd>Returns the next matching file according to parameters specified in
+	early find-calls. If a file was found 0 is returned, errno otherwise.</dd>
+    </dl>
 
     <h4>Utility functions</h4>
-    <p><a name="getSplitChar"><i>static char getSplitChar ()</i> -
-	Returns the character seperating the path from the file and the
-	subdirectories in the path from each other.</a></p>
+    <pre><a name="getSplitChar">static char getSplitChar ()</a></pre>
+    <dl>
+      <dd>Returns the character seperating the path from the file and the
+	subdirectories in the path from each other.</dd>
+    </dl>
     
-    <p><a name="checkIntegrity"><i>virtual int checkIntegrity () const</i> -
-	Checks if this object is integer. If yes 0 is returned, else a number
-	describing the error.</a></p>
+    <pre><a name="checkIntegrity">virtual int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks if this object is integer. If yes 0 is returned, else a number
+	describing the error.</dd>
+    </dl>
 
     <hr noshade="noshade">
 
@@ -140,7 +157,7 @@
     </table>
 
     <h1 align="center"><a name="dirEntry">struct dirEntry</a></h1>
-    <p>Derived from: <i>None</i></p>
+    <p>Derived from: None</a></pre></p>
 
     <p>Header-file: DirSrch.h</p>
 
@@ -209,60 +226,95 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="dirEntry1"><i>dirEntry ()</i> - Defaultconstructor; creates an
-	empty object (pointing to no directory-entry).</a></p>
-    <p><a name="dirEntry2"><i>dirEntry (const dirEntry&amp; other)</i> -
-	Copy-constructor</a></p>
-    <p><a name="~dirEntry"><i>~dirEntry ()</i> - Destructor</a></p>
-    <p><a name="Doperator="><i>dirEntry&amp; operator= (const dirEntry&amp; other)</i>
-	- Assignment-operator</a></p>
+    <pre><a name="dirEntry1">dirEntry ()</a></pre>
+    <dl>
+      <dd>Defaultconstructor; creates an empty object (pointing to no
+	directory-entry).</dd>
+    </dl>
+    <pre><a name="dirEntry2">dirEntry (const dirEntry&amp; other)</a></pre>
+    <pre><a name="~dirEntry">~dirEntry ()</a></pre>
+    <pre><a name="Doperator=">dirEntry&amp; operator= (const dirEntry&amp; other)</a></pre>
 
     <h4>Query of data</h4>
-    <p><a name="path"><i>const char* path () const</i> - Retrieves the path
-	of the file. The returned value is never NULL nor empty.</a></p>
-    <p><a name="name"><i>const char* name () const</i> - Retrieves the name
-	of the file. The returned value is without any path-information, but
-	never NULL nor empty.</a></p>
-    <p><a name="size"><i>const unsigned long size () const</i> - Retrieves the
-	size of the file.</a></p>
-    <p><a name="time"><i>const time_t time () const</i> - Retrieves the
-	modification time of the file in the format of the system-time.</a></p>
-    <p><a name="time2"><i>void time (struct&amp; tm time) const</i> - Retrieves
-	the modification time of the file in a broken-down format.</a></p>
-    <p><a name="attributes"><i>const unsigned long attributes () const</i> -
-	Returns the attributes of the files.</a></p>
+    <pre><a name="path">const char* path () const</a></pre>
+    <dl>
+      <dd>Retrieves the path of the file. The call is only valid after a 
+	successfull find; then the returned value is never NULL nor empty.</dd>
+    </dl>
+    <pre><a name="name">const char* name () const</a></pre>
+    <dl>
+      <dd>Retrieves the name of the file. The call is only valid after a 
+	successfull find; then the returned value  is without any
+	path-information, but never NULL nor empty.</dd>
+    </dl>
 
-    <p><a name="isDirectory"><i>bool isDirecotory () const</i> - Returns true,
-	if the file is a directory.</a></p>
-    <p><a name="isExecuteable"><i>bool isExecuteable () const</i> - Returns true,
-	if the file is executeable. Under UNIX it checks the file-permissions
-	(any execute-right is sufficient), under DOS/WINDOZE the extension of
-	the file (true for EXE/COM/BAT).</a></p>
-    <p><a name="isUserExec"><i>bool isUserExec () const</i> - Returns true,
-	if the file is executeable for the actual user. Under UNIX it checks
-	the rights for the effictive user under DOS/WINDOZE it the extension
-	of the file (true for EXE/COM/BAT).</a></p>
+    <pre><a name="size">const unsigned long size () const</a></pre>
+    <dl>
+      <dd>Retrieves the	size of the file. The call is only valid after a 
+	successfull find.</dd>
+    </dl>
+    <pre><a name="time">const time_t time () const</a></pre>
+    <dl><dd>Retrieves the modification time of the file in the format of the
+	system-time. The call is only valid after a successfull find.</dd>
+    </dl>
+    <pre><a name="time2">void time (struct&amp; tm time) const</a></pre>
+    <dl>
+      <dd>Retrieves the modification time of the file in a broken-down format.
+	The call is only valid after a successfull find.</dd>
+    </dl>
+    <pre><a name="attributes">const unsigned long attributes () const</a></pre>
+    <dl>
+      <dd>Returns the attributes of the files.  The call is only valid after a
+	successfull find.</dd>
+    </dl>
+
+    <pre><a name="isDirectory">bool isDirecotory () const</a></pre>
+    <dl><dd>Returns true, if the file is a directory.  The call is only valid
+	after a successfull find.</dd>
+    </dl>
+    <pre><a name="isExecuteable">bool isExecuteable () const</a></pre>
+    <dl>
+      <dd>Returns true, if the file is executeable. Under UNIX it checks the
+	file-permissions (any execute-right is sufficient), under DOS/WINDOZE
+	the extension of the file (true for EXE/COM/BAT).
+	<p>The call is only valid after a successfull find.</p></dd>
+    </dl>
+    <pre><a name="isUserExec">bool isUserExec () const</a></pre>
+    <dl>
+      <dd>Returns true, if the file is executeable for the actual user. Under
+	UNIX it checks the rights for the effictive user under DOS/WINDOZE it
+	the extension of the file (true for EXE/COM/BAT).
+	<p>The call is only valid after a successfull find.</p></dd>
+    </dl>
 
     <h4>Comparison</h4>
-    <p><a name="compare"><i>int compare (const char* pszName) const</i> -
-	Compares the filename (without path-information) with the passed one.
+    <pre><a name="compare">int compare (const char* pszName) const</a></pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
 	The return code is (analogue to strcmp) 0 if they are equal. Note:
 	Depending on your operating system, the compare might or might not be
-	case-sensitive.</a></p>
-    <p><a name="compare2"><i>int compare (const std::string&amp Name) const</i> -
-	Compares the filename (without path-information) with the passed one.
+	case-sensitive.</dd>
+    </dl>
+    <pre><a name="compare2">int compare (const std::string&amp Name) const</a></pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
 	The return code is (analogue to strcmp) 0 if they are equal. Note:
 	Depending on your operating system, the compare might or might not be
-	case-sensitive.</a></p>
-    <p><a name="compare3"><i>int compare (const dirEntry&amp other) const</i> -
-	Compares the filename (without path-information) with the passed one.
+	case-sensitive.</dd>
+    </dl>
+    <pre><a name="compare3">int compare (const dirEntry&amp other) const</a></pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
 	The return code is (analogue to strcmp) 0 if they are equal. Note:
 	Depending on your operating system, the compare might or might not be
-	case-sensitive.</a></p>
-    <p><a name="compare3"><i>int compare (const dirEntry* other) const</i> -
-	Compares the filename (without path-information) with the passed one.
+	case-sensitive.</dd>
+    </dl>
+    <pre><a name="compare3">int compare (const dirEntry* other) const</a></pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
 	The return code is (analogue to strcmp) 0 if they are equal. Note:
 	Depending on your operating system, the compare might or might not be
-	case-sensitive.</a></p>
+	case-sensitive.</dd>
+    </dl>
   </body>
 </html>
