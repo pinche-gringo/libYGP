@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.9 2002/12/25 04:31:54 markus Rel $
+//$Id: XMessageBox.h,v 1.10 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 #include <gtk--/dialog.h>
 
-#include "SmartPtr.h"
+#include <SmartPtr.h>
 
 
 // Forward declarations
@@ -31,11 +31,8 @@ namespace Gtk {
    class Label;
    class Pixmap;
    class Button;
-
 }
    
-using namespace Gtk;
-
 
 // Class to display simple messages in a dialog-window. This window contains
 // action-buttons, a title (either a default one according to the type of the
@@ -63,7 +60,7 @@ using namespace Gtk;
 //   - OKCANCEL
 //   - RETRYCANCEL
 //   - OKRETRYCANCEL
-class XMessageBox : public Dialog {
+class XMessageBox : public Gtk::Dialog {
  public:
    enum options { INFO, QUESTION, WARNING, ERROR, CRITICAL,
                   TYPEBITS = 4, TYPEMASK = 0xf,
@@ -87,9 +84,9 @@ class XMessageBox : public Dialog {
    virtual void perform (int action);
 
  private:
-   typedef SmartPtr<Label>  PLabel;
-   typedef SmartPtr<HBox>   PHBox;
-   typedef SmartPtr<Pixmap> PPixmap;
+   typedef SmartPtr<Gtk::Label>  PLabel;
+   typedef SmartPtr<Gtk::HBox>   PHBox;
+   typedef SmartPtr<Gtk::Pixmap> PPixmap;
 
    // Prohibited manager-functions
    XMessageBox ();
@@ -99,7 +96,7 @@ class XMessageBox : public Dialog {
 
    int ret;
 
-   vector<Button*> buttons;
+   vector<Gtk::Button*> buttons;
    PLabel txt;
    PHBox  client;
    PPixmap icon;
@@ -118,8 +115,6 @@ class XMessageBox : public Dialog {
 
 template <class T> class XMessageDialog : public XMessageBox {
  public:
-   virtual ~XMessageDialog () { }
-
    typedef void (T::*PCALLBACK) (unsigned int);
 
    static XMessageBox* Show (T& object, const PCALLBACK callback,

@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.14 2003/01/14 20:51:34 markus Exp $
+//$Id: XApplication.h,v 1.15 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,15 +38,6 @@ namespace Gtk {
    class AccelGroup;
 }
 
-using namespace Gtk;
-
-typedef SmartPtr<HBox>           PHBox;
-typedef SmartPtr<Label>          PLabel;
-typedef SmartPtr<Pixmap>         PPixmap;
-typedef SmartPtr<MenuBar>        PMenuBar;
-typedef SmartPtr<AccelGroup>     PAccelGroup;
-
-
 // Baseclass for X-applications; it creates an application-window with a
 // client. The virtual method command is used to handle the commands defined
 // with the menus.
@@ -81,12 +72,22 @@ typedef SmartPtr<AccelGroup>     PAccelGroup;
 // add RadioMenuItems with the addMenu method; but must use the addMenus method
 // (as Gtk-- needs a unique group for them, which must be allocated on the
 // stack).
-class XApplication : public Window {
+//
+// Furthermore there exists the posibility to add a help-menu, consisting of an
+// about box (to be implemented by the showAboutbox-method) and the display of
+// the help to the program in a browser (the help must therefore be in
+// HTML-format), including the possibility to configure the browser.
+// Which file to display is determined by the getHelpfile-method (if a local
+// file is returned by this function, this search includes checking for
+// language-specific versions according to the LANGUAGE-environment variable
+// or the locale settings.
+class XApplication : public Gtk::Window {
  public:
    // Manager functions
    XApplication (const char* pTitle);
    ~XApplication ();         // No need to be virtual. There´s only 1 instance
 
+   static void initI18n ();
    static void initI18n (const char* package, const char* dir);
 
  protected:
@@ -102,13 +103,18 @@ class XApplication : public Window {
       unsigned int id;
       menuTypes    type;
    } MenuEntry;
-   typedef SmartPtr<VBox>           PVBox;
 
-   Widget* addMenu (const MenuEntry& menuEntry);
+   typedef SmartPtr<Gtk::VBox>    PVBox;
+   typedef SmartPtr<Gtk::HBox>    PHBox;
+   typedef SmartPtr<Gtk::Label>   PLabel;
+   typedef SmartPtr<Gtk::Pixmap>  PPixmap;
+   typedef SmartPtr<Gtk::MenuBar> PMenuBar;
+
+   Gtk::Widget* addMenu (const MenuEntry& menuEntry);
    void        addMenus (const MenuEntry menuEntryies[], int cMenus);
    virtual void command (int menu) = 0;
 
-   VBox* getClient () const { return vboxClient; }
+   Gtk::VBox* getClient () const { return vboxClient; }
 
    // Protected data
    PMenuBar pMenu;
@@ -132,11 +138,11 @@ class XApplication : public Window {
 
    // Events
    gint delete_event_impl (_GdkEventAny*) {
-      Main::quit ();
+      Gtk::Main::quit ();
       return 0;
    }
 
-   vector<Menu*> aLastMenus;
+   vector<Gtk::Menu*> aLastMenus;
 };
 
 

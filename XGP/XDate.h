@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.6 2003/01/04 08:12:42 markus Exp $
+//$Id: XDate.h,v 1.7 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,11 +35,6 @@ namespace Gtk {
    class Adjustment;
    class SpinButton;
 }
-using namespace Gtk;
-
-typedef SmartPtr<HBox>        PHBox;
-typedef SmartPtr<SpinButton>  PSpinButton;
-typedef SmartPtr<Adjustment>  PAdjustment;
 
 
 // Class to show a dialog to enter a date (year, month, day, hour, minute,
@@ -65,6 +60,10 @@ class XDate : public XDialog {
    static XDate* perform (const string& title, ATimestamp& date,
                           int showFields = SHOW_ALL) {
       return new XDate (title, date, showFields); }
+
+   typedef SmartPtr<Gtk::HBox>        PHBox;
+   typedef SmartPtr<Gtk::SpinButton>  PSpinButton;
+   typedef SmartPtr<Gtk::Adjustment>  PAdjustment;
 
  private:
    // Prohibited manager-functions

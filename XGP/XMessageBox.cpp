@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.12 2002/12/25 04:31:54 markus Rel $
+//$Id: XMessageBox.cpp,v 1.13 2003/02/03 03:50:33 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -428,7 +428,7 @@ const char* const XMessageBox::iconError[] = {
 /*--------------------------------------------------------------------------*/
 XMessageBox::XMessageBox (const string& text, const string& title,
                           int flags, unsigned int defButton)
-   : Dialog (), txt (new Label (text)), client (new HBox ())
+   : Gtk::Dialog (), txt (new Gtk::Label (text)), client (new Gtk::HBox ())
    , ret (CANCEL) {
    assert (txt); assert (client);
 
@@ -449,7 +449,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    assert ((flags & TYPEMASK) < (sizeof (icons) / sizeof (icons[0])));
    assert (icons[flags & TYPEMASK]);
 
-   icon = new Pixmap (icons[flags & TYPEMASK]); assert (icon);
+   icon = new Gtk::Pixmap (icons[flags & TYPEMASK]); assert (icon);
    client->pack_start (*icon, false, false, 5);
 
    if (!(flags & ~TYPEMASK))       // Assure, that there's at least one button
@@ -461,7 +461,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
          TRACE5 ("XMessageBox::XMessageBox (const string&, const string&,"
                  " int, unsigned int)\n - Add Button " << labels[i]);
 
-         Button* temp (new Button (_(labels[i])));            // Create button
+         Gtk::Button* temp (new Gtk::Button (_(labels[i])));  // Create button
 
 	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform),
                                       1 << (i + TYPEBITS)));
@@ -489,7 +489,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
 XMessageBox::~XMessageBox () {
    TRACE9 ("XMessageBox::~XMessageBox ()");
 
-   for (vector<Button*>::iterator i (buttons.begin ());
+   for (vector<Gtk::Button*>::iterator i (buttons.begin ());
         i != buttons.end (); ++i)
       delete *i;
 

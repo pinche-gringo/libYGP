@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.9 2002/12/24 17:48:26 markus Rel $
+//$Id: XFileDlg.h,v 1.10 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,8 +24,6 @@ class string
 
 #include <gtk--/fileselection.h>
 
-using namespace Gtk;
-
 
 // This class can be be used to retrieve file or directory names
 // from the user. It will create a new dialog window containing a
@@ -44,7 +42,7 @@ using namespace Gtk;
 //                 exists for non-existing files.
 //
 // See also the description of the parent for further options!
-class XFileDialog : public FileSelection {
+class XFileDialog : public Gtk::FileSelection {
  public:
    typedef void (Object::*PACTION)(const string&);
    typedef enum { NONE, ASK_OVERWRITE, MUST_EXIST } option;

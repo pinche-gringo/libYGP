@@ -1,14 +1,14 @@
-//$Id: XDate.cpp,v 1.10 2003/01/04 08:12:42 markus Exp $
+//$Id: XDate.cpp,v 1.11 2003/02/03 03:50:33 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,20 +50,20 @@
 /*--------------------------------------------------------------------------*/
 XDate::XDate (const string& title, ATimestamp& date, int showFields)
    : XDialog (OKCANCEL)
-   , client (new HBox)
-   , adjDay (new Adjustment (1, 1, 31, 1, 10, 10))
-   , spinDay (new SpinButton (*adjDay, 1, 0))
-   , adjMonth (new Adjustment (1, 1, 12, 1, 4, 4))
-   , spinMonth (new SpinButton (*adjMonth, 1, 0))
-   , adjYear (new Adjustment (1900, 1900, 9999, 1, 10, 10))
-   , spinYear (new SpinButton (*adjYear, 1, 0))
-   , adjHour (new Adjustment (0, 0, 23, 1, 10, 10))
-   , spinHour (new SpinButton (*adjHour, 1, 0))
-   , adjMinute (new Adjustment (0, 0, 59, 1,10, 10))
-   , spinMinute (new SpinButton (*adjMinute, 1, 0))
-   , adjSecond (new Adjustment (0, 0, 59, 1, 10, 10))
-   , spinSecond (new SpinButton (*adjSecond, 1, 0))
-, result (date) {
+   , client (new Gtk::HBox)
+   , adjDay (new Gtk::Adjustment (1, 1, 31, 1, 10, 10))
+   , spinDay (new Gtk::SpinButton (*adjDay, 1, 0))
+   , adjMonth (new Gtk::Adjustment (1, 1, 12, 1, 4, 4))
+   , spinMonth (new Gtk::SpinButton (*adjMonth, 1, 0))
+   , adjYear (new Gtk::Adjustment (1900, 1900, 9999, 1, 10, 10))
+   , spinYear (new Gtk::SpinButton (*adjYear, 1, 0))
+   , adjHour (new Gtk::Adjustment (0, 0, 23, 1, 10, 10))
+   , spinHour (new Gtk::SpinButton (*adjHour, 1, 0))
+   , adjMinute (new Gtk::Adjustment (0, 0, 59, 1,10, 10))
+   , spinMinute (new Gtk::SpinButton (*adjMinute, 1, 0))
+   , adjSecond (new Gtk::Adjustment (0, 0, 59, 1, 10, 10))
+   , spinSecond (new Gtk::SpinButton (*adjSecond, 1, 0))
+   , result (date) {
 
    Check3 (client); Check3 (spinDay);
    Check3 (spinMonth); Check3 (spinYear); Check3 (adjDay); Check3 (adjMonth);
@@ -76,8 +76,8 @@ XDate::XDate (const string& title, ATimestamp& date, int showFields)
    set_title (title);
 
    // Create spinbuttons
-   SpinButton* spins[] = { spinDay, spinMonth, spinYear, spinHour,
-                           spinMinute, spinSecond };
+   Gtk::SpinButton* spins[] = { spinDay, spinMonth, spinYear, spinHour,
+                                spinMinute, spinSecond };
    bool first (true);
    for (int i = 0; i < sizeof (spins) / sizeof (spins[0]); ++i)
       if (showFields & (1 << i)) {

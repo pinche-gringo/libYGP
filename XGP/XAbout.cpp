@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.12 2003/01/04 08:12:42 markus Exp $
+//$Id: XAbout.cpp,v 1.13 2003/02/03 03:50:33 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -43,8 +43,8 @@
 //            program: Name and version of the program; displaced in the title
 /*--------------------------------------------------------------------------*/
 XAbout::XAbout (const string& author, const string& program)
-   : XDialog (CANCEL), writer (new Label (author)), client (new HBox ())
-     , gpl (new Label (_("Distributed under the terms of the GNU General"
+   : XDialog (CANCEL), writer (new Gtk::Label (author)), client (new Gtk::HBox ())
+     , gpl (new Gtk::Label (_("Distributed under the terms of the GNU General"
                          " Public License"))) {
    Check3 (gpl); Check3 (writer); Check3 (client);
 
@@ -79,7 +79,7 @@ XAbout::~XAbout () {
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check3 (client);
 
-   pIconProgramm = new Pixmap (pIconData);
+   pIconProgramm = new Gtk::Pixmap (pIconData);
 
    pIconProgramm->show ();
    client->pack_start (*pIconProgramm, false, false, 5);
@@ -92,7 +92,7 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check3 (client); Check3 (vboxPrgInfo);
    
-   pIconAuthor = new Pixmap (pIconData);
+   pIconAuthor = new Gtk::Pixmap (pIconData);
 
    pIconAuthor->show ();
    client->pack_end (*pIconAuthor, false, false, 5);

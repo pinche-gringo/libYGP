@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.11 2002/12/25 04:32:29 markus Rel $
+//$Id: XFileList.h,v 1.12 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,8 +30,6 @@
 
 
 // Forward declarations
-using namespace Gtk;
-
 struct File;
 
 
@@ -43,7 +41,7 @@ struct File;
 // user-specified ones can be added to or overridden from this list.
 //
 // Note: Only the name is used to determine the icon; not the path!
-class XFileList : public CList {
+class XFileList : public Gtk::CList {
  public:
    XFileList (int columns, const gchar *titles[] = 0)
      : CList (columns, titles) { }
@@ -54,9 +52,9 @@ class XFileList : public CList {
                            unsigned int namePrefix = 0);
 
    // Insert data
-   gint append (const File* file, const SArray& text);
-   gint prepend (const File* file, const SArray& text);
-   gint insert (const File* file, gint row, const SArray& text);
+   gint append (const File* file, const Gtk::SArray& text);
+   gint prepend (const File* file, const Gtk::SArray& text);
+   gint insert (const File* file, gint row, const Gtk::SArray& text);
 
    void setIcon (int row, const File& pFile);
 

@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.18 2002/12/25 05:33:23 markus Rel $
+//$Id: XFileList.cpp,v 1.19 2003/02/03 03:50:33 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -169,7 +169,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 //Parameters: file: File to use to query icon; NULL: Don´t show an icon
 //            text: Array of text for the other columns
 /*--------------------------------------------------------------------------*/
-gint XFileList::append (const File* file, const SArray& text) {
+gint XFileList::append (const File* file, const Gtk::SArray& text) {
    rows ().push_back (text);
    if (file)
       setIcon (rows ().size () - 1, *file);
@@ -180,7 +180,7 @@ gint XFileList::append (const File* file, const SArray& text) {
 //Parameters: file: File; used to query icon; NULL: Don´t show
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::prepend (const File* file, const SArray& text) {
+gint XFileList::prepend (const File* file, const Gtk::SArray& text) {
    rows ().push_front (text);
    if (file)
       setIcon (0, *file);
@@ -192,7 +192,7 @@ gint XFileList::prepend (const File* file, const SArray& text) {
 //            row: Row where to insert the entry (starting with 0)
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::insert (const File* file, gint row, const SArray& text) {
+gint XFileList::insert (const File* file, gint row, const Gtk::SArray& text) {
    rows ().insert (CList::row (row), text);
    if (file)
       setIcon (row, *file);

@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.8 2002/12/24 17:48:26 markus Rel $
+//$Id: XFileDlg.cpp,v 1.9 2003/02/03 03:50:33 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -45,7 +45,7 @@
 /*--------------------------------------------------------------------------*/
 XFileDialog::XFileDialog (const string& title, Object* pNotify,
                           const PACTION callback, option dlgOption)
-   : FileSelection (title), pCaller (pNotify), callerMethod (callback)
+   : Gtk::FileSelection (title), pCaller (pNotify), callerMethod (callback)
    , opt (dlgOption) {
    TRACE9 ("XFileDialog::XFileDialog (title)");
    Check3 (pCaller); Check3 (callerMethod);

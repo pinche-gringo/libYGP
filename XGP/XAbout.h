@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.9 2003/01/04 08:12:42 markus Exp $
+//$Id: XAbout.h,v 1.10 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,8 +36,6 @@ namespace Gtk {
    class Pixmap;
 }
 
-using namespace Gtk;
-
 
 // Class to show a dialog with about-information for a program. It is assumed,
 // that the program is distributed under the GNU public license.
@@ -52,9 +50,9 @@ class XAbout : public XDialog {
    void setIconAuthor  (const char* const* iconData);
 
  private:
-   typedef SmartPtr<HBox>    PHBox;
-   typedef SmartPtr<Label>   PLabel;
-   typedef SmartPtr<Pixmap>  PPixmap;
+   typedef SmartPtr<Gtk::HBox>    PHBox;
+   typedef SmartPtr<Gtk::Label>   PLabel;
+   typedef SmartPtr<Gtk::Pixmap>  PPixmap;
 
    // Prohibited manager-functions
    XAbout (const XAbout&);

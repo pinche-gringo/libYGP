@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.11 2003/01/04 08:12:42 markus Exp $
+//$Id: XPrintDlg.cpp,v 1.12 2003/02/03 03:50:33 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -50,8 +50,8 @@
 /*--------------------------------------------------------------------------*/
 XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
    : XDialog (OKCANCEL), pCaller (pNotify), callerMethod (callback)
-     , lblCommand (new Label (_("Print command: ")))
-     , txtCommand (new Entry ()), boxCommand (new HBox ()) {
+     , lblCommand (new Gtk::Label (_("Print command: ")))
+     , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
    TRACE9 ("XPrintDialog::XPrintDialog (title) '" << title << '\'');
    Check3 (pCaller); Check3 (callerMethod);
 
@@ -68,8 +68,8 @@ XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
 XPrintDialog::XPrintDialog (GtkDialog* castitem, Object* pNotify,
                             const PACTION callback)
    : XDialog (castitem), pCaller (pNotify), callerMethod (callback)
-   , lblCommand (new Label ("Print command: "))
-   , txtCommand (new Entry ()), boxCommand (new HBox ()) {
+   , lblCommand (new Gtk::Label ("Print command: "))
+   , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
    TRACE9 ("XPrintDialog::XPrintDialog (castitem)");
    Check3 (pCaller); Check3 (callerMethod);
 

@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.7 2002/12/24 17:48:26 markus Rel $
+//$Id: XFileEntry.h,v 1.8 2003/02/03 03:50:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 
 #include <gtk--/entry.h>
 
-using namespace Gtk;
-
 #include "DirSrch.h"
 
 
@@ -30,7 +28,7 @@ using namespace Gtk;
 //
 // During construction the type of files to complete can be specified. See the
 // documentation of IDirectorySearch for details.
-class XFileEntry : public Entry {
+class XFileEntry : public Gtk::Entry {
  public:
    XFileEntry (int fileAttrs = DirectorySearch::FILE_NORMAL) : Entry ()
       , attrs (fileAttrs) { }
