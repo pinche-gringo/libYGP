@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.7 2001/10/03 23:57:06 markus Exp $
+//$Id: File.h,v 1.8 2001/10/08 14:28:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -76,7 +76,7 @@ typedef struct File {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   File () : userExec (false), pFile (NULL)
+   File () : userExec (false)
       { *entry.d_name = '\0'; }
    File (const File& o);
    virtual ~File ();
@@ -110,16 +110,15 @@ typedef struct File {
    bool isUserExec () const { return userExec; }
 
    //@Section file-access
-   virtual bool isEOF () throw (std::string);
-   virtual void open  (const char* mode) throw (std::string);
-   virtual void close () throw (std::string);
-   virtual int  read  (char* buffer, unsigned int length)  throw (std::string);
-   virtual int  write (const char* buffer, unsigned int length)  throw (std::string);
+   virtual bool isEOF (void* file) const throw (std::string);
+   virtual void* open  (const char* mode) const throw (std::string);
+   virtual void close (void* file) const throw (std::string);
+   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
+   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
 
    static const char DIRSEPERATOR = '/';
 
  protected:
-   FILE* pFile;
    std::string   path_;
    struct dirent entry;
    struct stat   status;
@@ -142,7 +141,7 @@ typedef struct File : protected WIN32_FIND_DATA {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   File () : pFile (NULL) { }
+   File () { }
    File (const File& o);
    virtual ~File ();
 
@@ -172,16 +171,15 @@ typedef struct File : protected WIN32_FIND_DATA {
    bool isUserExec () const { return isExecuteable (); }
 
    //@Section file-access
-   virtual bool isEOF () throw (std::string);
-   virtual void open  (const char* mode) throw (std::string);
-   virtual void close () throw (std::string);
-   virtual int  read  (char* buffer, unsigned int length) throw (std::string);
-   virtual int  write (const char* buffer, unsigned int length) throw (std::string);
+   virtual bool isEOF (void* file) const throw (std::string);
+   virtual void* open  (const char* mode) const throw (std::string);
+   virtual void close (void* file) const throw (std::string);
+   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
+   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
 
    static const char DIRSEPERATOR = '\\';
 
  protected:
-   FILE* pFile;
    std::string path_;
 
    void appendErrorText (std::string& error) const;
