@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.16 2002/07/08 03:38:47 markus Rel $
+//$Id: XFileList.cpp,v 1.17 2002/12/25 04:32:29 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,12 +28,12 @@
 
 #include <gtk--/pixmap.h>
 
-#include "Check.h"
-#include "Trace_.h"
+#include <File.h>
+#include <Check.h>
+#include <Trace_.h>
+#include <PathDirSrch.h>
 
-#include "PathDirSrch.h"
-
-#include "XFileList.h"
+#include <XFileList.h>
 
 
 const char* XFileList::iconDirectory[] = {
@@ -119,11 +119,10 @@ XFileList::~XFileList () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Pre-loads the icons which should be used for the list-entires
+//Purpose   : Loads (additional) icons which should be used for the list-entries
 //Parameters: path: Path where to search for the icons
 //            files: Files to use as icon-files
-//            namePrefix: Prefix of icons-files, which should be removed
-//            before comparing with actual filename
+//            namePrefix: Length of the prefix of the name, which should be removed before comparing with actual filename
 //Requires  : namePrefix < strlen (files)
 /*--------------------------------------------------------------------------*/
 unsigned int XFileList::loadIcons (const char* path, const char* files,
@@ -167,22 +166,11 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Appends an entry to the list
-//Parameters: file: File; used to query icon; NULL: Don´t show icon
-//            text: Text for list
+//Parameters: file: File to use to query icon; NULL: Don´t show an icon
+//            text: Array of text for the other columns
 /*--------------------------------------------------------------------------*/
-gint XFileList::append (const File* file, const gchar* text[]) {
-   CList::append (text);
-   if (file)
-      setIcon (rows ().size () - 1, file);
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Appends an entry to the list
-//Parameters: file: File; used to query icon; NULL: Don´t show icon
-//            text: Text for list
-/*--------------------------------------------------------------------------*/
-gint XFileList::append (const File* file, const vector<string> text) {
-   CList::append (text);
+gint XFileList::append (const File* file, const SArray& text) {
+   rows ().push_back (text);
    if (file)
       setIcon (rows ().size () - 1, file);
 }
@@ -192,19 +180,8 @@ gint XFileList::append (const File* file, const vector<string> text) {
 //Parameters: file: File; used to query icon; NULL: Don´t show
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::prepend (const File* file, const gchar *text[]) {
-   CList::prepend (text);
-   if (file)
-      setIcon (0, file);
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Prepends an entry to the list
-//Parameters: file: File; used to query icon; NULL: Don´t show icon
-//            text: Text for list
-/*--------------------------------------------------------------------------*/
-gint XFileList::prepend (const File* file, const vector<string> text) {
-   CList::prepend (text);
+gint XFileList::prepend (const File* file, const SArray& text) {
+   rows ().push_front (text);
    if (file)
       setIcon (0, file);
 }
@@ -212,52 +189,39 @@ gint XFileList::prepend (const File* file, const vector<string> text) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Inserts an entry into the list
 //Parameters: file: File; used to query icon; NULL: Don´t show icon
-//            row: Row where to insert the entry
+//            row: Row where to insert the entry (starting with 0)
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::insert_row (const File* file, gint row, const gchar* text[]) {
-   CList::insert_row (row, text);
+gint XFileList::insert (const File* file, gint row, const SArray& text) {
+   rows ().insert (CList::row (row), text);
    if (file)
-      setIcon (row, file);
+      setIcon (row, *file);
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Inserts an entry into the list
-//Parameters: file: File; used to query icon; NULL: Don´t show icon
-//            row: Row where to insert the entry
-//            text: Text for list
-/*--------------------------------------------------------------------------*/
-gint XFileList::insert_row (const File* file, gint row, const vector<string> &text) {
-   CList::insert_row (row, text);
-   if (file)
-      setIcon (row, file);
-}
-
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Searches and sets an icon for the passed file
+//Purpose   : Searches for and sets an icon for the passed file
+//
+//            The icon for the file is calculated according the following
+//            algorithm:
+//               - Use special (predifined) ones for directories or executeables.
+//               - Use the icon named as the name of file is stored in the icon-map.
+//               - Remove the first part (til the next dot (.)) of the name and
+//                 repeat the previous step.
+//               - If no name-part is left use a special default-icon.
 //Parameters: path: Path where to search for the icons
 //            files: Files to use as icon-files
-//Remarks   : The icon for the file is calculated according the following
-//            algorithm:
-//               - Use special ones for directories or executeables
-//               - Check if the name of file is stored in the icon-map
-//               - Remove the first part (til the next dot (.) of the name and
-//                 repeat the previous step
-//               - If no name-part is left use a special default-icon
 /*--------------------------------------------------------------------------*/
-void XFileList::setIcon (int row, const File* pFile) {
+void XFileList::setIcon (int row, const File& file) {
    TRACE7 ("XFileList::setIcon");
-   Check3 (pFile);
 
    Gdk_Pixmap* actIcon (&iconDef);
 
-   if (pFile->isDirectory ())
+   if (file.isDirectory ())
       actIcon = &iconDir;
-   else if (pFile->isExecuteable ())
+   else if (file.isExecuteable ())
       actIcon = &iconExe;
    else {
-      const char* pName (pFile->name () - 1);
+      const char* pName (file.name () - 1);
 
       std::map<string, Gdk_Pixmap>::iterator i;
       do {
@@ -265,7 +229,7 @@ void XFileList::setIcon (int row, const File* pFile) {
          // use every dot (.)-seperated part of the filename
          if ((i = icons.find (++pName)) != icons.end ()) {
             TRACE9 ("XFileList::setIcon (int, const File*) - Use icon "
-                    << pName << " for file " << pFile->name ());
+                    << pName << " for file " << file.name ());
             actIcon = &(*i).second;
             break;
          } // endif icons available
@@ -279,7 +243,7 @@ void XFileList::setIcon (int row, const File* pFile) {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Callback when widget is realized (shown)
+//Purpose   : Callback when widget is realized (shown); loads the default icons.
 /*--------------------------------------------------------------------------*/
 void XFileList::realize_impl () {
    TRACE9 ("XFileList::realize_impl ()");
