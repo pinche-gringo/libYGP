@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.21 2000/04/11 22:42:23 Markus Exp $
+//$Id: DirSrch.cpp,v 1.22 2000/04/13 19:55:21 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -159,21 +159,18 @@ int DirectorySearch::find () {
 
       if (regExp.matches (pDirEnt->d_name)) {
 	 temp = workfile + pDirEnt->d_name;
-#ifndef NDEBUG
-         int rc =
-#endif
-         stat (temp.c_str (), &pEntry->status);
-	 assert (!rc);
 
-         // Do attributes match?
-         TRACE9 ("DirectorySearch::find (): " << pDirEnt->d_name << " (" << hex
-                 << attr << ") -> Mode: " << hex << pEntry->status.st_mode);
-	 if ((attr & pEntry->status.st_mode) == pEntry->status.st_mode) {
-            pEntry->entry = *pDirEnt;
-            pEntry->userExec = !access (temp.c_str (), X_OK);
-            TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
-            return 0;
-         } // endif attributs OK
+	 if (!stat (temp.c_str (), &pEntry->status)) {
+            // Do attributes match?
+            TRACE9 ("DirectorySearch::find (): " << pDirEnt->d_name << " (" << hex
+                    << attr << ") -> Mode: " << hex << pEntry->status.st_mode);
+            if ((attr & pEntry->status.st_mode) == pEntry->status.st_mode) {
+               pEntry->entry = *pDirEnt;
+               pEntry->userExec = !access (temp.c_str (), X_OK);
+               TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
+               return 0;
+            } // endif attributs OK
+	 } // endif stat succeeded
       } // endif filename OK
    } // end-while files available
 
