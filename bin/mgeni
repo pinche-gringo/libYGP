@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.3 2002/11/10 06:10:53 markus Exp $
+# $Id: mgeni,v 1.4 2002/11/10 23:30:48 markus Exp $
 
 # Script to generate metainfo for attributes to classes
 
@@ -42,11 +42,11 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.3 $'
+            rev='$Revision: 1.4 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
-            echo "$0 V0.0.01; $rev"
+            echo "$0 V0.1.00; $rev"
             echo "Author: Markus Schwab; email: g17m0@lycos.com"
             echo
             echo "Anticopyright (A) 2002"
@@ -124,16 +124,18 @@ awk 'BEGIN { inComment = 0; foundClass = 0; OFS = "" }
              foundClass = 1;
 
              print (className, "::", className, " () {")
-             FS = ";"
+             FS = ";[ \t]*"
           }
           else
              next;
         }
 
        if ($2 ~ /(\/\/|\/*)[[:blank:]]*%attrib%/) {
-          type=$1; attr=$1; name=$3
-          sub(/.*[[:blank:]]/, "", attr)
-          sub(/[[:blank:]]+[^[:blank:]]*$/, "", type)
+          type = $1; name = $3
+          sub (/^[[:blank:]]*/, "", type)
+          attr = type
+          sub (/.*[[:blank:]]/, "", attr)
+          sub (/[[:blank:]]+[^[:blank:]]*$/, "", type)
           if (name=="")
              name=attr;
           if ((name!="") && (type!="") && (attr!=""))
