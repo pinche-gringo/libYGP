@@ -1,13 +1,13 @@
-dnl $Id: configure.in,v 1.56 2003/10/19 04:46:58 markus Rel $
+dnl $Id: configure.in,v 1.57 2003/11/03 20:42:57 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.56 $)
+AC_REVISION($Revision: 1.57 $)
 
 AC_INIT()
 
 MAJOR_VERSION=0
 MINOR_VERSION=6
-MICRO_VERSION=30
+MICRO_VERSION=31
 RELEASE=$MAJOR_VERSION.$MINOR_VERSION
 VERSION=$RELEASE.$MICRO_VERSION
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
