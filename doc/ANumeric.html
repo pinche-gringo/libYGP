@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ANumeric.html,v 1.11 2002/12/25 04:29:13 markus Rel $ -->
+<!-- $Id: ANumeric.html,v 1.12 2003/01/08 22:46:20 markus Exp $ -->
 
 <html>
   <head>
@@ -147,14 +147,26 @@
         <td><a href="ANumeric.html#readFromStream"><b>readFromStream</b></a></td>
         <td><tt>(<tt><span style="color:purple">istream</span></tt>&amp; <tt><span style="color:blue">result</span></tt>) <tt>throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
-        <td><a href="ANumeric.html#toString3"><b>toString</b></a></td>
-        <td><tt>(<tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">long</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="ANumeric.html#toString"><b>toString</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="ANumeric.html#toString2"><b>toString</b></a></td>
+        <td><tt>(<tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
+        <td><a href="ANumeric.html#toString3"><b>toString</b></a></td>
+        <td><tt>(<tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
+        <td><a href="ANumeric.html#toString4"><b>toString</b></a></td>
+        <td><tt>(<tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">short</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
+        <td><a href="ANumeric.html#toString5"><b>toString</b></a></td>
+        <td><tt>(<tt><span style="color:purple">short</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
+        <td><a href="ANumeric.html#toString6"><b>toString</b></a></td>
+        <td><tt>(<tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">long</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
+        <td><a href="ANumeric.html#toString7"><b>toString</b></a></td>
         <td><tt>(<tt><span style="color:purple">long</span></tt> <tt><span style="color:blue">value</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="ANumeric.html#toUnformatedString"><b>toUnformatedString</b></a></td>
@@ -358,7 +370,7 @@
 </dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="toString2"></a>std::string <b>toString</b> (long value)</pre>
+    <pre><a name="toString3"></a>std::string <b>toString</b> (int value)</pre>
     <dl>
       <dd><p>Converts the passed number into a string, in the format specified by the
         current locale.</p></dd>
@@ -367,7 +379,43 @@
       </dl></dd>
     </dl>
     <hr>
-    <pre><a name="toString3"></a>std::string <b>toString</b> (unsigned long value)</pre>
+    <pre><a name="toString2"></a>std::string <b>toString</b> (unsigned int value)</pre>
+    <dl>
+      <dd><p>Converts the passed number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to convert</dd>
+      </dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toString5"></a>std::string <b>toString</b> (short value)</pre>
+    <dl>
+      <dd><p>Converts the passed number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to convert</dd>
+      </dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toString4"></a>std::string <b>toString</b> (unsigned short value)</pre>
+    <dl>
+      <dd><p>Converts the passed number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to convert</dd>
+      </dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toString7"></a>std::string <b>toString</b> (long value)</pre>
+    <dl>
+      <dd><p>Converts the passed number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to convert</dd>
+      </dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toString6"></a>std::string <b>toString</b> (unsigned long value)</pre>
     <dl>
       <dd><p>Converts the passed number into a string, in the format specified by the
         current locale.</p></dd>
