@@ -13,7 +13,7 @@ TESTS=IVIOAppl ANumeric ADate ATime ATStamp AByteArray XStrBuf XStream Parse \
 noinst_PROGRAMS=$(TESTS)
 
 IVIOAppl_SOURCES=IVIOAppl.cpp
-IVIOAppl_LDADD=../IVIOAppl.o ../StackTrc.o ../File.o
+IVIOAppl_LDADD=../IVIOAppl.o ../StackTrc.o ../File.o ../PathSrch.o
 
 ANumeric_SOURCES=ANumeric.cpp
 ANumeric_LDADD=../ANumeric.o
@@ -37,7 +37,7 @@ XStream_SOURCES=XStream.cpp
 XStream_LDADD=../XStrBuf.o
 
 Parse_SOURCES=Parse.cpp
-Parse_LDADD=../Parse.o ../IVIOAppl.o ../XStrBuf.o ../StackTrc.o ../File.o
+Parse_LDADD=../Parse.o ../IVIOAppl.o ../XStrBuf.o ../StackTrc.o ../File.o ../PathSrch.o
 
 CRegExp_SOURCES=CRegExp.cpp
 CRegExp_LDADD=../CRegExp.o ../Parse.o ../ANumeric.o ../XStrBuf.o ../StackTrc.o
