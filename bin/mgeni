@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.1 2002/11/05 23:14:59 markus Exp $
+# $Id: mgeni,v 1.2 2002/11/09 05:28:53 markus Exp $
 
 # Script to generate metainfo for attributes to classes
 
@@ -42,7 +42,7 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.1 $'
+            rev='$Revision: 1.2 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
@@ -80,14 +80,66 @@ fi
 
  
 # Processes the passed files
+awk 'BEGIN { inComment = 0; foundClass = 0; OFS = "" }
+     { if (foundClass == 0) {
+          if (inComment == 1) {
+             pos = index ($0, "*/");
+             if (pos == 0)
+                next;
+             else {
+                inComment = 0;
+                $0 = substr ($0, pos + 2);
+                }
+          }
 
-awk 'BEGIN { FS=";"; OFS=""; }
-     $2 ~ /(\/\/|\/*)[[:blank:]]*%attrib%/ \
-        { type=$1; attr=$1; name=$3
+          pos = index ($0, "/*");
+          if (pos != 0) {
+             endPos = index ($0, "*/");
+             if (endPos > pos) {
+                end = substr ($0, endPos + 2);
+                $0 = substr ($0, 1, pos - 1)
+                $0 = $0 $end
+             }
+             else {
+                inComment = 1;
+                next;
+             }
+          }
+
+          pos = index ($0, "//");
+          if (pos != 0)
+             $0=substr ($0, 1, pos - 1)
+
+          if ($0 ~ /class/) {
+             for (i = 1; i < NF; i++)
+                 if ($i ~ /class/) {
+                     className = $(i + 1);
+                     break;
+                 }
+
+             if (className == "") {
+                 getline
+                 className = $1
+             }
+             foundClass = 1;
+
+             print ("void ", $className, "::_init_ () {")
+             FS = ";"
+          }
+          else
+             next;
+        }
+
+       if ($2 ~ /(\/\/|\/*)[[:blank:]]*%attrib%/) {
+          type=$1; attr=$1; name=$3
           sub(/.*[[:blank:]]/, "", attr)
           sub(/[[:blank:]]+[^[:blank:]]*$/, "", type)
           if (name=="")
              name=attr;
           if ((name!="") && (type!="") && (attr!=""))
              print "   addAttribute (*new Attribute<", type, "> (\"", name, "\", ", attr, "));"
-    } ' ${files[0]} # > ${files[1]}
+       }
+     }
+     END { if (foundClass == 1)
+              print ("}"); }
+ ' ${files[0]} # > ${files[1]}
