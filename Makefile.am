@@ -3,7 +3,7 @@
 LDADD = libPort.la
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
-		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h
+		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h
 
 
 lib_LTLIBRARIES=libPort.la
