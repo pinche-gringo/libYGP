@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.5 2003/02/14 03:35:11 markus Rel $
+//$Id: Entity.h,v 1.6 2003/06/17 16:06:30 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,23 +33,26 @@
 #include <Attribute.h>
 
 
-// Baseclass for classes holding (a list of) attributes
-//
-// The descrutor frees all managed attributes, so make sure to create
-// hem on the heap.
-//
-// Note that you can automatically manage the handled attributes with the
-// utility mgeni (in the bin subdirectory).
+/** Baseclass for classes holding (a list of) attributes
+
+   The descrutor frees all managed attributes, so make sure to create
+   them on the heap.
+
+   Note that you can automatically manage the handled attributes with the
+   utility \c mgeni (in the bin subdirectory).
+*/
 class Entity {
    friend class INIFile;
 
  public:
+   /// Default constructor
    Entity () { };
    virtual ~Entity ();
 
    const IAttribute* findAttribute (const char* name) const;
    const IAttribute* findAttribute (const std::string& name) const;
 
+   /// Adds a new attribute to the entity.
    void addAttribute (const IAttribute& newAttr) {
       Check3 (std::find (attributes.begin (), attributes.end (), &newAttr)
               == attributes.end ());
@@ -57,14 +60,16 @@ class Entity {
    }
 
 #ifdef __STL_MEMBER_TEMPLATES
-   // Offer another way to add attributes on plattforms supporting that
-   // Note that this is not portable!
-   template<class AttrType>
-      void addAttribute (const char* name, AttrType& attr) {
+   /// Add a copy of an attribute with a specific type to the entity.
+   /// \note This is not portable!
+   template <class AttrType>
+      void addAttribute (const char* name, const AttrType& attr) {
       Check1 (name);
       addAttribute (new Attribute<AttrType> (name, attr));  }
-   template<class AttrType>
-      void addAttribute (const std::string& name, AttrType& attr) {
+   /// Add a copy of an attribute with a specific type to the entity.
+   /// \note This is not portable!
+   template <class AttrType>
+      void addAttribute (const std::string& name, const AttrType& attr) {
       addAttribute (new Attribute<AttrType> (name, attr));  }
 #endif
 

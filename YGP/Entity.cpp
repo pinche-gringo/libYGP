@@ -1,14 +1,14 @@
-//$Id: Entity.cpp,v 1.4 2002/12/15 22:17:17 markus Rel $
+//$Id: Entity.cpp,v 1.5 2003/06/17 16:06:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
-//COPYRIGHT   : Anticopyright (A) 2002
+//COPYRIGHT   : Anticopyright (A) 2002, 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@
 #include "Entity.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 Entity::~Entity () {
    std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
@@ -38,11 +38,11 @@ Entity::~Entity () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find an attribute with the specified name.
-//Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Tries to find an attribute with the specified name.
+/// \param name: Name of attribute to find
+/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+//-----------------------------------------------------------------------------
 const IAttribute* Entity::findAttribute (const char* name) const {
    std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
@@ -52,11 +52,11 @@ const IAttribute* Entity::findAttribute (const char* name) const {
    return NULL;
 }
    
-/*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find an attribute with the specified name.
-//Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Tries to find an attribute with the specified name.
+/// \param name: Name of attribute to find
+/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+//-----------------------------------------------------------------------------
 const IAttribute* Entity::findAttribute (const std::string& name) const {
    std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
