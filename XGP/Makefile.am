@@ -21,7 +21,7 @@ libXGP_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 
 libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
-INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(pkgdatadir)\" \
+INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(datadir)/XGP\" \
            @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wall
 
 # Settings for gettext
