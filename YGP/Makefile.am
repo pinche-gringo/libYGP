@@ -14,4 +14,4 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
 		CRegExp.h RegExp.h
 
-EXTRA_DIST=Test.Dat
+EXTRA_DIST=Test.Dat Test.ini
