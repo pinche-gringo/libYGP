@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.25 2002/10/10 05:49:56 markus Exp $
+//$Id: Parse.cpp,v 1.26 2002/10/20 05:36:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -41,7 +41,7 @@ typedef struct globVars {
    unsigned int buflen;
    char*        buffer;
 
-   globVars () : buflen (50), buffer (new char [buflen]) { assert (buffer); }
+   globVars () : buflen (50), buffer (new char [buflen + 1]) { assert (buffer); }
    ~globVars () { delete [] buffer; }
 } globVars;
 
@@ -123,7 +123,7 @@ void ParseObject::skipWS (Xistream& stream) const {
 //Parameters  : pFoundValue: Pointer to found value
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int ParseObject::found (const char* pFoundValue) {
+int ParseObject::found (const char* pFoundValue, unsigned int) {
    assert (pFoundValue);
    return PARSE_OK;
 }
@@ -229,8 +229,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
       }
 
       if (i == global.buflen) {                        // Buffer already full?
-         pAkt = global.buffer;                // Resize to double  buffer-size
-         global.buffer = new char [global.buflen <<= 1];
+         pAkt = global.buffer;                 // Resize to double buffer-size
+         global.buffer = new char [(global.buflen <<= 1) + 1];
          memcpy (global.buffer, pAkt, i);
          delete pAkt;
          pAkt = global.buffer + i;
@@ -239,16 +239,16 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
       *pAkt++ = (char)ch;                                      // Store, if OK
       ++i;
    } // end-while !maximal cardinality
-   *pAkt = '\0';
-   TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
-           << global.buffer << '\'');
+   TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
+           << (*pAkt = '\0', global.buffer) << '\'');
 
    int rc (PARSE_OK);
    if (i >= minCard) {                                    // Cardinalities OK?
       ch = 0;
-      TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
+      *pAkt = '\0';
+      TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
               << global.buffer << '\'');
-      rc = found (global.buffer);                    // Report object as found 
+      rc = found (global.buffer, i);                 // Report object as found
    } // endif value OK
    else
       rc = PARSE_ERROR;
@@ -644,15 +644,14 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
    } // end-while i < maxCard
 
    if (!rc)               // Report found of object  with sequence-description
-      rc = found (getDescription ());
+      rc = found (getDescription (), strlen (getDescription ()));
 
    if ((rc < 0) || (rc && !optional)) {
       std::string error;
-      error = _(ppAct ? "Error in sequence %1; Expected: %2" : "Error in sequence %1");
+      error = _(*ppAct ? "Error in sequence %1; Expected: %2" : "Error in sequence %1");
       error.replace (error.find ("%1"), 2, getDescription ());
       if (*ppAct)
          error.replace (error.find ("%2"), 2, (*ppAct)->getDescription ());
-
       throw (error);
    }
 
@@ -760,7 +759,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
       if (i < minCard)
          rc = PARSE_ERROR;
       else
-         rc = found (getDescription ());
+         rc = found (getDescription (), strlen (getDescription ()));
 
    if ((rc < 0) || (rc && !optional)) {
       std::string error;
@@ -783,11 +782,12 @@ CBParseEOF::~CBParseEOF () {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data (= 0)
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseEOF::found (const char* pFoundValue) {
-   assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+int CBParseEOF::found (const char* pFoundValue, unsigned int len) {
+   assert (pCallback); assert (pFoundValue); assert (!len);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -816,11 +816,12 @@ CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseAttomic::found (const char* pFoundValue) {
+int CBParseAttomic::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -849,11 +850,12 @@ CBParseText& CBParseText::operator= (const CBParseText& other) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseText::found (const char* pFoundValue) {
+int CBParseText::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -882,11 +884,12 @@ CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseTextEsc::found (const char* pFoundValue) {
+int CBParseTextEsc::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -915,11 +918,12 @@ CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseExact::found (const char* pFoundValue) {
+int CBParseExact::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -948,11 +952,12 @@ CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other)
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseUpperExact::found (const char* pFoundValue) {
+int CBParseUpperExact::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -966,6 +971,7 @@ CBParseSequence::~CBParseSequence () {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
+//              len: Length of found data
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
 CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
@@ -983,9 +989,9 @@ CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
 //Parameters  : pFoundValue: Pointer to found value
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseSequence::found (const char* pFoundValue) {
+int CBParseSequence::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }
 
 
@@ -1014,9 +1020,10 @@ CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Callback if an object was found
 //Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
-int CBParseSelection::found (const char* pFoundValue) {
+int CBParseSelection::found (const char* pFoundValue, unsigned int len) {
    assert (pCallback); assert (pFoundValue);
-   return pCallback (pFoundValue);
+   return pCallback (pFoundValue, len);
 }

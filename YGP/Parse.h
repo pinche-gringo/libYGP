@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.24 2002/09/13 04:43:48 markus Exp $
+//$Id: Parse.h,v 1.25 2002/10/20 05:36:05 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ class ParseObject {
       assert (!checkIntegrity ());
       return doParse (stream, false); }
    virtual int doParse (Xistream& stream, bool optional) = 0;
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int);
 
    enum { PARSE_OK = 0, PARSE_ERROR = 1, PARSE_CB_ERROR = 2,
           PARSE_CB_ABORT = -1 };
@@ -392,7 +392,7 @@ class ParseSelection : public ParseSequence {
 // > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
 // < 1 ... Error while parsing; abort parsing (unrecoverable error)
 // If possible use the error-values in the error-enum
-typedef int (*PARSECALLBACK)(const char*);
+typedef int (*PARSECALLBACK)(const char*, unsigned int);
 
 // Class to check if EOF is parsed
 class CBParseEOF : public ParseEOF {
@@ -404,7 +404,7 @@ class CBParseEOF : public ParseEOF {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    CBParseEOF (const CBParseEOF&);             // Not very usefull -> prohibit
@@ -432,7 +432,7 @@ class CBParseAttomic : public ParseAttomic {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    // Prohibited manager functions
@@ -460,7 +460,7 @@ class CBParseText : public ParseText {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    PARSECALLBACK pCallback;
@@ -489,7 +489,7 @@ class CBParseTextEsc : public ParseTextEsc {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    PARSECALLBACK pCallback;
@@ -521,7 +521,7 @@ class CBParseExact : public ParseExact {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    PARSECALLBACK pCallback;
@@ -554,7 +554,7 @@ class CBParseUpperExact : public ParseUpperExact {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    PARSECALLBACK pCallback;
@@ -582,7 +582,7 @@ class CBParseSequence : public ParseSequence {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    PARSECALLBACK pCallback;
@@ -610,7 +610,7 @@ class CBParseSelection : public ParseSelection {
    void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
 
  protected:
-   virtual int found (const char* pFoundValue);
+   virtual int found (const char* pFoundValue, unsigned int len);
 
  private:
    PARSECALLBACK pCallback;
@@ -631,7 +631,7 @@ class CBParseSelection : public ParseSelection {
 
 // Class to check if EOF is parsed
 template <class T> class OFParseEOF : public ParseEOF {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    OFParseEOF (T& objToNotify, PTCALLBACK callback) : ParseEOF ()
@@ -639,9 +639,9 @@ template <class T> class OFParseEOF : public ParseEOF {
    virtual ~OFParseEOF () { }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    OFParseEOF (const OFParseEOF&);             // Not very usefull -> prohibit
@@ -654,7 +654,7 @@ template <class T> class OFParseEOF : public ParseEOF {
 
 // Class to parse a attomic value with callback-function if object found
 template <class T> class OFParseAttomic : public ParseAttomic {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    // Manager-functions
@@ -675,9 +675,9 @@ template <class T> class OFParseAttomic : public ParseAttomic {
       return *this; }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    // Prohibited manager functions
@@ -691,7 +691,7 @@ template <class T> class OFParseAttomic : public ParseAttomic {
 // Class to parse text til a certain abort-criteria with callback-found
 // (called if an object was found)
 template <class T> class OFParseText : public ParseText {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    // Manager-functions
@@ -712,9 +712,9 @@ template <class T> class OFParseText : public ParseText {
       return *this; }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    PTCALLBACK pCallback;
@@ -728,7 +728,7 @@ template <class T> class OFParseText : public ParseText {
 // Class to parse text til a certain abort-criteria (as in OFParseText). This
 // abort-characters can be escaped
 template <class T> class OFParseTextEsc : public ParseTextEsc {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    // Manager-functions
@@ -750,9 +750,9 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
       return *this; }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    T&         object;
@@ -766,7 +766,7 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
 // Class to parse exactly a certain text (case-sensitive!). If an object is
 // found the passed callback is called
 template <class T> class OFParseExact : public ParseExact {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    // Manager-functions
@@ -791,9 +791,9 @@ template <class T> class OFParseExact : public ParseExact {
       return *this; }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    T&         object;
@@ -807,7 +807,7 @@ template <class T> class OFParseExact : public ParseExact {
 // Class to parse exactly a certain text (not case-sensitive!). When an object
 // is found the passed callback is called.
 template <class T> class OFParseUpperExact : public ParseUpperExact {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    // Manager-functions
@@ -823,7 +823,7 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
       , object (objToNotify), pCallback (callback) { assert (pCallback); }
    OFParseUpperExact (const OFParseUpperExact& other) : ParseUpperExact (other)
       , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
-   virtual ~OFParseUpperExact ();
+   virtual ~OFParseUpperExact () { }
 
    OFParseUpperExact& operator= (const OFParseUpperExact& other) {
       if (this != &other) {
@@ -833,9 +833,9 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
       return *this; }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    T&         object;
@@ -849,7 +849,7 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
 // Class to parse sequences (series of ParseObjects). Every ParseObject
 // in this list must be found (in the same order).
 template <class T> class OFParseSequence : public ParseSequence {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    OFParseSequence (ParseObject* apObjectList[], const char* description,
@@ -859,7 +859,7 @@ template <class T> class OFParseSequence : public ParseSequence {
       , object (objToNotify), pCallback (callback) { assert (pCallback); }
    OFParseSequence (const OFParseSequence& other) : ParseSequence (other)
       , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
-   virtual ~OFParseSequence ();
+   virtual ~OFParseSequence () { }
 
    OFParseSequence& operator= (const OFParseSequence& other) {
       if (this != &other) {
@@ -869,9 +869,9 @@ template <class T> class OFParseSequence : public ParseSequence {
       return *this; }
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    T&         object;
@@ -885,7 +885,7 @@ template <class T> class OFParseSequence : public ParseSequence {
 // Class to parse selections (list of ParseObjects where just one entry must
 // be valid). Every ParseObject).
 template <class T> class OFParseSelection : public ParseSelection {
-   typedef int (T::*PTCALLBACK)(const char*);
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
    OFParseSelection (ParseObject* apObjectList[], const char* description,
@@ -895,7 +895,7 @@ template <class T> class OFParseSelection : public ParseSelection {
       , object (objToNotify), pCallback (callback) { assert (pCallback); }
    OFParseSelection (const OFParseSelection& other) : ParseSelection (other)
       , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
-   virtual ~OFParseSelection ();
+   virtual ~OFParseSelection () { }
 
    OFParseSelection& operator= (const OFParseSelection& other) {
       if (this != &other) {
@@ -906,9 +906,9 @@ template <class T> class OFParseSelection : public ParseSelection {
 
 
  protected:
-   virtual int found (const char* pFoundValue) {
+   virtual int found (const char* pFoundValue, unsigned int len) {
       assert (pCallback); assert (pFoundValue);
-      return (object.*pCallback) (pFoundValue); }
+      return (object.*pCallback) (pFoundValue, len); }
 
  private:
    T&         object;
