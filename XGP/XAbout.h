@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.8 2002/12/19 04:01:10 markus Rel $
+//$Id: XAbout.h,v 1.9 2003/01/04 08:12:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gtk--/dialog.h>
+#include <XDialog.h>
 
 #include "SmartPtr.h"
 
@@ -43,7 +43,7 @@ using namespace Gtk;
 // that the program is distributed under the GNU public license.
 //
 // Furthermore it is possible to specify icons for programmer and application.
-class XAbout : public Dialog {
+class XAbout : public XDialog {
  public:
    XAbout (const string& author, const string& program);
    ~XAbout ();
@@ -54,7 +54,6 @@ class XAbout : public Dialog {
  private:
    typedef SmartPtr<HBox>    PHBox;
    typedef SmartPtr<Label>   PLabel;
-   typedef SmartPtr<Button>  PButton;
    typedef SmartPtr<Pixmap>  PPixmap;
 
    // Prohibited manager-functions
@@ -62,11 +61,6 @@ class XAbout : public Dialog {
 
    const XAbout& operator= (const XAbout&);
 
-   void command (int) {
-      delete this;
-   }
-
-   PButton ok;
    PLabel  appl;
    PLabel  writer;
    PLabel  gpl;

@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.5 2002/12/22 20:09:51 markus Rel $
+//$Id: XDate.h,v 1.6 2003/01/04 08:12:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 class string;
 #endif
 
-#include <gtk--/dialog.h>
+#include <XDialog.h>
 
 #include <SmartPtr.h>
 
@@ -32,14 +32,12 @@ class ATimestamp;
 
 namespace Gtk {
    class HBox;
-   class Button;
    class Adjustment;
    class SpinButton;
 }
 using namespace Gtk;
 
 typedef SmartPtr<HBox>        PHBox;
-typedef SmartPtr<Button>      PButton;
 typedef SmartPtr<SpinButton>  PSpinButton;
 typedef SmartPtr<Adjustment>  PAdjustment;
 
@@ -56,7 +54,7 @@ typedef SmartPtr<Adjustment>  PAdjustment;
 //   - SHOW_SECOND
 //   - SHOW_ALL
 // (which are hopefully self explainatory).
-class XDate : public Dialog {
+class XDate : public XDialog {
  public:
    XDate (const string& title, ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
@@ -73,14 +71,9 @@ class XDate : public Dialog {
    XDate (const XDate&);
    const XDate& operator= (const XDate&);
 
-   typedef enum { OK, CANCEL } commands;
+   virtual void okEvent ();
 
-   void command (commands);
-
-   PButton ok;
-   PButton cancel;
-
-   PHBox   client;
+   PHBox       client;
 
    PAdjustment adjDay;
    PSpinButton spinDay;

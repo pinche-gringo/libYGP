@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.11 2002/12/19 04:01:09 markus Rel $
+//$Id: XAbout.cpp,v 1.12 2003/01/04 08:12:42 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -43,23 +43,15 @@
 //            program: Name and version of the program; displaced in the title
 /*--------------------------------------------------------------------------*/
 XAbout::XAbout (const string& author, const string& program)
-   : Dialog (), writer (new Label (author)), client (new HBox ())
-     , gpl (new Label (_("Distributed under the terms of the GNU General Public License")))
-   , ok (new Button ("OK")) {
+   : XDialog (CANCEL), writer (new Label (author)), client (new HBox ())
+     , gpl (new Label (_("Distributed under the terms of the GNU General"
+                         " Public License"))) {
    Check3 (gpl); Check3 (writer); Check3 (client);
 
    TRACE9 ("XAbout::XAbout - Show: " << author);
    TRACE9 ("XAbout::XAbout - Title: " << program);
 
    set_title (program);
-
-   ok->set_usize (90, 30);
-   ok->show ();
-   ok->clicked.connect (bind (slot (this, &XAbout::command), 0));
-
-   get_action_area ()->pack_start (*ok, false, false, 5);
-   ok->set_flags (GTK_CAN_DEFAULT);
-   ok->grab_default ();
 
    writer->show ();
    client->pack_end (*writer, true, false, 5);         // Put text into client

@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.9 2002/12/22 20:09:51 markus Rel $
+//$Id: XDate.cpp,v 1.10 2003/01/04 08:12:42 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,7 +28,6 @@
 #include <string>
 
 #include <gtk--/box.h>
-#include <gtk--/button.h>
 #include <gtk--/spinbutton.h> 
 #include <gtk--/adjustment.h>
 
@@ -50,8 +49,8 @@
 //            showFields: Bitfield describing wich fields to show
 /*--------------------------------------------------------------------------*/
 XDate::XDate (const string& title, ATimestamp& date, int showFields)
-   : Dialog (), ok (new Button (_("OK")))
-   , cancel (new Button (_("Cancel"))), client (new HBox)
+   : XDialog (OKCANCEL)
+   , client (new HBox)
    , adjDay (new Adjustment (1, 1, 31, 1, 10, 10))
    , spinDay (new SpinButton (*adjDay, 1, 0))
    , adjMonth (new Adjustment (1, 1, 12, 1, 4, 4))
@@ -66,7 +65,7 @@ XDate::XDate (const string& title, ATimestamp& date, int showFields)
    , spinSecond (new SpinButton (*adjSecond, 1, 0))
 , result (date) {
 
-   Check3 (ok); Check3 (cancel); Check3 (client); Check3 (spinDay);
+   Check3 (client); Check3 (spinDay);
    Check3 (spinMonth); Check3 (spinYear); Check3 (adjDay); Check3 (adjMonth);
    Check3 (adjYear); Check3 (spinHour); Check3 (adjHour); Check3 (spinMinute);
    Check3 (adjMinute); Check3 (spinSecond); Check3 (adjSecond);
@@ -75,19 +74,6 @@ XDate::XDate (const string& title, ATimestamp& date, int showFields)
    TRACE9 ("XDate::XDate: Title '" << title << "', startvalue: " << date);
 
    set_title (title);
-
-   ok->set_usize (90, 30);
-   ok->show ();
-   ok->clicked.connect (bind (slot (this, &XDate::command), OK));
-   get_action_area ()->pack_start (*ok, false, false, 5);
-   ok->set_flags (GTK_CAN_DEFAULT);
-   ok->grab_default ();
-
-   cancel->set_usize (90, 30);
-   cancel->show ();
-   cancel->clicked.connect (bind (slot (this, &XDate::command), CANCEL));
-   get_action_area ()->pack_start (*cancel, false, false, 5);
-   cancel->set_flags (GTK_CAN_DEFAULT);
 
    // Create spinbuttons
    SpinButton* spins[] = { spinDay, spinMonth, spinYear, spinHour,
@@ -137,34 +123,30 @@ XDate::~XDate () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Callback to handle the user input
-//Parameters: id: Command to perform
+//Purpose   : Callback after pressing OK
 /*--------------------------------------------------------------------------*/
-void XDate::command (commands id) {
-   TRACE9 ("XDate::command: " << id);
+void XDate::okEvent () {
+   TRACE9 ("XDate::okEvent ()");
 
-   if (id == OK) {                                              // OK pressed?
-      ATimestamp help;
+   ATimestamp help;
 
-      help.setHour (spinHour->get_value_as_int ());
-      help.setMinute (spinMinute->get_value_as_int ());
-      help.setSecond (spinSecond->get_value_as_int ());
+   help.setHour (spinHour->get_value_as_int ());
+   help.setMinute (spinMinute->get_value_as_int ());
+   help.setSecond (spinSecond->get_value_as_int ());
 
-      help.setYear (spinYear->get_value_as_int ());
-      help.setMonth (spinMonth->get_value_as_int ());
-      help.setDay (spinDay->get_value_as_int ());
+   help.setYear (spinYear->get_value_as_int ());
+   help.setMonth (spinMonth->get_value_as_int ());
+   help.setDay (spinDay->get_value_as_int ());
 
-      if (help.checkIntegrity ()) {
-         std::string error (_("Date `%1' is not valid!"));
-         error.replace (error.find ("%1"), 2, help.toString ());
-         XMessageBox::Show (error, XMessageBox::CANCEL | XMessageBox::ERROR);
-         return;
-      }
-      else {
-         result = help;;
-         TRACE7 ("XDate::command -> result = " << result);
-      }
+   if (help.checkIntegrity ()) {
+      std::string error (_("Date `%1' is not valid!"));
+      error.replace (error.find ("%1"), 2, help.toString ());
+      XMessageBox::Show (error, XMessageBox::CANCEL | XMessageBox::ERROR);
+      return;
    }
-
+   else {
+      result = help;;
+      TRACE7 ("XDate::okEvent () - Result = " << result);
+   }
    delete this;
 }
