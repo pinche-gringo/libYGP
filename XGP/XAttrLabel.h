@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.11 2003/07/20 02:19:59 markus Rel $
+//$Id: XAttrLabel.h,v 1.12 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #include <gtkmm/label.h>
 
+
+namespace XGP {
 
 /**Class to display an attribute in a formated style while preservering its
    other abilities.
@@ -193,5 +195,6 @@ inline void XAttributeLabel2<double>::update () {
    set_text (buffer);
 }
 
+}
 
 #endif

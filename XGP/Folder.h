@@ -1,7 +1,7 @@
 #ifndef FOLDER_H
 #define FOLDER_H
 
-//$Id: Folder.h,v 1.4 2003/11/12 23:38:45 markus Exp $
+//$Id: Folder.h,v 1.5 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include <gtkmm/table.h>
 #include <gtkmm/scrolledwindow.h>
 
+
+namespace XGP {
 
 /**Class to show child widgets, aligned horicontally and vertically.
 
@@ -56,5 +58,7 @@ class Folder : public Gtk::ScrolledWindow {
    int width;
    std::vector<unsigned int> colWidths;
 };
+
+}
 
 #endif

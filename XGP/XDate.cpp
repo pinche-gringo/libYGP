@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.19 2003/11/14 00:23:56 markus Exp $
+//$Id: XDate.cpp,v 1.20 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -42,6 +42,8 @@
 #include <XGP/XDate.h>
 
 
+namespace XGP {
+
 //-----------------------------------------------------------------------------
 /// Constructor; adds all controls to the dialog. Only the specified fields
 /// are shown.
@@ -49,7 +51,7 @@
 /// \param date: Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
 /// \param showFields: Bitfield describing wich fields to show
 //-----------------------------------------------------------------------------
-XDate::XDate (const Glib::ustring& title, ATimestamp& date, int showFields)
+XDate::XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields)
    : XDialog (title, OKCANCEL)
      , client (new Gtk::HBox)
      , cal (new Gtk::Calendar ())
@@ -67,7 +69,7 @@ XDate::XDate (const Glib::ustring& title, ATimestamp& date, int showFields)
    TRACE9 ("XDate::XDate: Title '" << title << "', startvalue: " << date);
 
    if (!date.isDefined ())
-      date = ATimestamp::now ();
+      date = YGP::ATimestamp::now ();
 
    bool first (true);
    if (showFields & (SHOW_DAY | SHOW_MONTH | SHOW_YEAR)) {
@@ -129,7 +131,7 @@ XDate::~XDate () {
 void XDate::okEvent () {
    TRACE9 ("XDate::okEvent ()");
 
-   ATimestamp help;
+   YGP::ATimestamp help;
 
    try {
       help.setHour (spinHour->get_value_as_int ());
@@ -153,4 +155,6 @@ void XDate::okEvent () {
       Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
       msg.run ();
    }
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef XATTRIBUTE_H
 #define XATTRIBUTE_H
 
-//$Id: XAttribute.h,v 1.2 2003/11/14 00:23:56 markus Exp $
+//$Id: XAttribute.h,v 1.3 2003/11/14 20:28:08 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,11 @@
 
 #include <YGP/Attribute.h>
 
-// Specialization of Attribute<T> for Glib::ustring
+
+namespace XGP {
+
+/**Specialization of Attribute<T> for Glib::ustring
+*/
 template <> inline bool Attribute<Glib::ustring>::assignFromString (const char* value) const {
    Check3 (value);
    attr_ = value;
@@ -35,5 +39,7 @@ template <> inline bool Attribute<Glib::ustring>::assign (const char* value, uns
 }
 template <> inline std::string Attribute<Glib::ustring>::getValue () const { return attr_; }
 template <> inline std::string Attribute<Glib::ustring>::getFormattedValue () const { return getValue (); }
+
+}
 
 #endif

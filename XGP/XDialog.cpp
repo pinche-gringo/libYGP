@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.13 2003/11/14 00:23:56 markus Exp $
+//$Id: XDialog.cpp,v 1.14 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -40,6 +40,8 @@
 #include "XGP/XDialog.h"
 
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates the dialog with the specified buttons
@@ -167,4 +169,6 @@ void XDialog::command (int action) {
 //-----------------------------------------------------------------------------
 void XDialog::free (int) {
    delete this;
+}
+
 }

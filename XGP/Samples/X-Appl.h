@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.9 2003/11/14 00:23:56 markus Exp $
+//$Id: X-Appl.h,v 1.10 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 
 // Class with the graphical interface to PDir
-class XAppl : public XApplication {
+class XAppl : public XGP::XApplication {
  public:
    // Manager functions
    XAppl ();
@@ -57,26 +57,26 @@ class XAppl : public XApplication {
    virtual const char* getHelpfile () { return "index.html"; }
    virtual void showAboutbox ();
 
-   class FileCols : public FileColumns {
+   class FileCols : public XGP::FileColumns {
     public:
       Gtk::TreeModelColumn <int>         size;
       Gtk::TreeModelColumn <std::string> date;
 
-      FileCols () : FileColumns () { add (size); add (date); }
+      FileCols () : XGP::FileColumns () { add (size); add (date); }
    };
 
-   FileCols                      cols;
-   Glib::RefPtr <XFileListStore> files;
-   XFileList                     listFiles;
+   FileCols                           cols;
+   Glib::RefPtr <XGP::XFileListStore> files;
+   XGP::XFileList                     listFiles;
    
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
 
-   ATimestamp  time;
+   YGP::ATimestamp  time;
    std::string file;
-   ANumeric    num;
+   YGP::ANumeric    num;
 
-   static XApplication::MenuEntry XAppl::menuItems[];
+   static XGP::XApplication::MenuEntry XAppl::menuItems[];
    static const char* pTitles[];
 
    static const char* xpmAuthor[];

@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.6 2003/11/14 00:23:56 markus Exp $
+//$Id: ConnectDlg.h,v 1.7 2003/11/14 20:28:08 markus -Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,11 +29,14 @@ namespace Gtk {
    class Entry;
    class Table;
 }
+namespace YGP {
+   class Thread;
+   class Socket;
+   class ConnectionMgr;
+}
 
-class Thread;
-class Socket;
-class ConnectionMgr;
 
+namespace XGP {
 
 /**Dialog to handle enable either waiting for clients to connect or to connect
    to a server.
@@ -45,9 +48,9 @@ class ConnectDlg : public XDialog {
    virtual ~ConnectDlg ();
 
    static void perform (unsigned int cMaxConnections,
-                        unsigned int defPort, ConnectionMgr& connMgr);
+                        unsigned int defPort, YGP::ConnectionMgr& connMgr);
    static void perform (unsigned int cMaxConnections,
-                        const Glib::ustring& defPort, ConnectionMgr& connMgr);
+                        const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr);
 
  protected:
    enum { WAIT, CONNECT };
@@ -59,10 +62,10 @@ class ConnectDlg : public XDialog {
    void valueChanged () const;
 
    ConnectDlg (unsigned int cMaxConnections, const Glib::ustring& defPort,
-               ConnectionMgr& connMgr);
+               YGP::ConnectionMgr& connMgr);
 
    void* waitForConnections (void* socket) throw (std::domain_error);
-   virtual Socket* addClient (int socket);
+   virtual YGP::Socket* addClient (int socket);
    virtual void connect (const Glib::ustring& target, unsigned int port) throw (std::domain_error);
 
    Gtk::Entry*  pTarget;  ///< Entry field holding the target computer (IP address or name)
@@ -71,7 +74,7 @@ class ConnectDlg : public XDialog {
    Gtk::Button* pConnect;      ///< Button to connect to a server (client mode)
    Gtk::Table*  pClient;          ///< Table holding the controls of the dialog
 
-   ConnectionMgr& cmgr;                      ///< Class holding the connections
+   YGP::ConnectionMgr& cmgr;                      ///< Class holding the connections
 
  private:
    Gtk::Label*  pExplain;
@@ -80,10 +83,12 @@ class ConnectDlg : public XDialog {
 
    Glib::ustring port;
 
-   Thread*      pThread;
+   YGP::Thread*      pThread;
 
    ConnectDlg (const ConnectDlg& other);
    const ConnectDlg& operator= (const ConnectDlg& other);
 };
+
+}
 
 #endif

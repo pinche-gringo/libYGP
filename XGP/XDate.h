@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.14 2003/11/14 00:23:56 markus Exp $
+//$Id: XDate.h,v 1.15 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,8 +24,9 @@
 
 
 // Forward declarations
-class ATimestamp;
-
+namespace YGP {
+   class ATimestamp;
+}
 namespace Gtk {
    class HBox;
    class Calendar;
@@ -33,6 +34,8 @@ namespace Gtk {
    class SpinButton;
 }
 
+
+namespace XGP {
 
 /**Class to show a dialog to enter a date (year, month, day, hour, minute,
    second or any combination of those).
@@ -55,7 +58,7 @@ class XDate : public XDialog {
    /// \param date: Date/time to preselect in the dialog
    /// \param showFields: Which fields to display; a combination of the \c
    ///     SHOW_* values.
-   XDate (const Glib::ustring& title, ATimestamp& date, int showFields = SHOW_ALL);
+   XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
 
    /// Possible values to show
@@ -73,7 +76,7 @@ class XDate : public XDialog {
    /// \param date: Date/time to preselect in the dialog
    /// \param showFields: Which fields to display; a combination of the \c
    ///     SHOW_* values.
-   static XDate* create (const Glib::ustring& title, ATimestamp& date,
+   static XDate* create (const Glib::ustring& title, YGP::ATimestamp& date,
                          int showFields = SHOW_ALL) {
       XDate* dlg (new XDate (title, date, showFields));
       dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
@@ -87,10 +90,10 @@ class XDate : public XDialog {
 
    virtual void okEvent ();
 
-   typedef SmartPtr<Gtk::HBox>        PHBox;
-   typedef SmartPtr<Gtk::Calendar>    PCalendar;
-   typedef SmartPtr<Gtk::SpinButton>  PSpinButton;
-   typedef SmartPtr<Gtk::Adjustment>  PAdjustment;
+   typedef YGP::SmartPtr<Gtk::HBox>        PHBox;
+   typedef YGP::SmartPtr<Gtk::Calendar>    PCalendar;
+   typedef YGP::SmartPtr<Gtk::SpinButton>  PSpinButton;
+   typedef YGP::SmartPtr<Gtk::Adjustment>  PAdjustment;
 
    PHBox       client;
    PCalendar   cal;
@@ -101,7 +104,9 @@ class XDate : public XDialog {
    PAdjustment adjSecond;
    PSpinButton spinSecond;
 
-   ATimestamp& result;
+   YGP::ATimestamp& result;
 };
+
+}
 
 #endif

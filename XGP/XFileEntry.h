@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.11 2003/11/14 00:23:56 markus Exp $
+//$Id: XFileEntry.h,v 1.12 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include <YGP/DirSrch.h>
 
 
+namespace XGP {
+
 /**Enhances the ordinary entry field with completing the input to the first
    file matching it. Of course, only if the entered part is a valid file; a
    behaviour analogue to the web browsers.
@@ -36,7 +38,7 @@ class XFileEntry : public Gtk::Entry {
    /// Constructor
    /// \param fileAttrs: Attributes the files to display must have (default:
    /// Normal files, no directories)
-   XFileEntry (int fileAttrs = DirectorySearch::FILE_NORMAL) : Entry ()
+   XFileEntry (int fileAttrs = YGP::IDirectorySearch::FILE_NORMAL) : Entry ()
       , attrs (fileAttrs) { }
    /// Destructor
    ~XFileEntry () { }
@@ -47,5 +49,7 @@ class XFileEntry : public Gtk::Entry {
  private:
    int attrs;
 };
+
+}
 
 #endif

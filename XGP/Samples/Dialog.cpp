@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.6 2003/11/14 00:23:56 markus Exp $
+//$Id: Dialog.cpp,v 1.7 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -42,14 +42,14 @@
 //Parameters: numEntry: Value for the numeric fields
 //            file: File read from FileEntry
 /*--------------------------------------------------------------------------*/
-Dialog::Dialog (ANumeric& numEntry, std::string& file)
-   : XDialog ("Dialog", OKCANCEL), pClient (new Gtk::Table (3, 2))
+Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
+   : XGP::XDialog ("Dialog", OKCANCEL), pClient (new Gtk::Table (3, 2))
      , lblLabel (new Gtk::Label ("AttributeLabel"))
      , lblEntry (new Gtk::Label ("_AttributeEntry", true))
      , lblFileEntry (new Gtk::Label ("_FileEntry", true))
-     , lblNum (new XAttributeLabel<ANumeric> (numEntry))
-     , entryNum (new XAttributeEntry<ANumeric> (numEntry))
-     , entryFile (new XFileEntry ())
+     , lblNum (new XGP::XAttributeLabel<YGP::ANumeric> (numEntry))
+     , entryNum (new XGP::XAttributeEntry<YGP::ANumeric> (numEntry))
+     , entryFile (new XGP::XFileEntry ())
      , file_ (file) {
    TRACE9 ("Dialog::Dialog (ANumeric&, std::string&) - Num: " << numEntry
            << "; String: " << file);
@@ -100,5 +100,5 @@ Dialog::~Dialog () {
 void Dialog::okEvent () {
    entryNum->commit ();
    file_ = entryFile->get_text ();
-   XDialog::okEvent ();
+   XGP::XDialog::okEvent ();
 }

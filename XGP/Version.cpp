@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.10 2003/11/14 18:22:38 markus Exp $
+// $Id: Version.cpp,v 1.11 2003/11/14 20:28:08 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -53,6 +53,8 @@
    and some classes for dialogs.
 */
 
+namespace XGP {
+
 static const char* Version = "\n!@$%" PACKAGE " V" VERSION
                              " Compiled on " __DATE__ "%$@!\n";
 
@@ -63,3 +65,5 @@ static const int _init () {
 }
 
 static const int init = _init ();
+
+}

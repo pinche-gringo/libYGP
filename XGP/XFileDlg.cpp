@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.20 2003/11/14 00:23:56 markus Exp $
+//$Id: XFileDlg.cpp,v 1.21 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -40,6 +40,8 @@
 
 #include "XGP/XFileDlg.h"
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; Creates a (modeless) dialog to select a file
@@ -177,4 +179,6 @@ IFileDialog* IFileDialog::create (const Glib::ustring& title, option dlgOption) 
 //-----------------------------------------------------------------------------
 void IFileDialog::free (int) {
    delete this;
+}
+
 }

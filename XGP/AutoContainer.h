@@ -1,7 +1,7 @@
 #ifndef AUTOCONTAINER_H
 #define AUTOCONTAINER_H
 
-//$Id: AutoContainer.h,v 1.2 2003/11/12 23:37:46 markus Exp $
+//$Id: AutoContainer.h,v 1.3 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include <gtkmm/box.h>
 #include <gtkmm/scrolledwindow.h>
 
+
+namespace XGP {
 
 /**Class to show child widgets, arranged horizontally (all widgets in a single
    line have the same height; if the width of all children exceeds the width
@@ -60,5 +62,7 @@ class AutoContainer : public Gtk::ScrolledWindow {
 
    int width;
 };
+
+}
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef XDIALOG_H
 #define XDIALOG_H
 
-//$Id: XDialog.h,v 1.10 2003/10/19 00:03:12 markus Rel $
+//$Id: XDialog.h,v 1.11 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@ namespace Gtk {
    class Button;
 }
 
+
+namespace XGP {
 
 /**Baseclass for dialogs. Installs OK and/or Cancel buttons and registers
    a command handler for them. Pressing OK is reported with the okEvent()
@@ -67,5 +69,7 @@ class XDialog : public Gtk::Dialog {
 
    void init ();
 };
+
+}
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.24 2003/11/14 00:23:56 markus Exp $
+//$Id: XApplication.h,v 1.25 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,8 @@ namespace Gtk {
    class MenuBar;
    class AccelGroup;
 }
+
+namespace XGP {
 
 /**Baseclass for X-applications; it creates an application-window with a
    client. The virtual method command() is used to handle the commands defined
@@ -136,8 +138,8 @@ class XApplication : public Gtk::Window {
        menuTypes    type;    ///< Type of the menu (separator, radio item, ...)
    } MenuEntry;
 
-   typedef SmartPtr<Gtk::VBox>    PVBox;          ///< Smart pointer for a vbox
-   typedef SmartPtr<Gtk::MenuBar> PMenuBar;   ///< Smart pointer for a menu bar
+   typedef YGP::SmartPtr<Gtk::VBox>    PVBox;     ///< Smart pointer for a vbox
+   typedef YGP::SmartPtr<Gtk::MenuBar> PMenuBar;    ///< Smart pointer for menu
 
    Gtk::Widget& addMenu (const MenuEntry& menuEntry);
    void         addMenus (const MenuEntry menuEntryies[], int cMenus);
@@ -199,9 +201,9 @@ class XInfoApplication : public XApplication {
    XInfoApplication (const XInfoApplication&);
    const XInfoApplication& operator= (const XInfoApplication&);
 
-   typedef SmartPtr<Gtk::HBox>  PHBox;
-   typedef SmartPtr<Gtk::Label> PLabel;
-   typedef SmartPtr<Gtk::Image> PImage;
+   typedef YGP::SmartPtr<Gtk::HBox>  PHBox;
+   typedef YGP::SmartPtr<Gtk::Label> PLabel;
+   typedef YGP::SmartPtr<Gtk::Image> PImage;
 
    PHBox  hboxTitle;
    PVBox  vboxPrgInfo;
@@ -211,5 +213,7 @@ class XInfoApplication : public XApplication {
    PImage iconPrg;
    PImage iconAuthor;
 };
+
+}
 
 #endif

@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.5 2003/11/14 00:23:56 markus Exp $
+//$Id: Folder.cpp,v 1.6 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,6 +30,8 @@
 
 #include "XGP/Folder.h"
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
@@ -145,4 +147,6 @@ void Folder::init () {
    Gtk::ScrolledWindow::add (view);
    view.set_spacings (5);
    view.show ();
+}
+
 }

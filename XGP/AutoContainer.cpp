@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.3 2003/11/14 00:23:54 markus Exp $
+//$Id: AutoContainer.cpp,v 1.4 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -35,6 +35,8 @@
 
 #include <gtkmm/label.h>
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
@@ -222,4 +224,6 @@ void AutoContainer::remove (Gtk::Widget& widget) {
             }
    }
    Check2 (0);
+}
+
 }

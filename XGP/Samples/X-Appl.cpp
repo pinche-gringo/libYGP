@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.15 2003/11/14 00:23:56 markus Exp $
+//$Id: X-Appl.cpp,v 1.16 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -166,7 +166,7 @@ const char* XAppl::xpmAuthor[] = {
 const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 
 
-XApplication::MenuEntry XAppl::menuItems[] = {
+XGP::XApplication::MenuEntry XAppl::menuItems[] = {
     { "_File",                  "<alt>F",      0,       BRANCH },
     { "_Open ...",              "<ctl>O",      OPEN,    ITEM },
     { "_Save ...",              "<ctl>S",      SAVE,    ITEM },
@@ -194,7 +194,7 @@ XApplication::MenuEntry XAppl::menuItems[] = {
 /*--------------------------------------------------------------------------*/
 XAppl::XAppl ()
    : XApplication ("X" PACKAGE " V" LIB_RELEASE)
-     , files (XFileListStore::create (cols)), listFiles (files)
+     , files (XGP::XFileListStore::create (cols)), listFiles (files)
      , status (), scroll () {
    TRACE3 ("XAppl::XAppl ()");
 
@@ -238,19 +238,19 @@ XAppl::XAppl ()
 void XAppl::command (int menu) {
    switch (menu) {
    case OPEN:
-      TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Add file...")),
-                                   *this, &XAppl::addFile,
-                                   IFileDialog::MUST_EXIST);
+      XGP::TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Add file...")),
+                                       *this, &XAppl::addFile,
+                                       XGP::IFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
-      TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Save search result to ...")),
-                                   *this, &XAppl::saveToFile,
-                                   IFileDialog::ASK_OVERWRITE);
+      XGP::TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Save search result to ...")),
+                                       *this, &XAppl::saveToFile,
+                                       XGP::IFileDialog::ASK_OVERWRITE);
       break;
 
    case PRINT:
-      TPrintDialog<XAppl>::create (*this, &XAppl::writeToStream);
+      XGP::TPrintDialog<XAppl>::create (*this, &XAppl::writeToStream);
       break;
 
    case EXIT:
@@ -258,12 +258,12 @@ void XAppl::command (int menu) {
       break;
 
    case DATE:
-      XDate::create ("Enter date", time);
+      XGP::XDate::create ("Enter date", time);
       break;
 
    case CONNECT: {
-      static ConnectionMgr cmgr;
-      ConnectDlg::perform (4, 4711, cmgr); 
+      static YGP::ConnectionMgr cmgr;
+      XGP::ConnectDlg::perform (4, 4711, cmgr); 
       break; }
 
    case DIALOG:
@@ -272,7 +272,7 @@ void XAppl::command (int menu) {
       break;
 
    default:
-      XApplication::command (menu);
+      XGP::XApplication::command (menu);
    } // end-switch
 }
 
@@ -280,10 +280,10 @@ void XAppl::command (int menu) {
 //Purpose   : Shows the about box
 /*--------------------------------------------------------------------------*/
 void XAppl::showAboutbox () {
-   XAbout* about (XAbout::create ("Anticopyright (A) 2003 Markus Schwab\n"
-                                  "e-mail: g17m0@lycos.com\n"
-                                  "\nCompiled on " __DATE__ " at " __TIME__,
-                                  "X" PACKAGE " V" VERSION));
+   XGP::XAbout* about (XGP::XAbout::create
+                       ("Anticopyright (A) 2003 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+                        "\nCompiled on " __DATE__ " at " __TIME__,
+                        "X" PACKAGE " V" VERSION));
    about->setIconProgram (xpmXAppl);
    about->setIconAuthor (xpmAuthor);
 }
@@ -304,8 +304,8 @@ void XAppl::addFile (const std::string& file) {
    TRACE9 ("XAppl::addFile (std::string&): " << file);
 
    try {
-      File objFile (file.c_str ());
-      ATimestamp t (objFile.time (), false );
+      YGP::File objFile (file.c_str ());
+      YGP::ATimestamp t (objFile.time (), false );
       std::string name (objFile.path ());
       name += objFile.name ();
 
@@ -351,7 +351,7 @@ void XAppl::writeToStream (std::ostream& file) {
    TRACE9 ("XAppl::writeToStream (ofstream&)");
    Check (file);
 
-   int lenTime (ATimestamp::now ().toString ().length () + 1);
+   int lenTime (YGP::ATimestamp::now ().toString ().length () + 1);
 
    Gtk::TreeNodeChildren rows (files->children ());
    Gtk::TreeNodeChildren::const_iterator i (rows.begin ());

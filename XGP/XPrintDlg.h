@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.17 2003/11/14 00:23:56 markus Exp $
+//$Id: XPrintDlg.h,v 1.18 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ namespace Gtk {
    class Gtk_Entry;
 }
 
+namespace XGP {
+
 /**Class to display a dialog to enter the command to print some text.
 
    This is a very basic interface; only supporting the line printer.
@@ -54,9 +56,9 @@ class IPrintDialog : public XDialog {
 
    void init ();
 
-   typedef SmartPtr<Gtk::HBox>   PHBox;
-   typedef SmartPtr<Gtk::Label>  PLabel;
-   typedef SmartPtr<Gtk::Entry>  PEntry;
+   typedef YGP::SmartPtr<Gtk::HBox>   PHBox;
+   typedef YGP::SmartPtr<Gtk::Label>  PLabel;
+   typedef YGP::SmartPtr<Gtk::Entry>  PEntry;
 
    PLabel  lblCommand;
    PEntry  txtCommand;
@@ -105,5 +107,6 @@ class TPrintDialog : public IPrintDialog {
    PCALLBACK callerMethod;
 };
 
+}
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.16 2003/11/14 00:23:56 markus Exp $
+//$Id: XAbout.h,v 1.17 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@ namespace Gtk {
 }
 
 
+namespace XGP {
+
 /**Class to show a dialog with the about information for a program. It is
    assumed, that the program is distributed under the GNU public license.
 
@@ -52,9 +54,9 @@ class XAbout : public XDialog {
    XAbout (const Glib::ustring& author, const Glib::ustring& program);
 
  private:
-   typedef SmartPtr<Gtk::HBox>   PHBox;
-   typedef SmartPtr<Gtk::Label>  PLabel;
-   typedef SmartPtr<Gtk::Image>  PImage;
+   typedef YGP::SmartPtr<Gtk::HBox>   PHBox;
+   typedef YGP::SmartPtr<Gtk::Label>  PLabel;
+   typedef YGP::SmartPtr<Gtk::Image>  PImage;
 
    // Prohibited manager-functions
    XAbout (const XAbout&);
@@ -68,5 +70,7 @@ class XAbout : public XDialog {
    PImage pIconProgramm;
    PHBox  client;
 };
+
+}
 
 #endif

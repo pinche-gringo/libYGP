@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.5 2003/11/14 00:23:56 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.6 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -38,6 +38,8 @@
 #include "XGP/GTKViewer.h"
 #include "XGP/HTMLViewer.h"
 
+
+namespace XGP {
 
 //----------------------------------------------------------------------------
 /// Creates (or updates) a dialog displaying a HTML-document
@@ -131,3 +133,5 @@ void HTMLViewer::display (const std::string& file) throw (std::string) {
 }
 
 #endif
+
+}

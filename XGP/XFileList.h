@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.23 2003/11/03 04:45:24 markus Rel $
+//$Id: XFileList.h,v 1.24 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,14 +26,18 @@
 
 
 // Forward declarations
-struct File;
 namespace Gtk {
    class Menu;
    class ListStore;
    class TreeStore;
 }
+namespace YGP {
+   struct File;
+}
 class XFileList;
 
+
+namespace XGP {
 
 /**Class representing the (minimal) columns in the (file) view.
 */
@@ -59,7 +63,8 @@ class IFileStore {
    static void loadIcons (const char* path, const char* files,
                           unsigned int namePrefix = 0);
 
-   Gtk::TreeModel::iterator setIcon (Gtk::TreeModel::iterator row, const File& pFile);
+   Gtk::TreeModel::iterator setIcon (Gtk::TreeModel::iterator row,
+                                     const YGP::File& pFile);
 
    /// Returns the columns of the model.
    const FileColumns& getColumns () const { return cols; }
@@ -106,16 +111,16 @@ class XFileStore : public Parent, public IFileStore {
    //@{
    /// Appends a line showing the passed file to the list.
    /// \param file: Pointer to file to append (or NULL)
-   Gtk::TreeModel::iterator append (const File* file) {
+   Gtk::TreeModel::iterator append (const YGP::File* file) {
       return file ? setIcon (Parent::append (), *file) : Parent::append (); }
    /// Prepends a line showing the passed file to the list.
    /// \param file: Pointer to file to prepend (or NULL)
-   Gtk::TreeModel::iterator prepend (const File* file) {
+   Gtk::TreeModel::iterator prepend (const YGP::File* file) {
       return file ? setIcon (Parent::prepend (), *file) : Parent::prepend (); }
    /// Inserts a line showing the passed file to the list.
    /// \param file: Pointer to file to append (or NULL)
    /// \param row: Row before which the line should be inserted.
-   Gtk::TreeModel::iterator insert (const File* file, Gtk::TreeModel::iterator row) {
+   Gtk::TreeModel::iterator insert (const YGP::File* file, Gtk::TreeModel::iterator row) {
       return file ? setIcon (Parent::insert (row), *file) : Parent::insert (row); }
    //@}
 
@@ -132,6 +137,9 @@ class XFileStore : public Parent, public IFileStore {
    virtual void setFilename (unsigned int line, const std::string& file) {
       children ()[line][cols.name] = Glib::locale_to_utf8 (file); }
 
+   const IFileStore* getBaseAddress () const {
+      return static_cast<const IFileStore*> (this); }
+
  protected:
    /// Constructor; from the specified columns
    XFileStore (const FileColumns& columns) : Parent (columns)
@@ -141,13 +149,10 @@ class XFileStore : public Parent, public IFileStore {
    // Prohibited manager-functions
    XFileStore ();
    XFileStore& operator= (const XFileStore&);
-
-   const IFileStore* getBaseAddress () const {
-      return static_cast<const IFileStore*> (this); }
 };
 
-typedef XFileStore<Gtk::ListStore> XFileListStore;
-typedef XFileStore<Gtk::TreeStore> XFileTreeStore;
+typedef XGP::XFileStore<Gtk::ListStore> XGP::XFileListStore;
+typedef XGP::XFileStore<Gtk::TreeStore> XGP::XFileTreeStore;
 
 
 
@@ -162,13 +167,13 @@ class XFileList : public Gtk::TreeView {
    XFileList () : Gtk::TreeView (), pMenuPopAction (NULL) { }
    /// Constructor of the XFileList widget; passing a model to display
    template <class T>
-      XFileList (const Glib::RefPtr<XFileStore<T> >& model) : Gtk::TreeView ()
+      XFileList (const Glib::RefPtr<XGP::XFileStore<T> >& model) : Gtk::TreeView ()
       , pMenuPopAction (NULL) { set_model (model); }
    virtual ~XFileList ();
 
    /// Sets the model to display. Note that both the icon and the name of the
    /// file are displayed in one column
-   template <class T> void set_model (const Glib::RefPtr<XFileStore<T> >& model) {
+   template <class T> void set_model (const Glib::RefPtr<XGP::XFileStore<T> >& model) {
       Gtk::TreeView::Column* pColumn = Gtk::manage (new Gtk::TreeView::Column
                                                     (Glib::locale_to_utf8 (_("File"))));
 
@@ -176,7 +181,7 @@ class XFileList : public Gtk::TreeView {
       pColumn->pack_start (model->getColumns ().name);
 
       append_column (*pColumn);
-      fileModel = const_cast<IFileStore*> (model->getBaseAddress ());
+      fileModel = const_cast<XGP::IFileStore*> (model->getBaseAddress ());
       Gtk::TreeView::set_model (model); }
 
    virtual std::string getFilename (unsigned int line) const;
@@ -204,5 +209,7 @@ class XFileList : public Gtk::TreeView {
  private:
    IFileStore* fileModel;
 };
+
+}
 
 #endif

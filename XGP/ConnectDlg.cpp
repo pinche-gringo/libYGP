@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.7 2003/11/14 00:23:56 markus Exp $
+//$Id: ConnectDlg.cpp,v 1.8 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -43,6 +43,8 @@
 #include "XGP/ConnectDlg.h"
 
 
+namespace XGP {
+
 //-----------------------------------------------------------------------------
 /// Default constructor
 /// \param cMaxConnections: Maximal number of connections the dialog (in
@@ -51,7 +53,7 @@
 /// \param connMgr: Connection manager; holding the connections to use
 //-----------------------------------------------------------------------------
 ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
-                        const Glib::ustring& defPort, ConnectionMgr& connMgr)
+                        const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr)
     : XDialog (_("Connect to"), OKCANCEL)
       , pTarget (manage (new Gtk::Entry ()))
       , pPort (manage (new Gtk::Entry ()))
@@ -120,7 +122,7 @@ ConnectDlg::~ConnectDlg () {
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
-                          ConnectionMgr& connMgr) {
+                          YGP::ConnectionMgr& connMgr) {
    std::ostringstream port;
    port << defPort;
    return perform (cMaxConnections, port.str (), connMgr);
@@ -136,7 +138,7 @@ void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, const Glib::ustring& defPort,
-                          ConnectionMgr& connMgr) {
+                          YGP::ConnectionMgr& connMgr) {
    ConnectDlg* dlg (new ConnectDlg (cMaxConnections, defPort, connMgr));
    dlg->run ();
    delete dlg;
@@ -153,7 +155,7 @@ void ConnectDlg::command (int action) {
       case CONNECT: {
          try {
             Check3 (pPort->get_text_length ());
-            unsigned int prt (Socket::getPortOfService (pPort->get_text ().c_str ()));
+            unsigned int prt (YGP::Socket::getPortOfService (pPort->get_text ().c_str ()));
             connect (pTarget->get_text (), prt);
             valueChanged ();
             response (Gtk::RESPONSE_OK);
@@ -171,10 +173,10 @@ void ConnectDlg::command (int action) {
       case WAIT:
          try {
             Check3 (pPort->get_text_length ());
-            unsigned int prt (Socket::getPortOfService (pPort->get_text ().c_str ()));
+            unsigned int prt (YGP::Socket::getPortOfService (pPort->get_text ().c_str ()));
             cmgr.listenAt (prt);
 
-            pThread = OThread<ConnectDlg>::create2
+            pThread = YGP::OThread<ConnectDlg>::create2
                 (this, &ConnectDlg::waitForConnections, NULL);
             pThread->allowCancelation ();
             valueChanged ();
@@ -212,7 +214,7 @@ void ConnectDlg::cancelEvent () {
       pThread->cancel ();
       pThread = NULL;
    }
-   cmgr.changeMode (ConnectionMgr::NONE);
+   cmgr.changeMode (YGP::ConnectionMgr::NONE);
 }
 
 //----------------------------------------------------------------------------
@@ -231,7 +233,7 @@ void ConnectDlg::valueChanged () const {
 void* ConnectDlg::waitForConnections (void* pVoid) throw (std::domain_error){
    while (true) {
        int socket (cmgr.getNewConnection ());
-       ((Thread*)pVoid)->isToCancel ();
+       ((YGP::Thread*)pVoid)->isToCancel ();
        addClient (socket);
    }
 }
@@ -241,7 +243,7 @@ void* ConnectDlg::waitForConnections (void* pVoid) throw (std::domain_error){
 /// \param socket: Socket over which the client communicates
 /// \returns Socket*: Pointer to created socket (or \c NULL)
 //----------------------------------------------------------------------------
-Socket* ConnectDlg::addClient (int socket) {
+YGP::Socket* ConnectDlg::addClient (int socket) {
    return cmgr.addConnection (socket);
 }
 
@@ -255,4 +257,6 @@ void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) throw 
    TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"
            << target << ':' << port);
    cmgr.connectTo (target, port);
+}
+
 }

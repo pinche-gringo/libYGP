@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.8 2003/11/14 00:23:56 markus Exp $
+//$Id: BrowserDlg.h,v 1.9 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@ namespace Gtk {
    class RadioButton;
 }
 
+
+namespace XGP {
 
 /**Class to enable the user to select one of the (popular) UNIX browsers or to
    enter his own choice.
@@ -70,5 +72,7 @@ class BrowserDlg : public XDialog {
 
    XStringEntry path;
 };
+
+}
 
 #endif

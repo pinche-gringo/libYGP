@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.12 2003/11/14 00:23:56 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.13 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -33,6 +33,8 @@
 
 #include "XGP/BrowserDlg.h"
 
+
+namespace XGP {
 
 const char* BrowserDlg::browserNames[BROWSERS] = {
 #ifdef HAVE_GTKHTML
@@ -130,4 +132,6 @@ BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
    BrowserDlg* dlg (new BrowserDlg (cmd));
    dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
    return dlg;
+}
+
 }

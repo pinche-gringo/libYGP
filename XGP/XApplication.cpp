@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.33 2003/11/14 00:23:56 markus Exp $
+//$Id: XApplication.cpp,v 1.34 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -57,6 +57,8 @@
 
 using namespace Gtk::Menu_Helpers;
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates a program-window showing only an empty menu and an
@@ -277,7 +279,7 @@ void XApplication::command (int menu) {
          // If so: Check which language to use; either using the LANGUAGE
          // environment variable or the locale settings
          const char* pLang (getenv ("LANGUAGE"));
-         Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
+         YGP::Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
 
          // Check every language-entry (while removing trailing specifiers)
          std::string extension;
@@ -318,7 +320,7 @@ void XApplication::command (int menu) {
          else {
 #endif
             const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
-            Process::execAsync (helpBrowser.c_str (), args);
+            YGP::Process::execAsync (helpBrowser.c_str (), args);
 #ifdef HAVE_VIEWER
          }
 #endif
@@ -432,4 +434,6 @@ void XInfoApplication::setIconAuthor (const char* const* pIconData) {
    iconAuthor->show ();
    hboxTitle->pack_end (*iconAuthor, false, false, 5);
    hboxTitle->reorder_child (*vboxPrgInfo, 3);
+}
+
 }

@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.12 2003/11/14 00:23:56 markus Exp $
+//$Id: XFileEntry.cpp,v 1.13 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -30,6 +30,8 @@
 #include "XGP/XFileEntry.h"
 
 
+namespace XGP {
+
 //-----------------------------------------------------------------------------
 /// Handling of the pressed key; Tries to complete the input to the first file
 /// matching the input.
@@ -50,15 +52,15 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
       TRACE5 ("XFileEntry::key_press_event_impl: Text: " << input);
 
       input += '*';
-      const File* result;
-      DirectorySearch ds (input);
+      const YGP::File* result;
+      YGP::DirectorySearch ds (input);
       if ((result = ds.find (attrs))) {         // If input matches attributes
          int len (get_text_length ());               // Complete name and mark
 
          input = result->path (); input += result->name ();// part after input
          TRACE7 ("XFileEntry::key_press_event_impl: Changed input: " << input);
          if (result->isDirectory ())
-            input += File::DIRSEPARATOR;
+            input += YGP::File::DIRSEPARATOR;
          set_text (input);
      
          Check3 (len);
@@ -68,4 +70,6 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
       }
    }
    return rc;
+}
+
 }

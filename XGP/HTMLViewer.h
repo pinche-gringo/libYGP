@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.4 2003/11/14 00:23:56 markus Exp $
+//$Id: HTMLViewer.h,v 1.5 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@ namespace Gtk {
 #include <XGP/XDialog.h>
 
 
+namespace XGP {
+
 /**Helper class to display a HTML document in a dialog.
  *
  * Uses GTKHTML to display the HTML code.
@@ -51,5 +53,7 @@ class HTMLViewer : public XDialog {
 };
 
 #endif // HAVE_GTKHTML
+
+}
 
 #endif

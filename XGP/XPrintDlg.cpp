@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.18 2003/11/14 00:23:56 markus Exp $
+//$Id: XPrintDlg.cpp,v 1.19 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -42,6 +42,8 @@
 
 #include "XGP/XPrintDlg.h"
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates a small dialog to enter the print command.
@@ -127,4 +129,6 @@ IPrintDialog* IPrintDialog::create () {
     IPrintDialog* dlg (new IPrintDialog ());
     dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
     return dlg;
+}
+
 }

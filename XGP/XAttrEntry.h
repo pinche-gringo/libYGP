@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.13 2003/11/14 00:23:56 markus Exp $
+//$Id: XAttrEntry.h,v 1.14 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 #include <gtkmm/entry.h>
 #include <gtkmm/messagedialog.h>
 
+
+namespace XGP {
 
 /**Class to display and change an attribute inside and entry box. The value of
    the attribute is displayed formatted (localized) when not edited.
@@ -120,5 +122,7 @@ template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ust
 template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
    return Gtk::Entry::on_focus_in_event (ev); }
    return false; }
+template <> inline bool XAttributeEntry<unsigned int, Gtk::SpinButton>::on_focus_out_event (GdkEventFocus* ev) {
+   return Gtk::SpinButton::on_focus_out_event (ev); }
 
 #endif

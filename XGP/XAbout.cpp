@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.22 2003/11/14 00:23:56 markus Exp $
+//$Id: XAbout.cpp,v 1.23 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -38,6 +38,8 @@
 
 #include "XGP/XAbout.h"
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; adds all controls to the dialog and shows it.
@@ -118,4 +120,6 @@ XAbout* XAbout::create (const Glib::ustring& author, const Glib::ustring& progra
     XAbout* dlg (new XAbout (author, program));
     dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
     return dlg;
+}
+
 }

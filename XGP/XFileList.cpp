@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.32 2003/11/14 00:23:56 markus Exp $
+//$Id: XFileList.cpp,v 1.33 2003/11/14 20:28:08 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -46,6 +46,8 @@
 
 #include "XGP/XFileList.h"
 
+
+namespace XGP {
 
 static const char* iconDirectory[] = {
    "16 16 9 1",
@@ -165,9 +167,9 @@ void IFileStore::loadIcons (const char* path, const char* files,
    } // endif first call to loadIcons: Create default-icons
 
    // Use Icon.*-files as icon for *-files
-   PathDirectorySearch ds (path, files);
+   YGP::PathDirectorySearch ds (path, files);
 
-   const File* file = ds.find (DirectorySearch::FILE_NORMAL);
+   const YGP::File* file = ds.find (YGP::IDirectorySearch::FILE_NORMAL);
    std::string type;
    while (file) {
       // Read icon-file and store it
@@ -198,7 +200,7 @@ void IFileStore::loadIcons (const char* path, const char* files,
 /// \returns Reference to inserted line
 //-----------------------------------------------------------------------------
 Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
-                                              const File& file) {
+                                              const YGP::File& file) {
    TRACE7 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&)");
 
    Glib::RefPtr<Gdk::Pixbuf> actIcon (iconDef);
@@ -377,9 +379,9 @@ void XFileList::executeProgram (const char* file, unsigned int line) {
 bool XFileList::execProgram (const char* file, const char* const args[], bool sync) {
    try {
       if (sync)
-         Process::execute (file, args);
+         YGP::Process::execute (file, args);
       else
-         Process::execAsync (file, args);
+         YGP::Process::execAsync (file, args);
       return true;
    }
    catch (std::string& err) {
@@ -402,7 +404,7 @@ void XFileList::move (unsigned int line) {
       const char* args[] = { "mv", "-f", entry.c_str (), file.c_str (), NULL };
       if (execProgram (args[0], args, true)) {
          try {
-            File objFile (file.c_str ());
+            YGP::File objFile (file.c_str ());
             setFilename (line, file);
          }
          catch (std::string& err) {
@@ -426,4 +428,6 @@ void XFileList::remove (unsigned int line) {
       TRACE1 ("Deleting row II: " << model->get_path (model->children ()[line]).to_string ());
       model->row_deleted (model->get_path (model->children ()[line]));
    }
+}
+
 }

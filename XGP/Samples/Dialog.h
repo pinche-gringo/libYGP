@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.5 2003/11/14 00:23:56 markus Exp $
+//$Id: Dialog.h,v 1.6 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,19 +29,22 @@ namespace Gtk {
    class HBox;
    class Table;
 }
+namespace YGP {
+   class ANumeric;
+}
+namespace XGP {
+   class XFileEntry;
+}
 
-class ANumeric;
-class XFileEntry;
 
-
-class Dialog : public XDialog {
+class Dialog : public XGP::XDialog {
  public:
-   Dialog (ANumeric& numEntry, std::string& file);
+   Dialog (YGP::ANumeric& numEntry, std::string& file);
    virtual ~Dialog ();
 
-   static Dialog* create (ANumeric& numEntry, std::string& file) {
+   static Dialog* create (YGP::ANumeric& numEntry, std::string& file) {
       Dialog* dlg (new Dialog (numEntry, file));
-      dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+      dlg->signal_response ().connect (slot (*dlg, &XGP::XDialog::free));
       return dlg;
    }
 
@@ -59,10 +62,10 @@ class Dialog : public XDialog {
    Gtk::Label* lblEntry;
    Gtk::Label* lblFileEntry;
 
-   XAttributeLabel<ANumeric>* lblNum;
-   XAttributeEntry<ANumeric>* entryNum;
+   XGP::XAttributeLabel<YGP::ANumeric>* lblNum;
+   XGP::XAttributeEntry<YGP::ANumeric>* entryNum;
 
-   XFileEntry* entryFile;
+   XGP::XFileEntry* entryFile;
 
    std::string& file_;
 };
@@ -74,14 +77,14 @@ class TDialog : Dialog {
    typedef void (T::*PCALLBACK) (void);
 
    TDialog (T& caller, const PCALLBACK callback,
-            ANumeric& numEntry, std::string& file) : Dialog (numEntry, file)
+            YGP::ANumeric& numEntry, std::string& file) : Dialog (numEntry, file)
       , obj (caller), cb (callback) { }
    virtual ~TDialog () { }
 
    static Dialog* create (T& caller, const PCALLBACK callback,
-                          ANumeric& numEntry, std::string& file) {
+                          YGP::ANumeric& numEntry, std::string& file) {
       Dialog* dlg (new TDialog (caller, callback, numEntry, file));
-      dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+      dlg->signal_response ().connect (slot (*dlg, &XGP::XDialog::free));
       return dlg;
    }
 

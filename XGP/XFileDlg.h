@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.19 2003/10/19 00:03:22 markus Rel $
+//$Id: XFileDlg.h,v 1.20 2003/11/14 20:28:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #include <gtkmm/fileselection.h>
 
+
+namespace XGP {
 
 /**This class can be be used to retrieve file or directory names from the
    user. It will create a new dialog window containing a directory list, and a
@@ -124,5 +126,6 @@ class TFileDialog : public IFileDialog {
    const PCALLBACK callerMethod;
 };
 
+}
 
 #endif
