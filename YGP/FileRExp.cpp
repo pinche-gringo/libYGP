@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.5 2000/02/02 22:11:21 Markus Exp $
+//$Id: FileRExp.cpp,v 1.6 2000/03/27 22:37:13 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -35,15 +35,6 @@
 #endif
 
 #include "FileRExp.h"
-
-
-const char FileRegularExpr::MULTIMATCH  = '*';
-const char FileRegularExpr::SINGLEMATCH = '?';
-const char FileRegularExpr::REGIONBEGIN = '[';
-const char FileRegularExpr::REGIONEND   = ']';
-const char FileRegularExpr::REGION      = '-';
-const char FileRegularExpr::NEGREGION   = '^';
-
 
 #include <iostream.h>
 

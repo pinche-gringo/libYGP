@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP
 
-//$Id: FileRExp.h,v 1.1 2000/02/24 23:49:08 Markus Exp $
+//$Id: FileRExp.h,v 1.2 2000/03/27 22:37:13 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,14 +44,10 @@ class FileRegularExpr {
       return matches (pFileRegExp, pCompare); }
 
    int  checkIntegrity () const;
-   void operator= (const char* pRegExp) { pFileRegExp = pRegExp; }
+   FileRegularExpr& operator= (const char* pRegExp) { pFileRegExp = pRegExp; return *this; }
 
-   static const char MULTIMATCH;
-   static const char SINGLEMATCH;
-   static const char REGIONBEGIN;
-   static const char REGIONEND;
-   static const char REGION;
-   static const char NEGREGION;
+   enum { MULTIMATCH = '*', SINGLEMATCH = '?', REGIONBEGIN = '[',
+          REGIONEND = ']', REGION = '-', NEGREGION = '^' };
 
  private:
    // Prohibited manager functions
