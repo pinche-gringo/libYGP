@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.10 2003/06/02 01:33:37 markus Exp $
+//$Id: X-Appl.cpp,v 1.11 2003/06/11 04:31:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -303,8 +303,7 @@ void XAppl::addFile (const std::string& file) {
       name += objFile.name ();
 
       Check3 (files);
-      Gtk::TreeModel::Row row = *(files->append (&objFile));
-      row[cols.name] = name;
+      Gtk::TreeModel::Row row (*(files->append (&objFile)));
       row[cols.size] = objFile.size ();
       row[cols.date] = t.toString ().c_str ();
 
