@@ -1,10 +1,26 @@
-2004-09-17  Markus Schwab  <g17m0@lycos.com>
+2004-10-07  Markus Schwab  <markus@markus>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.48
+
+	* ygp-cfg.h.in: Generated with automake-1.7.9
+
+	* configure.in: Version to 0.6.48; Not using VERSION anymore
+
+	* CGP/CGP.pc.in, XGP/XGP.pc.in, YGP/YGP.pc.in:
+	  Using PACKAGE_VERSION instead of VERSION
+
+	* XGP/Makefile.am, YGP/Makefile.am:
+	  Fixed installing of pkg-config files
+
+	* XGP/Folder.cpp: Fixed inserting element wider than the line
+
+2004-09-17  Markus Schwab  <markus@markus>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.47
 
-	* README.windows: Minor changes
-
 	* configure.in: Version to 0.6.47
+
+	* README.windows: Minor changes
 
 	* po/de.po, po/en.po, po/es.po: Actualized line numbers
 
