@@ -1,7 +1,7 @@
 #ifndef CIDIRCOMP_H
 #define CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.4 2002/07/08 03:31:00 markus Exp $
+//$Id: CIDirSrch.h,v 1.5 2002/07/11 07:16:35 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <DirSrch.h>
 #include <CDirSrch.h>
 
-class CIFile : public CFile {
+class CIFile : public CFile_skel {
  public:
    CIFile (const File& other);
 
@@ -46,15 +46,27 @@ class CIFile : public CFile {
 };
 
 
-class CIDirectorySearch : virtual public CDirectorySearch,
-			  virtual public DirectorySearch {
+class CIDirectorySearch : virtual public CDirectorySearch_skel {
  public:
-   CFile_ptr find (const char* file, CORBA::ULong attr);
-   CFile_ptr findnext ();
+   CIDirectorySearch () : srch (*new DirectorySearch) { }
+   CIDirectorySearch (IDirectorySearch* srchobj) : srch (*srchobj ) { }
+   ~CIDirectorySearch () { delete &srch; }
+
+   void setSearchValue (const char* file);
+
+   ::CFile_ptr find (CORBA::ULong attr);
+   ::CFile_ptr next ();
+
+   CORBA::Boolean isValid ();
 
    char* getSearchValue ();
+   char* getDirectory ();
+   char* getFileSpec();
 
    static CORBA::Char getSplitChar () { return File::DIRSEPARATOR; }
+
+ private:
+   IDirectorySearch& srch;
 };
 
 
