@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Parse.html,v 1.17 2002/12/13 04:34:54 markus Exp $ -->
+<!-- $Id: Parse.html,v 1.18 2002/12/14 22:45:19 markus Exp $ -->
 
 <html>
   <head>
@@ -148,7 +148,7 @@
         <td><a href="Parse.html#POgetDescription"><b>getDescription</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseObject"><b>ParseObject</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POoperator="><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><a href="Parse.html#POoperator="><tt><span style="color:black"><b>operator=</b></span></tt><tt></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseObject"><b>ParseObject</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#POparse"><b>parse</b></a></td>
@@ -257,7 +257,7 @@
     <dl>
       <dd><p>Tries to parse data matching the information stored with this
         parse-object from the passed stream. If this parsing is successful (the
-        parsed data matches) this function returns <b>PARSE_OK</b>; else a
+        parsed data matches) this function returns <code>PARSE_OK</code>; else a
         non-zero value. Errors bigger than 0 are <b>soft errors</b> and the
         parsing can be continued, errors less than 0 are <b>hard errors</b> and
         the parsing is stopped.</p></dd>
@@ -276,8 +276,8 @@
         parse-method for the different parse-objects; to be implemented by the
         derived classes.</p>
 
-        <p>Attomic and special parse objects should return <b>PARSE_OK</b>,
-          <b>PARSE_ERROR</b> or the value returned by their found-method to indicate
+        <p>Attomic and special parse objects should return <code>PARSE_OK</code>,
+          <code>PARSE_ERROR</code> or the value returned by their found-method to indicate
           their success and sequences should handle them approbiately.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>stream</code>: Source from which to read<dd>
@@ -291,8 +291,8 @@
     <dl>
       <dd><p>Callback to notify that an object has found itself during
         parsing. Callback can report its status with the return codes
-        <b>PARSE_OK</b> or 0, <b>PARSE_CB_ERROR</b> or any other number
-        bigger than 0 for <b>soft errors</b> and <b>PARSE_CB_ABORT</b> or any
+        <code>PARSE_OK</code> or 0, <code>PARSE_CB_ERROR</code> or any other number
+        bigger than 0 for <b>soft errors</b> and <code>PARSE_CB_ABORT</code> or any
         number below 0 for <b>hard errors</b>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pFoundValue</code>: Pointer to found value<dd>
@@ -363,7 +363,7 @@
     <dl>
       <dd><p>Checks for end-of-file in the passed stream and returns the appropiate value.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: <b>PARSE_OK</b> if at end-of-file; else <b>PARSE_ERROR</b></dd></dl></dd>
+          <dd>int: <code>PARSE_OK</code> if at end-of-file; else <code>PARSE_ERROR</code></dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseEOF"></a>
@@ -623,7 +623,7 @@
     <dl>
       <dd><p>Checks for end-of-file in the passed stream and returns the appropiate value.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: <b>PARSE_OK</b> if at end-of-file; else <b>PARSE_ERROR</b></dd></dl></dd>
+          <dd>int: <code>PARSE_OK</code> if at end-of-file; else <code>PARSE_ERROR</code></dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseSkip"></a>
@@ -899,7 +899,7 @@
         <td><a href="Parse.html#POAttgetValue"><b>getValue</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POAttoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POAttoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#POAttsetMaxCard"><b>setMaxCard</b></a></td>
@@ -1024,18 +1024,18 @@
     <pre><a name="POAttdoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
     <dl>
       <dd><p>Tries to parse the object from the stream, as long as checkValue reports
-         the input as valid (or as to ignore, by returning -1). Returns <b>PARSE_OK</b> if data matching the object is found (and
+         the input as valid (or as to ignore, by returning -1). Returns <code>PARSE_OK</code> if data matching the object is found (and
           the callback does not report something different).</p>
-        <p>It is a soft error (<i>PARSE_ERROR</i>) if the minimal cardinality is
+        <p>It is a soft error (<code>PARSE_ERROR</code>) if the minimal cardinality is
           not fullfilled.</p>
         <p>If parsing is optional or the error is recoverable (&gt; 0), the
-          parsed data is pushed back into the stream and <i>PARSE_ERROR</i> is
+          parsed data is pushed back into the stream and <code>PARSE_ERROR</code> is
           returned.</p>
         <p>If parsing is not optional and the error is not recoverable (&lt; 0),
           an exception (std::string) is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>stream</code>: Source from which to read</dd>
-            <code>optional</code>: Flag, if node must be found</dd>
+          <dd><code>optional</code>: Flag, if node must be found</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -1105,7 +1105,7 @@
         <td><a href="Parse.html#CBParseAttomic2"><b>CBParseAttomic</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseAttomic"><b>CBParseAttomic</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseAttomic"><b>CBParseAttomic</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBAttoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#CBAttoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseAttomic"><b>CBParseAttomic</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBAttsetCallback"><b>setCallback</b></a></td>
@@ -1216,7 +1216,7 @@
         <td><a href="Parse.html#OFParseAttomic2"><b>OFParseAttomic</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseAttomic"><b>OFParseAttomic</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OFParseAttomic"><b>OFParseAttomic</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFAttoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFAttoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseAttomic"><b>OFParseAttomic</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~OFParseAttomic"><b>~OFParseAttomic</b></a></td>
@@ -1256,8 +1256,6 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to clone<dd>
       </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="~OFParseAttomic"></a><b>~OFParseAttomic</b> ()</pre>
@@ -1270,6 +1268,8 @@
       <dd><p>Assignment operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to clone<dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
       </dl><dd>
     </dl>
     <hr>
@@ -1323,7 +1323,7 @@
         <td><a href="Parse.html#ParseText2"><b>ParseText</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseText"><b>ParseText</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseText"><b>ParseText</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POTxtoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POTxtoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseText"><b>ParseText</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~ParseText"><b>~ParseText</b></a></td>
@@ -1423,7 +1423,7 @@
         <td><a href="Parse.html#CBParseText2"><b>CBParseText</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseText"><b>CBParseText</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseText"><b>CBParseText</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBTxtoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#CBTxtoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseText"><b>CBParseText</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBTxtsetCallback"><b>setCallback</b></a></td>
@@ -1537,7 +1537,7 @@
         <td><a href="Parse.html#OFParseText2"><b>OFParseText</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseText"><b>OFParseText</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OFParseText"><b>OFParseText</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFTxtoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFTxtoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseText"><b>OFParseText</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~OFParseText"><b>~OFParseText</b></a></td>
@@ -1653,7 +1653,7 @@
         <td><a href="Parse.html#ParseTextEsc2"><b>ParseTextEsc</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseTextEsc"><b>ParseTextEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseTextEsc"><b>ParseTextEsc</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POTxEoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POTxEoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseTextEsc"><b>ParseTextEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~ParseTextEsc"><b>~ParseTextEsc</b></a></td>
@@ -1754,7 +1754,7 @@
         <td><a href="Parse.html#CBParseTextEsc2"><b>CBParseTextEsc</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseTextEsc"><b>CBParseTextEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseTextEsc"><b>CBParseTextEsc</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBTxEoperator="><tt><span style="color:black"><b>operator</b></span></tt>=</tt></a></td>
+        <td><a href="Parse.html#CBTxEoperator="><tt><span style="color:black"><b>operator=</b></span></tt></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseTextEsc"><b>CBParseTextEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBTxEsetCallback"><b>setCallback</b></a></td>
@@ -1868,7 +1868,7 @@
         <td><a href="Parse.html#OFParseTextEsc2"><b>OFParseTextEsc</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseTextEsc"><b>OFParseTextEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OMParseTextEsc"><b>OFParseTextEsc</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFTxEoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFTxEoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseTextEsc"><b>OFParseTextEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt>virtual</tt></td>
         <td><a href="Parse.html#~OFParseTextEsc"><b>~OFParseTextEsc</b></a></td>
@@ -1987,7 +1987,7 @@
         <td><a href="Parse.html#ParseExact3"><b>ParseExact</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseExact"><b>ParseExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseExact"><b>ParseExact</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POExaoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POExaoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseExact"><b>ParseExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~ParseExact"><b>~ParseExact</b></a></td>
@@ -2119,7 +2119,7 @@
         <td><a href="Parse.html#CBParseExact3"><b>CBParseExact</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseExact"><b>CBParseExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseExact"><b>CBParseExact</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBExaoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#CBExaoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseExact"><b>CBParseExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBExasetCallback"><b>setCallback</b></a></td>
@@ -2258,7 +2258,7 @@
         <td><a href="Parse.html#OFParseExact3"><b>OFParseExact</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseExact"><b>OFParseExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OMParseExact"><b>OFParseExact</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFExaoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFExaoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseExact"><b>OFParseExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt>virtual</tt></td>
         <td><a href="Parse.html#~OFParseExact"><b>~OFParseExact</b></a></td>
@@ -2395,7 +2395,7 @@
         <td><a href="Parse.html#ParseUpperExact3"><b>ParseUpperExact</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html"><tt><span style="color:navy"><b>ParseUpperExact</b></span></tt></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseUpperExact"><b>ParseUpperExact</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POUExoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POUExoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseUpperExact"><b>ParseUpperExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~ParseUpperExact"><b>~ParseUpperExact</b></a></td>
@@ -2528,7 +2528,7 @@
         <td><a href="Parse.html#CBParseUpperExact3"><b>CBParseUpperExact</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseUpperExact"><b>CBParseUpperExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseUpperExact"><b>CBParseUpperExact</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBUExoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#CBUExoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseUpperExact"><b>CBParseUpperExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBUExsetCallback"><b>setCallback</b></a></td>
@@ -2669,7 +2669,7 @@
         <td><a href="Parse.html#OFParseUpperExact3"><b>OFParseUpperExact</b></a></td>
         <td><tt>(const <a href="Parse.html#OMParseUpperExact"><b>OFParseUpperExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OMParseUpperExact"><b>OFParseUpperExact</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFUExoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFUExoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(const <a href="Parse.html#CBParseUpperExact"><b>OFParseUpperExact</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt>virtual</tt></td>
         <td><a href="Parse.html#~OFParseUpperExact"><b>~OFParseUpperExact</b></a></td>
@@ -2811,7 +2811,7 @@
         <td><a href="Parse.html#POSeqgetMinCard"><b>getMinCard</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseSequence"><b>ParseSequence</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POSeqoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POSeqoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseSequence"><b>ParseSequence</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#POSeqsetMaxCard"><b>setMaxCard</b></a></td>
@@ -2836,55 +2836,100 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="ParseSequence1"></a>ParseSequence (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description,
-               unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</pre>
+    <pre><a name="ParseSequence1"></a> <b>ParseSequence</b> (ParseObject* apObjectList[], const char* description, unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
-      <dd><p>Constructor; sets the neccessary data of this object.</p>
-        <p>The parameter <i>apObjectList</i> specifies the list of ParseObject
-          which must be found in serie to fullfill the sequence.</p>
-        <p>The parameters <i>max</i> and <i>min</i> specify the maximal and
-          minimal number how often the sequence must or may be repeated.</p></dd>
+      <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="ParseSequence2"></a>ParseSequence (const ParseSequence&amp; other)</pre>
-    <pre><a name="~ParseSequence"></a>virtual ~ParseSequence ()</pre>
-
-    <pre><a name="POSeqoperator="></a>ParseSequence&amp; operator= (const ParseSequence&amp; other)</pre>
+    <hr>
+    <pre><a name="ParseSequence2"></a> <b>ParseSequence</b> (const ParseSequence&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseSequence"></a> <b>~ParseSequence</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POSeqoperator="></a>ParseSequence&amp; <b>operator=</b> (const ParseSequence&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to  this</dd></dl></dd>
+    </dl>
 
     <h3 style="color:navy">Accessing values</h3>
-    <pre><a name="POSeqgetMaxCard"></a>unsigned int getMaxCard () const</pre>
+    <pre><a name="POSeqgetMaxCard"></a>unsigned int <b>getMaxCard</b> () const</pre>
     <dl>
-      <dd>Returns the maximal number how often the sequence may be repeated.</dd>
+      <dd><p>Returns the maximal number how often the sequence may be repeated.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned int: Maximal number the object can be parsed.</dd></dl></dd>
     </dl>
-    <pre><a name="POSeqsetMaxCard"></a>void setMaxCard (unsigned int val)</pre>
+    <hr>
+    <pre><a name="POSeqsetMaxCard"></a>void <b>setMaxCard</b> (unsigned int val)</pre>
     <dl>
-      <dd>Changes the maximal number how often the sequence may be repeated.</dd>
+      <dd><p>Changes the maximal number how often the sequence may be repeated</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: New maximal number the object can be parsed.<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="POSeqgetMinCard"></a>unsigned int getMinCard () const</pre>
+    <hr>
+    <pre><a name="POSeqgetMinCard"></a>unsigned int <b>getMinCard</b> () const</pre>
     <dl>
-      <dd>Returns the minimal number how often the sequence must be repeated.</dd>
+      <dd><p>Returns the minimal number how often the sequence must be repeated.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned int: Minimal number the object must be parsed.</dd></dl></dd>
     </dl>
-    <pre><a name="POSeqsetMinCard"></a>void setMinCard (unsigned int val)</pre>
+    <hr>
+    <pre><a name="POSeqsetMinCard"></a>void <b>setMinCard</b> (unsigned int val)</pre>
     <dl>
-      <dd>Changes the minimal number how often the sequence must be repeated.</dd>
+      <dd><p>Changes the minimal number how often the sequence must be repeated.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: New minimal number the object must be parsed.<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="POSeqdoParse"></a>virtual int doParse (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
+    <pre><a name="POSeqdoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
     <dl>
-      <dd><p>Returns <i>PARSE_OK</i> if the the sequence has been parsed
-          successfully (all objects found and the minimal cardinality of the
-          sequence is fullfilled (this is also true, if a soft error (&gt; 0)
-          occurs while parsing the first element of the sequence).</p>
-        <p>If there is a soft error parsing the first element of the sequence
-          before the mininmal cardinality is fullfilled or with any other
-          element of the sequence, <i>PARSE_ERROR</i> is returned; hard errors
-          causes an exception to be thrown.</p></dd>
+      <dd><p>Tries to parse the objects of the sequence from the stream, as long as
+         every object reports <code>PARSE_OK</code>.</p>
+        <p>It is a soft error (<code>PARSE_ERROR</code>) if the minimal cardinality is
+          not fullfilled.</p>
+        <p>If parsing is not optional and/or the error is not recoverable (&lt; 0),
+          an exception (std::string) is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>stream</code>: Source from which to read</dd>
+           <dd><code>optional</code>: Flag, if node must be found</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::string: In case of a not recoverable error</dd></dl></dd>
+      </dl><dd>
     </dl>
+    <hr>
 
     <h3 style="color:navy">Status-handling</h3>
-    <pre><a name="POSeqcheckIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <pre><a name="POSeqcheckIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
     <dl>
-      <dd>Checks if this object is in a valid state.</dd>
+      <dd><p>Checks the constraints of the object</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseSequence"></a>
@@ -2921,7 +2966,7 @@
         <td><a href="Parse.html#CBParseSequence2"><b>CBParseSequence</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseSequence"><b>CBParseSequence</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseSequence"><b>CBParseSequence</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBSeqoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#CBSeqoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseSequence"><b>CBParseSequence</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBSeqsetCallback"><b>setCallback</b></a></td>
@@ -2940,26 +2985,64 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="CBParseSequence1"></a>CBParseSequence (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description,
-                 <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback, unsigned int max = 1,
-                 unsigned int min = 1, bool skipWhitespace = true)</pre>
+    <pre><a name="CBParseSequence1"></a><b>CBParseSequence</b> (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+                 unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
-      <dd>Constructor setting the callback.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseSequence2"></a>CBParseSequence (const CBParseSequence&amp; other)</pre>
-    <pre><a name="~CBParseSequence"></a>virtual ~CBParseSequence ()</pre>
-    <pre><a name="CBSeqoperator="></a>CBParseSequence&amp; operator= (const CBParseSequence&amp; other)</pre>
-
-    <pre><a name="CBSeqsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <hr>
+    <pre><a name="CBParseSequence2"></a><b>CBParseSequence</b> (const CBParseSequence&amp; other)</pre>
     <dl>
-      <dd>Changes the callback to the passed parameter.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseSequence"></a> <b>~CBParseSequence</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBSeqoperator="></a>CBParseSequence&amp; <b>operator=</b> (const CBParseSequence&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBSeqsetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="CBSeqfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="CBSeqfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback with the passed parameter and returns its
-        result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="OMParseSequence"></a>
@@ -2996,7 +3079,7 @@
         <td><a href="Parse.html#OFParseSequence2"><b>OFParseSequence</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseSequence"><b>OFParseSequence</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OMParseSequence"><b>OFParseSequence</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFSeqoperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFSeqoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseSequence"><b>OFParseSequence</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~OFParseSequence"><b>~OFParseSequence</b></a></td>
@@ -3012,21 +3095,59 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="OFParseSequence1"></a>OFParseSequence (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description,
-                 T&amp; objToNotify, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max = 1,
-                 unsigned int min = 1, bool skipWhitespace = true)</pre>
+    <pre><a name="OFParseSequence1"></a><b>OFParseSequence</b> (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description, T&amp; objToNotify,
+                 <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseSequence2"></a>OFParseSequence (const OFParseSequence&amp; other)</pre>
-    <pre><a name="~OFParseSequence"></a>virtual ~OFParseSequence ()</pre>
-    <pre><a name="OFSeqoperator="></a>OFParseSequence&amp; operator= (const OFParseSequence&amp; other)</pre>
+    <hr>
+    <pre><a name="OFParseSequence2"></a><b>OFParseSequence</b> (const OFParseSequence&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseSequence"></a><b>~OFParseSequence</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFSeqoperator="></a>OFParseSequence&amp; <b>operator=</b> (const OFParseSequence&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+      </dl><dd>
+    </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="OFSeqfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFSeqfound"></a>int <b>found</b> (const char* pFoundValue)</pre>
     <dl>
-      <dd>Calls the defined callback of the specified object with the passed
-        parameter and returns its result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="ParseSelection"></a>
@@ -3063,7 +3184,7 @@
         <td><a href="Parse.html#ParseSelection2"><b>ParseSelection</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseSelection"><b>ParseSelection</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#ParseSelection"><b>ParseSelection</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#POSeloperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#POSeloperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#ParseSelection"><b>ParseSelection</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~ParseSelection"><b>~ParseSelection</b></a></td>
@@ -3079,30 +3200,60 @@
 
     <h3 style="color:navy">Management functions</h3>
     <pre><a name="ParseSelection1"></a>ParseSelection (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description,
-                unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</pre>
+                unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
-      <dd><p>Constructor; sets the neccessary data of this object.</p>
-        <p>The parameter <i>apObjectList</i> specifies the list of ParseObject
-          where one must be found to fullfill the selection.</p>
-        <p>The parameters <i>max</i> and <i>min</i> specify the maximal and
-          minimal number how often the selection must or may be repeated.</p></dd>
+      <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pObjectList</code>: NULL-terminated array of objects to parse<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>max</code>: Maximal cardinality<dd>
+          <dd><code>min</code>: Minimal cardinality<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="ParseSelection2"></a>ParseSelection (const ParseSelection&amp; other)</pre>
-    <pre><a name="~ParseSelection"></a>virtual ~ParseSelection ()</pre>
-
-    <pre><a name="POSeloperator="></a>ParseSelection&amp; operator= (const ParseSelection&amp; other)</pre>
+    <hr>
+    <pre><a name="ParseSelection2"></a> <b>ParseSelection</b> (const ParseSelection&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseSelection"></a> <b>~ParseSelection</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POSeloperator="></a>ParseSelection&amp; <b>operator=</b> (const ParseSelection&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="POSeldoParse"></a>virtual int doParse (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
+    <pre><a name="POSeldoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
     <dl>
-      <dd><p>Returns <i>PARSE_OK</i> if the the selection has been parsed
-          successfully (one objects found and the minimal cardinality of the
-          selection is fullfilled.</p>
-        <p>If no element of the sequence matches the parsed input or the minimal
-          cardinality is not fullfilled, <i>PARSE_ERROR</i> is returned.</p>
-        <p>If an object of the selection returns a hard error (&lt; 0) while
-          or any error occured for a selection which is not optional, an
-          exception is thrown.</p></dd>
+      <dd><p>Tries to parse the objects of the selection from the stream, until
+         one object reports <code>PARSE_OK</code>.</p>
+        <p>It is a soft error (<code>PARSE_ERROR</code>) if the minimal cardinality is
+          not fullfilled.</p>
+        <p>If parsing is not optional and/or the error is not recoverable (&lt; 0),
+          an exception (std::string) is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>stream</code>: Source from which to read<dd>
+          <dd><code>optional</code>: Flag, if node must be found<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>PARSE_OK if selection found; PARSE_ERROR if not</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::string: In case of a not recoverable error</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseSelection"></a>
@@ -3139,7 +3290,7 @@
         <td><a href="Parse.html#CBParseSelection2"><b>CBParseSelection</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseSelection"><b>CBParseSelection</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#CBParseSelection"><b>CBParseSelection</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#CBSeloperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#CBSeloperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseSelection"><b>CBParseSelection</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Parse.html#CBSelsetCallback"><b>setCallback</b></a></td>
@@ -3158,26 +3309,65 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="CBParseSelection1"></a>CBParseSelection (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description,
-                  <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback, unsigned int max = 1,
-                  unsigned int min = 1, bool skipWhitespace = true)</pre>
+    <pre><a name="CBParseSelection1"></a><b>CBParseSelection</b> (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+                  unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
-      <dd>Constructor setting the callback.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseSelection2"></a>CBParseSelection (const CBParseSelection&amp; other)</pre>
-    <pre><a name="~CBParseSelection"></a>virtual ~CBParseSelection ()</pre>
-    <pre><a name="CBSeloperator="></a>CBParseSelection&amp; operator= (const CBParseSelection&amp; other)</pre>
-
-    <pre><a name="CBSelsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <hr>
+    <pre><a name="CBParseSelection2"></a><b>CBParseSelection</b> (const CBParseSelection&amp; other)</pre>
     <dl>
-      <dd>Changes the callback to the passed parameter.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseSelection"></a> <b>~CBParseSelection</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBSeloperator="></a>CBParseSelection&amp; <b>operator=</b> (const CBParseSelection&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="CBSelsetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="CBSelfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="CBSelfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback with the passed parameter and returns its
-        result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="OMParseSelection"></a>
@@ -3213,7 +3403,7 @@
         <td><a href="Parse.html#OFParseSelection2"><b>OFParseSelection</b></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseSelection"><b>OFParseSelection</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Parse.html#OMParseSelection"><b>OFParseSelection</b></a>&amp;</tt> </td>
-        <td><a href="Parse.html#OFSeloperator="><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><a href="Parse.html#OFSeloperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
         <td><tt>(<tt>const</tt> <a href="Parse.html#OMParseSelection"><b>OFParseSelection</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Parse.html#~OFParseSelection"><b>~OFParseSelection</b></a></td>
@@ -3229,185 +3419,59 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="OFParseSelection1"></a>OFParseSelection (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description,
-                 T&amp; objToNotify, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max = 1,
-                 unsigned int min = 1, bool skipWhitespace = true)</pre>
+    <pre><a name="OFParseSelection1"></a><b>OFParseSelection</b> (<a href="Parse.html#ParseObject"><b>ParseObject</b></a>* apObjectList[], const char* description, T&amp; objToNotify,
+                 <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseSelection2"></a>OFParseSelection (const OFParseSelection&amp; other)</pre>
-    <pre><a name="~OFParseSelection"></a>virtual ~OFParseSelection ()</pre>
-    <pre><a name="OFSeloperator="></a>OFParseSelection&amp; operator= (const OFParseSelection&amp; other)</pre>
+    <hr>
+    <pre><a name="OFParseSelection2"></a><b>OFParseSelection</b> (const OFParseSelection&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseSelection"></a><b>~OFParseSelection</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFSeloperator="></a>OFParseSelection&amp; <b>operator=</b> (const OFParseSelection&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+      </dl><dd>
+    </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="OFSelfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFSelfound"></a>int <b>found</b> (const char* pFoundValue)</pre>
     <dl>
-      <dd>Calls the defined callback of the specified object with the passed
-        parameter and returns its result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
   </body>
 </html>
-
-
-
-
-
-    <pre><a name="ParseSequence"></a> <b>ParseSequence</b> (ParseObject* apObjectList[], const char* description, unsigned int max, unsigned int min, bool skipWhitespace)</pre>
-    <dl>
-      <dd><p>Constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality<dd>
-          <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Requires</b></dt>
-          <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseSequence"></a> <b>ParseSequence</b> (const ParseSequence&amp; other)</pre>
-    <dl>
-      <dd><p>Copy-constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-    </dl>
-    <hr>
-    <pre><a name="~ParseSequence"></a> <b>~ParseSequence</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>ParseSequence&amp; <b>operator=</b> (const ParseSequence&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to  this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="doParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
-    <dl>
-      <dd><p>Tries to parse the object from the stream</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to read<dd>
-          <dd><code>optional</code>: Flag, if node must be found<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>PARSE_OK if selection found; PARSE_ERROR if notNote        : If a hard error occured or any error for not-<code>optional</code>
- sequences, an exception is thrown
-</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
-    <dl>
-      <dd><p>Checks the constraints of the object</p></dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseSelection"></a> <b>ParseSelection</b> (ParseObject* apObjectList[], const char* description, unsigned int max, unsigned int min, bool skipWhitespace)</pre>
-    <dl>
-      <dd><p>Constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality<dd>
-          <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Requires</b></dt>
-          <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseSelection"></a> <b>ParseSelection</b> (const ParseSelection&amp; other)</pre>
-    <dl>
-      <dd><p>Copy-constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-    </dl>
-    <hr>
-    <pre><a name="~ParseSelection"></a> <b>~ParseSelection</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>ParseSelection&amp; <b>operator=</b> (const ParseSelection&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="doParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
-    <dl>
-      <dd><p>Tries to parse the object from the stream</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to read<dd>
-          <dd><code>optional</code>: Flag, if node must be found<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>PARSE_OK if selection found; PARSE_ERROR if notNote        : If a hard error occured or any error for not-<code>optional</code>
- sequences, an exception is thrown
-</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~CBParseSequence"></a> <b>~CBParseSequence</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>CBParseSequence&amp; <b>operator=</b> (const CBParseSequence&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Callback if an object was found</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~CBParseSelection"></a> <b>~CBParseSelection</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>CBParseSelection&amp; <b>operator=</b> (const CBParseSelection&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Callback if an object was found</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
