@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.8 2000/05/23 22:56:48 Markus Exp $
+//$Id: CRegExp.cpp,v 1.9 2000/05/30 21:23:03 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -33,7 +33,7 @@
 
 #ifndef HAVE_REGEX_H
 #  include <ctype.h>
-#  define isclass(type,str,ch) (strncmp ((str), #type, sizeof (#type) - 1) ? 0 : (is##type (ch) ? 2 : 1))
+#  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
 
 
@@ -82,7 +82,7 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) {
 //Returns   : bool: Result (true: match)
 //Require   : pAktRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) const {
+bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
 
    TRACE1 ("RegularExpression::compare -> " << pAktRegExp << " <-> " << pCompare);
@@ -91,7 +91,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
    // Use system-regular expressions if available
    return !regexec (&regexp, pCompare, 0, NULL, 0);
 #else
-   const_cast<RegularExpression*>(this)->pStartCompare = pCompare;
+   pStartCompare = pCompare;
 
    std::string lastExpr;
 
@@ -265,18 +265,18 @@ bool RegularExpression::compRegion (const char*& pAktPos,
               && (pEndClass[1] == REGIONEND)) {
 	    TRACE7 ("Check " << *pAktPos << " against region-class " << pRegion + 2);
 
-            int temp (0);
-            int val ((temp = isclass (alnum, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (alpha, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (digit, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (space, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (cntrl, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (graph, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (print, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (punct, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (upper, pRegion + 2, *pAktPos)) ? temp :
-		     (temp = isclass (lower, pRegion + 2, *pAktPos)) ? temp :
-		     (isclass (xdigit, pRegion + 2, *pAktPos)));
+            int temp (0), len (pEndClass - pRegion - 2);
+            int val ((temp = isclass (alnum, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (alpha, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (digit, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (space, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (cntrl, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (graph, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (print, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (punct, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (upper, pRegion + 2, len, *pAktPos)) ? temp :
+		     (temp = isclass (lower, pRegion + 2, len, *pAktPos)) ? temp :
+		     (isclass (xdigit, pRegion + 2, len, *pAktPos)));
             if (val == 2) {
                TRACE8 ("Check " << *pAktPos << " matches region-classes"
                         << setw (pRegion + 2 - pEndClass) << pRegion + 2);
@@ -314,7 +314,7 @@ bool RegularExpression::compRegion (const char*& pAktPos,
 //Require   : pAktPos ASCIIZ-string; group not empty
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compGroup (const char*& pAktPos,
-                                   const std::string& group) const {
+                                   const std::string& group) {
    assert (pAktPos); assert (!group.empty ());
    TRACE3 ("RegularExpression::compGroup -> " << pAktPos << " in \\("
            << group.c_str () << "\\)");
