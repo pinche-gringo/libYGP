@@ -1,35 +1,31 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on VCGeneral.dsp
 !IF "$(CFG)" == ""
-CFG=Debug
-!MESSAGE Keine Konfiguration angegeben. Debug wird als Standard verwendet.
-!ENDIF
+CFG=VCGeneral - Win32 Debug
+!MESSAGE Keine Konfiguration angegeben. VCGeneral - Win32 Debug wird als Standard verwendet.
+!ENDIF 
 
-!IF "$(CFG)" != "Release" && "$(CFG)" != "Debug"
+!IF "$(CFG)" != "VCGeneral - Win32 Release" && "$(CFG)" != "VCGeneral - Win32 Debug"
 !MESSAGE UngÅltige Konfiguration "$(CFG)" angegeben.
 !MESSAGE Sie kînnen beim AusfÅhren von NMAKE eine Konfiguration angeben
 !MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
-!MESSAGE
-!MESSAGE NMAKE /f "VCGeneral.mak" CFG="Debug"
-!MESSAGE
+!MESSAGE 
+!MESSAGE NMAKE /f "VCGeneral.mak" CFG="VCGeneral - Win32 Debug"
+!MESSAGE 
 !MESSAGE FÅr die Konfiguration stehen zur Auswahl:
-!MESSAGE
-!MESSAGE "Release"
-!MESSAGE "Debug"
-!MESSAGE
+!MESSAGE 
+!MESSAGE "VCGeneral - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "VCGeneral - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE 
 !ERROR Eine ungÅltige Konfiguration wurde angegeben.
-!ENDIF
+!ENDIF 
 
 !IF "$(OS)" == "Windows_NT"
 NULL=
-!ELSE
+!ELSE 
 NULL=nul
-!ENDIF
+!ENDIF 
 
-CPP=cl.exe
-MTL=midl.exe
-RSC=rc.exe
-
-!IF  "$(CFG)" == "Release"
+!IF  "$(CFG)" == "VCGeneral - Win32 Release"
 
 OUTDIR=.\Release
 INTDIR=.\Release
@@ -48,6 +44,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ATime.obj"
 	-@erase "$(INTDIR)\ATStamp.obj"
 	-@erase "$(INTDIR)\AttrParse.obj"
+	-@erase "$(INTDIR)\Check.obj"
 	-@erase "$(INTDIR)\CRegExp.obj"
 	-@erase "$(INTDIR)\DirSrch.obj"
 	-@erase "$(INTDIR)\Entity.obj"
@@ -77,14 +74,48 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /I ../Windows /I ../Common /c
-MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
-BSC32_SBRS= \
+CPP=cl.exe
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "../Common" /I "../Windows" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
+MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32 
+RSC=rc.exe
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc" 
+BSC32_SBRS= \
+	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" 
 LINK32_OBJS= \
 	"$(INTDIR)\AByteArray.obj" \
 	"$(INTDIR)\ADate.obj" \
@@ -113,14 +144,15 @@ LINK32_OBJS= \
 	"$(INTDIR)\Thread.obj" \
 	"$(INTDIR)\Tokenize.obj" \
 	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj"
+	"$(INTDIR)\XStrBuf.obj" \
+	"$(INTDIR)\Check.obj"
 
 "$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
-!ELSEIF  "$(CFG)" == "Debug"
+!ELSEIF  "$(CFG)" == "VCGeneral - Win32 Debug"
 
 OUTDIR=.\Debug
 INTDIR=.\Debug
@@ -139,6 +171,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ATime.obj"
 	-@erase "$(INTDIR)\ATStamp.obj"
 	-@erase "$(INTDIR)\AttrParse.obj"
+	-@erase "$(INTDIR)\Check.obj"
 	-@erase "$(INTDIR)\CRegExp.obj"
 	-@erase "$(INTDIR)\DirSrch.obj"
 	-@erase "$(INTDIR)\Entity.obj"
@@ -171,14 +204,48 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MTd /FD /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I../Common /I../Windows /c
-MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
-BSC32_SBRS= \
+CPP=cl.exe
+CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I../Common /I../Windows /c 
 
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
+MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32 
+RSC=rc.exe
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc" 
+BSC32_SBRS= \
+	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\AByteArray.obj" \
 	"$(INTDIR)\ADate.obj" \
@@ -207,56 +274,27 @@ LINK32_OBJS= \
 	"$(INTDIR)\Thread.obj" \
 	"$(INTDIR)\Tokenize.obj" \
 	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj"
+	"$(INTDIR)\XStrBuf.obj" \
+	"$(INTDIR)\Check.obj"
 
 "$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
-!ENDIF
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
+!ENDIF 
 
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
 !IF EXISTS("VCGeneral.dep")
 !INCLUDE "VCGeneral.dep"
-!ELSE
+!ELSE 
 !MESSAGE Warning: cannot find "VCGeneral.dep"
-!ENDIF
-!ENDIF
+!ENDIF 
+!ENDIF 
 
 
-!IF "$(CFG)" == "Release" || "$(CFG)" == "Debug"
+!IF "$(CFG)" == "VCGeneral - Win32 Release" || "$(CFG)" == "VCGeneral - Win32 Debug"
 SOURCE=..\Common\AByteArray.cpp
 
 "$(INTDIR)\AByteArray.obj" : $(SOURCE) "$(INTDIR)"
@@ -296,6 +334,12 @@ SOURCE=..\Common\ATStamp.cpp
 SOURCE=..\Common\AttrParse.cpp
 
 "$(INTDIR)\AttrParse.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\Check.cpp
+
+"$(INTDIR)\Check.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -426,7 +470,5 @@ SOURCE=..\Common\XStrBuf.cpp
 
 
 
-!ENDIF
+!ENDIF 
 
-check: ALL
-        nmake /f VCTests.mak check

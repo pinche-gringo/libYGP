@@ -120,6 +120,10 @@ SOURCE=..\Common\AttrParse.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\Check.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\CRegExp.cpp
 # End Source File
 # Begin Source File
@@ -241,6 +245,10 @@ SOURCE=..\Common\AttrParse.h
 # Begin Source File
 
 SOURCE=..\Common\AttrVal.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Check.h
 # End Source File
 # Begin Source File
 
