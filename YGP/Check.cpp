@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.3 2002/04/28 00:18:03 markus Rel $
+//$Id: Check.cpp,v 1.4 2002/07/08 03:29:04 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -35,13 +35,14 @@
 int check (const char* expr, const char* file, unsigned int line) {
    char title[strlen (file) + 30];
    sprintf (title, "Check in %s line %u", file, line);
+   cerr << title << ": " << expr << '\n';
    if (XMessageBox::Show (expr, title, 
                           XMessageBox::CRITICAL | XMessageBox::OKCANCEL)
        != XMessageBox::OK) {
-      cerr << title << ": " << expr << "\n\t-> User canceled\n";
+      cerr << "\t-> User canceled\n";
       exit (-1);
    }
 
-   cerr << title << ": " << expr << "\n\t-> User continued\n";
+   cerr << "\t-> User continued\n";
    return 0;
 }
