@@ -170,7 +170,8 @@ INCLUDE_PATH           =
 INCLUDE_FILE_PATTERNS  = 
 PREDEFINED             = HAVE_REGEX_H \
                          __STL_MEMBER_TEMPLATES \
-                         SYSTEM=UNIX
+                         SYSTEM=UNIX \
+                         HAVE_GTKHTML
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
