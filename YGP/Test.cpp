@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.36 2000/05/18 17:46:10 Markus Exp $
+// $Id: Test.cpp,v 1.37 2000/05/18 23:48:02 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -259,22 +259,44 @@ int Application::perform (int argc, const char* argv[]) {
       check (regexp.matches ("ab"));
       check (regexp.matches ("aaaaab"));
       check (regexp.matches ("b"));
-      check (regexp.matches ("aabc"));
+      check (!regexp.matches ("aabc"));
       check (!regexp.matches ("sucker"));
 
       regexp = "[u-z]*b";
       check (regexp.matches ("ub"));
       check (regexp.matches ("uvwxyzb"));
       check (regexp.matches ("b"));
-      check (regexp.matches ("uvbc"));
+      check (!regexp.matches ("uvbc"));
       check (!regexp.matches ("sucker"));
 
-      regexp = "[]abc]*b";
-      check (regexp.matches ("]bc"));
+      regexp = "[]ac]*b";
+      check (regexp.matches ("]acb"));
+      check (!regexp.matches ("]dcb"));
 
       regexp = "[^]]*b";
-      check (regexp.matches ("bc"));
-      check (!regexp.matches ("]bc"));
+      check (regexp.matches ("b"));
+      check (regexp.matches ("ab"));
+      check (!regexp.matches ("]b"));
+
+      regexp = "a+b";
+      check (regexp.matches ("ab"));
+      check (regexp.matches ("aaaaab"));
+      check (!regexp.matches ("b"));
+      check (!regexp.matches ("aabc"));
+
+      regexp = "a.b";
+      check (regexp.matches ("axb"));
+      check (!regexp.matches ("aaaaab"));
+      check (!regexp.matches ("b"));
+      check (!regexp.matches ("ab"));
+      check (!regexp.matches ("abc"));
+
+      regexp = "a?b";
+      check (regexp.matches ("ab"));
+      check (!regexp.matches ("aaaaab"));
+      check (regexp.matches ("b"));
+      check (!regexp.matches ("aab"));
+      check (!regexp.matches ("acb"));
    }
    catch (std::string& e) {
       cerr << e.c_str () << '\n';
