@@ -1,4 +1,4 @@
-<!-- $Id: ATStamp.html,v 1.4 2000/04/15 02:05:25 Markus Rel $ -->
+<!-- $Id: ATStamp.html,v 1.5 2001/09/19 12:16:57 markus Exp $ -->
 
 <html>
   <head>
@@ -11,16 +11,19 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center">Class ATimestamp </h1>
-    <p>Derived from: <a href="ADate.html">ADate</a>,
-      <a href="ATime.html">ATime</a></p>
+    <p>Derived from: <a href="ADate.html">ADate</a>
+      <a href="ATime.html">ATime</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: ATStamp.h</p>
+    <p>#include &lt;ATStamp.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -29,120 +32,137 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp">ATimestamp</a></td><td>()</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp2">ATimestamp</a></td>
-        <td>(bool now)</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp3">ATimestamp</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp4">ATimestamp</a></td>
-        <td>(char Day, char Month, int Year, char Hour, char minute, char second)</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp5">ATimestamp</a></td>
-        <td>(const char* pStamp)</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp6">ATimestamp</a></td>
-        <td>(const std::string&amp; stamp)</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp7">ATimestamp</a></td>
-        <td>(const struct tm&amp; tm)</td></tr>
-      <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp8">ATimestamp</a></td>
-        <td>(const time_t stamp)</td></tr>
-      <tr valign="top"><td>virtual</td><td><a href="ATStamp.html#~ATimestamp">~ATimestamp</a></td><td>()</td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp"><b>ATimestamp</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp2"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt><font color="purple">bool</font></tt> <tt><font color="blue">now</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp3"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATimestamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp4"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">Month</font></tt>, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">Hour</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">minute</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">second</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp5"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pDate</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp6"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">date</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp7"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">struct</font></tt> <tt><font color="blue">tm</font></tt>&amp; <tt><font color="blue">tm</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ATStamp.html#ATimestamp8"><b>ATimestamp</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">stamp</font></tt>, <tt><font color="purple">bool</font></tt> <tt><font color="blue">local</font></tt> = true)</tt>;</td></tr>
 
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp&amp;</a></td>
-        <td><a href="ATStamp.html#operator=">operator=</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#operator=2">operator=</a></td>
-        <td>(const char* pStamp)</td></tr>
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#operator=3">operator=</a></td>
-        <td>(const std::string&amp; stamp)</td></tr>
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#operator=4">operator=</a></td>
-        <td>(const struct tm&amp; tm)</td></tr>
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#operator=5">operator=</a></td>
-        <td>(const time_t stamp)</td></tr>
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="ATStamp.html#readFromStream">readFromStream</a></td>
-        <td>(istream&amp; in)</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#add"><b>add</b></a></td>
+        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">Month</font></tt> = 0, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">Hour</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">minute</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">second</font></tt> = 0)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="ATStamp.html#checkIntegrity"><b>checkIntegrity</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">long</font></tt></tt> </td>
+        <td><a href="ATStamp.html#compare"><b>compare</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="ATStamp.html#define"><b>define</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#isDefined"><b>isDefined</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <a href="ATStamp.html"><b>ATimestamp</b></a></tt> </td>
+        <td><a href="ATStamp.html#now"><b>now</b></a></td>
+        <td><tt>()</tt>;</td></tr>
 
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#isDefined">isDefined</a></td><td>()</td></tr>
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="ATStamp.html#undefine">undefine</a></td><td>()</td></tr>
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="ATStamp.html#define">define</a></td><td>()</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#operator!="><tt><font color="black"><b>operator</b></font></tt><tt>!=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator+="><tt><font color="black"><b>operator</b></font></tt><tt>+=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator-="><tt><font color="black"><b>operator</b></font></tt><tt>-=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#operatorl"><tt><font color="black"><b>operator</b></font></tt><tt>&lt;</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#operatorl="><tt><font color="black"><b>operator</b></font></tt><tt>&lt;=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator=4"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">struct</font></tt> <tt><font color="blue">tm</font></tt>&amp; <tt><font color="blue">tm</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator=5"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">stamp</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator=2"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pDate</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#operator=3"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">date</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#operator=="><tt><font color="black"><b>operator</b></font></tt><tt>==</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#operatorg"><tt><font color="black"><b>operator</b></font></tt><tt>&gt;</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATStamp.html#operatorg="><tt><font color="black"><b>operator</b></font></tt><tt>&gt;=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt>friend <a href="ATStamp.html"><b>ATimestamp</b></a></tt></td>
+        <td><a href="ATStamp.html#operator+"><tt><font color="black"><b>operator</b></font></tt><tt>+</tt></a></td>
+        <td><tt>(const <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <font color="blue">lhs</font>,
+                 const <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>friend <a href="ATStamp.html"><b>ATimestamp</b></a></tt></td>
+        <td><a href="ATStamp.html#operator-"><tt><font color="black"><b>operator</b></font></tt><tt>-</tt></a></td>
+        <td><tt>(const <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <font color="blue">lhs</font>,
+                 const <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
 
-      <tr valign="top"><td>static <a href="ATStamp.html">ATimestamp</a></td>
-        <td><a href="ATStamp.html#now">now</a></td><td>()</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="ATStamp.html#readFromStream"><b>readFromStream</b></a></td>
+        <td><tt>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">in</font></tt>) <tt>throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td>virtual std::string</td>
-        <td><a href="ATStamp.html#toString">toString</a></td><td>() const</td></tr>
-      <tr valign="top"><td>virtual std::string</td>
-        <td><a href="ATStamp.html#toString2">toString</a></td>
-        <td>(const char* format) const</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="ATStamp.html#setGMT"><b>setGMT</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">time</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATimestamp.html#153"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#sub"><b>sub</b></a></td>
+        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">month</font></tt> = 0, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">Hour</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">minute</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">second</font></tt> = 0)</tt>;</td></tr>
 
-      <tr valign="top"><td>virtual struct tm</td>
-        <td><a href="ATStamp.html#toStructTM">toStructTM</a></td><td>() const</td></tr>
-          <tr valign="top"><td>time_t</td>
-        <td><a href="ATStamp.html#toSysTime">toSysTime</a></td><td>() const</td></tr>
-
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#operator+=">operator+=</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; rhs)</td></tr>
-          <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#operator-=">operator-=</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; rhs)</td></tr>
-
-      <tr valign="top"><td>friend <a href="ATStamp.html">ATimestamp</a></td>
-        <td><a href="ATStamp.html#operator+">operator+</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; lhs,
-          const <a href="ATStamp.html">ATimestamp</a>&amp; rhs);</td></tr>
-      <tr valign="top"><td>friend <a href="ATStamp.html">ATimestamp</a></td>
-        <td><a href="ATStamp.html#operator-">operator-</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; lhs,
-          const <a href="ATStamp.html">ATimestamp</a>&amp; rhs);</td></tr>
-
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#add">add</a></td>
-        <td>(char Day, char Month = 0, int Year = 0, char Hour = 0, char
-          minute = 0,char second = 0)</td></tr>
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-        <td><a href="ATStamp.html#sub">sub</a></td>
-        <td>(char Day, char Month = 0, int Year = 0, char Hour = 0, char
-          minute = 0,char second = 0)</td></tr>
-
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#operator==">operator==</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#operator!=">operator!=</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#operatorl">operator&lt;</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#operatorg">operator&gt;</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#operatorl=">operator&lt;=</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ATStamp.html#operatorg=">operator&gt;=</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-      <tr valign="top"><td>long</td>
-        <td><a href="ATStamp.html#compare">compare</a></td>
-        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
-
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="ATStamp.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ATStamp.html#toString"><b>toString</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ATStamp.html#toString2"><b>toString</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">format</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">time_t</font></tt></tt> </td>
+        <td><a href="ATStamp.html#toSysTime"><b>toSysTime</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ATStamp.html#toUnformatedString"><b>toUnformatedString</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="ATStamp.html#undefine"><b>undefine</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="ATStamp.html#~ATimestamp"><b>~ATimestamp</b></a></td>
+        <td><tt>()</tt>;</td></tr>
 
       <tr><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual bool</td>
-        <td><a href="ATStamp.html#minAdapt">minAdapt</a></td><td>()</td></tr>
-      <tr valign="top"><td>virtual bool</td>
-        <td><a href="ATStamp.html#maxAdapt">maxAdapt</a></td><td>()</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATimestamp.html#maxAdapt"><b>maxAdapt</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ATimestamp.html#minAdapt"><b>minAdapt</b></a></td>
+        <td><tt>()</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -154,7 +174,7 @@
       <dd>Defaultconstructor; the timestamp is not defined</dd>
     </dl>
 
-    <pre><a name="ATimestamp3"></a>ATimestamp (const ATimestamp&amp;other)</pre>
+    <pre><a name="ATimestamp3"></a>ATimestamp (const ATimestamp&amp; other)</pre>
     <pre><a name="ATimestamp2"></a>ATimestamp (bool now)</pre>
     <dl>
       <dd>Constructor; depending on the parameter the timestamp is either set
@@ -169,7 +189,7 @@
         &gt; 23, minute &gt; 59, second &gt; 61 or day &gt; 31).</dd>
     </dl>
 
-    <pre><a name="ATimestamp5"></a>ATimestamp (const char* pTime)</pre>
+    <pre><a name="ATimestamp5"></a>ATimestamp (const char* pTime) throw (invalid_argument)</pre>
     <dl>
       <dd>Constructor; sets the passed time, which must be represented as
         <i>Day.month.year hour:minute:second</i>. If the buffer does not
@@ -177,7 +197,7 @@
         as parameter is not permitted!</dd>
     </dl>
 
-    <pre><a name="ATimestamp6"></a>virtual ATimestamp (std::string&amp; time)</pre>
+    <pre><a name="ATimestamp6"></a>virtual ATimestamp (std::string&amp; time) throw (invalid_argument)</pre>
     <dl>
       <dd>Constructor; sets the passed time, which must be represented as
         <i>Day.month.year hour:minute:second</i>. If the string does not
@@ -190,7 +210,7 @@
         object.</dd>
     </dl>
 
-    <pre><a name="ATimestamp8"></a>ATimestamp (const time_t stamp)</pre>
+    <pre><a name="ATimestamp8"></a>ATimestamp (const time_t&amp; stamp)</pre>
     <dl>
       <dd>Constructor; sets date &amp; time to the value represented by the
         parameter.</dd>
@@ -200,7 +220,7 @@
 
     <pre><a name="operator="></a>ATimestamp&amp; operator= (const ATimestamp&amp; other)</pre>
 
-    <pre><a name="operator=2"></a>ATimestamp&amp; operator= (const char* pStamp)</pre>
+    <pre><a name="operator=2"></a>ATimestamp&amp; operator= (const char* pStamp) throw (invalid_argument)</pre>
     <dl>
       <dd>Assignment-operator from an const char-pointer. The timestamp must be
         passed as <i>Day.month.year hour:minute:second</i>. If the buffer does
@@ -208,7 +228,7 @@
         NULL-pointer as parameter is not permitted!</dd>
     </dl>
 
-    <pre><a name="operator=3"></a>ATimestamp&amp; operator= (const std::string&amp; time)</pre>
+    <pre><a name="operator=3"></a>ATimestamp&amp; operator= (const std::string&amp; time) throw (invalid_argument)</pre>
     <dl>
       <dd>Assignment-operator from a const string. The timestamp must be passed
         as <i>Day.month.year hour:minute:second</i>. If the string does not
@@ -220,7 +240,7 @@
       <dd>Assignment-operator; assigns the values from the passed struct tm.</dd>
     </dl>
 
-    <pre><a name="operator=5"></a>ATimestamp&amp; operator= (const time_t stamp)</pre>
+    <pre><a name="operator=5"></a>ATimestamp&amp; operator= (const time_t&amp; stamp)</pre>
     <dl>
       <dd>Assignment-operator; sets the time to the value represented by the
         parameter.</dd>
@@ -247,12 +267,17 @@
       <dd>Sets the time to the 1st of January, 1900 0:00:00.</dd>
     </dl>
 
-    <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp;in)</pre>
+    <pre><a name="setGMT"></a>void setGMT (const time_t&amp; time)</pre>
     <dl>
-      <dd>Reads the timestamp in the format <i>Day.month.year hour:minute:second</i>
-          from a stream. If the input is not a valid timestamp, the object is
-          set to undefined.</dd>
+      <dd>sets the time to the value represented by the parameter (which is considered
+        to specify a time in GMT).</dd>
+    </dl>
+
+    <h4>In- &amp; output, conversion</h4>
+    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in) throw (invalid_argument)</pre>
+    <dl>
+      <dd>Reads the timestamp in the format <i>DDMMY[Y...] hhmmss</i> (with leading zeros)
+          from a stream. If the input is not a valid timestamp an exception is thrown.</dd>
     </dl>
 
     <pre><a name="toString"></a>virtual std::string toString () const</pre>
@@ -260,7 +285,6 @@
       <dd>Converts the object into a string, in a format specified by the
 	current locale.</dd>
     </dl>
-
     <pre><a name="toString2"></a>virtual std::string toString (const char* format) const</pre>
     <dl>
       <dd><p>Converts the object into a string, in the specified format. The
@@ -268,6 +292,10 @@
           library-routine.</p>
         <p><b>Note</b>: The maximal length of the resulting string is 80
           characters!</p></dd>
+    </dl>
+    <pre><a name="toUnformatedString"></a>virtual std::string toUnformatedString () const</pre>
+    <dl>
+      <dd>Converts the object into a string, in the format <i>DDMMYYYY[...] hhmmss</i>.</dd>
     </dl>
 
     <pre><a name="toStructTM"></a>virtual struct tm toStructTM () const</pre>
