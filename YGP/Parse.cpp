@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.10 1999/11/14 15:26:23 Markus Exp $
+//$Id: Parse.cpp,v 1.11 1999/11/19 00:09:41 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -63,13 +63,11 @@ static char ESCAPE = '\\';
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor
 //Parameters  : description: Description of object (what it parses)
-//              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : description != NULL
 /*--------------------------------------------------------------------------*/
-ParseObject::ParseObject (const char* description, const PARSECALLBACK callback,
-			  bool skipWhitespace)
-   : pDescription (description), pCallback (callback), skip (skipWhitespace) {
+ParseObject::ParseObject (const char* description, bool skipWhitespace)
+   : pDescription (description), skip (skipWhitespace) {
    TRACE9 ("Creating ParseObject " << pDescription);
    assert (!checkIntegrity ());
 }
@@ -79,8 +77,7 @@ ParseObject::ParseObject (const char* description, const PARSECALLBACK callback,
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const ParseObject& other)
-   : pDescription (other.pDescription), pCallback (other.pCallback)
-   , skip (other.skip) {
+   : pDescription (other.pDescription), skip (other.skip) {
    TRACE9 ("Copying ParseObject " << pDescription);
    assert (!checkIntegrity ());
 }
@@ -89,19 +86,19 @@ ParseObject::ParseObject (const ParseObject& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseObject::~ParseObject () {
-   TRACE9 ("Deleting ParseObject " << pDescription);
+   TRACE9 ("ParseObject::~ParseObject: " << pDescription);
 }
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
+//Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
 const ParseObject& ParseObject::operator= (const ParseObject& other) {
-   TRACE8 ("Assigning ParseObject " << pDescription);
+   TRACE8 ("ParseObject::operator=: " << pDescription);
    if (&other != this) {
       pDescription = other.pDescription;
-      pCallback = other.pCallback;
       skip = other.skip;
    } // endif other object
 
@@ -125,6 +122,15 @@ void ParseObject::skipWS (Xistream& stream) const {
 }
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int ParseObject::found (const char* pFoundValue) {
+   return PARSE_OK;
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Checks the constraints of the object
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
@@ -139,14 +145,13 @@ int ParseObject::checkIntegrity () const {
 //              description: Description of object (what it parses)
 //              max: Maximal cardinality
 //              min: Minimal cardinality
-//              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const char* value, const char* description,
                             unsigned int max, unsigned int min,
-                            PARSECALLBACK callback, bool skipWhitespace)
-   : ParseObject (description, callback, skipWhitespace)
+                            bool skipWhitespace)
+   : ParseObject (description, skipWhitespace)
    , pValue (value), maxCard (max), minCard (min) {
    TRACE9 ("Creating ParseAttomic " << getDescription ());
    assert (!checkIntegrity ());
@@ -166,15 +171,16 @@ ParseAttomic::ParseAttomic (const ParseAttomic& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseAttomic::~ParseAttomic () {
-   TRACE9 ("Deleting ParseAttomic " << getDescription ());
+   TRACE9 ("ParseAttomic::~ParseAttomic: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
+//Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
 const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
-   TRACE8 ("Assigning ParseAttomic " << getDescription ());
+   TRACE8 ("ParseAttomic::operator=: " << getDescription ());
 
    if (&other != this) {
       ParseObject::operator= ((const ParseObject&)other);
@@ -235,8 +241,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
    if (i >= minCard) {                                    // Cardinalities OK?
       TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
               << global.buffer << '\'');
-      if (pCallback)
-         rc = pCallback (global.buffer);           // Execute callback (if set)
+      rc = found (global.buffer);                    // Report found of object
    } // endif value OK
    else
       rc = PARSE_ERROR;
@@ -316,6 +321,13 @@ int ParseAttomic::checkIntegrity () const {
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseText::~ParseText () {
+   TRACE9 ("ParseText::~ParseText: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Checks if the passed character is valid acc. to pValue. This
 //              is true if ch doesn't match any character in the list.
 //Parameters  : ch: Char to check
@@ -341,14 +353,13 @@ bool ParseText::checkValue (char ch) {
 //              max: Maximal cardinality
 //              min: Minimal cardinality
 //              escape: Character which escapes chars in value
-//              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
-                            unsigned int max, unsigned min, char escape,
-                            PARSECALLBACK callback, bool skipWhitespace)
-   : ParseText (abort, description, max, min, callback, skipWhitespace)
+                            unsigned int max, unsigned int min, char escape,
+                            bool skipWhitespace)
+   : ParseText (abort, description, max, min, skipWhitespace)
    , esc (escape), last (!escape) {
    TRACE9 ("Creating ParseTextEsc " << getDescription ());
 };
@@ -360,6 +371,31 @@ ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
 ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
    : ParseText (other), esc (other.esc), last (!other.esc) {
    TRACE9 ("Copying ParseTextEsc " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseTextEsc::~ParseTextEsc () {
+   TRACE9 ("ParseTextEsc::~ParseTextEsc: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
+   TRACE8 ("ParseTextExact::operator=: " << getDescription ());
+
+   if (&other != this) {
+      esc = other.esc;
+      last = !other.esc;
+      ParseText::operator= (other);
+   } // endif other object
+
+   assert (!checkIntegrity ());
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -391,13 +427,12 @@ bool ParseTextEsc::checkValue (char ch) {
 //Purpose     : Constructor
 //Parameters  : value: List of valid characters
 //              description: Description of object (what it parses)
-//              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseExact::ParseExact (const char* value, const char* description,
-                  PARSECALLBACK callback, bool skipWhitespace)
-   : ParseAttomic (value, description, 1, 1, callback, skipWhitespace)
+                        bool skipWhitespace)
+   : ParseAttomic (value, description, 1, 1, skipWhitespace)
    , pos (0) {
    TRACE9 ("Creating ParseExact " << getDescription ());
    unsigned int len (strlen (value));      // value !NULL is checked by parent
@@ -407,11 +442,19 @@ ParseExact::ParseExact (const char* value, const char* description,
 }
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseExact::~ParseExact () {
+   TRACE9 ("ParseExact::~ParseExact: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
+//Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
 const ParseExact& ParseExact::operator= (const ParseExact& other) {
-   TRACE8 ("Assigning ParseExact " << getDescription ());
+   TRACE8 ("ParseExact::operator=: " << getDescription ());
 
    if (&other != this) {
       ParseAttomic::operator= ((const ParseAttomic&)other);
@@ -451,6 +494,13 @@ int ParseExact::checkIntegrity () const {
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseUpperExact::~ParseUpperExact () {
+   TRACE9 ("ParseUpperExact::~ParseUppeExact: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Checks if the passed character is valid acc. to pValue. This
 //              is true if  ch matches the char in pValue in the same position
 //              (not case-sensitive)
@@ -481,15 +531,13 @@ int ParseUpperExact::checkIntegrity () const {
 //              description: Description of object (what it parses)
 //              max: Maximal cardinality
 //              min: Minimal cardinality
-//              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : apObjectList != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseSequence::ParseSequence (ParseObject* apObjectList[],
                               const char* description, unsigned int max,
-                              unsigned min, PARSECALLBACK callback,
-                              bool skipWhitespace)
-   : ParseObject (description, callback, skipWhitespace)
+                              unsigned int min, bool skipWhitespace)
+   : ParseObject (description, skipWhitespace)
    , ppList (apObjectList), maxCard (max), minCard (min) {
    TRACE9 ("Creating ParseSequence " << getDescription ());
    assert (!checkIntegrity ());
@@ -509,15 +557,16 @@ ParseSequence::ParseSequence (const ParseSequence& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseSequence::~ParseSequence () {
-   TRACE9 ("Deleting ParseSequence " << getDescription ());
+   TRACE9 ("ParseSequence::~ParseSequence: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
+//Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
 const ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
-   TRACE8 ("Assigning ParseSequence " << getDescription ());
+   TRACE8 ("ParseSequence::operator=: " << getDescription ());
 
    if (&other != this) {
       ParseObject::operator= ((const ParseObject&)other);
@@ -564,8 +613,8 @@ int ParseSequence::doParse (Xistream& stream, bool optional) {
       } // endif error occured
    } // end-while i < maxCard
 
-   if (!rc && pCallback)         // Perform callback with sequence-description
-      rc = pCallback (getDescription ());
+   if (!rc)               // Report found of object  with sequence-description
+      rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
       writeError (stream);
@@ -590,16 +639,13 @@ int ParseSequence::checkIntegrity () const {
 //              description: Description of object (what it parses)
 //              max: Maximal cardinality
 //              min: Minimal cardinality
-//              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : apObjectList != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseSelection::ParseSelection (ParseObject* apObjectList[],
                                 const char* description, unsigned int max,
-                                unsigned min, PARSECALLBACK callback,
-                                bool skipWhitespace)
-   : ParseSequence (apObjectList, description, max, min, callback,
-                    skipWhitespace) {
+                                unsigned int min, bool skipWhitespace)
+   : ParseSequence (apObjectList, description, max, min, skipWhitespace) {
    TRACE9 ("Creating ParseSelection " << getDescription ());
    assert (!checkIntegrity ());
 }
@@ -618,15 +664,16 @@ ParseSelection::ParseSelection (const ParseSelection& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseSelection::~ParseSelection () {
-   TRACE9 ("Deleting ParseSelection " << getDescription ());
+   TRACE9 ("ParseSelection::~ParseSelection: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
+//Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
 const ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
-   TRACE8 ("Assigning ParseSelection " << getDescription ());
+   TRACE8 ("ParseSelection::operator=: " << getDescription ());
 
    if (&other != this)
       ParseSequence::operator= ((const ParseSequence&)other);
@@ -670,11 +717,243 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
    if (!rc && (i < minCard))            // To less selections found: Set error
       rc = PARSE_ERROR;
 
-   if (!rc && pCallback)        // Perform callback with selection-description
-      rc = pCallback (getDescription ());
+   if (!rc)              // Report found of object  with selection-description
+      rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
       writeError (stream);
 
    return rc;
 }
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseAttomic::~CBParseAttomic () {
+   TRACE9 ("CBParseAttomic::~CBParseAttomic: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
+   TRACE8 ("ParseAttomic::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseAttomic::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseAttomic::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseText::~CBParseText () {
+   TRACE9 ("CBParseText::~CBParseText: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseText& CBParseText::operator= (const CBParseText& other) {
+   TRACE8 ("ParseText::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseText::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseText::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseTextEsc::~CBParseTextEsc () {
+   TRACE9 ("CBParseTextEsc::~CBParseTextEsc: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
+   TRACE8 ("ParseTextEsc::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseTextEsc::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseTextEsc::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseExact::~CBParseExact () {
+   TRACE9 ("CBParseExact::~CBParseExact: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
+   TRACE8 ("ParseExact::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseExact::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseExact::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseUpperExact::~CBParseUpperExact () {
+   TRACE9 ("CBParseUpperExact::~CBParseUpperExact: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other) {
+   TRACE8 ("ParseUpperExact::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseUpperExact::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseUpperExact::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseSequence::~CBParseSequence () {
+   TRACE9 ("CBParseSequence::~CBParseSequence: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
+   TRACE8 ("ParseSequence::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseSequence::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseSequence::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseSelection::~CBParseSelection () {
+   TRACE9 ("CBParseSelection::~CBParseSelection: " << pDescription);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+const CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
+   TRACE8 ("CBParseSelection::operator=: " << getDescription ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; assert (pCallback);
+      ParseSelection::operator= (other);
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseSelection::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
