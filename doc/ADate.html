@@ -1,4 +1,4 @@
-<!-- $Id: ADate.html,v 1.2 2000/03/19 22:04:05 Markus Exp $ -->
+<!-- $Id: ADate.html,v 1.3 2000/03/20 18:58:29 Markus Exp $ -->
 
 <html>
   <head>
@@ -117,6 +117,12 @@
 	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
 	<td><a href="ADate.html#operator!=">operator!=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ADate.html#operatorl">operator&lt;</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ADate.html#operatorg">operator&gt;</a></td>
 	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
 	<td><a href="ADate.html#operatorl=">operator&lt;=</a></td>
@@ -283,6 +289,64 @@
 	attention to underflows). The result is returned.</a></p>
 
     <h4>Comparison</h4>
+    <p><a name="operator=="><i>bool operator== (const ADate&amp; other)</i> -
+	Compares two date-objects and returns true, if they are equal (either
+	the same day or both undefined).</a></p>
 
+    <p><a name="operator!="><i>bool operator!= (const ADate&amp; other)</i> -
+	Compares two date-objects and returns true, if they are not equal
+	(different days and not both undefined).</a></p>
+
+    <p><a name="operatorl"><i>bool operator&lt; (const ADate&amp; other)</i> -
+	Compares two date-objects and returns true, if this is "older" (further
+	in the past) than other (e.g. "yesterday" &lt; "today" == true).</a></p>
+
+    <p><a name="operatorg"><i>bool operator&gt; (const ADate&amp; other)</i> -
+	Compares two date-objects and returns true, if this is "younger" (later
+	on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).</a></p>
+
+    <p><a name="operatorl="><i>bool operator&lt;= (const ADate&amp; other)</i> -
+	Compares two date-objects and returns true, if this is "older" (further
+	in the past) than other or equal to it (e.g. "yesterday" &lt; "today"
+	== true; two undefined values are also considered as equal).</a></p>
+
+    <p><a name="operatorg="><i>bool operator&gt; (const ADate&amp; other)</i> -
+	Compares two date-objects and returns true, if this is "younger" (later
+	on a time-line) than other or equal to it (e.g. "tomorrow" &gt; "today"
+	== true; two undefined values are also considered as equal).</a></p>
+
+    <p><a name="compare"><i>long compare (const ADate&amp; other)</i> -
+	Returns the (approximated) difference in days between two dates. If
+	both dates are undefined, those difference is "0", if only this is
+	undefined the result is MINLONG and if other is undefined MAXLONG is
+	returned (-&gt; undefined dates are considered as (incredible)
+	old).</a></p>
+
+    <h4>Utility-functions</h4>
+    <p><a name="maxDayOf"><i>char maxDayOf () const</i> - Returns the maximal
+	day the month/year-combination of the current object could have.</a></p>
+
+    <p><a name="maxDayOf2"><i>static char maxDayOf (char month, int year)</i> -
+	Returns the maximal day the specified month could have.</a></p>
+
+    <p><a name="isLeapYear"><i>bool isLeapYear () const</i> - Returns true, if
+	the current object is a leap-year.</a></p>
+
+    <p><a name="isLeapYear2"><i>static bool isLeapYear (int year)</i> - Returns
+	true, if the specified year is a leap-year.</a></p>
+
+    <p><a name="incDay"><i>void incDay ()</i> - Increments the day of the
+	current object with regard of overflows.</a></p>
+
+    <p><a name="decDay"><i>void decDay ()</i> - Decrements the day of the
+	current object with regard of underflows.</a></p>
+
+    <p><a name="minAdapt"><i>virtual bool minAdapt ()</i> - Corrects the object
+	after underflows. If the object is integer after this operation, true 
+	is returned.</a></p>
+
+    <p><a name="maxAdapt"><i>virtual bool maxAdapt ()</i> - Corrects the object
+	after overflows. If the object is integer after this operation, true 
+	is returned.</a></p>
   </body>
 </html>
