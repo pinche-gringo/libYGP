@@ -1,4 +1,4 @@
-<!-- $Id: FileRExp.html,v 1.2 2000/03/26 18:25:39 Markus Exp $ -->
+<!-- $Id: FileRExp.html,v 1.3 2000/04/02 18:26:52 Markus Exp $ -->
 
 <html>
   <head>
@@ -67,33 +67,38 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="FileRegularExpr"><i>FileRegularExpr ()</i> -
-	Defaultconstructor; no regular expression to compare is defined, so the
-	call of match is prohibited.</a></p>
-
-    <p><a name="FileRegularExpr2"><i>FileRegularExpr (const char* pRegExp)</i> -
-	Constructor, specifies the regular expression to match. This data is
+    <pre><a name="FileRegularExpr">FileRegularExpr ()</a></pre>
+    <pre><a name="FileRegularExpr2">FileRegularExpr (const char* pRegExp)</a></pre>
+    <dl>
+      <dd>Constructor, specifies the regular expression to match. This data is
 	<b>not</b> copied, so it must be valid during the lifetime of the
-	regular expression.</a></p>
+	regular expression.</dd>
+    </dl>
 
-    <p><a name="~FileRegularExpr"><i>~FileRegularExpr ()</i> - Destructor</p>
+    <pre><a name="~FileRegularExpr">~FileRegularExpr ()</a></pre>
 
-    <p><a name="operator="><i>FileRegularExpr&amp; operator= (const char* pRegExp)</i>
-	- Sets the passed value as regular expression to match.</a></p>
+    <pre><a name="operator=">FileRegularExpr&amp; operator= (const char* pRegExp)</a></pre>
+    <dl>
+      <dd>Sets the passed value as regular expression to match.</dd>
+    </dl>
 
     <h4>Matching</h4>
-    <p><a name="matches"><i>bool matches (const char* pCompare)</i>
-	- Checks, if the passes text matches the stored regular expression. This
-	method returns true, if yes and false if not.</a></p>
-
-    <p>Both the stored regular expression and the passed parameter must not be
-      NULL-pointers and the regular expression must be in a valid syntax (this
-      can be checked with the checkIntegrity-method).</p>
+    <pre><a name="matches">bool matches (const char* pCompare)</a></pre>
+    <dl>
+      <dd>Checks if the passed text matches the stored regular expression. This
+	method returns true, if yes and false if not.
+	<p>Both the stored regular expression and the passed parameter must not be
+	  NULL-pointers and the regular expression must be in a valid syntax (this
+	  can be checked with the checkIntegrity-method).</p></dd>
+    </dl>
 
     <h4>Syntax-check</h4>
-    <p><a name="checkIntegrity"><i>int checkIntegrity () const</i> - Checks the
-	syntax of the regular expression. If everything is OK, 0 is returned; 1
-	if there's the start of a region without a proper end, 2 if a list in
-	the region has no end-character and 3 if a region is empty.</a></p>
+    <pre><a name="checkIntegrity">int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks the syntax of the regular expression. If everything is OK, 0
+	is returned; 1 if there's the start of a region without a proper end,
+	2 if a list in the region has no end-character and 3 if a region is
+	empty.</dd>
+    </dl>
   </body>
 </html>
