@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.18 2003/03/06 03:11:23 markus Rel $
+//$Id: XApplication.h,v 1.19 2003/06/29 01:53:10 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -117,7 +117,7 @@ class XApplication : public Gtk::Window {
 
    // Menu-handling (including callback for menu-events)
    typedef struct {
-      const std::string name;
+      const Glib::ustring name;
       const std::string accel;
       unsigned int id;
       menuTypes    type;
@@ -129,6 +129,8 @@ class XApplication : public Gtk::Window {
    Gtk::Widget& addMenu (const MenuEntry& menuEntry);
    void         addMenus (const MenuEntry menuEntryies[], int cMenus);
    virtual void command (int menu);
+
+   virtual void setIconProgram (const char* const* iconData);
 
    Gtk::VBox* getClient () const { return vboxClient; }
 
@@ -168,7 +170,7 @@ class XInfoApplication : public XApplication {
 
  protected:
    // Add information
-   void setIconProgram (const char* const* iconData);
+   virtual void setIconProgram (const char* const* iconData);
    void setIconAuthor (const char* const* iconData);
 
    typedef SmartPtr<Gtk::HBox>  PHBox;

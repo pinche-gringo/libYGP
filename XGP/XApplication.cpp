@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.25 2003/06/02 01:30:57 markus Rel $
+//$Id: XApplication.cpp,v 1.26 2003/06/29 01:53:10 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,7 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <assert.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <locale.h>
@@ -220,7 +219,7 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
 //            dir: Root-directory for message-catalogs
 /*--------------------------------------------------------------------------*/
 void XApplication::initI18n (const char* package, const char* dir) {
-   assert (package); assert (dir);
+   Check1 (package); Check1 (dir);
 
    initI18n ();
    bindtextdomain (package, dir);
@@ -243,11 +242,11 @@ void XApplication::initI18n () {
 /*--------------------------------------------------------------------------*/
 void XApplication::showHelpMenu () {
    MenuEntry menuItems[] = {
-      { _("_Help"),                  _("<alt>H"), 0,                LASTBRANCH },
-      { _("_Content..."),            _("F1"),     CONTENT,          ITEM },
-      { _("Configure _browser ..."), "",          CONFIGUREBROWSER, ITEM },
-      { "",                          "",          0,                SEPARATOR },
-      { _("_About..."),              "",          ABOUT,            ITEM } };
+      { Glib::locale_to_utf8 (_("_Help")),                  _("<alt>H"), 0,                LASTBRANCH },
+      { Glib::locale_to_utf8 (_("_Content...")),            _("F1"),     CONTENT,          ITEM },
+      { Glib::locale_to_utf8 (_("Configure _browser ...")), "",          CONFIGUREBROWSER, ITEM },
+      { "",                                                 "",          0,                SEPARATOR },
+      { Glib::locale_to_utf8 (_("_About...")),              "",          ABOUT,            ITEM } };
 
    addMenu (menuItems[0]);
    if (getHelpfile ())
@@ -337,6 +336,23 @@ void XApplication::command (int menu) {
    }
 }
 
+//----------------------------------------------------------------------------
+/// Sets the program icon which is used by some window managers when minimizing
+/// the program.
+///\b Parameters:
+///     - \c iconData: Array of character pointers describing the icon (xpm-format)
+///
+///\b Requires: \c iconData must be a valid pointer to xpm-data<Br>
+///\b Remarks: Some window managers might also display the icon on other occassions.
+//----------------------------------------------------------------------------
+void XApplication::setIconProgram (const char* const* iconData) {
+   TRACE9 ("XApplication::setIconProgram");
+   Check1 (iconData);
+   Check3 (hboxTitle);
+
+   set_icon (Gdk::Pixbuf::create_from_xpm_data (iconData));
+}
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor for program with prg-info in client
@@ -351,7 +367,7 @@ XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
      , txtCopyright (new Gtk::Label (pCopyright)), iconPrg (NULL)
      , iconAuthor (NULL) {
    TRACE9 ("XInfoApplication::XInfoApplication ()");
-   Check3 (pPrgInfo); Check3 (pCopyright);
+   Check1 (pPrgInfo); Check1 (pCopyright);
 
    hboxTitle->show ();
    vboxClient->pack_start (*hboxTitle, false, false, 5);
@@ -385,9 +401,7 @@ XInfoApplication::~XInfoApplication () {
 /*--------------------------------------------------------------------------*/
 void XInfoApplication::setIconProgram (const char* const* iconData) {
    TRACE9 ("XInfoApplication::setIconProgram");
-   if (iconPrg)
-      return;
-
+   Check1 (iconData);
    Check3 (hboxTitle);
 
    iconPrg = new Gtk::Image
@@ -396,6 +410,8 @@ void XInfoApplication::setIconProgram (const char* const* iconData) {
 
    iconPrg->show ();
    hboxTitle->pack_start (*iconPrg, false, false, 5);
+
+   XApplication::setIconProgram (iconData);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -404,9 +420,7 @@ void XInfoApplication::setIconProgram (const char* const* iconData) {
 /*--------------------------------------------------------------------------*/
 void XInfoApplication::setIconAuthor (const char* const* iconData) {
    TRACE9 ("XInfoApplication::setIconAuthor");
-   if (iconAuthor)
-      return;
-
+   Check1 (iconData);
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
    iconAuthor = new Gtk::Image
