@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.4 2001/01/19 14:38:47 Markus Exp $
+//$Id: Log.h,v 1.5 2001/09/29 17:09:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,18 +26,13 @@
 
 #include <syslog.h>
 
-#define LOGALERT(text)     syslog (Syslog::ALERT, "%s", text);
-#define LOGCRITICAL(text)  syslog (Syslog::CRIT, "%s", text);
-#define LOGERROR(text)     syslog (Syslog::ERR, "%s", text);
-#define LOGWARNING(text)   syslog (Syslog::WARNING, "%s", text);
-#define LOGNOTICE(text)    syslog (Syslog::NOTICE, "%s", text);
-#define LOGINFO(text)      syslog (Syslog::INFO, "%s", text);
-#define LOGDEBUG(text)     syslog (Syslog::DEBUGGING, "%s", text);
-
 #elif SYSTEM == WINDOWS
 
 #include <iostream.h>
 
+#endif
+
+#define LOGEMERGENCY(text) Syslog::write (Syslog::EMERGENCY, text);
 #define LOGALERT(text)     Syslog::write (Syslog::ALERT, text);
 #define LOGCRITICAL(text)  Syslog::write (Syslog::CRIT, text);
 #define LOGERROR(text)     Syslog::write (Syslog::ERR, text);
@@ -46,8 +41,8 @@
 #define LOGINFO(text)      Syslog::write (Syslog::INFO, text);
 #define LOGDEBUG(text)     Syslog::write (Syslog::DEBUGGING, text);
 
-#endif // UNIX
 
+// Class to perform some logging into either log-file (if available) or to console.
 class Syslog {
  public:
    Syslog (const char* appl) { assert (appl);
@@ -81,11 +76,11 @@ class Syslog {
    }
 
 #if SYSTEM == UNIX
-   enum { ALERT = LOG_ALERT, CRITICAL = LOG_CRIT, ERROR = LOG_ERR,
-          WARNING = LOG_WARNING, NOTICE = LOG_NOTICE, INFO = LOG_INFO,
-          DEBUGGING = LOG_DEBUG };
+   enum { EMERGENCY = LOG_EMERG, ALERT = LOG_ALERT, CRITICAL = LOG_CRIT,
+          ERROR = LOG_ERR, WARNING = LOG_WARNING, NOTICE = LOG_NOTICE,
+          INFO = LOG_INFO, DEBUGGING = LOG_DEBUG };
 #elif SYSTEM == WINDOWS
-   enum { ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUGGING };
+   enum { EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUGGING };
 #endif // UNIX
 };
 
