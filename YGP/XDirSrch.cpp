@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.2 2002/10/20 19:39:41 markus Rel $
+//$Id: XDirSrch.cpp,v 1.3 2002/12/08 08:06:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -26,6 +26,7 @@
 
 #include <string>
 
+#include "Check.h"
 #include "Trace_.h"
 #include "FileRExp.h"
 #include "PathSrch.h"
@@ -41,7 +42,7 @@
 /*--------------------------------------------------------------------------*/
 bool _fileIsValid (const std::string& files, const char* pFile) {
    TRACE9 ("_fileIsValid (const char*) const - " << pFile);
-   assert (pFile);
+   Check1 (pFile);
 
    if (files.empty ())
       return true;
@@ -55,7 +56,7 @@ bool _fileIsValid (const std::string& files, const char* pFile) {
    // Test every file in list
    while (!((node = list.getNextNode ()).empty ())) {
       TRACE8 ("_fileIsValid (const string&, const char*) const - Node: " << node);
-      assert ((node[0] == 'i') || (node[0] == 'x'));
+      Check3 ((node[0] == 'i') || (node[0] == 'x'));
 
       include = node[0] == 'i';
       node.replace (0, 1, 0, '\0');
@@ -69,12 +70,12 @@ bool _fileIsValid (const std::string& files, const char* pFile) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Appends a node to a list. Every subnode in the node is prefixed
-//            with the prefix-character
+//Purpose   : Appends a (list of) node to a list. Every subnode in the node is
+//            prefixed with the prefix-character
 //Parameters: list: List to change
 //            prefix: Leading character
 //            node: Node to check
-//Notes     : The node is added to the beginning of the list
+//Remarks   : The node is added to the beginning of the list
 /*--------------------------------------------------------------------------*/
 void _addNode (std::string& list, char prefix, const std::string& node) {
    PathSearch  l (node);
