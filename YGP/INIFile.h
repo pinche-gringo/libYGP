@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.7 2001/08/26 02:21:22 markus Exp $
+//$Id: INIFile.h,v 1.8 2001/08/26 14:38:26 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,8 +63,7 @@ class INISection {
    INISection (const char* name);
    virtual ~INISection ();
 
-   const IAttribute* findAttribute (const std::string& name) const {
-      return findAttribute (name.c_str ()); }
+   const IAttribute* findAttribute (const std::string& name) const;
    const IAttribute* findAttribute (const char* name) const;
    void addAttribute (IAttribute& attribute) throw (std::string);
 

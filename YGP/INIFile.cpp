@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.4 2001/08/26 02:21:21 markus Exp $
+//$Id: INIFile.cpp,v 1.5 2001/08/26 14:38:26 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -86,15 +86,29 @@ void INISection::addAttribute (IAttribute& attribute) throw (std::string) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find a section with the specified name in the
-//            definition of the INI-file
-//Parameters: name: Name of section to find
-//Returns   : Section*: Pointer to section or NULL (if not found)
+//Purpose   : Tries to find an attribute with the specified name in the
+//            section
+//Parameters: name: Name of attribute to find
+//Returns   : Section*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const char* name) const {
-   std::vector<IAttribute*>::iterator i;
-   for (i = const_cast <IAttribute**> (attributes.begin ());
-	i != attributes.end (); ++i)
+   std::vector<IAttribute*>::const_iterator i;
+   for (i = attributes.begin (); i != attributes.end (); ++i)
+      if ((*i)->matches (name))
+         return *i;
+
+   return NULL;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Tries to find an attribute with the specified name in the
+//            section
+//Parameters: name: Name of attribute to find
+//Returns   : Section*: Pointer to attribute or NULL (if not found)
+/*--------------------------------------------------------------------------*/
+const IAttribute* INISection::findAttribute (const std::string& name) const {
+   std::vector<IAttribute*>::const_iterator i;
+   for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
          return *i;
 
@@ -248,8 +262,8 @@ int INIFile::read () throw (std::string) {
 //Returns   : Section*: Pointer to section or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const INISection* INIFile::findSection (const char* name) const {
-   std::vector<INISection*>::iterator i;
-   for (i = const_cast <INISection**> (sections.begin ()); i != sections.end (); ++i)
+   std::vector<const INISection*>::const_iterator i;
+   for (i = sections.begin (); i != sections.end (); ++i)
       if ((*i)->matches (name))
          return *i;
 
