@@ -1,14 +1,14 @@
-// $Id: StackTrc.cpp,v 1.15 2004/11/04 16:31:19 markus Rel $
+// $Id: StackTrc.cpp,v 1.16 2005/01/09 02:10:25 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2004
+//COPYRIGHT   : Copyright (C) 2000 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,10 +29,16 @@
 #endif
 
 
-#include <stdio.h>
+#include <ygp-cfg.h>
+
+#include <cstdio>
 #include <malloc.h>
 
 #include <signal.h>
+
+#ifdef HAVE_BACKTRACE
+#  include <execinfo.h>
+#endif
 
 #include "YGP/Log.h"
 #include "YGP/Check.h"
@@ -70,6 +76,16 @@ void handleSignal (int sig) {
 ///     second allows the follow the stack down to the stack for the caller.
 //-----------------------------------------------------------------------------
 void dumpStack () {
+#ifdef HAVE_BACKTRACE
+   void* traces[15];
+   size_t size (backtrace (traces, sizeof (traces)));
+   char** lines (backtrace_symbols (traces, size));
+
+   for (unsigned int i (0); i < size; ++i)
+      PRINT (lines[i]);
+
+   free (lines);
+#else
    char* pBuffer = (char*)malloc (64);
 
    sprintf (pBuffer, "dumpStack @ %p", dumpStack);
@@ -96,6 +112,7 @@ void dumpStack () {
    }
 
    free (pBuffer);
+#endif
 }
 
 } // end extern "C"
