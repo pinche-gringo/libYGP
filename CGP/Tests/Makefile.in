@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.4 2002/07/15 21:01:03 markus Rel $
+# $Id: Makefile.in,v 1.5 2003/06/11 18:30:39 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -46,7 +46,7 @@ CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 
 LDFLAGS = @LDFLAGS@
-LIBS=-ldl -lmico -lAttr
+LIBS=-ldl -lmico -L../../Common -L../../Common/.libs -lYMP
 
 LIBTOOL = @LIBTOOL@
 
