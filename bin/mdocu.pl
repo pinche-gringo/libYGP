@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.10 2002/12/25 05:03:21 markus Rel $
+# $Id: mdocu.pl,v 1.11 2003/06/19 03:34:18 markus Rel $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ pod2usage (1) if ($help);
 
 if ($version) {
     $0 =~ s!.*/(.*)!$1!;
-    my $rev = '$Revision: 1.10 $ ';
+    my $rev = '$Revision: 1.11 $ ';
     $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
     print "$0 - V0.3.00     ($rev)\n";
     print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
