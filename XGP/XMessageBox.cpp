@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.6 2000/03/10 21:09:05 Markus Exp $
+//$Id: XMessageBox.cpp,v 1.7 2000/04/21 13:07:40 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -457,9 +457,9 @@ XMessageBox::XMessageBox (const string& text, const string& title,
          temp->show ();
 
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-	 temp->clicked.connect (bind (slot (this, &perform), 1 << (i + 4)));
+	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform), 1 << (i + 4)));
 #else
-         connect_to_method (temp->clicked, this, &perform, 1 << (i + 4));
+         connect_to_method (temp->clicked, this, &XMessageBox::perform, 1 << (i + 4));
 #endif
 
          get_action_area ()->pack_start (*temp, false, false, 5);   // and add
@@ -513,7 +513,7 @@ void XMessageBox::perform (int action) {
 //            flags: Bitset for buttons to show and type of message
 //            defButton: Number of default-button
 /*--------------------------------------------------------------------------*/
-int XMessageBox::show (const string& text, const string& title, int flags,
+int XMessageBox::Show (const string& text, const string& title, int flags,
                        unsigned int defButton) {
    TRACE9 ("XMessageBox::show");
 

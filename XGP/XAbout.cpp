@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.6 2000/04/07 22:44:40 Markus Exp $
+//$Id: XAbout.cpp,v 1.7 2000/04/21 13:07:40 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -56,9 +56,9 @@ XAbout::XAbout (const string& author, const string& program)
    ok->set_usize (90, 30);
    ok->show ();
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   ok->clicked.connect (bind (slot (this, &command), 0));
+   ok->clicked.connect (bind (slot (this, &XAbout::command), 0));
 #else
-   connect_to_method (ok->clicked, this, &command, 0);
+   connect_to_method (ok->clicked, this, &XAbout::command, 0);
 #endif
 
    get_action_area ()->pack_start (*ok, false, false, 5);

@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.4 2000/02/24 22:16:35 Markus Exp $
+//$Id: XFileDlg.cpp,v 1.5 2000/04/21 13:07:40 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -101,7 +101,7 @@ void XFileDialog::command (commandID id) {
          switch (opt) {
 	 case MUST_EXIST:
             if (rc) {                // File does not exist: Show msg and exit
-               XMessageBox::show (string ("File '") + filename
+               XMessageBox::Show (string ("File '") + filename
                                   + string ("' does not exist!"),
                                   XMessageBox::ERROR);
                return;
@@ -110,7 +110,7 @@ void XFileDialog::command (commandID id) {
 
          case ASK_OVERWRITE:
             if (!rc)
-               if ((rc = XMessageBox::show (string ("File '") + filename
+               if ((rc = XMessageBox::Show (string ("File '") + filename
                                       + string ("' exists! Overwrite?"),
                                      XMessageBox::QUESTION | XMessageBox::YESNO))
                    != XMessageBox::YES)
@@ -121,7 +121,6 @@ void XFileDialog::command (commandID id) {
 
       (pCaller->*callerMethod) (filename);
       }
-
    case CANCEL:
       delete this;
       break;

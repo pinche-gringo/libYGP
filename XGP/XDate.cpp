@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.4 2000/03/10 21:09:05 Markus Exp $
+//$Id: XDate.cpp,v 1.5 2000/04/21 13:07:40 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -78,9 +78,9 @@ XDate::XDate (const string& title, ATimestamp& date, int showFields)
    ok->set_usize (90, 30);
    ok->show ();
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   ok->clicked.connect (bind (slot (this, &command), OK));
+   ok->clicked.connect (bind (slot (this, &XDate::command), OK));
 #else
-   connect_to_method (ok->clicked, this, &command, OK);
+   connect_to_method (ok->clicked, this, &XDate::command, OK);
 #endif
    get_action_area ()->pack_start (*ok, false, false, 5);
    ok->set_flags (GTK_CAN_DEFAULT);
@@ -89,9 +89,9 @@ XDate::XDate (const string& title, ATimestamp& date, int showFields)
    cancel->set_usize (90, 30);
    cancel->show ();
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   cancel->clicked.connect (bind (slot (this, &command), CANCEL));
+   cancel->clicked.connect (bind (slot (this, &XDate::command), CANCEL));
 #else
-   connect_to_method (cancel->clicked, this, &command, CANCEL);
+   connect_to_method (cancel->clicked, this, &XDate::command, CANCEL);
 #endif
    get_action_area ()->pack_start (*cancel, false, false, 5);
    cancel->set_flags (GTK_CAN_DEFAULT);
@@ -149,6 +149,8 @@ XDate::~XDate () {
 //TODO      : Locale-handling
 /*--------------------------------------------------------------------------*/
 void XDate::command (commands id) {
+   TRACE9 ("XDate::command: " << id);
+
    if (id == OK) {                                              // OK pressed?
       ATimestamp help;
 
@@ -161,7 +163,7 @@ void XDate::command (commands id) {
       help.setDay (spinDay->get_value_as_int ());
 
       if (help.checkIntegrity ()) {
-         XMessageBox::show (string ("Date '") + help.toString () + "' is not valid!",
+         XMessageBox::Show (string ("Date '") + help.toString () + "' is not valid!",
                             XMessageBox::CANCEL | XMessageBox::ERROR);
          return;
       }

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.7 2000/04/07 22:44:40 Markus Exp $
+//$Id: XApplication.cpp,v 1.8 2000/04/21 13:07:40 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -116,30 +116,35 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    case 'I':
    case 'C':
       Check3 (pLastMenu);
-      if (chType == 'I')
+      if (chType == 'I') {
          pItem = new MenuElem (menu, menuEntry.accel,
-			       bind (slot (this, &command), menuEntry.id));
+			       bind (slot (this, &XApplication::command), menuEntry.id));
+	 pLastMenu->items ().push_back (*pItem);
+      }
       else {
          pItem = new CheckMenuElem (menu, menuEntry.accel,
-				    bind (slot (this, &command), menuEntry.id));
-         ((CheckMenuItem*)pItem->get_child ())->set_show_toggle (true);
+				    bind (slot (this, &XApplication::command), menuEntry.id));
+	 pLastMenu->items ().push_back (*pItem);
+	 static_cast<CheckMenuItem*> (pLastMenu->items ().back ())->set_show_toggle (true);
       } // endif
-      break;
+      return pLastMenu->items ().back ();
 
    case 'S':
       Check3 (pLastMenu);
       pItem = new SeparatorElem ();
-      break;
+      pLastMenu->items ().push_back (*pItem);
+      return pLastMenu->items ().back ();
 
    case 'B':
    case 'L': {
       pLastMenu = new Menu (); Check3 (pLastMenu);
       MenuElem* pElem (new MenuElem (menu, menuEntry.accel, *pLastMenu));
-      if (chType == 'L')
-         pElem->get_child ()->right_justify ();
-
       Check3 (pMenu);
       pMenu->items ().push_back (*pElem);
+
+      if (chType == 'L')
+         pMenu->items ().back ()->right_justify ();
+
       return pLastMenu;
       }
 
@@ -147,12 +152,7 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
       Check (0);
    } // end-switch type of menu
 
-   if (pItem) {
-      Check3 (pLastMenu);
-      pLastMenu->items ().push_back (*pItem);
-      return pItem->get_child ();
-   } // endif
-
+   Check (0);
    return NULL;
 #else
    return pMenu->create_item (menuEntry.path, menuEntry.accel, menuEntry.type,

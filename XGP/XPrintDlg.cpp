@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.5 2000/03/10 21:09:05 Markus Exp $
+//$Id: XPrintDlg.cpp,v 1.6 2000/04/21 13:07:40 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -97,9 +97,9 @@ void XPrintDialog::init () {
    // Create buttons: OK
    ok->set_usize (90, 35); ok->show ();
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   ok->clicked.connect (bind (slot (this, &command), OK));
+   ok->clicked.connect (bind (slot (this, &XPrintDialog::command), OK));
 #else
-   connect_to_method (ok->clicked, this, &command, OK);
+   connect_to_method (ok->clicked, this, &XPrintDialog::command, OK);
 #endif
    get_action_area ()->pack_start (*ok, false, false, 0);
 
@@ -109,9 +109,9 @@ void XPrintDialog::init () {
    cancel->set_flags (GTK_CAN_DEFAULT);
    cancel->set_usize (90, 35); cancel->show ();
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   cancel->clicked.connect (bind (slot (this, &command), CANCEL));
+   cancel->clicked.connect (bind (slot (this, &XPrintDialog::command), CANCEL));
 #else
-   connect_to_method (cancel->clicked, this, &command, CANCEL);
+   connect_to_method (cancel->clicked, this, &XPrintDialog::command, CANCEL);
 #endif
    get_action_area ()->pack_start (*cancel, false, false, 0);
 
@@ -144,7 +144,7 @@ void XPrintDialog::command (commandID id) {
       Check3 (pCaller); Check3 (callerMethod); Check3 (txtCommand);
 
       if (!txtCommand->get_text_length ()) {                      // No input?
-	 XMessageBox::show (string ("No print-command specified"),
+	 XMessageBox::Show (string ("No print-command specified"),
                             XMessageBox::ERROR);
 	 return;
       } // endif no input
@@ -153,7 +153,7 @@ void XPrintDialog::command (commandID id) {
       FILE* stream (NULL);
       stream = popen (txtCommand->get_text ().c_str (), "w");
       if (!stream) {
-	 XMessageBox::show (string ("Could not run command '")
+	 XMessageBox::Show (string ("Could not run command '")
                             + txtCommand->get_text () + string ("'\nReason: ")
                             + string (strerror (errno)), XMessageBox::ERROR);
 	 return;

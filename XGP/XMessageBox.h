@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.5 2000/03/10 21:09:05 Markus Exp $
+//$Id: XMessageBox.h,v 1.6 2000/04/21 13:08:02 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ namespace Gtk {
    class Label;
    class Pixmap;
    class Button;
+
 }
    
 using namespace Gtk;
@@ -61,11 +62,11 @@ class XMessageBox : public Dialog {
                   OKCANCEL = OK | CANCEL, RETRYCANCEL = RETRY | CANCEL,
                   OKRETRYCANCEL = OK | RETRYCANCEL };
 
-   static int show (const string& text,int flags = OK | INFO,
-                    unsigned int defButton = 0) {
-      show (text, "", flags, defButton); }
-   static int show (const string& text, const string& title = "",
+   static int Show (const string& text, const string& title = "",
                     int flags = OK | INFO, unsigned int defButton = 0);
+   static int Show (const string& text, int flags = OK | INFO,
+                    unsigned int defButton = 0) {
+      Show (text, "", flags, defButton); }
 
  protected:
    XMessageBox (const string& text, const string& title = "",

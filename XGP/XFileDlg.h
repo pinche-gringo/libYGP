@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.6 2000/03/10 21:09:05 Markus Exp $
+//$Id: XFileDlg.h,v 1.7 2000/04/21 13:08:02 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ class XFileDialog : public FileSelection {
       return new XFileDialog (title, pNotify, callback, dlgOption); }
 
  private:
-   typedef enum { OK, CANCEL } commandID;
+   typedef enum { OK = 1, CANCEL } commandID;
 
    // Prohibited manager-functions
    XFileDialog (const XFileDialog&);
@@ -63,11 +63,11 @@ class XFileDialog : public FileSelection {
 
    void init () {
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-      get_ok_button ()->clicked.connect (bind (slot (this, &command), OK));
-      get_cancel_button ()->clicked.connect (bind (slot (this, &command), CANCEL));
+      get_ok_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), OK));
+      get_cancel_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), CANCEL));
 #else
-      connect_to_method (get_ok_button ()->clicked, this, &command, OK);
-      connect_to_method (get_cancel_button ()->clicked, this, &command, CANCEL);
+      connect_to_method (get_ok_button ()->clicked, this, &XFileDialog::command, OK);
+      connect_to_method (get_cancel_button ()->clicked, this, &XFileDialog::command, CANCEL);
 #endif
       show (); }
 
