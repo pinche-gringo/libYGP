@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Parse.html,v 1.16 2002/12/12 17:55:04 markus Exp $ -->
+<!-- $Id: Parse.html,v 1.17 2002/12/13 04:34:54 markus Exp $ -->
 
 <html>
   <head>
@@ -1380,7 +1380,8 @@
     <hr>
     <pre><a name="checkValue"></a>int <b>checkValue</b> (char ch)</pre>
     <dl>
-      <dd><p>Checks if the parsed value is according the abort-list of the object.</p></dd>
+      <dd><p>Checks if the parsed value is according the abort-list of the object.</p>
+        <p>Valid are every characters <b>not</b> in <code>pValue</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>ch</code>: Char to check<dd>
       </dl><dd>
@@ -1486,7 +1487,7 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
       </dl><dd>
     </dl>
 
@@ -1587,7 +1588,7 @@
     <hr>
     <pre><a name="OFTxtoperator="></a>OFParseText&amp; <b>operator=</b> (const OFParseText&amp; other)</pre>
     <dl>
-      <dd><p>Copy-constructor</p></dd>
+      <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to clone<dd>
       </dl><dd>
@@ -1638,8 +1639,8 @@
       is not succeeded by a certain (defined) character.</p>
 
     <p>This class enables parsing analogue to strings in C. A C-string is
-      terminated with a quote ("), except if the quote follows a backslash (\).
-      The only difference is that both quote and backslash can be specified and
+      terminated with a quote (&quot;), except if the quote follows a single backslash
+      (\). The only difference is that both quote and backslash can be specified and
       therefor be every charcter.</p>
 
     <hr noshade>
@@ -1666,27 +1667,57 @@
 
     <hr noshade>
     <h2>Member descriptions</h2>
-
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="ParseTextEsc1"></a>ParseTextEsc (const char* abort, const char* description, unsigned int max,
-              unsigned int min = 1, char escape = '\\', bool skipWhitespace = true)</pre>
+    <pre><a name="ParseTextEsc1"></a> <b>ParseTextEsc</b> (const char* abort, const char* description, unsigned int max, unsigned int min, char escape, bool skipWhitespace, bool reportData)</pre>
     <dl>
-      <dd><p>Constructor; sets the neccessary data of this object.</p>
-        <p>The parameter <i>abort</i> specifies the characters which ends the
-          parsing for this object (if it is not succeeded by the character
-          defined with the parameter <i>escape</i>).</p></dd>
+      <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>abort</code>: List of valid characters<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>escape</code>: Character which escapes characters in value<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object<dd>
+          <dd><code>reportData</code>: Flag if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>abort != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-
-    <pre><a name="ParseTextEsc2"></a>ParseTextEsc (const ParseTextEsc&amp; other)</pre>
-    <pre><a name="~ParseTextEsc"></a>virtual ~ParseTextEsc ()</pre>
-
-    <pre><a name="POTxEoperator="></a>ParseTextEsc&amp; operator= (const ParseTextEsc&amp; other)</pre>
-
-    <pre><a name="POTxEcheckValue"></a>virtual bool checkValue (char ch)</pre>
+    <hr>
+    <pre><a name="ParseTextEsc2"></a><b>ParseTextEsc</b> (const ParseTextEsc&amp; other)</pre>
     <dl>
-      <dd>Checks if the parsed value is according the abort-list of the object.
-        If the parsed character is inside the list and not succeeded by the
-        escape-character, false is returned; if not true.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseTextEsc"></a>virtual <b>~ParseTextEsc</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POTxEoperator="></a>ParseTextEsc&amp; <b>operator=</b> (const ParseTextEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POTxEcheckValue"></a>int <b>checkValue</b> (char ch)</pre>
+    <dl>
+      <dd><p>Checks if the parsed value is according the abort-list of the object.</p>
+        <p>Valid are every characters <b>not</b> in <code>pValue</code> or even those if they
+          are preceeded ("escaped") by the character specified by
+          escape (unless this itself is preceeded by itself).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ch</code>: Char to check<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>boolean: Result; 1 if valid, 0 if not or -1 if character should be ignored</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseTextEsc"></a>
@@ -1742,26 +1773,68 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="CBParseTextEsc1"></a>CBParseTextEsc (const char* abort, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+    <pre><a name="CBParseTextEsc1"></a><b>CBParseTextEsc</b> (const char* abort, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
                 unsigned int max, unsigned int min = 1, char escape = '\\',
                 bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>escape</code>: Character which escapes characters in value<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseTextEsc2"></a>CBParseTextEsc (const CBParseText&amp; other)</pre>
-    <pre><a name="~CBParseTextEsc"></a>virtual ~CBParseTextEsc ()</pre>
-    <pre><a name="CBTxEoperator="></a>CBParseTextEsc&amp; operator= (const CBParseTextEsc&amp; other)</pre>
-
-    <pre><a name="CBTxEsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <hr>
+    <pre><a name="CBParseTextEsc2"></a><b>CBParseTextEsc</b> (const CBParseTextEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseTextEsc"></a> <b>~CBParseTextEsc</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBTxEoperator="></a>CBParseTextEsc&amp; <b>operator=</b> (const CBParseTextEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBTxEsetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
     <dl>
       <dd>Changes the callback to the passed parameter.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="CBTxEfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback with the passed parameter and returns its
-        result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="OMParseTextEsc"></a>
@@ -1811,21 +1884,62 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="OFParseTextEsc1"></a>OFParseTextEsc (const char* abort, const char* description, T&amp; objToNotify,
+    <pre><a name="OFParseTextEsc1"></a><b>OFParseTextEsc</b> (const char* abort, const char* description, T&amp; objToNotify,
                 <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max, unsigned int min = 1,
                 char escape = '\\', bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.</dd>
+      <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>escape</code>: Character which escapes characters in value<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseTextEsc2"></a>OFParseTextEsc (const OFParseTextEsc&amp; other)</pre>
-    <pre><a name="~OFParseTextEsc"></a>virtual ~OFParseTextEsc ()</pre>
-    <pre><a name="OFTxEoperator="></a>OFParseTextEsc&amp; operator= (const OFParseTextEsc&amp; other)</pre>
+    <hr>
+    <pre><a name="OFParseTextEsc2"></a><b>OFParseTextEsc</b> (const OFParseTextEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseTextEsc"></a><b>~OFParseTextEsc</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFTxEoperator="></a>OFParseTextEsc&amp; <b>operator=</b> (const OFParseTextEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="OFTxEfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFTxEfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback of the specified object with the passed
-        parameter and returns its result.</dd>
+      <dd><p>Calls the defined callback of the specified object with the passed
+        parameter and returns its result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd></dd>
     </dl>
 
     <hr noshade><a name="ParseExact"></a>
@@ -1853,12 +1967,13 @@
 
     <p>The min- and max-members are not totally wasted; they could be
       used to define the minimal length of certain keywords which would
-      be valid even if just written in a short(er) form (although the
+      be valid even if just written in a short(er) form and/or to include
+      values with a zero ('\0') character into the value to parse (although the
       main reason for them is that I didn't want to re-consider the
       class-hierarchy anymore).</p>
 
-    <p><b>Note</b>: This class uses <i>strlen</i> to get the length of value
-      so don't use it to check for text with a '\0' inside!</p>
+    <p><b>Note</b>: This class uses <code>strlen</code> to get the length of value
+      so don't use its first constructor to check for text with a '\0' inside!</p>
 
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
@@ -1891,29 +2006,80 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="ParseExact1"></a>ParseExact (const char* value, const char* description, bool skipWhitespace = true)</pre>
-    <pre><a name="ParseExact2"></a>ParseExact (const char* value, const char* description, unsigned int max,
+    <pre><a name="ParseExact1"></a> <b>ParseExact</b> (const char* value, const char* description, bool skipWhitespace, bool reportData)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data of this object</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="ParseExact2"></a><b>ParseExact</b> (const char* value, const char* description, unsigned int max,
             unsigned int min, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
-        minimal length of a keyword. This word would be valid if at least min
-        characters would be parsed, but other (longer) versions of the word
-        would also be valid.</dd>
+      <dd><p>Constructor; sets the neccessary data of this object</p>
+        <p>The parameters <code>min</code> and <code>max</code> could be used to define a
+          minimal length of a keyword. This word would be valid if at least min
+          characters would be parsed, but other (longer) versions of the word
+          would also be valid.</p>
+        <p>Another possible usage is to add the zero character (`\0') into the value
+          to parse.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-
-    <pre><a name="ParseExact3"></a>ParseExact (const ParseExact&amp; other)</pre>
-    <pre><a name="~ParseExact"></a>virtual ~ParseExact ()</pre>
-
-    <pre><a name="POExaoperator="></a>ParseExact&amp; operator= (const ParseExact&amp; other)</pre>
-
-    <pre><a name="POExacheckValue"></a>virtual bool checkValue (char ch)</pre>
+    <hr>
+    <pre><a name="ParseExact3"></a><b>ParseExact</b> (const ParseExact&amp; other)</pre>
     <dl>
-      <dd>Retruns true, if the passed character is exactly equal (case-sensitive!)
-        than the one in the actual position of the object; else false.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="POExacheckIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <hr>
+    <pre><a name="~ParseExact"></a> <b>~ParseExact</b> ()</pre>
     <dl>
-      <dd>Checks if this object is in a valid state.</dd>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POExaoperator="></a>ParseExact&amp; <b>operator=</b> (const ParseExact&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POExacheckValue"></a>int <b>checkValue</b> (char ch)</pre>
+    <dl>
+      <dd><p>Checks if the passed character is exactly equal (case-sensitive!)
+        than the one in the actual position of the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ch</code>: Char to check<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>boolean: Result; true if valid</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POExacheckIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
+    <dl>
+      <dd><p>Checks the constraints of the object</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseExact"></a>
@@ -1972,31 +2138,88 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="CBParseExact1"></a>CBParseExact (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+    <pre><a name="CBParseExact1"></a><b>CBParseExact</b> (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
               bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback.</dd>
+      <dd>Constructor; sets the neccessary data for this object.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseExact2"></a>CBParseExact (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+    <hr>
+    <pre><a name="CBParseExact2"></a><b>CBParseExact</b> (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
               unsigned int max, unsigned int min, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback. With the <i>min</i>- and <i>max</i>-
-        parameters it is possible to parse abbreviable keywords.</dd>
+      <dd><p>Constructor; sets the neccessary data of this object</p>
+        <p>The parameters <code>min</code> and <code>max</code> could be used to define a
+          minimal length of a keyword. This word would be valid if at least min
+          characters would be parsed, but other (longer) versions of the word
+          would also be valid.</p>
+        <p>Another possible usage is to add the zero character (`\0') into the value
+          to parse.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseExact3"></a>CBParseExact (const CBParseExact&amp; other)</pre>
-    <pre><a name="~CBParseExact"></a>virtual ~CBParseExact ()</pre>
-    <pre><a name="CBExaoperator="></a>CBParseExact&amp; operator= (const CBParseExact&amp; other)</pre>
-
-    <pre><a name="CBExasetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <hr>
+    <pre><a name="CBParseExact3"></a><b>CBParseExact</b> (const CBParseExact&amp; other)</pre>
     <dl>
-      <dd>Changes the callback to the passed parameter.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseExact"></a> <b>~CBParseExact</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBExaoperator="></a>CBParseExact&amp; <b>operator=</b> (const CBParseExact&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBExasetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="CBExafound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="CBExafound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback with the passed parameter and returns its
-        result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="OMParseExact"></a>
@@ -2051,27 +2274,81 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="OFParseExact1"></a>OFParseExact (const char* value, const char* description, T&amp; objToNotify,
+    <pre><a name="OFParseExact1"></a><b>OFParseExact</b> (const char* value, const char* description, T&amp; objToNotify,
               <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.</dd>
+      <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseExact2"></a>OFParseExact (const char* value, const char* description, T&amp; objToNotify,
+    <hr>
+    <pre><a name="OFParseExact2"></a><b>OFParseExact</b> (const char* value, const char* description, T&amp; objToNotify,
               <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max,
               unsigned int min, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback. With the <i>min</i>- and <i>max</i>-
-        parameters it is possible to parse abbreviable keywords.</dd>
+      <dd><p>Constructor setting the object to notify and its callback-method.</p>
+        <p>The parameters <code>min</code> and <code>max</code> could be used to define a
+          minimal length of a keyword. This word would be valid if at least min
+          characters would be parsed, but other (longer) versions of the word
+          would also be valid.</p>
+        <p>Another possible usage is to add the zero character (`\0') into the value
+          to parse.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseExact3"></a>OFParseExact (const OFParseExact&amp; other)</pre>
-    <pre><a name="~OFParseExact"></a>virtual ~OFParseExact ()</pre>
-    <pre><a name="OFExaoperator="></a>OFParseExact&amp; operator= (const OFParseExact&amp; other)</pre>
+    <pre><a name="OFParseExact3"></a><b>OFParseExact</b> (const OFParseExact&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseExact"></a><b>~OFParseExact</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFExaoperator="></a>OFParseExact&amp; <b>operator=</b> (const OFParseExact&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="OFExafound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFExafound"></a>int <b>found</b> (const char* pFoundValue)</pre>
     <dl>
-      <dd>Calls the defined callback of the specified object with the passed
-        parameter and returns its result.</dd>
+      <dd><p>Calls the defined callback of the specified object with the passed
+        parameter and returns its result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd></dd>
     </dl>
 
     <hr noshade><a name="ParseUpperExact"></a>
@@ -2098,12 +2375,13 @@
 
     <p>The min- and max-members are not totally wasted; they could be
       used to define the minimal length of certain keywords which would
-      be valid even if just written in a short(er) form (although the
+      be valid even if just written in a short(er) form and/or to include
+      values with a zero character ('\0') (although the
       main reason for them is that I didn't want to re-consider the
       class-hierarchy anymore).</p>
 
     <p><b>Note</b>: This class uses <i>strlen</i> to get the length of value
-      so don't use it to check for text with a '\0' inside!</p>
+      so don't its first constructor to check for text with a '\0' inside!</p>
 
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
@@ -2136,31 +2414,81 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="ParseUpperExact1"></a>ParseUpperExact (const char* value, const char* description,
+    <pre><a name="ParseUpperExact1"></a><b>ParseUpperExact</b> (const char* value, const char* description,
                  bool skipWhitespace = true)</pre>
-    <pre><a name="ParseUpperExact2"></a>ParseUpperExact (const char* value, const char* description, unsigned int max,
+    <dl>
+      <dd><p>Constructor; sets the neccessary data of this object</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="ParseUpperExact2"></a><b>ParseUpperExact</b> (const char* value, const char* description, unsigned int max,
                  unsigned int min, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
-        minimal length of a keyword. This word would be valid if at least min
-        characters would be parsed, but other (longer) versions of the word
-        would also be valid.</dd>
+      <dd><p>Constructor; sets the neccessary data of this object</p>
+        <p>The parameters <code>min</code> and <code>max</code> could be used to define a
+          minimal length of a keyword. This word would be valid if at least min
+          characters would be parsed, but other (longer) versions of the word
+          would also be valid.</p>
+        <p>Another possible usage is to add the zero character (`\0') into the value
+          to parse.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-
-    <pre><a name="ParseUpperExact3"></a>ParseUpperExact (const ParseUpperExact&amp; other)</pre>
-    <pre><a name="~ParseUpperExact"></a>virtual ~ParseUpperExact ()</pre>
-
-    <pre><a name="POUExoperator="></a>ParseUpperExact&amp; operator= (const ParseUpperExact&amp; other)</pre>
-
-    <pre><a name="POUExcheckValue"></a>virtual bool checkValue (char ch)</pre>
+    <hr>
+    <pre><a name="ParseUpperExact3"></a><b>ParseUpperExact</b> (const ParseUpperExact&amp; other)</pre>
     <dl>
-      <dd>Retruns true, if the passed character is exactly equal (not
-        case-sensitive!) than the one in the actual position of the object;
-        else false.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="POUExcheckIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <hr>
+    <pre><a name="~ParseUpperExact"></a> <b>~ParseUpperExact</b> ()</pre>
     <dl>
-      <dd>Checks if this object is in a valid state.</dd>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POUExoperator="></a>ParseUpperExact&amp; <b>operator=</b> (const ParseUpperExact&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POUExccheckValue"></a>int <b>checkValue</b> (char ch)</pre>
+    <dl>
+      <dd><p>Checks if the passed character is exactly equal (not case-sensitive!)
+        than the one in the actual position of the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ch</code>: Char to check<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>boolean: Result; true if valid</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POUExccheckIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
+    <dl>
+      <dd><p>Checks the constraints of the object</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseUpperExact"></a>
@@ -2219,32 +2547,89 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="CBParseUpperExact1"></a>CBParseUpperExact (const char* value, const char* description,
+    <pre><a name="CBParseUpperExact1"></a><b>CBParseUpperExact</b> (const char* value, const char* description,
                    <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback.</dd>
+      <dd>Constructor; sets the neccessary data for this object.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseUpperExact2"></a>CBParseUpperExact (const char* value, const char* description,
+    <hr>
+    <pre><a name="CBParseUpperExact2"></a><b>CBParseUpperExact</b> (const char* value, const char* description,
                    <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback, unsigned int max,
                    unsigned int min, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback. With the <i>min</i>- and <i>max</i>-
-        parameters it is possible to parse abbreviable keywords.</dd>
+      <dd><p>Constructor; sets the neccessary data of this object</p>
+        <p>The parameters <code>min</code> and <code>max</code> could be used to define a
+          minimal length of a keyword. This word would be valid if at least min
+          characters would be parsed, but other (longer) versions of the word
+          would also be valid.</p>
+        <p>Another possible usage is to add the zero character (`\0') into the value
+          to parse.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseUpperExact3"></a>CBParseUpperExact (const CBParseUpperExact&amp; other)</pre>
-    <pre><a name="~CBParseUpperExact"></a>virtual ~CBParseUpperExact ()</pre>
-    <pre><a name="CBUExoperator="></a>CBParseUpperExact&amp; operator= (const CBParseUpperExact&amp; other)</pre>
-
-    <pre><a name="CBUExsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <hr>
+    <pre><a name="CBParseUpperExact3"></a><b>CBParseUpperExact</b> (const CBParseUpperExact&amp; other)</pre>
     <dl>
-      <dd>Changes the callback to the passed parameter.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseUpperExact"></a> <b>~CBParseUpperExact</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBUExoperator="></a>CBParseUpperExact&amp; <b>operator=</b> (const CBParseUpperExact&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBUExsetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="CBUExfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback with the passed parameter and returns its
-        result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="OMParseUpperExact"></a>
@@ -2300,28 +2685,82 @@
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="OFParseUpperExact1"></a>OFParseUpperExact (const char* value, const char* description, T&amp; objToNotify,
+    <pre><a name="OFParseUpperExact1"></a><b>OFParseUpperExact</b> (const char* value, const char* description, T&amp; objToNotify,
                    <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.</dd>
+      <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseUpperExact2"></a>OFParseUpperExact (const char* value, const char* description, T&amp; objToNotify,
+    <hr>
+    <pre><a name="OFParseUpperExact2"></a><b>OFParseUpperExact</b> (const char* value, const char* description, T&amp; objToNotify,
                    <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max,
                    unsigned int min, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.
-        With the <i>min</i>- and <i>max</i>- parameters it is possible to
-        parse abbreviable keywords.</dd>
+      <dd><p>Constructor setting the object to notify and its callback-method.</p>
+        <p>The parameters <code>min</code> and <code>max</code> could be used to define a
+          minimal length of a keyword. This word would be valid if at least min
+          characters would be parsed, but other (longer) versions of the word
+          would also be valid.</p>
+        <p>Another possible usage is to add the zero character (`\0') into the value
+          to parse.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseUpperExact3"></a>OFParseUpperExact (const OFParseUpperExact&amp; other)</pre>
-    <pre><a name="~OFParseUpperExact"></a>virtual ~OFParseUpperExact ()</pre>
-    <pre><a name="OFUExoperator="></a>OFParseUpperExact&amp; operator= (const OFParseUpperExact&amp; other)</pre>
+    <hr>
+    <pre><a name="OFParseUpperExact3"></a><b>OFParseUpperExact</b> (const OFParseUpperExact&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseUpperExact"></a><b>~OFParseUpperExact</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFUExoperator="></a>OFParseUpperExact&amp; <b>operator=</b> (const OFParseUpperExact&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="OFUExfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFUExfound"></a>int <b>found</b> (const char* pFoundValue)</pre>
     <dl>
-      <dd>Calls the defined callback of the specified object with the passed
-        parameter and returns its result.</dd>
+      <dd><p>Calls the defined callback of the specified object with the passed
+        parameter and returns its result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd></dd>
     </dl>
 
     <hr noshade><a name="ParseSequence"></a>
@@ -2813,127 +3252,6 @@
 
 
 
-    <pre><a name="ParseTextEsc"></a> <b>ParseTextEsc</b> (const char* abort, const char* description, unsigned int max, unsigned int min, char escape, bool skipWhitespace, bool reportData)</pre>
-    <dl>
-      <dd><p>Constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: List of valid characters<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality<dd>
-          <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>escape</code>: Character which escapes chars in value<dd>
-          <dd><code>skipWhitespace</code>: Flag if TRAILING WS are skipped<dd>
-          <dd><code>reportData</code>: Flag if data should be stored and reported<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Requires</b></dt>
-          <dd>value != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseTextEsc"></a> <b>ParseTextEsc</b> (const ParseTextEsc&amp; other)</pre>
-    <dl>
-      <dd><p>Copy-constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-    </dl>
-    <hr>
-    <pre><a name="~ParseTextEsc"></a> <b>~ParseTextEsc</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>ParseTextEsc&amp; <b>operator=</b> (const ParseTextEsc&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkValue"></a>int <b>checkValue</b> (char ch)</pre>
-    <dl>
-      <dd><p>Checks if the passed character is valid acc. to pValue. This is true if ch doesn't match any character in the list (except
- if it is escaped by the passed escape-character
-</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>boolean: Result; true if valid</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseExact"></a> <b>ParseExact</b> (const char* value, const char* description, bool skipWhitespace, bool reportData)</pre>
-    <dl>
-      <dd><p>Constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: List of valid characters<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>skipWhitespace</code>: Flag if TRAILING WS are skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Requires</b></dt>
-          <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~ParseExact"></a> <b>~ParseExact</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>ParseExact&amp; <b>operator=</b> (const ParseExact&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkValue"></a>int <b>checkValue</b> (char ch)</pre>
-    <dl>
-      <dd><p>Checks if the passed character is valid acc. to pValue. This is true, if
-</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>boolean: Result; true if valid</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
-    <dl>
-      <dd><p>Checks the constraints of the object</p></dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~ParseUpperExact"></a> <b>~ParseUpperExact</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkValue"></a>int <b>checkValue</b> (char ch)</pre>
-    <dl>
-      <dd><p>Checks if the passed character is valid acc. to pValue. This is true if  ch matches the char in pValue in the same position
- (not case-sensitive)
-</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>boolean: Result; true if valid</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
-    <dl>
-      <dd><p>Checks the constraints of the object</p></dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
     <pre><a name="ParseSequence"></a> <b>ParseSequence</b> (ParseObject* apObjectList[], const char* description, unsigned int max, unsigned int min, bool skipWhitespace)</pre>
     <dl>
       <dd><p>Constructor</p></dd>
@@ -2942,7 +3260,7 @@
           <dd><code>description</code>: Description of object (what it parses)<dd>
           <dd><code>max</code>: Maximal cardinality<dd>
           <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>skipWhitespace</code>: Flag if TRAILING WS are skipped<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
       </dl><dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
@@ -2999,7 +3317,7 @@
           <dd><code>description</code>: Description of object (what it parses)<dd>
           <dd><code>max</code>: Maximal cardinality<dd>
           <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>skipWhitespace</code>: Flag if TRAILING WS are skipped<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
       </dl><dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
@@ -3039,84 +3357,6 @@
           <dd>PARSE_OK if selection found; PARSE_ERROR if notNote        : If a hard error occured or any error for not-<code>optional</code>
  sequences, an exception is thrown
 </dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~CBParseTextEsc"></a> <b>~CBParseTextEsc</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>CBParseTextEsc&amp; <b>operator=</b> (const CBParseTextEsc&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Callback if an object was found</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~CBParseExact"></a> <b>~CBParseExact</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>CBParseExact&amp; <b>operator=</b> (const CBParseExact&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Callback if an object was found</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~CBParseUpperExact"></a> <b>~CBParseUpperExact</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>CBParseUpperExact&amp; <b>operator=</b> (const CBParseUpperExact&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Callback if an object was found</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="~CBParseSequence"></a> <b>~CBParseSequence</b> ()</pre>
