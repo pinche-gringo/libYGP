@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.6 2003/01/15 01:26:56 markus Exp $
+# $Id: mgeni,v 1.7 2003/02/21 19:51:30 markus Exp $
 
 # Script to generate metainfo for attributes to classes
 
@@ -22,6 +22,12 @@ offset=0
 
 usage () {
     echo "Generates metainfo for (certain marked) attributes in a class"
+    echo "This attributes must have an entry like"
+    echo
+    echo "  %attrib%; <Name>; <Defaultvalue>"
+    echo
+    echo "in a C/C++-comment in a line of a variable declaration (Any of those"
+    echo "values can be missing)."
     echo
     echo "Usage:"
     echo "    ${0##*/} [<Option>] <inputfile> [<outputfile>]"
@@ -42,7 +48,7 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.6 $'
+            rev='$Revision: 1.7 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
