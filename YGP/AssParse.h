@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.7 2003/07/10 21:24:58 markus Exp $
+//$Id: AssParse.h,v 1.8 2003/07/16 06:59:59 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 /**Class to split a string of assignments into its single parts
 
-   The single assignments are seperated with a semicolon (;) and look like
+   The single assignments are separated with a semicolon (;) and look like
    <tt>key=value</tt> or <tt>key="value"</tt>.
 
    Quoted values (as in the second example) can still contain the quotes, if
