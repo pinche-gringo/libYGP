@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.24 1999/11/19 00:10:31 Markus Exp $
+// $Id: Test.cpp,v 1.25 2000/01/21 23:39:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -81,7 +81,7 @@ class test {
 
 class Application : public IVIOApplication {
  public:
-   Application (const int argc, char* argv[])
+   Application (const int argc, const char* argv[])
      : IVIOApplication (argc, argv, lo), cOptions (0) { }
   ~Application () { }
 
@@ -89,7 +89,7 @@ class Application : public IVIOApplication {
    virtual bool handleOption (const char option);
 
    // Program-handling
-   virtual int         perform (int argc, char* argv[]);
+   virtual int         perform (int argc, const char* argv[]);
    virtual const char* name () const { return "Test"; }
    virtual const char* description () const { return VERSION; }
 
@@ -150,7 +150,7 @@ void Application::showHelp () const {
           "The number of options and arguments are displayed\n";
 }
 
-int Application::perform (int argc, char* argv[]) {
+int Application::perform (int argc, const char* argv[]) {
    cout << "Testing IVIOApplication...\n";
    cout << "    " << cOptions << " options and " << argc
         << " arguments passed\n";
@@ -263,6 +263,9 @@ int Application::perform (int argc, char* argv[]) {
 
    today.sub (0, 1);
    check (today < ADate::today ());
+   today.add (0, 1);
+   check (today == ADate::today ());
+   today.sub (0, 1);
    today -= ADate::today ();
 
    today.setYear (2000);
@@ -402,6 +405,6 @@ int Application::dirSearchRecursive (const char* pFile) const {
 int main (int argc, char* argv[]) {
    setlocale (LC_ALL, "");                         // Activate current locale
 
-   Application appl (argc, argv);
+   Application appl (argc, const_cast<const char**> (argv));
    return appl.run ();
 }
