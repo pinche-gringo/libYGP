@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.25 2002/10/20 05:36:05 markus Exp $
+//$Id: Parse.h,v 1.26 2002/10/22 02:42:48 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -123,7 +123,7 @@ class ParseEOF : public ParseObject {
 //       * ... Any character is valid
 //
 // The members maxCard and minCard specify how many characters the object
-// can or must have. If there are elss matching characters parsed, the object
+// can or must have. If there are less matching characters parsed, the object
 // is considered as not found; after reaching the upper border, parsing is
 // stopped for this object.
 //
@@ -311,6 +311,97 @@ class ParseUpperExact : public ParseExact {
  private:
    // Prohibited manager functions
    ParseUpperExact ();
+};
+
+
+// Class to parse text which is definitely not used in a callback
+//
+// Actually a not very usefull thing; but if you use multiple parse buffers
+// and parse in threads you might run out of space with the design of
+//  ParseAttomic (as this stores the input).
+class ParseIgnore : public ParseAttomic {
+ public:
+   // Manager-functions
+   ParseIgnore (const char* value, const char* description,
+                unsigned int max = 1, bool zeroLength = false,
+                bool skipWhitespace = true)
+      : ParseAttomic (value, description, max, zeroLength ? 0 : 1, skipWhitespace) { }
+   ParseIgnore (const ParseIgnore& other) : ParseAttomic (other) { }
+   virtual ~ParseIgnore ();
+
+   ParseIgnore& operator= (const ParseIgnore& other) {
+      return (ParseIgnore&)ParseAttomic::operator= (other); }
+
+   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
+
+ private:
+   // Prohibited manager functions
+   ParseIgnore ();
+};
+
+
+// Class to parse text until specified abot-characters are found.
+//
+// Parsing of this element is stopped, if any of the characters in the
+// abort-parameters is found (or the maximal cardinality is reached).
+//
+// As with ParseIgnore, there is no callback if the text was found.
+class ParseTextIgnore : public ParseIgnore {
+ public:
+   // Manager-functions
+   ParseTextIgnore (const char* abort, const char* description,
+                    unsigned int max, bool zeroLength = false,
+                    bool skipWhitespace = true)
+      : ParseIgnore (abort, description, max, zeroLength, skipWhitespace) { }
+   ParseTextIgnore (const ParseTextIgnore& other) : ParseIgnore (other) { }
+   virtual ~ParseTextIgnore ();
+
+   ParseTextIgnore& operator= (const ParseTextIgnore& other) {
+      return (ParseTextIgnore&)ParseIgnore::operator= (other); }
+
+ protected:
+   virtual bool checkValue (char ch);
+
+ private:
+   // Prohibited manager functions
+   ParseTextIgnore ();
+};
+
+
+// Class to parse text til a certain abort-criteria (as in
+// ParseText). However, parsing is continued if those characters are
+// preceeded by a escape-character (which "escapes" the special
+// meaning of that character).
+//
+// Parsing of this element is stopped, if any of the characters in the
+// abort-parameters is found (or the maximal cardinality is reached).
+//
+// This class enables parsing analogue to strings in C. A C-string is
+// terminated with a quote ("), except if the quote follows a
+// backslash (\).  The only difference is that both quote and
+// backslash can be specified and therefor be every charcter.
+//
+// As with ParseIgnore, there is no callback if the text was found.
+class ParseTextEscIgnore : public ParseTextIgnore {
+ public:
+   // Manager-functions
+   ParseTextEscIgnore (const char* abort, const char* description,
+                       unsigned int max, bool zeroLength = false,
+                       char escape = '\\', bool skipWhitespace = true);
+   ParseTextEscIgnore (const ParseTextEscIgnore& other);
+   virtual ~ParseTextEscIgnore ();
+
+   ParseTextEscIgnore& operator= (const ParseTextEscIgnore& other);
+
+ protected:
+   virtual bool checkValue (char ch);
+
+   char esc;
+   char last;
+
+ private:
+   // Prohibited manager functions
+   ParseTextEscIgnore ();
 };
 
 

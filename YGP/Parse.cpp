@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.26 2002/10/20 05:36:05 markus Exp $
+//$Id: Parse.cpp,v 1.27 2002/10/22 02:42:48 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -551,6 +551,150 @@ int ParseUpperExact::checkIntegrity () const {
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseIgnore::~ParseIgnore () {
+   TRACE9 ("ParseIgnore::~ParseIgnore (): " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Tries to parse the object from the stream
+//Parameters  : stream: Source from which to read
+//              optional: Flag, if node must be found
+/*--------------------------------------------------------------------------*/
+int ParseIgnore::doParse (Xistream& stream, bool optional) throw (std::string) {
+   TRACE1 ("ParseIgnore::doParse (Xistream&, bool) -> " << getDescription ());
+   assert (!checkIntegrity ());
+
+   int ch (0);
+   unsigned int i (0);
+   while (i < maxCard) {                     // While not max. card is reached
+      ch = stream.get ();
+      TRACE6 ("ParseIgnore::doParse (Xistream&, bool) -> "
+              << getDescription () << " -> " << (char)ch);
+
+      if (ch == EOF)
+         break;
+
+      if (!checkValue ((char)ch)) {                // Read and check next char
+         stream.putback ((char)ch);
+         break;
+      }
+      ++i;
+   } // end-while !maximal cardinality
+
+   TRACE2 ("ParseIgnore::doParse (Xistream&, bool) -> " << getDescription ()
+           << ": Found " << i << " character(s)");
+   skipWS (stream);
+   return minCard ? (i ? PARSE_OK : PARSE_ERROR) : PARSE_OK;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseTextIgnore::~ParseTextIgnore () {
+   TRACE9 ("ParseTextIgnore::~ParseTextIgnore (): " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Checks if the passed character is valid acc. to pValue. This
+//              is true if ch doesn't match any character in the list.
+//Parameters  : ch: Char to check
+//Returns     : boolean: Result; true if valid
+/*--------------------------------------------------------------------------*/
+bool ParseTextIgnore::checkValue (char ch) {
+   TRACE8 ("ParseTextIgnore::checkValue (char) - " << getDescription () << ' ' << ch);
+
+   const char* pHelp = pValue; assert (pHelp);
+   while (*pHelp) {
+      if (*pHelp++ == ch)
+	 return false;
+   } // endwhile chars available
+
+   return true;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Constructor
+//Parameters  : abort: List of valid characters
+//              description: Description of object (what it parses)
+//              max: Maximal cardinality
+//              zeroLength: Flag, if 0 characters are valid
+//              escape: Character which escapes chars in value
+//              skipWhitespace: Flag if TRAILING WS are skipped
+//Requires    : value != NULL && !ParseObject::checkIntegrity ()
+/*--------------------------------------------------------------------------*/
+ParseTextEscIgnore::ParseTextEscIgnore (const char* abort, const char* description,
+                                        unsigned int max, bool zeroLength, char escape,
+                                        bool skipWhitespace)
+   : ParseTextIgnore (abort, description, max, zeroLength, skipWhitespace)
+   , esc (escape), last (!escape) {
+   TRACE9 ("Creating ParseTextEscIgnore " << getDescription ());
+};
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Copy-constructor
+//Parameters  : other: Object to clone
+/*--------------------------------------------------------------------------*/
+ParseTextEscIgnore::ParseTextEscIgnore (const ParseTextEscIgnore& other)
+   : ParseTextIgnore (other), esc (other.esc), last (!other.esc) {
+   TRACE9 ("Copying ParseTextEscIgnore " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseTextEscIgnore::~ParseTextEscIgnore () {
+   TRACE9 ("ParseTextEscIgnore::~ParseTextEscIgnore: " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference of this
+/*--------------------------------------------------------------------------*/
+ParseTextEscIgnore& ParseTextEscIgnore::operator= (const ParseTextEscIgnore& other) {
+   TRACE8 ("ParseTextExactIgnore::operator= (const ParseTextEscIgnore&) - "
+           << getDescription ());
+
+   if (&other != this) {
+      esc = other.esc;
+      last = !other.esc;
+      ParseTextIgnore::operator= (other);
+   } // endif other object
+
+   assert (!checkIntegrity ());
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Checks if the passed character is valid acc. to pValue. This
+//              is true if ch doesn't match any character in the list (except
+//              if it is escaped by the passed escape-character
+//Parameters  : ch: Char to check
+//Returns     : boolean: Result; true if valid
+/*--------------------------------------------------------------------------*/
+bool ParseTextEscIgnore::checkValue (char ch) {
+   TRACE8 ("ParseTextEscIgnore::checkValue (char) - " << getDescription () << ' ' << ch);
+
+   const char* pHelp = pValue; assert (pHelp);
+   while (*pHelp) {
+      if ((*pHelp == ch) && (last != esc)) {
+         last = !esc;
+	 return false;
+      } // endif
+
+      ++pHelp;
+      last = ch;
+   } // endwhile chars available
+
+   return true;
+}
+
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Constructor
 //Parameters  : pObjectList: NULL-terminated array of objects to parse
 //              description: Description of object (what it parses)
@@ -646,7 +790,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
    if (!rc)               // Report found of object  with sequence-description
       rc = found (getDescription (), strlen (getDescription ()));
 
-   if ((rc < 0) || (rc && !optional)) {
+   if ((rc < 0) || (rc && !(optional && (ppAct == ppList)))) {
       std::string error;
       error = _(*ppAct ? "Error in sequence %1; Expected: %2" : "Error in sequence %1");
       error.replace (error.find ("%1"), 2, getDescription ());
