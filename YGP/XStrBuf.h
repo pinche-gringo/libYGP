@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.17 2002/12/15 22:23:15 markus Rel $
+// $Id: XStrBuf.h,v 1.18 2003/02/13 07:20:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,15 +26,13 @@
 #  include <iosfwd>
 #  include <streambuf>
 
-#  ifdef _MSC_VER
+#  if defined (_MSC_VER) || defined (__BORLANDC__)
       typedef std::ios_base::seekdir _seek_dir;
 #  endif
 #endif
 
 #include <Check.h>
 
-
-using namespace std;
 
 // Extended streambuf, designed to parse text.
 //
@@ -53,12 +51,12 @@ using namespace std;
 // ATTENTION: A wee bit of overhandling neccessary! Although extStreambuf is
 // derived from streambuf another streambuf* as member is needed (at least
 // I was not able to figure out another way)
-class extStreambuf : public streambuf {
+class extStreambuf : public std::streambuf {
  public:
    // Manager-functions
    extStreambuf ();
-   extStreambuf (streambuf& source);
-   extStreambuf (streambuf* source);
+   extStreambuf (std::streambuf& source);
+   extStreambuf (std::streambuf* source);
    virtual ~extStreambuf ();
 
    // Error-handling (buffer over/underflow and putback-failure)
@@ -67,12 +65,14 @@ class extStreambuf : public streambuf {
    virtual int pbackfail (int c);
 
    // Position handling
-   virtual streampos seekoff(streamoff, _seek_dir, int mode=ios::in|ios::out);
-   virtual streampos seekpos(streampos pos, int mode = ios::in|ios::out);
+   virtual std::streampos seekoff (std::streamoff, _seek_dir,
+                                   int mode=std::ios::in|std::ios::out);
+   virtual std::streampos seekpos (std::streampos pos,
+                                  int mode = std::ios::in|std::ios::out);
 
    // Setting of data-sink
-   void setSource (streambuf* source) { Check1 (source); pSource = source; }
-   void setSource (streambuf& source) { pSource = &source; }
+   void setSource (std::streambuf* source) { Check1 (source); pSource = source; }
+   void setSource (std::streambuf& source) { pSource = &source; }
 
    // Accessing values
    unsigned int getLine () const { return line; }
@@ -95,8 +95,8 @@ class extStreambuf : public streambuf {
    unsigned int line;
    int          pushbackOffset;
 
-   streambuf* pSource;
-   char*      pBuffer;
+   std::streambuf* pSource;
+   char*           pBuffer;
 };
 
 

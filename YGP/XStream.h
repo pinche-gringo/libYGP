@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.13 2002/12/15 22:23:30 markus Rel $
+// $Id: XStream.h,v 1.14 2003/02/13 07:20:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,19 +50,21 @@ template <class T> struct extStream : private extStreambuf, public T {
    extStream () : extStreambuf (), T (), oldBuf (NULL) { }
    extStream (const T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
    ~extStream () {
-#if defined __BORLANDC__
-      ios::bp = oldBuf;         // rdbuf (buffer) not defined in old iostreams
+#ifdef _MSC_VER
+      typedef std::ios sios;
+      sios::rdbuf (oldBuf);
 #else
-      ios::rdbuf (oldBuf);
+      std::ios::rdbuf (oldBuf);
 #endif
    }
 
    void init () {
       setSource (oldBuf = rdbuf ());
-#if defined (__BORLANDC__)
-      ios::bp = this;           // rdbuf (buffer) not defined in old iostreams
+#ifdef _MSC_VER
+      typedef std::ios sios;
+      sios::rdbuf (this);
 #else
-      ios::rdbuf (this);
+      std::ios::rdbuf (this);
 #endif
    }
 
@@ -75,9 +77,8 @@ template <class T> struct extStream : private extStreambuf, public T {
    extStream (const extStream&);
    const struct extStream& operator= (const extStream&);
 
-   streambuf* oldBuf;
+   std::streambuf* oldBuf;
 };
-
 
 typedef extStream<std::istream> Xistream;
 typedef extStream<std::ifstream> Xifstream;

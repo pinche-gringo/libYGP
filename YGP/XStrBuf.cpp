@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.22 2002/12/15 22:23:15 markus Rel $
+// $Id: XStrBuf.cpp,v 1.23 2003/02/13 07:20:44 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -61,7 +61,7 @@ extStreambuf::extStreambuf ()
 //            from the provided source.
 //Parameters: source: Actual datasink to use
 /*--------------------------------------------------------------------------*/
-extStreambuf::extStreambuf (streambuf& source)
+extStreambuf::extStreambuf (std::streambuf& source)
    : line (0), pushbackOffset (-1), pSource (&source)
    , pBuffer (static_cast <char*> (malloc (lenBuffer))) {
    setbuf (pBuffer, lenBuffer);
@@ -72,7 +72,7 @@ extStreambuf::extStreambuf (streambuf& source)
 //            from the provided source.
 //Parameters: source: Actual datasink to use
 /*--------------------------------------------------------------------------*/
-extStreambuf::extStreambuf (streambuf* source)
+extStreambuf::extStreambuf (std::streambuf* source)
    : line (0), pushbackOffset (-1), pSource (source)
    , pBuffer (static_cast <char*> (malloc (lenBuffer))) {
    setbuf (pBuffer, lenBuffer);
@@ -92,7 +92,7 @@ extStreambuf::~extStreambuf () {
 //Parameters: ch: Char to write, causing the overflow
 //Returns   : int: EOF in case of error
 /*--------------------------------------------------------------------------*/
-int extStreambuf::overflow (int ch) {
+int extStreambuf::overflow (int) {
    Check (0);
    return EOF;
 }
@@ -202,7 +202,7 @@ int extStreambuf::pbackfail (int c) {
 //            mode: Which pointer to move (get, put)
 //Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
-streampos extStreambuf::seekoff (streamoff off, _seek_dir dir, int mode) {
+std::streampos extStreambuf::seekoff (std::streamoff off, _seek_dir dir, int mode) {
    TRACE8 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - " << off
            << "; " << dir << '/' << mode);
    Check1 (pSource);
@@ -211,7 +211,7 @@ streampos extStreambuf::seekoff (streamoff off, _seek_dir dir, int mode) {
    // pSource is already further (at end of line)
    if (dir == cur)
       off -= (egptr () - gptr ());
-   streampos pos (pSource->pubseekoff (off, dir, mode));
+   std::streampos pos (pSource->pubseekoff (off, dir, mode));
    setg (pBuffer, pBuffer + lenBuffer, pBuffer + lenBuffer);
    return pos;
 }
@@ -222,7 +222,7 @@ streampos extStreambuf::seekoff (streamoff off, _seek_dir dir, int mode) {
 //            mode: Which pointer to move (get, put)
 //Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
-streampos extStreambuf::seekpos (streampos pos, int mode) {
+std::streampos extStreambuf::seekpos (std::streampos pos, int mode) {
    TRACE8 ("extStreambuf::seekpos (streampos, mode)");
    Check1 (pSource);
    setg (pBuffer, pBuffer, pBuffer);
