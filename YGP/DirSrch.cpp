@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.34 2001/10/02 23:03:51 markus Exp $
+//$Id: DirSrch.cpp,v 1.35 2001/10/03 23:56:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -91,7 +91,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
    TRACE9 ("DirectorySearch::find (unsigned long)");
    cleanup ();
 
-   attr = convertToSysAttribs (attribs);
+   attr = attribs;
 
    TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str ()
 	   << searchFile.c_str ());
@@ -129,7 +129,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
    assert (!regExp.checkIntegrity ());
 
    // Attribut-handling: Files having attrs not specified here are not ret.
-   unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
+   unsigned long attr_ = ~convertToSysAttribs (attr | FILE_ATTRIBUTE_ARCHIVE);
 
    return ((pEntry->attributes () & attr_)
            || !regExp.matches (pEntry->name ()))
@@ -155,6 +155,8 @@ const File* DirectorySearch::next () {
 #if SYSTEM == UNIX
    assert (pDir);
 
+   unsigned long attr_ = convertToSysAttribs (attr);
+
    std::string workfile (pEntry->path_);
    std::string temp;
    struct dirent* pDirEnt;
@@ -170,8 +172,8 @@ const File* DirectorySearch::next () {
 	 if (!stat (temp.c_str (), &pEntry->status)) {
             // Do attributes match?
             TRACE9 ("DirectorySearch::next (): " << pDirEnt->d_name << " (" << hex
-                    << attr << ") -> Mode: " << hex << pEntry->status.st_mode);
-            if ((attr & pEntry->status.st_mode) == pEntry->status.st_mode) {
+                    << attr_ << ") -> Mode: " << hex << pEntry->status.st_mode);
+            if ((attr_ & pEntry->status.st_mode) == pEntry->status.st_mode) {
                pEntry->entry = *pDirEnt;
                pEntry->userExec = !access (temp.c_str (), X_OK);
                TRACE1 ("DirectorySearch::next () - match " << pEntry->name ());
