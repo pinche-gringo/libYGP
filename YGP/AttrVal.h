@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.11 2001/03/25 09:53:35 markus Exp $
+//$Id: AttrVal.h,v 1.12 2001/08/17 13:17:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 
 
 // Forward declarations
+class invalid_argument;
+
 
 // Base-class for all attribut-values
 class AttributValue {
@@ -43,14 +45,17 @@ class AttributValue {
 
    virtual std::string toString () const { return ""; }
    void toString (std::string& result) const { result = toString (); }
+   virtual std::string toUnformatedString () const { return toString (); }
+   void toUnformatedString (std::string& result) const {
+      result = toUnformatedString (); }
 
-   virtual void readFromStream (istream&) { }
+   virtual void readFromStream (istream&) throw (invalid_argument) { }
 
    friend ostream& operator>> (istream& in, AttributValue& inValue) {
       inValue.readFromStream (in); }
    friend ostream& operator<< (ostream& out, const AttributValue& outValue) {
       if (outValue.isDefined ())
-         out.operator<< (outValue.toString ().c_str ());
+         out.operator<< (outValue.toUnformatedString ().c_str ());
       return out; }
 
  private:
