@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.46 2004/11/05 04:15:53 markus Exp $
+//$Id: ANumeric.cpp,v 1.47 2004/11/05 15:37:36 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -201,7 +201,7 @@ std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const");
 #if defined HAVE_STRFMON && !defined HAVE_LIBGMP
    char str[40];
-   strfmon (str, sizeof (str), "%!i", (double)value);
+   strfmon (str, sizeof (str), "%!.0i", (double)value);
 #else
    std::string str;
 
