@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.19 2003/06/02 01:32:59 markus Rel $
+//$Id: XFileList.h,v 1.20 2003/07/20 08:16:41 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,17 +35,23 @@ namespace Gtk {
 class XFileList;
 
 
-// Class representing the (minimal) columns in the view
+/**Class representing the (minimal) columns in the (file) view.
+*/
 class FileColumns : public Gtk::TreeModel::ColumnRecord {
  public:
-   Gtk::TreeModelColumn <Glib::RefPtr<Gdk::Pixbuf> > icon;
-   Gtk::TreeModelColumn <std::string>                name;
+   Gtk::TreeModelColumn <Glib::RefPtr<Gdk::Pixbuf> > icon; ///< Icon for the file
+   Gtk::TreeModelColumn <std::string>                name; ///< Name of the file
 
    FileColumns () { add (icon); add (name); }
 };
 
 
-// Abstract baseclass for XFileStore
+/**Abstract baseclass for XFileStore.
+
+   This class provides the model for the XFileList widget; holding <a
+   href="../YGP/structFile.html">File</a> objects and providing access methods
+   to that object.
+ */
 class IFileStore {
  public:
    virtual ~IFileStore ();
@@ -55,9 +61,12 @@ class IFileStore {
 
    Gtk::TreeModel::iterator setIcon (Gtk::TreeModel::iterator row, const File& pFile);
 
+   /// Returns the columns of the model.
    const FileColumns& getColumns () const { return cols; }
 
+   /// Gets the name of the file for the specified line in the model.
    virtual std::string getFilename (unsigned int line) = 0;
+   /// Sets the file for the specified line in the model.
    virtual void setFilename (unsigned int line, const std::string& file) = 0;
 
  protected:
@@ -72,42 +81,58 @@ class IFileStore {
 };
 
 
-// Class for a (columned) list which holds files represented by an icon
-// and textual information.
-//
-// The icons of the files are loaded by default from all Icon_*.xpm-files in
-// the package-data-directory (/usr/local/share/General by default);
-// user-specified ones can be added to or overridden from this list.
-//
-// Note: Only the name is used to determine the icon; not the path!
-//
-// Template, to be used with any Gtk::TreeModel
+/**Class for a (columned) list which holds files represented by an icon
+   and textual information.
+
+   The icons of the files are loaded by default from all
+   <tt>Icon_*.xpm</tt>-files in the package-data-directory
+   (<tt>&lt;prefix&gt;/share/YGP</tt> by default); user-specified ones can be
+   added to or overridden from this list.
+
+   \note Only the file name is used to determine the icon; not the whole path!
+
+   Template, to be used with any Gtk::TreeModel.
+*/
 template <class Parent>
 class XFileStore : public Parent, public IFileStore {
    friend class XFileList;
 
  public:
+   /// Destructor
    virtual ~XFileStore () { }
 
-   // Insert data
+   /// \name Inserting data
+   //@{
+   /// Appends a line showing the passed file to the list.
+   /// \param file: Pointer to file to append (or NULL)
    Gtk::TreeModel::iterator append (const File* file) {
       return file ? setIcon (Parent::append (), *file) : Parent::append (); }
+   /// Prepends a line showing the passed file to the list.
+   /// \param file: Pointer to file to prepend (or NULL)
    Gtk::TreeModel::iterator prepend (const File* file) {
       return file ? setIcon (Parent::prepend (), *file) : Parent::prepend (); }
+   /// Inserts a line showing the passed file to the list.
+   /// \param file: Pointer to file to append (or NULL)
+   /// \param row: Row before which the line should be inserted.
    Gtk::TreeModel::iterator insert (const File* file, Gtk::TreeModel::iterator row) {
       return file ? setIcon (Parent::insert (row), *file) : Parent::insert (row); }
+   //@}
 
+   /// Creates the model (basing on the specified columns)
    static Glib::RefPtr<XFileStore<Parent> >
       create (const FileColumns& columns) {
       return Glib::RefPtr<XFileStore<Parent> > (new XFileStore<Parent> (columns));
    }
 
+   /// Gets the name of the file for the specified line in the model.
    virtual std::string getFilename (unsigned int line) {
       return children ()[line][cols.name]; }
+   /// Sets the file for the specified line in the model.
    virtual void setFilename (unsigned int line, const std::string& file) {
       children ()[line][cols.name] = file; }
 
  protected:
+   /// Constructor; from the specified columns
    XFileStore (const FileColumns& columns) : Parent (columns)
       , IFileStore (columns) { }
 
@@ -125,18 +150,23 @@ typedef XFileStore<Gtk::TreeStore> XFileTreeStore;
 
 
 
-// Class for a (columned) list which holds files represented by an icon
-// and textual information.
-//
-// This class is intended to show data of the XFileStore template above.
+/**Class for a (columned) list which holds files represented by an icon
+   and textual information.
+
+   This class is intended to show data of the XFileStore template above.
+*/
 class XFileList : public Gtk::TreeView {
  public:
+   /// Constructor of the XFileList widget
    XFileList () : Gtk::TreeView (), pMenuPopAction (NULL) { }
+   /// Constructor of the XFileList widget; passing a model to display
    template <class T>
       XFileList (const Glib::RefPtr<XFileStore<T> >& model) : Gtk::TreeView ()
       , pMenuPopAction (NULL) { set_model (model); }
    virtual ~XFileList ();
 
+   /// Sets the model to display. Note that both the icon and the name of the
+   /// file are displayed in one column
    template <class T> void set_model (const Glib::RefPtr<XFileStore<T> >& model) {
       Gtk::TreeView::Column* pColumn = Gtk::manage (new Gtk::TreeView::Column (_("File")));
 

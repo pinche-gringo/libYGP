@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.15 2003/03/06 04:27:55 markus Rel $
+//$Id: XFileDlg.cpp,v 1.16 2003/07/20 08:16:40 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -41,40 +41,39 @@
 #include "XFileDlg.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; Creates a (modeless) dialog to select a file
-//Parameters: title: Text to display in the title of the dialog
-//            dlgOption: Checks to perform after selecting OK
-/*--------------------------------------------------------------------------*/
-IFileDialog::IFileDialog (const std::string& title, option dlgOption)
+//-----------------------------------------------------------------------------
+/// Constructor; Creates a (modeless) dialog to select a file
+/// \param dlgOption: Checks to perform after selecting OK
+//-----------------------------------------------------------------------------
+IFileDialog::IFileDialog (option dlgOption)
+   : Gtk::FileSelection (), opt (dlgOption) {
+   TRACE9 ("IFileDialog::IFileDialog (option)");
+   init ();
+}
+
+//-----------------------------------------------------------------------------
+/// Constructor; Creates a (modeless) dialog to select a file
+/// \param title: Text to display in the title of the dialog
+/// \param dlgOption: Checks to perform after selecting OK
+//-----------------------------------------------------------------------------
+IFileDialog::IFileDialog (const Glib::ustring& title, option dlgOption)
    : Gtk::FileSelection (title), opt (dlgOption) {
-   TRACE9 ("IFileDialog::IFileDialog (title)");
+   TRACE9 ("IFileDialog::IFileDialog (const Glib::ustring&, option)");
    init ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; Creates a (modeless) dialog to select a file
-//Parameters: title: Text to display in the title of the dialog
-//            dlgOption: Checks to perform after selecting OK
-/*--------------------------------------------------------------------------*/
-IFileDialog::IFileDialog (GtkFileSelection* castitem, option dlgOption)
-   : FileSelection (castitem), opt (dlgOption) {
-   TRACE9 ("IFileDialog::IFileDialog (castitem)");
-   init ();
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 IFileDialog::~IFileDialog () {
    TRACE9 ("IFileDialog::~IFileDialog");
    hide ();
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor
+//-----------------------------------------------------------------------------
 void IFileDialog::init () {
    Check3 (get_accel_group ());
    get_ok_button ()->signal_clicked ().connect (bind (slot (*this, &IFileDialog::command),
@@ -88,11 +87,12 @@ void IFileDialog::init () {
    show ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Performs the action of the selected button
-//Parameters: action: ID of pressed button
-//Remarks   : - Depending on the option, the file must either exist or it is checked if it should be overwritten
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Performs the action of the selected button
+/// \param action: ID of pressed button
+/// \remarks - Depending on the option, the file must either exist or it is
+///     checked if it should be overwritten
+//-----------------------------------------------------------------------------
 void IFileDialog::command (commandID id) {
    TRACE9 ("IFileDialog::command: " << id);
 
@@ -145,10 +145,10 @@ void IFileDialog::command (commandID id) {
    } // end-switch command-id
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Performs the dialog modaly
-//Returns   : XDialog::OK, XDialog::CANCEL, depending on the user-input
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Performs the dialog modaly
+/// \returns \c XDialog::OK, XDialog::CANCEL, depending on the user-input
+//-----------------------------------------------------------------------------
 std::string IFileDialog::execModal () {
    set_modal (modal = true);
    Gtk::Main::run ();

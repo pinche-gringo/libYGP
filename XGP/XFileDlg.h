@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.14 2003/03/06 03:09:25 markus Rel $
+//$Id: XFileDlg.h,v 1.15 2003/07/20 08:16:41 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,34 +23,39 @@
 #include <gtkmm/fileselection.h>
 
 
-// This class can be be used to retrieve file or directory names
-// from the user. It will create a new dialog window containing a
-// directory list, and a file list corresponding to the current
-// working directory. The filesystem can be navigated using the
-// directory list or the drop-down history menu. Alternatively, the
-// TAB key can be used to navigate using filename completion - common
-// in text based editors such as emacs and jed.
-//
-// The caller is informed via the passed callback about the selection.
-//
-// There are some flags to perform some checks if the OK button is selected:
-//   - ASK_OVERWRITE: Displays a dialog asking if the file should be overwritten
-//                    in case if the file exists.
-//   - MUST_EXIST: Displays an error message indicating that the file does not
-//                 exists for non-existing files.
-//
-// See also the description of the parent for further options!
+/**This class can be be used to retrieve file or directory names from the
+   user. It will create a new dialog window containing a directory list, and a
+   file list corresponding to the current working directory. The filesystem
+   can be navigated using the directory list or the drop-down history
+   menu. Alternatively, the TAB key can be used to navigate using filename
+   completion - common in text based editors such as emacs and jed.
+
+   The caller is informed via the passed callback about the selection.
+
+   There are some flags to perform some checks if the \c OK button is selected:
+     - ASK_OVERWRITE: Displays a dialog asking if the file should be overwritten
+                      in case if the file exists.
+     - MUST_EXIST: Displays an error message indicating that the file does not
+                   exists for non-existing files.
+
+     See also the description of the parent for further options!
+*/
 class IFileDialog : public Gtk::FileSelection {
  public:
-   typedef enum { NONE, ASK_OVERWRITE, MUST_EXIST } option;
+   /// Options for the dialog
+   typedef enum { NONE,       ///< Don't perform any checks on the entered file
+                  ASK_OVERWRITE,          ///< Security question if file exists
+                  MUST_EXIST        ///< Only allow to select of existing files
+   } option;
 
-   IFileDialog (const std::string& title, option dlgOption = NONE);
-   IFileDialog (GtkFileSelection* castitem, option dlgOption = NONE);
+   IFileDialog (option dlgOption = NONE);
+   IFileDialog (const Glib::ustring& title, option dlgOption = NONE);
    ~IFileDialog ();
 
    std::string execModal ();
 
-   static IFileDialog* perform (const std::string& title, option dlgOption = NONE) {
+   /// Creates the dialog
+   static IFileDialog* perform (const Glib::ustring& title, option dlgOption = NONE) {
       return new IFileDialog (title, dlgOption); }
 
  protected:
@@ -71,24 +76,33 @@ class IFileDialog : public Gtk::FileSelection {
 };
 
 
+/**Template version of the IFileDialog class to provide a (typesafe) callback
+   for the user input.
+*/
 template <class T>
 class TFileDialog : public IFileDialog {
  public:
-   typedef void (T::*PACTION)(const std::string&);
+   typedef void (T::*PCALLBACK)(const std::string&);
 
-   TFileDialog (const std::string& title, T& notify,
-                const PACTION callback, option dlgOption = NONE)
-      : IFileDialog (title, dlgOption), caller (notify)
+   /// Constructor; creates a (modeless) dialog to select a file
+   /// \param title: Title of the dialog
+   /// \param notify: Class to parent of file entered
+   /// \param callback: Method of 
+   /// \param dlgOption: Checks to perform after selecting OK
+   TFileDialog (const Glib::ustring& title, T& parent,
+                const PCALLBACK callback, option dlgOption = NONE)
+      : IFileDialog (title, dlgOption), caller (parent)
       , callerMethod (callback) { }
-   TFileDialog (GtkFileSelection* castitem, T& notify,
-                const PACTION callback, option dlgOption = NONE)
-      : IFileDialog (castitem, dlgOption), caller (notify)
-      , callerMethod (callback) { }
+   /// Destructor
    ~TFileDialog () { }
 
-   static TFileDialog* perform (const std::string& title, T& notify,
-				const PACTION callback, option dlgOption = NONE) {
-      return new TFileDialog (title, notify, callback, dlgOption); }
+   /// Creates the dialog (and set it as child of the parent)
+   static TFileDialog* perform (const Glib::ustring& title, T& parent,
+				const PCALLBACK callback, option dlgOption = NONE) {
+      TFileDialog<T>* dlg (new TFileDialog<T> (title, parent, callback, dlgOption));
+      dlg->get_window ()->set_transient_for (parent.get_window ());
+      return dlg;
+   }
 
  private:
    typedef enum { OK = 1, CANCEL } commandID;
@@ -99,11 +113,9 @@ class TFileDialog : public IFileDialog {
 
    virtual void fileSelected (std::string& file) { (caller.*callerMethod) (file); }
 
-   T&            caller;
-   const PACTION callerMethod;
+   T&              caller;
+   const PCALLBACK callerMethod;
 };
 
-
-typedef TFileDialog<Gtk::Object> XFileDialog;
 
 #endif
