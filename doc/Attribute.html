@@ -1,4 +1,4 @@
-<!-- $Id: Attribute.html,v 1.1 2001/09/19 23:47:35 markus Exp $ -->
+<!-- $Id: Attribute.html,v 1.2 2001/09/27 21:59:19 markus Exp $ -->
 
 <html>
   <head>
@@ -36,27 +36,27 @@
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="IAttribute.html#assignFromString"><b>assignFromString</b></a></td>
+        <td><a href="Attribute.html#assignFromString"><b>assignFromString</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>) = 0;</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp;</tt> </td>
-        <td><a href="IAttribute.html#getName"><b>getName</b></a></td>
+        <td><a href="Attribute.html#getName"><b>getName</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="IAttribute.html#matches"><b>matches</b></a></td>
+        <td><a href="Attribute.html#matches"><b>matches</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font></tt>) <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="IAttribute.html#matches2"><b>matches</b></a></td>
+        <td><a href="Attribute.html#matches2"><b>matches</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">compare</font></tt>) <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
-        <td><a href="IAttribute.html#~IAttribute"><b>~IAttribute</b></a></td>
+        <td><a href="Attribute.html#~IAttribute"><b>~IAttribute</b></a></td>
         <td><tt>()</tt>;</td></tr>
       <tr><td>&nbsp;</td></tr>
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
-        <td><a href="IAttribute.html#IAttribute"><b>IAttribute</b></a></td>
+        <td><a href="Attribute.html#IAttribute"><b>IAttribute</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
-        <td><a href="IAttribute.html#IAttribute2"><b>IAttribute</b></a></td>
+        <td><a href="Attribute.html#IAttribute2"><b>IAttribute</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name_</font></tt>)</tt>;</td></tr>
     </table>
 
@@ -78,8 +78,17 @@
     <h4>Object-handling</h4>
     <pre><a name="assignFromString"></a>virtual bool assignFromString (const char* value) = 0</pre>
     <dl>
-      <dd>Method to assign a value from a character-pointer to the attribute. To be
-        implemented by derived objects.</dd>
+      <dd><p>Virtual method to assign an ASCIIZ-string to the variable stored
+	withing the attribute. To be implemented by derived objects.</p>
+
+	<p>This method return true, if assign the value was OK, else
+          false.  At the moment there are implementations for the
+          standard C-types, std::string and classes derived from <a
+          href="AttrVal.html"><b>AttributValue</b></a>.</p>
+
+	<p>This can be easily enhanced by own types by defining (and
+	  implementing) your own <i>assignFromStream</i>-members with your
+	  own type (see the header INIFile.h for an examples).</p></dd>
     </dl>
 
     <pre><a name="getName"></a>const std::string&amp; getName () const</pre>
@@ -119,16 +128,16 @@
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
-        <td><a href="IAttribute.html#Attribute1"><b>Attribute</b></a></td>
+        <td><a href="Attribute.html#Attribute1"><b>Attribute</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font>, <font color="navy">T</font>&amp; <font color="blue">attr</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
-        <td><a href="IAttribute.html#Attribute2"><b>Attribute</b></a></td>
+        <td><a href="Attribute.html#Attribute2"><b>Attribute</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name_</font></tt>, <font color="navy">T</font>&amp; <font color="blue">attr</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="IAttribute.html#AassignFromString"><b>assignFromString</b></a></td>
+        <td><a href="Attribute.html#AassignFromString"><b>assignFromString</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
-        <td><a href="IAttribute.html#~Attribute"><b>~Attribute</b></a></td>
+        <td><a href="Attribute.html#~Attribute"><b>~Attribute</b></a></td>
         <td><tt>()</tt>;</td></tr>
     </table>
 
