@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.5 1999/08/26 21:01:25 Markus Rel $
+// $Id: XStrBuf.cpp,v 1.6 1999/09/15 23:58:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -77,10 +77,10 @@ int extStreambuf::underflow () {
          setb (pBuffer, pBuffer + lenBuffer, 1);
          lenBuffer <<= 1;
       }
-      *pTemp++ = ch;
-      TRACE9 ("New char: " << ch);
+      *pTemp++ = (char)ch;
+      TRACE9 ("New char: " << (char)ch);
 
-      if (ch == '\n')
+      if ((char)ch == '\n')
 	 break;
    } // end-while !EOF
 
@@ -102,7 +102,11 @@ int extStreambuf::pbackfail (int c) {
    assert (!checkIntegrity ());
    assert (c != EOF);
 
+#ifdef WINDOWS
+   if (gptr () > eback ())        // gptr () > eback -> pushback of wrong char
+#else
    if (gptr () > Gbase ())        // gptr () > Gbase -> pushback of wrong char
+#endif
       return EOF;
 
    TRACE5 ("Failed pushback: Buffer underrun");
@@ -133,7 +137,7 @@ int extStreambuf::checkIntegrity () const {
    if (!pBuffer)
       return 1;
 
-   if (gptr () > egptr ())
+   if (gptr () > egptr ())           // Results in BCC-warnings; but fuck that
       return 2;
 
    if (!pSource)

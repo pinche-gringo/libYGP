@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.4 1999/09/11 00:58:42 Markus Rel $
+// $Id: XStrBuf.h,v 1.5 1999/09/15 23:58:13 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,9 +48,9 @@ struct extStreambuf : public streambuf {
    unsigned int getLine () const { return line; }
    unsigned int getColumn () const {
 #ifdef WINDOWS
-      return gptr () - base () - 1;    // BCC's gptr () points to next position
+      return gptr () - base () - 1;   // BCC's gptr () points to next position
 #else
-  return gptr () - base ();
+      return gptr () - base ();
 #endif
    }
 

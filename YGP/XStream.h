@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.3 1999/08/24 00:08:15 Markus Rel $
+// $Id: XStream.h,v 1.4 1999/09/15 23:58:13 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 #include <fstream.h>
 
-#include <XStrBuf.h>
+#include "XStrBuf.h"
 
 
 // Extended stream, specialized to parse text. It enhanced features are
@@ -46,7 +46,11 @@ template <class T> struct extStream : public T  {
    void init () {
       delete pBuffer;
       pBuffer = new extStreambuf (*rdbuf ());
+#ifdef WINDOWS
+      ios::bp = pBuffer;
+#else
       ios::rdbuf (pBuffer);
+#endif
    }
 
    // Accessing values
@@ -58,7 +62,7 @@ template <class T> struct extStream : public T  {
    extStream (const extStream&);
    const struct extStream& operator= (const extStream&);
 
-   int checkIntegrity () const { return pBuffer; }
+   int checkIntegrity () const { return !pBuffer; }
 
    extStreambuf* pBuffer;
 };
