@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.2 2001/10/08 23:37:10 markus Exp $
+// $Id: RemoteFile.cpp,v 1.3 2001/10/09 17:22:19 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -55,9 +55,9 @@ File* RemoteFile::clone () const {
 //Parameters: mode: Mode for open the file (analogue to libc's fopen)
 //Returns   : void*: Pointer to a handle to the opened file.
 /*--------------------------------------------------------------------------*/
-void* RemoteFile::open  (const char* mode) const throw (std::string) {
+void* RemoteFile::open (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
-   TRACE5 ("RemoteFile::open  (const char*) const - " << file);
+   TRACE5 ("RemoteFile::open (const char*) const - " << file);
    assert (mode);
 
    AByteArray buffer ("Open=\"");
@@ -92,7 +92,7 @@ void* RemoteFile::open  (const char* mode) const throw (std::string) {
 //Parameters: file: Handle of opened file
 /*--------------------------------------------------------------------------*/
 void RemoteFile::close (void* file) const throw (std::string) {
-   TRACE5 ("RemoteFile::close  (void*) const - " << path () << name ());
+   TRACE5 ("RemoteFile::close (void*) const - " << path () << name ());
    assert (file);
 
    AByteArray buffer ("Close=");
@@ -120,7 +120,7 @@ void RemoteFile::close (void* file) const throw (std::string) {
 //            length: Maximal length of buffer
 /*--------------------------------------------------------------------------*/
 int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
-   TRACE5 ("RemoteFile::read  (void*, char*, unsigned int) const - "
+   TRACE5 ("RemoteFile::read (void*, char*, unsigned int) const - "
            << path () << name ());
 
    assert (file);
@@ -163,7 +163,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 //            length: Length of buffer (= bytes to write)
 /*--------------------------------------------------------------------------*/
 int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
-   TRACE5 ("RemoteFile::write  (void*, char*, unsigned int) const - "
+   TRACE5 ("RemoteFile::write (void*, char*, unsigned int) const - "
            << path () << name ());
    assert (file);
    assert (buffer);
@@ -202,7 +202,7 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
 //Parameters: file: Handle of openeded file
 /*--------------------------------------------------------------------------*/
 bool RemoteFile::isEOF (void* file) const throw (std::string) {
-   TRACE5 ("RemoteFile::isEOF  (void*) const - " << path () << name ());
+   TRACE5 ("RemoteFile::isEOF (void*) const - " << path () << name ());
    assert (file);
 
    AByteArray buffer ("EOF=");
