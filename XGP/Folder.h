@@ -1,7 +1,7 @@
 #ifndef FOLDER_H
 #define FOLDER_H
 
-//$Id: Folder.h,v 1.1 2003/07/05 05:08:19 markus Exp $
+//$Id: Folder.h,v 1.2 2003/07/20 08:07:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 /**Class to show child widgets, sorted horicontally and vertically.
 
    The children are resorted, when the folder is resized (analogue to the
-   folders displayed by nautilus, konqueror or explorer, ...
+   folders displayed by nautilus, konqueror or explorer, ...)
 */
 class Folder : public Gtk::ScrolledWindow {
   public:
