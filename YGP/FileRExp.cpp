@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.22 2003/07/01 04:12:24 markus Exp $
+//$Id: FileRExp.cpp,v 1.23 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -201,7 +201,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 /// returned; 1 if there is no regular expression at all. In case of any other
 /// error an exception is thrown.
 /// \returns \c int: Status; 0: OK
-/// \throw \c std::string: In case of an invalid regexp a describing text
+/// \throw std::string: In case of an invalid regexp a describing text
 /// \pre pFileRegExp is a valid regexp
 //-----------------------------------------------------------------------------
 int FileRegularExpr::checkIntegrity () const throw (std::string) {

@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.17 2003/06/15 23:53:01 markus Exp $
+//$Id: ATStamp.cpp,v 1.18 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -99,7 +99,7 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 /// timestamp, an exception is thrown.
 /// \param pValue: Character array specifying timestamp to assign
 /// \returns Reference to self
-/// \throw \c std::invalid_argument if the parameters has a wrong format
+/// \throw std::invalid_argument if the parameters has a wrong format
 /// \remarks A NULL-pointer as parameter is not permitted!
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::operator= (const char* pValue) throw (std::invalid_argument) {
@@ -162,7 +162,7 @@ std::string ATimestamp::toString (const char* format) const {
 /// from a stream. If the input is not a valid timestamp an exception is
 /// thrown.
 /// \param in: Stream to parse
-/// \throw \c std::invalid_argument in case of a format error
+/// \throw std::invalid_argument in case of a format error
 //-----------------------------------------------------------------------------
 void ATimestamp::readFromStream (std::istream& in) throw (std::invalid_argument) {
    char ch;

@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.33 2003/06/22 23:31:10 markus Exp $
+//$Id: ANumeric.cpp,v 1.34 2003/07/03 04:10:53 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -74,7 +74,7 @@ ANumeric::~ANumeric () {
 /// characters and a zero-characer (\0). If pValue has a different format an
 /// excpetion is thrown.
 /// \param  pValue: Pointer to ASCIIZ-string containing numeric value to assign
-/// \throw \c invalid_argument in case of an exception
+/// \throw invalid_argument in case of an exception
 /// \pre \c pValue a valid ASCIIZ-string
 //-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument) {

@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.31 2003/06/15 05:20:26 markus Exp $
+//$Id: ADate.cpp,v 1.32 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -59,7 +59,7 @@ ADate::ADate (bool now) : AttributValue () {
 /// \param Day: Day for this ADate
 /// \param Month: Month
 /// \param Year: Year to set
-/// \throw \c std::invalid_argument in case of an invalid input
+/// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
 ADate::ADate (char Day, char Month, int Year) throw (std::invalid_argument)
    : AttributValue (true), day (Day), month (Month), year (Year) {
@@ -100,7 +100,7 @@ ADate& ADate::operator= (const ADate& other) {
 /// exception is thrown.
 /// \param pValue: Character array holding date to assign
 /// \return \c ADate&: Reference to self
-/// \throw \c std::invalid_argument if the characters don't represent a valid date
+/// \throw std::invalid_argument if the characters don't represent a valid date
 //----------------------------------------------------------------------------
 ADate& ADate::operator= (const char* pValue) throw (std::invalid_argument) {
    Check1 (pValue);
@@ -178,7 +178,7 @@ std::string ADate::toString (const char* format) const {
 /// Reads a date as DDMMY[Y...] from a stream. If the input is not valid, an
 /// exception is thrown.
 /// \param in: Stream to parse
-/// \throw \c std::invalid_argument in case of an invalid input
+/// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
 void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
    if (in.eof ()) {

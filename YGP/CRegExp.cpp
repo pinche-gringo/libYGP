@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.33 2003/06/14 20:24:07 markus Exp $
+//$Id: CRegExp.cpp,v 1.34 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -84,7 +84,7 @@
 //----------------------------------------------------------------------------
 /// Constructor, specifies the regular expression to match.
 /// \param pRegExp: Pointer to character array holding regular expression
-/// \throw \c std::string: In case of an invalid regexp a describing text
+/// \throw std::string: In case of an invalid regexp a describing text
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ RegularExpression::~RegularExpression () {
 /// Assignmentoperator; specifies the regular expression to match.
 /// \param pRegExp: Pointer to character array holding regular expression
 /// \return \c RegularExpression&: Reference to this
-/// \throw \c std::string: In case of an invalid regexp a describing text
+/// \throw std::string: In case of an invalid regexp a describing text
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------

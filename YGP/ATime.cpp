@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.24 2003/06/15 23:53:01 markus Exp $
+//$Id: ATime.cpp,v 1.25 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -103,7 +103,7 @@ ATime& ATime::operator= (const ATime& other) {
 /// thrown. A NULL-pointer as parameter is not permitted!
 /// \param pTime: Character array specifying time to assign
 /// \returns Reference to self
-/// \throw \c std::invalid_argument if the parameter does not represent a
+/// \throw std::invalid_argument if the parameter does not represent a
 ///     valid time
 //-----------------------------------------------------------------------------
 ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
@@ -170,7 +170,7 @@ std::string ATime::toString (const char* format) const {
 //-----------------------------------------------------------------------------
 /// Reads the time in format hhmmss (with leading zeros) from a stream.
 /// \param in: Stream to parse
-/// \throw \c invalid_argument in case of an format error
+/// \throw invalid_argument in case of an format error
 //-----------------------------------------------------------------------------
 void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
    if (in.eof ()) {
@@ -446,7 +446,7 @@ bool ATime::maxAdapt () {
 //-----------------------------------------------------------------------------
 /// Sets the hour of the passed valued
 /// \param Hour: Hour to set
-/// \throw \c std::invalid_argument if the parameter is bigger than 23
+/// \throw std::invalid_argument if the parameter is bigger than 23
 //-----------------------------------------------------------------------------
 void ATime::setHour (char Hour) throw (std::invalid_argument) {
    if (hour > 23) {
@@ -460,7 +460,7 @@ void ATime::setHour (char Hour) throw (std::invalid_argument) {
 //-----------------------------------------------------------------------------
 /// Sets the minute to the passed value
 /// \param minute: Minute to set
-/// \throw \c std::invalid_argument if the parameter is bigger than 59
+/// \throw std::invalid_argument if the parameter is bigger than 59
 //-----------------------------------------------------------------------------
 void ATime::setMinute (char minute) throw (std::invalid_argument) {
    if (minute > 59) {
@@ -474,7 +474,7 @@ void ATime::setMinute (char minute) throw (std::invalid_argument) {
 //-----------------------------------------------------------------------------
 /// Sets the second to the passed value.
 /// \param second: Second to set
-/// \throw \c std::invalid_argument if the parameter is bigger than 61
+/// \throw std::invalid_argument if the parameter is bigger than 61
 //-----------------------------------------------------------------------------
 void ATime::setSecond (char second) throw (std::invalid_argument) {
    if (second > 61) {

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.22 2003/06/19 23:27:20 markus Exp $
+//$Id: INIFile.cpp,v 1.23 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -138,7 +138,7 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /// \returns \c int: ParseObject::OK if a know key is found and it's value can
 ///     be assigned Remarks The exact behaviour depends on the type of the
 ///     attribute!
-/// \throw \c std::string: Text describing error if an unrecoverable error
+/// \throw std::string: Text describing error if an unrecoverable error
 ///     occurs
 //-----------------------------------------------------------------------------
 int INISection::readFromStream (Xistream& stream) throw (std::string) {
@@ -160,7 +160,7 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
 /// \returns \c int: ParseObject::OK if a know key is found and it's value can
 ///     be assigned Remarks The exact behaviour depends on the type of the
 ///     attribute!
-/// \throw \c std::string: Text describing error if an unrecoverable error
+/// \throw std::string: Text describing error if an unrecoverable error
 ///     occurs
 //-----------------------------------------------------------------------------
 int INISection::readAttributes (Xistream& stream) throw (std::string) {
@@ -230,7 +230,7 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// initialization-information. If this file does not exist, an exception is
 /// thrown.
 /// \param filename: Name of the INI file
-/// \throw \c string: If file couldn't be open a text describing the error
+/// \throw string: If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
 INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
@@ -302,7 +302,7 @@ INISection* INIFile::addSection (const char* section) {
 /// ParseObject::PARSE_OK, if EOF is reached; else a non-zero value is
 /// returned or - depending on the error - an exception is thrown.
 /// \returns \c int: Status of reading: <0 hard error; 0 OK, >0 soft error
-/// \throw \c string: Message describing error in case of an invalid value
+/// \throw string: Message describing error in case of an invalid value
 //-----------------------------------------------------------------------------
 int INIFile::read () throw (std::string) {
   TRACE9 ("INIFile::read ()");

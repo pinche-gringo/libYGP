@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.42 2003/07/03 01:53:04 markus Exp $
+//$Id: Parse.cpp,v 1.43 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -231,7 +231,7 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 /// 0), an exception (std::string) is thrown.
 /// \param stream: Source from which to read
 /// \param optional: Flag, if node must be found
-/// \throw \c std::string: In case of a not recoverable error
+/// \throw std::string: In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
@@ -879,7 +879,7 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 /// \param stream: Source from which to read
 /// \param optional: Flag, if object must be found
 /// \returns \c PARSE_OK if selection found; PARSE_ERROR if not
-/// \throw \c std::string: In case of a not recoverable error
+/// \throw std::string: In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE1 ("ParseSequence::doParse -> " << getDescription ());
@@ -996,7 +996,7 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 /// \param stream: Source from which to read
 /// \param optional: Flag, if node must be found
 /// \returns \c PARSE_OK if selection found; PARSE_ERROR if not
-/// \throw \c std::string: In case of a not recoverable error
+/// \throw std::string: In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE1 ("ParseSelection::doParse -> " << getDescription ());

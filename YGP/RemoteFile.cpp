@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.13 2003/06/19 03:26:49 markus Exp $
+// $Id: RemoteFile.cpp,v 1.14 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -62,7 +62,7 @@ File* RemoteFile::clone () const {
 /// same values than the ANSI-C fopen-function.
 /// \param mode: Mode for open the file (analogue to libc's fopen)
 /// \returns \c void*: Pointer to a handle for the opened file.
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 void* RemoteFile::open (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
@@ -103,7 +103,7 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
 //-----------------------------------------------------------------------------
 /// Closes a (previously opened) file
 /// \param file: Handle of opened file
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 void RemoteFile::close (void* file) const throw (std::string) {
    TRACE5 ("RemoteFile::close (void*) const - " << path () << name ());
@@ -136,7 +136,7 @@ void RemoteFile::close (void* file) const throw (std::string) {
 /// \param buffer: Buffer for data
 /// \param length: Maximal length of buffer
 /// \returns \c int: Number of read bytes
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("RemoteFile::read (void*, char*, unsigned int) const - "
@@ -185,7 +185,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 /// \param buffer: Buffer of data
 /// \param length: Length of buffer (= bytes to write)
 /// \returns \c int: Number of written bytes
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("RemoteFile::write (void*, char*, unsigned int) const - "

@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.21 2003/06/19 03:27:21 markus Exp $
+//$Id: File.cpp,v 1.22 2003/07/03 04:10:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -65,7 +65,7 @@ File::File (const File& other) : path_ (other.path_)
 //-----------------------------------------------------------------------------
 /// Constructor; create from a name Parameter : name: Pointer to
 /// character-array holding name of file to create
-/// \throw \c String describing the error
+/// \throw String describing the error
 //-----------------------------------------------------------------------------
 File::File (const char* name) throw (std::string)
 #if SYSTEM == UNIX
@@ -105,7 +105,7 @@ File& File::operator= (const File& other) {
 //-----------------------------------------------------------------------------
 /// Assignment operator; create from a name Parameter : name: Name of file
 /// \returns Reference to self
-/// \throw \c String describing the error
+/// \throw String describing the error
 //-----------------------------------------------------------------------------
 File& File::operator= (const char* name) throw (std::string) {
 #if SYSTEM == UNIX
@@ -259,7 +259,7 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 /// same values than the ANSI-C fopen-function.
 /// \param mode: Mode for open the file (analogue to libc's fopen)
 /// \returns \c void*: Pointer to a handle for the opened file.
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 void* File::open  (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
@@ -276,7 +276,7 @@ void* File::open  (const char* mode) const throw (std::string) {
 //-----------------------------------------------------------------------------
 /// Closes a (previously opened) file
 /// \param file: Handle of opened file
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 void File::close (void* file) const throw (std::string) {
    TRACE5 ("File::close  () const - " << path () << name ());
@@ -295,7 +295,7 @@ void File::close (void* file) const throw (std::string) {
 /// \param buffer: Buffer for data
 /// \param length: Maximal length of buffer
 /// \returns \c int: Number of read bytes
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 int File::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
@@ -318,7 +318,7 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
 /// \param buffer: Buffer of data
 /// \param length: Length of buffer (= bytes to write)
 /// \returns \c int: Number of written bytes
-/// \throw \c string: In case of an error a textual description
+/// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
 int File::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
