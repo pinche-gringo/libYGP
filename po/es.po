@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.31 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.32 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-01-31 11:52-0400\n"
-"PO-Revision-Date: 2005-01-31 11:53-0400\n"
+"POT-Creation-Date: 2005-03-21 13:13-0400\n"
+"PO-Revision-Date: 2005-03-21 13:14-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,11 @@ msgstr "Fecha inválida: %1"
 
 #: YGP/ANumeric.cpp:130
 msgid "No number: %1"
-msgstr "No número: %1"
+msgstr "Número invalido: %1"
 
-#: YGP/ATime.cpp:175
-msgid "Position %1"
-msgstr "Posición %1"
+#: YGP/ATime.cpp:179
+msgid "No time: Position %1"
+msgstr "Tiempo inválido: Posición %1"
 
 #: YGP/AssParse.cpp:67
 msgid "Not a valid assignment: '%1'"
@@ -118,39 +118,39 @@ msgstr "Enumeración vacía"
 msgid "Empty region"
 msgstr "Región vacía"
 
-#: YGP/INIFile.cpp:45
-msgid "Start of section ([)"
-msgstr "Comienzo de sección ([)"
-
-#: YGP/INIFile.cpp:46
-msgid "End of section (])"
-msgstr "Fin de sección (])"
-
-#: YGP/INIFile.cpp:47
-msgid "Equal-sign (=)"
-msgstr "Signo de igualidad (=)"
-
-#: YGP/INIFile.cpp:64 YGP/INIFile.cpp:240
+#: YGP/INIFile.cpp:57
 msgid "Section-header"
 msgstr "Cabeza de sección"
 
-#: YGP/INIFile.cpp:65
-msgid "Attribute"
-msgstr "Atributo"
+#: YGP/INIFile.cpp:58
+msgid "Start of section ([)"
+msgstr "Comienzo de sección ([)"
 
-#: YGP/INIFile.cpp:66 YGP/INIFile.cpp:241
+#: YGP/INIFile.cpp:59
 msgid "Name of section"
 msgstr "Nombre de sección"
 
-#: YGP/INIFile.cpp:67
+#: YGP/INIFile.cpp:60
+msgid "End of section (])"
+msgstr "Fin de sección (])"
+
+#: YGP/INIFile.cpp:88
+msgid "Attribute"
+msgstr "Atributo"
+
+#: YGP/INIFile.cpp:89
 msgid "Identifier (key)"
 msgstr "Identificación (llave)"
 
-#: YGP/INIFile.cpp:68
+#: YGP/INIFile.cpp:90
+msgid "Equal-sign (=)"
+msgstr "Signo de igualidad (=)"
+
+#: YGP/INIFile.cpp:91
 msgid "Value"
 msgstr "Valor"
 
-#: YGP/INIFile.cpp:252
+#: YGP/INIFile.cpp:287
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
@@ -174,19 +174,19 @@ msgstr "-error: Opción '%1' es ambigua"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
-#: YGP/Parse.cpp:290
+#: YGP/Parse.cpp:289
 msgid "Expected %1, found: '%2'"
 msgstr "Esperaba %1, encontré '%2'"
 
-#: YGP/Parse.cpp:924
+#: YGP/Parse.cpp:923
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Error en la seria %1; Esperaba: %2"
 
-#: YGP/Parse.cpp:924
+#: YGP/Parse.cpp:923
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: YGP/Parse.cpp:1042
+#: YGP/Parse.cpp:1041
 msgid "Expected selection %1"
 msgstr "Esperaba selección %1"
 
@@ -244,7 +244,7 @@ msgstr "No puedo conectar al servidor '%1'"
 msgid "Error sending data"
 msgstr "Error enviar los datos"
 
-#: YGP/Process.cpp:215
+#: YGP/Process.cpp:216
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -253,7 +253,7 @@ msgstr ""
 "Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
-#: YGP/Process.cpp:237
+#: YGP/Process.cpp:240
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -371,24 +371,24 @@ msgstr "Selecta un e_xplorador ..."
 msgid "Enables selecting which browser to use"
 msgstr "Permite elegir el explorador para mostrar la ayuda"
 
-#: XGP/XApplication.cpp:148
+#: XGP/XApplication.cpp:151
 msgid "_About ..."
 msgstr "_Acerca de ..."
 
 #: XGP/XAbout.cpp:51
 msgid "Distributed under the terms of the GNU General Public License"
-msgstr "Distribuido bajo los condiciones de la GNU Licensia General Público"
+msgstr "Distribuido bajo las condiciones de la GNU Licensia General Público"
 
-#: XGP/GTKViewer.c:225
+#: XGP/GTKViewer.c:217
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr "Error abriendo el fichero '%s'! %s"
 
-#: XGP/MessageDlg.cpp:90
+#: XGP/MessageDlg.cpp:88
 msgid "Hide _details"
 msgstr "_Corto"
 
-#: XGP/MessageDlg.cpp:90
+#: XGP/MessageDlg.cpp:88
 msgid "Show _details"
 msgstr "_Detalles"
 
