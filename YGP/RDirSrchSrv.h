@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.4 2001/09/08 13:42:14 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.5 2001/09/29 17:10:24 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,15 +47,13 @@ class RemoteDirSearchSrv {
  public:
    //@Section manager-functions
    RemoteDirSearchSrv ();
-   virtual ~RemoteDirSearchSrv ();
+   ~RemoteDirSearchSrv ();
 
    int performCommands (int socket) throw (domain_error);
 
  private:
    void writeResult (Socket& socket, const dirEntry& result) const throw (domain_error);
    int  writeError (Socket& socket, int error) const throw (domain_error);
-
-   bool isOK (const AByteArray& answer) const;
 };
 
 #endif // RDIRSRCHSRV
