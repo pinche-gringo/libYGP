@@ -1,5 +1,8 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: index.html,v 1.13 2002/12/25 05:05:44 markus Rel $ -->
+<!-- $Id: index.html,v 1.14 2003/02/18 00:17:35 markus Exp $ -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
 
 <html>
   <head>
@@ -10,12 +13,19 @@
     <meta name="DC.Creator" content="Markus Schwab">
     <meta name="DC.Date" content="2000-04-14">
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
+
+    <style type="text/css">
+      body { background-color:#F0F0F0; color:#000000; }
+      a:link { color:#0000FF; }
+      a:visited { color:#000077; }
+      a:active { color:#FF0000; }
+    </style>
   </head>
 
-  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+  <body>
     <table align="center" border="0" cellspacing="10">
-      <td>Class Index</td>
-      <td><a href="cross_index.html">Cross Index</a></td>
+        <tr><td>Class Index</td>
+          <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center">Classes</h1>
@@ -36,12 +46,16 @@
 	</ul></li>
 
       <li><b><a href="AttrParse.html">AttributeParse</a></b></li>
-      <li><b><a href="Attribute.html">IAttribute</a></b></li>
+      <li><b><a href="Attribute.html">IAttribute</a></b>
 	<ul style="list-style-type:disc;">
 	  <li><b><a href="Attribute.html#Attribute">Attribute&lt;T&gt;</a></b> - IAttribute</li>
+	  <li><b><a href="Attribute.html#AttributeList">AttributeList&lt;T&gt;</a></b> - IAttribute</li>
 	</ul></li>
       <li><b><a href="INIFile.html">INIFile</a></b></li>
-      <li><b><a href="INIFile.html#INISection">INISection</a></b></li>
+      <li><b><a href="INIFile.html#INISection">INISection</a></b>
+  	<ul style="list-style-type:disc;">
+          <li><b><a href="INIFile.html#INIList">INIList</a></b></li>
+	</ul></li>
 
       <li><b><a href="Entity.html">Entity</a></b>
       <li><b><a href="File.html">File</a></b>
@@ -51,18 +65,18 @@
       <li><b><a href="IDirSrch.html">IDirectorySearch</a></b>
 	<ul type=disc>
 	  <li><b><a href="DirSrch.html">DirectorySearch</a></b> - IDirectorySearch
-	  <ul type=disc>
-	    <li><b><a href="XDirSrch.html#XDirectorySearch">XDirectorySearch</a></b> - DirectorySearch</li>
-	    <li><b><a href="PathDirSrch.html">PathDirectorySearch</a></b> - DirectorySearch</li>
-              <ul type=disc>
-	        <li><b><a href="XDirSrch.html#XPathDirectorySearch">XPathDirectorySearch</a></b> - PathDirectorySearch</li>
-	      </ul></li>
-	  </ul></li>
-	  <li><b><a href="RDirSrch.html">RemoteDirSearch</a></b> - IDirectorySearch</li>
             <ul type=disc>
-	      <li><b><a href="XDirSrch.html#XRemoteDirSearch">XRemoteDirSearch</a></b> - RemoteDirSearch</li>
-	    </ul></li>
-	</ul></li>
+              <li><b><a href="XDirSrch.html#XDirectorySearch">XDirectorySearch</a></b> - DirectorySearch</li>
+              <li><b><a href="PathDirSrch.html">PathDirectorySearch</a></b> - DirectorySearch
+                <ul type=disc>
+                  <li><b><a href="XDirSrch.html#XPathDirectorySearch">XPathDirectorySearch</a></b> - PathDirectorySearch</li>
+                </ul></li>
+            </ul></li>
+          <li><b><a href="RDirSrch.html">RemoteDirSearch</a></b> - IDirectorySearch
+            <ul type=disc>
+              <li><b><a href="XDirSrch.html#XRemoteDirSearch">XRemoteDirSearch</a></b> - RemoteDirSearch</li>
+            </ul></li>
+        </ul></li>
       <li><b><a href="RDirSrchSrv.html">RemoteDirSearchSrv</a></b></li>
       <li><b><a href="XDirSrch.html">XDirectorySearch&lt;T&gt;</a></b></li>
 
@@ -82,15 +96,15 @@
               <li><a href="Parse.html#OMParseEOF">OFParseEOF&lt;T&gt;</a> - ParseEOF</li>
 	    </ul></li>
 	  <li><b><a href="Parse.html#ParseSkip">ParseSkip</a></b> - ParseObject
-	    <ul style="list-style-type:disc;">
+            <ul style="list-style-type:disc;">
               <li><a href="Parse.html#CBParseSkip">CBParseSkip</a> - ParseSkip</li>
               <li><a href="Parse.html#OMParseSkip">OFParseSkip&lt;T&gt;</a> - ParseSkip</li>
-	    </ul></li>
-	  <li><b><a href="Parse.html#ParseAttomic">ParseAttomic</a></b> - ParseObject
-	    <ul style="list-style-type:disc;">
-	      <li><a href="Parse.html#CBParseAttomic">CBParseAttomic</a> - ParseAttomic</li>
-	      <li><a href="Parse.html#OMParseAttomic">OFParseAttomic&lt;T&gt;</a> - ParseAttomic</li>
-	      <li><b><a href="Parse.html#ParseText">ParseText</a></b> - ParseAttomic
+            </ul></li>
+          <li><b><a href="Parse.html#ParseAttomic">ParseAttomic</a></b> - ParseObject
+            <ul style="list-style-type:disc;">
+              <li><a href="Parse.html#CBParseAttomic">CBParseAttomic</a> - ParseAttomic</li>
+              <li><a href="Parse.html#OMParseAttomic">OFParseAttomic&lt;T&gt;</a> - ParseAttomic</li>
+              <li><b><a href="Parse.html#ParseText">ParseText</a></b> - ParseAttomic
                 <ul style="list-style-type:disc;">
                   <li><a href="Parse.html#CBParseText">CBParseText</a> - ParseText</li>
                   <li><a href="Parse.html#OMParseText">OFParseText&lt;T&gt;</a> - ParseText</li>
@@ -98,6 +112,16 @@
                     <ul style="list-style-type:disc;">
                       <li><a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a> - ParseTextEsc</li>
                       <li><a href="Parse.html#OMParseTextEsc">OFParseTextEsc&lt;T&gt;</a> - ParseTextEsc</li>
+                      <li><b><a href="Parse.html#ParseQuotedEsc">ParseQuotedEsc</a></b> - ParseTextEsc
+                        <ul style="list-style-type:disc;">
+                          <li><a href="Parse.html#CBParseQuotedEsc">CBParseQuotedEsc</a> - ParseQuotedEsc</li>
+                          <li><a href="Parse.html#OMParseQuotedEsc">OFParseQuotedEsc&lt;T&gt;</a> - ParseQuotedEsc
+                        </ul></li>
+		    </ul></li>
+                  <li><b><a href="Parse.html#ParseQuoted">ParseQuoted</a></b> - ParseText
+                    <ul style="list-style-type:disc;">
+                      <li><a href="Parse.html#CBParseQuoted">CBParseQuoted</a> - ParseQuoted</li>
+                      <li><a href="Parse.html#OMParseQuoted">OFParseQuoted&lt;T&gt;</a> - ParseQuoted</li>
 		    </ul></li>
 		</ul></li>
 	      <li><b><a href="Parse.html#ParseExact">ParseExact</a></b> - ParseAttomic
@@ -122,6 +146,7 @@
 		</ul></li>
 	    </ul></li>
 	</ul></li>
+      <li><b><a href="Process.html">Process</a></b></li>
       <li><b><a href="Handle.html#RefCount">RefCount&lt;T&gt;</a></b></li>
       <li><b><a href="SmartPtr.html">SmartPtr&lt;T&gt;</a></b></li>
       <li><b><a href="Socket.html">Socket</a></b></li>
@@ -152,12 +177,15 @@
         <ul style="list-style-type:disc;">
           <li><b><a href="XApplication.html#XInfoApplication">XInfoApplication</a></b>- XApplication</li>
         </ul></li>
-      <li><b><a href="XDate.html">XDate</a></b>- Gtk::Dialog</li>
+      <li><b><a href="XAttrEntry.html">XAttributeEntry&lt;T&gt;</a></b>- Gtk::Entry</li>
+      <li><b><a href="XAttrLabel.html">XAttributeLabel&lt;T&gt;</a></b>- Gtk::Label</li>
+      <li><b><a href="XDate.html">XDate</a></b>- XDialog</li>
+      <li><b><a href="XDialog.html">XDialog</a></b>- Gtk::Dialog</li>
       <li><b><a href="XFileDlg.html">XFileDialog</a></b>- Gtk::FileSelection</li>
       <li><b><a href="XFileEntry.html">XFileEntry</a></b>- Gtk::Entry</li>
       <li><b><a href="XFileList.html">XFileList</a></b>- Gtk::CList</li>
       <li><b><a href="XMessageBox.html">XMessageBox</a></b>- Gtk::Dialog</li>
-      <li><b><a href="XPrintDlg.html">XPrintDlg</a></b>- Gtk::Dialog</li>
+      <li><b><a href="XPrintDlg.html">XPrintDlg</a></b>- XDialog</li>
     </ul>
   </body>
 </html>
