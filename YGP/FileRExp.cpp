@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.11 2000/05/30 21:19:24 Markus Exp $
+//$Id: FileRExp.cpp,v 1.12 2000/06/04 00:55:33 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -95,6 +95,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
             ++pAktRegExp;
             fNeg = true;
          } // endif
+         bool inClass (false);
 
          while ((ch = *++pAktRegExp) != REGIONEND) {
             if (pAktRegExp[1] == RANGE) {
@@ -113,6 +114,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
                    && (pEndClass[1] == REGIONEND)) {
                   TRACE7 ("Check " << *pCompare << " against region-class "
                           << pAktRegExp + 2);
+                  inClass = true;
 
                   int temp (0), len (pEndClass - pAktRegExp - 2);
                   int val ((temp = isclass (alnum, pAktRegExp + 2, len, *pCompare)) ? temp :
@@ -129,14 +131,13 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
                   if (val == 2) {
                      TRACE8 ("Check " << *pCompare << " matches region-class "
                              << pAktRegExp + 2);
-                     pAktRegExp = pEndClass + 2; // Must point to end-of-region
                      break;
                   } // endif class and input matches
                   else {
                      TRACE8 ("Check " << *pCompare << " doesn't match region-class "
                              << pAktRegExp << " -> RC = " << val);
                      if (val)
-                        pAktRegExp = pEndClass + 2;   // Point to end-of-region
+                        pAktRegExp = pEndClass + 1;   // Point to end-of-region
                   } // end-else class found, but input doesn't match
                } // endif
                else {
@@ -145,13 +146,29 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
                      break;
                 } // end-else ordinary character
 	    } // end-else no range
+	    inClass = false;
          } // end-while
+         TRACE9 ("Match ended; remaining: " << pAktRegExp);
 
          if ((ch != REGIONEND) == fNeg)
             return false;
 
-         while (ch && (ch != REGIONEND))
+         // Search for end-of-region, with regard of region-classes ([:xxx:])
+         while (ch != REGIONEND) {
+            if (ch == REGIONCLASS) {
+               if (pAktRegExp[-1] == REGIONBEGIN)
+                  inClass = true;
+               else
+                  if (pAktRegExp[1] == REGIONEND)
+                    if (!inClass)            // If no class left -> Exit anyway
+                       break;
+                    else
+                       inClass = false;
+               ++pAktRegExp;
+            } // endif region-class found
             ch = *++pAktRegExp;
+         } // end-while not region-end found
+         TRACE8 ("End of region found; remaining: " << pAktRegExp);
          break;
          }
 
