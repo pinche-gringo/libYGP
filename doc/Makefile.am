@@ -8,4 +8,4 @@ EXTRA_DIST=AByteArray.html ADate.html ANumeric.html ATStamp.html ATime.html\
 	   IDirSrch.html INIFile.html IVIOAppl.html Log.html Parse.html\
 	   PathDirSrch.html PathSrch.html RDirSrch.html RDirSrchSrv.html\
 	   RegExp.html RemoteFile.html SmartPtr.html Socket.html Tokenize.html\
-	   XStrBuf.html XStream.html cross_index.html index.html
+	   XStrBuf.html XStream.html cross_index.html index.html mdocu.html
