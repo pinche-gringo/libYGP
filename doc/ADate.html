@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ADate.html,v 1.16 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: ADate.html,v 1.17 2002/12/15 00:28:41 markus Exp $ -->
 
 <html>
   <head>
@@ -213,7 +213,7 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h3><span style="color:navy">Management functions</span></h4>
+    <h3><span style="color:navy">Management functions</span></h3>
     <pre><a name="ADate"></a><b>ADate</b> ()</pre>
     <dl>
       <dd><p>Defaultconstructor; the date is not defined</p></dd>
@@ -394,7 +394,7 @@
       </dl><dd>
     </dl>
 
-    <h3><span style="color:navy">In- &amp; output, conversion</span></h4>
+    <h3><span style="color:navy">In- &amp; output, conversion</span></h3>
     <pre><a name="readFromStream"></a>void <b>readFromStream</b> (std::istream& in) throw (std::invalid_argument) </pre>
     <dl>
       <dd><p>Reads a date as <i>DDMMY[Y...]</i> from a stream. If the input is
@@ -460,7 +460,7 @@
 </dd></dl></dd>
     </dl>
 
-    <h3><span style="color:navy">Query</span></h4>
+    <h3><span style="color:navy">Query</span></h3>
     <pre><a name="getDay"></a>char <b>getDay</b> () const</pre>
     <dl>
       <dd><p>Retrieves the day stored in the object.</p></dd>
@@ -493,7 +493,7 @@
 </dd></dl></dd>
     </dl>
 
-    <h3><span style="color:navy">Calculation</span></h4>
+    <h3><span style="color:navy">Calculation</span></h3>
     <pre><a name="operator+="></a>ADate& <b>operator+=</b> (const ADate& rhs) </pre>
     <dl>
       <dd><p>Adds another date-value to the date-object. An undefined date is
@@ -580,7 +580,7 @@
 </dd></dl></dd>
     </dl>
 
-    <h3><span style="color:navy">Comparison</span></h4>
+    <h3><span style="color:navy">Comparison</span></h3>
     <pre><a name="operator=="></a>bool <b>operator==</b> (const ADate&amp; other)</pre>
     <dl>
       <dd><p>Compares two date-objects and returns true, if they are equal (either
@@ -663,7 +663,7 @@
           <dd>>0 if this "younger" other; 0 if this == <code>other</code>; <0 else</dd></dl></dd>
     </dl>
     <hr>
-    <h3><span style="color:navy">Utility-functions</span></h4>
+    <h3><span style="color:navy">Utility-functions</span></h3>
     <pre><a name="maxDayOf"></a>char <b>maxDayOf</b> () const</pre>
     <dl>
       <dd><p>Returns the maximal day for month/year of the object.</p></dd>
