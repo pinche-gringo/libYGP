@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.11 2002/09/12 03:00:29 markus Rel $
+//$Id: XApplication.h,v 1.12 2002/11/12 06:30:10 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <map>
 #include <vector>
 
 #include <gtk--/main.h>
@@ -82,7 +83,7 @@ class XApplication : public Window {
    typedef struct {
       const string name;
       const string accel;
-      int          id;
+      unsigned int id;
       menuTypes    type;
    } MenuEntry;
    typedef SmartPtr<VBox>           PVBox;
@@ -96,6 +97,8 @@ class XApplication : public Window {
    // Protected data
    PMenuBar pMenu;
    PVBox    vboxClient;
+
+   map <unsigned int, Widget*> apMenus;
 
  private:
    // Protected manager functions

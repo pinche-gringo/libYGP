@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.13 2002/09/12 03:00:29 markus Rel $
+//$Id: XApplication.cpp,v 1.14 2002/11/12 06:30:10 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -96,13 +96,13 @@ XApplication::~XApplication () {
 //Parameters: menuEntry: Entry to add
 /*--------------------------------------------------------------------------*/
 Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
-   TRACE1 ("XApplication::addMenu:  (const MenuEntry&) - " << menuEntry.name);
+   TRACE1 ("XApplication::addMenu (const MenuEntry&) - " << menuEntry.name);
    Check3 (pMenu);
 
-   TRACE3 ("XApplication::addMenu -> Type (" << menuEntry.name << ") = "
+   TRACE3 ("XApplication::addMenu (const MenuEntry&) -> Type (" << menuEntry.name << ") = "
            << menuEntry.type);
 
-   TRACE9 ("XApplication::addMenu - Levels: " << aLastMenus.size ());
+   TRACE9 ("XApplication::addMenu (const MenuEntry&) - Levels: " << aLastMenus.size ());
    Menu* pLastMenu (aLastMenus.size () ? aLastMenus.back () : NULL);
 
    switch (menuEntry.type) {
@@ -155,6 +155,12 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
       Check (0);
    } // end-switch type of menu
 
+   if (menuEntry.id) {
+      Check (apMenus.find (menuEntry.id) == apMenus.end ());
+      TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menu: " << menuEntry.id);
+      apMenus[menuEntry.id] = pLastMenu->items ().back ();
+   }
+      
    return pLastMenu->items ().back ();
 }
 
@@ -163,7 +169,7 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
 //Parameters: menuEntries: Pointer to array of MenuEntries
 /*--------------------------------------------------------------------------*/
 void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
-   TRACE9 ("XApplication::addMenus (" << cMenus << ')');
+   TRACE9 ("XApplication::addMenus (const MenuEntry[], int) - " << cMenus);
 
    Check3 (menuEntries);
    Check3 (pMenu);
@@ -181,6 +187,12 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
                                                           menuEntries->accel,
                                                           bind (slot (this, &XApplication::command),
                                                                 menuEntries->id)));
+            if (menuEntries->id) {
+               Check (apMenus.find (menuEntries->id) == apMenus.end ());
+               TRACE9 ("XApplication::addMenus (const MenuEntry[]) - Adding menu: "
+                       << menuEntries->id);
+               apMenus[menuEntries->id] = pLastMenu->items ().back ();
+            }
          } while ((menuEntries++)->type != LASTRADIOITEM);
       }
       else {
