@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.8 2001/09/08 13:43:06 markus Exp $
+//$Id: RDirSrch.h,v 1.9 2001/09/27 22:02:25 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,13 +33,29 @@
 #include <IDirSrch.h>
 
 
-// Class to search for files in a certain directory over a network-connection
+// Class to search for files in a directory over a
+// network-connection. This search can be restricted to files matching
+// certain name-criterias or by attributes.
+//
+// The name-part of the files to search supports UNIX-like wildcards;
+// that are the asterisk (*) for any number of any characters, the
+// question-mark for any single character and a set of characters in
+// brackets (([) and (])). This set can contain a list of characters
+// (like [abcde]) or a region (like [a-e]). To invert this set use a
+// leading caret (^) or a leading exclamation mark (!), like
+// ([^a-e]).
+//
+// The found (and matching) files are retrieved by objects of type
+// dirEntry.
+//
+// Note: The class does not do any word expansion for the search-path
+//       (like expanding the tilde (~) to the home-directory)!
 class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
    RemoteDirSearch () : IDirectorySearch (), sock (-1) { }
-   RemoteDirSearch (const std::string& server) throw (domain_error);
-   RemoteDirSearch (const std::string& server, unsigned int port)
+   RemoteDirSearch (const std::string& search) throw (domain_error);
+   RemoteDirSearch (const std::string& search, unsigned int port)
       throw (domain_error);
    virtual ~RemoteDirSearch ();
 
@@ -52,7 +68,7 @@ class RemoteDirSearch : public IDirectorySearch {
    virtual std::string getFileSpec () const;
 
    //@Section searching
-   inline int find (dirEntry& result, unsigned long attribs = FILE_NORMAL)
+   virtual int find (dirEntry& result, unsigned long attribs = FILE_NORMAL)
       throw (std::string);
    virtual int find () throw (std::string);
 
@@ -62,6 +78,10 @@ class RemoteDirSearch : public IDirectorySearch {
    bool isValid (const std::string& dir) throw (domain_error);
 
    static const char SEPERATOR = ':';
+
+ protected:
+   // Variables for sending
+   Socket      sock;
 
  private:
    //@Section prohibited manager functions
@@ -76,8 +96,6 @@ class RemoteDirSearch : public IDirectorySearch {
    void setFiledata (const char* pAnswer) throw (std::string);
    int handleServerError (const char* pAnswer) throw (std::string);
 
-   // Variables for sending
-   Socket      sock;
    std::string server;
    std::string files;
 

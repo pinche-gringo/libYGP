@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.5 2001/09/05 15:58:58 markus Exp $
+//$Id: IDirSrch.h,v 1.6 2001/09/27 22:02:24 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 class dirEntry;
 
-// Class to search for files in a certain directory over a network-connection
+// Abstract base-class to search for files in a directory.
 class IDirectorySearch {
  public:
    //@Section manager-functions

@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.7 2001/03/25 09:51:45 markus Exp $
+//$Id: PathDirSrch.h,v 1.8 2001/09/27 22:02:25 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,8 +25,21 @@
 #include <DirSrch.h>
 #include <PathSrch.h>
 
-
-// Class to search for files in a specified path
+// Class to search for files in directories listed in a path. This
+// search can be restricted to files matching certain name-criterias
+// or by attributes.
+//
+// The name-part of the files to search supports UNIX-like wildcards;
+// that are the asterisk (*) for any number of any characters, the
+// question-mark for any single character and a set of characters in
+// brackets (([) and (])). This set can contain a list of characters
+// (like [abcde]) or a region (like [a-e]). To invert this set use a
+// leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
+//
+// The found (and matching) files are retrieved by objects of type dirEntry.
+//
+// Note: The class does not do any word expansion for the search-path
+//       (like expanding the tilde (~) to the home-directory)!
 class PathDirectorySearch : public DirectorySearch {
  public:
    //@Section manager-functions

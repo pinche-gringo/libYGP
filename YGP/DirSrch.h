@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.22 2001/09/05 15:58:50 markus Exp $
+//$Id: DirSrch.h,v 1.23 2001/09/27 22:02:24 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,21 @@ class DirectorySearch;
 #  error MAX_PATH must be defined as max. filelength in every operating-system!
 #endif
 
-// Class to search for files in a certain directory
+// Class to search for files in a certain directory.  This search can
+// be restricted to files matching certain name-criterias or by
+// attributes.
+//
+// The name-part of the files to search supports UNIX-like wildcards;
+// that are the asterisk (*) for any number of any characters, the
+// question-mark for any single character and a set of characters in
+// brackets (([) and (])). This set can contain a list of characters
+// (like [abcde]) or a region (like [a-e]). To invert this set use a
+// leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
+//
+// The found (and matching) files are retrieved by objects of type dirEntry.
+//
+// Note: The class does not do any word expansion for the search-path
+//       (like expanding the tilde (~) to the home-directory)!
 class DirectorySearch : public IDirectorySearch {
  public:
    //@Section manager-functions
