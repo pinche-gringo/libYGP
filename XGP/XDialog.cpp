@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.17 2004/01/15 06:26:35 markus Rel $
+//$Id: XDialog.cpp,v 1.18 2004/10/16 19:17:10 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -26,9 +26,6 @@
 
 
 #include <YGP/Internal.h>
-
-#define XK_MISCELLANY
-#include <X11/keysymdef.h>
 
 #include <gtkmm/stock.h>
 #include <gtkmm/button.h>
@@ -107,15 +104,9 @@ void XDialog::init (unsigned int buttons) {
 
    get_action_area ()->set_homogeneous (false);
 
-   if (cancel) {
-      cancel->set_flags (Gtk::CAN_DEFAULT);
+   if (cancel)
       cancel->grab_default ();
-      Check3 (get_accel_group ());
-      cancel->add_accelerator ("clicked", get_accel_group (), XK_Escape,
-                               Gdk::ModifierType (0), Gtk::ACCEL_VISIBLE);
-   }
    if (ok) {
-      ok->set_flags (Gtk::CAN_DEFAULT);
       ok->grab_default ();
    }
 }

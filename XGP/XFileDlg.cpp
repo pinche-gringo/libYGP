@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.24 2004/09/06 00:27:38 markus Rel $
+//$Id: XFileDlg.cpp,v 1.25 2004/10/16 19:17:10 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -27,9 +27,6 @@
 #include <sys/stat.h>
 
 #include <string>
-
-#define XK_MISCELLANY
-#include <X11/keysymdef.h>
 
 #include <gtkmm/main.h>
 #include <gtkmm/stock.h>
