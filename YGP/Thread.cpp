@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.3 2002/05/09 22:21:59 markus Exp $
+//$Id: Thread.cpp,v 1.4 2002/05/13 02:51:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -31,7 +31,7 @@
 #include <assert.h>
 
 #ifdef HAVE_LIBPTHREAD
-#include <pthread.h>
+#  include <pthread.h>
 #else
 #  if SYSTEM == UNIX
 #     include <unistd.h>
@@ -66,6 +66,8 @@ Thread::Thread (THREAD_FUNCTION fnc, void* paArgs) throw (std::string)
    : paArgs_ (paArgs) {
    TRACE3 ("Thread::Thread (THREAD_FUNCTION, void*)");
    init (fnc, paArgs);
+
+   TRACE9 ("Thread::Thread (THREAD_FUNCTION, void*) -id = " << (int)id);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -73,7 +75,6 @@ Thread::Thread (THREAD_FUNCTION fnc, void* paArgs) throw (std::string)
 /*--------------------------------------------------------------------------*/
 Thread::~Thread () {
    TRACE3 ("Thread::~Thread ()");
-   waitForThread (*this);
 }
 
 
@@ -89,6 +90,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
       err.replace (err.find ("%1"), 2, strerror (errno));
       throw (err);
    }
+   TRACE9 ("Thread::init (THREAD_FUNCTION, void*) -id = " << (int)id);
 #else
    canceled = false;
    id = fork ();
@@ -113,7 +115,7 @@ void Thread::ret (void* rc) const {
 #ifdef HAVE_LIBPTHREAD
    pthread_exit (rc);
 #else
-   exit (rc ? *static_cast<int*> (rc) : -1);
+   _exit (rc ? *static_cast<int*> (rc) : -1);
 #endif
 }
 
@@ -122,7 +124,8 @@ void Thread::ret (void* rc) const {
 /*--------------------------------------------------------------------------*/
 void Thread::cancel () {
 #ifdef HAVE_LIBPTHREAD
-   pthread_cancel (id);
+   int rc (pthread_cancel (id));
+   assert (!rc);
 #else
    canceled = true;
 #endif
@@ -134,13 +137,16 @@ void Thread::cancel () {
 //Returns   : void* 
 /*--------------------------------------------------------------------------*/
 void* Thread::waitForThread (const Thread& id) {
+   TRACE3 ("Thread::waitForThread (const Thread&) - " << (int)id.id);
+
 #ifdef HAVE_LIBPTHREAD
    void* rc;
    pthread_join (id.id, &rc);
    return rc;
 #else
    int rc;
-   wait (id.id, NULL, 0);
+   wait (id.id, &rc, 0);
+   return (void*)rc;
 #endif
 }
 
@@ -152,6 +158,6 @@ void Thread::isToCancel () const {
    pthread_testcancel ();
 #else
    if (canceled)
-      exit (-1);
+      _exit (-1);
 #endif
 }
