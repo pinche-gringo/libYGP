@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.31 2001/09/05 15:58:29 markus Exp $
+//$Id: DirSrch.cpp,v 1.32 2001/09/06 19:30:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -88,7 +88,7 @@ DirectorySearch::~DirectorySearch () {
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    cleanup ();
-   pEntry = &result; assert (pEntry);
+   pEntry = &result;
    attr = convertToSysAttribs (attribs);
    pEntry->path_ = searchDir;
 
@@ -99,14 +99,18 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
 #if SYSTEM == UNIX
    pDir = opendir (searchDir.c_str ());
-   if (!pDir)
+   if (!pDir) {
+      pEntry = NULL;
       return errno;
+   }
 #else
 #  if SYSTEM == WINDOWS
    std::string temp (searchDir + '*');
    hSearch = FindFirstFile (temp.c_str (), pEntry);
-   if (hSearch == INVALID_HANDLE_VALUE)
+   if (hSearch == INVALID_HANDLE_VALUE) {
+      pEntry = NULL;
       return GetLastError ();
+   }
 #  else
 #     error Not implemented!
 #  endif
@@ -172,6 +176,7 @@ int DirectorySearch::find () {
       } // endif filename OK
    } // end-while files available
 
+   pEntry = NULL;
    return ENOENT;
 #else
 #  if SYSTEM == WINDOWS
@@ -184,6 +189,8 @@ int DirectorySearch::find () {
          TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
          return 0;
       }
+
+   pEntry = NULL;
    return GetLastError ();
 #  else
 #      error Not implemented yet!
@@ -223,11 +230,11 @@ void DirectorySearch::setSearchValue (const std::string& search) {
    len = searchFile.rfind (dirEntry::DIRSEPERATOR);
    if (len != std::string::npos) {
       searchDir = searchFile;
-      TRACE9 ("DirectorySearch::setSearchValue - 1: " << searchDir.c_str ());
+      TRACE9 ("DirectorySearch::setSearchValue - 1: " << searchDir);
       searchDir.replace (len + 1, searchDir.length (), 0, '\0');
-      TRACE9 ("DirectorySearch::setSearchValue - 2: " << searchDir.c_str ());
+      TRACE9 ("DirectorySearch::setSearchValue - 2: " << searchDir);
       searchFile.replace (0, len + 1, 0, '\0');
-      TRACE9 ("DirectorySearch::setSearchValue - 3: " << searchFile.c_str ());
+      TRACE9 ("DirectorySearch::setSearchValue - 3: " << searchFile);
    }
    assert (checkIntegrity () <= NO_ENTRY);
 }
