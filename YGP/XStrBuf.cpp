@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.23 2003/02/13 07:20:44 markus Exp $
+// $Id: XStrBuf.cpp,v 1.24 2003/02/21 19:39:10 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -110,11 +110,11 @@ int extStreambuf::overflow (int) {
 //Requires  : Readpointer equal or behind end-of-readbuffer
 /*--------------------------------------------------------------------------*/
 int extStreambuf::underflow () {
-   TRACE2  ("extStreambuf::underflow ()");
-
    if (gptr () < egptr ()) // Sanity-check; VC uses underflow to get curr char
       return *gptr ();
 
+   TRACE7 ("extStreambuf::underflow () - Act: " << std::hex << (int)gptr ()
+          << "; End: " << (int)egptr () << std::dec);
    Check1 (!checkIntegrity ());
 
    char* pTemp = pBuffer;
@@ -133,7 +133,7 @@ int extStreambuf::underflow () {
          setg (pBuffer, pBuffer + lenBuffer, pBuffer + lenBuffer);
       }
       *pTemp++ = (char)ch;
-      TRACE9 ("New char: " << (char)ch);
+      TRACE8 ("New char: " << (char)ch);
 
       if ((char)ch == '\n')
          break;
@@ -203,7 +203,7 @@ int extStreambuf::pbackfail (int c) {
 //Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
 std::streampos extStreambuf::seekoff (std::streamoff off, _seek_dir dir, int mode) {
-   TRACE8 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - " << off
+   TRACE7 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - " << off
            << "; " << dir << '/' << mode);
    Check1 (pSource);
 
@@ -211,9 +211,9 @@ std::streampos extStreambuf::seekoff (std::streamoff off, _seek_dir dir, int mod
    // pSource is already further (at end of line)
    if (dir == cur)
       off -= (egptr () - gptr ());
-   std::streampos pos (pSource->pubseekoff (off, dir, mode));
-   setg (pBuffer, pBuffer + lenBuffer, pBuffer + lenBuffer);
-   return pos;
+   TRACE7 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - New value: " << off);
+   setg (NULL, NULL, NULL);
+   return off ? pSource->pubseekoff (off, dir, mode) : 0;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -223,9 +223,9 @@ std::streampos extStreambuf::seekoff (std::streamoff off, _seek_dir dir, int mod
 //Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
 std::streampos extStreambuf::seekpos (std::streampos pos, int mode) {
-   TRACE8 ("extStreambuf::seekpos (streampos, mode)");
+   TRACE7 ("extStreambuf::seekpos (streampos, mode)");
    Check1 (pSource);
-   setg (pBuffer, pBuffer, pBuffer);
+   setg (NULL, NULL, NULL);
    return pSource->pubseekpos (pos, mode);
 }
 
