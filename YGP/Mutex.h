@@ -1,7 +1,7 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-//$Id: Mutex.h,v 1.1 2002/06/29 22:05:36 markus Exp $
+//$Id: Mutex.h,v 1.2 2002/07/09 01:47:48 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@
 
 #ifdef HAVE_LIBPTHREAD
 #  include <pthread.h>
+#elif SYSTEM == WINDOWS
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
 #else
 #  error Not yet implemented!
 #endif
@@ -30,15 +33,28 @@
 // Class for mutual exclusive devices
 class Mutex {
  public:
+#ifdef HAVE_LIBPTHREAD
    Mutex ()  { pthread_mutex_init (&id, NULL); }
    ~Mutex () { pthread_mutex_destroy (&id); }
 
    bool trylock () { return !pthread_mutex_trylock (&id); }
    void lock () { pthread_mutex_lock (&id); }
    void unlock () { pthread_mutex_unlock (&id); }
+#elif SYSTEM == WINDOWS
+   Mutex () : hMutex (CreateMutex (NULL, false, NULL)) { }
+   ~Mutex () { ReleaseMutex (hMutex); }
+
+   bool trylock () { return WaitForSingleObject (hMutex, 0) == WAIT_OBJECT_0; }
+   void lock () { WaitForSingleObject (hMutex, INFINITE); }
+   void unlock () { ReleaseMutex (hMutex); }
+#endif
 
  private:
+#ifdef HAVE_LIBPTHREAD
    pthread_mutex_t id;
+#elif SYSTEM == WINDOWS
+   HANDLE hMutex;
+#endif
 };
 
 #endif
