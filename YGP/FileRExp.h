@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.12 2003/02/13 07:17:13 markus Rel $
+//$Id: FileRExp.h,v 1.13 2003/07/01 04:12:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,34 +21,47 @@
 
 #include <RegExp.h>
 
-// Class to compare text with (UNIX-file-style) regular expressions
-//
-// Note: Depending on the operating system this comparison is either
-//       case-sensitive (*X) or just case-preserving ((WIN)DOS(E))!
-//
-// The following characters have a special meaning:
-//
-// '*' matches any number of any characters
-// '?' matches any single character
-// '[<match>]' matches the characters specified in match.
-// '[^<match>]' or '[!<match>]'  matches the characters not specified in match
-//     <match> ::= | <char><match> | <range><match> | <character-class><match> | {}
-//     <range> ::= <low>-<high>
-//     <character-class> ::= [:<class>:]
-//     <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
-//                 | print | punct | upper
-//
-// Note: The pExpression-parameter is stored as is (and not copied); so take
-//       care it is valied during the life-time of the object.
-//
-// Use the matches-method of the parent (IRegularExpression) to check if the
-// object matches some data.
+/**Class to compare text with (UNIX-file-style) regular expressions
+
+  \note: Depending on the operating system this comparison is either
+         case-sensitive (*X) or just case-preserving (DOS and derivates)!
+
+   The following characters have a special meaning:
+
+   - <b>*</b> (Asterisk): matches any number of any characters
+
+   - <b>?</b> (Question mark): matches any single character
+
+   - \b >[<match>] matches the characters specified in match.
+
+   - '\b [^<match>] or \b [!<match>] matches the characters not specified in match.<br>
+       <match> ::= | <char><match> | <range><match> | <character-class><match> | {}<br>
+       <range> ::= <low>-<high><br>
+       <character-class> ::= [:<class>:]<br>
+       <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
+                   | print | punct | space | upper</p><p>
+       \note To include the character square bracket ([) in the match, it
+             must be the first character; similar to the match-negators caret
+             (^) and exclamaition-mark (!), wich must \b not be the first
+             character to get included.
+
+   \note The \c pExpression-parameter is stored as is (and not copied); so
+         take care it is valid during the life-time of the object.
+
+   Use IRegularExpression::matches to check if the object matches some data.
+*/
 class FileRegularExpr : public IRegularExpression {
  public:
+   /// Constructor; sets the regular expression to match
+   /// \pre The input is not copied, so it must be valid during the lifetime
+   ///      of the regular expression.
    FileRegularExpr (const char* pRegExp) : IRegularExpression (pRegExp) { }
    virtual ~FileRegularExpr ();
 
    virtual int checkIntegrity () const throw (std::string);
+   /// Assignmentoperator; specifies the regular expression to match.
+   /// \pre The input is not copied, so it must be valid during the lifetime
+   ///      of the regular expression.
    FileRegularExpr& operator= (const char* pRegExp) {
       return (FileRegularExpr&)IRegularExpression::operator= (pRegExp); }
 

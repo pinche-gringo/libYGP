@@ -1,14 +1,14 @@
-//$Id: FileRExp.cpp,v 1.21 2003/02/13 07:17:13 markus Rel $
+//$Id: FileRExp.cpp,v 1.22 2003/07/01 04:12:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <ctype.h>
-#include <string.h>
+#include <cctype>
+#include <cstring>
 
 #include "Internal.h"
 
@@ -59,24 +59,22 @@
 #define REGIONCLASS ':'
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 FileRegularExpr::~FileRegularExpr () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the passed text matches the passed regular expression.
-//
-//            Both passed parameter must not be NULL-pointers and the regular
-//            expression must be in a valid syntax (this can be checked with
-//            the checkIntegrity-method).
-//Parameters: Pointer to character array holding regular expression
-//            pAktRegExp: Pointer to character array holding value to compare
-//Returns   : bool: Result (true: match)
-//Requires  : pAktRegExp, pCompare: ASCIIZ-strings
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if the passed text matches the passed regular expression. Both
+/// passed parameter must not be NULL-pointers and the regular expression must
+/// be in a valid syntax (this can be checked with the checkIntegrity()-method).
+/// \param pAktRegExp: Pointer to character array holding regular expression
+/// \param pCompare: Pointer to character array holding value to compare
+/// \returns \c bool: Result (true: match)
+/// \pre \c pAktRegExp, \c pCompare: ASCIIZ-strings
+//-----------------------------------------------------------------------------
 bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
    Check1 (pAktRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
 
@@ -198,14 +196,14 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks the syntax of the regular expression. If everything is OK,
-//            0 is returned; 1 if there is no regular expression at all. In
-//            case of any other error an exception is thrown.
-//Returns   : int: Status; 0: OK
-//Requires  : pFileRegExp is a valid regexp
-//Throws    : std::string: In case of an invalid regexp a describing text
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks the syntax of the regular expression. If everything is OK, 0 is
+/// returned; 1 if there is no regular expression at all. In case of any other
+/// error an exception is thrown.
+/// \returns \c int: Status; 0: OK
+/// \throw \c std::string: In case of an invalid regexp a describing text
+/// \pre pFileRegExp is a valid regexp
+//-----------------------------------------------------------------------------
 int FileRegularExpr::checkIntegrity () const throw (std::string) {
    const char* pRegExp = getExpression ();
    if (!(pRegExp || *pRegExp))
@@ -242,13 +240,13 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
    return 0;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Builds the error-string for checkIntegrity ()
-//Parameters: error: Text describing error
-//            pos: Position of the error inside the regular expression
-//Returns   : std::string: Text describing error in human-readable format
-//Requires  : error is an ASCIIZ-string
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Builds the error-string for checkIntegrity ()
+/// \param error: Text describing error
+/// \param pos: Position of the error inside the regular expression
+/// \returns \c std::string: Text describing error in human-readable format
+/// \pre error is an ASCIIZ-string
+//-----------------------------------------------------------------------------
 std::string FileRegularExpr::getError (const char* error, unsigned int pos) const {
    Check1 (error);
    std::string err (_("`%1', position %2: %3"));
