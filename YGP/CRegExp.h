@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.14 2002/04/19 00:46:20 markus Exp $
+//$Id: CRegExp.h,v 1.15 2002/04/19 07:08:19 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -124,20 +124,22 @@ class RegularExpression : public IRegularExpression {
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
 #ifndef HAVE_REGEX_H
+   bool doCompGroup (const char*& pAktRegExp, const char* pEnd,
+                     const char*& pCompare, int min, int max) const;
    bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
    bool doCompChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
    bool doCompEscChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
-   bool compRegion (const char*& pAktRegExp, const char*& pCompare);
-   bool compGroup (const char*& pAktRegExp, const char*& pCompare);
-   bool compChar (const char*& pAktRegExp, const char*& pCompare);
-   bool compEscChar (const char*& pAktRegExp, const char*& pCompare);
+   bool compRegion (const char*& pAktRegExp, const char*& pCompare) const;
+   bool compGroup (const char*& pAktRegExp, const char*& pCompare) const;
+   bool compChar (const char*& pAktRegExp, const char*& pCompare) const;
+   bool compEscChar (const char*& pAktRegExp, const char*& pCompare) const;
 
    typedef bool (RegularExpression::*MFCOMPARE) (const char*&, const char*,
                                                  const char*&) const;
 
    const char* getRepeatFactor (const char* pRE, int& min, int& max) const;
    bool compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
-                       const char* pEndRE, const char*& pCompare);
+                       const char* pEndRE, const char*& pCompare) const;
 #endif
 
  private:
@@ -156,8 +158,9 @@ class RegularExpression : public IRegularExpression {
 
    void init (const char* pRegExp) throw (std::string);
 #else
-   bool doCompare (const char*& pAktRegExp, const char*& pCompare);
-   bool compareParts (const char*& pAktRegExp, const char*& pCompare, bool inGroup = false);
+   bool doCompare (const char*& pAktRegExp, const char*& pCompare) const;
+   bool compareParts (const char*& pAktRegExp, const char*& pCompare,
+                      bool inGroup = false) const;
    const char* findEndOfAlternative (const char* pRegExp, bool inGroup = false) const;
    const char* findEndOfRegion (const char* pRegExp) const;
    const char* findEndOfGroup (const char* pRegExp) const;
