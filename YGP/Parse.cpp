@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.9 1999/11/09 22:01:58 Markus Exp $
+//$Id: Parse.cpp,v 1.10 1999/11/14 15:26:23 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,7 +27,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define DEBUG 8
+#define DEBUG 0
 #include "Trace.h"
 #include "Parse.h"
 #include "XStream.h"
