@@ -1,3 +1,16 @@
+Overview of Changes in version 0.6.40:
+
+  - Installing headers in {C,X,Y}GP subdirectory
+  - Using namespaces for each package
+  - Class AutoContainer added to display objects horizontally aligned
+  - Class StatusObject added to collect info/warning/error messages
+  - Class MessageDlg added to display StatusObjects
+  - Taking care, that Folder children don't get deleted while resorting
+  - CORBA tests wait for their children to die before exiting
+  - Removed some compiler warnings
+  - mgeni adds namespace to the output
+  - Renamed Trace_.h to Trace.h and Process_.h to Process.h
+
 Overview of Changes in version 0.6.31:
 
   - Added test for Thread and Mutex classes

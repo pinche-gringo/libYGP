@@ -1,3 +1,129 @@
+2003-11-28  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.40 added
+
+	* YGP/StatusObj.cpp: Initializing empty objects with UNDEFINED
+
+	* XGP/MessageDlg.cpp: User shortcuts for the buttons
+
+	* XGP/AutoContainer.cpp: Removing empty lines from the container
+
+	* po/de.po, po/en.po, po/es.po: Added messages of MessageDlg
+
+2003-11-19  Markus Schwab  <g17m0@lycos.com>
+
+	* po/POTFILES.in: Added MessageDlg
+
+	* YGP/Makefile.am: Added StatusObj
+
+	* XGP/MessageDlg.cpp, XGP/MessageDlg.h: New file.
+
+	* XGP/Makefile.am: Added MessageDlg
+
+	* YGP/StatusObj.cpp, YGP/StatusObj.h: New file.
+
+2003-11-17  Markus Schwab  <g17m0@lycos.com>
+
+	* INSTALL: Renamed gzo-cfg.h to ygp-cfg.h
+
+	* Makefile.am: Added ygp-cfg.h (instead of gzo-cfg.h) to distribution
+
+	* configure.in:
+	  Using ygp-cfg.h as config-header; Added CGP/CGP.pc to output
+
+	* bin/mgeni: Updated version and copyright info
+
+	* ygp-cfg.h.in:
+	  Protecting against double-includes with the right name (YGP_CFG_H)
+
+	* XGP/AutoContainer.cpp, XGP/BrowserDlg.cpp, XGP/ConnectDlg.cpp, XGP/Folder.cpp, XGP/HTMLViewer.cpp, XGP/Samples/Dialog.cpp, XGP/Samples/X-Appl.cpp, XGP/XAbout.cpp, XGP/XApplication.cpp, XGP/XDate.cpp, XGP/XDialog.cpp, XGP/XFileDlg.cpp, XGP/XFileEntry.cpp, XGP/XFileList.cpp, XGP/XPrintDlg.cpp:
+	  Renamed Trace_.h to Trace.h and Process_.h to Process.h
+
+	* CGP/Tests/RFile.cpp, CGP/Tests/Remote.cpp, CGP/CGP.pc.in, CGP/CIDirSrch.cpp, CGP/Tests/Local.cpp, CGP/Version.cpp:
+	  Renamed Trace_.h to Trace.h
+
+	* CGP/Makefile.in: Installing package-config file
+
+	* YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ATStamp.cpp, YGP/ATime.cpp, YGP/AssParse.cpp, YGP/AttrParse.cpp, YGP/CRegExp.cpp, YGP/ConnMgr.cpp, YGP/DirSrch.cpp, YGP/File.cpp, YGP/FileRExp.cpp, YGP/IDirSrch.cpp, YGP/INIFile.cpp, YGP/Makefile.am, YGP/Parse.cpp, YGP/PathDirSrch.cpp, YGP/PathSrch.cpp, YGP/Process.cpp, YGP/RDirSrch.cpp, YGP/RDirSrchSrv.cpp, YGP/RemoteFile.cpp, YGP/Socket.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Thread.cpp, YGP/Trace.h, YGP/XDirSrch.cpp, YGP/XStrBuf.cpp:
+	  Renamed Trace_.h to Trace.h and Process_.h to Process.h
+
+2003-11-16  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ATStamp.cpp, YGP/ATime.cpp, YGP/Attribute.h, YGP/CRegExp.h, YGP/Check.cpp, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/File.cpp, YGP/File.h, YGP/IDirSrch.cpp, YGP/Internal.h, YGP/Log.h, YGP/Mutex.h, YGP/PathSrch.cpp, YGP/PathSrch.h, YGP/Process.h, YGP/RDirSrch.h, YGP/RemoteFile.cpp, YGP/Socket.cpp, YGP/Socket.h, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/XStrBuf.cpp, YGP/Thread.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h:
+	  Including ygp-cfg.h instead of gzo-cfg.h
+
+	* YGP/XDirSrch.h:
+	  Moved declaration of helper methods into YGP namespace
+
+2003-11-15  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in: Setting the tar-name explicitely
+
+	* XGP/XAttribute.h: Removed XGP-namespace; Added YGP explicitely
+
+	* bin/mgeni: Generating Attributes with namespace
+
+2003-11-14  Markus Schwab  <g17m0@lycos.com>
+
+	* CGP/CIDirSrch.cpp, CGP/CIDirSrch.h, CGP/Tests/RFile.cpp:
+	  Adapted to use namespace YGP
+
+	* XGP/AutoContainer.cpp, XGP/AutoContainer.h, XGP/BrowserDlg.cpp, XGP/BrowserDlg.h, XGP/ConnectDlg.cpp, XGP/ConnectDlg.h, XGP/Folder.cpp, XGP/Folder.h, XGP/HTMLViewer.cpp, XGP/HTMLViewer.h, XGP/Samples/Dialog.cpp, XGP/Samples/Dialog.h, XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h, XGP/Version.cpp, XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XAttrEntry.h, XGP/XAttrLabel.h, XGP/XAttribute.h, XGP/XDate.cpp, XGP/XDate.h, XGP/XDialog.cpp, XGP/XDialog.h, XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XFileEntry.cpp, XGP/XFileEntry.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
+	  Using namespace XGP
+
+	* YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AssParse.cpp, YGP/AssParse.h, YGP/AttrParse.cpp, YGP/AttrParse.h, YGP/AttrVal.h, YGP/Attribute.h, YGP/CRegExp.cpp, YGP/CRegExp.h, YGP/ConnMgr.cpp, YGP/ConnMgr.h, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/Entity.cpp, YGP/Entity.h, YGP/File.cpp, YGP/File.h, YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/Handle.cpp, YGP/Handle.h, YGP/IDirSrch.cpp, YGP/IDirSrch.h, YGP/INIFile.cpp, YGP/INIFile.h, YGP/IVIOAppl.cpp, YGP/IVIOAppl.h, YGP/Log.h, YGP/Mutex.h, YGP/Parse.cpp, YGP/Parse.h, YGP/PathDirSrch.cpp, YGP/PathDirSrch.h, YGP/PathSrch.cpp, YGP/PathSrch.h, YGP/Process.cpp, YGP/Process.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h, YGP/RegExp.h, YGP/RemoteFile.cpp, YGP/RemoteFile.h, YGP/SmartPtr.h, YGP/Socket.cpp, YGP/Socket.h, YGP/StackTrc.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Thread.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Thread.cpp, YGP/Thread.h, YGP/Tokenize.cpp, YGP/Tokenize.h, YGP/Version.cpp, YGP/XDirSrch.cpp, YGP/XDirSrch.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h, YGP/XStream.h, YGP/ADate.cpp:
+	  Using namespace YGP
+
+	* XGP/Icons/Makefile.in: Adapted to new directory sturcture
+
+	* XGP/Version.cpp, YGP/Version.cpp:
+	  Removed compiler warning about unused var
+
+	* Makefile.am: Adapted to new directory structure
+
+	* configure.in:
+	  Fixed test for CORBA; Version to 0.6.40; Adapted to new directory structure
+
+	* ygp-cfg.h.in: Definition of HAVE_CORBA_H
+
+	* po/POTFILES.in: Adapted the path of the files
+
+	* CGP/Makefile.in: Fixed subdir
+
+	* CGP/CIDirSrch.cpp:
+	  Adapted to new install-structure; Replaced asserts with Checks
+
+	* CGP/CIDirSrch.h, CGP/Makefile.in, CGP/Tests/Makefile.in:
+	  Adapted to new install-structure
+
+	* CGP/Tests/Local.cpp:
+	  Adapted to new install-structure; replaced asserts with Checks
+
+	* CGP/Tests/RFile.cpp, CGP/Tests/Remote.cpp:
+	  Adapted to new install-variant; Waiting for the child process to terminate
+
+	* CGP/Tests/RFile.cpp:
+	  Using new directory structure; Changing name of searched file
+
+	* XGP/BrowserDlg.cpp, XGP/BrowserDlg.h, XGP/ConnectDlg.cpp, XGP/ConnectDlg.h, XGP/Folder.cpp, XGP/GTKViewer.c, XGP/HTMLViewer.cpp, XGP/HTMLViewer.h, XGP/Makefile.am, XGP/Samples/Dialog.cpp, XGP/Samples/Dialog.h, XGP/Samples/Makefile.am, XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h, XGP/Version.cpp, XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XAttrEntry.h, XGP/XAttribute.h, XGP/XDate.cpp, XGP/XDate.h, XGP/XDialog.cpp, XGP/XFileDlg.cpp, XGP/XFileEntry.cpp, XGP/XFileEntry.h, XGP/XFileList.cpp, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
+	  Using new include structure (XGP)
+
+	* XGP/AutoContainer.cpp: Disabled Checks and TRACES
+
+	* YGP/CRegExp.h, YGP/Check.cpp, YGP/ConnMgr.cpp, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/Entity.cpp, YGP/Entity.h, YGP/File.cpp, YGP/File.h, YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/Handle.cpp, YGP/Handle.h, YGP/IDirSrch.cpp, YGP/IDirSrch.h, YGP/INIFile.cpp, YGP/INIFile.h, YGP/IVIOAppl.cpp, YGP/Log.h, YGP/Makefile.am, YGP/Parse.cpp, YGP/Parse.h, YGP/PathDirSrch.cpp, YGP/PathDirSrch.h, YGP/PathSrch.cpp, YGP/PathSrch.h, YGP/Process.cpp, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h, YGP/RegExp.h, YGP/RemoteFile.cpp, YGP/RemoteFile.h, YGP/Socket.cpp, YGP/StackTrc.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Makefile.am, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Thread.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Thread.cpp, YGP/Tokenize.cpp, YGP/Version.cpp, YGP/XDirSrch.cpp, YGP/XStrBuf.cpp, YGP/XStrBuf.h, YGP/XStream.h, YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AssParse.cpp, YGP/AssParse.h, YGP/AttrParse.cpp, YGP/AttrParse.h, YGP/Attribute.h, YGP/CRegExp.cpp:
+	  Using new include structure (YGP)
+
+2003-11-12  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Folder.h: Fixed typo in a comment
+
+	* XGP/Folder.cpp: Referencing the object; to not delete it while moving
+
+	* XGP/AutoContainer.cpp, XGP/AutoContainer.h:
+	  Reacting on resizing the single lines
+
+	* XGP/AutoContainer.cpp, XGP/AutoContainer.h: New file.
+
 2003-11-07  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.6.31 added
