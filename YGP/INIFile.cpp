@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.7 2001/10/08 14:28:50 markus Exp $
+//$Id: INIFile.cpp,v 1.8 2002/03/23 20:45:45 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -74,14 +74,11 @@ INISection::~INISection () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds an attribute to parse to the section
 //Parameters: attribute: Attribute to add
-//Throws    : In the debug-versions an exception is thrown, it the attribute
-//            already exists
 /*--------------------------------------------------------------------------*/
-void INISection::addAttribute (const IAttribute& attribute) throw (std::string) {
+void INISection::addAttribute (const IAttribute& attribute) {
 #ifndef NDEBUG
    if (findAttribute (attribute.getName ()))
-      throw (std::string ("Attribute '") + std::string (attribute.getName ())
-             + std::string ("' already exists"));
+      assert (0);
 #endif
 
    attributes.push_back (&attribute);
@@ -91,7 +88,7 @@ void INISection::addAttribute (const IAttribute& attribute) throw (std::string) 
 //Purpose   : Tries to find an attribute with the specified name in the
 //            section
 //Parameters: name: Name of attribute to find
-//Returns   : Section*: Pointer to attribute or NULL (if not found)
+//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const char* name) const {
    std::vector<const IAttribute*>::const_iterator i;
@@ -106,7 +103,7 @@ const IAttribute* INISection::findAttribute (const char* name) const {
 //Purpose   : Tries to find an attribute with the specified name in the
 //            section
 //Parameters: name: Name of attribute to find
-//Returns   : Section*: Pointer to attribute or NULL (if not found)
+//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const std::string& name) const {
    std::vector<const IAttribute*>::const_iterator i;
@@ -227,8 +224,7 @@ void INIFile::addSection (const INISection& section) {
 #ifndef NDEBUG
    // Check if a section with the same name exists
    if (findSection (section.getName ()))
-      throw (std::string ("Section '") + std::string (section.getName ())
-             + std::string ("' already exists"));
+      assert (0);
 #endif
 
    sections.push_back (&section);

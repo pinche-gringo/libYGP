@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.9 2001/09/25 21:19:02 markus Exp $
+//$Id: INIFile.h,v 1.10 2002/03/23 20:45:45 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ class INISection {
 
    const IAttribute* findAttribute (const std::string& name) const;
    const IAttribute* findAttribute (const char* name) const;
-   void addAttribute (const IAttribute& attribute) throw (std::string);
+   void addAttribute (const IAttribute& attribute);
 
    int readFromStream (Xistream& stream) throw (std::string);
    int readAttributes (Xistream& stream) throw (std::string);
