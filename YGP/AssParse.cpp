@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.1 2001/08/26 02:20:48 markus Exp $
+//$Id: AssParse.cpp,v 1.2 2001/08/26 14:37:27 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -76,8 +76,11 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
 	 throw key;
       }
    }
-   else
+   else {
       pos = _string.find (SEPERATOR, pos);
+      if (pos == std::string::npos)
+         pos = _string.length ();
+   }
 
    len = pos - actPos + 1;
 
