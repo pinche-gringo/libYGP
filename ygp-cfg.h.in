@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.2 2001/03/25 10:00:10 markus Exp $
+//$Id: ygp-cfg.h.in,v 1.3 2001/08/22 01:37:21 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -59,7 +59,9 @@
 #undef WORDS_BIGENDIAN
 
 /* Define the micro-version */
+#ifndef MICRO_VERSION
 #undef MICRO_VERSION
+#endif
 
 /* Define for working regex.h */
 #undef HAVE_REGEX_H
@@ -84,5 +86,12 @@
 
 /* Define if you have the stdc++ library (-lstdc++).  */
 #undef HAVE_LIBSTDC__
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
 
 #endif
