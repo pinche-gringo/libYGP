@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.24 2003/03/06 04:16:02 markus Exp $
+//$Id: CRegExp.h,v 1.25 2003/05/23 17:50:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
 #include <gzo-cfg.h>
 
 // Uncommment to work with own regular-expressions, even if real ones are present
-#undef HAVE_REGEX_H
-#undef HAVE_REGEXP_H
+// #undef HAVE_REGEX_H
+// #undef HAVE_REGEXP_H
 
 #ifdef HAVE_REGEX_H
 #  include <sys/types.h>
