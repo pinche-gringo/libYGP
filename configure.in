@@ -1,24 +1,21 @@
-dnl $Id: configure.in,v 1.57 2003/11/03 20:42:57 markus Rel $
+dnl $Id: configure.in,v 1.58 2003/11/14 18:21:43 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.57 $)
+AC_PREREQ(2.52)
+AC_REVISION($Revision: 1.58 $)
+AC_INIT(libYGP, 0.6.40, [g17m0@lycos.com])
 
-AC_INIT()
-
-MAJOR_VERSION=0
-MINOR_VERSION=6
-MICRO_VERSION=31
-RELEASE=$MAJOR_VERSION.$MINOR_VERSION
-VERSION=$RELEASE.$MICRO_VERSION
+RELEASE=${PACKAGE_VERSION%.*}
+VERSION=AC_PACKAGE_VERSION
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
 AC_DEFINE_UNQUOTED(SYSTEM, UNIX)
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=0.6.30
+LIBRELEASE=0.6.40
 AC_SUBST(LIBRELEASE)
 
-MYSUBDIRS="Common"
+MYSUBDIRS="YGP"
 
 GTKMM_NEEDED_MAYOR=2
 GTKMM_NEEDED_MINOR=0
@@ -27,7 +24,7 @@ GTKMM_MINVERSION=$GTKMM_NEEDED_MAYOR.$GTKMM_NEEDED_MINOR.$GTKMM_NEEDED_MICRO
 
 dnl AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(libYGP, $VERSION)
+AM_INIT_AUTOMAKE(dist-bzip2)
 AM_CONFIG_HEADER(gzo-cfg.h)
 
 AC_LANG(C)
@@ -73,14 +70,12 @@ fi
 AC_MSG_RESULT([$ac_cv_header_regex_h])
 
 if test "$enable_corba" == "yes"; then
-   AC_CACHE_CHECK([for header CORBA.h], [ac_cv_header_CORBA_h],
-                  [AC_COMPILE_IFELSE([#include <CORBA.h>], [],
-                                     [ac_cv_header_CORBA_h=yes],
-                                     [ac_cv_header_CORBA_h=no])])
+   AC_CHECK_HEADERS([CORBA.h], [ac_cv_header_CORBA_h=yes],
+                    [ac_cv_header_CORBA_h=no])
    if test "$ac_cv_header_CORBA_h" == "yes"; then
-      MYSUBDIRS="$MYSUBDIRS CORBA"
+      MYSUBDIRS="$MYSUBDIRS CGP"
    else
-      AC_MSG_WARN([CORBA is not installed; subdir CORBA will not be made])
+      AC_MSG_WARN([CORBA is not installed; subdir CGP will not be made])
    fi
 fi
 
@@ -88,8 +83,8 @@ dnl Check gtkmm version
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])])
 PKG_CHECK_MODULES(GTKMM, gtkmm-2.0 >= $GTKMM_MINVERSION,
-                  [[MYSUBDIRS="$MYSUBDIRS X-windows"]],
-                  [AC_MSG_WARN([Subdir X-windows will not be made])])
+                  [[MYSUBDIRS="$MYSUBDIRS XGP"]],
+                  [AC_MSG_WARN([Subdir XGP will not be made])])
 PKG_CHECK_MODULES(GTKHTML, libgtkhtml-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTKHTML, 1, [Define if GTKHTML is installed (in a fitting version)])],
                   [AC_MSG_NOTICE([Don't build "native" help display])])
@@ -152,11 +147,10 @@ AC_ARG_ENABLE(corba,
               AC_HELP_STRING([--enable-corba],
                              [Enables the check for an CORBA-implementation]))
 
-AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile  intl/Makefile \
-	   m4/Makefile X-windows/Icons/Makefile \
-	   CORBA/Makefile po/Makefile.in doc/Makefile CORBA/Tests/Makefile \
-	   bin/Makefile X-windows/Samples/Makefile Common/YGP.pc \
-	   X-windows/XGP.pc doc/YGP.doxy doc/XGP.doxy])
+AC_OUTPUT([Makefile YGP/Makefile YGP/Tests/Makefile XGP/Makefile intl/Makefile \
+	   m4/Makefile XGP/Icons/Makefile CGP/Makefile po/Makefile.in \
+           doc/Makefile CGP/Tests/Makefile bin/Makefile XGP/Samples/Makefile \
+           YGP/YGP.pc XGP/XGP.pc doc/YGP.doxy doc/XGP.doxy])
 
 dnl Settings for autoheader
 AH_TOP([#ifndef GZO_CFG_H
