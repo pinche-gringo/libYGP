@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.4 2001/09/04 22:57:56 markus Exp $
+// $Id: StackTrc.cpp,v 1.5 2001/10/09 17:21:31 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -76,6 +76,8 @@ void dumpStack () {
    // Let pStack point to base-pointer
    int* pStack = ((int*)(&pBuffer)) + 1;
 
+   int levels (15);
+
    while (*pStack) {
       // Check if the stack is aligned
       assert ((unsigned int)pStack
@@ -84,6 +86,9 @@ void dumpStack () {
       // The address of the caller is next (behind) the basepointer
       sprintf (pBuffer, "Called by ?? @ %p", pStack[1]);
       PRINT (pBuffer);
+
+      if (!levels--)
+         break;
 
       pStack = (int*)*pStack;
    }
