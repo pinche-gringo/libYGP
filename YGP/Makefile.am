@@ -14,7 +14,7 @@ includedir = ${prefix}/include/YGP
 
 libYGP_la_LDFLAGS=-release $(LIBRELEASE) -no-undefined
 
-libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp \
+libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp\
 	FileRExp.cpp Handle.cpp Version.cpp ATime.cpp XStrBuf.cpp ADate.cpp \
 	PathDirSrch.cpp ATStamp.cpp INIFile.cpp CRegExp.cpp StackTrc.cpp \
 	Socket.cpp RDirSrch.cpp File.cpp RDirSrchSrv.cpp AssParse.cpp \
@@ -22,7 +22,7 @@ libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp \
 	PathSrch.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp  \
 	StatusObj.cpp Internal.h
 
-nobase_include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
+include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 	FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h Check.h \
 	SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
 	CRegExp.h RegExp.h Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h \
@@ -31,4 +31,4 @@ nobase_include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 	Process.h StatusObj.h
 
 pkgconfigdir =$(libdir)/pkgconfig
-dist_pkgconfig_DATA=YGP.pc
+pkgconfig_DATA=YGP.pc

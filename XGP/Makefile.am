@@ -9,7 +9,7 @@ lib_LTLIBRARIES=libXGP.la
 
 includedir = ${prefix}/include/XGP
 
-nobase_include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
+include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
 	XFileList.h XDate.h XFileDlg.h XPrintDlg.h XAttrLabel.h	XDialog.h \
 	XAttrEntry.h Folder.h XAttribute.h ConnectDlg.h HTMLViewer.h \
 	GTKViewer.h AutoContainer.h MessageDlg.h
@@ -29,4 +29,4 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 pkgconfigdir=$(libdir)/pkgconfig
-dist_pkgconfig_DATA=XGP.pc
+pkgconfig_DATA=XGP.pc
