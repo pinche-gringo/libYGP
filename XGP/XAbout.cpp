@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.16 2003/03/06 04:27:55 markus Exp $
+//$Id: XAbout.cpp,v 1.17 2003/06/02 01:30:19 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -55,6 +55,9 @@ XAbout::XAbout (const std::string& author, const std::string& program)
    TRACE9 ("XAbout::XAbout - Title: " << program);
 
    set_title (program);
+
+   writer->set_justify (Gtk::JUSTIFY_CENTER);
+   gpl->set_justify (Gtk::JUSTIFY_CENTER);
 
    writer->show ();
    client->pack_end (*writer, true, false, 5);         // Put text into client
