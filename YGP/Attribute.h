@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.16 2003/05/23 03:38:43 markus Rel $
+//$Id: Attribute.h,v 1.17 2003/06/19 18:44:49 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,34 +32,45 @@
 
 #include <Check.h>
 #include <AssParse.h>
-#include <AByteArray.h>
 
 
-// Baseclass for attributes. Derive from it for every type of attribute.
-//
-// An attribute is defined to be the connection between a name and an
-// attribute-value (which is not stored inside the attribute but only
-// refereneced).
+/**Baseclass for attributes. Derive from it for every type of attribute.
+
+   An attribute is defined to be the connection between a name and an
+   attribute-value (which is not stored inside the attribute but only
+   refereneced).
+*/
 class IAttribute {
  public:
+   /// Destructor
    virtual ~IAttribute () { }
 
+   /// Checks if the passed text matches the name of the attribute
    bool matches (const char* pName) const {
       Check3 (pName);
       return name == pName; }
+   /// Checks if the passed text matches the name of the attribute
    bool matches (const std::string& name_) const {
       return name == name_; }
 
+   /// Assigns the passed text to the attribute value
+   /// \returns \c true on success; \c false otherwise
    virtual bool assignFromString (const char* value) const = 0;
+   /// Assigns the passed text to the attribute value
    virtual bool assign (const char* value, unsigned int length) const {
       return assignFromString (value); }
 
+   /// Returns the name of the attribute
    const std::string& getName () const { return name; }
+   /// Returns the value of the attribute (value)
    virtual std::string getValue () const = 0;
+   /// Returns the value of the attribute (value) as formatted string
    virtual std::string getFormattedValue () const { return getValue (); }
 
  protected:
+   /// Constructor; creates an attribute with the specified name
    IAttribute (const char* pName) : name (pName) { Check3 (pName); }
+   /// Constructor; creates an attribute with the specified name
    IAttribute (const std::string& name_) : name (name_) { }
 
  private:
@@ -70,26 +81,29 @@ class IAttribute {
 };
 
 
-// Template representing an attribute of a specific type.
-//
-// This class is designed to be used by AttributeValues (and derived types),
-// but there exists specializations for:
-//   - char
-//   - char*
-//   - char* const
-//   - short
-//   - unsigned short
-//   - int
-//   - unsigned int
-//   - long
-//   - unsigned long
-//   - double
-//   - std::string
-//   - AByteArray
+/**Template representing an attribute of a specific type.
+
+   This class is designed to be used by AttributeValues (and derived types),
+   but there exists specializations for:
+     - char
+     - char*
+     - char* const
+     - short
+     - unsigned short
+     - int
+     - unsigned int
+     - long
+     - unsigned long
+     - double
+     - std::string
+*/
 template <class T> class Attribute : public IAttribute {
  public:
+   /// Constructor; creates an attribute with the specified name, referencing the attribute value
    Attribute (const char* name, T& attr) : IAttribute (name), attr_ (attr) { }
+   /// Constructor; creates an attribute with the specified name, referencing the attribute value
    Attribute (const std::string& name, T& attr) : IAttribute (name), attr_ (attr) { }
+   /// Destructor
    ~Attribute () {  }
 
    virtual bool assignFromString (const char* value) const {
@@ -105,12 +119,12 @@ template <class T> class Attribute : public IAttribute {
    virtual bool assign (const char* value, unsigned int) const {
       return assignFromString (value); }
 
+   /// Returns a reference to the handled attribute value
    T& getAttribute () const { return attr_; }
    virtual std::string getValue () const { return attr_.toUnformattedString (); }
    virtual std::string getFormattedValue () const { return attr_.toString (); }
 
  private:
-
    Attribute (const Attribute&);
    const Attribute& operator= (const Attribute&);
 
@@ -263,35 +277,40 @@ template <> inline bool Attribute<std::string>::assign (const char* value, unsig
 template <> inline std::string Attribute<std::string>::getValue () const { return attr_; }
 template <> inline std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
 
-template <> inline bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
-   Check3 (value);
-   attr_.assign (value, length);
-   return true;
-}
 
+/**Template for s list of attributes of a specific type.
 
-// Template for s list of attributes of a specific type.
-//
-// This class is designed to be used by AttributeValues (and derived types),
-// but there exists specializations for:
-//   - char
-//   - char*
-//   - char* const
-//   - short
-//   - unsigned short
-//   - int
-//   - unsigned int
-//   - long
-//   - unsigned long
-//   - double
-//   - std::string
-//   - AByteArray
+   This class is designed to be used by AttributeValues (and derived types),
+   but there exists specializations for:
+     - char
+     - char*
+     - char* const
+     - short
+     - unsigned short
+     - int
+     - unsigned int
+     - long
+     - unsigned long
+     - double
+     - std::string
+*/
 template <class T> class AttributeList : public IAttribute {
  public:
+   /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
    AttributeList (const char* name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
-   AttributeList (const std::string& name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
+   /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
+   AttributeList (const std::string& name, std::vector<& list) : IAttribute (name), list_ (list) { }
+   /// Destructor
    ~AttributeList () { }
 
+   /// Method to assign a value from a character-pointer to the attribute
+   /// list.
+   ///
+   /// The character-array is supposed to be a sequence of offset=value
+   /// entries, which are separated by a semicolon (;). In case of an error
+   /// (invalid offset or value) the assigning is stopped; leaving the
+   /// previously (valid) entries assigned.
+   /// \returns \c true on success; \c false otherwise
    virtual bool assignFromString (const char* value) const {
       AssignmentParse parse (value);
       std::string node;
@@ -313,9 +332,14 @@ template <class T> class AttributeList : public IAttribute {
       return true;
    }
 
+   /// Method to assign a value from a character-pointer to the attribute
+   /// list. See assignFromString() for details.
    virtual bool assign (const char* value, unsigned int length) const {
       return assignFromString (value); }
 
+   /// Method to assign a value from a character-pointer to a single
+   /// (specified) element of the list.
+   /// \note The \c offset is not checked vor validity!
    virtual bool assignFromString (unsigned int offset, const char* value) const {
       try {
          list_[offset] = value;
@@ -326,10 +350,24 @@ template <class T> class AttributeList : public IAttribute {
       return true;
    }
 
+   /// Method to assign a value from a character-pointer to a single
+   /// (specified) element of the list. See See assignFromString() for details.
    virtual bool assign (unsigned int offset, const char* value, unsigned int length) const {
       return assignFromString (offset, value); }
 
-   std::string getValue ()  const { return ""; }
+   /// Returns the value of the attribute list. This is a string of <tt>
+   /// [offset]=[value];</tt> entries.
+   std::string getValue ()  const {
+      std::string help;
+      for (std::vector<T>::const_iterator i (list_.begin ());
+           i != list_.end (); ++i) {
+         help += itoa (i - list_.begin ());
+         help += '=';
+         help += i->toUnformattedString ();
+         help += ';';
+      }
+      return help;
+   }
 
  private:
    AttributeList (const AttributeList&);
@@ -440,12 +478,6 @@ template <> inline bool AttributeList<std::string>::assignFromString (unsigned i
 }
 
 template <> inline bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
-   Check3 (value);
-   list_[offset].assign (value, length);
-   return true;
-}
-
-template <> inline bool AttributeList<AByteArray>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    list_[offset].assign (value, length);
    return true;
