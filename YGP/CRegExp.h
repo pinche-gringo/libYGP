@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.9 2001/09/29 17:08:04 markus Exp $
+//$Id: CRegExp.h,v 1.10 2002/04/14 23:17:31 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -89,35 +89,35 @@ class RegularExpression : public IRegularExpression {
    RegularExpression& operator= (const char* pRegExp);
 
    // Contstants for repeating
-   static const char MULTIMATCHOPT;
-   static const char MULTIMATCHMAND;
-   static const char MULTIMATCH1;
-   static const char BOUNDBEG;
-   static const char BOUNDEND;
+   static const char MULTIMATCHOPT = '*';
+   static const char MULTIMATCHMAND = '+';
+   static const char MULTIMATCH1 = '?';
+   static const char BOUNDBEG = '{';
+   static const char BOUNDEND = '}';
 
    // Special single characters
-   static const char SINGLEMATCH;
-   static const char LINEBEGIN;
-   static const char LINEEND;
-   static const char ESCAPE;
+   static const char SINGLEMATCH = '.';
+   static const char LINEBEGIN = '^';
+   static const char LINEEND = '$';
+   static const char ESCAPE = '\\';
 
    // Contants related to regions
-   static const char REGIONBEGIN;
-   static const char REGIONEND;
-   static const char RANGE;
-   static const char NEGREGION;
-   static const char REGIONCLASS;
+   static const char REGIONBEGIN = '[';
+   static const char REGIONEND = ']';
+   static const char RANGE = '-';
+   static const char NEGREGION = '^';
+   static const char REGIONCLASS = ':';
 
    // Escaped special characters (after a quoting backslash (\))
-   static const char GROUPBEGIN;
-   static const char GROUPEND;
-   static const char ALTERNATIVE;
-   static const char WORD;
-   static const char NOTWORD;
-   static const char WORDBORDER;
-   static const char NOTWORDBORDER;
-   static const char WORDBEGIN;
-   static const char WORDEND;
+   static const char GROUPBEGIN = '(';
+   static const char GROUPEND = ')';
+   static const char ALTERNATIVE = '|';
+   static const char WORD = 'w';
+   static const char NOTWORD = 'W';
+   static const char WORDBORDER = 'b';
+   static const char NOTWORDBORDER = 'B';
+   static const char WORDBEGIN = '<';
+   static const char WORDEND = '>';
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
@@ -137,7 +137,7 @@ class RegularExpression : public IRegularExpression {
    std::string getError (int rc, unsigned int pos) const;
 
    enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
-          INV_RANGE, ENDING_BACKSLASH, INV_BOUND, BOUND_OPEN };
+          INV_RANGE, ENDING_BACKSLASH, INV_BOUND };
 
 #ifdef HAVE_REGEX_H
    regex_t regexp;

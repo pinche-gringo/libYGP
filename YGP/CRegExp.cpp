@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.14 2002/04/09 20:02:50 markus Exp $
+//$Id: CRegExp.cpp,v 1.15 2002/04/14 23:17:31 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -38,37 +38,6 @@
 #  include <ctype.h>
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
-
-// Contstants for repeating
-const char RegularExpression::MULTIMATCHOPT = '*';
-const char RegularExpression::MULTIMATCHMAND = '+';
-const char RegularExpression::MULTIMATCH1 = '?';
-const char RegularExpression::BOUNDBEG = '{';
-const char RegularExpression::BOUNDEND = '}';
-
-// Special single characters
-const char RegularExpression::SINGLEMATCH = '.';
-const char RegularExpression::LINEBEGIN = '^';
-const char RegularExpression::LINEEND = '$';
-const char RegularExpression::ESCAPE = '\\';
-
-// Contants related to regions
-const char RegularExpression::REGIONBEGIN = '[';
-const char RegularExpression::REGIONEND = ']';
-const char RegularExpression::RANGE = '-';
-const char RegularExpression::NEGREGION = '^';
-const char RegularExpression::REGIONCLASS = ':';
-
-// Escaped special characters (after a quoting backslash (\))
-const char RegularExpression::GROUPBEGIN = '(';
-const char RegularExpression::GROUPEND = ')';
-const char RegularExpression::ALTERNATIVE = '|';
-const char RegularExpression::WORD = 'w';
-const char RegularExpression::NOTWORD = 'W';
-const char RegularExpression::WORDBORDER = 'b';
-const char RegularExpression::NOTWORDBORDER = 'B';
-const char RegularExpression::WORDBEGIN = '<';
-const char RegularExpression::WORDEND = '>';
 
 
 /*--------------------------------------------------------------------------*/
@@ -653,7 +622,6 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
    case REGION_OPEN: error = N_("Unmatched [ or [^"); break;
    case GROUP_OPEN: error = N_("Unmatched \\( or \\)"); break;
    case RANGE_OPEN: error = N_("Invalid range end"); break;
-   case BOUND_OPEN: error = N_("Bound does not end with (})"); break;
    case NO_PREV_EXP: error = N_("Repeating suffix without previous expression"); break;
    case INV_DIGIT: error = N_("Invalid group-number"); break;
    case INV_RANGE: error = N_("Invalid range (lower border larger than upper border)"); break;
@@ -664,7 +632,7 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
 #endif
 
    std::string err (getExpression ());
-   err += _(", position ");
+   err += _("`%1', position %2: %3");
    err += ANumeric::toString ((unsigned long)pos + 1);
    err += _(error);
 }
