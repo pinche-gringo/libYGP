@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.25 2004/10/13 03:54:01 markus Rel $
+//$Id: File.h,v 1.26 2005/03/06 06:37:04 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ class DirectorySearch;
 #if SYSTEM == UNIX
 
 #ifdef MAX_PATH
-#undef MAX_PATH 
+#undef MAX_PATH
 #endif
 #define MAX_PATH            MAXNAMLEN
 
@@ -143,7 +143,7 @@ struct File {
    /// Checks if the file name matches the passed text
    int compare (const char* pszName) const { return strcmp (name (), pszName); }
    /// Checks if the file name matches the passed text
-   int compare (const std::string& Name) const { return name () == Name; }
+   int compare (const std::string& Name) const { return -Name.compare (name ()) ; }
    /// Checks if the file name matches those of the other object
    int compare (const File& other) const { return strcmp (name (), other.name ()); }
    /// Checks if the file name matches those of the other object
