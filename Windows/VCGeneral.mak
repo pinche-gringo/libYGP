@@ -66,7 +66,9 @@ CLEAN :
 	-@erase "$(INTDIR)\Tokenize.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\Version.obj"
+	-@erase "$(INTDIR)\XDirSrch.obj"
 	-@erase "$(INTDIR)\XStrBuf.obj"
+	-@erase "$(INTDIR)\Process.obj"
 	-@erase "$(OUTDIR)\VCGeneral.dll"
 	-@erase "$(OUTDIR)\VCGeneral.exp"
 	-@erase "$(OUTDIR)\VCGeneral.lib"
@@ -147,7 +149,9 @@ LINK32_OBJS= \
 	"$(INTDIR)\Thread.obj" \
 	"$(INTDIR)\Tokenize.obj" \
 	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj"
+	"$(INTDIR)\XStrBuf.obj" \
+        "$(INTDIR)\XDirSrch.obj" \
+	"$(INTDIR)\Process.obj"
 
 "$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -196,7 +200,9 @@ CLEAN :
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
 	-@erase "$(INTDIR)\Version.obj"
+	-@erase "$(INTDIR)\XDirSrch.obj"
 	-@erase "$(INTDIR)\XStrBuf.obj"
+	-@erase "$(INTDIR)\Process.obj"
 	-@erase "$(OUTDIR)\VCGeneral.dll"
 	-@erase "$(OUTDIR)\VCGeneral.exp"
 	-@erase "$(OUTDIR)\VCGeneral.ilk"
@@ -279,7 +285,9 @@ LINK32_OBJS= \
 	"$(INTDIR)\Thread.obj" \
 	"$(INTDIR)\Tokenize.obj" \
 	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj"
+	"$(INTDIR)\XStrBuf.obj" \
+        "$(INTDIR)\XDirSrch.obj" \
+	"$(INTDIR)\Process.obj"
 
 "$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -313,6 +321,11 @@ SOURCE=..\Common\ADate.cpp
 SOURCE=..\Common\ANumeric.cpp
 
 "$(INTDIR)\ANumeric.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+SOURCE=..\Common\Process.cpp
+
+"$(INTDIR)\Process.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -353,6 +366,12 @@ SOURCE=..\Common\CRegExp.cpp
 
 
 SOURCE=..\Common\DirSrch.cpp
+
+"$(INTDIR)\DirSrch.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\XDirSrch.cpp
 
 "$(INTDIR)\DirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -476,12 +495,12 @@ SOURCE=..\Common\XStrBuf.cpp
 !ENDIF
 
 $(OUTDIR)\VCGeneral.def: $(LINK32_OBJS)
-        Echo LIBRARY VCGeneral > $(OUTDIR)\VCGeneral.def
-        Echo EXPORTS >> $(OUTDIR)\VCGeneral.def
-        Del Dumpbin.out
-        for %%i in ($(OUTDIR)\*.obj) do dumpbin /SYMBOLS %%i >> Dumpbin.out
-        awk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
-        Del Dumpbin.out
+	Echo LIBRARY VCGeneral > $(OUTDIR)\VCGeneral.def
+	Echo EXPORTS >> $(OUTDIR)\VCGeneral.def
+	Del Dumpbin.out
+	for %%i in ($(OUTDIR)\*.obj) do dumpbin /SYMBOLS %%i >> Dumpbin.out
+	awk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
+	Del Dumpbin.out
 
 check: ALL
-        nmake /f VCTests.mak check
+	nmake /f VCTests.mak check

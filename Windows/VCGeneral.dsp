@@ -7,19 +7,19 @@
 CFG=VCGeneral - Win32 Debug
 !MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
 !MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "VCGeneral.mak".
-!MESSAGE 
+!MESSAGE
 !MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
 !MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
-!MESSAGE 
+!MESSAGE
 !MESSAGE NMAKE /f "VCGeneral.mak" CFG="VCGeneral - Win32 Debug"
-!MESSAGE 
+!MESSAGE
 !MESSAGE Für die Konfiguration stehen zur Auswahl:
-!MESSAGE 
+!MESSAGE
 !MESSAGE "VCGeneral - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "VCGeneral - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE 
+!MESSAGE
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -81,7 +81,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 
-!ENDIF 
+!ENDIF
 
 # Begin Target
 
@@ -101,6 +101,10 @@ SOURCE=..\Common\ADate.cpp
 # Begin Source File
 
 SOURCE=..\Common\ANumeric.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Process.cpp
 # End Source File
 # Begin Source File
 
@@ -129,6 +133,10 @@ SOURCE=..\Common\CRegExp.cpp
 # Begin Source File
 
 SOURCE=..\Common\DirSrch.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\XDirSrch.cpp
 # End Source File
 # Begin Source File
 
@@ -228,6 +236,10 @@ SOURCE=..\Common\ANumeric.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\Process_.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\AssParse.h
 # End Source File
 # Begin Source File
@@ -261,6 +273,10 @@ SOURCE=..\Common\CRegExp.h
 # Begin Source File
 
 SOURCE=..\Common\DirSrch.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\XDirSrch.h
 # End Source File
 # Begin Source File
 
