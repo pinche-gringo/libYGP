@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.3 2003/02/03 03:50:05 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.4 2003/02/05 03:16:29 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -110,7 +110,9 @@ void BrowserDlg::control (unsigned int cmd) {
    
    if (aBrowsers[cmd]->get_active ()) {
       path.set_sensitive (cmd == ((sizeof (aBrowsers) / sizeof (aBrowsers[0])) - 1));
-      if (!path.is_sensitive ()) {
+      if (path.is_sensitive ())
+         path.grab_focus ();
+      else {
          Check1 (cmd < sizeof (browserNames) / sizeof (browserNames[0]));
          path.getAttribute () = browserNames[cmd];
          path.update ();
