@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.15 $)\n"
-"POT-Creation-Date: 2003-07-21 18:55-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.16 $)\n"
+"POT-Creation-Date: 2003-08-11 21:30-0500\n"
 "PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -203,7 +203,8 @@ msgid "Can't listen on socket"
 msgstr "Can't listen on socket (for communication)"
 
 #: Common/Socket.cpp:203
-msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
+msgid ""
+"Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 
 #: Common/Socket.cpp:237 Common/Socket.cpp:257

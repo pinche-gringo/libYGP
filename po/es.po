@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.15 $)\n"
-"POT-Creation-Date: 2003-07-21 18:55-0500\n"
-"PO-Revision-Date: 2003-07-21 18:56-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.16 $)\n"
+"POT-Creation-Date: 2003-08-11 21:30-0500\n"
+"PO-Revision-Date: 2003-08-11 22:42-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -47,11 +47,11 @@ msgstr "No encontre llave '%1'"
 
 #: Common/CRegExp.cpp:1033
 msgid "Unmatched [ or [^"
-msgstr "[ ó ^[ desemparejado"
+msgstr "[ ó [^ desemparejado"
 
 #: Common/CRegExp.cpp:1034
 msgid "Unmatched ( or )"
-msgstr "( ó ( desemparejados"
+msgstr "( ó ) desemparejados"
 
 #: Common/CRegExp.cpp:1035
 msgid "Invalid range end"
@@ -203,7 +203,8 @@ msgid "Can't listen on socket"
 msgstr "No puedo escuchar al socket"
 
 #: Common/Socket.cpp:203
-msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
+msgid ""
+"Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Puerto '%1' ni está numérico (decimal, octal o hexadecimal) ni un servicio"
 
@@ -350,7 +351,7 @@ msgstr "<alt>A"
 
 #: X-windows/XApplication.cpp:358
 msgid "_Content..."
-msgstr "_Contento"
+msgstr "_Contento ..."
 
 #: X-windows/XApplication.cpp:358
 msgid "F1"
@@ -358,7 +359,7 @@ msgstr ""
 
 #: X-windows/XApplication.cpp:359
 msgid "Configure _browser ..."
-msgstr "Configura el _browser"
+msgstr "Configura el _browser ..."
 
 #: X-windows/XApplication.cpp:361
 msgid "_About..."
@@ -366,4 +367,4 @@ msgstr "_Sobre ..."
 
 #: X-windows/XAbout.cpp:49
 msgid "Distributed under the terms of the GNU General Public License"
-msgstr "Distribuido bajo los condicones de la GNU Licensia General Público"
+msgstr "Distribuido bajo los condiciones de la GNU Licensia General Público"
