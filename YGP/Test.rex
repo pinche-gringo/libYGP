@@ -41,8 +41,9 @@ b=1
 aab=0
 acb=0
 
-[\[:alpha:]]*]
+[\[\[:alpha:\]\]*]
 ab=1
+xyz=1 	
 aaaaab=1
 a1b=0
 
@@ -73,4 +74,12 @@ acd=0
 
 [ab\\Bcd]
 abcd=1
+abfcd=0
 ab cd=0
+
+[ab\\|cd]
+ab=1
+cd=1
+abcd=0
+cdab=0
+xxx=0
