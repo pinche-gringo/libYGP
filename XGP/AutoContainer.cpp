@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.5 2003/11/17 15:08:24 markus Exp $
+//$Id: AutoContainer.cpp,v 1.6 2003/11/28 23:11:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -220,6 +220,9 @@ void AutoContainer::remove (Gtk::Widget& widget) {
               j != line.children ().end (); ++j)
             if (j->get_widget () == &widget) {
                line.remove (widget);
+
+               if (line.children ().empty ())
+                  view.remove (line);
                return;
             }
    }
