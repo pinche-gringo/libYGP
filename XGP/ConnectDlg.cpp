@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.4 2003/07/27 03:44:42 markus Exp $
+//$Id: ConnectDlg.cpp,v 1.5 2003/08/03 21:23:39 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : Common
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -79,7 +79,7 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
    pPort->set_text (defPort);
 
    pConnect->signal_clicked ().connect
-       (bind (slot (*this, &ConnectDlg::command), CONNECT));
+       (bind (slot (*this, &Gtk::Dialog::on_response), CONNECT));
    pWait->signal_clicked ().connect
        (bind (slot (*this, &ConnectDlg::command), WAIT));
 
@@ -156,7 +156,7 @@ void ConnectDlg::command (int action) {
             unsigned int prt (Socket::getPortOfService (pPort->get_text ().c_str ()));
             connect (pTarget->get_text (), prt);
             valueChanged ();
-            destroy_ ();
+            response (Gtk::RESPONSE_OK);
          }
          catch (std::domain_error& err) {
             Glib::ustring msg (_("Can't connect to server!\n\nReason: %1"));
