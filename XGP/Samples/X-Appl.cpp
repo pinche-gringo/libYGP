@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.7 2003/03/04 04:59:53 markus Exp $
+//$Id: X-Appl.cpp,v 1.8 2003/03/06 03:09:58 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -237,13 +237,13 @@ XAppl::XAppl ()
 void XAppl::command (int menu) {
    switch (menu) {
    case OPEN:
-      XFileDialog::perform (_("Add file..."), this,
+      XFileDialog::perform (_("Add file..."), *this,
                             (XFileDialog::PACTION)&XAppl::addFile,
                             XFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
-      XFileDialog::perform (_("Save search result to ..."), this,
+      XFileDialog::perform (_("Save search result to ..."), *this,
                             (XFileDialog::PACTION)&XAppl::saveToFile,
                             XFileDialog::ASK_OVERWRITE);
       break;
@@ -254,7 +254,7 @@ void XAppl::command (int menu) {
       break;
 
    case EXIT:
-      Gtk::Main::quit ();
+      hide ();
       break;
 
    case DATE:
