@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.5 2003/03/03 05:53:43 markus Exp $
+//$Id: X-Appl.cpp,v 1.6 2003/03/03 23:29:20 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -192,11 +192,12 @@ XApplication::MenuEntry XAppl::menuItems[] = {
 /*--------------------------------------------------------------------------*/
 XAppl::XAppl ()
    : XApplication ("X" PACKAGE " V" LIB_RELEASE)
-     , tblInput (2, 2), listFiles (), status (), scroll ()
+     , listFiles (), status (), scroll ()
      , files (XFileListStore::create (cols)) {
    TRACE3 ("XAppl::XAppl ()");
 
    listFiles.set_model (files);
+   listFiles.set_reorderable ();
 
    set_size_request (620, 400);
 
@@ -209,36 +210,25 @@ XAppl::XAppl ()
    apMenus[SAVE]->set_sensitive (false);
    apMenus[PRINT]->set_sensitive (false);
 
-   // Create controls
-   TRACE5 ("XAppl::XAppl () -> Create table");
-   tblInput.show ();
-   vboxClient->pack_start (tblInput, false, true, 5);
-
    TRACE5 ("XAppl::XAppl () -> Create scrollwindow");
    scroll.set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
    vboxClient->pack_start (scroll);
 
    TRACE5 ("XAppl::XAppl () -> Create file-list");
-   listFiles.append_column ("Icon", cols.icon);
-   listFiles.append_column ("Name", cols.name);
    listFiles.append_column ("Size", cols.size);
    listFiles.append_column ("Date", cols.date);
-
    listFiles.get_column (0)->set_min_width (390);
    listFiles.get_column (1)->set_min_width (60);
    listFiles.get_column (2)->set_min_width (105);
    listFiles.get_selection ()->set_mode (Gtk::SELECTION_EXTENDED);
-   listFiles.show ();
 
    scroll.add (listFiles);
-   scroll.show ();
 
    TRACE5 ("XAppl::XAppl () -> Create statusbar");
-   status.push ("Enter filespecification to search for");
-   status.show ();
+   status.push ("Populate the list with File-Open or Dialogs-Dialog");
    vboxClient->pack_start (status, Gtk::PACK_SHRINK);
 
-   show ();
+   show_all_children ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -273,6 +263,7 @@ void XAppl::command (int menu) {
       break;
 
    case DIALOG:
+      TRACE9 ("XAppl::command (int) - Num: " << num << "; File: " << file);
       TDialog<XAppl>::perform (*this, &XAppl::addActFile, num, file);
       break;
 
@@ -305,7 +296,7 @@ void XAppl::addActFile () {
 //Purpose   : Add the selected file to the list
 //Parameters: file: Name of file to add
 /*--------------------------------------------------------------------------*/
-void XAppl::addFile (std::string& file) {
+void XAppl::addFile (const std::string& file) {
    TRACE9 ("XAppl::addFile (std::string&): " << file);
 
    try {
@@ -386,6 +377,6 @@ int main (int argc, char* argv[]) {
 
    Gtk::Main appl (argc, argv);
    XAppl win;
-   appl.run ();
+   appl.run (win);
    return 0;
 }
