@@ -48,11 +48,11 @@ PathSrch_SOURCES=PathSrch.cpp
 PathSrch_LDADD=../Tokenize.o
 
 DirSrch_SOURCES=DirSrch.cpp
-DirSrch_LDADD=../DirSrch.o ../IDirSrch.o ../DirEntry.o ../FileRExp.o \
+DirSrch_LDADD=../DirSrch.o ../IDirSrch.o ../File.o ../FileRExp.o \
               ../ANumeric.o
 
 PathDirSrch_SOURCES=PathDirSrch.cpp
-PathDirSrch_LDADD=../PathDirSrch.o ../DirSrch.o ../IDirSrch.o ../DirEntry.o \
+PathDirSrch_LDADD=../PathDirSrch.o ../DirSrch.o ../IDirSrch.o ../File.o \
                   ../FileRExp.o ../ANumeric.o ../Tokenize.o
 
 Attribute_SOURCES=Attribute.cpp
