@@ -7,7 +7,7 @@ lib_LTLIBRARIES=libAttr.la
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
-INCLUDES = -I $(top_srcdir)
+INCLUDES = -I $(top_srcdir) -I .
 
 libAttr_la_LDFLAGS=-version-info $(LIBVERSION) -release $(LIBRELEASE) \
                    -no-undefined
