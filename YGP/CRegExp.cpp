@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.17 2002/04/18 03:53:29 markus Exp $
+//$Id: CRegExp.cpp,v 1.18 2002/04/18 06:05:34 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -28,7 +28,7 @@
 #include <gzo-cfg.h>
 
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "CRegExp.h"
 #include "Internal.h"
@@ -81,16 +81,16 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the regular expression
-//Parameters: pAktRegExp: Pointer to regular expression
+//Parameters: pActRegExp: Pointer to regular expression
 //            pCompare: String to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktRegExp, pCompare: ASCIIZ-string
+//Requires  : pActRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
-   assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
+bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
+   assert (pActRegExp); assert (pCompare); assert (!checkIntegrity ());
 
    TRACE1 ("RegularExpression::compare (const char*, const char*) -> "
-           << pAktRegExp << " <-> " << pCompare);
+           << pActRegExp << " <-> " << pCompare);
 
 #ifdef HAVE_REGEX_H
    // Use system-regular expressions if available
@@ -107,7 +107,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
               : (match[0].rm_so == 0) && (match[0].rm_eo == strlen (getExpression ()));
 #else
    pStartCompare = pCompare;
-   bool rc (compareParts (pAktRegExp, pCompare));
+   bool rc (compareParts (pActRegExp, pCompare));
    pStartCompare = NULL;
    return rc ? !*pCompare : false;
 #endif
@@ -118,29 +118,29 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the regular expression; the
 //            regular expression is seperated in various parts (if neccessary)
-//Parameters: pAktRegExp: Pointer to regular expression
+//Parameters: pActRegExp: Pointer to regular expression
 //            pCompare: String to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktRegExp, pCompare: ASCIIZ-string
+//Requires  : pActRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compareParts (const char* pAktRegExp,
+bool RegularExpression::compareParts (const char* pActRegExp,
                                       const char*& pCompare, bool inGroup) {
-   assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
+   assert (pActRegExp); assert (pCompare); assert (!checkIntegrity ());
 
    TRACE1 ("RegularExpression::compareParts (const char*, const char*&) -> "
-           << pAktRegExp << " <-> " << pCompare);
+           << pActRegExp << " <-> " << pCompare);
 
    pStartCompare = pCompare;
    bool rc (false);
 
    do {
-      rc = doCompare (pAktRegExp, pCompare);         // Compare the whole thing
+      rc = doCompare (pActRegExp, pCompare);         // Compare the whole thing
       if (rc) {                               // If matched and both regexp and
          TRACE1 ("RegularExpression::compareParts (const char*, const char*&) -> Remaining: '"
                  << pCompare << '\'');
 
          if (!*pCompare)                    // string to compare empty -> Found
-            break;
+            return true;
          else {                            // Part found, but remaining string:
             if (inGroup)                      // If in a group let caller check
                return true;                 // with its rest; if not in a group
@@ -152,28 +152,28 @@ bool RegularExpression::compareParts (const char* pAktRegExp,
          pCompare = pStartCompare;  // start comparison again (with old values)
 
       rc = false;
-      pAktRegExp = findEndOfAlternative (pAktRegExp + 1);
-   } while (*pAktRegExp++); // end-do while alternatives available
+      pActRegExp = findEndOfAlternative (pActRegExp + 1);
+   } while (*pActRegExp++); // end-do while alternatives available
 
-   return rc;
+   return false;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the regular expression
-//Parameters: pAktRegExp: Pointer to regular expression
+//Parameters: pActRegExp: Pointer to regular expression
 //            pCompare: String to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktRegExp, pCompare: ASCIIZ-string
+//Requires  : pActRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare) {
-   assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
+bool RegularExpression::doCompare (const char*& pActRegExp, const char*& pCompare) {
+   assert (pActRegExp); assert (pCompare); assert (!checkIntegrity ());
    TRACE1 ("RegularExpression::doCompare (const char*, const char*&) -> "
-           << pAktRegExp << " <-> " << pCompare);
+           << pActRegExp << " <-> " << pCompare);
 
    char ch;
    bool match (false);
 
-   while ((ch = *pAktRegExp)) {
+   while ((ch = *pActRegExp)) {
       // Check actual rex-exp for special characters (at the current position)
       // After this switch the the following conditions must be fulfilled:
       // - fnCompare points to the compare-function to use
@@ -183,16 +183,16 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare
       switch (ch) {                                   // Get current expression
       case REGIONBEGIN:
          TRACE8 ("RegularExpression::doCompare (const char*&, const char*&) - Found region");
-         match = RegularExpression::compRegion (++pAktRegExp, pCompare);
+         match = RegularExpression::compRegion (++pActRegExp, pCompare);
          break;
 
       case GROUPBEGIN:
          TRACE8 ("RegularExpression::doCompare (const char*&, const char*&) - Found group");
-         match = RegularExpression::compGroup (++pAktRegExp, pCompare);
+         match = RegularExpression::compGroup (++pActRegExp, pCompare);
          break;
 
       case ESCAPE:
-         match = RegularExpression::compEscChar (pAktRegExp, pCompare);
+         match = RegularExpression::compEscChar (pActRegExp, pCompare);
          break;
 
       case ALTERNATIVE:
@@ -204,11 +204,13 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare
          assert (ch != MULTIMATCH1); assert (ch != MULTIMATCHOPT);
          TRACE4 ("RegularExpression::doCompare (const char*, const char*&) - Found char");
 
-         match = RegularExpression::compChar (pAktRegExp, pCompare);
+         match = RegularExpression::compChar (pActRegExp, pCompare);
       } // end-switch 
+      TRACE7 ("RegularExpression::doCompare (const char*, const char*&) - Found : "
+              << (match ? "Yes" : "No"));
 
       if (match) {
-         if (!*pAktRegExp)
+         if (!*pActRegExp)
             return true;
       }
       else
@@ -223,90 +225,88 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the region (incl. handling
 //            of the repeat-factor)
-//Parameters: pAktPos: Reference to pointer to actual position in match
+//Parameters: pActPos: Reference to pointer to actual position in match
 //            region: Region to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; region not empty
+//Requires  : pActPos ASCIIZ-string; region not empty
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compRegion (const char*& pAktRegExp,
+bool RegularExpression::compRegion (const char*& pActRegExp,
                                     const char*& pCompare) {
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
 
-   return compActREPart (&RegularExpression::doCompRegion, pAktRegExp,
-                         findEndOfRegion (pAktRegExp), pCompare);
+   return compActREPart (&RegularExpression::doCompRegion, pActRegExp,
+                         findEndOfRegion (pActRegExp), pCompare);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the region
-//Parameters: pAktPos: Reference to pointer to actual position in match
+//Parameters: pActPos: Reference to pointer to actual position in match
 //            region: Region to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; region not empty
+//Requires  : pActPos ASCIIZ-string; region not empty
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompRegion (const char*& pAktRegExp, const char* pEnd,
+bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
                                       const char*& pCompare) const {
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare);
-   assert (pEnd); assert (pEnd > pAktRegExp);
-
-   ++pAktRegExp;                                          // Point to start and
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
+   assert (pEnd); assert (pEnd > pActRegExp);
 
    TRACE3 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) -> "
-           << *pCompare << " in [" << std::string (pAktRegExp, pEnd - pAktRegExp) << ']');
+           << *pCompare << " in [" << std::string (pActRegExp, pEnd - pActRegExp) << ']');
 
 
    // Compares the actual file-char with the region
    bool fNeg (false);
-   if (*pAktRegExp == NEGREGION) {                            // Values to invert?
-      ++pAktRegExp;
+   if (*pActRegExp == NEGREGION) {                            // Values to invert?
+      ++pActRegExp;
       fNeg = true;
    } // endif
 
-   char ch (*pAktRegExp);
+   char ch (*pActRegExp);
 
    do {
-      if (pAktRegExp[1] == RANGE) {
-         char chUpper (pAktRegExp[2]);
+      if (pActRegExp[1] == RANGE) {
+         char chUpper (pActRegExp[2]);
          assert (chUpper != '\0');  assert (chUpper != REGIONEND);
 
          TRACE7 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - Check "
                  << *pCompare << " in [" << ch << '-' << chUpper << ']');
-         if ((*pAktRegExp >= ch) && (*pCompare <= chUpper))
+         if ((*pActRegExp >= ch) && (*pCompare <= chUpper))
             break;
 
-         pAktRegExp += 2;
+         pActRegExp += 2;
       } // endif range found
       else {
          // Check for class of characters or ordinary char
          char* pEndClass = NULL;
 
-         if ((ch == REGIONBEGIN) && (pAktRegExp[1] == REGIONCLASS)
-             && ((pEndClass = strchr (pAktRegExp + 2, REGIONCLASS)) != NULL)
+         if ((ch == REGIONBEGIN) && (pActRegExp[1] == REGIONCLASS)
+             && ((pEndClass = strchr (pActRegExp + 2, REGIONCLASS)) != NULL)
              && (pEndClass[1] == REGIONEND)) {
 	    TRACE7 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - Check "
-                    << *pCompare << " against region-class " << pAktRegExp + 2);
+                    << *pCompare << " against region-class " << pActRegExp + 2);
 
-            int temp (0), len (pEndClass - pAktRegExp - 2);
-            int val ((temp = isclass (alnum, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (alpha, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (digit, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (space, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (cntrl, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (graph, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (print, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (punct, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (upper, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (lower, pAktRegExp + 2, len, *pCompare)) ? temp :
-		     (isclass (xdigit, pAktRegExp + 2, len, *pCompare)));
+            int temp (0), len (pEndClass - pActRegExp - 2);
+            int val ((temp = isclass (alnum, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (alpha, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (digit, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (space, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (cntrl, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (graph, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (print, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (punct, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (upper, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (lower, pActRegExp + 2, len, *pCompare)) ? temp :
+		     (isclass (xdigit, pActRegExp + 2, len, *pCompare)));
             if (val == 2) {
                TRACE8 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - Check "
-                       << *pCompare << " matches region-class " << pAktRegExp);
+                       << *pCompare << " matches region-class " << pActRegExp);
                break;
             } // endif class and input matches
             else {
                TRACE8 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - " 
-                       << *pCompare << " doesn't match region-class " << pAktRegExp);
+                       << *pCompare << " doesn't match region-class " << pActRegExp);
                if (val)
-                  pAktRegExp = pEndClass + 1;
+                  pActRegExp = pEndClass + 1;
             } // end-else class found, but input doesn't match
          } // endif
          else {
@@ -317,8 +317,8 @@ bool RegularExpression::doCompRegion (const char*& pAktRegExp, const char* pEnd,
          } // end-else ordinary character
       } // end-else non-range
 
-      ch = *++pAktRegExp;
-   } while (pAktRegExp <= pEnd); // end-do
+      ch = *++pActRegExp;
+   } while (pActRegExp <= pEnd); // end-do
 
    if ((ch != '\0') == fNeg)
       return false;
@@ -329,21 +329,21 @@ bool RegularExpression::doCompRegion (const char*& pAktRegExp, const char* pEnd,
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the group
-//Parameters: pAktRegExp: Reference to pointer to actual position in match
+//Parameters: pActRegExp: Reference to pointer to actual position in match
 //            pCompare: Value to compare with
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; group not empty
+//Requires  : pActPos ASCIIZ-string; group not empty
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compGroup (const char*& pAktRegExp,
+bool RegularExpression::compGroup (const char*& pActRegExp,
                                    const char*& pCompare) {
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare);
-   const char* pEnd (findEndOfGroup (++pAktRegExp));
-   assert (pEnd); assert (pEnd > pAktRegExp);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
+   const char* pEnd (findEndOfGroup (++pActRegExp));
+   assert (pEnd); assert (pEnd > pActRegExp);
 
-   std::string group (pAktRegExp, pEnd - pAktRegExp - 1);
+   std::string group (pActRegExp, pEnd - pActRegExp - 1);
 
    TRACE3 ("RegularExpression::compGroup (const char*&, const char*&) -> "
-           << pAktRegExp << " in \\(" << group << "\\)");
+           << pActRegExp << " in \\(" << group << "\\)");
 
    int min, max;
    pEnd = getRepeatFactor (++pEnd, min, max);
@@ -352,7 +352,7 @@ bool RegularExpression::compGroup (const char*& pAktRegExp,
 
    unsigned int i;
    for (i = 0; i <= min; ++i)
-      if (!doCompGroup (pAktRegExp, pAktRegExp + group.size (),   // Match min
+      if (!doCompGroup (pActRegExp, pActRegExp + group.size (),   // Match min
                         pCompare))
          return false;
 
@@ -379,77 +379,76 @@ bool RegularExpression::compGroup (const char*& pAktRegExp,
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the group
-//Parameters: pAktRegExp: Reference to pointer to actual position in match
+//Parameters: pActRegExp: Reference to pointer to actual position in match
 //            pEnd: Pointer to end of group
 //            pCompare: Value to compare with
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; group not empty
+//Requires  : pActPos ASCIIZ-string; group not empty
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompGroup (const char*& pAktRegExp, const char* pEnd,
+bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
                                      const char*& pCompare) {
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare);
-   assert (pEnd); assert (pEnd > pAktRegExp);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
+   assert (pEnd); assert (pEnd > pActRegExp);
 
    TRACE3 ("RegularExpression::doCompGroup (const char*&, const char*, const char*&) const -> "
-           << pAktRegExp << " in (" << std::string (pAktRegExp, pEnd - pAktRegExp) << ")");
-   return compareParts (pAktRegExp, pCompare);
+           << pActRegExp << " in (" << std::string (pActRegExp, pEnd - pActRegExp) << ")");
+   return compareParts (pActRegExp, pCompare);
 }
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the single character (incl.
 //            handling of the repeat-factor)
-//Parameters: pAktPos: Reference to pointer to actual position in match
+//Parameters: pActPos: Reference to pointer to actual position in match
 //            pCompare: Value to compare with
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; region not empty
+//Requires  : pActPos ASCIIZ-string; region not empty
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compChar (const char*& pAktRegExp,
+bool RegularExpression::compChar (const char*& pActRegExp,
                                     const char*& pCompare) {
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
 
-   return compActREPart (&RegularExpression::doCompChar, pAktRegExp,
-                         pAktRegExp + 1, pCompare);
+   return compActREPart (&RegularExpression::doCompChar, pActRegExp,
+                         pActRegExp + 1, pCompare);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the single character
-//Parameters: pAktPos: Reference to pointer to actual position in match
+//Parameters: pActPos: Reference to pointer to actual position in match
 //            pEnd: Pointer to repeat-factor (if any)
 //            pCompare: Pointer to character to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; ch has length of 1
+//Requires  : pActPos ASCIIZ-string; ch has length of 1
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompChar (const char*& pAktRegExp, const char* pEnd,
+bool RegularExpression::doCompChar (const char*& pActRegExp, const char* pEnd,
                                     const char*& pCompare) const {
 
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare); assert (pEnd);
-   assert (pEnd > pAktRegExp);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare); assert (pEnd);
+   assert (pEnd > pActRegExp);
    TRACE3 ("RegularExpression::doCompChar (const char*&, const char*&) -> "
-           << *pAktRegExp << " == " << *pCompare);
+           << *pActRegExp << " == " << *pCompare);
 
    switch (*pCompare) {
    case SINGLEMATCH:
       break;
 
    case LINEBEGIN:
-      assert (pAktRegExp >= pStartCompare);
-      if ((pAktRegExp == pStartCompare) || (pAktRegExp[-1] == '\n'))
+      assert (pActRegExp >= pStartCompare);
+      if ((pActRegExp == pStartCompare) || (pActRegExp[-1] == '\n'))
          break;
       return false;
 
    case LINEEND:
-      if (!pAktRegExp[1] || (pAktRegExp[1] == '\n'))
+      if (!pActRegExp[1] || (pActRegExp[1] == '\n'))
          break;
       return false;
 
    default:
-      if (*pCompare == *pAktRegExp)
+      if (*pCompare == *pActRegExp)
          break;
       return false;
    } // end-switch 
 
-   ++pAktRegExp;
    ++pCompare;
    return true;
 }
@@ -457,68 +456,68 @@ bool RegularExpression::doCompChar (const char*& pAktRegExp, const char* pEnd,
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the single character (incl.
 //            handling of the repeat-factor)
-//Parameters: pAktPos: Reference to pointer to actual position in match
+//Parameters: pActPos: Reference to pointer to actual position in match
 //            region: Region to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; region not empty
+//Requires  : pActPos ASCIIZ-string; region not empty
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compEscChar (const char*& pAktRegExp,
+bool RegularExpression::compEscChar (const char*& pActRegExp,
                                      const char*& pCompare) {
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
 
-   return compActREPart (&RegularExpression::doCompEscChar, pAktRegExp,
-                         pAktRegExp + 1, pCompare);
+   return compActREPart (&RegularExpression::doCompEscChar, pActRegExp,
+                         pActRegExp + 1, pCompare);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the single (escaped) character
-//Parameters: pAktPos: Reference to pointer to actual position in match
+//Parameters: pActPos: Reference to pointer to actual position in match
 //            ch: Character to compare
 //Returns   : bool: Result (true: match)
-//Requires  : pAktPos ASCIIZ-string; ch has length of 1
+//Requires  : pActPos ASCIIZ-string; ch has length of 1
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompEscChar (const char*& pAktRegExp, const char* pEnd,
+bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd,
                                        const char*& pCompare) const {
 
-   assert (pAktRegExp); assert (*pAktRegExp); assert (pCompare); assert (pEnd);
-   assert (pEnd > pAktRegExp);
+   assert (pActRegExp); assert (*pActRegExp); assert (pCompare); assert (pEnd);
+   assert (pEnd > pActRegExp);
    TRACE3 ("RegularExpression::doCompEscChar (const char*&, const char*&) const -> "
-           << *pAktRegExp << " == " << *pCompare);
+           << *pActRegExp << " == " << *pCompare);
 
    switch (*pCompare) {
    case WORD:
-      if (isalnum (*pAktRegExp))
+      if (isalnum (*pActRegExp))
          break;
       return false;
 
    case NOTWORD:
-      if (!isalnum (*pAktRegExp))
+      if (!isalnum (*pActRegExp))
          break;
       return false;
 
    case WORDBORDER:
-      assert (pAktRegExp >= pStartCompare);
-      return ((pAktRegExp == pStartCompare) || !pAktRegExp[1]
-              || ((isalnum (*pAktRegExp)) != isalnum (pAktRegExp[1]))
-              || ((isalnum (*pAktRegExp)) != isalnum (pAktRegExp[-1])));
+      assert (pActRegExp >= pStartCompare);
+      return ((pActRegExp == pStartCompare) || !pActRegExp[1]
+              || ((isalnum (*pActRegExp)) != isalnum (pActRegExp[1]))
+              || ((isalnum (*pActRegExp)) != isalnum (pActRegExp[-1])));
 
    case NOTWORDBORDER:
-      assert (pAktRegExp >= pStartCompare);
-      return (pAktRegExp != pStartCompare) && pAktRegExp[1]
-	&& isalnum (*pAktRegExp) == isalnum (pAktRegExp[1]) && isalnum (pAktRegExp[-1]);
+      assert (pActRegExp >= pStartCompare);
+      return (pActRegExp != pStartCompare) && pActRegExp[1]
+	&& isalnum (*pActRegExp) == isalnum (pActRegExp[1]) && isalnum (pActRegExp[-1]);
 
    case WORDBEGIN:
-      assert (pAktRegExp >= pStartCompare);
-      return ((pAktRegExp == pStartCompare)
-              || ((isalnum (*pAktRegExp)) && !isalnum (pAktRegExp[-1])));
+      assert (pActRegExp >= pStartCompare);
+      return ((pActRegExp == pStartCompare)
+              || ((isalnum (*pActRegExp)) && !isalnum (pActRegExp[-1])));
 
    case WORDEND:
-      assert (pAktRegExp >= pStartCompare);
-      return ((pAktRegExp != pStartCompare)
-              && !isalnum (*pAktRegExp) && isalnum (pAktRegExp[-1]));
+      assert (pActRegExp >= pStartCompare);
+      return ((pActRegExp != pStartCompare)
+              && !isalnum (*pActRegExp) && isalnum (pActRegExp[-1]));
 
    default:
-      return doCompChar (pAktRegExp, pEnd, pCompare);
+      return doCompChar (pActRegExp, pEnd, pCompare);
    } // end-switch
 
    assert (0);
@@ -610,13 +609,13 @@ const char* RegularExpression::findEndOfAlternative (const char* pRegExp) const 
 //Returns   : bool: True, if matches; false, if not
 //Requires  : Pointers not NULL
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
+bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActRegExp,
                                        const char* pEndRE, const char*& pCompare) {
-   assert (fnCompare); assert (pAktRegExp); assert (pEndRE); 
-   assert (pEndRE >= pAktRegExp); assert (pCompare);
+   assert (fnCompare); assert (pActRegExp); assert (pEndRE); 
+   assert (pEndRE >= pActRegExp); assert (pCompare);
 
    TRACE8 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
-           " const char*&) - Analyzing: '" << std::string (pAktRegExp, pEndRE - pAktRegExp)
+           " const char*&) - Analyzing: '" << std::string (pActRegExp, pEndRE - pActRegExp)
            << '\'');
 
    int min, max;
@@ -632,32 +631,34 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pAktReg
       TRACE3 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
               " const char*&) - Repeating: " << i << ". mandatory");
 
-      if (!(this->*fnCompare) (pAktRegExp, pEndRE, pCompare))    // Match til min
+      if (!(this->*fnCompare) (pActRegExp, pEndRE, pCompare))    // Match til min
          return false;
    }
 
-   const char* pSaveRE (pAktRegExp);
    const char* pSaveEnd (pEndRE);
    const char* pSaveComp (pCompare);
    for (; i < static_cast <unsigned int> (max); ++i) {   // then (til max) try
       TRACE3 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
               " const char*&) - Repeating: " << i << ". optional");
 
+      if (doCompare (pEndRE, pCompare))   // if remaining parts match; if yes:
+         break;                                                // Return found
 
-      if (doCompare (pSaveEnd, pCompare)) // if remaining parts match; if yes:
-         return true;                                          // Return found
-
-      pAktRegExp = pSaveRE;
       pEndRE = pSaveEnd;
       pCompare = pSaveComp;                        // Else: Check if act. part
-      if ((this->*fnCompare) (pAktRegExp, pEndRE, pCompare)) {     // is valid
-         pSaveRE = pAktRegExp;                             // and repeat proc.
-         pSaveComp = pCompare;
+      if ((this->*fnCompare) (pActRegExp, pEndRE, pCompare)) {     // is valid
+         pSaveComp = pCompare;                             // and repeat proc.
       }
       else
          return false;
    }
-   return false;
+
+   TRACE9 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
+           " const char*&) - Found:\n\t->ActRegExp = '" << pActRegExp << "', pEnd = '"
+           << pEndRE << "', pCompare = " << pCompare);
+
+   pActRegExp = pEndRE;
+   return true;
  }
 
 
