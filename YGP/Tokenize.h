@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.2 1999/09/11 01:07:57 Markus Rel $
+//$Id: Tokenize.h,v 1.3 1999/09/26 01:54:46 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,11 +24,19 @@
 // Class to split a string into sub-nodes
 class Tokenize {
  public:
-   //@Section manager-functions
+   //Section manager-functions
    Tokenize (const std::string& string) : _string (string), actPos (0), len (0) { }
    virtual ~Tokenize () { }
 
-   //@Section access to sub-nodes
+   const Tokenize& operator= (std::string& string) {
+      _string = string;
+      reset ();
+      return *this; }
+
+   //Section access
+   operator const std::string& () const { return _string; }
+
+   //Section access to sub-nodes
    std::string getActNode () { return _string.substr ((int)actPos, (int)len - 1); }
    std::string getNextNode (const char split);
 
