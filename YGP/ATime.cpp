@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.32 2004/11/04 16:31:18 markus Exp $
+//$Id: ATime.cpp,v 1.33 2004/11/05 04:17:04 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -24,7 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
 #include <cstdio>
+#include <cctype>
 
 #include <ygp-cfg.h>
 
@@ -33,7 +35,7 @@
 #   include <windows.h>
 #endif
 
-#include <sstream>
+#include <istream>
 #include <stdexcept>
 
 #include "YGP/Check.h"
@@ -45,12 +47,16 @@
 
 namespace YGP {
 
+
+const char* ATime::MODES[] = { "%X", "%H:%M", "%M:%S", "%H %M", "%M %S" };
+
+
 //-----------------------------------------------------------------------------
 /// Constructor; depending on the parameter the time is either set to
 /// "0:00:00" (now = false), or to the current time (now = true).
 /// \param now: Flag if current time or default start-time (1.1.1900) should be set
 //-----------------------------------------------------------------------------
-ATime::ATime (bool now) : AttributValue () {
+ATime::ATime (bool now) : AttributValue (), mode (MODE_LOCALE) {
    if (now)
       operator= (time (NULL));
    else
@@ -66,7 +72,8 @@ ATime::ATime (bool now) : AttributValue () {
 /// \param second: Second to set
 //-----------------------------------------------------------------------------
 ATime::ATime (char Hour, char minute, char second) throw (std::invalid_argument)
-   : AttributValue (true), hour (Hour), min_ (minute), sec (second)  {
+   : AttributValue (true), hour (Hour), min_ (minute), sec (second),
+     mode (MODE_LOCALE) {
    int status (checkIntegrity ());
    if (status)
       throw (std::invalid_argument (status == 3 ? "Hour"
@@ -100,23 +107,116 @@ ATime& ATime::operator= (const ATime& other) {
 }
 
 //-----------------------------------------------------------------------------
-/// Assignment-operator from an const char-pointer. The time must be passed as
-/// HHMMSS. If the buffer does not represent a valid time an excpetion is
-/// thrown. A NULL-pointer as parameter is not permitted!
+/// Assignment-operator from a const char-pointer. The time must be passed
+/// either in the local format or as HHMMSS. If the buffer does not represent a
+/// valid time an excpetion is / thrown.
 /// \param pTime: Character array specifying time to assign
 /// \returns Reference to self
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid time
+/// \remarks:  A NULL-pointer as parameter is not permitted!
 //-----------------------------------------------------------------------------
 ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
    Check3 (pTime);
    Check3 (!checkIntegrity ());
 
-   TRACE5 ("ATime::operator= (const char*): " << pTime);
-
-   std::istringstream help (pTime);
-   readFromStream (help);
+   assign (pTime, strlen (pTime));
    return *this;
+}
+
+//-----------------------------------------------------------------------------
+/// Assignment-operator from a const char-pointer. The time must be passed
+/// either in the local format or as HHMMSS. If the buffer does not represent a
+/// valid time an excpetion is / thrown.
+/// \param pTime: Character array specifying time to assign
+/// \returns Reference to self
+/// \throw std::invalid_argument if the parameter does not represent a
+///     valid time
+/// \remarks:  A NULL-pointer as parameter is not permitted!
+/// \remarks:  If the object is in MODE_HHMM or MODE_MMSS, the method also
+///    accepts the input in format HHMM or MMSS.
+//-----------------------------------------------------------------------------
+void ATime::assign (const char* pTime, unsigned int len) {
+   Check3 (pTime);
+   Check3 (!checkIntegrity ());
+
+   TRACE5 ("ATime::assign (const char*, unsigned int): " << pTime << " ("
+	   << len << ')');
+
+#ifdef HAVE_STRFTIME
+   struct tm result;
+   memset (&result, '\0', sizeof (result));
+
+   char* fail (NULL);
+   switch (len) {
+   case 8:
+      fail = strptime (pTime, MODES[MODE_LOCALE], &result);
+      break;
+   case 6:
+      fail = strptime (pTime, "%H %M %S", &result);
+      break;
+   case 5:
+      fail = strptime (pTime, MODES[mode], &result);
+      break;
+   case 4:
+      fail = strptime (pTime, MODES[(unsigned)mode + 2], &result);
+      break;
+   default:
+      fail = NULL;
+   } // endswitch
+   if (!fail || *fail) {
+      TRACE9 ("ATime::assign (const char*, unsigned int) - Failed: " << fail);
+      std::string error (_("Position %1"));
+      error.replace (error.find ("%1"), 2, 1, char ((fail - pTime) + '0'));
+      throw std::invalid_argument (error);
+   }
+
+   operator= (result);
+#else
+   hour = min_ = sec = 0;
+
+   TRACE5 ("ATime::assign (const char*, unsigned int) - Mode: " << mode
+	   << "; Length: " << len);
+   int read (0);
+   switch (len) {
+   case 8:
+      read = sscanf (pTime, "%2u:%2u:%2u", (int*)&hour, (int*)&min_, (int*)&sec);
+      TRACE9 ("Read: " << read << "; " << (int)hour << ':' << (int)min_ << ':' << (int)sec);
+      if (read != 3)
+	 read = -1;
+      break;
+   case 6:
+      read = sscanf (pTime, "%2u%2u%2u", (int*)&hour, (int*)&min_, (int*)&sec);
+      if (read != 3)
+	 read = -1;
+      break;
+   case 5:
+      read = ((mode == MODE_MMSS) ? sscanf (pTime, "%2u:%2u", (int*)&min_, (int*)&sec)
+	      : sscanf (pTime, "%2u:%2u", (int*)&hour, (int*)&min_));
+      if (read != 2)
+	 read = -1;
+      break;
+   case 4:
+      read = ((mode == MODE_MMSS) ? sscanf (pTime, "%2u%2u", (int*)&min_, (int*)&sec)
+	      : sscanf (pTime, "%2u%2u", (int*)&hour, (int*)&min_));
+      if (read != 2)
+	 read = -1;
+      break;
+   default:
+      read = -1;
+   } // endswitch
+   TRACE5 ("ATime::assign (const char*, unsigned int) - Read: " << read);
+
+   if ((read == -1) || checkIntegrity ()) {
+      undefine ();
+      throw std::invalid_argument (pTime);
+   }
+   else {
+      TRACE9 ("ATime::readFromStream (istream&): Define");
+      setDefined ();
+   }
+#endif
+   return;
 }
 
 //-----------------------------------------------------------------------------
@@ -127,7 +227,7 @@ ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
 std::string ATime::toUnformattedString () const {
    char buffer[8];
 
-   sprintf (buffer, "%02d%02d%02d", (unsigned)hour, (unsigned)min_, (unsigned)sec);
+   sprintf (buffer, "%02u%02u%02u", (unsigned)hour, (unsigned)min_, (unsigned)sec);
    return std::string (buffer);
 }
 
@@ -139,7 +239,7 @@ std::string ATime::toUnformattedString () const {
 ///     1900)
 //-----------------------------------------------------------------------------
 std::string ATime::toString () const {
-   return toString ("%X");
+   return toString (MODES[mode]);
 }
 
 //-----------------------------------------------------------------------------
@@ -178,40 +278,15 @@ void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
       undefine ();
       return;
    }
-   static unsigned char ATime::* const targets[] = {
-      &ATime::hour, &ATime::min_, &ATime::sec };
+   char buffer[40];
+   char* pb = buffer;
+   in >> *pb;
+   while (!in.eof () && !isspace (*pb)
+	  && ((unsigned int)(pb - buffer) < (sizeof (buffer) - 1)))
+      in.get (*++pb);
+   *++pb = '\0';
 
-   hour = min_ = sec = 0;
-
-   int ch;
-   int i(0);
-   for (; i < 6; ++i) {
-      ch = in.get ();
-      if ((ch == EOF) || ((ch > '9') || (ch < '0')))
-         break;
-
-      TRACE8 ("ATime::readFromStream (istream&): Get: " << (char)ch)
-
-      this->*(targets[i >> 1]) += (ch & 0xf);
-      if (!(i & 1))
-         this->*(targets[i >> 1]) *= 10;
-   } // endfor
-
-   TRACE9 ("ATime::readFromStream (istream&): Read: " << (int)hour << ':' << (int)min_
-           << ':' << (int)sec);
-
-   if ((i < 6) || checkIntegrity ()) {
-      undefine ();
-      if (i) {
-         std::string error (_("Position %1"));
-         error.replace (error.find ("%1"), 2, 1, char (i + '0'));
-         throw std::invalid_argument (error);
-      }
-   }
-   else {
-      TRACE9 ("ATime::readFromStream (istream&): Define");
-      setDefined ();
-   }
+   operator= (buffer);
 }
 
 //-----------------------------------------------------------------------------

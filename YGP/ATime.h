@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.21 2003/11/14 20:27:55 markus Rel $
+//$Id: ATime.h,v 1.22 2004/11/05 04:17:04 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,20 +44,20 @@ namespace YGP {
 class ATime : public AttributValue {
  public:
    ATime ()                /// Default constructor; creates an undefined object
-       : AttributValue (), hour (0), min_ (0), sec (0) { }
+       : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) { }
    ATime (bool now);
    ATime (const ATime& other)     /// Copy constructor from another time object
        : AttributValue ((const AttributValue&)other)
-       , hour (other.hour), min_ (other.min_), sec (other.sec) { }
+       , hour (other.hour), min_ (other.min_), sec (other.sec), mode (MODE_LOCALE) { }
    ATime (char Hour, char minute, char second) throw (std::invalid_argument);
-   ATime (const char* pTime) throw (std::invalid_argument) {
+   ATime (const char* pTime) throw (std::invalid_argument) : mode (MODE_LOCALE) {
       operator= (pTime); }           ///< Constructor from a text (unformatted)
-   ATime (const std::string& time) throw (std::invalid_argument) {
+   ATime (const std::string& time) throw (std::invalid_argument) : mode (MODE_LOCALE) {
       operator= (time); }            ///< Constructor from a text (unformatted)
-   ATime (const struct tm& tm) {
+   ATime (const struct tm& tm) : mode (MODE_LOCALE) {
       operator= (tm); }                  ///< Constructor from broken down time
    /// Construct from system time
-   ATime (const time_t& time, bool local = true) {
+   ATime (const time_t& time, bool local = true) : mode (MODE_LOCALE) {
       local ?  operator= (time) : operator= (*localtime (&time)); }
    virtual ~ATime ();
 
@@ -65,7 +65,8 @@ class ATime : public AttributValue {
    //@{
    /// Assignment operator from an (unformatted) text
    ATime& operator= (const std::string& time) throw (std::invalid_argument) {
-      return operator= (time.c_str ()); }
+      assign (time.c_str (), time.length ());
+      return *this; }
    ATime& operator= (const char* pTime) throw (std::invalid_argument);
    ATime& operator= (const ATime& other);
    ATime& operator= (const struct tm& tm) { /// Assignment operator from broken down time
@@ -78,6 +79,8 @@ class ATime : public AttributValue {
       operator= (*localtime (&time)); }
 
    virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+
+   void assign (const char* pTime, unsigned int len);
    //@}
 
    /// Defining the object; setting it to a default value (of <tt>0:0:00</tt>)
@@ -135,6 +138,10 @@ class ATime : public AttributValue {
    // Utility-functions
    virtual int checkIntegrity () const;
 
+   enum Mode { MODE_LOCALE = 0, MODE_HHMM, MODE_MMSS };
+   void setMode (enum Mode newMode) { mode = newMode; }
+   enum Mode getMode () const { return mode; }
+
  protected:
    virtual bool maxAdapt ();
    virtual bool minAdapt ();
@@ -143,6 +150,10 @@ class ATime : public AttributValue {
    unsigned char hour;
    unsigned char min_;
    unsigned char sec;
+
+   enum Mode mode;
+
+   static const char* MODES[];
 };
 
 }
