@@ -1,4 +1,4 @@
-<!-- $Id: ANumeric.html,v 1.4 2000/04/15 02:05:25 Markus Rel $ -->
+<!-- $Id: ANumeric.html,v 1.5 2001/09/17 15:32:54 markus Exp $ -->
 
 <html>
   <head>
@@ -11,15 +11,19 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
-    <h1 align="center">Class ANumeric </h1>
-    <p>Derived from: <a href="AttrVal.html">AttributValue</a></p>
+    <h1 align="center">Class ANumeric</h1>
+    <p>Derived from:
+      <a href="AttrVal.html">AttributValue</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: ATNumeric.h</p>
+    <p>#include &lt;ANumeric.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -32,116 +36,131 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric">ANumeric</a></td><td>()</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric2">ANumeric</a></td><td>
-          (const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric3">ANumeric</a></td>
-        <td>(const int val)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric4">ANumeric</a></td>
-        <td>(const unsigned int val)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric5">ANumeric</a></td>
-        <td>(const long val)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric6">ANumeric</a></td>
-        <td>(const unsigned long val)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric7">ANumeric</a></td>
-        <td>(const char* pValue)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="ANumeric.html#ANumeric8">ANumeric</a></td>
-        <td>(const std::string&amp; value)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="ANumeric.html#~ANumeric">~ANumeric</a></td><td>()</td></tr>
+        <td><a href="ANumeric.html#ANumeric"><b>ANumeric</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric2"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric4"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric6"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric3"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric5"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric7"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pValue</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ANumeric.html#ANumeric8"><b>ANumeric</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">date</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=">operator=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=2">operator=</a></td>
-        <td>(const int val)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=3">operator=</a></td>
-        <td>(const unsigned int val)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=4">operator=</a></td>
-        <td>(const long val)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=5">operator=</a></td>
-        <td>(const unsigned long val)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=6">operator=</a></td>
-        <td>(const char* pValue)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-        <td><a href="ANumeric.html#operator=7">operator=</a></td>
-        <td>(const std::string&amp; value)</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="ANumeric.html#compare"><b>compare</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="ANumeric.html#define"><b>define</b></a></td>
+        <td><tt>()</tt>;</td></tr>
 
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="ANumeric.html#define">define</a></td><td>()</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="ANumeric.html#operatorlongint"><font color="black"><b>operator</b></font></tt> <b>long int</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ANumeric.html#operator!="><tt><font color="black"><b>operator</b></font></tt><tt>!=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator*="><tt><font color="black"><b>operator</b></font></tt><tt>*=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator+="><tt><font color="black"><b>operator</b></font></tt><tt>+=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator-="><tt><font color="black"><b>operator</b></font></tt><tt>-=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator/="><tt><font color="black"><b>operator</b></font></tt><tt>/=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ANumeric.html#operatorl"><tt><font color="black"><b>operator</b></font></tt><tt>&lt;</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="ANumeric.html#readFromStream">readFromStream</a></td>
-        <td>(istream&amp; in)</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ANumeric.html#operatorl="><tt><font color="black"><b>operator</b></font></tt><tt>&lt;=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator=4"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator=2"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator=3"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator=5"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator=6"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pDate</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ANumeric.html"><b>ANumeric</b></a>&amp;</tt> </td>
+        <td><a href="ANumeric.html#operator=7"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">date</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ANumeric.html#operator=="><tt><font color="black"><b>operator</b></font></tt><tt>==</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ANumeric.html#operatorg"><tt><font color="black"><b>operator</b></font></tt><tt>&gt;</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="ANumeric.html#operatorg="><tt><font color="black"><b>operator</b></font></tt><tt>&gt;=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td>virtual std::string</td>
-        <td><a href="ANumeric.html#toString">toString</a></td><td>() const</td></tr>
+      <tr valign="top"><td><tt>friend <a href="ANumeric.html"><b>ANumeric</b></a></tt></td>
+        <td><a href="ANumeric.html#operator+"><tt><font color="black"><b>operator</b></font></tt><tt>+</tt></a></td>
+        <td><tt>(const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">lhs</font>,
+                 const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>friend <a href="ANumeric.html"><b>ANumeric</b></a></tt></td>
+        <td><a href="ANumeric.html#operator-"><tt><font color="black"><b>operator</b></font></tt><tt>-</tt></a></td>
+        <td><tt>(const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">lhs</font>,
+                 const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>friend <a href="ANumeric.html"><b>ANumeric</b></a></tt></td>
+        <td><a href="ANumeric.html#operator*"><tt><font color="black"><b>operator</b></font></tt><tt>+</tt></a></td>
+        <td><tt>(const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">lhs</font>,
+                 const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>friend <a href="ANumeric.html"><b>ANumeric</b></a></tt></td>
+        <td><a href="ANumeric.html#operator/"><tt><font color="black"><b>operator</b></font></tt><tt>-</tt></a></td>
+        <td><tt>(const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">lhs</font>,
+                 const <a href="ANumeric.html"><b>ANumeric</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
 
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
-        <td><a href="ANumeric.html#operator+=">operator+=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
-        <td><a href="ANumeric.html#operator-=">operator-=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
-        <td><a href="ANumeric.html#operator*=">operator*=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
-        <td><a href="ANumeric.html#operator/=">operator/=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="ANumeric.html#readFromStream"><b>readFromStream</b></a></td>
+        <td><tt>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">result</font></tt>) <tt>throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-        <td><a href="ANumeric.html#operator+">operator+</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
-      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-        <td><a href="ANumeric.html#operator-">operator-</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
-      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-        <td><a href="ANumeric.html#operator*">operator*</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
-      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-        <td><a href="ANumeric.html#operator/">operator/</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
-
-      <tr valign="top"><td>bool</td>
-        <td><a href="ANumeric.html#operator==">operator==</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ANumeric.html#operator!=">operator!=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ANumeric.html#operatorl">operator&lt;</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ANumeric.html#operatorg">operator&gt;</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ANumeric.html#operatorl=">operator&lt;=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="ANumeric.html#operatorg=">operator&gt;=</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
-      <tr valign="top"><td>long</td>
-        <td><a href="ANumeric.html#compare">compare</a></td>
-        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ANumeric.html#toString3"><b>toString</b></a></td>
+        <td><tt>(<tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">value</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ANumeric.html#toString"><b>toString</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ANumeric.html#toString2"><b>toString</b></a></td>
+        <td><tt>(<tt><font color="purple">long</font></tt> <tt><font color="blue">value</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><a href="ANumeric.html#toUnformatedString"><b>toUnformatedString</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="ANumeric.html#~ANumeric"><b>~ANumeric</b></a></td>
+        <td><tt>()</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -169,21 +188,21 @@
     <dl>
       <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric7"></a>ANumeric (const char* pValue)</pre>
+    <pre><a name="ANumeric7"></a>ANumeric (const char* pValue) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Constructor; tries to extract an integer-value from pValue.</p>
         <p>pValue must not be a NULL-pointer, may have leading white-spaces
           which may follow a sign (plus (+) or minus (-)) followed by numeric
           characters and a zero-characer (\0).</p>
-        <p>If pValue has a different format the object is undefined.</p></dd>
+        <p>If pValue has a different format an excpetion is thrown.</p></dd>
     </dl>
-    <pre><a name="ANumeric8"></a>ANumeric (const std::string&amp; value)</pre>
+    <pre><a name="ANumeric8"></a>ANumeric (const std::string&amp; value) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Constructor; tries to extract an integer-value from value.</p>
         <p>Value may have leading white-spaces which may follow a sign (plus
           (+) or minus (-)) followed by numeric characters and a zero-characer
           (\0).</p>
-        <p>If pValue has a different format the object is undefined.</p></dd>
+        <p>If pValue has a different format an excpetion is thrown.</p></dd>
     </dl>
 
     <pre><a name="~ANumeric"></a>virtual ~ANumeric ()</pre>
@@ -206,21 +225,21 @@
     <dl>
       <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
     </dl>
-    <pre><a name="operator=6"></a>ANumeric&amp; operator= (const char* pValue)</pre>
+    <pre><a name="operator=6"></a>ANumeric&amp; operator= (const char* pValue) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Assignmentoperator; tries to extract an integer-value from pValue.</p>
         <p>pValue must not be a NULL-pointer, may have leading white-spaces
           which may follow a sign (plus (+) or minus (-)) followed by numeric
           characters and a zero-characer (\0).</p>
-        <p>If pValue has a different format the object is undefined.</p></dd>
+        <p>If pValue has a different format an excpetion is thrown.</p></dd>
     </dl>
-    <pre><a name="operator=7"></a>ANumeric&amp; operator= (const std::string&amp; value)</pre>
+    <pre><a name="operator=7"></a>ANumeric&amp; operator= (const std::string&amp; value) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Assignmentoperator; tries to extract an integer-value from value.</p>
         <p>Value may have leading white-spaces which may follow a sign (plus
           (+) or minus (-)) followed by numeric characters and a zero-characer
           (\0).</p>
-        <p>If pValue has a different format the object is undefined.</p></dd>
+        <p>If pValue has a different format an excpetion is thrown.</p></dd>
     </dl>
 
     <pre><a name="define"></a>void define ()</pre>
@@ -234,20 +253,38 @@
     </dl>
 
     <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in)</pre>
+    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in) throw (invalid_argument)</pre>
     <dl>
-      <dd><p>Reads a formatted numeric value from a stream. If the input is not
-          valid, the object is set to undefined.</p>
-        <p>Leading whitespaces in the stream are skipped as are
-          thousand-seperaters in the number.</p>
-        <p>Parsing is stopped at EOF or at any non-digit (except
-          thousand-seperators inside a number).</dd>
+      <dd><p>Reads an unformatted numeric value from a stream. If the input is not
+          valid, an excpetion is thrown.</p>
+        <p>Leading whitespaces in the stream are skipped.</p>
+        <p>Parsing is stopped at EOF or at any non-digit.</dd>
     </dl>
 
     <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
       <dd>Converts the number into a string, in the format specified by the
         current locale.</dd>
+    </dl>
+    <pre><a name="toString2"></a>static std::string toString (long value)</pre>
+    <dl>
+      <dd>Converts the passed number into a string, in the format specified by the
+        current locale.</dd>
+    </dl>
+    <pre><a name="toString3"></a>static std::string toString (unsigned long value)</pre>
+    <dl>
+      <dd>Converts the passed number into a string, in the format specified by the
+        current locale.</dd>
+    </dl>
+
+    <pre><a name="toUnformatedString"></a>virtual std::string toUnformatedString () const</pre>
+    <dl>
+      <dd>Converts the number into a string without any formatting.</dd>
+    </dl>
+
+    <pre><a name="operatorlongint"></a>operator long int () const</pre>
+    <dl>
+      <dd>Converts the number into a long integer.</dd>
     </dl>
 
     <h4>Calculation</h4>
