@@ -1,11 +1,11 @@
-// $Id: Local.cpp,v 1.2 2002/07/11 07:17:09 markus Exp $
+// $Id: Local.cpp,v 1.3 2002/07/15 20:59:44 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Local
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -46,18 +46,20 @@ int main (int argc, char* argv[]) {
    CIDirectorySearch* srchSrv = new CIDirectorySearch (); assert (srchSrv);
    CORBA::String_var id = orb->object_to_string (srchSrv);
 
-   TRACE ("Local: ID of created object: " << id);
+   TRACE2 ("Local: ID of created object: " << id);
 
    CDirectorySearch_var srchClt (CDirectorySearch::_narrow (orb->string_to_object (id)));
    assert (srchClt);
    srchClt->setSearchValue ("Loc*");
 
+   unsigned int files (0);
    CFile_ptr file = (srchClt->find (CDirectorySearch::FILE_NORMAL));
    while (file) {
-      TRACE ("Found: " << file->path () << file->name ());
+      TRACE1 ("Found: " << file->path () << file->name ());
+      ++files;
       file = srchClt->next ();
    }
 
    CORBA::release (srchSrv);
-   return 0;
+   return (files != 3);
 }
