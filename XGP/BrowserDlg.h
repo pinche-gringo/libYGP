@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.3 2003/02/03 03:45:21 markus Exp $
+//$Id: BrowserDlg.h,v 1.4 2003/06/02 01:29:56 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,10 +32,10 @@ namespace Gtk {
 
 class BrowserDlg : public XDialog {
  public:
-   BrowserDlg (string& cmd);
+   BrowserDlg (std::string& cmd);
    virtual ~BrowserDlg ();
 
-   static BrowserDlg* perform (string& cmd) {
+   static BrowserDlg* perform (std::string& cmd) {
       return new BrowserDlg (cmd); }
 
    static const char* getDefaultBrowser () { return browserNames[0]; }
@@ -52,7 +52,7 @@ class BrowserDlg : public XDialog {
    Gtk::RadioButton* aBrowsers[5];
    static const char* browserNames[4];
 
-   typedef XAttributeEntry<string> XStringEntry;
+   typedef XAttributeEntry<std::string> XStringEntry;
 
    XStringEntry path;
 };
