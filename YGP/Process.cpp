@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.17 2005/04/01 06:33:47 markus Exp $
+//$Id: Process.cpp,v 1.18 2005/04/05 04:10:40 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -221,14 +221,10 @@ pid_t Process::start (const char* file, const char* const arguments[],
    default: {
       TRACE9 ("Process::start (const char*, const char*) - Fork OK - " << pid);
       if (fd) {
-	 Check3 (!errno);
 	 dup2 (pipes[0], fd[0]);
-	 Check3 (!errno);
 	 if (flags & CONNECT_STDERR) {
 	    fd[2] = errPipes[0];
-	    Check3 (!errno);
 	    close (errPipes[1]);
-	    Check3 (!errno);
 	 }
       }
       close (pipes[1]);
@@ -303,8 +299,8 @@ int Process::waitForProcess (pid_t pid) {
    return (int)rc;
 #elif defined HAVE_FORK
    int rc (-1);
-   waitpid (pid, &rc, WNOHANG);
-   return rc;
+   waitpid (pid, &rc, 0);
+   return WIFEXITED (rc) ? WEXITSTATUS (rc) : -1;
 #endif
 }
 
