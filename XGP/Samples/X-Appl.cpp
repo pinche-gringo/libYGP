@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.17 2003/11/17 15:08:24 markus Rel $
+//$Id: X-Appl.cpp,v 1.18 2003/12/22 04:39:10 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -24,8 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gzo-cfg.h>
-
 #include <cerrno>
 #include <cstdlib>
 
@@ -40,6 +38,7 @@
 #include <YGP/Trace.h>
 #include <YGP/ConnMgr.h>
 #include <YGP/ANumeric.h>
+#include <YGP/Internal.h>
 
 #include <XGP/XDate.h>
 #include <XGP/XAbout.h>
