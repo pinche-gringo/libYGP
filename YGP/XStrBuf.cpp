@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.3 1999/08/23 17:55:30 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.4 1999/08/23 20:27:47 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -78,9 +78,7 @@ int extStreambuf::underflow () {
    int ch;
 
    ++line;
-   pushbackOffset = -1;
    while ((ch = pSource->sbumpc ()) != EOF) {
-      --pushbackOffset;
       if (pTemp == pBuffer + lenBuffer) {                 // Buffer to small?
          pBuffer = new char[lenBuffer << 1];           // Double its size and
          memcpy (pBuffer, base(), lenBuffer);            // copy old contents
@@ -94,6 +92,7 @@ int extStreambuf::underflow () {
 	 break;
    } // end-while !EOF
 
+   pushbackOffset = -1 - int (pTemp - pBuffer);
    setg (pBuffer, pBuffer, pTemp);
    return ch;
 }
