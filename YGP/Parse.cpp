@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.8 1999/10/25 17:59:30 Markus Rel $
+//$Id: Parse.cpp,v 1.9 1999/11/09 22:01:58 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,7 +27,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define DEBUG 0
+#define DEBUG 8
 #include "Trace.h"
 #include "Parse.h"
 #include "XStream.h"
@@ -54,7 +54,7 @@ void ParseAttomic::freeBuffer () {
 }
 #endif
 
-_IO_ostream_withassign& ParseObject::error = cerr;
+ParseObject::ostream_withassign& ParseObject::error = cerr;
 
 
 static char ESCAPE = '\\';
@@ -204,7 +204,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
    int   ch;
 
    unsigned int i (0);
-   while (i < maxCard) {                    // While not max. card is reached
+   while (i < maxCard) {                     // While not max. card is reached
       ch = stream.get ();
       TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> " << (char)ch);
 
@@ -218,10 +218,10 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
 
       if (i == global.buflen) {                        // Buffer already full?
          pAkt = global.buffer;                // Resize to double  buffer-size
-         delete global.buffer;
          global.buffer = new char [global.buflen <<= 1];
          memcpy (global.buffer, pAkt, i);
-         pAkt += i;
+         delete pAkt;
+         pAkt = global.buffer + i;
       } // endif old buffer full
 
       *pAkt++ = ch;                                            // Store, if OK
