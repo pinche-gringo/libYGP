@@ -1,3 +1,18 @@
+Overview of Changes in version 0.6.31:
+
+  - Added test for Thread and Mutex classes
+  - Casting thread library types in Thread class (patch by david@pinko.net)
+  - Fixed tests under Windows
+  - Tests use the libraries
+  - XAbout constructor is now protected (not public)
+  - Translating header of first column in XFileList
+  - Converting texts in Viewer-classes to UTF-8
+  - Fixed trap if HTMLViewer passes non-existing file a GTKViewer
+  - Fixed calculation of language extension for the help file in XApplication
+  - GTKViewer strips HTML-ancors from filenames
+  - GTKViewer converts filenames in documents from UTF-8 to locale
+  - Actualized README.windows
+
 Overview of Changes in version 0.6.30:
 
   - Dialog to show a HTML document added (if libGTKHTML is installed)

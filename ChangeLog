@@ -1,3 +1,60 @@
+2003-11-07  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.31 added
+
+	* README.windows: Improved; Warned for WinZIP's linefeed convertion
+
+2003-11-03  Markus Schwab  <g17m0@lycos.com>
+
+	* INSTALL: Added homepage of doxygen
+
+	* configure.in: Version to 0.6.31
+
+	* po/de.po, po/en.po, po/es.po:
+	  Translating column of File-listbox; Minor changes
+
+	* po/POTFILES.in: Added XFileList.h
+
+	* Common/Makefile.am: Wee optimization
+
+	* X-windows/XFileList.h: Translating name of File column
+
+	* X-windows/GTKViewer.c:
+	  Converting filenames from UTF-8; Fixed storing of old path
+
+2003-10-28  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/GTKViewer.c: Converting error msg to UTF-8
+
+	* X-windows/XApplication.cpp:
+	  Fixed calculation of language extension for the help file
+
+	* X-windows/XAbout.h: Made constructor protected
+
+	* X-windows/Makefile.am: Making XGP.pc in dist_pkgconfig_DATA target
+
+	* X-windows/HTMLViewer.cpp:
+	  Throwing empty exception if GTKViewer already showed an error
+
+2003-10-23  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Tests/Makefile.am:
+	  Using libYMP and not object files for executables
+
+	* Common/Tests/AssParse.cpp: Fixed define of K4NODE under Windows
+
+	* Common/Tests/Thread.cpp:
+	  Removed include of Internal.h; removed trace statement
+
+2003-10-19  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Thread.cpp, Common/Thread.h:
+	  Applied patch to cast from/to pthread_t from david@pinko.net
+
+	* Common/Tests/Thread.cpp: New file.
+
+	* Common/Tests/Makefile.am: Thread added
+
 2003-10-19  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.6.30 added
@@ -9,7 +66,7 @@
 	* gzo-cfg.h.in: Define if strftime returns length
 
 	* X-windows/XApplication.h, X-windows/XApplication.cpp:
-	  $LANGUAGE-entryies must be separated by colon (and not comma)
+	  $LANGUAGE-entries must be separated by colon (and not comma)
 
 	* X-windows/Version.cpp: Fixed missing description of Labels
 
@@ -47,7 +104,7 @@
 2003-10-17  Markus Schwab  <g17m0@lycos.com>
 
 	* X-windows/GTKViewer.c, X-windows/GTKViewer.h, X-windows/HTMLViewer.cpp, X-windows/HTMLViewer.h:
-	New file.
+	  New file.
 
 	* X-windows/XApplication.cpp: Moved GTKHTML-stuff in own files
 
