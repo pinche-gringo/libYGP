@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.25 2002/05/25 07:08:14 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.26 2002/10/20 05:37:02 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -233,7 +233,7 @@ char IVIOApplication::getOption () {
                   unsigned int len (pEqual ? pEqual - pOptionParam
                                            : strlen (pOptionParam));
 
-                  while (--i) {
+                  while (i--) {
                      assert (longOpt); assert (longOpt->longVal);
                      if (!strncmp (longOpt[i].longVal, pOptionParam, len)) {
                         if (found == (unsigned int)-1)
