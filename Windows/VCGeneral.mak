@@ -80,7 +80,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "../Common" /I "../Windows" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I ".." /I "../Windows" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -214,7 +214,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I../Common /I../Windows /c
+CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I.. /I../Windows /c
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -306,180 +306,180 @@ LINK32_OBJS= \
 
 
 !IF "$(CFG)" == "Release" || "$(CFG)" == "Debug"
-SOURCE=..\Common\ADate.cpp
+SOURCE=..\YGP\ADate.cpp
 
 "$(INTDIR)\ADate.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\ANumeric.cpp
+SOURCE=..\YGP\ANumeric.cpp
 
 "$(INTDIR)\ANumeric.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
-SOURCE=..\Common\Process.cpp
+SOURCE=..\YGP\Process.cpp
 
 "$(INTDIR)\Process.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\AssParse.cpp
+SOURCE=..\YGP\AssParse.cpp
 
 "$(INTDIR)\AssParse.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\ATime.cpp
+SOURCE=..\YGP\ATime.cpp
 
 "$(INTDIR)\ATime.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\ATStamp.cpp
+SOURCE=..\YGP\ATStamp.cpp
 
 "$(INTDIR)\ATStamp.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\AttrParse.cpp
+SOURCE=..\YGP\AttrParse.cpp
 
 "$(INTDIR)\AttrParse.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Check.cpp
+SOURCE=..\YGP\Check.cpp
 
 "$(INTDIR)\Check.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\CRegExp.cpp
+SOURCE=..\YGP\CRegExp.cpp
 
 "$(INTDIR)\CRegExp.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\DirSrch.cpp
+SOURCE=..\YGP\DirSrch.cpp
 
 "$(INTDIR)\DirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\XDirSrch.cpp
+SOURCE=..\YGP\XDirSrch.cpp
 
 "$(INTDIR)\XDirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Entity.cpp
+SOURCE=..\YGP\Entity.cpp
 
 "$(INTDIR)\Entity.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\File.cpp
+SOURCE=..\YGP\File.cpp
 
 "$(INTDIR)\File.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\FileRExp.cpp
+SOURCE=..\YGP\FileRExp.cpp
 
 "$(INTDIR)\FileRExp.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Handle.cpp
+SOURCE=..\YGP\Handle.cpp
 
 "$(INTDIR)\Handle.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\IDirSrch.cpp
+SOURCE=..\YGP\IDirSrch.cpp
 
 "$(INTDIR)\IDirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\INIFile.cpp
+SOURCE=..\YGP\INIFile.cpp
 
 "$(INTDIR)\INIFile.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\IVIOAppl.cpp
+SOURCE=..\YGP\IVIOAppl.cpp
 
 "$(INTDIR)\IVIOAppl.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Parse.cpp
+SOURCE=..\YGP\Parse.cpp
 
 "$(INTDIR)\Parse.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\PathDirSrch.cpp
+SOURCE=..\YGP\PathDirSrch.cpp
 
 "$(INTDIR)\PathDirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\PathSrch.cpp
+SOURCE=..\YGP\PathSrch.cpp
 
 "$(INTDIR)\PathSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\RDirSrch.cpp
+SOURCE=..\YGP\RDirSrch.cpp
 
 "$(INTDIR)\RDirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\RDirSrchSrv.cpp
+SOURCE=..\YGP\RDirSrchSrv.cpp
 
 "$(INTDIR)\RDirSrchSrv.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\RemoteFile.cpp
+SOURCE=..\YGP\RemoteFile.cpp
 
 "$(INTDIR)\RemoteFile.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Socket.cpp
+SOURCE=..\YGP\Socket.cpp
 
 "$(INTDIR)\Socket.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\StackTrc.cpp
+SOURCE=..\YGP\StackTrc.cpp
 
 "$(INTDIR)\StackTrc.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Thread.cpp
+SOURCE=..\YGP\Thread.cpp
 
 "$(INTDIR)\Thread.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Tokenize.cpp
+SOURCE=..\YGP\Tokenize.cpp
 
 "$(INTDIR)\Tokenize.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Version.cpp
+SOURCE=..\YGP\Version.cpp
 
 "$(INTDIR)\Version.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\XStrBuf.cpp
+SOURCE=..\YGP\XStrBuf.cpp
 
 "$(INTDIR)\XStrBuf.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
@@ -502,7 +502,7 @@ check: ALL
 	nmake /f VCTests.mak check
 
 install: ALL
-        copy ..\Common\*.h $(DEST_INCLUDE)
+        copy ..\YGP\*.h $(DEST_INCLUDE)
         copy *.h $(DEST_INCLUDE)
         copy $(OUTDIR)\*.lib $(DEST_LIB)
         copy $(OUTDIR)\*.dll $(DEST_DLL)

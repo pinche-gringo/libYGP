@@ -28,7 +28,7 @@ NULL=nul
 CPP=cl.exe
 RSC=rc.exe
 
-EXTRAINCLUDES=/I "." /I "..\Common" /I "..\Common\Tests"
+EXTRAINCLUDES=/I "." /I ".." /I "..\YGP\Tests"
 LIBOBJDIR=$(CFG)
 
 !IF  "$(CFG)" == "Release"
@@ -128,8 +128,8 @@ CLEAN : cleancommon
 FILE=ADate
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -139,8 +139,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 FILE=ANumeric
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -150,8 +150,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 FILE=AssParse
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\Tokenize.obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -161,8 +161,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\Tokenize.obj"
 FILE=ATime
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -172,8 +172,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 FILE=ATStamp
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\ATime.obj" "$(LIBOBJDIR)\ADate.obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -183,8 +183,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\ATime.obj" "$(LIBOBJDIR)\ADate
 FILE=Attribute
 DEP_OBJS="$(LIBOBJDIR)\ATime.obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -196,8 +196,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ATime.obj $(LIBOBJDIR)\ATStamp.
 	 $(LIBOBJDIR)\ANumeric.obj $(LIBOBJDIR)\ADate.obj $(LIBOBJDIR)\AssParse.obj \
 	 $(LIBOBJDIR)\Tokenize.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -208,8 +208,8 @@ FILE=CRegExp
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ANumeric.obj $(LIBOBJDIR)\Parse.obj \
 	 $(LIBOBJDIR)\XStrBuf.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -220,8 +220,8 @@ FILE=DirSrch
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\File.obj $(LIBOBJDIR)\IDirSrch.obj \
 	 $(LIBOBJDIR)\FileRExp.obj $(LIBOBJDIR)\ANumeric.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -231,8 +231,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\File.obj $(LIBOBJDIR)\IDirSrch.
 FILE=FileRExp
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ANumeric.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -242,8 +242,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ANumeric.obj
 FILE=Handle
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -255,8 +255,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\Parse.obj" "$(LIBOBJDIR)\XStrB
 	 "$(LIBOBJDIR)\ANumeric.obj" "$(LIBOBJDIR)\ATStamp.obj" "$(LIBOBJDIR)\ADate.obj" \
 	 "$(LIBOBJDIR)\ATime.obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -267,8 +267,8 @@ FILE=IVIOAppl
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj" \
           "$(LIBOBJDIR)\PathSrch.obj" "$(LIBOBJDIR)\Version.obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -280,8 +280,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\IVIOAppl.obj" "$(LIBOBJDIR)\XS
          "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj" "$(LIBOBJDIR)\PathSrch.obj" \
          "$(LIBOBJDIR)\Version.obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -291,8 +291,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\IVIOAppl.obj" "$(LIBOBJDIR)\XS
 FILE=XStrBuf
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -304,8 +304,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\File.obj $(LIBOBJDIR)\IDirSrch.
 	 $(LIBOBJDIR)\FileRExp.obj $(LIBOBJDIR)\ANumeric.obj $(LIBOBJDIR)\DirSrch.obj \
 	 $(LIBOBJDIR)\PathSrch.obj $(LIBOBJDIR)\Tokenize.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -315,8 +315,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\File.obj $(LIBOBJDIR)\IDirSrch.
 FILE=PathSrch
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\Tokenize.obj $(LIBOBJDIR)\File.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -326,8 +326,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\Tokenize.obj $(LIBOBJDIR)\File.
 FILE=Tokenize
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -337,8 +337,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 FILE=XStream
 DEP_OBJS=$(LIBOBJDIR)\XStrBuf.obj
 
-"$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
+"$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
+        $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
 "$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
     $(LINK32) @<<
@@ -348,7 +348,7 @@ DEP_OBJS=$(LIBOBJDIR)\XStrBuf.obj
 
 !ENDIF
 
-cleancommon:
+cleanYGP:
 	-@erase "$(INTDIR)\*.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\*.exe"
