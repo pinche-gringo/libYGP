@@ -1,0 +1,218 @@
+LIBRARY General
+EXPORTS
+; Freie Exports: 39, 41, 42, 88, 89
+  ??1IHandle@@UAE@XZ               @1 NONAME   ; public: virtual __thiscall IHandle::~IHandle(void)
+  ??4IHandle@@QAEABV0@ABV0@@Z      @2 NONAME   ; public: class IHandle const & __thiscall IHandle::operator=(class IHandle const &)
+  ?setValue@IHandle@@IAEXPAX@Z     @3 NONAME   ; protected: void __thiscall IHandle::setValue(void *)
+  ?undefine@IHandle@@UAEXXZ        @4 NONAME   ; public: virtual void __thiscall IHandle::undefine(void)
+  ?define@IHandle@@MAEXXZ          @5 NONAME   ; protected: virtual void __thiscall IHandle::define(void)
+  ?libraryVersion_General@@3PBDB   @6 NONAME   ; (char const * const  libraryVersion_General)
+  ?getNextNode@Tokenize@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@D@Z @7 NONAME ; public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall Tokenize::getNextNode(char)
+  ??0extStreambuf@@QAE@PAVstreambuf@@@Z @173 NONAME ; public: __thiscall extStreambuf::extStreambuf(class streambuf *)
+  ??0extStreambuf@@QAE@AAVstreambuf@@@Z @8 NONAME ; public: __thiscall extStreambuf::extStreambuf(class streambuf &)
+  ?overflow@extStreambuf@@UAEHH@Z  @9 NONAME   ; public: virtual int __thiscall extStreambuf::overflow(int)
+  ??1extStreambuf@@UAE@XZ          @10 NONAME  ; public: virtual __thiscall extStreambuf::~extStreambuf(void)
+  ??0extStreambuf@@QAE@XZ          @11 NONAME  ; public: __thiscall extStreambuf::extStreambuf(void)
+  ?underflow@extStreambuf@@UAEHXZ  @12 NONAME  ; public: virtual int __thiscall extStreambuf::underflow(void)
+  ?pbackfail@extStreambuf@@UAEHH@Z @13 NONAME  ; public: virtual int __thiscall extStreambuf::pbackfail(int)
+  ??0ADate@@QAE@_N@Z               @14 NONAME  ; public: __thiscall ADate::ADate(bool)
+  ??0ADate@@QAE@DDI@Z              @15 NONAME  ; public: __thiscall ADate::ADate(char,char,unsigned int)
+  ??1ADate@@UAE@XZ                 @16 NONAME  ; public: virtual __thiscall ADate::~ADate(void)
+  ??4ADate@@QAEAAV0@ABV0@@Z        @17 NONAME  ; public: class ADate & __thiscall ADate::operator=(class ADate const &)
+  ??4ADate@@QAEAAV0@PBD@Z          @18 NONAME  ; public: class ADate & __thiscall ADate::operator=(char const *)
+  ?toString@ADate@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @19 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ADate::toString(void)const
+  ?toString@ADate@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBD@Z @20 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ADate::toString(char const *)const
+  ?readFromStream@ADate@@UAEXAAVistream@@@Z @21 NONAME ; public: virtual void __thiscall ADate::readFromStream(class istream &)
+  ??YADate@@QAEAAV0@ABV0@@Z        @22 NONAME  ; public: class ADate & __thiscall ADate::operator+=(class ADate const &)
+  ??ZADate@@QAEAAV0@ABV0@@Z        @23 NONAME  ; public: class ADate & __thiscall ADate::operator-=(class ADate const &)
+  ?add@ADate@@QAEAAV1@DDI@Z        @24 NONAME  ; public: class ADate & __thiscall ADate::add(char,char,unsigned int)
+  ?sub@ADate@@QAEAAV1@DDI@Z        @25 NONAME  ; public: class ADate & __thiscall ADate::sub(char,char,unsigned int)
+  ?compare@ADate@@QAEJABV1@@Z      @26 NONAME  ; public: long __thiscall ADate::compare(class ADate const &)
+  ??H@YA?AVADate@@ABV0@0@Z         @27 NONAME  ; class ADate  __cdecl operator+(class ADate const &,class ADate const &)
+  ??G@YA?AVADate@@ABV0@0@Z         @28 NONAME  ; class ADate  __cdecl operator-(class ADate const &,class ADate const &)
+  ?checkIntegrity@ADate@@UBEHXZ    @29 NONAME  ; public: virtual int __thiscall ADate::checkIntegrity(void)const
+  ?maxDayOf@ADate@@SADDI@Z         @30 NONAME  ; public: static char __cdecl ADate::maxDayOf(char,unsigned int)
+  ?isLeapYear@ADate@@SA_NI@Z       @31 NONAME  ; public: static bool __cdecl ADate::isLeapYear(unsigned int)
+  ?minAdapt@ADate@@MAE_NXZ         @32 NONAME  ; protected: virtual bool __thiscall ADate::minAdapt(void)
+  ?maxAdapt@ADate@@MAE_NXZ         @33 NONAME  ; protected: virtual bool __thiscall ADate::maxAdapt(void)
+  ?setDay@ADate@@QAEXD@Z           @34 NONAME  ; public: void __thiscall ADate::setDay(char)
+  ?setMonth@ADate@@QAEXD@Z         @35 NONAME  ; public: void __thiscall ADate::setMonth(char)
+  ?toStructTM@ADate@@UBE?AUtm@@XZ  @36 NONAME  ; public: virtual struct tm  __thiscall ADate::toStructTM(void)const
+  ??0ATime@@QAE@_N@Z               @37 NONAME  ; public: __thiscall ATime::ATime(bool)
+  ??0ATime@@QAE@DDD@Z              @38 NONAME  ; public: __thiscall ATime::ATime(char,char,char)
+  ??1ATime@@UAE@XZ                 @40 NONAME  ; public: virtual __thiscall ATime::~ATime(void)
+  ?define@ATime@@UAEXXZ            @43 NONAME  ; public: virtual void __thiscall ATime::define(void)
+  ??4ATime@@QAEAAV0@ABV0@@Z        @44 NONAME  ; public: class ATime & __thiscall ATime::operator=(class ATime const &)
+  ??4ATime@@QAEAAV0@PBD@Z          @45 NONAME  ; public: class ATime & __thiscall ATime::operator=(char const *)
+  ?toString@ATime@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @46 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ATime::toString(void)const
+  ?toString@ATime@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBD@Z @47 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ATime::toString(char const *)const )
+  ?readFromStream@ATime@@UAEXAAVistream@@@Z @48 NONAME ; public: virtual void __thiscall ATime::readFromStream(class istream &)
+  ??YATime@@QAEAAV0@ABV0@@Z        @49 NONAME  ; public: class ATime & __thiscall ATime::operator+=(class ATime const &)
+  ??ZATime@@QAEAAV0@ABV0@@Z        @50 NONAME  ; public: class ATime & __thiscall ATime::operator-=(class ATime const &)
+  ?now@ATime@@SA?AV1@XZ            @51 NONAME  ; public: static class ATime  __cdecl ATime::now(void)
+  ?add@ATime@@QAEAAV1@DDD@Z        @52 NONAME  ; public: class ATime & __thiscall ATime::add(char,char,char)
+  ?sub@ATime@@QAEAAV1@DDD@Z        @53 NONAME  ; public: class ATime & __thiscall ATime::sub(char,char,char)
+  ?compare@ATime@@QAEJABV1@@Z      @54 NONAME  ; public: long __thiscall ATime::compare(class ATime const &)
+  ??H@YA?AVATime@@ABV0@0@Z         @55 NONAME  ; class ATime  __cdecl operator+(class ATime const &,class ATime const &)
+  ?checkIntegrity@ATime@@UBEHXZ    @56 NONAME  ; public: virtual int __thiscall ATime::checkIntegrity(void)const
+  ?minAdapt@ATime@@MAE_NXZ         @57 NONAME  ; protected: virtual bool __thiscall ATime::minAdapt(void)
+  ?maxAdapt@ATime@@MAE_NXZ         @58 NONAME  ; protected: virtual bool __thiscall ATime::maxAdapt(void)
+  ?setHour@ATime@@QAEXD@Z          @59 NONAME  ; public: void __thiscall ATime::setHour(char)
+  ?setMinute@ATime@@QAEXD@Z        @60 NONAME  ; public: void __thiscall ATime::setMinute(char)
+  ?setSecond@ATime@@QAEXD@Z        @61 NONAME  ; public: void __thiscall ATime::setSecond(char)
+  ?toStructTM@ATime@@UBE?AUtm@@XZ  @62 NONAME  ; public: virtual struct tm  __thiscall ATime::toStructTM(void)const
+  ??G@YA?AVATime@@ABV0@0@Z         @63 NONAME  ; class ATime  __cdecl operator-(class ATime const &,class ATime const &))
+  ??0ATimestamp@@QAE@XZ            @64 NONAME  ; public: __thiscall ATimestamp::ATimestamp(void))
+  ??_7ATimestamp@@6BATime@@@       @65 NONAME  ; const  ATimestamp::`vftable'{for `ATime'}
+  ??_7ATimestamp@@6BADate@@@       @66 NONAME  ; const  ATimestamp::`vftable'{for `ADate'}
+  ??_8ATimestamp@@7B@              @67 NONAME  ; const  ATimestamp::`vbtable')
+  ??0ATimestamp@@QAE@_N@Z          @68 NONAME  ; public: __thiscall ATimestamp::ATimestamp(bool)
+  ??0ATimestamp@@QAE@DDIDDD@Z      @69 NONAME  ; public: __thiscall ATimestamp::ATimestamp(char,char,unsigned int,char,char,char)
+  ??1ATimestamp@@UAE@XZ            @70 NONAME  ; public: virtual __thiscall ATimestamp::~ATimestamp(void)
+  ??4ATimestamp@@QAEAAV0@ABV0@@Z   @71 NONAME  ; public: class ATimestamp & __thiscall ATimestamp::operator=(class ATimestamp const &)
+  ??4ATimestamp@@QAEAAV0@PBD@Z     @72 NONAME  ; public: class ATimestamp & __thiscall ATimestamp::operator=(char const *)
+  ??4ATimestamp@@QAEAAV0@ABUtm@@@Z @73 NONAME  ; public: class ATimestamp & __thiscall ATimestamp::operator=(struct tm const &)
+  ?toString@ATimestamp@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @74 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ATimestamp::toString(void)const
+  ?toString@ATimestamp@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBD@Z @75 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ATimestamp::toString(char const *)const
+  ?readFromStream@ATimestamp@@UAEXAAVistream@@@Z @76 NONAME; public: virtual void __thiscall ATimestamp::readFromStream(class istream &)
+  ??YATimestamp@@QAEAAV0@ABV0@@Z   @77 NONAME  ; public: class ATimestamp & __thiscall ATimestamp::operator+=(class ATimestamp const &)
+  ??ZATimestamp@@QAEAAV0@ABV0@@Z   @78 NONAME  ; public: class ATimestamp & __thiscall ATimestamp::operator-=(class ATimestamp const &)
+  ?add@ATimestamp@@QAEAAV1@DDIDDD@Z @79 NONAME ; public: class ATimestamp & __thiscall ATimestamp::add(char,char,unsigned int,char,char,char)
+  ?sub@ATimestamp@@QAEAAV1@DDIDDD@Z @80 NONAME ; public: class ATimestamp & __thiscall ATimestamp::sub(char,char,unsigned int,char,char,char)
+  ?compare@ATimestamp@@QAEJABV1@@Z @81 NONAME  ; public: long __thiscall ATimestamp::compare(class ATimestamp const &)
+  ??H@YA?AVATimestamp@@ABV0@0@Z    @82 NONAME  ; class ATimestamp  __cdecl operator+(class ATimestamp const &,class ATimestamp const &)
+  ??G@YA?AVATimestamp@@ABV0@0@Z    @83 NONAME  ; class ATimestamp  __cdecl operator-(class ATimestamp const &,class ATimestamp const &)
+  ?checkIntegrity@ATimestamp@@UBEHXZ @84 NONAME ; public: virtual int __thiscall ATimestamp::checkIntegrity(void)const
+  ?minAdapt@ATimestamp@@MAE_NXZ    @85 NONAME  ; protected: virtual bool __thiscall ATimestamp::minAdapt(void)
+  ?maxAdapt@ATimestamp@@MAE_NXZ    @86 NONAME  ; protected: virtual bool __thiscall ATimestamp::maxAdapt(void)
+  ?toStructTM@ATimestamp@@UBE?AUtm@@XZ @87 NONAME ; public: virtual struct tm  __thiscall ATimestamp::toStructTM(void)const
+  ?undefine@ATimestamp@@UAEXXZ     @90 NONAME  ; public: virtual void __thiscall ATimestamp::undefine(void)
+  ?define@ATimestamp@@UAEXXZ       @91 NONAME  ; public: virtual void __thiscall ATimestamp::define(void)
+  ??0dirEntry@@QAE@ABU0@@Z         @92 NONAME  ; public: __thiscall dirEntry::dirEntry(struct dirEntry const &)
+  ??_7dirEntry@@6B@                @93 NONAME  ; const  dirEntry::`vftable'
+  ??1DirectorySearch@@UAE@XZ       @94 NONAME  ; public: virtual __thiscall DirectorySearch::~DirectorySearch(void)
+  ??_7DirectorySearch@@6B@         @95 NONAME  ; const  DirectorySearch::`vftable'
+  ??4dirEntry@@QAEABU0@ABU0@@Z     @96 NONAME  ; public: struct dirEntry const & __thiscall dirEntry::operator=(struct dirEntry const &)
+  ?find@DirectorySearch@@UAEHAAUdirEntry@@K@Z @97 NONAME ; public: virtual int __thiscall DirectorySearch::find(struct dirEntry &,unsigned long)
+  ?find@DirectorySearch@@UAEHXZ    @98 NONAME  ; public: virtual int __thiscall DirectorySearch::find(void))
+  ?checkIntegrity@DirectorySearch@@MBEHXZ @99 NONAME ; protected: virtual int __thiscall DirectorySearch::checkIntegrity(void)const
+  ?setFile@DirectorySearch@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @100 NONAME ; public: void __thiscall DirectorySearch::setFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)
+  ?cleanup@DirectorySearch@@IAEXXZ @101 NONAME ; protected: void __thiscall DirectorySearch::cleanup(void)
+  ?isExecuteable@dirEntry@@QBE_NXZ @102 NONAME ; public: bool __thiscall dirEntry::isExecuteable(void)const
+  ?time@dirEntry@@QBE?BJXZ         @103 NONAME ; public: long const  __thiscall dirEntry::time(void)const
+  ?NEGREGION@FileRegularExpr@@2DB  @104 NONAME ; public: static char const  FileRegularExpr::NEGREGION
+  ?REGION@FileRegularExpr@@2DB     @105 NONAME ; public: static char const  FileRegularExpr::REGION
+  ?REGIONEND@FileRegularExpr@@2DB  @106 NONAME ; public: static char const  FileRegularExpr::REGIONEND
+  ?REGIONBEGIN@FileRegularExpr@@2DB @107 NONAME ; public: static char const  FileRegularExpr::REGIONBEGIN
+  ?SINGLEMATCH@FileRegularExpr@@2DB @108 NONAME ; public: static char const  FileRegularExpr::SINGLEMATCH
+  ?MULTIMATCH@FileRegularExpr@@2DB @109 NONAME ; public: static char const  FileRegularExpr::MULTIMATCH
+  ?checkIntegrity@FileRegularExpr@@QBEHXZ @110 NONAME ; public: int __thiscall FileRegularExpr::checkIntegrity(void)const
+  ??0IVIOApplication@@QAE@HQAPBDPBUlongOptions@0@@Z @111 NONAME ; public: __thiscall IVIOApplication::IVIOApplication(int,char const * * const,struct IVIOApplication::longOptions const *)
+  ??_7IVIOApplication@@6B@         @112 NONAME ; const  IVIOApplication::`vftable'
+  ?setLongOptions@IVIOApplication@@IAEXPBUlongOptions@1@@Z @113 NONAME ; protected: void __thiscall IVIOApplication::setLongOptions(struct IVIOApplication::longOptions const *)
+  ?setLongOptions@IVIOApplication@@IAEXPBUlongOptions@1@I@Z @114 NONAME ; protected: void __thiscall IVIOApplication::setLongOptions(struct IVIOApplication::longOptions const *,unsigned int)
+  ?run@IVIOApplication@@QAEHXZ     @115 NONAME ; public: int __thiscall IVIOApplication::run(void)
+  ?getOptionValue@IVIOApplication@@IAEPBDXZ @116 NONAME ; protected: char const * __thiscall IVIOApplication::getOptionValue(void)
+  ?getOption@IVIOApplication@@AAEDXZ @117 NONAME ; private: char __thiscall IVIOApplication::getOption(void)
+  ?error@ParseObject@@1AAVostream_withassign@@A @118 NONAME ; protected: static class ostream_withassign &  ParseObject::error
+  ?freeBuffer@ParseAttomic@@SAXXZ  @119 NONAME ; public: static void __cdecl ParseAttomic::freeBuffer(void)
+  ??0ParseObject@@QAE@PBD_N@Z      @120 NONAME ; public: __thiscall ParseObject::ParseObject(char const *,bool)
+  ??_7ParseObject@@6B@             @121 NONAME ; const  ParseObject::`vftable'
+  ??0ParseObject@@QAE@ABV0@@Z      @122 NONAME ; public: __thiscall ParseObject::ParseObject(class ParseObject const &)
+  ??1ParseObject@@UAE@XZ           @123 NONAME ; public: virtual __thiscall ParseObject::~ParseObject(void)
+  ??4ParseObject@@QAEABV0@ABV0@@Z  @124 NONAME ; public: class ParseObject const & __thiscall ParseObject::operator=(class ParseObject const &)
+  ?skipWS@ParseObject@@QBEXAAU?$extStream@Vistream@@@@@Z @125 NONAME ; public: void __thiscall ParseObject::skipWS(struct extStream<class istream> &)const
+  ?found@ParseObject@@UAEHPBD@Z    @126 NONAME ; public: virtual int __thiscall ParseObject::found(char const *)
+  ?checkIntegrity@ParseObject@@MBEHXZ @127 NONAME ; protected: virtual int __thiscall ParseObject::checkIntegrity(void)const
+  ??1ParseEOF@@UAE@XZ              @128 NONAME ; public: virtual __thiscall ParseEOF::~ParseEOF(void)
+  ?doParse@ParseEOF@@UAEHAAU?$extStream@Vistream@@@@_N@Z @129 NONAME ; public: virtual int __thiscall ParseEOF::doParse(struct extStream<class istream> &,bool)
+  ??0ParseAttomic@@QAE@PBD0II_N@Z  @130 NONAME ; public: __thiscall ParseAttomic::ParseAttomic(char const *,char const *,unsigned int,unsigned int,bool)
+  ??_7ParseAttomic@@6B@            @131 NONAME ; const  ParseAttomic::`vftable'
+  ??0ParseAttomic@@QAE@ABV0@@Z     @132 NONAME ; public: __thiscall ParseAttomic::ParseAttomic(class ParseAttomic const &)
+  ??1ParseAttomic@@UAE@XZ          @133 NONAME ; public: virtual __thiscall ParseAttomic::~ParseAttomic(void)
+  ??4ParseAttomic@@QAEABV0@ABV0@@Z @134 NONAME ; public: class ParseAttomic const & __thiscall ParseAttomic::operator=(class ParseAttomic const &)
+  ?doParse@ParseAttomic@@MAEHAAU?$extStream@Vistream@@@@_N@Z @135 NONAME ; protected: virtual int __thiscall ParseAttomic::doParse(struct extStream<class istream> &,bool)
+  ?checkValue@ParseAttomic@@MAE_ND@Z @136 NONAME ; protected: virtual bool __thiscall ParseAttomic::checkValue(char)
+  ?checkIntegrity@ParseAttomic@@MBEHXZ @137 NONAME ; protected: virtual int __thiscall ParseAttomic::checkIntegrity(void)const
+  ??1ParseText@@UAE@XZ             @138 NONAME ; public: virtual __thiscall ParseText::~ParseText(void)
+  ??_7ParseText@@6B@               @139 NONAME ; const  ParseText::`vftable'
+  ?checkValue@ParseText@@MAE_ND@Z  @140 NONAME ; protected: virtual bool __thiscall ParseText::checkValue(char)
+  ??0ParseTextEsc@@QAE@PBD0IID_N@Z @141 NONAME ; public: __thiscall ParseTextEsc::ParseTextEsc(char const *,char const *,unsigned int,unsigned int,char,bool)
+  ??_7ParseTextEsc@@6B@            @142 NONAME ; const  ParseTextEsc::`vftable'
+  ??0ParseTextEsc@@QAE@ABV0@@Z     @143 NONAME ; public: __thiscall ParseTextEsc::ParseTextEsc(class ParseTextEsc const &)
+  ??1ParseTextEsc@@UAE@XZ          @146 NONAME ; public: virtual __thiscall ParseTextEsc::~ParseTextEsc(void)
+  ??4ParseTextEsc@@QAEABV0@ABV0@@Z @147 NONAME ; public: class ParseTextEsc const & __thiscall ParseTextEsc::operator=(class ParseTextEsc const &)
+  ?checkValue@ParseTextEsc@@MAE_ND@Z @148 NONAME ; protected: virtual bool __thiscall ParseTextEsc::checkValue(char)
+  ??0ParseExact@@QAE@PBD0_N@Z      @149 NONAME ; public: __thiscall ParseExact::ParseExact(char const *,char const *,bool)
+  ??_7ParseExact@@6B@              @150 NONAME ; const  ParseExact::`vftable'
+  ??1ParseExact@@UAE@XZ            @151 NONAME ; public: virtual __thiscall ParseExact::~ParseExact(void)
+  ??4ParseExact@@QAEABV0@ABV0@@Z   @152 NONAME ; public: class ParseExact const & __thiscall ParseExact::operator=(class ParseExact const &)
+  ?checkValue@ParseExact@@MAE_ND@Z @153 NONAME ; protected: virtual bool __thiscall ParseExact::checkValue(char)
+  ?checkIntegrity@ParseExact@@MBEHXZ @154 NONAME ; protected: virtual int __thiscall ParseExact::checkIntegrity(void)const
+  ??1ParseUpperExact@@UAE@XZ       @155 NONAME ; public: virtual __thiscall ParseUpperExact::~ParseUpperExact(void)
+  ??_7ParseUpperExact@@6B@         @156 NONAME ; const  ParseUpperExact::`vftable'
+  ?checkValue@ParseUpperExact@@MAE_ND@Z @157 NONAME ; protected: virtual bool __thiscall ParseUpperExact::checkValue(char)
+  ?checkIntegrity@ParseUpperExact@@MBEHXZ @158 NONAME ; protected: virtual int __thiscall ParseUpperExact::checkIntegrity(void)const
+  ??0ParseSequence@@QAE@QAPAVParseObject@@PBDII_N@Z @159 NONAME ; public: __thiscall ParseSequence::ParseSequence(class ParseObject * * const,char const *,unsigned int,unsigned int,bool)
+  ??_7ParseSequence@@6B@           @160 NONAME ; const  ParseSequence::`vftable'
+  ??0ParseSequence@@QAE@ABV0@@Z    @161 NONAME ; public: __thiscall ParseSequence::ParseSequence(class ParseSequence const &)
+  ??1ParseSequence@@UAE@XZ         @162 NONAME ; public: virtual __thiscall ParseSequence::~ParseSequence(void)
+  ??4ParseSequence@@QAEABV0@ABV0@@Z @163 NONAME ; public: class ParseSequence const & __thiscall ParseSequence::operator=(class ParseSequence const &)
+  ?doParse@ParseSequence@@MAEHAAU?$extStream@Vistream@@@@_N@Z @164 NONAME ; protected: virtual int __thiscall ParseSequence::doParse(struct extStream<class istream> &,bool))
+  ?checkIntegrity@ParseSequence@@MBEHXZ @165 NONAME ; protected: virtual int __thiscall ParseSequence::checkIntegrity(void)const
+  ??0ParseSelection@@QAE@QAPAVParseObject@@PBDII_N@Z @166 NONAME ; public: __thiscall ParseSelection::ParseSelection(class ParseObject * * const,char const *,unsigned int,unsigned int,bool)
+  ??_7ParseSelection@@6B@          @167 NONAME ; const  ParseSelection::`vftable'
+  ??0ParseSelection@@QAE@ABV0@@Z   @168 NONAME ; public: __thiscall ParseSelection::ParseSelection(class ParseSelection const &)
+  ??1ParseSelection@@UAE@XZ        @169 NONAME ; public: virtual __thiscall ParseSelection::~ParseSelection(void)
+  ??4ParseSelection@@QAEABV0@ABV0@@Z @170 NONAME ; public: class ParseSelection const & __thiscall ParseSelection::operator=(class ParseSelection const &)
+  ?doParse@ParseSelection@@MAEHAAU?$extStream@Vistream@@@@_N@Z @171 NONAME ; protected: virtual int __thiscall ParseSelection::doParse(struct extStream<class istream> &,bool))
+  ??1CBParseEOF@@UAE@XZ            @172 NONAME ; public: virtual __thiscall CBParseEOF::~CBParseEOF(void)
+  ?found@CBParseEOF@@UAEHPBD@Z     @174 NONAME ; public: virtual int __thiscall CBParseEOF::found(char const *)
+  ??1CBParseAttomic@@UAE@XZ        @175 NONAME ; public: virtual __thiscall CBParseAttomic::~CBParseAttomic(void)
+  ??_7CBParseAttomic@@6B@          @176 NONAME ; const  CBParseAttomic::`vftable'
+  ??4CBParseAttomic@@QAEABV0@ABV0@@Z @177 NONAME ; public: class CBParseAttomic const & __thiscall CBParseAttomic::operator=(class CBParseAttomic const &)
+  ?found@CBParseAttomic@@UAEHPBD@Z @178 NONAME ; public: virtual int __thiscall CBParseAttomic::found(char const *)
+  ??1CBParseText@@UAE@XZ           @179 NONAME ; public: virtual __thiscall CBParseText::~CBParseText(void)
+  ??_7CBParseText@@6B@             @180 NONAME ; const  CBParseText::`vftable'
+  ??4CBParseText@@QAEABV0@ABV0@@Z  @181 NONAME ; public: class CBParseText const & __thiscall CBParseText::operator=(class CBParseText const &)
+  ?found@CBParseText@@UAEHPBD@Z    @182 NONAME ; public: virtual int __thiscall CBParseText::found(char const *)
+  ??1CBParseTextEsc@@UAE@XZ        @183 NONAME ; public: virtual __thiscall CBParseTextEsc::~CBParseTextEsc(void)
+  ??_7CBParseTextEsc@@6B@          @184 NONAME ; const  CBParseTextEsc::`vftable'
+  ??4CBParseTextEsc@@QAEABV0@ABV0@@Z @185 NONAME ; public: class CBParseTextEsc const & __thiscall CBParseTextEsc::operator=(class CBParseTextEsc const &)
+  ?found@CBParseTextEsc@@UAEHPBD@Z @186 NONAME ; public: virtual int __thiscall CBParseTextEsc::found(char const *)
+  ??1CBParseExact@@UAE@XZ          @187 NONAME ; public: virtual __thiscall CBParseExact::~CBParseExact(void)
+  ??_7CBParseExact@@6B@            @188 NONAME ; const  CBParseExact::`vftable'
+  ??4CBParseExact@@QAEABV0@ABV0@@Z @189 NONAME ; public: class CBParseExact const & __thiscall CBParseExact::operator=(class CBParseExact const &)
+  ?found@CBParseExact@@UAEHPBD@Z   @190 NONAME ; public: virtual int __thiscall CBParseExact::found(char const *)
+  ??1CBParseUpperExact@@UAE@XZ     @191 NONAME ; public: virtual __thiscall CBParseUpperExact::~CBParseUpperExact(void)
+  ??_7CBParseUpperExact@@6B@       @192 NONAME ; const  CBParseUpperExact::`vftable'
+  ??4CBParseUpperExact@@QAEABV0@ABV0@@Z @193 NONAME ; public: class CBParseUpperExact const & __thiscall CBParseUpperExact::operator=(class CBParseUpperExact const &)
+  ?found@CBParseUpperExact@@UAEHPBD@Z @194 NONAME ; public: virtual int __thiscall CBParseUpperExact::found(char const *)
+  ??1CBParseSequence@@UAE@XZ       @195 NONAME ; public: virtual __thiscall CBParseSequence::~CBParseSequence(void)
+  ??_7CBParseSequence@@6B@         @196 NONAME ; const  CBParseSequence::`vftable'
+  ??4CBParseSequence@@QAEABV0@ABV0@@Z @197 NONAME ; public: class CBParseSequence const & __thiscall CBParseSequence::operator=(class CBParseSequence const &)
+  ?found@CBParseSequence@@UAEHPBD@Z @198 NONAME ; public: virtual int __thiscall CBParseSequence::found(char const *)
+  ??1CBParseSelection@@UAE@XZ      @199 NONAME ; public: virtual __thiscall CBParseSelection::~CBParseSelection(void)
+  ??_7CBParseSelection@@6B@        @200 NONAME ; const  CBParseSelection::`vftable'
+  ??4CBParseSelection@@QAEABV0@ABV0@@Z @201 NONAME ; public: class CBParseSelection const & __thiscall CBParseSelection::operator=(class CBParseSelection const &)
+  ?found@CBParseSelection@@UAEHPBD@Z @202 NONAME ; public: virtual int __thiscall CBParseSelection::found(char const *)
+  ??1PathDirectorySearch@@UAE@XZ   @203 NONAME ; public: virtual __thiscall PathDirectorySearch::~PathDirectorySearch(void)
+  ?find@PathDirectorySearch@@UAEHAAUdirEntry@@K@Z @204 NONAME; public: virtual int __thiscall PathDirectorySearch::find(struct dirEntry &,unsigned long)
+  ?find@PathDirectorySearch@@UAEHXZ @205 NONAME ; public: virtual int __thiscall PathDirectorySearch::find(void)
+  ?checkIntegrity@PathDirectorySearch@@EBEHXZ @206 NONAME ; private: virtual int __thiscall PathDirectorySearch::checkIntegrity(void)const
+  ?matches@FileRegularExpr@@ABE_NPBD0@Z @207 NONAME ; private: bool __thiscall FileRegularExpr::matches(char const *,char const *)const
+  ??1ANumeric@@UAE@XZ              @208 NONAME ; public: virtual __thiscall ANumeric::~ANumeric(void)
+  ??4ANumeric@@QAEAAV0@ABV0@@Z     @209 NONAME ; public: class ANumeric & __thiscall ANumeric::operator=(class ANumeric const &)
+  ?define@ANumeric@@UAEXXZ         @210 NONAME ; public: virtual void __thiscall ANumeric::define(void)
+  ?toString@ANumeric@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ @211 NONAME ; public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >  __thiscall ANumeric::toString(void)const
+  ?readFromStream@ANumeric@@UAEXAAVistream@@@Z @212 NONAME ; public: virtual void __thiscall ANumeric::readFromStream(class istream &)
+  ??YANumeric@@QAEAAV0@ABV0@@Z     @213 NONAME ; public: class ANumeric & __thiscall ANumeric::operator+=(class ANumeric const &)
+  ??ZANumeric@@QAEAAV0@ABV0@@Z     @214 NONAME ; public: class ANumeric & __thiscall ANumeric::operator-=(class ANumeric const &)
+  ??XANumeric@@QAEAAV0@ABV0@@Z     @215 NONAME ; public: class ANumeric & __thiscall ANumeric::operator*=(class ANumeric const &)
+  ??_0ANumeric@@QAEAAV0@ABV0@@Z    @216 NONAME ; public: class ANumeric & __thiscall ANumeric::operator/=(class ANumeric const &)
+  ?compare@ANumeric@@QAEHABV1@@Z   @217 NONAME ; public: int __thiscall ANumeric::compare(class ANumeric const &)
+  ??H@YA?AVANumeric@@ABV0@0@Z      @218 NONAME ; class ANumeric  __cdecl operator+(class ANumeric const &,class ANumeric const &)
+  ??G@YA?AVANumeric@@ABV0@0@Z      @219 NONAME ; class ANumeric  __cdecl operator-(class ANumeric const &,class ANumeric const &)
+  ??D@YA?AVANumeric@@ABV0@0@Z      @220 NONAME ; class ANumeric  __cdecl operator*(class ANumeric const &,class ANumeric const &)
+  ??K@YA?AVANumeric@@ABV0@0@Z      @221 NONAME ; class ANumeric  __cdecl operator/(class ANumeric const &,class ANumeric const &)
+  ??6@YAAAVostream@@AAV0@ABVANumeric@@@Z @222 NONAME ; class ostream & __cdecl operator<<(class ostream &,class ANumeric const &)
