@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.3 1999/09/26 01:54:24 Markus Rel $
+//$Id: Tokenize.cpp,v 1.4 2001/08/26 14:41:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -38,7 +38,8 @@
 std::string Tokenize::getNextNode (const char split) {
    assert (split != '\0');
    if ((actPos + len) >= _string.length ()) {
-      actPos = ++len = _string.length ();
+      actPos =  _string.length ();
+      len = 0;
       return "";
    }
 
