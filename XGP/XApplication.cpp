@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.35 2003/11/17 15:08:24 markus Rel $
+//$Id: XApplication.cpp,v 1.36 2003/12/25 18:10:02 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -327,7 +327,8 @@ void XApplication::command (int menu) {
       }
       catch (std::string& error) {
          if (error.size ()) {
-            Gtk::MessageDialog msg (error, Gtk::MESSAGE_ERROR);
+            Gtk::MessageDialog msg (Glib::locale_to_utf8 (error),
+                                    Gtk::MESSAGE_ERROR);
             msg.run ();
          }
       }
