@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.26 2003/06/13 18:18:39 markus Exp $
+//$Id: CRegExp.h,v 1.27 2003/06/14 06:23:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,11 +51,13 @@
    a little intruduction into the supported constructs; see regex(7) or the
    GNU regexp manual for a better description.
   
-   \b Note: This class implements regular expressions as the functions in \c
-         regex.h do (at least in glibc 2.2.4), which might differ from that
-         what you expect from the reading (or how - e.g. - emacs behaves). But
-         I have no idea what is the *real* standard and for testing it was the
+   \attention This class implements regular expressions as the functions in \c
+         regex.h do (at least in glibc 2.2.4), which might differ from what
+         you expect from the reading (or how - e.g. - emacs behaves). But I
+         have no idea what the *real* standard is and for testing it was the
          easiest to follow an existing implementation!
+
+   Anyway; here's something to give you a glue:
 
    - <b>*</b> (Asterisk) Is not a construct by itself; it is a suffix which
          repeats the (smallest possible) preceding regular expression as many
@@ -101,7 +103,7 @@
        <character-class> ::= [:<class>:]<br>
        <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
                    | print | punct | space | upper</p><p>
-       \b Note: To include the character square bracket ([) in the match, it
+       \note To include the character square bracket ([) in the match, it
              must be the first character; similar to the match-negators caret
              (^) and exclamaition-mark (!), wich must \b not be the first
              character to get included.
@@ -119,7 +121,7 @@
         <wordborder> ::= [:<:] | [:>:]           (Matches beginn or end of word)
 
 
-   \b Note: The \c pExpression-parameter is stored as is (and not copied); so
+   \note The \c pExpression-parameter is stored as is (and not copied); so
          take care it is valid during the life-time of the object.
 
    Use RegularExpression::matches to check if the object matches some data.

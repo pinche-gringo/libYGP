@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.13 2003/02/14 04:14:17 markus Rel $
+//$Id: RDirSrch.h,v 1.14 2003/06/14 06:23:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,23 +32,24 @@
 #include <IDirSrch.h>
 
 
-// Class to search for files in a directory over a
-// network-connection. This search can be restricted to files matching
-// certain name-criterias or by attributes.
-//
-// The name-part of the files to search supports UNIX-like wildcards;
-// that are the asterisk (*) for any number of any characters, the
-// question-mark for any single character and a set of characters in
-// brackets (([) and (])). This set can contain a list of characters
-// (like [abcde]) or a region (like [a-e]). To invert this set use a
-// leading caret (^) or a leading exclamation mark (!), like
-// ([^a-e]).
-//
-// The found (and matching) files are retrieved by objects of type
-// File.
-//
-// Note: The class does not do any word expansion for the search-path
-//       (like expanding the tilde (~) to the home-directory)!
+/**Class to search for files in a directory over a
+   network-connection. This search can be restricted to files matching
+   certain name-criterias or by attributes.
+  
+   The name-part of the files to search supports UNIX-like wildcards;
+   that are the asterisk (*) for any number of any characters, the
+   question-mark for any single character and a set of characters in
+   brackets (([) and (])). This set can contain a list of characters
+   (like [abcde]) or a region (like [a-e]). To invert this set use a
+   leading caret (^) or a leading exclamation mark (!), like
+   ([^a-e]).
+  
+   The found (and matching) files are retrieved by objects of type
+   File.
+  
+   Note: The class does not do any word expansion for the search-path
+         (like expanding the tilde (~) to the home-directory)!
+*/
 class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
@@ -71,7 +72,11 @@ class RemoteDirSearch : public IDirectorySearch {
       throw (std::string);
    virtual const File* next () throw (std::string);
 
-   enum { FILE_NORMAL = 0, FILE_READONLY = 1, FILE_DIRECTORY = 2, FILE_HIDDEN = 4 };
+   enum FileType { FILE_NORMAL = 0,                          ///< Ordinary file
+                   FILE_READONLY = 1,                    ///< %File is readonly
+                   FILE_DIRECTORY = 2,       ///< %File is actually a directory
+                   FILE_HIDDEN = 4                       ///< %File is "hidden"
+   };
 
    virtual bool isValid () const throw (std::domain_error);
    bool isValid (const std::string& dir) throw (std::domain_error);
@@ -89,7 +94,7 @@ class RemoteDirSearch : public IDirectorySearch {
 
    int posSeparator (const std::string& dir) const;
 
-   bool isOK (const AByteArray& answer) const;
+   bool isOK (const std::string& answer) const;
    const File* setFiledata (const char* pAnswer) throw (std::string);
    void handleServerError (const char* pAnswer) throw (std::string);
 
