@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.10 2002/05/25 07:08:14 markus Exp $
+//$Id: File.cpp,v 1.11 2002/10/20 23:10:51 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -76,6 +76,8 @@ File& File::operator= (const File& o) {
       entry = o.entry;
       status = o.status;
       userExec = o.userExec;
+#elif SYSTEM == WINDOWS
+      WIN32_FIND_DATA::operator= (o);
 #endif
    } // endif
    return *this;
