@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.25 2005/01/20 05:26:40 markus Rel $
+//$Id: INIFile.h,v 1.26 2005/03/07 22:32:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,6 +68,8 @@ class INIFile;
    parse those values (regardless of any header-information).
 */
 class INISection {
+   friend class INIFile;
+
  public:
    INISection (const char* name);
    virtual ~INISection ();
@@ -103,6 +105,60 @@ class INISection {
    std::vector<const IAttribute*> attributes;    ///< Attributes of the section
 
  private:
+   /**Class to parse a section header; the found name (if any) is reported via
+    * the callback set in the constructor
+    */
+   class ISectionParser {
+    public:
+      ISectionParser ();
+      virtual ~ISectionParser ();
+
+      /// Parses the section header
+      /// \param stream: Stream to parse from
+      /// \returns int: Status of parse
+      int parse (Xistream& stream) throw (std::string) {
+	 ParseObject::skipWS (stream);
+	 return SectionHeader.parse (stream); }
+
+    protected:
+      virtual int foundSection (const char* name, unsigned int len) = 0;
+
+    private:
+      ISectionParser (const ISectionParser&);
+      ISectionParser& operator= (const ISectionParser&);
+
+      typedef OFParseAttomic<ISectionParser> OMParseAttomic;
+
+      ParseObject*   _SectionHeader[4];
+      ParseSequence  SectionHeader;
+      ParseExact     SectionBegin;
+      OMParseAttomic SectionName;
+      ParseExact     SectionEnd;
+   };
+
+   /**Templated SectionParser; to inform the caller about the found section
+    */
+   template <class T>
+   class TSectionParser : public INISection::ISectionParser {
+    public:
+      typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+
+      TSectionParser (T& parent, const PTCALLBACK& callback) : parent (parent),
+	 cb (callback) { }
+      ~TSectionParser () { }
+
+    protected:
+      virtual int foundSection (const char* name, unsigned int len) {
+	 return (parent.*cb) (name, len); }
+
+    private:
+      TSectionParser (const TSectionParser&);
+      TSectionParser& operator= (const TSectionParser&);
+
+      T& parent;
+      const PTCALLBACK& cb;
+   };
+
    const char* pName;
 
    INISection (const INISection&);
@@ -112,13 +168,8 @@ class INISection {
    typedef OFParseText<INISection>    OMParseText;
 
    // Parser-Objects
-   ParseObject*   _Section[3];
-   ParseSequence  Section;
-   ParseObject*   _SectionHeader[4];
-   ParseSequence  SectionHeader;
    ParseObject*   _Attributes[4];
    ParseSequence  Attributes;
-   OMParseAttomic SectionName;
    OMParseAttomic Identifier;
    OMParseText    Value;
 };
@@ -294,12 +345,6 @@ class INIFile {
    std::vector<const INISection*> sections;
    std::vector<INISection*> sectionsToFree;
    INISection* pSection;
-
-   typedef OFParseAttomic<INIFile> OMParseAttomic;
-
-   ParseObject*   _SectionHeader[4];
-   ParseSequence  SectionHeader;
-   OMParseAttomic SectionName;
 };
 
 }

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.30 2005/01/08 22:13:29 markus Rel $
+//$Id: INIFile.cpp,v 1.31 2005/03/07 22:32:14 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -42,8 +42,6 @@
 
 
 // Define constant values; don't skip white-spaces after parsing
-static YGP::ParseExact SectionBegin ("[", _("Start of section ([)"), false);
-static YGP::ParseExact SectionEnd ("]", _("End of section (])"), false);
 static YGP::ParseExact equals ("=", _("Equal-sign (=)"), false);
 
 static unsigned int LEN_SECTIONNAME = 32;
@@ -53,6 +51,24 @@ static unsigned int LEN_VALUE = 256;
 
 namespace YGP {
 
+//-----------------------------------------------------------------------------
+/// Constructor; creates an object to parse the header of a section.
+//-----------------------------------------------------------------------------
+INISection::ISectionParser::ISectionParser ()
+   : SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
+     , SectionBegin ("[", _("Start of section ([)"), false)
+     , SectionName ("\\X\\9_.", _("Name of section"), *this, &ISectionParser::foundSection, LEN_SECTIONNAME, 1)
+     , SectionEnd ("]", _("End of section (])"), false) {
+   _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
+   _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
+}
+
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
+INISection::ISectionParser::~ISectionParser () {
+}
+
 
 //-----------------------------------------------------------------------------
 /// Constructor; name is the name of the section.
@@ -60,18 +76,12 @@ namespace YGP {
 /// \remarks name must be a valid ASCIIZ-string (not NULL)
 //-----------------------------------------------------------------------------
 INISection::INISection (const char* name) : pFoundAttr (NULL), pName (name)
-   , Section (_Section, "INI-File", 1, 1)
-   , SectionHeader (_SectionHeader, _("Section-header"), 1, 1)
    , Attributes (_Attributes, _("Attribute"), -1U, 0)
-   , SectionName ("\\X\\9_.", _("Name of section"), *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
    , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
    , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
    TRACE9 ("INISection::INISection (const char*) - Create: " << pName);
    Check1 (pName);
 
-   _Section[0] = &SectionHeader; _Section[1] = &Attributes; _Section[2] = NULL;
-   _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
-   _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
    _Attributes[0] = &Identifier; _Attributes[1] = &equals;
    _Attributes[2] = &Value; _Attributes[3] = NULL;
 }
@@ -146,8 +156,9 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 //-----------------------------------------------------------------------------
 int INISection::readFromStream (Xistream& stream) throw (std::string) {
    TRACE9 ("INISection::readFromStream (Xistream&)");
-   Section.skipWS (stream);
-   int rc (Section.parse (stream));
+   TSectionParser<INISection> hdrParser (*this, &INISection::foundSection);
+
+   int rc (hdrParser.parse (stream));
    return rc ? rc : readAttributes (stream);
 }
 
@@ -168,7 +179,7 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
 //-----------------------------------------------------------------------------
 int INISection::readAttributes (Xistream& stream) throw (std::string) {
    TRACE9 ("INISection::readAttributes (Xistream&)");
-   Attributes.skipWS (stream);
+   ParseObject::skipWS (stream);
    return Attributes.parse (stream);
 }
 
@@ -236,16 +247,10 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// \throw string: If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
-   , SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
-   , SectionName ("\\X\\9_.", _("Name of section"), *this,
-                  &INIFile::foundSection, LEN_SECTIONNAME, 1) {
+   INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL) {
    Check3 (filename);
 
    TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
-
-   _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
-   _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
 
    file.open (filename, std::ios::in);
    if (!file) {
@@ -314,11 +319,12 @@ int INIFile::read () throw (std::string) {
    int rc = 0;
 
    do {
-      SectionHeader.skipWS ((Xistream&)file);
       pSection = NULL;
-      rc = SectionHeader.parse ((Xistream&)file);
+
+      INISection::TSectionParser<INIFile> hdrParser (*this, &INIFile::foundSection);
+      rc = hdrParser.parse ((Xistream&)file);
       if (rc || file.eof ())
-	break;
+	 break;
 
       if (pSection)
          rc = pSection->readAttributes ((Xistream&)file);
