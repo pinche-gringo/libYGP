@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.15 2002/04/19 07:08:19 markus Exp $
+//$Id: CRegExp.h,v 1.16 2002/04/19 09:26:50 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@
 // '^' Matches an empty string in the beginning of the line.
 // '$' Similar to the caret (^) this matches the end of the line.
 // '\' - Quotes the following character (including the backlash (\) itself:
-//     - '\DIGIT' to repeat the matched text of the DIGIT'th '\(...\)-construct.
+//     - '\DIGIT' to repeat the matched text of the DIGIT'th '(...)-construct.
 //     - '\b' matches the empty string, provided its at the beginning or the
 //            end of a word.
 //     - '\B' matches the empty string, provided its not at the beginning or
@@ -107,7 +107,8 @@ class RegularExpression : public IRegularExpression {
    static const char REGIONBEGIN = '[';
    static const char REGIONEND = ']';
    static const char RANGE = '-';
-   static const char NEGREGION = '^';
+   static const char NEGREGION1 = '^';
+   static const char NEGREGION2 = '!';
    static const char REGIONCLASS = ':';
 
    // Escaped special characters (after a quoting backslash (\))
