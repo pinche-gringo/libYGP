@@ -1,0 +1,83 @@
+<!-- $Id: PathSrch.html,v 1.1 2000/04/05 17:27:55 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: PathSearch</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class PathSearch&lt;T&gt;</h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: PathSearch.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to split strings consisting of path-nodes into its nodes.</p>
+    <p>This sub-strings are extracted from the beginning of the string (or the
+      character behind the last found node) to the next path-seperator (or to
+      the end of string). The seperator-character is not included in the
+      result.</p>
+    <p>If no further sub-string is available an empty string is returned. That
+      also means that two seperators behind each other are silently skipped
+      and the next following sub-string (if any) is returned.</p>
+    <p>The character to seperate the nodes differ between the operating systems.
+      Under UNIX (or UNIX-like systems) its the double-point (:), in DOS,
+      Windoze and OS/2 its the semi-colon (;).</p>
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="PathSrch.html#PathSearch">PathSearch</a></td>
+	<td>(const std::string&amp; path)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="PathSrch.html#~PathSearch">~PathSearch</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="PathSrch.html">PathSearch</a>&amp;</td>
+	<td><a href="PathSrch.html#operator=">operator=</a></td>
+	<td>(std::string&amp; path)</td></tr>
+
+      <tr valign="top"><td>std::string</td>
+	<td><a href="PathSrch.html#getNextNode">getNextNode</a></td><td>()</td></tr>
+      <tr valign="top"><td>static char</td>
+	<td><a href="PathSrch.html#getSplitChar">getSplitChar</a></td><td>()</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="PathSearch">PathSearch (const std::string&amp; path)</a></pre>
+    <dl>
+      <dd>Defaultconstructor; specifies the string to handle.</dd>
+    </dl>
+    <pre><a name="~PathSearch">~PathSearch ()</a></pre>
+
+    <pre><a name="operator=">PathSearch&amp; operator= (const std::string&amp; path)</a></pre>
+    <dl>
+      <dd>Assignmentoperator; sets a new string to handle. No matter of
+	seperation, the next query starts from the beginning of the new
+	string.</dd>
+    </dl>
+
+    <h4>Accessing the object</h4>
+    <pre><a name="getNextNode">std::string getNextNode () const</a></pre>
+    <dl>
+      <dd>Returns a string consisting of the node behind the end of the last
+	seperation (or the beginning of the string for the first search) to the
+	next occurence of the path-seperating character (or the end of the
+	string). The seperating characters are not returned.</dd>
+    </dl>
+
+    <pre><a name="getSplitChar">static char getSplitChar ()</a></pre>
+    <dl>
+      <dd>Returns the seperating character of path-nodes. Depending on the
+	operating system this is either the double-point (:) for UNIX-systems
+	or the semi-colon (;) for DOS/Windoze and OS/2.</dd>
+    </dl>
+
+  </body>
+</html>
