@@ -1,14 +1,14 @@
-//$Id: AssParse.cpp,v 1.13 2003/07/16 06:58:35 markus Exp $
+//$Id: AssParse.cpp,v 1.14 2003/07/16 07:11:25 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
