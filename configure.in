@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.32 $)
+AC_REVISION($Revision: 1.33 $)
 
 AC_INIT()
 
@@ -91,8 +91,8 @@ else
 fi
 
 AC_MSG_CHECKING(Checking for Gtk-- - version)
-ver=`gtkmm-config --version`
-if test -z ver; then
+ver=`gtkmm-config --version` 2>&1 >/dev/null
+if test -z $ver; then
    AC_WARN(Gtk-- was not found. Subdir X-windows will not be made)
    AC_MSG_RESULT(not installed)
 else
