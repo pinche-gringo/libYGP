@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.20 2000/03/23 19:29:59 Markus Exp $
+//$Id: DirSrch.cpp,v 1.21 2000/04/11 22:42:23 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -97,7 +97,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
    assert (!checkIntegrity ());
 
-   TRACE5 ("DirectorySearch::find " << searchDir.c_str () << searchFile.c_str ());
+   TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str () << searchFile.c_str ());
 
 #ifdef UNIX
    pDir = opendir (searchDir.c_str ());
@@ -118,7 +118,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    return find ();
 #else
 #  ifdef WINDOWS
-   TRACE8 ("DirectorySearch::find - found " << pEntry->name ());
+   TRACE8 ("DirectorySearch::find (result, attribs) - found " << pEntry->name ());
 
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
@@ -149,24 +149,29 @@ int DirectorySearch::find () {
    assert (pDir);
 
    std::string workfile (pEntry->path_);
+   std::string temp;
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
-      TRACE8 ("DirectorySearch::find - found " << pDirEnt->d_name);
+      TRACE8 ("DirectorySearch::find () - found " << pDirEnt->d_name);
 
       if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
          continue;
 
       if (regExp.matches (pDirEnt->d_name)) {
-	 workfile += pDirEnt->d_name;
-         stat (workfile.c_str (), &pEntry->status);
-         pEntry->userExec = !access (workfile.c_str (), X_OK);
+	 temp = workfile + pDirEnt->d_name;
+#ifndef NDEBUG
+         int rc =
+#endif
+         stat (temp.c_str (), &pEntry->status);
+	 assert (!rc);
 
          // Do attributes match?
-         TRACE9 ("DirectorySearch::find: " << pDirEnt->d_name << " (" << hex
+         TRACE9 ("DirectorySearch::find (): " << pDirEnt->d_name << " (" << hex
                  << attr << ") -> Mode: " << hex << pEntry->status.st_mode);
 	 if ((attr & pEntry->status.st_mode) == pEntry->status.st_mode) {
             pEntry->entry = *pDirEnt;
-            TRACE1 ("DirectorySearch::find - match " << pEntry->name ());
+            pEntry->userExec = !access (temp.c_str (), X_OK);
+            TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
             return 0;
          } // endif attributs OK
       } // endif filename OK
@@ -181,7 +186,7 @@ int DirectorySearch::find () {
    while (FindNextFile (hSearch, pEntry))
       if (!(pEntry->dwFileAttributes & attr_)
           && regExp.matches (pEntry->name ())) {
-         TRACE1 ("DirectorySearch::find - match " << pEntry->name ());
+         TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
          return 0;
       }
    return GetLastError ();
