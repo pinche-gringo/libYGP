@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.13 2003/03/03 05:53:43 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.14 2003/07/05 05:14:47 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -24,8 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <stdio.h>
-#include <errno.h>
+#include <cstdio>
+#include <cerrno>
 
 #include <string>
 #include <fstream>
@@ -49,28 +49,11 @@
 //            callback: Method of pNotify to call for printing
 /*--------------------------------------------------------------------------*/
 XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
-   : XDialog (OKCANCEL), pCaller (pNotify), callerMethod (callback)
+   : XDialog (Glib::locale_to_utf8 (_("Print")), OKCANCEL)
+     , pCaller (pNotify), callerMethod (callback)
      , lblCommand (new Gtk::Label (_("Print command: ")))
      , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
    TRACE9 ("XPrintDialog::XPrintDialog (title) '" << title << '\'');
-   Check3 (pCaller); Check3 (callerMethod);
-
-   set_title (_("Print"));
-   init ();
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates a small dialog to enter the print command.
-//Parameters: castitem: GTK+ dialog to use
-//            pNotify: Object to notify of the print command
-//            callback: Method of pNotify to call for printing
-/*--------------------------------------------------------------------------*/
-XPrintDialog::XPrintDialog (GtkDialog* castitem, Object* pNotify,
-                            const PACTION callback)
-   : XDialog (castitem), pCaller (pNotify), callerMethod (callback)
-   , lblCommand (new Gtk::Label ("Print command: "))
-   , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
-   TRACE9 ("XPrintDialog::XPrintDialog (castitem)");
    Check3 (pCaller); Check3 (callerMethod);
 
    init ();

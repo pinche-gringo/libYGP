@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.10 2003/03/03 05:53:43 markus Rel $
+//$Id: XPrintDlg.h,v 1.11 2003/07/05 05:14:47 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,8 +39,6 @@ class XPrintDialog : public XDialog {
    typedef void (Object::*PACTION)(std::ofstream&);
 
    XPrintDialog (Object* pNotify, const PACTION callback);
-   XPrintDialog (GtkDialog* castitem, Object* pNotify,
-                 const PACTION callback);
    ~XPrintDialog ();
 
    static XPrintDialog* perform (Object* pNotify, const PACTION callback) {
