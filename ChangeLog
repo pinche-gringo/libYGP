@@ -1,3 +1,77 @@
+2003-08-12  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.20 commented
+
+	* po/de.po: Minor corrections
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+2003-08-03  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/ConnectDlg.cpp:
+	  Fixed hanging the dialog after connecting to server
+
+	* X-windows/XApplication.cpp:
+	  Fixed trap displaying help, if LANGUAGE is not set
+
+	* doc/General/doc/index.html, doc/index.html:
+	  Explained how to generate the docs
+
+2003-07-27  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/ConnMgr.cpp, Common/ConnMgr.h, X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h, X-windows/XFileDlg.cpp:
+	  Fixed comments for the documentation
+
+	* X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h:
+	  Made pClient protected
+
+2003-07-26  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/AttrParse.h: Fixed a type in the documentation
+
+2003-07-25  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h, Common/ConnMgr.cpp, Common/ConnMgr.h:
+	  Providing hook for subclasses
+
+	* Common/Makefile.am: ConnMgr added
+
+	* Common/Thread.cpp, Common/Thread.h: Method allowCancelation added
+
+	* INSTALL, README: Describing new handling of the documentation
+
+	* X-windows/BrowserDlg.cpp: Re-formatted create-method
+
+	* Common/ConnMgr.cpp, Common/ConnMgr.h, X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h:
+	  New file.
+
+	* X-windows/Makefile.am: Added ConnectDlg
+
+	* X-windows/XAttrEntry.h: Added specialization for Glib::ustring
+
+	* X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XFileList.cpp:
+	Adapted to new dialog interfaces
+
+	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h, X-windows/BrowserDlg.cpp, X-windows/BrowserDlg.h, X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XDate.h, X-windows/XDialog.cpp, X-windows/XDialog.h, X-windows/XFileDlg.cpp, X-windows/XFileDlg.h:
+	Renamed perform to create; Freeing created dialogs
+
+	* X-windows/Samples/Dialog.h:
+	Renamed perform to create (as it does only that); freeing dialog afterwards
+
+	* X-windows/Samples/X-Appl.cpp, X-windows/Samples/X-Appl.h:
+	Adapted to new interface
+
+2003-07-23  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Socket.cpp: Error message improved
+
+	* X-windows/XDialog.cpp:
+	  Responses destroy_ the dialog instead of deleting it
+
+	* X-windows/Samples/X-Appl.cpp, X-windows/Samples/X-Appl.h: Actualized
+
+	* X-windows/XFileList.h: UTF-8 converting filename
+
 2003-07-22  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog: Changes of V0.6.20 commented
@@ -24,8 +98,6 @@
 	  Version to 0.6.20; Don't add -lgthread to GTKMM_LIBS; Added doxygen files
 
 	* README: Minor fixes
-
-	* NEWS: Changes of V0.6.20 commented
 
 	* doc/AByteArray.html, doc/ADate.html, doc/ANumeric.html, doc/ATStamp.html, doc/ATime.html, doc/AssParse.html, doc/AttrParse.html, doc/AttrVal.html, doc/Attribute.html, doc/BrowserDlg.html, doc/CRegExp.html, doc/DirSrch.html, doc/Entity.html, doc/File.html, doc/FileRExp.html, doc/Handle.html, doc/IDirSrch.html, doc/INIFile.html, doc/IVIOAppl.html, doc/Log.html, doc/Mutex.html, doc/Parse.html, doc/PathDirSrch.html, doc/PathSrch.html, doc/Process.html, doc/RDirSrch.html, doc/RDirSrchSrv.html, doc/RegExp.html, doc/RemoteFile.html, doc/SmartPtr.html, doc/Socket.html, doc/Thread.html, doc/Tokenize.html, doc/XAbout.html, doc/XApplication.html, doc/XAttrEntry.html, doc/XAttrLabel.html, doc/XDate.html, doc/XDialog.html, doc/XDirSrch.html, doc/XFileDlg.html, doc/XFileEntry.html, doc/XFileList.html, doc/XGP.doxy.in, doc/XPrintDlg.html, doc/XStrBuf.html, doc/XStream.html, doc/cross_index.html, doc/mdocu.html:
 	  Deleted

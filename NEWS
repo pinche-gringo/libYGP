@@ -1,6 +1,7 @@
 Overview of Changes in version 0.6.20:
 
   - Generating documentation with doxygen; therefore mdocu.pl removed
+  - Dialog does not delete but destroy_ itself after response
   - Removed AByteArray class (use std::string instead)
   - Using C++ standard headers (and not C standard headers)
   - Fixed a bug in formatting negative numbers
@@ -10,6 +11,9 @@ Overview of Changes in version 0.6.20:
   - Remand to libXGP and libYGP
   - Fixed AssParse (escaped quotes haven't been handled correctly)
   - Fixed compile(r) bug for tests in Common subdirectory (only MVC)
+  - Actualized (X-windows) samples
+  - Added classes (manager and dialog) to handle connections
+  - Fixed nasty trap displaying help, if LANGUAGE is not set
 
 Overview of Changes in version 0.6.11:
 
