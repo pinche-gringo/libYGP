@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.19 2002/05/25 07:08:14 markus Rel $
+//$Id: FileRExp.cpp,v 1.20 2002/12/08 21:41:25 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -27,7 +27,6 @@
 
 #include <ctype.h>
 #include <string.h>
-#include <assert.h>
 
 #include "Internal.h"
 
@@ -41,6 +40,7 @@
 #  define UPPER        (char)toupper
 #endif
 
+#include "Check.h"
 #include "Trace_.h"
 #include "ANumeric.h"
 #include "FileRExp.h"
@@ -67,14 +67,18 @@ FileRegularExpr::~FileRegularExpr () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the passed string matches the regular expression
-//Parameters: pAktRegExp: Pointer to regular expression
-//            pCompare: String to compare
+//Purpose   : Checks if the passed text matches the passed regular expression.
+//
+//            Both passed parameter must not be NULL-pointers and the regular
+//            expression must be in a valid syntax (this can be checked with
+//            the checkIntegrity-method).
+//Parameters: Pointer to character array holding regular expression
+//            pAktRegExp: Pointer to character array holding value to compare
 //Returns   : bool: Result (true: match)
-//Require   : pAktRegExp, pCompare: ASCIIZ-string
+//Requires  : pAktRegExp, pCompare: ASCIIZ-strings
 /*--------------------------------------------------------------------------*/
 bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
-   assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
+   Check1 (pAktRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
 
 #ifdef HAVE_FNMATCH
    // Use fnmatch if available and working
@@ -110,7 +114,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
          while ((ch = *++pAktRegExp) != REGIONEND) {
             if (pAktRegExp[1] == RANGE) {
                char chUpper (UPPER (pAktRegExp[2]));
-               assert ((chUpper != '\0') && (chUpper != REGIONEND));
+               Check3 ((chUpper != '\0') && (chUpper != REGIONEND));
                char chAkt (UPPER (*pCompare));
 
                if ((chAkt >= UPPER (ch)) && (chAkt <= chUpper))
@@ -195,10 +199,12 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks the consistency of the regular expression
+//Purpose   : Checks the syntax of the regular expression. If everything is OK,
+//            0 is returned; 1 if there is no regular expression at all. In
+//            case of any other error an exception is thrown.
 //Returns   : int: Status; 0: OK
-//Require   : pFileRegExp is a valid reg. exp.
-//Throws    : std::string: In case of error a describing text
+//Requires  : pFileRegExp is a valid regexp
+//Throws    : std::string: In case of an invalid regexp a describing text
 /*--------------------------------------------------------------------------*/
 int FileRegularExpr::checkIntegrity () const throw (std::string) {
    const char* pRegExp = getExpression ();
@@ -241,10 +247,10 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
 //Parameters: error: Text describing error
 //            pos: Position of the error inside the regular expression
 //Returns   : std::string: Text describing error in human-readable format
-//Require   : error is an ASCIIZ-string
+//Requires  : error is an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 std::string FileRegularExpr::getError (const char* error, unsigned int pos) const {
-   assert (error);
+   Check1 (error);
    std::string err (_("`%1', position %2: %3"));
    err.replace (err.find ("%1"), 2, getExpression ());
    err.replace (err.find ("%2"), 2, ANumeric::toString ((unsigned long)pos));
