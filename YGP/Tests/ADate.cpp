@@ -1,11 +1,11 @@
-// $Id: ADate.cpp,v 1.6 2003/07/09 00:05:02 markus Rel $
+// $Id: ADate.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include <ADate.h>
+#include <YGP/ADate.h>
 
 #include "Test.h"
 

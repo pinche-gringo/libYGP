@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.15 2003/10/02 22:59:38 markus Rel $
+//$Id: IDirSrch.h,v 1.16 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include <File.h>
+#include <YGP/File.h>
 
 
 /**Abstract baseclass providing an interface for classes to search in

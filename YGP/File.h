@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.19 2003/10/02 22:59:38 markus Rel $
+//$Id: File.h,v 1.20 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@
 
 #include <string>
 
-#include <Check.h>
+#include <YGP/Check.h>
 
 class DirectorySearch;
 

@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.20 2003/10/02 22:59:38 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.21 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -30,21 +30,21 @@
 
 #include <cerrno>
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
 #ifndef TRACELEVEL
 #  define TRACELEVEL -1
 #endif
-#include "File.h"
-#include "Check.h"
-#include "Trace_.h"
-#include "Socket.h"
-#include "ATStamp.h"
-#include "DirSrch.h"
-#include "ANumeric.h"
-#include "AssParse.h"
-#include "AttrParse.h"
-#include "RDirSrchSrv.h"
+#include "YGP/File.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/Socket.h"
+#include "YGP/ATStamp.h"
+#include "YGP/DirSrch.h"
+#include "YGP/ANumeric.h"
+#include "YGP/AssParse.h"
+#include "YGP/AttrParse.h"
+#include "YGP/RDirSrchSrv.h"
 
 
 static const unsigned int CMD_NEXT  = 0;

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.23 2003/07/03 04:10:53 markus Rel $
+//$Id: INIFile.cpp,v 1.24 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -30,10 +30,10 @@
 
 #include <cstring>
 
-#include "Trace_.h"
-#include "Entity.h"
-#include "INIFile.h"
-#include "Internal.h"
+#include "YGP/Trace_.h"
+#include "YGP/Entity.h"
+#include "YGP/INIFile.h"
+#include "YGP/Internal.h"
 
 
 #ifdef _MSC_VER

@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.33 2003/10/11 06:39:28 markus Rel $
+//$Id: ADate.cpp,v 1.34 2003/11/14 00:22:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -36,10 +36,10 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "Trace_.h"
-#include "Internal.h"
+#include "YGP/Trace_.h"
+#include "YGP/Internal.h"
 
-#include "ADate.h"
+#include "YGP/ADate.h"
 
 //----------------------------------------------------------------------------
 /// Constructor; depending on the parameter the date is either set to the first

@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.9 2003/07/09 00:05:02 markus Rel $
+// $Id: Parse.cpp,v 1.10 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,11 +28,10 @@
 
 #include <clocale>
 
-#include <Parse.h>
-#include <Trace_.h>
-#include <IVIOAppl.h>
-
-#include <Internal.h>
+#include <YGP/Parse.h>
+#include <YGP/Trace_.h>
+#include <YGP/IVIOAppl.h>
+#include <YGP/Internal.h>
 
 #define VERBOSE
 #undef  VERBOSE

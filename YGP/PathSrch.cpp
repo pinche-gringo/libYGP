@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.8 2003/07/10 21:24:58 markus Rel $
+//$Id: PathSrch.cpp,v 1.9 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -33,10 +33,10 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include "Trace_.h"
+#include "YGP/Trace_.h"
 
-#include "File.h"
-#include "PathSrch.h"
+#include "YGP/File.h"
+#include "YGP/PathSrch.h"
 
 #if SYSTEM == UNIX
 const char PathSearch::PATHSEPARATOR = ':';

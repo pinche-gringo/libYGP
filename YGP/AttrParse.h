@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.8 2003/07/26 00:55:40 markus Rel $
+//$Id: AttrParse.h,v 1.9 2003/11/14 00:22:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-#include <Attribute.h>
+#include <YGP/Attribute.h>
 
 
 // Macros to set the attribute-values to parse into the attribute-parser

@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.32 2003/10/02 22:59:38 markus Rel $
+///$Id: IVIOAppl.cpp,v 1.33 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -33,12 +33,12 @@
 #include <string>
 #include <iostream>
 
-#include "Check.h"
-#include "File.h"
-#include "PathSrch.h"
-#include "Internal.h"
-#include "StackTrc.h"
-#include "IVIOAppl.h"
+#include "YGP/Check.h"
+#include "YGP/File.h"
+#include "YGP/PathSrch.h"
+#include "YGP/Internal.h"
+#include "YGP/StackTrc.h"
+#include "YGP/IVIOAppl.h"
 
 
 //-----------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.28 2003/07/10 21:24:50 markus Rel $
+// $Id: XStrBuf.cpp,v 1.29 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -31,10 +31,10 @@
 #include <malloc.h>
 #include <string.h>
 
-#include "Check.h"
-#include "Trace_.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
 
-#include "XStrBuf.h"
+#include "YGP/XStrBuf.h"
 
 static unsigned int lenBuffer = 512;
 

@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.4 2003/06/19 03:26:50 markus Rel $
+// $Id: RemoteFile.h,v 1.5 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
 
 #include <string>
 
-#include <File.h>
-#include <Socket.h>
+#include <YGP/File.h>
+#include <YGP/Socket.h>
 
 class AttributeParse;
 

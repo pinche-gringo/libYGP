@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.35 2003/10/02 22:59:38 markus Rel $
+//$Id: Parse.h,v 1.36 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
 #include <string>
 #include <iostream>
 
-#include <Check.h>
-#include <XStream.h>
+#include <YGP/Check.h>
+#include <YGP/XStream.h>
 
 
 /**Classes to parse objects and sequences of objects from a stream. If an

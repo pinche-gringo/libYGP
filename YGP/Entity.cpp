@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.5 2003/06/17 16:06:30 markus Rel $
+//$Id: Entity.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Anticopyright (A) 2002, 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Entity.h"
+#include "YGP/Entity.h"
 
 
 //-----------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.13 2003/07/09 00:05:02 markus Rel $
+// $Id: XStrBuf.cpp,v 1.14 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -30,7 +30,7 @@
 #include <iostream>
 
 #include <gzo-cfg.h>
-#include <XStrBuf.h>
+#include <YGP/XStrBuf.h>
 
 #include "Test.h"
 

@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.12 2003/06/19 22:49:15 markus Rel $
+//$Id: PathDirSrch.h,v 1.13 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 
 #include <string>
 
-#include <DirSrch.h>
-#include <PathSrch.h>
+#include <YGP/DirSrch.h>
+#include <YGP/PathSrch.h>
 
 /**Class to search for files in directories listed in a path. This
    search can be restricted to files matching certain name-criterias

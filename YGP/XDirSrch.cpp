@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.6 2003/07/03 18:14:39 markus Rel $
+//$Id: XDirSrch.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -26,10 +26,10 @@
 
 #include <string>
 
-#include "Check.h"
-#include "Trace_.h"
-#include "FileRExp.h"
-#include "PathSrch.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/FileRExp.h"
+#include "YGP/PathSrch.h"
 
 
 //-----------------------------------------------------------------------------

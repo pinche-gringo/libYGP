@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.15 2003/10/19 15:39:10 markus Rel $
+//$Id: Thread.cpp,v 1.16 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -29,7 +29,7 @@
 #endif
 
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
 #include <cerrno>
 #include <cstdlib>
@@ -41,15 +41,15 @@
 #   include <stdio.h>
 #endif
 
-#include "Check.h"
+#include "YGP/Check.h"
 #include <Trace_.h>
 
-#include "Thread.h"
+#include "YGP/Thread.h"
 
 
 #ifdef HAVE_BEGINTHREAD
 #  include <map>
-#  include "Mutex.h"
+#  include "YGP/Mutex.h"
 
 // Map of wait-mutexes (1 per thread
 static std::map<unsigned long, Mutex> mutexes;

@@ -1,11 +1,11 @@
-// $Id: ATStamp.cpp,v 1.4 2003/07/09 00:05:02 markus Rel $
+// $Id: ATStamp.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ATStamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include <ATStamp.h>
+#include <YGP/ATStamp.h>
 
 #include "Test.h"
 

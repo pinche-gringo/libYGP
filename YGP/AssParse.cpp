@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.14 2003/07/16 07:11:25 markus Rel $
+//$Id: AssParse.cpp,v 1.15 2003/11/14 00:22:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -25,12 +25,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Check.h"
-#include "Trace_.h"
-#include "Internal.h"
-#include "Attribute.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/Internal.h"
+#include "YGP/Attribute.h"
 
-#include "AssParse.h"
+#include "YGP/AssParse.h"
 
 const char AssignmentParse::SEPARATOR = ';';
 const char AssignmentParse::EQUALSIGN = '=';

@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.11 2003/09/11 04:15:58 markus Rel $
+//$Id: Log.h,v 1.12 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@
 #  include <iostream>
 #  include <map>
 
-#  include <Process_.h>
+#  include <YGP/Process_.h>
 #endif
 
-#include <Check.h>
+#include <YGP/Check.h>
 
 
 #define LOGEMERGENCY(text) Syslog::write (Syslog::EMERGENCY, text);

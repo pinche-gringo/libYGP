@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.10 2003/09/11 04:15:58 markus Rel $
+// $Id: Version.cpp,v 1.11 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
 
 /**\mainpage Overview of the YGP library

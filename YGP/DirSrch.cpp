@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.44 2003/06/19 22:49:36 markus Rel $
+//$Id: DirSrch.cpp,v 1.45 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -36,11 +36,11 @@
 
 #include <errno.h>
 
-#include "File.h"
-#include "Check.h"
-#include "Trace_.h"
-#include "DirSrch.h"
-#include "FileRExp.h"
+#include "YGP/File.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/DirSrch.h"
+#include "YGP/FileRExp.h"
 
 
 //-----------------------------------------------------------------------------

@@ -7,28 +7,27 @@ lib_LTLIBRARIES=libYGP.la
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -Wall
-INCLUDES = -I $(top_srcdir) -I . -I $(top_srcdir)/intl @GTK_CFLAGS@
+INCLUDES = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@
 LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@
+
+includedir = ${prefix}/include/YGP
 
 libYGP_la_LDFLAGS=-release $(LIBRELEASE) -no-undefined
 
-libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
-                   FileRExp.cpp Parse.cpp Handle.cpp Version.cpp ATime.cpp \
-		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp \
-		   INIFile.cpp CRegExp.cpp StackTrc.cpp \
-		   Socket.cpp RDirSrch.cpp File.cpp \
-		   RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp IDirSrch.cpp \
-		   RemoteFile.cpp Entity.cpp Thread.cpp PathSrch.cpp\
-		   XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp
+libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp \
+	FileRExp.cpp Handle.cpp Version.cpp ATime.cpp XStrBuf.cpp ADate.cpp \
+	PathDirSrch.cpp ATStamp.cpp INIFile.cpp CRegExp.cpp StackTrc.cpp \
+	Socket.cpp RDirSrch.cpp File.cpp RDirSrchSrv.cpp AssParse.cpp \
+	AttrParse.cpp IDirSrch.cpp RemoteFile.cpp Entity.cpp Thread.cpp \
+	PathSrch.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp
 
-include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
-		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h \
-		SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
-		CRegExp.h RegExp.h Log.h StackTrc.h Socket.h \
-		RDirSrch.h IDirSrch.h File.h RDirSrchSrv.h AssParse.h \
-		Attribute.h AttrParse.h RemoteFile.h Entity.h Internal.h \
-		Thread.h Mutex.h INIFile.h XDirSrch.h Check.h Process_.h \
-		ConnMgr.h
+nobase_include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
+	FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h Check.h \
+	SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
+	CRegExp.h RegExp.h Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h \
+	File.h RDirSrchSrv.h AssParse.h Attribute.h AttrParse.h RemoteFile.h \
+	Entity.h Internal.h Thread.h Mutex.h INIFile.h XDirSrch.h ConnMgr.h \
+	Process_.h
 
 pkgconfigdir =$(libdir)/pkgconfig
 dist_pkgconfig_DATA=YGP.pc

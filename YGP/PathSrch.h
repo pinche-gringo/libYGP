@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.13 2003/07/10 21:24:58 markus Rel $
+//$Id: PathSrch.h,v 1.14 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <gzo-cfg.h>
 
-#include <Tokenize.h>
+#include <YGP/Tokenize.h>
 
 
 /**Class to split a string of path-nodes into its sub-nodes

@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.8 2003/10/23 03:34:42 markus Rel $
+// $Id: AssParse.cpp,v 1.9 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include <AssParse.h>
+#include <YGP/AssParse.h>
 
 #include "Test.h"
 

@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.16 2003/07/10 20:19:52 markus Rel $
+// $Id: XStream.h,v 1.17 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #  include <iosfwd>
 #endif
 
-#include "XStrBuf.h"
+#include <YGP/XStrBuf.h>
 
 
 /** Extended stream, designed to parse text.

@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.9 2003/07/10 21:24:58 markus Rel $
+//$Id: Tokenize.cpp,v 1.10 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Check.h"
-#include "Tokenize.h"
+#include "YGP/Check.h"
+#include "YGP/Tokenize.h"
 
 
 //-----------------------------------------------------------------------------

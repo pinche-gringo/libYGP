@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.7 2003/09/11 04:17:52 markus Rel $
+//$Id: Process.cpp,v 1.8 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,7 +30,7 @@
 #endif
 
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
 #include <cstdio>
 #include <cerrno>
@@ -59,11 +59,11 @@
 
 #endif
 
-#include "Check.h"
-#include "Trace_.h"
-#include "Internal.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/Internal.h"
 
-#include "Process_.h"
+#include "YGP/Process_.h"
 
 
 //-----------------------------------------------------------------------------

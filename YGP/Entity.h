@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.6 2003/06/17 16:06:30 markus Rel $
+//$Id: Entity.h,v 1.7 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,8 +29,8 @@
 #  include "Handle.h"
 #endif
 
-#include <Check.h>
-#include <Attribute.h>
+#include <YGP/Check.h>
+#include <YGP/Attribute.h>
 
 
 /** Baseclass for classes holding (a list of) attributes

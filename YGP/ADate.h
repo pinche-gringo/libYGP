@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.27 2003/10/11 06:39:06 markus Rel $
+//$Id: ADate.h,v 1.28 2003/11/14 00:22:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@
 
 #include <string>
 
-#include <Check.h>
-#include <AttrVal.h>
+#include <YGP/Check.h>
+#include <YGP/AttrVal.h>
 
 
 // Forward declarations

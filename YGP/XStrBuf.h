@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.21 2003/07/10 20:14:57 markus Rel $
+// $Id: XStrBuf.h,v 1.22 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #  include <iosfwd>
 #endif
 
-#include <Check.h>
+#include <YGP/Check.h>
 
 
 /**Extended streambuf, designed to parse text.

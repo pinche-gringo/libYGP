@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.22 2003/07/03 04:10:53 markus Rel $
+//$Id: File.cpp,v 1.23 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -34,11 +34,11 @@
 #  include <unistd.h>
 #endif
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
-#include "Trace_.h"
+#include "YGP/Trace_.h"
 
-#include "File.h"
+#include "YGP/File.h"
 
 
 #if SYSTEM == UNIX

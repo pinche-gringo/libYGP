@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.19 2003/06/15 00:45:50 markus Rel $
+//$Id: ATStamp.h,v 1.20 2003/11/14 00:22:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 
 #include <string>
 
-#include <ADate.h>
-#include <ATime.h>
+#include <YGP/ADate.h>
+#include <YGP/ATime.h>
 
 
 // Forward declarations

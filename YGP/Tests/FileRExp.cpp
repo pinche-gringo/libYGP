@@ -1,11 +1,11 @@
-// $Id: FileRExp.cpp,v 1.5 2003/10/11 18:13:41 markus Rel $
+// $Id: FileRExp.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/FileRExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,7 +28,7 @@
 
 #include <iostream>
 
-#include <FileRExp.h>
+#include <YGP/FileRExp.h>
 
 #include "Test.h"
 

@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.7 2003/06/15 23:53:23 markus Rel $
+// $Id: Handle.h,v 1.8 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Check.h>
-#include <AttrVal.h>
-#include <SmartPtr.h>
+#include <YGP/Check.h>
+#include <YGP/AttrVal.h>
+#include <YGP/SmartPtr.h>
 
 
 /**Smart-pointer-class with reference-counting; base-class for type-safe

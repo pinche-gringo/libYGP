@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.16 2003/10/02 22:59:38 markus Rel $
+//$Id: RDirSrch.h,v 1.17 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
 #include <stdexcept>
 
 #include <gzo-cfg.h>
-#include <Socket.h>
-#include <ATStamp.h>
-#include <AttrParse.h>
+#include <YGP/Socket.h>
+#include <YGP/ATStamp.h>
+#include <YGP/AttrParse.h>
 
-#include <IDirSrch.h>
+#include <YGP/IDirSrch.h>
 
 
 /**Class to search for files in a directory over a

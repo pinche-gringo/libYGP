@@ -1,11 +1,11 @@
-// $Id: PathDirSrch.cpp,v 1.6 2003/07/09 00:05:02 markus Rel $
+// $Id: PathDirSrch.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,10 +26,10 @@
 
 #include <iostream>
 
-#include <File.h>
-#include <PathDirSrch.h>
+#include <YGP/File.h>
+#include <YGP/Internal.h>
+#include <YGP/PathDirSrch.h>
 
-#include <Internal.h>
 #include "Test.h"
 
 
@@ -38,9 +38,9 @@ int main (int argc, char* argv[]) {
 
    std::cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX
-   PathDirectorySearch pds (".:../../X-windows", "Makefile.*");
+   PathDirectorySearch pds (".:../../XGP", "Makefile.*");
 #else
-   PathDirectorySearch pds ("..\\Common;..\\X-windows", "Makefile.*");
+   PathDirectorySearch pds ("..\\YGP;..\\XGP", "Makefile.*");
 #endif
    check (pds.find (DirectorySearch::FILE_NORMAL
                     | DirectorySearch::FILE_READONLY));

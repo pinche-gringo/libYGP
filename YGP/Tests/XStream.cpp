@@ -1,11 +1,11 @@
-// $Id: XStream.cpp,v 1.7 2003/07/09 00:05:02 markus Rel $
+// $Id: XStream.cpp,v 1.8 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStream
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,7 +28,7 @@
 
 #include <iostream>
 
-#include <XStream.h>
+#include <YGP/XStream.h>
 
 #include "Test.h"
 

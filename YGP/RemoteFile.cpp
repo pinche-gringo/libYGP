@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.15 2003/10/02 22:59:38 markus Rel $
+// $Id: RemoteFile.cpp,v 1.16 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -33,12 +33,12 @@
 #ifndef TRACELEVEL
 #  define TRACELEVEL -1
 #endif
-#include "Check.h"
-#include "Trace_.h"
-#include "Internal.h"
-#include "ANumeric.h"
-#include "AttrParse.h"
-#include "RemoteFile.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/Internal.h"
+#include "YGP/ANumeric.h"
+#include "YGP/AttrParse.h"
+#include "YGP/RemoteFile.h"
 
 
 //-----------------------------------------------------------------------------

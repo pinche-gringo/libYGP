@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.32 2003/10/02 22:59:38 markus Rel $
+//$Id: DirSrch.h,v 1.33 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@
 
 #include <gzo-cfg.h>
 
-#include <IDirSrch.h>
+#include <YGP/IDirSrch.h>
 
 struct File;
 class DirectorySearch;

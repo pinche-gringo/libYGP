@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.18 2003/07/03 04:10:53 markus Rel $
+//$Id: ATStamp.cpp,v 1.19 2003/11/14 00:22:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -31,10 +31,10 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "Check.h"
-#include "Trace_.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
 
-#include "ATStamp.h"
+#include "YGP/ATStamp.h"
 
 //-----------------------------------------------------------------------------
 /// Defaultconstructor; the timestamp is not defined

@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.4 2003/09/05 02:38:44 markus Rel $
+//$Id: ConnMgr.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,11 +25,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Check.h>
-#include <Trace_.h>
-#include <Socket.h>
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/Socket.h"
 
-#include "ConnMgr.h"
+#include "YGP/ConnMgr.h"
 
 
 //-----------------------------------------------------------------------------

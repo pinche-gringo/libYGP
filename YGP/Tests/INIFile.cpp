@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.6 2003/07/09 00:05:02 markus Rel $
+// $Id: INIFile.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,13 +28,13 @@
 
 #include <iostream>
 
-#include <ADate.h>
-#include <ATStamp.h>
-#include <INIFile.h>
-#include <XStream.h>
-#include <ANumeric.h>
+#include <YGP/ADate.h>
+#include <YGP/ATStamp.h>
+#include <YGP/INIFile.h>
+#include <YGP/XStream.h>
+#include <YGP/ANumeric.h>
+#include <YGP/Internal.h>
 
-#include <Internal.h>
 #include "Test.h"
 
 #if SYSTEM == UNIX

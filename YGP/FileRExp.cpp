@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.23 2003/07/03 04:10:53 markus Rel $
+//$Id: FileRExp.cpp,v 1.24 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -28,7 +28,7 @@
 #include <cctype>
 #include <cstring>
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
 #ifdef HAVE_FNMATCH
 #  include <fnmatch.h>
@@ -40,10 +40,10 @@
 #  define UPPER        (char)toupper
 #endif
 
-#include "Check.h"
-#include "Trace_.h"
-#include "ANumeric.h"
-#include "FileRExp.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/ANumeric.h"
+#include "YGP/FileRExp.h"
 
 
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))

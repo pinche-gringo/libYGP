@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.34 2003/07/03 04:10:53 markus Rel $
+//$Id: CRegExp.cpp,v 1.35 2003/11/14 00:22:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -27,13 +27,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Internal.h"
+#include "YGP/Internal.h"
 
-#include "Check.h"
-#include "Trace_.h"
-#include "CRegExp.h"
-#include "Internal.h"
-#include "ANumeric.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/CRegExp.h"
+#include "YGP/Internal.h"
+#include "YGP/ANumeric.h"
 
 #ifndef HAVE_REGEX_H
 #  include <stdlib.h>

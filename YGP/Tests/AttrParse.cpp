@@ -1,11 +1,11 @@
-// $Id: AttrParse.cpp,v 1.5 2003/07/09 00:05:02 markus Rel $
+// $Id: AttrParse.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AttrParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,9 +26,9 @@
 
 #include <iostream>
 
-#include <ANumeric.h>
-#include <ATStamp.h>
-#include <AttrParse.h>
+#include <YGP/ANumeric.h>
+#include <YGP/ATStamp.h>
+#include <YGP/AttrParse.h>
 
 #include "Test.h"
 

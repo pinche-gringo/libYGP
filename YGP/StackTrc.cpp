@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.10 2003/09/11 04:17:20 markus Rel $
+// $Id: StackTrc.cpp,v 1.11 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -34,9 +34,9 @@
 
 #include <signal.h>
 
-#include "Log.h"
-#include "Check.h"
-#include "StackTrc.h"
+#include "YGP/Log.h"
+#include "YGP/Check.h"
+#include "YGP/StackTrc.h"
 
 // Define for logging (printf for testing; LOGINFO for real)
 #define PRINT LOGINFO

@@ -1,11 +1,11 @@
-// $Id: IVIOAppl.cpp,v 1.6 2003/09/11 04:19:13 markus Rel $
+// $Id: IVIOAppl.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/IVIOAppl
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -34,11 +34,11 @@
 
 #include <iostream>
 
-#include <Log.h>
-#include <Check.h>
-#include <Trace_.h>
-#include <IVIOAppl.h>
-#include <StackTrc.h>
+#include <YGP/Log.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/IVIOAppl.h>
+#include <YGP/StackTrc.h>
 
 #include "Test.h"
 

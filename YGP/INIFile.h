@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.21 2003/10/02 22:59:38 markus Rel $
+//$Id: INIFile.h,v 1.22 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,10 +31,10 @@
 #include <iostream>
 #include <stdexcept>
 
-#include <Check.h>
-#include <Parse.h>
-#include <XStream.h>
-#include <Attribute.h>
+#include <YGP/Check.h>
+#include <YGP/Parse.h>
+#include <YGP/XStream.h>
+#include <YGP/Attribute.h>
 
 class Entity;
 class INIFile;

@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.12 2003/06/02 01:28:48 markus Rel $
+//$Id: Check.cpp,v 1.13 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -30,7 +30,7 @@
 
 #include <iostream>
 
-#include "Check.h"
+#include "YGP/Check.h"
 
 
 #if SYSTEM == UNIX

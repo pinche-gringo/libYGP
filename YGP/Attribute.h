@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.22 2003/07/09 18:12:50 markus Rel $
+//$Id: Attribute.h,v 1.23 2003/11/14 00:22:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
 #include <vector>
 #include <stdexcept>
 
-#include <Check.h>
-#include <AssParse.h>
+#include <YGP/Check.h>
+#include <YGP/AssParse.h>
 
 #include <gzo-cfg.h>
 

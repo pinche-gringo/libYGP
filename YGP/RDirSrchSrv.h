@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.12 2003/07/21 23:54:29 markus Rel $
+//$Id: RDirSrchSrv.h,v 1.13 2003/11/14 00:22:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
 #include <string>
 #include <stdexcept>
 
-#include <File.h>
-#include <Socket.h>
+#include <YGP/File.h>
+#include <YGP/Socket.h>
 
 /**Class for a server to enable remote directory searching.
    This is the server for the RemoteDirSearch-class.

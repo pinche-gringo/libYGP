@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.13 2003/07/09 00:05:02 markus Rel $
+// $Id: CRegExp.cpp,v 1.14 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -29,13 +29,13 @@
 #include <iostream>
 
 #include "Test.h"
-#include <Check.h>
-#include <Trace_.h>
 
-#include <ANumeric.h>
-#include <Parse.h>
-#include <CRegExp.h>
-#include <XStream.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/ANumeric.h>
+#include <YGP/Parse.h>
+#include <YGP/CRegExp.h>
+#include <YGP/XStream.h>
 
 
 unsigned int cErrors (0);

@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.18 2003/07/23 07:04:04 markus Rel $
+//$Id: Socket.cpp,v 1.19 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -29,11 +29,11 @@
 #include <cerrno>
 #include <cstring>
 
-#include "Check.h"
-#include "Trace_.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
 
-#include "Socket.h"
-#include "Internal.h"
+#include "YGP/Socket.h"
+#include "YGP/Internal.h"
 
 
 #if SYSTEM == UNIX

@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.43 2003/07/03 04:10:53 markus Rel $
+//$Id: Parse.cpp,v 1.44 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -35,12 +35,12 @@
 #include <map>
 #include <string>
 
-#include "Trace_.h"
+#include "YGP/Trace_.h"
 
-#include "Parse.h"
-#include "Thread.h"
-#include "XStream.h"
-#include "Internal.h"
+#include "YGP/Parse.h"
+#include "YGP/Thread.h"
+#include "YGP/XStream.h"
+#include "YGP/Internal.h"
 
 #define BUFFER  (buffers[Thread::currentID ()])
 

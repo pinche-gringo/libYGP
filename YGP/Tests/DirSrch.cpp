@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.12 2003/07/09 00:05:02 markus Rel $
+// $Id: DirSrch.cpp,v 1.13 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,8 +28,8 @@
 
 #include <iostream>
 
-#include <File.h>
-#include <DirSrch.h>
+#include <YGP/File.h>
+#include <YGP/DirSrch.h>
 
 #define VERBOSE
 #undef  VERBOSE

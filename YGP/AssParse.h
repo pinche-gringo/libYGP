@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.8 2003/07/16 06:59:59 markus Rel $
+//$Id: AssParse.h,v 1.9 2003/11/14 00:22:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include <Tokenize.h>
+#include <YGP/Tokenize.h>
 
 
 /**Class to split a string of assignments into its single parts

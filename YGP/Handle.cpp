@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.7 2003/06/15 23:53:23 markus Rel $
+// $Id: Handle.cpp,v 1.8 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Handle.h"
+#include "YGP/Handle.h"
 
 
 //-----------------------------------------------------------------------------

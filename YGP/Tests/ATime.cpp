@@ -1,11 +1,11 @@
-// $Id: ATime.cpp,v 1.4 2003/07/09 00:05:02 markus Rel $
+// $Id: ATime.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include <ATime.h>
+#include <YGP/ATime.h>
 
 #include "Test.h"
 

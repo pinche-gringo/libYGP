@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.9 2003/06/19 22:49:36 markus Rel $
+//$Id: IDirSrch.cpp,v 1.10 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -27,9 +27,9 @@
 
 #include <gzo-cfg.h>
 
-#include "File.h"
-#include "Trace_.h"
-#include "IDirSrch.h"
+#include "YGP/File.h"
+#include "YGP/Trace_.h"
+#include "YGP/IDirSrch.h"
 
 
 #if SYSTEM == UNIX

@@ -1,11 +1,11 @@
-// $Id: Thread.cpp,v 1.2 2003/10/23 03:32:01 markus Rel $
+// $Id: Thread.cpp,v 1.3 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -27,8 +27,8 @@
 
 #include <unistd.h>
 
-#include <Mutex.h>
-#include <Thread.h>
+#include <YGP/Mutex.h>
+#include <YGP/Thread.h>
 
 #include "Test.h"
 

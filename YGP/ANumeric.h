@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.30 2003/06/17 16:44:52 markus Rel $
+//$Id: ANumeric.h,v 1.31 2003/11/14 00:22:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@
       typedef long int numType;
 #  endif
 #endif
-#include <AttrVal.h>
+#include <YGP/AttrVal.h>
 
 
 // Forward declarations

@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.22 2003/10/03 00:28:47 markus Rel $
+//$Id: RDirSrch.cpp,v 1.23 2003/11/14 00:22:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -31,14 +31,14 @@
 
 #include <ctype.h>
 
-#include "Check.h"
-#include "Trace_.h"
-#include "Internal.h"
-#include "ANumeric.h"
-#include "AttrParse.h"
-#include "RemoteFile.h"
+#include "YGP/Check.h"
+#include "YGP/Trace_.h"
+#include "YGP/Internal.h"
+#include "YGP/ANumeric.h"
+#include "YGP/AttrParse.h"
+#include "YGP/RemoteFile.h"
 
-#include "RDirSrch.h"
+#include "YGP/RDirSrch.h"
 
 
 const char RemoteDirSearch::SEPARATOR = ':';
