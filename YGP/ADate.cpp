@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.12 2000/05/09 23:31:34 Markus Exp $
+//$Id: ADate.cpp,v 1.13 2000/07/17 11:36:59 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -39,9 +39,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
-
 #include "ADate.h"
-
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
@@ -250,7 +248,7 @@ ADate& ADate::add (char Day, char Month, int Year) {
       month += Month;
       year += Year;
 
-      char maxDay; 
+      char maxDay;
       while (maxDay = maxDayOf (), Day > maxDay) {
          Day -= maxDay;
          ++month;
@@ -282,7 +280,7 @@ ADate& ADate::sub (char Day, char Month, int Year) {
       month -= Month;
       year -= Year;
 
-      char maxDay; 
+      char maxDay;
       while (maxDay = maxDayOf (month - 1, year), Day > maxDay) {
          Day -= maxDay;
          --month;
