@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.13 2001/09/17 14:53:27 markus Exp $
+//$Id: AttrVal.h,v 1.14 2002/03/23 20:46:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ class AttributValue {
    AttributValue& operator= (const AttributValue& other) {
       defined = other.defined; return *this; }
    virtual void define () = 0;
+   void setDefined () { defined = true; }
 
    virtual std::string toString () const { return toUnformatedString (); }
    void toString (std::string& result) const { result = toString (); }
@@ -63,7 +64,7 @@ class AttributValue {
 };
 
 inline void AttributValue::define () {
-   defined = true;
+   setDefined ();
 }
 
 #endif
