@@ -1,11 +1,11 @@
-// $Id: ANumeric.cpp,v 1.8 2004/01/15 06:26:30 markus Rel $
+// $Id: ANumeric.cpp,v 1.9 2004/11/04 23:17:59 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -57,8 +57,19 @@ int main (int argc, char* argv[]) {
    std::string numStr (num2.toString ());
    check (numStr.length () >= 4);
 
+   setlocale (LC_NUMERIC, "de");                      // Activate german locale
+   try {
+      num = "123.456.789";
+      check (num == 123456789);
+      num = "-123.456.789";
+      check (num == -123456789);
+   }
+   catch (std::invalid_argument& error) {
+      std::cout << "Invalid argument: " << error.what () << '\n';
+      check (!"Invalid argument!");
+   }
 #ifdef TEST_OUTPUT
-   setlocale (LC_ALL, "");                         // Activate current locale
+   setlocale (LC_ALL, "");                           // Activate current locale
 
    std::cout << YGP::ANumeric::toString (-1) << '\n';
    std::cout << YGP::ANumeric::toString (-12) << '\n';
