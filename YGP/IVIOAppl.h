@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.16 2002/05/24 06:45:57 markus Exp $
+//$Id: IVIOAppl.h,v 1.17 2002/10/25 03:04:37 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -75,6 +75,7 @@ class IVIOApplication {
 
    int run ();
 
+   static void initI18n ();
    static void initI18n (const char* package, const char* dir);
 
  protected:

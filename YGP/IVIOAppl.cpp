@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.26 2002/10/20 05:37:02 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.27 2002/10/25 03:04:37 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -308,14 +308,21 @@ const char* IVIOApplication::name () const {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Initializes program for internationalition
+//Purpose   : Initializes program for internationalization (locale)
+/*--------------------------------------------------------------------------*/
+void IVIOApplication::initI18n () {
+   setlocale (LC_ALL, "");                         // Activate current locale
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Initializes program for internationalization
 //Parameters: package: Name of the message-catalog
 //            dir: root-directory for message-catalogs
 /*--------------------------------------------------------------------------*/
 void IVIOApplication::initI18n (const char* package, const char* dir) {
    assert (package); assert (dir);
+   initI18n ();
 
-   setlocale (LC_ALL, "");                         // Activate current locale
 #ifdef HAVE_GETTEXT
    bindtextdomain (package, dir);
    textdomain (package);
