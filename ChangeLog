@@ -1,6 +1,45 @@
-2003-06-19  Markus Schwab  <g17m0@lycos.com>
+2003-06-24  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.6.11 commented
+
+	* configure.in: Version to 0.6.11
+
+2003-06-23  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Attribute.h:
+	Implemented AttributeList::getValue with Attribute<T> to not need specialization
+
+	* Common/Attribute.h: Changed itoa with sprintf
+
+2003-06-22  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/ANumeric.cpp: Fixed a bug in formatting negative numbers
+
+2003-06-19  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/INIFile.h, Common/INIFile.cpp:
+	Changed comments to doxygen style
+
+	* Common/RDirSrch.h: Grouped search methods for doxygen
+
+	* Common/DirSrch.cpp, Common/IDirSrch.cpp, Common/RDirSrch.cpp:
+	Fixed comments
+
+	* Common/PathDirSrch.cpp, Common/PathDirSrch.h:
+	Changed comments to doxygen style
+
+	* Common/DirSrch.cpp, Common/DirSrch.h:
+	Comments changed to doxygen style
+
+	* Common/IDirSrch.cpp, Common/IDirSrch.h:
+	Changed comments to doxygen style
+
+	* Common/Attribute.h: Fixed bugs introdcued while changing comments
+
+	* Common/Attribute.h:
+	Implemted AttributeList::getValue; Removed support for AByteArray; Doxygen-style
+
+2003-06-19  Markus Schwab  <g17m0@lycos.com>
 
 	* doc/Parse.html: Fixed a bug in referencing ParseQuoted from ParseText
 

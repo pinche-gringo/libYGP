@@ -1,5 +1,8 @@
 Overview of Changes in version 0.6.11:
 
+  - Fixed potentially memory leak in XFileList
+  - Implemented removing of listbox entry after executing the remove command
+  - Fixed a bug in formatting negative numbers
   - Removed asserts from XFileEntry and XApplication
   - XApplication provides a method to set the icon-data from xpm-data
   - Fixed a bug in ParseQuoted (re-init status for further parsing)
