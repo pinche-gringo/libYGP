@@ -14,7 +14,7 @@ libXAppl_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 		    XPrintDlg.cpp BrowserDlg.cpp \
 		    $(include_HEADERS) 
 
-libXAppl_la_LDFLAGS=-lsigc @GTKMM_LIBS@ -lAttr \
+libXAppl_la_LDFLAGS=@GTKMM_LIBS@ -lAttr \
                     -version-info $(LIBVERSION) -release $(LIBRELEASE) \
                     -no-undefined
 
