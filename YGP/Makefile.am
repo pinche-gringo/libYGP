@@ -8,7 +8,7 @@ lib_LTLIBRARIES=libAttr.la
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 INCLUDES = -I $(top_srcdir) -I . -I $(top_srcdir)/intl @GTKMM_CFLAGS@
-LIBS = @INTLLIBS@ @LIBS@ @GTKMM_LIBS@
+LIBS = @INTLLIBS@ @LIBS@ --static @GTK_LIBS@
 
 libAttr_la_LDFLAGS=-version-info $(LIBVERSION) -release $(LIBRELEASE) \
                    -no-undefined
