@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.19 2003/02/04 19:56:34 markus Exp $
+//$Id: XApplication.cpp,v 1.20 2003/02/05 03:15:52 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,15 +25,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <fcntl.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <locale.h>
-#include <unistd.h>
 
 #include <sys/stat.h>
-#include <sys/wait.h>
 
 #include <gtk--/box.h>
 #include <gtk--/label.h>
@@ -47,6 +43,7 @@
 
 #include "Check.h"
 #include <Trace_.h>
+#include <Process.h>
 #include "StackTrc.h"
 
 #include <Tokenize.h>
@@ -275,156 +272,62 @@ void XApplication::command (int menu) {
 
    case CONTENT: {
       Check3 (getHelpfile ());
-      string error;
-      int pipes[2];
+      string file (getHelpfile ());
+      TRACE9 ("XApplication::command (int) - Show help " << file);
+      TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
 
-      pid_t pid (pipe (pipes) ? - 1 : fork ());
-      switch (pid) {
-      case 0: {                                         // Child: Start browser
-         close (pipes[0]);
-         string file (getHelpfile ());
-         TRACE9 ("XApplication::command (int) - Show help " << file);
-         TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
+      // Test if file-protocoll or no protocoll at all
+      if (((file[0] == '/') && (file[1] != '/'))
+          || (file.substr (0, 7) == "file://")) {
+         if (file[0] != '/')
+            file.replace (0, 6, 0, '\0');
 
-         // Test if file-protocoll or no protocoll at all
-         if (((file[0] == '/') && (file[1] != '/'))
-             || (file.substr (0, 7) == "file://")) {
-            if (file[0] != '/')
-               file.replace (0, 6, 0, '\0');
+         // If so: Check which language to use
+         Tokenize ext (getenv ("LANGUAGE"));
+         if (ext.getActNode ().empty ())
+            ext = setlocale (LC_MESSAGES, NULL);
 
-            // If so: Check which language to use
-            Tokenize ext (getenv ("LANGUAGE"));
-            if (ext.getActNode ().empty ())
-               ext = setlocale (LC_MESSAGES, NULL);
+         // Check every language-entry (while removing trailing specifiers)
+         string extension;
+         struct stat sfile;
+         while ((extension = ext.getNextNode (',')).size ()) {
+            string search;
+            do {
+               search = file + std::string (1, '.') + extension;
+               if (search.substr (0, 7) == "file://")
+                  search.replace (0, 6, 0, '\0');
 
-            // Check every language-entry (while removing trailing specifiers)
-            string extension;
-            struct stat sfile;
-            while ((extension = ext.getNextNode (',')).size ()) {
-               string search;
-               do {
-                  search = file + std::string (1, '.') + extension;
-                  if (search.substr (0, 7) == "file://")
-                     search.replace (0, 6, 0, '\0');
-
-                  TRACE9 ("XApplication::command (int) - Checking for help-file "
-                          << search);
-                  if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
-                     break;
-
-                  unsigned int pos (extension.rfind ('_'));
-                  if (pos == string::npos)
-                     pos = 0;
-                  extension.replace (pos, extension.length (), 0, '\0');
-               } while (extension.size ());
-
-               if (extension.size ()) {
-                  file += '.';
-                  file += extension;
+               TRACE9 ("XApplication::command (int) - Checking for help-file "
+                       << search);
+               if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
                   break;
-               }
-            } // end-while
 
-            // Nothing worked: Check if file exists directly; if not try english
-            if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
-               file += ".en";
-         } // endif file-protocoll
+               unsigned int pos (extension.rfind ('_'));
+               if (pos == string::npos)
+                  pos = 0;
+               extension.replace (pos, extension.length (), 0, '\0');
+            } while (extension.size ());
 
-         TRACE5 ("XApplication::command (int) - Starting browser with " << file);
-
-         int _pipes[2];
-         pid_t _pid (pipe (_pipes) ? - 1 : fork ());
-         switch (_pid) {
-         case 0: {                                      // Child: Start browser
-            close (_pipes[0]);
-            dup2 (dup (_pipes[1]), 1);
-            dup2 (_pipes[1], 2);
-            execlp (helpBrowser.c_str (), helpBrowser.c_str (), file.c_str (), NULL);
-            perror (_("Error starting browser for help! Reason"));
-            _exit (1);
-            break; }
-
-         case -1:
-            break;
-
-         default: {
-            TRACE9 ("XApplication::command (int) - Fork OK");
-            close (_pipes[1]);
-            unsigned int cChar;
-            string output;
-
-            TRACE9 ("XApplication::command (int) - Reading browser output");
-            char buffer[80] = "";
-            while ((cChar = read (_pipes[0], buffer, sizeof (buffer)))
-                   && (cChar != -1)) {
-               output.append (buffer, cChar);
-               TRACE8 ("XApplication::command (int) - Read " << cChar << " bytes: "
-                       << output);
+            if (extension.size ()) {
+               file += '.';
+               file += extension;
+               break;
             }
-            TRACE8 ("XApplication::command (int) - Read final: " << output);
+         } // end-while
 
-            if (errno && !output.length ()) {
-               error = _("Error executing `%1'!\n\nReason: %2");
-               error.replace (error.find ("%1"), 2, helpBrowser + ' ' + file);
-               error.replace (error.find ("%2"), 2, strerror (errno));
-               TRACE8 ("XApplication::command (int) - Exec-error: " << error);
-            }
-            else {
-               int rc;
-               if (waitpid (_pid, &rc, 0)) {
-                  error = _("The command `%1' returned an error!\n\nOutput: %2");
-                  error.replace (error.find ("%1"), 2, helpBrowser + ' ' + file);
-                  error.replace (error.find ("%2"), 2, output);
-                  TRACE8 ("XApplication::command (int) - Prg-error: " << error);
-               }
-            }
-            break; }
-         } // end-switch
+         // Nothing worked: Check if file exists directly; if not try english
+         if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
+            file += ".en";
+      } // endif file-protocoll
+      TRACE5 ("XApplication::command (int) - Starting browser with " << file);
 
-         TRACE9 ("XApplication::command (int) - Error: " << error);
-         if (error.length ())
-            write (pipes[1], error.c_str (), error.length ());
-         close (pipes[1]);
-         _exit (error.length ());
-         break; }
-
-      case -1:
-         break;
-
-      default:
-         close (pipes[1]);
-         sleep (1);
-
-         int flags (fcntl (pipes[0], F_GETFL));
-         if (flags != -1) {
-            flags |= O_NONBLOCK;
-            flags = fcntl (pipes[0], F_SETFL, flags);
-         }
-         if (flags == -1)
-            break;
-
-         TRACE8 ("XApplication::command (int) - Trying to read");
-         char buffer[80] = "";
-         unsigned int cChar (0);
-         while ((cChar = read (pipes[0], buffer, sizeof (buffer)))
-                 && (cChar != -1)) {
-            error.append (buffer, cChar);
-            TRACE8 ("XApplication::command (int) - Global read " << cChar
-                    << " bytes: " << error);
-         }
-         if (errno == EAGAIN)
-            errno = 0;
-         close (pipes[0]);
-         TRACE8 ("XApplication::command (int) - Read finished");
-         break;
+      try {
+         const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
+         Process::execAsync (helpBrowser.c_str (), args);
       }
-
-      if (errno && !error.length ()) {
-         error = (_("Error starting browser for help!\n\nReason: "));
-         error += strerror (errno);
-      }
-      if (error.length ())
+      catch (std::string& error) {
          XMessageBox::Show (error, XMessageBox::ERROR | XMessageBox::OK);
+      }
       break; }
 
    case CONFIGUREBROWSER:
