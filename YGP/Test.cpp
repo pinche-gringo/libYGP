@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.23 1999/10/25 17:59:55 Markus Exp $
+// $Id: Test.cpp,v 1.24 1999/11/19 00:10:31 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -106,6 +106,20 @@ class Application : public IVIOApplication {
 
    static const longOptions lo[];
 
+   static int foundNumber (const char* pNumber) {
+#ifdef VERBOSE
+      cout << "Found number: " << pNumber << '\n';
+#endif
+      return ParseObject::PARSE_OK;
+   }
+
+   int foundAlpha (const char* pAlpha) {
+#ifdef VERBOSE
+      cout << "Found alpha: " << pAlpha << '\n';
+#endif
+      return ParseObject::PARSE_OK;
+   }
+
    int dirSearchRecursive (const char* pFile) const;
 };
 
@@ -143,8 +157,8 @@ int Application::perform (int argc, char* argv[]) {
    check (!argv[argc]);
 
    cout << "Testing Parser...\n";
-   ParseAttomic  nr ("\\9", "Number", 4, 2);
-   ParseAttomic  alpha ("\\X", "Alphanum", 4, 2);
+   CBParseAttomic nr ("\\9", "Number", &foundNumber, 4, 2);
+   OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this, &foundAlpha, 4, 2);
    ParseExact exact ("234", "234");
    ParseUpperExact upper ("9A42", "9A42");
    ParseObject* lstSeq[] = { &nr, &exact, NULL };
@@ -318,14 +332,14 @@ int Application::perform (int argc, char* argv[]) {
    check (ds.find ());
 
    check (!ds.find (".", file, FILE_DIRECTORY | FILE_HIDDEN));
-   check (!ds.find ("../General/", file, FILE_DIRECTORY));
-   check (!ds.find ("../General", file, FILE_DIRECTORY));
+   check (!ds.find ("../Common/", file, FILE_DIRECTORY));
+   check (!ds.find ("../X-windows", file, FILE_DIRECTORY));
    check (ds.find ());
 
    check (!dirSearchRecursive (NULL));
 
    cout << "Testing PathDirectorySearch...\n";
-   PathDirectorySearch pds (".:../JGeneral", "ANumeric.*");
+   PathDirectorySearch pds (".:../../JGeneral", "ANumeric.*");
    check (!pds.find (file, FILE_NORMAL | FILE_READONLY));
    check (!pds.find ());
    check (!pds.find ());
