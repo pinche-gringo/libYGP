@@ -2,10 +2,10 @@
 
 General library-functions
  
-Anti-Copyright (A) 1999 Markus Schwab <MarkusSchwab@HotMail.Com>
+Anti-Copyright (A) 1999 Markus Schwab <MarkusSchwab@digitalsignum.com>
+----------------------------------------------------------------------
 
-//--------------------------------------------------
 How to build:
 
-./configure [--prefix=/usr]
+./configure [--prefix=/usr]           # default: /usr/local
 make
