@@ -1,8 +1,14 @@
-<!-- $Id: ANumeric.html,v 1.3 2000/04/07 22:47:10 Markus Exp $ -->
+<!-- $Id: ANumeric.html,v 1.4 2000/04/15 02:05:25 Markus Rel $ -->
 
 <html>
   <head>
     <title>General Reference: ANumeric</title>
+    <meta name="description" content="Documentation of ANumeric-class">
+    <meta name="keywords" content="Documentation, Docu, ANumeric, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -15,7 +21,7 @@
 
     <p>Header-file: ATNumeric.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Class for numeric values. As every AttributValue is supports undefined
       values.</p>
@@ -24,323 +30,323 @@
       are stored as longs or with the GNU Multi Precission library (where
       numbers are of infinite length).</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric">ANumeric</a></td><td>()</td></tr>
+        <td><a href="ANumeric.html#ANumeric">ANumeric</a></td><td>()</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric2">ANumeric</a></td><td>
-	  (const <a href="ANumeric.html">ANumeric</a>& other)</td></tr>
+        <td><a href="ANumeric.html#ANumeric2">ANumeric</a></td><td>
+          (const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric3">ANumeric</a></td>
-	<td>(const int val)</td></tr>
+        <td><a href="ANumeric.html#ANumeric3">ANumeric</a></td>
+        <td>(const int val)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric4">ANumeric</a></td>
-	<td>(const unsigned int val)</td></tr>
+        <td><a href="ANumeric.html#ANumeric4">ANumeric</a></td>
+        <td>(const unsigned int val)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric5">ANumeric</a></td>
-	<td>(const long val)</td></tr>
+        <td><a href="ANumeric.html#ANumeric5">ANumeric</a></td>
+        <td>(const long val)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric6">ANumeric</a></td>
-	<td>(const unsigned long val)</td></tr>
+        <td><a href="ANumeric.html#ANumeric6">ANumeric</a></td>
+        <td>(const unsigned long val)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric7">ANumeric</a></td>
-	<td>(const char* pValue)</td></tr>
+        <td><a href="ANumeric.html#ANumeric7">ANumeric</a></td>
+        <td>(const char* pValue)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="ANumeric.html#ANumeric8">ANumeric</a></td>
-	<td>(const std::string&amp; value)</td></tr>
+        <td><a href="ANumeric.html#ANumeric8">ANumeric</a></td>
+        <td>(const std::string&amp; value)</td></tr>
       <tr valign="top"><td>virtual</td>
-	<td><a href="ANumeric.html#~ANumeric">~ANumeric</a></td><td>()</td></tr>
+        <td><a href="ANumeric.html#~ANumeric">~ANumeric</a></td><td>()</td></tr>
 
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=">operator=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operator=">operator=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=2">operator=</a></td>
-	<td>(const int val)</td></tr>
+        <td><a href="ANumeric.html#operator=2">operator=</a></td>
+        <td>(const int val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=3">operator=</a></td>
-	<td>(const unsigned int val)</td></tr>
+        <td><a href="ANumeric.html#operator=3">operator=</a></td>
+        <td>(const unsigned int val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=4">operator=</a></td>
-	<td>(const long val)</td></tr>
+        <td><a href="ANumeric.html#operator=4">operator=</a></td>
+        <td>(const long val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=5">operator=</a></td>
-	<td>(const unsigned long val)</td></tr>
+        <td><a href="ANumeric.html#operator=5">operator=</a></td>
+        <td>(const unsigned long val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=6">operator=</a></td>
-	<td>(const char* pValue)</td></tr>
+        <td><a href="ANumeric.html#operator=6">operator=</a></td>
+        <td>(const char* pValue)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
-	<td><a href="ANumeric.html#operator=7">operator=</a></td>
-	<td>(const std::string&amp; value)</td></tr>
-
-      <tr valign="top"><td>virtual void</td>
-	<td><a href="ANumeric.html#define">define</a></td><td>()</td></tr>
+        <td><a href="ANumeric.html#operator=7">operator=</a></td>
+        <td>(const std::string&amp; value)</td></tr>
 
       <tr valign="top"><td>virtual void</td>
-	<td><a href="ANumeric.html#readFromStream">readFromStream</a></td>
-	<td>(istream&amp; in)</td></tr>
+        <td><a href="ANumeric.html#define">define</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+        <td><a href="ANumeric.html#readFromStream">readFromStream</a></td>
+        <td>(istream&amp; in)</td></tr>
 
       <tr valign="top"><td>virtual std::string</td>
-	<td><a href="ANumeric.html#toString">toString</a></td><td>() const</td></tr>
+        <td><a href="ANumeric.html#toString">toString</a></td><td>() const</td></tr>
 
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
-	<td><a href="ANumeric.html#operator+=">operator+=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
-	<td><a href="ANumeric.html#operator-=">operator-=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
-	<td><a href="ANumeric.html#operator*=">operator*=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
-	<td><a href="ANumeric.html#operator/=">operator/=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
+        <td><a href="ANumeric.html#operator+=">operator+=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
+        <td><a href="ANumeric.html#operator-=">operator-=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
+        <td><a href="ANumeric.html#operator*=">operator*=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&amp;</td>
+        <td><a href="ANumeric.html#operator/=">operator/=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
 
       <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-	<td><a href="ANumeric.html#operator+">operator+</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-	  const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
+        <td><a href="ANumeric.html#operator+">operator+</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
       <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-	<td><a href="ANumeric.html#operator-">operator-</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-	  const <a href="ANumeric.html">ANumeric/a>&amp; rhs);</td></tr>
+        <td><a href="ANumeric.html#operator-">operator-</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
       <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-	<td><a href="ANumeric.html#operator*">operator*</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-	  const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
+        <td><a href="ANumeric.html#operator*">operator*</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
       <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
-	<td><a href="ANumeric.html#operator/">operator/</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
-	  const <a href="ANumeric.html">ANumeric/a>&amp; rhs);</td></tr>
+        <td><a href="ANumeric.html#operator/">operator/</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+          const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
 
       <tr valign="top"><td>bool</td>
-	<td><a href="ANumeric.html#operator==">operator==</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operator==">operator==</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ANumeric.html#operator!=">operator!=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operator!=">operator!=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ANumeric.html#operatorl">operator&lt;</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operatorl">operator&lt;</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ANumeric.html#operatorg">operator&gt;</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operatorg">operator&gt;</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ANumeric.html#operatorl=">operator&lt;=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operatorl=">operator&lt;=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ANumeric.html#operatorg=">operator&gt;=</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#operatorg=">operator&gt;=</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
       <tr valign="top"><td>long</td>
-	<td><a href="ANumeric.html#compare">compare</a></td>
-	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+        <td><a href="ANumeric.html#compare">compare</a></td>
+        <td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="ANumeric">ANumeric ()</a></pre>
+    <pre><a name="ANumeric"></a>ANumeric ()</pre>
     <dl>
       <dd>Defaultconstructor; the numeric value is not defined</dd>
     </dl>
-    <pre><a name="ANumeric2">ANumeric (const ANumeric&amp; other)</a></pre>
-    <pre><a name="ANumeric3">ANumeric (const int val)</a></pre>
+    <pre><a name="ANumeric2"></a>ANumeric (const ANumeric&amp; other)</pre>
+    <pre><a name="ANumeric3"></a>ANumeric (const int val)</pre>
     <dl>
       <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric4">ANumeric (const unsigned int val)</a></pre>
+    <pre><a name="ANumeric4"></a>ANumeric (const unsigned int val)</pre>
     <dl>
       <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric5">ANumeric (const long val)</a></pre>
+    <pre><a name="ANumeric5"></a>ANumeric (const long val)</pre>
     <dl>
       <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric6">ANumeric (const unsigned long val)</a></pre>
+    <pre><a name="ANumeric6"></a>ANumeric (const unsigned long val)</pre>
     <dl>
       <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric7">ANumeric (const char* pValue)</a></pre>
+    <pre><a name="ANumeric7"></a>ANumeric (const char* pValue)</pre>
     <dl>
-      <dd>Constructor; tries to extract an integer-value from pValue.
-	<p>pValue must not be a NULL-pointer, may have leading white-spaces
-	  which may follow a sign (plus (+) or minus (-)) followed by numeric
-	  characters and a zero-characer (\0).</p>
-	<p>If pValue has a different format the object is undefined.</p></dd>
+      <dd><p>Constructor; tries to extract an integer-value from pValue.</p>
+        <p>pValue must not be a NULL-pointer, may have leading white-spaces
+          which may follow a sign (plus (+) or minus (-)) followed by numeric
+          characters and a zero-characer (\0).</p>
+        <p>If pValue has a different format the object is undefined.</p></dd>
     </dl>
-    <pre><a name="ANumeric8">ANumeric (const std::string&amp value)</a></pre>
+    <pre><a name="ANumeric8"></a>ANumeric (const std::string&amp; value)</pre>
     <dl>
-      <dd>Constructor; tries to extract an integer-value from value.
-	<p>Value may have leading white-spaces which may follow a sign (plus
-	  (+) or minus (-)) followed by numeric characters and a zero-characer
-	  (\0).</p>
-	<p>If pValue has a different format the object is undefined.</p></dd>
+      <dd><p>Constructor; tries to extract an integer-value from value.</p>
+        <p>Value may have leading white-spaces which may follow a sign (plus
+          (+) or minus (-)) followed by numeric characters and a zero-characer
+          (\0).</p>
+        <p>If pValue has a different format the object is undefined.</p></dd>
     </dl>
 
-    <pre><a name="~ANumeric">virtual ~ANumeric ()</a></pre>
-    <pre><a name="operator=">ANumeric&amp; operator= (const ANumeric&amp; other)</a></pre>
-    <pre><a name="operator=2">ANumeric&amp; operator= (const int val)</a></pre>
+    <pre><a name="~ANumeric"></a>virtual ~ANumeric ()</pre>
+    <pre><a name="operator="></a>ANumeric&amp; operator= (const ANumeric&amp; other)</pre>
+    <pre><a name="operator=2"></a>ANumeric&amp; operator= (const int val)</pre>
     <dl>
       <dd>Assignmentoperator; the numeric value is set to val and to object is
-	defined.</dd>
+        defined.</dd>
     </dl>
-    <pre><a name="operator=3">ANumeric&amp; operator= (const unsigned int val)</a></pre>
+    <pre><a name="operator=3"></a>ANumeric&amp; operator= (const unsigned int val)</pre>
     <dl>
       <dd>Assignmentoperator; the numeric value is set to val and to object is
-	defined.</dd>
+        defined.</dd>
     </dl>
-    <pre><a name="operator=4">ANumeric&amp; operator= (const long val)</a></pre>
+    <pre><a name="operator=4"></a>ANumeric&amp; operator= (const long val)</pre>
     <dl>
       <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
     </dl>
-    <pre><a name="operator=5">ANumeric&amp; operator= (const unsigned long val)</a></pre>
+    <pre><a name="operator=5"></a>ANumeric&amp; operator= (const unsigned long val)</pre>
     <dl>
       <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
     </dl>
-    <pre><a name="operator=6">ANumeric&amp; operator= (const char* pValue)</a></pre>
+    <pre><a name="operator=6"></a>ANumeric&amp; operator= (const char* pValue)</pre>
     <dl>
-      <dd>Assignmentoperator; tries to extract an integer-value from pValue.
-	<p>pValue must not be a NULL-pointer, may have leading white-spaces
-	  which may follow a sign (plus (+) or minus (-)) followed by numeric
-	  characters and a zero-characer (\0).</p>
-	<p>If pValue has a different format the object is undefined.</p></dd>
+      <dd><p>Assignmentoperator; tries to extract an integer-value from pValue.</p>
+        <p>pValue must not be a NULL-pointer, may have leading white-spaces
+          which may follow a sign (plus (+) or minus (-)) followed by numeric
+          characters and a zero-characer (\0).</p>
+        <p>If pValue has a different format the object is undefined.</p></dd>
     </dl>
-    <pre><a name="operator=7">ANumeric&amp; operator= (const std::string&amp value)</a></pre>
+    <pre><a name="operator=7"></a>ANumeric&amp; operator= (const std::string&amp; value)</pre>
     <dl>
-      <dd>Assignmentoperator; tries to extract an integer-value from value.
-	<p>Value may have leading white-spaces which may follow a sign (plus
-	  (+) or minus (-)) followed by numeric characters and a zero-characer
-	  (\0).</p>
-	<p>If pValue has a different format the object is undefined.</p></dd>
+      <dd><p>Assignmentoperator; tries to extract an integer-value from value.</p>
+        <p>Value may have leading white-spaces which may follow a sign (plus
+          (+) or minus (-)) followed by numeric characters and a zero-characer
+          (\0).</p>
+        <p>If pValue has a different format the object is undefined.</p></dd>
     </dl>
 
-    <pre><a name="define">void define ()</a></pre>
+    <pre><a name="define"></a>void define ()</pre>
     <dl>
       <dd>Defines the object and sets the value to 0.</dd>
     </dl>
 
-    <pre><a name="define">void define ()</a></pre>
+    <pre><a name="define"></a>void define ()</pre>
     <dl>
       <dd>Defines the object and sets the value to 0.</dd>
     </dl>
 
     <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream">virtual void readFromStream (istream& in)</a></pre>
+    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in)</pre>
     <dl>
-      <dd>Reads a formatted numeric value from a stream. If the input is not
-	valid, the object is set to undefined.
-	<p>Leading whitespaces in the stream are skipped as are
-	  thousand-seperaters in the number.</p>
-	<p>Parsing is stopped at EOF or at any non-digit (except
-	  thousand-seperators inside a number).</dd>
+      <dd><p>Reads a formatted numeric value from a stream. If the input is not
+          valid, the object is set to undefined.</p>
+        <p>Leading whitespaces in the stream are skipped as are
+          thousand-seperaters in the number.</p>
+        <p>Parsing is stopped at EOF or at any non-digit (except
+          thousand-seperators inside a number).</dd>
     </dl>
 
-    <pre><a name="toString">virtual std::string toString () const</a></pre>
+    <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
       <dd>Converts the number into a string, in the format specified by the
-	current locale.</dd>
+        current locale.</dd>
     </dl>
 
     <h4>Calculation</h4>
-    <pre><a name="operator+=">ANumeric&amp; operator+= (const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator+="></a>ANumeric&amp; operator+= (const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Adds another number-object to this object. An undefined number is
-	treated as "0"; so only if both objects are undefined, the result
-	is (remains) undefined.</dd>
+        treated as "0"; so only if both objects are undefined, the result
+        is (remains) undefined.</dd>
     </dl>
-    <pre><a name="operator-=">ANumeric&amp; operator-= (const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator-="></a>ANumeric&amp; operator-= (const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Substracts another number-object from this object. An undefined number is
-	treated as "0"; so only if both objects are undefined, the result
-	is (remains) undefined.</dd>
+        treated as "0"; so only if both objects are undefined, the result
+        is (remains) undefined.</dd>
     </dl>
-    <pre><a name="operator*=">ANumeric&amp; operator*= (const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator*="></a>ANumeric&amp; operator*= (const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Multiplies another number-object to this object. An undefined number is
-	treated as "1"; so only if both objects are undefined, the result
-	is (remains) undefined.</dd>
+        treated as "1"; so only if both objects are undefined, the result
+        is (remains) undefined.</dd>
     </dl>
-    <pre><a name="operator/=">ANumeric&amp; operator/= (const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator/="></a>ANumeric&amp; operator/= (const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Divides this by another number-object. An undefined number is	treated
-	as "1"; so only if both objects are undefined, the result is (remains)
-	undefined.</dd>
+        as "1"; so only if both objects are undefined, the result is (remains)
+        undefined.</dd>
     </dl>
 
-    <pre><a name="operator+">ANumeric&amp; operator+ (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator+"></a>ANumeric&amp; operator+ (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Adds lhs and rhs and returns the result. If one object is defined,
-	the other object is treated as "0"; so only if both objects are
-	undefined, the result is undefined.</dd>
+        the other object is treated as "0"; so only if both objects are
+        undefined, the result is undefined.</dd>
     </dl>
-    <pre><a name="operator-">ANumeric&amp; operator- (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator-"></a>ANumeric&amp; operator- (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Substracts rhs from lhs and returns the result. If one object is
-	defined, the other is is treated as "0"; so only if both objects are
-	undefined, the result is undefined.</dd>
+        defined, the other is is treated as "0"; so only if both objects are
+        undefined, the result is undefined.</dd>
     </dl>
-    <pre><a name="operator*">ANumeric&amp; operator* (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator*"></a>ANumeric&amp; operator* (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Multiplies rhs and lhs and returns the result. If one object is
-	defined, the other is treated as "1"; so only if both objects are
-	undefined, the result is undefined.</dd>
+        defined, the other is treated as "1"; so only if both objects are
+        undefined, the result is undefined.</dd>
     </dl>
-    <pre><a name="operator/">ANumeric&amp; operator/ (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</a></pre>
+    <pre><a name="operator/"></a>ANumeric&amp; operator/ (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
     <dl>
       <dd>Divides this by another number-object. If one object is defined, the
-	other is treated as "1"; so only if both objects are undefined, the
-	result is undefined.</dd>
+        other is treated as "1"; so only if both objects are undefined, the
+        result is undefined.</dd>
     </dl>
 
     <h4>Comparison</h4>
-    <pre><a name="operator==">bool operator== (const ANumeric&amp; other)</a></pre>
+    <pre><a name="operator=="></a>bool operator== (const ANumeric&amp; other)</pre>
     <dl>
       <dd>Compares two numeric values and returns true, if they are equal
-	(either the same or both undefined).</dd>
+        (either the same or both undefined).</dd>
     </dl>
 
-    <pre><a name="operator!=">bool operator!= (const ANumeric&amp; other)</a></pre>
+    <pre><a name="operator!="></a>bool operator!= (const ANumeric&amp; other)</pre>
     <dl>
       <dd>Compares two numeric values and returns true, if they are not equal
-	(different and not both undefined).</dd>
+        (different and not both undefined).</dd>
     </dl>
 
-    <pre><a name="operatorl">bool operator&lt; (const ANumeric&amp; other)</a></pre>
+    <pre><a name="operatorl"></a>bool operator&lt; (const ANumeric&amp; other)</pre>
     <dl>
       <dd>Compares two numeric values and returns true, if this is less than
-	other. Undefined values are considered as between 0 and -1.</dd>
+        other. Undefined values are considered as between 0 and -1.</dd>
     </dl>
 
-    <pre><a name="operatorg">bool operator&gt; (const ANumeric&amp; other)</a></pre>
+    <pre><a name="operatorg"></a>bool operator&gt; (const ANumeric&amp; other)</pre>
     <dl>
       <dd>Compares two numeric values and returns true, if this is greater
-	than other. Undefined values are considered as between 0 and -1.</dd>
+        than other. Undefined values are considered as between 0 and -1.</dd>
     </dl>
 
-    <pre><a name="operatorl=">bool operator&lt;= (const ANumeric&amp; other)</a></pre>
+    <pre><a name="operatorl="></a>bool operator&lt;= (const ANumeric&amp; other)</pre>
     <dl>
       <dd>Compares two numeric values and returns true, if this is less than
-	other or equal to it. Undefined values are considered as between 0 and
-	-1.</dd>
+        other or equal to it. Undefined values are considered as between 0 and
+        -1.</dd>
     </dl>
 
-    <pre><a name="operatorg=">bool operator&gt;= (const ANumeric&amp; other)</a></pre>
+    <pre><a name="operatorg="></a>bool operator&gt;= (const ANumeric&amp; other)</pre>
     <dl>
       <dd>Compares two numeric values and returns true, if this is greater
-	than other or equal to it. Undefined values are considered as between
-	0 and -1.</dd>
+        than other or equal to it. Undefined values are considered as between
+        0 and -1.</dd>
     </dl>
 
-    <pre><a name="compare">long compare (const ANumeric&amp; other)</a></pre>
+    <pre><a name="compare"></a>long compare (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Returns -1 if this is less then other, 0 if they are equal or 1 if
-	this is larger.
-	<p>Undefined values are considered as between 0 and -1 for this
-	  comparison; if both values are undefined they are considered as
-	  equal.</p></dd>
+      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
+          this is larger.</p>
+        <p>Undefined values are considered as between 0 and -1 for this
+          comparison; if both values are undefined they are considered as
+          equal.</p></dd>
     </dl>
   </body>
 </html>

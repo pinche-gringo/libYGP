@@ -1,8 +1,14 @@
-<!-- $Id: Tokenize.html,v 1.4 2000/04/06 21:04:00 Markus Exp $ -->
+<!-- $Id: Tokenize.html,v 1.5 2000/04/15 02:05:25 Markus Rel $ -->
 
 <html>
   <head>
     <title>General Reference: Tokenize</title>
+    <meta name="description" content="Documentation of Tokenize-class">
+    <meta name="keywords" content="Documentation, Docu, Tokenize, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -15,7 +21,7 @@
 
     <p>Header-file: Tokenize.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Class to split strings into sub-strings.</p>
     <p>This sub-strings are extracted from the beginning of the string (or the
@@ -25,72 +31,72 @@
     <p>If no further sub-string is available an empty string is returned. That
       also means that two seperators behind each other are silently skipped
       and the next following sub-string (if any) is returned.</p>
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td><td><a href="Tokenize.html#Tokenize">Tokenize</a></td>
-	<td>(const std::string&amp; string)</td></tr>
+        <td>(const std::string&amp; string)</td></tr>
       <tr valign="top"><td>virtual</td>
-	<td><a href="Tokenize.html#~Tokenize">~Tokenize</a></td><td>()</td></tr>
+        <td><a href="Tokenize.html#~Tokenize">~Tokenize</a></td><td>()</td></tr>
 
       <tr valign="top"><td><a href="Tokenize.html">Tokenize</a>&amp;</td>
-	<td><a href="Tokenize.html#operator=">operator=</a></td>
-	<td>(const std::string&amp; string)</td></tr>
+        <td><a href="Tokenize.html#operator=">operator=</a></td>
+        <td>(const std::string&amp; string)</td></tr>
 
       <tr valign="top"><td></td>
-	<td><a href="Tokenize.html#operatorcstring">operator const std::string&amp;</a></td>
-	<td>() const</td></tr>
+        <td><a href="Tokenize.html#operatorcstring">operator const std::string&amp;</a></td>
+        <td>() const</td></tr>
       <tr valign="top"><td>std::string</td>
-	<td><a href="Tokenize.html#getActNode">getActNode</a></td><td>() const</td></tr>
+        <td><a href="Tokenize.html#getActNode">getActNode</a></td><td>() const</td></tr>
       <tr valign="top"><td>std::string</td>
-	<td><a href="Tokenize.html#getNextNode">getNextNode</a></td>
-	<td>(const char split)</td></tr>
+        <td><a href="Tokenize.html#getNextNode">getNextNode</a></td>
+        <td>(const char split)</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="Tokenize.html#reset">reset</a></td><td>()</td></tr>
+        <td><a href="Tokenize.html#reset">reset</a></td><td>()</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="Tokenize">Tokenize (const std::string&amp; string)</a></pre>
+    <pre><a name="Tokenize"></a>Tokenize (const std::string&amp; string)</pre>
     <dl>
       <dd>Defaultconstructor; specifies the string to handle.</dd>
     </dl>
-    <pre><a name="~Tokenize">~Tokenize ()</a></pre>
+    <pre><a name="~Tokenize"></a>~Tokenize ()</pre>
 
-    <pre><a name="operator=">Tokenize&amp; operator= (const std::string&amp; string)</a></pre>
+    <pre><a name="operator="></a>Tokenize&amp; operator= (const std::string&amp; string)</pre>
     <dl>
       <dd>Assignmentoperator; sets a new string to handle. No matter of
-	seperation, the next query starts from the beginning of the new
-	string.</dd>
+        seperation, the next query starts from the beginning of the new
+        string.</dd>
     </dl>
 
     <h4>Accessing the object</h4>
-    <pre><a name="operatorcstring">operator const std::string () const</a></pre>
+    <pre><a name="operatorcstring"></a>operator const std::string () const</pre>
     <dl>
       <dd>Conversion from a tokenize-object to a std::string. Returns the
-	string to handle.</dd>
+        string to handle.</dd>
     </dl>
 
-    <pre><a name="getActNode">std::string getActNode () const</a></pre>
+    <pre><a name="getActNode"></a>std::string getActNode () const</pre>
     <dl>
       <dd>Returns the result of the last seperation (or the whole string if no
-	node was previously extracted).</dd>
+        node was previously extracted).</dd>
     </dl>
 
-    <pre><a name="getNextNode">std::string getNextNode (const char split) const</a></pre>
+    <pre><a name="getNextNode"></a>std::string getNextNode (const char split) const</pre>
     <dl>
       <dd>Returns a sub-string consisting of the string from the end of the
-	last seperation (or the beginning of the string for the first search)
-	to the next occurence of split (or the end of the string). The
-	seperating characters are not returned.</dd>
+        last seperation (or the beginning of the string for the first search)
+        to the next occurence of split (or the end of the string). The
+        seperating characters are not returned.</dd>
     </dl>
 
-    <pre><a name="reset">void reset ()</a></pre>
+    <pre><a name="reset"></a>void reset ()</pre>
     <dl>
       <dd>Resets the object; the next seperation starts again from the
-	beginning of the string.</dd>
+        beginning of the string.</dd>
     </dl>
   </body>
 </html>

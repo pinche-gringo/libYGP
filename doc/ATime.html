@@ -1,8 +1,14 @@
-<!-- $Id: ATime.html,v 1.4 2000/04/02 14:25:40 Markus Exp $ -->
+<!-- $Id: ATime.html,v 1.5 2000/04/15 02:05:25 Markus Rel $ -->
 
 <html>
   <head>
     <title>General Reference: ATime</title>
+    <meta name="description" content="Documentation of ATime-class">
+    <meta name="keywords" content="Documentation, Docu, ATime, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -15,409 +21,409 @@
 
     <p>Header-file: ATime.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Class for time attributes. As every AttributValue is supports undefined
       values.</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime">ATime</a></td><td>()</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime2">ATime</a></td>
-	<td>(bool now)</td></tr>
+        <td>(bool now)</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime3">ATime</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime4">ATime</a></td>
-	<td>(char Hour, char minute, char second)</td></tr>
+        <td>(char Hour, char minute, char second)</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime5">ATime</a></td>
-	<td>(const char* pTime)</td></tr>
+        <td>(const char* pTime)</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime6">ATime</a></td>
-	<td>(const std::string&amp; time)</td></tr>
+        <td>(const std::string&amp; time)</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime7">ATime</a></td>
-	<td>(const struct tm&amp; tm)</td></tr>
+        <td>(const struct tm&amp; tm)</td></tr>
       <tr valign="top"><td></td><td><a href="ATime.html#ATime8">ATime</a></td>
-	<td>(const time_t time)</td></tr>
+        <td>(const time_t time)</td></tr>
       <tr valign="top"><td>virtual</td><td><a href="ATime.html#~ATime">~ATime</a></td><td>()</td></tr>
 
       <tr valign="top"><td><a href="ATime.html">ATime&amp;</a></td>
-	<td><a href="ATime.html#operator=">operator=</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operator=">operator=</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
-	<td><a href="ATime.html#operator=2">operator=</a></td>
-	<td>(const char* pTime)</td></tr>
+        <td><a href="ATime.html#operator=2">operator=</a></td>
+        <td>(const char* pTime)</td></tr>
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
-	<td><a href="ATime.html#operator=3">operator=</a></td>
-	<td>(const std::string&amp; time)</td></tr>
+        <td><a href="ATime.html#operator=3">operator=</a></td>
+        <td>(const std::string&amp; time)</td></tr>
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
-	<td><a href="ATime.html#operator=4">operator=</a></td>
-	<td>(const struct tm&amp; tm)</td></tr>
+        <td><a href="ATime.html#operator=4">operator=</a></td>
+        <td>(const struct tm&amp; tm)</td></tr>
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
-	<td><a href="ATime.html#operator=5">operator=</a></td>
-	<td>(const time_t time)</td></tr>
+        <td><a href="ATime.html#operator=5">operator=</a></td>
+        <td>(const time_t time)</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="ATime.html#readFromStream">readFromStream</a></td>
-	<td>(istream&amp; in)</td></tr>
+        <td><a href="ATime.html#readFromStream">readFromStream</a></td>
+        <td>(istream&amp; in)</td></tr>
 
       <tr valign="top"><td>virtual void</td>
-	<td><a href="ATime.html#define">define</a></td><td>()</td></tr>
+        <td><a href="ATime.html#define">define</a></td><td>()</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="ATime.html#setHour">setHour</a></td><td>(char Hour)</td></tr>
+        <td><a href="ATime.html#setHour">setHour</a></td><td>(char Hour)</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="ATime.html#setMinute">setMinute</a></td>
-	<td>(char minute)</td></tr>
+        <td><a href="ATime.html#setMinute">setMinute</a></td>
+        <td>(char minute)</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="ATime.html#setSecond">setSecond</a></td>
-	<td>(char second)</td></tr>
+        <td><a href="ATime.html#setSecond">setSecond</a></td>
+        <td>(char second)</td></tr>
 
       <tr valign="top"><td>static <a href="ATime.html">ATime</a></td>
-	<td><a href="ATime.html#now">now</a></td><td>()</td></tr>
+        <td><a href="ATime.html#now">now</a></td><td>()</td></tr>
 
       <tr valign="top"><td>char</td><td><a href="ATime.html#getHour">getHour</a>
-	</td><td>() const</td></tr>
+        </td><td>() const</td></tr>
       <tr valign="top"><td>char</td>
-	<td><a href="ATime.html#getMinute">getMinute</a></td><td>() const</td></tr>
+        <td><a href="ATime.html#getMinute">getMinute</a></td><td>() const</td></tr>
       <tr valign="top"><td>char</td>
-	<td><a href="ATime.html#getSecond">getSecond</a></td><td>() const</td></tr>
+        <td><a href="ATime.html#getSecond">getSecond</a></td><td>() const</td></tr>
 
       <tr valign="top"><td>virtual std::string</td>
-	<td><a href="ATime.html#toString">toString</a></td><td>() const</td></tr>
+        <td><a href="ATime.html#toString">toString</a></td><td>() const</td></tr>
       <tr valign="top"><td>virtual std::string</td>
-	<td><a href="ATime.html#toString2">toString</a></td>
-	<td>(const char* format) const</td></tr>
+        <td><a href="ATime.html#toString2">toString</a></td>
+        <td>(const char* format) const</td></tr>
 
       <tr valign="top"><td>virtual struct tm</td>
-	<td><a href="ATime.html#toStructTM">toStructTM</a></td><td>() const</td></tr>
+        <td><a href="ATime.html#toStructTM">toStructTM</a></td><td>() const</td></tr>
       <tr valign="top"><td>time_t</td>
-	<td><a href="ATime.html#toSysTime">toSysTime</a></td><td>() const</td></tr>
-
-      <tr valign="top"><td><a href="ATime.html">ATime</a>&</td>
-	<td><a href="ATime.html#operator+=">operator+=</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ATime.html">ATime</a>&</td>
-	<td><a href="ATime.html#operator-=">operator-=</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; rhs)</td></tr>
-
-      <tr valign="top"><td>friend <a href="ATime.html">ATime</a></td>
-	<td><a href="ATime.html#operator+">operator+</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; lhs,
-	  const <a href="ATime.html">ATime</a>&amp; rhs);</td></tr>
-      <tr valign="top"><td>friend <a href="ATime.html">ATime</a></td>
-	<td><a href="ATime.html#operator-">operator-</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; lhs,
-	  const <a href="ATime.html">ATime</a>&amp; rhs);</td></tr>
+        <td><a href="ATime.html#toSysTime">toSysTime</a></td><td>() const</td></tr>
 
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
-	<td><a href="ATime.html#add">add</a></td>
-	<td>(char Hour, char minute = 0, char second = 0)</td></tr>
+        <td><a href="ATime.html#operator+=">operator+=</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; rhs)</td></tr>
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
-	<td><a href="ATime.html#sub">sub</a></td>
-	<td>(char Hour, char minute = 0, char second = 0)</td></tr>
+        <td><a href="ATime.html#operator-=">operator-=</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend <a href="ATime.html">ATime</a></td>
+        <td><a href="ATime.html#operator+">operator+</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; lhs,
+          const <a href="ATime.html">ATime</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="ATime.html">ATime</a></td>
+        <td><a href="ATime.html#operator-">operator-</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; lhs,
+          const <a href="ATime.html">ATime</a>&amp; rhs);</td></tr>
+
+      <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
+        <td><a href="ATime.html#add">add</a></td>
+        <td>(char Hour, char minute = 0, char second = 0)</td></tr>
+      <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
+        <td><a href="ATime.html#sub">sub</a></td>
+        <td>(char Hour, char minute = 0, char second = 0)</td></tr>
 
       <tr valign="top"><td>bool</td>
-	<td><a href="ATime.html#operator==">operator==</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operator==">operator==</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATime.html#operator!=">operator!=</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operator!=">operator!=</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATime.html#operatorl">operator&lt;</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operatorl">operator&lt;</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATime.html#operatorg">operator&gt;</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operatorg">operator&gt;</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATime.html#operatorl=">operator&lt;=</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operatorl=">operator&lt;=</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATime.html#operatorg=">operator&gt;=</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#operatorg=">operator&gt;=</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
       <tr valign="top"><td>long</td>
-	<td><a href="ATime.html#compare">compare</a></td>
-	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
+        <td><a href="ATime.html#compare">compare</a></td>
+        <td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
 
       <tr valign="top"><td>virtual int</td>
-	<td><a href="ATime.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+        <td><a href="ATime.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="ATime.html#minAdapt">minAdapt</a></td><td>()</td></tr>
+        <td><a href="ATime.html#minAdapt">minAdapt</a></td><td>()</td></tr>
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="ATime.html#maxAdapt">maxAdapt</a></td><td>()</td></tr>
+        <td><a href="ATime.html#maxAdapt">maxAdapt</a></td><td>()</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="ATime">ATime ()</a></pre>
-    <dt>
+    <pre><a name="ATime"></a>ATime ()</pre>
+    <dl>
       <dd>Defaultconstructor; the time is not defined</dd>
-    </dl></dt>
+    </dl>
 
-    <pre><a name="ATime3">ATime (const ATime& other)</a></pre>
-    <pre><a name="ATime2">ATime (bool now)</a></pre>
+    <pre><a name="ATime3"></a>ATime (const ATime&amp;other)</pre>
+    <pre><a name="ATime2"></a>ATime (bool now)</pre>
     <dl>
       <dd>Constructor; depending on the parameter the time is either set to
         "0:00:00" (now = false), or to the current time (now = true).</dd>
     </dl>
 
-    <pre><a name="ATime4">ATime (char Hour, char minute, char second)</a></pre>
-	<dl><dd>Constructor; sets the passed time. The object is undefined, if
-	the passed parameters represent no valid time (e.g. Hour &gt; 23,
-	minute &gt; 59 or second &gt; 61).</dd>
+    <pre><a name="ATime4"></a>ATime (char Hour, char minute, char second)</pre>
+    <dl>
+      <dd>Constructor; sets the passed time. The object is undefined, if
+        the passed parameters represent no valid time (e.g. Hour &gt; 23,
+        minute &gt; 59 or second &gt; 61).</dd>
     </dl>
 
-    <pre><a name="ATime5">ATime (const char* pTime)</a></pre>
+    <pre><a name="ATime5"></a>ATime (const char* pTime)</pre>
     <dl>
       <dd>Constructor; sets the passed time, which must be represented as
         <i>hour:minute:second</i>. If the buffer does not represent a valid
-	time, the object is set to undefined. A NULL-pointer as parameter
-	is not permitted!</dd>
+        time, the object is set to undefined. A NULL-pointer as parameter
+        is not permitted!</dd>
     </dl>
 
-    <pre><a name="ATime6">virtual ATime (std::string&amp; time)</a></pre>
+    <pre><a name="ATime6"></a>virtual ATime (std::string&amp; time)</pre>
     <dl>
       <dd>Constructor; sets the passed time, which must be represented as
         <i>hour:minute:second</i>. If the string does not represent a valid
-	time, the object is set to undefined.</dd>
+        time, the object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="ATime7">ATime (const struct tm&amp; time)</a></pre>
+    <pre><a name="ATime7"></a>ATime (const struct tm&amp; time)</pre>
     <dl>
       <dd>Constructor; assigns the values from the passed struct tm to the
-	time-object.</dd>
+        time-object.</dd>
     </dl>
 
-    <pre><a name="ATime8">ATime (const time_t time)</a></pre>
+    <pre><a name="ATime8"></a>ATime (const time_t time)</pre>
     <dl>
       <dd>Constructor; sets the time to the value represented by the parameter.</dd>
     </dl>
 
-    <pre><a name="~ATime">virtual ~ATime ()</a></pre>
-    <pre><a name="operator=">ATime&amp; operator= (const ATime&amp; other)</a></pre>
+    <pre><a name="~ATime"></a>virtual ~ATime ()</pre>
+    <pre><a name="operator="></a>ATime&amp; operator= (const ATime&amp; other)</pre>
 
-    <pre><a name="operator=2">ATime&amp; operator= (const char* pTime)</a></pre>
+    <pre><a name="operator=2"></a>ATime&amp; operator= (const char* pTime)</pre>
     <dl>
       <dd>Assignment-operator from an const char-pointer. The time must be
-	passed as <i>hour:minute:second</i>. If the buffer does not represent a
-	valid time, the object is set to undefined. A NULL-pointer as parameter
-	is not permitted!</dd>
+        passed as <i>hour:minute:second</i>. If the buffer does not represent a
+        valid time, the object is set to undefined. A NULL-pointer as parameter
+        is not permitted!</dd>
     </dl>
 
-    <pre><a name="operator=3">ATime&amp; operator= (const std::string&amp; time)</a></pre>
+    <pre><a name="operator=3"></a>ATime&amp; operator= (const std::string&amp; time)</pre>
     <dl>
       <dd>Assignment-operator from a const string. The time must be passed as
-	<i>hour:minute:second</i>. If the string does not represent a valid
-	time, the object is set to undefined.</dd>
+        <i>hour:minute:second</i>. If the string does not represent a valid
+        time, the object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="operator=4">ATime&amp; operator= (const struct tm&amp; time)</a></pre>
+    <pre><a name="operator=4"></a>ATime&amp; operator= (const struct tm&amp; time)</pre>
     <dl>
       <dd>Assignment-operator; assigns the values from the passed struct tm.</dd>
     </dl>
 
-    <pre><a name="operator=5">ATime&amp; operator= (const time_t time)</a></pre>
+    <pre><a name="operator=5"></a>ATime&amp; operator= (const time_t time)</pre>
     <dl>
       <dd>Assignment-operator; sets the time to the value represented by the
-	parameter.</dd>
+        parameter.</dd>
     </dl>
 
-    <pre><a name="define">void define ()</a></pre><dl><dd>Sets the time to 0:00:00.</dd></dl>
+    <pre><a name="define"></a>void define ()</pre><dl><dd>Sets the time to 0:00:00.</dd></dl>
 
-    <pre><a name="setHour">void setHour (char Hour)</a></pre>
+    <pre><a name="setHour"></a>void setHour (char Hour)</pre>
     <dl>
       <dd>Sets the hour to the passed value. If the hour is not valid, the
-	object is set to undefined.</dd>
+        object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="setMinute">void setMinute (char minute)</a></pre>
+    <pre><a name="setMinute"></a>void setMinute (char minute)</pre>
     <dl>
       <dd>Sets the minute to the passed value. If the parameter is not valid,
-	the object is set to undefined.</dd>
+        the object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="setSecond">void setSecond (char second)</a></pre>
+    <pre><a name="setSecond"></a>void setSecond (char second)</pre>
     <dl>
       <dd>Sets the second to the passed value. If the parameter is not valid,
-	the object is set to undefined.</dd>
+        the object is set to undefined.</dd>
     </dl>
 
     <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream">virtual void readFromStream (istream& in)</a></pre>
+    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp;in)</pre>
     <dl>
       <dd>Reads the time in format <i>hour:minute:second</i> from a stream. If
-	the input is not a valid time, the object is set to undefined.</dd>
+        the input is not a valid time, the object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="toString">virtual std::string toString () const</a></pre>
+    <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
       <dd>Converts the time into a string, in a format specified by the current
-	locale.</dd>
+        locale.</dd>
     </dl>
 
-    <pre><a name="toString2">virtual std::string toString (const char* format) const</a></pre>
+    <pre><a name="toString2"></a>virtual std::string toString (const char* format) const</pre>
     <dl>
-      <dd>Converts the time into a string, in the specified format. The
-	parameter format can be any value accepted by the <i>strftime</i>
-	library-routine.
-
-	<p><b>Note</b>: The maximal length of the resulting string is 80
-	  characters!</p></dd>
+      <dd><p>Converts the time into a string, in the specified format. The
+          parameter format can be any value accepted by the <i>strftime</i>
+          library-routine.</p>
+        <p><b>Note</b>: The maximal length of the resulting string is 80
+          characters!</p></dd>
     </dl>
 
-    <pre><a name="toStructTM">virtual struct tm toStructTM () const</a></pre>
+    <pre><a name="toStructTM"></a>virtual struct tm toStructTM () const</pre>
     <dl>
       <dd>Converts the time to a struct tm.</dd>
     </dl>
 
-    <pre><a name="toSysTime">time_t toSysTime () const</a></pre>
+    <pre><a name="toSysTime"></a>time_t toSysTime () const</pre>
     <dl>
       <dd>Converts the time to a system-timestructure.</dd>
     </dl>
 
     <h4>Query</h4>
-    <pre><a name="getHour">char getHour () const</a></pre>
+    <pre><a name="getHour"></a>char getHour () const</pre>
     <dl>
       <dd>Retrieves the hour.</dd>
     </dl>
 
-    <pre><a name="getMinute">char getMinute () const</a></pre>
+    <pre><a name="getMinute"></a>char getMinute () const</pre>
     <dl>
       <dd>Retrieves the minute.</dd>
     </dl>
 
-    <pre><a name="getSecond">char getSecond () const</a></pre>
+    <pre><a name="getSecond"></a>char getSecond () const</pre>
     <dl>
       <dd>Retrieves the second.</dd>
     </dl>
 
-    <pre><a name="now">static ATime now ()</a></pre>
+    <pre><a name="now"></a>static ATime now ()</pre>
     <dl>
       <dd>Returns a time-object	representing the current time.</dd>
     </dl>
 
     <h4>Calculation</h4>
-    <pre><a name="operator+=">ATime&amp; operator+= (const ATime&amp; rhs)</a></pre>
+    <pre><a name="operator+="></a>ATime&amp; operator+= (const ATime&amp; rhs)</pre>
     <dl>
       <dd>Adds another time-value to the object. An undefined time is
-	treated as "0:00:00"; if both objects are undefined, the result is
-	undefined. Overflows of seconds or minutes are corrected, overflows
-	of the hour undefines the object.</dd>
+        treated as "0:00:00"; if both objects are undefined, the result is
+        undefined. Overflows of seconds or minutes are corrected, overflows
+        of the hour undefines the object.</dd>
     </dl>
 
-    <pre><a name="operator-=">ATime&amp; operator-= (const ATime&amp; rhs)</a></pre>
+    <pre><a name="operator-="></a>ATime&amp; operator-= (const ATime&amp; rhs)</pre>
     <dl>
       <dd>Substracts another time-value from the object. An undefined time
-	is treated as "0:00:00"; the result is undefined if both objects are
-	undefined. Underflows (of day or month) are corrected; underflows of
-	of the hour undefines the object.</dd>
+        is treated as "0:00:00"; the result is undefined if both objects are
+        undefined. Underflows (of day or month) are corrected; underflows of
+        of the hour undefines the object.</dd>
     </dl>
 
-    <pre><a name="operator+">ATime&amp; operator+ (const ATime&amp; lhs, const ATime&amp; rhs)</a></pre>
+    <pre><a name="operator+"></a>ATime&amp; operator+ (const ATime&amp; lhs, const ATime&amp; rhs)</pre>
     <dl>
       <dd>Returns the addition of two time-values. An undefined time is treated
-	as "0:00:00"; if both objects are undefined, the result is undefined.
-	Overflows of seconds or minutes	are corrected, overflows of the hour
-	undefines the object.</dd>
+        as "0:00:00"; if both objects are undefined, the result is undefined.
+        Overflows of seconds or minutes are corrected, overflows of the hour
+        undefines the object.</dd>
     </dl>
 
-    <pre><a name="operator-">ATime&amp; operator- (const ATime&amp; lhs, const ATime&amp; rhs)</a></pre>
+    <pre><a name="operator-"></a>ATime&amp; operator- (const ATime&amp; lhs, const ATime&amp; rhs)</pre>
     <dl>
       <dd>Returns the substraction of two time-values. An undefined time is
-	treated as "0:00:00"; if both objects are undefined, the result is
-	undefined. Underflows of seconds or minutes are corrected, underflows
-	of the hour undefines the object.</dd>
+        treated as "0:00:00"; if both objects are undefined, the result is
+        undefined. Underflows of seconds or minutes are corrected, underflows
+        of the hour undefines the object.</dd>
     </dl>
 
-    <pre><a name="add">ATime&amp; add (char Hour, char minute = 0, char second = 0)</a></pre>
+    <pre><a name="add"></a>ATime&amp; add (char Hour, char minute = 0, char second = 0)</pre>
     <dl>
-      <dd>If this is not undefined, the passed values are added. Overflows of
-	seconds or minutes are corrected, overflows of the hour undefines the
-	object. The result is returned.
-	<p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-	  this method does <b>not</b> change the object if it is undefined!</p></dd>
+      <dd><p>If this is not undefined, the passed values are added. Overflows of
+          seconds or minutes are corrected, overflows of the hour undefines the
+          object. The result is returned.</p>
+        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
+          this method does <b>not</b> change the object if it is undefined!</p></dd>
     </dl>
 
-    <pre><a name="sub">ATime&amp; sub (char Hour, char minute = 0, char second = 0)</a></pre>
+    <pre><a name="sub"></a>ATime&amp; sub (char Hour, char minute = 0, char second = 0)</pre>
     <dl>
-      <dd>If this is not undefined, the passed values are substracted. 
-	Overflows of seconds or minutes are corrected, overflows of the hour
-	undefines the object. The result is returned.
-	<p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-	  this method does <b>not</b> change the object if it is undefined!</p></dd>
+      <dd><p>If this is not undefined, the passed values are substracted.
+          Overflows of seconds or minutes are corrected, overflows of the hour
+          undefines the object. The result is returned.</p>
+        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
+          this method does <b>not</b> change the object if it is undefined!</p></dd>
     </dl>
 
     <h4>Comparison</h4>
-    <pre><a name="operator==">bool operator== (const ATime&amp; other)</a></pre>
+    <pre><a name="operator=="></a>bool operator== (const ATime&amp; other)</pre>
     <dl>
       <dd>Compares two time-objects and returns true, if they are equal (either
-	the same time or both undefined).</dd>
+        the same time or both undefined).</dd>
     </dl>
 
-    <pre><a name="operator!=">bool operator!= (const ATime&amp; other)</a></pre>
+    <pre><a name="operator!="></a>bool operator!= (const ATime&amp; other)</pre>
     <dl>
       <dd>Compares two time-objects and returns true, if they are not equal
-	(different times and not both undefined).</dd>
+        (different times and not both undefined).</dd>
     </dl>
 
-    <pre><a name="operatorl">bool operator&lt; (const ATime&amp; other)</a></pre>
+    <pre><a name="operatorl"></a>bool operator&lt; (const ATime&amp; other)</pre>
     <dl>
       <dd>Compares two time-objects and returns true, if this is "older"
-	(further in the past) than other (e.g. "01:01:01" &lt; "02:02:02" ==
-	true). Undefined values are considered as older than any other time.</dd>
+        (further in the past) than other (e.g. "01:01:01" &lt; "02:02:02" ==
+        true). Undefined values are considered as older than any other time.</dd>
     </dl>
 
-    <pre><a name="operatorg">bool operator&gt; (const ATime&amp; other)</a></pre>
+    <pre><a name="operatorg"></a>bool operator&gt; (const ATime&amp; other)</pre>
     <dl>
       <dd>Compares two time-objects and returns true, if this is "younger"
-	(later on a time-line) than other (e.g. "13:00:00" &gt; "12:00:00" ==
-	true). Undefined values are considered as older than any other time.</dd>
+        (later on a time-line) than other (e.g. "13:00:00" &gt; "12:00:00" ==
+        true). Undefined values are considered as older than any other time.</dd>
     </dl>
 
-    <pre><a name="operatorl=">bool operator&lt;= (const ATime&amp; other)</a></pre>
+    <pre><a name="operatorl="></a>bool operator&lt;= (const ATime&amp; other)</pre>
     <dl>
       <dd>Compares two time-objects and returns true, if this is "older" (further
-	in the past) than other or equal to it (e.g. "01:01:01" &lt;=
-	"02:02:02" == true). Undefined values are considered as older than
-	any other time.</dd>
+        in the past) than other or equal to it (e.g. "01:01:01" &lt;=
+        "02:02:02" == true). Undefined values are considered as older than
+        any other time.</dd>
     </dl>
 
-    <pre><a name="operatorg=">bool operator&gt;=(const ATime&amp; other)</a></pre>
+    <pre><a name="operatorg="></a>bool operator&gt;=(const ATime&amp; other)</pre>
     <dl>
       <dd>Compares two time-objects and returns true, if this is "younger" (later
-	on a time-line) than other or equal to it (e.g. "11:01:01" &gt;=
-	"02:02:02" == true). Undefined values are considered as older than
-	any other time.</dd>
+        on a time-line) than other or equal to it (e.g. "11:01:01" &gt;=
+        "02:02:02" == true). Undefined values are considered as older than
+        any other time.</dd>
     </dl>
 
-    <pre><a name="compare">long compare (const ATime&amp; other)</a></pre>
+    <pre><a name="compare"></a>long compare (const ATime&amp; other)</pre>
     <dl>
       <dd>Returns the (approximated) difference in seconds between two times.
-	If both times are undefined, those difference is "0", if only this is
-	undefined the result is MINLONG, if only other is undefined MAXLONG
-	is returned (-&gt; undefined times are considered as (incredible)
-	old).</dd>
+        If both times are undefined, those difference is "0", if only this is
+        undefined the result is MINLONG, if only other is undefined MAXLONG
+        is returned (-&gt; undefined times are considered as (incredible)
+        old).</dd>
     </dl>
 
     <h4>Utility-functions</h4>
-    <pre><a name="minAdapt">virtual bool minAdapt ()</a></pre>
+    <pre><a name="minAdapt"></a>virtual bool minAdapt ()</pre>
     <dl>
       <dd>Corrects the object after underflows. If the hour has an underflow
-	true is returned, else false.</dd>
+        true is returned, else false.</dd>
     </dl>
 
-    <pre><a name="maxAdapt">virtual bool maxAdapt ()</a></pre>
+    <pre><a name="maxAdapt"></a>virtual bool maxAdapt ()</pre>
     <dl>
       <dd>Corrects the object after overflows. If the hour has an overflow true
-	is returned, else false.</dd>
+        is returned, else false.</dd>
     </dl>
 
-    <pre><a name="checkIntegrity">virtual int checkIntegrity () const</a></pre>
+    <pre><a name="checkIntegrity"></a>virtual int checkIntegrity () const</pre>
     <dl>
       <dd>Checks if this object represents a valid time. Note: Even undefined
-	times have valid values!</dd>
+        times have valid values!</dd>
     </dl>
   </body>
 </html>

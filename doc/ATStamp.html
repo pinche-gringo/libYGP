@@ -1,8 +1,14 @@
-<!-- $Id: ATStamp.html,v 1.3 2000/04/02 14:25:40 Markus Exp $ -->
+<!-- $Id: ATStamp.html,v 1.4 2000/04/15 02:05:25 Markus Rel $ -->
 
 <html>
   <head>
     <title>General Reference: ATimestamp</title>
+    <meta name="description" content="Documentation of ATimestamp-class">
+    <meta name="keywords" content="Documentation, Docu, ATimestamp, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -16,382 +22,382 @@
 
     <p>Header-file: ATStamp.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Class for timestamp (date &amp; time) attributes. As every
       AttributValue is supports undefined values.</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp">ATimestamp</a></td><td>()</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp2">ATimestamp</a></td>
-	<td>(bool now)</td></tr>
+        <td>(bool now)</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp3">ATimestamp</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp4">ATimestamp</a></td>
-	<td>(char Day, char Month, int Year, char Hour, char minute, char second)</td></tr>
+        <td>(char Day, char Month, int Year, char Hour, char minute, char second)</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp5">ATimestamp</a></td>
-	<td>(const char* pStamp)</td></tr>
+        <td>(const char* pStamp)</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp6">ATimestamp</a></td>
-	<td>(const std::string&amp; stamp)</td></tr>
+        <td>(const std::string&amp; stamp)</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp7">ATimestamp</a></td>
-	<td>(const struct tm&amp; tm)</td></tr>
+        <td>(const struct tm&amp; tm)</td></tr>
       <tr valign="top"><td></td><td><a href="ATStamp.html#ATimestamp8">ATimestamp</a></td>
-	<td>(const time_t stamp)</td></tr>
+        <td>(const time_t stamp)</td></tr>
       <tr valign="top"><td>virtual</td><td><a href="ATStamp.html#~ATimestamp">~ATimestamp</a></td><td>()</td></tr>
 
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp&amp;</a></td>
-	<td><a href="ATStamp.html#operator=">operator=</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operator=">operator=</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-	<td><a href="ATStamp.html#operator=2">operator=</a></td>
-	<td>(const char* pStamp)</td></tr>
+        <td><a href="ATStamp.html#operator=2">operator=</a></td>
+        <td>(const char* pStamp)</td></tr>
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-	<td><a href="ATStamp.html#operator=3">operator=</a></td>
-	<td>(const std::string&amp; stamp)</td></tr>
+        <td><a href="ATStamp.html#operator=3">operator=</a></td>
+        <td>(const std::string&amp; stamp)</td></tr>
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-	<td><a href="ATStamp.html#operator=4">operator=</a></td>
-	<td>(const struct tm&amp; tm)</td></tr>
+        <td><a href="ATStamp.html#operator=4">operator=</a></td>
+        <td>(const struct tm&amp; tm)</td></tr>
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-	<td><a href="ATStamp.html#operator=5">operator=</a></td>
-	<td>(const time_t stamp)</td></tr>
+        <td><a href="ATStamp.html#operator=5">operator=</a></td>
+        <td>(const time_t stamp)</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="ATStamp.html#readFromStream">readFromStream</a></td>
-	<td>(istream&amp; in)</td></tr>
+        <td><a href="ATStamp.html#readFromStream">readFromStream</a></td>
+        <td>(istream&amp; in)</td></tr>
 
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#isDefined">isDefined</a></td><td>()</td></tr>
+        <td><a href="ATStamp.html#isDefined">isDefined</a></td><td>()</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="ATStamp.html#undefine">undefine</a></td><td>()</td></tr>
+        <td><a href="ATStamp.html#undefine">undefine</a></td><td>()</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="ATStamp.html#define">define</a></td><td>()</td></tr>
+        <td><a href="ATStamp.html#define">define</a></td><td>()</td></tr>
 
       <tr valign="top"><td>static <a href="ATStamp.html">ATimestamp</a></td>
-	<td><a href="ATStamp.html#now">now</a></td><td>()</td></tr>
+        <td><a href="ATStamp.html#now">now</a></td><td>()</td></tr>
 
       <tr valign="top"><td>virtual std::string</td>
-	<td><a href="ATStamp.html#toString">toString</a></td><td>() const</td></tr>
+        <td><a href="ATStamp.html#toString">toString</a></td><td>() const</td></tr>
       <tr valign="top"><td>virtual std::string</td>
-	<td><a href="ATStamp.html#toString2">toString</a></td>
-	<td>(const char* format) const</td></tr>
+        <td><a href="ATStamp.html#toString2">toString</a></td>
+        <td>(const char* format) const</td></tr>
 
       <tr valign="top"><td>virtual struct tm</td>
-	<td><a href="ATStamp.html#toStructTM">toStructTM</a></td><td>() const</td></tr>
-      <tr valign="top"><td>time_t</td>
-	<td><a href="ATStamp.html#toSysTime">toSysTime</a></td><td>() const</td></tr>
-
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&</td>
-	<td><a href="ATStamp.html#operator+=">operator+=</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; rhs)</td></tr>
-      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&</td>
-	<td><a href="ATStamp.html#operator-=">operator-=</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; rhs)</td></tr>
-
-      <tr valign="top"><td>friend <a href="ATStamp.html">ATimestamp</a></td>
-	<td><a href="ATStamp.html#operator+">operator+</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; lhs,
-	  const <a href="ATStamp.html">ATimestamp</a>&amp; rhs);</td></tr>
-      <tr valign="top"><td>friend <a href="ATStamp.html">ATimestamp</a></td>
-	<td><a href="ATStamp.html#operator-">operator-</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; lhs,
-	  const <a href="ATStamp.html">ATimestamp</a>&amp; rhs);</td></tr>
+        <td><a href="ATStamp.html#toStructTM">toStructTM</a></td><td>() const</td></tr>
+          <tr valign="top"><td>time_t</td>
+        <td><a href="ATStamp.html#toSysTime">toSysTime</a></td><td>() const</td></tr>
 
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-	<td><a href="ATStamp.html#add">add</a></td>
-	<td>(char Day, char Month = 0, int Year = 0, char Hour = 0, char
-	  minute = 0,char second = 0)</td></tr>
+        <td><a href="ATStamp.html#operator+=">operator+=</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; rhs)</td></tr>
+          <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
+        <td><a href="ATStamp.html#operator-=">operator-=</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend <a href="ATStamp.html">ATimestamp</a></td>
+        <td><a href="ATStamp.html#operator+">operator+</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; lhs,
+          const <a href="ATStamp.html">ATimestamp</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="ATStamp.html">ATimestamp</a></td>
+        <td><a href="ATStamp.html#operator-">operator-</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; lhs,
+          const <a href="ATStamp.html">ATimestamp</a>&amp; rhs);</td></tr>
+
       <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
-	<td><a href="ATStamp.html#sub">sub</a></td>
-	<td>(char Day, char Month = 0, int Year = 0, char Hour = 0, char
-	  minute = 0,char second = 0)</td></tr>
+        <td><a href="ATStamp.html#add">add</a></td>
+        <td>(char Day, char Month = 0, int Year = 0, char Hour = 0, char
+          minute = 0,char second = 0)</td></tr>
+      <tr valign="top"><td><a href="ATStamp.html">ATimestamp</a>&amp;</td>
+        <td><a href="ATStamp.html#sub">sub</a></td>
+        <td>(char Day, char Month = 0, int Year = 0, char Hour = 0, char
+          minute = 0,char second = 0)</td></tr>
 
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#operator==">operator==</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operator==">operator==</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#operator!=">operator!=</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operator!=">operator!=</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#operatorl">operator&lt;</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operatorl">operator&lt;</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#operatorg">operator&gt;</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operatorg">operator&gt;</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#operatorl=">operator&lt;=</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operatorl=">operator&lt;=</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#operatorg=">operator&gt;=</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#operatorg=">operator&gt;=</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
       <tr valign="top"><td>long</td>
-	<td><a href="ATStamp.html#compare">compare</a></td>
-	<td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
+        <td><a href="ATStamp.html#compare">compare</a></td>
+        <td>(const <a href="ATStamp.html">ATimestamp</a>&amp; other)</td></tr>
 
       <tr valign="top"><td>virtual int</td>
-	<td><a href="ATStamp.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+        <td><a href="ATStamp.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="ATStamp.html#minAdapt">minAdapt</a></td><td>()</td></tr>
+        <td><a href="ATStamp.html#minAdapt">minAdapt</a></td><td>()</td></tr>
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="ATStamp.html#maxAdapt">maxAdapt</a></td><td>()</td></tr>
+        <td><a href="ATStamp.html#maxAdapt">maxAdapt</a></td><td>()</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="ATimestamp">ATimestamp ()</a></pre>
+    <pre><a name="ATimestamp"></a>ATimestamp ()</pre>
     <dl>
       <dd>Defaultconstructor; the timestamp is not defined</dd>
     </dl>
 
-    <pre><a name="ATimestamp3">ATimestamp (const ATimestamp& other)</a></pre>
-    <pre><a name="ATimestamp2">ATimestamp (bool now)</a></pre>
+    <pre><a name="ATimestamp3"></a>ATimestamp (const ATimestamp&amp;other)</pre>
+    <pre><a name="ATimestamp2"></a>ATimestamp (bool now)</pre>
     <dl>
       <dd>Constructor; depending on the parameter the timestamp is either set
-	to the 1st of January, 1900 0:00:00 (now = false), or to the current
-	time (now = true).</dd>
+        to the 1st of January, 1900 0:00:00 (now = false), or to the current
+        time (now = true).</dd>
     </dl>
 
-    <pre><a name="ATimestamp4">ATimestamp (char Day, char Month, int Year, char Hour, char minute, char second)</a></pre>
+    <pre><a name="ATimestamp4"></a>ATimestamp (char Day, char Month, int Year, char Hour, char minute, char second)</pre>
     <dl>
       <dd>Constructor; sets the passed time. The object is undefined, if the
-	passed parameters represent no valid date/time-combination (e.g. Hour
-	&gt; 23, minute &gt; 59, second &gt; 61 or day &gt; 31).</dd>
+        passed parameters represent no valid date/time-combination (e.g. Hour
+        &gt; 23, minute &gt; 59, second &gt; 61 or day &gt; 31).</dd>
     </dl>
 
-    <pre><a name="ATimestamp5">ATimestamp (const char* pTime)</a></pre>
+    <pre><a name="ATimestamp5"></a>ATimestamp (const char* pTime)</pre>
     <dl>
       <dd>Constructor; sets the passed time, which must be represented as
         <i>Day.month.year hour:minute:second</i>. If the buffer does not
-	represent a valid time, the object is set to undefined. A NULL-pointer
-	as parameter is not permitted!</dd>
+        represent a valid time, the object is set to undefined. A NULL-pointer
+        as parameter is not permitted!</dd>
     </dl>
 
-    <pre><a name="ATimestamp6">virtual ATimestamp (std::string&amp; time)</a></pre>
+    <pre><a name="ATimestamp6"></a>virtual ATimestamp (std::string&amp; time)</pre>
     <dl>
       <dd>Constructor; sets the passed time, which must be represented as
         <i>Day.month.year hour:minute:second</i>. If the string does not
-	represent a valid timestamp, the object is set to undefined.</dd>
+        represent a valid timestamp, the object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="ATimestamp7">ATimestamp (const struct tm&amp; tm)</a></pre>
+    <pre><a name="ATimestamp7"></a>ATimestamp (const struct tm&amp; tm)</pre>
     <dl>
       <dd>Constructor; assigns the values from the passed struct tm to the
-	object.</dd>
+        object.</dd>
     </dl>
 
-    <pre><a name="ATimestamp8">ATimestamp (const time_t stamp)</a></pre>
+    <pre><a name="ATimestamp8"></a>ATimestamp (const time_t stamp)</pre>
     <dl>
       <dd>Constructor; sets date &amp; time to the value represented by the
-	parameter.</dd>
+        parameter.</dd>
     </dl>
 
-    <pre><a name="~ATimestamp">virtual ~ATimestamp ()</a></pre>
+    <pre><a name="~ATimestamp"></a>virtual ~ATimestamp ()</pre>
 
-    <pre><a name="operator=">ATimestamp&amp; operator= (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operator="></a>ATimestamp&amp; operator= (const ATimestamp&amp; other)</pre>
 
-    <pre><a name="operator=2">ATimestamp&amp; operator= (const char* pStamp)</a></pre>
+    <pre><a name="operator=2"></a>ATimestamp&amp; operator= (const char* pStamp)</pre>
     <dl>
       <dd>Assignment-operator from an const char-pointer. The timestamp must be
-	passed as <i>Day.month.year hour:minute:second</i>. If the buffer does
-	not represent a	valid timestamp, the object is set to undefined. A
-	NULL-pointer as parameter is not permitted!</dd>
+        passed as <i>Day.month.year hour:minute:second</i>. If the buffer does
+        not represent a valid timestamp, the object is set to undefined. A
+        NULL-pointer as parameter is not permitted!</dd>
     </dl>
 
-    <pre><a name="operator=3">ATimestamp&amp; operator= (const std::string&amp; time)</a></pre>
+    <pre><a name="operator=3"></a>ATimestamp&amp; operator= (const std::string&amp; time)</pre>
     <dl>
       <dd>Assignment-operator from a const string. The timestamp must be passed
-	as <i>Day.month.year hour:minute:second</i>. If the string does not
-	represent a valid timestamp, the object is set to undefined.</dd>
+        as <i>Day.month.year hour:minute:second</i>. If the string does not
+        represent a valid timestamp, the object is set to undefined.</dd>
     </dl>
 
-    <pre><a name="operator=4">ATimestamp&amp; operator= (const struct tm&amp; time)</a></pre>
+    <pre><a name="operator=4"></a>ATimestamp&amp; operator= (const struct tm&amp; time)</pre>
     <dl>
       <dd>Assignment-operator; assigns the values from the passed struct tm.</dd>
     </dl>
 
-    <pre><a name="operator=5">ATimestamp&amp; operator= (const time_t stamp)</a></pre>
+    <pre><a name="operator=5"></a>ATimestamp&amp; operator= (const time_t stamp)</pre>
     <dl>
       <dd>Assignment-operator; sets the time to the value represented by the
-	parameter.</dd>
+        parameter.</dd>
     </dl>
 
-    <pre><a name="now">static ATimestamp now ()</a></pre>
+    <pre><a name="now"></a>static ATimestamp now ()</pre>
     <dl>
       <dd>Returns a timestamp-object representing the current time.</dd>
     </dl>
 
     <h4>Handling of the state</h4>
-    <pre><a name="isDefined">bool isDefined () const</a></pre>
+    <pre><a name="isDefined"></a>bool isDefined () const</pre>
     <dl>
       <dd>Returns true if the object is already defined.</dd>
     </dl>
 
-    <pre><a name="undefine">virtual void undefine ()</a></pre>
+    <pre><a name="undefine"></a>virtual void undefine ()</pre>
     <dl>
       <dd>Undefines the	object.</dd>
     </dl>
 
-    <pre><a name="define">void define ()</a></pre>
+    <pre><a name="define"></a>void define ()</pre>
     <dl>
       <dd>Sets the time to the 1st of January, 1900 0:00:00.</dd>
     </dl>
 
     <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream">virtual void readFromStream (istream& in)</a></pre>
+    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp;in)</pre>
     <dl>
       <dd>Reads the timestamp in the format <i>Day.month.year hour:minute:second</i>
-	  from a stream. If the input is not a valid timestamp, the object is
-	  set to undefined.</dd>
+          from a stream. If the input is not a valid timestamp, the object is
+          set to undefined.</dd>
     </dl>
 
-    <pre><a name="toString">virtual std::string toString () const</a></pre>
+    <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
       <dd>Converts the object into a string, in a format specified by the
 	current locale.</dd>
     </dl>
 
-    <pre><a name="toString2">virtual std::string toString (const char* format) const</a></pre>
+    <pre><a name="toString2"></a>virtual std::string toString (const char* format) const</pre>
     <dl>
-      <dd>Converts the object into a string, in the specified format. The
-	parameter format can be any value accepted by the <i>strftime</i>
-	library-routine.
-	<p><b>Note</b>: The maximal length of the resulting string is 80
-	  characters!</p></dd>
+      <dd><p>Converts the object into a string, in the specified format. The
+          parameter format can be any value accepted by the <i>strftime</i>
+          library-routine.</p>
+        <p><b>Note</b>: The maximal length of the resulting string is 80
+          characters!</p></dd>
     </dl>
 
-    <pre><a name="toStructTM">virtual struct tm toStructTM () const</a></pre>
+    <pre><a name="toStructTM"></a>virtual struct tm toStructTM () const</pre>
     <dl>
       <dd>Converts the object to a struct tm.</dd>
     </dl>
 
-    <pre><a name="toSysTime">time_t toSysTime () const</a></pre>
+    <pre><a name="toSysTime"></a>time_t toSysTime () const</pre>
     <dl>
       <dd>Converts the object to a system-timestructure.</dd>
     </dl>
 
     <h4>Calculation</h4>
-    <pre><a name="operator+=">ATimestamp&amp; operator+= (const ATimestamp&amp; rhs)</a></pre>
+    <pre><a name="operator+="></a>ATimestamp&amp; operator+= (const ATimestamp&amp; rhs)</pre>
     <dl>
       <dd>Adds another timestamp-value to the object. An undefined timestamp is
-	treated as "0.0.0 0:00:00"; if both objects are undefined, the
-	result is undefined. Overflows are corrected.</dd>
+        treated as "0.0.0 0:00:00"; if both objects are undefined, the
+        result is undefined. Overflows are corrected.</dd>
     </dl>
 
-    <pre><a name="operator-=">ATimestamp&amp; operator-= (const ATimestamp&amp; rhs)</a></pre>
+    <pre><a name="operator-="></a>ATimestamp&amp; operator-= (const ATimestamp&amp; rhs)</pre>
     <dl>
       <dd>Substracts another timestamp-value to the object. An undefined timestamp
-	is treated as "0.0.0 0:00:00"; if both objects are undefined, the
-	result is undefined. Underflows are corrected.</dd>
+        is treated as "0.0.0 0:00:00"; if both objects are undefined, the
+        result is undefined. Underflows are corrected.</dd>
     </dl>
 
-    <pre><a name="operator+">ATimestamp&amp; operator+ (const ATimestamp&amp; lhs, const ATimestamp&amp; rhs)</a></pre>
+    <pre><a name="operator+"></a>ATimestamp&amp; operator+ (const ATimestamp&amp; lhs, const ATimestamp&amp; rhs)</pre>
     <dl>
       <dd>Returns the addition of two timestamp-values. An undefined time is
-	treated as "0.0.0 0:00:00"; if both objects are undefined, the
-	result is undefined. Overflows are corrected.</dd>
+        treated as "0.0.0 0:00:00"; if both objects are undefined, the
+        result is undefined. Overflows are corrected.</dd>
     </dl>
 
-    <pre><a name="operator-">ATimestamp&amp; operator- (const ATimestamp&amp; lhs, const ATimestamp&amp; rhs)</a></pre>
+    <pre><a name="operator-"></a>ATimestamp&amp; operator- (const ATimestamp&amp; lhs, const ATimestamp&amp; rhs)</pre>
     <dl>
       <dd>Returns the substraction of two timestamp-values. An undefined time
-	is treated as "0.0.0 0:00:00"; if both objects are undefined, the
-	result is undefined. Underflows are corrected.</dd>
+        is treated as "0.0.0 0:00:00"; if both objects are undefined, the
+        result is undefined. Underflows are corrected.</dd>
     </dl>
 
-    <pre><a name="add">ATimestamp&amp; add (char Day, char Month = 0, int Year = 0,
-                 char Hour = 0, char minute = 0,char second = 0)</a></pre>
+    <pre><a name="add"></a>ATimestamp&amp; add (char Day, char Month = 0, int Year = 0,
+                 char Hour = 0, char minute = 0,char second = 0)</pre>
     <dl>
-      <dd>If this is not undefined, the passed values are added. Overflows are
-	corrected. The result is returned.
-	<p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-	  this method does <b>not</b> change the object if it is undefined!</p></dd>
+      <dd><p>If this is not undefined, the passed values are added. Overflows are
+          corrected. The result is returned.</p>
+        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
+          this method does <b>not</b> change the object if it is undefined!</p></dd>
     </dl>
 
-    <pre><a name="sub">ATimestamp&amp; sub (char Day, char Month = 0, int Year = 0,
-                 char Hour = 0, char minute = 0,char second = 0)</a></pre>
+    <pre><a name="sub"></a>ATimestamp&amp; sub (char Day, char Month = 0, int Year = 0,
+                 char Hour = 0, char minute = 0,char second = 0)</pre>
     <dl>
-      <dd>If this is not undefined, the passed values are substracted.
-	Underflows are corrected. The result is returned.
-	<p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-	  this method does <b>not</b> change the object if it is undefined!</p></dd>
+      <dd><p>If this is not undefined, the passed values are substracted.
+          Underflows are corrected. The result is returned.</p>
+        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
+          this method does <b>not</b> change the object if it is undefined!</p></dd>
     </dl>
 
     <h4>Comparison</h4>
-    <pre><a name="operator==">bool operator== (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operator=="></a>bool operator== (const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Compares two timestamp-objects and returns true, if they are equal
-	(either	the same date/time or both undefined).</dd>
+        (either the same date/time or both undefined).</dd>
     </dl>
 
-    <pre><a name="operator!=">bool operator!= (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operator!="></a>bool operator!= (const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Compares two timestamp-objects and returns true, if they are not equal
-	(different date/times and not both undefined).</dd>
+        (different date/times and not both undefined).</dd>
     </dl>
 
-    <pre><a name="operatorl">bool operator&lt; (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operatorl"></a>bool operator&lt; (const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Compares two timestamp-objects and returns true, if this is "older"
-	(further in the past) than other (e.g. "1.1.1900 01:01:01" &lt;
-	"1.1.1900 02:02:02" == true). Undefined values are considered as older
-	than any other time.</dd>
+        (further in the past) than other (e.g. "1.1.1900 01:01:01" &lt;
+        "1.1.1900 02:02:02" == true). Undefined values are considered as older
+        than any other time.</dd>
     </dl>
 
-    <pre><a name="operatorg">bool operator&gt; (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operatorg"></a>bool operator&gt; (const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Compares two timestamp-objects and returns true, if this is "younger"
-	(later on a time-line) than other (e.g. "1.1.1900 01:01:01" &lt;
-	"1.1.1900 02:02:02" == true). Undefined values are considered as older
-	than any other time.</dd>
+        (later on a time-line) than other (e.g. "1.1.1900 01:01:01" &lt;
+        "1.1.1900 02:02:02" == true). Undefined values are considered as older
+        than any other time.</dd>
     </dl>
 
-    <pre><a name="operatorl=">bool operator&lt;= (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operatorl="></a>bool operator&lt;= (const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Compares two timestamp-objects and returns true, if this is "older"
-	(further in the past) than other or equal to it (e.g. "1.1.1900
-	01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
-	considered as older than any other time.</dd>
+        (further in the past) than other or equal to it (e.g. "1.1.1900
+        01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
+        considered as older than any other time.</dd>
     </dl>
 
-    <pre><a name="operatorg=">bool operator&gt;=(const ATimestamp&amp; other)</a></pre>
+    <pre><a name="operatorg="></a>bool operator&gt;=(const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Compares two timestamp-objects and returns true, if this is "younger"
-	(later on a time-line) than other or equal to it (e.g. "1.1.1900
-	01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
-	considered as older than any other time.</dd>
+        (later on a time-line) than other or equal to it (e.g. "1.1.1900
+        01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
+        considered as older than any other time.</dd>
     </dl>
 
-    <pre><a name="compare">long compare (const ATimestamp&amp; other)</a></pre>
+    <pre><a name="compare"></a>long compare (const ATimestamp&amp; other)</pre>
     <dl>
       <dd>Returns the (approximated) difference in days, or - if the day is equal
-	- in seconds between two timestamps. If both objects are undefined,
-	those difference is "0", if only this is undefined the result is
-	MINLONG, if only other is undefined MAXLONG is returned (-&gt;
-	undefined times are considered as (incredible) old).</dd>
+        - in seconds between two timestamps. If both objects are undefined,
+        those difference is "0", if only this is undefined the result is
+        MINLONG, if only other is undefined MAXLONG is returned (-&gt;
+        undefined times are considered as (incredible) old).</dd>
     </dl>
 
     <h4>Utility-functions</h4>
-    <pre><a name="minAdapt">virtual bool minAdapt ()</a></pre>
+    <pre><a name="minAdapt"></a>virtual bool minAdapt ()</pre>
     <dl>
       <dd>Corrects the object after underflows. If the the object is integer
-	after the operation, true is returned (else false).</dd>
+        after the operation, true is returned (else false).</dd>
     </dl>
 
-    <pre><a name="maxAdapt">virtual bool maxAdapt ()</a></pre>
+    <pre><a name="maxAdapt"></a>virtual bool maxAdapt ()</pre>
     <dl>
       <dd>Corrects the object after overflows. If the the object is integer
-	after the operation, true is returned (else false).</dd>
+        after the operation, true is returned (else false).</dd>
     </dl>
 
-    <pre><a name="checkIntegrity">virtual int checkIntegrity () const</a></pre>
+    <pre><a name="checkIntegrity"></a>virtual int checkIntegrity () const</pre>
     <dl>
       <dd>Checks if this object represents a valid timestamp. Note: Even
-	undefined times have valid values!</dd>
+        undefined times have valid values!</dd>
     </dl>
   </body>
 </html>

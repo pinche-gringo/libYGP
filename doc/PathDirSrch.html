@@ -3,6 +3,12 @@
 <html>
   <head>
     <title>General Reference: PathDirectorySearch</title>
+    <meta name="description" content="Documentation of PathDirectorySearch-class">
+    <meta name="keywords" content="Documentation, Docu, PathDirectorySearch, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -15,7 +21,7 @@
 
     <p>Header-file: PathDirSrch.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Class to search for files in directory listed in a path. This search
       can be restricted to files matching certain name-criterias or by
@@ -34,143 +40,143 @@
     <p><b>Note</b>: The class does <b>not</b> do any word expansion for the
       search-path (like expanding the tilde (~) to the home-directory)!</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td>
-	<td><a href="PathDirSrch.html#PathDirectorySearch">PathDirectorySearch</a></td>
-	<td>()</td></tr>
+        <td><a href="PathDirSrch.html#PathDirectorySearch">PathDirectorySearch</a></td>
+        <td>()</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="PathDirSrch.html#PathDirectorySearch2">PathDirectorySearch</a></td>
-	<td>(const std::string&amp; path)</td></tr>
+        <td><a href="PathDirSrch.html#PathDirectorySearch2">PathDirectorySearch</a></td>
+        <td>(const std::string&amp; path)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="PathDirSrch.html#PathDirectorySearch3">PathDirectorySearch</a></td>
-	<td>(const std::string&amp; path, const std::string&amp; search)</td></tr>
+        <td><a href="PathDirSrch.html#PathDirectorySearch3">PathDirectorySearch</a></td>
+        <td>(const std::string&amp; path, const std::string&amp; search)</td></tr>
       <tr valign="top"><td>virtual</td>
-	<td><a href="PathDirSrch.html#~PathDirectorySearch">~PathDirectorySearch</a></td>
-	<td>()</td></tr>
+        <td><a href="PathDirSrch.html#~PathDirectorySearch">~PathDirectorySearch</a></td>
+        <td>()</td></tr>
 
       <tr valign="top"><td>void</td>
-	<td><a href="PathDirSrch.html#setPath">setPath</a></td>
-	<td>(const std::string&amp; path)</td></tr>
+        <td><a href="PathDirSrch.html#setPath">setPath</a></td>
+        <td>(const std::string&amp; path)</td></tr>
       <tr valign="top"><td>static void</td>
-	<td><a href="PathDirSrch.html#checkPath">checkPath</a></td>
-	<td>(const std::string&amp; path) throw (std::string)</td></tr>
+        <td><a href="PathDirSrch.html#checkPath">checkPath</a></td>
+        <td>(const std::string&amp; path) throw (std::string)</td></tr>
 
       <tr valign="top"><td>int</td>
-	<td><a href="PathDirSrch.html#find">find</a></td>
-	<td>(const std::string&amp; path, const std::string&amp; search,
-	    <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
-	  unsigned long attribs = FILE_NORMAL) throw (std::string)</td></tr>
+        <td><a href="PathDirSrch.html#find">find</a></td>
+        <td>(const std::string&amp; path, const std::string&amp; search,
+          <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+          unsigned long attribs = FILE_NORMAL) throw (std::string)</td></tr>
       <tr valign="top"><td>int</td>
-	<td><a href="PathDirSrch.html#find2">find</a></td>
-	<td>(const std::string&amp; search, <a href="DirSrch.html#dirEntry">
-	    dirEntry</a>&amp; result, unsigned long
-	  attribs = FILE_NORMAL) throw (std::string)</td></tr>
+        <td><a href="PathDirSrch.html#find2">find</a></td>
+        <td>(const std::string&amp; search, <a href="DirSrch.html#dirEntry">
+            dirEntry</a>&amp; result, unsigned long
+          attribs = FILE_NORMAL) throw (std::string)</td></tr>
       <tr valign="top"><td>virtual int</td><td><a href="PathDirSrch.html#find3">find</a></td>
-	<td>(<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
-	  unsigned long attribs = FILE_NORMAL) throw (std::string)</td></tr>
+        <td>(<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+          unsigned long attribs = FILE_NORMAL) throw (std::string)</td></tr>
       <tr valign="top"><td>virtual int</td>
-	<td><a href="PathDirSrch.html#find4">find</a></td><td>()</td></tr>
+        <td><a href="PathDirSrch.html#find4">find</a></td><td>()</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual int</td>
-	<td><a href="PathDirSrch.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+        <td><a href="PathDirSrch.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="PathDirectorySearch">PathDirectorySearch ()</a></pre>
-    <pre><a name="PathDirectorySearch2">PathDirectorySearch (const std::string &amp; path)</a></pre>
+    <pre><a name="PathDirectorySearch"></a>PathDirectorySearch ()</pre>
+    <pre><a name="PathDirectorySearch2"></a>PathDirectorySearch (const std::string &amp; path)</pre>
     <dl>
       <dd>Constructor; creates an object with the path to search. The path can
         be a list of path-nodes, seperated with the character to split those
         nodes (double-point (:) in UNIX, the semi-colon in DOS/WINDOZE).</dd>
     </dl>
-    <pre><a name="PathDirectorySearch3">PathDirectorySearch (const std::string &amp; path, const std::string&amp; search)</a></pre>
+    <pre><a name="PathDirectorySearch3"></a>PathDirectorySearch (const std::string &amp; path, const std::string&amp; search)</pre>
     <dl>
-      <dd>Constructor; creates an object with the files and the path to search.
-	<p>
-	  The parameter <i>path</i> can be a list of path-nodes, seperated
-	  with the character to	split those nodes (double-point (:) in UNIX,
-	  the semi-colon in DOS/WINDOZE).</p>
-	<p>The parameter <i>search</i> specifies which kind of files should be
-	  searched. It can also include path-information, in which case this
-	  part is added to the nodes of the parameter <i>path</i>.</p></dd>
+      <dd><p>Constructor; creates an object with the files and the path to search.</p>
+        <p>
+          The parameter <i>path</i> can be a list of path-nodes, seperated
+          with the character to split those nodes (double-point (:) in UNIX,
+          the semi-colon in DOS/WINDOZE).</p>
+        <p>The parameter <i>search</i> specifies which kind of files should be
+          searched. It can also include path-information, in which case this
+          part is added to the nodes of the parameter <i>path</i>.</p></dd>
     </dl>
-    <pre><a name="~PathDirectorySearch">~PathDirectorySearch ()</a></pre>
+    <pre><a name="~PathDirectorySearch"></a>~PathDirectorySearch ()</pre>
 
-    <pre><a name="setPath">void setPath (const std::string&amp; path)</a></pre>
+    <pre><a name="setPath"></a>void setPath (const std::string&amp; path)</pre>
     <dl>
       <dd>Sets the path to search for files. This path can be a list of
-	path-nodes, seperated with the character to split those nodes
-	(double-point (:) in UNIX, the semi-colon in DOS/WINDOZE).</dd>
+        path-nodes, seperated with the character to split those nodes
+        (double-point (:) in UNIX, the semi-colon in DOS/WINDOZE).</dd>
     </dl>
-    <pre><a name="checkPath">void checkPath (const std::string&amp; path) throw (std::string)</a></pre>
+    <pre><a name="checkPath"></a>void checkPath (const std::string&amp; path) throw (std::string)</pre>
     <dl>
       <dd>Checks if the passed path is valid. If not, an (describing) exception
-	is thrown.</dd>
+        is thrown.</dd>
     </dl>
 
     <h4>Find functions</h4>
-    <pre><a name="find">int find (const std::string&amp; path, const std::string&amp; search,<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
-          unsigned long attribs = FILE_NORMAL) throw (std::string)</a></pre>
+    <pre><a name="find"></a>int find (const std::string&amp; path, const std::string&amp; search,<a href="DirSrch.html#dirEntry">dirEntry&amp; result,
+          unsigned long attribs = FILE_NORMAL) throw (std::string)</pre>
     <dl>
-      <dd>Searches for files specified by <i>search</i> in the passed
-	<i>path</i>s; if at least one file is found, the result is placed into
-	<i>result</i>.
-	<p><b>Note</b>: The parameter <i>search</i> can also contain
-	  path-information, in which case this is added to every node from
-	  the parameter <i>path</i>.</p>
-	<p>The parameter <i>attribs</i> specify which kind of files to find.
-	  Possible values are FILE_NORMAL for "ordinary" files, FILE_READONLY
-	  for files which can not be changed (no w-flag in UNIX or read-only
-	  attribute set in DOS/WINDOZE),FILE_DIRECTORY searches for directories
-	  and FILE_HIDDEN for files not visible (files starting with a dot (.)
-	  in UNIX or with hidden- or system-flag set in DOS/WINDOZE).</p>
-	<p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+      <dd><p>Searches for files specified by <i>search</i> in the passed
+          <i>path</i>s; if at least one file is found, the result is placed into
+          <i>result</i>.</p>
+        <p><b>Note</b>: The parameter <i>search</i> can also contain
+          path-information, in which case this is added to every node from
+          the parameter <i>path</i>.</p>
+        <p>The parameter <i>attribs</i> specify which kind of files to find.
+          Possible values are FILE_NORMAL for "ordinary" files, FILE_READONLY
+          for files which can not be changed (no w-flag in UNIX or read-only
+          attribute set in DOS/WINDOZE),FILE_DIRECTORY searches for directories
+          and FILE_HIDDEN for files not visible (files starting with a dot (.)
+          in UNIX or with hidden- or system-flag set in DOS/WINDOZE).</p>
+        <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find2">int find (const std::string&amp; search, <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
-          unsigned long attribs = FILE_NORMAL) throw (std::string)</a></pre>
+    <pre><a name="find2"></a>int find (const std::string&amp; search, <a href="DirSrch.html#dirEntry">dirEntry&amp; result,
+          unsigned long attribs = FILE_NORMAL) throw (std::string)</pre>
     <dl>
-      <dd>Searches for files specified by <i>search</i> in the paths which must
-	have been set before; if at least one file is found, the result is
-	placed into <i>result</i>.
-	<p><b>Note</b>: The parameter <i>search</i> can also contain
-	  path-information, in which case this is added to every node from
-	  the parameter <i>path</i>.</p>
-	<p>The parameter <i>attribs</i> specify which kind of files to find.
-	  Possible values are FILE_NORMAL for "ordinary" files, FILE_READONLY
-	  for files which can not be changed (no w-flag in UNIX or read-only
-	  attribute set in DOS/WINDOZE),FILE_DIRECTORY searches for directories
-	  and FILE_HIDDEN for files not visible (files starting with a dot (.)
-	  in UNIX or with hidden- or system-flag set in DOS/WINDOZE).</p>
-	<p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+      <dd><p>Searches for files specified by <i>search</i> in the paths which must
+          have been set before; if at least one file is found, the result is
+          placed into <i>result</i>.</p>
+        <p><b>Note</b>: The parameter <i>search</i> can also contain
+          path-information, in which case this is added to every node from
+          the parameter <i>path</i>.</p>
+        <p>The parameter <i>attribs</i> specify which kind of files to find.
+          Possible values are FILE_NORMAL for "ordinary" files, FILE_READONLY
+          for files which can not be changed (no w-flag in UNIX or read-only
+          attribute set in DOS/WINDOZE),FILE_DIRECTORY searches for directories
+          and FILE_HIDDEN for files not visible (files starting with a dot (.)
+          in UNIX or with hidden- or system-flag set in DOS/WINDOZE).</p>
+        <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find3">virtual int find (<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result, unsigned long attribs = FILE_NORMAL)
-            throw (std::string)</a></pre>
+    <pre><a name="find3"></a>virtual int find (<a href="DirSrch.html#dirEntry">dirEntry&amp; result, unsigned long attribs = FILE_NORMAL)
+            throw (std::string)</pre>
     <dl>
       <dd><p>Searches for first file matching the input specified by the
-	contstructor(s) or the set-methods; if at least one file is found, the
-	result is placed into <i>result</i>.</p>
-	<p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+          contstructor(s) or the set-methods; if at least one file is found, the
+          result is placed into <i>result</i>.</p>
+        <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find4">virtual int find ()</a></pre>
+    <pre><a name="find4"></a>virtual int find ()</pre>
     <dl>
       <dd>Returns the next matching file according to parameters specified in
-	early find-calls. If a file was found 0 is returned, errno otherwise.</dd>
+        early find-calls. If a file was found 0 is returned, errno otherwise.</dd>
     </dl>
 
     <h4>Utility functions</h4>
-    <pre><a name="checkIntegrity">virtual int checkIntegrity () const</a></pre>
+    <pre><a name="checkIntegrity"></a>virtual int checkIntegrity () const</pre>
     <dl>
       <dd>Checks if this object is integer. If yes 0 is returned, else a number
-	describing the error.</dd></dl>
+        describing the error.</dd></dl>
   </body>
 </html>

@@ -1,8 +1,14 @@
-<!-- $Id: IVIOAppl.html,v 1.4 2000/04/02 18:52:33 Markus Exp $ -->
+<!-- $Id: IVIOAppl.html,v 1.5 2000/04/15 02:05:25 Markus Exp $ -->
 
 <html>
   <head>
     <title>General Reference: IVIOApplication</title>
+    <meta name="description" content="Documentation of IVIOApplication-class">
+    <meta name="keywords" content="Documentation, Docu, IVIOApplication, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -15,7 +21,7 @@
 
     <p>Header-file: IVIOAppl.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Class to handle the startup of a program.</p>
 
@@ -38,164 +44,164 @@
     <p><b>Note</b>: The option "-h" is always used to display the help of the
       application.</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td>
-	<td><a href="IVIOAppl.html#IVIOApplication">IVIOApplication</a></td>
-	<td>(const int argc, const char* argv[], const
+        <td><a href="IVIOAppl.html#IVIOApplication">IVIOApplication</a></td>
+        <td>(const int argc, const char* argv[], const
 	  <a href="IVIOAppl.html#longOptions">longOptions</a>* pOpt = NULL)</td></tr>
       <tr valign="top"><td>virtual</td>
-	<td><a href="IVIOAppl.html#~IVIOApplication">~IVIOApplication</a></td>
-	<td>()</td></tr>
+        <td><a href="IVIOAppl.html#~IVIOApplication">~IVIOApplication</a></td>
+        <td>()</td></tr>
 
       <tr valign="top"><td>int</td>
-	<td><a href="IVIOAppl.html#run">run</a></td><td>()</td></tr>
+        <td><a href="IVIOAppl.html#run">run</a></td><td>()</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="IVIOAppl.html#handleOption">handleOption</a></td>
-	<td>(const char option) = 0</td></tr>
+        <td><a href="IVIOAppl.html#handleOption">handleOption</a></td>
+        <td>(const char option) = 0</td></tr>
       <tr valign="top"><td>const char*</td>
-	<td><a href="IVIOAppl.html#getOptionValue">getOptionValue</a></td>
-	<td>() const</td></tr>
+        <td><a href="IVIOAppl.html#getOptionValue">getOptionValue</a></td>
+        <td>() const</td></tr>
       <tr valign="top"><td>const char*</td>
-	<td><a href="IVIOAppl.html#checkOptionValue">checkOptionValue</a></td>
-	<td>() const</td></tr>
+        <td><a href="IVIOAppl.html#checkOptionValue">checkOptionValue</a></td>
+        <td>() const</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="IVIOAppl.html#setLongOptions">setLongOptions</a></td>
-	<td>(const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOpts)</td></tr>
+        <td><a href="IVIOAppl.html#setLongOptions">setLongOptions</a></td>
+        <td>(const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOpts)</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="IVIOAppl.html#setLongOptions2">setLongOptions</a></td>
-	<td>(const <a href="IVIOAppl.html#longOptions">longOptions</a>*
-	  pLongOpts, unsigned int numLongOpts)</td></tr>
+        <td><a href="IVIOAppl.html#setLongOptions2">setLongOptions</a></td>
+        <td>(const <a href="IVIOAppl.html#longOptions">longOptions</a>*
+          pLongOpts, unsigned int numLongOpts)</td></tr>
 
       <tr valign="top"><td>virtual int</td>
-	<td><a href="IVIOAppl.html#perform">perform</a></td>
-	<td>(int argc, const char* argv[]) = 0</td></tr>
+        <td><a href="IVIOAppl.html#perform">perform</a></td>
+        <td>(int argc, const char* argv[]) = 0</td></tr>
       <tr valign="top"><td>virtual const char*</td>
-	<td><a href="IVIOAppl.html#name">name</a></td><td>() const</td></tr>
+        <td><a href="IVIOAppl.html#name">name</a></td><td>() const</td></tr>
       <tr valign="top"><td>virtual const char*</td>
-	<td><a href="IVIOAppl.html#description">description</a></td>
-	<td>() const = 0</td></tr>
+        <td><a href="IVIOAppl.html#description">description</a></td>
+        <td>() const = 0</td></tr>
       <tr valign="top"><td>const char*</td>
-	<td><a href="IVIOAppl.html#filename">filename</a></td><td>() const</td></tr>
+        <td><a href="IVIOAppl.html#filename">filename</a></td><td>() const</td></tr>
 
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="IVIOAppl.html#shallShowInfo">shallShowInfo</a></td><td>() const</td></tr>
+        <td><a href="IVIOAppl.html#shallShowInfo">shallShowInfo</a></td><td>() const</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="IVIOAppl.html#showHelp">showHelp</a></td><td>() const = 0</td></tr>
+        <td><a href="IVIOAppl.html#showHelp">showHelp</a></td><td>() const = 0</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="IVIOApplication">IVIOApplication (const int argc, const char* argv[], const <a href="IVIOAppl.html#longOptions">longOptions</a>* pOpt = NULL)</a></pre>
+    <pre><a name="IVIOApplication"></a>IVIOApplication (const int argc, const char* argv[], const <a href="IVIOAppl.html#longOptions">longOptions</a>* pOpt = NULL)</pre>
     <dl>
       <dd>Constructor; the parameters specify the number of and an array with
-	the program-arguments (as passed to the main-function) and a table to
-	map the verbose long-options to their short equivalent. If the third
-	parameter is NULL, no long options are used.</dd>
+        the program-arguments (as passed to the main-function) and a table to
+        map the verbose long-options to their short equivalent. If the third
+        parameter is NULL, no long options are used.</dd>
     </dl>
-    <pre><a name="~IVIOApplication">~IVIOApplication ()</a></pre>
+    <pre><a name="~IVIOApplication"></a>~IVIOApplication ()</pre>
 
-    <pre><a name="run">int run ()</a></pre>
+    <pre><a name="run"></a>int run ()</pre>
     <dl>
       <dd>Runs the application; first the options are checked. If an invalid or
-	a help-option is passed, the help-screen is displayed, else the
-	actual job of the application is performed.</dd>
+        a help-option is passed, the help-screen is displayed, else the
+        actual job of the application is performed.</dd>
     </dl>
 
     <h4>Option handling</h4>
-    <pre><a name="handleOption">virtual bool handleOption (const char option) = 0</a></pre>
+    <pre><a name="handleOption"></a>virtual bool handleOption (const char option) = 0</pre>
     <dl>
       <dd>Checks if the passed option is supported by the application. This
-	method must return true, if yes and false if not. In the second case
-	the help is displayed and the program terminates with an error-code of
-	-1.</dd>
+        method must return true, if yes and false if not. In the second case
+        the help is displayed and the program terminates with an error-code of
+        -1.</dd>
     </dl>
 
-    <pre><a name="getOptionValue">const char* getOptionValue ()</a></pre>
+    <pre><a name="getOptionValue"></a>const char* getOptionValue ()</pre>
     <dl>
       <dd>Returns parameters to the actual option and increases the pointer to
-	the next option. This parameter are searched
-	using the following algorithm:
-	<ul type=bullet>
-	  <li>The remaining characters in a list of simple options (e.g. if
-	    called for the option d in "-dlevel1" the method would return
-	    "level1")</li>
-	  <li>The next argument of the application. Long options only support
-	    the second way.</li>
-	  <li>NULL</li>
-	</ul>
+        the next option. This parameter are searched
+        using the following algorithm:
+        <ul type="disc">
+          <li>The remaining characters in a list of simple options (e.g. if
+            called for the option d in "-dlevel1" the method would return
+            "level1")</li>
+          <li>The next argument of the application. Long options only support
+            the second way.</li>
+          <li>NULL</li>
+        </ul>
       </dd>
     </dl>
-    <pre><a name="checkOptionValue">const char* checkOptionValue ()</a></pre>
+    <pre><a name="checkOptionValue"></a>const char* checkOptionValue ()</pre>
     <dl>
       <dd>Returns parameters to the actual option. This parameter are searched
-	using the following algorithm:
-	<ul type=bullet>
-	  <li>The remaining characters in a list of simple options (e.g. if
-	    called for the option d in "-dlevel1" the method would return
-	    "level1")</li>
-	  <li>The next argument of the application. Long options only support
-	    the second way.</li>
-	  <li>NULL</li>
-	</ul>
-	<p>In difference to <a href="IVIOAppl.html#getOptionValue">getOptionValue</a>
-	  this method does not change the next option which would be returned,
-	  so in the previous example the next found option would be the 'l'.</p></dd>
+        using the following algorithm:
+        <ul type="disc">
+          <li>The remaining characters in a list of simple options (e.g. if
+            called for the option d in "-dlevel1" the method would return
+            "level1")</li>
+          <li>The next argument of the application. Long options only support
+            the second way.</li>
+          <li>NULL</li>
+        </ul>
+        <p>In difference to <a href="IVIOAppl.html#getOptionValue">getOptionValue</a>
+          this method does not change the next option which would be returned,
+          so in the previous example the next found option would be the 'l'.</p></dd>
     </dl>
 
-    <pre><a name="setLongOptions">void setLongOptions (const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions)</a></pre>
+    <pre><a name="setLongOptions"></a>void setLongOptions (const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions)</pre>
     <dl>
       <dd>Sets a table which maps options to a verbose version. This table must
-	be terminated with an entry where the short option is '\0' and the
-	associated long options is NULL; the previous entries must not have
-	lines with those values.</dd>
+        be terminated with an entry where the short option is '\0' and the
+        associated long options is NULL; the previous entries must not have
+        lines with those values.</dd>
     </dl>
-    <pre><a name="setLongOptions2">void setLongOptions (const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions, unsigned int numLongOptions)</a></pre>
+    <pre><a name="setLongOptions2"></a>void setLongOptions (const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions, unsigned int numLongOptions)</pre>
     <dl>
       <dd>Sets a table which maps options to a verbose version. This table
-	must not contain entries with either '\0' as short option or NULL as
-	long option.</dd>
+        must not contain entries with either '\0' as short option or NULL as
+        long option.</dd>
     </dl>
 
     <h4>Program handling</h4>
-    <pre><a name="perform">virtual int perform (int argc, const char* argv[]) = 0</a></pre>
+    <pre><a name="perform"></a>virtual int perform (int argc, const char* argv[]) = 0</pre>
     <dl>
       <dd>Performs the job of the application. The return-code of this method
-	is returned as error-code of the application.</dd>
+        is returned as error-code of the application.</dd>
     </dl>
 
-    <pre><a name="name">virtual const char* name () const</a></pre>
+    <pre><a name="name"></a>virtual const char* name () const</pre>
     <dl>
       <dd>Returns the name of the application. The default action is to return
-	the name of the file as stored in index 0 of the argv-array.</dd>
+        the name of the file as stored in index 0 of the argv-array.</dd>
     </dl>
-    <pre><a name="description">virtual const char* description () const = 0</a></pre>
+    <pre><a name="description"></a>virtual const char* description () const = 0</pre>
     <dl>
       <dd>Returns a description to the program. This text must start with the
-	version-number.</dd>
+        version-number.</dd>
     </dl>
-    <pre><a name="filename">virtual const char* filename () const</a></pre>
+    <pre><a name="filename"></a>virtual const char* filename () const</pre>
     <dl>Returns the filename of the application as stored in index 0 of the
       argv-array.</dd>
     </dl>
 
-    <pre><a name="shallShowInfo">virtual bool shallShowInfo () const</a></pre>
+    <pre><a name="shallShowInfo"></a>virtual bool shallShowInfo () const</pre>
     <dl>
       <dd>Specifies if the application shall display the program-info
-	(consisting of name and description).</dd>
+        (consisting of name and description).</dd>
     </dl>
-    <pre><a name="showHelp">virtual void showHelp () const = 0</a></pre>
+    <pre><a name="showHelp"></a>virtual void showHelp () const = 0</pre>
     <dl>
       <dd>Displays the help-screen of the application.</dd>
     </dl>
 
-    <hr noshade="noshade">
+    <hr noshade>
 
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td></tr>
@@ -206,12 +212,12 @@
 
     <p>Header-file: IVIOAppl.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Structure to associate long (verbose) options with the corrosponding
       short version.</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="2"><h3>public member index</h3></td></tr>
       <tr valign="top"><td>char*</td><td>longVal</td></tr>

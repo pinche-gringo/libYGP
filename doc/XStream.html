@@ -1,8 +1,14 @@
-<!-- $Id: XStream.html,v 1.1 2000/04/06 21:03:43 Markus Exp $ -->
+<!-- $Id: XStream.html,v 1.2 2000/04/15 02:05:25 Markus Rel $ -->
 
 <html>
   <head>
     <title>General Reference: extStream</title>
+    <meta name="description" content="Documentation of extStream-class">
+    <meta name="keywords" content="Documentation, Docu, extStream, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -13,18 +19,18 @@
     <h1 align="center">Class extStream&lt;T&gt;</h1>
     <p>Derived from: private <a href="XStrBuf.html">extStream</a>, public T</p>
 
-    <p>Header-file: extStream.h</p>
+    <p>Header-file: XStream.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Extended stream, designed to parse text.</p>
     <p>It overcomes two drawbacks of the original stream:</p>
     <ul>
       <li>Column- and line-information (which - to be fair - wouldn't make very
-	much sense in the common stream anyway).</li>
+        much sense in the common stream anyway).</li>
       <li>A variable-sized putback-buffer. The common stream only stores one
-	block (and a few bytes from the last), so a pushback beyond this border
-	is not possible.</li>
+        block (and a few bytes from the last), so a pushback beyond this border
+        is not possible.</li>
     </ul>
     <p><b>Note</b>: The extensions of the stream must be initialized with the
       <a href="XStream.html#init">init</a>-method!</p>
@@ -32,62 +38,62 @@
     <p>For easier usage there are definitions of the (propably) most common
       used extended Streams:</p>
     <ul>
-      <li><a name="Xistream">typedef extStream&lt;istream&gt; <b>Xistream</b></a></li>
-      <li><a name="Xifstream">typedef extStream&lt;istream&gt; <b>Xifstream</b></a></li>
+      <li><a name="Xistream"></a>typedef extStream&lt;istream&gt; <b>Xistream</b></li>
+      <li><a name="Xifstream"></a>typedef extStream&lt;istream&gt; <b>Xifstream</b></li>
     </ul>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td><td><a href="XStream.html#extStream">extStream</a></td>
-	<td>()</td></tr>
+        <td>()</td></tr>
       <tr valign="top"><td></td><td><a href="XStream.html#extStream2">extStream</a></td>
-	<td>(const T&amp; source)</td></tr>
+        <td>(const T&amp; source)</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="XStream.html#~extStream">~extStream</a></td><td>()</td></tr>
+        <td><a href="XStream.html#~extStream">~extStream</a></td><td>()</td></tr>
 
       <tr valign="top"><td>void</td><td><a href="XStream.html#init">init</a></td><td>()</td></tr>
 
       <tr valign="top"><td>unsigned int</td>
-	<td><a href="XStream.html#getLine">getLine</a></td><td>() const</td></tr>
+        <td><a href="XStream.html#getLine">getLine</a></td><td>() const</td></tr>
       <tr valign="top"><td>unsigned int</td>
-	<td><a href="XStream.html#getColumn">getColumn</a></td><td>() const</td></tr>
+        <td><a href="XStream.html#getColumn">getColumn</a></td><td>() const</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="extStream">extStream ()</a></pre>
-    <pre><a name="extStream2">extStream (const T&amp; source)</a></pre>
+    <pre><a name="extStream"></a>extStream ()</pre>
+    <pre><a name="extStream2"></a>extStream (const T&amp; source)</pre>
     <dl>
       <dd>Constructor; specifies the stream to enhance.</dd>
     </dl>
-    <pre><a name="~extStream">~extStream ()</a></pre>
+    <pre><a name="~extStream"></a>~extStream ()</pre>
 
-    <pre><a name="init">void init ()</a></pre>
+    <pre><a name="init"></a>void init ()</pre>
     <dl>
       <dd>Initializes the extended stream. This call must be performed before
-	the first data is read (or else the additional column/line does not
-	match the reality).</dd>
+        the first data is read (or else the additional column/line does not
+        match the reality).</dd>
     </dl>
 
     <h4>Accessing the object</h4>
-    <pre><a name="getLine">unsigned int getLine () const</a></pre>
+    <pre><a name="getLine"></a>unsigned int getLine () const</pre>
     <dl>
       <dd>Returns the actual line of the stream. This value is 0 before any
-	data is read and starts with 1 for the first line (after the first
-	read-operation). A new line starts after a character 10 (0x0a, or the
-	C-charachter '\n'), which is UNIX-style but works also for the
-	DOS/Windoze and the like.</dd>
+        data is read and starts with 1 for the first line (after the first
+        read-operation). A new line starts after a character 10 (0x0a, or the
+        C-charachter '\n'), which is UNIX-style but works also for the
+        DOS/Windoze and the like.</dd>
     </dl>
-    <pre><a name="getColumn">unsigned int getColumn () const</a></pre>
+    <pre><a name="getColumn"></a>unsigned int getColumn () const</pre>
     <dl>
       <dd>Returns the actual position in the line of the stream. This value
-	is 0 before any	data (of the line) is read and starts with 1 after the
-	first read-operation in the line (A new line starts after a character
-	10 (0x0a, or the C-charachter '\n'), which is UNIX-style but works
-	also for the DOS/Windoze and the like.</dd>
+        is 0 before any data (of the line) is read and starts with 1 after the
+        first read-operation in the line (A new line starts after a character
+        10 (0x0a, or the C-charachter '\n'), which is UNIX-style but works
+        also for the DOS/Windoze and the like.</dd>
     </dl>
   </body>
 </html>

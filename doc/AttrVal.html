@@ -1,8 +1,14 @@
-<!-- $Id: AttrVal.html,v 1.4 2000/04/02 14:25:40 Markus Exp $ -->
+<!-- $Id: AttrVal.html,v 1.5 2000/04/15 02:05:25 Markus Rel $ -->
 
 <html>
   <head>
     <title>General Reference: AttributValue</title>
+    <meta name="description" content="Documentation of AttributValue-class">
+    <meta name="keywords" content="Documentation, Docu, AttributValue, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2000-04-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
   <body>
@@ -15,7 +21,7 @@
 
     <p>Header-file: AttrVal.h</p>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Description</h2>
     <p>Base-class of all attributes. Attributes can have a value (according to
       their type) or be undefined (having no value at all).</p>
@@ -25,102 +31,101 @@
       depending on its type) -&gt; every derived object must call
       AttributValue::define () when setting a value!</p>
 
-
-    <hr noshade="noshade">
+    <hr noshade>
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td>bool</td>
-	<td><a href="AttrVal.html#isDefined">isDefined</a></td><td>() const</td></tr>
+        <td><a href="AttrVal.html#isDefined">isDefined</a></td><td>() const</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="AttrVal.html#undefine">undefine</a></td><td>()</td></tr>
+        <td><a href="AttrVal.html#undefine">undefine</a></td><td>()</td></tr>
       <tr valign="top"><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td></td>
-	<td><a href="AttrVal.html#AttributValue">AttributValue</a></td><td>()</td></tr>
+        <td><a href="AttrVal.html#AttributValue">AttributValue</a></td><td>()</td></tr>
       <tr valign="top"><td></td>
-	<td><a href="AttrVal.html#AttributValue2">AttributValue</a></td>
-	<td>(const <a href="AttrVal.html">AttributValue</a>&amp; other)</td></tr>
+        <td><a href="AttrVal.html#AttributValue2">AttributValue</a></td>
+        <td>(const <a href="AttrVal.html">AttributValue</a>&amp; other)</td></tr>
       <tr valign="top"><td>virtual</td>
-	<td><a href="AttrVal.html#~AttributValue">~AttributValue</a></td><td>()</td></tr>
-      <tr valign="top"><td><a href="AttrVal.html">AttributValue</a>&</td>
-	<td><a href="AttrVal.html#operator=">operator=</a></td>
-	<td>(const <a href="AttrVal.html">AttributValue</a>&amp; other)</td></tr>
+        <td><a href="AttrVal.html#~AttributValue">~AttributValue</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="AttrVal.html">AttributValue</a>&amp;</td>
+        <td><a href="AttrVal.html#operator=">operator=</a></td>
+        <td>(const <a href="AttrVal.html">AttributValue</a>&amp; other)</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="AttrVal.html#define">define</a></td><td>() = 0</td></tr>
+        <td><a href="AttrVal.html#define">define</a></td><td>() = 0</td></tr>
       <tr valign="top"><td>virtual std::string</td>
-	<td><a href="AttrVal.html#toString">toString</a></td><td>() const</td></tr>
+        <td><a href="AttrVal.html#toString">toString</a></td><td>() const</td></tr>
       <tr valign="top"><td>void</td>
-	<td><a href="AttrVal.html#toString2">toString</a></td>
-	<td>(std::string&amp; result)</td></tr>
+        <td><a href="AttrVal.html#toString2">toString</a></td>
+        <td>(std::string&amp; result)</td></tr>
       <tr valign="top"><td>virtual void</td>
-	<td><a href="AttrVal.html#readFromStream">readFromStream</a></td>
-	<td>(istream&)</td></tr>
+        <td><a href="AttrVal.html#readFromStream">readFromStream</a></td>
+        <td>(istream&amp;)</td></tr>
       <tr valign="top"><td>friend istream&amp;</td>
-	<td><a href="AttrVal.html#operatorrshift">operator&gt;&gt;</a></td>
+        <td><a href="AttrVal.html#operatorrshift">operator&gt;&gt;</a></td>
         <td>(istream&amp; in, <a href="AttrVal.html">AttributValue&amp;</a> inValue)</td></tr>
       <tr valign="top"><td>friend ostream&amp;</td>
-	<td><a href="AttrVal.html#operatorlshift">operator&lt;&lt;</a></td>
+        <td><a href="AttrVal.html#operatorlshift">operator&lt;&lt;</a></td>
         <td>(ostream&amp; out, const <a href="AttrVal.html">AttributValue&amp;</a> outValue)</td></tr>
     </table>
 
-    <hr noshade="noshade">
+    <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="AttributValue">AttributValue ()</a></pre>
+    <pre><a name="AttributValue"></a>AttributValue ()</pre>
     <dl>
       <dd>Defaultconstructor; the attribute is not defined.</dd>
     </dl>
-    <pre><a name="AttributValue2">AttributValue (const AttributValue&amp; other)</a></pre>
+    <pre><a name="AttributValue2"></a>AttributValue (const AttributValue&amp; other)</pre>
 
-    <pre><a name="~AttributValue">~AttributValue ()</a></pre>
+    <pre><a name="~AttributValue"></a>~AttributValue ()</pre>
 
-    <pre><a name="operator=">AttributValue&amp; operator= (const AttributValue&amp; other)</a></pre>
+    <pre><a name="operator="></a>AttributValue&amp; operator= (const AttributValue&amp; other)</pre>
 
     <h4>In- &amp; output</h4>
-    <pre><a name="operatorrshift">friend istream&amp; operator&gt;&gt; (istream&amp;	in, AttributValue&amp; inValue)</a></pre>
+    <pre><a name="operatorrshift"></a>friend istream&amp; operator&gt;&gt; (istream&amp; in, AttributValue&amp; inValue)</pre>
     <dl>
       <dd>Reads the object from the passed stream using the virtual method
         <a href="AttrVal.html#readFromStream">readFromStream</a>.</dd>
     </dl>
 
-    <pre><a name="operatorlshift">friend ostream&amp; operator&gt;&gt; (ostream&amp;	out, const AttributValue&amp; outValue)</a></pre>
+    <pre><a name="operatorlshift"></a>friend ostream&amp; operator&gt;&gt; (ostream&amp; out, const AttributValue&amp; outValue)</pre>
     <dl>
       <dd>Writes the object to the stream using the virtual method
-	<a href="AttrVal.html#toString">toString</a>.</dd>
+        <a href="AttrVal.html#toString">toString</a>.</dd>
     </dl>
 
-    <pre><a name="toString">virtual std::string toString () const</a></pre>
+    <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
       <dd>Converts the attribute into a string.</dd>
     </dl>
 
-    <pre><a name="toString2">void toString (std::string&amp; result) const</a></pre>
+    <pre><a name="toString2"></a>void toString (std::string&amp; result) const</pre>
     <dl>
       <dd>Converts the attribute into a string.</dd>
     </dl>
 
-    <pre><a name="readFromStream">virtual void readFromStream (istream&amp;)</a></pre>
+    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp;)</pre>
     <dl>
       <dd>Reads data from a stream into the attribute.</dd>
     </dl>
-	
+
 
     <h4>Handling of the state</h4>
-    <pre><a name="isDefined">bool isDefined () const</a></pre>
+    <pre><a name="isDefined"></a>bool isDefined () const</pre>
     <dl>
       <dd>Returns true if the attribute	is already defined; else false</dd>
     </dl>
 
-    <pre><a name="undefine">virtual void undefine ()</a></pre>
+    <pre><a name="undefine"></a>virtual void undefine ()</pre>
     <dl>
       <dd>Undefines the attribute.</dd>
     </dl>
 
-    <pre><a name="define">virtual void define () = 0</a></pre>
+    <pre><a name="define"></a>virtual void define () = 0</pre>
     <dl>
       <dd>Defines the attribute; to be implemented by derived objects.
-	<p>Derived objects must call define of their superclass!</p>
+        <p>Derived objects must call define of their superclass!</p>
       </dd>
     </dl>
   </body>
