@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.6 2002/05/09 06:59:30 markus Rel $
+// $Id: SmartPtr.h,v 1.7 2002/12/01 21:19:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 
 // Smart-pointer-class; its referenced object is freed when the smart
-// pointer-object is realeased.
+// pointer-object is released.
 //
 // In counterpart to auto_ptr there is no ownership handling (and
 // therefor no copy-constructor nor an assignment-operator).
@@ -37,7 +37,7 @@ template <class T> class SmartPtr {
    operator T*   () const { return pData; }
 
    // Changing the value
-   SmartPtr& operator= (T* pValue) { delete pData; pData = pValue; }
+   SmartPtr& operator= (T* pValue) { delete pData; pData = pValue; return *this;}
 
  private:
    // Prohibited manager functions
