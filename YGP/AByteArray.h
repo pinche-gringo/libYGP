@@ -1,7 +1,7 @@
 #ifndef ABYTEARRAY_H
 #define ABYTEARRAY_H
 
-// $Id: AByteArray.h,v 1.2 2001/09/16 21:22:18 markus Rel $
+// $Id: AByteArray.h,v 1.3 2002/05/24 01:01:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ class AByteArray : public AttributValue {
    // Set-functions
    AByteArray& operator= (const AByteArray& rhs) { assign (rhs); }
    AByteArray& operator= (const std::string& str) { assign (str); }
-   AByteArray& operator= (const char* pValue) { assign (pValue); }
+   AByteArray& operator= (const char* pValue) { return assign (pValue); }
    AByteArray& operator= (char ch) { assign (ch); }
 
    AByteArray& assign (const AByteArray& rhs);
@@ -72,10 +72,10 @@ class AByteArray : public AttributValue {
    AByteArray& append (const std::string& str) {
       return append (str.c_str (), str.length ()); }
 
-   char operator[] (unsigned int pos) const throw (out_of_range);
-   char& operator[] (unsigned int pos) throw (out_of_range);
-   const char& at (unsigned int pos) const throw (out_of_range);
-   char& at (unsigned int pos) throw (out_of_range);
+   char operator[] (unsigned int pos) const throw (std::out_of_range);
+   char& operator[] (unsigned int pos) throw (std::out_of_range);
+   const char& at (unsigned int pos) const throw (std::out_of_range);
+   char& at (unsigned int pos) throw (std::out_of_range);
 
    int length () const { return len; }
    const char* data () const { return pValue; }

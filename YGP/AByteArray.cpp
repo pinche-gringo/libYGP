@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.6 2002/04/09 20:05:09 markus Rel $
+// $Id: AByteArray.cpp,v 1.7 2002/05/24 01:01:58 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -26,7 +26,6 @@
 
 #include <assert.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 
 #include "AByteArray.h"
@@ -69,7 +68,7 @@ AByteArray::AByteArray (const char* pSource, unsigned int length)
 //Purpose   : Constructor from ASCIIZ-string
 //Parameters: pSource: Pointer to ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-AByteArray::AByteArray (const char* pSource) : AttributValue (pSource)
+AByteArray::AByteArray (const char* pSource) : AttributValue (pSource != NULL)
    , pValue (NULL), len (0), allocated (0) {
    TRACE5 ("AByteArray::AByteArray (const char*)");
 
@@ -240,7 +239,7 @@ AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
-char AByteArray::operator[] (unsigned int pos) const throw (out_of_range) {
+char AByteArray::operator[] (unsigned int pos) const throw (std::out_of_range) {
    TRACE5 ("AByteArray::operator[] (unsigned int) const");
    assert (!checkIntegrity ());
 
@@ -249,7 +248,7 @@ char AByteArray::operator[] (unsigned int pos) const throw (out_of_range) {
    if (pos < len)
       return pValue[pos];
    else
-      throw (out_of_range ("AByteArray::operator[] (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::operator[] (unsigned int) const; pos >= length"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -257,7 +256,7 @@ char AByteArray::operator[] (unsigned int pos) const throw (out_of_range) {
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
-char& AByteArray::operator[] (unsigned int pos) throw (out_of_range) {
+char& AByteArray::operator[] (unsigned int pos) throw (std::out_of_range) {
    TRACE5 ("AByteArray::operator[] (unsigned int)");
    assert (!checkIntegrity ());
 
@@ -266,7 +265,7 @@ char& AByteArray::operator[] (unsigned int pos) throw (out_of_range) {
    if (pos < len)
       return pValue[pos];
    else
-      throw (out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -274,14 +273,14 @@ char& AByteArray::operator[] (unsigned int pos) throw (out_of_range) {
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
-const char& AByteArray::at (unsigned int pos) const throw (out_of_range) {
+const char& AByteArray::at (unsigned int pos) const throw (std::out_of_range) {
    TRACE5 ("AByteArray::at (unsigned int) const");
    assert (!checkIntegrity ());
 
    if (pos < len)
       return pValue[pos];
    else
-      throw (out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -289,14 +288,14 @@ const char& AByteArray::at (unsigned int pos) const throw (out_of_range) {
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
-char& AByteArray::at (unsigned int pos) throw (out_of_range) {
+char& AByteArray::at (unsigned int pos) throw (std::out_of_range) {
    TRACE5 ("AByteArray::at (unsigned int)");
    assert (!checkIntegrity ());
 
    if (pos < len)
       return pValue[pos];
    else
-      throw (out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -505,12 +504,11 @@ int AByteArray::compare (const char* other, unsigned int length) const {
 
       int ch;
       unsigned int minLen = (len > length) ? length : len;
-      int i (0);
 
       // Compare characters til first end
       for (unsigned int i (0); i < minLen; ++i, ++other) {
-	 ch = pValue[i] - *other;
-	 if (ch)
+         ch = pValue[i] - *other;
+         if (ch)
             return ch;             // Characters differ: Return result of comp.
       }
 
