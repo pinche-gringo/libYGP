@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.3 2001/08/17 13:17:32 markus Exp $
+// $Id: AByteArray.cpp,v 1.4 2001/09/16 21:22:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -77,6 +77,16 @@ AByteArray::AByteArray (const char* pSource) : AttributValue (pSource)
       pValue = new char [allocated = len = strlen (pSource)];
       memcpy (pValue, pSource, len);
    }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor from character
+//Parameters: ch: Character to copy to object
+/*--------------------------------------------------------------------------*/
+AByteArray::AByteArray (char ch) : AttributValue (true)
+   , pValue (new char [1]), len (1), allocated (1) {
+   TRACE5 ("AByteArray::AByteArray (char)");
+   *pValue = ch;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -419,14 +429,13 @@ int AByteArray::compare (const AByteArray& other) const {
       TRACE6 ("   -> Comparing to defined values");
       TRACE9 ("   -> this = pValue = " << pValue);
       TRACE9 ("   -> other.pValue = " << other.pValue);
-      unsigned int minLen = (len > other.len) ? other.len : len;
       int ch;
 
       // Compare characters til first end
-      for (unsigned int i (0); i < minLen; ++i) {
+      for (unsigned int i (0); i < len; ++i) {
 	 ch = pValue[i] - other.pValue[i];
 	 if (ch)
-	    return ch;             // Characters differ: Return result of comp.
+            return ch;             // Characters differ: Return result of comp.
       }
       
       return len - other.len;  // Characters are equal: Longer string is bigger
@@ -436,4 +445,111 @@ int AByteArray::compare (const AByteArray& other) const {
       return -1;
 
    return isDefined ();          // If this is defined it is bigger; else equal
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Compares a byte-array with a character-pointer
+//Parameters: other: Object to compare this with
+//Returns   : int; <0: this < other; >0: other < this; 0 else
+/*--------------------------------------------------------------------------*/
+int AByteArray::compare (const char* other) const {
+   TRACE5 ("AByteArray::compare (const char*)");
+
+   assert (!checkIntegrity ());
+
+   // Both objects are defined -> Compare them
+   if (isDefined ()) {
+      TRACE6 ("   -> Comparing two defined values");
+      TRACE9 ("   -> this = pValue = " << pValue);
+      TRACE9 ("   -> other = " << other);
+      if (!other)
+         return 1;
+
+      int ch;
+      int i (0);
+
+      // Compare characters til first end
+      while ((i < len) && *other) {
+	 ch = pValue[i] - *other;
+	 if (ch)
+            return ch;             // Characters differ: Return result of comp.
+
+         ++i;
+         ++other;
+      }
+
+      return *other ? (int)len - i : -1; // Char equal: Longer string is bigger
+   }
+
+   return other != NULL;             // NULL-pointer: Return equal; else bigger
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Compares a byte-array with a character-pointer
+//Parameters: other: Object to compare this with
+//            length: Number of bytes to compare
+//Returns   : int; <0: this < other; >0: other < this; 0 else
+//Requires  : If length not zero, other must not be NULL
+/*--------------------------------------------------------------------------*/
+int AByteArray::compare (const char* other, unsigned int length) const {
+   TRACE5 ("AByteArray::compare (const char*, unsigned int)");
+
+   assert ((length == 0) || ((length > 0) && other));
+   assert (!checkIntegrity ());
+
+   // Both objects are defined -> Compare them
+   if (isDefined ()) {
+      TRACE6 ("   -> Comparing two defined values");
+      TRACE9 ("   -> this = pValue = " << pValue);
+      TRACE9 ("   -> other = " << other);
+
+      int ch;
+      unsigned int minLen = (len > length) ? length : len;
+      int i (0);
+
+      // Compare characters til first end
+      for (unsigned int i (0); i < minLen; ++i, ++other) {
+	 ch = pValue[i] - *other;
+	 if (ch)
+            return ch;             // Characters differ: Return result of comp.
+      }
+
+      return len - length;          // Chars are equal: Longer string is bigger
+   }
+
+   return other != NULL;             // NULL-pointer: Return equal; else bigger
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Compares a byte-array with a single character
+//Parameters: other: Object to compare this with
+//Returns   : int; <0: this < other; >0: other < this; 0 else
+/*--------------------------------------------------------------------------*/
+int AByteArray::compare (const char other) const {
+   TRACE5 ("AByteArray::compare (const char)");
+
+   assert (!checkIntegrity ());
+
+   // Both objects are defined -> Compare them
+   if (isDefined () && len > 0) {
+      TRACE6 ("   -> Comparing two defined values");
+      TRACE9 ("   -> this = pValue = " << pValue);
+      TRACE9 ("   -> other = " << other);
+      int ch (pValue[0] - other);
+
+      if (ch)
+         return ch;                // Characters differ: Return result of comp.
+
+      return 1;
+   }
+
+   return -1;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converts the object into a string
+//Returns   : std::string: Converted string
+/*--------------------------------------------------------------------------*/
+std::string AByteArray::toString () const {
+   return std::string (pValue, len);
 }
