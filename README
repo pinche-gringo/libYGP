@@ -5,8 +5,15 @@ General library-functions
 Anti-Copyright (A) 1999 Markus Schwab <9izm0@altavista.com>
 ----------------------------------------------------------------------
 
-How to build:
+How to build (from an (tar-)archive):
 
+./configure [--prefix=/usr]           # default: /usr/local
+make [check] [install]
+
+
+How to build (after checking out of CVS):
+aclocal && automake -a && autoconf    # Create configure.in
+gettextize -f			      # Needs -f because intl-dir exists
 ./configure [--prefix=/usr]           # default: /usr/local
 make [check] [install]
 
@@ -23,4 +30,4 @@ Structure:
    - CORBA:     Classes and other stuff related to CORBA.
    - Windows:   Classes and other stuff related to M$ Windoze.
    - X-Windows: Classes and other stuff related to X-windows.
-   - doc      : Documentation
+   - doc:       Documentation
