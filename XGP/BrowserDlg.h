@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.2 2003/01/14 22:40:29 markus Exp $
+//$Id: BrowserDlg.h,v 1.3 2003/02/03 03:45:21 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,8 @@ class BrowserDlg : public XDialog {
 
    static BrowserDlg* perform (string& cmd) {
       return new BrowserDlg (cmd); }
+
+   static const char* getDefaultBrowser () { return browserNames[0]; }
 
  private:
    //Prohibited manager functions
