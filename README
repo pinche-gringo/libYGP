@@ -20,14 +20,13 @@ Up to 3 libraries are created:
 
 The whole thing is:
  
-Anti-Copyright (A) 1999 - 2002  Markus Schwab <g17m0@lycos.com>
+Anti-Copyright (A) 1999 - 2003  Markus Schwab <g17m0@lycos.com>
 ---------------------------------------------------------------
 
 Basically this means, the package is distributed under the GNU General Public
 License; in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
 even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.  See the file COPYING for more details.
-
 
 
 Installation
@@ -43,13 +42,23 @@ Can be found in the doc-subdirectory. It's in HTML-format; the file index.html
 provides a class-index, cross_index.html a cross-index.
 
 
+Samples
+-------
+
+Both the CORBA and the Common section contain a Test subdirectory with some
+files demonstrating the intended usage (though the main purpose is the test of
+the classes).
+
+The X-windows subdirectory has a Samples directory with a sample application.
+
+
 Structure
 ---------
 
    - Common:    Contains common classes of general interest.
    - CORBA:     Classes and other stuff related to CORBA.
    - Windows:   Classes and other stuff related to M$ Windoze.
-   - X-Windows: Classes and other stuff related to X-windows.
+   - X-windows: Classes and other stuff related to X-windows.
    - doc:       Documentation
    - intl:      Library for I18n
    - po:        Translations of the messages
