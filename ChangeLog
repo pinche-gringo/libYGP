@@ -1,3 +1,5 @@
+Version 0.5.00: libPort renamed to libAttr; libXAppl for X-related classed added
+
 Version 0.4.20: ATimestamp and ATime added
 
 Version 0.4.11: Bugfix(es) in ADate
