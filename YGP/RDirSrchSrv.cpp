@@ -1,14 +1,14 @@
-//$Id: RDirSrchSrv.cpp,v 1.18 2003/03/06 04:16:02 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.19 2003/07/03 04:09:51 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #pragma warning(disable:4786) // disable warning about truncating debug info
 #endif
 
-#include <errno.h>
+#include <cerrno>
 
 #include "Internal.h"
 
@@ -44,7 +44,6 @@
 #include "ANumeric.h"
 #include "AssParse.h"
 #include "AttrParse.h"
-#include "AByteArray.h"
 #include "RDirSrchSrv.h"
 
 
@@ -71,9 +70,9 @@ static const struct {
                  { "Read=", 5 },  { "Write=", 6 },   { "EOF=", 4 } };
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Defaultconstructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Defaultconstructor
+//-----------------------------------------------------------------------------
 RemoteDirSearchSrv::RemoteDirSearchSrv () {
 #if CHECK > 2
    for (unsigned int i (0); i < (sizeof (commands) / sizeof (commands[0])); ++i)
@@ -81,22 +80,22 @@ RemoteDirSearchSrv::RemoteDirSearchSrv () {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Handles the commands send from the client; the respectative
-//            action is performed and data is returned accordingly.
-//Parameters: socket: Socket for communication
-//Returns   : int: 0 in case of end-of-communication; 99 after END-command
-//Throws    : std::domain_error: In case of a communication problem
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Handles the commands send from the client; the respectative action is
+/// performed and data is returned accordingly.
+/// \param socket: Socket for communication
+/// \returns \c int: 0 in case of end-of-communication; 99 after the END-command
+/// \throw std::domain_error: In case of a communication problem
+//-----------------------------------------------------------------------------
 int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
-   AByteArray data;
+   std::string data;
 
    DirectorySearch dirSrch;
    static FILE* pFile = NULL;
@@ -283,14 +282,14 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
    return 0;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sends information about the found file to the client
-//Parameters: socket: Socket for communication
-//            result: Found file
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sends information about the found file to the client
+/// \param socket: Socket for communication
+/// \param result: Found file
+//-----------------------------------------------------------------------------
 void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
    throw (std::domain_error) {
-   AByteArray write ("RC=0;File=\"");
+   std::string write ("RC=0;File=\"");
    write += result.path ();
    write += result.name ();
    write += '"';
@@ -310,15 +309,15 @@ void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
    socket.write (write);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sends information about the occured error to the client
-//Parameters: socket: Socket for communication
-//            error: Errornumber
-//            desc: Flag if a description should be included
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sends information about the occured error to the client
+/// \param socket: Socket for communication
+/// \param error: Errornumber
+/// \param desc: Flag if a description should be included
+//-----------------------------------------------------------------------------
 int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
    throw (std::domain_error) {
-   AByteArray write ("RC=");
+   std::string write ("RC=");
    ANumeric err (error);
    write += err.toUnformattedString ();
 
@@ -330,11 +329,11 @@ int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
    return error;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Informs the caller about an input-error
-//Parameters: sock: Reference to socket for output
-//            error: Description of error in input
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Informs the caller about an input-error
+/// \param sock: Reference to socket for output
+/// \param error: Description of error in input
+//-----------------------------------------------------------------------------
 void RemoteDirSearchSrv::handleArgError (Socket& sock, const std::string& error) const {
    std::string errText ("RC=99;E=");
    errText += _("Invalid arguments: ");
