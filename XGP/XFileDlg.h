@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.15 2003/07/20 08:16:41 markus Exp $
+//$Id: XFileDlg.h,v 1.16 2003/07/21 23:55:04 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ class TFileDialog : public IFileDialog {
 
    /// Constructor; creates a (modeless) dialog to select a file
    /// \param title: Title of the dialog
-   /// \param notify: Class to parent of file entered
+   /// \param parent: Class to parent of file entered
    /// \param callback: Method of 
    /// \param dlgOption: Checks to perform after selecting OK
    TFileDialog (const Glib::ustring& title, T& parent,
