@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.9 2000/02/06 22:12:40 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.10 2000/02/11 23:22:42 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -44,8 +44,9 @@ static int lenBuffer = 512;
 //Purpose   : (Default-)Constructur; Initializes object
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf ()
-   : streambuf (), line (0), pushbackOffset (-1), pSource (this)
+   : streambuf (), line (0), pushbackOffset (-1), pSource (NULL)
    , pBuffer (new char[lenBuffer]) {
+   pSource = this;
    setb (pBuffer, pBuffer + lenBuffer, 1);
 }
 
@@ -54,7 +55,17 @@ extStreambuf::extStreambuf ()
 //Parameter : source: Original streambuffer, which should be enhanced
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf& source)
-   :streambuf (), line (0), pushbackOffset (-1), pSource (&source)
+   : streambuf (), line (0), pushbackOffset (-1), pSource (&source)
+   , pBuffer (new char[lenBuffer]) {
+   setb (pBuffer, pBuffer + lenBuffer, 1);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructur; Initializes object
+//Parameter : source: Original streambuffer, which should be enhanced
+/*--------------------------------------------------------------------------*/
+extStreambuf::extStreambuf (streambuf* source)
+   : streambuf (), line (0), pushbackOffset (-1), pSource (source)
    , pBuffer (new char[lenBuffer]) {
    setb (pBuffer, pBuffer + lenBuffer, 1);
 }
@@ -84,7 +95,7 @@ int extStreambuf::overflow (int ch) {
 //Requires  : Readpointer equal or behind end-of-readbuffer
 /*--------------------------------------------------------------------------*/
 int extStreambuf::underflow () {
-   TRACE2  ("extStreambuf::nderflow");
+   TRACE2  ("extStreambuf::underflow");
 
    if (gptr () < egptr ()) // Sanity-check; VC uses underflow to get curr char
       return *gptr ();
@@ -97,10 +108,10 @@ int extStreambuf::underflow () {
    ++line;
    while ((ch = pSource->sbumpc ()) != EOF) {
       if (pTemp == pBuffer + lenBuffer) {                 // Buffer to small?
-	 pTemp = pBuffer;
+         pTemp = pBuffer;
          pBuffer = new char[lenBuffer << 1];           // Double its size and
          memcpy (pBuffer, pTemp, lenBuffer);             // copy old contents
-	 delete [] pTemp;
+         delete [] pTemp;
          pTemp = pBuffer + lenBuffer;
          lenBuffer <<= 1;
          setb (pBuffer, pBuffer + lenBuffer, 1);
@@ -108,8 +119,10 @@ int extStreambuf::underflow () {
       *pTemp++ = (char)ch;
       TRACE9 ("New char: " << (char)ch);
 
-      if ((char)ch == '\n')
+      if ((char)ch == '\n') {
+         ch = *pBuffer;
          break;
+      } // endif last character
    } // end-while !EOF
 
    pushbackOffset = -1 - int (pTemp - pBuffer);
