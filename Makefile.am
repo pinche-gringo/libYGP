@@ -6,10 +6,11 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 
 lib_LTLIBRARIES=libPort.la
 noinst_PROGRAMS=Test
-noinst_DATA=Test.Dat
+EXTRA_DIST=Test.Dat
 Test_SOURCES=XStrBuf.cpp Test.cpp PathSrch.cpp Tokenize.cpp IVIOAppl.cpp \
 	     DirSrch.cpp ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp \
-	     gmp_mpz.c gmp.h
+	     gmp_mpz.c gmp.h gmp-impl.h gmp-mparam.h longlong.h
 libPort_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
 	           ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp Version.cpp \
-		   XStrBuf.cpp gmp_mpz.c gmp.h
+		   XStrBuf.cpp gmp_mpz.c gmp.h gmp-impl.h gmp-mparam.h \
+		   longlong.h
