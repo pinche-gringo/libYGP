@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.5 2000/03/10 21:09:05 Markus Exp $
+//$Id: XApplication.h,v 1.6 2000/03/11 15:06:12 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,7 +61,6 @@ typedef Gtk_ItemFactory_MenuBar ItemFactory_MenuBar;
 #endif
 
 typedef SmartPtr<HBox>           PHBox;
-typedef SmartPtr<VBox>           PVBox;
 typedef SmartPtr<Label>          PLabel;
 typedef SmartPtr<Pixmap>         PPixmap;
 typedef SmartPtr<AccelGroup>     PAccelGroup;
@@ -105,6 +104,8 @@ class XApplication : public Window {
 #else
    ItemFactory_MenuBar* pMenu;
 #endif
+   typedef SmartPtr<VBox>           PVBox;
+
    PVBox                vboxClient;
 
  private:
@@ -126,12 +127,12 @@ class XApplication : public Window {
 class XInfoApplication : public XApplication {
  public:
    XInfoApplication (const char* pTitle, const char* pPrgInfo, const char* pCopyright);
-   ~XInfoApplication () { }  // No need to be virtual. There´s only 1 instance
+   ~XInfoApplication ();     // No need to be virtual. There´s only 1 instance
 
  protected:
    // Add information
-   void setIconProgram (Gdk_Pixmap& picProgram);
-   void setIconAuthor (Gdk_Pixmap& picAuthor);
+   void setIconProgram (const char* const* iconData);
+   void setIconAuthor (const char* const* iconData);
 
  private:
    // Protected manager functions

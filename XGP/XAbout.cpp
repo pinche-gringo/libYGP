@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.4 2000/03/10 21:09:04 Markus Exp $
+//$Id: XAbout.cpp,v 1.5 2000/03/11 15:06:12 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -88,27 +88,35 @@ XAbout::~XAbout () {
 //Purpose   : Sets pixmap for the program
 //Parameters: picProgram: Pixmap for program
 /*--------------------------------------------------------------------------*/
-void XAbout::setIconProgram (Pixmap& picProgram) {
+void XAbout::setIconProgram (const char* const* pIconData) {
    Check3 (client);
 
-   picProgram.unparent ();
-   picProgram.set_style (*Widget::get_default_style ());
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
+   pIconProgramm = new Pixmap (pIconData);
+#else
+   pIconProgramm = new Pixmap (client, pIconData);
+#endif
 
-   picProgram.show ();
-   client->pack_start (picProgram, false, false, 5);
+   pIconProgramm->show ();
+   client->pack_start (*pIconProgramm, false, false, 5);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Sets pixmap for the programmer
-//Parameters: picAuthor: Pixmap for programmer
+//Parameters: pIconData: Pointer to xpm-data for pixmap
 /*--------------------------------------------------------------------------*/
-void XAbout::setIconAuthor (Pixmap& picAuthor) {
+void XAbout::setIconAuthor (const char* const* pIconData) {
    Check3 (client); Check3 (vboxPrgInfo);
    
-   picAuthor.unparent ();
-   picAuthor.set_style (*Widget::get_default_style ());
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
+   pIconAuthor = new Pixmap (pIconData);
+#else
+   pIconAuthor = new Pixmap (client, pIconData);
+#endif
 
-   picAuthor.show ();
-   client->pack_end (picAuthor, false, false, 5);
+   pIconAuthor->show ();
+   client->pack_end (*pIconAuthor, false, false, 5);
+
+   Check3 (writer);
    client->reorder_child (*writer, 3);
 }

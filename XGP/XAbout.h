@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.5 2000/03/10 21:09:05 Markus Exp $
+//$Id: XAbout.h,v 1.6 2000/03/11 15:06:12 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,13 +63,14 @@ class XAbout : public Dialog {
    XAbout (const string& author, const string& program);
    ~XAbout ();
 
-   void setIconProgram (Pixmap& icon);
-   void setIconAuthor  (Pixmap& icon);
+   void setIconProgram (const char* const* iconData);
+   void setIconAuthor  (const char* const* iconData);
 
  private:
    typedef SmartPtr<HBox>    PHBox;
    typedef SmartPtr<Label>   PLabel;
    typedef SmartPtr<Button>  PButton;
+   typedef SmartPtr<Pixmap>  PPixmap;
 
    // Prohibited manager-functions
    XAbout (const XAbout&);
@@ -84,6 +85,8 @@ class XAbout : public Dialog {
    PLabel  appl;
    PLabel  writer;
    PLabel  gpl;
+   PPixmap pIconAuthor;
+   PPixmap pIconProgramm;
    PHBox   client;
 };
 

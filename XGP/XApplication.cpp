@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.5 2000/03/10 21:09:05 Markus Exp $
+//$Id: XApplication.cpp,v 1.6 2000/03/11 15:06:12 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -203,19 +203,30 @@ XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
    vboxPrgInfo->pack_start (*txtCopyright);
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+XInfoApplication::~XInfoApplication () {
+}
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Sets pixmap for the program
-//Parameters: picProgram: Pixmap for program
+//Parameters: pIconData: Pointer to xpm-data for pixmap
 /*--------------------------------------------------------------------------*/
-void XInfoApplication::setIconProgram (Gdk_Pixmap& picProgram) {
+void XInfoApplication::setIconProgram (const char* const* iconData) {
    TRACE9 ("XInfoApplication::setIconProgram");
    if (iconPrg)
       return;
 
    Check3 (hboxTitle);
 
-   iconPrg = new Pixmap (picProgram, Gdk_Bitmap ()); Check3 (iconPrg);
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
+   iconPrg = new Pixmap (iconData);
+#else
+   iconPrg = new Pixmap (hboxTitle, iconData);
+#endif
+   Check3 (iconPrg);
 
    iconPrg->show ();
    hboxTitle->pack_start (*iconPrg, false, false, 5);
@@ -223,16 +234,21 @@ void XInfoApplication::setIconProgram (Gdk_Pixmap& picProgram) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Sets pixmap for the programmer
-//Parameters: picAuthor: Pixmap for programmer
+//Parameters: pIconData: Pointer to xpm-data for pixmap
 /*--------------------------------------------------------------------------*/
-void XInfoApplication::setIconAuthor (Gdk_Pixmap& picAuthor) {
+void XInfoApplication::setIconAuthor (const char* const* iconData) {
    TRACE9 ("XInfoApplication::setIconAuthor");
    if (iconAuthor)
       return;
 
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
-   iconAuthor = new Pixmap (picAuthor, Gdk_Bitmap ()); Check3 (iconAuthor);
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
+   iconAuthor = new Pixmap (iconData);
+#else
+   iconAuthor = new Pixmap (hboxTitle, iconData);
+#endif
+   Check3 (iconAuthor);
 
    iconAuthor->show ();
    hboxTitle->pack_end (*iconAuthor, false, false, 5);
