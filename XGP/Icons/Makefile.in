@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.2 2002/04/11 07:29:46 markus Exp $
+# $Id: Makefile.in,v 1.3 2002/04/22 21:07:56 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -50,7 +50,7 @@ pkgdata_DATA=Icon_c.xpm    Icon_gif.xpm  Icon_html.xpm Icon_jpg.xpm Icon_ps.xpm 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 
-DISTFILES = $(pkgdata_DATA)
+DISTFILES = $(pkgdata_DATA) Makefile.in
 
 all all-am: Makefile $(pkgdata_DATA)
 .SUFFIXES:
