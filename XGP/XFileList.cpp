@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.38 2004/10/24 00:24:54 markus Exp $
+//$Id: XFileList.cpp,v 1.39 2004/10/29 01:25:15 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -149,7 +149,8 @@ IFileStore::~IFileStore () {
 /// Loads (additional) icons which should be used for the list-entries
 /// \param path: Path where to search for the icons
 /// \param files: Files to use as icon-files
-/// \param namePrefix: Length of the prefix of the name, which should be removed before comparing with actual filename
+/// \param namePrefix: Length of the prefix of the name, which should be removed
+///    before comparing with actual filename
 /// \pre \c namePrefix < strlen (files)
 //-----------------------------------------------------------------------------
 void IFileStore::loadIcons (const char* path, const char* files,
@@ -425,10 +426,8 @@ void XFileList::remove (unsigned int line) {
    std::string entry (getFilename (line));
    const char* args[] = { "rm", "-f", entry.c_str (), NULL };
    if (execProgram (args[0], args, true)) {
-      Glib::RefPtr<Gtk::TreeModel> model (get_model ());
-      TRACE1 ("Deleting row I : " << model->get_path (model->children ()[line]).to_string ());
-      TRACE1 ("Deleting row II: " << model->get_path (model->children ()[line]).to_string ());
-      model->row_deleted (model->get_path (model->children ()[line]));
+      TRACE1 ("Deleting row: " << line); Check3 (fileModel);
+      fileModel->remove (line);
    }
 }
 
