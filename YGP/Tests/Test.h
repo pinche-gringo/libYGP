@@ -1,7 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-//$Id: Test.h,v 1.1 2001/08/27 15:24:50 markus Exp $
+//$Id: Test.h,v 1.2 2002/04/19 09:27:34 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,17 +17,21 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <iostream>
+#include <iomanip>
 
-#define ERROROUT(x) { ++cErrors; cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n"; }
+#define ERROROUT(x) { ++cErrors; cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n" << flush; }
 #define CHECK(x) { if (!(x)) { ERROROUT (#x) } }
 
 
 #ifdef VERBOSE
 #  define DEBUG 1
-#  define check(x) { cout << "Checking: " #x "\n"; CHECK(x) }
+#  define PRINT(x) { cout << "Checking: " << x << flush; }
+#  define check(x) { PRINT (#x "\n"); CHECK(x) }
 #else
 #  define DEBUG 0
 #  define check(x) CHECK(x)
+#  define PRINT(x) 
 #endif
 
 #endif
