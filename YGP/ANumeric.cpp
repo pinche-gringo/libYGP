@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.13 2000/06/04 17:53:37 Markus Exp $
+//$Id: ANumeric.cpp,v 1.14 2000/12/08 02:44:50 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -77,11 +77,11 @@ ANumeric& ANumeric::operator= (const char* pValue) {
    assert (pValue);
 
 #ifdef HAVE_LIBGMP
-   if (mpz_init_set_str (value, pValue, 10))
+   if (mpz_init_set_str (value, pValue, 0))
 #else
    char* pTail = NULL;
    errno = 0;
-   value = strtol (pValue, &pTail, 10);
+   value = strtol (pValue, &pTail, 0);
    if (errno || !(pTail && *pTail))
 #endif
       undefine ();
