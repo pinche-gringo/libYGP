@@ -9,11 +9,12 @@ lib_LTLIBRARIES=libXGP.la
 
 include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
 		XFileList.h XDate.h XFileDlg.h XPrintDlg.h XAttrLabel.h \
-		XDialog.h XAttrEntry.h Folder.h XAttribute.h
+		XDialog.h XAttrEntry.h Folder.h XAttribute.h ConnectDlg.h
 
 libXGP_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 		  Version.cpp XFileList.cpp XDate.cpp XFileDlg.cpp \
-		  XPrintDlg.cpp BrowserDlg.cpp Folder.cpp $(include_HEADERS) 
+		  XPrintDlg.cpp BrowserDlg.cpp Folder.cpp ConnectDlg.cpp \
+		  $(include_HEADERS) 
 
 libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
