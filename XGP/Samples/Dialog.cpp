@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.3 2003/03/03 23:33:01 markus Exp $
+//$Id: Dialog.cpp,v 1.4 2003/03/04 05:00:19 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -45,8 +45,8 @@
 Dialog::Dialog (ANumeric& numEntry, std::string& file)
    : XDialog (OKCANCEL), pClient (new Gtk::Table (3, 2))
      , lblLabel (new Gtk::Label ("AttributeLabel"))
-     , lblEntry (new Gtk::Label ("AttributeEntry"))
-     , lblFileEntry (new Gtk::Label ("FileEntry"))
+     , lblEntry (new Gtk::Label ("_AttributeEntry", true))
+     , lblFileEntry (new Gtk::Label ("_FileEntry", true))
      , lblNum (new XAttributeLabel<ANumeric> (numEntry))
      , entryNum (new XAttributeEntry<ANumeric> (numEntry))
      , entryFile (new XFileEntry ())
@@ -59,15 +59,10 @@ Dialog::Dialog (ANumeric& numEntry, std::string& file)
    lblLabel->set_justify (Gtk::JUSTIFY_LEFT);
    lblEntry->set_justify (Gtk::JUSTIFY_LEFT);
    lblFileEntry->set_justify (Gtk::JUSTIFY_LEFT);
-   lblLabel->show ();
-   lblEntry->show ();
-   lblFileEntry->show ();
+   lblEntry->set_mnemonic_widget (*entryNum);
+   lblFileEntry->set_mnemonic_widget (*entryFile);
 
    TRACE5 ("Dialog::Dialog (ANumeric&, std::string&) - Showing fields");
-   lblNum->show ();
-   entryNum->show ();
-   entryFile->show ();
-
    entryFile->set_text (file);
 
    TRACE5 ("Dialog::Dialog (ANumeric&, std::string&) - Attaching controls");
@@ -80,9 +75,8 @@ Dialog::Dialog (ANumeric& numEntry, std::string& file)
    pClient->attach (*lblFileEntry, 0, 1, 2, 3, Gtk::FILL, Gtk::FILL, 5, 2);
    pClient->attach (*entryFile,    1, 2, 2, 3, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
-   pClient->show ();
-
    get_vbox ()->pack_start (*pClient, false, false, 5);
+   show_all_children ();
    show ();
 
    entryNum->grab_focus ();
