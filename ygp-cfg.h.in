@@ -110,6 +110,9 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Set to 1 if Firefox exists, 0 if not */
+#undef HAVE_FIREFOX
+
 /* Define to 1 if your system has a working POSIX `fnmatch' function. */
 #undef HAVE_FNMATCH
 
@@ -118,6 +121,9 @@
 
 /* Define to 1 if you have the `fwprintf' function. */
 #undef HAVE_FWPRINTF
+
+/* Set to 1 if Galeon exists, 0 if not */
+#undef HAVE_GALEON
 
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
@@ -130,6 +136,9 @@
 
 /* Define to 1 if you have the `getgid' function. */
 #undef HAVE_GETGID
+
+/* Define to 1 if you have the `getlogin' function. */
+#undef HAVE_GETLOGIN
 
 /* Define to 1 if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
@@ -149,6 +158,9 @@
 /* Define if you have the iconv() function. */
 #undef HAVE_ICONV
 
+/* Set to 1 if Internet Explorer exists, 0 if not */
+#undef HAVE_IEXPLORER
+
 /* Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>. */
 #undef HAVE_INTMAX_T
 
@@ -158,6 +170,9 @@
 /* Define if <inttypes.h> exists, doesn't clash with <sys/types.h>, and
    declares uintmax_t. */
 #undef HAVE_INTTYPES_H_WITH_UINTMAX
+
+/* Set to 1 if Konqueror exists, 0 if not */
+#undef HAVE_KONQUEROR
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
 #undef HAVE_LANGINFO_CODESET
@@ -173,6 +188,9 @@
 
 /* Define to 1 if you have the `stdc++' library (-lstdc++). */
 #undef HAVE_LIBSTDC__
+
+/* Define to 1 if you have the `ws2_32' library (-lws2_32). */
+#undef HAVE_LIBWS2_32
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -198,14 +216,23 @@
 /* Define to 1 if you have a working `mmap' system call. */
 #undef HAVE_MMAP
 
+/* Set to 1 if Mozilla exists, 0 if not */
+#undef HAVE_MOZILLA
+
 /* Define to 1 if you have the `munmap' function. */
 #undef HAVE_MUNMAP
 
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_NDIR_H
 
+/* Set to 1 if Netscape exists, 0 if not */
+#undef HAVE_NETSCAPE
+
 /* Define to 1 if you have the <nl_types.h> header file. */
 #undef HAVE_NL_TYPES_H
+
+/* Set to 1 if Opera exists, 0 if not */
+#undef HAVE_OPERA
 
 /* Define to 1 if you have the `pipe' function. */
 #undef HAVE_PIPE
@@ -233,6 +260,9 @@
 
 /* Define to 1 if the system has the type `socklen_t'. */
 #undef HAVE_SOCKLEN_T
+
+/* Define to 1 if you have the `spawnvp' function. */
+#undef HAVE_SPAWNVP
 
 /* Define to 1 if the system has the type `ssize_t'. */
 #undef HAVE_SSIZE_T
@@ -262,11 +292,17 @@
 /* Define to 1 if you have the `strfmon' function. */
 #undef HAVE_STRFMON
 
+/* Define to 1 if you have the `strftime' function. */
+#undef HAVE_STRFTIME
+
 /* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
 
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strptime' function. */
+#undef HAVE_STRPTIME
 
 /* Define to 1 if you have the `strtoul' function. */
 #undef HAVE_STRTOUL
@@ -332,6 +368,9 @@
 
 /* Define to 1 if you have the `_pipe' function. */
 #undef HAVE__PIPE
+
+/* Define to 1 if you have the `_sleep' function. */
+#undef HAVE__SLEEP
 
 /* Define to 1 if you have the `__argz_count' function. */
 #undef HAVE___ARGZ_COUNT
