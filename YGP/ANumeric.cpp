@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.45 2004/11/04 23:17:32 markus Exp $
+//$Id: ANumeric.cpp,v 1.46 2004/11/05 04:15:53 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -36,7 +36,7 @@
 #  include <cstdlib>
 
 #  include <sstream>
-#else
+
 #  if HAVE_STRFMON
 #    include <monetary.h>
 #  endif
@@ -199,6 +199,10 @@ std::string ANumeric::toUnformattedString () const {
 //-----------------------------------------------------------------------------
 std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const");
+#if defined HAVE_STRFMON && !defined HAVE_LIBGMP
+   char str[40];
+   strfmon (str, sizeof (str), "%!i", (double)value);
+#else
    std::string str;
 
    struct lconv* loc = localeconv ();                // Get locale-information
@@ -229,6 +233,7 @@ std::string ANumeric::toString () const {
             ++pSep;
       } // endif further grouping available
    } // end-while grouping necessary
+#endif
 
    return str;
 }
