@@ -26,8 +26,5 @@ INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(pkgdatadir)\" \
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-EXTRA__DIST=XGP.pc.in
-
 pkgconfigdir=$(libdir)/pkgconfig
-pkgconfig_DATA=XGP.pc
-
+dist_pkgconfig_DATA=XGP.pc
