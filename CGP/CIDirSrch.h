@@ -1,7 +1,7 @@
 #ifndef CIDIRCOMP_H
 #define CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.2 2001/08/22 01:38:28 markus Exp $
+//$Id: CIDirSrch.h,v 1.3 2001/09/10 00:55:13 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
 
 #include <CORBA.h>
 
-#include "DirEntry.h"
+#include <DirEntry.h>
 
-#include "DirSrch.h"
-#include "CDirSrch.h"
+#include <DirSrch.h>
+#include <CDirSrch.h>
 
 class CIDirEntry : virtual public CDirEntry_skel, virtual public dirEntry {
  public:
