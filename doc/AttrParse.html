@@ -1,0 +1,109 @@
+<!-- $Id: AttrParse.html,v 1.1 2001/09/25 21:12:01 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: AttributeParse</title>
+    <meta name="description" content="Documentation of AttributeParse-class">
+    <meta name="keywords" content="Documentation, Docu, AttributeParse, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2001-09-24">
+    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class AttributeParse</h1>
+    <p>Derived from
+      <i>none</i>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;AttrParse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse attribute-assignments from a string and sets its values into
+      attribute-values.</p>
+
+    <p>Use this class like the following:</p>
+
+    <pre>    std::string file;
+    ANumeric    size;
+    ATimestamp  time;
+
+    AttributeParse attrs;
+    ATTRIBUTE (attrs, std::string, file, "File");
+    ATTRIBUTE (attrs, ANumeric, size, "Size");
+    ATTRIBUTE (attrs, ATimestamp, time, "Time");
+    attrs.assignValues ("File=\"ADate.cpp\";Size=18180;Time=01012000 121005");</pre>
+
+    <p>This example would assign the values <i>ADate.cpp</i> to <i>file</i>, <i>18180</i> to
+      <i>size</i> and the 1st of January 2000, 12:10:05 to <i>time</i>.</p>
+
+    <p><b>Note</b>: The order of the attributes while declaration and during parsing
+       does not need to be the same!</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="AttrParse.html#AttributeParse"><b>AttributeParse</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="AttrParse.html#addAttribute"><b>addAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Attribute.html"><b>IAttribute</b></a>&amp; <tt><font color="blue">attr</font></tt>) throw (<tt><font color="purple">std::string</font></tt>&amp;)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="AttrParse.html#assignValues"><b>assignValues</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">values</font></tt>) throw (<tt><font color="purple">std::string</font></tt>&amp;)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="Attribute.html"><tt><font color="navy"><b>IAttribute</b></font></tt></a>*</tt> </td>
+        <td><a href="AttrParse.html#findAttribute"><b>findAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="Attribute.html"><tt><font color="navy"><b>IAttribute</b></font></tt></a>*</tt> </td>
+        <td><a href="AttrParse.html#findAttribute2"><b>findAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">name</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="AttrParse.html#~AttributeParse"><b>~AttributeParse</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="AttributeParse"></a>AttributeParse ()</pre>
+    <dl>
+      <dd>Defaultconstructor.</dd>
+    </dl>
+
+    <pre><a name="~AttributeParse"></a>virtual ~AttributeParse ()</pre>
+
+    <pre><a name="addAttribute"></a>void addAttribute (IAttribute& attr) throw (std::string)</pre>
+    <dl>
+      <dd>Adds an attribute to parse to the object. An exception is thrown if the
+        object already contains an attribute with a name equal to the passed one
+        (only n the debug-version of the library).</dd>
+    </dl>
+
+    <pre><a name="assignValues"></a>int assignValues (const std::string&amp; values) throw (std::string) ()</pre>
+    <dl>
+      <dd>Assigns the values from the passed string to the attribute-values stored
+        inside the object. If there is no name-match or the value does not fit to the
+        type, an exception is thrown.</dd>
+    </dl>
+
+    <h4>Find functions</h4>
+    <pre><a name="findAttribute"></a>const IAttribute* findAttribute (const std::string&amp; name) cons</pre>
+    <dl>
+      <dd>Searches for an attribute with the passed name. If not found, NULL is returned.</dd>
+    </dl>
+    <pre><a name="findAttribute2"></a>const IAttribute* findAttribute (const char* name) cons</pre>
+    <dl>
+      <dd>Searches for an attribute with the passed name. If not found, NULL is returned.</dd>
+    </dl>
+  </body>
+</html>
