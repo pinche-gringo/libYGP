@@ -1,4 +1,4 @@
-# $Id: POTFILES.in,v 1.8 2003/11/19 22:23:05 markus Rel $
+# $Id: POTFILES.in,v 1.9 2003/12/12 22:09:56 markus Rel $
 #
 # List of source files containing translatable strings.
 #     
@@ -31,3 +31,4 @@ XGP/XApplication.cpp
 XGP/XAbout.cpp
 XGP/GTKViewer.c
 XGP/MessageDlg.cpp
+XGP/ConnectDlg.cpp
