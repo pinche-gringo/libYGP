@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.5 2002/03/23 20:46:32 markus Exp $
+// $Id: SmartPtr.h,v 1.6 2002/05/09 06:59:30 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ template <class T> class SmartPtr {
    T* pData;
 };
 
-#define definePtr(class)     typedef SmartPtr<class> P##class
+#define definePtr(class)      typedef SmartPtr<class> P##class
+#define defineConstPtr(class) typedef SmartPtr<const class> PC##class
 
 #endif
