@@ -1,14 +1,14 @@
-//$Id: BrowserDlg.cpp,v 1.19 2004/10/28 19:03:54 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.20 2005/03/21 17:25:09 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
 namespace XGP {
 
 const char* BrowserDlg::browserNames[] = {
-#if HAVE_GTKHTML > 0
+#ifdef HAVE_GTKHTML
     N_("GTKHTML"),
 #endif
 #if HAVE_FIREFOX > 0
