@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.44 2001/01/19 14:38:48 Markus Exp $
+// $Id: Test.cpp,v 1.45 2001/02/18 23:21:03 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -42,8 +42,8 @@
 #endif
 
 
-#define ERROROUT(x) cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n";
-#define CHECK(x) { if (!(x)) { rc++; ERROROUT (#x) } }
+#define ERROROUT(x) { ++cErrors; cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n"; }
+#define CHECK(x) { if (!(x)) { ERROROUT (#x) } }
 
 #define VERBOSE
 #undef VERBOSE
@@ -92,7 +92,7 @@ class Application : public IVIOApplication {
  public:
    Application (const int argc, const char* argv[])
       : IVIOApplication (argc, argv, lo), cOptions (0), regexp ("")
-      , strRE (""), rc (0) { }
+      , strRE (""), cErrors (0) { }
   ~Application () { }
 
  protected:
@@ -117,7 +117,7 @@ class Application : public IVIOApplication {
    RegularExpression regexp;;
    bool match;
 
-   int rc;
+   int cErrors;
 
    static const longOptions lo[];
 
@@ -586,7 +586,9 @@ int Application::perform (int argc, const char* argv[]) {
       cerr << e.c_str () << '\n';
    }
 
-   return rc;
+   if (cErrors)
+      cout << "Failures: " << cErrors << '\n';
+   return cErrors ? 1 : 0;
 }
 
 
