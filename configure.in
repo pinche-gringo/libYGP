@@ -1,7 +1,7 @@
-dnl $Id: configure.in,v 1.50 2003/09/05 02:36:49 markus Rel $
+dnl $Id: configure.in,v 1.51 2003/09/05 03:25:14 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.50 $)
+AC_REVISION($Revision: 1.51 $)
 
 AC_INIT()
 
@@ -27,7 +27,7 @@ GTKMM_MINVERSION=$GTKMM_NEEDED_MAYOR.$GTKMM_NEEDED_MINOR.$GTKMM_NEEDED_MICRO
 
 dnl AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(General, $VERSION)
+AM_INIT_AUTOMAKE(libYMP, $VERSION)
 AM_CONFIG_HEADER(gzo-cfg.h)
 
 AC_LANG_C
