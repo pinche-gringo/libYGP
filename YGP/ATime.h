@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.12 2002/10/10 05:46:52 markus Rel $
+//$Id: ATime.h,v 1.13 2002/11/28 19:45:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -64,9 +64,9 @@ class ATime : public AttributValue {
    virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
 
    virtual void define () { setDefined (); hour = min_ = sec = 0; }
-   void setHour (char Hour);
-   void setMinute (char minute);
-   void setSecond (char second);
+   void setHour (char Hour) throw (std::invalid_argument);
+   void setMinute (char minute) throw (std::invalid_argument);
+   void setSecond (char second) throw (std::invalid_argument);
 
    void setGMT (const time_t& time) { operator= (*localtime (&time)); }
 
