@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.11 1999/08/24 23:46:11 Markus Exp $
+// $Id: Test.cpp,v 1.12 1999/08/26 22:53:00 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -107,8 +107,14 @@ int Application::perform (int argc, char* argv[]) {
    check (!argv[argc]);
 
    cout << "Testing Parser...\n";
-   ParseAttomic nr ("\\9", "Number", 5);
-   ParseAttomic alpha ("\\X", "Alphanum", 5);
+   ParseAttomic  nr ("\\9", "Number", 4, 2);
+   ParseAttomic  alpha ("\\X", "Alphanum", 4, 2);
+   ParseExact exact ("234", "234");
+   ParseUpperExact upper ("9A42", "9A42");
+   ParseObject*  lstSeq[] = { &nr, &exact, NULL };
+   ParseObject*  lstSel[] = { &exact, &upper, NULL };
+   ParseSequence seqANum (lstSeq, "Sequence-test");
+   ParseSelection selANum (lstSel, "Selection-test");
 
    Xifstream xstr;
    xstr.open ("Test.Dat");
@@ -116,8 +122,10 @@ int Application::perform (int argc, char* argv[]) {
 
    check (!(nr.parse ((Xistream&)xstr)));
    check (!(alpha.parse ((Xistream&)xstr)));
-   check (xstr.getLine () == 2);
-   check (xstr.getColumn () == 0);
+   check (!seqANum.parse ((Xistream&)xstr));
+   check (!selANum.parse ((Xistream&)xstr));
+   check (xstr.getLine () == 3);
+   check (xstr.getColumn () == 4);
 
    cout << "Testing extStreambuf...\n";
 
