@@ -33,10 +33,9 @@ LIBOBJDIR=$(CFG)
 
 !IF  "$(CFG)" == "Release"
 
-OUTDIR=.\Tests\Release
-INTDIR=.\Tests\Release
+OUTDIR=.\Release\Tests
+INTDIR=.\Release\Tests
 # Begin Custom Macros
-OutDir=.\Tests\Release
 # End Custom Macros
 
 CPP_PROJ=/nologo /ML /W3 /GX /O2 $(EXTRAINCLUDES) /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
@@ -45,10 +44,9 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi3
 
 !ELSEIF  "$(CFG)" == "Debug"
 
-OUTDIR=.\Tests\Debug
-INTDIR=.\Tests\Debug
+OUTDIR=.\Debug\Tests
+INTDIR=.\Debug\Tests
 # Begin Custom Macros
-OutDir=.\Tests\Debug
 # End Custom Macros
 
 CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od $(EXTRAINCLUDES) /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c
@@ -69,7 +67,7 @@ TESTS = "$(OUTDIR)\AByteArray.exe" "$(OUTDIR)\ADate.exe" "$(OUTDIR)\ANumeric.exe
         "$(OUTDIR)\XStrBuf.exe" "$(OUTDIR)\PathDirSrch.exe" "$(OUTDIR)\PathSrch.exe" \
         "$(OUTDIR)\Tokenize.exe" "$(OUTDIR)\XStream.exe"
 
-ALL : $(TESTS)
+ALL : $(OUTDIR) $(TESTS)
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
