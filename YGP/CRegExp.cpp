@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.4 2000/05/18 17:44:44 Markus Exp $
+//$Id: CRegExp.cpp,v 1.5 2000/05/18 23:46:57 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -39,7 +39,7 @@
 RegularExpression::RegularExpression (const char* pRegExp)
    : IRegularExpression (pRegExp) {
 #ifdef HAVE_REGEX_H
-   int rc = regcomp (&regexp, pRegExp, REG_NOSUB);
+   int rc = regcomp (&regexp, pRegExp, REG_EXTENDED);
    if (rc)
       throw (getError (rc, 0));
 #else
@@ -65,7 +65,7 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) {
    IRegularExpression::operator= (pRegExp);
 #ifdef HAVE_REGEX_H
    regfree (&regexp);
-   int rc = regcomp (&regexp, pRegExp, REG_NOSUB);
+   int rc = regcomp (&regexp, pRegExp, REG_EXTENDED);
    if (rc)
       throw (getError (rc, 0));
 #else
@@ -88,7 +88,14 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
 
 #ifdef HAVE_REGEX_H
    // Use system-regular expressions if available
-   return !regexec (&regexp, pCompare, 0, NULL, 0);
+   regmatch_t match;
+
+   if (regexec (&regexp, pCompare, 1, &match, 0))
+      return false;
+
+   TRACE5 ("RegularExpression::compare -> Matching " << match.rm_so << " - "
+	   << match.rm_eo);
+   return (match.rm_so == 0) && (match.rm_eo == strlen (pCompare));
 #else
    std::string lastExpr;
 
@@ -135,22 +142,22 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
          break;
 
       default:
+         assert (ch); assert (ch != MULTIMATCHMAND);
          assert (ch != MULTIMATCH1); assert (ch != MULTIMATCHOPT);
-         assert (ch != MULTIMATCHMAND); assert (ch != SINGLEMATCH);
-         assert (ch);
 
          fnCompare = &RegularExpression::compChar;
          lastExpr = ch;
          pEnd = pAktRegExp;
       } // end-switch 
 
-      TRACE1 ("Actual expressions: " << lastExpr.c_str ());
+      TRACE1 ("Actual expression: " << lastExpr.c_str ());
       assert (fnCompare); assert (pEnd);
 
       switch (pEnd[1]) {
       case MULTIMATCH1:
          TRACE7 ("Possible count = 0, 1");
          (this->*fnCompare) (pCompare, lastExpr);
+         ++pEnd;
          break;
 
       case MULTIMATCHMAND:
@@ -166,27 +173,27 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
          // whole regexp or search for the whole stuff til it doesn't match
          // anymore? Let's implement the first and care about the speed later.
          const char* pAktPos = pCompare;
-         while ((this->*fnCompare) (pAktPos, lastExpr)) ; // Find maximal match
+         while (*pAktPos && (this->*fnCompare) (pAktPos, lastExpr)) ;
 
          while (pAktPos >= pCompare) {   // Try to find next smaller max. match
             if (compare (pEnd + 2, pAktPos))
 	       return true;
             --pAktPos;
          } // end-while
-         pEnd = pAktPos + 1;
+         ++pEnd;
          }
          break;
 
       default:
          TRACE7 ("Possible count = 1");
-         if (!(this->*fnCompare) (pCompare, lastExpr))
+         if (!(*pCompare && (this->*fnCompare) (pCompare, lastExpr)))
             return false;
       } // end-switch
 
       pAktRegExp = pEnd + 1;
    } // end-while
 
-   return true;          // Match OK, even if string to compare is not finished
+   return ch ? false : !*pCompare;       // Match OK, if regexp and match empty
 #endif
 }
 
@@ -367,7 +374,7 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Builds the error-string for checkIntegrity ()
-//Parameters: error: Text describing error
+//Parameters: rc: Occured error
 //            pos: Position of the error inside the regular expression
 //Returns   : std::string: Text describing error in human-readable format
 //Require   : error is an ASCIIZ-string
