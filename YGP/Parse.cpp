@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.33 2002/12/25 05:11:04 markus Rel $
+//$Id: Parse.cpp,v 1.34 2003/01/15 19:12:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -292,9 +292,9 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
       else {
          std::string error (_("Expected %1, found: '%2'"));
          error.replace (error.find ("%1"), 2, getDescription ());
-         error.replace (error.find ("%2"), 2, buffer, 0,
-                        minCard > 10 ? (minCard > buffer.size ()
-			                ? buffer.size () : minCard) : 10);
+         if (buffer.size () > 23)
+            buffer.replace (10, buffer.size () - 20, "...");
+         error.replace (error.find ("%2"), 2, buffer);
 	 throw (error);
       } // end-if mandatory value not found
    } // endif error
