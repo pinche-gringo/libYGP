@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.17 2000/12/07 21:16:23 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.18 2001/01/11 20:47:37 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -216,7 +216,7 @@ char IVIOApplication::getOption () {
                if (longOpt) {                    // Are long-options specified
                   unsigned int i (numLongOpt);
                   unsigned int found ((unsigned int)-1);
-                  const char* pEqual (strchr (pOptionParam, '='));
+                  const char* pEqual = strchr (pOptionParam, '=');
                   unsigned int len (pEqual ? pEqual - pOptionParam
                                            : strlen (pOptionParam));
 
