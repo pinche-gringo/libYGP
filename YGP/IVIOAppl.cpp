@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.8 1999/08/11 21:54:50 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.9 1999/08/11 22:35:22 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -138,7 +138,7 @@ int IVIOApplication::run () {
 /*--------------------------------------------------------------------------*/
 char* IVIOApplication::getOptionValue () {
    if (startOpt > startArg)
-      moveOption (startOpt);
+      moveOption ();
 
    char* pHelp;
    if (pOptionParam && *pOptionParam)
@@ -149,7 +149,7 @@ char* IVIOApplication::getOptionValue () {
 	 return NULL;
 
       pHelp = ppArgs[startOpt];
-      moveOption (startOpt);
+      moveOption ();
    }
 
    ++startArg;
@@ -186,7 +186,7 @@ char IVIOApplication::getOption () {
          option = *pOptionParam++;
          if (!option) {
 	    assert (startOpt >= startArg);
-            moveOption (startOpt);             // Move option before arguments
+            moveOption ();                     // Move option before arguments
 
 	    ++startOpt;
             ++startArg;
@@ -198,7 +198,7 @@ char IVIOApplication::getOption () {
             if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
                unsigned int i (numLongOpt);
 
-	       while (i--) {
+	       while (--i) {
                   assert (longOpt); assert (longOpt->longVal);
                   if (!strcmp (longOpt[i].longVal, pOptionParam))
                      break;
@@ -215,8 +215,8 @@ char IVIOApplication::getOption () {
                } // endif
             }
             else {                           // Option --? Means end of option
-               moveOption (startOpt);
-	       startArg++;
+               moveOption ();
+	       ++startArg;
                option = '\0';
 	    }
 	 } // endif longoption found
