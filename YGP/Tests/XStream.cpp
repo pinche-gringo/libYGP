@@ -1,11 +1,11 @@
-// $Id: XStream.cpp,v 1.5 2003/02/21 19:42:12 markus Rel $
+// $Id: XStream.cpp,v 1.6 2003/07/03 18:05:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStream
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <ctype.h>
+#include <cctype>
 
 #include <iostream>
 

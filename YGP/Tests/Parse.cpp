@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.7 2003/02/21 19:41:34 markus Rel $
+// $Id: Parse.cpp,v 1.8 2003/07/03 18:05:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -26,8 +26,7 @@
 
 #include <gzo-cfg.h>
 
-#include <assert.h>
-#include <locale.h>
+#include <clocale>
 
 #include <Parse.h>
 #include <Trace_.h>

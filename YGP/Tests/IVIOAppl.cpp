@@ -1,11 +1,11 @@
-// $Id: IVIOAppl.cpp,v 1.3 2002/10/10 05:53:33 markus Rel $
+// $Id: IVIOAppl.cpp,v 1.4 2003/07/03 18:05:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/IVIOAppl
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -25,12 +25,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <assert.h>
-#include <locale.h>
+#include <clocale>
 
 #include <iostream>
 
 #include <Log.h>
+#include <Check.h>
 #include <Trace_.h>
 #include <IVIOAppl.h>
 #include <StackTrc.h>
@@ -79,7 +79,7 @@ bool Application::handleOption (const char option) {
 
    if ((option == 'a') || (option == 'A')) {
       const char* pValue = checkOptionValue ();
-      assert (pValue == getOptionValue ());
+      Check1 (pValue == getOptionValue ());
       if (option == 'A')
          check (pValue);
 

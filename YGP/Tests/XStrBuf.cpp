@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.10 2003/06/09 01:46:06 markus Rel $
+// $Id: XStrBuf.cpp,v 1.11 2003/07/03 18:05:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <ctype.h>
+#include <cctype>
 
 #include <fstream>
 #include <iostream>
