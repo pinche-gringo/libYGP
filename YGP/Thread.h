@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.9 2002/11/04 03:07:40 markus Rel $
+//$Id: Thread.h,v 1.10 2002/12/15 22:21:16 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,7 +55,6 @@ class Thread {
 
    void* getArgs () const { return paArgs_; }
 
-   void ret (void* rc) const;
    void cancel ();
    static void* waitForThread (const Thread& id);
    static void* waitForThread (unsigned long threadID);
@@ -76,6 +75,7 @@ class Thread {
    Thread ();
    Thread (THREAD_FUNCTION fnc, void* paArgs) throw (std::string);
 
+   void ret (void* rc) const;
    void init (THREAD_FUNCTION fnc, void* paArgs) throw (std::string);
 
    void* paArgs_;
