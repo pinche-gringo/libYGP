@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.1 2003/07/05 05:08:19 markus Exp $
+//$Id: Folder.cpp,v 1.2 2003/07/20 08:07:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -40,6 +40,7 @@ Folder::Folder ()
    set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
    set_shadow_type (Gtk::SHADOW_IN);
    Gtk::ScrolledWindow::add (view);
+   view.set_spacings (5);
    view.show ();
 }
 
@@ -81,13 +82,13 @@ void Folder::add (Gtk::Widget& child) {
    }
    Check3 (actCol < colWidths.size ());
    if (colWidths[actCol] < static_cast<unsigned int> (childWidth + 12))
-       colWidths[actCol] = childWidth + 12;
+       colWidths[actCol] = childWidth + 5;
 
    // Add the control to the table
    ++actCol;
    TRACE3 ("Folder::add (Gtk::Widget&) - Adding to: " << actCol << '/' << rows);
    view.attach (child, actCol, actCol + 1, rows, rows + 1, Gtk::SHRINK,
-                Gtk::SHRINK, 5, 5);
+                Gtk::SHRINK, 0, 0);
 }
 
 
