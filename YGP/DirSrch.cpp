@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.16 2000/02/21 18:29:18 Markus Exp $
+//$Id: DirSrch.cpp,v 1.17 2000/02/21 23:07:00 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -50,6 +50,12 @@ dirEntry::dirEntry (const dirEntry& o) : pPath (new char [MAX_PATH])
 #ifdef UNIX
    , entry (o.entry), status (o.status), userExec (o.userExec)
    , pEndPath (pPath + (o.pEndPath - o.pEndPath))
+#else
+#  ifdef WINDOWS
+   , WIN32_FIND_DATA (o)
+#  else
+#     error Not implemented!
+#  endif
 #endif
 {
    assert (pPath);
@@ -91,20 +97,17 @@ const dirEntry& dirEntry::operator= (const dirEntry& o) {
 int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    cleanup ();
    pEntry = &result;
+   attr = attribs;
    assert (!checkIntegrity ());
 
    TRACE5 ("DirectorySearch::find " << searchDir.c_str () << searchFile.c_str ());
 
 #ifdef UNIX
-   attr = attribs;
    pDir = opendir (searchDir.c_str ());
    if (!pDir)
       return errno;
 #else
-#   ifdef WINDOWS
-   // Attribut-handling: Files having attrs not specified here are not ret.
-   attr = ~(attribs | FILE_ATTRIBUTE_ARCHIVE);
-
+#  ifdef WINDOWS
    std::string temp (searchDir + '*');
    hSearch = FindFirstFile (temp.c_str (), pEntry);
    if (hSearch == INVALID_HANDLE_VALUE)
@@ -126,7 +129,11 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
 
-   return ((pEntry->dwFileAttributes & attr) || !regExp.matches (pEntry->name ()))
+   // Attribut-handling: Files having attrs not specified here are not ret.
+   unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
+
+   return ((pEntry->dwFileAttributes & attr_)
+           || !regExp.matches (pEntry->name ()))
           ? find () : 0;
 #  else
 #     error Not implemented!
@@ -174,8 +181,12 @@ int DirectorySearch::find () {
    return ENOENT;
 #else
 #  ifdef WINDOWS
+   // Attribut-handling: Files having attrs not specified here are not ret.
+   unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
+
    while (FindNextFile (hSearch, pEntry))
-      if (!(pEntry->dwFileAttributes & attr) && regExp.matches (pEntry->name ())) {
+      if (!(pEntry->dwFileAttributes & attr_)
+          && regExp.matches (pEntry->name ())) {
          TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
          return 0;
       }
