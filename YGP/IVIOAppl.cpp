@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.15 2000/04/04 18:15:08 Markus Rel $
+///$Id: IVIOAppl.cpp,v 1.16 2000/04/24 14:23:01 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -201,21 +201,34 @@ char IVIOApplication::getOption () {
             if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
                if (longOpt) {                    // Are long-options specified
                   unsigned int i (numLongOpt);
+                  unsigned int found ((unsigned int)-1);
+                  const char* pEqual (strchr (pOptionParam, '='));
+                  unsigned int len (pEqual ? pEqual - pOptionParam
+                                           : strlen (pOptionParam));
 
                   while (--i) {
                      assert (longOpt); assert (longOpt->longVal);
-                     if (!strcmp (longOpt[i].longVal, pOptionParam))
-                        break;
+                     if (!strncmp (longOpt[i].longVal, pOptionParam, len)) {
+                        if (found == (unsigned int)-1)
+                           found = i;
+                        else {
+                           cerr << name () << "-error: Option `" << ppArgs[startOpt]
+                                << "' is ambiguous\n";
+                           return '?';
+                        } // end-else option ambigous
+                     } // endif option matches
                   } // end-while
 
-                  if (i == (unsigned int)-1) {         // No long-option found
-                     option = '?';
-                     cerr << name () << "-Error: Unrecognized option '"
-                          << pOptionParam << "'\n";
+                  if (found == (unsigned int)-1) {     // No long-option found
+                     cerr << name () << "-error: Unrecognized option '"
+                          << ppArgs[startOpt] << "'\n";
+                     return '?';
                    } // endif no longopt found
                   else {
-        	     option = longOpt[i].shortVal;
-        	     pOptionParam += strlen (pOptionParam);
+                     option = longOpt[found].shortVal;
+                     pOptionParam += len;
+                     if (*pOptionParam == '=')
+                       ++pOptionParam;
                   } // end-else long-option found
                } // endif no long-options defined
             }
