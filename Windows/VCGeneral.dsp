@@ -200,6 +200,10 @@ SOURCE=..\Common\Tokenize.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\VCGeneral.def
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\Version.cpp
 # End Source File
 # Begin Source File
