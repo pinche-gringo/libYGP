@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.20 2002/05/24 06:52:49 markus Exp $
+//$Id: ADate.cpp,v 1.21 2002/05/25 07:06:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -158,10 +158,6 @@ std::string ADate::toString (const char* format) const {
       struct tm tm (toStructTM ());
       strftime (szBuffer, sizeof (szBuffer), format, &tm);
    }
-
-   if (checkIntegrity ())
-      TRACE ("ADate::toString (const char*): Invalid ADate " << (int)day << '.'
-             << (int)month << '.' << year);
    return std::string (szBuffer);
 }
 

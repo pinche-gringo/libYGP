@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.12 2002/05/24 06:53:24 markus Exp $
+//$Id: ATime.cpp,v 1.13 2002/05/25 07:06:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -157,10 +157,6 @@ std::string ATime::toString (const char* format) const {
       struct tm tm (toStructTM ());
       strftime (szBuffer, sizeof (szBuffer), format, &tm);
    }
-
-   if (checkIntegrity ())
-      TRACE ("ATime::toString: Invalid ATime " << (int)hour << '.'
-             << (int)min_ << '.' << (char)sec);
    return szBuffer;
 }
 
