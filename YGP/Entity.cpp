@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.1 2002/03/23 19:13:06 markus Rel $
+//$Id: Entity.cpp,v 1.2 2002/07/15 21:08:59 markus Rel $
 
-//PROJECT     : Vocabulary
-//SUBSYSTEM   : General
+//PROJECT     : General
+//SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Anticopyright (A) 2002

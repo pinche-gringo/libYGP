@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.4 2002/05/24 06:52:49 markus Exp $
+//$Id: IDirSrch.cpp,v 1.5 2002/07/15 21:09:14 markus Exp $
 
 //PROJECT     : General
-//SUBSYSTEM   : DirSrch
+//SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
