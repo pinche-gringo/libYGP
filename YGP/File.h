@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.13 2002/12/07 23:33:26 markus Exp $
+//$Id: File.h,v 1.14 2002/12/25 05:09:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,8 +39,11 @@
 #if SYSTEM == UNIX
 #  if HAVE_DIRENT_H
 #     include <dirent.h>
+#     undef NAMLEN
 #     define NAMLEN(dirent) strlen((dirent)->d_name)
 #  else
+#     undef dirent
+#     undef NAMLEN
 #     define dirent direct
 #     define NAMLEN(dirent) (dirent)->d_namlen
 #     if HAVE_SYS_NDIR_H

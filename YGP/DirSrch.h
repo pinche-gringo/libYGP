@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.28 2002/12/07 22:10:08 markus Exp $
+//$Id: DirSrch.h,v 1.29 2002/12/25 05:09:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,8 +25,11 @@
 #if SYSTEM == UNIX
 #  if HAVE_DIRENT_H
 #     include <dirent.h>
+#     undef NAMLEN
 #     define NAMLEN(dirent) strlen((dirent)->d_name)
 #  else
+#     undef dirent
+#     undef NAMLEN
 #     define dirent direct
 #     define NAMLEN(dirent) (dirent)->d_namlen
 #     if HAVE_SYS_NDIR_H
