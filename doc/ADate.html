@@ -1,4 +1,4 @@
-<!-- $Id: ADate.html,v 1.3 2000/03/20 18:58:29 Markus Exp $ -->
+<!-- $Id: ADate.html,v 1.4 2000/03/21 22:42:12 Markus Exp $ -->
 
 <html>
   <head>
@@ -71,7 +71,7 @@
       <tr valign="top"><td>static <a href="ADate.html">ADate</a></td>
 	<td><a href="ADate.html#today">today</a></td><td>()</td></tr>
 
-      <tr valign="top"><td>char</td><td><a href="ADate.html#today">getDay</a>
+      <tr valign="top"><td>char</td><td><a href="ADate.html#getDay">getDay</a>
 	</td><td>() const</td></tr>
       <tr valign="top"><td>char</td>
 	<td><a href="ADate.html#getMonth">getMonth</a></td><td>() const</td></tr>
@@ -144,7 +144,7 @@
 	<td>(int year)</td></tr>
 
       <tr valign="top"><td>virtual int</td>
-	<td><a href="ADate.html#">checkIntegrity</a></td><td>() const</td></tr>
+	<td><a href="ADate.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
@@ -171,17 +171,18 @@
 
     <p><a name="ADate2"><i>ADate (bool now)</i> -
 	Constructor; depending on the parameter the date is either set to the
-        first of January, 1900 (now = false), or to the actual day (now = true).
+        first of January, 1900 (now = false), or to the current day (now = true).
       </a></p>
 
     <p><a name="ADate4"><i>ADate (char Day, char Month, int Year)</i>
 	- Constructor; sets the passed date. The date is undefined, if the
-	passed parameters represent no valid date.</a></p>
+	passed parameters represent no valid day.</a></p>
 
     <p><a name="ADate5"><i>ADate (const char* pDate)</i>
 	- Constructor; sets the passed date, which must be represented as
         <i>day.month.year</i>. If the buffer does not represent a valid day,
-	the date is set to undefined.</a></p>
+	the date is set to undefined. A NULL-pointer as parameter
+	is not permitted!</a></p>
 
     <p><a name="ADate6"><i>virtual ADate (std::string&amp; date)</i> -
 	- Constructor; sets the passed date, which must be represented as
@@ -225,12 +226,13 @@
     <p><a name="setMonth"><i>void setMonth (char Month)</i> - Sets the month to
 	the passed value. If the date is not valid, it is set to undefined.</a></p>
 
-    <p><a name="setYear"><i>void setYear (char Year)</i> - Sets the year to
+    <p><a name="setYear"><i>void setYear (int Year)</i> - Sets the year to
 	the passed value.</a></p>
 
     <h4>In- &amp; output, conversion</h4>
     <p><a name="readFromStream"><i>virtual void readFromStream (istream& in)</i>
-	- Reads data from a stream.</a></p>
+	- Reads a date as <i>day.month.year</i> from a stream. If the input is
+	not valid, the object is set to undefined.</a></p>
 
     <p><a name="toString"><i>virtual std::string toString () const</i> -
 	Converts the date into a string, in the format specified by the current
@@ -248,11 +250,12 @@
 	the date to a system-timestructure.</a></p>
 
     <h4>Query</h4>
-    <p><a name="getDay"><i>char getDay () const</i> - Queries the actual day.</a></p>
+    <p><a name="getDay"><i>char getDay () const</i> - Retrieves the day stored
+	in the object.</a></p>
 
-    <p><a name="getMonth"><i>char getMonth () const</i> - Queries the actual month.</a></p>
+    <p><a name="getMonth"><i>char getMonth () const</i> - Retrieves the month.</a></p>
 
-    <p><a name="getYear"><i>int getYear () const</i> - Queries the actual year.</a></p>
+    <p><a name="getYear"><i>int getYear () const</i> - Retrieves the  year.</a></p>
 
     <p><a name="today"><i>static ADate today ()</i> - Returns a date-object
 	representing the current day.</a></p>
@@ -299,26 +302,30 @@
 
     <p><a name="operatorl"><i>bool operator&lt; (const ADate&amp; other)</i> -
 	Compares two date-objects and returns true, if this is "older" (further
-	in the past) than other (e.g. "yesterday" &lt; "today" == true).</a></p>
+	in the past) than other (e.g. "yesterday" &lt; "today" == true).
+	Undefined values are considered as older than any other date.</a></p>
 
     <p><a name="operatorg"><i>bool operator&gt; (const ADate&amp; other)</i> -
 	Compares two date-objects and returns true, if this is "younger" (later
-	on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).</a></p>
+	on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).
+	Undefined values are considered as older than any other date.</a></p>
 
     <p><a name="operatorl="><i>bool operator&lt;= (const ADate&amp; other)</i> -
 	Compares two date-objects and returns true, if this is "older" (further
-	in the past) than other or equal to it (e.g. "yesterday" &lt; "today"
-	== true; two undefined values are also considered as equal).</a></p>
+	in the past) than other or equal to it (e.g. "yesterday" &lt;= "today"
+	== true; two undefined values are also considered as equal).
+	Undefined values are considered as older than any other date.</a></p>
 
-    <p><a name="operatorg="><i>bool operator&gt; (const ADate&amp; other)</i> -
+    <p><a name="operatorg="><i>bool operator&gt;= (const ADate&amp; other)</i> -
 	Compares two date-objects and returns true, if this is "younger" (later
-	on a time-line) than other or equal to it (e.g. "tomorrow" &gt; "today"
-	== true; two undefined values are also considered as equal).</a></p>
+	on a time-line) than other or equal to it (e.g. "tomorrow" &gt;= "today"
+	== true; two undefined values are also considered as equal).
+	Undefined values are considered as older than any other date.</a></p>
 
     <p><a name="compare"><i>long compare (const ADate&amp; other)</i> -
 	Returns the (approximated) difference in days between two dates. If
 	both dates are undefined, those difference is "0", if only this is
-	undefined the result is MINLONG and if other is undefined MAXLONG is
+	undefined the result is MINLONG; if other is undefined MAXLONG is
 	returned (-&gt; undefined dates are considered as (incredible)
 	old).</a></p>
 
@@ -348,5 +355,9 @@
     <p><a name="maxAdapt"><i>virtual bool maxAdapt ()</i> - Corrects the object
 	after overflows. If the object is integer after this operation, true 
 	is returned.</a></p>
+
+    <p><a name="checkIntegrity"><i>virtual int checkIntegrity () const</i> -
+	Checks if this object represents a valid date. Note: Even undefined
+	dates have valid values!</a></p>
   </body>
 </html>
