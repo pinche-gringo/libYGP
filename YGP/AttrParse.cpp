@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.5 2002/05/24 06:52:49 markus Rel $
+//$Id: AttrParse.cpp,v 1.6 2002/12/01 08:37:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include "Check.h"
 #include "Trace_.h"
 #include "Internal.h"
 #include "AssParse.h"
@@ -45,18 +46,17 @@ AttributeParse::~AttributeParse () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds an attribute to the request
 //Parameters: attribute: Attribute to add
-//Throws    : In the debug-versions an exception is thrown, it the attribute
-//            already exists
+//Remarks   : In the debug version a message is shown, if the attribute already exists
 /*--------------------------------------------------------------------------*/
-void AttributeParse::addAttribute (IAttribute& attribute) throw (std::string) {
+void AttributeParse::addAttribute (IAttribute& attribute) {
    TRACE5 ("AttributeParse::addAttribute (IAttribute&) - "
            << attribute.getName ());
 
-#ifndef NDEBUG
+#if CHECK > 1
    if (findAttribute (attribute.getName ())) {
       std::string error (_("Attribute '%1' already exists"));
       error.replace (error.find ("%1"), 2, attribute.getName ());
-      throw (error);
+      CheckMsg (0, error);
    }
 #endif
 
@@ -64,7 +64,7 @@ void AttributeParse::addAttribute (IAttribute& attribute) throw (std::string) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find an attribute with the passed name in the request
+//Purpose   : Searches for an attribute with the passed name.
 //Parameters: name: Name of attribute to find
 //Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
@@ -78,7 +78,7 @@ const IAttribute* AttributeParse::findAttribute (const char* name) const {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find an attribute with the passed name in the request
+//Purpose   : Searches for an attribute with the passed name.
 //Parameters: name: Name of attribute to find
 //Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
@@ -92,8 +92,12 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tries to assign the passed values to the stored attributes
+//Purpose   : Assigns the values from the passed string to the attribute-
+//            values stored inside the object. If the name does not match none
+//            of the attributes or the value does not fit to the type,
+//            an exception is thrown.
 //Parameters: name: Name of attribute to find
+//Throws    : std::string in case of an unknown name or an invalid value
 /*--------------------------------------------------------------------------*/
 void AttributeParse::assignValues (const std::string& values) const throw (std::string) {
    TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
