@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.6 2000/02/06 22:12:40 Markus Exp $
+// $Id: XStrBuf.h,v 1.7 2000/02/06 22:29:53 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ struct extStreambuf : public streambuf {
    typedef streambuf parent;
 
    // Manager-functions
+   extStreambuf ();
    extStreambuf (streambuf& source);
    virtual ~extStreambuf ();
 
@@ -42,6 +43,10 @@ struct extStreambuf : public streambuf {
    virtual int overflow (int ch);
    virtual int underflow ();
    virtual int pbackfail (int c);
+
+   // Setting of data-sink
+   void setSource (streambuf* source) { assert (pSource); pSource = source; }
+   void setSource (streambuf& source) { pSource = &source; }
 
    // Accessing values
    unsigned int getLine () const { return line; }
@@ -55,7 +60,6 @@ struct extStreambuf : public streambuf {
 
  private:
    // Prohibited manager functions
-   extStreambuf ();
    extStreambuf (const extStreambuf&);
    const struct extStreamBuf& operator= (const extStreambuf&);
 
