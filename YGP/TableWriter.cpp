@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.1 2004/11/27 22:35:02 markus Exp $
+//$Id: TableWriter.cpp,v 1.2 2004/11/28 01:01:30 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004
@@ -90,8 +90,8 @@ std::string TableWriter::changeSpecialFileChars (const std::string& val) const {
 /// \param ctrl: Control character
 /// \param extend: Flag, if special formatting of substitute is wanted
 //-----------------------------------------------------------------------------
-std::string TableWriter::getSubstitute (const char ctrl, bool extend) const {
-   return "";
+std::string TableWriter::getSubstitute (char ctrl, bool extend) const {
+   return std::string (1, ctrl);
 }
 
 //-----------------------------------------------------------------------------

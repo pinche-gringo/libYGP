@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.1 2004/11/27 22:35:02 markus Exp $
+//$Id: TableWriter.h,v 1.2 2004/11/28 01:01:30 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,8 +18,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <string.h>
-
 #include <string>
 #include <iosfwd>
 
@@ -28,7 +26,27 @@
 
 namespace YGP {
 
-// Baseclass of output classes
+/**Baseclass to write tabular information.
+
+   The format of the table is specified at construction time as a string of
+   column values, separated by the pipe symbol (|).
+
+   Within those column-values a substitution can be performed (to be
+   implemented by derived classes) by %x (simple substitution) or %*x
+   (extended substitution) control sequences (the default action is to
+   simply remove those characters).
+
+   The difference between simple and extended substitution depends on
+   the implementing classes; e.g. a class could decide to substitute
+   %d with a date and %*d with date and time.
+
+   The whole table can have a leading header (similar specified as a list of
+   values, separated by the pipe symbol (|)).
+
+   It is possible to iterate over the columns with the getNextNode,
+   which returns exactly that: The next column, in which control
+   sequences have already been substituted.
+ */
 class TableWriter {
  public:
    TableWriter (const std::string& format);
@@ -46,14 +64,17 @@ class TableWriter {
    unsigned int columns () const;
 
    std::string getNextNode () const;
-   virtual std::string getSubstitute (const char ctrl, bool extend = false) const;
+   virtual std::string getSubstitute (char ctrl, bool extend = false) const;
 
  private:
    YGP::Tokenize columns_;
 };
 
 
-// Class to write fileinfo in HTML format
+/**Class to write tabular information in HTML format.
+
+   See TableWriter for further details.
+ */
 class HTMLWriter : public TableWriter {
  public:
    HTMLWriter (const std::string& format)
@@ -71,7 +92,10 @@ class HTMLWriter : public TableWriter {
 };
 
 
-// Class to write fileinfo in XML format
+/**Class to write tabular information in XML format.
+
+   See TableWriter for further details.
+ */
 class XMLWriter : public HTMLWriter {
  public:
    XMLWriter (const std::string& format) : HTMLWriter (format) { }
@@ -85,7 +109,10 @@ class XMLWriter : public HTMLWriter {
 };
 
 
-// Class to write fileinfo in text format
+/**Class to write tabular information in text format.
+
+   See TableWriter for further details.
+ */
 class TextWriter : public TableWriter {
  public:
    TextWriter (const std::string& format) : TableWriter (format) { }
@@ -99,7 +126,10 @@ class TextWriter : public TableWriter {
 
 
 
-// Class to write fileinfo in LaTeX format
+/**Class to write tabular information in LaTeX format.
+
+   See TableWriter for further details.
+ */
 class LaTeXWriter : public TableWriter {
  public:
    LaTeXWriter (const std::string& format) : TableWriter (format) { }
