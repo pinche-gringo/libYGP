@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.8 2004/10/24 00:24:53 markus Exp $
+//$Id: MessageDlg.cpp,v 1.9 2004/12/29 18:16:50 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : MessageDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -70,8 +70,8 @@ MessageDlg::~MessageDlg () {
 
 
 //----------------------------------------------------------------------------
-/// Converts 
-/// \param tp: Type of the StatusObject to display 
+/// Converts the type of the StatusObject to the type of the messagebox
+/// \param tp: Type of the StatusObject to display
 /// \return Gtk::MessageType: Type of message to display
 //----------------------------------------------------------------------------
 Gtk::MessageType MessageDlg::getButtonType (YGP::StatusObject::type tp) {
