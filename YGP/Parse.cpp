@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.32 2002/12/14 22:46:14 markus Exp $
+//$Id: Parse.cpp,v 1.33 2002/12/25 05:11:04 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -50,7 +50,7 @@ static map<unsigned long, std::string> buffers;
 
 
 void ParseObject::freeBuffer () {
-   buffers.erase (buffers.find (Thread::currentID ()));
+   buffers.erase (Thread::currentID ());
 }
 
 static char ESCAPE = '\\';
