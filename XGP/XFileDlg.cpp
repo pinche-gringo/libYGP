@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.26 2004/10/24 00:24:53 markus Exp $
+//$Id: XFileDlg.cpp,v 1.27 2004/12/05 03:33:22 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -32,8 +32,8 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/messagedialog.h>
 
-#include "YGP/Trace.h"
 #include "YGP/Check.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 
 #include "XGP/XFileDlg.h"
@@ -48,15 +48,17 @@ namespace XGP {
 /// \param dlgOption: Checks to perform after selecting OK
 //-----------------------------------------------------------------------------
 IFileDialog::IFileDialog (const Glib::ustring& title,
-                          Gtk::FileChooserAction action, option dlgOption)
+                          Gtk::FileChooserAction action, unsigned int dlgOption)
    : Gtk::FileChooserDialog (title, action), opt (dlgOption) {
-   TRACE9 ("IFileDialog::IFileDialog (const Glib::ustring&, Gtk::FileChooserAction, option)");
+   TRACE9 ("IFileDialog::IFileDialog (const Glib::ustring&, Gtk::FileChooserAction, unsigned int)");
 
    add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
    add_button ((action == Gtk::FILE_CHOOSER_ACTION_SAVE)
                ? Gtk::Stock::SAVE : Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
 
    modal = false;
+   set_select_multiple (dlgOption & MULTIPLE);
+   opt = opt & ~MULTIPLE;
    show ();
 }
 
@@ -79,41 +81,38 @@ void IFileDialog::on_response (int cmd) {
 
    switch (cmd) {
    case Gtk::RESPONSE_OK: {
-      std::string filename (get_filename ());
-      TRACE8 ("IFileDialog::on_response (int) - File selected: " << filename);
+      const Glib::SListHandle<Glib::ustring> files (get_filenames ());
+      for (Glib::SListHandle<Glib::ustring>::const_iterator i (files.begin ());
+	   i != files.end (); ++i) {
+	 std::string filename (*i);
+	 TRACE8 ("IFileDialog::on_response (int) - File selected: " << filename);
 
-      if (opt != NONE) {
-	 struct stat fileInfo;
-	 int rc (stat (filename.c_str (), &fileInfo));         // Get fileinfo
+	 if (opt != NONE) {
+	    struct stat fileInfo;
+	    int rc (stat (filename.c_str (), &fileInfo));       // Get fileinfo
 
-         switch (opt) {
-	 case MUST_EXIST:
-            if (rc) {                // File does not exist: Show msg and exit
-               std::string err (_("File `%1' does not exist!"));
-               err.replace (err.find ("%1"), 2, filename);
-               Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
-               msg.run ();
-               return;
-            }
-            break;
+	    if (opt & MUST_EXIST)
+	       if (rc) {              // File does not exist: Show msg and exit
+		  std::string err (_("File `%1' does not exist!"));
+		  err.replace (err.find ("%1"), 2, Glib::locale_to_utf8 (filename));
+		  Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
+		  msg.run ();
+		  return;
+	       }
 
-         case ASK_OVERWRITE:
-            if (!rc) {
-               Glib::ustring msg (_("File `%1' exists! Overwrite?"));
-               msg.replace (msg.find ("%1"), 2, filename);
-               Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_QUESTION,
-                                       Gtk::BUTTONS_YES_NO);
-               if (dlg.run () != Gtk::RESPONSE_YES)
-                  return;
-            }
-            break;
+	    if (opt & ASK_OVERWRITE)
+	       if (!rc) {
+		  Glib::ustring msg (_("File `%1' exists! Overwrite?"));
+		  msg.replace (msg.find ("%1"), 2, Glib::locale_to_utf8 (filename));
+		  Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_QUESTION,
+					  Gtk::BUTTONS_YES_NO);
+		  if (dlg.run () != Gtk::RESPONSE_YES)
+		     return;
+	       }
+	 } // endif option set
 
-         default:
-            Check3 (0);
-	 } // end-switch option
-      } // endif option set 
-
-      fileSelected (filename);
+	 fileSelected (filename);
+      }
    }
 
    case Gtk::RESPONSE_CANCEL:
@@ -130,9 +129,11 @@ void IFileDialog::on_response (int cmd) {
 
 //-----------------------------------------------------------------------------
 /// Performs the dialog modaly
-/// \returns \c XDialog::OK, XDialog::CANCEL, depending on the user-input
+/// \returns std::string: The selected file
+/// \remarks: When executed modally, only the first file is returned
 //-----------------------------------------------------------------------------
 std::string IFileDialog::execModal () {
+   Check2 (!(opt % MULTIPLE));
    set_modal (modal = true);
    Gtk::Main::run ();
    std:: string file (modal ? get_filename () : "");
@@ -150,7 +151,7 @@ std::string IFileDialog::execModal () {
 //  \returns IFileDialog*: Pointer to created dialog
 //----------------------------------------------------------------------------
 IFileDialog* IFileDialog::create (const Glib::ustring& title,
-                                  Gtk::FileChooserAction action, option dlgOption) {
+                                  Gtk::FileChooserAction action, unsigned int dlgOption) {
    IFileDialog* dlg (new IFileDialog (title, action, dlgOption));
    dlg->signal_response ().connect (mem_fun (*dlg, &IFileDialog::free));
    return dlg;
