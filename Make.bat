@@ -13,7 +13,7 @@ Goto End
 :MSC
 Shift
 cd Windows
-Call NMake /f ..\Windows\Test.mak %1 %2 %3 %4 %5 %6 %7 %8 %9
+Call NMake /f VCGeneral.mak %1 %2 %3 %4 %5 %6 %7 %8 %9
 Goto End
 
 :End
