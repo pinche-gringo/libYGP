@@ -40,7 +40,7 @@
 #undef VERSION
 #endif
 
-/* Define the micro-version */
+/* Define the release number */
 #ifndef LIB_RELEASE
 #undef LIB_RELEASE
 #endif
@@ -273,6 +273,9 @@
 
 /* Define if integer division by zero raises signal SIGFPE. */
 #undef INTDIV0_RAISES_SIGFPE
+
+/* Name of the libYGP-package */
+#undef LIBYGP_NAME
 
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. */
 #undef PRI_MACROS_BROKEN
