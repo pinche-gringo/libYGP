@@ -1,11 +1,11 @@
-// $Id: ADate.cpp,v 1.4 2002/11/04 01:04:38 markus Rel $
+// $Id: ADate.cpp,v 1.5 2002/12/15 22:31:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -68,6 +68,9 @@ int main (int argc, char* argv[]) {
    check (!past.isLeapYear ());
    past.add (0, 0, 4);
    check (past.isLeapYear ());
+
+   std::string out (past.toString ());
+   check (out.size () == 8);
    
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
