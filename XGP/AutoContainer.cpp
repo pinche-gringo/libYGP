@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.2 2003/11/12 23:37:46 markus Exp $
+//$Id: AutoContainer.cpp,v 1.3 2003/11/14 00:23:54 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -27,12 +27,10 @@
 
 #include <gtk/gtkmain.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include "AutoContainer.h"
+#include "XGP/AutoContainer.h"
 
 
 #include <gtkmm/label.h>
