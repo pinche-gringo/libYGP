@@ -1,11 +1,11 @@
-// $Id: PathDirSrch.cpp,v 1.1 2001/08/27 15:24:30 markus Exp $
+// $Id: PathDirSrch.cpp,v 1.2 2001/10/02 23:05:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -35,18 +35,17 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    cout << "Testing PathDirectorySearch...\n";
-   dirEntry file;
 #if SYSTEM == UNIX
    PathDirectorySearch pds (".:../../X-windows", "Makefile.*");
 #else
    PathDirectorySearch pds (".;..\\..\\X-windows", "Makefile.*");
 #endif
-   check (!pds.find (file, DirectorySearch::FILE_NORMAL
-                           | DirectorySearch::FILE_READONLY));
-   check (!pds.find ());
-   check (!pds.find ());
-   check (!pds.find ());
-   check (pds.find ());
+   check (pds.find (DirectorySearch::FILE_NORMAL
+                    | DirectorySearch::FILE_READONLY));
+   check (pds.next ());
+   check (pds.next ());
+   check (pds.next ());
+   check (!pds.next ());
 
    if (cErrors)
       cout << "Failures: " << cErrors << '\n';

@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.4 2001/09/08 13:42:13 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.5 2001/10/02 23:04:41 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -28,11 +28,11 @@
 #include <gzo-cfg.h>
 
 #define DEBUG 0
+#include "File.h"
 #include "Trace_.h"
 #include "Socket.h"
 #include "ATStamp.h"
 #include "DirSrch.h"
-#include "DirEntry.h"
 #include "ANumeric.h"
 #include "AttrParse.h"
 #include "AByteArray.h"
@@ -65,7 +65,6 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 //Returns   : Status (error) of last command
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
-   dirEntry   result;
    AByteArray data;
 
    DirectorySearch dirSrch;
@@ -83,13 +82,14 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
       }
 
       switch (i) {                                    // Perform passed command
-      case 0:                                                      // Find next
+      case 0: {                                                    // Find next
          TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find next");
-         i = dirSrch.find ();
-         if (i)
-            writeError (sock, i);
+         const File* file = dirSrch.next ();
+         if (file)
+            writeResult (sock, *file);
          else
-            writeResult (sock, result);
+            writeError (sock, i);
+         }
          break;
 
       case 1: {                                                   // Find first
@@ -116,11 +116,11 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 	 if (files.empty ())
 	    sock.write ("RC=99;E=No file specified");
 
-         i = dirSrch.find (files, result, attribs);
-         if (i)
-            writeError (sock, i);
+         const File* file = dirSrch.find (files, attribs);
+         if (file)
+            writeResult (sock, *file);
          else
-            writeResult (sock, result);
+            writeError (sock, i);
          }
          break;
 
@@ -152,7 +152,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 //Parameters: socket: Socket for communication
 //            result: Found file
 /*--------------------------------------------------------------------------*/
-void RemoteDirSearchSrv::writeResult (Socket& socket, const dirEntry& result) const
+void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
    throw (domain_error) {
    AByteArray write ("RC=0;File=\"");
    write += result.name ();

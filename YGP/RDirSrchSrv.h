@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.5 2001/09/29 17:10:24 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.6 2001/10/02 23:04:41 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 #include <gzo-cfg.h>
 
 
-class dirEntry;
 class AByteArray;
 
 
@@ -52,7 +51,7 @@ class RemoteDirSearchSrv {
    int performCommands (int socket) throw (domain_error);
 
  private:
-   void writeResult (Socket& socket, const dirEntry& result) const throw (domain_error);
+   void writeResult (Socket& socket, const File& result) const throw (domain_error);
    int  writeError (Socket& socket, int error) const throw (domain_error);
 };
 

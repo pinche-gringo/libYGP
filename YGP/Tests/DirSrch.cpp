@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.1 2001/08/27 15:24:29 markus Exp $
+// $Id: DirSrch.cpp,v 1.2 2001/10/02 23:05:04 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -26,16 +26,18 @@
 
 #include <iostream.h>
 
+#include <File.h>
 #include <DirSrch.h>
 
+#define VERBOSE
+#undef  VERBOSE
 #include "Test.h"
 
 
 int dirSearchRecursive (const char* pFile) {
    DirectorySearch ds (pFile ? "T*" : "D*");
-   dirEntry file;
 
-   if (ds.find (file, DirectorySearch::FILE_NORMAL))
+   if (!ds.find (DirectorySearch::FILE_NORMAL))
       return 1;
 
    return pFile ? dirSearchRecursive (NULL) : 0;
@@ -46,29 +48,28 @@ int main (int argc, char* argv[]) {
 
    cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
-   dirEntry file;
-   check (!ds.find ("T*", file, IDirectorySearch::FILE_NORMAL
-                                  | IDirectorySearch::FILE_READONLY));
-   check (!ds.find ());
+   check (ds.find ("T*", IDirectorySearch::FILE_NORMAL
+                         | IDirectorySearch::FILE_READONLY));
+   check (ds.next ());
 
-   check (!ds.find (".*", file, IDirectorySearch::FILE_DIRECTORY
-                                  | DirectorySearch::FILE_HIDDEN));
-   check (!ds.find ());
-   check (!ds.find ());
-   check (!ds.find ());
-   check (ds.find ());
+   check (ds.find (".*", IDirectorySearch::FILE_DIRECTORY
+                         | DirectorySearch::FILE_HIDDEN));
+   check (ds.next ());
+   check (ds.next ());
+   check (ds.next ());
+   check (!ds.next ());
 
-   check (!ds.find (".", file, DirectorySearch::FILE_DIRECTORY
-                               | IDirectorySearch::FILE_HIDDEN));
+   check (ds.find (".", DirectorySearch::FILE_DIRECTORY
+                        | IDirectorySearch::FILE_HIDDEN));
    std::string temp ("..");
-   temp += dirEntry::DIRSEPERATOR;
+   temp += File::DIRSEPERATOR;
    temp += "Tests";
-   check (!ds.find (temp.c_str (), file, IDirectorySearch::FILE_DIRECTORY));
-   check (ds.find ());
+   check (ds.find (temp.c_str (), IDirectorySearch::FILE_DIRECTORY));
+   check (!ds.next ());
 
    check (!dirSearchRecursive (NULL));
 
-   check (ds.find ("CVS", file, IDirectorySearch::FILE_NORMAL));
+   check (!ds.find ("CVS", IDirectorySearch::FILE_NORMAL));
 
    if (cErrors)
       cout << "Failures: " << cErrors << '\n';
