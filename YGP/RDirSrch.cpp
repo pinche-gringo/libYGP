@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.21 2003/06/19 22:49:36 markus Rel $
+//$Id: RDirSrch.cpp,v 1.22 2003/10/03 00:28:47 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -50,7 +50,7 @@ const char RemoteDirSearch::SEPARATOR = ':';
 /// The port-part of the srch-parameter can be both numeric or its equivalent
 /// textual representation (e.g.: \c 80 or \c http).
 /// \param srch: String identifying server/port and path to search;
-///                in a format <tt><server>:<path>:<port></tt>
+///                in a format <tt>\<server\>:\<path\>:\<port\></tt>
 /// \throw std::string: Containing error message in case of an error
 //----------------------------------------------------------------------------
 RemoteDirSearch::RemoteDirSearch (const std::string& srch) throw (std::domain_error)
@@ -70,7 +70,7 @@ RemoteDirSearch::RemoteDirSearch (const std::string& srch) throw (std::domain_er
 
 //----------------------------------------------------------------------------
 /// Constructor; sets the information for which files to search.
-/// \param srch: String identifying server and path to search; <server>:<path>
+/// \param srch: String identifying server and path to search; \<server\>:\<path\>
 /// \param port: Port number the server is listening at
 /// \throw std::string: Containing error message in case of an error
 //----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ RemoteDirSearch::RemoteDirSearch (const std::string& srch, unsigned int port)
 }
 
 //----------------------------------------------------------------------------
-///Destructor.
+/// Destructor.
 //----------------------------------------------------------------------------
 RemoteDirSearch::~RemoteDirSearch () {
    clearEntry ();
@@ -260,7 +260,7 @@ void RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string
 }
 
 //----------------------------------------------------------------------------
-/// Returns the position of the separator-character between server  name and
+/// Returns the position of the separator-character between server name and
 /// directory to analyze.
 /// \param dir: Directory whose validity should be checked.
 /// \return \c True if the remote directory does exist
@@ -279,10 +279,74 @@ int RemoteDirSearch::posSeparator (const std::string& dir) const {
 }
 
 //----------------------------------------------------------------------------
+/// Checks if the remote directory does exist.
+/// \return True if the remote directory does exist
+//----------------------------------------------------------------------------
+bool RemoteDirSearch::isOK (const std::string& answer) const {
+   return (answer.length () > 3)
+           && !strncmp (answer.data (), "RC=", 3) && (answer[3] == '0');
+}
+
+//-----------------------------------------------------------------------------
+/// Checks if the directory-part of the object specifies an existing directory.
+/// \return bool: True if the directory exists
+/// \throw std::domain_error in case of an error during the communication
+//-----------------------------------------------------------------------------
+bool RemoteDirSearch::isValid () const throw (std::domain_error) {
+   return const_cast<RemoteDirSearch*> (this)->isValid (files);
+}
+
+//----------------------------------------------------------------------------
+/// Sets the files to search for (including server and path where to search).
+/// The search-string must be in the format <tt>server:[path]files</tt>.
+/// \param search: Files to search for
+//----------------------------------------------------------------------------
+void RemoteDirSearch::setSearchValue (const std::string& search) {
+   TRACE9 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
+           << search);
+
+   unsigned int len (search.find (SEPARATOR));
+   Check1 (len != std::string::npos);
+   files = server = search;
+   server.replace (len, server.length (), 0, '\0');
+   files.replace (0, len + 1, 0, '\0');
+
+   len = files.length () - 1;
+   if (files[len] == File::DIRSEPARATOR)          // Remove trailing seperators
+      files.replace (len, 1, 0, '\0');
+
+   TRACE5 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
+           << "Server = " << server << "; Files = " << files);
+}
+
+//----------------------------------------------------------------------------
+/// Retrieves the directory-part of the files to search for (including server).
+/// \return std::string: Directory to search for
+//----------------------------------------------------------------------------
+std::string RemoteDirSearch::getDirectory () const {
+   std::string ret (server);
+   ret += SEPARATOR;
+
+   unsigned int pos (files.rfind (File::DIRSEPARATOR));
+   if (pos != std::string::npos)
+      ret += files.substr (0, pos + 1);
+
+   return ret;
+ }
+
+//----------------------------------------------------------------------------
+/// Retrieves the name of the files to search.
+/// \return std::string: Files to find
+//----------------------------------------------------------------------------
+std::string RemoteDirSearch::getFileSpec () const {
+   return files.substr (files.rfind (File::DIRSEPARATOR) + 1);
+}
+
+//----------------------------------------------------------------------------
 /// Checks if the passed string specifies an existing directory (on the server).
 /// \param dir: Directory (without server-part) whose validity should be checked.
-/// \return \c bool: True if the directory exists
-/// \throw std::domain_error in case of an error during the communication
+/// \return bool: True if the directory exists.
+/// \throw std::domain_error in case of an error during the communication.
 //----------------------------------------------------------------------------
 bool RemoteDirSearch::isValid (const std::string& dir) throw (std::domain_error) {
    TRACE5 ("RemoteDirSearch::isValid (const std::string&) - " << dir);
@@ -301,69 +365,4 @@ bool RemoteDirSearch::isValid (const std::string& dir) throw (std::domain_error)
            << OK.data ());
 
    return isOK (OK);
-}
-
-//----------------------------------------------------------------------------
-/// Checks if the directory-part of the object specifies an existing directory.
-/// \return \c bool: True if the directory exists
-/// \throw std::domain_error in case of an error during the communication
-//----------------------------------------------------------------------------
-bool RemoteDirSearch::isValid () const throw (std::domain_error) {
-   return const_cast<RemoteDirSearch*> (this)->isValid (files);
-}
-
-//----------------------------------------------------------------------------
-/// Checks if the remote directory does exist.
-/// \return \c True if the remote directory does exist
-//----------------------------------------------------------------------------
-bool RemoteDirSearch::isOK (const std::string& answer) const {
-   return (answer.length () > 3)
-           && !strncmp (answer.data (), "RC=", 3) && (answer[3] == '0');
-}
-
-//----------------------------------------------------------------------------
-/// Sets the files to search for (including server and path where to search).
-///
-/// The search-string must be in the format <tt>server:[path]files</tt>.
-/// \param search: Files to search for
-//----------------------------------------------------------------------------
-void RemoteDirSearch::setSearchValue (const std::string& search) {
-   TRACE9 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
-           << search);
-
-   unsigned int len (search.find (SEPARATOR));
-   Check1 (len != std::string::npos);
-   files = server = search;
-   server.replace (len, server.length (), 0, '\0');
-   files.replace (0, len + 1, 0, '\0');
-
-   len = files.length () - 1;
-   if (files[len] == File::DIRSEPARATOR)     // Remove trailing seperators
-      files.replace (len, 1, 0, '\0');
-
-   TRACE5 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
-           << "Server = " << server << "; Files = " << files);
-}
-
-//----------------------------------------------------------------------------
-/// Retrieves the directory-part of the files to search for (including server).
-/// \return \c std::string: Directory to search for
-//----------------------------------------------------------------------------
-std::string RemoteDirSearch::getDirectory () const {
-   std::string ret (server);
-   ret += SEPARATOR;
-
-   unsigned int pos (files.rfind (File::DIRSEPARATOR));
-   if (pos != std::string::npos)
-      ret += files.substr (0, pos + 1);
-
-   return ret;
- }
-
-//----------------------------------------------------------------------------
-/// Retrieves the name of the files to search.
-/// \return \c std::string: Files to find
-//----------------------------------------------------------------------------
-std::string RemoteDirSearch::getFileSpec () const {
-   return files.substr (files.rfind (File::DIRSEPARATOR) + 1);
 }
