@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.26 2005/01/24 17:12:18 markus Exp $
+//$Id: XApplication.h,v 1.27 2005/01/31 15:40:44 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -81,8 +81,6 @@ class XApplication : public Gtk::Window {
    static void initI18n (const char* package, const char* dir);
 
  protected:
-   enum { ABOUT = 1, CONTENT, CONFIGUREBROWSER, LAST };
-
    typedef YGP::SmartPtr<Gtk::VBox>    PVBox;     ///< Smart pointer for a vbox
 
    virtual void setIconProgram (const char* const* iconData);
