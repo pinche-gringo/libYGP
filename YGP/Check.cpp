@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.9 2003/02/03 03:53:07 markus Exp $
+//$Id: Check.cpp,v 1.10 2003/03/03 05:55:45 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -34,38 +34,37 @@
 
 
 #if SYSTEM == UNIX
-#  ifdef HAVE_GTKMM
-#     include <dlfcn.h>
-#     include <gtk--/main.h>
-#     include <../X-windows/XMessageBox.h>
+#  ifdef HAVE_GTK
+#     include <gtk/gtkmain.h>
+#     include <gtk/gtk.h>
 
       typedef int (*PFNCMSGBOX)(const char*, const char*, int, unsigned int);
 
       inline bool show (const char* expr, const char* title) {
-         if (!Gtk::Main::instance ()) {
-            // Don't delete this instance, as else a second Check couldn't
-            // display a message box
-            new Gtk::Main (0, NULL);
+         static bool toInit (true);
+         static bool gtkOK (false);
+
+         if (toInit) {
+            gtkOK = gtk_init_check (NULL, NULL);
+            toInit = false;
          }
 
-         void* hDLL (dlopen ("libXAppl.so", 0x00001));
-         if (hDLL) {
-            PFNCMSGBOX pFnc ((PFNCMSGBOX)dlsym (hDLL, "showMessageBox"));
-            if (pFnc) {
-               bool rc (pFnc (expr, title,
-                              XMessageBox::CRITICAL | XMessageBox::OKCANCEL, 0)
-                        != XMessageBox::OK);
-               dlclose (hDLL);
-               return rc;
-            }
+         if (gtkOK) {
+            GtkWidget* mbox (gtk_message_dialog_new (NULL,
+                                                     GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                     GTK_MESSAGE_ERROR,
+                                                     GTK_BUTTONS_OK_CANCEL,
+                                                     expr));
+            gint rc (gtk_dialog_run (GTK_DIALOG (mbox)));
+            gtk_widget_destroy (mbox);
+            return rc != GTK_RESPONSE_OK;
          }
-         cerr << PACKAGE "-error: Couldn't display message box! " << dlerror () << '\n';
 #  else
       inline bool show (const char* expr, const char*) {
 #  endif
-         cerr << "Assertion failed! Continue y/n? ";
+         std::cerr << "Assertion failed! Continue y/n? ";
          char ch;
-         cin >> ch;
+         std::cin >> ch;
          return (ch != 'y') && (ch != 'Y'); }
 #elif SYSTEM == WINDOWS
 #  define WIN32_LEAN_AND_MEAN
