@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.10 2003/02/03 03:50:33 markus Exp $
+//$Id: XMessageBox.h,v 1.11 2003/02/18 03:01:09 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -60,6 +60,9 @@ namespace Gtk {
 //   - OKCANCEL
 //   - RETRYCANCEL
 //   - OKRETRYCANCEL
+//
+// If there is a cancel button, the dialog can also be closed by pressing the
+// ESC-key.
 class XMessageBox : public Gtk::Dialog {
  public:
    enum options { INFO, QUESTION, WARNING, ERROR, CRITICAL,
