@@ -1,7 +1,7 @@
 #ifndef SORTDIRSRCH_H
 #define SORTDIRSRCH_H
 
-//$Id: SortDirSrch.h,v 1.1 2005/03/06 03:38:13 markus Exp $
+//$Id: SortDirSrch.h,v 1.2 2005/03/07 22:31:41 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,15 +50,23 @@ class File;
 template <class Parent = YGP::DirectorySearch>
 class SortedDirSearch : public Parent {
  public:
-   typedef enum { SORT_NAME, SORT_SIZE, SORT_TIME } Sort;
-
-   SortedDirSearch (Sort sort = SORT_NAME) : Parent (), inFirstFind (false), sort (sort) { }
-   SortedDirSearch (const std::string& search, Sort sort = SORT_NAME)
-      : Parent (search), inFirstFind (false), sort (sort)  { }
-   virtual ~SortedDirSearch () { }
+   SortedDirSearch () : Parent (), inFirstFind (false) { }
+   SortedDirSearch (const std::string& search)
+      : Parent (search), inFirstFind (false) { }
+   virtual ~SortedDirSearch () {
+      for (std::vector<File*>::iterator i (result.begin ()); i != result.end (); ++i)
+         delete *i;
+   }
 
    /// \name Searching
    //@{
+   /// Returns the first found file matching \c spec, having the attributes \c
+   /// \param spec: Files to search for
+   /// \param attribs: Attributes the searched files must have
+   /// attribs
+   virtual const File* find (const std::string& spec, unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
+      Parent::setSearchValue (spec);
+      return find (attribs); }
    /// Searches for previously specified files with the passed attributes.
    /// \param attribs: Attributes the searched files must have
    /// \returns <tt>const File*</tt>: Pointer to found file or NULL
@@ -66,11 +74,10 @@ class SortedDirSearch : public Parent {
       inFirstFind = true;
       const File* file (Parent::find (attribs));
       inFirstFind = false;
-      while (file = Parent::next ()) {
-	 std::cout << "Founding: " << file->name () << '\n';
+      while (file) {
 	 result.push_back (new YGP::File (*file));
+	 file = Parent::next ();
       } // endwhile
-      std::cout << "Files: " << result.size () << '\n';
 
       std::sort (result.begin (), result.end (), &SortedDirSearch::compareFiles);
       return result.size () ? *result.begin () : NULL;
@@ -101,7 +108,6 @@ class SortedDirSearch : public Parent {
    const SortedDirSearch& operator= (const SortedDirSearch& other);
 
    bool inFirstFind;
-   Sort sort;
    std::vector<File*> result;
 };
 
