@@ -12,7 +12,7 @@ includedir = ${prefix}/include/XGP
 include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
 	XFileList.h XDate.h XFileDlg.h XPrintDlg.h XAttrLabel.h	XDialog.h \
 	XAttrEntry.h Folder.h XAttribute.h ConnectDlg.h HTMLViewer.h \
-	GTKViewer.h AutoContainer.h MessageDlg.h LoginDlg.h
+	GTKViewer.h AutoContainer.h MessageDlg.h LoginDlg.h XValue.h
 
 libXGP_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 	Version.cpp XFileList.cpp XDate.cpp XFileDlg.cpp XPrintDlg.cpp \
