@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.21 2002/12/07 23:27:36 markus Rel $
+//$Id: PathDirSrch.cpp,v 1.22 2003/02/13 06:56:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -57,12 +57,12 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
            << searchPath << " -> " << srch);
    Check1 (checkIntegrity () <= DirectorySearch::LAST);
 
-   const File* rc = NULL;
+   const File* rc;
    do {
       // Build filename with next (= first on first call) node of path
       std::string node = searchPath.getNextExpandedNode ();
       if (node.empty ()) {
-	 clearEntry ();
+         clearEntry ();
          return NULL;
       }
 
