@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.3 2002/07/12 16:42:02 markus Exp $
+# $Id: Makefile.in,v 1.4 2002/07/15 21:01:03 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -58,19 +58,21 @@ LTCORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFL
 LTCORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 
 
-PROGRAMS=Local Remote
+SOURCES=RFile.cpp Local.cpp Remote.cpp
+PROGRAMS=RFile Local Remote
 
+RFILE_OBJS=RFile.o
 LOCAL_OBJS=Local.o
 REMOTE_OBJS=Remote.o
 
-DISTFILES=Local.cpp Remote.cpp Makefile.in
+DISTFILES=$(SOURCES) Makefile.in
 
 all: Makefile $(PROGRAMS)
 
 
 
 # Settings for dependencies
-DEP_FILES =  .deps/Local.P .deps/Remote.P
+DEP_FILES =  .deps/Local.P .deps/Remote.P .deps/RFile.P
 
 DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 
@@ -125,14 +127,19 @@ DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 	rm .deps/$(*F).pp
 
 
+RFile.o: RFile.cpp
+
 Local.o: Local.cpp
 
 Remote.o: Remote.cpp
 
-Local: $(LOCAL_OBJS)
+RFile: $(RFILE_OBJS) ../CDirSrch.o ../CIDirSrch.o
+	$(CORBALINK) $(RFILE_OBJS) ../CDirSrch.o ../CIDirSrch.o
+
+Local: $(LOCAL_OBJS) ../CDirSrch.o ../CIDirSrch.o
 	$(CORBALINK) $(LOCAL_OBJS) ../CDirSrch.o ../CIDirSrch.o
 
-Remote: $(REMOTE_OBJS)
+Remote: $(REMOTE_OBJS) ../CDirSrch.o ../CIDirSrch.o
 	$(CORBALINK) $(REMOTE_OBJS) ../CDirSrch.o ../CIDirSrch.o
 
 Makefile: Makefile.in $(top_builddir)/config.status
