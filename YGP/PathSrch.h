@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.8 2001/04/02 21:05:02 markus Exp $
+//$Id: PathSrch.h,v 1.9 2002/04/12 01:21:15 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <gzo-cfg.h>
 
 #include <Tokenize.h>
 
@@ -34,7 +36,7 @@ class PathSearch : public Tokenize {
    // Access to sub-nodes
    std::string getNextNode () { return Tokenize::getNextNode (PATHSEPERATOR); }
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    static const char PATHSEPERATOR = ':';
 #else
    static const char PATHSEPERATOR = ';';
