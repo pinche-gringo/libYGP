@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.13 2002/12/07 23:29:32 markus Exp $
+//$Id: File.cpp,v 1.14 2002/12/17 02:08:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -121,8 +121,8 @@ bool File::isExecuteable () const {
       for (i = 0; i < (sizeof (aexeExtensions) / sizeof (aexeExtensions[0])); ++i)
          if (*(unsigned int *)aexeExtensions[i] == *(unsigned int *)compExt)
             return true;
-      return false;
    }
+   return false;
 }
 
 /*--------------------------------------------------------------------------*/
