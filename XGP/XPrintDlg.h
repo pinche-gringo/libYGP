@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.8 2003/02/03 03:50:33 markus Exp $
+//$Id: XPrintDlg.h,v 1.9 2003/02/18 02:58:35 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 // Forward declarations
 #ifndef __STRING__
-class string
+class string;
 #endif
 
 class ofstream;
