@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.12 2000/02/24 23:46:14 Markus Exp $
+//$Id: DirSrch.h,v 1.13 2000/03/08 20:39:53 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include <time.h>
 #include <stddef.h>
+#include <string.h>
 #include <assert.h>
 
 #ifdef UNIX
@@ -88,6 +89,12 @@ typedef struct dirEntry {
      { time = *localtime (&status.st_mtime); }
    const unsigned long attributs () const { return status.st_mode; }
 
+   //@Section compare filename
+   int compare (const char* pszName) const { return strcmp (name (), pszName); }
+   int compare (const dirEntry& other) const { return strcmp (name (), other.name ()); }
+   int compare (const dirEntry* other) const { assert (other);
+      return strcmp (name (), other->name ()); }
+
    //@Section file-type
    bool isDirectory () const { return S_ISDIR (status.st_mode); }
    bool isExecuteable () const { return status.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH); }
@@ -116,6 +123,12 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    const time_t        time () const;
    void                time (struct tm& time) const;
    const unsigned long attributs () const { return dwFileAttributes; }
+
+   //@Section compare filename
+   int compare (const char* pszName) const { return stricmp (name (), pszName); }
+   int compare (const dirEntry& other) const { return stricmp (name (), other.name ()); }
+   int compare (const dirEntry* other) const { assert (other);
+      return stricmp (name (), other->name ()); }
 
    //@Section file-type
    bool isDirectory () const { return (dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
