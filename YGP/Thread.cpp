@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.14 2003/07/25 05:43:54 markus Rel $
+//$Id: Thread.cpp,v 1.15 2003/10/19 15:39:10 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -31,18 +31,14 @@
 
 #include "Internal.h"
 
-#include <errno.h>
+#include <cerrno>
+#include <cstdlib>
 
-#ifdef HAVE_LIBPTHREAD
-#  include <pthread.h>
+#if SYSTEM == UNIX
+#   include <unistd.h>
+#   include <sys/wait.h>
 #else
-#  if SYSTEM == UNIX
-#     include <unistd.h>
-#     include <sys/wait.h>
-#  else
-#     include <stdio.h>
-#  endif
-#include <stdlib.h>
+#   include <stdio.h>
 #endif
 
 #include "Check.h"
@@ -152,8 +148,7 @@ void Thread::ret (void* rc) const {
 //-----------------------------------------------------------------------------
 void Thread::cancel () {
 #ifdef HAVE_LIBPTHREAD
-   int rc (pthread_cancel (id));
-   Check3 (!rc);
+   pthread_cancel (id);
 #else
    canceled = true;
 #endif
@@ -178,7 +173,7 @@ void Thread::allowCancelation (bool allow) {
 //-----------------------------------------------------------------------------
 void* Thread::waitForThread (const Thread& id) {
 #ifndef HAVE_BEGINTHREAD
-   return waitForThread (id.id);
+    return waitForThread ((unsigned long)id.id);
 #else
    waitForThread (id.id);
    return rcs[id.id];
@@ -195,7 +190,7 @@ void* Thread::waitForThread (unsigned long id) {
 
 #ifdef HAVE_LIBPTHREAD
    void* rc (NULL);
-   pthread_join (id, &rc);
+   pthread_join ((pthread_t)id, &rc);
    return rc;
 #elif defined HAVE_BEGINTHREAD
    mutexes[id].lock ();

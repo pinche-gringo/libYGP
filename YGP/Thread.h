@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.14 2003/10/02 22:59:38 markus Rel $
+//$Id: Thread.h,v 1.15 2003/10/19 15:39:10 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,9 +27,13 @@
    typedef void* (WINTHREAD_FUNCTION) (void*);
 #endif
 
-#if !defined (HAVE_LIBPTHREAD) && !defined (HAVE_BEGINTHREAD)
-#  include <unistd.h>
-#  include <sys/types.h>
+#ifdef HAVE_LIBPTHREAD
+#  include <pthread.h>
+#else
+#  if !defined (HAVE_BEGINTHREAD)
+#    include <unistd.h>
+#    include <sys/types.h>
+#  endif
 #endif
 
 #include <string>
@@ -75,15 +79,15 @@ class Thread {
    //@}
 
    /// Get the ID of the thread
-   unsigned long getID () const { return id; }
+   unsigned long getID () const { return (unsigned long)id; }
    /// Get the ID of the currently running thread
    static unsigned long currentID () {
 #ifdef HAVE_LIBPTHREAD
-      return pthread_self ();
+      return (unsigned long)pthread_self ();
 #elif defined HAVE_BEGINTHREAD
-      return GetCurrentThreadId ();
+      return (unsigned long)GetCurrentThreadId ();
 #else
-      return getpid ();
+      return (unsigned long)getpid ();
 #endif
    }
 
