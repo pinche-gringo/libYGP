@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.30 2003/03/06 04:16:02 markus Exp $
+//$Id: ANumeric.cpp,v 1.31 2003/05/23 17:48:51 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -32,8 +32,10 @@
 #include <gzo-cfg.h>
 
 #ifndef HAVE_LIBGMP
-#  include <ctype.h>
-#  include <stdlib.h>
+#  include <cctype>
+#  include <cstdlib>
+
+#  include <sstream>
 #else
 #  if HAVE_STRFMON
 #    include <monetary.h>
@@ -41,7 +43,6 @@
 #endif
 
 #include <string>
-#include <sstream>
 #include <stdexcept>
 
 #include "Check.h"
@@ -139,7 +140,7 @@ std::string ANumeric::toUnformattedString () const {
       char* pString (mpz_get_str (NULL, 10, value)); Check3 (pString);
 #else
       char* pString = new char [40];
-      std::ostrstream ostr (pString, 16);
+      std::ostringstream ostr (pString, 16);
       ostr << value << '\0';
 #endif
       TRACE1 ("ANumeric::toUnformatedString -> value = " << pString);
