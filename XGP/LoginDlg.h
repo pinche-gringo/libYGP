@@ -1,7 +1,7 @@
 #ifndef LOGINDLG_H
 #define LOGINDLG_H
 
-//$Id: LoginDlg.h,v 1.2 2004/10/16 19:16:03 markus Exp $
+//$Id: LoginDlg.h,v 1.3 2004/10/24 00:20:17 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@ class ILoginDialog : public XGP::XDialog {
    /// \param user: User to set in the dialog
    void setUser (const Glib::ustring& user) {
       txtUser->set_text (user);
+      txtUser->select_region (0, user.size ());
    }
    void setCurrentUser ();
 
@@ -52,8 +53,9 @@ class ILoginDialog : public XGP::XDialog {
    Gtk::Entry* txtUser;                ///< Textfield, where user enters the ID
    Gtk::Entry* txtPassword;      ///< Textfield, where user enters the password
 
- private:
    enum { LOGIN };
+
+ private:
 
    // Prohibited manager functions
    ILoginDialog (const ILoginDialog& other);
@@ -102,11 +104,14 @@ class TLoginDialog : public ILoginDialog {
    /// Callback after clicking on a button in the dialog
    /// \param id: ID of clicked button
    virtual void command (int id) {
-      Check3 (id == LOGIN);
-      Check3 (txtUser); Check3 (txtUser->get_text_length ());
-      Check3 (txtPassword);
-      if ((parent.*callback) (txtUser->get_text (), txtPassword->get_text ()))
-	 response (Gtk::RESPONSE_OK);
+      if (id == LOGIN) {
+	 Check3 (txtUser); Check3 (txtUser->get_text_length ());
+	 Check3 (txtPassword);
+	 if ((parent.*callback) (txtUser->get_text (), txtPassword->get_text ()))
+	    response (Gtk::RESPONSE_OK);
+      }
+      else
+	 XDialog::command (id);
    }
 
    T&        parent;
