@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ANumeric.html,v 1.13 2003/03/06 03:03:53 markus Exp $ -->
+<!-- $Id: ANumeric.html,v 1.14 2003/03/06 05:06:37 markus Rel $ -->
 
 <html>
   <head>
@@ -71,7 +71,22 @@
         <td><tt>()</tt>;</td></tr>
 
       <tr valign="top"><td></td>
+        <td><a href="ANumeric.html#operatorint"><span style="color:black"><b>operator</b></span></tt> <b>int</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="ANumeric.html#operatoruint"><span style="color:black"><b>operator</b></span></tt> <b>unsigned int</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td></td>
         <td><a href="ANumeric.html#operatorlongint"><span style="color:black"><b>operator</b></span></tt> <b>long int</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="ANumeric.html#operatorulongint"><span style="color:black"><b>operator</b></span></tt> <b>unsigned long int</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="ANumeric.html#operatorshortint"><span style="color:black"><b>operator</b></span></tt> <b>short int</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="ANumeric.html#operatorushortint"><span style="color:black"><b>operator</b></span></tt> <b>unsigned short int</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="ANumeric.html#operator!="><tt><span style="color:black"><b>operator</b></span></tt><tt>!=</tt></a></td>
@@ -432,9 +447,34 @@
 </dd></dl></dd>
     </dl>
     <hr>
+    <pre><a name="operatorint"></a><b>operator int</b> () const</pre>
+    <dl>
+      <dd><p>Converts the number into an integer.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatoruint"></a><b>operator unsigned int</b> () const</pre>
+    <dl>
+      <dd><p>Converts the number into an unsigned integer.</p></dd>
+    </dl>
+    <hr>
     <pre><a name="operatorlongint"></a><b>operator long int</b> () const</pre>
     <dl>
       <dd><p>Converts the number into a long integer.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorulongint"></a><b>operator unsigned long int</b> () const</pre>
+    <dl>
+      <dd><p>Converts the number into an unsigned long integer.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorshortint"></a><b>operator short int</b> () const</pre>
+    <dl>
+      <dd><p>Converts the number into a short integer.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorushortint"></a><b>operator unsigned short int</b> () const</pre>
+    <dl>
+      <dd><p>Converts the number into an unsigned short integer.</p></dd>
     </dl>
 
     <h3><span style="color:navy">Calculation</span></h3>
