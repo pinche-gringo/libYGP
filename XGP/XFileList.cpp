@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.3 2000/01/23 23:06:37 Markus Exp $
+//$Id: XFileList.cpp,v 1.4 2000/01/26 22:26:38 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -158,7 +158,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files) {
 
    Gtk_Pixmap* temp;
 
-   int rc (ds.find (file, FILE_NORMAL));
+   int rc (ds.find (file, DirectorySearch::FILE_NORMAL));
    while (!rc) {
       // Read icon-file and store it
       string filename (file.path ()); filename += file.name ();
