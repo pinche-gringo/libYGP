@@ -1,0 +1,40 @@
+dnl Process this file with autoconf to produce a configure script.
+
+AC_REVISION($Revision: 1.1 $)
+
+AC_INIT()
+
+MAJOR_VERSION=0
+MINOR_VERSION=1
+MICRO_VERSION=0
+VERSION=$MAJOR_VERSION.$MINOR_VERSION.$MICRO_VERSION
+RELEASE=$MAJOR_VERSION.$MINOR_VERSION
+AC_DEFINE_UNQUOTED(MICRO_VERSION, $MICRO_VERSION)
+AC_DEFINE(UNIX)
+AC_SUBST(VERSION)
+AC_SUBST(RELEASE)
+
+dnl AC_CANONICAL_SYSTEM
+
+AM_INIT_AUTOMAKE(General, $RELEASE)
+dnl AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CXX
+AC_LANG_CPLUSPLUS
+
+AC_C_CONST
+AC_C_BIGENDIAN
+
+dnl Checks for programs.
+AM_PROG_LIBTOOL
+
+dnl Checks for libraries.
+AC_CHECK_LIB(stdc++, main)
+
+dnl Checks for header files.
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+
+dnl Checks for library functions.
+
+AC_OUTPUT(Makefile)

@@ -1,0 +1,9 @@
+ ## Process this file with automake to produce Makefile.in
+
+LDADD = libPort.la
+
+lib_LTLIBRARIES=libPort.la
+noinst_PROGRAMS=Test
+Test_SOURCES=XStrBuf.cpp Test.cpp
+libPort_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
+	           ANumeric.cpp FileRExp.cpp

@@ -1,0 +1,11 @@
+                     General
+
+General library-functions
+ 
+Anti-Copyright (A) 1999 Markus Schwab <MarkusSchwab@HotMail.Com>
+
+//--------------------------------------------------
+How to build:
+
+./configure [--prefix=/usr]
+make
