@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.15 2003/12/10 00:19:37 markus Rel $
+//$Id: Log.h,v 1.16 2004/09/17 17:42:09 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,14 +34,14 @@
 
 namespace YGP {
 
-#define LOGEMERGENCY(text) YGP::Syslog::write (YGP::Syslog::EMERGENCY, text);
-#define LOGALERT(text)     YGP::Syslog::write (YGP::Syslog::ALERT, text);
-#define LOGCRITICAL(text)  YGP::Syslog::write (YGP::Syslog::CRITICAL, text);
-#define LOGERROR(text)     YGP::Syslog::write (YGP::Syslog::ERR, text);
-#define LOGWARNING(text)   YGP::Syslog::write (YGP::Syslog::WARNING, text);
-#define LOGNOTICE(text)    YGP::Syslog::write (YGP::Syslog::NOTICE, text);
-#define LOGINFO(text)      YGP::Syslog::write (YGP::Syslog::INFO, text);
-#define LOGDEBUG(text)     YGP::Syslog::write (YGP::Syslog::DEBUGGING, text);
+#define LOGEMERGENCY(text) YGP::Syslog::write (YGP::Syslog::EMERGENCY, text)
+#define LOGALERT(text)     YGP::Syslog::write (YGP::Syslog::ALERT, text)
+#define LOGCRITICAL(text)  YGP::Syslog::write (YGP::Syslog::CRITICAL, text)
+#define LOGERROR(text)     YGP::Syslog::write (YGP::Syslog::ERR, text)
+#define LOGWARNING(text)   YGP::Syslog::write (YGP::Syslog::WARNING, text)
+#define LOGNOTICE(text)    YGP::Syslog::write (YGP::Syslog::NOTICE, text)
+#define LOGINFO(text)      YGP::Syslog::write (YGP::Syslog::INFO, text)
+#define LOGDEBUG(text)     YGP::Syslog::write (YGP::Syslog::DEBUGGING, text)
 
 
 /**Class to perform some logging to either a log-file (if available) or to
