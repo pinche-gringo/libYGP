@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.9 2002/05/24 06:52:49 markus Rel $
+//$Id: RDirSrchSrv.h,v 1.10 2002/12/08 18:21:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include <assert.h>
 
 #include <gzo-cfg.h>
 
