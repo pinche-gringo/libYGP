@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.22 2002/05/24 06:52:49 markus Exp $
+//$Id: ANumeric.cpp,v 1.23 2002/05/25 07:07:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -41,8 +41,6 @@
 #  endif
 #endif
 
-#include <iomanip>
-#include <iostream.h>
 #if SYSTEM == UNIX || defined __GNUG__
 #  include <strstream.h>
 #else
