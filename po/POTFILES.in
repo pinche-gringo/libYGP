@@ -1,4 +1,4 @@
-# $Id: POTFILES.in,v 1.5 2003/10/19 04:43:39 markus Rel $
+# $Id: POTFILES.in,v 1.6 2003/11/03 04:49:35 markus Rel $
 #
 # List of source files containing translatable strings.
 #     
@@ -23,6 +23,7 @@ Common/Process.cpp
 X-windows/XPrintDlg.cpp
 X-windows/XFileDlg.cpp
 X-windows/XFileList.cpp
+X-windows/XFileList.h
 X-windows/XDialog.cpp
 X-windows/XAttrEntry.h
 X-windows/BrowserDlg.cpp
