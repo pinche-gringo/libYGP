@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.6 2003/07/03 04:46:23 markus Exp $
+//$Id: XDirSrch.h,v 1.7 2003/07/03 04:49:47 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -73,16 +73,24 @@ class XDirectorySearch : public Parent {
    //@{
    /// Adds files to include in the search. This files are added at the end
    /// of the previously specifed files (and are therefore less significant).
+   ///
+   /// The parameter can also contain a list of files, separated with the
+   /// character to separate paths of the operating system (the colon (:) in
+   /// UNIX; the semicolon (;) in DOS/WINDOZE.
    void addFilesToInclude (const std::string& spec) { _XDSaddNode (nodes, 'i', spec); }
    /// Adds files to exclude in the search. This files are added at the end
    /// of the previously specifed files (and are therefore less significant).
+   ///
+   /// The parameter can also contain a list of files, separated with the
+   /// character to separate paths of the operating system (the colon (:) in
+   /// UNIX; the semicolon (;) in DOS/WINDOZE.
    void addFilesToExclude (const std::string& spec) { _XDSaddNode (nodes, 'x', spec); }
    //@}
 
  protected:
-   /// Sets directly the node to handle. \c Spec must be in the right format
-   /// (e.g. every node must have a prefix (i or x) specifying if it should be
-   /// added or removed.
+   /// Sets directly the files to in- or exclude. \c Spec must be in the right
+   /// format (e.g. every node must have a prefix (i or x) specifying if it
+   /// should be added or removed.
    void setNodes (const std::string& spec) { nodes = spec; }
 
  private:
