@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: INIFile.html,v 1.4 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: INIFile.html,v 1.5 2002/12/01 08:36:18 markus Exp $ -->
 
 <html>
   <head>
@@ -92,11 +92,23 @@
     <hr noshade>
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="INIFile.html#INIFile1"><b>INIFile</b></a></td>
-        <td><tt>(const <font color="purple">char</font>* <font color="blue">name</font>) const throw (<font color="purple">std::string</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="INIFile.html#IFaddEntity"><b>addEntity</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">Entity</font></tt>&amp; <tt><font color="blue">obj</font></tt>, <a href="INIFile.html#INISection"><tt><font color="navy"><b>INISection</b></font></tt></a>& <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="INIFile.html#IFaddEntity2"><b>addEntity</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="navy">Entity</font></tt>&amp; <tt><font color="blue">obj</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
         <td><a href="INIFile.html#IFaddSection"><b>addSection</b></a></td>
         <td><tt>(<tt>const</tt> <a href="INIFile.html#INISection"><tt><font color="navy"><b>INISection</b></font></tt></a>&amp; <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="INIFile.html#INISection"><tt><font color="navy"><b>INISection</b></font></tt></a>*</tt> </td>
+        <td><a href="INIFile.html#IFaddSection2"><b>addSection</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><a href="XStream.html#Xifstream"><b>Xifstream</b></a></tt>&</tt> </td>
+        <td><a href="INIFile.html#IFgetFile"><b>getFile</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td></td><td><a href="INIFile.html#INIFile1"><b>INIFile</b></a></td>
+        <td><tt>(const <font color="purple">char</font>* <font color="blue">name</font>) const throw (<font color="purple">std::string</font>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
         <td><a href="INIFile.html#IFread"><b>read</b></a></td>
         <td><tt>() const throw (<font color="purple">std::string</font>&amp;)</tt>;</td></tr>
@@ -116,54 +128,121 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="INIFile1"></a>INIFile (const char* filename) throw (std::string)</pre>
+    <h3><font color="navy">Management functions</font></h3>
+    <pre><a name="INIFile1"></a><b>INIFile</b> (const char* filename) throw (std::string)</pre>
     <dl>
       <dd><p>Constructor; The parameter filename specifies the file to parse
 	  for initialization-information. If this file does not exist, an
-	  exception is thrown.</p>
-        <p><b>Note</b>: Depending on the operating system the filename might or
-	  might not be case-sensitive!
+	  exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of the INI file<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd><code>name</code> must be an ASCIIZ-string
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>string: If file couldn't be open a text describing the error
+</dd></dl></dd>
     </dl>
-    <pre><a name="~INIFile"></a>~INIFile ()</pre>
-
-   <pre><a name="IFaddSection"></a>void addSection (const <a href="INIFile.html#INISection">INISection</a>&amp; section)</pre>
+    <hr>
+    <pre><a name="~INIFile"></a> <b>~INIFile</b> () </pre>
     <dl>
-      <dd>
-	<p>Adds a section to the list of sections to parse. In the
-	  debug-version of the library (when the macro <i>NDEBUG</i> is
-	  defined) it is checked, if the name of the section is unique.
-	  Doubles are reported with an exception.</p></dd>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="IFaddSection"></a>void <b>addSection</b> (const INISection& section) </pre>
+    <dl>
+      <dd><p>Adds the passed section to the list of sections to parse.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>section</code>: Specification of the section<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="IFaddSection2"></a>INISection* <b>addSection</b> (const char* section) </pre>
+    <dl>
+      <dd><p>Adds a section to parse to the INI-file; does nothing if section already exists
+</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>section</code>: Name of the section<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>INISection*: Pointer to new (or existing) section
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="IFaddEntity"></a>void <b>addEntity</b> (const <a href="Entity.html"><b>Entity</b></a>& obj, <a href="INIFile.html#INISection"><b>INISection</b></a>& section) </pre>
+    <dl>
+      <dd><p>Adds all the attributes of the Entity to the passed section</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>obj</code>: Object whose attributes should be added<dd>
+          <dd><code>section</code>: Section where to add the attributes<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="IFaddEntity2"></a>void <b>addEntity</b> (const <a href="Entity.html"><b>Entity</b></a>& obj, const char* section) </pre>
+    <dl>
+      <dd><p>Adds all the attributes of the Entity to the passed section</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>obj</code>: Object whose attributes should be added<dd>
+          <dd><code>section</code>: Name of section (ASCIIZ string) where to add the attributes<dd>
+      </dl><dd>
     </dl>
 
-    <h4>Parsing</h4>
-    <pre><a name="IFread"></a>int read () throw (std::string)</pre>
+    <hr>
+    <pre><a name="IFgetFile"></a><a href="XStream.html#Xifstream"><b>Xifstream</b></a>&amp; <b>getFile</b> ()</pre>
     <dl>
-      <dd>
-	<p>Tries to read the INI-file from the file.</p>
+      <dd><p>Adds all the attributes of the Entity to the passed section</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd><a href="XStream.html#Xifstream"><b>Xifstream</b></a>&amp;: File which is parsed
+</dd></dl></dd>
+    </dl>
+
+    <h3><font color="navy">Parsing</font></h3>
+    <pre><a name="IFread"></a>int <b>read</b> () throw (std::string) </pre>
+    <dl>
+      <dd><p>Tries to read the INI-file from the file.</p>
 	<p>First the section header is parsed. If the name of the section from
 	  the file is found in the list of sections, those sections are parsed.</p>
-	<p>This step is repeated, til the end of the file is reached or a line
+	<p>This step is repeated, until the end of the file is reached or a line
 	  is found which is neither a section-header, nor an attribute.</p>
 	<p>The function returns ParseObject::PARSE_OK, if EOF is reached; else
 	  a non-zero value is returned or - depending on the error - an
 	  exception is thrown.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status of reading: <0 hard error; 0 OK, >0 soft error
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>string: Message describing error in case of an invalid value
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="IFfoundSection"></a>virtual int foundSection (const char* section)</pre>
+    <hr>
+    <pre><a name="IFfoundSection"></a>int <b>foundSection</b> (const char* section, unsigned int) </pre>
     <dl>
-      <dd>Callback if a section-header (to be exact: an identifier after the
+      <dd><p>Callback if a section-header (to be exact: an identifier after the
 	start-of-section character open bracket ([)) is found. The default
 	action is the check, if a section with the same name (case-sensitive!)
-	is found within the entries of the object. If yes, their attributes are
-	parsed.</dd>
+	is found within the entries of the object. If yes, its attributes are
+	parsed.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>section</code>: Name of found section<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: PARSE_OK, if name of <code>section</code> is OK, else ParseObject::PARSE_CB_ABORT.
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="IFfindSection"></a>const <a href="INIFile.html#INISection">INISection</a>* findSection (const char* name) const</pre>
+    <hr>
+    <pre><a name="IFfindSection"></a>const <a href="INIFile.html#INISection">INISection</a>* <b>findSection</b> (const char* name) const </pre>
     <dl>
-      <dd>Searches the entries of the INI-file-object for a section with the
+      <dd><p>Searches the entries of the INI-file-object for a section with the
 	passed name. If a matching entry is found, a pointer to it is returned;
-	else NULL.</dd>
+	else NULL.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of section to find<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Section*: Pointer to section or NULL (if not found)
+</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="INISection"></a>
@@ -240,109 +319,163 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="INISection2"></a>INISection (const char* name)</pre>
+    <h3><font color="navy">Management functions</font></h3>
+    <pre><a name="INISection2"></a><b>INISection</b> (const char* name)</pre>
     <dl>
-      <dd><p>Constructor; name is the name of the section and must not be NULL.</p></dd>
+      <dd><p>Constructor; name is the name of the section.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of section<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd><code>name</code> must be a valid ASCIIZ-string (not NULL).
+</dd></dl></dd>
     </dl>
-    <pre><a name="~INISection"></a>~INISection ()</pre>
+    <hr>
+    <pre><a name="~INISection"></a><b>~INISection</b> () </pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
 
-    <pre><a name="ISaddAttribute"></a>void addAttribute (const <a href="Attribute.html"><b>IAttribute</b></a>&amp; attribute) throw (std::string)</pre>
+    <pre><a name="ISaddAttribute"></a>void <b>addAttribute</b> (const <a href="Attribute.html"><b>IAttribute</b></a>&amp; attribute) </pre>
     <dl>
-      <dd><p>Adds an attribute to parse to the section. In the debug-version an
-	  exception is thrown, if an attribute with the same name already
-	  exists.</p></dd>
+      <dd><p>Adds an attribute to parse to the section</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>attribute</code>: Attribute to add<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="ISgetName"></a>const char* <b>getName</b> () const</pre>
+    <dl>
+      <dd><p>Returns the name of the section.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="ISmatches"></a>bool <b>matches</b> (const char* name) const</pre>
+    <dl>
+      <dd><p>Checks if the passed name matches (case-sensitive!) the name of the
+	section.</p></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="ISIAttribute*"></a>const IAttribute* <b>findAttribute</b> (const char* name) const </pre>
+    <dl>
+      <dd><p>Searches for an attribute matching the passed name. If such an
+	attribute is not found, NULL is returned.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of attribute to find<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>IAttribute*: Pointer to attribute or NULL (if not found)
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>name must not be a NULL pointer
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="ISfindAttribute2"></a>const IAttribute* <b>findAttribute</b> (const std::string&amp; name) const </pre>
+    <dl>
+      <dd><p>TriesSearches for an attribute matching the passed name. If such an
+	attribute is not found, NULL is returned.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of attribute to find<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>IAttribute*: Pointer to attribute or NULL (if not found)
+</dd></dl></dd>
     </dl>
 
-    <pre><a name="ISgetName"></a>const char* getName () const</pre>
+    <h3><font color="navy">Parsing</font></h3>
+    <pre><a name="ISreadFromStream"></a>int <b>readFromStream</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string) </pre>
     <dl>
-      <dd>Returns the name of the section.</dd>
-    </dl>
-
-    <pre><a name="ISmatches"></a>bool matches (const char* name) const</pre>
-    <dl>
-      <dd>Checks if the passed name matches (case-sensitive!) the name of the
-	section.</dd>
-    </dl>
-
-    <pre><a name="ISfindAttribute"></a>const IAttribute* findAttribute (const char* name) const</pre>
-    <dl>
-      <dd>Searches for an attribute matching the passed name. If such an
-	attribute is not found, NULL is returned.</p>
-    </dl>
-    <pre><a name="ISfindAttribute2"></a>const IAttribute* findAttribute (const std::string&amp; name) const</pre>
-    <dl>
-      <dd>Searches for an attribute matching the passed name. If such an
-	attribute is not found, NULL is returned.</p>
-    </dl>
-    
-
-    <h4>Parsing</h4>
-    <pre><a name="ISreadFromStream"></a>int readFromStream (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
-    <dl>
-      <dd>
-	<p>Tries to read the (whole) section from the INI-file.</p>
+      <dd><p>Tries to read the (whole) section from the INI-file.</p>
 	<p>First the section header is parsed. Note that the name of the
 	  section in the INI-file must match those of the class.</p>
 	<p>If the header can be parsed successfully, every following
-	  <i>key=value</i>-pair is inspected and - if key matches an attribute
+	  key=value pair is inspected and - if key matches an attribute
 	  in the section - assigned.</p>
 	<p>The function returns ParseObject::PARSE_OK, if EOF or a new
 	  section-header is reached. Errors are returned (or execeptions are
 	  thrown) if either the section-name differ or the attribute is either
-	  not found inside the class or the value can note be assigned.</p>
-	<p><b>Note</b>: The exact behaviour depends on the type of the
-	  attribute!</dd>
+	  not found inside the class or the value can note be assigned.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>stream</code>: Extended stream to read from<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int:  ParseObject::OK if a know key is found and it's value can be assigned
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The exact behaviour depends on the type of the attribute!
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::string: Text describing error if an unrecoverable error
+ occurs
+</dd></dl></dd>
     </dl>
-    <pre><a name="ISreadAttributes"></a>int readAttributes (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
+    <hr>
+    <pre><a name="ISreadAttributes"></a>int <b>readAttributes</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string) </pre>
     <dl>
-      <dd>
-	<p>Tries to read the attributes of a section from the INI-file.</p>
-	<p>Every <i>key=value</i>-pair is inspected and - if key matches the
+      <dd><p>Tries to read the attributes of a section from the INI-file.</p>
+	<p>Every key=value pair is inspected and - if key matches the
 	  name of an attribute in the section - assigned to the connected
 	  variable.</p>
 	<p>The function returns ParseObject::PARSE_OK, if EOF or a new
 	  section-header (to be exact: Anything which is not a key) is reached.
 	  Errors are returned (or execeptions are thrown) if the attribute is
-	  either not found inside the class or the value can not be assigned.</p>
-	<p><b>Note</b>: The exact behaviour depends on the type of the
-	  attribute!</dd>
+	  either not found inside the class or the value can not be assigned.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>stream</code>: Extended stream to read from<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int:  ParseObject::OK if a know key is found and it's value can be assigned
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The exact behaviour depends on the type of the attribute!
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::string: Text describing error if an unrecoverable error occurs
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="ISfoundSection"></a>virtual int foundSection (const char* section)</pre>
+    <pre><a name="ISfoundSection"></a>int <b>foundSection</b> (const char* section, unsigned int) </pre>
     <dl>
-      <dd>Callback if a section-header (to be exact: an identifier after the
+      <dd><p>Callback if a section-header (to be exact: an identifier after the
 	start-of-section character open bracket ([)) is found. The default
-	action is the check, if the section matches (case-sensitive!) the
-	passed parameter. The method reports this result by either
-	ParseObject::PARSE_OK or ParseObject::PARSE_CB_ABORT.</dd>
+	action is to check, if the section matches (case-sensitive!) the
+	passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>section</code>: Name of found section<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: PARSE_OK, if name of <code>section</code> is OK, else ParseObject::PARSE_CB_ABORT.
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="ISfoundKey"></a>virtual int foundKey (const char* key)</pre>
+    <hr>
+    <pre><a name="ISfoundKey"></a>int <b>foundKey</b> (const char* key, unsigned int) </pre>
     <dl>
-      <dd>Callback if a key of an attribute has been found. Every attribute of
+      <dd><p>Callback if a key of an attribute has been found. Every attribute of
 	the section is compared with the passed key. If they match the value of
-	the key is assigned to the attribute-variable and ParseObject::PARSE_OK
-	is returned; else ParseObject::PARSE_CB_ABORT.</dd>
+	the key is assigned to the attribute.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>key</code>: Name of the found key<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: PARSE_OK, if <code>key</code> is found; else ParseObject::PARSE_CB_ABORT.
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="ISfoundValue"></a>virtual int foundValue (const char* value)</pre>
+    <hr>
+    <pre><a name="ISfoundValue"></a>int <b>foundValue</b> (const char* value, unsigned int) </pre>
     <dl>
       <dd><p>Callback if a value of an attribute has been found. This value is
-	  assigned using the pure-virtual
-	  <a href="INIFile.html#IAassignFromString"><b>assignFromString</b></a>-member
-	  of <a href="Attribute.html"><b>IAttribute</b></a>.</p>
-	<p>This method is defined in templatized subclasses of
-	  <a href="Attribute.html"><b>IAttribute</b></a> for the
-	  standard C types (int, double and the like), std::string, classes
-	  derived from <a href="AttrVal.html"><b>AttributValues</b></a> and everything
-	  having an <i>operator=(const char*)</i>-member to assign values and
-	  a <i>isDefined ()</i>-member the check for conistency; to enhance
-	  that for other types simply define  
-	  <a href="Attribute.html"><b>IAttribute</b></a>::<a href="Attribute.html#assignFromString"><b>assignFromString</b></a>
-	  for your class.</p>
-	<p>If assigning the value succeeds,  ParseObject::PARSE_OK is returned;
-	  else ParseObject::PARSE_CB_ABORT.</dd>
+	  assigned using the virtual
+	  <a href="INIFile.html#IAassign"><b>assign</b></a>-member
+	  of <a href="Attribute.html"><b>IAttribute</b></a>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to assign to the (previously) found attribute
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: PARSE_OK, if <code>value</code> could be assigned successfully; else ParseObject::PARSE_CB_ABORT
+</dd></dl></dd>
     </dl>
   </body>
 </html>
