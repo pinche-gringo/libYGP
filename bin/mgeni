@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.4 2002/11/10 23:30:48 markus Exp $
+# $Id: mgeni,v 1.5 2002/12/15 22:33:30 markus Rel $
 
 # Script to generate metainfo for attributes to classes
 
@@ -26,7 +26,7 @@ usage () {
     echo "Usage:"
     echo "    ${0##*/} [<Option>] <inputfile> [<outputfile>]"
     echo
-    echo "  -v, --version ... Display version info and exit"
+    echo "  -V, --version ... Display version info and exit"
     echo "  -h, --help ...... Display this info and exit"
     echo
     echo "Note that the (short) options can't be combined together!"
@@ -42,7 +42,7 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.4 $'
+            rev='$Revision: 1.5 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
