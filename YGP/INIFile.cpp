@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.11 2002/10/10 05:48:25 markus Exp $
+//$Id: INIFile.cpp,v 1.12 2002/10/23 05:46:35 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -31,6 +31,11 @@
 #include "Trace_.h"
 #include "INIFile.h"
 #include "Internal.h"
+
+
+#ifdef _MSC_VER
+#pragma warning(disable:4355) // disable warning about this in init-list
+#endif
 
 
 // Define constant values; don't skip white-spaces after parsing
@@ -77,6 +82,7 @@ INISection::~INISection () {
 /*--------------------------------------------------------------------------*/
 void INISection::addAttribute (const IAttribute& attribute) {
    assert (!findAttribute (attribute.getName ()));
+   attributes.push_back (&attribute);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -112,7 +118,7 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Reads a whole section from a stream
 //Parameters: stream: Extended stream to read from
-//Returns   : int: 
+//Returns   : int:
 //Throws    : std::string: Text describing error if an unrecoverable error
 //                         occurs
 /*--------------------------------------------------------------------------*/
@@ -125,7 +131,7 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Reads the attributes of a section from the passed stream
 //Parameters: stream: Extended stream to read from
-//Returns   : int: 
+//Returns   : int:
 //Throws    : std::string: Text describing error if an unrecoverable error
 //                         occurs
 /*--------------------------------------------------------------------------*/
@@ -139,9 +145,9 @@ int INISection::readAttributes (Xistream& stream) throw (std::string) {
 //Parameters: section: Name of found section
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
-int INISection::foundSection (const char* section) {
+int INISection::foundSection (const char* section, unsigned int) {
    assert (section); assert (pName);
-   TRACE5 ("Found section: '" << section << '\'');
+   TRACE5 ("INISection::foundSection (const char*, unsigned int): '" << section << '\'');
 
    return strcmp (pName, section) ?
       ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK;
@@ -152,9 +158,9 @@ int INISection::foundSection (const char* section) {
 //Parameters: section: Name of found section
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
-int INISection::foundKey (const char* key) {
+int INISection::foundKey (const char* key, unsigned int) {
    assert (key);
-   TRACE5 ("Found key: '" << key << '\'');
+   TRACE5 ("INISection::foundKey (const char*, unsigned int): '" << key << '\'');
 
    // Search for attribute
    std::vector<const IAttribute*>::iterator i;
@@ -173,9 +179,9 @@ int INISection::foundKey (const char* key) {
 //Parameters: section: Name of found section
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
-int INISection::foundValue (const char* value) {
+int INISection::foundValue (const char* value, unsigned int) {
    assert (value); assert (pFoundAttr);
-   TRACE5 ("Found value: '" << value << '\'');
+   TRACE5 ("INISection::foundValue (const char*, unsigned int): '" << value << '\'');
 
    return pFoundAttr->assignFromString (value) ?
       ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
@@ -184,7 +190,7 @@ int INISection::foundValue (const char* value) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
-//Parameters: name: Name of 
+//Parameters: name: Name of
 //Remarks   : name must be an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
@@ -193,8 +199,8 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
                   &INIFile::foundSection, LEN_SECTIONNAME, 1) {
    assert (filename);
 
-   TRACE9 ("INIFile::INIFile: Read from " << filename);
-   
+   TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
+
    _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
    _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
 
@@ -226,7 +232,7 @@ void INIFile::addSection (const INISection& section) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Reads the INI-file into the provided data-fields 
+//Purpose   : Reads the INI-file into the provided data-fields
 //Returns   : int: Status of reading: <0 hard error; 0 OK, >0 soft error
 /*--------------------------------------------------------------------------*/
 int INIFile::read () throw (std::string) {
@@ -268,9 +274,9 @@ const INISection* INIFile::findSection (const char* name) const {
 //Parameters: section: Name of found section
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
-int INIFile::foundSection (const char* section) {
+int INIFile::foundSection (const char* section, unsigned int) {
    assert (section);
-   TRACE5 ("Found section: '" << section << '\'');
+   TRACE5 ("INIFile::foundSection (const char* , unsigned int): '" << section << '\'');
 
    pSection = const_cast<INISection*> (findSection (section));
 
