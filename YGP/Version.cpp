@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.7 2003/03/06 04:16:02 markus Rel $
+// $Id: Version.cpp,v 1.8 2003/07/10 21:24:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -26,6 +26,29 @@
 
 #include "Internal.h"
 
+
+/**\mainpage Overview of the YGP library
+
+   \section intro Introduction
+   YGP stands for Yet another General Purpose library and that is what it is
+   (and also says alot about my creativity finding "cool" names).
+
+   Those clases are designed to be portable (and maybe even usefull).
+
+   They are distributed under the GNU General Public License; in the hope that
+   it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   file COPYING for more details.
+
+   \section features Features
+   The highlights are
+
+     - A general parser (parsing objects)
+     - A regular expression class
+
+   and the usual stuff like smart pointers, communication over a network,
+   executing other processes or threads and handle/format diverse attributes.
+*/
 
 // Function to initialize various global data
 static const int _init () {
