@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.2 2003/11/28 23:11:52 markus Rel $
+//$Id: MessageDlg.cpp,v 1.3 2003/12/01 18:12:20 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -31,6 +31,8 @@
 #include <gtkmm/button.h>
 
 #include <YGP/StatusObj.h>
+
+#include <XGP/XDialog.h>
 
 #include "MessageDlg.h"
 
@@ -94,5 +96,25 @@ void MessageDlg::showDetails (bool show) {
        (bind (slot (*this, &MessageDlg::showDetails), !show));
 }
 
+//----------------------------------------------------------------------------
+/// Creates a (modeless) dialog and registers a handler to free it after
+/// deleting.
+/// \param obj: StatusObject object to display in the dialog
+//  \returns MessageDlg*: Pointer to created dialog
+//----------------------------------------------------------------------------
+MessageDlg* MessageDlg::create (const YGP::StatusObject& obj) {
+   MessageDlg* dlg (new MessageDlg (obj));
+   dlg->signal_response ().connect (slot (*dlg, &MessageDlg::free));
+   return dlg;
 }
 
+
+//-----------------------------------------------------------------------------
+/// Frees the dialog.
+/// \remarks Call only if the dialog was created with new
+//-----------------------------------------------------------------------------
+void MessageDlg::free (int) {
+   delete this;
+}
+
+}
