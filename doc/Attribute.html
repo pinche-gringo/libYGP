@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Attribute.html,v 1.6 2002/12/01 04:50:25 markus Exp $ -->
+<!-- $Id: Attribute.html,v 1.7 2002/12/15 00:22:12 markus Exp $ -->
 
 <html>
   <head>
@@ -36,21 +36,21 @@
     <hr noshade>
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="Attribute.html#assign"><b>assign</b></a></td>
-        <td><tt>(const <font color="purple">char</font>* <font color="blue">value</font>, <font color="navy">unsigned</font> <font color="purple">int</font> <font color="blue">length</font>) const</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><tt>(const <span style="color:purple">char</span>* <span style="color:blue">value</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">length</span>) const</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="Attribute.html#assignFromString"><b>assignFromString</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>) const = 0</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp;</tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">value</span></tt>) const = 0</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp;</tt> </td>
         <td><a href="Attribute.html#getName"><b>getName</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="Attribute.html#matches"><b>matches</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font></tt>) <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pName</span></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="Attribute.html#matches2"><b>matches</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">compare</font></tt>) <tt>const</tt></tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">compare</span></tt>) <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Attribute.html#~IAttribute"><b>~IAttribute</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -58,16 +58,16 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Attribute.html#IAttribute"><b>IAttribute</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pName</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Attribute.html#IAttribute2"><b>IAttribute</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name_</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">name_</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h3><font color="navy">Mangement functions</font></h3>
+    <h3><span style="color:navy">Mangement functions</span></h3>
     <pre><a name="IAttribute"></a><b>IAttribute</b> (const char* pName)</pre>
     <dl>
       <dd><p>Constructor; creates an attribute with the passed name.</p></dd>
@@ -91,7 +91,7 @@
       <dd><p>Destructor</p></dd>
     </dl>
 
-    <h3><font color="navy">Object-handling</font></h3>
+    <h3><span style="color:navy">Object-handling</span></h3>
     <pre><a name="assign"></a>bool <b>assign</b> (const char* value, unsigned int length) const = 0</pre>
     <dl>
       <dd><p>Virtual method to assign an ASCIIZ-string with known
@@ -195,17 +195,17 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Attribute.html#Attribute1"><b>Attribute</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font>, <font color="navy">T</font>&amp; <font color="blue">attr</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pName</span>, <span style="color:navy">T</span>&amp; <span style="color:blue">attr</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Attribute.html#Attribute2"><b>Attribute</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name_</font></tt>, <font color="navy">T</font>&amp; <font color="blue">attr</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">name_</span></tt>, <span style="color:navy">T</span>&amp; <span style="color:blue">attr</span></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="Attribute.html#Aassign"><b>assign</b></a></td>
-        <td><tt>(const <font color="purple">char</font>* <font color="blue">value</font>, <font color="navy">unsigned</font> <font color="purple">int</font> <font color="blue">length</font>) const</tt>;</td></tr>
-      <tr valign="top"><td><tt>virtual <font color="purple">bool</font></tt></td>
+        <td><tt>(const <span style="color:purple">char</span>* <span style="color:blue">value</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">length</span>) const</tt>;</td></tr>
+      <tr valign="top"><td><tt>virtual <span style="color:purple">bool</span></tt></td>
         <td><a href="Attribute.html#AassignFromString"><b>assignFromString</b></a></td>
-        <td><tt>(const <font color="purple">char</font>* <font color="blue">value</font>) const</tt>;</td></tr>
+        <td><tt>(const <span style="color:purple">char</span>* <span style="color:blue">value</span>) const</tt>;</td></tr>
 
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Attribute.html#~Attribute"><b>~Attribute</b></a></td>
@@ -215,7 +215,7 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h3><font color="navy">Mangement functions</font></h3>
+    <h3><span style="color:navy">Mangement functions</span></h3>
     <pre><a name="Attribute"></a><b>IAttribute</b> (const char* pName, T& attr)</pre>
     <dl>
       <dd><p>Constructor; creates an attribute with the passed name and a reference
@@ -243,7 +243,7 @@
       <dd><p>Destructor</p></dd>
     </dl>
 
-    <h3><font color="navy">Object-handling</font></h3>
+    <h3><span style="color:navy">Object-handling</span></h3>
     <pre><a name="Aassign"></a>bool <b>assign</b> (const char* value, unsigned int length) const</pre>
     <dl>
       <dd><p>Virtual method to assign from a character-array with

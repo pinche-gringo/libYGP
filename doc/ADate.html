@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: ADate.html,v 1.15 2002/11/26 19:56:05 markus Exp $ -->
+<!-- $Id: ADate.html,v 1.16 2002/12/15 00:22:12 markus Exp $ -->
 
 <html>
   <head>
@@ -46,144 +45,144 @@
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate2"><b>ADate</b></a></td>
-        <td><tt>(<tt><font color="purple">bool</font></tt> <tt><font color="blue">now</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:purple">bool</span></tt> <tt><span style="color:blue">now</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate3"><b>ADate</b></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate4"><b>ADate</b></a></td>
-        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">Month</font></tt>, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Day</span></tt>, <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Month</span></tt>, <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">Year</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate5"><b>ADate</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pDate</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pDate</span></tt>) throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate6"><b>ADate</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">date</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">date</span></tt>) throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate7"><b>ADate</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="navy">struct</font></tt> <tt><font color="blue">tm</font></tt>&amp; <tt><font color="blue">tm</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:navy">struct</span></tt> <tt><span style="color:blue">tm</span></tt>&amp; <tt><span style="color:blue">tm</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="ADate.html#ADate8"><b>ADate</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">date</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">time_t</span></tt>&amp; <tt><span style="color:blue">date</span></tt>)</tt>;</td></tr>
 
       <tr valign="top"><td><tt><a href="ADate.html#add"><b>ADate</b></a>&amp;</tt> </td>
         <td><a href="ADate.html#87"><b>add</b></a></td>
-        <td><tt>(<tt><font color="navy">signed</font></tt> <tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="navy">signed</font></tt> <tt><font color="purple">char</font></tt> <tt><font color="blue">Month</font></tt> = 0, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt> = 0)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><tt>(<tt><span style="color:navy">signed</span></tt> <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Day</span></tt>, <tt><span style="color:navy">signed</span></tt> <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Month</span></tt> = 0, <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">Year</span></tt> = 0)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="ADate.html#100"><b>checkIntegrity</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="navy">long</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:navy">long</span></tt></tt> </td>
         <td><a href="ADate.html#compare"><b>compare</b></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html#63"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html#63"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#define"><b>define</b></a></td>
         <td><tt>()</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">char</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">char</span></tt></tt> </td>
         <td><a href="ADate.html#getDay"><b>getDay</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">char</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">char</span></tt></tt> </td>
         <td><a href="ADate.html#getMonth"><b>getMonth</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="ADate.html#getYear"><b>getYear</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="ADate.html#isLeapYear"><b>isLeapYear</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="ADate.html#isLeapYear"><b>isLeapYear</b></a></td>
-        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">year</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">char</font></tt></tt> </td>
+        <td><tt>(<tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">year</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">char</span></tt></tt> </td>
         <td><a href="ADate.html#maxDayOf"><b>maxDayOf</b></a></td>
-        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">month</font></tt>, <tt><font color="purple">int</font></tt> <tt><font color="blue">year</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">char</font></tt></tt> </td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">month</span></tt>, <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">year</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">char</span></tt></tt> </td>
         <td><a href="ADate.html#maxDayOf"><b>maxDayOf</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="ADate.html#operator!="><tt><font color="black"><b>operator</b></font></tt><tt>!=</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="ADate.html#operator!="><tt><span style="color:black"><b>operator</b></span></tt><tt>!=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator+="><tt><font color="black"><b>operator</b></font></tt><tt>+=</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator+="><tt><span style="color:black"><b>operator</b></span></tt><tt>+=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">rhs</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator-="><tt><font color="black"><b>operator</b></font></tt><tt>-=</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">rhs</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="ADate.html#operatorl"><tt><font color="black"><b>operator</b></font></tt><tt>&lt;</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator-="><tt><span style="color:black"><b>operator</b></span></tt><tt>-=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">rhs</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="ADate.html#operatorl"><tt><span style="color:black"><b>operator</b></span></tt><tt>&lt;</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="ADate.html#operatorl="><tt><font color="black"><b>operator</b></font></tt><tt>&lt;=</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="ADate.html#operatorl="><tt><span style="color:black"><b>operator</b></span></tt><tt>&lt;=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator="><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator=5"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">date</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator=5"><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">time_t</span></tt>&amp; <tt><span style="color:blue">date</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator=4"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="navy">struct</font></tt> <tt><font color="blue">tm</font></tt>&amp; <tt><font color="blue">date</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator=4"><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:navy">struct</span></tt> <tt><span style="color:blue">tm</span></tt>&amp; <tt><span style="color:blue">date</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator=2"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pDate</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator=2"><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pDate</span></tt>) throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ADate.html"><b>ADate</b></a>&amp;</tt> </td>
-        <td><a href="ADate.html#operator=2"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">date</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="ADate.html#operator=="><tt><font color="black"><b>operator</b></font></tt><tt>==</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="ADate.html#operatorg"><tt><font color="black"><b>operator</b></font></tt><tt>&gt;</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
-        <td><a href="ADate.html#operatorg="><tt><font color="black"><b>operator</b></font></tt><tt>&gt;=</tt></a></td>
-        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+        <td><a href="ADate.html#operator=2"><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">date</span></tt>) throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="ADate.html#operator=="><tt><span style="color:black"><b>operator</b></span></tt><tt>==</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="ADate.html#operatorg"><tt><span style="color:black"><b>operator</b></span></tt><tt>&gt;</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="ADate.html#operatorg="><tt><span style="color:black"><b>operator</b></span></tt><tt>&gt;=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ADate.html"><b>ADate</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
 
       <tr valign="top"><td><tt>friend <a href="ADate.html"><b>ADate</b></a></tt></td>
-        <td><a href="ADate.html#operator+"><tt><font color="black"><b>operator</b></font></tt><tt>+</tt></a></td>
-        <td><tt>(const <a href="ADate.html"><b>ADate</b></a>&amp; <font color="blue">lhs</font>,
-                 const <a href="ADate.html"><b>ADate</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
+        <td><a href="ADate.html#operator+"><tt><span style="color:black"><b>operator</b></span></tt><tt>+</tt></a></td>
+        <td><tt>(const <a href="ADate.html"><b>ADate</b></a>&amp; <span style="color:blue">lhs</span>,
+                 const <a href="ADate.html"><b>ADate</b></a>&amp; <span style="color:blue">rhs</span>);</tt></td></tr>
       <tr valign="top"><td><tt>friend <a href="ADate.html"><b>ADate</b></a></tt></td>
-        <td><a href="ADate.html#operator-"><tt><font color="black"><b>operator</b></font></tt><tt>-</tt></a></td>
-        <td><tt>(const <a href="ADate.html"><b>ADate</b></a>&amp; <font color="blue">lhs</font>,
-                 const <a href="ADate.html"><b>ADate</b></a>&amp; <font color="blue">rhs</font>);</tt></td></tr>
+        <td><a href="ADate.html#operator-"><tt><span style="color:black"><b>operator</b></span></tt><tt>-</tt></a></td>
+        <td><tt>(const <a href="ADate.html"><b>ADate</b></a>&amp; <span style="color:blue">lhs</span>,
+                 const <a href="ADate.html"><b>ADate</b></a>&amp; <span style="color:blue">rhs</span>);</tt></td></tr>
 
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#readFromStream"><b>readFromStream</b></a></td>
-        <td><tt>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">result</font></tt>) <tt>throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:purple">istream</span></tt>&amp; <tt><span style="color:blue">result</span></tt>) <tt>throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#setDay"><b>setDay</b></a></td>
-        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Day</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#setMonth"><b>setMonth</b></a></td>
-        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Month</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Month</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#setYear"><b>setYear</b></a></td>
-        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">Year</span></tt>)</tt>;</td></tr>
 
       <tr valign="top"><td><tt><a href="ADate.html#63"><b>ADate</b></a>&amp;</tt> </td>
         <td><a href="ADate.html#sub"><b>sub</b></a></td>
-        <td><tt>(<tt><font color="navy">signed</font></tt> <tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="navy">signed</font></tt> <tt><font color="purple">char</font></tt> <tt><font color="blue">month</font></tt> = 0, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt> = 0)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">signed</span></tt> <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">Day</span></tt>, <tt><span style="color:navy">signed</span></tt> <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">month</span></tt> = 0, <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">Year</span></tt> = 0)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="ADate.html#toString"><b>toString</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="ADate.html#toString2"><b>toString</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">format</font></tt>) <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="navy">struct</font></tt> <tt><font color="navy">tm</font></tt></tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">format</span></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:navy">struct</span></tt> <tt><span style="color:navy">tm</span></tt></tt> </td>
         <td><a href="ADate.html#toStructTM"><b>toStructTM</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">time_t</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">time_t</span></tt></tt> </td>
         <td><a href="ADate.html#toSysTime"><b>toSysTime</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="ADate.html#toUnformatedString"><b>toUnformatedString</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
 
@@ -197,16 +196,16 @@
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected function member index</h3></td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#decDay"><b>decDay</b></a></td>
         <td><tt>()</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ADate.html#incDay"><b>incDay</b></a></td>
         <td><tt>()</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="ADate.html#maxAdapt"><b>maxAdapt</b></a></td>
         <td><tt>()</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
         <td><a href="ADate.html#minAdapt"><b>minAdapt</b></a></td>
         <td><tt>()</tt>;</td></tr>
     </table>
@@ -214,7 +213,7 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h3><font color="navy">Management functions</font></h4>
+    <h3><span style="color:navy">Management functions</span></h4>
     <pre><a name="ADate"></a><b>ADate</b> ()</pre>
     <dl>
       <dd><p>Defaultconstructor; the date is not defined</p></dd>
@@ -395,7 +394,7 @@
       </dl><dd>
     </dl>
 
-    <h3><font color="navy">In- &amp; output, conversion</font></h4>
+    <h3><span style="color:navy">In- &amp; output, conversion</span></h4>
     <pre><a name="readFromStream"></a>void <b>readFromStream</b> (std::istream& in) throw (std::invalid_argument) </pre>
     <dl>
       <dd><p>Reads a date as <i>DDMMY[Y...]</i> from a stream. If the input is
@@ -461,7 +460,7 @@
 </dd></dl></dd>
     </dl>
 
-    <h3><font color="navy">Query</font></h4>
+    <h3><span style="color:navy">Query</span></h4>
     <pre><a name="getDay"></a>char <b>getDay</b> () const</pre>
     <dl>
       <dd><p>Retrieves the day stored in the object.</p></dd>
@@ -494,7 +493,7 @@
 </dd></dl></dd>
     </dl>
 
-    <h3><font color="navy">Calculation</font></h4>
+    <h3><span style="color:navy">Calculation</span></h4>
     <pre><a name="operator+="></a>ADate& <b>operator+=</b> (const ADate& rhs) </pre>
     <dl>
       <dd><p>Adds another date-value to the date-object. An undefined date is
@@ -581,7 +580,7 @@
 </dd></dl></dd>
     </dl>
 
-    <h3><font color="navy">Comparison</font></h4>
+    <h3><span style="color:navy">Comparison</span></h4>
     <pre><a name="operator=="></a>bool <b>operator==</b> (const ADate&amp; other)</pre>
     <dl>
       <dd><p>Compares two date-objects and returns true, if they are equal (either
@@ -664,7 +663,7 @@
           <dd>>0 if this "younger" other; 0 if this == <code>other</code>; <0 else</dd></dl></dd>
     </dl>
     <hr>
-    <h3><font color="navy">Utility-functions</font></h4>
+    <h3><span style="color:navy">Utility-functions</span></h4>
     <pre><a name="maxDayOf"></a>char <b>maxDayOf</b> () const</pre>
     <dl>
       <dd><p>Returns the maximal day for month/year of the object.</p></dd>

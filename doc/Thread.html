@@ -1,4 +1,5 @@
-<!-- $Id: Thread.html,v 1.3 2002/11/26 04:08:52 markus Exp $ -->
+<!-- -*-HTML-*- -->
+<!-- $Id: Thread.html,v 1.4 2002/12/15 00:22:12 markus Exp $ -->
 
 <html>
   <head>
@@ -37,38 +38,38 @@
     <hr noshade>
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Thread.html#cancel"><b>cancel</b></a></td>
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt>static <a href="Thread.html">Thread</a>*</tt> </td>
         <td><a href="Thread.html#create"><b>create</b></a></td>
-        <td><tt>(<tt><font color="navy">THREAD_FUNCTION</font></tt> <tt><font color="blue">fnc</font></tt>, <tt><font color="purple">void</font></tt>* <tt><font color="blue">paArgs</font></tt>)
-          throw (<tt><font color="navy">std::string</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">THREAD_FUNCTION</span></tt> <tt><span style="color:blue">fnc</span></tt>, <tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">paArgs</span></tt>)
+          throw (<tt><span style="color:navy">std::string</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt>static <a href="Thread.html">Thread</a>*</tt> </td>
         <td><a href="Thread.html#create2"><b>create2</b></a></td>
-        <td><tt>(<tt><font color="navy">THREAD_FUNCTION</font></tt> <tt><font color="blue">fnc</font></tt>, <tt><font color="purple">void</font></tt>* <tt><font color="blue">paArgs</font></tt>)
-          throw (<tt><font color="navy">std::string</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt></tt> </td>
+        <td><tt>(<tt><span style="color:navy">THREAD_FUNCTION</span></tt> <tt><span style="color:blue">fnc</span></tt>, <tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">paArgs</span></tt>)
+          throw (<tt><span style="color:navy">std::string</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">long</span></tt></tt> </td>
         <td><a href="Thread.html#currentID"><b>currentID</b></a></td>
         <td><tt>()</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt>*</tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt>*</tt> </td>
         <td><a href="Thread.html#getArgs"><b>getArgs</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">long</span></tt></tt> </td>
         <td><a href="Thread.html#getID"><b>getID</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Thread.html#isToCancel"><b>isToCancel</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Thread.html#ret"><b>ret</b></a></td>
-        <td><tt>(<tt><font color="purple">void</font></tt>* <tt><font color="blue">rc</font></tt>) <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">void</font></tt>*</tt> </td>
+        <td><tt>(<tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">rc</span></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">void</span></tt>*</tt> </td>
         <td><a href="Thread.html#waitForThread"><b>waitForThread</b></a></td>
-        <td><tt>(<tt>const</tt> <a href="Thread.html#788"><b>Thread</b></a>& <tt><font color="blue">id</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">void</font></tt>*</tt> </td>
+        <td><tt>(<tt>const</tt> <a href="Thread.html#788"><b>Thread</b></a>& <tt><span style="color:blue">id</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">void</span></tt>*</tt> </td>
         <td><a href="Thread.html#waitForThread2"><b>waitForThread</b></a></td>
-        <td><tt>(<tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">threadID</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">long</span></tt> <tt><span style="color:blue">threadID</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Thread.html#~Thread"><b>~Thread</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -79,8 +80,8 @@
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td></td>
         <td><a href="Thread.html#Thread2"><b>Thread</b></a></td>
-        <td><tt>(<tt><font color="navy">THREAD_FUNCTION</font></tt> <tt><font color="blue">fnc</font></tt>, <tt><font color="purple">void</font></tt>* <tt><font color="blue">paArgs</font></tt>)
-          throw (<tt><font color="navy">std::string</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">THREAD_FUNCTION</span></tt> <tt><span style="color:blue">fnc</span></tt>, <tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">paArgs</span></tt>)
+          throw (<tt><span style="color:navy">std::string</span></tt>)</tt>;</td></tr>
     </table>
     <hr noshade>
     <h2>Member descriptions</h2>
@@ -228,12 +229,12 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt>static <a href="Thread.html#OThread">OThread&lt;T&gt;</a>*</tt> </td>
         <td><a href="Thread.html#OTcreate"><b>create</b></a></td>
-        <td><tt>(<tt><font color="navy">T</font></tt>* <tt><font color="blue">obj</font></tt>, <tt><font color="navy">THREAD_OBJMEMBER</font></tt> <tt><font color="blue">fnc</font></tt>, <tt><font color="purple">void</font></tt>* <tt><font color="blue">paArgs</font></tt>)
-          throw (<tt><font color="navy">std::string</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">T</span></tt>* <tt><span style="color:blue">obj</span></tt>, <tt><span style="color:navy">THREAD_OBJMEMBER</span></tt> <tt><span style="color:blue">fnc</span></tt>, <tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">paArgs</span></tt>)
+          throw (<tt><span style="color:navy">std::string</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt>static <a href="Thread.html#OThread">OThread&lt;T&gt;</a>*</tt> </td>
         <td><a href="Thread.html#OTcreate2"><b>create2</b></a></td>
-        <td><tt>(<tt><font color="navy">T</font></tt>* <tt><font color="blue">obj</font></tt>, <tt><font color="navy">THREAD_OBJMEMBER</font></tt> <tt><font color="blue">fnc</font></tt>, <tt><font color="purple">void</font></tt>* <tt><font color="blue">paArgs</font></tt>)
-          throw (<tt><font color="navy">std::string</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">T</span></tt>* <tt><span style="color:blue">obj</span></tt>, <tt><span style="color:navy">THREAD_OBJMEMBER</span></tt> <tt><span style="color:blue">fnc</span></tt>, <tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">paArgs</span></tt>)
+          throw (<tt><span style="color:navy">std::string</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="Thread.html#~OThread"><b>~OThread</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -241,8 +242,8 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td></td>
         <td><a href="Thread.html#OThread2"><b>OThread</b></a></td>
-        <td><tt>(<tt><font color="navy">T</font></tt>* <tt><font color="blue">obj</font></tt>, <tt><font color="navy">THREAD_OBJMEMBER</font></tt> <tt><font color="blue">fnc</font></tt>, <tt><font color="purple">void</font></tt>* <tt><font color="blue">paArgs</font></tt>, <tt><font color="purple">bool</font></tt> <tt><font color="blue">threadAsArg</font> = false</tt>)
-          throw (<tt><font color="navy">std::string</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:navy">T</span></tt>* <tt><span style="color:blue">obj</span></tt>, <tt><span style="color:navy">THREAD_OBJMEMBER</span></tt> <tt><span style="color:blue">fnc</span></tt>, <tt><span style="color:purple">void</span></tt>* <tt><span style="color:blue">paArgs</span></tt>, <tt><span style="color:purple">bool</span></tt> <tt><span style="color:blue">threadAsArg</span> = false</tt>)
+          throw (<tt><span style="color:navy">std::string</span></tt>)</tt>;</td></tr>
     </table>
     <hr noshade>
     <h2>Member descriptions</h2>
