@@ -1,7 +1,7 @@
 #ifndef LOGINDLG_H
 #define LOGINDLG_H
 
-//$Id: LoginDlg.h,v 1.1 2004/10/16 06:24:56 markus Exp $
+//$Id: LoginDlg.h,v 1.2 2004/10/16 19:16:03 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,10 +19,9 @@
 
 
 #include <gtkmm/entry.h>
+#include <gtkmm/stock.h>
 
 #include <YGP/Check.h>
-#include <YGP/Internal.h>
-
 #include <XGP/XDialog.h>
 
 namespace Gtk {
@@ -41,12 +40,21 @@ class ILoginDialog : public XGP::XDialog {
    ILoginDialog (const Glib::ustring& title);
    virtual ~ILoginDialog ();
 
+   /// Sets the passed user in the dialog
+   /// \param user: User to set in the dialog
+   void setUser (const Glib::ustring& user) {
+      txtUser->set_text (user);
+   }
+   void setCurrentUser ();
+
  protected:
    Gtk::Table* pClient;             ///< Pointer to the client information area
    Gtk::Entry* txtUser;                ///< Textfield, where user enters the ID
    Gtk::Entry* txtPassword;      ///< Textfield, where user enters the password
 
  private:
+   enum { LOGIN };
+
    // Prohibited manager functions
    ILoginDialog (const ILoginDialog& other);
    const ILoginDialog& operator= (const ILoginDialog& other);
@@ -65,7 +73,7 @@ template <class T>
 class TLoginDialog : public ILoginDialog {
  public:
    /// Declaration of the type of the callback for the user action
-   typedef void (T::*PCALLBACK)(const Glib::ustring& user,
+   typedef bool (T::*PCALLBACK)(const Glib::ustring& user,
 				const Glib::ustring& password);
 
    TLoginDialog (const Glib::ustring& title, T& parent,
@@ -73,14 +81,6 @@ class TLoginDialog : public ILoginDialog {
       : ILoginDialog (title), parent (parent), callback (callback) { }
    virtual ~TLoginDialog () { }
 
-   /// Creates the dialog (and set it as child of the parent)
-   /// \param title: Title of the dialog
-   /// \param parent: Object which should be informed about the selection
-   /// \param callback: Method of parent to handle information about selection 
-   /// \remarks Cares also about freeing the dialog
-   static TLoginDialog* create (T& parent, const PCALLBACK callback) {
-      return create (_("Enter login information"), parent, callback);
-   }
    /// Creates the dialog (and set it as child of the parent)
    /// \param title: Title of the dialog
    /// \param parent: Object which should be informed about the selection
@@ -99,11 +99,14 @@ class TLoginDialog : public ILoginDialog {
    TLoginDialog (const TLoginDialog& other);
    const TLoginDialog& operator= (const TLoginDialog& other);
 
-   /// Handling of OK button selected: Inform the parent about the input
-   virtual void okEvent () {
+   /// Callback after clicking on a button in the dialog
+   /// \param id: ID of clicked button
+   virtual void command (int id) {
+      Check3 (id == LOGIN);
       Check3 (txtUser); Check3 (txtUser->get_text_length ());
-      Check3 (txtPassword); Check3 (txtPassword->get_text_length ());
-      (parent.*callback) (txtUser->get_text (), txtPassword->get_text ());
+      Check3 (txtPassword);
+      if ((parent.*callback) (txtUser->get_text (), txtPassword->get_text ()))
+	 response (Gtk::RESPONSE_OK);
    }
 
    T&        parent;

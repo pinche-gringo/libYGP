@@ -1,11 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.1 2004/10/16 06:24:56 markus Exp $
+//$Id: LoginDlg.cpp,v 1.2 2004/10/16 19:16:03 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -25,8 +25,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <unistd.h>
+
 #include <gtkmm/label.h>
 #include <gtkmm/table.h>
+
+#include <YGP/Internal.h>
 
 #include "LoginDlg.h"
 
@@ -38,8 +42,8 @@ namespace XGP {
 /// \param title: Title to display for dialog
 //-----------------------------------------------------------------------------
 ILoginDialog::ILoginDialog (const Glib::ustring& title)
-   : XGP::XDialog (OKCANCEL), pClient (new Gtk::Table (2, 2)) {
-   set_title (title);
+   : XGP::XDialog (NONE), pClient (new Gtk::Table (2, 2)) {
+   set_title (title.size () ? title : _("Enter login information"));
 
    pClient->show ();
 
@@ -59,7 +63,11 @@ ILoginDialog::ILoginDialog (const Glib::ustring& title)
    get_vbox ()->pack_start (*pClient, false, false, 5);
 
    txtUser->signal_changed ().connect (mem_fun (*this, &ILoginDialog::inputChanged));
-   txtPassword->signal_changed ().connect (mem_fun (*this, &ILoginDialog::inputChanged));
+
+   ok = add_button (_("Login"), LOGIN);
+   ok->grab_default ();
+
+   cancel = add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
    inputChanged ();
    show_all_children ();
@@ -79,8 +87,16 @@ ILoginDialog::~ILoginDialog () {
 //-----------------------------------------------------------------------------
 void ILoginDialog::inputChanged () {
    Check3 (ok); Check3 (txtUser); Check3 (txtPassword);
-   ok->set_sensitive (txtUser->get_text_length ()
-		      && txtPassword->get_text_length ());
+   ok->set_sensitive (txtUser->get_text_length ());
+}
+
+//-----------------------------------------------------------------------------
+/// Sets the current passed user in the dialog
+/// \param user: User to set in the dialog
+//-----------------------------------------------------------------------------
+void ILoginDialog::setCurrentUser () {
+   Glib::ustring user;
+   setUser (getlogin ());
 }
 
 }
