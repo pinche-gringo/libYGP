@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.13 2005/03/08 04:48:57 markus Exp $
+//$Id: GTKViewer.c,v 1.14 2005/03/08 17:10:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -72,6 +72,8 @@ typedef void (*PFNFRAMES)(GtkHTML* widget, gboolean);
 typedef void (*PFNWRITE)(GtkHTML* widget, GtkHTMLStream *stream, const gchar *buffer, guint size);
 typedef void (*PFNEND)(GtkHTML* widget, GtkHTMLStream *stream, GtkHTMLStreamStatus status);
 typedef void (*PFNSETBASE)(GtkHTML* widget, const char* base);
+typedef const char* (*PFNGETBASE)(GtkHTML* widget);
+typedef gboolean (*PFNANCHOR)(GtkHTML* widget, const char* anchor);
 
 static PFNNEWHTML   pfnNew       = NULL;
 static PFNFRAMES    pfnFrames    = NULL;
@@ -79,6 +81,8 @@ static PFNNEWSTREAM pfnNewStream = NULL;
 static PFNWRITE     pfnWrite     = NULL;
 static PFNEND       pfnEnd       = NULL;
 static PFNSETBASE   pfnSetBase   = NULL;
+static PFNGETBASE   pfnGetBase   = NULL;
+static PFNANCHOR    pfnAnchor    = NULL;
 
 static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *stream, gpointer);
 static void gtkhtmlLinkClicked (GtkHTML *widget, const gchar *url, gpointer);
@@ -102,8 +106,11 @@ GtkWidget* gtkhtmlInitialize () {
          pfnWrite = (PFNWRITE)dlsym (hDLL, "gtk_html_write");
          pfnEnd = (PFNEND)dlsym (hDLL, "gtk_html_end");
 	 pfnSetBase = (PFNSETBASE)dlsym (hDLL, "gtk_html_set_base");
+	 pfnGetBase = (PFNGETBASE)dlsym (hDLL, "gtk_html_get_base");
+         pfnAnchor = (PFNANCHOR)dlsym (hDLL, "gtk_html_jump_to_anchor");
 
-         if (!(pfnNew && pfnNewStream && pfnFrames && pfnWrite && pfnEnd && pfnSetBase))
+         if (!(pfnNew && pfnNewStream && pfnFrames && pfnWrite && pfnEnd
+	       && pfnSetBase && pfnGetBase && pfnAnchor))
             return NULL;
       }
 
@@ -120,13 +127,45 @@ GtkWidget* gtkhtmlInitialize () {
 /// Displays a file in the GTKHTML control
 /// \param ctrl: HTML-widget
 /// \param file: File to display
-/// \returns int: <0 in case of an hard error; 0: OK; >0 soft error
+/// \remarks: Don't call with a NULL-pointer for file
 //----------------------------------------------------------------------------
-int gtkhtmlDisplayFile (GtkWidget* ctrl, const char* file) {
+void gtkhtmlDisplayFile (GtkWidget* ctrl, const char* file) {
    Check2 (ctrl);
    Check2 (file);
 
-   gtkhtmlLoadURL ((GtkHTML*)ctrl, file, pfnNewStream ((GtkHTML*)ctrl), NULL);
+   if (!strncmp (file, "file://", 7))
+      file += 7;
+
+   gsize nlen = 0;
+   const char* nfile = g_filename_from_utf8 (file, -1, 0, &nlen, NULL);
+   if (!nfile)
+      nfile = file;
+
+   // Check if file contains a path
+   const char* pathEnd = strrchr (nfile, DIR_SEPARATOR);
+   if (pathEnd) {
+      // Store the path of the url
+      const char* oldPath = "";
+      gsize oldLen = 0;
+      if (*nfile != DIR_SEPARATOR) {
+	 oldPath = pfnGetBase ((GtkHTML*)ctrl);
+	 if (!oldPath)
+	    oldPath = "";
+	 oldLen = strlen (oldPath);
+      }
+
+      if (!oldLen || strncmp (oldPath, file, oldLen)) {
+	 char* newPath = (char*)malloc (oldLen + ++pathEnd - nfile + 1);
+	 memcpy (newPath, oldPath, oldLen);
+	 memcpy (newPath + oldLen, nfile, pathEnd - nfile);
+	 newPath[oldLen + pathEnd - nfile] = '\0';
+	 pfnSetBase ((GtkHTML*)ctrl, newPath);
+	 TRACE2 ("Set base %s\n", newPath);
+	 free (newPath);
+      }
+   }
+
+   gtkhtmlLoadURL ((GtkHTML*)ctrl, nfile, pfnNewStream ((GtkHTML*)ctrl), NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -145,7 +184,7 @@ const char* gtkhtmlGetError () {
 //----------------------------------------------------------------------------
 static void gtkhtmlLinkClicked (GtkHTML *widget, const gchar *url, gpointer x) {
     TRACE2 ("Link: %s\n", url);
-    gtkhtmlLoadURL (widget, url, pfnNewStream (widget), NULL);
+    gtkhtmlDisplayFile (GTK_WIDGET (widget), url);
 }
 
 //----------------------------------------------------------------------------
@@ -157,30 +196,17 @@ static void gtkhtmlLinkClicked (GtkHTML *widget, const gchar *url, gpointer x) {
 /// \param x: Unused
 //----------------------------------------------------------------------------
 static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *stream, gpointer x) {
+   TRACE2 ("Loading file `%s'\n", url);
+   Check1 (url); Check1 (widget); Check1 (stream);
+   Check1 (*url);
 
+   const char* anchor = NULL;
    if (*url != '#') {
-      // Store the path of the url
-      if (!strncmp (url, "file://", 7))
-	 url += 7;
-
-      gsize nlen = 0;
-      const char* nfile = g_filename_from_utf8 (url, -1, 0, &nlen, NULL);
-      if (nfile)
-	 url = nfile;
-
-      if (*url == DIR_SEPARATOR) {
-	 const char* end = strrchr (url, DIR_SEPARATOR); Check3 (end);
-	 char* newpath = (char*)malloc (end - url + 1);
-	 memcpy (newpath, url, end - url);
-	 newpath[end - url] = '\\';
-	 pfnSetBase (widget, newpath);
-	 free (newpath);
-	 url = end + 1;
-      }
-
-      TRACE2 ("Reading: `%s'\n", url);
+      TRACE2 ("Reading file `%s'\n", url);
       FILE* pFile = fopen (url, "r");
+
       if (!pFile) {
+	 gsize nlen = 0;
 	 int err = errno;
 	 const char* const msg = _("Error loading file '%s': %s");
 	 char* const strError = g_locale_to_utf8 (msg, -1, 0,
@@ -201,6 +227,13 @@ static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *st
 	 pfnWrite (widget, stream, buffer, i);
       pfnEnd (widget, stream, (i == -1) ? GTK_HTML_STREAM_ERROR : GTK_HTML_STREAM_OK);
       fclose (pFile);
+   }
+   else
+      anchor = url + 1;
+
+   if (anchor && *anchor) {
+      TRACE2 ("Jumping to anchor - %s\n", anchor);
+      pfnAnchor (widget, anchor);
    }
 }
 
