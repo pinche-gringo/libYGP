@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.5 2001/10/09 17:18:56 markus Rel $
+//$Id: Attribute.h,v 1.6 2002/05/24 06:41:32 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ template <class T> class Attribute : public IAttribute {
          attr_ = value;
          return true;
       }
-      catch (invalid_argument& e) {
+      catch (invalid_argument&) {
          return false;
       }
    }
