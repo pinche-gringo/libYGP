@@ -1,14 +1,14 @@
-//$Id: XApplication.cpp,v 1.41 2004/12/29 18:19:10 markus Rel $
+//$Id: XApplication.cpp,v 1.42 2005/01/24 17:12:18 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,13 +34,12 @@
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
+#include <gtkmm/stock.h>
 #include <gtkmm/label.h>
 #include <gtkmm/image.h>
-#include <gtkmm/menubar.h>
-#include <gtkmm/accelgroup.h>
 #include <gtkmm/messagedialog.h>
-#include <gtkmm/radiomenuitem.h>
 
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <YGP/Check.h>
@@ -67,8 +66,10 @@ namespace XGP {
 /// \param pTitle: Pointer to title of the application
 //-----------------------------------------------------------------------------
 XApplication::XApplication (const char* pTitle)
-   : pMenu (new Gtk::MenuBar ()), vboxClient (new Gtk::VBox ())
-     , helpBrowser (BrowserDlg::getDefaultBrowser ()), aLastMenus (5) {
+   : vboxClient (new Gtk::VBox ())
+     , grpAction (Gtk::ActionGroup::create ())
+     , mgrUI (Gtk::UIManager::create ())
+     , helpBrowser (BrowserDlg::getDefaultBrowser ()) {
    TRACE9 ("XApplication::XApplication (const char*) - " << pTitle);
    signal (SIGSEGV, handleSignal);
 #ifdef HAVE_SIGBUS
@@ -81,10 +82,6 @@ XApplication::XApplication (const char* pTitle)
    Check3 (vboxClient);
    vboxClient->show ();
    add (*vboxClient);
-
-   Check3 (pMenu);
-   pMenu->show ();
-   vboxClient->pack_start (*pMenu, Gtk::PACK_SHRINK);
 }
 
 //-----------------------------------------------------------------------------
@@ -100,124 +97,6 @@ XApplication::~XApplication () {
 }
 
 
-//-----------------------------------------------------------------------------
-/// Adds a single menuentry to the menu. Items and submenus are added to the
-/// last defined menu; menus are added to the menubar.
-/// \param menuEntry: Menuentry to add
-/// \returns \c Widget*: Pointer to the newly added menu or menuitem
-/// \remarks Radioitems can't be added with that method!
-//-----------------------------------------------------------------------------
-Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
-   TRACE1 ("XApplication::addMenu (const MenuEntry&) - " << menuEntry.name);
-   Check3 (pMenu);
-
-   TRACE3 ("XApplication::addMenu (const MenuEntry&) -> Type (" << menuEntry.name << ") = "
-           << menuEntry.type);
-
-   TRACE9 ("XApplication::addMenu (const MenuEntry&) - Levels: " << aLastMenus.size ());
-   Gtk::Menu* pLastMenu (aLastMenus.size () ? aLastMenus.back () : NULL);
-
-   switch (menuEntry.type) {
-   case ITEM:
-      Check3 (pLastMenu);
-      pLastMenu->items ().push_back (MenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel),
-                                               bind (mem_fun (*this, &XApplication::command),
-                                                     menuEntry.id)));
-      break;
-
-   case CHECKITEM:
-      Check3 (pLastMenu);
-      pLastMenu->items ().push_back (CheckMenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel),
-                                                    bind (mem_fun (*this, &XApplication::command),
-                                                          menuEntry.id)));
-      break;
-
-   case SEPARATOR:
-      Check3 (pLastMenu);
-      pLastMenu->items ().push_back (SeparatorElem ());
-      break;
-
-   case BRANCH:
-   case LASTBRANCH:
-      aLastMenus.clear ();
-      pLastMenu = manage (new Gtk::Menu ()); Check3 (pLastMenu);
-      aLastMenus.insert (aLastMenus.end (), pLastMenu);
-
-      pMenu->items ().push_back (MenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel), *pLastMenu));
-      if (menuEntry.type == LASTBRANCH)
-         pMenu->items ().back ().set_right_justified ();
-
-      if (menuEntry.id) {
-	 Check (apMenus.find (menuEntry.id) == apMenus.end ());
-	 TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menu " << menuEntry.id);
-	 apMenus[menuEntry.id] = pLastMenu;
-      }
-      return *pLastMenu;
-
-   case SUBMENU:
-      Check3 (pLastMenu);
-      pLastMenu = new Gtk::Menu ();
-
-      aLastMenus.back ()->items ().push_back (MenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel), *pLastMenu));
-      aLastMenus.push_back (pLastMenu);
-      break;
-
-   case SUBMENUEND:
-      Check3 (pLastMenu);
-      aLastMenus.pop_back ();
-      break;
-
-   default:
-      Check (0);
-   } // end-switch type of menu
-
-   if (menuEntry.id) {
-      Check (apMenus.find (menuEntry.id) == apMenus.end ());
-      TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menuitem " << menuEntry.id);
-      apMenus[menuEntry.id] = &pLastMenu->items ().back ();
-   }
-   return pLastMenu->items ().back ();
-}
-
-//-----------------------------------------------------------------------------
-/// Adds a whole bunch of menuentries to the menu. Items and submenus are
-/// added to the last defined menu; menus are added to the menubar.
-/// \param menuEntries: Pointer to array of MenuEntries
-/// \param cMenus: Number of elements in the array
-/// \pre \c menuEntries not NULL
-//-----------------------------------------------------------------------------
-void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
-   TRACE9 ("XApplication::addMenus (const MenuEntry[], int) - " << cMenus);
-
-   Check3 (menuEntries);
-   Check3 (pMenu);
-
-   while (cMenus) {
-      if ((menuEntries->type == RADIOITEM)
-          || (menuEntries->type == LASTRADIOITEM)) {
-         Check3 (aLastMenus.size ());
-         Gtk::Menu* pLastMenu (aLastMenus.back ());
-         Gtk::RadioMenuItem::Group radioGroup;
-         do {
-            cMenus--;
-            pLastMenu->items ().push_back (RadioMenuElem (radioGroup, menuEntries->name,
-                                                          Gtk::AccelKey (menuEntries->accel),
-                                                          bind (mem_fun (*this, &XApplication::command),
-                                                                menuEntries->id)));
-            if (menuEntries->id) {
-               Check (apMenus.find (menuEntries->id) == apMenus.end ());
-               TRACE9 ("XApplication::addMenus (const MenuEntry[]) - Adding menu: "
-                       << menuEntries->id);
-               apMenus[menuEntries->id] = &pLastMenu->items ().back ();
-            }
-         } while ((menuEntries++)->type != LASTRADIOITEM);
-      }
-      else {
-         cMenus--;
-         addMenu (*menuEntries++);
-      }
-   }
-}
 
 //-----------------------------------------------------------------------------
 /// Initializes the program for internationalization by setting the locale and
@@ -245,115 +124,130 @@ void XApplication::initI18n () {
 /// Adds a help-menu at the end of the menu. This menu consists of an
 /// "About"-entry and - if the method getHelpfile() does return a value -
 /// entries to display a help-file and to configure the help browser.
+/// \param uiString: String, to which the menu-structure is appended
 //-----------------------------------------------------------------------------
-void XApplication::showHelpMenu () {
-   MenuEntry menuItems[] = {
-      { Glib::locale_to_utf8 (_("_Help")),                  _("<alt>H"), 0,                LASTBRANCH },
-      { Glib::locale_to_utf8 (_("_Content...")),            _("F1"),     CONTENT,          ITEM },
-      { Glib::locale_to_utf8 (_("Configure _browser ...")), "",          CONFIGUREBROWSER, ITEM },
-      { "",                                                 "",          0,                SEPARATOR },
-      { Glib::locale_to_utf8 (_("_About...")),              "",          ABOUT,            ITEM } };
+void XApplication::addHelpMenu (Glib::ustring& uiString) {
+   TRACE9 ("XApplication::addHelpMenu ()");
 
-   addMenu (menuItems[0]);
-   if (getHelpfile ())
-      addMenus (&menuItems[1], 4);
-   else
-      addMenu (menuItems[4]);
+   uiString += "<menu action='Help'>";
+
+   grpAction->add (Gtk::Action::create ("Help", _("_Help")));
+   if (getHelpfile ()) {
+      grpAction->add (Gtk::Action::create ("HlpContent", Gtk::Stock::HELP),
+		      Gtk::AccelKey (_("F1")),
+		      mem_fun (*this, &XApplication::showHelp));
+      grpAction->add (Gtk::Action::create ("HlpSetBrowser", Gtk::Stock::PROPERTIES,
+					   _("Set help-_browser"),
+					   _("Enables selecting which browser to use")),
+		      mem_fun (*this, &XApplication::selectHelpBrowser));
+
+      uiString += ("<menuitem action='HlpContent'/>"
+		   "<menuitem action='HlpSetBrowser'/><separator/>");
+   }
+   grpAction->add (Gtk::Action::create ("HlpAbout", _("_About")),
+		   mem_fun (*this, &XApplication::showAboutbox));
+
+   uiString += "<menuitem action='HlpAbout'/></menu>";
+ }
+
+//-----------------------------------------------------------------------------
+/// Shows the help to the program
+//-----------------------------------------------------------------------------
+void XApplication::showHelp () {
+   Check3 (getHelpfile ());
+   std::string file (getHelpfile ());
+   TRACE9 ("XApplication::command (int) - Show help " << file);
+   TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
+
+   // Test if file-protocoll or no protocoll at all
+   if (((file[0] == '/') && (file[1] != '/'))
+       || (file.substr (0, 7) == "file://")) {
+      if (file[0] != '/')
+	 file.replace (0, 7, 0, '\0');
+
+      // If so: Check which language to use; either using the LANGUAGE
+      // environment variable or the locale settings
+      const char* pLang (getenv ("LANGUAGE"));
+#ifdef HAVE_LC_MESSAGES
+      YGP::Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
+#else
+      YGP::Tokenize ext (pLang ? pLang : getenv ("LANG"));
+#endif
+
+      // Check every language-entry (while removing trailing specifiers)
+      std::string extension;
+      struct stat sfile;
+      while ((extension = ext.getNextNode (':')).size ()) {
+	 std::string search;
+	 do {
+	    search = file + std::string (1, '.') + extension;
+
+	    TRACE9 ("XApplication::command (int) - Checking for help-file "
+		    << search);
+	    if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
+	       break;
+
+	    unsigned int pos (extension.rfind ('_'));
+	    if (pos == std::string::npos)
+	       pos = 0;
+	    extension.replace (pos, extension.length (), 0, '\0');
+	 } while (extension.size ());
+
+	 if (extension.size ()) {
+	    file += '.';
+	    file += extension;
+	    break;
+	 }
+      } // end-while
+
+      // Nothing worked: Check if file exists directly; if not try english
+      if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
+	 file += ".en";
+   } // endif file-protocoll
+   TRACE5 ("XApplication::command (int) - Starting browser with " << file);
+
+   try {
+#ifdef HAVE_VIEWER
+      if (helpBrowser == "GTKHTML")
+	 HTMLViewer::create (file);
+      else {
+#endif
+	 file = "file://" + file;
+	 const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
+	 YGP::Process::execAsync (helpBrowser.c_str (), args);
+#ifdef HAVE_VIEWER
+      }
+#endif
+   }
+   catch (std::string& error) {
+      if (error.size ()) {
+	 Gtk::MessageDialog msg (Glib::locale_to_utf8 (error),
+				 Gtk::MESSAGE_ERROR);
+	 msg.run ();
+      }
+   }
 }
 
-//-----------------------------------------------------------------------------
-/// Command-handler; handles the help menu entries.
-/// \param menu: ID of command (menu)
-//-----------------------------------------------------------------------------
-void XApplication::command (int menu) {
-   switch (menu) {
-   case ABOUT:
-      showAboutbox ();
-      break;
+//----------------------------------------------------------------------------
+/// Shows the dialog to select the browser to display the help
+//----------------------------------------------------------------------------
+void XApplication::selectHelpBrowser () {
+   Check3 (getHelpfile ());
+   BrowserDlg::create (helpBrowser);
+}
 
-   case CONTENT: {
-      Check3 (getHelpfile ());
-      std::string file (getHelpfile ());
-      TRACE9 ("XApplication::command (int) - Show help " << file);
-      TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
+//----------------------------------------------------------------------------
+/// Returns the name of the help file to display.
+/// \returns const char*: Name of help-file (NULL: none)
+//----------------------------------------------------------------------------
+const char* XApplication::getHelpfile () {
+   return NULL;
+}
 
-      // Test if file-protocoll or no protocoll at all
-      if (((file[0] == '/') && (file[1] != '/'))
-          || (file.substr (0, 7) == "file://")) {
-         if (file[0] != '/')
-            file.replace (0, 7, 0, '\0');
-
-         // If so: Check which language to use; either using the LANGUAGE
-         // environment variable or the locale settings
-         const char* pLang (getenv ("LANGUAGE"));
-#ifdef HAVE_LC_MESSAGES
-         YGP::Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
-#else
-         YGP::Tokenize ext (pLang ? pLang : getenv ("LANG"));
-#endif
-
-         // Check every language-entry (while removing trailing specifiers)
-         std::string extension;
-         struct stat sfile;
-         while ((extension = ext.getNextNode (':')).size ()) {
-            std::string search;
-            do {
-               search = file + std::string (1, '.') + extension;
-
-               TRACE9 ("XApplication::command (int) - Checking for help-file "
-                       << search);
-               if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
-                  break;
-
-               unsigned int pos (extension.rfind ('_'));
-               if (pos == std::string::npos)
-                  pos = 0;
-               extension.replace (pos, extension.length (), 0, '\0');
-            } while (extension.size ());
-
-            if (extension.size ()) {
-               file += '.';
-               file += extension;
-               break;
-            }
-         } // end-while
-
-         // Nothing worked: Check if file exists directly; if not try english
-         if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
-            file += ".en";
-      } // endif file-protocoll
-      TRACE5 ("XApplication::command (int) - Starting browser with " << file);
-
-      try {
-#ifdef HAVE_VIEWER
-         if (helpBrowser == "GTKHTML")
-            HTMLViewer::create (file);
-         else {
-#endif
-	    file = "file://" + file;
-            const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
-            YGP::Process::execAsync (helpBrowser.c_str (), args);
-#ifdef HAVE_VIEWER
-         }
-#endif
-      }
-      catch (std::string& error) {
-         if (error.size ()) {
-            Gtk::MessageDialog msg (Glib::locale_to_utf8 (error),
-                                    Gtk::MESSAGE_ERROR);
-            msg.run ();
-         }
-      }
-      break; }
-
-   case CONFIGUREBROWSER:
-      Check3 (getHelpfile ());
-      BrowserDlg::create (helpBrowser);
-      break;
-
-   default:
-      Check3 (0);
-   }
+//----------------------------------------------------------------------------
+/// Displays the about box. See also XAbout for a dialog implementing one.
+//----------------------------------------------------------------------------
+void XApplication::showAboutbox () {
 }
 
 //----------------------------------------------------------------------------

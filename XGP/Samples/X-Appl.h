@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.14 2004/12/22 16:52:40 markus Rel $
+//$Id: X-Appl.h,v 1.15 2005/01/24 17:12:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,7 +48,15 @@ class XAppl : public XGP::XApplication {
    const XAppl& operator= (const XAppl&);
 
    // Event-handling
-   virtual void command (int menu);
+   void open ();
+   void save ();
+   void print ();
+   void showDialog ();
+   void showDateDialog ();
+   void showConnectDialog ();
+   void showMsgDialog ();
+   void showLoginDialog ();
+   void showSearchDialog ();
 
    void addActFile ();
    void addFile (const std::string& file);
@@ -71,7 +79,7 @@ class XAppl : public XGP::XApplication {
    FileCols                           cols;
    Glib::RefPtr <XGP::XFileListStore> files;
    XGP::XFileList                     listFiles;
-   
+
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
 
@@ -79,7 +87,6 @@ class XAppl : public XGP::XApplication {
    std::string file;
    YGP::ANumeric    num;
 
-   static XGP::XApplication::MenuEntry XAppl::menuItems[];
    static const char* pTitles[];
 
    static const char* xpmAuthor[];
