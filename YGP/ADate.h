@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.21 2003/02/22 18:22:02 markus Exp $
+//$Id: ADate.h,v 1.22 2003/03/03 05:56:28 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ class ADate : public AttributValue {
    ADate (bool now);
    ADate (const ADate& other) : AttributValue ((const AttributValue&)other)
       , day (other.day), month (other.month), year (other.year) { }
-   ADate (char Day, char Month, int Year);
+   ADate (char Day, char Month, int Year) throw (std::invalid_argument);
    ADate (const char* pDate) throw (std::invalid_argument) { operator= (pDate); }
    ADate (const std::string& date) throw (std::invalid_argument) { operator= (date); }
    ADate (const struct tm& tm) { operator= (tm); }
@@ -68,8 +68,8 @@ class ADate : public AttributValue {
    virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
 
    virtual void define () { setDefined (); day = month = (unsigned char)1; year = 1900; }
-   void setDay (char Day);
-   void setMonth (char Month);
+   void setDay (char Day) throw (std::invalid_argument);
+   void setMonth (char Month) throw (std::invalid_argument);
    void setYear (int Year) { setDefined (); year = Year; }
 
    // Query-functions

@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.28 2003/02/05 06:03:37 markus Exp $
+//$Id: ADate.cpp,v 1.29 2003/03/03 05:56:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -33,8 +33,8 @@
 #   include <windows.h>
 #endif
 
+#include <sstream>
 #include <stdexcept>
-#include <strstream>
 
 #include "Trace_.h"
 #include "Internal.h"
@@ -61,16 +61,11 @@ ADate::ADate (bool now) : AttributValue () {
 //            month: Month
 //            year: Year to set
 /*--------------------------------------------------------------------------*/
-ADate::ADate (char Day, char Month, int Year) : AttributValue (true) {
-   day = Day;
-   month = Month;
-   year = Year;
-
-   if (checkIntegrity ()) {
-      TRACE ("ADate::ADate (Day, Month, Year) -> checkIntegrity failed with "
-             << checkIntegrity ());
-      AttributValue::undefine ();
-   }
+ADate::ADate (char Day, char Month, int Year) throw (std::invalid_argument)
+   : AttributValue (true), day (Day), month (Month), year (Year) {
+   int status (checkIntegrity ());
+   if (status)
+      throw (std::invalid_argument (status == 2 ? "Month" : "Day"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -113,11 +108,11 @@ ADate& ADate::operator= (const char* pDate) throw (std::invalid_argument) {
 
    TRACE5 ("ADate::operator= (const char*): " << pDate);
 
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-   std::istrstream help (const_cast <char*> (pDate));
-#else
-   istrstream help (pDate);
-#endif
+   // #if defined (__BORLANDC__) || defined (_MSC_VER)
+   //   std::istrstream help (const_cast <char*> (pDate));
+   // #else
+   std::istringstream help (pDate);
+   // #endif
    readFromStream (help);
    return *this;
 }
@@ -518,13 +513,12 @@ bool ADate::maxAdapt () {
 //            is set to undefined.
 //Parameters: Day: Day to set
 /*--------------------------------------------------------------------------*/
-void ADate::setDay (char Day) {
+void ADate::setDay (char Day) throw (std::invalid_argument) {
    day = Day;
 
    if (checkIntegrity ()) {
-      TRACE ("ADate::setDay -> checkIntegrity failed with " << checkIntegrity ());
       day = 1;
-      undefine ();
+      throw (std::invalid_argument ("ADate::setDay"));
    }
    else
       setDefined ();
@@ -535,12 +529,11 @@ void ADate::setDay (char Day) {
 //            it is set to undefined.
 //Parameters: month: Month to set
 /*--------------------------------------------------------------------------*/
-void ADate::setMonth (char Month) {
+void ADate::setMonth (char Month) throw (std::invalid_argument) {
    month = Month;
 
    if (checkIntegrity ()) {
-      TRACE ("ADate::setMonth -> checkIntegrity failed with " << checkIntegrity ());
-      month = 1;
+      throw (std::invalid_argument ("ADate::setMonth"));
       undefine ();
    }
    else

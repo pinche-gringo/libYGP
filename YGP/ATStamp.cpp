@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.12 2002/11/30 05:03:32 markus Rel $
+//$Id: ATStamp.cpp,v 1.13 2003/03/03 05:56:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,8 +28,7 @@
 
 #include <gzo-cfg.h>
 
-#include <strstream>
-
+#include <sstream>
 #include <stdexcept>
 
 #include "Check.h"
@@ -62,13 +61,8 @@ ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
 //            month, year, hour, minute, second: Other time-parameters
 /*--------------------------------------------------------------------------*/
 ATimestamp::ATimestamp (char Day, char Month, int Year, char Hour,
-                        char minute, char second) : ADate (Day, Month, Year)
-   , ATime (Hour, minute, second) {
-   if (checkIntegrity ()) {
-      TRACE ("ATimestamp::ATimestamp (Day, Month, Year, Hour, minute, second)"
-             " -> checkIntegrity failed with " << checkIntegrity ());
-      undefine ();
-   }
+                        char minute, char second) throw (std::invalid_argument)
+   : ADate (Day, Month, Year), ATime (Hour, minute, second) {
 }
 
 /*--------------------------------------------------------------------------*/
@@ -113,7 +107,7 @@ ATimestamp& ATimestamp::operator= (const char* pStamp) throw (std::invalid_argum
 #if defined (__BORLANDC__) || defined (_MSC_VER)
    std::istrstream help (const_cast <char*> (pStamp));
 #else
-   istrstream help (pStamp);
+   std::istringstream help (pStamp);
 #endif
    readFromStream (help);
    return *this;

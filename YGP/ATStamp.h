@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.15 2003/02/22 18:22:02 markus Exp $
+//$Id: ATStamp.h,v 1.16 2003/03/03 05:56:28 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp (const ATimestamp& other) : ADate ((const ADate&)other)
       , ATime ((const ATime&)other) { }
    ATimestamp (char Day, char Month, int Year, char Hour,
-               char minute, char second);
+               char minute, char second) throw (std::invalid_argument);
    ATimestamp (const char* pStamp) throw (std::invalid_argument) { operator= (pStamp); }
    ATimestamp (const std::string& stamp) throw (std::invalid_argument) { operator= (stamp); }
    ATimestamp (const struct tm& tm) { operator= (tm); }
@@ -51,12 +51,8 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    bool         isDefined () const { return ATime::isDefined ();
    }
    virtual void undefine () {
-#if defined (__BORLANDC__) || defined (_MSC_VER)
       ADate::undefine ();
       ATime::undefine ();
-#else
-      AttributValue::undefine ();
-#endif
    }
 
    static ATimestamp now () { return ATimestamp (true); }

@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.14 2003/02/22 18:22:02 markus Exp $
+//$Id: ATime.h,v 1.15 2003/03/03 05:56:28 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #endif
 
 #include <string>
+#include <iosfwd>
 
 #include <AttrVal.h>
 
@@ -33,7 +34,6 @@
 namespace std {
    class invalid_argument;
 }
-class istream;
 
 
 // Class for date attributes. As every AttributValue is supports undefined
@@ -44,7 +44,7 @@ class ATime : public AttributValue {
    ATime (bool now);
    ATime (const ATime& other) : AttributValue ((const AttributValue&)other)
       , hour (other.hour), sec (other.sec), min_ (other.min_) { }
-   ATime (char Hour, char minute, char second);
+   ATime (char Hour, char minute, char second) throw (std::invalid_argument);
    ATime (const char* pTime) throw (std::invalid_argument) { operator= (pTime); }
    ATime (const std::string& time) throw (std::invalid_argument) { operator= (time); }
    ATime (const struct tm& tm) { operator= (tm); }

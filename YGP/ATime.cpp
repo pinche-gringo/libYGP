@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.19 2003/02/05 06:03:37 markus Exp $
+//$Id: ATime.cpp,v 1.20 2003/03/03 05:56:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -33,7 +33,7 @@
 #   include <windows.h>
 #endif
 
-#include <strstream>
+#include <sstream>
 #include <stdexcept>
 
 #include "Check.h"
@@ -63,14 +63,12 @@ ATime::ATime (bool now) : AttributValue () {
 //            minute: Minute to set
 //            second: Second to set
 /*--------------------------------------------------------------------------*/
-ATime::ATime (char Hour, char minute, char second) : AttributValue (),
-   hour (Hour), min_ (minute), sec (second) {
-   if (checkIntegrity ()) {
-      TRACE ("ATime::ATime (Hour, minute, second) -> checkIntegrity failed with "
-             << checkIntegrity ());
-   }
-   else
-      setDefined ();
+ATime::ATime (char Hour, char minute, char second) throw (std::invalid_argument)
+   : AttributValue (true), hour (Hour), min_ (minute), sec (second)  {
+   int status (checkIntegrity ());
+   if (status)
+      throw (std::invalid_argument (status == 3 ? "Hour"
+                                    : status == 2 ? "Minute" : "Second"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -117,7 +115,7 @@ ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
 #if defined (__BORLANDC__) || defined (_MSC_VER)
    std::istrstream help (const_cast <char*> (pTime));
 #else
-   istrstream help (pTime);
+   std::istringstream help (pTime);
 #endif
    readFromStream (help);
    return *this;
@@ -459,8 +457,8 @@ bool ATime::maxAdapt () {
 /*--------------------------------------------------------------------------*/
 void ATime::setHour (char Hour) throw (std::invalid_argument) {
    if (hour > 23) {
-      TRACE ("ATime::setHour -> Invalid parameter: " << Hour);
-      throw std::invalid_argument ("ATime::setSHour");
+      TRACE0 ("ATime::setHour -> Invalid parameter: " << Hour);
+      throw std::invalid_argument ("ATime::setHour");
    }
    hour = Hour;
    setDefined ();
@@ -473,7 +471,7 @@ void ATime::setHour (char Hour) throw (std::invalid_argument) {
 /*--------------------------------------------------------------------------*/
 void ATime::setMinute (char minute) throw (std::invalid_argument) {
    if (minute > 59) {
-      TRACE ("ATime::setMinute -> Invalid parameter: " << minute);
+      TRACE0 ("ATime::setMinute -> Invalid parameter: " << minute);
       throw std::invalid_argument ("ATime::setMinute");
    }
    min_ = minute;
@@ -487,7 +485,7 @@ void ATime::setMinute (char minute) throw (std::invalid_argument) {
 /*--------------------------------------------------------------------------*/
 void ATime::setSecond (char second) throw (std::invalid_argument) {
    if (second > 61) {
-      TRACE ("ATime::setSecond -> Invalid parameter: " << second);
+      TRACE0 ("ATime::setSecond -> Invalid parameter: " << second);
       throw std::invalid_argument ("ATime::setSecond");
    }
    sec = second;
