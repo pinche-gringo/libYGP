@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.14 2003/03/03 06:18:36 markus Exp $
+//$Id: ATStamp.cpp,v 1.15 2003/05/23 17:49:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -104,11 +104,7 @@ ATimestamp& ATimestamp::operator= (const char* pStamp) throw (std::invalid_argum
 
    TRACE5 ("ATimestamp::operator= (const char*): " << pStamp);
 
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-   std::istrstream help (const_cast <char*> (pStamp));
-#else
    std::istringstream help (pStamp);
-#endif
    readFromStream (help);
    return *this;
 

@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.21 2003/03/03 06:18:36 markus Exp $
+//$Id: ATime.cpp,v 1.22 2003/05/23 17:49:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -112,11 +112,7 @@ ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
 
    TRACE5 ("ATime::operator= (const char*): " << pTime);
 
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-   std::istrstream help (const_cast <char*> (pTime));
-#else
    std::istringstream help (pTime);
-#endif
    readFromStream (help);
    return *this;
 }
