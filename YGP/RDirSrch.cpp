@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.11 2001/10/08 14:30:01 markus Exp $
+//$Id: RDirSrch.cpp,v 1.12 2001/10/09 17:20:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -144,8 +144,7 @@ const File* RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::strin
    TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - Size=" << size);
 
    // Set filetime
-   time.setGMT (time.toSysTime ());
-   pEntry->time (time.toSysTime ());
+   pEntry->time (time.toGMTTime ());
    TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - Time="
 	   << time.toString ());
 
