@@ -4,12 +4,15 @@ Prerequisites
 Parts of this libraries need
 
   - Gtkmm (which itself needs GTK+); configure test for version 2.2.0, but the
-    2.0 series might also work
-  - A CORBA implementation (tested with MICO 2.3.9)
+    2.0 series might also work. Get if from http://www.gtkmm.org.
+  - libgtkhtml (http://???)
+  - A CORBA implementation (tested with MICO 2.3.9 (http://www.mico.org))
+  - doxygen to generate the documentation
 
 The package will compile without them, but you don't get the whole
 functionality (not surprisingly the CORBA- and/or the X-windows library are
-missing).
+missing). The libgtkhtml is used to display the help of (X-)applications
+(loads faster than by using a browser).
 
 
 How to build (if extracted from an (tar-)archive)
@@ -118,4 +121,4 @@ Compilers and Options
   - clean                       # Deletes the files created during the make
   - uninstall                   # Uninstalls (after you found out what crap
                                   this package actually contains)
-  - doc                         # Only in the doc subdirectory
+  - doc                         # Only in the doc subdirectory (needs doxygen)
