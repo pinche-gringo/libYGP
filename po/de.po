@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.28 $)\n"
-"POT-Creation-Date: 2004-01-19 01:55-0500\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.29 $)\n"
+"POT-Creation-Date: 2004-09-05 20:51-0500\n"
 "PO-Revision-Date: 2004-01-14 21:55-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -169,19 +169,19 @@ msgstr "-Fehler: Die Option '%1' ist nicht eindeutig"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
-#: YGP/Parse.cpp:291
+#: YGP/Parse.cpp:290
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
-#: YGP/Parse.cpp:925
+#: YGP/Parse.cpp:924
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
-#: YGP/Parse.cpp:925
+#: YGP/Parse.cpp:924
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
-#: YGP/Parse.cpp:1043
+#: YGP/Parse.cpp:1042
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
 
@@ -201,42 +201,42 @@ msgstr "Ungültiger Befehl"
 msgid "Invalid arguments: "
 msgstr "Ungültige Argumente: "
 
-#: YGP/Socket.cpp:75 YGP/Socket.cpp:88 YGP/Socket.cpp:122 YGP/Socket.cpp:147
+#: YGP/Socket.cpp:79 YGP/Socket.cpp:92 YGP/Socket.cpp:126 YGP/Socket.cpp:151
 msgid "Can't create socket"
 msgstr "Kann keinen Socket (für die Kommunikation) erzeugen"
 
-#: YGP/Socket.cpp:178
+#: YGP/Socket.cpp:182
 msgid "Can't bind to port"
 msgstr "Fehler beim Binden zu Port"
 
-#: YGP/Socket.cpp:181
+#: YGP/Socket.cpp:185
 msgid "Can't listen on port"
 msgstr "Fehler beim Warten an Port"
 
-#: YGP/Socket.cpp:205
+#: YGP/Socket.cpp:209
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
 "Service-name"
 
-#: YGP/Socket.cpp:239 YGP/Socket.cpp:259
+#: YGP/Socket.cpp:243 YGP/Socket.cpp:263
 msgid "Error reading data"
 msgstr "Fehler beim Lesen der Daten"
 
-#: YGP/Socket.cpp:285
+#: YGP/Socket.cpp:289
 msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
-#: YGP/Socket.cpp:308
+#: YGP/Socket.cpp:312
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
-#: YGP/Socket.cpp:316
+#: YGP/Socket.cpp:320
 msgid "Can't connect to server '%1'"
 msgstr "Kann keine Verbindung zu Server '%1' herstellen"
 
-#: YGP/Socket.cpp:336
+#: YGP/Socket.cpp:340
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
 
@@ -279,27 +279,27 @@ msgstr ""
 "Fehler beim Ausführen des Druckbefehls '%1'\n"
 "Ursache: %2"
 
-#: XGP/XFileDlg.cpp:112
+#: XGP/XFileDlg.cpp:95
 msgid "File `%1' does not exist!"
 msgstr "Datei '%1' existiert nicht!"
 
-#: XGP/XFileDlg.cpp:122
+#: XGP/XFileDlg.cpp:105
 msgid "File `%1' exists! Overwrite?"
 msgstr "Datei '%1' existiert! Überschreiben?"
 
-#: XGP/XFileList.cpp:301
+#: XGP/XFileList.cpp:302
 msgid "Open in %1 ..."
 msgstr "Öffnen mit %1 ..."
 
-#: XGP/XFileList.cpp:314
+#: XGP/XFileList.cpp:315
 msgid "Rename/Move ..."
 msgstr "Umbenennen/Verschieben ..."
 
-#: XGP/XFileList.cpp:318
+#: XGP/XFileList.cpp:319
 msgid "Delete"
 msgstr "Löschen"
 
-#: XGP/XFileList.cpp:343
+#: XGP/XFileList.cpp:344
 msgid "Environment variable `TERM' not defined!"
 msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 
@@ -307,7 +307,7 @@ msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 msgid "File"
 msgstr "Datei"
 
-#: XGP/XAttrEntry.h:91
+#: XGP/XAttrEntry.h:97
 msgid "Invalid value!"
 msgstr "Ungültiger Wert!"
 
@@ -424,11 +424,11 @@ msgstr ""
 "\n"
 "Ursache: %1"
 
-#: XGP/ConnectDlg.cpp:167 XGP/ConnectDlg.cpp:188
+#: XGP/ConnectDlg.cpp:168 XGP/ConnectDlg.cpp:190
 msgid "Connect error"
 msgstr "Verbindungsfehler"
 
-#: XGP/ConnectDlg.cpp:185
+#: XGP/ConnectDlg.cpp:186
 msgid ""
 "Can't bind to port!\n"
 "\n"

@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.25 $)\n"
-"POT-Creation-Date: 2004-01-19 01:55-0500\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.26 $)\n"
+"POT-Creation-Date: 2004-09-05 20:51-0500\n"
 "PO-Revision-Date: 2004-01-14 21:57-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -169,19 +169,19 @@ msgstr ""
 msgid "-error: Unrecognized option `%1'"
 msgstr ""
 
-#: YGP/Parse.cpp:291
+#: YGP/Parse.cpp:290
 msgid "Expected %1, found: '%2'"
 msgstr ""
 
-#: YGP/Parse.cpp:925
+#: YGP/Parse.cpp:924
 msgid "Error in sequence %1; Expected: %2"
 msgstr ""
 
-#: YGP/Parse.cpp:925
+#: YGP/Parse.cpp:924
 msgid "Error in sequence %1"
 msgstr ""
 
-#: YGP/Parse.cpp:1043
+#: YGP/Parse.cpp:1042
 msgid "Expected selection %1"
 msgstr ""
 
@@ -201,40 +201,40 @@ msgstr ""
 msgid "Invalid arguments: "
 msgstr ""
 
-#: YGP/Socket.cpp:75 YGP/Socket.cpp:88 YGP/Socket.cpp:122 YGP/Socket.cpp:147
+#: YGP/Socket.cpp:79 YGP/Socket.cpp:92 YGP/Socket.cpp:126 YGP/Socket.cpp:151
 msgid "Can't create socket"
 msgstr "Can't create socket (for communication)"
 
-#: YGP/Socket.cpp:178
+#: YGP/Socket.cpp:182
 msgid "Can't bind to port"
 msgstr ""
 
-#: YGP/Socket.cpp:181
+#: YGP/Socket.cpp:185
 msgid "Can't listen on port"
 msgstr ""
 
-#: YGP/Socket.cpp:205
+#: YGP/Socket.cpp:209
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 
-#: YGP/Socket.cpp:239 YGP/Socket.cpp:259
+#: YGP/Socket.cpp:243 YGP/Socket.cpp:263
 msgid "Error reading data"
 msgstr ""
 
-#: YGP/Socket.cpp:285
+#: YGP/Socket.cpp:289
 msgid "Error accepting connection"
 msgstr ""
 
-#: YGP/Socket.cpp:308
+#: YGP/Socket.cpp:312
 msgid "Can't resolve name '%1'"
 msgstr ""
 
-#: YGP/Socket.cpp:316
+#: YGP/Socket.cpp:320
 msgid "Can't connect to server '%1'"
 msgstr ""
 
-#: YGP/Socket.cpp:336
+#: YGP/Socket.cpp:340
 msgid "Error sending data"
 msgstr ""
 
@@ -270,27 +270,27 @@ msgid ""
 "Reason: %2"
 msgstr ""
 
-#: XGP/XFileDlg.cpp:112
+#: XGP/XFileDlg.cpp:95
 msgid "File `%1' does not exist!"
 msgstr ""
 
-#: XGP/XFileDlg.cpp:122
+#: XGP/XFileDlg.cpp:105
 msgid "File `%1' exists! Overwrite?"
 msgstr ""
 
-#: XGP/XFileList.cpp:301
+#: XGP/XFileList.cpp:302
 msgid "Open in %1 ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:314
+#: XGP/XFileList.cpp:315
 msgid "Rename/Move ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:318
+#: XGP/XFileList.cpp:319
 msgid "Delete"
 msgstr ""
 
-#: XGP/XFileList.cpp:343
+#: XGP/XFileList.cpp:344
 msgid "Environment variable `TERM' not defined!"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: XGP/XAttrEntry.h:91
+#: XGP/XAttrEntry.h:97
 msgid "Invalid value!"
 msgstr ""
 
@@ -407,11 +407,11 @@ msgid ""
 "Reason: %1"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:167 XGP/ConnectDlg.cpp:188
+#: XGP/ConnectDlg.cpp:168 XGP/ConnectDlg.cpp:190
 msgid "Connect error"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:185
+#: XGP/ConnectDlg.cpp:186
 msgid ""
 "Can't bind to port!\n"
 "\n"
