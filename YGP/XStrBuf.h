@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.8 2000/02/11 23:22:48 Markus Exp $
+// $Id: XStrBuf.h,v 1.9 2000/04/06 20:49:53 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #endif
 
 
-// Extended streambuf, specialized to parse text. It enhanced features are
+// Extended streambuf, specialized to parse text. Its enhanced features are
 // column- and line-information and a variable-sized putback-buffer (putback
 // beyond block-size possible)
 // ATTENTION: A wee bit of overhandling neccessary! Although extStreambuf is
