@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.3 2001/09/25 21:17:27 markus Exp $
+//$Id: Attribute.h,v 1.4 2001/10/08 23:34:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,6 +90,12 @@ bool Attribute<char*>::assignFromString (const char* value) const {
    attr_ = new char[strlen (value) + 1];
    if (!attr_)
       return false;
+   strcpy (attr_, value);
+   return true;
+}
+
+bool Attribute<char* const>::assignFromString (const char* value) const {
+   assert (value);
    strcpy (attr_, value);
    return true;
 }
