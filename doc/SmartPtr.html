@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: SmartPtr.html,v 1.5 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: SmartPtr.html,v 1.6 2002/12/14 23:00:09 markus Exp $ -->
 
 <html>
   <head>
@@ -43,20 +42,20 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td></td>
         <td><a href="SmartPtr.html#SmartPtr"><b>SmartPtr</b></a></td>
-        <td><tt>(<font color="navy">T</font>* <font color="blue">pValue</font> = NULL)</tt>;</td></tr>
+        <td><tt>(<span style="color:navy">T</span>* <span style="color:blue">pValue</span> = NULL)</tt>;</td></tr>
 
       <tr valign="top"><td><tt><a href="SmartPtr.html"><b>SmartPtr</b></a>&amp;</tt></td>
-        <td><a href="SmartPtr.html#operator="><tt><font color="black"><b>operator</b></font>=</a></td>
-        <td><tt>(<font color="navy">T</font>* <font color="blue">pValue</font>)</tt>;</td></tr>
+        <td><a href="SmartPtr.html#operator="><tt><span style="color:black"><b>operator=</b></span></a></td>
+        <td><tt>(<span style="color:navy">T</span>* <span style="color:blue">pValue</span>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><font color="navy">T</font>*</tt></td>
-        <td><a href="SmartPtr.html#operator-g"><tt><font color="black"><b>operator</b></font>-&gt;</tt></a></td>
+      <tr valign="top"><td><tt><span style="color:navy">T</span>*</tt></td>
+        <td><a href="SmartPtr.html#operator-g"><tt><span style="color:black"><b>operator-&gt;</b></span></tt></a></td>
         <td><tt>() const</tt>;</td></tr>
-      <tr valign="top"><td><tt><font color="navy">T</font>&amp;</tt></td>
-        <td><a href="SmartPtr.html#operator*"><tt><font color="black"><b>operator</b></font>*</a></td>
+      <tr valign="top"><td><tt><span style="color:navy">T</span>&amp;</tt></td>
+        <td><a href="SmartPtr.html#operator*"><tt><span style="color:black"><b>operator*</b></span></a></td>
         <td><tt>() const</tt>;</td></tr>
       <tr valign="top"><td></td>
-        <td><a href="SmartPtr.html#operatorT*"><tt><font color="black"><b>operator</b></font> T*</a></td>
+        <td><a href="SmartPtr.html#operatorT*"><tt><span style="color:black"><b>operator T*</b></span> </a></td>
         <td><tt>() const</tt>;</td></tr>
 
       <tr valign="top"><td><tt>virtual</tt></td>
@@ -67,37 +66,54 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="SmartPtr"></a>SmartPtr (T* pValue = NULL)</pre>
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="SmartPtr"></a><b>SmartPtr</b> (T* pValue = NULL)</pre>
     <dl>
       <dd><p>Defaultconstructor; lets the SmartPtr-object point to the passed
           value.</p>
         <p><b>Note</b>: The parameter must be the address of an object on the
           heap (created with new)!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pValue</code>: Object to handle<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="~SmartPtr"></a>~SmartPtr ()</pre>
-
-    <pre><a name="operator="></a>SmartPtr&amp; operator= (T* pValue)</pre>
+    <hr>
+    <pre><a name="~SmartPtr"></a><b>~SmartPtr</b> ()</pre>
     <dl>
-      <dd>Assignmentoperator; releases the old object pointed to and starts
-        handling the new (passed) one.</dd>
+      <dd><p>Destructor</p></dd>
     </dl>
-
-    <h4>Accessing the object</h4>
-    <pre><a name="operator-g"></a>T* operator-&gt; () const</pre>
+    <hr>
+    <pre><a name="operator="></a>SmartPtr&amp; <b>operator=</b> (T* pValue)</pre>
     <dl>
-      <dd>Retrieves the stored pointer to the object.</dd>
+      <dd><p>Assignmentoperator; releases the old object pointed to and starts
+        handling the new (passed) one.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pValue</code>: New object to handle<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this<dd></dl><dd>
     </dl>
 
-    <pre><a name="operator*"></a>T&amp; operator* () = 0</pre>
+    <h3 style="color:navy">Accessing the object</h3>
+    <pre><a name="operator-g"></a>T* <b>operator-&gt;</b> () const</pre>
     <dl>
-      <dd>Retrieves a reference to the stored obect.</dd>
+      <dd><p>Retrieves the stored pointer to the object.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Pointer to stored value<dd></dl><dd>
     </dl>
-
-    <pre><a name="operatorT*"></a>operator T* () const</pre>
+    <hr>
+    <pre><a name="operator*"></a>T&amp; <b>operator*</b> () = 0</pre>
     <dl>
-      <dd>Type-conversion; Retrieves the stored pointer to the object.</dd>
+      <dd><p>Retrieves a reference to the stored obect.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to stored value<dd></dl><dd>
     </dl>
-
+    <hr>
+    <pre><a name="operatorT*"></a><b>operator T*</b> () const</pre>
+    <dl>
+      <dd><p>Type-conversion; Retrieves the stored pointer to the object.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Pointer to stored value<dd></dl><dd>
+    </dl>
   </body>
 </html>
