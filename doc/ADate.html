@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: ADate.html,v 1.13 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: ADate.html,v 1.14 2002/11/26 08:30:09 markus Exp $ -->
 
 <html>
   <head>
@@ -215,68 +215,134 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="ADate"></a>ADate ()</pre>
+    <h3><font color="navy">Management functions</font></h4>
+    <pre><a name="ADate"></a><b>ADate</b> ()</pre>
     <dl>
-      <dd>Defaultconstructor; the date is not defined</dd>
+      <dd><p>Defaultconstructor; the date is not defined</p></dd>
     </dl>
 
-    <pre><a name="ADate3"></a>ADate (const ADate&amp; other)</pre>
-    <pre><a name="ADate2"></a>ADate (bool now)</pre>
+    <pre><a name="ADate3"></a><b>ADate</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Constructor; depending on the parameter the date is either set to the
+      <dd><p>Copyconstructor; copies the values of the passed object</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to copy<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="ADate2"></a><b>ADate</b> (bool now)</pre>
+    <dl>
+      <dd><p>Constructor; depending on the parameter the date is either set to the
         first of January, 1900 (now = false), or to the current day (now =
-        true).</dd>
+        true).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>now</code>: Flag which time to set (1900/1/1 (false) or now (true))<dd>
+      </dl><dd>
     </dl>
+    <hr>
 
-    <pre><a name="ADate4"></a>ADate (char Day, char Month, int Year)</pre>
+    <pre><a name="ADate4"></a><b>ADate</b> (char Day, char Month, int Year)</pre>
     <dl>
-      <dd>Constructor; sets the passed date. The date is undefined, if the
-        passed parameters represent no valid day.</dd>
+      <dd><p>Constructor; sets the passed date. The date is undefined, if the
+        passed parameters represent no valid day.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>day</code>: Day for this ADate<dd>
+          <dd><code>month</code>: Month year: Year to set<dd>
+      </dl><dd>
     </dl>
+    <hr>
 
-    <pre><a name="ADate5"></a>ADate (const char* pDate) throw (invalid_argument)</pre>
+    <pre><a name="ADate5"></a><b>ADate</b> (const char* pDate) throw (invalid_argument)</pre>
     <dl>
-      <dd>Constructor; sets the passed date, which must be represented as
-        <i>day.month.year</i>. If the buffer does not represent a valid day,
-        the date is set to undefined. A NULL-pointer as parameter
-        is not permitted!</dd>
+      <dd><p>Constructor from an const char-pointer. The date must be
+        passed as DDMMY[Y...]. If the buffer does not represent a
+        valid day, the date is set to undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pDate</code>: Character array holding date to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::invalid_argument if the characters don't represent a valid date
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="ADate6"></a>virtual ADate (std::string&amp; date) throw (invalid_argument)</pre>
+    <pre><a name="ADate6"></a><b>ADate</b> (std::string&amp; date) throw (invalid_argument)</pre>
     <dl>
-      <dd>Constructor; sets the passed date, which must be represented as
-        <i>day.month.year</i>. If the string does not represent a valid day,
-        the date is set to undefined.</dd>
+      <dd><p>Constructor; sets the passed date, which must be represented as
+        DDMMY[Y...]. If the string does not represent a valid day,
+        an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pDate</code>: String holding date to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::invalid_argument if the string doesn not represent a valid date
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="ADate7"></a>ADate (const struct tm&amp; date)</pre>
+    <hr>
+    <pre><a name="ADate7"></a><b>ADate</b> (const struct tm&amp; date)</pre>
     <dl>
-      <dd>Constructor; assigns the values from the passed struct tm to the
-        date.</dd>
+      <dd><p>Constructor; sets the values from the passed struct tm.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>date</code>: struct tm holding date to assign<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="ADate8"></a>ADate (const time_t date)</pre>
+    <hr>
+    <pre><a name="ADate8"></a><b>ADate</b> (const time_t date)</pre>
     <dl>
-      <dd>Constructor; sets the date to the value represented by the parameter.</dd>
+      <dd><p>Constructor; converts the passed date to an ADate object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>date</code>: System time representation of date to assign<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="~ADate"></a>virtual ~ADate ()</pre>
-    <pre><a name="operator="></a>ADate&amp; operator= (const ADate&amp; other)</pre>
-
-    <pre><a name="operator=2"></a>ADate&amp; operator= (const char* pDate) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="~ADate"></a><b>~ADate</b> () </pre>
     <dl>
-      <dd>Assignment-operator from an const char-pointer. The date must be
-        passed as <i>day.month.year</i>. If the buffer does not represent a
-        valid day, the date is set to undefined.</dd>
+      <dd><p>Destructor</p></dd>
     </dl>
+    <hr>
+    <pre><a name="operator="></a>ADate& <b>operator=</b> (const ADate& other) </pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate&: Reference to self
+</dd></dl></dd>
+    </dl>
+    <hr>
 
+    <pre><a name="operator=2"></a>ADate& <b>operator=</b> (const char* pDate) throw (std::invalid_argument) </pre>
+    <dl>
+      <dd><p>Assignment-operator from a const char-pointer. The date must be
+        passed as DDMMY[Y...]. If the buffer does not represent a
+        valid day, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pDate</code>: Character array holding date to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate&: Reference to self
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::invalid_argument if the characters don't represent a date
+</dd></dl></dd>
+    </dl>
+    <hr>
     <pre><a name="operator=3"></a>ADate&amp; operator= (const std::string&amp; date) throw (invalid_argument)</pre>
     <dl>
-      <dd>Assignment-operator from a const string. The date must be passed as
-        <i>day.month.year</i>. If the string does not represent a valid day,
-        the date is set to undefined.</dd>
+      <dd><p>Assignment-operator from a const string. The date must be
+        passed as DDMMY[Y...]. If the string does not represent a
+        valid day, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>date</code>: String holding date to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate&: Reference to self
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::invalid_argument if the characters don't represent a date
+</dd></dl></dd>
     </dl>
+    <hr>
 
     <pre><a name="operator=4"></a>ADate&amp; operator= (const struct tm&amp; date)</pre>
     <dl>
@@ -294,60 +360,101 @@
       <dd>Sets the date to the 1st of January, 1900.</dd>
     </dl>
 
-    <pre><a name="setDay"></a>void setDay (char Day)</pre>
+    <pre><a name="setDay"></a>void <b>setDay</b> (char Day) </pre>
     <dl>
-      <dd>Sets the day to the passed value. If the date is not valid, it is
-        set to undefined.</dd>
+      <dd><p>Sets the day to the passed value. If the date is not valid, it is
+        set to undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>Day</code>: Day to set<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="setMonth"></a>void <b>setMonth</b> (char Month) </pre>
+    <dl>
+      <dd><p>Sets the month to the passed value. If the date is not valid, it is
+        set to undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>month</code>: Month to set<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="setYear"></a>void <b>setYear</b> (int Year)</pre>
+    <dl>
+      <dd><p>Sets the year to the passed value.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>Year</code>: Year to set<dd>
+      </dl><dd>
     </dl>
 
-    <pre><a name="setMonth"></a>void setMonth (char Month)</pre>
+    <h3><font color="navy">In- &amp; output, conversion</font></h4>
+    <pre><a name="readFromStream"></a>void <b>readFromStream</b> (std::istream& in) throw (std::invalid_argument) </pre>
     <dl>
-      <dd>Sets the month to the passed value. If the date is not valid, it is
-        set to undefined.</dd>
+      <dd><p>Reads a date as <i>DDMMY[Y...]</i> from a stream. If the input is
+        not valid, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>in</code>: Stream to parse<dd>
+      </dl><dd>
     </dl>
+    <hr>
 
-    <pre><a name="setYear"></a>void setYear (int Year)</pre>
+    <pre><a name="toString"></a>std::string <b>toString</b> () const </pre>
     <dl>
-      <dd>Sets the year to the passed value.</dd>
+      <dd><p>Converts the date into a string, in the format specified by the current locale.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: String-representation of ADate
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Only dates valid for struct tm can be printed (e.g. dates after
+ 1900)</dd></dl></dd>
     </dl>
-
-    <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in) throw (invalid_argument)</pre>
-    <dl>
-      <dd>Reads a date as <i>DDMMY[Y...]</i> from a stream. If the input is
-        not valid, an exception is thrown.</dd>
-    </dl>
-
+    <hr>
     <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
       <dd>Converts the date into a string, in the format specified by the
         current locale.</dd>
     </dl>
-    <pre><a name="toString2"></a>virtual std::string toString (const char* format) const</pre>
+    <pre><a name="toString2"></a>std::string <b>toString</b> (const char* format) const </pre>
     <dl>
       <dd><p>Converts the date into a string, in the specified format. The
-          parameter format can be any value accepted by the <i>strftime</i>
-          library-routine.</p>
-        <p><b>Note</b>: The maximal length of the resulting string is 80
-          characters!</p></dd>
+          parameter format can be any value accepted by the strftime
+          library-routine.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: String-representation of ADate
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Only dates valid for struct tm can be printed (e.g. dates after
+ 1900)</dd></dl></dd>
     </dl>
-    <pre><a name="toUnformatedString"></a>virtual std::string toUnformatedString () const</pre>
-    <dl>
-      <dd>Converts the date into a string, in the format DDMMYYYY; each entry is filled up
-        with zeros.</dd>
-    </dl>
+    <hr>
 
-    <pre><a name="toStructTM"></a>virtual struct tm toStructTM () const</pre>
+    <pre><a name="toUnformatedString"></a>std::string <b>toUnformatedString</b> () const </pre>
     <dl>
-      <dd>Converts the date to a struct tm.</dd>
+      <dd><p>Converts the date into a string, in the format DDMMYYYY; each entry is filled up
+        with zeros.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: String-representation of ADate
+</dd></dl></dd>
     </dl>
+    <hr>
+
+    <pre><a name="toStructTM"></a>struct tm <b>toStructTM</b> () const </pre>
+    <dl>
+      <dd><p>Converts the date to a struct tm.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>struct tm: Date in struct tm-format; the time-part is set to zeros
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>It is not checked if the date is in the right range for a
+ struct tm (after 1900 and before 2039)</dd></dl></dd>
+    </dl>
+    <hr>
 
     <pre><a name="toSysTime"></a>time_t toSysTime () const</pre>
     <dl>
       <dd>Converts the date to a system-timestructure.</dd>
     </dl>
 
-    <h4>Query</h4>
+    <h3><font color="navy">Query</font></h4>
     <pre><a name="getDay"></a>char getDay () const</pre>
     <dl>
       <dd>Retrieves the day stored in the object.</dd>
@@ -368,52 +475,95 @@
       <dd>Returns a date-object	representing the current day.</dd>
     </dl>
 
-    <h4>Calculation</h4>
-    <pre><a name="operator+="></a>ADate&amp; operator+= (const ADate&amp; rhs)</pre>
+    <h3><font color="navy">Calculation</font></h4>
+    <pre><a name="operator+="></a>ADate& <b>operator+=</b> (const ADate& rhs) </pre>
     <dl>
-      <dd>Adds another date-value to the date-object. An undefined date is
+      <dd><p>Adds another date-value to the date-object. An undefined date is
         treated as "0.0.0"; so only if both objects are undefined, the result
-        is (remains) undefined. Overflows (of day or month) are corrected.</dd>
+        is (remains) undefined. Overflows (of day or month) are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Value to add<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator-="></a>ADate&amp; operator-= (const ADate&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator-="></a>ADate& <b>operator-=</b> (const ADate& rhs) </pre>
     <dl>
-      <dd>Substracts another date-value from the date-object. An undefined date
+      <dd><p>Substracts another date-value from the date-object. An undefined date
         is treated as "0.0.0"; the result is (remains) undefined if both
-        objects are undefined. Underflows (of day or month) are corrected.</dd>
+        objects are undefined. Underflows (of day or month) are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to substract<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="operator+"></a>ADate&amp; operator+ (const ADate&amp; lhs, const ADate&amp; rhs)</pre>
+    <pre><a name="operator+"></a>ADate <b>operator+</b> (const ADate& lhs, const ADate& rhs) </pre>
     <dl>
-      <dd>Adds two date-values and returns the result. An undefined date is
+      <dd><p>Adds two date-values and returns the result. An undefined date is
         treated as "0.0.0"; the result is (remains) undefined if both objects
-        re undefined. Overflows (of day or month) are corrected.</dd>
+        are undefined. Overflows (of day or month) are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of addition<dd>
+          <dd><code>rhs</code>: Right-hand-side of addition<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate: Result of additon</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator-"></a>ADate&amp; operator- (const ADate&amp; lhs, const ADate&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator-"></a>ADate <b>operator-</b> (const ADate& lhs, const ADate& rhs) </pre>
     <dl>
-      <dd>Substracts two date-values and returns the result. An undefined date
+      <dd><p>Substracts two date-values and returns the result. An undefined date
         is treated as "0.0.0"; the result is (remains) undefined if both objects
-        are undefined. Overflows (of day or month) are corrected.</dd>
+        are undefined. Overflows (of day or month) are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of substraction<dd>
+          <dd><code>rhs</code>: Right-hand-side of substraction<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate: Result of substraction</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="add"></a>ADate&amp; add (char Day, char Month = 0, int Year = 0)</pre>
+    <pre><a name="add"></a>ADate& <b>add</b> (signed char Day, signed char Month, int Year) </pre>
     <dl>
       <dd><p>If this is not undefined, the passed values are added (with attention
-          to overflows). The result is returned.</p>
-        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-          this method does <b>not</b> change the object if it is undefined!</p></dd>
+          to overflows). The result is returned.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>day</code>: Day to add<dd>
+          <dd><code>month</code>: Month to add year: Year to add<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>In counterpart to the mathematic operators (+ and -)
+          this method does not change the object if it is undefined!
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="sub"></a>ADate&amp; sub (char Day, char Month = 0, int Year = 0)</pre>
+    <pre><a name="sub"></a>ADate& <b>sub</b> (signed char Day, signed char Month, int Year) </pre>
     <dl>
-      <dd><p>If this is not undefined, the passed values are substracted (with
-          attention to underflows). The result is returned.</p>
-        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-          this method does <b>not</b> change the object if it is undefined!</p></dd>
+      <dd><p>If this is defined, the passed values are substracted (with
+          attention to underflows). The result is returned.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>day</code>: Day to substract<dd>
+          <dd><code>month</code>: Month to substract year: Year to substract<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>In counterpart to the mathematic operators (+ and -)
+          this method does not change the object if it is undefined!
+</dd></dl></dd>
     </dl>
 
-    <h4>Comparison</h4>
+    <h3><font color="navy">Comparison</font></h4>
     <pre><a name="operator=="></a>bool operator== (const ADate&amp; other)</pre>
     <dl>
       <dd>Compares two date-objects and returns true, if they are equal (either
@@ -456,36 +606,54 @@
         Undefined values are considered as older than any other date.</dd>
     </dl>
 
-    <pre><a name="compare"></a>long compare (const ADate&amp; other)</pre>
+    <pre><a name="compare"></a>long <b>compare</b> (const ADate& other) </pre>
     <dl>
-      <dd>Returns the (approximated) difference in days between two dates. If
-        both dates are undefined, those difference is "0", if only this is
-        undefined the result is MINLONG; if other is undefined MAXLONG is
-        returned (-&gt; undefined dates are considered as (incredible)
-        old).</dd>
+      <dd><p>Returns the (approximated) difference in days between two dates. "Younger dates" (closer to the past) are considered bigger than "older dates" (further in the past; that means the numeric value of the date is compared.<p> If both dates are undefined, those difference is "0", if only this is undefined the result is MINLONG; if other is undefined MAXLONG is returned (-> undefined dates are considered as (very) old).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>>0 if this "younger" other; 0 if this == <code>other</code>; <0 else</dd></dl></dd>
     </dl>
+    <hr>
 
-    <h4>Utility-functions</h4>
-    <pre><a name="maxDayOf"></a>char maxDayOf () const</pre>
+    <h3><font color="navy">Utility-functions</font></h4>
+    <pre><a name="maxDayOf"></a>char <b>maxDayOf</b> () const</pre>
     <dl>
-      <dd>Returns the maximal day the month/year-combination of the current
-        object could have.</dd>
+      <dd><p>Returns the maximal day for month/year of the object.</p></dd>
+          <dd>int: Maximal day for the object [28 - 31]
+</dd></dl></dd>
     </dl>
+    <hr>
+    <pre><a name="maxDayOf2"></a>char <b>maxDayOf</b> (char month, int year) </pre>
+    <dl>
+      <dd><p>Returns the maximal day for the passed month/year-combination.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>month</code>: Month to check<dd>
+          <dd><code>year</code>: Year to check<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Maximal day for the passed parameters [28 - 31]
+</dd></dl></dd>
+    </dl>
+    <hr>
 
-    <pre><a name="maxDayOf2"></a>char maxDayOf (char month, int year)</pre>
+    <pre><a name="isLeapYear"></a>bool <b>isLeapYear</b> ()</pre>
     <dl>
-      <dd>Returns the maximal day the specified month could have.</dd>
+      <dd><p>Checks if the year of the object is a leap-year (years which can be divided by 4; except if it is also divideable by 100) Parameters  year: Year to check</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if leap-year
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="isLeapYear"></a>bool isLeapYear () const</pre>
+    <hr>
+    <pre><a name="isLeapYear2"></a>bool <b>isLeapYear</b> (int year) </pre>
     <dl>
-      <dd>Returns true, if the current object is a leap-year.</dd>
+      <dd><p>Checks if the passed year is a leap-year (years which can be divided by 4; except if it is also divideable by 100) Parameters  year: Year to check</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if leap-year
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="isLeapYear2"></a>bool isLeapYear (int year)</pre>
-    <dl>
-      <dd>Returns true, if the specified year is a leap-year.</dd>
-    </dl>
+    <hr>
 
     <pre><a name="incDay"></a>void incDay ()</pre><dl>
       <dd>Increments the day of the current object with regard of overflows.</dd>
@@ -496,22 +664,36 @@
       <dd>Decrements the day of the current object with regard of underflows.</dd>
     </dl>
 
-    <pre><a name="minAdapt"></a>virtual bool minAdapt ()</pre>
+    <pre><a name="minAdapt"></a>bool <b>minAdapt</b> () </pre>
     <dl>
-      <dd>Corrects the object after underflows. If the object is integer after
-        this operation, true is returned.</dd>
+      <dd><p>Corrects the object after an (possible) underflows. If the object is integer after
+        the operation, true is returned.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: Flag, if object is integer
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="maxAdapt"></a>virtual bool maxAdapt ()</pre>
+    <pre><a name="maxAdapt"></a>bool <b>maxAdapt</b> () </pre>
     <dl>
-      <dd>Corrects the object after overflows. If the object is integer after
-        this operation, true is returned.</dd>
+      <dd><p>Corrects the object after an (possible) overflows. If the object is integer after
+        the operation, true is returned.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: Flag, if object is integer
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="checkIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const </pre>
     <dl>
-      <dd>Checks if this object represents a valid date. <b>Note</b>: Even
-        undefined dates have valid values!</dd>
+      <dd><p>Checks if this object represents a valid date.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Status; 0: OK
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Even undefined dates must have valid values!</dd></dl></dd>
+    </dl>
+    <hr>
     </dl>
   </body>
 </html>
