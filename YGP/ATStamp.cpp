@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.1 1999/10/14 22:23:32 Markus Exp $
+//$Id: ATStamp.cpp,v 1.2 1999/10/15 21:35:07 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,8 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <assert.h>
-#include <values.h>
-#include <locale.h>
 
 #ifdef UNIX
 #include <strstream.h>
@@ -42,7 +40,7 @@
 /*--------------------------------------------------------------------------*/
 //Purpose   : Default-constructor
 /*--------------------------------------------------------------------------*/
-ATimestamp::ATimestamp () : ADate (), hour (0), min (0), sec (0) {
+ATimestamp::ATimestamp () : ADate (), ATime () {
    TRACE5 ("ATimestamp::ATimestamp");
 }
 
@@ -51,19 +49,8 @@ ATimestamp::ATimestamp () : ADate (), hour (0), min (0), sec (0) {
 //Parameters: now: Flag if current time or default start-time (1.1.1900)
 //                 should be set
 /*--------------------------------------------------------------------------*/
-ATimestamp::ATimestamp (bool now) : ADate () {
+ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
    TRACE5 ("ATimestamp::ATimestamp (" << now ? "true)" : "false)");
-   if (now)
-      operator= (time (NULL));
-   else
-      hour = min = sec = 0;
-
-   if (checkIntegrity ()) {
-      TRACE ("ATimestamp::ATimestamp -> checkIntegrity failed with " << checkIntegrity ())
-      undefine ();
-   }
-   else
-      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -73,14 +60,12 @@ ATimestamp::ATimestamp (bool now) : ADate () {
 /*--------------------------------------------------------------------------*/
 ATimestamp::ATimestamp (char Day, char Month, unsigned int Year, char Hour,
                         char minute, char second) : ADate (Day, Month, Year)
-   , hour (Hour), min (minute), sec (second) {
+   , ATime (Hour, minute, second) {
    if (checkIntegrity ()) {
-      TRACE ("ATimestamp::ATimestamp (Day, Month, Year) -> checkIntegrity failed with "
-             << checkIntegrity ());
+      TRACE ("ATimestamp::ATimestamp (Day, Month, Year, Hour, minute, second)"
+             " -> checkIntegrity failed with " << checkIntegrity ());
       undefine ();
    }
-   else
-      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -101,12 +86,27 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
    if (this != &other) {
       TRACE5 ("ATimestamp::operator=: " << other);
 
-      hour = other.hour;
-      min = other.min;
-      sec = other.sec;
-      ADate::operator= ((const ADate&) other);         // Calls checkIntegrity
+      ADate::operator= ((const ADate&)other);          // Calls checkIntegrity
+      ATime::operator= ((const ATime&)other);
    }
    return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Assignment-operator
+//Parameters: pStamp: Char-String to assign
+//Returns   : Reference to self
+/*--------------------------------------------------------------------------*/
+ATimestamp& ATimestamp::operator= (const char* pStamp) {
+   assert (pStamp);
+   assert (!checkIntegrity ());
+
+   TRACE5 ("ATimestamp::operator= (const char*): " << pDate);
+
+   istrstream help (pStamp);
+   readFromStream (help);
+   return *this;
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -116,11 +116,8 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
 ATimestamp& ATimestamp::operator= (const struct tm& tm) {
-   hour = tm.tm_hour;
-   min = tm.tm_min;
-   sec = tm.tm_sec;
-
    ADate::operator= (tm);
+   ATime::operator= (tm);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -130,7 +127,7 @@ ATimestamp& ATimestamp::operator= (const struct tm& tm) {
 //            1900)
 /*--------------------------------------------------------------------------*/
 std::string ATimestamp::toString () const {
-   return toString ("%c");
+   return toString ("%x %X");
 }
 
 /*--------------------------------------------------------------------------*/
@@ -150,22 +147,7 @@ std::string ATimestamp::toString (const char* format) const {
 /*--------------------------------------------------------------------------*/
 void ATimestamp::readFromStream (istream& in) {
    ADate::readFromStream (in);
-   if (!isDefined ())
-      return;
-
-   int one, two, three;
-   char split;
-
-   in >> one >> split >> two >> split >> three;
-   hour = (char)one;
-   min = (char)two;
-   sec = (char)three;
-
-   if (checkIntegrity ()) {
-      TRACE ("ATimestamp::readFromStream: Invalid time-part " << (int)hour << ':'
-             << (int)min << ':' << (int)sec);
-      undefine ();
-   }
+   ATime::readFromStream (in);   
 }
 
 /*--------------------------------------------------------------------------*/
@@ -177,12 +159,9 @@ void ATimestamp::readFromStream (istream& in) {
 ATimestamp& ATimestamp::operator+= (const ATimestamp& rhs) {
    assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
 
-   if (isDefined () && rhs.isDefined ()) {
-      hour += rhs.hour;
-      min += rhs.min;
-      sec += rhs.sec;
-   }
-   return (ATimestamp&)ADate::operator+= ((const ADate&)rhs);
+   ATime::operator+= ((const ATime&)rhs);
+   ADate::operator+= ((const ADate&)rhs);
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -194,12 +173,9 @@ ATimestamp& ATimestamp::operator+= (const ATimestamp& rhs) {
 ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
    assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
 
-   if (isDefined () && rhs.isDefined ()) {
-      hour -= rhs.hour;
-      min -= rhs.min;
-      sec -= rhs.sec;
-   }
-   return (ATimestamp&)ADate::operator-= ((const ADate&)rhs);
+   ATime::operator-= ((const ATime&)rhs);
+   ADate::operator-= ((const ADate&)rhs);
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -213,10 +189,9 @@ ATimestamp& ATimestamp::add (char Day, char Month, unsigned int Year,
                              char Hour, char minute ,char second) {
    assert (!checkIntegrity ());
 
-   hour += Hour;
-   min += minute;
-   sec += second;
-   return (ATimestamp&)ADate::add (Day, Month, Year);
+   ATime::add (Hour, minute, second);
+   ADate::add (Day, Month, Year);
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -230,10 +205,9 @@ ATimestamp& ATimestamp::sub (char Day, char Month, unsigned int Year,
                              char Hour, char minute ,char second) {
    assert (!checkIntegrity ());
 
-   hour -= Hour;
-   min -= minute;
-   sec -= second;
-   return (ATimestamp&)ADate::sub (Day, Month, Year);
+   ATime::sub (Hour, minute, second);
+   ADate::sub (Day, Month, Year);
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -251,8 +225,7 @@ long ATimestamp::compare (const ATimestamp& other) {
    // Both sides are defined -> return (approximated) difference
    long rc (ADate::compare (other));
    if (!rc) {
-      rc = ((hour - other.hour) * 24 + (min - other.min) * 60)
-            + (sec - other.sec);
+      rc = ATime::compare (other);
 
       TRACE5 ("ATimestamp::compare -> " << rc);
    }
@@ -294,94 +267,27 @@ ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs) {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int ATimestamp::checkIntegrity () const {
-  return (hour > 23) ? 10 : (min > 59) ? 11 : (sec > 61) ? 12 : ADate::checkIntegrity ();
+   int rc (ATime::checkIntegrity ());
+   return rc ? rc * 10 : ADate::checkIntegrity ();
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible underflow
 /*--------------------------------------------------------------------------*/
-void ATimestamp::minAdapt () {
-   if (sec > 59) {                                  // Adapt time if underflow
-      --min;
-      sec += 59;
-   }
-
-   if (min > 59) {                                // Adapt minute if underflow
-      min += 59;               // Assuming calculation was with correct minute
-      --hour;
-   }
-
-   if (hour > 23) {              // Finish day-adaption after month-correction
-      hour -= 23;
+bool ATimestamp::minAdapt () {
+   if (ATime::minAdapt ())
       decDay ();
-   }
+
    ADate::minAdapt ();
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible overflow
 /*--------------------------------------------------------------------------*/
-void ATimestamp::maxAdapt () {
-   if (sec > 59) {                                   // Adapt date if overflow
-      sec -= 59;
-      ++min;
-   }
-
-   if (min > 59) {                                 // Adapt minute if overflow
-      min -= 59;               // Assuming calculation was with correct minute
-      ++hour;
-   }
-
-   if (hour > 23) {
-      hour -= 23;
+bool ATimestamp::maxAdapt () {
+   if (ATime::maxAdapt ())
       incDay ();
-   }
    ADate::maxAdapt ();
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the hour-part of this
-//Parameters: Hour: Hour to set
-/*--------------------------------------------------------------------------*/
-void ATimestamp::setHour (char Hour) {
-   hour = Hour;
-
-   if (checkIntegrity ()) {
-      TRACE ("ATimestamp::setHour -> checkIntegrity failed with " << checkIntegrity ());
-      undefine ();
-   }
-   else
-      AttributValue::define ();
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the minute-part of this
-//Parameters: minute: Minute to set
-/*--------------------------------------------------------------------------*/
-void ATimestamp::setMinute (char minute) {
-   min = minute;
-
-   if (checkIntegrity ()) {
-      TRACE ("ATimestamp::setMinute -> checkIntegrity failed with " << checkIntegrity ());
-      undefine ();
-   }
-   else
-      AttributValue::define ();
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the second-part of this
-//Parameters: second: Second to set
-/*--------------------------------------------------------------------------*/
-void ATimestamp::setSecond (char second) {
-   sec = second;
-
-   if (checkIntegrity ()) {
-      TRACE ("ATimestamp::setSecond -> checkIntegrity failed with " << checkIntegrity ());
-      undefine ();
-   }
-   else
-      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -393,9 +299,9 @@ void ATimestamp::setSecond (char second) {
 struct tm ATimestamp::toStructTM () const {
    struct tm result (ADate::toStructTM ());
    if (isDefined ()) {
-      result.tm_hour = hour;
-      result.tm_min = min;
-      result.tm_sec = sec;
+      result.tm_hour = getHour ();
+      result.tm_min = getMinute ();
+      result.tm_sec = getSecond ();
    }
    return result;
 }

@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.1 1999/10/14 22:23:32 Markus Exp $
+//$Id: ATStamp.h,v 1.2 1999/10/15 21:35:07 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,16 +23,17 @@
 #include <string>
 
 #include "ADate.h"
+#include "ATime.h"
 
 
 // Class for timestamp attributes. As every AttributValue is supports
 // undefined values.
-class ATimestamp : public ADate {
+class ATimestamp : virtual public ADate, virtual public ATime {
  public:
    ATimestamp ();
    ATimestamp (bool now);
    ATimestamp (const ATimestamp& other) : ADate ((const ADate&)other)
-      , hour (other.hour), min (other.min), sec (other.sec) { }
+      , ATime ((const ATime&)other) { }
    ATimestamp (char Day, char Month, unsigned int Year, char Hour,
                char minute, char second);
    ATimestamp (const char* pStamp) { operator= (pStamp); }
@@ -41,34 +42,28 @@ class ATimestamp : public ADate {
    ATimestamp (const time_t stamp) { operator= (stamp); }
    virtual ~ATimestamp ();
 
+   bool         isDefined () const { return AttributValue::isDefined (); }
+   virtual void undefine () { return AttributValue::undefine (); }
+
+   static ATimestamp now () { return ATimestamp (true); }
+
+
    // Set-functions
    ATimestamp& operator= (const ATimestamp& other);
-   ATimestamp& operator= (const char* pStamp) { return (ATimestamp&)ADate::operator= (pStamp); }
+   ATimestamp& operator= (const char* pStamp);
    ATimestamp& operator= (const std::string& stamp) { return operator= (stamp.c_str ()); }
    ATimestamp& operator= (const struct tm& tm);
    ATimestamp& operator= (const time_t date) { operator= (*localtime (&date)); }
 
    virtual void readFromStream (istream& in);
 
-   virtual void define () { ADate::define (); hour = min = sec = 0; }
-   void setHour (char Hour);
-   void setMinute (char minute);
-   void setSecond (char second);
-
-   // Query-functions
-   char getHour () const { return hour; }
-   char getMinute () const { return min; }
-   char getSecond () const { return sec; }
-
-   static ATimestamp ATimestamp::now () { return ATimestamp (true); }
+   virtual void define () { ADate::define (); ATime::define (); }
 
    // Convertion
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 
-   virtual struct tm toStructTM () const;
-   time_t    toSysTime () const {
-      struct tm result (toStructTM ()); return mktime (&result); }
+   struct tm toStructTM () const;
 
    // Calculation
    ATimestamp& operator+= (const ATimestamp& rhs);
@@ -94,13 +89,9 @@ class ATimestamp : public ADate {
    // Usefull utility-functions
    int checkIntegrity () const;
 
- private: 
-   char hour;
-   char min;
-   unsigned int sec;
-
-   void minAdapt ();
-   void maxAdapt ();
+ protected:
+   virtual bool maxAdapt ();
+   virtual bool minAdapt ();
 };
 
 #endif
