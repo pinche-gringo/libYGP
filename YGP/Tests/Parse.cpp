@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.6 2003/02/14 20:13:42 markus Exp $
+// $Id: Parse.cpp,v 1.7 2003/02/21 19:41:34 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -34,6 +34,9 @@
 #include <IVIOAppl.h>
 
 #include <Internal.h>
+
+#define VERBOSE
+#undef  VERBOSE
 #include "Test.h"
 
 #if SYSTEM == UNIX
@@ -137,8 +140,8 @@ int Application::perform (int argc, const char* argv[]) {
          check (!skip.parse ((Xistream&)xstr));
          check (!qText.parse ((Xistream&)xstr));
          check (!qEText.parse ((Xistream&)xstr));
-         check (xstr.getLine () == 6);
          check (xstr.getColumn () == 0);
+	 // Don't check line number, is undefined after skipping
       } // end-try
       catch (std::string e) {
          std::cerr << "Error parsing Parser.test in line " << xstr.getLine () << " ("
