@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.14 2001/01/19 14:38:47 Markus Exp $
+//$Id: FileRExp.cpp,v 1.15 2001/03/06 23:08:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -52,6 +52,17 @@
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))
 
 
+const char FileRegularExpr::MULTIMATCH = '*';
+const char FileRegularExpr::SINGLEMATCH = '?';
+const char FileRegularExpr::REGIONBEGIN = '[';
+const char FileRegularExpr::REGIONEND = ']';
+const char FileRegularExpr::RANGE = '-';
+const char FileRegularExpr::NEGREGION1 = '^';
+const char FileRegularExpr::NEGREGION2 = '!';
+const char FileRegularExpr::REGIONCLASS = ':';
+
+
+
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
@@ -93,7 +104,8 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
       case REGIONBEGIN: {
          // Compares the actual file-char with the region
          bool fNeg (false);
-         if (pAktRegExp[1] == NEGREGION) {                // Values to invert?
+         // Values to invert (either "!" or "^" at beginning)?
+         if ((pAktRegExp[1] == NEGREGION1) || (pAktRegExp[1] == NEGREGION2)) {
             ++pAktRegExp;
             fNeg = true;
          } // endif
@@ -202,7 +214,8 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
          if (!*++pRegExp)
             throw (getError ("Open region", pRegExp - getExpression ()));
 
-         if (*pRegExp == NEGREGION)             // Skip leading range-inversion
+         // Skip leading range-inversion
+         if ((*pRegExp == NEGREGION1) || (*pRegExp == NEGREGION2))
             ++pRegExp;
 
          if (*pRegExp == REGIONEND)

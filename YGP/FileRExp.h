@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.5 2000/05/30 20:28:58 Markus Exp $
+//$Id: FileRExp.h,v 1.6 2001/03/06 23:08:36 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,8 +43,14 @@ class FileRegularExpr : public IRegularExpression {
    FileRegularExpr& operator= (const char* pRegExp) {
       return (FileRegularExpr&)IRegularExpression::operator= (pRegExp); }
 
-   enum { MULTIMATCH = '*', SINGLEMATCH = '?', REGIONBEGIN = '[',
-          REGIONEND = ']', RANGE = '-', NEGREGION = '^', REGIONCLASS = ':' };
+   static const char MULTIMATCH;
+   static const char SINGLEMATCH;
+   static const char REGIONBEGIN;
+   static const char REGIONEND;
+   static const char RANGE;
+   static const char NEGREGION1;
+   static const char NEGREGION2;
+   static const char REGIONCLASS;
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
