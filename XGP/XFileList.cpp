@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.20 2003/02/05 03:14:49 markus Exp $
+//$Id: XFileList.cpp,v 1.21 2003/02/05 15:06:47 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -39,9 +39,10 @@
 #include <Process.h>
 #include <PathDirSrch.h>
 
+#include "XFileDlg.h"
 #include "XMessageBox.h"
 
-#include <XFileList.h>
+#include "XFileList.h"
 
 
 const char* XFileList::iconDirectory[] = {
@@ -299,7 +300,7 @@ gint XFileList::listSelected (GdkEvent* event) {
             pMenuPopAction = new Gtk::Menu;
 
             // Testing if $EDITOR exists and add that to list; else use VI
-            string editor (_("Show in %1"));
+            string editor (_("Open in %1 ..."));
             const char* ed;
             if ((ed = getenv ("EDITOR")) == NULL)
                ed = "vi";
@@ -310,12 +311,15 @@ gint XFileList::listSelected (GdkEvent* event) {
                 (editor,
                  bind (slot (this, &XFileList::startInTerm),
                        ed, entry)));
-            pMenuPopAction->popup (bev->button, bev->time);
-
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
-                ("Start in kate",
-                 bind (slot (this, &XFileList::startXProgram), "kate", entry)));
+                (_("Rename/Move ..."),
+                 bind (slot (this, &XFileList::move), entry)));
+            pMenuPopAction->items ().push_back
+               (Gtk::Menu_Helpers::MenuElem
+                (_("Delete"),
+                 bind (slot (this, &XFileList::executeProgram),
+                       "rm", entry)));
             pMenuPopAction->popup (bev->button, bev->time);
          }
          return true;
@@ -332,8 +336,9 @@ gint XFileList::listSelected (GdkEvent* event) {
 void XFileList::startInTerm (const char* file, unsigned int line) {
    const char* term (getenv ("TERM"));
    if (term) {
-      const char* args[] = { term, "-e", file, get_text (line, 1).c_str (), NULL };
-      execProgram (term, args);
+      string entry (get_text (line, 1));
+      const char* args[] = { term, "-e", file, entry.c_str (), NULL };
+      execProgram (term, args, false);
    }
    else
       XMessageBox::Show (_("Environment variable `TERM' not defined"),
@@ -341,25 +346,56 @@ void XFileList::startInTerm (const char* file, unsigned int line) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Starts the passed program with argument as argument
+//Purpose   : Starts the passed program in the background with argument as argument
 //Parameters: file: File to execute
 //            line: Line in list of file to pass as argument
 /*--------------------------------------------------------------------------*/
-void XFileList::startXProgram (const char* file, unsigned int line) {
-   const char* args[] = { file, get_text (line, 1).c_str (), NULL };
-   execProgram (file, args);
+void XFileList::startProgram (const char* file, unsigned int line) {
+   string entry (get_text (line, 1));
+   const char* args[] = { file, entry.c_str (), NULL };
+   execProgram (args[0], args, false);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Starts the passed program in the foreground with argument as argument
+//Parameters: file: File to execute
+//            line: Line in list of file to pass as argument
+/*--------------------------------------------------------------------------*/
+void XFileList::executeProgram (const char* file, unsigned int line) {
+   string entry (get_text (line, 1));
+   const char* args[] = { file, entry.c_str (), NULL };
+   execProgram (args[0], args, true);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Starts the passed program with argument
 //Parameters: file: File to execute
 //            args: Arguments for the program
+//            sync: Flag, if file should be executed synchron or not
 /*--------------------------------------------------------------------------*/
-void XFileList::execProgram (const char* file, const char* const args[]) {
+void XFileList::execProgram (const char* file, const char* const args[], bool sync) {
    try {
-      Process::execAsync (file, args);
+      if (sync)
+         Process::execute (file, args);
+      else
+         Process::execAsync (file, args);
    }
    catch (string& error) {
       XMessageBox::Show  (error, XMessageBox::ERROR | XMessageBox::OK);
+   }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Moves the file in line to another location/name
+//Parameters: line: Line in list of file to pass as argument
+/*--------------------------------------------------------------------------*/
+void XFileList::move (unsigned int line) {
+   string file (IFileDialog::perform (string ("Move file to ..."),
+                                      IFileDialog::ASK_OVERWRITE)->execModal ());
+
+   if (file.length ()) {
+      string input (get_text (line, 1));
+      const char* args[] = { "mv", input.c_str (), file.c_str (), NULL };
+      execProgram (args[0], args, true);
    }
 }
