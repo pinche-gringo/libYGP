@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: ANumeric.html,v 1.8 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: ANumeric.html,v 1.9 2002/11/27 04:54:45 markus Exp $ -->
 
 <html>
   <head>
@@ -168,74 +168,155 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="ANumeric"></a>ANumeric ()</pre>
+    <h3><font color="navy">Management functions</font></h3>
+    <pre><a name="ANumeric"></a><b>ANumeric</b> ()</pre>
     <dl>
-      <dd>Defaultconstructor; the numeric value is not defined.</dd>
+      <dd><p>Defaultconstructor; the numeric value is not defined.</p></dd>
     </dl>
-    <pre><a name="ANumeric2"></a>ANumeric (const ANumeric&amp; other)</pre>
-    <pre><a name="ANumeric3"></a>ANumeric (const int val)</pre>
+    <hr>
+    <pre><a name="ANumeric2"></a><b>ANumeric</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
+      <dd><p>Constructor; copies the passed object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to copy<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="ANumeric4"></a>ANumeric (const unsigned int val)</pre>
+    <hr>
+    <pre><a name="ANumeric3"></a><b>ANumeric</b> (const int val)</pre>
     <dl>
-      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
+      <dd><p>Constructor; the numeric value is set to val and the object is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="ANumeric5"></a>ANumeric (const long val)</pre>
+    <hr>
+    <pre><a name="ANumeric4"></a><b>ANumeric</b> (const unsigned int val)</pre>
     <dl>
-      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
+      <dd><p>Constructor; the numeric value is set to val and the object is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="ANumeric6"></a>ANumeric (const unsigned long val)</pre>
+    <hr>
+    <pre><a name="ANumeric5"></a><b>ANumeric</b> (const long val)</pre>
     <dl>
-      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
+      <dd><p>Constructor; the numeric value is set to val and the object is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="ANumeric7"></a>ANumeric (const char* pValue) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="ANumeric6"></a><b>ANumeric</b> (const unsigned long val)</pre>
+    <dl>
+      <dd><p>Constructor; the numeric value is set to val and the object is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="ANumeric7"></a><b>ANumeric</b> (const char* pValue) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Constructor; tries to extract an integer-value from pValue.</p>
         <p>pValue must not be a NULL-pointer, may have leading white-spaces
           which may follow a sign (plus (+) or minus (-)) followed by numeric
           characters and a zero-characer (\0).</p>
         <p>If pValue has a different format an excpetion is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pValue</code>: Pointer to character array containing numeric value to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>pValue</code> valid ASCIIZ-string
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>invalid_argument</code> in case of an exception
+</dd></dl></dd>
     </dl>
-    <pre><a name="ANumeric8"></a>ANumeric (const std::string&amp; value) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="ANumeric8"></a><b>ANumeric</b> (const std::string&amp; value) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Constructor; tries to extract an integer-value from value.</p>
         <p>Value may have leading white-spaces which may follow a sign (plus
           (+) or minus (-)) followed by numeric characters and a zero-characer
           (\0).</p>
         <p>If pValue has a different format an excpetion is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: String containing numeric value<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>invalid_argument</code> in case of an exception
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="~ANumeric"></a>virtual ~ANumeric ()</pre>
-    <pre><a name="operator="></a>ANumeric&amp; operator= (const ANumeric&amp; other)</pre>
-    <pre><a name="operator=2"></a>ANumeric&amp; operator= (const int val)</pre>
+    <pre><a name="~ANumeric"></a><b>~ANumeric</b> () </pre>
     <dl>
-      <dd>Assignmentoperator; the numeric value is set to val and to object is
-        defined.</dd>
+      <dd><p>Destructor</p></dd>
     </dl>
-    <pre><a name="operator=3"></a>ANumeric&amp; operator= (const unsigned int val)</pre>
+    <hr>
+    <pre><a name="operator="></a>ANumeric& <b>operator=</b> (const ANumeric& other) </pre>
     <dl>
-      <dd>Assignmentoperator; the numeric value is set to val and to object is
-        defined.</dd>
+      <dd><p>Assignment-operator from another ANumeric object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to copy<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator=4"></a>ANumeric&amp; operator= (const long val)</pre>
+    <hr>
+    <pre><a name="operator=2"></a>ANumeric&amp; <b>operator=</b> (const int val)</pre>
     <dl>
-      <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
+      <dd><p>Assignmentoperator; the numeric value is set to val and to object is
+        defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="operator=5"></a>ANumeric&amp; operator= (const unsigned long val)</pre>
+    <hr>
+    <pre><a name="operator=3"></a>ANumeric&amp; <b>operator=</b> (const unsigned int val)</pre>
     <dl>
-      <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
+      <dd><p>Assignmentoperator; the numeric value is set to val and to object is
+        defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="operator=6"></a>ANumeric&amp; operator= (const char* pValue) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="operator=4"></a>ANumeric&amp; <b>operator=</b> (const long val)</pre>
     <dl>
-      <dd><p>Assignmentoperator; tries to extract an integer-value from pValue.</p>
+      <dd><p>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=5"></a>ANumeric&amp; <b>operator=</b> (const unsigned long val)</pre>
+    <dl>
+      <dd><p>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: Value to assign to object<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=6"></a>ANumeric&amp; <b>operator=</b> (const char* pValue) throw (invalid_argument)</pre>
+    <dl>
+      <dd><p>Assignmentoperator; tries to extract an integer-value from the passed value</p>
         <p>pValue must not be a NULL-pointer, may have leading white-spaces
           which may follow a sign (plus (+) or minus (-)) followed by numeric
           characters and a zero-characer (\0).</p>
         <p>If pValue has a different format an excpetion is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pValue</code>: Pointer to ASCIIZ-string containing numeric value<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>pValue</code> valid ASCIIZ-string
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>invalid_argument</code> in case of an exception
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator=7"></a>ANumeric&amp; operator= (const std::string&amp; value) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="operator=7"></a>ANumeric&amp; <b>operator=</b> (const std::string&amp; value) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Assignmentoperator; tries to extract an integer-value from value.</p>
         <p>Value may have leading white-spaces which may follow a sign (plus
@@ -243,149 +324,274 @@
           (\0).</p>
         <p>If pValue has a different format an excpetion is thrown.</p></dd>
     </dl>
+    <hr>
 
-    <pre><a name="define"></a>void define ()</pre>
+    <pre><a name="define"></a>void <b>define</b> () </pre>
     <dl>
-      <dd>Defines the object and sets the value to 0.</dd>
+      <dd><p>Defines the object and sets the value to 0.</p></dd>
     </dl>
 
-    <pre><a name="define"></a>void define ()</pre>
-    <dl>
-      <dd>Defines the object and sets the value to 0.</dd>
-    </dl>
-
-    <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in) throw (invalid_argument)</pre>
+    <h3><font color="navy">In- &amp; output, conversion</font></h3>
+    <pre><a name="readFromStream"></a>void <b>readFromStream</b> (std::istream& in) throw (std::invalid_argument) </pre>
     <dl>
       <dd><p>Reads an unformatted numeric value from a stream. If the input is not
-          valid, an excpetion is thrown.</p>
-        <p>Leading whitespaces in the stream are skipped.</p>
-        <p>Parsing is stopped at EOF or at any non-digit.</dd>
+          valid, an excpetion is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>in</code>: Stream to parse<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>- Leading whitespaces in the stream are skipped.</dd>
+          <dd>- Parsing is stopped at EOF or at any non-digit.</dd>
+          <dd>- Initializes the locale-definition (if not already done)
+</dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="toString"></a>std::string <b>toString</b> () const </pre>
+    <dl>
+      <dd><p>Converts the number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>String-representation of ANumeric
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Initializes the locale-definition (if not already done)
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toString2"></a>std::string <b>toString</b> (long value)</pre>
+    <dl>
+      <dd><p>Converts the passed number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to convert<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="toString3"></a>std::string <b>toString</b> (unsigned long value)</pre>
+    <dl>
+      <dd><p>Converts the passed number into a string, in the format specified by the
+        current locale.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Value to convert<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="toUnformatedString"></a>std::string <b>toUnformatedString</b> () const </pre>
+    <dl>
+      <dd><p>Converts the number into a string without any formatting.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>String-representation of ANumeric
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlongint"></a><b>operator long int</b> () const</pre>
+    <dl>
+      <dd><p>Converts the number into a long integer.</p></dd>
     </dl>
 
-    <pre><a name="toString"></a>virtual std::string toString () const</pre>
+    <h3><font color="navy">Calculation</font></h3>
+    <pre><a name="operator+="></a>ANumeric& <b>operator+=</b> (const ANumeric& rhs) </pre>
     <dl>
-      <dd>Converts the number into a string, in the format specified by the
-        current locale.</dd>
-    </dl>
-    <pre><a name="toString2"></a>static std::string toString (long value)</pre>
-    <dl>
-      <dd>Converts the passed number into a string, in the format specified by the
-        current locale.</dd>
-    </dl>
-    <pre><a name="toString3"></a>static std::string toString (unsigned long value)</pre>
-    <dl>
-      <dd>Converts the passed number into a string, in the format specified by the
-        current locale.</dd>
-    </dl>
-
-    <pre><a name="toUnformatedString"></a>virtual std::string toUnformatedString () const</pre>
-    <dl>
-      <dd>Converts the number into a string without any formatting.</dd>
-    </dl>
-
-    <pre><a name="operatorlongint"></a>operator long int () const</pre>
-    <dl>
-      <dd>Converts the number into a long integer.</dd>
-    </dl>
-
-    <h4>Calculation</h4>
-    <pre><a name="operator+="></a>ANumeric&amp; operator+= (const ANumeric&amp; rhs)</pre>
-    <dl>
-      <dd>Adds another number-object to this object. An undefined number is
+      <dd><p>Adds another number-object to this object. An undefined number is
         treated as "0"; so only if both objects are undefined, the result
-        is (remains) undefined.</dd>
+        is (remains) undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to add<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator-="></a>ANumeric&amp; operator-= (const ANumeric&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator-="></a>ANumeric& <b>operator-=</b> (const ANumeric& rhs) </pre>
     <dl>
-      <dd>Substracts another number-object from this object. An undefined number is
+      <dd><p>Substracts another number-object from this object. An undefined number is
         treated as "0"; so only if both objects are undefined, the result
-        is (remains) undefined.</dd>
+        is (remains) undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to substract<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator*="></a>ANumeric&amp; operator*= (const ANumeric&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator*="></a>ANumeric& <b>operator*=</b> (const ANumeric& rhs) </pre>
     <dl>
-      <dd>Multiplies another number-object to this object. An undefined number is
+      <dd><p>Multiplies another number-object to this object. An undefined number is
         treated as "1"; so only if both objects are undefined, the result
-        is (remains) undefined.</dd>
+        is (remains) undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to multiply<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator/="></a>ANumeric&amp; operator/= (const ANumeric&amp; rhs)</pre>
+    <hr>
+      <dd></dd>
+    </dl>
+    <pre><a name="operator/="></a>ANumeric& <b>operator/=</b> (const ANumeric& rhs) </pre>
     <dl>
-      <dd>Divides this by another number-object. An undefined number is	treated
+      <dd><p>Divides this by another number-object. An undefined number is treated
         as "1"; so only if both objects are undefined, the result is (remains)
-        undefined.</dd>
+        undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to divide with<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="operator+"></a>ANumeric&amp; operator+ (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
+    <pre><a name="operator+"></a>ANumeric <b>operator+</b> (const ANumeric& lhs, const ANumeric& rhs) </pre>
     <dl>
-      <dd>Adds lhs and rhs and returns the result. If one object is defined,
+      <dd><p>Adds lhs and rhs and returns the result. If one object is defined,
         the other object is treated as "0"; so only if both objects are
-        undefined, the result is undefined.</dd>
+        undefined, the result is undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of addition<dd>
+          <dd><code>rhs</code>: Right-hand-side of addition<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ANumeric: Result of additon
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator-"></a>ANumeric&amp; operator- (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator-"></a>ANumeric <b>operator-</b> (const ANumeric& lhs, const ANumeric& rhs) </pre>
     <dl>
-      <dd>Substracts rhs from lhs and returns the result. If one object is
+      <dd><p>Substracts rhs from lhs and returns the result. If one object is
         defined, the other is is treated as "0"; so only if both objects are
-        undefined, the result is undefined.</dd>
+        undefined, the result is undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of substraction<dd>
+          <dd><code>rhs</code>: Right-hand-side of substraction<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ANumeric: Result of substraction
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator*"></a>ANumeric&amp; operator* (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator*"></a>ANumeric <b>operator*</b> (const ANumeric& lhs, const ANumeric& rhs) </pre>
     <dl>
-      <dd>Multiplies rhs and lhs and returns the result. If one object is
+      <dd><p>Multiplies rhs and lhs and returns the result. If one object is
         defined, the other is treated as "1"; so only if both objects are
-        undefined, the result is undefined.</dd>
+        undefined, the result is undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of mulitplication<dd>
+          <dd><code>rhs</code>: Right-hand-side of mulitplication<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ANumeric: Result of mulitplication
+</dd></dl></dd>
     </dl>
-    <pre><a name="operator/"></a>ANumeric&amp; operator/ (const ANumeric&amp; lhs, const ANumeric&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator/"></a>ANumeric <b>operator/</b> (const ANumeric& lhs, const ANumeric& rhs) </pre>
     <dl>
-      <dd>Divides this by another number-object. If one object is defined, the
+      <dd><p>Divides this by another number-object. If only one object is defined, the
         other is treated as "1"; so only if both objects are undefined, the
-        result is undefined.</dd>
+        result is undefined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of division<dd>
+          <dd><code>rhs</code>: Right-hand-side of division<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ANumeric: Result of division
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <h4>Comparison</h4>
-    <pre><a name="operator=="></a>bool operator== (const ANumeric&amp; other)</pre>
+    <h3><font color="navy">Comparison</font></h3>
+    <pre><a name="operator=="></a>bool <b>operator==</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Compares two numeric values and returns true, if they are equal
-        (either the same or both undefined).</dd>
+      <dd><p>Compares two numeric values and returns true, if they are equal
+        (either the same or both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>True, if this is equal to other
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator!="></a>bool operator!= (const ANumeric&amp; other)</pre>
+    <hr>
+    <pre><a name="operator!="></a>bool <b>operator!=</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Compares two numeric values and returns true, if they are not equal
-        (different and not both undefined).</dd>
+      <dd><p>Compares two numeric values and returns true, if they are not equal
+        (different and not both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>True, if this is not equal to other
+</dd></dl></dd>
     </dl>
+    <hr>
 
-    <pre><a name="operatorl"></a>bool operator&lt; (const ANumeric&amp; other)</pre>
+    <pre><a name="operatorl"></a>bool <b>operator&lt;</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Compares two numeric values and returns true, if this is less than
-        other. Undefined values are considered as between 0 and -1.</dd>
+      <dd><p>Compares two numeric values and returns true, if this is less than
+        other. Undefined values are considered as between 0 and -1.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>True, if this is less than other
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorg"></a>bool operator&gt; (const ANumeric&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorg"></a>bool <b>operator&gt;</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Compares two numeric values and returns true, if this is greater
-        than other. Undefined values are considered as between 0 and -1.</dd>
+      <dd><p>Compares two numeric values and returns true, if this is greater
+        than other. Undefined values are considered as between 0 and -1.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>True, if this is bigger than other
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorl="></a>bool operator&lt;= (const ANumeric&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorl="></a>bool <b>operator&lt;=</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Compares two numeric values and returns true, if this is less than
+      <dd><p>Compares two numeric values and returns true, if this is less than
         other or equal to it. Undefined values are considered as between 0 and
-        -1.</dd>
+        -1.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>True, if this is less than or equal to other
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorg="></a>bool operator&gt;= (const ANumeric&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorg="></a>bool <b>operator&gt;=</b> (const ANumeric&amp; other)</pre>
     <dl>
-      <dd>Compares two numeric values and returns true, if this is greater
+      <dd><p>Compares two numeric values and returns true, if this is greater
         than other or equal to it. Undefined values are considered as between
-        0 and -1.</dd>
+        0 and -1.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>True, if this is bigger than or equal to other
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="compare"></a>long compare (const ANumeric&amp; other)</pre>
+    <hr>
+    <pre><a name="compare"></a>int <b>compare</b> (const ANumeric& other) </pre>
     <dl>
       <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
           this is larger.</p>
         <p>Undefined values are considered as between 0 and -1 for this
           comparison; if both values are undefined they are considered as
           equal.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>1 if this > other; 0 if this == <code>other</code>; -1 else
+</dd></dl></dd>
     </dl>
   </body>
 </html>
