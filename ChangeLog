@@ -1,4 +1,95 @@
+2003-10-19  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.30 added
+
+	* doc/XGP.doxy.in: Defining HAVE_GTKHTML for preprocessor
+
+	* doc/index.html: Requirements sections updated
+
+	* gzo-cfg.h.in: Define if strftime returns length
+
+	* X-windows/XApplication.h, X-windows/XApplication.cpp:
+	  $LANGUAGE-entryies must be separated by colon (and not comma)
+
+	* X-windows/Version.cpp: Fixed missing description of Labels
+
+	* X-windows/HTMLViewer.h: Made some more methods public/protected
+
+	* configure.in: Version to 0.6.30; Added C to used languages
+
+	* INSTALL: Requirements actualized
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* po/POTFILES.in: Added GTKViewer.c
+
+	* X-windows/HTMLViewer.cpp:
+	  Freeing GTKHTML data; Don't handle file-not-found errors (is done by GTKHTML)
+
+	* X-windows/GTKViewer.c:
+	  Fixed and optimized calculation of relative paths
+
+	* X-windows/XDialog.cpp: Fixed problem with deleting (memory leak)
+
+	* X-windows/BrowserDlg.cpp, X-windows/BrowserDlg.h, X-windows/XAbout.cpp, X-windows/XDate.h, X-windows/XFileDlg.cpp, X-windows/XFileDlg.h, X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	  Adapted to new XDialog interface
+
+	* X-windows/XDialog.h: Fixed problem with deleting (memory leak)
+
+	* X-windows/HTMLViewer.cpp, X-windows/HTMLViewer.h:
+	  Setting default size; Showing scrollbar, if needed
+
+	* X-windows/Samples/Dialog.h: Adapted to new XDialog interface
+
+	* X-windows/GTKViewer.c, X-windows/GTKViewer.h:
+	  Storing path of last file to be able to follow relative links
+
+2003-10-17  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/GTKViewer.c, X-windows/GTKViewer.h, X-windows/HTMLViewer.cpp, X-windows/HTMLViewer.h:
+	New file.
+
+	* X-windows/XApplication.cpp: Moved GTKHTML-stuff in own files
+
+	* X-windows/Makefile.am: HTMViewer and GTKViewer added
+
+2003-10-15  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.23 added
+
+	* configure.in: Fixed testing for libgmp
+
+2003-10-11  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Tests/FileRExp.cpp:
+	  Changing named class error with fnmatch to a warning
+
+	* Common/Tests/Makefile.am:
+	  Including project root directory to be able to read gzo-cfg.h
+
+	* INSTALL: Fixed building from CVS
+
+	* CORBA/Makefile.in: Linking with used libintl
+
+	* configure.in:
+	  Version to 0.6.23; Testing if strftime returns the needed length
+
+	* X-windows/Samples/Makefile.am: Linking with used libintl
+
+	* Common/ADate.cpp, Common/ATime.cpp:
+	  Using strftime-feature of returning needed size only when available
+
+	* Common/ADate.h: Including C++ standard headers
+
+	* Common/Tests/Makefile.am: Linking with used libintl
+
+2003-10-03  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/RDirSrch.cpp: Fixed doxygen warnings
+
 2003-10-02  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in: Version to 0.6.22
 
 	* ChangeLog, NEWS: Changes of V0.6.22 added
 

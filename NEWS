@@ -1,3 +1,11 @@
+Overview of Changes in version 0.6.30:
+
+  - Dialog to show a HTML document added (if libGTKHTML is installed)
+  - Added viewing the help in a dialog (using GTKHTML)
+  - Fixed memory leak freeing dynamically created dialogs
+  - Fixed bug expecting $LANGUAGE entries separated with comma and not colon
+  - Actualized documentation (INSTALL, README)
+
 Overview of Changes in version 0.6.23:
 
   - Fixed problem linking the tests with external libintl
