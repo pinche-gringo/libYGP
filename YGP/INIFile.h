@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.24 2004/09/04 04:08:20 markus Rel $
+//$Id: INIFile.h,v 1.25 2005/01/20 05:26:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -130,13 +130,12 @@ class INISection {
    The entries of the section must have a numeric key, which specifies the
    (zero-based) offset of the entry of the list its value belongs to.
 */
-template <class T> class INIList : public INISection {
+template <class T, class L=std::vector<T> > class INIList : public INISection {
  public:
    /// Constructor; Creates an object named \c name and a vector to receive
    /// the parsed values
-   INIList (const char* name, std::vector<T>& values)
-       : INISection (name), offset (0) {
-      addAttribute (*new AttributeList<T> (name, values)); }
+   INIList (const char* name, L& values) : INISection (name), offset (0) {
+      addAttribute (*new AttributeList<T, L> (name, values)); }
    /// Destructor; Frees the internally used attribute list
    ~INIList () { delete attributes.front (); }
 
@@ -147,7 +146,7 @@ template <class T> class INIList : public INISection {
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
    /// Writes the contents of the passed values to the passed stream
    /// (in its own section named \c section).
-   static void write (std::ostream& stream, const char* section, const std::vector<T>& values) {
+   static void write (std::ostream& stream, const char* section, const L& values) {
       writeHeader (stream, section);
       for (unsigned int i (0); i < values.size (); ++i)
          stream << i << '=' << values[i] << '\n';
@@ -208,34 +207,39 @@ template <class T> class INIList : public INISection {
    data-structure to parse an INI-file easier. They must be used in
    that (top-down) order.
 
-   - INIFILE(file): Defines an object of type \c INIFile named \c _inifile_;
+   - <b>INIFILE(file)</b>: Defines an object of type \c INIFile named
+        \c _inifile_;
 
-   - INISECTION(name): Defines an object of type INISection. Both the defined
-        variable and the section-name in the INI-file are called name.
+   - <b>INISECTION(name)</b>: Defines an object of type
+        INISection. Both the defined variable and the section-name in
+        the INI-file are called name.
 
         \note This macro defines a variable (of type \c INISection) called \c
               name.
 
-   - INIATTR(section, type, name): Defines an attribute for section section
-        having the key (in the INI-file) of name. The value of this key is
-        assigned to a variable of type type and (also) name name.
+   - <b>INIATTR(section, type, name)</b>: Defines an attribute for
+        section section having the key (in the INI-file) of name. The
+        value of this key is assigned to a variable of type type and
+        (also) name name.
 
         \note This macro defines a variable (of type \c INIAttribute<type>)
              called \c name_.
 
-   - INIATTR2(section, type, attr, name) Defines an attribute for section
-       section having the key (in the INI-file) of name. The value of this
-        key is assigned to a variable of type type and name attr.
+   - <b>INIATTR2(section, type, attr, name)</b>: Defines an attribute
+       for section section having the key (in the INI-file) of
+       name. The value of this key is assigned to a variable of type
+       type and name attr.
 
         \note This macro defines a variable (of type \c INIAttribute<type>)
               called \c name_.
 
-   - INILIST(name): Defines a section to parse a list. Both the section and
-        the variable containing the list are called name.
+   - <b>INILIST(name, type)</b>: Defines a section to parse a
+        list. Both the section and the variable containing the list
+        are called name.
 
-   - INILIST2(section, name): Defines a section to parse a list. The section
-        in the INI file is called section and its values are stored in the
-        array (vector) name.
+   - <b>INILIST2(section, type, name)</b>: Defines a section to parse
+        a list. The section in the INI file is called section and its
+        values are stored in the array (vector) name.
 
    To parse the INI-file above use the following commands:
 
