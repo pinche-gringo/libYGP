@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.8 2002/04/09 04:16:19 markus Exp $
+//$Id: Socket.cpp,v 1.9 2002/04/09 07:16:48 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -36,6 +36,7 @@
 #include "AByteArray.h"
 
 #include "Socket.h"
+#include "Internal.h"
 
  
 /*--------------------------------------------------------------------------*/
@@ -255,7 +256,7 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (domain
    
    struct hostent* hostinfo = gethostbyname (server);
    if (!hostinfo) {
-      std::string error ("Can't resolve name '%1'");
+      std::string error (_("Can't resolve name '%1'"));
       error.replace (error.find ("%1"), 2, server);
       throwError (error, 0);
    }
