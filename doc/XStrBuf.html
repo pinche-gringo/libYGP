@@ -1,4 +1,4 @@
-<!-- $Id: XStrBuf.html,v 1.3 2000/04/17 23:34:18 Markus Rel $ -->
+<!-- $Id: XStrBuf.html,v 1.4 2001/10/20 00:43:57 markus Exp $ -->
 
 <html>
   <head>
@@ -11,19 +11,24 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
     <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center">Class extStreambuf&lt;T&gt;</h1>
-    <p>Derived from: <i>streambuf</i></p>
+    <p>Derived from:
+      streambuf
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: XStrBuf.h</p>
+    <p>#include &lt;XStrBuf.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
     <p>Extended streambuf, designed to parse text.</p>
+
     <p>It overcomes two drawbacks of the original streambuf:</p>
     <ul>
       <li>Column- and line-information (which - to be fair - wouldn't make very
@@ -38,33 +43,40 @@
       with the <a href="XStrBuf.html#setSource">setSource</a>-method!</p>
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="XStrBuf.html#extStreambuf">extStreambuf</a></td>
-        <td>()</td></tr>
-      <tr valign="top"><td></td><td><a href="XStrBuf.html#extStreambuf2">extStreambuf</a></td>
-        <td>(streambuf&amp; source)</td></tr>
-      <tr valign="top"><td></td><td><a href="XStrBuf.html#extStreambuf3">extStreambuf</a></td>
-        <td>(streambuf* source)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="XStrBuf.html#~extStreambuf">~extStreambuf</a></td><td>()</td></tr>
-
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="XStrBuf.html#overflow">overflow</a></td><td>(int ch)</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="XStrBuf.html#underflow">underflow</a></td><td>()</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="XStrBuf.html#pbackfail">pbackfail</a></td><td>(int ch)</td></tr>
-
-      <tr valign="top"><td>void</td>
-        <td><a href="XStrBuf.html#setSource">setSource</a></td>
-        <td>(streambuf&amp; source)</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="XStrBuf.html#setSource2">setSource</a></td>
-        <td>(streambuf* source)</td></tr>
-      <tr valign="top"><td>unsigned int</td>
-        <td><a href="XStrBuf.html#getLine">getLine</a></td><td>() const</td></tr>
-      <tr valign="top"><td>unsigned int</td>
-        <td><a href="XStrBuf.html#getColumn">getColumn</a></td><td>() const</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XStrBuf.html#extStreambuf"><b>extStreambuf</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XStrBuf.html#extStreambuf2"><b>extStreambuf</b></a></td>
+        <td><tt>(<tt><font color="navy">streambuf</font></tt>& <tt><font color="blue">source</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XStrBuf.html#extStreambuf3"><b>extStreambuf</b></a></td>
+        <td><tt>(<tt><font color="navy">streambuf</font></tt>* <tt><font color="blue">source</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#getColumn"><b>getColumn</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#getLine"><b>getLine</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#overflow"><b>overflow</b></a></td>
+        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">ch</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#pbackfail"><b>pbackfail</b></a></td>
+        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">c</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#setSource2"><b>setSource</b></a></td>
+        <td><tt>(<tt><font color="navy">streambuf</font></tt>* <tt><font color="blue">source</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#setSource"><b>setSource</b></a></td>
+        <td><tt>(<tt><font color="navy">streambuf</font></tt>& <tt><font color="blue">source</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="XStrBuf.html#underflow"><b>underflow</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="XStrBuf.html#~extStreambuf"><b>~extStreambuf</b></a></td>
+        <td><tt>()</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -95,8 +107,8 @@
       <dd>Sets a new data-sink for the extended streambuf. Because its very
         likely that after this call the next input is taken from the remaining
         characters left in the "old" source, this function should only be used
-        in combination with the <a href="XStrBuf.html#extStreambuf">default
-          constructor</a> and might be declared private (or protected) in the
+        in combination with the <a href="XStrBuf.html#extStreambuf"><b>default
+          constructor</b></a> and might be declared private (or protected) in the
         future.</dd>
     </dl>
     <pre><a name="setSource2"></a>void setSource (streambuf* source)</pre>
@@ -104,8 +116,8 @@
       <dd>Sets a new data-sink for the extended streambuf. Because its very
         likely that after this call the next input is taken from the remaining
         characters left in the "old" source, this function should only be used
-        in combination with the <a href="XStrBuf.html#extStreambuf">default
-          constructor</a> and might be declared private (or protected) in the
+        in combination with the <a href="XStrBuf.html#extStreambuf"><b>default
+          constructor</b></a> and might be declared private (or protected) in the
         future.</dd>
     </dl>
 
