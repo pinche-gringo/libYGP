@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.8 2001/08/24 02:35:51 markus Rel $
+# $Id: Makefile.in,v 1.9 2002/07/11 07:14:12 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -44,6 +44,8 @@ PACKAGE = @PACKAGE@
 RELEASE = @RELEASE@
 VERSION = @VERSION@
 
+SUBDIRS = . Tests
+
 INCLUDES =  -I. -I$(top_srcdir) -I$(top_srcdir)/Common
 DEFS = @DEFS@
 CXXFLAGS = @CXXFLAGS@
@@ -66,7 +68,7 @@ LIB_TARGETS=libCAttr.la
 
 IDL_FILES=CDirSrch.idl
 DIST_HEADERS=CIDirSrch.h
-HEADERS=CIDirSrch.h $(IDL_FILES) $(DIST_HEADERS)
+HEADERS=CDirSrch.h $(IDL_FILES) $(DIST_HEADERS)
 OBJECTS=CDirSrch.lo CIDirSrch.lo Version.lo
 SOURCES=$(IDL_FILES) CIDirSrch.cpp Version.cpp
 
@@ -78,8 +80,7 @@ DIST_COMMON = Makefile.in
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(DIST_HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 
-all: Makefile $(LIB_TARGETS)
-
+all: Makefile $(LIB_TARGETS) all-recursive
 
 
 # Settings for dependencies
@@ -93,7 +94,7 @@ DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 .SUFFIXES: .cc .cpp .lo .o .idl
 
 .idl.cc:
-	idl $<
+	idl --boa --no-poa $<
 
 .cpp.o:
 	$(CORBACOMPILE) -c $<
@@ -174,7 +175,7 @@ install: all
 	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(includedir)/$$p; \
 	done
 
-clean:
+clean: clean-recursive
 	@list='$(LIB_TARGETS)'; for p in $$list; do \
 	  if test -f "$$p"; then \
 	     rm -f $$p; \
@@ -186,7 +187,7 @@ clean:
 	   rm -f $${i%.*}.cc $${i%.*}.h; \
 	done
 
-distdir: $(DISTFILES)
+distdir: $(DISTFILES) dist-recursive
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -198,7 +199,20 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 
-check:
+check: all check-recursive
+
+all-recursive check-recursive dist-recursive clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	   echo "Making $$target in $$subdir"; \
+	   if test "$$subdir" != "."; then \
+	      (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$target) \
+	     	|| case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	  fi; \
+	done; \
+	test -z "$$fail"
 
 distclean-depend:
 	-rm -rf .deps
