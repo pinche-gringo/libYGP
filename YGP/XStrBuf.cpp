@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.17 2002/10/10 16:13:30 markus Exp $
+// $Id: XStrBuf.cpp,v 1.18 2002/10/23 05:54:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -26,6 +26,7 @@
 
 
 #include <stdio.h>
+#include <malloc.h>
 #include <string.h>
 #include <assert.h>
 
@@ -48,8 +49,7 @@ static int lenBuffer = 512;
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf ()
    : line (0), pushbackOffset (-1), pSource (NULL)
-   , pBuffer (new char[lenBuffer]) {
-   pSource = this;
+   , pBuffer (static_cast <char*> (malloc (lenBuffer))) {
    setbuf (pBuffer, lenBuffer);
 }
 
@@ -59,7 +59,7 @@ extStreambuf::extStreambuf ()
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf& source)
    : line (0), pushbackOffset (-1), pSource (&source)
-   , pBuffer (new char[lenBuffer]) {
+   , pBuffer (static_cast <char*> (malloc (lenBuffer))) {
    setbuf (pBuffer, lenBuffer);
 }
 
@@ -69,16 +69,17 @@ extStreambuf::extStreambuf (streambuf& source)
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf* source)
    : line (0), pushbackOffset (-1), pSource (source)
-   , pBuffer (new char[lenBuffer]) {
+   , pBuffer (static_cast <char*> (malloc (lenBuffer))) {
    setbuf (pBuffer, lenBuffer);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
-//Remarks   : Don't delete pBuffer as this is done by the streambuf-dtr
+
 /*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
-   delete [] eback ();
+   // Don't delete pBuffer as this is done by the streambuf-dtr (?)
+   // delete [] eback ();
 }
 
 
@@ -112,11 +113,10 @@ int extStreambuf::underflow () {
    ++line;
    while ((ch = pSource->sbumpc ()) != EOF) {
       if (pTemp >= (pBuffer + lenBuffer)) {               // Buffer to small?
-         assert (pTemp == (pBuffer + lenBuffer));
+         assert (pTemp == (pBuffer + lenBuffer));          // Double its size
          pTemp = pBuffer;
-         pBuffer = new char[lenBuffer << 1];           // Double its size and
-         memcpy (pBuffer, pTemp, lenBuffer);             // copy old contents
-         delete [] pTemp;
+         pBuffer = static_cast <char*> (malloc (lenBuffer << 1));
+         memcpy (pBuffer, pTemp, lenBuffer);          // & copy old contents
          pTemp = pBuffer + lenBuffer;
          lenBuffer <<= 1;
          setg (pBuffer, pBuffer, pBuffer + lenBuffer);
@@ -130,7 +130,7 @@ int extStreambuf::underflow () {
 
    pushbackOffset = -1 - int (pTemp - pBuffer);
    setg (pBuffer, pBuffer, pTemp);
-   return (pTemp == pBuffer) ? EOF : (unsigned char)*pBuffer;
+   return (pTemp == pBuffer) ? EOF : 0;
 }
 
 /*--------------------------------------------------------------------------*/
