@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: PathSrch.html,v 1.4 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: PathSrch.html,v 1.5 2002/12/15 19:23:23 markus Exp $ -->
 
 <html>
   <head>
@@ -49,13 +48,19 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="PathSrch.html#PathSearch"><b>PathSearch</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>& <tt><font color="blue">path</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">std::string</font></tt></tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">path</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple;">std::string</span></tt></tt> </td>
+        <td><a href="PathSrch.html#expandNode"><b>expandNode</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">std::string</span></tt>&amp; <tt><span style="color:blue;">input</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">std::string</span></tt></tt> </td>
+        <td><a href="PathSrch.html#getNextExpandedNode"><b>getNextExpandedNode</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="PathSrch.html#getNextNode"><b>getNextNode</b></a></td>
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="PathSearch.html#PathSearch"><b>PathSearch</b></a>&amp;</tt> </td>
-        <td><a href="PathSrch.html#operator"><tt><font color="black"><b>operator</b></font>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>& <tt><font color="blue">path</font></tt>)</tt>;</td></tr>
+        <td><a href="PathSrch.html#operator"><tt><span style="color:black"><b>operator</b></span>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">path</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="PathSrch.html#~PathSearch"><b>~PathSearch</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -65,35 +70,83 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="PathSearch"></a>PathSearch (const std::string&amp; path)</pre>
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="PathSearch"></a><b>PathSearch</b> (const std::string&amp; path)</pre>
     <dl>
-      <dd>Defaultconstructor; specifies the string to handle.</dd>
+      <dd><p>Defaultconstructor; with the string to handle.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>path</code>: String to split into nodes<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="~PathSearch"></a>~PathSearch ()</pre>
-
-    <pre><a name="operator="></a>PathSearch&amp; operator= (const std::string&amp; path)</pre>
+    <hr>
+    <pre><a name="~PathSearch"></a><b>~PathSearch</b> ()</pre>
     <dl>
-      <dd>Assignmentoperator; sets a new string to handle. No matter of
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator="></a>PathSearch&amp; <b>operator=</b> (const std::string&amp; path)</pre>
+    <dl>
+      <dd><p>Assignmentoperator; sets a new string to handle. No matter of
         seperation, the next query starts from the beginning of the new
-        string.</dd>
+        string.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>path</code>: String to split into nodes<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="expandNode"></a>std::string <b>expandNode</b> (const std::string&amp; input)</pre>
+    <dl>
+      <dd><p>Performs tilde-expansion on the input.</p>
+        <p>The expansion is only done under the following conditions:</p>
+        <ul>
+         <li>The string starts with a tilde</li>
+         <li>None of the characters up to the next whitespace or slash (/) is quoted</li>
+         <li>The following characters (if any) specify a user-name</li>
+        </ul>
+ 
+        <p> If those conditions apply, a single tilde is replaced with the
+          contents of the <code>HOME</code>-environment variable (UNIX) or the combination
+          of <code>HOMEDRIVE</code> and <code>HOMEPATH</code> (Windows). A tilde with following name
+          returns the <code>HOME</code>-path of the user with that name (or the input, if
+          such a user does not exist.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>input</code>: String to expand<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Expanded string or <code>input</code> (if not expandable)</dd></dl></dd>
     </dl>
 
-    <h4>Accessing the object</h4>
-    <pre><a name="getNextNode"></a>std::string getNextNode () const</pre>
+    <h3 style="color:navy">Accessing the object</h3>
+    <pre><a name="getNextNode"></a>std::string <b>getNextNode</b> () const</pre>
     <dl>
-      <dd>Returns a string consisting of the node behind the end of the last
+      <dd><p>Returns a string consisting of the node behind the end of the last
         seperation (or the beginning of the string for the first search) to the
         next occurence of the path-seperating character (or the end of the
-        string). The seperating characters are not returned.</dd>
+        string). The seperating characters are not returned.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Next node (empty string at end)</dd></dl></dd>
     </dl>
-
-    <pre><a name="getSplitChar"></a>static char getSplitChar ()</pre>
+    <hr>
+    <pre><a name="getNextExpandedNode"></a>std::string <b>getNextExpandedNode</b> () const</pre>
     <dl>
-      <dd>Returns the seperating character of path-nodes. Depending on the
-        operating system this is either the double-point (:) for UNIX-systems
-        or the semicolon (;) for DOS/Windoze and OS/2.</dd>
+      <dd><p>Returns a string consisting of the node behind the end of the last
+        seperation (or the beginning of the string for the first search) to the
+        next occurence of the path-seperating character (or the end of the
+        string). The seperating characters are not returned.</p>
+        <p>The node is additionally expanded under the following conditions:</p>
+        <ul>
+         <li>The string starts with a tilde</li>
+         <li>None of the characters up to the next whitespace or slash (/) is quoted</li>
+         <li>The following characters (if any) specify a user-name</li>
+        </ul>
+ 
+        <p> If those conditions apply, a single tilde is replaced with the
+          contents of the <code>HOME</code>-environment variable (UNIX) or the combination
+          of <code>HOMEDRIVE</code> and <code>HOMEPATH</code> (Windows). A tilde with following name
+          returns the <code>HOME</code>-path of the user with that name (or the input, if
+          such a user does not exist.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Next node (empty string at end)</dd></dl></dd>
     </dl>
-
   </body>
 </html>
