@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.2 2002/05/24 06:52:49 markus Rel $
+//$Id: Entity.h,v 1.3 2002/11/10 23:06:43 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -26,9 +25,14 @@
 #  include "Handle.h"
 #endif
 
-class IAttribute;
+#include <Check.h>
+#include <Attribute.h>
 
+
+// Baseclass for classes holding (a list of) attributes
 class Entity {
+   friend class INIFile;
+
  public:
    Entity () { };
    virtual ~Entity ();
@@ -37,12 +41,22 @@ class Entity {
    const IAttribute* findAttribute (const std::string& name) const;
 
    void addAttribute (const IAttribute& newAttr) {
-#ifndef NDEBUG
-      if (std::find (attributes.begin (), attributes.end (), &newAttr))
-         assert (0);
-#endif
+      Check3 (std::find (attributes.begin (), attributes.end (), &newAttr)
+              == attributes.end ());
       attributes.push_back (&newAttr);
    }
+
+#ifdef __STL_MEMBER_TEMPLATES
+   // Offer another way to add attributes on plattforms supporting that
+   // Note that this is not portable!
+   template<class AttrType>
+      void addAttribute (const char* name, AttrType& attr) {
+      assert (name);
+      addAttribute (new Attribute<AttrType> (name, attr));  }
+   template<class AttrType> 
+      void addAttribute (const std::string& name, AttrType& attr) {
+      addAttribute (new Attribute<AttrType> (name, attr));  }
+#endif
 
  private:
    std::vector <const IAttribute*> attributes;
