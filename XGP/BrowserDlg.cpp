@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.7 2003/06/29 01:53:31 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.8 2003/07/20 02:20:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -34,18 +34,21 @@
 #include "BrowserDlg.h"
 
 
-const char* BrowserDlg::browserNames[4] = { N_("galeon"), N_("mozilla"),
-                                            N_("netscape"), N_("konqueror") };
+const char* BrowserDlg::browserNames[BROWSERS] = {
+#ifdef HAVE_GTKHTML
+    N_("GTKHTML"),
+#endif
+    N_("galeon"), N_("mozilla"), N_("netscape"), N_("konqueror")
+};
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor
+//-----------------------------------------------------------------------------
 BrowserDlg::BrowserDlg (std::string& cmd)
-   : XDialog (OKCANCEL), pboxOther (new Gtk::HBox ()), path (cmd) {
+   : XDialog (Glib::locale_to_utf8 (_("Select a browser")), OKCANCEL)
+     , pboxOther (new Gtk::HBox ()), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (std::string&) - " << cmd);
-   Check3 (sizeof (browserNames) < sizeof (aBrowsers));
-   set_title (Glib::locale_to_utf8 (_("Select a browser")));
 
    pboxOther->show ();
 
@@ -55,18 +58,15 @@ BrowserDlg::BrowserDlg (std::string& cmd)
    Gtk::RadioButton_Helpers::Group group;
 
    // Create Other radio button
-   aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])] =
-      new Gtk::RadioButton (group, _("Other: "), 0);
-   aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->set_active (true);
-   pboxOther->pack_start (*aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])],
-                          false, false);
-   aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->show ();
-   aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->signal_clicked ().connect
-      (bind (slot (*this, &BrowserDlg::control),
-             sizeof (browserNames) / sizeof (browserNames[0])));
+   aBrowsers[BROWSERS] = new Gtk::RadioButton (group, _("Other: "), 0);
+   aBrowsers[BROWSERS]->set_active (true);
+   pboxOther->pack_start (*aBrowsers[BROWSERS], false, false);
+   aBrowsers[BROWSERS]->show ();
+   aBrowsers[BROWSERS]->signal_clicked ().connect
+      (bind (slot (*this, &BrowserDlg::control), BROWSERS));
 
    // Create radio button for other browsers and set them if specified by cmd
-   for (unsigned int i (0); i < (sizeof (browserNames) / sizeof (browserNames[0]));
+   for (unsigned int i (0); i < (BROWSERS);
         ++i) {
       aBrowsers[i] = new Gtk::RadioButton (group, _(browserNames[i]), 0);
       aBrowsers[i]->signal_clicked ().connect (bind (slot (*this, &BrowserDlg::control), i));
@@ -85,25 +85,25 @@ BrowserDlg::BrowserDlg (std::string& cmd)
    show ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 BrowserDlg::~BrowserDlg () {
    for (unsigned int i (0); i < (sizeof (aBrowsers) / sizeof (aBrowsers[0])); ++i)
       delete aBrowsers[i];
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Handling of the OK button; closes dialog with commiting data
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Handling of the OK button; closes dialog with commiting data
+//-----------------------------------------------------------------------------
 void BrowserDlg::okEvent () {
    path.commit ();
    XDialog::okEvent ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback for grey-logic of the dialog
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback for grey-logic of the dialog
+//-----------------------------------------------------------------------------
 void BrowserDlg::control (unsigned int cmd) {
    TRACE9 ("BrowserDlg::control (unsigned int) - " << cmd);
    Check1 (cmd < sizeof (aBrowsers) / sizeof (aBrowsers[0]));
@@ -113,7 +113,7 @@ void BrowserDlg::control (unsigned int cmd) {
       if (path.is_sensitive ())
          path.grab_focus ();
       else {
-         Check1 (cmd < sizeof (browserNames) / sizeof (browserNames[0]));
+         Check1 (cmd < BROWSERS);
          path.getAttribute () = browserNames[cmd];
          path.update ();
       }

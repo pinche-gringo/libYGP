@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.4 2003/06/02 01:29:56 markus Rel $
+//$Id: BrowserDlg.h,v 1.5 2003/07/20 02:20:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,20 +24,36 @@
 
 #include <XDialog.h>
 
+#ifdef HAVE_GTKHTML
+#  define BROWSERS 5
+#else
+#  define BROWSERS 4
+#endif
+
 namespace Gtk {
    class Box;
    class RadioButton;
 }
 
 
+/**Class to enable the user to select one of the (popular) UNIX browsers or to
+   enter his own choice.
+
+   The dialog does not check, if the browsers are actually available.
+
+   If the gtkhtml library is available, there's also an entry which allows to
+   select this widget.
+ */
 class BrowserDlg : public XDialog {
  public:
    BrowserDlg (std::string& cmd);
    virtual ~BrowserDlg ();
 
+   /// Method to display the dialog
    static BrowserDlg* perform (std::string& cmd) {
       return new BrowserDlg (cmd); }
 
+   /// Returns (a suggestion for) the default browser to use.
    static const char* getDefaultBrowser () { return browserNames[0]; }
 
  private:
@@ -49,8 +65,8 @@ class BrowserDlg : public XDialog {
    virtual void okEvent ();
 
    Gtk::Box*         pboxOther;
-   Gtk::RadioButton* aBrowsers[5];
-   static const char* browserNames[4];
+   Gtk::RadioButton* aBrowsers[BROWSERS + 1];
+   static const char* browserNames[BROWSERS];
 
    typedef XAttributeEntry<std::string> XStringEntry;
 
