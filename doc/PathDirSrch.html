@@ -1,4 +1,4 @@
-<!-- $Id: PathDirSrch.html,v 1.7 2001/09/29 17:07:16 markus Exp $ -->
+<!-- $Id: PathDirSrch.html,v 1.8 2001/10/17 11:43:48 markus Exp $ -->
 
 <html>
   <head>
@@ -39,7 +39,7 @@
       leading exclamation mark (!), like ([^a-e]).</p>
 
     <p>The found (and matching) files are retrieved by objects of type
-      <a href="DirEntry.html"><b>dirEntry</b></a>.</p>
+      <a href="File.html"><b>File</b></a>.</p>
 
     <p><b>Note</b>: The class does <b>not</b> do any word expansion for the
       search-path (like expanding the tilde (~) to the home-directory)!</p>
@@ -61,17 +61,17 @@
         <td><a href="PathDirSrch.html#checkPath"><b>checkPath</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>) throw (<font color="navy">std::string</font>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="File.html"><b>File</b></a>*</tt></td>
         <td><a href="PathDirSrch.html#find"><b>find</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>, <tt><font color="navy">dirEntry</font></tt>&amp; <tt><font color="blue">result</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font></tt> = FILE_NORMAL)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+        <td><tt>(const <font color="purple">std::string</font>&amp; <font color="blue">path</font>, const <font color="purple">std::string</font>&amp; <font color="blue">search</font>, <font color="navy">unsigned</font> <font color="purple">long</font> <font color="blue">attribs</font> = FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="File.html"><b>File</b></a>*</tt></td>
         <td><a href="PathDirSrch.html#find2"><b>find</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>, <tt><font color="navy">dirEntry</font></tt>&amp; <tt><font color="blue">result</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font></tt> = FILE_NORMAL)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><tt>(const <font color="purple">std::string</font>&amp; <font color="blue">search</font>, <font color="navy">unsigned</font> <font color="purple">long</font> <font color="blue">attribs</font> = FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual const</tt> <a href="File.html"><b>File</b></a>*</tt></td>
         <td><a href="PathDirSrch.html#find3"><b>find</b></a></td>
-        <td><tt>(<tt><font color="navy">dirEntry</font></tt>&amp; <tt><font color="blue">result</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font></tt> = FILE_NORMAL)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
-        <td><a href="PathDirSrch.html#find4"><b>find</b></a></td>
+        <td><tt>(<font color="navy">unsigned</font> <font color="purple">long</font> <font color="blue">attribs</font> = FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual const</tt> <a href="File.html"><b>File</b></a>*</tt></td>
+        <td><a href="PathDirSrch.html#next"><b>next</b></a></td>
         <td><tt>()</tt>;</td></tr>
 
       <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
@@ -124,8 +124,8 @@
     </dl>
 
     <h4>Find functions</h4>
-    <pre><a name="find">int find</a> (const std::string&amp; path, const std::string&amp; search,<a href="DirEntry.html"><b>dirEntry</b></a>&amp; result,
-          unsigned long attribs = FILE_NORMAL) throw (std::string)</pre>
+    <pre><a name="find">const <a href="File.html"><b>File</b></a>* find</a> (const std::string&amp; path, const std::string&amp; search,
+                  unsigned long attribs = FILE_NORMAL)</pre>
     <dl>
       <dd><p>Searches for files specified by <i>search</i> in the passed
           <i>path</i>s; if at least one file is found, the result is placed into
@@ -142,8 +142,7 @@
         <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find2">int find</a> (const std::string&amp; search, <a href="DirEntry.html"><b>dirEntry</b></a>&amp; result,
-          unsigned long attribs = FILE_NORMAL) throw (std::string)</pre>
+    <pre><a name="find2">const <a href="File.html"><b>File</b></a>* find</a> (const std::string&amp; search, unsigned long attribs = FILE_NORMAL)</pre>
     <dl>
       <dd><p>Searches for files specified by <i>search</i> in the paths which must
           have been set before; if at least one file is found, the result is
@@ -160,8 +159,7 @@
         <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find3">virtual int find</a> (<a href="DirEntry.html"><b>dirEntry</b></a>&amp; result, unsigned long attribs = FILE_NORMAL)
-            throw (std::string)</pre>
+    <pre><a name="find3">virtual const <a href="File.html"><b>File</b></a>* find</a> (unsigned long attribs = FILE_NORMAL)</pre>
     <dl>
       <dd><p>Searches for first file matching the input specified by the
           constructor(s) or the set-methods; if at least one file is found, the
@@ -169,7 +167,7 @@
         <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find4"></a>virtual int find ()</pre>
+    <pre><a name="next"></a>virtual const <a href="File.html"><b>File</b></a>* next ()</pre>
     <dl>
       <dd>Returns the next matching file according to parameters specified in
         earlier find-calls. If a file was found 0 is returned, errno otherwise.</dd>
