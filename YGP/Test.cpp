@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.3 1999/07/31 18:05:39 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.4 1999/08/01 23:09:19 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -129,6 +129,11 @@ int Application::perform (int argc, char* argv[]) {
    check (!ds.find ());
    check (!ds.find ());
    check (!ds.find ());
+   check (ds.find ());
+
+   check (!ds.find (".", &file, FILE_DIRECTORY | FILE_HIDDEN));
+   check (!ds.find ("../General/", &file, FILE_DIRECTORY));
+   check (!ds.find ("../General", &file, FILE_DIRECTORY));
    check (ds.find ());
 
    cout << "Testing Tokenize...\n";
