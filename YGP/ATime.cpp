@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.4 2000/03/21 23:28:33 Markus Rel $
+//$Id: ATime.cpp,v 1.5 2000/05/09 23:31:34 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,11 +27,11 @@
 #include <assert.h>
 #include <locale.h>
 
-#ifdef UNIX
-#  include <values.h>
+#if defined UNIX || defined __GNUG__
 #  include <strstream.h>
 #else
 #  ifdef WINDOWS
+#     define WIN32_LEAN_AND_MEAN
 #     include <windows.h>
 #     include <winnt.h>
 #  endif
@@ -294,9 +294,9 @@ long ATime::compare (const ATime& other) {
    }
 
    if (isDefined ())                             // this defined: Return bigger
-      return MAXLONG;
+      return 1;
    else if (other.isDefined ())                // other defined: Return smaller
-      return MINLONG;
+      return -1;
    else
       return 0;                               // Both not defined: Return equal
 }

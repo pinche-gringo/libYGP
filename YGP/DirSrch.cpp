@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.22 2000/04/13 19:55:21 Markus Rel $
+//$Id: DirSrch.cpp,v 1.23 2000/05/09 23:33:38 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -272,7 +272,7 @@ bool dirEntry::isExecuteable () const {
       // enough (MAX_PATH) and the trailing \0 is in the compare
       switch (toupper (*pEnd++) + (toupper (*pEnd++) << 8)
               + (toupper (*pEnd++) << 16) + (toupper (*pEnd) << 24)) {
-#ifdef __BORLANDC__
+#if defined __BORLANDC__ || defined __GNUG__
       case 'EXE\0' :
       case 'COM\0' :
       case 'BAT\0' :
