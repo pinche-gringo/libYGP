@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: acconfig.h,v 1.5 2002/05/24 02:06:14 markus Exp $
+//$Id: acconfig.h,v 1.6 2002/07/08 03:31:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@
 #endif
 
 /* Define the micro-version */
-#ifndef MICRO_VERSION
-#undef MICRO_VERSION
+#ifndef RELEASE
+#undef RELEASE
 #endif
 
 @TOP@
