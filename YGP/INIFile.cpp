@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.9 2002/04/09 20:02:49 markus Rel $
+//$Id: INIFile.cpp,v 1.10 2002/05/24 06:45:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -28,7 +28,6 @@
 
 #include <string.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "INIFile.h"
 #include "Internal.h"
