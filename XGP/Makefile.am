@@ -9,11 +9,11 @@ lib_LTLIBRARIES=libXMP.la
 
 include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
 		XFileList.h XDate.h XFileDlg.h XPrintDlg.h XAttrLabel.h \
-		XDialog.h XAttrEntry.h
+		XDialog.h XAttrEntry.h Folder.h
 
 libXMP_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 		  Version.cpp XFileList.cpp XDate.cpp XFileDlg.cpp \
-		  XPrintDlg.cpp BrowserDlg.cpp $(include_HEADERS) 
+		  XPrintDlg.cpp BrowserDlg.cpp Folder.cpp $(include_HEADERS) 
 
 libXMP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
