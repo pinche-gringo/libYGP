@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.19 2002/11/04 00:56:25 markus Rel $
+// $Id: XStrBuf.cpp,v 1.20 2002/11/18 04:39:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -25,6 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <gzo-cfg.h>
+
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
@@ -33,8 +35,6 @@
 #include "Trace_.h"
 
 #include "XStrBuf.h"
-
-#include <gzo-cfg.h>
 
 static unsigned int lenBuffer = 512;
 
@@ -78,7 +78,7 @@ extStreambuf::extStreambuf (streambuf* source)
 
 /*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
-   free (pBuffer); 
+   free (pBuffer);
 }
 
 
@@ -119,7 +119,7 @@ int extStreambuf::underflow () {
          free (pTemp);
          pTemp = pBuffer + lenBuffer;
          lenBuffer <<= 1; assert (lenBuffer);
-         setg (pBuffer, pBuffer, pBuffer + lenBuffer);
+         setg (pBuffer, pBuffer + lenBuffer, pBuffer + lenBuffer);
       }
       *pTemp++ = (char)ch;
       TRACE9 ("New char: " << (char)ch);
@@ -171,6 +171,26 @@ int extStreambuf::pbackfail (int c) {
    if (c == '\n')
       --line;
    return c;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks the integrity of the object
+//Returns   : Status: 0 OK; 1 pSource == NULL; 2 pBuffer == NULL
+/*--------------------------------------------------------------------------*/
+streampos extStreambuf::seekoff (streamoff off, _seek_dir dir, int mode) {
+   TRACE8 ("extStreambuf::seekoff (streamoff, _seek_dir, mode)");
+   setg (pBuffer, pBuffer + lenBuffer, pBuffer + lenBuffer);
+   return pSource->pubseekoff (off, dir, mode);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks the integrity of the object
+//Returns   : Status: 0 OK; 1 pSource == NULL; 2 pBuffer == NULL
+/*--------------------------------------------------------------------------*/
+streampos extStreambuf::seekpos (streampos pos, int mode) {
+   TRACE8 ("extStreambuf::seekpos (streampos, mode)");
+   setg (pBuffer, pBuffer, pBuffer);
+   return pSource->pubseekpos (pos, mode);
 }
 
 /*--------------------------------------------------------------------------*/
