@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.9 2002/10/20 07:17:46 markus Rel $
+// $Id: CRegExp.cpp,v 1.10 2002/12/15 22:31:21 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -26,11 +26,10 @@
 
 #include <gzo-cfg.h>
 
-#include <assert.h>
-
 #include <iostream>
 
 #include "Test.h"
+#include <Check.h>
 #include <Trace_.h>
 
 #include <ANumeric.h>
@@ -45,33 +44,25 @@ RegularExpression regexp ("");
 bool match;
 
 
-void removeEscapeChar (std::string& str, char esc = '\\') {
-   int pos (0);
-   while ((pos = str.find (esc, pos)) != std::string::npos)
-      str.replace (pos++, 1, 0, '\0');
-}
-
 int foundRegExp (const char* pRegExp, unsigned int) {
-   assert (pRegExp);
+   Check1 (pRegExp);
    TRACE1 ("Found regular expression: " << pRegExp);
    strRE = pRegExp;
-   removeEscapeChar (strRE);
    regexp = strRE.c_str ();
    return ParseObject::PARSE_OK;
    }
 
 int foundValue (const char* pValue, unsigned int) {
-   assert (pValue);
-   assert (strRE.size ());
+   Check1 (pValue);
+   Check1 (strRE.size ());
    TRACE1 ("Found value: " << pValue);
    strVal = pValue;
-   removeEscapeChar (strVal);
    match = regexp.matches (pValue);
    return ParseObject::PARSE_OK;
 }
 
 int foundResult (const char* pResult, unsigned int) {
-   assert (pResult);
+   Check1 (pResult);
    PRINT (strRE << " matches " << strVal << " == " << pResult << '\n');
    if ((*pResult != '0') != match)
       ERROROUT ("RegExp (\"" << strRE << "\").matches (\"" << strVal
