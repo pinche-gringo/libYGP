@@ -1,11 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.4 2004/10/24 00:24:53 markus Exp $
+//$Id: LoginDlg.cpp,v 1.5 2004/12/24 02:51:09 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -51,10 +51,13 @@ ILoginDialog::ILoginDialog (const Glib::ustring& title)
    txtPassword = manage (new Gtk::Entry ());
    txtPassword->set_visibility (false);
 
-   pClient->attach (*manage (new Gtk::Label (_("Userid:"))), 0, 1, 0, 1,
-		    Gtk::SHRINK, Gtk::SHRINK, 5, 5);
-   pClient->attach (*manage (new Gtk::Label (_("Password:"))), 0, 1, 1, 2,
-		    Gtk::SHRINK, Gtk::SHRINK, 5, 5);
+   Gtk::Label* lbl (new Gtk::Label (_("_Userid:"), true));
+   lbl->set_mnemonic_widget (*txtUser);
+   pClient->attach (*manage (lbl), 0, 1, 0, 1, Gtk::SHRINK, Gtk::SHRINK, 5, 5);
+
+   lbl = new Gtk::Label (_("_Password:"), true);
+   lbl->set_mnemonic_widget (*txtPassword);
+   pClient->attach (*manage (lbl), 0, 1, 1, 2, Gtk::SHRINK, Gtk::SHRINK, 5, 5);
    pClient->attach (*txtUser, 1, 2, 0, 1, Gtk::FILL | Gtk::EXPAND,
 		    Gtk::FILL | Gtk::EXPAND, 5, 5);
    pClient->attach (*txtPassword, 1, 2, 1, 2, Gtk::FILL | Gtk::EXPAND,
