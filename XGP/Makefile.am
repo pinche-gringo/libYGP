@@ -1,8 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-include_HEADERS=Check.h XAbout.h XApplication.h XFileEntry.h XMessageBox.h \
-		XFileList.h XDate.h
-
 lib_LTLIBRARIES=libXAppl.la
 
 libXAppl_la_LIBADD=-lAttr -lgtkmm -lgdkmm -lgtk
@@ -15,3 +12,8 @@ pkgdata_DATA=Icon.c Icon.gif Icon.html Icon.jpg Icon.ps Icon.tgz Icon.xpm \
              Icon.htm Icon.jpeg Icon.pdf Icon.tex Icon.wav Icon.zip Icon.bmp
 
 EXTRA_DIST=$(pkgdata_DATA)
+
+include_HEADERS=Check.h XAbout.h XApplication.h XFileEntry.h XMessageBox.h \
+		XFileList.h XDate.h
+
+INCLUDES = -I../Common -DPKGDIR=\"$(pkgdata_dir)\"
