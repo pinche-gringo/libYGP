@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.28 2003/07/25 00:24:52 markus Exp $
+//$Id: XApplication.cpp,v 1.29 2003/08/03 20:54:25 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -389,10 +389,10 @@ void XApplication::command (int menu) {
          if (file[0] != '/')
             file.replace (0, 6, 0, '\0');
 
-         // If so: Check which language to use
-         Tokenize ext (getenv ("LANGUAGE"));
-         if (ext.getActNode ().empty ())
-            ext = setlocale (LC_MESSAGES, NULL);
+         // If so: Check which language to use; either using the LANGUAGE
+         // environment variable or the locale settings
+         const char* pLang (getenv ("LANGUAGE"));
+         Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
 
          // Check every language-entry (while removing trailing specifiers)
          std::string extension;
