@@ -1,0 +1,268 @@
+<!-- $Id: DirSrch.html,v 1.1 2000/03/23 19:28:02 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: AttributValue</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class DirectorySearch </h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: DirSrch.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to search for files in a directory. This search can be restricted
+      to files matching certain name-criterias or by attributes.</p>
+
+    <p>The found (and matching) files are retrieved by objects of type
+      <a href="DirSrch.html#dirEntry">dirEntry</a>.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="DirSrch.html#DirectorySearch">DirectorySearch</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="DirSrch.html#DirectorySearch2">DirectorySearch</a></td>
+	<td>(const std::string& search)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="DirSrch.html#~DirectorySearch">~DirectorySearch</a></td>
+	<td>()</td></tr>
+
+      <tr valign="top"><td>static char</td>
+	<td><a href="DirSrch.html#getSplitChar">getSplitChar</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="DirSrch.html#setFile">setFile</a></td>
+	<td>(const std::string&amp; search)</td></tr>
+      <tr valign="top"><td>std::string</td>
+	<td><a href="DirSrch.html#getFile">getFile</a></td>
+	<td>()</td></tr>
+
+      <tr valign="top"><td>int</td>
+	<td><a href="DirSrch.html#find">find</a></td>
+	<td>(const std::string&amp; search, <a href="DirSrch.html#dirEntry">
+	    dirEntry</a>&amp; result, unsigned long
+	  attribs = FILE_NORMAL)</td></tr>
+      <tr valign="top"><td>int</td>
+	<td><a href="DirSrch.html#find2">find</a></td>
+	<td>(const std::string&amp; search)</td></tr>
+      <tr valign="top"><td>virtual int</td><td><a href="DirSrch.html#find3">find</a></td>
+	<td>(<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+	  unsigned long attribs = FILE_NORMAL)</td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="DirSrch.html#find4">find</a></td><td>()</td></tr>
+
+      <tr><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="DirSrch.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="DirSrch.html#cleanup">cleanup</a></td><td>()</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="DirectorySearch"><i>DirectorySearch ()</i> -
+	Defaultconstructor</a></p>
+    <p><a name="DirectorySearch2"><i>DirectorySearch (const std::string &amp; search)</i>
+	- Constructor; creates an object with the files to search. The
+	parameter can include path-information.</a></p>
+    <p><a name="~DirectorySearch"><i>~DirectorySearch ()</i> - Destructor</a></p>
+
+    <p><a name="setFile"><i>void setFile (const std::string&amp; search)</i> -
+	Sets the files to search for (and the path where to search).</a></p>
+    <p><a name="getFile"><i>std::string getFile ()</i> -
+	Retrieves path and files to search for.</a></p>
+
+    <h4>Management functions</h4>
+    <p><a name="find"><i>int find (const std::string&amp; search,</i></a>
+      <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result, unsigned long
+      attribs = FILE_NORMAL)</i> - Searches for files specified by search; if
+      at least one is found, the result is placed into result. The parameter
+      attribs specify which kind of files to find. Possible values are
+      FILE_NORMAL for "ordinary" files, FILE_READONLY for files which can not
+      be changed (no w-flag in UNIX or read-only attribute set in DOS/WINDOZE),
+      FILE_DIRECTORY searches for directories and FILE_HIDDEN for files not
+      visible (files starting with a dot (.) in UNIX or with hidden- or
+      system-flag set in DOS/WINDOZE).</a></p>
+
+    <p>This call returns 0, if a file was found, errno otherwise.</p>
+
+    <p><a name="find"><i>int find (const std::string&amp; search)</i> -
+	Searches for files specified by search; the purpose is to change the
+	files to search for during/after a previous search, so this call is
+	only valid, if a previous find has already defined a place for the
+	output (which is propably only usefull for derived classes, so this
+	call might be moved to the protected methods).</a></p>
+
+    <p>This call returns 0, if a file was found, errno otherwise.</p>
+
+    <p><a name="find"><i>virtual int find (</i></a><a href="DirSrch.html#dirEntry">dirEntry</a>&amp;
+      result, unsigned long attribs = FILE_NORMAL)</i> - Searches for the
+      first file matching the input specified by the constructor or the
+      setFile-method. The first found file is placed into  result, the parameter
+      attribs specify which kind of files to find. Possible values are
+      FILE_NORMAL for "ordinary" files, FILE_READONLY for files which can not
+      be changed (no w-flag in UNIX or read-only attribute set in DOS/WINDOZE),
+      FILE_DIRECTORY searches for directories and FILE_HIDDEN for files not
+      visible (files starting with a dot (.) in UNIX or with hidden- or
+      system-flag set in DOS/WINDOZE).</a></p>
+
+    <p>This call returns 0, if a file was found, errno otherwise.</p>
+
+    <p><a name="find"><i>virtual int find ()</i> - Returns the next matching
+	file according to parameters specified in early find-calls. If a file
+	was found 0 is returned, errno otherwise.</a></p>
+
+    <h4>Utility functions</h4>
+    <p><a name="getSplitChar"><i>static char getSplitChar ()</i> -
+	Returns the character seperating the path from the file and the
+	subdirectories in the path from each other.</a></p>
+    
+    <p><a name="checkIntegrity"><i>virtual int checkIntegrity () const</i> -
+	Checks if this object is integer. If yes 0 is returned, else a number
+	describing the error.</a></p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="dirEntry">struct dirEntry</a></h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: DirSrch.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class representing an entry in a directory.</p>
+
+    <p>This class is not very useful by itself, but depends very much on being
+      used properly so it might be moved into DirectorySearch; especially since
+      the contained information might be misleading directly after creation.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="DirSrch.html#dirEntry1">dirEntry</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="DirSrch.html#dirEntry2">dirEntry</a></td>
+	<td>(const <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; other)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="DirSrch.html#~dirEntry">~dirEntry</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td><a href="DirSrch.html#dirEntry">dirEntry</a>&amp;</td>
+	<td><a href="DirSrch.html#Doperator=">operator=</a></td>
+	<td>(const <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>const char*</td>
+	<td><a href="DirSrch.html#path">path</a></td><td>() const</td></tr>
+      <tr valign="top"><td>const char*</td>
+	<td><a href="DirSrch.html#name">name</a></td><td>() const</td></tr>
+      <tr valign="top"><td>const unsigned long</td>
+	<td><a href="DirSrch.html#size">size</a></td><td>() const</td></tr>
+      <tr valign="top"><td>const time_t</td>
+	<td><a href="DirSrch.html#time">time</a></td><td>() const</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="DirSrch.html#time2">time</a></td><td>(struct tm&amp;) const</td></tr>
+      <tr valign="top"><td>const unsigned long</td>
+	<td><a href="DirSrch.html#attributes">attributes</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td>int</td>
+	<td><a href="DirSrch.html#compare">compare</a></td>
+	<td>(const char* pszName) const</td></tr>
+      <tr valign="top"><td>int</td>
+	<td><a href="DirSrch.html#compare2">compare</a></td>
+	<td>(const std::string&amp; name) const</td></tr>
+      <tr valign="top"><td>int</td>
+	<td><a href="DirSrch.html#compare3">compare</a></td>
+	<td>(const <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; other) const</td></tr>
+      <tr valign="top"><td>int</td>
+	<td><a href="DirSrch.html#compare4">compare</a></td>
+	<td>(const <a href="DirSrch.html#dirEntry">dirEntry</a>* other) const</td></tr>
+
+      <tr valign="top"><td>bool</td>
+	<td><a href="DirSrch.html#isDirectory">isDirectory</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="DirSrch.html#isExecuteable">isExecuteable</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="DirSrch.html#isUserExec">isUserExec</a></td>
+	<td>() const</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="dirEntry1"><i>dirEntry ()</i> - Defaultconstructor; creates an
+	empty object (pointing to no directory-entry).</a></p>
+    <p><a name="dirEntry2"><i>dirEntry (const dirEntry&amp; other)</i> -
+	Copy-constructor</a></p>
+    <p><a name="~dirEntry"><i>~dirEntry ()</i> - Destructor</a></p>
+    <p><a name="Doperator="><i>dirEntry&amp; operator= (const dirEntry&amp; other)</i>
+	- Assignment-operator</a></p>
+
+    <h4>Query of data</h4>
+    <p><a name="path"><i>const char* path () const</i> - Retrieves the path
+	of the file. The returned value is never NULL nor empty.</a></p>
+    <p><a name="name"><i>const char* name () const</i> - Retrieves the name
+	of the file. The returned value is without any path-information, but
+	never NULL nor empty.</a></p>
+    <p><a name="size"><i>const unsigned long size () const</i> - Retrieves the
+	size of the file.</a></p>
+    <p><a name="time"><i>const time_t time () const</i> - Retrieves the
+	modification time of the file in the format of the system-time.</a></p>
+    <p><a name="time2"><i>void time (struct&amp; tm time) const</i> - Retrieves
+	the modification time of the file in a broken-down format.</a></p>
+    <p><a name="attributes"><i>const unsigned long attributes () const</i> -
+	Returns the attributes of the files.</a></p>
+
+    <p><a name="isDirectory"><i>bool isDirecotory () const</i> - Returns true,
+	if the file is a directory.</a></p>
+    <p><a name="isExecuteable"><i>bool isExecuteable () const</i> - Returns true,
+	if the file is executeable. Under UNIX it checks the file-permissions
+	(any execute-right is sufficient), under DOS/WINDOZE the extension of
+	the file (true for EXE/COM/BAT).</a></p>
+    <p><a name="isUserExec"><i>bool isUserExec () const</i> - Returns true,
+	if the file is executeable for the actual user. Under UNIX it checks
+	the rights for the effictive user under DOS/WINDOZE it the extension
+	of the file (true for EXE/COM/BAT).</a></p>
+
+    <h4>Comparison</h4>
+    <p><a name="compare"><i>int compare (const char* pszName) const</i> -
+	Compares the filename (without path-information) with the passed one.
+	The return code is (analogue to strcmp) 0 if they are equal. Note:
+	Depending on your operating system, the compare might or might not be
+	case-sensitive.</a></p>
+    <p><a name="compare2"><i>int compare (const std::string&amp Name) const</i> -
+	Compares the filename (without path-information) with the passed one.
+	The return code is (analogue to strcmp) 0 if they are equal. Note:
+	Depending on your operating system, the compare might or might not be
+	case-sensitive.</a></p>
+    <p><a name="compare3"><i>int compare (const dirEntry&amp other) const</i> -
+	Compares the filename (without path-information) with the passed one.
+	The return code is (analogue to strcmp) 0 if they are equal. Note:
+	Depending on your operating system, the compare might or might not be
+	case-sensitive.</a></p>
+    <p><a name="compare3"><i>int compare (const dirEntry* other) const</i> -
+	Compares the filename (without path-information) with the passed one.
+	The return code is (analogue to strcmp) 0 if they are equal. Note:
+	Depending on your operating system, the compare might or might not be
+	case-sensitive.</a></p>
+  </body>
+</html>
