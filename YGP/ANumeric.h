@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.6 1999/10/14 22:23:32 Markus Rel $
+//$Id: ANumeric.h,v 1.7 1999/10/19 22:48:12 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ class ANumeric : public AttributValue {
    ANumeric& operator= (const ANumeric& other);
    ANumeric& operator= (long val) { AttributValue::define ();  mpz_set_si (value, val); }
 
-   virtual void define () { AttributValue::define (); mpz_set (value, 0); }
+   virtual void define ();
    virtual std::string toString () const;
    virtual void readFromStream (istream& in);
 
