@@ -1,7 +1,7 @@
-#ifndef REGEXP_H
-#define REGEXP
+#ifndef FILEREXP_H
+#define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.2 2000/03/27 22:37:13 Markus Rel $
+//$Id: FileRExp.h,v 1.3 2000/05/14 17:47:37 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 
 #include <assert.h>
 
+#include "RegExp.h"
 
 // Class to compare text with (UNIX-file-style) regular expressions
 // '*' matches any number of any characters
@@ -31,32 +32,31 @@
 //     <match> ::= | <char><match> | <region><match> | {}
 //     <region> ::= <low>-<high>
 //
-// Note: The pRegExp-parameter is stored as is (and not copied); so care
-//       yourself for all the neccessary cleanup-stuff
-class FileRegularExpr {
+// Note: The pExpression-parameter is stored as is (and not copied); so take
+//       care it is valied during the life-time of the object.
+//
+// Use the matches-method of the parent (RegularExpression) to check if the
+// object matches some data.
+class FileRegularExpr : public RegularExpression {
  public:
-   FileRegularExpr () : pFileRegExp (NULL) { }
-   FileRegularExpr (const char* pRegExp) : pFileRegExp (pRegExp) { }
-   ~FileRegularExpr () { }
+   FileRegularExpr (const char* pRegExp) : RegularExpression (pRegExp) { }
+   virtual ~FileRegularExpr ();
 
-   bool matches (const char* pCompare) const {
-      assert (pCompare); assert (pFileRegExp); assert (!checkIntegrity ());
-      return matches (pFileRegExp, pCompare); }
-
-   int  checkIntegrity () const;
-   FileRegularExpr& operator= (const char* pRegExp) { pFileRegExp = pRegExp; return *this; }
+   virtual int  checkIntegrity () const;
+   FileRegularExpr& operator= (const char* pRegExp) {
+      return (FileRegularExpr&)RegularExpression::operator= (pRegExp); }
 
    enum { MULTIMATCH = '*', SINGLEMATCH = '?', REGIONBEGIN = '[',
           REGIONEND = ']', REGION = '-', NEGREGION = '^' };
 
+ protected:
+   virtual bool compare (const char* pAktRegExp, const char* pCompare) const;
+
  private:
    // Prohibited manager functions
+   FileRegularExpr ();
    FileRegularExpr (const FileRegularExpr&);
    const FileRegularExpr& operator= (const FileRegularExpr&);
-
-   bool matches (const char* pAktRegExp, const char* pCompare) const;
-
-   const char* pFileRegExp;
 };
 
 #endif

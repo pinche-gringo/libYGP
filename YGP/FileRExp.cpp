@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.6 2000/03/27 22:37:13 Markus Rel $
+//$Id: FileRExp.cpp,v 1.7 2000/05/14 17:47:37 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -38,6 +38,14 @@
 
 #include <iostream.h>
 
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+FileRegularExpr::~FileRegularExpr () {
+}
+
+
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the regular expression
 //Parameters: pAktRegExp: Pointer to regular expression
@@ -45,7 +53,7 @@
 //Returns   : bool: Result (true: match)
 //Require   : pAktRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) const {
+bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) const {
    assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
 
 #ifdef HAVE_FNMATCH
@@ -61,7 +69,7 @@ bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) con
             return true;                       // Asterisk at end? Return match
 
          while (*pCompare)
-            if (matches (pAktRegExp, pCompare++))
+            if (compare (pAktRegExp, pCompare++))
                return true;
 
          return false;
@@ -119,9 +127,8 @@ bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) con
 //Require   : pFileRegExp is a valid reg. exp.
 /*--------------------------------------------------------------------------*/
 int FileRegularExpr::checkIntegrity () const {
-   assert (pFileRegExp);
-
-   const char* pRegExp = pFileRegExp;
+   const char* pRegExp = getExpression ();
+   assert (pRegExp);
 
    while (*pRegExp) {
       if (*pRegExp == REGIONBEGIN) {
