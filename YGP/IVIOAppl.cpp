@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.16 2000/04/24 14:23:01 Markus Rel $
+///$Id: IVIOAppl.cpp,v 1.17 2000/12/07 21:16:23 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,8 +28,11 @@
 #include <string.h>
 #include <assert.h>
 
+#include <signal.h>
+
 #include <iostream.h>
 
+#include "StackTrc.h"
 #include "IVIOAppl.h"
 
 
@@ -60,8 +63,19 @@ IVIOApplication::IVIOApplication (const int argc, const char* argv[],
    , numLongOpt (0) {
    assert (args > 0);
    assert (ppArgs);
+
+   signal (SIGSEGV, handleSignal);
+
    if (pOpt)
-      setLongOptions (pOpt);
+      setLongOptions (pOpt);        // Store the long-option-array (if passed)
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+IVIOApplication::~IVIOApplication () {
+   signal (SIGSEGV, SIG_DFL);
 }
 
 

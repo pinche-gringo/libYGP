@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.11 2000/03/27 22:37:41 Markus Rel $
+//$Id: IVIOAppl.h,v 1.12 2000/12/07 21:16:23 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ class IVIOApplication {
    // Manager functions
    IVIOApplication (const int argc, const char* argv[],
                     const longOptions* pOpt = NULL);
-   virtual ~IVIOApplication () { }
+   virtual ~IVIOApplication ();
 
    int run ();
 
