@@ -1,0 +1,161 @@
+<!-- $Id: XStrBuf.html,v 1.1 2000/04/06 20:38:29 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: extStreambuf</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class extStreambuf&lt;T&gt;</h1>
+    <p>Derived from: <i>streambuf</i></p>
+
+    <p>Header-file: XStrBuf.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Extended streambuf, designed to parse text.</p>
+    <p>It overcomes two drawbacks of the original streambuf:</p>
+    <ul>
+      <li>Column- and line-information (which - to be fair - wouldn't make very
+	much sense in the common streambuf anyway).</li>
+      <li>A variable-sized putback-buffer. The common streambuf only stores one
+	block (and a few bytes from the last), so a pushback beyond this border
+	is not possible.</li>
+    </ul>
+    <p><b>Note</b>: This buffer only works for input and needs a "real"
+      data-sink as source, so provide another streambuf-object to get its data
+      from with the <a href="XStrBuf.html#extStreambuf2">constructor</a> or
+      with the <a href="XStrBuf.html#setSource">setSource</a>-method!</p>
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="XStrBuf.html#extStreambuf">extStreambuf</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td></td><td><a href="XStrBuf.html#extStreambuf2">extStreambuf</a></td>
+	<td>(streambuf&amp; source)</td></tr>
+      <tr valign="top"><td></td><td><a href="XStrBuf.html#extStreambuf3">extStreambuf</a></td>
+	<td>(streambuf* source)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="XStrBuf.html#~extStreambuf">~extStreambuf</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="XStrBuf.html#overflow">overflow</a></td><td>(int ch)</td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="XStrBuf.html#underflow">underflow</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="XStrBuf.html#pbackfail">pbackfail</a></td><td>(int ch)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="XStrBuf.html#setSource">setSource</a></td>
+	<td>(streambuf&amp; source)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="XStrBuf.html#setSource2">setSource</a></td>
+	<td>(streambuf* source)</td></tr>
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="XStrBuf.html#getLine">getLine</a></td><td>() const</td></tr>
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="XStrBuf.html#getColumn">getColumn</a></td><td>() const</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="extStreambuf">extStreambuf ()</a></pre>
+    <dl>
+      <dd>Defaultconstructor; Although reading from this object should work and
+	should also return some "random" data, to provide a "real" data-sink
+	is highly recommended. This method might be declared private (or at
+	least protected) in the future.</dd>
+    </dl>
+    <pre><a name="extStreambuf2">extStreambuf (streambuf&amp; source)</a></pre>
+    <dl>
+      <dd>Constructor; creates an extended streambuf which takes its input from
+	the provided source.</dd>
+    </dl>
+    <pre><a name="extStreambuf3">extStreambuf (streambuf* source)</a></pre>
+    <dl>
+      <dd>Constructor; creates an extended streambuf which takes its input from
+	the provided source.</dd>
+    </dl>
+    <pre><a name="~extStreambuf">~extStreambuf ()</a></pre>
+
+    <pre><a name="setSource">void setSource (streambuf&amp; source)</a></pre>
+    <dl>
+      <dd>Sets a new data-sink for the extended streambuf. Because its very
+	likely that after this call the next input is taken from the remaining
+	characters left in the "old" source, this function should only be used
+	in combination with the	<a href="XStrBuf.html#extStreambuf">default
+	  constructor</a> and might be declared private (or protected) in the
+	future.</dd>
+    </dl>
+    <pre><a name="setSource2">void setSource (streambuf* source)</a></pre>
+    <dl>
+      <dd>Sets a new data-sink for the extended streambuf. Because its very
+	likely that after this call the next input is taken from the remaining
+	characters left in the "old" source, this function should only be used
+	in combination with the	<a href="XStrBuf.html#extStreambuf">default
+	  constructor</a> and might be declared private (or protected) in the
+	future.</dd>
+    </dl>
+
+    <h4>In- &amp; output</h4>
+    <pre><a name="overflow">int overflow (int ch)</a></pre>
+    <dl>
+      <dd>Called if output would cause the streambuf to overrun. Because this
+	class is designed for input, this method shouldn't be called. It also
+	might be declared protected in the future.</dd>
+    </dl>
+    <pre><a name="underflow">int underflow ()</a></pre>
+    <dl>
+      <dd><p>Called if the object doesn't contain data in the input-buffer.</p>
+	<p>It then copies characters from its data-sink (the streambuf passed
+	  while constructing or defined with setSource) til the next line-feed
+	  character (10, 0x0a, '\n') and sets this data as its input.</p>
+	<p>This method is called automatically and should be used. It also
+	  might be declared protected in the future.</p></dd>
+    </dl>
+
+    <pre><a name="pbackfail">int pbackfail (int ch)</a></pre>
+    <dl>
+      <dd><p>There are two reasons why this method could be called while pushing
+	back characters:</p>
+	<ul type=disk>
+	  <li>A character is pushed back which doesn't fit the read character.
+	    This is propably due to a programming failure and the pushback is
+	    not performed.</li>
+	  <li><p>A buffer underrun; caused by pushing characters back into the
+	      previous line (and - depending on the implementation of streambuf
+	      - maybe a few characters more). In this read-position of the
+	      data-sink is changed to the end of the previous line.</p>
+	    <p><b>Note</b>: For the sake of performance the check if the
+	      character pushed back matches the character in the stream is
+	      <b>not</b> done (but the next read-operation returns the "right"
+	      character)! Thinking of caches, this behaviour might be changed
+	      in the future.</p></li>
+	</ul></dd>
+    </dl>
+
+    <h4>Accessing the object</h4>
+    <pre><a name="getLine">unsigned int getLine () const</a></pre>
+    <dl>
+      <dd>Returns the actual line of the streambuf. This value is 0 before any
+	data is read and starts with 1 for the first line (after the first
+	read-operation). A new line starts after a character 10 (0x0a, or the
+	C-charachter '\n'), which is UNIX-style but works also for the
+	DOS/Windoze and the like.</dd>
+    </dl>
+    <pre><a name="getColumn">unsigned int getColumn () const</a></pre>
+    <dl>
+      <dd>Returns the actual position in the line of the streambuf. This value
+	is 0 before any	data (of the line) is read and starts with 1 after the
+	first read-operation in the line (A new line starts after a character
+	10 (0x0a, or the C-charachter '\n'), which is UNIX-style but works
+	also for the DOS/Windoze and the like.</dd>
+    </dl>
+  </body>
+</html>
