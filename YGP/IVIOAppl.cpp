@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.27 2002/10/25 03:04:37 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.28 2002/11/04 00:54:13 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -36,6 +36,7 @@
 #include <iostream>
 
 #include "File.h"
+#include "PathSrch.h"
 #include "Internal.h"
 #include "StackTrc.h"
 #include "IVIOAppl.h"
@@ -141,6 +142,19 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 //Returns   : int: Status
 /*--------------------------------------------------------------------------*/
 int IVIOApplication::run () {
+   std::string inifile (PathSearch::expandNode (std::string (1, '~')));
+   assert (inifile.size ());
+   if (inifile[inifile.size () - 1] != File::DIRSEPARATOR)
+      inifile += File::DIRSEPARATOR;
+#if SYSTEM == UNIX
+   inifile += '.';
+#endif
+   inifile += name ();
+#if SYSTEM != UNIX
+   inifile += ".ini";
+#endif
+   readINIFile (inifile.c_str ());
+
    char ch;
    bool showHlp (false);
 

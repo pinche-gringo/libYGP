@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.17 2002/10/25 03:04:37 markus Exp $
+//$Id: IVIOAppl.h,v 1.18 2002/11/04 00:54:13 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -87,6 +87,7 @@ class IVIOApplication {
    void         setLongOptions (const longOptions* pLongOpts);
    void         setLongOptions (const longOptions* pLongOpts,
                                 unsigned int numLongOpts);
+   virtual void readINIFile (const char* pFile) { }
 
    // Program-handling
    virtual int         perform (int argc, const char* argv[]) = 0;
