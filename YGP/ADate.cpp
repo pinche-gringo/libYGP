@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.2 1999/10/12 21:39:14 Markus Exp $
+//$Id: ADate.cpp,v 1.3 1999/10/13 00:23:42 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <time.h>
+#include <assert.h>
 #include <values.h>
 #include <locale.h>
 
@@ -46,7 +46,6 @@
 //                 should be set
 /*--------------------------------------------------------------------------*/
 ADate::ADate (bool now) : AttributValue () {
-   define ();
    if (now) {
       time_t curtime (time (NULL));
       struct tm* locTime (localtime (&curtime)); assert (locTime);
@@ -60,7 +59,9 @@ ADate::ADate (bool now) : AttributValue () {
    }
 
    if (checkIntegrity ())
-      TRACE ("ADate::ADate -> checkIntegrity failed with " << checkIntegrity ());
+      TRACE ("ADate::ADate -> checkIntegrity failed with " << checkIntegrity ())
+   else
+      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -74,19 +75,18 @@ ADate::ADate (char Day, char Month, unsigned int Year) : AttributValue () {
    month = Month;
    year = Year;
 
-   maxAdapt ();
-
-   if (checkIntegrity ())
+   if (checkIntegrity ()) {
       TRACE ("ADate::ADate (Day, Month, Year) -> checkIntegrity failed with "
              << checkIntegrity ());
-
+   }
+   else
+      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 ADate::~ADate () {
-   assert (!checkIntegrity ());
 }
 
 
@@ -129,16 +129,19 @@ ADate& ADate::operator= (const char* pDate) {
    char split;
    
    istrstream help (pDate);
-   help >> first >> split >> second >> year;
+   help >> first >> split >> second >> split >> year;
+   TRACE9 ("ADate::operator= (const char*): Read: " << first << split << second
+          << split << year);
    
    day = (char)first;
    month = (char)second;
-   define ();
+   AttributValue::define ();
    
+   TRACE9 ("ADate::operator= (const char*): result = " << toString ());
    if (checkIntegrity ()) {
       TRACE ("ADate::operator= (const char* -> checkIntegrity failed with "
              << checkIntegrity ());
-      maxAdapt ();
+      undefine ();
    }
    return *this;
 }
@@ -146,18 +149,20 @@ ADate& ADate::operator= (const char* pDate) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Converting to a string
 //Returns   : String-representation of ADate
+//Remarks   : Only dates valid for struct tm can be printed (e.g. dates after
+//            1900)
 /*--------------------------------------------------------------------------*/
 std::string ADate::toString () const {
-   assert (!checkIntegrity ());
    return toString ("%x");
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Converting to a string giving a certain format (acc .to strftime);
 //Returns   : String-representation of ADate
+//Remarks   : Only dates valid for struct tm can be printed (e.g. dates after
+//            1900)
 /*--------------------------------------------------------------------------*/
 std::string ADate::toString (const char* format) const {
-   assert (!checkIntegrity ());
    assert (format);
 
    char szBuffer[20] = "";
@@ -166,6 +171,10 @@ std::string ADate::toString (const char* format) const {
       struct tm tm = { 0, 0, 0, day, month - 1, year - 1900 };
       strftime (szBuffer, sizeof (szBuffer), format, &tm);
    }
+
+   if (checkIntegrity ())
+      TRACE ("ADate::toString: Invalid ADate " << (int)day << '.'
+             << (int)month << '.' << year);
    return szBuffer;
 }
 
@@ -180,12 +189,15 @@ ADate& ADate::operator+= (const ADate& rhs) {
    assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
 
    if (rhs.isDefined ()) {
-      day += rhs.day;
-      month += rhs.month;
-      year += rhs.year;
+      if (isDefined ()) {
+         day += rhs.day;
+         month += rhs.month;
+         year += rhs.year;
       
-      maxAdapt ();
-      AttributValue::define ();
+         maxAdapt ();
+      }
+      else
+         operator= (rhs);
 
       assert (!checkIntegrity ());
    }
@@ -202,12 +214,14 @@ ADate& ADate::operator-= (const ADate& rhs) {
    assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
 
    if (rhs.isDefined ()) {
+      if (!isDefined ())
+         *this = today ();
+
       day -= rhs.day;
       month -= rhs.month;
       year -= rhs.year;
 
       minAdapt ();
-      AttributValue::define ();
 
       assert (!checkIntegrity ());
    }
@@ -224,12 +238,15 @@ ADate& ADate::operator-= (const ADate& rhs) {
 ADate& ADate::add (char Day, char Month, unsigned int Year) {
    assert (!checkIntegrity ());
 
-   day += Day;
-   month += Month;
-   year += Year;
-   maxAdapt ();
+   if (isDefined ()) {
+      day += Day;
+      month += Month;
+      year += Year;
+      maxAdapt ();
 
-   assert (!checkIntegrity ());
+      assert (!checkIntegrity ());
+   }
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -242,12 +259,14 @@ ADate& ADate::add (char Day, char Month, unsigned int Year) {
 ADate& ADate::sub (char Day, char Month, unsigned int Year) {
    assert (!checkIntegrity ());
 
-   day -= Day;
-   month -= Month;
-   year -= Year;
-   minAdapt ();
+   if (isDefined ()) {
+      day -= Day;
+      month -= Month;
+      year -= Year;
+      minAdapt ();
 
-   assert (!checkIntegrity ());
+      assert (!checkIntegrity ());
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -325,7 +344,7 @@ int ADate::checkIntegrity () const {
 //Returns   : int: Max. day
 /*--------------------------------------------------------------------------*/
 char  ADate::maxDayOf (char month, unsigned int year) {
-   assert ((month > 0) && (month < 12));
+   assert ((month > 0) && (month < 13));
 
    if (month == 2)                             // Special-handling of february
       return isLeapYear (year) ? 29 : 28;
@@ -382,3 +401,32 @@ void ADate::maxAdapt () {
    }
    assert (!checkIntegrity ());
 }
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Sets the day-part of this
+//Parameters: Day: Day to set
+/*--------------------------------------------------------------------------*/
+void ADate::setDay (char Day) {
+   AttributValue::define ();
+   day = Day;
+
+   if (checkIntegrity ()) {
+      TRACE ("ADate::setDay -> checkIntegrity failed with " << checkIntegrity ());
+      undefine ();
+   }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Sets the day-part of this
+//Parameters: Day: Day to set
+/*--------------------------------------------------------------------------*/
+void ADate::setMonth (char Month) {
+   AttributValue::define ();
+   month = Month;
+
+   if (checkIntegrity ()) {
+      TRACE ("ADate::setMonth -> checkIntegrity failed with " << checkIntegrity ());
+      undefine ();
+   }
+}
+
