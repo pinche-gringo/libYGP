@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.7 2003/03/06 03:08:05 markus Rel $
+//$Id: AttrParse.cpp,v 1.8 2003/06/14 06:23:23 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -33,9 +33,9 @@
 #include "AttrParse.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose     : Destructor
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Destructor
+//----------------------------------------------------------------------------
 AttributeParse::~AttributeParse () {
    std::vector<IAttribute*>::reverse_iterator i;
    for (i = (apAttrs.rbegin ()); i != apAttrs.rend (); ++i)
@@ -43,11 +43,11 @@ AttributeParse::~AttributeParse () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds an attribute to the request
-//Parameters: attribute: Attribute to add
-//Remarks   : In the debug version a message is shown, if the attribute already exists
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Adds an attribute to the request
+/// \param attribute: Attribute to add
+/// \remark In the debug version a message is shown, if the attribute already exists
+//----------------------------------------------------------------------------
 void AttributeParse::addAttribute (IAttribute& attribute) {
    TRACE5 ("AttributeParse::addAttribute (IAttribute&) - "
            << attribute.getName ());
@@ -63,11 +63,11 @@ void AttributeParse::addAttribute (IAttribute& attribute) {
    apAttrs.push_back (&attribute);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Searches for an attribute with the passed name.
-//Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Searches for an attribute with the passed name.
+/// \param name: Name of attribute to find
+/// \return \c IAttribute*: Pointer to attribute or NULL (if not found)
+//----------------------------------------------------------------------------
 const IAttribute* AttributeParse::findAttribute (const char* name) const {
    std::vector<IAttribute*>::const_iterator i;
    for (i = apAttrs.begin (); i != apAttrs.end (); ++i)
@@ -77,11 +77,11 @@ const IAttribute* AttributeParse::findAttribute (const char* name) const {
    return NULL;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Searches for an attribute with the passed name.
-//Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Searches for an attribute with the passed name.
+/// \param: name: Name of attribute to find
+/// \return \c IAttribute*: Pointer to attribute or NULL (if not found)
+//----------------------------------------------------------------------------
 const IAttribute* AttributeParse::findAttribute (const std::string& name) const {
    std::vector<IAttribute*>::const_iterator i;
    for (i = apAttrs.begin (); i != apAttrs.end (); ++i)
@@ -91,14 +91,13 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
    return NULL;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assigns the values from the passed string to the attribute-
-//            values stored inside the object. If the name does not match none
-//            of the attributes or the value does not fit to the type,
-//            an exception is thrown.
-//Parameters: name: Name of attribute to find
-//Throws    : std::string in case of an unknown name or an invalid value
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Assigns the values from the passed string to the attribute-values stored
+/// inside the object. If the name does not match any of the attributes or the
+/// value does not fit to the type, an exception is thrown.
+/// \param name: Name of attribute to find
+/// \throw std::string in case of an unknown name or an invalid value
+//----------------------------------------------------------------------------
 void AttributeParse::assignValues (const std::string& values) const throw (std::string) {
    TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
    AssignmentParse ass (values);

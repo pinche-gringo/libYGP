@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.6 2003/02/13 06:47:22 markus Rel $
+//$Id: AttrParse.h,v 1.7 2003/06/14 06:23:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,31 +32,38 @@
 #define ATTRIBUTE(APobj, type, var, name)  APobj.addAttribute (*new Attribute<type> (name, var));
 
 
-// Class to parse attribute-assignments from a string and sets its values
-// into attribute-values.
-//
-// Use this class like the following:
-//
-//   std::string file;
-//    ANumeric    size;
-//    ATimestamp  time;
-//
-//    AttributeParse attrs;
-//    ATTRIBUTE (attrs, std::string, file, "File");
-//    ATTRIBUTE (attrs, ANumeric, size, "Size");
-//    ATTRIBUTE (attrs, ATimestamp, time, "Time");
-//    attrs.assignValues ("File=\"ADate.cpp\";Time=01012000 121005;Size=18180");
-//
-// This example would assign the values "ADate.cpp" to file>, "18180" to size
-// and the 1st of January 2000, 12:10:05 to time.
-//
-// Note that the order of the attributes while declaration and during parsing
-// does not need to be the same!
+/**Class to parse attribute-assignments from a string and sets its values
+ into attribute-values.
 
+ Use this class like the following:
+
+\verbatim    std::string file;
+    ANumeric    size;
+    ATimestamp  time;
+
+    AttributeParse attrs;
+    ATTRIBUTE (attrs, std::string, file, "File");
+    ATTRIBUTE (attrs, ANumeric, size, "Size");
+    ATTRIBUTE (attrs, ATimestamp, time, "Time");
+
+    try {
+       attrs.assignValues ("File=\"ADate.cpp\";Time=01012000 121005;Size=18180");
+    }
+    catch (std::string% e) {
+       // Errorhandling
+    }
+\endverbatim
+
+ This example would assign the values \c ADate.cpp to \c file, \c 18180 to \c
+ size and the <tt>1st of January 2000, 12:10:05</tt> to \c time.
+
+ \note Tthe order of the attributes while declaration and during parsing
+       does not need to be the same!
+*/
 class AttributeParse {
  public:
    //Section manager-functions
-   AttributeParse () { }
+   AttributeParse () { }      ///< Default constructor; creates an empty object
    virtual ~AttributeParse ();
 
    void assignValues (const std::string& values) const throw (std::string);
