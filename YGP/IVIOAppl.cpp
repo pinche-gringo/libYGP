@@ -1,11 +1,11 @@
-//$Id: IVIOAppl.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: IVIOAppl.cpp,v 1.2 1999/08/10 23:57:21 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -47,7 +47,7 @@ inline bool isOptionChar (const char ch) {
 
 
 //static const char* const Version = "@§$%" PACKAGE " V" VERSION "." MICRO_VERSION "\n"
-//                                   __FILE__ " $Revision: 1.1 $@§$%";
+//                                   __FILE__ " $Revision: 1.2 $@§$%";
 
 
 /*--------------------------------------------------------------------------*/
@@ -195,7 +195,7 @@ char IVIOApplication::getOption () {
    }
 
    if (isOptionChar (option))                       // Specialhandling of "--"
-      if (*pOptionParam) {          // Is text behind --? Treat as long option
+      if (pOptionParam && *pOptionParam) {      // Text behind --? Long option
 	 unsigned int i (numLongOpt);
 
 	 while (i--) {
