@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.5 2003/02/22 18:24:10 markus Rel $
+//$Id: XDirSrch.h,v 1.6 2003/07/03 04:46:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,29 +28,38 @@ class RemoteDirSearch;
 class PathDirectorySearch;
 
 
-// Template to add file in- and exlusion to the *DirectorySearch classes.
-//
-// There exists some predifined (typedef'ed) classes:
-//
-//   - XDirectorySearch: for DirectorySearch
-//   - XRemoteDirSearch: for RemoteDirSearch
-//   - XPathDirectorySearch: for PathDirectorySearch
+/**Template to add file in- and exlusion to the *DirectorySearch classes.
+
+   There exists some predefined (typedef'ed) classes:
+
+     - XDirectorySearch: for DirectorySearch
+     - XRemoteDirSearch: for RemoteDirSearch
+     - XPathDirectorySearch: for PathDirectorySearch
+*/
 template <class Parent>
 class XDirectorySearch : public Parent {
  public:
    //@Section manager-functions
+   /// Constructor
    XDirectorySearch () : Parent () { }
+   /// Constructor with specification of which files to search for
    XDirectorySearch (const std::string& spec) : Parent (spec) { }
+   /// Destructor
    virtual ~XDirectorySearch () { }
 
-   //@Section searching
+   /// \name Searching
+   //@{
+   /// Returns the first found file matching \c spec, having the attributes \attribs
    virtual const File* find (const std::string& spec, unsigned long attribs = FILE_NORMAL) {
       setSearchValue (spec);
       return Parent::find (attribs); }
+   /// Returns the first found file, having the attributes \attribs
+   /// \pre The files to search for must have been previously specified
    virtual const File* find (unsigned long attribs = FILE_NORMAL) {
       const File* r = Parent::find (attribs);
       return (r && !_XDSfileIsValid (nodes, r->name ())) ? next () : r;
    }
+   /// Returns the next file matching the previously specifed search criteria
    virtual const File* next () {
       const File* r;
       do {
@@ -58,11 +67,22 @@ class XDirectorySearch : public Parent {
       } while (r && !_XDSfileIsValid (nodes, r->name ()));
       return r;
    }
+   //@}
 
-   //@Section in/exclusion
+   /// \name In/exclusion
+   //@{
+   /// Adds files to include in the search. This files are added at the end
+   /// of the previously specifed files (and are therefore less significant).
    void addFilesToInclude (const std::string& spec) { _XDSaddNode (nodes, 'i', spec); }
+   /// Adds files to exclude in the search. This files are added at the end
+   /// of the previously specifed files (and are therefore less significant).
    void addFilesToExclude (const std::string& spec) { _XDSaddNode (nodes, 'x', spec); }
+   //@}
 
+ protected:
+   /// Sets directly the node to handle. \c Spec must be in the right format
+   /// (e.g. every node must have a prefix (i or x) specifying if it should be
+   /// added or removed.
    void setNodes (const std::string& spec) { nodes = spec; }
 
  private:
