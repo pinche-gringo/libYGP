@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.1 2000/05/07 19:29:32 Markus Exp $
+//$Id: INIFile.cpp,v 1.2 2000/05/09 23:13:25 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -24,15 +24,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <string.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "INIFile.h"
 
 
-ParseExact INISection::SectionBegin ("[", "Start of section ([)");
-ParseExact INISection::SectionEnd ("]", "End of section (])");
-ParseExact INISection::equals ("=", "Equal-sign (=)");
+// Define constant values; don't skip white-spaces after parsing
+static ParseExact SectionBegin ("[", "Start of section ([)", false);
+static ParseExact SectionEnd ("]", "End of section (])", false);
+static ParseExact equals ("=", "Equal-sign (=)", false);
 
 static unsigned int LEN_SECTIONNAME = 32;
 static unsigned int LEN_KEY = 32;
@@ -40,7 +42,9 @@ static unsigned int LEN_VALUE = 256;
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Defaultconstructor
+//Purpose   : Constructor
+//Parameters: name: Name of section
+//Remarks   : name must be an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 IINIAttribute::IINIAttribute (const char* name) : pName (name) {
   assert (pName);
@@ -55,18 +59,20 @@ IINIAttribute::~IINIAttribute () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Defaultconstructor
+//Purpose   : Constructor
+//Parameters: name: Name of section
+//Remarks   : name must be an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
-   , INIFile (_INIFile, "INI-File", -1, 0)
+   , Section (_Section, "INI-File", 1, 1)
    , SectionHeader (_SectionHeader, "Section-header", 1, 1)
    , Attributes (_Attributes, "Attribute", -1, 0)
    , SectionName ("\\X\\9_.", "Name of section", *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
-   , Identifier ("\\X\\9_.", "Identifier (key)", *this, &INISection::foundKey, LEN_KEY, 1)
-   , Value ("\n", "Value", *this, &INISection::foundValue, LEN_VALUE, 1) {
+   , Identifier ("\\X\\9_.", "Identifier (key)", *this, &INISection::foundKey, LEN_KEY, 1, false)
+   , Value ("\n", "Value", *this, &INISection::foundValue, LEN_VALUE, 0) {
   assert (pName);
 
-   _INIFile[0] = &SectionHeader; _INIFile[1] = &Attributes; _INIFile[2] = NULL;
+   _Section[0] = &SectionHeader; _Section[1] = &Attributes; _Section[2] = NULL;
    _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
    _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
    _Attributes[0] = &Identifier; _Attributes[1] = &equals;
@@ -80,7 +86,7 @@ INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
 //Throws    : In the debug-versions an exception is thrown, it the attribute
 //            already exists
 /*--------------------------------------------------------------------------*/
-void INISection::addAttribute (IINIAttribute& attribute) {
+void INISection::addAttribute (IINIAttribute& attribute) throw (std::string) {
 #ifndef NDEBUG
    // Check if an attribute with the same name exists
    std::vector<IINIAttribute*>::iterator i;
@@ -102,8 +108,8 @@ void INISection::addAttribute (IINIAttribute& attribute) {
 //                         occurs
 /*--------------------------------------------------------------------------*/
 int INISection::readFromStream (Xistream& stream) throw (std::string) {
-   INIFile.skipWS (stream);
-   return INIFile.parse (stream);
+   Section.skipWS (stream);
+   return Section.parse (stream);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -163,4 +169,103 @@ int INISection::foundValue (const char* value) {
 
    return pFoundAttr->assignFromString (value) ?
       ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor
+//Parameters: name: Name of 
+//Remarks   : name must be an ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
+   , SectionHeader (_SectionHeader, "Section-header", 1, 0)
+   , SectionName ("\\X\\9_.", "Name of section", *this, &INIFile::foundSection, LEN_SECTIONNAME, 1) {
+   assert (filename);
+
+   TRACE9 ("INIFile::INIFile: Read from " << filename);
+   
+   _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
+   _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
+
+   file.open (filename, ios::in | ios::nocreate);
+   if (!file)
+     throw (std::string ("Could not open INI-file '") + std::string (filename)
+            + std::string ("': Reason: ") + std::string (strerror (errno)));
+   file.init ();
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+
+INIFile::~INIFile () {
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Adds a section to parse to the INI-file
+//Parameters: section: Specification of the section
+/*--------------------------------------------------------------------------*/
+void INIFile::addSection (INISection& section) {
+#ifndef NDEBUG
+   // Check if a section with the same name exists
+   if (findSection (section.getName ()))
+      throw (std::string ("Section '") + std::string (section.getName ())
+             + std::string ("' already exists"));
+#endif
+
+   sections.push_back (&section);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Reads the INI-file into the provided data-fields 
+//Returns   : int: Status of reading: <0 hard error; 0 OK, >0 soft error
+/*--------------------------------------------------------------------------*/
+int INIFile::read () throw (std::string) {
+  TRACE9 ("INIFile::read");
+
+   // Parse the section-header; terminate on error
+   SectionHeader.skipWS ((Xistream&)file);
+   int rc = 0;
+
+   do {
+      rc = SectionHeader.parse ((Xistream&)file);
+      if (rc || file.eof ())
+	break;
+
+      assert (pSection);
+      rc = pSection->readAttributes ((Xistream&)file);
+   } while (!rc); // end-do
+
+   return rc;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Tries to find a section with the specified name in the
+//            definition of the INI-file
+//Parameters: name: Name of section to find
+//Returns   : Section*: Pointer to section or NULL (if not found)
+/*--------------------------------------------------------------------------*/
+INISection* INIFile::findSection (const char* name) const {
+   std::vector<INISection*>::iterator i;
+   for (i = const_cast <INISection**> (sections.begin ()); i != sections.end (); ++i)
+      if ((*i)->matches (name))
+         return *i;
+
+   return NULL;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Callback when the name of a section was found
+//Parameters: section: Name of found section
+//Returns   : int: PARSE_OK, if name of section is OK
+/*--------------------------------------------------------------------------*/
+int INIFile::foundSection (const char* section) {
+   assert (section);
+   TRACE5 ("Found section: '" << section << '\'');
+
+   pSection = findSection (section);
+
+   return pSection ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
 }

@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.1 2000/05/07 19:29:32 Markus Exp $
+//$Id: INIFile.h,v 1.2 2000/05/09 23:13:25 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,6 +61,9 @@ class IINIAttribute {
    const char* getName () const { return pName; }
 
  private:
+   IINIAttribute (const IINIAttribute&);
+   const IINIAttribute& operator= (const IINIAttribute&);
+
    const char* pName;
 };
 
@@ -77,6 +80,9 @@ template <class T> class INIAttribute : public IINIAttribute {
       return attr_.isDefined (); }
 
  private:
+   INIAttribute (const INIAttribute&);
+   const INIAttribute& operator= (const INIAttribute&);
+
    T& attr_;
 };
 
@@ -103,10 +109,16 @@ class INISection {
    INISection (const char* name);
    ~INISection () { }
 
-   void addAttribute (IINIAttribute& attribute);
+   void addAttribute (IINIAttribute& attribute) throw (std::string);
 
    int readFromStream (Xistream& stream) throw (std::string);
    int readAttributes (Xistream& stream) throw (std::string);
+
+   const char* getName () const { return pName; }
+
+   bool matches (const char* name) const {
+      assert (name);
+      return !strcmp (name, pName); }
 
  protected:
    virtual int foundSection (const char* section);
@@ -116,15 +128,18 @@ class INISection {
  private:
    const char* pName;
    std::vector<IINIAttribute*> attributes;
-   
+
+   INISection (const INISection&);
+   INISection& operator= (const INISection&);
+
    typedef OFParseAttomic<INISection> OMParseAttomic;
    typedef OFParseText<INISection>    OMParseText;
 
    IINIAttribute* pFoundAttr;
 
    // Parser-Objects
-   ParseObject*   _INIFile[3];
-   ParseSequence  INIFile;
+   ParseObject*   _Section[3];
+   ParseSequence  Section;
    ParseObject*   _SectionHeader[4];
    ParseSequence  SectionHeader;
    ParseObject*   _Attributes[4];
@@ -132,30 +147,37 @@ class INISection {
    OMParseAttomic SectionName;
    OMParseAttomic Identifier;
    OMParseText    Value;
-
-   static ParseExact SectionBegin;
-   static ParseExact SectionEnd;
-   static ParseExact equals;
-
 };
 
 
 // Class to handle the information of an INI-file
 class INIFile {
  public:
-   INIFile (const char* file);
+   INIFile (const char* filename) throw (std::string);
    ~INIFile ();
 
-   void addSection (INISection& section) {
-      sections.push_back (&section); }
+   void addSection (INISection& section);
+
+   int read () throw (std::string);
 
  protected:
+   virtual int foundSection (const char* section);
+
+   INISection* findSection (const char* name) const;
 
  private:
-   std::vector<INISection*> sections;
-
    INIFile (const INIFile&);
    INIFile& operator= (const INIFile&);
+
+   Xifstream file;
+   std::vector<INISection*> sections;
+   INISection* pSection;
+
+   typedef OFParseAttomic<INIFile> OMParseAttomic;
+
+   ParseObject*   _SectionHeader[4];
+   ParseSequence  SectionHeader;
+   OMParseAttomic SectionName;
 };
 
 #endif
