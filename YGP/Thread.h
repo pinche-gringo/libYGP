@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.17 2003/11/16 19:25:55 markus Rel $
+//$Id: Thread.h,v 1.18 2004/01/19 06:40:10 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,12 +55,12 @@ class Thread {
 
    virtual ~Thread ();
 
-   /// Creates a new thread; the argument is passed directly to the thread
+   /// Creates a new thread; the argument is passed directly to the thread function
    /// \param fnc: Thread function to execute
    /// \param pArgs: Argument to the thread
    static Thread* create (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
       return new Thread (fnc, pArgs); }
-   /// Creates a new thread; the thread ID is passed to the thread
+   /// Creates a new thread; a pointer to the thread ID is passed to the thread function
    /// \param fnc: Thread function to execute
    /// \param pArgs: Argument to the thread
    static Thread* create2 (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
@@ -134,14 +134,14 @@ template <class T> class OThread : public Thread {
    /// Destructor
    ~OThread () { }
 
-   /// Creates a new thread; the argument is passed directly to the thread
+   /// Creates a new thread; the argument is passed directly to the thread function
    /// \param obj: Object having a member to execute in a thread
    /// \param fnc: Member to execute as thread
    /// \param pArgs: Argument to the thread
    static OThread<T>* create (T* obj, THREAD_OBJMEMBER fnc, void* pArgs)
                               throw (std::string) {
       return new OThread<T> (obj, fnc, pArgs); }
-   /// Creates a new thread; the thread ID is passed to the thread
+   /// Creates a new thread; a pointer to the thread is passed to the thread function
    /// \param obj: Object having a member to execute in a thread
    /// \param fnc: Member to execute as thread
    /// \param pArgs: Argument to the thread
