@@ -1,3 +1,8 @@
+Overview of Changes in version 0.6.44:
+
+  - IVIOApplication reports uncaught exceptions
+  - Fixed compiling bugs of HTMLViewer, if GTKHTML is not installed
+
 Overview of Changes in version 0.6.43:
 
   - Actualized index-file of documentation
@@ -46,7 +51,7 @@ Overview of Changes in version 0.6.31:
   - XAbout constructor is now protected (not public)
   - Translating header of first column in XFileList
   - Converting texts in Viewer-classes to UTF-8
-  - Fixed trap if HTMLViewer passes non-existing file a GTKViewer
+  - Fixed trap if HTMLViewer passes non-existing file to GTKViewer
   - Fixed calculation of language extension for the help file in XApplication
   - GTKViewer strips HTML-ancors from filenames
   - GTKViewer converts filenames in documents from UTF-8 to locale
