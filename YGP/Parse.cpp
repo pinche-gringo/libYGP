@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.48 2003/12/12 18:16:55 markus Rel $
+//$Id: Parse.cpp,v 1.49 2003/12/28 00:33:45 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -37,11 +37,11 @@
 
 #include "YGP/Trace.h"
 
-#include "YGP/Parse.h"
 #include "YGP/Thread.h"
 #include "YGP/XStream.h"
 #include "YGP/Internal.h"
 
+#include "YGP/Parse.h"
 
 #define BUFFER  (buffers[Thread::currentID ()])
 
@@ -116,8 +116,7 @@ ParseObject& ParseObject::operator= (const ParseObject& other) {
 /// line feed) from the current position in the passed stream (if the object
 /// \param stream: Source from which to read
 //-----------------------------------------------------------------------------
-void ParseObject::skipWS (Xistream& stream) const {
-   TRACE8 ("ParseObject::skipWS (Xistream&) - " << pDescription);
+void ParseObject::skipWS (Xistream& stream) {
    char c ('\0');
    stream >> c;
    stream.putback (c);
@@ -241,7 +240,6 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
    int ch;
    std::string& buffer = BUFFER;
    buffer = "";
-   unsigned int len (0);
 
    while (buffer.size () < maxCard) {        // While not max. card is reached
       ch = stream.get ();
@@ -260,18 +258,17 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          if (cmp == -1)
             continue;
 
-      if (report || !len)
+      if (report || buffer.empty ())
          buffer += (char)ch;                                   // Store, if OK
-      ++len;
    } // end-while !maximal cardinality
    TRACE6 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
            << ": Final = '" << buffer << '\'');
 
    int rc (PARSE_OK);
-   if (len >= minCard) {                                  // Cardinalities OK?
+   if (buffer.length () >= minCard) {                     // Cardinalities OK?
       ch = 0;
       if (report)
-         rc = found (buffer.c_str (), len);          // Report object as found
+         rc = found (buffer.c_str (), buffer.length ());
       else {
          buffer += "...";
          buffer += ch;
@@ -329,44 +326,52 @@ int ParseAttomic::checkValue (char ch) {
    TRACE8 ("ParseAttomic::checkValue (char) - " << getDescription () << ' ' << ch);
    Check1 (!checkIntegrity ());
 
+   bool asIs (true);
    const char* pHelp = pValue; Check3 (pHelp);
    while (*pHelp) {
       if (*pHelp == ESCAPE) {
          switch (*++pHelp) {
-         case '9': if (isdigit (ch)) return true;
+         case '9': if (isdigit (ch)) return asIs;
             break;
 
-         case 'X': if (isdigit (ch)) return true;
-         case 'A': if (isalpha (ch)) return true;
+         case 'X': if (isdigit (ch)) return asIs;
+         case 'A': if (isalpha (ch)) return asIs;
             break;
 
-         case ' ': if (isspace (ch)) return true;
+         case ' ': if (isspace (ch)) return asIs;
             break;
 
-         case '*': return true;
+         case '*': return asIs;
 
-         case 'n': if (ch == '\n') return true;
+         case 'n': if (ch == '\n') return asIs;
             break;
 
-         case 'r': if (ch == '\r') return true;
+         case 'r': if (ch == '\r') return asIs;
             break;
 
-         case '0': if (ch == '\0') return true;
+         case '0': if (ch == '\0') return asIs;
             break;
+
+         case '!':
+            asIs = !asIs;
+            break;
+
+         case '\0':
+            return false;
 
          default:
             if (ch == *pHelp)
-               return true;
+               return asIs;
          } // end-switch
       } // endif ESCAPE-char in pValue
       else
          if (*pHelp == ch)
-            return true;
+            return asIs;
 
       ++pHelp;
    } // end-while valid chars left
 
-   return false;
+   return !asIs;
 }
 
 //-----------------------------------------------------------------------------
@@ -569,7 +574,7 @@ ParseQuoted& ParseQuoted::operator= (const ParseQuoted& other) {
 char ParseQuoted::getClosingChar (char ch) {
    static char open[]  = "<([{`";
    static char close[] = ">)]}´";
-   Check1 (sizeof (open) == sizeof (close));
+   Check2 (sizeof (open) == sizeof (close));
 
    for (unsigned int i (0); i < sizeof (open); ++i)
       if (open[i] == ch)
@@ -719,7 +724,8 @@ int ParseQuotedEsc::checkValue (char ch) {
 /// Constructor; sets the neccessary data of this object
 /// \param value: Sequence of characters to parse in that order
 /// \param description: Description of the object (what it parses)
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped after sucessfully parsing the object
+/// \param skipWhitespace: Flag if trailing whitespaces should be skipped
+///      after sucessfully parsing the object
 /// \param reportData: Flag, if data should be stored and reported
 /// \pre value != NULL && !ParseObject::checkIntegrity ()
 //-----------------------------------------------------------------------------
@@ -728,9 +734,7 @@ ParseExact::ParseExact (const char* value, const char* description,
    : ParseAttomic (value, description, 1, 1, skipWhitespace, reportData)
    , pos (0) {
    TRACE9 ("Creating ParseExact " << getDescription ());
-   unsigned int len (strlen (value));      // value !NULL is checked by parent
-   minCard = len;
-   maxCard = len;
+   maxCard = minCard = strlen (value);     // value !NULL is checked by parent
    Check1 (!checkIntegrity ());
 }
 
@@ -790,7 +794,7 @@ int ParseExact::checkIntegrity () const {
 /// Destructor
 //-----------------------------------------------------------------------------
 ParseUpperExact::~ParseUpperExact () {
-   TRACE9 ("ParseUpperExact::~ParseUppeExact: " << getDescription ());
+   TRACE9 ("ParseUpperExact::~ParseUpperExact: " << getDescription ());
 }
 
 //-----------------------------------------------------------------------------
@@ -1342,14 +1346,14 @@ CBParseUpperExact::~CBParseUpperExact () {
 /// \returns \c Reference to this
 //-----------------------------------------------------------------------------
 CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other) {
-   TRACE8 ("ParseUpperExact::operator=: " << getDescription ());
+   TRACE8 ("CBParseUpperExact::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
    if (this != &other) {
       pCallback = other.pCallback; Check3 (pCallback);
       ParseUpperExact::operator= (other);
    }
-   Check (!checkIntegrity ());
+   Check2 (!checkIntegrity ());
    return *this;
 }
 
@@ -1386,7 +1390,7 @@ CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
       pCallback = other.pCallback; Check3 (pCallback);
       ParseSequence::operator= (other);
    }
-   Check (!checkIntegrity ());
+   Check2 (!checkIntegrity ());
    return *this;
 }
 

@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.38 2003/12/05 19:49:22 markus Rel $
+//$Id: Parse.h,v 1.39 2003/12/28 00:34:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ class ParseObject {
    void setSkipWS (bool skipWhitespace) { skip = skipWhitespace; }
 
    // Parsing
-   void skipWS (Xistream& stream) const;
+   static void skipWS (Xistream& stream);
    /// Tries to parse the object; See parseObject() for a detailed description
    int  parse (Xistream& stream) throw (std::string) {
       Check1 (!checkIntegrity ());
@@ -227,6 +227,7 @@ class ParseSkip : public ParseObject {
      - \b r: ch is valid if it is carriage-return (\\r)
      - \b n: ch is valid if it is line-feed (\\n)
      - <b>*</b> ... Any character is valid
+     - <b>!</b> ... Invert the following values
 
    The members \c maxCard and \c minCard specify how many characters the
    object can or must have. If there are less matching characters parsed, the
