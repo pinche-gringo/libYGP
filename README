@@ -1,33 +1,79 @@
-                     General
+                     General Purpose Classes
+                     =======================
 
-General library-functions
+
+General purpose classes (separated in a common part (subdir Common), designed
+to be independent of the used operating system or (GUI) library/system and in
+parts specific to such things (subdirs CORBA, Windows, X-windows)).
+
+
+Up to 3 libraries are created:
+
+  - libAttr .... Consists of generell purpose classes without dependency to
+                 the used/installed operating system/library
+  - libXAppl ... Classes for the X-windows system; basing on gtkmm/gtk+ (only
+                 made when a proper installation of gtkmm (formerly known as
+                 Gtk--) is found)
+  - libCAttr ... Classes to be used with CORBA (only made when a CORBA-
+                 implementation is found)
+
+
+The whole thing is:
  
-Anti-Copyright (A) 1999 Markus Schwab <9izm0@altavista.com>
-----------------------------------------------------------------------
+Anti-Copyright (A) 1999 - 2002  Markus Schwab <g17m0@lycos.com>
+---------------------------------------------------------------
 
-How to build (from an (tar-)archive):
-
-./configure [--prefix=/usr]           # default: /usr/local
-make [check] [install]
-
-
-How to build (after checking out of CVS):
-aclocal && automake -a && autoconf    # Create configure.in
-gettextize -f			      # Needs -f because intl-dir exists
-./configure [--prefix=/usr]           # default: /usr/local
-make [check] [install]
+Basically this means, the package is distributed under the GNU General Public
+License; in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the file COPYING for more details.
 
 
-Documentation:
 
-	Can be found in the doc-subdirectory. It's in HTML-format; the file
-	index.html provides a class-index, cross_index.html a cross-index.
+Installation
+-------------
+
+See the file INSTALL
 
 
-Structure:
+Documentation
+-------------
+
+Can be found in the doc-subdirectory. It's in HTML-format; the file index.html
+provides a class-index, cross_index.html a cross-index.
+
+
+Structure
+---------
 
    - Common:    Contains common classes of general interest.
    - CORBA:     Classes and other stuff related to CORBA.
    - Windows:   Classes and other stuff related to M$ Windoze.
    - X-Windows: Classes and other stuff related to X-windows.
    - doc:       Documentation
+   - intl:      Library for I18n
+   - po:        Translations of the messages
+
+
+How to report bugs and/or send patches
+--------------------------------------
+
+Bug reports and patches should be send to the e-mail address of the author
+(g17m0@lycos.com) Don't tell him that this address sounds like the name of a
+robot and/or sucks!
+
+Please include
+
+  - The version of the library.
+  - How to reproduce the bug.
+  - In case of a crash (and if you used the IVIOApplication or XApplication-
+    classes) there should also be a stackdump in your systemlog which might
+    help in localizing the bug.
+  - Anything else you think might be helpful.
+
+Please note that I don't (can't) check my mails daily, so please be patient.
+
+
+Patches
+-------
+
