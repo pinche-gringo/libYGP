@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.6 2000/03/10 21:09:05 Markus Exp $
+//$Id: XFileList.h,v 1.7 2000/04/07 22:46:10 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,8 +68,6 @@ class XFileList : public CList {
    virtual void realize_impl ();
 
  private:
-   typedef SmartPtr<Gdk_Pixmap> PPixmap;
-
    // Prohibited manager-functions
    XFileList ();
    XFileList& operator= (const XFileList&);
@@ -80,11 +78,11 @@ class XFileList : public CList {
    static const char* iconDefault[];
    static const char* iconExecuteable[];
 
-   static PPixmap iconDir;
-   static PPixmap iconDef;
-   static PPixmap iconExe;
+   static Gdk_Pixmap iconDir;
+   static Gdk_Pixmap iconDef;
+   static Gdk_Pixmap iconExe;
 
-   map<string, Gdk_Pixmap*> icons;
+   map<string, Gdk_Pixmap> icons;
 };
 
 #endif
