@@ -7,12 +7,12 @@ Parts of this libraries need
   - A CORBA implementation (MICO was used by the author)
 
 The package will compile without them, but you don't get the whole
-functionality (not surprisingly the CORBA- and the X-windows library are
+functionality (not surprisingly the CORBA- and/or the X-windows library are
 missing).
 
 
-How to build (if extract from an (tar-)archive)
------------------------------------------------
+How to build (if extracted from an (tar-)archive)
+-------------------------------------------------
 
 Inside the directory containing the source code type
 
@@ -23,7 +23,9 @@ Inside the directory containing the source code type
 How to build (after checking out of CVS)
 ----------------------------------------
 
-Prerequiste software:
+As there is no public CVS server, these are just notes for me.
+
+Additional prerequiste software:
 
   - CVS (obviously)
   - GNU gettext
