@@ -1,14 +1,14 @@
-//$Id: XPrintDlg.cpp,v 1.7 2002/04/11 18:33:46 markus Exp $
+//$Id: XPrintDlg.cpp,v 1.8 2002/04/28 00:19:49 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
 #include <gtk--/label.h>
 #include <gtk--/button.h>
 
+#include "Internal.h"
 #include "XPrintDlg.h"
 #include "XMessageBox.h"
 
@@ -50,13 +51,13 @@
 /*--------------------------------------------------------------------------*/
 XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
    : Dialog (), pCaller (pNotify), callerMethod (callback)
-   , ok (new Button ("OK")), cancel (new Button ("Cancel"))
-   , lblCommand (new Label ("Print command: "))
-   , txtCommand (new Entry ()), boxCommand (new HBox ()) {
+     , ok (new Button (_("OK"))), cancel (new Button (_("Cancel")))
+     , lblCommand (new Label (_("Print command: ")))
+     , txtCommand (new Entry ()), boxCommand (new HBox ()) {
    TRACE9 ("XPrintDialog::XPrintDialog (title) '" << title << '\'');
    Check3 (pCaller); Check3 (callerMethod);
 
-   set_title ("Print");
+   set_title (_("Print"));
    init ();
 }
 
@@ -136,7 +137,7 @@ void XPrintDialog::command (commandID id) {
       Check3 (pCaller); Check3 (callerMethod); Check3 (txtCommand);
 
       if (!txtCommand->get_text_length ()) {                      // No input?
-	 XMessageBox::Show (string ("No print-command specified"),
+	 XMessageBox::Show (string (_("No print-command specified")),
                             XMessageBox::ERROR);
 	 return;
       } // endif no input
@@ -145,9 +146,10 @@ void XPrintDialog::command (commandID id) {
       FILE* stream (NULL);
       stream = popen (txtCommand->get_text ().c_str (), "w");
       if (!stream) {
-	 XMessageBox::Show (string ("Could not run command '")
-                            + txtCommand->get_text () + string ("'\nReason: ")
-                            + string (strerror (errno)), XMessageBox::ERROR);
+         std::string error (_("Could not run command `%1'\nReason: %2"));
+         error.replace (error.find ("%1"), 2, txtCommand->get_text ());
+         error.replace (error.find ("%2"), 2, strerror (errno));
+	 XMessageBox::Show (error, XMessageBox::ERROR);
 	 return;
       } // endif error printing
 
