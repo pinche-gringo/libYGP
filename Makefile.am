@@ -1,9 +1,13 @@
 ## Process this file with automake to produce Makefile.in
 
 # SUBDIRS = Common X-windows CORBA
-SUBDIRS = @SUBDIRS@
+SUBDIRS = intl @SUBDIRS@ po
 
 include_HEADERS=gzo-cfg.h
+
+# Settings for gettext
+localedir = $(datadir)/locale
+DEFS=-DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 dist-hook:
 	mkdir $(distdir)/Windows
