@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.22 2002/04/09 20:02:49 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.23 2002/04/28 00:17:16 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -22,6 +22,7 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
 #include <stdio.h>
