@@ -1,7 +1,7 @@
 #ifndef ABYTEARRAY_H
 #define ABYTEARRAY_H
 
-// $Id: AByteArray.h,v 1.4 2002/11/19 21:50:56 markus Rel $
+// $Id: AByteArray.h,v 1.5 2003/01/08 22:43:20 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,14 +47,14 @@ class AByteArray : public AttributValue {
    virtual void undefine ();
 
    // Set-functions
-   AByteArray& operator= (const AByteArray& rhs) { assign (rhs); }
-   AByteArray& operator= (const std::string& str) { assign (str); }
+   AByteArray& operator= (const AByteArray& rhs) { return assign (rhs); }
+   AByteArray& operator= (const std::string& str) { return assign (str); }
    AByteArray& operator= (const char* pValue) { return assign (pValue); }
-   AByteArray& operator= (char ch) { assign (ch); }
+   AByteArray& operator= (char ch) { return assign (ch); }
 
    AByteArray& assign (const AByteArray& rhs);
-   AByteArray& assign (const std::string& str) { assign (str.data (), str.length ()); }
-   AByteArray& assign (char ch) { assign (&ch, 1); }
+   AByteArray& assign (const std::string& str) { return assign (str.data (), str.length ()); }
+   AByteArray& assign (char ch) { return assign (&ch, 1); }
    AByteArray& assign (const char* pValue);
    AByteArray& assign (const char* pValue, unsigned int len);
 
@@ -188,7 +188,7 @@ class AByteArray : public AttributValue {
  protected:
    int checkIntegrity () const;
 
- private:	
+ private:
    char* pValue;
    unsigned int len;
    unsigned int allocated;
