@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.10 2000/02/19 15:41:55 Markus Exp $
+//$Id: ADate.cpp,v 1.11 2000/03/21 23:27:38 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,7 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
 #include <locale.h>
 
 #ifdef UNIX
@@ -62,7 +61,7 @@ ADate::ADate (bool now) : AttributValue () {
 //            month: Month
 //            year: Year to set
 /*--------------------------------------------------------------------------*/
-ADate::ADate (char Day, char Month, unsigned int Year) : AttributValue () {
+ADate::ADate (char Day, char Month, int Year) : AttributValue () {
    day = Day;
    month = Month;
    year = Year;
@@ -208,21 +207,26 @@ ADate& ADate::operator+= (const ADate& rhs) {
 //Purpose   : Substract a value from this
 //Parameters: lhs: Value to substract
 //Returns   : Self
-//Note      : If lhs is not defined this is not changed
+//Note      : - If lhs is not defined, this is not changed
+//            - If rhs is a date after this, this is set to undefined
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator-= (const ADate& rhs) {
    assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
 
    if (rhs.isDefined ()) {
-      if (!isDefined ())
-         *this = today ();
-
-      day -= rhs.day;
-      month -= rhs.month;
-      year -= rhs.year;
+      if (isDefined ()) {
+         day -= rhs.day;
+         month -= rhs.month;
+         year -= rhs.year;
+      }
+      else {
+         AttributValue::define ();
+         day = -rhs.day;
+         month = -rhs.month;
+         year = -rhs.year;
+      } // endif this not defined
 
       minAdapt ();
-
       assert (!checkIntegrity ());
    }
    return *this;
@@ -235,15 +239,23 @@ ADate& ADate::operator-= (const ADate& rhs) {
 //            year: Year to add
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
-ADate& ADate::add (char Day, char Month, unsigned int Year) {
+ADate& ADate::add (char Day, char Month, int Year) {
    TRACE7 ("ADate::add: " << toString () << " + " << (char)(Day + '0') << '.'
 	   << (char)(Month + '0') << '.' << Year);
    assert (!checkIntegrity ());
 
    if (isDefined ()) {
-      day += Day;
+      Year += Month / 12;
+      Month %= 12;
       month += Month;
       year += Year;
+
+      char maxDay; 
+      while (maxDay = maxDayOf (), Day > maxDay) {
+         Day -= maxDay;
+         ++month;
+      } // end-while passed days bigger than one month
+      day += Day;
       maxAdapt ();
 
       assert (!checkIntegrity ());
@@ -258,16 +270,24 @@ ADate& ADate::add (char Day, char Month, unsigned int Year) {
 //            year: Year to substract
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
-ADate& ADate::sub (char Day, char Month, unsigned int Year) {
+ADate& ADate::sub (char Day, char Month, int Year) {
    TRACE7 ("ADate::sub: " << toString () << " - " << (char)(Day + '0') << '.'
 	   << (char)(Month + '0') << '.' << Year);
 
    assert (!checkIntegrity ());
 
    if (isDefined ()) {
-      day -= Day;
+      Year += Month / 12;                      // Correct month and year first
+      Month %= 12;
       month -= Month;
       year -= Year;
+
+      char maxDay; 
+      while (maxDay = maxDayOf (month - 1, year), Day > maxDay) {
+         Day -= maxDay;
+         --month;
+      } // end-while passed days bigger than one month
+      day -= Day;
       minAdapt ();
 
       assert (!checkIntegrity ());
@@ -278,7 +298,7 @@ ADate& ADate::sub (char Day, char Month, unsigned int Year) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Compares two ADate-values
 //Parameters: other: Object to compare
-//Returns   : >0 if this  other; 0 if this == other; <0 else
+//Returns   : >0 if this "younger" other; 0 if this == other; <0 else
 //Note      : Undefined values are considered as (incredible) old
 //            "Younger dates" (closer to the past) are considered bigger
 //            than "older dates" (further in the past; that means the numeric
@@ -349,7 +369,7 @@ int ADate::checkIntegrity () const {
 //            year: Year to check
 //Returns   : int: Max. day
 /*--------------------------------------------------------------------------*/
-char ADate::maxDayOf (char month, unsigned int year) {
+char ADate::maxDayOf (char month, int year) {
    assert ((month > 0) && (month < 13));
 
    if (month == (unsigned char)2)              // Special-handling of february
@@ -366,7 +386,7 @@ char ADate::maxDayOf (char month, unsigned int year) {
 //Parameters  year: Year to check
 //Returns   : bool: True, if leap-year
 /*--------------------------------------------------------------------------*/
-bool ADate::isLeapYear (unsigned int year) {
+bool ADate::isLeapYear (int year) {
   TRACE9 ("ADate::isLeapYear: " << year << " %4 = " << (year & 3) << " %100 = "
            << (year % 100) << " %400 = " << (year % 400));
    return (year & 3) ? false : (year % 100) ? true : !(year % 400);
@@ -392,6 +412,7 @@ void ADate::adaptMonth () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible underflow
+//Returns   : bool: Flag, if object is integer
 /*--------------------------------------------------------------------------*/
 bool ADate::minAdapt () {
    TRACE7 ("ADate::minAdapt: " << toString ());
@@ -415,12 +436,13 @@ bool ADate::minAdapt () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible overflow
+//Returns   : bool: Flag, if object is integer
 /*--------------------------------------------------------------------------*/
 bool ADate::maxAdapt () {
    TRACE7 ("ADate::maxAdapt: " << toString ());
    adaptMonth ();
    TRACE9 ("ADate::maxAdapt (month dapted (1)): " << toString ());
-   
+
    unsigned char maxDay (maxDayOf ());               // Adapt date if overflow
    if (day > maxDay) {
       day -= maxDay;
