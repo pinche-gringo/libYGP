@@ -1,13 +1,13 @@
-dnl $Id: configure.in,v 1.53 2003/10/02 23:12:38 markus Rel $
+dnl $Id: configure.in,v 1.54 2003/10/11 06:50:34 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.53 $)
+AC_REVISION($Revision: 1.54 $)
 
 AC_INIT()
 
 MAJOR_VERSION=0
 MINOR_VERSION=6
-MICRO_VERSION=22
+MICRO_VERSION=23
 RELEASE=$MAJOR_VERSION.$MINOR_VERSION
 VERSION=$RELEASE.$MICRO_VERSION
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -30,8 +30,7 @@ dnl AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE(libYGP, $VERSION)
 AM_CONFIG_HEADER(gzo-cfg.h)
 
-AC_LANG_C
-AC_LANG_CPLUSPLUS
+AC_LANG(C++)
 
 AC_C_BIGENDIAN
 
@@ -102,6 +101,20 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STAT
 AC_STRUCT_TM
 AC_CHECK_TYPES([ssize_t, socklen_t])
+
+dnl Testing if strftime returns needed buffersize
+AC_MSG_CHECKING(if strftime returns the needed length)
+AC_RUN_IFELSE(
+    [#include <cstdio>
+     #include <ctime>
+     int main () {
+        time_t time (time (NULL));
+        return strftime (NULL, 10, "%d", gmtime (&time)) > 0 ? 0 : 1; }],
+    [AC_MSG_RESULT(yes)
+     AC_DEFINE(STRFTIME_RETURNS_LENGTH, 1, [Defined if strftime returns the length it would need, when passed a NULL-buffer])],
+    [AC_MSG_RESULT(no)],
+    [AC_MSG_RESULT(no)
+     AC_MSG_WARN([Disabling dynamic calculation of buffersize for strftime])])
 
 dnl Checks for library functions.
 AC_FUNC_FNMATCH
