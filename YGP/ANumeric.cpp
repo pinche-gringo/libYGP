@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.18 2001/09/25 21:16:21 markus Exp $
+//$Id: ANumeric.cpp,v 1.19 2001/10/03 23:55:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,6 +28,7 @@
 #include <errno.h>
 #include <assert.h>
 #include <locale.h>
+#include <limits.h>
 
 #include <gzo-cfg.h>
 
@@ -157,34 +158,39 @@ std::string ANumeric::toUnformatedString () const {
 //Returns   : String-representation of ANumeric
 /*--------------------------------------------------------------------------*/
 std::string ANumeric::toString () const {
+   TRACE9 ("ANumeric::toString () const");
    std::string str;
 
-#if HAVE_STRFMON
-   char buffer[40];
-
-   strfmon (buffer, sizeof (buffer), "%n", value);
-   str = buffer;
-#else
    if (!loc)
       loc = localeconv ();                 // Get locale-information if not set
 
-   str = toUnformatedString ();
+   TRACE9 ("ANumeric::toString () const - Locale-info = " << loc->grouping
+           << " - " << loc->thousands_sep);
 
-   register int len (str.length ());
+   str = toUnformatedString ();
+   TRACE5 ("ANumeric::toString () const - " << str);
+
+   int len (str.length ());
    int index (0);
    char group (loc->grouping[index]);
+   char* pSep (loc->thousands_sep);
    if (!group)
       group = CHAR_MAX;
 
    while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
+      TRACE9 ("ANumeric::toString () const - Len =  " << len << "; Group = "
+              << group << "; Index = " << index);
       len -= group;
-      str.replace (len, 0, loc->thousands_sep[index], 1);
+      str.replace (len, 0, pSep, 1);
+      TRACE8 ("ANumeric::toString () const - Inserted " << str);
 
-      if (loc->grouping[index])      // Increment group-pointer if more groups
+      if (loc->grouping[index + 1]) { // Increment group-pointer if more groups
 	 group = loc->grouping[++index];
+         if (pSep[1])
+            ++pSep;
+      } // endif further grouping available
    } // end-while grouping necessary
 
-#endif
    return str;
 }
 
