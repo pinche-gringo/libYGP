@@ -1,0 +1,55 @@
+# English translation of messages for general library
+# Anti-Copyright (A) 2002 Markus Schwab
+# Markus Schwab <g17m0@lycos.com>, 2002.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: General 0.6.00\n"
+"POT-Creation-Date: 2002-04-09 01:28-0500\n"
+"PO-Revision-Date: 2002-04-04 00:45-0500\n"
+"Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
+"Language-Team: English <markus@gizmo.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: ../Common/Socket.cpp:49 ../Common/Socket.cpp:61 ../Common/Socket.cpp:91
+#: ../Common/Socket.cpp:115
+msgid "Can't create socket"
+msgstr "No puedo generar el socket (para la comunicación)"
+
+#: ../Common/Socket.cpp:144
+msgid "Can't bind socket"
+msgstr "No puedo atar al socket"
+
+#: ../Common/Socket.cpp:147
+msgid "Can't listen on socket"
+msgstr "No puedo escuchar al socket"
+
+#: ../Common/Socket.cpp:168
+#, ycp-format
+msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
+msgstr ""
+"Puerto '%1' ni está numérico (decimal, octal o hexadecimal) ni un servicio"
+
+#: ../Common/Socket.cpp:201 ../Common/Socket.cpp:219
+msgid "Error reading data"
+msgstr "Error durante leer los datos"
+
+#: ../Common/Socket.cpp:237
+msgid "Error accepting connection"
+msgstr "Error acceptar la connectión"
+
+#: ../Common/Socket.cpp:258
+#, ycp-format
+msgid "Can't resolve name '%1'"
+msgstr "No puedo resolvar el nombre '%1'"
+
+#: ../Common/Socket.cpp:266
+#, ycp-format
+msgid "Can't connect to server '%1'"
+msgstr "No puedo conectar al servidor '%1'"
+
+#: ../Common/Socket.cpp:283
+msgid "Error sending data"
+msgstr "Error enviar los datos"
