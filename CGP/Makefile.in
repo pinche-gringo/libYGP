@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.12 2003/06/11 18:30:39 markus Rel $
+# $Id: Makefile.in,v 1.13 2003/07/09 18:06:45 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -52,7 +52,7 @@ CXXFLAGS = @CXXFLAGS@ -Wall
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 
 LDFLAGS = @LDFLAGS@
-LIBS=-ldl -lmico -L../Common -L../Common/.libs -lYMP -release @LIBRELEASE@
+LIBS=-ldl -lmico -L../Common -L../Common/.libs -lYGP -release @LIBRELEASE@
 
 LIBTOOL = @LIBTOOL@
 
@@ -64,7 +64,7 @@ LTCORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFL
 LTCORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 
 
-LIB_TARGETS=libCMP.la
+LIB_TARGETS=libCGP.la
 
 IDL_FILES=CDirSrch.idl
 DIST_HEADERS=CIDirSrch.h
@@ -141,7 +141,7 @@ DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 	rm .deps/$(*F).pp
 
 
-libCMP.la: $(OBJECTS)
+libCGP.la: $(OBJECTS)
 	$(LTCORBALINK) -rpath $(libdir) $(LDFLAGS) $(OBJECTS) $(LIBADD) $(LIBS)
 
 Makefile: Makefile.in $(top_builddir)/config.status

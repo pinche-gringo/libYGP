@@ -3,10 +3,10 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: XMP
+Name: XGP
 Description: General classes for X-Applications (using GTKmm)
 Requires: gtkmm-2.0
 Version: @VERSION@
-Libs: -L${libdir} -lXMP
+Libs: -L${libdir} -lXGP
 Cflags: -I${includedir}
 

@@ -1,7 +1,7 @@
-dnl $Id: configure.in,v 1.47 2003/07/05 07:14:13 markus Rel $
+dnl $Id: configure.in,v 1.48 2003/07/09 18:06:45 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.47 $)
+AC_REVISION($Revision: 1.48 $)
 
 AC_INIT()
 
@@ -90,7 +90,6 @@ PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])])
 PKG_CHECK_MODULES(GTKMM, gtkmm-2.0 >= $GTKMM_MINVERSION,
                   [[MYSUBDIRS="$MYSUBDIRS X-windows"]
-                   AC_DEFINE(HAVE_GTKMM, 1, [Define if GTKMM is installed (in a fitting version)])
                    [GTKMM_LIBS="$GTKMM_LIBS -lgthread"]],
                   [AC_MSG_WARN([Subdir X-windows will not be made])])
 PKG_CHECK_MODULES(GTKHTML, libgtkhtml-2.0 >= 2.0.0,
@@ -143,8 +142,8 @@ AC_ARG_ENABLE(corba,
 AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile  intl/Makefile \
 	   m4/Makefile X-windows/Icons/Makefile \
 	   CORBA/Makefile po/Makefile.in doc/Makefile CORBA/Tests/Makefile \
-	   bin/Makefile X-windows/Samples/Makefile Common/YMP.pc \
-	   X-windows/XMP.pc])
+	   bin/Makefile X-windows/Samples/Makefile Common/YGP.pc \
+	   X-windows/XGP.pc])
 
 dnl Settings for autoheader
 AH_TOP([#ifndef GZO_CFG_H

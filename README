@@ -9,12 +9,12 @@ parts specific to such things (subdirs CORBA, Windows, X-windows)).
 
 Up to 3 libraries are created:
 
-  - libYMP ..... Consists of generell purpose classes without dependency to
+  - libYGP ..... Consists of generell purpose classes without dependency to
                  the used/installed operating system/library
-  - libXMP ..... Classes for the X-windows system; basing on gtkmm/gtk+ (only
+  - libXGP ..... Classes for the X-windows system; basing on gtkmm/gtk+ (only
                  made when a proper installation of gtkmm (formerly known as
                  Gtk--) is found)
-  - libCMP ..... Classes to be used with CORBA (only made when a CORBA-
+  - libCGP ..... Classes to be used with CORBA (only made when a CORBA-
                  implementation is found)
 
 
