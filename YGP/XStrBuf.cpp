@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.31 2003/11/16 19:25:55 markus Exp $
+// $Id: XStrBuf.cpp,v 1.32 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -32,7 +32,7 @@
 #include <string.h>
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 
 #include "YGP/XStrBuf.h"
 

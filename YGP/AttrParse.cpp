@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.12 2003/11/14 20:27:55 markus Exp $
+//$Id: AttrParse.cpp,v 1.13 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -26,7 +26,7 @@
 
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 #include "YGP/AssParse.h"
 

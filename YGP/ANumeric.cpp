@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.40 2003/11/16 19:25:55 markus Exp $
+//$Id: ANumeric.cpp,v 1.41 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -46,7 +46,7 @@
 #include <stdexcept>
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 
 #include "YGP/ANumeric.h"

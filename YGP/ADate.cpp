@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.36 2003/11/16 19:25:55 markus Exp $
+//$Id: ADate.cpp,v 1.37 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -36,7 +36,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 
 #include "YGP/ADate.h"

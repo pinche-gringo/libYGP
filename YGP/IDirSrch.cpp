@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.12 2003/11/16 19:25:55 markus Exp $
+//$Id: IDirSrch.cpp,v 1.13 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,7 +28,7 @@
 #include <ygp-cfg.h>
 
 #include "YGP/File.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/IDirSrch.h"
 
 

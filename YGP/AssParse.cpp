@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.16 2003/11/14 20:27:55 markus Exp $
+//$Id: AssParse.cpp,v 1.17 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 #include "YGP/Attribute.h"
 

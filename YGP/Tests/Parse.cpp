@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.12 2003/11/16 19:25:55 markus Exp $
+// $Id: Parse.cpp,v 1.13 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -29,7 +29,7 @@
 #include <clocale>
 
 #include <YGP/Parse.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/IVIOAppl.h>
 #include <YGP/Internal.h>
 

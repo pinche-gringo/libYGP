@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.18 2003/11/16 19:25:55 markus Exp $
+// $Id: RemoteFile.cpp,v 1.19 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -34,7 +34,7 @@
 #  define TRACELEVEL -1
 #endif
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 #include "YGP/ANumeric.h"
 #include "YGP/AttrParse.h"

@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.16 2003/11/14 20:28:08 markus Exp $
+//$Id: X-Appl.cpp,v 1.17 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -37,7 +37,7 @@
 
 #include <YGP/File.h>
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/ConnMgr.h>
 #include <YGP/ANumeric.h>
 

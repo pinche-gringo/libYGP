@@ -1,7 +1,7 @@
 #ifndef TRACE_H
 #define TRACE_H
 
-//$Id: Trace.h,v 1.10 2003/03/03 05:59:58 markus Rel $
+//$Id: Trace.h,v 1.11 2003/11/17 15:07:05 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.34 2003/11/14 20:28:08 markus Exp $
+//$Id: XApplication.cpp,v 1.35 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -44,8 +44,8 @@
 #include <YGP/Internal.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
-#include <YGP/Process_.h>
+#include <YGP/Trace.h>
+#include <YGP/Process.h>
 #include <YGP/StackTrc.h>
 
 #include <YGP/Tokenize.h>

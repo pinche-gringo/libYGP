@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.17 2003/11/14 20:27:55 markus Exp $
+//$Id: Thread.cpp,v 1.18 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -42,7 +42,7 @@
 #endif
 
 #include "YGP/Check.h"
-#include <Trace_.h>
+#include <YGP/Trace.h>
 
 #include "YGP/Thread.h"
 

@@ -22,12 +22,12 @@ libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp \
 	PathSrch.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp
 
 nobase_include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
-	FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h Check.h \
+	FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h Check.h \
 	SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
 	CRegExp.h RegExp.h Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h \
 	File.h RDirSrchSrv.h AssParse.h Attribute.h AttrParse.h RemoteFile.h \
 	Entity.h Internal.h Thread.h Mutex.h INIFile.h XDirSrch.h ConnMgr.h \
-	Process_.h
+	Process.h
 
 pkgconfigdir =$(libdir)/pkgconfig
 dist_pkgconfig_DATA=YGP.pc

@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.14 2003/11/14 20:28:08 markus Exp $
+//$Id: XDialog.cpp,v 1.15 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -35,7 +35,7 @@
 #include <gtkmm/accelgroup.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 
 #include "XGP/XDialog.h"
 

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.25 2003/11/14 20:27:55 markus Exp $
+//$Id: INIFile.cpp,v 1.26 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -30,7 +30,7 @@
 
 #include <cstring>
 
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Entity.h"
 #include "YGP/INIFile.h"
 #include "YGP/Internal.h"

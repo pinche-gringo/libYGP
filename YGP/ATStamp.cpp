@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.21 2003/11/16 19:25:55 markus Exp $
+//$Id: ATStamp.cpp,v 1.22 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -32,7 +32,7 @@
 #include <stdexcept>
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 
 #include "YGP/ATStamp.h"
 

@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.33 2003/11/14 20:28:08 markus Exp $
+//$Id: XFileList.cpp,v 1.34 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -38,8 +38,8 @@
 
 #include <YGP/File.h>
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
-#include <YGP/Process_.h>
+#include <YGP/Trace.h>
+#include <YGP/Process.h>
 #include <YGP/PathDirSrch.h>
 
 #include "XGP/XFileDlg.h"

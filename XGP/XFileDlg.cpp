@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.21 2003/11/14 20:28:08 markus Exp $
+//$Id: XFileDlg.cpp,v 1.22 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -34,7 +34,7 @@
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
 
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Check.h"
 #include "YGP/Internal.h"
 

@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.9 2003/11/14 20:27:55 markus Exp $
+//$Id: Process.cpp,v 1.10 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -60,10 +60,10 @@
 #endif
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 
-#include "YGP/Process_.h"
+#include "YGP/Process.h"
 
 
 namespace YGP {

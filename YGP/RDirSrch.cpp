@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.24 2003/11/14 20:27:55 markus Exp $
+//$Id: RDirSrch.cpp,v 1.25 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -32,7 +32,7 @@
 #include <ctype.h>
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 #include "YGP/ANumeric.h"
 #include "YGP/AttrParse.h"

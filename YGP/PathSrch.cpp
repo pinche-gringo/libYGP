@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.11 2003/11/16 19:25:55 markus Exp $
+//$Id: PathSrch.cpp,v 1.12 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 
 #include "YGP/File.h"
 #include "YGP/PathSrch.h"

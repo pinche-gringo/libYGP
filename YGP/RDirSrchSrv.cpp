@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.22 2003/11/14 20:27:55 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.23 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -37,7 +37,7 @@
 #endif
 #include "YGP/File.h"
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Socket.h"
 #include "YGP/ATStamp.h"
 #include "YGP/DirSrch.h"

@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.16 2003/11/16 19:25:55 markus Exp $
+// $Id: CRegExp.cpp,v 1.17 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -31,7 +31,7 @@
 #include "Test.h"
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/ANumeric.h>
 #include <YGP/Parse.h>
 #include <YGP/CRegExp.h>

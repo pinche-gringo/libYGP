@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.25 2003/11/16 19:25:55 markus Exp $
+//$Id: File.cpp,v 1.26 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -36,7 +36,7 @@
 
 #include "YGP/Internal.h"
 
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 
 #include "YGP/File.h"
 

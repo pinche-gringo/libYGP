@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.13 2003/11/14 20:28:08 markus Exp $
+//$Id: XFileEntry.cpp,v 1.14 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/File.h>
 
 #include "XGP/XFileEntry.h"

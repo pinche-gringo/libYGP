@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.4 2003/11/14 20:28:08 markus Exp $
+//$Id: AutoContainer.cpp,v 1.5 2003/11/17 15:08:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -28,7 +28,7 @@
 #include <gtk/gtkmain.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 
 #include "XGP/AutoContainer.h"
 

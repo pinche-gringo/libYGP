@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.29 2003/11/16 19:25:55 markus Exp $
+//$Id: ATime.cpp,v 1.30 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -37,7 +37,7 @@
 #include <stdexcept>
 
 #include "YGP/Check.h"
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 #include "YGP/Internal.h"
 
 #include "YGP/ATime.h"

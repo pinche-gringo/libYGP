@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.45 2003/11/14 20:27:55 markus Exp $
+//$Id: Parse.cpp,v 1.46 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -35,7 +35,7 @@
 #include <map>
 #include <string>
 
-#include "YGP/Trace_.h"
+#include "YGP/Trace.h"
 
 #include "YGP/Parse.h"
 #include "YGP/Thread.h"

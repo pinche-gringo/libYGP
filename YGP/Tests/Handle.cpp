@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
+// $Id: Handle.cpp,v 1.6 2003/11/17 15:07:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/Handle.h>
 
 #include "Test.h"

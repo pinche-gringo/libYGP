@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.7 2003/11/14 20:28:08 markus Exp $
+//$Id: Dialog.cpp,v 1.8 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -29,7 +29,7 @@
 #include <gtkmm/table.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/ANumeric.h>
 
 #include <XGP/XFileEntry.h>

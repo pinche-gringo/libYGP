@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.23 2003/11/14 20:28:08 markus Exp $
+//$Id: XAbout.cpp,v 1.24 2003/11/17 15:08:24 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -33,7 +33,7 @@
 #include <gtkmm/image.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/Internal.h>
 
 #include "XGP/XAbout.h"
