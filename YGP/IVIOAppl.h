@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.9 2000/01/21 23:38:23 Markus Exp $
+//$Id: IVIOAppl.h,v 1.10 2000/01/26 22:14:07 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,14 +20,13 @@
 
 // Class to handle the startup of a program
 class IVIOApplication {
- protected:
+ public:
    // Helper-structure to store long-options
    typedef struct {
       char* longVal;
       char  shortVal;
    } longOptions;
 
- public:
    // Manager functions
    IVIOApplication (const int argc, const char* argv[],
                     const longOptions* pOpt = NULL);
