@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.10 2003/11/14 20:28:08 markus Rel $
+//$Id: X-Appl.h,v 1.11 2004/09/07 05:58:15 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,13 +39,13 @@ class XAppl : public XGP::XApplication {
    ~XAppl () { }
 
  protected:
-   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE, CONNECT };
+   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE, CONNECT, MSGDLG };
 
  private:
    // Protected manager functions
    XAppl (const XAppl&);
    const XAppl& operator= (const XAppl&);
-  
+
    // Event-handling
    virtual void command (int menu);
 

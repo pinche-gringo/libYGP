@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.20 2004/09/06 00:27:38 markus Exp $
+//$Id: X-Appl.cpp,v 1.21 2004/09/07 05:58:15 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -39,12 +39,14 @@
 #include <YGP/ConnMgr.h>
 #include <YGP/ANumeric.h>
 #include <YGP/Internal.h>
+#include <YGP/StatusObj.h>
 
 #include <XGP/XDate.h>
 #include <XGP/XAbout.h>
 #include <XGP/XFileDlg.h>
 #include <XGP/XPrintDlg.h>
 #include <XGP/ConnectDlg.h>
+#include <XGP/MessageDlg.h>
 
 #include "Dialog.h"
 #include "X-Appl.h"
@@ -176,6 +178,7 @@ XGP::XApplication::MenuEntry XAppl::menuItems[] = {
     { "_Dialog ...",            "<ctl>D",      DIALOG,  ITEM },
     { "Da_te ...",              "<ctl>T",      DATE,    ITEM },
     { "_Connection ...",        "<ctl>C",      CONNECT, ITEM },
+    { "_Messagedialog ...",     "<ctl>M",      MSGDLG,  ITEM },
     { "_Menus",                 "<alt>M",      0,       BRANCH },
     { "_Radiobuttons",          "<alt>R",      0,       SUBMENU },
     {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
@@ -271,6 +274,13 @@ void XAppl::command (int menu) {
       TRACE9 ("XAppl::command (int) - Num: " << num << "; File: " << file);
       TDialog<XAppl>::create (*this, &XAppl::addActFile, num, file);
       break;
+
+   case MSGDLG: {
+      YGP::StatusObject obj (YGP::StatusObject::INFO,
+                             "Some very important detail");
+      obj.generalize ("Generalized info-message");
+      XGP::MessageDlg::create (obj);
+      break; }
 
    default:
       XGP::XApplication::command (menu);
