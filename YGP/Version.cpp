@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.11 2003/11/14 00:22:57 markus Exp $
+// $Id: Version.cpp,v 1.12 2003/11/14 18:22:38 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -50,15 +50,16 @@
    executing other processes or threads and handle/format diverse attributes.
 */
 
+static const char* Version = "\n!@$%" PACKAGE " V" VERSION
+                             " Compiled on " __DATE__ "%$@!\n";
+
 // Function to initialize various global data
 static const int _init () {
    bindtextdomain (PACKAGE, LOCALEDIR);
-   return 0;
+   return Version == NULL;
 }
 
 
-static const char* Version = "\n!@$%" PACKAGE " V" VERSION
-                             " Compiled on " __DATE__ "%$@!\n";
 static const int init = _init ();
 
 
