@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.16 2003/01/14 20:51:34 markus Exp $
+//$Id: XApplication.cpp,v 1.17 2003/01/31 23:47:17 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,11 +24,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <errno.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <locale.h>
-
-#include <errno.h>
 #include <unistd.h>
+
+#include <sys/stat.h>
 
 #include "Check.h"
 #include "StackTrc.h"
@@ -44,6 +46,8 @@
 #include <Internal.h>
 
 #include <Trace_.h>
+#include <Tokenize.h>
+
 #include "BrowserDlg.h"
 
 #include "XApplication.h"
@@ -61,6 +65,7 @@ using namespace Menu_Helpers;
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
    : vboxClient (new VBox ()), aLastMenus (5), pMenu (new MenuBar ())
+     , helpBrowser (BrowserDlg::getDefaultBrowser ())
 {
    TRACE9 ("XApplication::XApplication ()");
 
@@ -263,10 +268,62 @@ void XApplication::command (int menu) {
       
       switch (pid) {
       case 0: {                                         // Child: Start browser
-         TRACE9 ("XApplication::command (int) - Show help " << getHelpfile ());
-         execlp (helpBrowser.c_str (), helpBrowser.c_str (), getHelpfile (), NULL);
+         string file (getHelpfile ());
+         TRACE9 ("XApplication::command (int) - Show help " << file);
+
+         TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
+
+         // Test if file-protocoll or no protocoll at all
+         if (((file[0] == '/') && (file[1] != '/'))
+             || (file.substr (0, 7) == "file://")) {
+            if (file[0] != '/')
+               file.replace (0, 6, 0, '\0');
+
+            // If so: Check which language to use
+            Tokenize ext (getenv ("LANGUAGE"));
+            if (ext.getActNode ().empty ())
+               ext = setlocale (LC_MESSAGES, NULL);
+
+            // Check every language-entry (while removing trailing specifiers)
+            string extension;
+            struct stat sfile;
+            while ((extension = ext.getNextNode (',')).size ()) {
+               string search;
+               do {
+                  search = file + std::string (1, '.') + extension;
+                  if (search.substr (0, 7) == "file://")
+                     search.replace (0, 6, 0, '\0');
+
+                  TRACE9 ("XApplication::command (int) - Checking for help-file "
+                          << search);
+                  if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
+                     break;
+
+                  unsigned int pos (extension.rfind ('_'));
+                  if (pos == string::npos)
+                     pos = 0;
+                  extension.replace (pos, extension.length (), 0, '\0');
+               } while (extension.size ());
+
+               if (extension.size ()) {
+                  file += '.';
+                  file += extension;
+                  break;
+               }
+            } // end-while
+
+            // Nothing worked: Check if file exists directly; if not try english
+            if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
+               file += ".en";
+         } // endif file-protocoll
+
+         TRACE5 ("XApplication::command (int) - Starting browser with "
+                 << file);
+
+         execlp (helpBrowser.c_str (), helpBrowser.c_str (), file.c_str (), NULL);
          perror (_("Error starting browser for help! Reason"));
-         _exit (1); }
+         _exit (1);
+         break; }
 
       case -1: {
          string errMsg (_("Error starting browser for help!\n\nReason: "));
