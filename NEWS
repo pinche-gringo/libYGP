@@ -1,3 +1,10 @@
+Overview of Changes in version 0.6.46:
+
+  - Don't add version info to libCGP (doesn't change a lot)
+  - Build static and DLL version of library under Windows
+  - Stopped supporting Borland-C
+  - Changes for MSCV
+
 Overview of Changes in version 0.6.45:
 
   - Returning an error, if IVIOApplication::run catches an exception

@@ -1,3 +1,32 @@
+2004-01-24  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.46
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+2004-01-22  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/VCGeneral.mak: Creating also a static library
+
+	* Windows/VCTests.mak: Linking with (static) libYGP library
+
+	* YGP/XDirSrch.h:
+	  Erasing nodes with erase and not with clear (which MSVC does not know)
+
+	* README.windows: Updated
+
+	* Make.bat: Removed compilation for BCC
+
+2004-01-21  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/VCGeneral.mak: Building static and runtime library; Optimized
+
+	* Windows/BCGeneral.mak: Deleted
+
+	* configure.in: Version to 0.6.46
+
+	* CGP/Makefile.in: Don't set release info to created library
+
 2004-01-19  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.45
