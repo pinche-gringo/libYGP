@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.47 2003/12/05 19:49:22 markus Exp $
+//$Id: Parse.cpp,v 1.48 2003/12/12 18:16:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.47 $
+//REVISION    : $Revision: 1.48 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -903,7 +903,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
 
       if (rc) {   // Simple error while parsing: Check if in begin of sequence
          TRACE8 ("ParseSequence::doParse -> " << getDescription ()
-                 << " exiting with rc = " << rc);
+                 << " got error rc = " << rc);
 
          // Reset error if not hard (<0) and the error happened parsing the
          // first element (but only if mincard is fullfilled)
@@ -925,6 +925,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
       throw (error);
    }
 
+   TRACE8 ("ParseSequence::doParse -> " << getDescription () << " exiting with rc = " << rc);
    return rc;
 }
 
@@ -1013,8 +1014,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
                                       (ppAct + 1) == NULL ? optional : true))
              == 0) {                                   // Break if match found
-            TRACE8 ("ParseSelection::doParse -> " << getDescription ()
-                    << " exiting with rc = " << rc);
+            TRACE8 ("ParseSelection::doParse -> " << getDescription () << " found entry");
             break;
          } // endif
 
@@ -1041,6 +1041,8 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
       throw (error);
    }
 
+   TRACE8 ("ParseSelection::doParse -> " << getDescription ()
+           << " exiting with rc=" << rc);
    return rc;
 }
 
