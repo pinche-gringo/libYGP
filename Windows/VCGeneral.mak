@@ -115,9 +115,9 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
 BSC32_SBRS= \
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /def:".\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /def:"$(OUTDIR)\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib"
 DEF_FILE= \
-	".\VCGeneral.def"
+        "$(OUTDIR)\VCGeneral.def"
 LINK32_OBJS= \
 	"$(INTDIR)\AByteArray.obj" \
 	"$(INTDIR)\ADate.obj" \
@@ -247,9 +247,9 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
 BSC32_SBRS= \
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /def:".\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /def:"$(OUTDIR)\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept
 DEF_FILE= \
-	".\VCGeneral.def"
+        "$(OUTDIR)\VCGeneral.def"
 LINK32_OBJS= \
 	"$(INTDIR)\AByteArray.obj" \
 	"$(INTDIR)\ADate.obj" \
@@ -287,7 +287,6 @@ LINK32_OBJS= \
 <<
 
 !ENDIF
-
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
 !IF EXISTS("VCGeneral.dep")
@@ -475,6 +474,14 @@ SOURCE=..\Common\XStrBuf.cpp
 
 
 !ENDIF
+
+$(OUTDIR)\VCGeneral.def: $(LINK32_OBJS)
+        Echo LIBRARY VCGeneral > $(OUTDIR)\VCGeneral.def
+        Echo EXPORTS >> $(OUTDIR)\VCGeneral.def
+        Del Dumpbin.out
+        for %%i in ($(OUTDIR)\*.obj) do dumpbin /SYMBOLS %%i >> Dumpbin.out
+        awk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
+        Del Dumpbin.out
 
 check: ALL
         nmake /f VCTests.mak check
