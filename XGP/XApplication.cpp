@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.40 2004/10/28 19:04:22 markus Exp $
+//$Id: XApplication.cpp,v 1.41 2004/12/29 18:19:10 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -176,7 +176,6 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
       TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menuitem " << menuEntry.id);
       apMenus[menuEntry.id] = &pLastMenu->items ().back ();
    }
-      
    return pLastMenu->items ().back ();
 }
 
@@ -198,7 +197,6 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
           || (menuEntries->type == LASTRADIOITEM)) {
          Check3 (aLastMenus.size ());
          Gtk::Menu* pLastMenu (aLastMenus.back ());
-         
          Gtk::RadioMenuItem::Group radioGroup;
          do {
             cMenus--;
@@ -332,6 +330,7 @@ void XApplication::command (int menu) {
             HTMLViewer::create (file);
          else {
 #endif
+	    file = "file://" + file;
             const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
             YGP::Process::execAsync (helpBrowser.c_str (), args);
 #ifdef HAVE_VIEWER
