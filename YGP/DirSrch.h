@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.3 1999/07/31 18:45:06 Markus Exp $
+//$Id: DirSrch.h,v 1.4 1999/08/01 23:08:04 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -129,7 +129,7 @@ class DirectorySearch {
    static const char DIR_SPLIT;
 
    //@Section manager-functions
-   DirectorySearch () : pEntry (NULL) { }
+   DirectorySearch ();
    DirectorySearch (const std::string& search) : pEntry (NULL) { setFile (search); }
    virtual ~DirectorySearch ();
 
@@ -164,6 +164,16 @@ class DirectorySearch {
 
 
 // Implementation of inline-functions
+inline DirectorySearch::DirectorySearch () : pEntry (NULL)
+#ifdef UNIX
+     , pDir (NULL)
+#else
+     , hSearch (INVALID_HANDLE_VALUE)
+#endif
+{
+}
+
+
 inline int DirectorySearch::find (const std::string& search, dirEntry* pResult,
 			   unsigned long attribs) {
    assert (!search.empty ());
