@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.14 2001/09/08 12:51:53 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.15 2001/09/27 22:02:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -166,14 +166,14 @@ void PathDirectorySearch::checkPath (const std::string& path) throw (std::string
       case 0:
          if (result.we_wordc != 1) {
             rc = 1;
-            node += " expands to more than one word";
+            node += " expands to more than one files";
           }
           break;
 
       case WRDE_NOSPACE: node = "Out of memory"; break;
       case WRDE_BADCHAR: node += " contains unquoted invalid character such as `|'"; break;
-      case WRDE_SYNTAX: temp = node; node = "Syntax error in " + temp + " (unmatched quoting character?)"; break;
-      default: temp = node; node = "Unknown error in " + temp;
+      case WRDE_SYNTAX: node = "Syntax error in " + node + " (unmatched quoting character?)"; break;
+      default: node = "Unknown error in " + node;
       } // end-switch wordexp-error
       wordfree (&result);
       if (rc) {
