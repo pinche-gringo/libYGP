@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.11 2003/06/11 04:31:42 markus Rel $
+//$Id: X-Appl.cpp,v 1.11.2.1 2003/06/12 23:25:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.11.2.1 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -196,6 +196,7 @@ XAppl::XAppl ()
      , status (), scroll () {
    TRACE3 ("XAppl::XAppl ()");
 
+   setIconProgram (xpmXAppl);
    set_default_size (620, 400);
 
    TRACE5 ("XAppl::XAppl () -> Create menus");
