@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.2 2002/05/03 20:53:11 markus Exp $
+//$Id: Thread.h,v 1.3 2002/05/13 02:52:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,13 +33,12 @@ class Thread {
       return new Thread (fnc, paArgs); }
 
    void* getArgs () const { return paArgs_; }
-
    void ret (void* rc) const;
    void cancel ();
-
    static void* waitForThread (const Thread& id);
-
    void isToCancel () const;
+
+   int getID () const { return (int)id; }
 
  protected:
    Thread ();
@@ -66,7 +65,7 @@ template <class T> class OThread : public Thread {
 
    static OThread<T>* create (T& obj, THREAD_OBJMEMBER fnc, void* paArgs)
                               throw (std::string) {
-      OThread<T>* t (new OThread<T> (obj, fnc, paArgs)); }
+      return new OThread<T> (obj, fnc, paArgs); }
 
  protected:
    OThread (T& obj, THREAD_OBJMEMBER fnc, void* paArgs) throw (std::string) 
