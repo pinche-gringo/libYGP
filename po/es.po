@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.13 $)\n"
-"POT-Creation-Date: 2003-05-23 12:58-0500\n"
+"Project-Id-Version: General 0.6.01 ($Revision: 1.14 $)\n"
+"POT-Creation-Date: 2003-06-03 14:07-0500\n"
 "PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -274,19 +274,19 @@ msgstr "Fichero '%1' no existe!"
 msgid "File `%1' exists! Overwrite?"
 msgstr "¡Fichero '%1' existe! ¿Sobreescribe?"
 
-#: X-windows/XFileList.cpp:301
+#: X-windows/XFileList.cpp:302
 msgid "Open in %1 ..."
 msgstr "Abrir con %1 ..."
 
-#: X-windows/XFileList.cpp:314
+#: X-windows/XFileList.cpp:315
 msgid "Rename/Move ..."
 msgstr "Cambiar el nombre/Movir ..."
 
-#: X-windows/XFileList.cpp:318
+#: X-windows/XFileList.cpp:319
 msgid "Delete"
 msgstr "Eleminar"
 
-#: X-windows/XFileList.cpp:343
+#: X-windows/XFileList.cpp:344
 msgid "Environment variable `TERM' not defined!"
 msgstr "¡Variable de etorno 'TERM' no está definida!"
 
