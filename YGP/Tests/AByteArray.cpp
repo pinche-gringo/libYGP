@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.3 2002/08/21 20:21:28 markus Rel $
+// $Id: AByteArray.cpp,v 1.4 2003/06/13 18:00:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
