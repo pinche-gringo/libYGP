@@ -37,8 +37,10 @@ Additional prerequiste software:
 Inside the directory containing the source code type
 
   gettextize --intl --no-changelog
+  mv Makefile.am~ Makefile.am
+  mv configure.in~ configure.in		      # Undo changes made bz gettextize
   libtoolize
-  aclocal && automake -a && autoconf    # Create configure.in
+  aclocal -I m4 && automake -a && autoconf    # Create configure.in
   ./configure [configure-options]
   make [make-options]
 
