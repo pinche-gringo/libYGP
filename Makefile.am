@@ -2,12 +2,20 @@
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h \
-		SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h
+		SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
+		Check.h XAbout.h XApplication.h XFileEntry.h XMessageBox.h
 
-lib_LTLIBRARIES=libPort.la
+lib_LTLIBRARIES=libAttr.la libXAppl.la
+
 noinst_PROGRAMS=Test
 EXTRA_DIST=Test.Dat
-libPort_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
+
+libAttr_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
 	           ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp Version.cpp \
 		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp ATime.cpp
-Test_SOURCES=$(libPort_la_SOURCES) Test.cpp
+
+libXAppl_la_LIBADD=-lAttr -lgtkmm -lgdkmm -lgtk
+libXAppl_la_SOURCES=Check.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
+		    XMessageBox.cpp 
+
+Test_SOURCES=$(libAttr_la_SOURCES) Test.cpp
