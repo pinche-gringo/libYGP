@@ -1,0 +1,78 @@
+<!-- -*-HTML-*- -->
+<!-- $Id: XAttrLabel.html,v 1.1 2003/02/16 21:55:40 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: XAttributeLabel</title>
+    <meta name="description" content="Documentation of XAttributeLabel-class">
+    <meta name="keywords" content="Documentation, Docu, XAttributeLabel, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2003-02-16">
+    <meta name="DC.Rights" content="Anticopyright (A) 2003, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class XAttributeLabel</h1>
+    <p>Derived from
+      Gtk::Label
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;XAttrLabel.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to display an attribute in a formated style while preservering its
+      other abilities.</p>
+
+    <hr noshade>
+    <table border="0">
+            <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XAttributeLabel.html#XAttributeLabel"><b>XAttributeLabel</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">T</span>&amp;</tt> <tt><span style="color:blue;">attr</span></tt>, <tt><span style="color:purple;">gfloat</span></tt> <tt><span style="color:blue;">x</span></tt> = 0.5, <tt><span style="color:purple;">gfloat</span></tt> <tt><span style="color:blue;">y</span></tt> = 0.5)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:navy;">T</span></tt>&amp;</tt> </td>
+        <td><a href="XAttributeLabel.html#getAttribute"><b>getAttribute</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XAttributeLabel.html#update"><b>update</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XAttributeLabel.html#~XAttributeLabel"><b>~XAttributeLabel</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <h3><span style="color:navy">Management functions</span></h3>
+
+    <pre><a name="XAttributeLabel"></a><b>XAttributeLabel</b> (T&amp; attr, gfloat x, gfloat y)</pre>
+    <dl>
+      <dd><p>Constructor; creates a new label with a reference to an attribute.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="~XAttributeLabel"></a><b>~XAttributeLabel</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="update"></a>void <b>update</b> ()</pre>
+    <dl>
+      <dd><p>Displays the (new) value of the attribute formated in the label.</p></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="getAttribute"></a>T&amp; <b>getAttribute</b> ()</pre>
+    <dl>
+      <dd><p>Returns a reference to the attribute itself.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>T&amp;: Reference to the handled attribute</dd></dl></dd>
+    </dl>
+  </body>
+</html>
