@@ -1,11 +1,11 @@
-//$Id: AYear.cpp,v 1.3 2004/11/28 01:02:05 markus Exp $
+//$Id: AYear.cpp,v 1.4 2004/12/29 18:20:36 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
 //COPYRIGHT   : Copyright (C) 2004
@@ -161,9 +161,9 @@ AYear& AYear::operator-= (const AYear& rhs) {
 /// Returns the (approximated) difference in days between two years.
 /// "Younger years" (closer to the past) are considered bigger than "older
 /// years" (further in the past; that means the numeric value of the year is
-/// compared (e.g.: "yesterday" < "today" < "tomorrow").
+/// compared (e.g.: "last year" < "this year" < "next year").
 ///
-///  If both years are undefined, those difference is "0", if only this is
+///  If both years are undefined, their difference is "0", if only this is
 ///  undefined the result is -1; if other is undefined 1 is returned.
 ///
 /// \param other: Object to compare
@@ -171,14 +171,8 @@ AYear& AYear::operator-= (const AYear& rhs) {
 //----------------------------------------------------------------------------
 long AYear::compare (const AYear& other) {
    // Both sides are defined -> return (approximated) difference
-   if (isDefined ()) {
-      if (other.isDefined ())
-         return year - other.year;
-      else
-         return 1;                    // this defined, other not: Return bigger
-   }
-   else
-      return other.isDefined () ? -1 : 0;
+   return (isDefined () ? other.isDefined () ? (year - other.year) : 1
+	   : other.isDefined () ? -1 : 0);
 }
 
 //----------------------------------------------------------------------------
