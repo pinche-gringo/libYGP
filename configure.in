@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.18 $)
+AC_REVISION($Revision: 1.19 $)
 
 AC_INIT()
 
@@ -30,19 +30,11 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 AM_PROG_LIBTOOL
 
-dnl Defines for existing libraries
-dnl have_gmp=false
-dnl have_gtk=false
-dnl have_gtk--=false
-
 dnl Checks for libraries.
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(gmp, mpz_clear)
 AC_CHECK_LIB(gtk, gtk_widget_get_type)
 AC_CHECK_LIB(gtk--, main)
-dnl AC_CHECK_LIB(gmp, mpz_clear, have_gmp=true)
-dnl AC_CHECK_LIB(gtk, gtk_widget_get_type, have_gtk=true)
-dnl AC_CHECK_LIB(gtk--, main, have_gtk--=true)
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
