@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.12 2001/10/12 23:08:56 markus Exp $
+//$Id: XFileList.cpp,v 1.13 2002/04/09 04:10:35 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -135,22 +135,15 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
    TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
 
    Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
+   Gdk_Window parentWin (get_parent_window ());
    static bool first (true);
    if (first) {
       first = false;
       Gdk_Bitmap bitmap;
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-      iconDir.create_from_xpm_d (NULL, bitmap, color, iconDirectory);
-      iconDef.create_from_xpm_d (NULL, bitmap, color, iconDefault);
-      iconExe.create_from_xpm_d (NULL, bitmap, color, iconExecuteable);
-#else
-      iconDir.create_from_xpm_d (iconDir, bitmap, color, iconDirectory);
-      iconDef.create_from_xpm_d (iconDef, bitmap, color, iconDefault);
-      iconExe.create_from_xpm_d (iconExe, bitmap, color, iconExecuteable);
-#endif
+      iconDir.create_from_xpm_d (parentWin, bitmap, color, iconDirectory);
+      iconDef.create_from_xpm_d (parentWin, bitmap, color, iconDefault);
+      iconExe.create_from_xpm_d (parentWin, bitmap, color, iconExecuteable);
    } // endif first call to loadIcons: Create default-icons
-
-   Gdk_Pixmap* temp;
 
    // Use Icon.*-files as icon for *-files
    PathDirectorySearch ds (path, files);
@@ -161,15 +154,9 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
       string filename (file->path ()); filename += file->name ();
       TRACE5 ("XFileList::loadIcons: Read icon " << filename);
 
-      Check3 (temp);
       TRACE9 ("XFileList::loadIcons: Store icon "
 	      << (file->name () + namePrefix));
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-      icons[file->name () + namePrefix].create_from_xpm (NULL, color, filename);
-#else
-      icons[file->name () + namePrefix].create_from_xpm
-	(icons[file->name () + namePrefix], color, filename);
-#endif
+      icons[file->name () + namePrefix].create_from_xpm (parentWin, color, filename);
       file = ds.next ();
    } // end-while icon-files found
 }
@@ -182,11 +169,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 gint XFileList::append (const File* file, const gchar* text[]) {
    CList::append (text);
    if (file)
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       setIcon (rows ().size () - 1, file);
-#else
-      setIcon (rows () - 1, file);
-#endif
 }
 
 /*--------------------------------------------------------------------------*/
@@ -197,11 +180,7 @@ gint XFileList::append (const File* file, const gchar* text[]) {
 gint XFileList::append (const File* file, const vector<string> text) {
    CList::append (text);
    if (file)
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       setIcon (rows ().size () - 1, file);
-#else
-      setIcon (rows () - 1, file);
-#endif
 }
 
 /*--------------------------------------------------------------------------*/
