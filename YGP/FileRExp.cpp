@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.17 2002/04/09 20:02:49 markus Rel $
+//$Id: FileRExp.cpp,v 1.18 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -41,7 +41,6 @@
 #  define UPPER        (char)toupper
 #endif
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "ANumeric.h"
 #include "FileRExp.h"
@@ -51,6 +50,15 @@
 
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))
 
+
+const char FileRegularExpr::MULTIMATCH = '*';
+const char FileRegularExpr::SINGLEMATCH = '?';
+const char FileRegularExpr::REGIONBEGIN = '[';
+const char FileRegularExpr::REGIONEND = ']';
+const char FileRegularExpr::RANGE = '-';
+const char FileRegularExpr::NEGREGION1 = '^';
+const char FileRegularExpr::NEGREGION2 = '!';
+const char FileRegularExpr::REGIONCLASS = ':';
 
 
 /*--------------------------------------------------------------------------*/

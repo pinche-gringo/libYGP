@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.26 2002/04/20 00:14:03 markus Rel $
+//$Id: CRegExp.cpp,v 1.27 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -29,7 +29,6 @@
 
 #include "Internal.h"
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "CRegExp.h"
 #include "Internal.h"
@@ -39,6 +38,41 @@
 #  include <stdlib.h>
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
+
+// Various constants for special characters used by regular expressions.
+// Can't be in the header as fucked-up Visual C++ (V98 (sic!)) would consider
+// them as pure virtual function. Fucking wanker (or fucking wanking creators)
+// Contstants for repeating
+const char RegularExpression::MULTIMATCHOPT = '*';
+const char RegularExpression::MULTIMATCHMAND = '+';
+const char RegularExpression::MULTIMATCH1 = '?';
+const char RegularExpression::BOUNDBEG = '{';
+const char RegularExpression::BOUNDEND = '}';
+
+// Special single characters
+const char RegularExpression::SINGLEMATCH = '.';
+const char RegularExpression::LINEBEGIN = '^';
+const char RegularExpression::LINEEND = '$';
+const char RegularExpression::ESCAPE = '\\';
+
+// Contants related to regions
+const char RegularExpression::REGIONBEGIN = '[';
+const char RegularExpression::REGIONEND = ']';
+const char RegularExpression::RANGE = '-';
+const char RegularExpression::NEGREGION1 = '^';
+const char RegularExpression::NEGREGION2 = '!';
+const char RegularExpression::REGIONCLASS = ':';
+
+// Escaped special characters (after a quoting backslash (\))
+const char RegularExpression::GROUPBEGIN = '(';
+const char RegularExpression::GROUPEND = ')';
+const char RegularExpression::ALTERNATIVE = '|';
+const char RegularExpression::WORD = 'w';
+const char RegularExpression::NOTWORD = 'W';
+const char RegularExpression::WORDBORDER = 'b';
+const char RegularExpression::NOTWORDBORDER = 'B';
+const char RegularExpression::WORDBEGIN = '<';
+const char RegularExpression::WORDEND = '>';
 
 
 /*--------------------------------------------------------------------------*/
@@ -245,11 +279,11 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
    assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
    assert (pEnd); assert (pEnd > pActRegExp);
 
-   const char* pActRE (pActRegExp);
+   const char* pActRE = pActRegExp;
    while (*pEnd-- != REGIONEND) 
       assert (pEnd > pActRegExp); ;
 
-#if DEBUG > 2
+#if TRACELEVEL > 2
    TRACE3 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) -> "
            << *pCompare << " in [" << std::string (pActRE, pEnd - pActRE + 1) << ']');
 #endif
@@ -348,7 +382,7 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
 bool RegularExpression::compGroup (const char*& pActRegExp,
                                    const char*& pCompare) {
    assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
-   const char* pEnd (findEndOfGroup (pActRegExp));
+   const char* pEnd = findEndOfGroup (pActRegExp);
    assert (pEnd); assert (pEnd > pActRegExp);
 
    ++cGroups;
@@ -360,7 +394,7 @@ bool RegularExpression::compGroup (const char*& pActRegExp,
            << pCompare << " in (" << group << ')');
 
    int min, max;
-   const char* pEndRE (getRepeatFactor (pEnd + 1, min, max));
+   const char* pEndRE = getRepeatFactor (pEnd + 1, min, max);
    TRACE7 ("RegularExpression::compGroup (const char*&, const char*&) - "
            "Repeating group: " << min << " - " << max);
 
@@ -387,11 +421,11 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
            "Checking for " << (min ? "mandatory" : "optional") << " (max. "
            << (min ? min : max) << ')');
 
-   const char* pSaveComp (pCompare);
-   const char* pSaveRE (pActRegExp);
-   const char* pStartRE (pActRegExp);
+   const char* pSaveComp = pCompare;
+   const char* pSaveRE = pActRegExp;
+   const char* pStartRE = pActRegExp;
    if (!min) {
-      const char* pTempEnd (pEnd);
+      const char* pTempEnd = pEnd;
       // Check if part after group is matching
       if (compareParts (pTempEnd, pCompare, true)) {
          pActRegExp = pTempEnd;
@@ -448,7 +482,7 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
 //Requires  : pActRegExp, pCompare ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compChar (const char*& pActRegExp,
-                                    const char*& pCompare) {
+                                  const char*& pCompare) {
    assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
 
    return compActREPart (&RegularExpression::doCompChar, pActRegExp,
@@ -561,7 +595,7 @@ bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd
                  "Group " << group << " = '"
                  << (cGroups > group ? groupValues[group] : "") << '\'');
 
-         const char* pHelp (cGroups > group ? groupValues[group].c_str () : "");
+         const char* pHelp = cGroups > group ? groupValues[group].c_str () : "";
          return doCompare (pHelp, pCompare);
       }
       return doCompChar (pActRegExp, pEnd, pCompare);
@@ -749,8 +783,8 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActReg
          return false;
    }
 
-   const char* pSaveEnd (pEndRE);
-   const char* pSaveComp (pCompare);
+   const char* pSaveEnd = pEndRE;
+   const char* pSaveComp = pCompare;
    for (; i <= static_cast <unsigned int> (max); ++i) {   // then (til max) try
       if (!*pCompare) {
          if (*pEndRE)
@@ -798,7 +832,7 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, int& min, int& 
    TRACE3 ("RegularExpression::getRepeatFactor (const char*, int&, int&) const - Checking: "
            << pRE);
 
-   char* pEnd (const_cast <char*> (pRE));
+   char* pEnd = const_cast <char*> (pRE);
 
    switch (*pRE) {
    case MULTIMATCHOPT:

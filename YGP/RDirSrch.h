@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.10 2001/10/02 23:03:52 markus Rel $
+//$Id: RDirSrch.h,v 1.11 2002/05/24 06:52:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,13 +54,13 @@ class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
    RemoteDirSearch () : IDirectorySearch (), sock (-1) { }
-   RemoteDirSearch (const std::string& search) throw (domain_error);
+   RemoteDirSearch (const std::string& search) throw (std::domain_error);
    RemoteDirSearch (const std::string& search, unsigned int port)
-      throw (domain_error);
+      throw (std::domain_error);
    virtual ~RemoteDirSearch ();
 
    //@Section initializing
-   void sendTo (const std::string& server, unsigned int port) throw (domain_error);
+   void sendTo (const std::string& server, unsigned int port) throw (std::domain_error);
 
    //@Section manipulating
    virtual void setSearchValue (const std::string& search);
@@ -74,10 +74,10 @@ class RemoteDirSearch : public IDirectorySearch {
 
    enum { FILE_NORMAL = 0, FILE_READONLY = 1, FILE_DIRECTORY = 2, FILE_HIDDEN = 4 };
 
-   virtual bool isValid () const throw (domain_error);
-   bool isValid (const std::string& dir) throw (domain_error);
+   virtual bool isValid () const throw (std::domain_error);
+   bool isValid (const std::string& dir) throw (std::domain_error);
 
-   static const char SEPERATOR = ':';
+   static const char SEPARATOR;
 
  protected:
    // Variables for sending
@@ -88,9 +88,9 @@ class RemoteDirSearch : public IDirectorySearch {
    RemoteDirSearch (const RemoteDirSearch&);
    RemoteDirSearch& operator= (const RemoteDirSearch&);
 
-   void init (const std::string& server, unsigned int port) throw (domain_error);
+   void init (const std::string& server, unsigned int port) throw (std::domain_error);
 
-   int posSeperator (const std::string& dir) const;
+   int posSeparator (const std::string& dir) const;
 
    bool isOK (const AByteArray& answer) const;
    const File* setFiledata (const char* pAnswer) throw (std::string);

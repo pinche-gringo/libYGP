@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.21 2002/04/09 20:02:50 markus Rel $
+//$Id: ANumeric.cpp,v 1.22 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -52,7 +52,6 @@
 #include <string>
 #include <stdexcept>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Internal.h"
 
@@ -174,7 +173,7 @@ std::string ANumeric::toString () const {
    int len (str.length ());
    int index (0);
    char group (loc->grouping[index]);
-   char* pSep (loc->thousands_sep);
+   char* pSep = loc->thousands_sep;
    if (!group)
       group = CHAR_MAX;
 
@@ -245,7 +244,7 @@ void ANumeric::readFromStream (istream& in) throw (invalid_argument) {
 #endif
 
    if (!in.eof ())
-      throw invalid_argument (_("No number"));
+	   throw std::invalid_argument (_("No number"));
 }
 
 

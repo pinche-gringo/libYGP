@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.6 2002/04/09 20:02:50 markus Rel $
+//$Id: AssParse.cpp,v 1.7 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -27,12 +27,16 @@
 
 #include <assert.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Internal.h"
 #include "Attribute.h"
 
 #include "AssParse.h"
+
+const char AssignmentParse::SEPERATOR = ';';
+const char AssignmentParse::EQUALSIGN = '=';
+const char AssignmentParse::QUOTE     = '"';
+const char AssignmentParse::ESCAPE    = '\\';
 
 
 /*--------------------------------------------------------------------------*/
@@ -187,7 +191,7 @@ std::string AssignmentParse::makeAssignment (const char* key, const std::string&
            << key << " = " << value);
    assert (key);
 
-   std::string ret (value, length);
+   std::string ret (value, 0, length);
    escapeQuotes (ret);
 
    ret = std::string (key) + std::string (EQUALSIGN, 1) + std::string (QUOTE, 1) + ret;

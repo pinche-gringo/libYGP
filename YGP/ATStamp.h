@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.12 2002/04/12 01:20:04 markus Rel $
+//$Id: ATStamp.h,v 1.13 2002/05/24 06:52:49 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,8 +80,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    virtual std::string toString (const char* format) const;
 
    struct tm toStructTM () const;
-   time_t toGMTTime () const {
-      struct tm result (toStructTM ()); return timegm (&result); }
+   time_t toGMTTime () const;
    time_t toLocalTime () const {
       struct tm result (toStructTM ()); return mktime (&result); }
    time_t toSysTime () const { return toLocalTime (); }

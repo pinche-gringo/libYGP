@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.7 2001/10/02 23:03:52 markus Rel $
+//$Id: IDirSrch.h,v 1.8 2002/05/24 06:52:49 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <string>
 
-class File;
+struct File;
 
 // Abstract base-class to search for files in a directory.
 class IDirectorySearch {
@@ -43,10 +43,10 @@ class IDirectorySearch {
    static unsigned long convertToSysAttribs (unsigned long attributes);
    static unsigned long convertFromSysAttribs (unsigned long attributes);
 
-   static const int FILE_NORMAL    = 1;
-   static const int FILE_READONLY  = FILE_NORMAL << 1;
-   static const int FILE_DIRECTORY = FILE_READONLY << 1;
-   static const int FILE_HIDDEN    = FILE_DIRECTORY << 1;
+   static const int FILE_NORMAL;
+   static const int FILE_READONLY;
+   static const int FILE_DIRECTORY;
+   static const int FILE_HIDDEN;
 
  protected:
    File* pEntry;
@@ -59,4 +59,4 @@ class IDirectorySearch {
    IDirectorySearch& operator= (const IDirectorySearch&);
 };
 
-#endif // IDIRSRCH_H
+#endif

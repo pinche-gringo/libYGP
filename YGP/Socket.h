@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.6 2002/04/09 20:04:27 markus Rel $
+//$Id: Socket.h,v 1.7 2002/05/24 06:52:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,11 +17,23 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include "gzo-cfg.h"
+
+
 // Headers for communication
-#include <sys/select.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
+#if SYSTEM == UNIX
+#  include <sys/select.h>
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <netdb.h>
+#else
+#  if SYSTEM == WINDOWS
+#     include "winsock2.h"
+#  else
+#     error Not yet implemented!
+#  endif
+#endif
 
 #include <string>
 #include <stdexcept>
@@ -38,42 +50,42 @@
 // connections in the Internet namespace.
 class Socket {
  public:
-   Socket () throw (domain_error);
+   Socket () throw (std::domain_error);
    Socket (int socket) : sock (socket) { }
-   Socket (unsigned int port) throw (domain_error);
-   Socket (const char* server, unsigned int port) throw (domain_error);
-   Socket (const std::string& server, unsigned int port) throw (domain_error);
+   Socket (unsigned int port) throw (std::domain_error);
+   Socket (const char* server, unsigned int port) throw (std::domain_error);
+   Socket (const std::string& server, unsigned int port) throw (std::domain_error);
    Socket (const Socket& other) : sock (other.sock) { }
    virtual ~Socket ();
 
-   Socket& operator= (const Socket& other) throw (domain_error);
+   Socket& operator= (const Socket& other) throw (std::domain_error);
    Socket& operator= (int socket);
 
-   void listenAt (unsigned int port) const throw (domain_error);
-   int waitForInput () const throw (domain_error);
+   void listenAt (unsigned int port) const throw (std::domain_error);
+   int waitForInput () const throw (std::domain_error);
 
-   int  read (AByteArray& input) const throw (domain_error);
-   int  read (std::string& input) const throw (domain_error);
-   int  read (char* pBuffer, unsigned int lenBuffer) const throw (domain_error);
+   int  read (AByteArray& input) const throw (std::domain_error);
+   int  read (std::string& input) const throw (std::domain_error);
+   int  read (char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
 
-   void writeTo (const char* server, unsigned int port) const throw (domain_error);
-   void writeTo (const std::string& server, unsigned int port) const throw (domain_error) {
+   void writeTo (const char* server, unsigned int port) const throw (std::domain_error);
+   void writeTo (const std::string& server, unsigned int port) const throw (std::domain_error) {
       writeTo (server.c_str (), port); }
-   void write (const char* pBuffer) const throw (domain_error);
-   void write (const char* pBuffer, unsigned int lenBuffer) const throw (domain_error);
-   void write (const std::string& output) const throw (domain_error) {
+   void write (const char* pBuffer) const throw (std::domain_error);
+   void write (const char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
+   void write (const std::string& output) const throw (std::domain_error) {
       write (output.data (), output.length ()); }
-   void write (const AByteArray& output) const throw (domain_error) {
+   void write (const AByteArray& output) const throw (std::domain_error) {
       write (output.data (), output.length ()); }
 
    // General helper-functions
-   static unsigned int getPortOfService (const char* service) throw (domain_error);
+   static unsigned int getPortOfService (const char* service) throw (std::domain_error);
 
    int number () const { return sock; }
    operator int () const { return sock; }
 
  protected:
-   static void throwError (const std::string& error, int errNum) throw (domain_error);
+   static void throwError (const std::string& error, int errNum) throw (std::domain_error);
 
  private:
    // Prohibited manager-functions

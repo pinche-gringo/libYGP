@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.1 2002/05/09 06:57:59 markus Rel $
+//$Id: PathSrch.cpp,v 1.2 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -29,11 +29,16 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 
 #include "File.h"
 #include "PathSrch.h"
+
+#if SYSTEM == UNIX
+const char PathSearch::PATHSEPARATOR = ':';
+#else
+const char PathSearch::PATHSEPARATOR = ';';
+#endif
 
 
 /*--------------------------------------------------------------------------*/
@@ -59,7 +64,7 @@ std::string PathSearch::expandNode (const std::string& input) {
 
    int i (1);
    for (; i < input.length (); ++i) {
-      if (isspace (input[i]) || (input[i] == File::DIRSEPERATOR))
+      if (isspace (input[i]) || (input[i] == File::DIRSEPARATOR))
          break;
 
 #if SYSTEM == UNIX

@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.11 2002/04/09 20:02:49 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.12 2002/05/24 06:52:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -29,7 +29,6 @@
 
 #include "Internal.h"
 
-#define DEBUG 0
 #include "File.h"
 #include "Trace_.h"
 #include "Socket.h"
@@ -53,9 +52,13 @@ static const unsigned int CMD_READ  = 6;
 static const unsigned int CMD_WRITE = 7;
 static const unsigned int CMD_ISEOF = 8;
 
+
+// Actually also the members of this struct should be const (const char* const
+// & const unsigned int), but Visual C++ wouldn't compile that. I really wonder
+// if they invented C# because they couldn't implement a working C++ compiler?
 static const struct { 
-   const char* const  cmd;
-   const unsigned int len;
+   char* cmd;
+   unsigned int len;
 } commands[] = { { "Next", 4 },   { "Find=\"", 6 },  { "Check=\"", 7 },
                  { "End", 3 },    { "Open=\"", 6 },  { "Close=", 6 },
                  { "Read=", 5 },  { "Write=", 6 },   { "EOF=", 4 } };
@@ -83,11 +86,11 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 //Parameters: socket: Socket for communication
 //Returns   : Status (error) of last command
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
+int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
    AByteArray data;
 
    DirectorySearch dirSrch;
-   static FILE* pFile (NULL);
+   static FILE* pFile = NULL;
 
    Socket sock (socket);
 
@@ -197,7 +200,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             break;
          }
 
-         char contents[length];
+         char* contents = new char [length];
          if (length = fread (contents, 1, length, pFile)) {
             std::string send ("RC=0;Length=");
             ANumeric len (length);
@@ -209,6 +212,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             assert (errno);
             writeError (sock, errno);
          }
+		 delete [] contents;
          }
 	 break;
 
@@ -267,6 +271,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
       } // end-switch
    }
    while (data.length ());
+   return 0;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -275,7 +280,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 //            result: Found file
 /*--------------------------------------------------------------------------*/
 void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
-   throw (domain_error) {
+   throw (std::domain_error) {
    AByteArray write ("RC=0;File=\"");
    write += result.path ();
    write += result.name ();
@@ -303,7 +308,7 @@ void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
 //            desc: Flag if a description should be included
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
-   throw (domain_error) {
+   throw (std::domain_error) {
    AByteArray write ("RC=");
    ANumeric err (error);
    write += err.toUnformatedString ();

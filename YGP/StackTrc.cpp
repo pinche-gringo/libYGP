@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.6 2002/04/09 20:05:09 markus Rel $
+// $Id: StackTrc.cpp,v 1.7 2002/05/24 06:52:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -23,7 +23,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
 
 #include <stdio.h>
 #include <malloc.h>
@@ -50,7 +49,9 @@ void handleSignal (int sig) {
    dumpStack ();
 
    signal (SIGSEGV, SIG_DFL);       // Restore signal-handlers and reraise the
+#ifdef HAVE_SIGBUS
    signal (SIGBUS, SIG_DFL);            // signal (to abort program correctly)
+#endif
    raise (sig);
 }
 

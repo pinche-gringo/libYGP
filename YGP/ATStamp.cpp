@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.9 2002/04/09 20:05:09 markus Rel $
+//$Id: ATStamp.cpp,v 1.10 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -37,7 +37,6 @@
 
 #include <stdexcept>
 
-#define DEBUG 0
 #include "Trace_.h"
 
 #include "ATStamp.h"
@@ -330,4 +329,24 @@ struct tm ATimestamp::toStructTM () const {
       result.tm_sec = getSecond ();
    }
    return result;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converts stored timestamp into UTC-time
+//Returns   : time_t: Converted time
+/*--------------------------------------------------------------------------*/
+time_t ATimestamp::toGMTTime () const {
+#ifdef HAVE_TIMEGM
+   struct tm result (toStructTM ());
+   return timegm (&result);
+#else
+   std::string TZ (getenv ("TZ"));
+   putenv ("TZ=UTC");
+   _tzset ();
+   time_t utcTime (toLocalTime ());
+   TZ = "TZ=" + TZ;
+   putenv (TZ.c_str ());
+   _tzset ();
+   return utcTime;
+#endif
 }

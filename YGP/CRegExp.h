@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.18 2002/04/20 00:14:03 markus Rel $
+//$Id: CRegExp.h,v 1.19 2002/05/24 06:52:49 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -114,36 +114,36 @@ class RegularExpression : public IRegularExpression {
    RegularExpression& operator= (const char* pRegExp) throw (std::string);
 
    // Contstants for repeating
-   static const char MULTIMATCHOPT = '*';
-   static const char MULTIMATCHMAND = '+';
-   static const char MULTIMATCH1 = '?';
-   static const char BOUNDBEG = '{';
-   static const char BOUNDEND = '}';
+   static const char MULTIMATCHOPT;
+   static const char MULTIMATCHMAND;
+   static const char MULTIMATCH1;
+   static const char BOUNDBEG;
+   static const char BOUNDEND;
 
    // Special single characters
-   static const char SINGLEMATCH = '.';
-   static const char LINEBEGIN = '^';
-   static const char LINEEND = '$';
-   static const char ESCAPE = '\\';
+   static const char SINGLEMATCH;
+   static const char LINEBEGIN;
+   static const char LINEEND;
+   static const char ESCAPE;
 
    // Contants related to regions
-   static const char REGIONBEGIN = '[';
-   static const char REGIONEND = ']';
-   static const char RANGE = '-';
-   static const char NEGREGION1 = '^';
-   static const char NEGREGION2 = '!';
-   static const char REGIONCLASS = ':';
+   static const char REGIONBEGIN;
+   static const char REGIONEND;
+   static const char RANGE;
+   static const char NEGREGION1;
+   static const char NEGREGION2;
+   static const char REGIONCLASS;
 
    // Escaped special characters (after a quoting backslash (\))
-   static const char GROUPBEGIN = '(';
-   static const char GROUPEND = ')';
-   static const char ALTERNATIVE = '|';
-   static const char WORD = 'w';
-   static const char NOTWORD = 'W';
-   static const char WORDBORDER = 'b';
-   static const char NOTWORDBORDER = 'B';
-   static const char WORDBEGIN = '<';
-   static const char WORDEND = '>';
+   static const char GROUPBEGIN;
+   static const char GROUPEND;
+   static const char ALTERNATIVE;
+   static const char WORD;
+   static const char NOTWORD;
+   static const char WORDBORDER;
+   static const char NOTWORDBORDER;
+   static const char WORDBEGIN;
+   static const char WORDEND;
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);

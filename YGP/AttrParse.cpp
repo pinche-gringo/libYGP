@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.4 2002/04/09 20:02:50 markus Rel $
+//$Id: AttrParse.cpp,v 1.5 2002/05/24 06:52:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -25,7 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Internal.h"
 #include "AssParse.h"
@@ -93,11 +92,10 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Reads data from a socket and tries to assign the values
+//Purpose   : Tries to assign the passed values to the stored attributes
 //Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
-int AttributeParse::assignValues (const std::string& values) const throw (std::string) {
+void AttributeParse::assignValues (const std::string& values) const throw (std::string) {
    TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
    AssignmentParse ass (values);
 
@@ -107,9 +105,9 @@ int AttributeParse::assignValues (const std::string& values) const throw (std::s
       TRACE6 ("AttributeParse::assignValues (const std::string&) - Search for key "
               << ass.getActKey ());
 
-      IAttribute* attr (const_cast <IAttribute*> (findAttribute (ass.getActKey ())));
+      IAttribute* attr = const_cast<IAttribute*> (findAttribute (ass.getActKey ()));
       if (attr) {
-	 std::string value (ass.getActValue ());
+	     std::string value (ass.getActValue ());
 
          TRACE5 ("AttributeParse::assignValues (const std::string&) - Assigning "
                  << value << " (" << value.length () << ')');

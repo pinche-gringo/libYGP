@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.11 2002/04/09 20:02:50 markus Rel $
+//$Id: ATime.cpp,v 1.12 2002/05/24 06:53:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -42,7 +42,6 @@
 
 #include <stdexcept>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Internal.h"
 
@@ -170,7 +169,7 @@ std::string ATime::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ATime::readFromStream (istream& in) throw (invalid_argument) {
+void ATime::readFromStream (istream& in) throw (std::invalid_argument) {
    static unsigned char ATime::* const targets[] = {
       &ATime::hour, &ATime::min_, &ATime::sec };
 
@@ -197,8 +196,8 @@ void ATime::readFromStream (istream& in) throw (invalid_argument) {
       undefine ();
       if (i) {
          std::string error (_("Position %1"));
-         error.replace (error.find ("%1"), 2, char (i + '0'));
-         throw invalid_argument (error);
+         error.replace (error.find ("%1"), 2, 1, char (i + '0'));
+         throw std::invalid_argument (error);
       }
    }
    else {

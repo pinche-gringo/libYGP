@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.9 2002/04/09 20:04:07 markus Rel $
+//$Id: File.h,v 1.10 2002/05/24 06:52:49 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ typedef struct File {
    virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
    virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
 
-   static const char DIRSEPERATOR = '/';
+   static const char DIRSEPARATOR;
 
  protected:
    std::string   path_;
@@ -177,7 +177,7 @@ typedef struct File : protected WIN32_FIND_DATA {
    virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
    virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
 
-   static const char DIRSEPERATOR = '\\';
+   static const char DIRSEPARATOR;
 
  protected:
    std::string path_;

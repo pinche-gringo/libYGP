@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.8 2002/04/14 23:16:42 markus Rel $
+//$Id: File.cpp,v 1.9 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -24,14 +24,21 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <stdio.h>
 #include <errno.h>
 
 #include "Internal.h"
 
-#define DEBUG 0
 #include "Trace_.h"
 
 #include "File.h"
+
+
+#if SYSTEM == UNIX
+const char File::DIRSEPARATOR = '/';
+#else
+const char File::DIRSEPARATOR = '\\';
+#endif
 
 
 /*--------------------------------------------------------------------------*/
@@ -137,7 +144,7 @@ const time_t File::time () const {
 void File::localtime (struct tm& time) const {
    FILETIME fileTemp;
    FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
-   setTime (&fileTimp, time);
+   setTime (fileTimp, time);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -156,7 +163,7 @@ void File::setTime (const FILETIME& time, struct tm& result) {
    result.tm_wday = sysTime.wDayOfWeek;
    result.tm_mon = sysTime.wMonth - 1;
    assert ((result.tm_mon >= 0) && (result.tm_mon <= 11));
-   result.tm_year = sysTime.wYear - 1900; assert (time.tm_year >= 0);
+   result.tm_year = sysTime.wYear - 1900; assert (result.tm_year >= 0);
    result.tm_yday = 0;                                                // TODO?
    result.tm_isdst = 1;
 }
@@ -173,7 +180,7 @@ void* File::open  (const char* mode) const throw (std::string) {
    TRACE5 ("File::open  (const char*) const - " << file);
    assert (mode);
 
-   FILE* pFile (fopen (file.c_str (), mode));
+   FILE* pFile = fopen (file.c_str (), mode);
    if (pFile == NULL)
       throwErrorText (N_("Error opening file `%1'! Reason: %2"));
 
@@ -237,7 +244,7 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 /*--------------------------------------------------------------------------*/
 bool File::isEOF (void* file) const throw (std::string) {
    assert (file);
-   return feof (static_cast <FILE*> (file));
+   return feof (static_cast <FILE*> (file)) != 0;
 }
 
 /*--------------------------------------------------------------------------*/

@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.37 2002/05/09 08:12:00 markus Rel $
+//$Id: DirSrch.cpp,v 1.38 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -30,13 +30,12 @@
 #if SYSTEM == UNIX
 #  include <unistd.h>
 #elif SYSTEM == WINDOWS
-#  include <ctype.h>
-#  include <string.h>
+#  include <sys/types.h>
+#  include <sys/stat.h>
 #endif
 
 #include <errno.h>
 
-#define DEBUG 0
 #include "File.h"
 #include "Trace_.h"
 #include "DirSrch.h"
@@ -55,7 +54,7 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
 #endif
 {
    TRACE9 ("DirectorySearch::DirectorySearch ()");
-   searchDir += File::DIRSEPERATOR;
+   searchDir += File::DIRSEPARATOR;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -238,10 +237,10 @@ void DirectorySearch::setSearchValue (const std::string& search) {
    searchFile = search;
 
    unsigned int len (search.length () - 1);
-   if (searchFile[len] == File::DIRSEPERATOR)
+   if (searchFile[len] == File::DIRSEPARATOR)
       searchFile.replace (len, 1, 0, '\0');
 
-   len = searchFile.rfind (File::DIRSEPERATOR);
+   len = searchFile.rfind (File::DIRSEPARATOR);
    if (len != std::string::npos) {
       searchDir = searchFile;
       TRACE9 ("DirectorySearch::setSearchValue - 1: " << searchDir);
@@ -252,14 +251,14 @@ void DirectorySearch::setSearchValue (const std::string& search) {
    }
    else {
       if (searchFile.empty ()) {
-         searchDir = File::DIRSEPERATOR;
+         searchDir = File::DIRSEPARATOR;
          searchFile = '.';
          offStrip = 1;
       }
       else {
          offStrip = 2;
          searchDir = '.';
-         searchDir += File::DIRSEPERATOR;
+         searchDir += File::DIRSEPARATOR;
       }
    }
    TRACE9 ("DirectorySearch::setSearchValue - checkIntegrity () = " << checkIntegrity ());
@@ -302,11 +301,12 @@ bool DirectorySearch::isValid (const std::string& dir) {
 
 #if SYSTEM == WINDOWS
    std::string temp (dir);
-   if (temp[temp.length () - 1] == File::DIRSEPERATOR)
+   if (temp[temp.length () - 1] == File::DIRSEPARATOR)
       temp.replace (temp.length () - 1, 1, 0, '\0');
-   return (!stat (temp.c_str (), &file) && (file.st_mode & S_IFDIR));
+   return (!::stat (temp.c_str (), &file) && (file.st_mode & _S_IFDIR));
+#else
+   return (!::stat (dir.c_str (), &file) && (file.st_mode & S_IFDIR));
 #endif
-   return (!stat (dir.c_str (), &file) && (file.st_mode & S_IFDIR));
 }
 
 /*--------------------------------------------------------------------------*/

@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.3 2002/04/09 20:05:09 markus Rel $
+//$Id: IDirSrch.cpp,v 1.4 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -27,7 +27,6 @@
 
 #include <gzo-cfg.h>
 
-#define DEBUG 0
 #include "File.h"
 #include "Trace_.h"
 #include "IDirSrch.h"
@@ -73,7 +72,7 @@ static const int FILE_HIDDEN_    = (1 << (sizeof (long) * 8 - 1));
 
 static const int FILE_NORMAL_    = ~FILE_ATTRIBUTE_DIRECTORY;
 static const int FILE_READONLY_  = FILE_ATTRIBUTE_READONLY;
-static const int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY,
+static const int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY;
 static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN;
 #else
 #  error Not implemented yet!
@@ -81,6 +80,13 @@ static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN
 
 #define ADDSYSATTRIB(result, sample, flag) if (sample & IDirectorySearch::flag)\
                                               result |= flag##_;
+
+
+
+const int IDirectorySearch::FILE_NORMAL    = 1;
+const int IDirectorySearch::FILE_READONLY  = IDirectorySearch::FILE_NORMAL << 1;
+const int IDirectorySearch::FILE_DIRECTORY = IDirectorySearch::FILE_READONLY << 1;
+const int IDirectorySearch::FILE_HIDDEN    = IDirectorySearch::FILE_DIRECTORY << 1;
 
 
 /*--------------------------------------------------------------------------*/

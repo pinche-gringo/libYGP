@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.1 2002/03/23 19:13:06 markus Rel $
+//$Id: Entity.h,v 1.2 2002/05/24 06:52:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <string>
 #include <vector>
-#include <algo.h>
+#include <algorithm>
 
 #ifndef NO_HANDLE
 #  include "Handle.h"
@@ -38,8 +38,8 @@ class Entity {
 
    void addAttribute (const IAttribute& newAttr) {
 #ifndef NDEBUG
-      if (find (attributes.begin (), attributes.end (), &newAttr))
-	 assert (0);
+      if (std::find (attributes.begin (), attributes.end (), &newAttr))
+         assert (0);
 #endif
       attributes.push_back (&newAttr);
    }

@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.5 2002/04/09 20:06:38 markus Rel $
+// $Id: RemoteFile.cpp,v 1.6 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -27,7 +27,6 @@
 
 #include <gzo-cfg.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Internal.h"
 #include "ANumeric.h"
@@ -69,7 +68,7 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
       sock.write (buffer);
       sock.read (buffer);
    }
-   catch (domain_error& error) {
+   catch (std::domain_error& error) {
       std::string err (error.what ());
       throw err;
    }
@@ -86,6 +85,7 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
    }
    else
       handleServerError (buffer.data ());
+   return NULL;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -104,7 +104,7 @@ void RemoteFile::close (void* file) const throw (std::string) {
       sock.write (buffer);
       sock.read (buffer);
    }
-   catch (domain_error& error) {
+   catch (std::domain_error& error) {
       std::string err (error.what ());
       throw err;
    }
@@ -140,7 +140,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
       sock.write (text);
       sock.read (text);
    }
-   catch (domain_error& error) {
+   catch (std::domain_error& error) {
       std::string err (error.what ());
       throw err;
    }
@@ -156,6 +156,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
    }
    else
       handleServerError (text.data ());
+   return NULL;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -187,7 +188,7 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
       sock.write (text);
       sock.read (text);
    }
-   catch (domain_error& error) {
+   catch (std::domain_error& error) {
       std::string err (error.what ());
       throw err;
    }
@@ -197,6 +198,7 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
       return length;
    else
       handleServerError (text.data ());
+   return NULL;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -215,7 +217,7 @@ bool RemoteFile::isEOF (void* file) const throw (std::string) {
       sock.write (buffer);
       sock.read (buffer);
    }
-   catch (domain_error& error) {
+   catch (std::domain_error& error) {
       std::string err (error.what ());
       throw err;
    }
@@ -273,6 +275,6 @@ void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnsw
    }
    catch (std::string& error) {
       TRACE ("RemoteFile::handleServerMsg (const AttributeParse&, const char*) const"
-             "\n - Error parsing attributes: " << error);
+             "\n - Error parsing attributes: " << error.c_str ());
    }
 }

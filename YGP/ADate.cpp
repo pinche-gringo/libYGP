@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.19 2002/04/09 20:02:50 markus Rel $
+//$Id: ADate.cpp,v 1.20 2002/05/24 06:52:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -41,7 +41,6 @@
 
 #include <stdexcept>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Internal.h"
 
@@ -108,7 +107,7 @@ ADate& ADate::operator= (const ADate& other) {
 //Parameters: pDate: Object to assign as char-string
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
-ADate& ADate::operator= (const char* pDate) throw (invalid_argument) {
+ADate& ADate::operator= (const char* pDate) throw (std::invalid_argument) {
    assert (pDate);
    assert (!checkIntegrity ());
 
@@ -171,7 +170,7 @@ std::string ADate::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ADate::readFromStream (istream& in) throw (invalid_argument) {
+void ADate::readFromStream (istream& in) throw (std::invalid_argument) {
    static unsigned char ADate::*const targets[] = { &ADate::day, &ADate::month };
 
    day = month = 0;
@@ -198,8 +197,8 @@ void ADate::readFromStream (istream& in) throw (invalid_argument) {
       undefine ();
       if (i) {
          std::string error (_("Position %1"));
-         error.replace (error.find ("%1"), 2, char (i + '0'));
-         throw invalid_argument (error);
+         error.replace (error.find ("%1"), 2, 1, char (i + '0'));
+         throw std::invalid_argument (error);
       }
    }
    else {
@@ -328,6 +327,7 @@ ADate& ADate::sub (signed char Day, signed char Month, int Year) {
       }
 
       assert (!checkIntegrity ());
+      assert (isDefined ());
    }
    return *this;
 }
@@ -443,7 +443,7 @@ bool ADate::minAdapt () {
       month = 12 - (mon % 12);
    }
    
-   TRACE9 ("ADate::minAdapt (month dapted (1)): " << toString ());
+   TRACE9 ("ADate::minAdapt (month adapted (1)): " << toString ());
 
    while ((day < 1) || (day > maxDayOf ())) {       // Adapt date if underflow
       --month;

@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.19 2002/05/09 06:58:13 markus Rel $
+//$Id: PathDirSrch.cpp,v 1.20 2002/05/24 06:52:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,7 +28,6 @@
 
 #include "Internal.h"
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "PathDirSrch.h"
 
@@ -53,10 +52,10 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
    TRACE9 ("PathDirectorySearch::find (unsigned long) - Full:  "
            << searchPath.data () << " -> " << srch);
 
-   const File* rc (NULL);
+   const File* rc = NULL;
    do {
       // Build filename with next (= first on first call) node of path
-      std::string node (searchPath.getNextExpandedNode ());
+      std::string node = searchPath.getNextExpandedNode ();
       if (node.empty ()) {
 	 clearEntry ();
          return NULL;
@@ -85,7 +84,7 @@ const File* PathDirectorySearch::next () {
    TRACE5 ("PathDirectorySearch::next () - searchPath::actNode ()="
 	   << searchPath.getActNode ());
 
-   const File* tmp (DirectorySearch::next ());
+   const File* tmp = DirectorySearch::next ();
    while (!tmp) {
       if (searchPath.getActNode ().empty ()) {
          clearEntry ();
@@ -117,8 +116,8 @@ int PathDirectorySearch::checkIntegrity () const {
 //            UNIX).
 /*--------------------------------------------------------------------------*/
 bool PathDirectorySearch::makePath (std::string& path, const std::string& file) {
-   if (path[path.length () - 1] != File::DIRSEPERATOR)
-      path += File::DIRSEPERATOR;
+   if (path[path.length () - 1] != File::DIRSEPARATOR)
+      path += File::DIRSEPARATOR;
    path += file;
    return true;
 }
