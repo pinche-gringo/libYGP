@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.9 2002/12/25 04:26:50 markus Exp $
+# $Id: mdocu.pl,v 1.10 2002/12/25 05:03:21 markus Rel $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -65,13 +65,13 @@ my $version=0;
 
 # Make some conversions for HTML
 sub convertToHTML ($) {
-  if ($_[0]) {
-     $_[0] =~ s/&/&amp;/g;
-     $_[0] =~ s/</&lt;/g;
-     $_[0] =~ s/>/&gt;/g;
-     $_[0] =~ s/\"/&quot;/g;
-   }
-   return $_[0]
+    if ($_[0]) {
+        $_[0] =~ s/&/&amp;/g;
+        $_[0] =~ s/</&lt;/g;
+        $_[0] =~ s/>/&gt;/g;
+        $_[0] =~ s/\"/&quot;/g;
+    }
+    return $_[0]
 }
 
 Getopt::Long::Configure ("bundling", "gnu_getopt", "no_ignore_case");
@@ -82,13 +82,13 @@ GetOptions ('verbose|v+' => \$verbose, 'version|V' => \$version,
 pod2usage (1) if ($help);
 
 if ($version) {
-  $0 =~ s!.*/(.*)!$1!;
-  my $rev = '$Revision: 1.9 $ ';
-  $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
-  print "$0 - V0.3.00     ($rev)\n";
-  print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
-         "Distributed under the terms of the GNU General Public License\n" if ($verbose);
-  exit (1);
+    $0 =~ s!.*/(.*)!$1!;
+    my $rev = '$Revision: 1.10 $ ';
+    $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
+    print "$0 - V0.3.00     ($rev)\n";
+    print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
+          "Distributed under the terms of the GNU General Public License\n" if ($verbose);
+    exit (1);
 }
 
 my $purpose;
@@ -166,10 +166,11 @@ while (<>) {
         print ("      <dd><p>$purpose</p></dd>\n");
         my @params;
         if ($values{'Parameters'}) {
-            print ("      <dd><dl><dt><b>Parameters</b></dt>\n");
-            my $follow = 0;
-            foreach (split /\n+/, $values{'Parameters'}) {
-                convertToHTML ($_);
+           $values{'Parameters'} =~ s/\s*$//g;
+           print ("      <dd><dl><dt><b>Parameters</b></dt>\n");
+           my $follow = 0;
+           foreach (split /\n+/, $values{'Parameters'}) {
+               convertToHTML ($_);
 
                 if (/^\w+:/) {
                   /^(\w+)(.*)/;
@@ -189,12 +190,13 @@ while (<>) {
                   print ("\n            $_");
                 }
             }
-            print ("</dl></dd>\n");
+            print ("</dd></dl></dd>\n");
         }
 
         # Print out the rest of the stuff
         foreach my $i ('Returns', 'Requires', 'Remarks', 'Throws') {
             if ($values{$i}) {
+                $values{$i} =~ s/\s*$//g;
                 convertToHTML ($values{$i});
                 print ("      <dd><dl><dt><b>$i</b></dt>\n");
                 foreach my $p (@params) {
