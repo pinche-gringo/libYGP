@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.25 2003/05/23 17:50:24 markus Rel $
+//$Id: CRegExp.h,v 1.26 2003/06/13 18:18:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,67 +47,83 @@
 
 #include <RegExp.h>
 
-// Class to compare text with regular expressions. Here is a little
-// intruduction into the supported constructs; see regex(7) or the GNU regexp
-// manual for a better description.
-//
-// Note: This class implements regular expressions as the functions in regex.h
-//       do (at least in glibc 2.2.4 (as included in SuSE 7.3)), which might
-//       differ from that what you expect from the reading (or how - e.g. -
-//       emacs behaves). But I have no fucking idea what is the *real* standard
-//       and for testing it was the easiest to follow an existing implementation!
-//
-// But here's the promised short-intruduction:
-//
-// '*' Is not a construct by itself; it is a suffix which repeats the (smallest
-//     possible) preceding regular expression as many times as possible.
-// '+' is a suffix character similar to '*', except that it requires that the
-//     preceeding regular expression is matched at least once.
-// '?' is a suffix character similar to '*', except that it requires that the
-//     preceeding regular expression is matched either once or not at all.
-// '.' matches any single character.
-// {i}, {i,}, {i,j} the previous regular expression must be repeated either
-//                  exactly i times; i times or more; i through j (inclusive)
-//                  times.
-// '^' Matches an empty string in the beginning of the line.
-// '$' Similar to the caret (^) this matches the end of the line.
-// '\' - Quotes the following character (including the backlash (\) itself:
-//     - '\DIGIT' to repeat the matched text of the DIGIT'th '(...)-construct.
-//     - '\b' matches the empty string, provided its at the beginning or the
-//            end of a word.
-//     - '\B' matches the empty string, provided its not at the beginning or
-//            the end of a word.
-//     - '\<' matches the empty string, provided its at the beginning of a word.
-//     - '\>' matches the empty string, provided its at the end of a word.
-//     - '\w' matches any word-constituent character.
-//     - '\W' matches any character that is not word-constituent.
-// '[<match>] matches the characters specified in match.
-// '[^<match>] or [!<match>] matches the characters not specified in match.
-//     <match> ::= | <char><match> | <range><match> | <character-class><match> | {}
-//     <range> ::= <low>-<high>
-//     <character-class> ::= [:<class>:]
-//     <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
-//                 | print | punct | space | upper
-//     Note: To include the character square bracket ([) in the match, it
-//           must be the first character; similar to the match-negators caret (^)
-//           and exclamaition-mark (!), wich must *not* be the first character
-//           to get included.
-// '|' seperates two alternatives.
-// '(...)' groups regular expressions and marks the matching substring
-//         for future reference.
-//
-// If the class is compiled with ENHANCED_REGEXP defined the following constructs
-// are also supported (Warning: Those things are not regulary tested):
-//
-// <match> ::= ... | <wordborder><match>
-//    <wordborder> ::= [:<:] | [:>:]             (Matches beginn or end of word)
-//
-//
-// Note: The pExpression-parameter is stored as is (and not copied); so take
-//       care it is valid during the life-time of the object.
-//
-// Use the matches-method of the parent (RegularExpression) to check if the
-// object matches some data.
+/**Class to compare text with (UNIX-style) regular expressions. This is just
+   a little intruduction into the supported constructs; see regex(7) or the
+   GNU regexp manual for a better description.
+  
+   \b Note: This class implements regular expressions as the functions in \c
+         regex.h do (at least in glibc 2.2.4), which might differ from that
+         what you expect from the reading (or how - e.g. - emacs behaves). But
+         I have no idea what is the *real* standard and for testing it was the
+         easiest to follow an existing implementation!
+
+   - <b>*</b> (Asterisk) Is not a construct by itself; it is a suffix which
+         repeats the (smallest possible) preceding regular expression as many
+         times as possible.
+
+   - <b>+</b> (Plus) is a suffix character similar to '*', except that it
+         requires that the preceeding regular expression is matched at least
+         once.
+
+   - <b>?</b> (Question mark) is a suffix character similar to '*', except
+         that it requires that the preceeding regular expression is matched
+         either once or not at all.
+
+   - <b>.</b> (Dot) matches any single character.
+
+   - <b>{i}, {i,}, {i,j}</b> the previous regular expression must be repeated
+         either exactly i times; i times or more; i through j (inclusive)
+         times.
+
+   - <b>^</b> (Caret) Matches an empty string in the beginning of the line.
+
+   - <b>$</b> (Dollar) Similar to the caret (^) this matches the end of the
+        line.
+
+   - <b>\\</b> (Backslash):
+     - Quotes the following character (including the backlash (\) itself:
+     - <b>\DIGIT</b> to repeat the matched text of the DIGIT'th
+         (...)-construct.
+     - <b>\b</b> matches the empty string, provided its at the beginning or the
+            end of a word.
+     - <b>\B</b> matches the empty string, provided its not at the beginning or
+            the end of a word.
+     - <b>\\\<</b> matches the empty string, provided its at the beginning of a word.
+     - <b>\\\></b> matches the empty string, provided its at the end of a word.
+     - <b>\w</b> matches any word-constituent character.
+     - <b>\W</b> matches any character that is not word-constituent.
+
+   - \b >[<match>] matches the characters specified in match.
+
+   - '\b [^<match>] or \b [!<match>] matches the characters not specified in match.
+       <match> ::= | <char><match> | <range><match> | <character-class><match> | {}<br>
+       <range> ::= <low>-<high><br>
+       <character-class> ::= [:<class>:]<br>
+       <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
+                   | print | punct | space | upper</p><p>
+       \b Note: To include the character square bracket ([) in the match, it
+             must be the first character; similar to the match-negators caret
+             (^) and exclamaition-mark (!), wich must \b not be the first
+             character to get included.
+
+   - <b>|</b> seperates two alternatives.
+
+   -  <b>(...)</b> groups regular expressions and marks the matching substring
+             for future reference.
+
+   If the class is compiled with \c ENHANCED_REGEXP defined the following
+   constructs are also supported (Warning: Those things are not regulary
+   tested):
+
+   - <match> ::= ... | <wordborder><match><br>
+        <wordborder> ::= [:<:] | [:>:]           (Matches beginn or end of word)
+
+
+   \b Note: The \c pExpression-parameter is stored as is (and not copied); so
+         take care it is valid during the life-time of the object.
+
+   Use RegularExpression::matches to check if the object matches some data.
+*/
 class RegularExpression : public IRegularExpression {
  public:
    RegularExpression (const char* pRegExp) throw (std::string);
