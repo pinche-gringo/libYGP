@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.3 2003/10/19 03:16:35 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.4 2003/10/28 07:29:52 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -61,7 +61,8 @@ HTMLViewer* HTMLViewer::create (const std::string& file) throw (std::string) {
 /// \throw \c std::string in case of error
 //----------------------------------------------------------------------------
 HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
-    : XDialog (_("Help window"), XDialog::OK), htmlCtrl (gtkhtmlInitialize ())
+    : XDialog (Glib::locale_to_utf8 (_("Help window")), XDialog::OK)
+      , htmlCtrl (gtkhtmlInitialize ())
       , scrl (manage (new Gtk::ScrolledWindow)) {
    TRACE9 ("HTMLViewer::HTMLViewer (const std::string&) - " << file);
    Check1 (file.size ());
@@ -80,7 +81,7 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
       show ();
    }
    else {
-      std::string err (_("Can't display the HTML control!\n\nReason: %1"));
+      std::string err (Glib::locale_to_utf8 (_("Can't display the HTML control!\n\nReason: %1")));
       err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
       throw (err);
    }
@@ -107,15 +108,21 @@ void HTMLViewer::display (const std::string& file) throw (std::string) {
    std::string err;
    int rc (gtkhtmlDisplayFile (htmlCtrl, file.c_str ()));
    switch (rc) {
+   case 0:
+      break;
+
    case -1:
-      err = _("Can't display the HTML control!\n\nReason: %1");
+      err = Glib::locale_to_utf8 (_("Can't display the HTML control!\n\nReason: %1"));
       err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
       break;
 
    case -2:
-      err = _("Can't display the HTML document!\n\nReason: %1");
+      err = Glib::locale_to_utf8 (_("Can't display the HTML document!\n\nReason: %1"));
       err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
       break;
+
+   default:
+      throw (err);
    } // end-switch
 
    if (err.size ()) {
