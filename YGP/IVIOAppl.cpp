@@ -1,11 +1,11 @@
-//$Id: IVIOAppl.cpp,v 1.37 2004/01/15 06:26:30 markus Rel $
+//$Id: IVIOAppl.cpp,v 1.38 2004/01/16 04:34:07 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -196,6 +196,7 @@ int IVIOApplication::run () {
    catch (...) {
       std::cerr << name () << _("-warning: Unhandled exception!");
    }
+   return -2;
 }
 
 //-----------------------------------------------------------------------------
