@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.5 2002/12/01 08:37:42 markus Rel $
+//$Id: AttrParse.h,v 1.6 2003/02/13 06:47:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 #include <string>
 #include <vector>
