@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.5 2002/12/15 22:33:30 markus Rel $
+# $Id: mgeni,v 1.6 2003/01/15 01:26:56 markus Exp $
 
 # Script to generate metainfo for attributes to classes
 
@@ -42,7 +42,7 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.5 $'
+            rev='$Revision: 1.6 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
@@ -80,7 +80,7 @@ fi
 
  
 # Processes the passed files
-awk 'BEGIN { inComment = 0; foundClass = 0; OFS = "" }
+awk 'BEGIN { inComment = 0; foundClass = 0; OFS = ""; ORS = ""; firstVal = 1; }
      { if (foundClass == 0) {
           if (inComment == 1) {
              pos = index ($0, "*/");
@@ -123,7 +123,7 @@ awk 'BEGIN { inComment = 0; foundClass = 0; OFS = "" }
              }
              foundClass = 1;
 
-             print (className, "::", className, " () {")
+             print (className, "::", className, " ()\n")
              FS = ";[ \t]*"
           }
           else
@@ -131,19 +131,23 @@ awk 'BEGIN { inComment = 0; foundClass = 0; OFS = "" }
         }
 
        if ($2 ~ /(\/\/|\/*)[[:blank:]]*%attrib%/) {
-          type = $1; name = $3
+          type = $1; name = $3; value = $4
           sub (/^[[:blank:]]*/, "", type)
           attr = type
           sub (/.*[[:blank:]]/, "", attr)
           sub (/[[:blank:]]+[^[:blank:]]*$/, "", type)
-          if (name=="")
-             name=attr;
-          if ((name!="") && (type!="") && (attr!=""))
-             print "   addAttribute (*new Attribute<", type, "> (\"", name, "\", ", attr, "));"
+          if (name == "")
+             name = attr;
+          if (value != "") {
+             print ("   ", ((firstVal == 1) ? ":" : ","), " ", attr, " (", value, ")\n");
+             firstVal = 0;
+          }
+          if (attr != "")
+             following = following "   addAttribute (*new Attribute<" type "> (\"" name "\", " attr "));\n"
        }
      }
      END { if (foundClass == 1) {
-              print ("}\n\n")
+              print ("{\n", following, "}\n")
               print (className, "::~", className, " () {\n}")
            } }
  ' ${files[0]} > ${files[1]}
