@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.9 2001/09/29 17:08:04 markus Exp $
+//$Id: FileRExp.h,v 1.10 2002/04/11 18:57:47 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 //     <range> ::= <low>-<high>
 //     <character-class> ::= [:<class>:]
 //     <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
-//                 | print | punct | space | upper
+//                 | print | punct | upper
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
 //       care it is valied during the life-time of the object.
