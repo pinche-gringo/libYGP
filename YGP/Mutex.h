@@ -1,7 +1,7 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-//$Id: Mutex.h,v 1.5 2003/07/01 05:16:28 markus Rel $
+//$Id: Mutex.h,v 1.6 2003/09/05 02:38:04 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,12 +45,12 @@
 class Mutex {
  public:
 #ifdef HAVE_LIBPTHREAD
-   /// Constructor; creates an (unlicked) mutex
+   /// Constructor; creates an (unlocked) mutex
    Mutex ()  { pthread_mutex_init (&id, NULL); }
    /// Destructor; the mutex is destroyed
    ~Mutex () { pthread_mutex_destroy (&id); }
 
-   /// Tries o lock the mutex, but without blocking, if it is already locked
+   /// Tries to lock the mutex, but without blocking, if it is already locked
    bool trylock () { return !pthread_mutex_trylock (&id); }
    /// Lock the mutex; the thread blocks, if it is already locked
    void lock () { pthread_mutex_lock (&id); }
@@ -62,7 +62,7 @@ class Mutex {
    /// Destructor; the mutex is destroyed
    ~Mutex () { ReleaseMutex (hMutex); }
 
-   /// Tries o lock the mutex, but without blocking, if it is already locked
+   /// Tries to lock the mutex, but without blocking, if it is already locked
    bool trylock () { return WaitForSingleObject (hMutex, 0) == WAIT_OBJECT_0; }
    /// Lock the mutex; the thread blocks, if it is already locked
    void lock () { WaitForSingleObject (hMutex, INFINITE); }
