@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.14 2002/10/10 05:46:52 markus Exp $
+//$Id: ATime.cpp,v 1.15 2002/11/04 00:51:18 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -178,11 +178,11 @@ void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
 
       this->*(targets[i >> 1]) += (ch & 0xf);
       if (!(i & 1))
-	 this->*(targets[i >> 1]) *= 10;
+         this->*(targets[i >> 1]) *= 10;
    } // endfor
 
-   TRACE9 ("ATime::readFromStream (istream&): Read: " << (int)hour << '.' << (int)min_
-           << '.' << (int)sec);
+   TRACE9 ("ATime::readFromStream (istream&): Read: " << (int)hour << ':' << (int)min_
+           << ':' << (int)sec);
 
    if ((i < 6) || checkIntegrity ()) {
       undefine ();
@@ -307,21 +307,20 @@ long ATime::compare (const ATime& other) {
    assert (!checkIntegrity ()); assert (!other.checkIntegrity ());
 
    // Both sides are defined -> return (approximated) difference
-   if (isDefined () && other.isDefined ()) {
-     TRACE5 ("ATime::compare -> " << (((hour - other.hour) * 24
-                                       + (min_ - other.min_) * 60)
-                                      + (sec - other.sec)));
+   if (isDefined ()) {
+      if (other.isDefined ()) {
+         TRACE5 ("ATime::compare -> " << (((hour - other.hour) * 24
+                                           + (min_ - other.min_) * 60)
+                                          + (sec - other.sec)));
 
-      return ((hour - other.hour) * 24 + (min_ - other.min_) * 60)
-              + (sec - other.sec);
+         return ((hour - other.hour) * 24 + (min_ - other.min_) * 60)
+            + (sec - other.sec);
+      }
+      else
+         return 1;                    // this defined, other not: Return bigger
    }
-
-   if (isDefined ())                             // this defined: Return bigger
-      return 1;
-   else if (other.isDefined ())                // other defined: Return smaller
-      return -1;
    else
-      return 0;                               // Both not defined: Return equal
+      return other.isDefined () ? -1 : 0;
 }
 
 /*--------------------------------------------------------------------------*/
