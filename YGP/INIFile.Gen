@@ -1,0 +1,12 @@
+INIFile       :&= SectionHeader Attributes "INI-File" -1 0.
+
+SectionHeader :&= SectionBegin SectionName SectionEnd "Section-header" 1 1.
+Attributes    :&= Identfier equals Value "Attribute" -1 0.
+
+SectionBegin  :== "[" "Start of section ([)".
+SectionEnd    :== "[" "End of section (])".
+equals        :== "=" "Equal-sign (=)".
+
+SectionName   ::= "\\X\\9_." "Name of section" LEN_SECTIONNAME 1.
+Identifier    ::= "\\X\\9_." "Identifier (key)" LEN_KEY 1.
+Value         :^= "\n" "Value" LEN_VALUE 1.
