@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.5 2000/02/06 22:29:34 Markus Exp $
+// $Id: XStream.h,v 1.6 2000/03/12 12:51:46 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,12 +40,18 @@
 template <class T> struct extStream : private extStreambuf, public T {
  public:
    // Manager-functions
-   extStream () : extStreambuf (), T () { }
-   extStream (T& source) : extStreambuf (), T (source) { }
-   ~extStream () { }
+   extStream () : extStreambuf (), T (), oldBuf (NULL) { }
+   extStream (T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
+   ~extStream () {
+#if defined (__BORLANDC__) || defined (_MSC_VER)
+      ios::bp = oldBuf;              // rdbuf (buffer) not defined in MSC, BCC
+#else
+      ios::rdbuf (oldBuf);                  // This function is defined in GCC
+#endif
+   }
 
    void init () {
-      setSource (rdbuf ());
+      setSource (oldBuf = rdbuf ());
 #if defined (__BORLANDC__) || defined (_MSC_VER)
       ios::bp = this;                // rdbuf (buffer) not defined in MSC, BCC
 #else
@@ -61,6 +67,8 @@ template <class T> struct extStream : private extStreambuf, public T {
    // Prohibited manager functions
    extStream (const extStream&);
    const struct extStream& operator= (const extStream&);
+
+   streambuf* oldBuf;
 };
 
 
