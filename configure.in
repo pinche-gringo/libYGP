@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.29 $)
+AC_REVISION($Revision: 1.30 $)
 
 AC_INIT()
 
@@ -76,19 +76,19 @@ if test "$ac_cv_header_regex_h" != "yes"; then
    AC_CHECK_HEADERS(regexp.h)
 fi
 
-dnl AC_MSG_CHECKING(Checking for header CORBA.h)
-dnl AC_CACHE_VAL(ac_cv_header_CORBA_h, ac_cv_header_CORBA_h=$ac_cv_header_CORBA_h)
-dnl if test -z $ac_cv_header_CORBA_h; then
-dnl AC_TRY_COMPILE([#include <CORBA.h>], [],
-dnl    [ ac_cv_header_CORBA_h=yes],
-dnl    [ ac_cv_header_CORBA_h=no])
-dnl fi
-dnl AC_MSG_RESULT([$ac_cv_header_CORBA_h])
-dnl if test "$ac_cv_header_CORBA_h" == "yes"; then
-dnl    SUBDIRS="$SUBDIRS CORBA"
-dnl else
-dnl    AC_WARN(CORBA is not installed; subdir CORBA will not be made)
-dnl fi
+AC_MSG_CHECKING(Checking for header CORBA.h)
+AC_CACHE_VAL(ac_cv_header_CORBA_h, ac_cv_header_CORBA_h=$ac_cv_header_CORBA_h)
+if test -z $ac_cv_header_CORBA_h; then
+AC_TRY_COMPILE([#include <CORBA.h>], [],
+   [ ac_cv_header_CORBA_h=yes],
+   [ ac_cv_header_CORBA_h=no])
+fi
+AC_MSG_RESULT([$ac_cv_header_CORBA_h])
+if test "$ac_cv_header_CORBA_h" == "yes"; then
+   SUBDIRS="$SUBDIRS CORBA"
+else
+   AC_WARN(CORBA is not installed; subdir CORBA will not be made)
+fi
 
 AC_MSG_CHECKING(Checking for Gtk-- - version)
 ver=`gtkmm-config --version`
@@ -120,4 +120,4 @@ AC_FUNC_CLOSEDIR_VOID
 AC_CHECK_FUNCS(strfmon)
 
 AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile \
-           CORBA/Makefile intl/Makefile po/Makefile.in])
+           X-windows/Icons/Makefile CORBA/Makefile intl/Makefile po/Makefile.in])
