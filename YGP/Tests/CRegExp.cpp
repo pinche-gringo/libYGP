@@ -1,14 +1,14 @@
-// $Id: CRegExp.cpp,v 1.2 2002/04/16 07:25:47 markus Exp $
+// $Id: CRegExp.cpp,v 1.3 2002/04/19 07:09:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,8 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <assert.h>
-
-#include <iostream.h>
 
 #include <Trace_.h>
 
@@ -61,7 +59,7 @@ int foundRegExp (const char* pRegExp) {
 
 int foundValue (const char* pValue) {
    assert (pValue);
-   check (!strRE.empty ());
+   assert (strRE.size ());
    TRACE1 ("Found value: " << pValue);
    strVal = pValue;
    removeEscapeChar (strVal);
@@ -71,9 +69,10 @@ int foundValue (const char* pValue) {
 
 int foundResult (const char* pResult) {
    assert (pResult);
+   PRINT (strRE << " matches " << strVal << " == " << pResult << '\n');
    if ((*pResult != '0') != match)
-      ERROROUT ("RegExp (\"" << strRE.c_str () << "\").matches (\""
-		<< strVal.c_str () << "\") = " << pResult);
+      ERROROUT ("RegExp (\"" << strRE << "\").matches (\"" << strVal
+                << "\") == " << pResult);
 
    return ParseObject::PARSE_OK;
 }
@@ -88,10 +87,14 @@ int main (int argc, char* argv[]) {
    try {
       if (argc > 1) { // If a parameter is passed, treat it as regexp to check
          regexp = argv[1];
-         int rc (regexp.matches ((argc > 2) ? argv[2] : ""));
-         if (rc != ((argc > 3) ? (*argv[3] - '0') : 1))
+
+         const char* pMatch ((argc > 2) ? argv[2] : "");
+         int result ((argc > 3) ? (*argv[3] - '0') : 1);
+         PRINT (argv[1] << " matches " << pMatch << " == " << result << '\n');
+         int rc (regexp.matches (pMatch));
+         if (rc != result)
             ERROROUT ("RegExp (\"" << argv[1] << "\").matches (\""
-                      << argv[2] << "\") = " << rc);
+                      << pMatch << "\") == " << result);
          return !rc;
       }
 
