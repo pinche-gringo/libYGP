@@ -1,7 +1,7 @@
 #ifndef STACKTRC_H
 #define STACKTRC_H
 
-//$Id: StackTrc.h,v 1.1 2000/12/07 20:35:34 Markus Exp $
+//$Id: StackTrc.h,v 1.2 2000/12/07 21:16:59 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@
 extern "C" {
 #endif
 
-extern void dumpStack ();
+extern void handleSignal (int signal);           // Signalhandler; dumps stack
+extern void dumpStack ();                // Writes the sequence of the callers
 
 #ifdef __cplusplus
 }

@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.1 2000/12/07 20:35:34 Markus Exp $
+// $Id: StackTrc.cpp,v 1.2 2000/12/07 21:16:59 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -29,15 +29,27 @@
 #include <alloc.h>
 #include <assert.h>
 
+#include <signal.h>
+
 #include "Log.h"
 #include "StackTrc.h"
 
 // Define for logging (printf for testing; LOGINFO for real)
-//#define PRINT LOGINFO
-#define PRINT puts
+#define PRINT LOGINFO
+//#define PRINT puts
 
 
 extern "C" {
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Signalhandler; dumps stack when signal is caught
+//Parameters: signal: Number of signal caught
+//Remarks   : A stacktrace might be useful (only?) after a segmentation fault
+/*--------------------------------------------------------------------------*/
+void handleSignal (int signal) {
+   assert (signal == SIGSEGV);       // Check if segmentation-fault (Usefull?)
+   dumpStack ();
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Dumps the calling-sequence into the log-file
