@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.14 2002/11/10 23:07:47 markus Rel $
+//$Id: INIFile.h,v 1.15 2003/01/08 22:45:11 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 // Key3=03012000
 //
 // Every key must be inside a section (which means after a section-entry). A
-// section is ended with the begin of a new section.
+// section is ended with the start of a new section.
 //
 // There are some predefined macros to make the generation of the
 // data-structure to parse an INI-file easier. They must be used in
@@ -60,6 +60,14 @@
 //
 //      Note: This macro defines a variable (of type INIAttribute<type>) called name_.
 //
+//INILIST(name)
+//      Defines a section to parse a list. Both the section and the variable
+//      containing the list are called name.
+//
+//INILIST2(section, name)
+//      Defines a section to parse a list. The section in the INI file is called
+//      section and its values are stored in the array (vector) name.
+//
 // To parse the INI-file above use the following commands:
 //
 //    int Key1;
@@ -73,6 +81,7 @@
 //    INISECTION (Section2);
 //    INIATTR (Section2, ADate, Key3);
 
+#include <errno.h>
 #include <stdlib.h>
 
 #include <string>
@@ -96,6 +105,9 @@ class Entity;
                              (section).addAttribute (attr##_);
 #define INIATTR2(section, type, attr, name) Attribute<type> name##_ (#name, (attr)); \
                              (section).addAttribute (name##_);
+#define INILIST(name, type)  INIList<type> name (#name, name); _inifile_.addSection (name);
+#define INILIST2(section, type, name) INIList<type> section (#section, name); \
+                             _inifile_.addSection (section);
 #define INIFILE_READ()       _inifile_.read ()
                             
 
@@ -125,20 +137,20 @@ class INISection {
 
  protected:
    virtual int foundSection (const char* section, unsigned int );
-   virtual int foundKey (const char* key, unsigned int );
-   virtual int foundValue (const char* value, unsigned int );
+   virtual int foundKey (const char* key, unsigned int);
+   virtual int foundValue (const char* value, unsigned int);
+
+   const IAttribute* pFoundAttr;
+   std::vector<const IAttribute*> attributes;
 
  private:
    const char* pName;
-   std::vector<const IAttribute*> attributes;
 
    INISection (const INISection&);
    INISection& operator= (const INISection&);
 
    typedef OFParseAttomic<INISection> OMParseAttomic;
    typedef OFParseText<INISection>    OMParseText;
-
-   const IAttribute* pFoundAttr;
 
    // Parser-Objects
    ParseObject*   _Section[3];
@@ -150,6 +162,35 @@ class INISection {
    OMParseAttomic SectionName;
    OMParseAttomic Identifier;
    OMParseText    Value;
+};
+
+
+// Class to parse all entries of a section into a list (vector) of values
+template <class T>
+class INIList : public INISection {
+ public:
+   INIList (const char* name, vector<T>& values) : INISection (name), offset (0) {
+      addAttribute (*new AttributeList<T> (name, values)); }
+   ~INIList () { delete attributes.front (); }
+
+ protected:
+   virtual int foundKey (const char* key, unsigned int) {
+      Check3 (key);
+      errno = 0;
+      char* pEnd = NULL;
+      offset = strtol (key, &pEnd, 10); Check3 (pEnd);
+      pFoundAttr = attributes.front ();
+      return (errno || *pEnd) ? ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK; }
+
+   virtual int foundValue (const char* value, unsigned int len) {
+      Check3 (pFoundAttr);
+      return ((((AttributeList<T>*)pFoundAttr)->assign
+               (offset, value, len)
+               ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT));
+   }
+
+ private:
+   unsigned int offset;
 };
 
 
