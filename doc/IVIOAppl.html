@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: IVIOAppl.html,v 1.15 2002/12/25 05:05:31 markus Rel $ -->
+<!-- $Id: IVIOAppl.html,v 1.16 2003/02/14 20:36:51 markus Rel $ -->
 
 <html>
   <head>
@@ -34,6 +34,17 @@
       before the actual run of the program. Furthermore in case
       of a segmentation fault a stacktrace is dumped to the systemlog
       (or to stdout).</p>
+
+    <p>The INI file is named according the name-method, with the following
+      changes (depending on the operating system):</p>
+    <ul>
+      <li><b>UNIX</b>: Prepend the name with the home directory of the user and
+        make it "hidden", thus resulting in <code>~/.name</code></li>
+      <li><b>Windows</b>: Prepend the name with the home directory (as specified
+        by the environment variables <code>HOMEDRIVE</code> and <code>HOMEPATH</code>
+        and append a <code>.ini</code>, thus resulting in
+        <code>%HOMEDRIVE%%HOMEPATH%name.ini</code></li>
+    </ul>
 
     <p>Parameters starting with a minus (-) or (only in Windoze) with a slash
       (/) are treated as options and reported via the handleOption-method. Every
