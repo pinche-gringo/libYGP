@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.7 2003/12/22 04:40:22 markus Exp $
+//$Id: GTKViewer.c,v 1.8 2003/12/22 20:13:09 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -57,6 +57,11 @@ typedef struct _FetchContext {
    FILE* file;
 } FetchContext;
 
+typedef struct _JumpContext {
+   GtkWidget* view;
+   const char* anchor;
+} JumpContext;
+
 
 typedef HtmlDocument* (*PFNNEWDOCUMENT)();
 typedef gboolean (*PFNDOCUMENTOPEN)(HtmlDocument*, const gchar*);
@@ -85,6 +90,7 @@ static void gtkhtmlLinkClicked (HtmlDocument *doc, const gchar *url, GTKHTMLDATA
 static gboolean gtkhtmlLoadURL (HtmlDocument *doc, const gchar *url,
                                 HtmlStream *stream, GTKHTMLDATA* data);
 static gboolean dogtkhtmlLoadURL (FetchContext* context);
+static gboolean gtkhtmlJump2Anchor  (JumpContext* context);
 
 
 //----------------------------------------------------------------------------
@@ -223,15 +229,33 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
    else
       return -2;
 
-   TRACE2 ("Setting document - %s\n", anchor);
+   TRACE ("Setting document\n");
+   pfnSetDoc ((HtmlView*)ctrl, NULL);
    pfnSetDoc ((HtmlView*)ctrl, doc);
-   if (anchor && *anchor)
-      pfnJump2Anchor ((HtmlView*)ctrl, anchor);
+   if (anchor && *anchor) {
+      TRACE2 ("Jumping to anchor - %s\n", anchor);
+      JumpContext* context = g_new (JumpContext, 1);
+      context->view = ctrl;
+      context->anchor = anchor;
+      gtk_idle_add ((GtkFunction)gtkhtmlJump2Anchor, context);
+   }
    return 0;
 }
 
 //----------------------------------------------------------------------------
 // Returns the error of the last action (concerning accessing the DLL)
+// \param context: Context of the fetch
+// \return gboolean: FALSE (stop idle function)
+//----------------------------------------------------------------------------
+static gboolean gtkhtmlJump2Anchor  (JumpContext* context) {
+   pfnJump2Anchor ((HtmlView*)context->view, context->anchor);
+   g_free (context);
+   return FALSE;
+}
+
+//----------------------------------------------------------------------------
+// Returns the error of the last action (concerning accessing the DLL)
+// \return const char*: A text describing the last error
 //----------------------------------------------------------------------------
 const char* gtkhtmlGetError () {
     return dlerror ();
@@ -297,8 +321,7 @@ static gboolean gtkhtmlLoadURL (HtmlDocument *doc, const gchar *url,
 // Callback when the HTML parser founds an "inline" document (such as images,
 // or an external CSS style sheet)
 // \param context: Context of the fetch
-// \param url: URL of "included" file
-// \param stream: Stream, where to write the file to
+// \return gboolean: FALSE (stop idle function)
 //----------------------------------------------------------------------------
 static gboolean dogtkhtmlLoadURL (FetchContext* context) {
    TRACE ("Reading inline document\n");
@@ -309,6 +332,7 @@ static gboolean dogtkhtmlLoadURL (FetchContext* context) {
    while ((i = fread (buffer, 1, sizeof (buffer), context->file)) > 0)
       pfnWriteStream (context->stream, buffer, i);
    pfnCloseStream (context->stream);
+   fclose (context->file);
    g_free (context);
    return FALSE;
 }
