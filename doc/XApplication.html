@@ -1,6 +1,8 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: XApplication.html,v 1.3 2002/12/25 04:29:14 markus Rel $ -->
+<!-- $Id: XApplication.html,v 1.4 2003/02/17 04:42:29 markus Exp $ -->
 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
     <title>General Reference: XApplication</title>
@@ -10,9 +12,16 @@
     <meta name="DC.Creator" content="Markus Schwab">
     <meta name="DC.Date" content="2002-12-18">
     <meta name="DC.Rights" content="Anticopyright (A) 2002, distributed under the GNU General Public License">
+
+    <style type="text/css">
+      body { background-color:#F0F0F0; color:#000000; }
+      a:link { color:#0000FF; }
+      a:visited { color:#000077; }
+      a:active { color:#FF0000; }
+    </style>
   </head>
 
-  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+  <body>
     <table align=center border=0 cellspacing=10>
       <tr><td><a href="index.html">Class Index</a></td>
       <td><a href="cross_index.html">Cross Index</a></td></tr>
@@ -80,6 +89,42 @@
       (as Gtk-- needs a unique group for them, which must be allocated on the
       stack).</p>
 
+    <p>Furthermore there exists the posibility to add a help-menu consisting of:</p>
+
+    <ul>
+      <li>An about box (to be implemented by the
+        <a href="XApplication.html#showAboutbox"><b>showAboutbox</b></a>-method)</li>
+      <li>A content menu (accessible by pressing F1), which executes a browser
+        (default: galeon) with a file determinted by the
+        <a href="XApplication.html#getHelpfile"><b>getHelpfile</b></a>-method).
+        The help must therefore be in HTML-format</li>
+      <li>A menu to configure the browser to use</li>
+    </ul>
+
+    <p>To get the last two entries, the
+      <a href="XApplication.html#getHelpfile"><b>getHelpfile</b></a>-method
+      must not return NULL.</p>
+
+    <p><a name="Searchdetails"></a>The following algorithm is used to
+      determine the help file to display:</p>
+
+    <ol>
+      <li>If the file does not start with a single slash (/) and does not
+        specify the file-protocoll (starting with <i>file://</i>), just pass
+        the filename to the browser.</li>
+      <li>Else assume a local file to display and check the language settings:
+        If the environment variable <ocde>LANGUAGE</code> is not empty, take that
+        value, else the locale settings (<code>LC_MESSAGES</code>).</li>
+      <li>Take every (comma-separated) entry from the value of step 2 and append
+        it to the name of the help-file.</li>
+      <li>If step 2 does not specify a valid file name, cut the language specifier
+        at the last underscore (_). (E.g. change de_AT to de).</li>
+      <li>Repeat step 4 until either a file is found or the languge specifier
+        is empty. If this still does not succeed, procceed with step 3.</li>
+      <li>Nothing worked; search for the file "as is"</li>
+      <li>As last resort append an ".en" to the filename</li>
+    </ol>
+
     <hr noshade>
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
@@ -88,6 +133,9 @@
         <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pTitle</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple;">void</span></tt></tt> </td>
         <td><a href="XApplication.html#initI18n"><b>initI18n</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XApplication.html#initI18n2"><b>initI18n</b></a></td>
         <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">package</span></tt>, <tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">dir</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="XApplication.html#~XApplication"><b>~XApplication</b></a></td>
@@ -106,9 +154,19 @@
       <tr valign="top"><td><tt><tt><span style="color:navy;">VBox</span></tt>*</tt> </td>
         <td><a href="XApplication.html#getClient"><b>getClient</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt>const</tt> <tt><span style="color:purple;">char</span></tt>*</tt> </td>
+        <td><a href="XApplication.html#getHelpfile"><b>getHelpfile</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XApplication.html#showAboutbox"><b>showAboutbox</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XApplication.html#showHelpMenu"><b>showHelpMenu</b></a></td>
+        <td><tt>()</tt>;</td></tr>
     </table>
     <hr noshade>
     <h2>Member descriptions</h2>
+    <h3 style="color:navy">Management functions</h3>
     <pre><a name="XApplication"></a> <b>XApplication</b> (const char* pTitle)</pre>
     <dl>
       <dd><p>Constructor; creates a program-window showing only an empty menu
@@ -123,7 +181,32 @@
     <dl>
       <dd><p>Destructor</p></dd>
     </dl>
+
     <hr>
+    <pre><a name="getClient"></a>VBox* <b>getClient</b> () const</pre>
+    <dl>
+      <dd><p>Returns a pointer to the client box, so that further widgets can be added.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>VBox*: Pointer to the client box.</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="initI18n"></a>void <b>initI18n</b> () const</pre>
+    <dl>
+      <dd><p>Initializes the program for localization by setting the
+          locale.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="initI18n2"></a>void <b>initI18n</b> (const char* package, const char* dir) const</pre>
+    <dl>
+      <dd><p>Initializes the program for internationalization by setting the
+          locale and loading the messagefile.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>package</code>: Name of the message-catalog</dd>
+          <dd><code>dir</code>: Root-directory for message-catalogs</dd>
+      </dl></dd>
+    </dl>
+
+    <h3 style="color:navy">Menu handling</h3>
     <pre><a name="addMenu"></a>Widget* <b>addMenu</b> (const MenuEntry&amp; menuEntry)</pre>
     <dl>
       <dd><p>Adds a single menuentry to the menu. Items and submenus are added to the last defined menu; menus are added to the menubar.</p></dd>
@@ -156,12 +239,28 @@
           <dd><code>menu</code>: ID of the command (menu, toolbar, ...) which has been selected.</dd>
       </dl></dd>
     </dl>
+
     <hr>
-    <pre><a name="getClient"></a>VBox* <b>getClient</b> () const</pre>
+    <pre><a name="showHelpMenu"></a>void <b>showHelpMenu</b> ()</pre>
     <dl>
-      <dd><p>Returns a pointer to the client box, so that further widgets can be added.</p></dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>VBox*: Pointer to the client box.</dd></dl></dd>
+      <dd><p>Adds a help-menu at the end of the menu. This menu consists of
+          an "About"-entry and - if the method getHelpfile does return a
+          value - entries to display a help-file and to configure the help
+          browser.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="showAboutbox"></a>void <b>showAboutbox</b> ()</pre>
+    <dl>
+      <dd><p>Virtual method to display the about box of the program. To be
+        implemented by derived objects.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="getHelpfile"></a>const char* <b>getHelpfile</b> ()</pre>
+    <dl>
+      <dd><p>Intended to return the name of the file to display in a browser.</p>
+        <p>This file is searched for according to the language settings (see
+          the beginning of the document for more
+          <a href="XApplication.html#Searchdetails">details</a>).</dd>
     </dl>
 
     <hr noshade><a name="XInfoApplication">
