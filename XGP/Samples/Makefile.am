@@ -6,7 +6,7 @@ INCLUDES = -I$(top_srcdir) -I.. -I../../Common @GTKMM_CFLAGS@ -I$(top_srcdir)/in
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-LIBS = ../libXGP.la ../../Common/libYGP.la @LIBS@ @GTKMM_LIBS@
+LIBS = ../libXGP.la ../../Common/libYGP.la @LTLIBINTL@ @LIBS@ @GTKMM_LIBS@
 
 TESTS=X-Appl
 
