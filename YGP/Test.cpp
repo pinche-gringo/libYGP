@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.38 2000/05/21 18:43:37 Markus Exp $
+// $Id: Test.cpp,v 1.39 2000/05/23 22:58:33 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -40,6 +40,7 @@
 #endif
 
 #include "Parse.h"
+#include "Trace_.h"
 #include "CRegExp.h"
 #include "Handle.h"
 #include "ATStamp.h"
@@ -84,7 +85,8 @@ class test {
 class Application : public IVIOApplication {
  public:
    Application (const int argc, const char* argv[])
-     : IVIOApplication (argc, argv, lo), cOptions (0) { }
+      : IVIOApplication (argc, argv, lo), cOptions (0), regexp ("")
+      , strRE ("") { }
   ~Application () { }
 
  protected:
@@ -105,6 +107,9 @@ class Application : public IVIOApplication {
    const Application& operator= (const Application&);
 
    unsigned int cOptions;
+   std::string strRE, strVal;
+   RegularExpression regexp;;
+   bool match;
 
    static const longOptions lo[];
 
@@ -114,6 +119,31 @@ class Application : public IVIOApplication {
 #endif
       return ParseObject::PARSE_OK;
    }
+
+   int foundRegExp (const char* pRegExp) {
+      assert (pRegExp);
+      strRE = pRegExp;
+      regexp = strRE.c_str ();
+      return ParseObject::PARSE_OK;
+   }
+
+   int foundValue (const char* pValue) {
+      assert (pValue);
+      check (!strRE.empty ());
+      strVal = pValue;
+      match = regexp.matches (pValue);
+      return ParseObject::PARSE_OK;
+  }
+
+   int foundResult (const char* pResult) {
+      assert (pResult);
+      if ((*pResult != '0') != match) {
+         check (0);
+	 TRACE ("Info: Regular expression: " << strRE.c_str () << "; Value: "
+                << strVal.c_str ());
+      }
+      return ParseObject::PARSE_OK;
+  }
 
    int foundAlpha (const char* pAlpha) {
 #ifdef VERBOSE
@@ -254,87 +284,47 @@ int Application::perform (int argc, const char* argv[]) {
    }
 
    cout << "Testing RegularExpression...\n";
-   try {
-      RegularExpression regexp ("a*b");
-      check (regexp.matches ("ab"));
-      check (regexp.matches ("aaaaab"));
-      check (regexp.matches ("b"));
-      check (!regexp.matches ("aabc"));
-      check (!regexp.matches ("sucker"));
+   Xifstream frexexp;
+   frexexp.open ("Test.rex", ios::in | ios::nocreate);
+   check (frexexp);
+   if (frexexp) {
+      frexexp.init ();
 
-      regexp = "[u-z]*b";
-      check (regexp.matches ("ub"));
-      check (regexp.matches ("uvwxyzb"));
-      check (regexp.matches ("b"));
-      check (!regexp.matches ("uvbc"));
-      check (!regexp.matches ("sucker"));
+      try {
+         typedef OFParseTextEsc<Application> OMParseTextEsc;
+         typedef OFParseAttomic<Application> OMParseAttomic;
 
-      regexp = "[]ac]*b";
-      check (regexp.matches ("]acb"));
-      check (!regexp.matches ("]dcb"));
+         ParseObject*   _RegExpTest[3];
+         ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1, 0);
+         ParseObject*   _RegExpHeader[4];
+         ParseSequence  RegExpHeader (_RegExpHeader, "Regexp-header", 1, 1);
+         ParseObject*   _values[4];
+         ParseSequence  values (_values, "Values", 1, 1);
+         OMParseTextEsc RegExp ("]", "Regular expression", *this,
+                                &Application::foundRegExp, 512, 1);
+         OMParseTextEsc value ("[=", "Value", *this, &Application::foundValue,
+                               512, 1);
+         OMParseAttomic result ("\\9", "Result", *this,
+                                &Application::foundResult, 1, 1);
+         ParseExact RegExpBegin ("[", "Begin of regexp ([)", false);
+         ParseExact RegExpEnd ("]", "End of regexp (])");
+         ParseExact equals ("=", "Equal-sign (=)", false);
 
-      regexp = "[^]]*b";
-      check (regexp.matches ("b"));
-      check (regexp.matches ("ab"));
-      check (!regexp.matches ("]b"));
+         _RegExpTest[0] = &RegExpHeader; _RegExpTest[1] = &values;
+         _RegExpTest[2] = NULL;
+         _RegExpHeader[0] = &RegExpBegin; _RegExpHeader[1] = &RegExp;
+         _RegExpHeader[2] = &RegExpEnd; _RegExpHeader[3] = NULL;
+         _values[0] = &value; _values[1] = &equals; _values[2] = &result;
+	 _values[3] = NULL;
 
-      regexp = "a+b";
-      check (regexp.matches ("ab"));
-      check (regexp.matches ("aaaaab"));
-      check (!regexp.matches ("b"));
-      check (!regexp.matches ("aabc"));
-
-      regexp = "a.b";
-      check (regexp.matches ("axb"));
-      check (!regexp.matches ("aaaaab"));
-      check (!regexp.matches ("b"));
-      check (!regexp.matches ("ab"));
-      check (!regexp.matches ("abc"));
-
-      regexp = "a?b";
-      check (regexp.matches ("ab"));
-      check (!regexp.matches ("aaaaab"));
-      check (regexp.matches ("b"));
-      check (!regexp.matches ("aab"));
-      check (!regexp.matches ("acb"));
-
-      regexp = "[[:alpha:]]*";
-      check (regexp.matches ("ab"));
-      check (regexp.matches ("aaaaab"));
-      check (!regexp.matches ("a1b"));
-
-      regexp = "ab\\>.*\\<cd";
-      check (regexp.matches ("ab cd"));
-      check (regexp.matches ("ab ff cd"));
-      check (!regexp.matches ("abcd"));
-      check (!regexp.matches ("cd ab"));
-      check (!regexp.matches ("abcd"));
-
-      regexp = "\\>cd";
-      check (!regexp.matches ("cd"));
-
-      regexp = "ab\\<";
-      check (!regexp.matches ("ab"));
-
-      regexp = "ab\\>.*";
-      check (regexp.matches ("ab cd"));
-      check (!regexp.matches ("cd"));
-
-      regexp = "\\<cd";
-      check (regexp.matches ("cd"));
-      check (!regexp.matches ("acd"));
-
-      regexp = "ab\\b.\\bcd";
-      check (regexp.matches ("ab.cd"));
-      check (!regexp.matches ("acd"));
-
-      regexp = "ab\\Bcd";
-      check (regexp.matches ("abcd"));
-      check (!regexp.matches ("ab cd"));
-   }
-   catch (std::string& e) {
-      cerr << e.c_str () << '\n';
-   }
+         RegExpTest.parse ((Xistream&)frexexp);
+      }
+      catch (std::string& e) {
+	 cerr << e.c_str () << "\nActual position: Test.rex - "
+              << ANumeric (frexexp.getLine ()).toString ().c_str () << '/'
+              << ANumeric (frexexp.getColumn ()).toString ().c_str () << '\n';
+      }
+   } // endif
 
    cout << "Testing FileRegularExpr...\n";
    FileRegularExpr regExp ("a*b");
@@ -456,14 +446,12 @@ int Application::perform (int argc, const char* argv[]) {
 
    cout << "Testing PathDirectorySearch...\n";
 #ifdef UNIX
-   PathDirectorySearch pds (".:../../JGeneral", "ANumeric.*");
+   PathDirectorySearch pds (".:../X-windows", "Makefile.*");
 #else
-   PathDirectorySearch pds (".;..\\..\\JGeneral", "ANumeric.*");
+   PathDirectorySearch pds (".;..\\X-windows", "Makefile.*");
 #endif
    check (!pds.find (file, DirectorySearch::FILE_NORMAL
                            | DirectorySearch::FILE_READONLY));
-   check (!pds.find ());
-   check (!pds.find ());
    check (!pds.find ());
    check (!pds.find ());
    check (!pds.find ());
@@ -530,21 +518,21 @@ int Application::perform (int argc, const char* argv[]) {
       inifile.open ("Test.ini", ios::in | ios::nocreate);
       check (inifile);
 
-      INIFILE ("Test.ini");
-      INISECTION (Special);
-      INIATTR (Special, ATime, Attr5);
-      INIATTR (Special, ATimestamp, Attr6);
-
-      INISECTION (Local);
-      INIATTR (Local, int, Attr1);
-      std::string attr2_;
-      INIATTR2 (Local, std::string, attr2_, Attr2);
-      INIATTR (Local, ANumeric, Attr3);
-      INIATTR (Local, ADate, Attr4);
-
-      _inifile_.addSection (global);
-
       if (inifile) {
+         INIFILE ("Test.ini");
+         INISECTION (Special);
+         INIATTR (Special, ATime, Attr5);
+         INIATTR (Special, ATimestamp, Attr6);
+
+         INISECTION (Local);
+         INIATTR (Local, int, Attr1);
+         std::string attr2_;
+         INIATTR2 (Local, std::string, attr2_, Attr2);
+         INIATTR (Local, ANumeric, Attr3);
+         INIATTR (Local, ADate, Attr4);
+
+         _inifile_.addSection (global);
+
          inifile.init ();
          try {
             int rc = global.readFromStream ((Xistream&)inifile);
