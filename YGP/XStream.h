@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.1 1999/08/23 17:50:50 Markus Exp $
+// $Id: XStream.h,v 1.2 1999/08/23 20:27:20 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,13 +27,16 @@
 
 // Extended stream, specialized to parse text. It enhanced features are
 // column- and line-information and a variable-sized putback-buffer (putback
-// beyond block-size possible)
-// ATTENTION: A wee bit of overhandling neccessary! Although extStream is
-// derived from istream (which contains a streambuf-(derived)-member) another
-// streambuf-derived* as member is needed (at least I was not able to figure
-// out another way)
+// beyond block-size possible).
 //
-// Usage: 
+// Note: After creating (assigning) the istream-part of the extStream the
+//       init-function must be called to set the extStreambuf, because
+//       other istream-methods might change/set its streambuf.
+//
+// Example:
+//    Xifstream xin;
+//    xin.open ("Test.Dat");
+//    xin.init ();
 template <class T> struct extStream : public T  {
    typedef T parent;
 
@@ -42,7 +45,11 @@ template <class T> struct extStream : public T  {
    extStream (T& source) : pBuffer (NULL) { }
    ~extStream () { delete pBuffer; }
 
-   void init () { pBuffer = new extStreambuf (*rdbuf ()); ios::rdbuf (pBuffer); }
+   void init () {
+      delete pBuffer;
+      pBuffer = new extStreambuf (*rdbuf ());
+      ios::rdbuf (pBuffer);
+   }
 
    // Accessing values
    unsigned int getLine () const { assert (pBuffer); return pBuffer->getLine (); }
