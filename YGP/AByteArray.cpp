@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.7 2002/05/24 01:01:58 markus Rel $
+// $Id: AByteArray.cpp,v 1.8 2002/11/19 21:49:30 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <assert.h>
+#include <string.h>
 
 #include "Trace_.h"
 
@@ -51,9 +52,9 @@ AByteArray::AByteArray (const AByteArray& other)
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor from char-array
-//Parameters: pSource: Pointer to source
-//            length: Length of char-array to copy
-//Requires  : pSource defined
+//Parameters: pSource: Pointer to the initial value
+//            length: Length of the char-array to copy
+//Requires  : pSource a valid pointer to at leasat length bytes reserved
 /*--------------------------------------------------------------------------*/
 AByteArray::AByteArray (const char* pSource, unsigned int length)
    : AttributValue (true), pValue (new char [length]), len (length)
@@ -67,6 +68,7 @@ AByteArray::AByteArray (const char* pSource, unsigned int length)
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor from ASCIIZ-string
 //Parameters: pSource: Pointer to ASCIIZ-string
+//Requires  : pSource a valid ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 AByteArray::AByteArray (const char* pSource) : AttributValue (pSource != NULL)
    , pValue (NULL), len (0), allocated (0) {
@@ -89,7 +91,7 @@ AByteArray::AByteArray (char ch) : AttributValue (true)
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor from std::string
+//Purpose   : Constructor; the string is copied into the object
 //Parameters: pSource: Pointer to std::string
 /*--------------------------------------------------------------------------*/
 AByteArray::AByteArray (const std::string& str) : AttributValue (true)
@@ -129,7 +131,7 @@ AByteArray& AByteArray::assign (const AByteArray& rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Assigns str to this
+//Purpose   : Assigns length bytes of the passed character array to the object
 //Parameters: pSource: Character-array to assign
 //            length: Length of character-array
 //Returns   : AByteArray&: Reference to this
@@ -152,7 +154,7 @@ AByteArray& AByteArray::assign (const char* pSource, unsigned int length) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Assigns pSource to this
+//Purpose   : Assigns the passed character array to the object
 //Parameters: pSource: Pointer to ASCIIZ-string to assign
 //Returns   : AByteArray&: Reference to this
 //Remarks   : If pSource is NULL, this is undefined
@@ -168,7 +170,7 @@ AByteArray& AByteArray::assign (const char* pSource) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Defines the byte-array
+//Purpose   : Defines the byte-array and sets the value to empty
 /*--------------------------------------------------------------------------*/
 void AByteArray::define () {
    TRACE5 ("AByteArray::define ()");
@@ -180,7 +182,7 @@ void AByteArray::define () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Undefines the byte-array
+//Purpose   : Undefines the byte-array and deletes its contents
 /*--------------------------------------------------------------------------*/
 void AByteArray::undefine () {
    TRACE5 ("AByteArray::undefine ()");
@@ -192,8 +194,12 @@ void AByteArray::undefine () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Appends data to value
-//Parameters: pSource: Pointer to ASCIIZ-string to assign
+//Purpose   : Appends the contents of rhs to the object. The object is
+//            afterwards defined if either of the two AByteArrays have been
+//            defined.
+//Parameters: pSource: Character array to append
+//Requires  : pSource must be a valid pointer to a zero-terminated character
+//                    array
 //Returns   : AByteArray&: Reference to this
 /*--------------------------------------------------------------------------*/
 AByteArray& AByteArray::append (const char* pSource) {
@@ -205,9 +211,13 @@ AByteArray& AByteArray::append (const char* pSource) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Appends data to value
-//Parameters: pSource: Pointer to characters to assign
-//            length: Length of data
+//Purpose   : Appends length characters of the array pSource is pointing to to
+//            the object. If length is at least one, the object is set to be
+//            defined.
+//Parameters: pSource: Character array to append
+//            length: Number of characters to append
+//Requires  : pSource must be a valid pointer to a zero-terminated character
+//                    array
 //Returns   : AByteArray&: Reference to this
 /*--------------------------------------------------------------------------*/
 AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
@@ -235,7 +245,7 @@ AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the contents at the passed position
+//Purpose   : Retrieves the byte at the specified position
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
@@ -248,11 +258,11 @@ char AByteArray::operator[] (unsigned int pos) const throw (std::out_of_range) {
    if (pos < len)
       return pValue[pos];
    else
-      throw (std::out_of_range ("AByteArray::operator[] (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::operator[] (unsigned int) const"));
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the contents at the passed position
+//Purpose   : Retrieves a reference to the byte at the specified position
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
@@ -265,11 +275,11 @@ char& AByteArray::operator[] (unsigned int pos) throw (std::out_of_range) {
    if (pos < len)
       return pValue[pos];
    else
-      throw (std::out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::at (unsigned int)"));
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the contents at the passed position
+//Purpose   : Retrieves a reference to the byte at the specified position
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
@@ -280,11 +290,11 @@ const char& AByteArray::at (unsigned int pos) const throw (std::out_of_range) {
    if (pos < len)
       return pValue[pos];
    else
-      throw (std::out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::at (unsigned int) const"));
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the contents at the passed position
+//Purpose   : Retrieves a reference to the byte at the specified position
 //Parameters: Position to retrieve
 //Returns   : Character at position pos
 /*--------------------------------------------------------------------------*/
@@ -295,21 +305,26 @@ char& AByteArray::at (unsigned int pos) throw (std::out_of_range) {
    if (pos < len)
       return pValue[pos];
    else
-      throw (std::out_of_range ("AByteArray::at (unsigned int) const; pos >= length"));
+      throw (std::out_of_range ("AByteArray::at (unsigned int)"));
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks the integrity of a byte-array
-//Returns   : int: Status of integrity; 0: OK
+//Purpose   : Checks the internal state of the object for integrity
+//            The class has the following invariants:
+//              - The length of the data is not larger than the allocated area
+//              - If the length is not 0, a value must be allocated
+//Returns   : int: 1 if the data is larger than the allocated memory,
+//                 2 if the length of the data is not 0, but no memory is reserved
+//                 0 if the object is integer
 /*--------------------------------------------------------------------------*/
 int AByteArray::checkIntegrity () const {
    return (len > allocated) ? 1 : (len && !pValue) ? 2 : 0;
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
 //Returns   : AByteArray: Concatinated byte-array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (const AByteArray& lhs, const AByteArray& rhs) {
@@ -336,10 +351,11 @@ AByteArray operator+ (const AByteArray& lhs, const AByteArray& rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
-//Returns   : AByteArray: Concatinated byte-array
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
+//Returns   : AByteArray: The concatinated byte-array
+//Requires  : lhs must be a valid pointer to a zero-terminated character array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (const char* lhs, const AByteArray& rhs) {
    TRACE5 ("AByteArray::operator+ (const char*, const AByteArray&)");
@@ -349,9 +365,9 @@ AByteArray operator+ (const char* lhs, const AByteArray& rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
 //Returns   : AByteArray: Concatinated byte-array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (char lhs, const AByteArray& rhs) {
@@ -362,9 +378,9 @@ AByteArray operator+ (char lhs, const AByteArray& rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
 //Returns   : AByteArray: Concatinated byte-array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (const std::string& lhs, const AByteArray& rhs) {
@@ -375,9 +391,9 @@ AByteArray operator+ (const std::string& lhs, const AByteArray& rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
 //Returns   : AByteArray: Concatinated byte-array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (const AByteArray& lhs, const std::string& rhs) {
@@ -388,10 +404,11 @@ AByteArray operator+ (const AByteArray& lhs, const std::string& rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
 //Returns   : AByteArray: Concatinated byte-array
+//Requires  : rhs must be a valid pointer to a zero-terminated character array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (const AByteArray& lhs, const char* rhs) {
    TRACE5 ("AByteArray::operator+ (const AByteArray&, const char*)");
@@ -401,9 +418,9 @@ AByteArray operator+ (const AByteArray& lhs, const char* rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Concats two byte-arrays
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
+//Purpose   : Concatenates rhs to lhs and returns the result
+//Parameters: lhs: Left-hand-side of concatenation
+//            rhs: Right-hand-side of concatenation
 //Returns   : AByteArray: Concatinated byte-array
 /*--------------------------------------------------------------------------*/
 AByteArray operator+ (const AByteArray& lhs, char rhs) {
@@ -414,9 +431,11 @@ AByteArray operator+ (const AByteArray& lhs, char rhs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Compares two byte-array
-//Parameters: other: Object to compare this with
-//Returns   : int; <0: this < other; >0: other > this; 0 else
+//Purpose   : Compares the values of two byte-arrays. Undefined values are
+//            considered to be smaller than every value; if both values
+//            are undefined, they are considered as equal
+//Parameters: other: Object to compare
+//Returns   : int; <0: this < other; >0: this > other; 0 else
 /*--------------------------------------------------------------------------*/
 int AByteArray::compare (const AByteArray& other) const {
    TRACE5 ("AByteArray::compare (const AByteArray&)");
@@ -424,76 +443,59 @@ int AByteArray::compare (const AByteArray& other) const {
    assert (!checkIntegrity ()); assert (!other.checkIntegrity ());
 
    // Both objects are defined -> Compare them
-   if (isDefined () && other.isDefined ()) {
-      TRACE6 ("   -> Comparing to defined values");
-      TRACE9 ("   -> this = pValue = " << pValue);
-      TRACE9 ("   -> other.pValue = " << other.pValue);
-      int ch;
+   if (isDefined ()) {
+      if (other.isDefined ()) {
+         TRACE6 ("   -> Comparing to defined values");
+         TRACE9 ("   -> this = pValue = " << pValue);
+         TRACE9 ("   -> other.pValue = " << other.pValue);
 
-      // Compare characters til first end
-      for (unsigned int i (0); i < len; ++i) {
-	 ch = pValue[i] - other.pValue[i];
-	 if (ch)
-            return ch;             // Characters differ: Return result of comp.
+         int rc (memcmp (pValue, other.pValue,
+                         (len > other.len) ? other.len : len));
+         if (!rc)
+            rc = len - other.len;        // Equal: Longer string is bigger
+         return rc; 
       }
-      
-      return len - other.len;  // Characters are equal: Longer string is bigger
+      else
+         return 1;
    }
-
-   if (other.isDefined ())        // other defined; this not -> This is smaller
-      return -1;
-
-   return isDefined ();          // If this is defined it is bigger; else equal
+   return other.isDefined ();
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Compares a byte-array with a character-pointer
-//Parameters: other: Object to compare this with
+//Purpose   : Compares the byte array with a character array. Undefined values
+//            are considered to be smaller then any character array.
+//Parameters: other: Character array to compare
 //Returns   : int; <0: this < other; >0: other < this; 0 else
+//Requires  : other must be a valid pointer to a zero-terminated character array
 /*--------------------------------------------------------------------------*/
 int AByteArray::compare (const char* other) const {
    TRACE5 ("AByteArray::compare (const char*)");
 
    assert (!checkIntegrity ());
 
-   // Both objects are defined -> Compare them
    if (isDefined ()) {
       TRACE6 ("   -> Comparing two defined values");
       TRACE9 ("   -> this = pValue = " << pValue);
       TRACE9 ("   -> other = " << other);
-      if (!other)
-         return 1;
-
-      int ch;
-      int i (0);
-
-      // Compare characters til first end
-      while ((i < len) && *other) {
-	 ch = pValue[i] - *other;
-	 if (ch)
-            return ch;             // Characters differ: Return result of comp.
-
-         ++i;
-         ++other;
-      }
-
-      return *other ? (int)len - i : -1; // Char equal: Longer string is bigger
+      return other ? strncmp (pValue, other, len) : 1;
    }
 
    return other != NULL;             // NULL-pointer: Return equal; else bigger
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Compares a byte-array with a character-pointer
-//Parameters: other: Object to compare this with
+//Purpose   : Compares the byte array with a character array. Undefined values
+//            are considered to be smaller then any character array.
+//Parameters: other: Character array to compare
 //            length: Number of bytes to compare
 //Returns   : int; <0: this < other; >0: other < this; 0 else
-//Requires  : If length not zero, other must not be NULL
+//Requires  : other must be a valid pointer to a character array with at
+//            least length elements
 /*--------------------------------------------------------------------------*/
 int AByteArray::compare (const char* other, unsigned int length) const {
    TRACE5 ("AByteArray::compare (const char*, unsigned int)");
 
-   assert ((length == 0) || ((length > 0) && other));
+   assert ((length && other) || !length);
    assert (!checkIntegrity ());
 
    // Both objects are defined -> Compare them
@@ -502,25 +504,19 @@ int AByteArray::compare (const char* other, unsigned int length) const {
       TRACE9 ("   -> this = pValue = " << pValue);
       TRACE9 ("   -> other = " << other);
 
-      int ch;
-      unsigned int minLen = (len > length) ? length : len;
-
-      // Compare characters til first end
-      for (unsigned int i (0); i < minLen; ++i, ++other) {
-         ch = pValue[i] - *other;
-         if (ch)
-            return ch;             // Characters differ: Return result of comp.
-      }
-
-      return len - length;          // Chars are equal: Longer string is bigger
+      int rc (memcmp (pValue, other, (len > length) ? length : len));
+      if (!rc)
+         rc = len - length;         // Chars are equal: Longer string is bigger
+      return rc; 
    }
 
    return other != NULL;             // NULL-pointer: Return equal; else bigger
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Compares a byte-array with a single character
-//Parameters: other: Object to compare this with
+//Purpose   : Compares the byte array with a single character. Undefined values
+//            are considered to be smaller then any character.
+//Parameters: other: Character array to compare
 //Returns   : int; <0: this < other; >0: other < this; 0 else
 /*--------------------------------------------------------------------------*/
 int AByteArray::compare (const char other) const {
