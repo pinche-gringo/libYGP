@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.41 2000/06/03 12:46:11 Markus Exp $
+// $Id: Test.cpp,v 1.42 2000/06/04 18:01:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -40,7 +40,8 @@
 #endif
 
 
-#define CHECK(x) { if (!(x)) cout << "    -> Failed (" #x "; line " << __LINE__ << ")\n"; }
+#define ERROROUT(x) cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n";
+#define CHECK(x) { if (!(x)) ERROROUT (#x) }
 
 #define VERBOSE
 #undef VERBOSE
@@ -146,11 +147,10 @@ class Application : public IVIOApplication {
 
    int foundResult (const char* pResult) {
       assert (pResult);
-      if ((*pResult != '0') != match) {
-         check (0);
-	 TRACE ("Info: Regular expression: " << strRE.c_str () << "; Value: "
-                << strVal.c_str ());
-      }
+      if ((*pResult != '0') != match)
+         ERROROUT ("RegExp (\"" << strRE.c_str () << "\").matches (\""
+		   << strVal.c_str () << "\") = " << pResult);
+
       return ParseObject::PARSE_OK;
   }
 
