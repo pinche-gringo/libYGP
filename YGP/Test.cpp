@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.26 2000/01/26 22:14:44 Markus Exp $
+// $Id: Test.cpp,v 1.27 2000/02/06 22:12:05 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -45,7 +45,9 @@
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
-#include "ANumeric.h"
+#ifdef UNIX
+#  include "ANumeric.h"
+#endif
 #include "IVIOAppl.h"
 #include "PathSrch.h"
 #include "Tokenize.h"
@@ -139,7 +141,7 @@ bool Application::handleOption (const char option) {
       assert (pValue == getOptionValue ());
       if (option == 'A')
          check (pValue);
-   } // endif special option     
+   } // endif special option
    return true;
 }
 void Application::showHelp () const {
@@ -157,7 +159,7 @@ int Application::perform (int argc, const char* argv[]) {
    check (!argv[argc]);
 
    cout << "Testing Parser...\n";
-   CBParseAttomic nr ("\\9", "Number", &foundNumber, 4, 2);
+   CBParseAttomic nr ("\\9", "Number", foundNumber, 4, 2);
    OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this, &foundAlpha, 4, 2);
    ParseExact exact ("234", "234");
    ParseUpperExact upper ("9A42", "9A42");
@@ -185,7 +187,7 @@ int Application::perform (int argc, const char* argv[]) {
    }
 
 #ifndef WINDOWS
-// BCC has no way to set the read-buffer of an istream -> Skip test
+// BCC & MVC have no way to set the read-buffer of an istream -> Skip test
    cout << "Testing extStreambuf...\n";
 
    ifstream in ("Test.Dat");
@@ -322,6 +324,13 @@ int Application::perform (int argc, const char* argv[]) {
    stream << num2 << ends;
    check (strlen (numBuf) >= 4);
 
+   cout << "Testing Tokenize...\n";
+   Tokenize token ("/usr/include/std/");
+   check (token.getActNode () == "/usr/include/std/");
+   check (token.getNextNode ('/') == "usr");
+   check (token.getNextNode ('/') == "include");
+   check (token.getNextNode ('/') == "std");
+ 
    cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
    dirEntry file;
@@ -355,13 +364,6 @@ int Application::perform (int argc, const char* argv[]) {
    check (!pds.find ());
    check (pds.find ());
 
-   cout << "Testing Tokenize...\n";
-   Tokenize token ("/usr/include/std/");
-   check (token.getActNode () == "/usr/include/std/");
-   check (token.getNextNode ('/') == "usr");
-   check (token.getNextNode ('/') == "include");
-   check (token.getNextNode ('/') == "std");
- 
    cout << "Testing PathSearch...\n";
    PathSearch ps (".:..:/::/usr/:/usr");
    check (ps.getActNode () == ".:..:/::/usr/:/usr");

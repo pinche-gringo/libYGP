@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.5 1999/09/15 23:58:13 Markus Rel $
+// $Id: XStrBuf.h,v 1.6 2000/02/06 22:12:40 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,12 +18,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Only streambuf is needed, but BCC has no own streambuf.h-file; so use iostream.h
-// as general basis
-#ifdef WINDOWS
-#  include <iostream.h>
-#else
+#ifdef UNIX
 #  include <streambuf.h>
+#else
+#  include <streamb.h>
 #endif
 
 
@@ -41,13 +39,14 @@ struct extStreambuf : public streambuf {
    virtual ~extStreambuf ();
 
    // Error-handling (buffer over/underflow and putback-failure)
+   virtual int overflow (int ch);
    virtual int underflow ();
    virtual int pbackfail (int c);
 
    // Accessing values
    unsigned int getLine () const { return line; }
    unsigned int getColumn () const {
-#ifdef WINDOWS
+#ifdef __BORLANDC__
       return gptr () - base () - 1;   // BCC's gptr () points to next position
 #else
       return gptr () - base ();

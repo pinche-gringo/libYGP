@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.8 2000/02/02 22:12:05 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.9 2000/02/06 22:12:40 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -29,6 +29,8 @@
 #include <string.h>
 #include <assert.h>
 
+#include <iostream.h>
+
 #define DEBUG 0
 #include "Trace_.h"
 
@@ -39,14 +41,20 @@ static int lenBuffer = 512;
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : (Default-)Constructur; Initializes object
+/*--------------------------------------------------------------------------*/
+extStreambuf::extStreambuf ()
+   : streambuf (), line (0), pushbackOffset (-1), pSource (this)
+   , pBuffer (new char[lenBuffer]) {
+   setb (pBuffer, pBuffer + lenBuffer, 1);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Constructur; Initializes object
 //Parameter : source: Original streambuffer, which should be enhanced
 /*--------------------------------------------------------------------------*/
-extStreambuf::extStreambuf (streambuf& source) :
-#ifndef WINDOWS
-   streambuf (source),                 // Copyconstructor is in BCC probhibted
-#endif
-   line (0), pushbackOffset (-1), pSource (&source)
+extStreambuf::extStreambuf (streambuf& source)
+   :streambuf (), line (0), pushbackOffset (-1), pSource (&source)
    , pBuffer (new char[lenBuffer]) {
    setb (pBuffer, pBuffer + lenBuffer, 1);
 }
@@ -60,12 +68,26 @@ extStreambuf::~extStreambuf () {
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : Overflow of buffer
+//Parameters: ch: Char to write, causing the overflow
+//Returns   : int: EOF in case of error
+//Requires  : Readpointer equal or behind end-of-readbuffer
+/*--------------------------------------------------------------------------*/
+int extStreambuf::overflow (int ch) {
+   assert (0);
+   return pSource->overflow (ch);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Underflow of buffer; load new data into buffer
 //Returns   : int: EOF in case of error
 //Requires  : Readpointer equal or behind end-of-readbuffer
 /*--------------------------------------------------------------------------*/
 int extStreambuf::underflow () {
-   TRACE2  ("Underflow!");
+   TRACE2  ("extStreambuf::nderflow");
+
+   if (gptr () < egptr ()) // Sanity-check; VC uses underflow to get curr char
+      return *gptr ();
 
    assert (!checkIntegrity ());
 
@@ -75,17 +97,19 @@ int extStreambuf::underflow () {
    ++line;
    while ((ch = pSource->sbumpc ()) != EOF) {
       if (pTemp == pBuffer + lenBuffer) {                 // Buffer to small?
+	 pTemp = pBuffer;
          pBuffer = new char[lenBuffer << 1];           // Double its size and
-         memcpy (pBuffer, base(), lenBuffer);            // copy old contents
+         memcpy (pBuffer, pTemp, lenBuffer);             // copy old contents
+	 delete [] pTemp;
          pTemp = pBuffer + lenBuffer;
-         setb (pBuffer, pBuffer + lenBuffer, 1);
          lenBuffer <<= 1;
+         setb (pBuffer, pBuffer + lenBuffer, 1);
       }
       *pTemp++ = (char)ch;
       TRACE9 ("New char: " << (char)ch);
 
       if ((char)ch == '\n')
-	 break;
+         break;
    } // end-while !EOF
 
    pushbackOffset = -1 - int (pTemp - pBuffer);
@@ -101,7 +125,7 @@ int extStreambuf::underflow () {
 //Returns   : Character putted back (EOF if error)
 /*--------------------------------------------------------------------------*/
 int extStreambuf::pbackfail (int c) {
-   TRACE2 ("Failed pushback!");
+   TRACE2 ("extStreambuf::pbackfail");
 
    assert (!checkIntegrity ());
    assert (c != EOF);
@@ -135,17 +159,8 @@ int extStreambuf::pbackfail (int c) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks the integrity of the object
-//Returns   : Status: 0 OK
+//Returns   : Status: 0 OK; 1 pSource == NULL; 2 pBuffer == NULL
 /*--------------------------------------------------------------------------*/
 int extStreambuf::checkIntegrity () const {
-   if (!pBuffer)
-      return 1;
-
-   if (gptr () > egptr ())           // Results in BCC-warnings; but fuck that
-      return 2;
-
-   if (!pSource)
-      return 3;
-
-   return 0;
+   return pBuffer ? pSource ? 0 : 1 : 2;
 }
