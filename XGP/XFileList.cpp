@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.23 2003/02/09 22:55:15 markus Exp $
+//$Id: XFileList.cpp,v 1.24 2003/02/18 02:57:35 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -36,7 +36,7 @@
 #include <File.h>
 #include <Check.h>
 #include <Trace_.h>
-#include <Process.h>
+#include <Process_.h>
 #include <PathDirSrch.h>
 
 #include "XFileDlg.h"
@@ -345,7 +345,7 @@ void XFileList::startInTerm (const char* file, unsigned int line) {
       execProgram (term, args, false);
    }
    else
-      XMessageBox::Show (_("Environment variable `TERM' not defined"),
+      XMessageBox::Show (_("Environment variable `TERM' not defined!"),
                          XMessageBox::ERROR | XMessageBox::OK);
 }
 
@@ -409,7 +409,7 @@ void XFileList::move (unsigned int line) {
             setIcon (line, objFile);
             setFilename (line, file);
          }
-         catch (const char* error) {
+         catch (string& error) {
             XMessageBox::Show  (error, XMessageBox::ERROR | XMessageBox::OK);
          }
       }
