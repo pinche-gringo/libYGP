@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.39 2002/08/20 05:17:25 markus Rel $
+//$Id: DirSrch.cpp,v 1.40 2002/12/07 22:09:25 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -37,13 +37,14 @@
 #include <errno.h>
 
 #include "File.h"
+#include "Check.h"
 #include "Trace_.h"
 #include "DirSrch.h"
 #include "FileRExp.h"
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
+//Purpose   : Defaultconstructor
 /*--------------------------------------------------------------------------*/
 DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
                                       , offStrip (0)
@@ -58,8 +59,9 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
-//Parameters: search: Path (and files) to search
+//Purpose   : Constructor; creates an object with the files to search. The
+//            parameter may include path-information.
+//Parameters: search: Files (including the path) to search for.
 /*--------------------------------------------------------------------------*/
 DirectorySearch::DirectorySearch (const std::string& search)
    : IDirectorySearch ()
@@ -82,10 +84,11 @@ DirectorySearch::~DirectorySearch () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the first file which matches the search-criteria
-//Parameters: result: Buffer where to place the result
-//Returns   : const File*: Pointer to created file-object
-//Requires  : searchDir already set
+//Purpose   : Retrieves the first file matching the previously specified
+//            search-criteria.
+//Parameters: attribs: Attributes the file must contain
+//Returns   : const File*: Pointer to found file-object or NULL
+//Requires  : The search values must have been specified!
 /*--------------------------------------------------------------------------*/
 const File* DirectorySearch::find (unsigned long attribs) {
    TRACE9 ("DirectorySearch::find (unsigned long)");
@@ -102,7 +105,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
       ? searchDir.substr ((offStrip > 0) ? offStrip : ((offStrip < 0) ? -offStrip : 0))
       : searchDir;
    TRACE8 ("DirectorySearch::find (result, attribs) - Search in dir " << pEntry->path_);
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
 #if SYSTEM == UNIX
    pDir = opendir (searchDir.c_str ());
@@ -130,7 +133,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
    TRACE8 ("DirectorySearch::find (result, attribs) - found " << pEntry->name ());
 
    FileRegularExpr regExp (searchFile.c_str ());
-   assert (!regExp.checkIntegrity ());
+   Check3 (!regExp.checkIntegrity ());
 
    // Attribut-handling: Files having attrs not specified here are not returned
    unsigned long attr_ = ~convertToSysAttribs (attr | FILE_ATTRIBUTE_ARCHIVE);
@@ -145,19 +148,21 @@ const File* DirectorySearch::find (unsigned long attribs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the next file which matches the search-criteria
-//Returns   : const File*: Pointer to created file-object
-//Requires  : searchDir, pEntry  already set
+//Purpose   : Returns the next matching file according to parameters specified
+//            in earlier find-calls. If a file was found 0 is returned, errno
+//            otherwise.
+//Returns   : const File*: Pointer to found file-object or NULL
+//Requires  : The search must have already been started by a find!
 /*--------------------------------------------------------------------------*/
 const File* DirectorySearch::next () {
    TRACE9 ("DirectorySearch::next ()");
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    FileRegularExpr regExp (searchFile.c_str ());
-   assert (!regExp.checkIntegrity ());
+   Check3 (!regExp.checkIntegrity ());
 
 #if SYSTEM == UNIX
-   assert (pDir);
+   Check3 (pDir);
 
    unsigned long attr_ = convertToSysAttribs (attr);
 
@@ -211,8 +216,9 @@ const File* DirectorySearch::next () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks the status of the object
-//Returns   : Status; 0: OK
+//Purpose   : Checks if this object is integer. If yes 0 is returned, else a
+//            number describing the error.
+//Returns   : int: Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::checkIntegrity () const {
    TRACE9 ("DirectorySearch::checkIntegrity () const");
@@ -229,7 +235,7 @@ int DirectorySearch::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 void DirectorySearch::setSearchValue (const std::string& search) {
    TRACE8 ("DirectorySearch::setSearchValue (const std::string&) - " << search);
-   assert (!search.empty ());
+   Check3 (!search.empty ());
 
    pEntry = NULL;          // New search-value means new search with new result
    offStrip = 0;
@@ -262,11 +268,11 @@ void DirectorySearch::setSearchValue (const std::string& search) {
       }
    }
    TRACE9 ("DirectorySearch::setSearchValue - checkIntegrity () = " << checkIntegrity ());
-   assert (checkIntegrity () <= NO_ENTRY);
+   Check3 (checkIntegrity () <= NO_ENTRY);
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Cleanup of data
+//Purpose   : Releases all internally used resources.
 /*--------------------------------------------------------------------------*/
 void DirectorySearch::cleanup () {
    TRACE9 ("DirectorySearch::cleanup ()");
@@ -274,10 +280,11 @@ void DirectorySearch::cleanup () {
 
 #if SYSTEM == UNIX
 #  ifdef CLOSEDIR_VOID
-   closedir (pDir);
+   if (pDir)
+      closedir (pDir);
 #  else
    if (pDir) {
-      int rc (closedir (pDir)); assert (!rc);
+      int rc (closedir (pDir)); Check3 (!rc);
    }
 #  endif
    pDir = NULL;
@@ -290,7 +297,7 @@ void DirectorySearch::cleanup () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the searchDir is really a direcory
+//Purpose   : Checks if the passed string specifies an existing directory.
 //Parameters: dir: Directory whose validity should be checked
 //Returns   : bool: True if the directory exists
 /*--------------------------------------------------------------------------*/
@@ -299,7 +306,7 @@ bool DirectorySearch::isValid (const std::string& dir) {
 
    struct stat file;
 
-#if SYSTEM == WINDOWS
+#ifdef _MSC_VER
    std::string temp (dir);
    if (temp[temp.length () - 1] == File::DIRSEPARATOR)
       temp.replace (temp.length () - 1, 1, 0, '\0');
@@ -310,8 +317,8 @@ bool DirectorySearch::isValid (const std::string& dir) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the searchDir is really a direcory
-//Parameters: dir: Directory whose validity should be checked
+//Purpose   : Checks if the directory-part of this object specifies an
+//            existing directory.
 //Returns   : bool: True if the directory exists
 /*--------------------------------------------------------------------------*/
 bool DirectorySearch::isValid () const {
