@@ -1,11 +1,11 @@
-// $Id: ANumeric.cpp,v 1.9 2004/11/04 23:17:59 markus Exp $
+// $Id: ANumeric.cpp,v 1.10 2004/11/28 01:03:40 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -44,7 +44,7 @@ int main (int argc, char* argv[]) {
    check (num2.isDefined ());
    check (num2 < num);
    num2 = 0;
-   check (num2 > num);
+   check (num2 < num);
    num2 += 2000;
    YGP::ANumeric num3 (num2 + num);
    check (num3 == num2);
