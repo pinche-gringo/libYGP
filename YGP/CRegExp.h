@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.27 2003/06/14 06:23:57 markus Exp $
+//$Id: CRegExp.h,v 1.28 2003/06/15 23:54:28 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,13 +32,6 @@
 #  include <sys/types.h>
 #  include <regex.h>
 #else
-#  ifdef HAVE_REGEXP_H
-#     define HAVE_REGEX_H
-#     include <regexp.h>
-#  endif
-#endif
-
-#ifndef HAVE_REGEX_H
 #  include <ctype.h>
 #endif
 
