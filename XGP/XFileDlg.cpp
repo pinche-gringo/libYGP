@@ -1,14 +1,14 @@
-//$Id: XFileDlg.cpp,v 1.9 2003/02/03 03:50:33 markus Exp $
+//$Id: XFileDlg.cpp,v 1.10 2003/02/04 05:00:18 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,9 @@
 #include <sys/stat.h>
 
 #include <string>
+
+#define XK_MISCELLANY
+#include <X11/keysymdef.h>
 
 #include "Trace_.h"
 #include "Check.h"
@@ -78,6 +81,19 @@ XFileDialog::~XFileDialog () {
    hide ();
 }
 
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor
+/*--------------------------------------------------------------------------*/
+void XFileDialog::init () {
+   Check3 (get_accel_group ());
+   get_cancel_button ()->add_accelerator ("clicked", *get_accel_group (), XK_Escape, 0,
+                                          static_cast<GtkAccelFlags> (0));
+
+   get_ok_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), OK));
+   get_cancel_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), CANCEL));
+   show ();
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Performs the action of the selected button

@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.10 2003/02/03 03:50:33 markus Exp $
+//$Id: XFileDlg.h,v 1.11 2003/02/04 05:00:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -65,11 +65,7 @@ class XFileDialog : public Gtk::FileSelection {
    const XFileDialog& operator= (const XFileDialog&);
 
    void command (commandID id);
-
-   void init () {
-      get_ok_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), OK));
-      get_cancel_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), CANCEL));
-      show (); }
+   void init ();
 
    option        opt;
    Object*       pCaller;
