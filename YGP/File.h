@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.24 2004/01/17 04:04:25 markus Rel $
+//$Id: File.h,v 1.25 2004/10/13 03:54:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,6 +61,13 @@
 #     error Autoconf reported invalid file-type macros (S_ISDIR, ...)
 #  else
 #     include <sys/stat.h>
+
+#     ifndef S_IXGRP
+#        define S_IXGRP (S_IXUSR >> 4)
+#     endif
+#     ifndef S_IXOTH
+#        define S_IXOTH (S_IXUSR >> 8)
+#     endif
 #  endif
 
 #elif SYSTEM == WINDOWS
@@ -82,6 +89,9 @@ class DirectorySearch;
 
 #if SYSTEM == UNIX
 
+#ifdef MAX_PATH
+#undef MAX_PATH 
+#endif
 #define MAX_PATH            MAXNAMLEN
 
 /**Class representing a file in the file system of the operating system.
