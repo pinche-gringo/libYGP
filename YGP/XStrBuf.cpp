@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.24 2003/02/21 19:39:10 markus Exp $
+// $Id: XStrBuf.cpp,v 1.25 2003/02/22 18:25:31 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -141,7 +141,7 @@ int extStreambuf::underflow () {
 
    pushbackOffset = -1 - int (pTemp - pBuffer);
    setg (pBuffer, pBuffer, pTemp);
-   return (pTemp == pBuffer) ? EOF : 0;
+   return (pTemp == pBuffer) ? EOF : (int (*pBuffer) & 0xff);
 }
 
 /*--------------------------------------------------------------------------*/
