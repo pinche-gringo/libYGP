@@ -1,7 +1,7 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-//$Id: Mutex.h,v 1.2 2002/07/09 01:47:48 markus Exp $
+//$Id: Mutex.h,v 1.3 2002/10/20 23:20:24 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
