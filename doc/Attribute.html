@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Attribute.html,v 1.10 2003/02/18 00:16:37 markus Exp $ -->
+<!-- $Id: Attribute.html,v 1.11 2003/03/06 03:03:53 markus Rel $ -->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
@@ -54,7 +54,7 @@
         <td><a href="Attribute.html#assignFromString"><b>assignFromString</b></a></td>
         <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">value</span></tt>) const = 0</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">std::string</span></tt></tt> </td>
-        <td><a href="Attribute.html#getFormatedValue"><b>getFormatedValue</b></a></td>
+        <td><a href="Attribute.html#getFormattedValue"><b>getFormattedValue</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp;</tt> </td>
         <td><a href="Attribute.html#getName"><b>getName</b></a></td>
@@ -150,12 +150,12 @@
           <dd>std::string&amp;: Name of the attribute</dl></dd>
     </dl>
     <hr>
-    <pre><a name="getFormatedValue"></a>const std::string <b>getFormatedValue</b> () const</pre>
+    <pre><a name="getFormattedValue"></a>const std::string <b>getFormattedValue</b> () const</pre>
     <dl>
-      <dd><p>Intended to return the value of the attribute in a formated (localized)
+      <dd><p>Intended to return the value of the attribute in a formatted (localized)
            way. Calls getValue as default action.</p></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>std::string: Formated value of the attribute</dl></dd>
+          <dd>std::string: Formatted value of the attribute</dl></dd>
     </dl>
     <hr>
     <pre><a name="getValue"></a>const std::string <b>getValue</b> () const</pre>
@@ -243,7 +243,7 @@
         <td><a href="Attribute.html#AgetAttribute"><b>getAttribute</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">std::string</span></tt></tt> </td>
-        <td><a href="Attribute.html#AgetFormatedValue"><b>getFormatedValue</b></a></td>
+        <td><a href="Attribute.html#AgetFormattedValue"><b>getFormattedValue</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">std::string</span></tt></tt> </td>
         <td><a href="Attribute.html#AgetValue"><b>getValue</b></a></td>

@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: AttrVal.html,v 1.13 2002/12/15 00:28:41 markus Rel $ -->
+<!-- $Id: AttrVal.html,v 1.14 2003/03/06 03:03:53 markus Rel $ -->
 
 <html>
   <head>
@@ -88,10 +88,10 @@
         <td><a href="AttrVal.html#toString2"><b>toString</b></a></td>
         <td><tt>(<tt><span style="color:navy">std::string</span></tt>&amp; <tt><span style="color:blue">result</span></tt>) <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:navy">std::string</span></tt></tt> </td>
-        <td><a href="AttrVal.html#toUnformatedString"><b>toUnformatedString</b></a></td>
+        <td><a href="AttrVal.html#toUnformattedString"><b>toUnformattedString</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
-        <td><a href="AttrVal.html#toUnformatedString2"><b>toUnformatedString</b></a></td>
+        <td><a href="AttrVal.html#toUnformattedString2"><b>toUnformattedString</b></a></td>
         <td><tt>(<tt><span style="color:navy">std::string</span></tt>&amp; <tt><span style="color:blue">result</span></tt>) <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="AttrVal.html#~AttributValue"><b>~AttributValue</b></a></td>
@@ -154,7 +154,7 @@
     <pre><a name="operatorlshift"></a>friend ostream&amp; </b>operator&lt;&lt;</b> (ostream&amp; out, const AttributValue&amp; outValue)</pre>
     <dl>
       <dd><p>Writes the object to the stream using the virtual method
-        <a href="AttrVal.html#toUnformatedString"><b>toUnformatedString</b></a>.</p></dd>
+        <a href="AttrVal.html#toUnformattedString"><b>toUnformattedString</b></a>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
             <dd><code>out</code>: Stream to write to </dd>
             <dd><code>outValue</code>: Object to write</dd></dl></dd>
@@ -165,15 +165,15 @@
     <hr>
     <pre><a name="toString"></a>virtual std::string <b>toString</b> () const</pre>
     <dl>
-      <dd><p>Converts the attribute into a (unformated) string. </p></dd>
+      <dd><p>Converts the attribute into a (unformatted) string. </p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-            <dd>Object converted to a formated string</dd></dl></dd>
+            <dd>Object converted to a formatted string</dd></dl></dd>
     </dl>
     <hr>
 
     <pre><a name="toString2"></a>void <b>toString</b> (std::string&amp; result) const</pre>
     <dl>
-      <dd><p>Converts the attribute into a formated string.</p></dd>
+      <dd><p>Converts the attribute into a formatted string.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
             <dd><code>result</code>: Target of conversion</dd></dl></dd>
     </dl>
@@ -181,23 +181,23 @@
     <hr>
     <pre><a name="readFromStream"></a>virtual void <b>readFromStream</b> (istream&amp;)</pre>
     <dl>
-      <dd><p>Reads an (unformated) value from the passed stream. To be implemented
+      <dd><p>Reads an (unformatted) value from the passed stream. To be implemented
         by derived objects (this class does nothing).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
             <dd>Input stream</dd></dl></dd>
     </dl>
 
     <hr>
-    <pre><a name="toUnformatedString"></a>virtual std::string <b>toUnformatedString</b> () const</pre>
+    <pre><a name="toUnformattedString"></a>virtual std::string <b>toUnformattedString</b> () const</pre>
     <dl>
-      <dd><p>Converts the attribute into an unformated string.</p></dd>
+      <dd><p>Converts the attribute into an unformatted string.</p></dd>
     </dl>
     <hr>
-    <pre><a name="toUnformatedString2"></a>void <b>toUnformatedString</b> (std::string&amp; result) const</pre>
+    <pre><a name="toUnformattedString2"></a>void <b>toUnformattedString</b> (std::string&amp; result) const</pre>
     <dl>
-      <dd><p>Converts the attribute into an unformated string.</p></dd>
+      <dd><p>Converts the attribute into an unformatted string.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-            <dd>Object converted to an unformated string</dd></dl></dd>
+            <dd>Object converted to an unformatted string</dd></dl></dd>
     </dl>
 
     <h3><span style="color:navy">Handling of the state</span></h3>
