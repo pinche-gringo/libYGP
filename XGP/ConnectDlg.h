@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.1 2003/07/25 00:30:20 markus Exp $
+//$Id: ConnectDlg.h,v 1.2 2003/07/25 05:45:41 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ namespace Gtk {
 }
 
 class Thread;
+class Socket;
 class ConnectionMgr;
 
 
@@ -56,20 +57,25 @@ class ConnectDlg : public XDialog {
                ConnectionMgr& connMgr);
 
    void* waitForConnections (void* socket);
+   virtual Socket* addClient (int socket);
+   virtual void connect (const Glib::ustring& target, unsigned int port);
+
+ protected:
+   Gtk::Entry*  pTarget;
+   Gtk::Entry*  pPort;
+   Gtk::Button* pWait;
+   Gtk::Button* pConnect;
+
+   ConnectionMgr& cmgr;
 
  private:
    Gtk::Label*  pExplain;
    Gtk::Label*  pLblServer;
-   Gtk::Entry*  pTarget;
    Gtk::Label*  pLblPort;
-   Gtk::Entry*  pPort;
-   Gtk::Button* pWait;
-   Gtk::Button* pConnect;
    Gtk::Table*  pClient;
 
    Glib::ustring port;
 
-   ConnectionMgr& cmgr;
    Thread*      pThread;
 
    ConnectDlg (const ConnectDlg& other);

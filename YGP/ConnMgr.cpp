@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.1 2003/07/25 00:30:32 markus Exp $
+//$Id: ConnMgr.cpp,v 1.2 2003/07/25 05:45:18 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -119,19 +119,22 @@ int ConnectionMgr::getNewConnection () const {
 
 //----------------------------------------------------------------------------
 /// Adds a connection the the server connections
+/// \returns Socket*: Pointer to created socket (or \c NULL)
 /// \pre
 ///    - listenAt() must have been called before
 //----------------------------------------------------------------------------
-void ConnectionMgr::addConnection (int socket) {
+Socket* ConnectionMgr::addConnection (int socket) {
    TRACE2 ("ConnectionMgr::addNewConnection (int) - " << socket);
    Check1 (server);
    Check1 (mode == SERVER);
 
    try {
        connections.push_back (new Socket (socket));
+       return connections.back ();
    }
    catch (std::domain_error& e) {
       TRACE1 ("ConnectionMgr::addConnection (int) - Unexpected exception: "
               << e.what ());
+      return NULL;
    }
 }

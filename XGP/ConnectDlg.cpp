@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.1 2003/07/25 00:30:20 markus Exp $
+//$Id: ConnectDlg.cpp,v 1.2 2003/07/25 05:45:41 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : Common
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -34,8 +34,6 @@
 #include <gtkmm/table.h>
 #include <gtkmm/messagedialog.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <Check.h>
 #include <Trace_.h>
 #include <Socket.h>
@@ -55,6 +53,11 @@
 ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
                         const Glib::ustring& defPort, ConnectionMgr& connMgr)
     : XDialog (_("Connect to"), OKCANCEL)
+      , pTarget (manage (new Gtk::Entry ()))
+      , pPort (manage (new Gtk::Entry ()))
+      , pWait (manage (new Gtk::Button (_("_Wait for connections"), true)))
+      , pConnect (manage (new Gtk::Button (_("Connec_t"), true)))
+      , cmgr (connMgr)
       , pExplain (manage (new Gtk::Label (_("Click on \"Wait for connections\" "
                                             "to wait for connections from "
                                             "other computers.\n\nIf you want "
@@ -63,13 +66,9 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
                                             "the entry field and click on "
                                             "\"Connect\"."), 0, 0)))
       , pLblServer (manage (new Gtk::Label (_("_Server:"), 0.0, 0.5, true)))
-      , pTarget (manage (new Gtk::Entry ()))
       , pLblPort (manage (new Gtk::Label (_("_Port:"), 0.0, 0.5, true)))
-      , pPort (manage (new Gtk::Entry ()))
-      , pWait (manage (new Gtk::Button (_("_Wait for connections"), true)))
-      , pConnect (manage (new Gtk::Button (_("Connec_t"), true)))
       , pClient (manage (new Gtk::Table (3, 3)))
-      , port (defPort), cmgr (connMgr), pThread (NULL) {
+      , port (defPort), pThread (NULL) {
    TRACE8 ("ConnectDlg::ConnectDlg (unsigned int, const Glib::ustring&, ConnectionMgr&) - "
            << cMaxConnections << "; Port: " << defPort);
 
@@ -120,9 +119,9 @@ ConnectDlg::~ConnectDlg () {
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
                           ConnectionMgr& connMgr) {
-    std::ostringstream port;
-    port << defPort;
-    return perform (cMaxConnections, port.str (), connMgr);
+   std::ostringstream port;
+   port << defPort;
+   return perform (cMaxConnections, port.str (), connMgr);
 }
 
 //----------------------------------------------------------------------------
@@ -134,9 +133,9 @@ void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, const Glib::ustring& defPort,
                           ConnectionMgr& connMgr) {
-    ConnectDlg* dlg (new ConnectDlg (cMaxConnections, defPort, connMgr));
-    dlg->run ();
-    delete dlg;
+   ConnectDlg* dlg (new ConnectDlg (cMaxConnections, defPort, connMgr));
+   dlg->run ();
+   delete dlg;
 }
 
 //----------------------------------------------------------------------------
@@ -151,7 +150,7 @@ void ConnectDlg::command (int action) {
          try {
             Check3 (pPort->get_text_length ());
             unsigned int prt (Socket::getPortOfService (pPort->get_text ().c_str ()));
-            cmgr.connectTo (pTarget->get_text (), prt);
+            connect (pTarget->get_text (), prt);
             valueChanged ();
             destroy_ ();
          }
@@ -173,6 +172,7 @@ void ConnectDlg::command (int action) {
 
             pThread = OThread<ConnectDlg>::create2
                 (this, &ConnectDlg::waitForConnections, NULL);
+            pThread->allowCancelation ();
             valueChanged ();
          }
          catch (std::domain_error& err) {
@@ -217,6 +217,26 @@ void* ConnectDlg::waitForConnections (void* pVoid) {
    while (true) {
        int socket (cmgr.getNewConnection ());
        ((Thread*)pVoid)->isToCancel ();
-       cmgr.addConnection (socket);
+       addClient (socket);
    }
+}
+
+//----------------------------------------------------------------------------
+/// Adds a connected client to the vector holding the connections
+/// \param socket: Socket over which the client communicates
+/// \returns Socket*: Pointer to created socket (or \c NULL)
+//----------------------------------------------------------------------------
+Socket* ConnectDlg::addClient (int socket) {
+   return cmgr.addConnection (socket);
+}
+
+//----------------------------------------------------------------------------
+/// Connects the client with the passed target
+/// \param target: Name or IP address of target
+/// \param port: Port the target is listening at
+//----------------------------------------------------------------------------
+void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) {
+   TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"
+           << target << ':' << port);
+   cmgr.connectTo (target, port);
 }

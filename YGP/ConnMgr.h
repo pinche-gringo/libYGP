@@ -1,7 +1,7 @@
 #ifndef CONNMGR_H
 #define CONNMGR_H
 
-//$Id: ConnMgr.h,v 1.1 2003/07/25 00:30:32 markus Exp $
+//$Id: ConnMgr.h,v 1.2 2003/07/25 05:45:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,17 +54,24 @@ class ConnectionMgr {
        connectTo (server.c_str (), port);
    }
    void connectTo (const char* server, unsigned int port) throw (std::domain_error);
+
    //@}
 
    /// \name Server mode
    //@{
    void listenAt (unsigned int port) throw (std::domain_error);
    int  getNewConnection () const;
-   void addConnection (int socket);
+   Socket* addConnection (int socket);
+
+   const std::vector<Socket*>& getClients () const { return connections; }
    //@}
 
+   /// Returns the actual mode of the connection
+   modeConnect getMode () const { return mode; }
    void changeMode (modeConnect);
    void clearConnections ();
+   /// Returns the Socket over which to communicate (might be NULL)
+   Socket* getSocket () const { return server; }
 
  private:
    modeConnect mode;
