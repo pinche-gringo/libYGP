@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: FileRExp.html,v 1.9 2002/12/08 21:41:39 markus Exp $ -->
+<!-- $Id: FileRExp.html,v 1.10 2002/12/15 00:30:21 markus Exp $ -->
 
 <html>
   <head>
@@ -117,6 +117,8 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pRegExp</code>: Pointer to character array holding regular expression<dd>
       </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>FileRegularExp&amp;: Reference to this</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>This input is <b>not</b> copied, so it must be valid during the lifetime of the
             regular expression.</dd></dl></dd>
@@ -137,8 +139,6 @@
           <dd>bool: Result (true = match)</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
          <dd><code>pAktRegExp</code>, <code>pCompare</code>: ASCIIZ-strings</dd></dl></dd>
-    </dl>
-    <hr>
     </dl>
 
     <h3 style="color:navy;">Utility functions</h3>
