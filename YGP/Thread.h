@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.1 2002/05/01 00:42:15 markus Exp $
+//$Id: Thread.h,v 1.2 2002/05/03 20:53:11 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ class Thread {
    void* paArgs_;
 
  private:
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
    pthread_t id;
 #else
    pid_t id;

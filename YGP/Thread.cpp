@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.1 2002/05/01 00:42:15 markus Exp $
+//$Id: Thread.cpp,v 1.2 2002/05/03 20:53:11 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -30,7 +30,7 @@
 #include <errno.h>
 #include <assert.h>
 
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
 #include <pthread.h>
 #else
 #  if SYSTEM == UNIX
@@ -52,7 +52,7 @@
 /*--------------------------------------------------------------------------*/
 Thread::Thread () : paArgs_ (NULL), id (0) {
    TRACE3 ("Thread::Thread ()");
-#ifndef HAVE_PTHREAD_H
+#ifndef HAVE_LIBPTHREAD
    canceled = false;
 #endif
 }
@@ -83,7 +83,7 @@ Thread::~Thread () {
 //            paArgs: (Array of) pointer to argument(s)
 /*--------------------------------------------------------------------------*/
 void Thread::init (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
    if (pthread_create (&id, NULL, fnc, this) != 0) {
       std::string err (_("Can't create thread!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
@@ -110,7 +110,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
 //Purpose   : Ends the thread
 /*--------------------------------------------------------------------------*/
 void Thread::ret (void* rc) const {
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
    pthread_exit (rc);
 #else
    exit (rc ? *static_cast<int*> (rc) : -1);
@@ -121,7 +121,7 @@ void Thread::ret (void* rc) const {
 //Purpose   : Ends the thread
 /*--------------------------------------------------------------------------*/
 void Thread::cancel () {
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
    pthread_cancel (id);
 #else
    canceled = true;
@@ -134,7 +134,7 @@ void Thread::cancel () {
 //Returns   : void* 
 /*--------------------------------------------------------------------------*/
 void* Thread::waitForThread (const Thread& id) {
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
    void* rc;
    pthread_join (id.id, &rc);
    return rc;
@@ -148,7 +148,7 @@ void* Thread::waitForThread (const Thread& id) {
 //Purpose   : Checks if the tread should be canceled and does so, if yes
 /*--------------------------------------------------------------------------*/
 void Thread::isToCancel () const {
-#ifdef HAVE_PTHREAD_H
+#ifdef HAVE_LIBPTHREAD
    pthread_testcancel ();
 #else
    if (canceled)
