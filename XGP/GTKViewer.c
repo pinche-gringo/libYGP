@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.2 2003/10/19 00:00:26 markus Exp $
+//$Id: GTKViewer.c,v 1.3 2003/10/19 03:15:53 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -43,8 +43,8 @@
 #undef TRACE
 #undef TRACE2
 #if TRACELEVEL > 0
-#  define TRACE(x)     printf (x)
-#  define TRACE2(x, y) printf (x, y)
+#  define TRACE(x)     printf (x); fflush (stdin);
+#  define TRACE2(x, y) printf (x, y); fflush (stdin);
 #else
 #  define TRACE(x)
 #  define TRACE2(x, y)
@@ -133,14 +133,20 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
       if (!strncmp (file, "file://", 7))
          file += 7;
 
-      char* oldpath = ((GTKHTMLDATA*)data)->path ? ((GTKHTMLDATA*)data)->path : "";
-      char* newpath = (char*)malloc (strlen (oldpath)
-                                     + ((*file != '/') ? strlen (file) + 2 : 2));
-      strcpy (newpath, oldpath);
-      int len = strlen (newpath);
-      if (len && (newpath[len - 1] != '/'))
-         newpath[len++] = '/';
-      strcpy (newpath + len, file);
+      char tmp[4] = "";
+      char* oldpath = ((GTKHTMLDATA*)data)->path ? ((GTKHTMLDATA*)data)->path : tmp;
+      TRACE2 ("Oldpath = '%s'\n", oldpath);
+      if (*file == '/')
+         *oldpath = '\0';
+      unsigned int olen = strlen (oldpath);
+      unsigned int nlen = strlen (file);
+      char* newpath = (char*)malloc (nlen + olen  + 2);
+      if (olen) {
+         memcpy (newpath, oldpath, olen);
+         if (newpath[olen - 1] != '/')
+            newpath[olen++] = '/';
+      }
+      memcpy (newpath + olen, file, nlen + 1);
 
       TRACE2 ("Reading: `%s'\n", newpath);
       FILE* pFile = fopen (newpath, "r");
@@ -148,17 +154,17 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
          GtkWidget* dlg = gtk_message_dialog_new 
              (GTK_WINDOW (gtk_widget_get_ancestor (ctrl, GTK_TYPE_WINDOW)),
               GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-              GTK_BUTTONS_OK, (const gchar*)_("Error loading file `%s': %s"),
+              GTK_BUTTONS_OK, (const gchar*)_("Error loading file '%s': %s"),
               (const gchar*)newpath, (const gchar*)g_strerror (errno));
          gtk_dialog_run (GTK_DIALOG (dlg));
-         gtk_widget_destroy (GTK_WIDGET (dlg));
+         gtk_widget_destroy (dlg);
          free (newpath);
          return 1;
       }
       if (((GTKHTMLDATA*)data)->path)
          free (((GTKHTMLDATA*)data)->path);
       ((GTKHTMLDATA*)data)->path = newpath;
-      newpath = strchr (newpath, '/');
+      newpath = strrchr (newpath, '/');
       if (newpath)
          *++newpath = '\0';
       else
