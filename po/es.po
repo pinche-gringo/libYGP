@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.00 ($Revision: 1.5 $)\n"
-"POT-Creation-Date: 2002-04-19 19:11-0500\n"
+"Project-Id-Version: General 0.6.00 ($Revision: 1.6 $)\n"
+"POT-Creation-Date: 2002-04-22 15:55-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -279,3 +279,86 @@ msgstr "No puedo conectar al servidor '%1'"
 #: Common/Socket.cpp:311
 msgid "Error sending data"
 msgstr "Error enviar los datos"
+
+#: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:43
+#: X-windows/XPrintDlg.cpp:54
+msgid "OK"
+msgstr ""
+
+#: X-windows/XDate.cpp:54 X-windows/XMessageBox.cpp:44
+#: X-windows/XPrintDlg.cpp:54
+msgid "Cancel"
+msgstr ""
+
+#: X-windows/XPrintDlg.cpp:55
+#, fuzzy
+msgid "Print command: "
+msgstr "Orden invalido"
+
+#: X-windows/XPrintDlg.cpp:60
+msgid "Print"
+msgstr ""
+
+#. No input?
+#: X-windows/XPrintDlg.cpp:140
+msgid "No print-command specified"
+msgstr ""
+
+#: X-windows/XPrintDlg.cpp:149
+#, fuzzy, ycp-format
+msgid ""
+"Could not run command `%1'\n"
+"Reason: %2"
+msgstr "No puede abrir el fichero de inicialisción '%1'! Causa: %2"
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Info"
+msgstr "Información"
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Question"
+msgstr "Pregunta"
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Warning"
+msgstr "Aviso"
+
+#: X-windows/XMessageBox.cpp:42
+msgid "Error"
+msgstr "Error"
+
+#: X-windows/XMessageBox.cpp:42
+msgid "Critical"
+msgstr "Error grave"
+
+#: X-windows/XMessageBox.cpp:43
+msgid "Retry"
+msgstr "Repitir"
+
+#: X-windows/XMessageBox.cpp:43
+msgid "Yes"
+msgstr "Si"
+
+#: X-windows/XMessageBox.cpp:43
+msgid "No"
+msgstr "No"
+
+#. File does not exist: Show msg and exit
+#: X-windows/XFileDlg.cpp:105
+#, ycp-format
+msgid "File `%1' does not exist!"
+msgstr "Fichero '%1' no existe!"
+
+#: X-windows/XFileDlg.cpp:114
+#, ycp-format
+msgid "File `%1' exists! Overwrite?"
+msgstr "¡Fichero '%1' existe! ¿Sobreescribe?"
+
+#: X-windows/XDate.cpp:159
+#, ycp-format
+msgid "Date `%1' is not valid!"
+msgstr "Fecha '1' no está valido!"
+
+#: X-windows/XAbout.cpp:48
+msgid "Distributed under the terms of the GNU General Public License"
+msgstr "Distributado bajo los condicones de la GNU Licensia General Público"

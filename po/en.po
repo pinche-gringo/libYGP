@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: General 0.6.00\n"
-"POT-Creation-Date: 2002-04-19 19:11-0500\n"
+"POT-Creation-Date: 2002-04-22 15:55-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -279,3 +279,85 @@ msgstr "Can't connect to server '%1'"
 #: Common/Socket.cpp:311
 msgid "Error sending data"
 msgstr "Error sending data"
+
+#: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:43
+#: X-windows/XPrintDlg.cpp:54
+msgid "OK"
+msgstr ""
+
+#: X-windows/XDate.cpp:54 X-windows/XMessageBox.cpp:44
+#: X-windows/XPrintDlg.cpp:54
+msgid "Cancel"
+msgstr ""
+
+#: X-windows/XPrintDlg.cpp:55
+msgid "Print command: "
+msgstr ""
+
+#: X-windows/XPrintDlg.cpp:60
+msgid "Print"
+msgstr ""
+
+#. No input?
+#: X-windows/XPrintDlg.cpp:140
+msgid "No print-command specified"
+msgstr ""
+
+#: X-windows/XPrintDlg.cpp:149
+#, ycp-format
+msgid ""
+"Could not run command `%1'\n"
+"Reason: %2"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Info"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Question"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Warning"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:42
+msgid "Error"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:42
+msgid "Critical"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:43
+msgid "Retry"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:43
+msgid "Yes"
+msgstr ""
+
+#: X-windows/XMessageBox.cpp:43
+msgid "No"
+msgstr ""
+
+#. File does not exist: Show msg and exit
+#: X-windows/XFileDlg.cpp:105
+#, ycp-format
+msgid "File `%1' does not exist!"
+msgstr ""
+
+#: X-windows/XFileDlg.cpp:114
+#, ycp-format
+msgid "File `%1' exists! Overwrite?"
+msgstr ""
+
+#: X-windows/XDate.cpp:159
+#, ycp-format
+msgid "Date `%1' is not valid!"
+msgstr ""
+
+#: X-windows/XAbout.cpp:48
+msgid "Distributed under the terms of the GNU General Public License"
+msgstr ""
