@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.7 2000/02/02 22:09:42 Markus Exp $
+//$Id: AttrVal.h,v 1.8 2000/03/08 20:40:26 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <iostream.h>
+#include <iostream>
 
 #include <string>
 
@@ -49,7 +49,7 @@ class AttributValue {
       inValue.readFromStream (in); }
    friend ostream& operator<< (ostream& out, const AttributValue& outValue) {
       if (outValue.isDefined ())
-         out.operator << (outValue.toString ().c_str ());
+         out.operator<< (outValue.toString ().c_str ());
       return out; }
 
  private:
