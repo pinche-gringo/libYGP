@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: ATime.html,v 1.9 2002/11/28 19:44:27 markus Exp $ -->
+<!-- $Id: ATime.html,v 1.10 2002/11/30 05:57:35 markus Exp $ -->
 
 <html>
   <head>
@@ -116,7 +116,7 @@
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pTime</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ATime.html"><b>ATime</b></a>&amp;</tt> </td>
         <td><a href="ATime.html#operator=3"><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pTime</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">pTime</font></tt>) throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
         <td><a href="ATime.html#operator=="><tt><font color="black"><b>operator</b></font></tt><tt>==</tt></a></td>
         <td><tt>(<tt>const</tt> <a href="ATime.html"><b>ATime</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
@@ -196,10 +196,9 @@
     <hr>
     <pre><a name="ATime3"></a><b>ATime</b> (const ATime&amp; other)</pre>
     <dl>
-      <dd><p>Constructor; depending on the parameter the time is either set to
-        "0:00:00" (now = false), or to the current time (now = true).</p></dd>
+      <dd><p>Constructor; copies the values of the passed object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>now</code>: Flag if current time or default start-time (1.1.1900) should</code> be set<dd>
+          <dd><code>other</code>: Object to copy<dd>
       </dl><dd>
     </dl>
     <hr>
@@ -208,7 +207,7 @@
       <dd><p>Constructor; depending on the parameter the time is either set to
         "0:00:00" (now = false), or to the current time (now = true).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>now</code>: Flag if current time or default start-time (1.1.1900) should</code> be set<dd>
+          <dd><code>now</code>: Flag if current time or default start-time (1.1.1900) should be set<dd>
       </dl><dd>
     </dl>
     <hr>
@@ -292,7 +291,7 @@
       <dd><p>Assignment-operator from an const char-pointer. The time must be
         passed as HHMMSS. If the buffer does not represent a
         valid time an excpetion is thrown. A NULL-pointer as parameter
-        is not permitted!Assignment-operator</p></dd>
+        is not permitted!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pTime</code>: Character array specifying time to assign<dd>
       </dl><dd>
@@ -680,7 +679,7 @@
     <h3><font color="navy">Utility-functions</font></h3>
     <pre><a name="minAdapt"></a>bool <b>minAdapt</b> () </pre>
     <dl>
-      <dd><p>Corrects the object after an (possible) underflows. If the hour has an underflow
+      <dd><p>Corrects the object after an (possible) underflow. If the hour has an underflow
         true is returned, else false.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if there´s a underflow of hour
@@ -689,7 +688,7 @@
     <hr>
     <pre><a name="maxAdapt"></a>bool <b>maxAdapt</b> () </pre>
     <dl>
-      <dd><p>Corrects the object after an (possible) overflows. If the hour has an overflow true
+      <dd><p>Corrects the object after an (possible) overflow. If the hour has an overflow true
         is returned, else false.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if there´s a overflow of the hour
