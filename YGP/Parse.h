@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.17 2000/03/04 18:57:04 Markus Exp $
+//$Id: Parse.h,v 1.18 2000/03/12 12:39:54 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -779,7 +779,7 @@ template <class T> class OFParseExact : public ParseExact {
                  PTCALLBACK callback, unsigned int max, unsigned int min,
                  bool skipWhitespace = true)
       : ParseExact (value, description, max, min, skipWhitespace)
-      , object (objToNotriy), pCallback (callback) { assert (pCallback); }
+      , object (objToNotify), pCallback (callback) { assert (pCallback); }
    OFParseExact (const OFParseExact& other) : ParseExact (other)
       , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
    virtual ~OFParseExact () { }
