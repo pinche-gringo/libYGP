@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.4 2002/05/13 02:51:42 markus Rel $
+//$Id: Thread.cpp,v 1.5 2002/05/19 10:48:59 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -65,7 +65,7 @@ Thread::Thread () : paArgs_ (NULL), id (0) {
 Thread::Thread (THREAD_FUNCTION fnc, void* paArgs) throw (std::string)
    : paArgs_ (paArgs) {
    TRACE3 ("Thread::Thread (THREAD_FUNCTION, void*)");
-   init (fnc, paArgs);
+   init (fnc);
 
    TRACE9 ("Thread::Thread (THREAD_FUNCTION, void*) -id = " << (int)id);
 }
@@ -81,16 +81,15 @@ Thread::~Thread () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Initializes the tread
 //Parameters: fnc: Function to be called in the thread
-//            paArgs: (Array of) pointer to argument(s)
 /*--------------------------------------------------------------------------*/
-void Thread::init (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
+void Thread::init (THREAD_FUNCTION fnc) throw (std::string) {
 #ifdef HAVE_LIBPTHREAD
    if (pthread_create (&id, NULL, fnc, this) != 0) {
       std::string err (_("Can't create thread!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
       throw (err);
    }
-   TRACE9 ("Thread::init (THREAD_FUNCTION, void*) -id = " << (int)id);
+   TRACE9 ("Thread::init (THREAD_FUNCTION) -id = " << (int)id);
 #else
    canceled = false;
    id = fork ();
