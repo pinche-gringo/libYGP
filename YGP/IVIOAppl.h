@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.4 1999/08/11 17:22:45 Markus Exp $
+//$Id: IVIOAppl.h,v 1.5 1999/08/11 21:39:08 Markus Exp $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -65,6 +65,7 @@ class IVIOApplication {
     char**       ppArgs;
 
     unsigned int startArg;
+    unsigned int startOpt;
     char*        pOptionParam;
 
     const longOptions* longOpt;
