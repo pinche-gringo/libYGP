@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.3 2000/04/02 02:56:11 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.4 2000/04/02 19:27:14 Markus Exp $ -->
 
 <html>
   <head>
@@ -503,7 +503,7 @@
 
     <hr noshade="noshade">
     <h2>Description</h2>
-    <p>Class to parse a text-value til a certain abort-criteria.</p>
+    <p>Class to parse a text-value until specified abort-characters are found.</p>
 
     <p>Parsing of this element is stopped, if any of the characters in the
       abort-parameters is found (or the maximal cardinality is reached).</p>
@@ -523,6 +523,7 @@
 	<td><a href="Parse.html#POTxtoperator=">operator=</a></td>
 	<td>(const <a href="Parse.html#ParseText">ParseText</a>&amp; other)</td></tr>
 
+      <tr valign="top"><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual bool</td>
 	<td><a href="Parse.html#POTxtcheckValue">checkValue</a></td><td>(char ch)</td></tr>
@@ -533,7 +534,7 @@
 
     <h4>Management functions</h4>
     <pre><a name="ParseText1">ParseText (const char* abort, const char* description, unsigned int max = 1,
-              unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+           unsigned int min = 1, bool skipWhitespace = true)</a></pre>
     <dl>
       <dd>Constructor; sets the neccessary data of this object.
 	<p>The parameter <i>abort</i> specifies the characters which ends the
@@ -550,6 +551,219 @@
       <dd>Checks if the parsed value is according the abort-list of the object.
 	If the parsed character is inside the list, false is returned; if not
 	true.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseTextEsc">Class ParseTextEsc</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseText">ParseText</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse a text-value until specified abort-characters are found.</p>
+
+    <p>Parsing of this element is stopped, if the maximal cardinality is
+      reached or any of the characters in the abort-parameters is found which
+      is not succeeded by a certain (defined) character.</p>
+    <p>This class enables parsing analogue to strings in C. A C-string is
+      terminated with a quote ("), except if the quote follows a backslash (\).
+      The only difference is that both quote and backslash can be specified and
+      therefor be every charcter.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseTextEsc1">ParseTextEsc</a></td>
+	<td>(const char* abort, const char* description, unsigned int max = 1,
+	  unsigned int min = 1, char escape = '\\', bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseTextEsc2">ParseTextEsc</a></td>
+	<td>(const <a href="Parse.html#ParseTextEsc">ParseTextEsc</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseTextEsc">~ParseTextEsc</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseTextEsc">ParseTextEsc</a>&amp;</td>
+	<td><a href="Parse.html#POTxEoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseTextEsc">ParseTextEsc</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="Parse.html#POTxEcheckValue">checkValue</a></td><td>(char ch)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="ParseTextEsc1">ParseTextEsc (const char* abort, const char* description, unsigned int max = 1,
+              unsigned int min = 1, char escape = '\\', bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor; sets the neccessary data of this object.
+	<p>The parameter <i>abort</i> specifies the characters which ends the
+	  parsing for this object (if it is not succeeded by the character
+	  defined with the parameter <i>escape</i>).</p></dd>
+    </dl>
+
+    <pre><a name="ParseTextEsc2">ParseTextEsc (const ParseTextEsc&amp; other)</a></pre>
+    <pre><a name="~ParseTextEsc">virtual ~ParseTextEsc ()</a></pre>
+
+    <pre><a name="POTxEoperator=">ParseTextEsc&amp; operator= (const ParseTextEsc&amp; other)</a></pre>
+
+    <pre><a name="POTxEcheckValue">virtual bool checkValue (char ch) const</a></pre>
+    <dl>
+      <dd>Checks if the parsed value is according the abort-list of the object.
+	If the parsed character is inside the list and not succeeded by the
+	escape-character, false is returned; if not true.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseExact">Class ParseExact</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseExact">ParseExact</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse exactly a certain text (case-sensitive!)</p>
+    <p>The min- and max-members are not totally wasted; they could be used to
+      define the minimal length of certain keywords which would be valid even
+      if just written in a short(er) form.</p>
+
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseExact1">ParseExact</a></td>
+	<td>(const char* value, const char* description, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseExact2">ParseExact</a></td>
+	<td>(const char* value, const char* description, unsigned int max,
+	  unsigned int min, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseExact3">ParseExact</a></td>
+	<td>(const <a href="Parse.html#ParseExact">ParseExact</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseExact">~ParseExact</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseExact">ParseExact</a>&amp;</td>
+	<td><a href="Parse.html#POExaoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseExact">ParseExact</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POExacheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="Parse.html#POExacheckValue">checkValue</a></td><td>(char ch)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="ParseExact1">ParseExact (const char* value, const char* description, bool skipWhitespace = true)</a></pre>
+    <pre><a name="ParseExact2">ParseExact (const char* value, const char* description, unsigned int max,
+            unsigned int min, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
+	minimal length of a keyword. This word would be valid if at least min
+	characters would be parsed, but other (longer) versions of the word
+	would also be valid.
+    </dl>
+
+    <pre><a name="ParseExact3">ParseExact (const ParseExact&amp; other)</a></pre>
+    <pre><a name="~ParseExact">virtual ~ParseExact ()</a></pre>
+
+    <pre><a name="POExaoperator=">ParseExact&amp; operator= (const ParseExact&amp; other)</a></pre>
+
+    <pre><a name="POExacheckValue">virtual bool checkValue (char ch) const</a></pre>
+    <dl>
+      <dd>Retruns true, if the passed character is exactly equal (case-sensitive!)
+	than the one in the actual position of the object; else false.</dd>
+    </dl>
+    <pre><a name="POExacheckIntegrity">virtual int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks if this object is in a valid state.</dd>
+    </dl>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseUpperExact">Class ParseUpperExact</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseAttomic">ParseAttomic</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse exactly a certain text (not case-sensitive!)</p>
+    <p>The min- and max-members are not totally wasted; they could be used to
+      define the minimal length of certain keywords which would be valid even
+      if just written in a short(er) form.</p>
+
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseUpperExact1">ParseUpperExact</a></td>
+	<td>(const char* value, const char* description, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseUpperExact2">ParseUpperExact</a></td>
+	<td>(const char* value, const char* description, unsigned int max,
+	  unsigned int min, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseUpperExact3">ParseUpperExact</a></td>
+	<td>(const <a href="Parse.html#ParseUpperExact">ParseUpperExact</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseUpperExact">~ParseUpperExact</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseUpperExact">ParseUpperExact</a>&amp;</td>
+	<td><a href="Parse.html#POUExoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseUpperExact">ParseUpperExact</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POUExcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="Parse.html#POUExcheckValue">checkValue</a></td><td>(char ch)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="ParseUpperExact1">ParseUpperExact (const char* value, const char* description, bool skipWhitespace = true)</a></pre>
+    <pre><a name="ParseUpperExact2">ParseUpperExact (const char* value, const char* description, unsigned int max,
+            unsigned int min, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
+	minimal length of a keyword. This word would be valid if at least min
+	characters would be parsed, but other (longer) versions of the word
+	would also be valid.
+    </dl>
+
+    <pre><a name="ParseUpperExact3">ParseUpperExact (const ParseUpperExact&amp; other)</a></pre>
+    <pre><a name="~ParseUpperExact">virtual ~ParseUpperExact ()</a></pre>
+
+    <pre><a name="POUExoperator=">ParseUpperExact&amp; operator= (const ParseUpperExact&amp; other)</a></pre>
+
+    <pre><a name="POUExcheckValue">virtual bool checkValue (char ch) const</a></pre>
+    <dl>
+      <dd>Retruns true, if the passed character is exactly equal (not
+	case-sensitive!) than the one in the actual position of the object;
+	else false.</dd>
+    </dl>
+    <pre><a name="POUExcheckIntegrity">virtual int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks if this object is in a valid state.</dd>
     </dl>
   </body>
 </html>
