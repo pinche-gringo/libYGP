@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.13 2003/06/19 22:34:39 markus Rel $
+//$Id: IDirSrch.h,v 1.14 2003/07/21 23:52:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,12 +61,12 @@ class IDirectorySearch {
    /// files returned must match the passed attributes.
    ///
    /// To be implemented by derived classes.
-   /// \returns: <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
    virtual const File* find (unsigned long attribs = FILE_NORMAL) = 0;
    /// Method to find the next file matching the  previously specified values.
    ///
    /// To be implemented by derived classes.
-   /// \returns: <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
    virtual const File* next () = 0;
    //@}
 
@@ -74,7 +74,7 @@ class IDirectorySearch {
    /// (e.g. the directory is valid, ...)
    ///
    /// To be implemented by derived classes.
-   /// \returns: \c True if values are OK, false otherwise
+   /// \returns \c True if values are OK, false otherwise
    virtual bool isValid () const = 0;
    /// Checks if the passed file is a "special" file (the system directories
    /// `.' and `..').
