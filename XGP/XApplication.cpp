@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.11 2002/04/28 00:19:16 markus Rel $
+//$Id: XApplication.cpp,v 1.12 2002/07/08 03:37:13 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <signal.h>
+#include <locale.h>
 
 #include "Check.h"
 #include "StackTrc.h"
@@ -38,7 +39,8 @@
 #include <gtk--/menu.h>
 #include <gtk--/radiomenuitem.h>
 
-#define DEBUG 0
+#include <Internal.h>
+
 #include "Trace_.h"
 
 #include "XApplication.h"
@@ -152,6 +154,19 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
 
    while (cMenus--)
       addMenu (*menuEntries++);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Initializes program for internationalition
+//Parameters: package: Name of the message-catalog
+//            dir: root-directory for message-catalogs
+/*--------------------------------------------------------------------------*/
+void XApplication::initI18n (const char* package, const char* dir) {
+   assert (package); assert (dir);
+
+   setlocale (LC_ALL, "");                         // Activate current locale
+   bindtextdomain (package, dir);
+   textdomain (package);
 }
 
 

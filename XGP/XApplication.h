@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.9 2002/04/28 00:18:58 markus Rel $
+//$Id: XApplication.h,v 1.10 2002/07/08 03:37:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -65,6 +65,8 @@ class XApplication : public Window {
       Main::quit ();
       return 0;
    }
+
+   static void initI18n (const char* package, const char* dir);
 
  protected:
    typedef enum { ITEM, CHECKITEM, SEPARATOR, BRANCH, LASTBRANCH } menuTypes;
