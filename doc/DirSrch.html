@@ -1,4 +1,4 @@
-<!-- $Id: DirSrch.html,v 1.6 2000/04/15 02:05:25 Markus Exp $ -->
+<!-- $Id: DirSrch.html,v 1.7 2000/04/17 23:34:18 Markus Rel $ -->
 
 <html>
   <head>
@@ -272,7 +272,7 @@
       <dd>Retrieves the	size of the file. The call is only valid after a
         successfull find.</dd>
     </dl>
-    <pre><a name="time">const time_t time () const</pre>
+    <pre><a name="time">const time_t time</a> () const</pre>
     <dl><dd>Retrieves the modification time of the file in the format of the
         system-time. The call is only valid after a successfull find.</dd>
     </dl>
@@ -300,7 +300,7 @@
     </dl>
     <pre><a name="isUserExec"></a>bool isUserExec () const</pre>
     <dl>
-      <dd></p>Returns true, if the file is executeable for the actual user. Under
+      <dd><p>Returns true, if the file is executeable for the actual user. Under
           UNIX it checks the rights for the effictive user under DOS/WINDOZE it
           the extension of the file (true for EXE/COM/BAT).</p>
         <p>The call is only valid after a successfull find.</p></dd>

@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.8 2000/04/15 02:05:25 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.9 2000/04/17 23:34:18 Markus Rel $ -->
 
 <html>
   <head>
@@ -539,8 +539,7 @@
           parsed data is pushed back into the stream and <i>PARSE_ERROR</i> is
           returned.</p>
         <p>If parsing is not optional and the error is not recoverable (&lt; 0),
-          an exception (std::string) is thrown.</p>
-        <p></dd>
+          an exception (std::string) is thrown.</p></dd>
     </dl>
     <pre><a name="POAttcheckValue"></a>virtual bool checkValue (char ch) const</pre>
     <dl>
@@ -1745,6 +1744,7 @@
     <h2>Description</h2>
     <p>Class to parse series of ParseObjects with a callback to report matching
       input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseSequence">ParseSequence</a>
       for further details.</p>
 
     <hr noshade>
