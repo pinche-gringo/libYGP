@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.42 2003/03/06 04:16:02 markus Rel $
+//$Id: DirSrch.cpp,v 1.43 2003/06/19 22:36:29 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -43,9 +43,9 @@
 #include "FileRExp.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Defaultconstructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Defaultconstructor
+//-----------------------------------------------------------------------------
 DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
                                       , offStrip (0)
 #if SYSTEM == UNIX
@@ -58,11 +58,11 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
    searchDir += File::DIRSEPARATOR;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates an object with the files to search. The
-//            parameter may include path-information.
-//Parameters: search: Files (including the path) to search for.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; creates an object with the files to search. The parameter may
+/// include path-information.
+/// \param search: Files (including the path) to search for.
+//-----------------------------------------------------------------------------
 DirectorySearch::DirectorySearch (const std::string& search)
    : IDirectorySearch ()
 #if SYSTEM == UNIX
@@ -75,21 +75,21 @@ DirectorySearch::DirectorySearch (const std::string& search)
    setSearchValue (search);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 DirectorySearch::~DirectorySearch () {
    cleanup ();
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the first file matching the previously specified
-//            search-criteria.
-//Parameters: attribs: Attributes the file must contain
-//Returns   : const File*: Pointer to found file-object or NULL
-//Requires  : The search values must have been specified!
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Retrieves the first file matching the previously specified
+/// search-criteria.
+/// \param attribs: Attributes the file must contain
+/// \returns <tt>const File*</tt>: Pointer to found file-object or NULL
+/// \pre The search values must have been specified!
+//-----------------------------------------------------------------------------
 const File* DirectorySearch::find (unsigned long attribs) {
    TRACE9 ("DirectorySearch::find (unsigned long)");
    cleanup ();
@@ -147,13 +147,12 @@ const File* DirectorySearch::find (unsigned long attribs) {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the next matching file according to parameters specified
-//            in earlier find-calls. If a file was found 0 is returned, errno
-//            otherwise.
-//Returns   : const File*: Pointer to found file-object or NULL
-//Requires  : The search must have already been started by a find!
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the next matching file according to parameters specified in
+/// earlier find-calls. If a file was found 0 is returned, errno otherwise.
+/// \returns <tt>const File*</tt>: Pointer to found file-object or NULL
+/// \pre The search must have already been started by a find!
+//-----------------------------------------------------------------------------
 const File* DirectorySearch::next () {
    TRACE9 ("DirectorySearch::next ()");
 
@@ -215,24 +214,24 @@ const File* DirectorySearch::next () {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if this object is integer. If yes 0 is returned, else a
-//            number describing the error.
-//Returns   : int: Status; 0: OK
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if this object is integer. If yes 0 is returned, else a number
+/// describing the error.
+/// \returns \c int: Status; 0: OK
+//-----------------------------------------------------------------------------
 int DirectorySearch::checkIntegrity () const {
    TRACE9 ("DirectorySearch::checkIntegrity () const");
 
    return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
                                         pEntry ? 
-                                        (pEntry->path_.empty () && !offStrip): NO_ENTRY;
+                                        (pEntry->path_.empty () && !offStrip) : NO_ENTRY;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Splits the search-string in its directory- and filepart; it
-//            prepares the internal data also for a new search
-//Parameters: search: Files to find
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Splits the search-string in its directory- and filepart; it prepares the
+/// internal data also for a new search
+/// \param search: Files to find
+//-----------------------------------------------------------------------------
 void DirectorySearch::setSearchValue (const std::string& search) {
    TRACE8 ("DirectorySearch::setSearchValue (const std::string&) - " << search);
    Check3 (!search.empty ());
@@ -271,9 +270,9 @@ void DirectorySearch::setSearchValue (const std::string& search) {
    Check3 (checkIntegrity () <= NO_ENTRY);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Releases all internally used resources.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Releases all internally used resources.
+//-----------------------------------------------------------------------------
 void DirectorySearch::cleanup () {
    TRACE9 ("DirectorySearch::cleanup ()");
    clearEntry ();
@@ -299,11 +298,11 @@ void DirectorySearch::cleanup () {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the passed string specifies an existing directory.
-//Parameters: dir: Directory whose validity should be checked
-//Returns   : bool: True if the directory exists
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if the passed string specifies an existing directory.
+/// \param dir: Directory whose validity should be checked
+/// \returns \c bool: True if the directory exists
+//-----------------------------------------------------------------------------
 bool DirectorySearch::isValid (const std::string& dir) {
    TRACE8 ("DirectorySearch::isValid (const std::string&) - " << dir.c_str ());
 
@@ -319,11 +318,11 @@ bool DirectorySearch::isValid (const std::string& dir) {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the directory-part of this object specifies an
-//            existing directory.
-//Returns   : bool: True if the directory exists
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if the directory-part of this object specifies an existing
+/// directory.
+/// \returns \c bool: True if the directory exists
+//-----------------------------------------------------------------------------
 bool DirectorySearch::isValid () const {
    return isValid (searchDir);
 }

@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.29 2002/12/25 05:09:39 markus Rel $
+//$Id: DirSrch.h,v 1.30 2003/06/19 22:36:29 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,21 +52,22 @@ struct File;
 class DirectorySearch;
 
 
-// Class to search for files in a certain directory.  This search can
-// be restricted to files matching certain name-criterias or by
-// attributes.
-//
-// The name-part of the files to search supports UNIX-like wildcards;
-// that are the asterisk (*) for any number of any characters, the
-// question-mark for any single character and a set of characters in
-// brackets (([) and (])). This set can contain a list of characters
-// (like [abcde]) or a region (like [a-e]). To invert this set use a
-// leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
-//
-// The found (and matching) files are retrieved by objects of type File.
-//
-// Note: The class does not do any word expansion for the search-path
-//       (like expanding the tilde (~) to the home-directory)!
+/**Class to search for files in a certain (locally accesable) directory. This
+   search can be restricted to files matching certain name-criterias or by
+   attributes.
+
+   The name-part of the files to search supports UNIX-like wildcards; that are
+   the asterisk (*) for any number of any characters, the question-mark for
+   any single character and a set of characters in brackets (([) and
+   (])). This set can contain a list of characters (like [abcde]) or a region
+   (like [a-e]). To invert this set use a leading caret (^) or a leading
+   exclamation mark (!), like ([^a-e]).
+
+   The found (and matching) files are retrieved by objects of type File.
+
+   \note The class does \b not do any word expansion for the search-path
+         (like expanding the tilde (~) to the home-directory)!
+*/
 class DirectorySearch : public IDirectorySearch {
  public:
    //@Section manager-functions
@@ -75,20 +76,30 @@ class DirectorySearch : public IDirectorySearch {
    virtual ~DirectorySearch ();
 
    virtual void setSearchValue (const std::string& search);
+   /// Returns the directory part of the files to search for.
    virtual std::string getDirectory () const { return searchDir; }
+   /// Returns the file specification of the files to search for.
    virtual std::string getFileSpec () const { return searchFile; }
 
    virtual bool isValid () const;
    static bool isValid (const std::string& dir);
 
-   //@Section searching
+   /// \name Searching
+   //@{
+   /// Searches for the specified files with the passed attributes.
+   /// \returns: <tt>const File*</tt>: Pointer to found file or NULL
    const File* find (const std::string& search,
                      unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
       cleanup ();
       setSearchValue (search);
       return find (attribs); }
+   /// Searches for previously specified files with the passed attributes.
+   /// \returns: <tt>const File*</tt>: Pointer to found file or NULL
    virtual const File* find (unsigned long attribs = IDirectorySearch::FILE_NORMAL);
+   /// Method to find the next file matching the  previously specified values.
+   /// \returns: <tt>const File*</tt>: Pointer to found file or NULL
    virtual const File* next ();
+   //@}
 
  protected:
    virtual int checkIntegrity () const;
@@ -99,7 +110,12 @@ class DirectorySearch : public IDirectorySearch {
    std::string searchFile;
 
    unsigned long attr;
-   enum { DIRSRCH_OK = 0, NO_ENTRY_PATH, NO_ENTRY, NO_DIR, NO_FILE, LAST};
+   /// Status of object 
+   enum { DIRSRCH_OK = 0,                       ///< Object is in a valid state
+          NO_ENTRY,     ///< Object is in a valid state, but has no entry found
+          NO_DIR,                      ///< No directory to search in specified
+          NO_FILE,                         ///< No file to search for specified
+          LAST };
 
  private:
    //@Section prohibited manager functions
