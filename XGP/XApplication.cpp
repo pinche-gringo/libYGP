@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.39 2004/10/24 00:22:27 markus Exp $
+//$Id: XApplication.cpp,v 1.40 2004/10/28 19:04:22 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -291,7 +291,7 @@ void XApplication::command (int menu) {
 #ifdef HAVE_LC_MESSAGES
          YGP::Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
 #else
-         YGP::Tokenize ext (pLang ? pLang : getenv ("LANG")));
+         YGP::Tokenize ext (pLang ? pLang : getenv ("LANG"));
 #endif
 
          // Check every language-entry (while removing trailing specifiers)
