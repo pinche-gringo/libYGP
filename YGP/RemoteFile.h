@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.2 2001/10/12 23:07:14 markus Rel $
+// $Id: RemoteFile.h,v 1.3 2003/02/13 07:15:34 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ typedef struct RemoteFile : public File {
    RemoteFile (const RemoteFile& o) : File (o), sock (o.sock) { }
    virtual ~RemoteFile ();
 
-   RemoteFile& operator= (const RemoteFile& o) { File::operator= (o); sock = o.sock; }
+   RemoteFile& operator= (const RemoteFile& o) { File::operator= (o); sock = o.sock; return *this; }
 
    virtual File* clone () const;
 
