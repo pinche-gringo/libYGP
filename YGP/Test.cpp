@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.6 1999/08/11 17:23:22 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.7 1999/08/11 21:46:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -74,8 +74,8 @@ class Application : public IVIOApplication {
 
 const IVIOApplication::longOptions Application::lo[] = {
    { "help", 'h' },
-   { "all-opt", 'a' },
-   { "all-mand", 'A' },
+   { "arg-opt", 'a' },
+   { "arg-mand", 'A' },
    { NULL, '\0' } };
 
 
