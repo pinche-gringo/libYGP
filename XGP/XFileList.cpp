@@ -1,14 +1,14 @@
-//$Id: XFileList.cpp,v 1.14 2002/04/11 07:48:06 markus Exp $
+//$Id: XFileList.cpp,v 1.15 2002/05/09 22:22:00 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -131,7 +131,8 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
                         	   unsigned int namePrefix) {
    Check3 (path); Check3 (files);
    Check3 (namePrefix < strlen (files));
-   TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
+   TRACE2 ("XFileList::loadIcons (const char*, const char*, unsigned int) - "
+           << path << '/' << files);
 
    Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
    Gdk_Window parentWin (get_parent_window ());
@@ -152,10 +153,11 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
    while (file) {
       // Read icon-file and store it
       string filename (file->path ()); filename += file->name ();
-      TRACE5 ("XFileList::loadIcons: Read icon " << filename);
+      TRACE5 ("XFileList::loadIcons (const char*, const char*, unsigned int) - Read icon "
+              << filename);
 
       const char* pTypepart (file->name () + namePrefix);
-      TRACE9 ("XFileList::loadIcons: Store icon "
+      TRACE9 ("XFileList::loadIcons (const char*, const char*, unsigned int) - Store icon "
               << std::string (pTypepart, strrchr (pTypepart, '.') - pTypepart));
       type.assign (pTypepart,
                    strrchr (pTypepart, '.') - pTypepart);
@@ -263,7 +265,7 @@ void XFileList::setIcon (int row, const File* pFile) {
          // Try to find an icon for the file in the preloaded list; 
          // use every dot (.)-seperated part of the filename
          if ((i = icons.find (++pName)) != icons.end ()) {
-            TRACE9 ("XFileList::setIcon - Use icon "
+            TRACE9 ("XFileList::setIcon (int, const File*) - Use icon "
                     << pName << " for file " << pFile->name ());
             actIcon = &(*i).second;
             break;
@@ -277,8 +279,11 @@ void XFileList::setIcon (int row, const File* pFile) {
 }
 
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Callback when widget is realized (shown)
+/*--------------------------------------------------------------------------*/
 void XFileList::realize_impl () {
-   TRACE9 ("XFileList::realize_impl");
+   TRACE9 ("XFileList::realize_impl ()");
 
    CList::realize_impl ();
 #ifdef PKGDIR
