@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.30 2000/03/05 12:50:40 Markus Exp $
+// $Id: Test.cpp,v 1.31 2000/04/02 01:25:09 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -178,14 +178,20 @@ int Application::perform (int argc, const char* argv[]) {
    if (xstr) {
       xstr.init ();
 
-      check (!(nr.parse ((Xistream&)xstr)));
-      check (!(alpha.parse ((Xistream&)xstr)));
-      check (!seqANum.parse ((Xistream&)xstr));
-      check (!selANum.parse ((Xistream&)xstr));
-      check (!text.parse ((Xistream&)xstr));
-      check (!text2.parse ((Xistream&)xstr));
-      check (xstr.getLine () == 3);
-      check (xstr.getColumn () == 8);
+      try {
+         check (!(nr.parse ((Xistream&)xstr)));
+         check (!(alpha.parse ((Xistream&)xstr)));
+         check (!seqANum.parse ((Xistream&)xstr));
+         check (!selANum.parse ((Xistream&)xstr));
+         check (!text.parse ((Xistream&)xstr));
+         check (!text2.parse ((Xistream&)xstr));
+         check (xstr.getLine () == 3);
+         check (xstr.getColumn () == 8);
+      } // end-try
+      catch (std::string e) {
+         cerr << "Error parsing Test.Dat in line " << xstr.getLine () << " ("
+              << (xstr.getColumn () + 1) << "): " << e.c_str () << '\n';
+      } // end-catch
    }
 
 #ifndef WINDOWS
