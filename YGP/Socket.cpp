@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.6 2001/09/06 19:30:33 markus Exp $
+//$Id: Socket.cpp,v 1.7 2001/10/20 00:09:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -63,33 +63,33 @@ Socket::Socket (unsigned int port) throw (domain_error)
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
-//Parameters: host: Name (or number) of host to send to
+//Parameters: server: Name (or number) of server to send to
 //            port: Port to write to
 /*--------------------------------------------------------------------------*/
-Socket::Socket (const char* host, unsigned int port) throw (domain_error)
+Socket::Socket (const char* server, unsigned int port) throw (domain_error)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const char*, unsigned int)");
-   assert (host);
+   assert (server);
 
    if (sock < 0)
       throwError ("Can't create socket", errno);
 
-   writeTo (host, port);
+   writeTo (server, port);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
-//Parameters: host: Name (or number) of host to send to
+//Parameters: server: Name (or number) of server to send to
 //            port: Port to write to
 /*--------------------------------------------------------------------------*/
-Socket::Socket (const std::string& host, unsigned int port) throw (domain_error)
+Socket::Socket (const std::string& server, unsigned int port) throw (domain_error)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const std::string&, unsigned int)");
 
    if (sock < 0)
       throwError ("Can't create socket", errno);
 
-   writeTo (host.c_str (), port);
+   writeTo (server.c_str (), port);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -131,7 +131,7 @@ Socket& Socket::operator= (int socket) {
 //Purpose   : Specifies the port to listen at (for read)
 //Parameters: port: Port at which to listen
 /*--------------------------------------------------------------------------*/
-void Socket::listenAt (unsigned int port) throw (domain_error) {
+void Socket::listenAt (unsigned int port) const throw (domain_error) {
    TRACE9 ("Socket::listenAt (unsigned int) - " << port << " (" << sock << ')');
 
    struct sockaddr_in addr;
@@ -207,7 +207,7 @@ int Socket::read (AByteArray& input) const throw (domain_error) {
 //            lenBuffer: Length of that buffer
 //Returns   : int: Number of bytes actually read
 /*--------------------------------------------------------------------------*/
-int Socket::read (char* pBuffer, int lenBuffer) const throw (domain_error) {
+int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (domain_error) {
    TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
@@ -238,21 +238,21 @@ int Socket::waitForInput () const throw (domain_error) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Connects this (socket) to an address
-//Parameters: host: Name (or number) of host to connect to
+//Parameters: server: Name (or number) of server to connect to
 //            port: Portnumber to connect to
 /*--------------------------------------------------------------------------*/
-void Socket::writeTo (const char* host, unsigned int port) throw (domain_error) {
-   TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << host << ':' << port);
-   assert (host);
+void Socket::writeTo (const char* server, unsigned int port) const throw (domain_error) {
+   TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << server << ':' << port);
+   assert (server);
 
    struct sockaddr_in name;
    name.sin_family = AF_INET;
    name.sin_port = htons (port);
    
-   struct hostent* hostinfo = gethostbyname (host);
+   struct hostent* hostinfo = gethostbyname (server);
    if (!hostinfo) {
       std::string error ("Can't resolve name ");
-      error += host;
+      error += server;
       throwError (error, 0);
    }
 
@@ -267,7 +267,8 @@ void Socket::writeTo (const char* host, unsigned int port) throw (domain_error) 
 //Parameters: pBuffer: Buffer to write
 //            lenBuffer: Length of data to write
 /*--------------------------------------------------------------------------*/
-void Socket::write (const char* pBuffer, int lenBuffer) const throw (domain_error) {
+void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
+   throw (domain_error) {
    TRACE5 ("Socket::write (const char*, int) const - " << pBuffer << " (" << sock << ')');
    assert (pBuffer);
 

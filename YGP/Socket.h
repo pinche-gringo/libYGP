@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.4 2001/08/11 15:11:17 markus Exp $
+//$Id: Socket.h,v 1.5 2001/10/20 00:09:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,31 +28,38 @@
 
 #include <AByteArray.h>
 
-// Internet-communication; errors are reported with exceptions
+// A socket is a generalized interprocess communication channel, which
+// support communication between unrelated processes, and even between
+// processes running on different machines that communicate over a
+// network. This class provides methods to connect to, read from and
+// write to another socket.
+//
+// At the moment the communications are always handled using streamed
+// connections in the Internet namespace.
 class Socket {
  public:
    Socket () throw (domain_error);
-   Socket (int other) : sock (other) { }
-   Socket (const Socket& other) : sock (other.sock) { }
-   Socket& operator= (const Socket&) throw (domain_error);
-   Socket& operator= (int socket);
-
+   Socket (int socket) : sock (socket) { }
    Socket (unsigned int port) throw (domain_error);
-   Socket (const char* host, unsigned int port) throw (domain_error);
-   Socket (const std::string& host, unsigned int port) throw (domain_error);
+   Socket (const char* server, unsigned int port) throw (domain_error);
+   Socket (const std::string& server, unsigned int port) throw (domain_error);
+   Socket (const Socket& other) : sock (other.sock) { }
    virtual ~Socket ();
 
-   void listenAt (unsigned int port) throw (domain_error);
+   Socket& operator= (const Socket& other) throw (domain_error);
+   Socket& operator= (int socket);
+
+   void listenAt (unsigned int port) const throw (domain_error);
    int waitForInput () const throw (domain_error);
 
    int  read (AByteArray& input) const throw (domain_error);
-   int  read (char* pBuffer, int lenBuffer) const throw (domain_error);
+   int  read (char* pBuffer, unsigned int lenBuffer) const throw (domain_error);
 
-   void writeTo (const char* host, unsigned int port) throw (domain_error);
-   void writeTo (const std::string& host, unsigned int port) throw (domain_error) {
-      writeTo (host.c_str (), port); }
+   void writeTo (const char* server, unsigned int port) const throw (domain_error);
+   void writeTo (const std::string& server, unsigned int port) const throw (domain_error) {
+      writeTo (server.c_str (), port); }
    void write (const char* pBuffer) const throw (domain_error);
-   void write (const char* pBuffer, int lenBuffer) const throw (domain_error);
+   void write (const char* pBuffer, unsigned int lenBuffer) const throw (domain_error);
    void write (const AByteArray& output) const throw (domain_error) {
       write (output.data (), output.length ()); }
 
