@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.1 2001/08/27 15:24:28 markus Exp $
+// $Id: AssParse.cpp,v 1.2 2001/10/18 01:48:46 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -48,7 +48,7 @@ int main (int argc, char* argv[]) {
       check (attrs.getActValue () == ";;;");
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == "key3=\"abcd\\\"def\"");
+      check (attrs.getActNode () == "key3=\"abcd\"def\"");
       check (attrs.getActKey () == "key3");
       check (attrs.getActValue () == "abcd\"def");
 
