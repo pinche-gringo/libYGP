@@ -1,11 +1,11 @@
-// $Id: RFile.cpp,v 1.1 2002/07/15 20:14:08 markus Exp $
+// $Id: RFile.cpp,v 1.2 2002/07/15 21:00:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/RFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -60,14 +60,14 @@ int main (int argc, char* argv[]) {
       char id[1024];
       int bytes = read (aiPipe[0], id, sizeof (id) - 1);
       id[bytes] = '\0';
-      TRACE1 ("RFile (client): ID of created object: '" << id << '\'');
+      TRACE2 ("RFile (client): ID of created object: '" << id << '\'');
       close (aiPipe[0]);
 
       CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
       CFile_var file (CFile::_narrow (orb->string_to_object (id)));
       assert (file);
 
-      TRACE ("Found: " << file->path () << file->name ());
+      TRACE1 ("Found: " << file->path () << file->name ());
       file->exit ();
       }
       break;
@@ -86,7 +86,7 @@ int main (int argc, char* argv[]) {
       CIFile* file = new CIFile (*pFile); assert (file);
       CORBA::String_var id = orb->object_to_string (file);
 
-      TRACE1 ("RFile (parent): ID of created object: '" << id << '\'');
+      TRACE2 ("RFile (parent): ID of created object: '" << id << '\'');
 
       FILE* stream = fdopen (aiPipe[1], "w");
       fputs (id, stream);
