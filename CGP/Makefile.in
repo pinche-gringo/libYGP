@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.7 2001/08/22 01:39:26 markus Exp $
+# $Id: Makefile.in,v 1.8 2001/08/24 02:35:51 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -49,14 +49,17 @@ DEFS = @DEFS@
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 
-LIBS=-lmico -lAttr
+LDFLAGS = @LDFLAGS@
+LIBS=-ldl -lmico -lAttr
 
 LIBTOOL = @LIBTOOL@
 
 # CORBACOMPILE = mico-shc++
 # CORBALINK = mico-shld
-CORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-CORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+CORBACOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CORBALINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+LTCORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 
 
 LIB_TARGETS=libCAttr.la
@@ -75,26 +78,71 @@ DIST_COMMON = Makefile.in
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(DIST_HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 
+all: Makefile $(LIB_TARGETS)
+
+
+
+# Settings for dependencies
+DEP_FILES =  .deps/CIDirSrch.P .deps/CDirSrch.P .deps/Version.P
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+
+-include $(DEP_FILES)
+
+
 .SUFFIXES: .cc .cpp .lo .o .idl
 
 .idl.cc:
 	idl $<
-.cc.o:
-	$(CORBACOMPILE) -c $(INCLUDES) $<
+
 .cpp.o:
-	$(CORBACOMPILE) -c  $(INCLUDES) $<
-.cc.lo:
-	$(CORBACOMPILE) -c $(INCLUDES) $<
+	$(CORBACOMPILE) -c $<
+
+.cc.o:
+	$(CORBACOMPILE) -c $<
+
 .cpp.lo:
-	$(CORBACOMPILE) -c  $(INCLUDES) $<
+	$(LTCORBACOMPILE) -c $<
 
-all: Makefile $(LIB_TARGETS)
+.cc.lo:
+	$(LTCORBACOMPILE) -c $<
 
-libCAttr: libCAttr.a libCAttr.la
+%.o: %.cc
+	$(CXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.o: %.cpp
+	$(CORBACOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.lo: %.cpp
+	$(LTCORBACOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+
+%.lo: %.cc
+	$(LTCORBACOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
 
 libCAttr.la: $(OBJECTS)
-	# $(CORBALINK) $(LIBS) $(OBJECTS) -o libCAttr
-	$(CORBALINK) -rpath $(libdir) $(LDFLAGS) $(OBJECTS) $(LIBADD) $(LIBS)
+	$(LTCORBALINK) -rpath $(libdir) $(LDFLAGS) $(OBJECTS) $(LIBADD) $(LIBS)
 
 Makefile: Makefile.in $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -112,7 +160,7 @@ uninstall:
 	  rm -f $(DESTDIR)$(includedir)/$$p; \
 	done
 
-install:
+install: all
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	@list='$(LIB_TARGETS)'; for p in $$list; do \
 	  if test -f $$p; then \
@@ -151,3 +199,6 @@ distdir: $(DISTFILES)
 	done
 
 check:
+
+distclean-depend:
+	-rm -rf .deps
