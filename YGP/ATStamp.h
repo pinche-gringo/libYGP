@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.13 2002/05/24 06:52:49 markus Exp $
+//$Id: ATStamp.h,v 1.14 2002/10/10 05:46:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 
 // Forward declarations
-class invalid_argument;
+class std::invalid_argument;
 
 
 // Class for timestamp attributes. As every AttributValue is supports
@@ -40,8 +40,8 @@ class ATimestamp : virtual public ADate, virtual public ATime {
       , ATime ((const ATime&)other) { }
    ATimestamp (char Day, char Month, int Year, char Hour,
                char minute, char second);
-   ATimestamp (const char* pStamp) throw (invalid_argument) { operator= (pStamp); }
-   ATimestamp (const std::string& stamp) throw (invalid_argument) { operator= (stamp); }
+   ATimestamp (const char* pStamp) throw (std::invalid_argument) { operator= (pStamp); }
+   ATimestamp (const std::string& stamp) throw (std::invalid_argument) { operator= (stamp); }
    ATimestamp (const struct tm& tm) { operator= (tm); }
    ATimestamp (const time_t& stamp, bool local = true) {
       local ? operator= (stamp) : assignGMT (stamp); }
@@ -62,15 +62,15 @@ class ATimestamp : virtual public ADate, virtual public ATime {
 
    // Set-functions
    ATimestamp& operator= (const ATimestamp& other);
-   ATimestamp& operator= (const char* pStamp) throw (invalid_argument);
-   ATimestamp& operator= (const std::string& stamp) throw (invalid_argument) {
+   ATimestamp& operator= (const char* pStamp) throw (std::invalid_argument);
+   ATimestamp& operator= (const std::string& stamp) throw (std::invalid_argument) {
       return operator= (stamp.c_str ()); }
    ATimestamp& operator= (const struct tm& tm);
    ATimestamp& operator= (const time_t& stamp) { return operator= (*gmtime (&stamp)); }
 
    ATimestamp& assignGMT (const time_t& stamp) { return operator= (*::localtime (&stamp)); }
 
-   virtual void readFromStream (istream& in) throw (invalid_argument);
+   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
 
    virtual void define () { ADate::define (); ATime::define (); }
 

@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.15 2002/09/13 04:43:00 markus Exp $
+//$Id: AttrVal.h,v 1.16 2002/10/10 05:46:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,9 +22,7 @@
 
 #include <string>
 
-
-// Forward declarations
-class std::invalid_argument;
+#include <stdexcept>
 
 
 // Base-class for all attribut-values

@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.17 2002/03/23 20:43:35 markus Rel $
+//$Id: ADate.h,v 1.18 2002/10/10 05:46:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 // Forward declarations
 class istream;
-class invalid_argument;
+class std::invalid_argument;
 
 
 // Class for date attributes. As every AttributValue is supports undefined
@@ -44,16 +44,16 @@ class ADate : public AttributValue {
    ADate (const ADate& other) : AttributValue ((const AttributValue&)other)
       , day (other.day), month (other.month), year (other.year) { }
    ADate (char Day, char Month, int Year);
-   ADate (const char* pDate) throw (invalid_argument) { operator= (pDate); }
-   ADate (const std::string& date) throw (invalid_argument) { operator= (date); }
+   ADate (const char* pDate) throw (std::invalid_argument) { operator= (pDate); }
+   ADate (const std::string& date) throw (std::invalid_argument) { operator= (date); }
    ADate (const struct tm& tm) { operator= (tm); }
    ADate (const time_t& date) { operator= (date); }
    virtual ~ADate ();
 
    // Set-functions
    ADate& operator= (const ADate& other);
-   ADate& operator= (const char* pDate) throw (invalid_argument);
-   ADate& operator= (const std::string& date) throw (invalid_argument) {
+   ADate& operator= (const char* pDate) throw (std::invalid_argument);
+   ADate& operator= (const std::string& date) throw (std::invalid_argument) {
       return operator= (date.c_str ()); }
    ADate& operator= (const struct tm& date) {
       setDefined ();
@@ -63,7 +63,7 @@ class ADate : public AttributValue {
       return *this; }
    ADate& operator= (const time_t& date) { return operator= (*gmtime (&date)); }
 
-   virtual void readFromStream (istream& in) throw (invalid_argument);
+   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
 
    virtual void define () { setDefined (); day = month = (unsigned char)1; year = 1900; }
    void setDay (char Day);

@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.13 2002/03/23 20:48:26 markus Rel $
+// $Id: XStrBuf.h,v 1.14 2002/10/10 05:51:20 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,9 +25,11 @@
 #if SYSTEM == UNIX || defined __GNUG__
 #  include <streambuf.h>
 #else
-#  include <streamb.h>
+#  include <iosfwd>
+#  include <streambuf>
 #endif
 
+using namespace std;
 
 // Extended streambuf, designed to parse text.
 //
@@ -46,9 +48,8 @@
 // ATTENTION: A wee bit of overhandling neccessary! Although extStreambuf is
 // derived from streambuf another streambuf* as member is needed (at least
 // I was not able to figure out another way)
-struct extStreambuf : public streambuf {
-   typedef streambuf parent;
-
+class extStreambuf : public streambuf {
+ public:
    // Manager-functions
    extStreambuf ();
    extStreambuf (streambuf& source);
@@ -67,7 +68,7 @@ struct extStreambuf : public streambuf {
    // Accessing values
    unsigned int getLine () const { return line; }
    unsigned int getColumn () const {
-      return (base () > gptr ()) ? 0 : gptr () - base ()
+      return (eback () > gptr ()) ? 0 : gptr () - eback ()
 #ifdef __BORLANDC__
 	- 1;                        // BCC's gptr () points to next position
 #else

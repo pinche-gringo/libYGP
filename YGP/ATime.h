@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.11 2002/05/24 06:39:47 markus Exp $
+//$Id: ATime.h,v 1.12 2002/10/10 05:46:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 
 // Forward declarations
 class istream;
-class invalid_argument;
+class std::invalid_argument;
 
 
 // Class for date attributes. As every AttributValue is supports undefined
@@ -43,8 +43,8 @@ class ATime : public AttributValue {
    ATime (const ATime& other) : AttributValue ((const AttributValue&)other)
       , hour (other.hour), sec (other.sec), min_ (other.min_) { }
    ATime (char Hour, char minute, char second);
-   ATime (const char* pTime) throw (invalid_argument) { operator= (pTime); }
-   ATime (const std::string& time) throw (invalid_argument) { operator= (time); }
+   ATime (const char* pTime) throw (std::invalid_argument) { operator= (pTime); }
+   ATime (const std::string& time) throw (std::invalid_argument) { operator= (time); }
    ATime (const struct tm& tm) { operator= (tm); }
    ATime (const time_t& time, bool local = true) {
       local ?  operator= (time) : operator= (*localtime (&time)); }
@@ -52,8 +52,8 @@ class ATime : public AttributValue {
 
    // Set-functions
    ATime& operator= (const ATime& other);
-   ATime& operator= (const char* pTime) throw (invalid_argument);
-   ATime& operator= (const std::string& time) throw (invalid_argument) {
+   ATime& operator= (const char* pTime) throw (std::invalid_argument);
+   ATime& operator= (const std::string& time) throw (std::invalid_argument) {
       return operator= (time.c_str ()); }
    ATime& operator= (const struct tm& tm) {
       setDefined (); hour = (unsigned char)tm.tm_hour;
@@ -61,7 +61,7 @@ class ATime : public AttributValue {
       return *this; }
    ATime& operator= (const time_t& time) { return operator= (*gmtime (&time)); }
 
-   virtual void readFromStream (istream& in) throw (invalid_argument);
+   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
 
    virtual void define () { setDefined (); hour = min_ = sec = 0; }
    void setHour (char Hour);

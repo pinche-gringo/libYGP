@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.21 2002/05/25 07:06:52 markus Exp $
+//$Id: ADate.cpp,v 1.22 2002/10/10 05:46:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -29,17 +29,13 @@
 
 #include <gzo-cfg.h>
 
-#if SYSTEM == UNIX
-#  include <strstream.h>
-#else
-#  if SYSTEM == WINDOWS
-#     define WIN32_LEAN_AND_MEAN
-#     include <windows.h>
-#  endif
-#  include <strstrea.h>
+#if SYSTEM == WINDOWS
+#   define WIN32_LEAN_AND_MEAN
+#   include <windows.h>
 #endif
 
 #include <stdexcept>
+#include <strstream>
 
 #include "Trace_.h"
 #include "Internal.h"
@@ -114,7 +110,7 @@ ADate& ADate::operator= (const char* pDate) throw (std::invalid_argument) {
    TRACE5 ("ADate::operator= (const char*): " << pDate);
 
 #if defined (__BORLANDC__) || defined (_MSC_VER)
-   istrstream help (const_cast <char*> (pDate));
+   std::istrstream help (const_cast <char*> (pDate));
 #else
    istrstream help (pDate);
 #endif
@@ -166,7 +162,7 @@ std::string ADate::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ADate::readFromStream (istream& in) throw (std::invalid_argument) {
+void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
    static unsigned char ADate::*const targets[] = { &ADate::day, &ADate::month };
 
    day = month = 0;

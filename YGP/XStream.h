@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.10 2002/08/20 05:20:52 markus Exp $
+// $Id: XStream.h,v 1.11 2002/10/10 05:51:34 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,9 +20,13 @@
 
 #include <assert.h>
 
-#include <fstream.h>
+#include <fstream>
 
-#include <XStrBuf.h>
+#if SYSTEM == WINDOWS
+#  include <iosfwd>
+#endif
+
+#include "XStrBuf.h"
 
 
 // Extended stream, designed to parse text.
@@ -48,19 +52,21 @@ template <class T> struct extStream : private extStreambuf, public T {
    extStream () : extStreambuf (), T (), oldBuf (NULL) { }
    extStream (const T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
    ~extStream () {
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-      ios::bp = oldBuf;              // rdbuf (buffer) not defined in MSC, BCC
+#if defined __BORLANDC__
+      ios::bp = oldBuf;         // rdbuf (buffer) not defined in old iostreams
+#elif defined _MSCVER
+      basic_ios<char>::rdbuf (oldBuf);
 #else
-      ios::rdbuf (oldBuf);                  // This function is defined in GCC
+      ios::rdbuf (oldBuf);
 #endif
    }
 
    void init () {
       setSource (oldBuf = rdbuf ());
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-      ios::bp = this;                // rdbuf (buffer) not defined in MSC, BCC
+#if defined (__BORLANDC__)
+      ios::bp = this;           // rdbuf (buffer) not defined in old iostreams
 #else
-      ios::rdbuf (this);                    // This function is defined in GCC
+      ios::rdbuf (this);
 #endif
    }
 
@@ -77,7 +83,7 @@ template <class T> struct extStream : private extStreambuf, public T {
 };
 
 
-typedef extStream<istream> Xistream;
-typedef extStream<ifstream> Xifstream;
+typedef extStream<std::istream> Xistream;
+typedef extStream<std::ifstream> Xifstream;
 
 #endif

@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.10 2002/05/24 06:52:49 markus Exp $
+//$Id: ATStamp.cpp,v 1.11 2002/10/10 05:46:52 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -29,11 +29,7 @@
 
 #include <gzo-cfg.h>
 
-#if SYSTEM == UNIX || defined __GNUG__
-#include <strstream.h>
-#else
-#include <strstrea.h>
-#endif
+#include <strstream>
 
 #include <stdexcept>
 
@@ -101,14 +97,14 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 //Parameters: pStamp: Char-String to assign
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
-ATimestamp& ATimestamp::operator= (const char* pStamp) throw (invalid_argument) {
+ATimestamp& ATimestamp::operator= (const char* pStamp) throw (std::invalid_argument) {
    assert (pStamp);
    assert (!checkIntegrity ());
 
    TRACE5 ("ATimestamp::operator= (const char*): " << pStamp);
 
 #if defined (__BORLANDC__) || defined (_MSC_VER)
-   istrstream help (const_cast <char*> (pStamp));
+   std::istrstream help (const_cast <char*> (pStamp));
 #else
    istrstream help (pStamp);
 #endif
@@ -167,7 +163,7 @@ std::string ATimestamp::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ATimestamp::readFromStream (istream& in) throw (invalid_argument) {
+void ATimestamp::readFromStream (std::istream& in) throw (std::invalid_argument) {
    char ch;
 
    ADate::readFromStream (in);

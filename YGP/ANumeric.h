@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.22 2002/09/13 04:43:00 markus Exp $
+//$Id: ANumeric.h,v 1.23 2002/10/10 05:46:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
 
 
 // Forward declarations
-class invalid_argument;
+class std::invalid_argument;
 
 
 
@@ -88,9 +88,9 @@ class ANumeric : public AttributValue {
       value = val;
 #endif
       setDefined (); }
-   ANumeric (const char* pValue) throw (invalid_argument) : AttributValue () {
+   ANumeric (const char* pValue) throw (std::invalid_argument) : AttributValue () {
       operator= (pValue); }
-   ANumeric (const std::string& value) throw (invalid_argument)
+   ANumeric (const std::string& value) throw (std::invalid_argument)
       : AttributValue () { operator= (value.c_str ()); }
    virtual ~ANumeric ();
 
@@ -113,8 +113,8 @@ class ANumeric : public AttributValue {
 #endif
       return *this;
    }
-   ANumeric& operator= (const char* pValue) throw (invalid_argument);
-   ANumeric& operator= (const std::string& value) throw (invalid_argument) {
+   ANumeric& operator= (const char* pValue) throw (std::invalid_argument);
+   ANumeric& operator= (const std::string& value) throw (std::invalid_argument) {
       operator= (value.c_str ()); }
 
    virtual void define ();

@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.15 2002/05/24 06:52:42 markus Exp $
+// $Id: XStrBuf.cpp,v 1.16 2002/10/10 05:51:20 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -29,8 +29,6 @@
 #include <string.h>
 #include <assert.h>
 
-#include <iostream.h>
-
 #include "Trace_.h"
 
 #include "XStrBuf.h"
@@ -39,15 +37,20 @@
 
 static int lenBuffer = 512;
 
+#if SYSTEM == WINDOWS
+#  define cur std::ios_base::cur
+#else
+#  define cur ios::cur
+#endif
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : (Default-)Constructur; Initializes object
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf ()
-   : streambuf (), line (0), pushbackOffset (-1), pSource (NULL)
+   : line (0), pushbackOffset (-1), pSource (NULL)
    , pBuffer (new char[lenBuffer]) {
    pSource = this;
-   setb (pBuffer, pBuffer + lenBuffer, 1);
+   setbuf (pBuffer, lenBuffer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -55,9 +58,9 @@ extStreambuf::extStreambuf ()
 //Parameter : source: Original streambuffer, which should be enhanced
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf& source)
-   : streambuf (), line (0), pushbackOffset (-1), pSource (&source)
+   : line (0), pushbackOffset (-1), pSource (&source)
    , pBuffer (new char[lenBuffer]) {
-   setb (pBuffer, pBuffer + lenBuffer, 1);
+   setbuf (pBuffer, lenBuffer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -65,9 +68,9 @@ extStreambuf::extStreambuf (streambuf& source)
 //Parameter : source: Original streambuffer, which should be enhanced
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf* source)
-   : streambuf (), line (0), pushbackOffset (-1), pSource (source)
+   : line (0), pushbackOffset (-1), pSource (source)
    , pBuffer (new char[lenBuffer]) {
-   setb (pBuffer, pBuffer + lenBuffer, 1);
+   setbuf (pBuffer, lenBuffer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -75,6 +78,7 @@ extStreambuf::extStreambuf (streambuf* source)
 //Remarks   : Don't delete pBuffer as this is done by the streambuf-dtr
 /*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
+   delete [] eback ();
 }
 
 
@@ -86,7 +90,7 @@ extStreambuf::~extStreambuf () {
 /*--------------------------------------------------------------------------*/
 int extStreambuf::overflow (int ch) {
    assert (0);
-   return pSource->overflow (ch);
+   return EOF;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -107,14 +111,15 @@ int extStreambuf::underflow () {
 
    ++line;
    while ((ch = pSource->sbumpc ()) != EOF) {
-      if (pTemp == pBuffer + lenBuffer) {                 // Buffer to small?
+      if (pTemp >= (pBuffer + lenBuffer)) {               // Buffer to small?
+         assert (pTemp == (pBuffer + lenBuffer));
          pTemp = pBuffer;
          pBuffer = new char[lenBuffer << 1];           // Double its size and
          memcpy (pBuffer, pTemp, lenBuffer);             // copy old contents
          delete [] pTemp;
          pTemp = pBuffer + lenBuffer;
          lenBuffer <<= 1;
-         setb (pBuffer, pBuffer + lenBuffer, 1);
+         setg (pBuffer, pBuffer, pBuffer + lenBuffer);
       }
       *pTemp++ = (char)ch;
       TRACE9 ("New char: " << (char)ch);
@@ -150,7 +155,7 @@ int extStreambuf::pbackfail (int c) {
 
    TRACE5 ("Failed pushback: Buffer underrun");
 
-   int rc (pSource->seekoff (pushbackOffset, ios::cur));
+   int rc (pSource->pubseekoff (pushbackOffset, cur));
    pushbackOffset = -1;
    if (rc == EOF)
       return EOF;
@@ -158,7 +163,7 @@ int extStreambuf::pbackfail (int c) {
 #if TRACELEVEL > 8
    TRACE ("Pushback: Next = " << (rc = pSource->sbumpc ()) << '\n');
    assert (rc = c);
-   pSource->seekoff (-1, ios::cur);
+   pSource->pubseekoff (-1, cur);
 #endif
 
    setg (NULL, NULL, NULL);

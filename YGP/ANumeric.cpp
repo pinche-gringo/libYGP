@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.24 2002/09/13 04:43:00 markus Exp $
+//$Id: ANumeric.cpp,v 1.25 2002/10/10 05:46:52 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -41,11 +41,7 @@
 #  endif
 #endif
 
-#if SYSTEM == UNIX || defined __GNUG__
-#  include <strstream.h>
-#else
-#  include <strstrea.h>
-#endif
+#include <strstream>
 
 #include <string>
 #include <stdexcept>
@@ -79,7 +75,7 @@ ANumeric::~ANumeric () {
 //Parameters: pValue: Pointer to ASCIIZ-string containing numeric value
 //Requires  : pValue valid ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-ANumeric& ANumeric::operator= (const char* pValue) throw (invalid_argument) {
+ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument) {
    assert (pValue);
 
 #ifdef HAVE_LIBGMP
@@ -139,7 +135,7 @@ std::string ANumeric::toUnformatedString () const {
       char* pString (mpz_get_str (NULL, 10, value)); assert (pString);
 #else
       char* pString = new char [40];
-      ostrstream ostr (pString, 16);
+      std::ostrstream ostr (pString, 16);
       ostr << value << '\0';
 #endif
       TRACE1 ("ANumeric::toUnformatedString -> value = " << pString);

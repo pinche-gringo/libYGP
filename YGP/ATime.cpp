@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.13 2002/05/25 07:06:52 markus Exp $
+//$Id: ATime.cpp,v 1.14 2002/10/10 05:46:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -30,16 +30,12 @@
 
 #include <gzo-cfg.h>
 
-#if SYSTEM == UNIX
-#  include <strstream.h>
-#else
-#  if SYSTEM == WINDOWS
-#     define WIN32_LEAN_AND_MEAN
-#     include <windows.h>
-#  endif
-#  include <strstrea.h>
+#if SYSTEM == WINDOWS
+#   define WIN32_LEAN_AND_MEAN
+#   include <windows.h>
 #endif
 
+#include <strstream>
 #include <stdexcept>
 
 #include "Trace_.h"
@@ -107,14 +103,14 @@ ATime& ATime::operator= (const ATime& other) {
 //Parameters: pDate: Object to assign as char-string
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
-ATime& ATime::operator= (const char* pDate) throw (invalid_argument) {
+ATime& ATime::operator= (const char* pDate) throw (std::invalid_argument) {
    assert (pDate);
    assert (!checkIntegrity ());
 
    TRACE5 ("ATime::operator= (const char*): " << pDate);
 
 #if defined (__BORLANDC__) || defined (_MSC_VER)
-   istrstream help (const_cast <char*> (pDate));
+   std::istrstream help (const_cast <char*> (pDate));
 #else
    istrstream help (pDate);
 #endif
@@ -165,7 +161,7 @@ std::string ATime::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ATime::readFromStream (istream& in) throw (std::invalid_argument) {
+void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
    static unsigned char ATime::* const targets[] = {
       &ATime::hour, &ATime::min_, &ATime::sec };
 

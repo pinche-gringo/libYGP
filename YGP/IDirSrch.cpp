@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.5 2002/07/15 21:09:14 markus Exp $
+//$Id: IDirSrch.cpp,v 1.6 2002/10/10 05:47:31 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -105,7 +105,7 @@ IDirectorySearch::~IDirectorySearch () {
 /*--------------------------------------------------------------------------*/
 unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertToSysAttribs (unsigned long) - "
-           << hex << attribs);
+           << std::hex << attribs);
    unsigned long attr = 0;
 
    ADDSYSATTRIB (attr, attribs, FILE_NORMAL);
@@ -114,7 +114,7 @@ unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
    ADDSYSATTRIB (attr, attribs, FILE_HIDDEN);
 
    TRACE3 ("IDirectorySearch::convertToSysAttribs (unsigned long) - System: "
-           << hex << attr);
+           << std::hex << attr);
    return attr;
 }
 
@@ -126,7 +126,7 @@ unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
 /*--------------------------------------------------------------------------*/
 unsigned long IDirectorySearch::convertFromSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertFromSysAttribs (unsigned long) - "
-           << hex << attribs);
+           << std::hex << attribs);
    unsigned long attr = 0;
 
 #if SYSTEM == UNIX
@@ -144,6 +144,6 @@ unsigned long IDirectorySearch::convertFromSysAttribs (unsigned long attribs) {
 #endif
 
    TRACE3 ("IDirectorySearch::convertFromSysAttribs (unsigned long) - "
-           << hex << attr);
+           << std::hex << attr);
    return attr;
 }
