@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.24 2003/03/06 04:27:55 markus Exp $
+//$Id: XApplication.cpp,v 1.25 2003/06/02 01:30:57 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <assert.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <locale.h>

@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.8 2003/03/06 04:27:55 markus Exp $
+//$Id: XFileEntry.cpp,v 1.9 2003/06/02 01:32:17 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <assert.h>
 
 #include "Trace_.h"
 
