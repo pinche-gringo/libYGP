@@ -503,7 +503,7 @@ $(OUTDIR)\VCGeneral.def: $(LINK32_OBJS)
 	Echo EXPORTS >> $(OUTDIR)\VCGeneral.def
 	Del Dumpbin.out
 	for %%i in ($(OUTDIR)\*.obj) do dumpbin /SYMBOLS %%i >> Dumpbin.out
-	awk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
+        gawk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
 	Del Dumpbin.out
 
 check: ALL
