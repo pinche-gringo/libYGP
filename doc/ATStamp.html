@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ATStamp.html,v 1.11 2002/12/15 00:22:50 markus Exp $ -->
+<!-- $Id: ATStamp.html,v 1.12 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -186,8 +186,8 @@
     <dl>
       <dd><p>Constructor; copies the values of the passed object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to copy<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to copy</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATimestamp2"></a><b>ATimestamp</b> (bool now)</pre>
@@ -196,8 +196,8 @@
         to the 1st of January, 1900 0:00:00 (now = false), or to the current
         time (now = true).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>now</code>: Flag if current time or default time (1.1.1900) should be set<dd>
-      </dl><dd>
+          <dd><code>now</code>: Flag if current time or default time (1.1.1900) should be set</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATimestamp4"></a><b>ATimestamp</b> (char Day, char Month, int Year, char Hour, char minute, char second)</pre>
@@ -206,13 +206,13 @@
         passed parameters represent no valid date/time-combination (e.g. Hour
         &gt; 23, minute &gt; 59, second &gt; 61 or day &gt; 31).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>day</code>: Day for this ATimestamp<dd>
-          <dd><code>month</code>: Month for the object<dd>
-          <dd><code>year</code>: Year for the object<dd>
-          <dd><code>hour</code>: Hour to assign<dd>
-          <dd><code>minute</code>: Minute for the object<dd>
-          <dd><code>second</code>: Second to assign<dd>
-      </dl><dd>
+          <dd><code>day</code>: Day for this ATimestamp</dd>
+          <dd><code>month</code>: Month for the object</dd>
+          <dd><code>year</code>: Year for the object</dd>
+          <dd><code>hour</code>: Hour to assign</dd>
+          <dd><code>minute</code>: Minute for the object</dd>
+          <dd><code>second</code>: Second to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATimestamp5"></a><b>ATimestamp</b> (const char* pTime) throw (invalid_argument)</pre>
@@ -221,8 +221,8 @@
         DDMMY[Y...] hhmmss. If the buffer does not
         represent a valid time, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pStamp</code>: Character array specifying timestamp to assign<dd>
-      </dl><dd>
+          <dd><code>pStamp</code>: Character array specifying timestamp to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>A NULL-pointer as parameter is not permitted!
 </dd></dl></dd>
@@ -237,8 +237,8 @@
         DDMMY[Y...] hhmmss. If the string does not
         represent a valid timestamp, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: String specifying timestamp to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: String specifying timestamp to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd><code>std::invalid_argument</code> if the parameters has a wrong format
 </dd></dl></dd>
@@ -249,8 +249,8 @@
       <dd><p>Constructor; assigns the values from the passed struct tm to the
         object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: struct tm specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: struct tm specifying time to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATimestamp8"></a><b>ATimestamp</b> (const time_t&amp; stamp)</pre>
@@ -258,8 +258,8 @@
       <dd><p>Constructor; sets date &amp; time to the value represented by the
         parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: System time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: System time to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ATimestamp"></a><b>~ATimestamp</b> () </pre>
@@ -271,8 +271,8 @@
     <dl>
       <dd><p>Assignment-operator from another timestamp object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -284,8 +284,8 @@
         passed as DDMMY[Y...] hhmmss. If the buffer does
         not represent a valid timestamp, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pStamp</code>: Character array specifying timestamp to assign<dd>
-      </dl><dd>
+          <dd><code>pStamp</code>: Character array specifying timestamp to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -303,8 +303,8 @@
         as DDMMY[Y...] hhmmss. If the string does not
         represent a valid timestamp, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: String specifying timestamp to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: String specifying timestamp to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -317,8 +317,8 @@
     <dl>
       <dd><p>Assignment-operator; assigns the values from the passed struct tm.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>tm</code>: struct tm to assign<dd>
-      </dl><dd>
+          <dd><code>tm</code>: struct tm to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -329,8 +329,8 @@
       <dd><p>Assignment-operator; sets the time to the value represented by the
         parameter, which is considered to specify the time according the local time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>tm</code>: System time to assign<dd>
-      </dl><dd>
+          <dd><code>tm</code>: System time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -341,8 +341,8 @@
       <dd><p>Assignment-operator; sets the time to the value represented by the
         parameter, which is considered to specify the time according GMT.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>tm</code>: System time (in GMT) to assign<dd>
-      </dl><dd>
+          <dd><code>tm</code>: System time (in GMT) to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -380,8 +380,8 @@
       <dd><p>Reads the timestamp in the format DDMMY[Y...] hhmmss (with leading zeros)
           from a stream. If the input is not a valid timestamp an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>in</code>: Stream to parse<dd>
-      </dl><dd>
+          <dd><code>in</code>: Stream to parse</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument in case of a format error
 </dd></dl></dd>
@@ -467,8 +467,8 @@
         treated as "0.0.0 0:00:00"; if both objects are undefined, the
         result is undefined. Overflows are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>rhs</code>: Value to add<dd>
-      </dl><dd>
+          <dd><code>rhs</code>: Value to add</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
  Note      : If <code>rhs</code> is not defined this is not changed
@@ -481,8 +481,8 @@
         is treated as "0.0.0 0:00:00"; if both objects are undefined, the
         result is undefined. Underflows are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>rhs</code>: Value to substract<dd>
-      </dl><dd>
+          <dd><code>rhs</code>: Value to substract</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
  Note      : If <code>rhs</code> is not defined this is not changed
@@ -495,9 +495,9 @@
         treated as "0.0.0 0:00:00"; if both objects are undefined, the
         result is undefined. Overflows are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Left-hand-side of addition<dd>
-          <dd><code>rhs</code>: Right-hand-side of addition<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Left-hand-side of addition</dd>
+          <dd><code>rhs</code>: Right-hand-side of addition</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ATimestamp: Result of additon
 </dd></dl></dd>
@@ -509,9 +509,9 @@
         is treated as "0.0.0 0:00:00"; if both objects are undefined, the
         result is undefined. Underflows are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Left-hand-side of substraction<dd>
-          <dd><code>rhs</code>: Right-hand-side of substraction<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Left-hand-side of substraction</dd>
+          <dd><code>rhs</code>: Right-hand-side of substraction</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ATimestamp: Result of substraction
 </dd></dl></dd>
@@ -524,10 +524,10 @@
         <p>In counterpart to the mathematic operators (+ and -)
           this method does not change the object if it is undefined!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>day</code>: Day to add<dd>
-          <dd><code>month</code>: Month to add<dd>
-          <dd><code>year</code>: Year to add<dd>
-      </dl><dd>
+          <dd><code>day</code>: Day to add</dd>
+          <dd><code>month</code>: Month to add</dd>
+          <dd><code>year</code>: Year to add</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -540,10 +540,10 @@
         <p>In counterpart to the mathematic operators (+ and -)
           this method does not change the object if it is undefined!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>day</code>: Day to substract<dd>
-          <dd><code>month</code>: Month to substract<dd>
-          <dd><code>year</code>: Year to substract<dd>
-      </dl><dd>
+          <dd><code>day</code>: Day to substract</dd>
+          <dd><code>month</code>: Month to substract</dd>
+          <dd><code>year</code>: Year to substract</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -555,8 +555,8 @@
       <dd><p>Compares two timestamp-objects and returns true, if they are equal
         (either the same date/time or both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if the objects are equal</dd></dl></dd>
     </dl>
@@ -566,8 +566,8 @@
       <dd><p>Compares two timestamp-objects and returns true, if they are not equal
         (different date/times and not both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if the objects are not equal</dd></dl></dd>
     </dl>
@@ -579,8 +579,8 @@
         "1.1.1900 02:02:02" == true). Undefined values are considered as older
         than any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if this is further in the past than other</dd></dl></dd>
     </dl>
@@ -592,8 +592,8 @@
         "1.1.1900 02:02:02" == true). Undefined values are considered as older
         than any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if other is further in the past than this</dd></dl></dd>
     </dl>
@@ -605,8 +605,8 @@
         01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
         considered as older than any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if this is further in the past than other or equal</dd></dl></dd>
     </dl>
@@ -618,8 +618,8 @@
         01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
         considered as older than any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if other is further in the past than this or equal</dd></dl></dd>
     </dl>
@@ -632,8 +632,8 @@
         MINLONG, if only other is undefined MAXLONG is returned (->
         undefined times are considered to be very old).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>>0 if this is closer to the past than other; 0 if this == <code>other</code>; <0 else
 </dd></dl></dd>

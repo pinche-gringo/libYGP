@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: Handle.html,v 1.11 2002/12/14 23:01:06 markus Exp $ -->
+<!-- $Id: Handle.html,v 1.12 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -94,8 +94,8 @@
       <dd><p>Copyconstructor; let's this point to the same object than other. Increases
         the reference count of the object. </p></dd>
      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~IHandle"></a><b>~IHandle</b> () </pre>
@@ -109,10 +109,10 @@
         reference-counter is increased. The count of the object referenced
         before is decreased.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this<dd></dl><dd>
+          <dd>Reference to this</dd></dl></dd>
     </dl>
     </dl>
 
@@ -135,8 +135,8 @@
       <dd>Pure virtual method to create the object. Implement in derived
         classes.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: Object to manage<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: Object to manage</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="link"></a>void <b>link</b> ()</pre>
@@ -156,7 +156,7 @@
       <dd><p>Pure virtual method to access the object pointed to by the handle.
         Implement in derived classes.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Mangaged object<dd></dl><dd>
+          <dd>Mangaged object</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="setValue"></a>void <b>setValue</b> (void* pValue)</pre>
@@ -165,8 +165,8 @@
         about the reference count (and unlinks the old and links the new
         object).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: New value the handle shall manage<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: New value the handle shall manage</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="assignValue"></a>void <b>assignValue</b> (void* pValue)</pre>
@@ -175,8 +175,8 @@
         method does <i>not</i> care about the reference count; use with care
         (or don't use at all!).</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: New value the handle shall manage<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: New value the handle shall manage</dd>
+      </dl></dd>
     </dl>
 
     <hr noshade>
@@ -264,8 +264,8 @@
       <dd><p>Constructor which lets the handle point to the passed object. The
         handle is defined and the reference-count is set to 1.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: New value the handle shall manage<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: New value the handle shall manage</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="Handle3"></a><b>Handle</b> (const Handle&amp; other)</pre>
@@ -273,8 +273,8 @@
       <dd><p>Copy-constructor; both handles points to the same object. The
         reference-count of the object (if any) is increased.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~Handle"></a><b>~Handle</b> ()</pre>
@@ -291,10 +291,10 @@
         increases the one of the new object. The old object is freed, if no
         other handle accesses it.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to self<dd></dl><dd>
+          <dd>Reference to self</dd></dl></dd>
     </dl>
     </dl>
     <hr>
@@ -311,21 +311,21 @@
     <dl>
       <dd><p>Returns a pointer to the referenced object.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Pointer to the referenced object<dd></dl><dd>
+          <dd>Pointer to the referenced object</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="Hoperator*"></a>T* <b>operator*</b> () const</pre>
     <dl>
       <dd><p>Returns a pointer to the referenced object.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Pointer to the referenced object<dd></dl><dd>
+          <dd>Pointer to the referenced object</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="HoperatorT*"></a><b>operator T*</b> () const</pre>
     <dl>
       <dd><p>Returns a pointer to the referenced object.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Pointer to the referenced object<dd></dl><dd>
+          <dd>Pointer to the referenced object</dd></dl></dd>
     </dl>
 
     <h3><span style="color:navy">Object-handling</span></h3>
@@ -334,8 +334,8 @@
       <dd><p>Method to create a reference-couting object to the object specified
         by pValue. The reference-count is set to 1.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: Object to manage<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: Object to manage</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="Hlink"></a>void <b>link</b> ()</pre>
@@ -354,8 +354,8 @@
     <dl>
       <dd><p>Method to access the object pointed to by the handle.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd><code>void*</code>: Managed object<dd>
-      </dl><dd>
+          <dd><code>void*</code>: Managed object</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="HassignValue"></a>void <b>assignValue</b> (void* pValue)</pre>
@@ -364,8 +364,8 @@
         <i>not</i> care about the reference count; use with care (or don't use
         at all!).</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: Object to manage<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: Object to manage</dd>
+      </dl></dd>
     </dl>
 
     <hr noshade>
@@ -418,7 +418,7 @@
       <dd><p>Defaultconstructor; creates a reference-couting object pointing to
         pValue and sets the reference-count to 1.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: New value to manage<dd></dl></dd>
+          <dd><code>pValue</code>: New value to manage</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="~RefCount"></a><b>~RefCount</b> ()</pre>

@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: RemoteFile.html,v 1.4 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: RemoteFile.html,v 1.5 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -80,8 +80,8 @@
       <dd><p>Constructor; creates an empty object (containing no
         directory-entry) with a socket for communication.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>socket</code>: Socket for communication<dd>
-      </dl><dd>
+          <dd><code>socket</code>: Socket for communication</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="RemoteFile2"></a><b>RemoteFile</b> (const RemoteFile&amp; other)</pre>
@@ -89,7 +89,7 @@
       <dd><p>Copyconstructor; duplicates the file object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to copy
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~RemoteFile"></a><b>~RemoteFile</b> () </pre>
@@ -102,7 +102,7 @@
       <dd><p>Assignmentoperator; duplicates the file object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to copy</dd>
-      </dl><dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>File&amp;: Reference to this</dd></dl></dd>
     </dl>
@@ -122,8 +122,8 @@
       <dd><p>Opends the file in the specified mode. The mode parameter can have the
         same values than the ANSI-C fopen-function.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>mode</code>: Mode for open the file (analogue to libc's fopen)<dd>
-      </dl><dd>
+          <dd><code>mode</code>: Mode for open the file (analogue to libc's fopen)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>void*: Pointer to a handle for the opened file.
 </dd></dl></dd>
@@ -136,8 +136,8 @@
     <dl>
       <dd><p>Closes a (previously opened) file</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of opened file<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of opened file</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>string: In case of an error a textual description</dd></dl></dd>
     </dl>
@@ -146,8 +146,8 @@
     <dl>
       <dd><p>Checks if further data is available for reading</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of openeded file<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of openeded file</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="read"></a>int <b>read</b> (void* file, char* buffer, unsigned int length) const throw (std::string) </pre>
@@ -157,10 +157,10 @@
 
         <p>If an error occurres, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of openeded file<dd>
-          <dd><code>buffer</code>: Buffer for data<dd>
-          <dd><code>length</code>: Maximal length of buffer<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of openeded file</dd>
+          <dd><code>buffer</code>: Buffer for data</dd>
+          <dd><code>length</code>: Maximal length of buffer</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of read bytes</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -174,10 +174,10 @@
 
         <p>If an error occurres, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of openeded file<dd>
-          <dd><code>buffer</code>: Buffer of data<dd>
-          <dd><code>length</code>: Length of buffer (= bytes to write)<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of openeded file</dd>
+          <dd><code>buffer</code>: Buffer of data</dd>
+          <dd><code>length</code>: Length of buffer (= bytes to write)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of written bytes</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -192,12 +192,12 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pszName</code>: Pointer to name of file to compare<dd></dl><dd>
+          <dd><code>pszName</code>: Pointer to name of file to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd><code>pszName</code> must not be NULL</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="compare2"></a>int <b>compare</b> (const std::string&amp; Name) const</pre>
@@ -207,7 +207,7 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Name</code>: String holding the name of file to compare<dd></dl><dd>
+          <dd><code>Name</code>: String holding the name of file to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
     </dl>
@@ -219,7 +219,7 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Other file object whose name should be compared<dd></dl><dd>
+          <dd><code>other</code>: Other file object whose name should be compared</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
     </dl>
@@ -231,12 +231,12 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Pointer to other file object whose name should be compared<dd></dl><dd>
+          <dd><code>other</code>: Pointer to other file object whose name should be compared</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd><code>other</code> must not be NULL</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
   </body>
 </html>

@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: XFileList.html,v 1.1 2002/12/24 19:38:00 markus Exp $ -->
+<!-- $Id: XFileList.html,v 1.2 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -76,9 +76,9 @@
     <dl>
       <dd><p>Constructor; creates a file list whose columns are named as specified</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>columns</code>: Number of the columns<dd>
-          <dd><code>titles</code>: Array of pointers to character arrays containing the titles<dd>
-      </dl><dd>
+          <dd><code>columns</code>: Number of the columns</dd>
+          <dd><code>titles</code>: Array of pointers to character arrays containing the titles</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>titles</code> an array of <code>columns</code> zero-terminated character pointers </dd></dl></dd>
     </dl>
@@ -87,8 +87,8 @@
     <dl>
       <dd><p>Constructor; creates a file list from the past GTK+ widget.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>castitem</code>: GTk+ widget to use for output<dd>
-      </dl><dd>
+          <dd><code>castitem</code>: GTk+ widget to use for output</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~XFileList"></a> <b>~XFileList</b> ()</pre>
@@ -100,10 +100,10 @@
     <dl>
       <dd><p>Loads (additional) icons which should be used for the list-entries</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>path</code>: Path where to search for the icons<dd>
-          <dd><code>files</code>: Files to use as icon-files<dd>
-          <dd><code>namePrefix</code>: Length of the prefix of the name, which should be removed before comparing with actual filename<dd>
-      </dl><dd>
+          <dd><code>path</code>: Path where to search for the icons</dd>
+          <dd><code>files</code>: Files to use as icon-files</dd>
+          <dd><code>namePrefix</code>: Length of the prefix of the name, which should be removed before comparing with actual filename</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>namePrefix &lt; strlen (files)</dd></dl></dd>
     </dl>
@@ -112,28 +112,28 @@
     <dl>
       <dd><p>Appends an entry to the list</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon<dd>
-          <dd><code>text</code>: Array of text for the other columns<dd>
-      </dl><dd>
+          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon</dd>
+          <dd><code>text</code>: Array of text for the other columns</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="prepend"></a>gint <b>prepend</b> (const <a href="File.html">File</a>* file, const SArray&amp; text)</pre>
     <dl>
       <dd><p>Prepends an entry to the list</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon<dd>
-          <dd><code>text</code>: Array of text for the other columns<dd>
-      </dl><dd>
+          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon</dd>
+          <dd><code>text</code>: Array of text for the other columns</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="insert"></a>gint <b>insert</b> (const <a href="File.html">File</a>* file, gint row, const SArray&amp; text)</pre>
     <dl>
       <dd><p>Inserts an entry into the list</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon<dd>
-          <dd><code>row</code>: Row where to insert the entry (starting with 0)<dd>
-          <dd><code>text</code>: Array of text for the other columns<dd>
-      </dl><dd>
+          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon</dd>
+          <dd><code>row</code>: Row where to insert the entry (starting with 0)</dd>
+          <dd><code>text</code>: Array of text for the other columns</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="setIcon"></a>void <b>setIcon</b> (int row, const <a href="File.html">File</a>&amp; file)</pre>
@@ -147,9 +147,9 @@
           <li>If no name-part is left use a special default-icon.</li>
         </ul></p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>row</code>: Row where to insert the icon (starting with 0)<dd>
-          <dd><code>file</code>: File to use to query icon<dd>
-      </dl><dd>
+          <dd><code>row</code>: Row where to insert the icon (starting with 0)</dd>
+          <dd><code>file</code>: File to use to query icon</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="realize_impl"></a>void <b>realize_impl</b> ()</pre>

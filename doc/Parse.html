@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Parse.html,v 1.18 2002/12/14 22:45:19 markus Exp $ -->
+<!-- $Id: Parse.html,v 1.19 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -181,9 +181,9 @@
         <p>The description must be valid during the lifetime (or at least the usage)
           of the object!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>description</code>: Description of the object (what it parses)<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object<dd>
-      </dl><dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>description</code> valid ASCIIZ string != NULL</dd></dl></dd>
     </dl>
@@ -192,8 +192,8 @@
     <dl>
       <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseObject"></a> <b>~ParseObject</b> ()</pre>
@@ -205,8 +205,8 @@
     <dl>
       <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ParseObject&amp;: Reference to this</dd></dl></dd>
     </dl>
@@ -230,8 +230,8 @@
     <dl>
       <dd><p>Changes the description of the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>desc</code>: New description of the object (what is parsed)<dd>
-      </dl><dd>
+          <dd><code>desc</code>: New description of the object (what is parsed)</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="POsetSkipWS"></a>void <b>setSkipWS</b> (bool skipWhitespace)</pre>
@@ -239,8 +239,8 @@
       <dd><p>Sets the flag if whitespaces should be skipped <b>after</b> sucessfully
         parsing data matching the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object<dd>
-      </dl><dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -249,8 +249,8 @@
       <dd><p>Skips all whitespace characters (blank, tabulator, carriage return
         and line feed) from the current position in the passed stream.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to read<dd>
-      </dl><dd>
+          <dd><code>stream</code>: Source from which to read</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="POparse"></a>int <b>parse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
@@ -262,8 +262,8 @@
         parsing can be continued, errors less than 0 are <b>hard errors</b> and
         the parsing is stopped.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to read<dd>
-      </dl><dd>
+          <dd><code>stream</code>: Source from which to read</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status of parsing</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -280,9 +280,9 @@
           <code>PARSE_ERROR</code> or the value returned by their found-method to indicate
           their success and sequences should handle them approbiately.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to read<dd>
-          <dd><code>optional</code>: Flag, if parsing this object is optionaland therefore may fail)<dd>
-      </dl><dd>
+          <dd><code>stream</code>: Source from which to read</dd>
+          <dd><code>optional</code>: Flag, if parsing this object is optionaland therefore may fail)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status of parsing</dd></dl></dd>
     </dl>
@@ -295,9 +295,9 @@
         bigger than 0 for <b>soft errors</b> and <code>PARSE_CB_ABORT</code> or any
         number below 0 for <b>hard errors</b>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd>Unused: Length of found value<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd>Unused: Length of found value</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -413,8 +413,8 @@
     <dl>
       <dd>Constructor setting the callback to report success of parsing.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
     <pre><a name="~CBParseEOF"></a> <b>~CBParseEOF</b> ()</pre>
     <dl>
@@ -425,8 +425,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
 
@@ -437,9 +437,9 @@
       <dd><p>Calls the defined callback with the passed parameters and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -491,9 +491,9 @@
     <dl>
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>objToNotify</code>: Object to report success<dd>
-          <dd><code>callback</code>: Pointer to member to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>objToNotify</code>: Object to report success</dd>
+          <dd><code>callback</code>: Pointer to member to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~OFParseEOF"></a><b>~OFParseEOF</b> ()</pre>
@@ -509,9 +509,9 @@
       <dd><p>Calls the defined callback of the specified object with the passed 
         parameters and returns its result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -575,16 +575,16 @@
       <dd><p>Defaultconstructor; Creates the object with the number of bytes to
         skip, each time this object is parsed.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
-      </dl><dd>
+          <dd><code>bytes</code>: Number of bytes to skip from current position</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ParseSkip2"></a> <b>ParseSkip</b> (const ParseSkip&amp; other)</pre>
     <dl>
       <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseSkip"></a> <b>~ParseSkip</b> ()</pre>
@@ -596,8 +596,8 @@
     <dl>
       <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ParseSkip&amp;: Reference to this</dd></dl></dd>
     </dl>
@@ -614,8 +614,8 @@
     <dl>
       <dd><p>Sets the offset which should be skipped, each time the object is parsed.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
-      </dl><dd>
+          <dd><code>bytes</code>: Number of bytes to skip from current position</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -679,16 +679,16 @@
     <dl>
       <dd>Constructor setting the callback to report success of parsing.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
-          <dd><code>callback</code>: Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>bytes</code>: Number of bytes to skip from current position</dd>
+          <dd><code>callback</code>: Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
     <pre><a name="CBParseSkip2"></a> <b>CBParseSkip</b> (const CBParseSkip&amp; other)</pre>
     <dl>
       <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~CBParseSkip"></a> <b>~CBParseSkip</b> ()</pre>
@@ -700,8 +700,8 @@
     <dl>
       <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ParseSkip&amp;: Reference to this</dd></dl></dd>
     </dl>
@@ -710,8 +710,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -721,9 +721,9 @@
       <dd><p>Calls the defined callback with the passed parameters and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -780,17 +780,17 @@
     <dl>
       <dd>Constructor setting the callback to report success of parsing.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
-          <dd><code>T</code>: Object to notify<dd>
-          <dd><code>callback</code>: Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>bytes</code>: Number of bytes to skip from current position</dd>
+          <dd><code>T</code>: Object to notify</dd>
+          <dd><code>callback</code>: Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
     <pre><a name="OFParseSkip2"></a> <b>OFParseSkip</b> (const OFParseSkip&amp; other)</pre>
     <dl>
       <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~OFParseSkip"></a> <b>~OFParseSkip</b> ()</pre>
@@ -802,8 +802,8 @@
     <dl>
       <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ParseSkip&amp;: Reference to this</dd></dl></dd>
     </dl>
@@ -815,9 +815,9 @@
       <dd><p>Calls the defined callback with the passed parameters and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -935,13 +935,13 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: List of valid characters (see class description)<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method<dd>
-      </dl><dd>
+          <dd><code>value</code>: List of valid characters (see class description)</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -950,8 +950,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseAttomic2"></a> <b>~ParseAttomic</b> ()</pre>
@@ -963,8 +963,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -982,8 +982,8 @@
       <dd><p>Changes the valid characters. This parameter must be valid (not
         freed) for the whole lifetime (usage) of the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Pointer to array of valid characters (zero-terminated)<dd>
-      </dl><dd>
+          <dd><code>value</code>: Pointer to array of valid characters (zero-terminated)</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="POAttgetMaxCard"></a>unsigned int <b>getMaxCard</b> () const</pre>
@@ -999,8 +999,8 @@
       <dd><p>Changes the maximal number of characters this object may match while
         parsing.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>val</code>: New maximal number the object can be parsed.<dd>
-      </dl><dd>
+          <dd><code>val</code>: New maximal number the object can be parsed.</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="POAttgetMinCard"></a>unsigned int <b>getMinCard</b> () const</pre>
@@ -1016,8 +1016,8 @@
       <dd><p>Changes the minimal number of characters this object must match while
         parsing.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>val</code>: New minimal number the object must be parsed.<dd>
-      </dl><dd>
+          <dd><code>val</code>: New minimal number the object must be parsed.</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -1040,7 +1040,7 @@
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string: In case of a not recoverable error</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="POAttcheckValue"></a>int <b>checkValue</b> (char ch)</pre>
@@ -1059,8 +1059,8 @@
           <li><b>*</b>: ch is valid.</li>
           <li> Else: ch is valid if it equal to this char</li></ul></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Character to check for validity<dd>
-      </dl><dd>
+          <dd><code>ch</code>: Character to check for validity</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result; 1 if <code>ch</code> valid, -1 if it should be just ignored. Else 0</dd></dl></dd>
     </dl>
@@ -1129,13 +1129,13 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: List of valid characters (see class description)<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>value</code>: List of valid characters (see class description)</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1144,8 +1144,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~CBParseAttomic"></a> <b>~CBParseAttomic</b> ()</pre>
@@ -1157,8 +1157,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1168,8 +1168,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -1178,9 +1178,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -1238,14 +1238,14 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: List of valid characters (see class description)<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>value</code>: List of valid characters (see class description)</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1254,8 +1254,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~OFParseAttomic"></a><b>~OFParseAttomic</b> ()</pre>
@@ -1267,10 +1267,10 @@
     <dl>
       <dd><p>Assignment operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
+          <dd><code>other</code>: Object to clone</dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
 
@@ -1280,9 +1280,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -1344,13 +1344,13 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method<dd>
-      </dl><dd>
+          <dd><code>abort</code>: Characters ending parsing of the object.</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1359,8 +1359,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseText"></a> <b>~ParseText</b> ()</pre>
@@ -1372,8 +1372,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1383,8 +1383,8 @@
       <dd><p>Checks if the parsed value is according the abort-list of the object.</p>
         <p>Valid are every characters <b>not</b> in <code>pValue</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
+          <dd><code>ch</code>: Char to check</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>boolean: Result; true if <code>ch</code> does not match any of those values.</dd></dl></dd>
     </dl>
@@ -1447,13 +1447,13 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>abort</code>: Characters ending parsing of the object.</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1462,8 +1462,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1477,8 +1477,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1487,8 +1487,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -1497,9 +1497,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -1559,14 +1559,14 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>abort</code>: Characters ending parsing of the object.</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1575,8 +1575,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1590,8 +1590,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1602,9 +1602,9 @@
       <dd><p>Calls the defined callback of the specified object with the passed
         parameter and returns its result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd></dd>
@@ -1672,14 +1672,14 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: List of valid characters<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>escape</code>: Character which escapes characters in value<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object<dd>
-          <dd><code>reportData</code>: Flag if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>abort</code>: List of valid characters</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>escape</code>: Character which escapes characters in value</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped after sucessfully parsing the object</dd>
+          <dd><code>reportData</code>: Flag if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>abort != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1688,8 +1688,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseTextEsc"></a>virtual <b>~ParseTextEsc</b> ()</pre>
@@ -1701,8 +1701,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1714,8 +1714,8 @@
           are preceeded ("escaped") by the character specified by
           escape (unless this itself is preceeded by itself).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
+          <dd><code>ch</code>: Char to check</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>boolean: Result; 1 if valid, 0 if not or -1 if character should be ignored</dd></dl></dd>
     </dl>
@@ -1779,14 +1779,14 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>escape</code>: Character which escapes characters in value<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>abort</code>: Characters ending parsing of the object.</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>escape</code>: Character which escapes characters in value</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1795,8 +1795,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1810,8 +1810,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1820,8 +1820,8 @@
     <dl>
       <dd>Changes the callback to the passed parameter.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -1830,9 +1830,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -1890,15 +1890,15 @@
     <dl>
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>abort</code>: Characters ending parsing of the object.<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>escape</code>: Character which escapes characters in value<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>abort</code>: Characters ending parsing of the object.</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>escape</code>: Character which escapes characters in value</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -1907,8 +1907,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1922,8 +1922,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -1934,9 +1934,9 @@
       <dd><p>Calls the defined callback of the specified object with the passed
         parameter and returns its result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd></dd>
@@ -2010,11 +2010,11 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2030,13 +2030,13 @@
         <p>Another possible usage is to add the zero character (`\0') into the value
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2045,8 +2045,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseExact"></a> <b>~ParseExact</b> ()</pre>
@@ -2058,8 +2058,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2069,8 +2069,8 @@
       <dd><p>Checks if the passed character is exactly equal (case-sensitive!)
         than the one in the actual position of the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
+          <dd><code>ch</code>: Char to check</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>boolean: Result; true if valid</dd></dl></dd>
     </dl>
@@ -2143,12 +2143,12 @@
     <dl>
       <dd>Constructor; sets the neccessary data for this object.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2164,14 +2164,14 @@
         <p>Another possible usage is to add the zero character (`\0') into the value
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2180,8 +2180,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2195,8 +2195,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2205,8 +2205,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -2215,9 +2215,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -2279,12 +2279,12 @@
     <dl>
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2301,14 +2301,14 @@
         <p>Another possible usage is to add the zero character (`\0') into the value
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2316,8 +2316,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2331,8 +2331,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2343,9 +2343,9 @@
       <dd><p>Calls the defined callback of the specified object with the passed
         parameter and returns its result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd></dd>
@@ -2419,11 +2419,11 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2439,13 +2439,13 @@
         <p>Another possible usage is to add the zero character (`\0') into the value
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2454,8 +2454,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseUpperExact"></a> <b>~ParseUpperExact</b> ()</pre>
@@ -2467,8 +2467,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2478,8 +2478,8 @@
       <dd><p>Checks if the passed character is exactly equal (not case-sensitive!)
         than the one in the actual position of the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
+          <dd><code>ch</code>: Char to check</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>boolean: Result; true if valid</dd></dl></dd>
     </dl>
@@ -2552,12 +2552,12 @@
     <dl>
       <dd>Constructor; sets the neccessary data for this object.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2574,14 +2574,14 @@
         <p>Another possible usage is to add the zero character (`\0') into the value
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-          <dd><code>reportData</code>: Flag, if data should be stored and reported<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2590,8 +2590,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2605,8 +2605,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2615,8 +2615,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -2625,9 +2625,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -2690,12 +2690,12 @@
     <dl>
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2712,14 +2712,14 @@
         <p>Another possible usage is to add the zero character (`\0') into the value
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Sequence of characters to parse in that order<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>value</code>: Sequence of characters to parse in that order</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>value</code> != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2728,8 +2728,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2743,8 +2743,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -2755,9 +2755,9 @@
       <dd><p>Calls the defined callback of the specified object with the passed
         parameter and returns its result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd></dd>
@@ -2840,12 +2840,12 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -2854,8 +2854,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseSequence"></a> <b>~ParseSequence</b> ()</pre>
@@ -2867,8 +2867,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to  this</dd></dl></dd>
     </dl>
@@ -2885,8 +2885,8 @@
     <dl>
       <dd><p>Changes the maximal number how often the sequence may be repeated</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>val</code>: New maximal number the object can be parsed.<dd>
-      </dl><dd>
+          <dd><code>val</code>: New maximal number the object can be parsed.</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="POSeqgetMinCard"></a>unsigned int <b>getMinCard</b> () const</pre>
@@ -2900,8 +2900,8 @@
     <dl>
       <dd><p>Changes the minimal number how often the sequence must be repeated.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>val</code>: New minimal number the object must be parsed.<dd>
-      </dl><dd>
+          <dd><code>val</code>: New minimal number the object must be parsed.</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -2920,7 +2920,7 @@
           <dd>int: Status; 0 OK</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string: In case of a not recoverable error</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
 
@@ -2990,13 +2990,13 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -3005,8 +3005,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~CBParseSequence"></a> <b>~CBParseSequence</b> ()</pre>
@@ -3018,9 +3018,9 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -3029,8 +3029,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -3039,8 +3039,8 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -3100,14 +3100,14 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -3116,8 +3116,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -3131,10 +3131,10 @@
     <dl>
       <dd><p>Assignment operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
+          <dd><code>other</code>: Object to clone</dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -3143,9 +3143,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -3204,12 +3204,12 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality<dd>
-          <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>pObjectList</code>: NULL-terminated array of objects to parse</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality</dd>
+          <dd><code>min</code>: Minimal cardinality</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>apObjectList != NULL &amp;&amp; !ParseObject::checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -3218,8 +3218,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ParseSelection"></a> <b>~ParseSelection</b> ()</pre>
@@ -3231,8 +3231,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -3247,9 +3247,9 @@
         <p>If parsing is not optional and/or the error is not recoverable (&lt; 0),
           an exception (std::string) is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to read<dd>
-          <dd><code>optional</code>: Flag, if node must be found<dd>
-      </dl><dd>
+          <dd><code>stream</code>: Source from which to read</dd>
+          <dd><code>optional</code>: Flag, if node must be found</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>PARSE_OK if selection found; PARSE_ERROR if not</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -3314,13 +3314,13 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -3329,8 +3329,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~CBParseSelection"></a> <b>~CBParseSelection</b> ()</pre>
@@ -3342,8 +3342,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -3353,8 +3353,8 @@
     <dl>
       <dd><p>Changes the callback to the passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
-      </dl><dd>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -3363,9 +3363,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
@@ -3424,14 +3424,14 @@
     <dl>
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>objToNofity</code>: Object to notify<dd>
-          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
-          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
-          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
-          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
-      </dl><dd>
+          <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
+          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
@@ -3440,8 +3440,8 @@
     <dl>
       <dd><p>Copy-constructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
     </dl>
@@ -3455,10 +3455,10 @@
     <dl>
       <dd><p>Assignment operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
+          <dd><code>other</code>: Object to clone</dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to this</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
@@ -3467,9 +3467,9 @@
       <dd><p>Calls the defined callback with the passed parameter and returns its
         result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>

@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: File.html,v 1.8 2002/12/17 20:38:28 markus Exp $ -->
+<!-- $Id: File.html,v 1.9 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -163,7 +163,7 @@
       <dd><p>Copyconstructor; duplicates the file object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to copy
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~File"></a><b>~File</b> () </pre>
@@ -176,7 +176,7 @@
       <dd><p>Assignmentoperator; duplicates the file object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>other</code>: Object to copy</dd>
-      </dl><dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>File&amp;: Reference to this</dd></dl></dd>
     </dl>
@@ -195,7 +195,7 @@
     <dl>
       <dd><p>Sets the passed attribtues for the file.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>attr</code>: Attributes to set</dd></dl><dd>
+          <dd><code>attr</code>: Attributes to set</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>The actual file attributes (on the disc) are not changed!
 </dd></dl></dd>
@@ -205,7 +205,7 @@
     <dl>
       <dd><p>Copies the value of the passed character array into the name field.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pName</code>: Pointer to character array containing name</dd></dl><dd>
+          <dd><code>pName</code>: Pointer to character array containing name</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pName a valid ASCIIZ string and not NULL.</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
@@ -216,7 +216,7 @@
     <dl>
       <dd><p>Copies the value of the passed string into the name field.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name</code>: String containing name</dd></dl><dd>
+          <dd><code>name</code>: String containing name</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>The actual file name (on the disc) is not changed!
 </dd></dl></dd>
@@ -226,7 +226,7 @@
     <dl>
       <dd><p>Copies the value of the passed character array into the path field.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pPath</code>: Pointer to character array containing path</dd></dl><dd>
+          <dd><code>pPath</code>: Pointer to character array containing path</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pPath a valid ASCIIZ string and not NULL.</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
@@ -237,7 +237,7 @@
     <dl>
       <dd><p>Copies the value of the passed string into the path field.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>path</code>: String containing path</dd></dl><dd>
+          <dd><code>path</code>: String containing path</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>The actual file path (on the disc) is not changed!
 </dd></dl></dd>
@@ -247,7 +247,7 @@
     <dl>
       <dd><p>Sets the passed value into the size field.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>size</code>: Size of the file</dd></dl><dd>
+          <dd><code>size</code>: Size of the file</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>The actual file size (on the disc) is not changed!
 </dd></dl></dd>
@@ -257,7 +257,7 @@
     <dl>
       <dd><p>Sets the passed value into the time field.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: Time of the file</dd></dl><dd>
+          <dd><code>time</code>: Time of the file</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>The actual file time (on the disc) is not changed!</dd></dl></dd>
     </dl>
@@ -314,10 +314,10 @@
     <dl>
       <dd><p>Retrieves the modification time of the file in a broken-down format.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: Modification time in broken down time structure<dd>
+          <dd><code>time</code>: Modification time in broken down time structure</dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd>The call is only valid after a successfull find.</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="attributes"></a>unsigned long <b>attributes</b> () const</pre>
@@ -335,8 +335,8 @@
         '%1' are subsituted with the name of the file and '%2' with an error message
         (according to strerror).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>error</code>: ASCIIZ-String describing error-message<dd>
-      </dl><dd>
+          <dd><code>error</code>: ASCIIZ-String describing error-message</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>error</code> != NULL, an ASCIIZ-string with the placeholders %1, %2
 </dd></dl></dd>
@@ -392,8 +392,8 @@
       <dd><p>Opends the file in the specified mode. The mode parameter can have the
         same values than the ANSI-C fopen-function.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>mode</code>: Mode for open the file (analogue to libc's fopen)<dd>
-      </dl><dd>
+          <dd><code>mode</code>: Mode for open the file (analogue to libc's fopen)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>void*: Pointer to a handle for the opened file.
 </dd></dl></dd>
@@ -406,8 +406,8 @@
     <dl>
       <dd><p>Closes a (previously opened) file</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of opened file<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of opened file</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>string: In case of an error a textual description</dd></dl></dd>
     </dl>
@@ -416,8 +416,8 @@
     <dl>
       <dd><p>Checks if further data is available for reading.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of openeded file<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of openeded file</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if further data is available</dd></dl></dd>
     </dl>
@@ -429,10 +429,10 @@
 
         <p>If an error occurres, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of openeded file<dd>
-          <dd><code>buffer</code>: Buffer for data<dd>
-          <dd><code>length</code>: Maximal length of buffer<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of openeded file</dd>
+          <dd><code>buffer</code>: Buffer for data</dd>
+          <dd><code>length</code>: Maximal length of buffer</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of read bytes</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -446,10 +446,10 @@
 
         <p>If an error occurres, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>file</code>: Handle of openeded file<dd>
-          <dd><code>buffer</code>: Buffer of data<dd>
-          <dd><code>length</code>: Length of buffer (= bytes to write)<dd>
-      </dl><dd>
+          <dd><code>file</code>: Handle of openeded file</dd>
+          <dd><code>buffer</code>: Buffer of data</dd>
+          <dd><code>length</code>: Length of buffer (= bytes to write)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of written bytes</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -464,12 +464,12 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pszName</code>: Pointer to name of file to compare<dd></dl><dd>
+          <dd><code>pszName</code>: Pointer to name of file to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd><code>pszName</code> must not be NULL</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="compare2"></a>int <b>compare</b> (const std::string&amp; Name) const</pre>
@@ -479,7 +479,7 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Name</code>: String holding the name of file to compare<dd></dl><dd>
+          <dd><code>Name</code>: String holding the name of file to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
     </dl>
@@ -491,7 +491,7 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Other file object whose name should be compared<dd></dl><dd>
+          <dd><code>other</code>: Other file object whose name should be compared</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
     </dl>
@@ -503,12 +503,12 @@
         Depending on your operating system, the <b>compare</b> might or might not be
         case-sensitive.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Pointer to other file object whose name should be compared<dd></dl><dd>
+          <dd><code>other</code>: Pointer to other file object whose name should be compared</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Result of strcmp the file names (0 == equal)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd><code>other</code> must not be NULL</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
   </body>
 </html>

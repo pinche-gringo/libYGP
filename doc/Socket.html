@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Socket.html,v 1.4 2002/12/15 00:03:02 markus Exp $ -->
+<!-- $Id: Socket.html,v 1.5 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -134,24 +134,24 @@
     <dl>
       <dd><p>Defaultconstructor; creates an socket but without any connection.</p></dd>
       <dd><dl><dt><b>Throws</b></dt>
-          <dd>std::domain_error in case of a communication error<dd>
-      </dl><dd>
+          <dd>std::domain_error in case of a communication error</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="Socket2"></a><b>Socket</b> (int socket)</pre>
     <dl>
       <dd><p>Constructor; creates an socket out of an existing system-socket.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>socket</code>: System socket to use for the communication<dd>
-      </dl><dd>
+          <dd><code>socket</code>: System socket to use for the communication</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="Socket3"></a> <b>Socket</b> (unsigned int port) throw (std::domain_error)</pre>
     <dl>
       <dd><p>Constructor; creates an socket which waits for input on <code>port</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>port</code>: Port to listen at<dd>
-      </dl><dd>
+          <dd><code>port</code>: Port to listen at</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -161,9 +161,9 @@
       <dd><p>Constructor; creates an socket which tries to write to
         <code>server</code> using the passed <code>port</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>server</code>: Name (or number) of server to send to<dd>
-          <dd><code>port</code>: Port to write to<dd>
-      </dl><dd>
+          <dd><code>server</code>: Name (or number) of server to send to</dd>
+          <dd><code>port</code>: Port to write to</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -173,9 +173,9 @@
       <dd><p>Constructor; creates an socket which tries to write to
         <code>server</code> using the passed <code>port</code>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>server</code>: Name (or number) of server to send to<dd>
-          <dd><code>port</code>: Port to write to<dd>
-      </dl><dd>
+          <dd><code>server</code>: Name (or number) of server to send to</dd>
+          <dd><code>port</code>: Port to write to</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -184,8 +184,8 @@
     <dl>
       <dd><p>Copy-constructor; duplicates a socket.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>rhs</code>: Socket to duplicate<dd>
-      </dl><dd>
+          <dd><code>rhs</code>: Socket to duplicate</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -199,8 +199,8 @@
     <dl>
       <dd><p>Assignment-operator; duplicates a socket. The old socket is closed.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>rhs</code>: Socket to duplicate<dd>
-      </dl><dd>
+          <dd><code>rhs</code>: Socket to duplicate</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Socket&amp;: Reference to self</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -211,8 +211,8 @@
     <dl>
       <dd><p>Assignmentoperator; creates an socket out of a system-socket.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>rhs</code>: Socket to assign<dd>
-      </dl><dd>
+          <dd><code>rhs</code>: Socket to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Socket&amp;: Reference to self</dd></dl></dd>
     </dl>
@@ -236,8 +236,8 @@
       <dd><p>Retrieves the port-number of the passed textual port-description
         (service name or number as text).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>service</code>: Text describing port<dd>
-      </dl><dd>
+          <dd><code>service</code>: Text describing port</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of an invalid input</dd></dl></dd>
     </dl>
@@ -246,9 +246,9 @@
     <dl>
       <dd><p>Throws a domain_error with an explaining text.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>error</code>: Text describing the error<dd>
-          <dd><code>errNum</code>: Number of error; if !=0 an explaining text is appended<dd>
-      </dl><dd>
+          <dd><code>error</code>: Text describing the error</dd>
+          <dd><code>errNum</code>: Number of error; if !=0 an explaining text is appended</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication <code>error</code></dd></dl></dd>
     </dl>
@@ -258,8 +258,8 @@
     <dl>
       <dd><p>Specifies the port to listen at (for incoming connections).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>port</code>: Port at which to listen<dd>
-      </dl><dd>
+          <dd><code>port</code>: Port at which to listen</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -285,9 +285,9 @@
     <dl>
       <dd><p>Specifies the server and port to write to (for outgoing connections).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>server</code>: Name (or number) of the server to connect to<dd>
-          <dd><code>port</code>: Portnumber to connect to<dd>
-      </dl><dd>
+          <dd><code>server</code>: Name (or number) of the server to connect to</dd>
+          <dd><code>port</code>: Portnumber to connect to</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>server</code> not NULL</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -298,9 +298,9 @@
     <dl>
       <dd><p>Specifies the server and port to write to (for outgoing connections).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>server</code>: Name (or number) of the server to connect to<dd>
-          <dd><code>port</code>: Portnumber to connect to<dd>
-      </dl><dd>
+          <dd><code>server</code>: Name (or number) of the server to connect to</dd>
+          <dd><code>port</code>: Portnumber to connect to</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -322,8 +322,8 @@
       <dd><p>Reads all available data into the buffer specified by <code>input</code>
         from the previously specified source.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>input</code>: AByteArray receiving the input<dd>
-      </dl><dd>
+          <dd><code>input</code>: AByteArray receiving the input</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of bytes read
 </dd></dl></dd>
@@ -336,9 +336,9 @@
       <dd><p>Reads up to <code>lenBuffer</code> bytes data into the buffer specified by
           <code>pBuffer</code> from the previously specified source.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pBuffer</code>: Pointer to buffer receiving the input<dd>
-          <dd><code>lenBuffer</code>: Length of that buffer<dd>
-      </dl><dd>
+          <dd><code>pBuffer</code>: Pointer to buffer receiving the input</dd>
+          <dd><code>lenBuffer</code>: Length of that buffer</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of bytes read</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -350,8 +350,8 @@
       <dd><p>Reads all available data into the buffer specified by <code>input</code>
         from the previously specified source.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>input</code>: string receiving the input<dd>
-      </dl><dd>
+          <dd><code>input</code>: string receiving the input</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Number of bytes read
 </dd></dl></dd>
@@ -365,8 +365,8 @@
       <dd><p>Writes the contents of <code>pBuffer</code> up to the first
       zero-byte to the socket (which must have been connected to an address).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pBuffer</code>: Buffer to write<dd>
-      </dl><dd>
+          <dd><code>pBuffer</code>: Buffer to write</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>pBuffer</code> not NULL</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -381,9 +381,9 @@
       to the socket (which must have been connected to an address).</p></dd>
       <dd><p>Writes a buffer to a socket</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pBuffer</code>: Buffer to write<dd>
-          <dd><code>lenBuffer</code>: Length of data to write<dd>
-      </dl><dd>
+          <dd><code>pBuffer</code>: Buffer to write</dd>
+          <dd><code>lenBuffer</code>: Length of data to write</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd><code>pBuffer</code> not NULL</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -395,8 +395,8 @@
       <dd><p>Writes the content of <code>output</code>
       to the socket (which must have been connected to an address).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>output</code>: Content to write<dd>
-      </dl><dd>
+          <dd><code>output</code>: Content to write</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>
@@ -406,8 +406,8 @@
       <dd><p>Writes the content of <code>output</code>
       to the socket (which must have been connected to an address).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>output</code>: String to write<dd>
-      </dl><dd>
+          <dd><code>output</code>: String to write</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error in case of a communication error</dd></dl></dd>
     </dl>

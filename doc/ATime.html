@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ATime.html,v 1.11 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: ATime.html,v 1.12 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -197,8 +197,8 @@
     <dl>
       <dd><p>Constructor; copies the values of the passed object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to copy<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to copy</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATime2"></a><b>ATime</b> (bool now)</pre>
@@ -206,8 +206,8 @@
       <dd><p>Constructor; depending on the parameter the time is either set to
         "0:00:00" (now = false), or to the current time (now = true).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>now</code>: Flag if current time or default start-time (1.1.1900) should be set<dd>
-      </dl><dd>
+          <dd><code>now</code>: Flag if current time or default start-time (1.1.1900) should be set</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATime"></a><b>ATime</b> (char Hour, char minute, char second)</pre>
@@ -216,10 +216,10 @@
         the passed parameters represent no valid time (e.g. Hour &gt; 23,
         minute &gt; 59 or second &gt; 61)</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Hour</code>: Hour for this ATime<dd>
+          <dd><code>Hour</code>: Hour for this ATime</dd>
           <dd><code>minute</code>: Minute to set</dd>
-          <dd><code>second</code>: Second to set<dd>
-      </dl><dd>
+          <dd><code>second</code>: Second to set</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATime5"></a><b>ATime</b> (const char* pTime) throw (invalid_argument)</pre>
@@ -229,8 +229,8 @@
         time an excpetion is thrown. A NULL-pointer as parameter
         is not permitted!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pTime</code>: Character array specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>pTime</code>: Character array specifying time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the parameter does not represent a valid time
 </dd></dl></dd>
@@ -243,8 +243,8 @@
         HHMMSS. If the string does not represent a valid
         time an excpetion is thrown</p>.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: String specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: String specifying time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the parameter does not represent a valid time
 </dd></dl></dd>
@@ -255,17 +255,17 @@
       <dd><p>Constructor; assigns the values from the passed struct tm to the
         time-object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: struct tm specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: struct tm specifying time to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ATime8"></a><b>ATime</b> (const time_t&amp; time, bool local)</pre>
     <dl>
       <dd><p>Constructor; sets the time to the value represented by the parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: System time to assign<dd>
-          <dd><code>local</code>: Flag if <code>time</code> represents a local time a a GMT<dd>
-      </dl><dd>
+          <dd><code>time</code>: System time to assign</dd>
+          <dd><code>local</code>: Flag if <code>time</code> represents a local time a a GMT</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ATime"></a><b>~ATime</b> () </pre>
@@ -277,8 +277,8 @@
     <dl>
       <dd><p>Assignment-operator from another ATime object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -292,8 +292,8 @@
         valid time an excpetion is thrown. A NULL-pointer as parameter
         is not permitted!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pTime</code>: Character array specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>pTime</code>: Character array specifying time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -308,8 +308,8 @@
         HHMMSS. If the string does not represent a valid
         time an excpetion is thrown.<p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: String specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: String specifying time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -323,8 +323,8 @@
     <dl>
       <dd><p>Assignment-operator; assigns the values from the passed struct tm.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: struct tm specifying time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: struct tm specifying time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -336,8 +336,8 @@
       <dd><p>Assignment-operator; sets the time to the value represented by the
         parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: System time to assign<dd>
-      </dl><dd>
+          <dd><code>time</code>: System time to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Reference to self
 </dd></dl></dd>
@@ -351,8 +351,8 @@
     <dl>
       <dd><p>Sets the hour to the passed value</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Hour</code>: Hour to set<dd>
-      </dl><dd>
+          <dd><code>Hour</code>: Hour to set</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the parameter is bigger than 23
 </dd></dl></dd>
@@ -362,8 +362,8 @@
     <dl>
       <dd><p>Sets the minute to the passed value</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>minute</code>: Minute to set<dd>
-      </dl><dd>
+          <dd><code>minute</code>: Minute to set</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the parameter is bigger than 59
 </dd></dl></dd>
@@ -373,8 +373,8 @@
     <dl>
       <dd><p>Sets the second to the passed value.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>second</code>: Second to set<dd>
-      </dl><dd>
+          <dd><code>second</code>: Second to set</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the parameter is bigger than 61
 </dd></dl></dd>
@@ -386,8 +386,8 @@
       <dd><p>sets the time to the value represented by the parameter (which is considered
         to specify a time in GMT).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>time</code>: System time (in GMT) to set<dd>
-      </dl><dd>
+          <dd><code>time</code>: System time (in GMT) to set</dd>
+      </dl></dd>
     </dl>
 
     <h3><span style="color:navy">In- &amp; output, conversion</span></h3>
@@ -395,8 +395,8 @@
     <dl>
       <dd><p>Reads the time in format hhmmss (with leading zeros) from a stream.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>in</code>: Stream to parse<dd>
-      </dl><dd>
+          <dd><code>in</code>: Stream to parse</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the format is wrong
 </dd></dl></dd>
@@ -505,8 +505,8 @@
         undefined. Overflows of seconds or minutes are corrected, overflows
         of the hour undefines the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Value to add<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Value to add</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -519,8 +519,8 @@
         undefined. Underflows (of day or month) are corrected; underflows of
         of the hour undefines the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Value to substract<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Value to substract</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self</dd></dl></dd>
     </dl>
@@ -533,9 +533,9 @@
         Overflows of seconds or minutes are corrected, overflows of the hour
         undefines the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Left-hand-side of addition<dd>
-          <dd><code>rhs</code>: Right-hand-side of addition<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Left-hand-side of addition</dd>
+          <dd><code>rhs</code>: Right-hand-side of addition</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ATime: Result of additon
 </dd></dl></dd>
@@ -548,9 +548,9 @@
         undefined. Underflows of seconds or minutes are corrected, underflows
         of the hour undefines the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Left-hand-side of substraction<dd>
-          <dd><code>rhs</code>: Right-hand-side of substraction<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Left-hand-side of substraction</dd>
+          <dd><code>rhs</code>: Right-hand-side of substraction</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ATime: Result of substraction
 </dd></dl></dd>
@@ -563,10 +563,10 @@
           seconds or minutes are corrected, overflows of the hour undefines the
           object. The result is returned.Adds a value to this</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Hour</code>: Hour to add<dd>
+          <dd><code>Hour</code>: Hour to add</dd>
           <dd><code>minute</code>: Minute to add
-          <dd><code>second</code>: Second to add<dd>
-      </dl><dd>
+          <dd><code>second</code>: Second to add</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -578,10 +578,10 @@
           Overflows of seconds or minutes are corrected, overflows of the hour
           undefines the object. The result is returned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Hour</code>: Hour to substract<dd>
+          <dd><code>Hour</code>: Hour to substract</dd>
           <dd><code>minute</code>: Minute to substract
-          <dd><code>second</code>: Second to substract<dd>
-      </dl><dd>
+          <dd><code>second</code>: Second to substract</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -593,8 +593,8 @@
       <dd><p>Compares two time-objects and returns true, if they are equal (either
         the same time or both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if the objects are equal</dd></dl></dd>
     </dl>
@@ -604,8 +604,8 @@
       <dd><p>Compares two time-objects and returns true, if they are not equal
         (different times and not both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if the objects are not equal</dd></dl></dd>
     </dl>
@@ -616,8 +616,8 @@
         (further in the past) than other (e.g. "01:01:01" &lt; "02:02:02" ==
         true). Undefined values are considered as older than any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if this is further in the past than other</dd></dl></dd>
     </dl>
@@ -628,8 +628,8 @@
         (later on a time-line) than other (e.g. "13:00:00" &gt; "12:00:00" ==
         true). Undefined values are considered as older than any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if other is further in the past than this</dd></dl></dd>
     </dl>
@@ -641,8 +641,8 @@
         "02:02:02" == true). Undefined values are considered as older than
         any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if this is further in the past than other or equal</dd></dl></dd>
     </dl>
@@ -654,8 +654,8 @@
         "02:02:02" == true). Undefined values are considered as older than
         any other time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if other is further in the past than this or equal</dd></dl></dd>
     </dl>
@@ -668,8 +668,8 @@
         is returned (-&gt; undefined times are considered as (incredible)
         old).Compares two ATime-values</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>>0 if this  other; 0 if this == <code>other</code>; <0 else
 </dd></dl></dd>

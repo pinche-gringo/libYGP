@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ADate.html,v 1.17 2002/12/15 00:28:41 markus Exp $ -->
+<!-- $Id: ADate.html,v 1.18 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -223,8 +223,8 @@
     <dl>
       <dd><p>Copyconstructor; copies the values of the passed object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to copy<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to copy</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ADate2"></a><b>ADate</b> (bool now)</pre>
@@ -233,8 +233,8 @@
         first of January, 1900 (now = false), or to the current day (now =
         true).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>now</code>: Flag which time to set (1900/1/1 (false) or now (true))<dd>
-      </dl><dd>
+          <dd><code>now</code>: Flag which time to set (1900/1/1 (false) or now (true))</dd>
+      </dl></dd>
     </dl>
     <hr>
 
@@ -243,9 +243,9 @@
       <dd><p>Constructor; sets the passed date. The date is undefined, if the
         passed parameters represent no valid day.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>day</code>: Day for this ADate<dd>
-          <dd><code>month</code>: Month year: Year to set<dd>
-      </dl><dd>
+          <dd><code>day</code>: Day for this ADate</dd>
+          <dd><code>month</code>: Month year: Year to set</dd>
+      </dl></dd>
     </dl>
     <hr>
 
@@ -255,8 +255,8 @@
         passed as DDMMY[Y...]. If the buffer does not represent a
         valid day, the date is set to undefined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pDate</code>: Character array holding date to assign<dd>
-      </dl><dd>
+          <dd><code>pDate</code>: Character array holding date to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the characters don't represent a valid date
 </dd></dl></dd>
@@ -269,8 +269,8 @@
         DDMMY[Y...]. If the string does not represent a valid day,
         an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pDate</code>: String holding date to assign<dd>
-      </dl><dd>
+          <dd><code>pDate</code>: String holding date to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::invalid_argument if the string doesn not represent a valid date
 </dd></dl></dd>
@@ -280,16 +280,16 @@
     <dl>
       <dd><p>Constructor; sets the values from the passed struct tm.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>date</code>: struct tm holding date to assign<dd>
-      </dl><dd>
+          <dd><code>date</code>: struct tm holding date to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ADate8"></a><b>ADate</b> (const time_t date)</pre>
     <dl>
       <dd><p>Constructor; converts the passed date to an ADate object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>date</code>: System time representation of date to assign<dd>
-      </dl><dd>
+          <dd><code>date</code>: System time representation of date to assign</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~ADate"></a><b>~ADate</b> () </pre>
@@ -301,8 +301,8 @@
     <dl>
       <dd><p>Assignment-operator</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to assign<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate&: Reference to self
 </dd></dl></dd>
@@ -315,8 +315,8 @@
         passed as DDMMY[Y...]. If the buffer does not represent a
         valid day, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pDate</code>: Character array holding date to assign<dd>
-      </dl><dd>
+          <dd><code>pDate</code>: Character array holding date to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate&: Reference to self
 </dd></dl></dd>
@@ -331,8 +331,8 @@
         passed as DDMMY[Y...]. If the string does not represent a
         valid day, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>date</code>: String holding date to assign<dd>
-      </dl><dd>
+          <dd><code>date</code>: String holding date to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate&: Reference to self
 </dd></dl></dd>
@@ -345,8 +345,8 @@
     <dl>
       <dd><p>Assignment-operator from a struct tm.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>date</code>: Struct tm holding date to assign<dd>
-      </dl><dd>
+          <dd><code>date</code>: Struct tm holding date to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate&: Reference to self
 </dd></dl></dd>
@@ -356,8 +356,8 @@
     <dl>
       <dd><p>Assignment-operator from a a system time.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>date</code>: System time holding date to assign<dd>
-      </dl><dd>
+          <dd><code>date</code>: System time holding date to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate&: Reference to self
 </dd></dl></dd>
@@ -373,8 +373,8 @@
       <dd><p>Sets the day to the passed value. If the date is not valid, it is
         set to undefined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Day</code>: Day to set<dd>
-      </dl><dd>
+          <dd><code>Day</code>: Day to set</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="setMonth"></a>void <b>setMonth</b> (char Month) </pre>
@@ -382,16 +382,16 @@
       <dd><p>Sets the month to the passed value. If the date is not valid, it is
         set to undefined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>month</code>: Month to set<dd>
-      </dl><dd>
+          <dd><code>month</code>: Month to set</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="setYear"></a>void <b>setYear</b> (int Year)</pre>
     <dl>
       <dd><p>Sets the year to the passed value.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>Year</code>: Year to set<dd>
-      </dl><dd>
+          <dd><code>Year</code>: Year to set</dd>
+      </dl></dd>
     </dl>
 
     <h3><span style="color:navy">In- &amp; output, conversion</span></h3>
@@ -400,8 +400,8 @@
       <dd><p>Reads a date as <i>DDMMY[Y...]</i> from a stream. If the input is
         not valid, an exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>in</code>: Stream to parse<dd>
-      </dl><dd>
+          <dd><code>in</code>: Stream to parse</dd>
+      </dl></dd>
     </dl>
     <hr>
 
@@ -500,8 +500,8 @@
         treated as "0.0.0"; so only if both objects are undefined, the result
         is (remains) undefined. Overflows (of day or month) are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Value to add<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Value to add</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self</dd></dl></dd>
     </dl>
@@ -512,8 +512,8 @@
         is treated as "0.0.0"; the result is (remains) undefined if both
         objects are undefined. Underflows (of day or month) are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>rhs</code>: Value to substract<dd>
-      </dl><dd>
+          <dd><code>rhs</code>: Value to substract</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self</dd></dl></dd>
     </dl>
@@ -525,9 +525,9 @@
         treated as "0.0.0"; the result is (remains) undefined if both objects
         are undefined. Overflows (of day or month) are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Left-hand-side of addition<dd>
-          <dd><code>rhs</code>: Right-hand-side of addition<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Left-hand-side of addition</dd>
+          <dd><code>rhs</code>: Right-hand-side of addition</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate: Result of additon</dd></dl></dd>
     </dl>
@@ -538,9 +538,9 @@
         is treated as "0.0.0"; the result is (remains) undefined if both objects
         are undefined. Overflows (of day or month) are corrected.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>lhs</code>: Left-hand-side of substraction<dd>
-          <dd><code>rhs</code>: Right-hand-side of substraction<dd>
-      </dl><dd>
+          <dd><code>lhs</code>: Left-hand-side of substraction</dd>
+          <dd><code>rhs</code>: Right-hand-side of substraction</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>ADate: Result of substraction</dd></dl></dd>
     </dl>
@@ -551,9 +551,9 @@
       <dd><p>If this is not undefined, the passed values are added (with attention
           to overflows). The result is returned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>day</code>: Day to add<dd>
-          <dd><code>month</code>: Month to add year: Year to add<dd>
-      </dl><dd>
+          <dd><code>day</code>: Day to add</dd>
+          <dd><code>month</code>: Month to add year: Year to add</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -568,9 +568,9 @@
       <dd><p>If this is defined, the passed values are substracted (with
           attention to underflows). The result is returned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>day</code>: Day to substract<dd>
-          <dd><code>month</code>: Month to substract year: Year to substract<dd>
-      </dl><dd>
+          <dd><code>day</code>: Day to substract</dd>
+          <dd><code>month</code>: Month to substract year: Year to substract</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Self
 </dd></dl></dd>
@@ -586,8 +586,8 @@
       <dd><p>Compares two date-objects and returns true, if they are equal (either
         the same day or both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if the objects are equal</dd></dl></dd>
     </dl>
@@ -597,8 +597,8 @@
       <dd><p>Compares two date-objects and returns true, if they are not equal
         (different days and not both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if the objects are not equal</dd></dl></dd>
     </dl>
@@ -609,8 +609,8 @@
         in the past) than other (e.g. "yesterday" &lt; "today" == true).
         Undefined values are considered as older than any other date.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if this further in the past than other</dd></dl></dd>
     </dl>
@@ -621,8 +621,8 @@
         on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).
         Undefined values are considered as older than any other date.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if other further in the past than this</dd></dl></dd>
     </dl>
@@ -634,8 +634,8 @@
         == true; two undefined values are also considered as equal).
         Undefined values are considered as older than any other date.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if this further in the past than other or equal</dd></dl></dd>
     </dl>
@@ -647,8 +647,8 @@
         == true; two undefined values are also considered as equal).
         Undefined values are considered as older than any other date.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>true, if other further in the past than this or equal</dd></dl></dd>
     </dl>
@@ -657,8 +657,8 @@
     <dl>
       <dd><p>Returns the (approximated) difference in days between two dates. "Younger dates" (closer to the past) are considered bigger than "older dates" (further in the past; that means the numeric value of the date is compared.<p> If both dates are undefined, those difference is "0", if only this is undefined the result is MINLONG; if other is undefined MAXLONG is returned (-> undefined dates are considered as (very) old).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to compare<dd>
-      </dl><dd>
+          <dd><code>other</code>: Object to compare</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>>0 if this "younger" other; 0 if this == <code>other</code>; <0 else</dd></dl></dd>
     </dl>
@@ -675,9 +675,9 @@
     <dl>
       <dd><p>Returns the maximal day for the passed month/year-combination.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>month</code>: Month to check<dd>
-          <dd><code>year</code>: Year to check<dd>
-      </dl><dd>
+          <dd><code>month</code>: Month to check</dd>
+          <dd><code>year</code>: Year to check</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Maximal day for the passed parameters [28 - 31]
 </dd></dl></dd>

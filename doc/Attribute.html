@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Attribute.html,v 1.7 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: Attribute.html,v 1.8 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -72,18 +72,18 @@
     <dl>
       <dd><p>Constructor; creates an attribute with the passed name.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pName</code>: Name of attribute<dd>
-      </dl><dd>
+          <dd><code>pName</code>: Name of attribute</dd>
+      </dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>pName must point to a valid ASCIIZ-string.<dd></dl><dd>
+          <dd>pName must point to a valid ASCIIZ-string.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="IAttribute2"></a><b>IAttribute</b> (const std::string&amp; name_)</pre>
     <dl>
       <dd><p>Constructor; creates an attribute with the passed name.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name_</code>: Name of attribute<dd>
-      </dl><dd>
+          <dd><code>name_</code>: Name of attribute</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~IAttribute"></a><b>~IAttribute</b> ()</pre>
@@ -99,11 +99,11 @@
         implementation just calls <a
         href="assignFromString"><b>assignFromString</b></a>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Pointer to character array specifying value to assign<dd>
-          <dd><code>length</code>: Length of value to assign<dd>
-      </dl><dd>
+          <dd><code>value</code>: Pointer to character array specifying value to assign</dd>
+          <dd><code>length</code>: Length of value to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>bool: True, if value is valid.</dl><dd>
+          <dd>bool: True, if value is valid.</dl></dd>
     </dl>
     <hr>
     <pre><a name="assignFromString"></a>bool <b>assignFromString</b> (const char* value) const = 0</pre>
@@ -120,39 +120,39 @@
 	  implementing) your own <i>assignFromStream</i>-members with your
 	  own type.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Pointer to zero-terminated character array specifying value to assign<dd>
-      </dl><dd>
+          <dd><code>value</code>: Pointer to zero-terminated character array specifying value to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>bool: True, if value is valid.</dl><dd>
+          <dd>bool: True, if value is valid.</dl></dd>
     </dl>
     <hr>
     <pre><a name="getName"></a>const std::string&amp; <b>getName</b> () const</pre>
     <dl>
       <dd><p>Retrieves the name of the attribute.</p></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>std::string&amp;: Name of the attribute</dl><dd>
+          <dd>std::string&amp;: Name of the attribute</dl></dd>
     </dl>
     <hr>
     <pre><a name="matches"></a>bool <b>matches</b> (const char* pName)</pre>
     <dl>
       <dd><p>Checks if the name of the attribute matchtes the passed one.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pName</code>: Name of attribute<dd>
-      </dl><dd>
+          <dd><code>pName</code>: Name of attribute</dd>
+      </dl></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>bool: True, if the names are equal.</dl><dd>
+          <dd>bool: True, if the names are equal.</dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>pName must point to a valid ASCIIZ-string.<dd></dl><dd>
+          <dd>pName must point to a valid ASCIIZ-string.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="matches2"></a>bool <b>matches</b> (const std::string&amp; name_)</pre>
     <dl>
       <dd><p>Checks if the name of the attribute matchtes the passed one.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pName</code>: Name of attribute<dd>
-      </dl><dd>
+          <dd><code>pName</code>: Name of attribute</dd>
+      </dl></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>bool: True, if the names are equal.</dl><dd>
+          <dd>bool: True, if the names are equal.</dl></dd>
     </dl>
    
     <hr noshade>
@@ -221,11 +221,11 @@
       <dd><p>Constructor; creates an attribute with the passed name and a reference
          to the value.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pName</code>: Name of attribute<dd>
-          <dd><code>attr</code>: Attribute value to handle<dd>
-      </dl><dd>
+          <dd><code>pName</code>: Name of attribute</dd>
+          <dd><code>attr</code>: Attribute value to handle</dd>
+      </dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>pName must point to a valid ASCIIZ-string.<dd></dl><dd>
+          <dd>pName must point to a valid ASCIIZ-string.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="Attribute2"></a><b>IAttribute</b> (const std::string&amp; name_, T& attr)</pre>
@@ -233,9 +233,9 @@
       <dd><p>Constructor; creates an attribute with the passed name and a reference to the
         value.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name_</code>: Name of attribute<dd>
-          <dd><code>attr</code>: Attribute value to handle<dd>
-      </dl><dd>
+          <dd><code>name_</code>: Name of attribute</dd>
+          <dd><code>attr</code>: Attribute value to handle</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~Attribute"></a><b>~IAttribute</b> ()</pre>
@@ -249,11 +249,11 @@
       <dd><p>Virtual method to assign from a character-array with
         known length to the attribute. To be implemented when needed.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Pointer to character array specifying value to assign<dd>
-          <dd><code>length</code>: Length of value to assign<dd>
-      </dl><dd>
+          <dd><code>value</code>: Pointer to character array specifying value to assign</dd>
+          <dd><code>length</code>: Length of value to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>bool: True, if value is valid.</dl><dd>
+          <dd>bool: True, if value is valid.</dl></dd>
     </dl>
     <hr>
     <pre><a name="AassignFromString"></a>bool <b>assignFromString</b> (const char* value) const</pre>
@@ -261,10 +261,10 @@
       <dd><p>Method to assign a value from a character-pointer to the attribute. To be
         implemented when needed.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: Pointer to character array specifying value to assign<dd>
-      </dl><dd>
+          <dd><code>value</code>: Pointer to character array specifying value to assign</dd>
+      </dl></dd>
       <dd><dl><dt><b>Return</b></dt>
-          <dd>bool: True, if value is valid.</dl><dd>
+          <dd>bool: True, if value is valid.</dl></dd>
     </dl>
   </body>
 </html>

@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: IVIOAppl.html,v 1.13 2002/12/09 00:11:36 markus Exp $ -->
+<!-- $Id: IVIOAppl.html,v 1.14 2002/12/25 04:29:13 markus Exp $ -->
 
 <html>
   <head>
@@ -146,9 +146,9 @@
         parameter is NULL, no long options are used.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>argc</code>: Number of arguments
-          <dd><code>argv</code>: Array of pointers to argumetns<dd>
-          <dd><code>pOpt</code>: Pointer to long-option-table<dd>
-      </dl><dd>
+          <dd><code>argv</code>: Array of pointers to argumetns</dd>
+          <dd><code>pOpt</code>: Pointer to long-option-table</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="IVIOApplication"></a>IVIOApplication (const int argc, const char* argv[], const <a href="IVIOAppl.html#longOptions">longOptions</a>* pOpt = NULL)</pre>
@@ -172,9 +172,9 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>package</code>: Name of the message-catalog</dd>
           <dd><code>dir</code>: root-directory for message-catalogs</dd>
-      </dl><dd>
+      </dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>If the GNU gettext library is not installed or supported, the methods only sets the locale!</dd></dl><dd>
+          <dd>If the GNU gettext library is not installed or supported, the methods only sets the locale!</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="run"></a>int <b>run</b> ()</pre>
@@ -197,7 +197,7 @@
         <p>To be implemented by derived classes.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>option</code>: Option to inspect</dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="getOptionValue"></a>const char* <b>getOptionValue</b> ()</pre>
@@ -240,8 +240,8 @@
         associated long options is NULL; the previous entries must not have
         lines with those values.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pLongOptions</code>: Pointer to an array of longOptions; terminated with a longOption with NULL as longVal<dd>
-      </dl><dd>
+          <dd><code>pLongOptions</code>: Pointer to an array of longOptions; terminated with a longOption with NULL as longVal</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>- pLongOpts not NULL; all long-entries not NULL; all short-entries not '\0'</dd>
           <dd>- An entry with an { NULL, '\0' } at the end</dd></dl></dd>
@@ -253,9 +253,9 @@
         must not contain entries with either '\0' as short option or NULL as
         long option.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pLongOptions</code>: Pointer to an array of longOptions<dd>
-          <dd><code>numLongOpts</code>: Number of elements in the array<dd>
-      </dl><dd>
+          <dd><code>pLongOptions</code>: Pointer to an array of longOptions</dd>
+          <dd><code>numLongOpts</code>: Number of elements in the array</dd>
+      </dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pLongOpts not NULL; all long-entries not NULL; all short-entries not '\0'</dd></dl></dd>
     </dl>
@@ -267,10 +267,10 @@
       <dd><p>Intended to read data from the passed INI file. To be implemented by
         derived classes.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFile</code>: Pointer to a character array holding the name of the file<dd>
+          <dd><code>pFile</code>: Pointer to a character array holding the name of the file</dd>
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pFile a valid ASCIIZ-string and not NULL.</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="perform"></a>int <b>perform</b> (int argc, const char* argv[]) = 0</pre>
@@ -279,9 +279,9 @@
         is returned as error-code of the application.<p>
         <p>To be implemented by derived classes.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>argc</code>: Number of arguments passed in argv<dd>
-          <dd><code>argv</code>: Array of argument pointers<dd>
-      </dl><dd>
+          <dd><code>argc</code>: Number of arguments passed in argv</dd>
+          <dd><code>argv</code>: Array of argument pointers</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Status of program run</dd></dl></dd>
     </dl>

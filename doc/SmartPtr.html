@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: SmartPtr.html,v 1.6 2002/12/14 23:00:09 markus Exp $ -->
+<!-- $Id: SmartPtr.html,v 1.7 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -74,8 +74,8 @@
         <p><b>Note</b>: The parameter must be the address of an object on the
           heap (created with new)!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: Object to handle<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: Object to handle</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~SmartPtr"></a><b>~SmartPtr</b> ()</pre>
@@ -88,10 +88,10 @@
       <dd><p>Assignmentoperator; releases the old object pointed to and starts
         handling the new (passed) one.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pValue</code>: New object to handle<dd>
-      </dl><dd>
+          <dd><code>pValue</code>: New object to handle</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to this<dd></dl><dd>
+          <dd>Reference to this</dd></dl></dd>
     </dl>
 
     <h3 style="color:navy">Accessing the object</h3>
@@ -99,21 +99,21 @@
     <dl>
       <dd><p>Retrieves the stored pointer to the object.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Pointer to stored value<dd></dl><dd>
+          <dd>Pointer to stored value</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="operator*"></a>T&amp; <b>operator*</b> () = 0</pre>
     <dl>
       <dd><p>Retrieves a reference to the stored obect.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference to stored value<dd></dl><dd>
+          <dd>Reference to stored value</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="operatorT*"></a><b>operator T*</b> () const</pre>
     <dl>
       <dd><p>Type-conversion; Retrieves the stored pointer to the object.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
-          <dd>Pointer to stored value<dd></dl><dd>
+          <dd>Pointer to stored value</dd></dl></dd>
     </dl>
   </body>
 </html>

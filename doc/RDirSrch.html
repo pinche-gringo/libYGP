@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: RDirSrch.html,v 1.7 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: RDirSrch.html,v 1.8 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -108,7 +108,7 @@
            equivalent textual representation (e.g.: "80" or "http").</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>srch</code>: String identifying server/port and path to search</dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="RemoteDirSearch3"></a> <b>RemoteDirSearch</b> (const std::string&amp; srch, unsigned int port) throw (std::domain_error)</pre>
@@ -116,8 +116,8 @@
       <dd><p>Constructor; sets the information for which files to search.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>srch</code>: String identifying server and path to search</dd>
-          <dd><code>port</code>: Port number the server is listening at<dd>
-      </dl><dd>
+          <dd><code>port</code>: Port number the server is listening at</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~RemoteDirSearch"></a> <b>~RemoteDirSearch</b> ()</pre>
@@ -144,8 +144,8 @@
       <dd><p>Sets the files to search for (and server and path where to search).</p>
         <p>The search-string must be in the format server:[path]files.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>search</code>: Files to search for<dd>
-      </dl><dd>
+          <dd><code>search</code>: Files to search for</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="sendTo"></a>void <b>sendTo</b> (const std::string&amp; server, unsigned int port) throw (std::domain_error)</pre>
@@ -153,11 +153,11 @@
       <dd><p>Specifies the partner (name and port) for the communication.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>server</code>: String identifying server to connect to</dd>
-          <dd><code>port</code>: Port number the server is listening at<dd>
-      </dl><dd>
+          <dd><code>port</code>: Port number the server is listening at</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::domain_error: With error message in case of an error</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
 
     <h3><span style="color:navy">Find functions</span></h3>
@@ -167,8 +167,8 @@
           constructor(s) or the set-methods.</p>
         <p>Only files matching also the attributes are returned!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>attribs</code>: Attributes of files to find<dd>
-      </dl><dd>
+          <dd><code>attribs</code>: Attributes of files to find</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const File*: Pointer to found file-object or NULL</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -203,8 +203,8 @@
     <dl>
       <dd><p>Checks if the passed string specifies an existing directory (on the server).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>dir</code>: Directory (without server-part) whose validity should be checked<dd>
-      </dl><dd>
+          <dd><code>dir</code>: Directory (without server-part) whose validity should be checked</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True if the directory exists</dd></dl></dd>
     </dl>

@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: PathDirSrch.html,v 1.11 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: PathDirSrch.html,v 1.12 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -99,7 +99,7 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>path</code>: A list of path-nodes in which to search for the files, seperated with the character to split those
             nodes (double-point (:) in UNIX, the semi-colon in DOS/WINDOZE).</dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="PathDirectorySearch3"></a><b>PathDirectorySearch</b> (const std::string &amp; path, const std::string&amp; search)</pre>
@@ -112,7 +112,7 @@
           <dd><code>search</code>: specifies which kind of files should be
             searched. It can also include path-information, in which case this
             part is added to the nodes of the parameter <code>path</code>.</dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~PathDirectorySearch"></a><b>~PathDirectorySearch</b> () </pre>
@@ -126,7 +126,7 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>path</code>: A list of path-nodes in which to search for the files, seperated with the character to split those
             nodes (double-point (:) in UNIX, the semi-colon in DOS/WINDOZE).</dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <h3><span style="color:navy">Find functions</span></h3>
     <pre><a name="find">const <a href="File.html"><b>File</b></a>* find</a> (const std::string&amp; path, const std::string&amp; search, unsigned long attribs)</pre>
@@ -138,8 +138,8 @@
           <dd><code>search</code>: specifies which kind of files should be
             searched. It can also include path-information, in which case this
             part is added to the nodes of the parameter <code>path</code>.</dd>
-          <dd><code>attribs</code>: Attributes the file must contain<dd>
-      </dl><dd>
+          <dd><code>attribs</code>: Attributes the file must contain</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const File*: Pointer to found file-object
 </dd></dl></dd>
@@ -156,8 +156,8 @@
           <dd><code>search</code>: specifies which kind of files should be
             searched. It can also include path-information, in which case this
             part is added to the nodes of the parameter <code>path</code>.</dd>
-          <dd><code>attribs</code>: Attributes the file must contain<dd>
-      </dl><dd>
+          <dd><code>attribs</code>: Attributes the file must contain</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const File*: Pointer to found file-object
 </dd></dl></dd>
@@ -175,8 +175,8 @@
           constructor(s) or the set-methods.</p>
         <p>If a search within a node of the path returns an error, continue with the next node.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>attribs</code>: Attributes the file must contain<dd>
-      </dl><dd>
+          <dd><code>attribs</code>: Attributes the file must contain</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const File*: Pointer to found file-object
 </dd></dl></dd>

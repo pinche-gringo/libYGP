@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: INIFile.html,v 1.6 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: INIFile.html,v 1.7 2002/12/25 04:29:13 markus Rel $ -->
 
 <html>
   <head>
@@ -134,8 +134,8 @@
 	  for initialization-information. If this file does not exist, an
 	  exception is thrown.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name</code>: Name of the INI file<dd>
-      </dl><dd>
+          <dd><code>name</code>: Name of the INI file</dd>
+      </dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd><code>name</code> must be an ASCIIZ-string
 </dd></dl></dd>
@@ -154,8 +154,8 @@
     <dl>
       <dd><p>Adds the passed section to the list of sections to parse.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>section</code>: Specification of the section<dd>
-      </dl><dd>
+          <dd><code>section</code>: Specification of the section</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="IFaddSection2"></a>INISection* <b>addSection</b> (const char* section) </pre>
@@ -163,8 +163,8 @@
       <dd><p>Adds a section to parse to the INI-file; does nothing if section already exists
 </p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>section</code>: Name of the section<dd>
-      </dl><dd>
+          <dd><code>section</code>: Name of the section</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>INISection*: Pointer to new (or existing) section
 </dd></dl></dd>
@@ -174,18 +174,18 @@
     <dl>
       <dd><p>Adds all the attributes of the Entity to the passed section</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>obj</code>: Object whose attributes should be added<dd>
-          <dd><code>section</code>: Section where to add the attributes<dd>
-      </dl><dd>
+          <dd><code>obj</code>: Object whose attributes should be added</dd>
+          <dd><code>section</code>: Section where to add the attributes</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="IFaddEntity2"></a>void <b>addEntity</b> (const <a href="Entity.html"><b>Entity</b></a>& obj, const char* section) </pre>
     <dl>
       <dd><p>Adds all the attributes of the Entity to the passed section</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>obj</code>: Object whose attributes should be added<dd>
-          <dd><code>section</code>: Name of section (ASCIIZ string) where to add the attributes<dd>
-      </dl><dd>
+          <dd><code>obj</code>: Object whose attributes should be added</dd>
+          <dd><code>section</code>: Name of section (ASCIIZ string) where to add the attributes</dd>
+      </dl></dd>
     </dl>
 
     <hr>
@@ -224,8 +224,8 @@
 	is found within the entries of the object. If yes, its attributes are
 	parsed.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>section</code>: Name of found section<dd>
-      </dl><dd>
+          <dd><code>section</code>: Name of found section</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: PARSE_OK, if name of <code>section</code> is OK, else ParseObject::PARSE_CB_ABORT.
 </dd></dl></dd>
@@ -237,8 +237,8 @@
 	passed name. If a matching entry is found, a pointer to it is returned;
 	else NULL.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name</code>: Name of section to find<dd>
-      </dl><dd>
+          <dd><code>name</code>: Name of section to find</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>Section*: Pointer to section or NULL (if not found)
 </dd></dl></dd>
@@ -323,8 +323,8 @@
     <dl>
       <dd><p>Constructor; name is the name of the section.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name</code>: Name of section<dd>
-      </dl><dd>
+          <dd><code>name</code>: Name of section</dd>
+      </dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
           <dd><code>name</code> must be a valid ASCIIZ-string (not NULL).
 </dd></dl></dd>
@@ -340,8 +340,8 @@
     <dl>
       <dd><p>Adds an attribute to parse to the section</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>attribute</code>: Attribute to add<dd>
-      </dl><dd>
+          <dd><code>attribute</code>: Attribute to add</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="ISgetName"></a>const char* <b>getName</b> () const</pre>
@@ -361,8 +361,8 @@
       <dd><p>Searches for an attribute matching the passed name. If such an
 	attribute is not found, NULL is returned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name</code>: Name of attribute to find<dd>
-      </dl><dd>
+          <dd><code>name</code>: Name of attribute to find</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>IAttribute*: Pointer to attribute or NULL (if not found)
 </dd></dl></dd>
@@ -376,8 +376,8 @@
       <dd><p>TriesSearches for an attribute matching the passed name. If such an
 	attribute is not found, NULL is returned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>name</code>: Name of attribute to find<dd>
-      </dl><dd>
+          <dd><code>name</code>: Name of attribute to find</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>IAttribute*: Pointer to attribute or NULL (if not found)
 </dd></dl></dd>
@@ -397,8 +397,8 @@
 	  thrown) if either the section-name differ or the attribute is either
 	  not found inside the class or the value can note be assigned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Extended stream to read from<dd>
-      </dl><dd>
+          <dd><code>stream</code>: Extended stream to read from</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int:  ParseObject::OK if a know key is found and it's value can be assigned
 </dd></dl></dd>
@@ -422,8 +422,8 @@
 	  Errors are returned (or execeptions are thrown) if the attribute is
 	  either not found inside the class or the value can not be assigned.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Extended stream to read from<dd>
-      </dl><dd>
+          <dd><code>stream</code>: Extended stream to read from</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int:  ParseObject::OK if a know key is found and it's value can be assigned
 </dd></dl></dd>
@@ -443,8 +443,8 @@
 	action is to check, if the section matches (case-sensitive!) the
 	passed parameter.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>section</code>: Name of found section<dd>
-      </dl><dd>
+          <dd><code>section</code>: Name of found section</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: PARSE_OK, if name of <code>section</code> is OK, else ParseObject::PARSE_CB_ABORT.
 </dd></dl></dd>
@@ -456,8 +456,8 @@
 	the section is compared with the passed key. If they match the value of
 	the key is assigned to the attribute.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>key</code>: Name of the found key<dd>
-      </dl><dd>
+          <dd><code>key</code>: Name of the found key</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: PARSE_OK, if <code>key</code> is found; else ParseObject::PARSE_CB_ABORT.
 </dd></dl></dd>
@@ -471,7 +471,7 @@
 	  of <a href="Attribute.html"><b>IAttribute</b></a>.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Value to assign to the (previously) found attribute
-      </dl><dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: PARSE_OK, if <code>value</code> could be assigned successfully; else ParseObject::PARSE_CB_ABORT
 </dd></dl></dd>

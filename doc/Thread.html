@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Thread.html,v 1.4 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: Thread.html,v 1.5 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -97,9 +97,9 @@
       <dd><p>Constructor; creates the thread object and the thread and passes
          <code>paArgs</code> as arguments.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>fnc</code>: Function to be called in the thread<dd>
-          <dd><code>paArgs</code>: Pointer to argument(s)<dd>
-      </dl><dd>
+          <dd><code>fnc</code>: Function to be called in the thread</dd>
+          <dd><code>paArgs</code>: Pointer to argument(s)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string describing the error</dd></dl></dd>
     </dl>
@@ -114,7 +114,7 @@
       <dd><p>Creates a thread (object) and passes paArgs directly as parameter to
          the thread function.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>fnc</code>: Function to execute inside the thread<dd>
+          <dd><code>fnc</code>: Function to execute inside the thread</dd>
           <dd><code>paArgs: Pointer to argument(s).</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string describing the error</dd></dl></dd>
@@ -127,7 +127,7 @@
         <p>To access its actual parameters the thread function must use something like
           <pre>   static_cast&lt;Thread*&gt; (paArgs).getArgs ();</pre></p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>fnc</code>: Function to execute inside the thread<dd>
+          <dd><code>fnc</code>: Function to execute inside the thread</dd>
           <dd><code>paArgs</code>: Pointer to argument(s).</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string describing the error</dd></dl></dd>
@@ -175,8 +175,8 @@
     <dl>
       <dd><p>Waits for the passed thread to terminate</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>id</code>: Thread to wait for<dd>
-      </dl><dd>
+          <dd><code>id</code>: Thread to wait for</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>void*: The returncode of the thread
 </dd></dl></dd>
@@ -186,8 +186,8 @@
     <dl>
       <dd><p>Waits for the thread with the passed ID to terminate</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>id</code>: Thread to wait for<dd>
-      </dl><dd>
+          <dd><code>id</code>: Thread to wait for</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>void*
 </dd></dl></dd>
@@ -259,11 +259,11 @@
           obj->*fnc is used.</p></dd>
 
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>obj</code>: Object whose member should be executed as thread<dd>
-          <dd><code>fnc</code>: Member serving as thread function<dd>
-          <dd><code>paArgs</code>: Pointer to argument(s)<dd>
-          <dd><code>threadAsArgs</code>: Flag, if arguments should be passed directly<dd>
-      </dl><dd>
+          <dd><code>obj</code>: Object whose member should be executed as thread</dd>
+          <dd><code>fnc</code>: Member serving as thread function</dd>
+          <dd><code>paArgs</code>: Pointer to argument(s)</dd>
+          <dd><code>threadAsArgs</code>: Flag, if arguments should be passed directly</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string describing the error</dd></dl></dd>
     </dl>
@@ -279,10 +279,10 @@
       <dd><p>Creates a thread (object) and passes paArgs directly as parameter to
          the thread function.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>obj</code>: Object whose member should be executed as thread<dd>
-          <dd><code>fnc</code>: Member serving as thread function<dd>
-          <dd><code>paArgs</code>: Pointer to argument(s)<dd>
-      </dl><dd>
+          <dd><code>obj</code>: Object whose member should be executed as thread</dd>
+          <dd><code>fnc</code>: Member serving as thread function</dd>
+          <dd><code>paArgs</code>: Pointer to argument(s)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string describing the error</dd></dl></dd>
     </dl>
@@ -294,10 +294,10 @@
         <p>To access its actual parameters the thread function must use something like
           <pre>   static_cast&lt;Thread*&gt; (paArgs).getArgs ();</pre></p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>obj</code>: Object whose member should be executed as thread<dd>
-          <dd><code>fnc</code>: Member serving as thread function<dd>
-          <dd><code>paArgs</code>: Pointer to argument(s)<dd>
-      </dl><dd>
+          <dd><code>obj</code>: Object whose member should be executed as thread</dd>
+          <dd><code>fnc</code>: Member serving as thread function</dd>
+          <dd><code>paArgs</code>: Pointer to argument(s)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
           <dd>std::string describing the error</dd></dl></dd>
     </dl>

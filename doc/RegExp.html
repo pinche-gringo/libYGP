@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: RegExp.html,v 1.5 2002/12/08 18:41:24 markus Exp $ -->
+<!-- $Id: RegExp.html,v 1.6 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -75,8 +75,8 @@
       <dd><p>Creates a regular expression object with the passes character array to check.</p>
         <p>Note that the parameter is not copied.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pExpression</code>: Character array (zero-terminated) with regular expression<dd>
-      </dl><dd>
+          <dd><code>pExpression</code>: Character array (zero-terminated) with regular expression</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~IRegularExpression"></a><b>~IRegularExpression</b> ()</pre>
@@ -89,8 +89,8 @@
       <dd><p>Assignment operator; Changes the regular expression to the passed value.</p>
         <p>Note that the parameter is not copied.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pExpression</code>: Character array (zero-terminated) with regular expression<dd>
-      </dl><dd>
+          <dd><code>pExpression</code>: Character array (zero-terminated) with regular expression</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="getExpression"></a>const char* <b>getExpression</b> () const</pre>
@@ -106,14 +106,14 @@
     <dl>
       <dd><p>Checks if the regular expression matches the passed data.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pCompare</code>: Character array (zero-terminated) with value to check for a match<dd>
-      </dl><dd>
+          <dd><code>pCompare</code>: Character array (zero-terminated) with value to check for a match</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if the regular expression matches the value; else false</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>- Both the regular expression and the value to compare must not be NULL.</dd>
           <dd>- The regular expression must fullfill its constraints.</dd></dl></dd>
-      </dl><dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="compare"></a>bool <b>compare</b> (const char* pAktRegExp, const char* pCompare)</pre>
@@ -121,9 +121,9 @@
       <dd><p>Intended to check, if the passed regular expression matches the passed data.</p>
         <p>To be implemented by derived objects.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pAktRegExp</code>: Character array (zero-terminated) to actual position in the regular expression<dd>
-          <dd><code>pCompare</code>: Character array (zero-terminated) to actual position in the compare value<dd>
-      </dl><dd>
+          <dd><code>pAktRegExp</code>: Character array (zero-terminated) to actual position in the regular expression</dd>
+          <dd><code>pCompare</code>: Character array (zero-terminated) to actual position in the compare value</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if the regular expression matches the value; else false</dd></dl></dd>
     </dl>

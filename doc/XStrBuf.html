@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: XStrBuf.html,v 1.7 2002/12/15 22:11:27 markus Exp $ -->
+<!-- $Id: XStrBuf.html,v 1.8 2002/12/25 04:29:14 markus Rel $ -->
 
 <html>
   <head>
@@ -103,8 +103,8 @@
       <dd><p>Constructur; creates an extended streambuf which takes its input from
         the provided source.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>source</code>: Actual datasink to use<dd>
-      </dl><dd>
+          <dd><code>source</code>: Actual datasink to use</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="extStreambuf3"></a> <b>extStreambuf</b> (streambuf* source)</pre>
@@ -112,8 +112,8 @@
       <dd><p>Constructur; creates an extended streambuf which takes its input from
         the provided source.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>source</code>: Actual datasink to use<dd>
-      </dl><dd>
+          <dd><code>source</code>: Actual datasink to use</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="~extStreambuf"></a> <b>~extStreambuf</b> ()</pre>
@@ -130,8 +130,8 @@
           constructor</b></a> and might be declared private (or protected) in the
         future.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>source</code>: Actual datasink to use<dd>
-      </dl><dd>
+          <dd><code>source</code>: Actual datasink to use</dd>
+      </dl></dd>
     </dl>
     <hr>
     <pre><a name="setSource2"></a>void <b>setSource</b> (streambuf* source)</pre>
@@ -143,8 +143,8 @@
           constructor</b></a> and might be declared private (or protected) in the
         future.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>source</code>: Actual datasink to use<dd>
-      </dl><dd>
+          <dd><code>source</code>: Actual datasink to use</dd>
+      </dl></dd>
     </dl>
 
     <h3 style="color:navy">In- &amp; output</h3>
@@ -153,8 +153,8 @@
       <dd><p>Called if output would cause the streambuf to overrun. Because this
         class is designed for input, this method shouldn't be called.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to write, causing the overflow<dd>
-      </dl><dd>
+          <dd><code>ch</code>: Char to write, causing the overflow</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: EOF in case of error</dd></dl></dd>
     </dl>
@@ -189,8 +189,8 @@
               data-sink is changed to the end of the previous line.</p>
         </ul></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>c</code>: Character (as int) to push back<dd>
-      </dl><dd>
+          <dd><code>c</code>: Character (as int) to push back</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>int: Character putted back (EOF if an error occured)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
@@ -202,10 +202,10 @@
       <dd><p>Positionates the read pointer to the passed offset (either starting from
         the beginning or the end of the stream or from the current position.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>off</code>: Offset to change in the stream<dd>
-          <dd><code>dir</code>: Direction to change offset to<dd>
-          <dd><code>mode</code>: Which pointer to move (get, put)<dd>
-      </dl><dd>
+          <dd><code>off</code>: Offset to change in the stream</dd>
+          <dd><code>dir</code>: Direction to change offset to</dd>
+          <dd><code>mode</code>: Which pointer to move (get, put)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>streampos: New position in the stream</dd></dl></dd>
     </dl>
@@ -214,9 +214,9 @@
     <dl>
       <dd><p>Positionates the read pointer to the passed position.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pos</code>: New position in the stream<dd>
-          <dd><code>mode</code>: Which pointer to move (get, put)<dd>
-      </dl><dd>
+          <dd><code>pos</code>: New position in the stream</dd>
+          <dd><code>mode</code>: Which pointer to move (get, put)</dd>
+      </dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>streampos: New position in the stream</dd></dl></dd>
     </dl>
