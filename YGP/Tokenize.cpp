@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.8 2003/03/06 04:16:02 markus Rel $
+//$Id: Tokenize.cpp,v 1.9 2003/07/10 21:24:58 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -29,16 +29,16 @@
 #include "Tokenize.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose     : Returns a sub-string consisting of the string from the end of
-//              the last separation (skipping of all characters equal to split)
-//              or the beginning of the string for the first search to the next
-//              occurence of split (or the end of the string). The separating
-//              characters are not included.
-//Parameters  : split: Character separating the parts
-//Returns     : Next node (empty string at end)
-//Remarks     : Two following separators are ignored; the method always returns some data (if available)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns a sub-string consisting of the string from the end of the last
+/// separation (skipping of all characters equal to split) or the beginning of
+/// the string for the first search to the next occurence of split (or the end
+/// of the string). The separating characters are not included.
+/// \param split: Character separating the parts
+/// \returns \c Next node (empty string at end)
+/// \remarks Two following separators are ignored; the method always returns
+///     some data (if available)
+//-----------------------------------------------------------------------------
 std::string Tokenize::getNextNode (const char split) {
    if ((actPos + len) >= _string.length ()) {
       actPos = _string.length ();
@@ -59,10 +59,10 @@ std::string Tokenize::getNextNode (const char split) {
    return getActNode ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose     : Checks the status of the object
-//Returns     : Status; 0: OK
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks the status of the object
+/// \returns \c Status; 0: OK
+//-----------------------------------------------------------------------------
 int Tokenize::checkIntegrity () const {
    Check1 (actPos < _string.length ());
    Check1 ((actPos + len) < _string.length ());

@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.7 2003/02/13 07:17:13 markus Rel $
+//$Id: PathSrch.cpp,v 1.8 2003/07/10 21:24:58 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -47,23 +47,20 @@ const char PathSearch::PATHSEPARATOR = ';';
 #endif
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Performs tilde-expansion on the input.
-//
-//            The expansion is only done under the following conditions:
-//              - The string starts with a tilde
-//              - None of the characters up to the next whitespace or slash (/)
-//                is quoted
-//              - The following characters (if any) specify a user-name
-//
-//            If those conditions apply, a single tilde is replaced with the
-//            contents of the HOME-environment variable (UNIX) or the combination
-//            of HOMEDRIVE and HOMEPATH (Windows). A tilde with following name
-//            returns the HOME-path of the user with that name (or the input, if
-//            such a user does not exist
-//Parameters: input: String to expand
-//Returns   : std::string: Expanded string or input (if not expandable)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Performs tilde-expansion on the input. The expansion is only done under
+/// the following conditions:
+///    - The string starts with a tilde
+///    - None of the characters up to the next whitespace or slash (/) is quoted
+///    - The following characters (if any) specify a user-name
+/// If those conditions apply, a single tilde is replaced with the contents of
+/// the <tt>HOME</tt>-environment variable (UNIX) or the combination of
+/// <tt>HOMEDRIVE</tt> and <tt>HOMEPATH</tt> (Windows). A tilde with following
+/// name returns the <tt>HOME</tt>-path of the user with that name (or the
+/// input, if such a user does not exist
+/// \param input: String to expand
+/// \returns \c std::string: Expanded string or input (if not expandable)
+//-----------------------------------------------------------------------------
 std::string PathSearch::expandNode (const std::string& input) {
    TRACE9 ("PathSearch::expandNode (const std::string&) - " << input);
 

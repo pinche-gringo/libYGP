@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.11 2003/07/10 20:42:50 markus Exp $
+//$Id: Thread.h,v 1.12 2003/07/10 21:24:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -145,6 +145,7 @@ template <class T> class OThread : public Thread {
    /// \param obj: Object having a member to execute in a thread
    /// \param fnc: Member to execute as thread
    /// \param pArgs: Argument to the thread
+   /// \param threadAsArg: Flag, if the thread expects its argument directly
    OThread (T* obj, THREAD_OBJMEMBER fnc, void* pArgs, bool threadAsArg = false)
       throw (std::string)
       : Thread (), object (obj), callback (fnc), indirect (threadAsArg) {

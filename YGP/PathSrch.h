@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.12 2002/12/15 22:18:28 markus Rel $
+//$Id: PathSrch.h,v 1.13 2003/07/10 21:24:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,36 +23,44 @@
 #include <Tokenize.h>
 
 
-// Class to split a string of path-nodes into its sub-nodes
-//
-// This sub-strings are extracted from the beginning of the string (or the
-// character behind the last found node) to the next path-seperator (or to
-// the end of string). The seperator-character is not included in the
-// result.
-//
-// If no further sub-string is available an empty string is returned. That
-// also means that two seperators behind each other are silently skipped
-// and the next following sub-string (if any) is returned.
-//
-// The character to seperate the nodes differ between the operating systems.
-// Under UNIX (or UNIX-like systems) it's the double-point (:), in DOS,
-// Windoze and OS/2 its the semicolon (;).
+/**Class to split a string of path-nodes into its sub-nodes
+
+   This sub-strings are extracted from the beginning of the string (or the
+   character behind the last found node) to the next path-seperator (or to the
+   end of string). The seperator-character is not included in the result.
+
+   If no further sub-string is available an empty string is returned. That
+   also means that two seperators behind each other are silently skipped and
+   the next following sub-string (if any) is returned.
+
+   The character to seperate the nodes differ between the operating systems.
+   Under UNIX (or UNIX-like systems) it's the double-point (:), in DOS,
+   Windoze and OS/2 its the semicolon (;).
+*/
 class PathSearch : public Tokenize {
  public:
-   // Manager-functions
+   /// Constructor; with path to analyze
    PathSearch (const std::string& path) : Tokenize (path) { }
+   /// Destructor
    virtual ~PathSearch () { }
 
+   /// Assignemnt operator; Specify other path to split
    PathSearch& operator= (const std::string& path) {
       return (PathSearch&)Tokenize::operator= (path); }
 
-   // Access to sub-nodes
+   /// \name Accessing the sub-parts
+   //@{
+   /// Returns the current node of the path "as is".
    std::string getNextNode () { return Tokenize::getNextNode (PATHSEPARATOR); }
+   /// Returns the current node of the path "expanded" (see expandNode ())
    std::string getNextExpandedNode () {
       return expandNode (getNextNode ()); }
-
+   //@}
+   
    static std::string expandNode (const std::string& input);
 
+   /// Character separating nodes in a path. Under UNIX-like operating systems
+   /// this is the double-point (:); under DOS/Windoze the semicolon (;)
    static const char PATHSEPARATOR;
 
  private:

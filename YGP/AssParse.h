@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.6 2002/12/15 22:15:53 markus Rel $
+//$Id: AssParse.h,v 1.7 2003/07/10 21:24:58 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,37 +23,46 @@
 #include <Tokenize.h>
 
 
-// Class to split a string of assignments into its single parts
-//
-// The single assignments are seperated with a semicolon (;) and look like
-// key=value or key="value".
-//
-// As for all Tokenize-objects empty assignments are silently ignored.
+/**Class to split a string of assignments into its single parts
+
+   The single assignments are seperated with a semicolon (;) and look like
+   <tt>key=value</tt> or <tt>key="value"</tt>.
+
+   Quoted values (as in the second example) can still contain the quotes, if
+   they are escaped by a leading backslash (\).
+
+   As for all Tokenize objects empty assignments are silently ignored.
+*/
 class AssignmentParse : public Tokenize {
  public:
-   // Manager-functions
+   /// Constructor; from the string to analyze
    AssignmentParse (const std::string& assignments) : Tokenize (assignments)
       , posValue (std::string::npos) { }
    virtual ~AssignmentParse ();
 
+   /// Assignment operator; from the string to analyze
    AssignmentParse& operator= (const std::string& path) {
       return (AssignmentParse&)Tokenize::operator= (path); }
 
-   // Access to sub-nodes
    std::string getNextNode () throw (std::string);
 
-   // Access to actual values of assignment
+   /// \name Accessing the values of the actual part
+   //@{
    std::string getActKey () const;
    std::string getActValue () const;
+   //@}
 
+   /// \name Building entries
+   //@{
    static std::string makeAssignment (const char* key, const char* value,
                                       size_t length = -1);
    static std::string makeAssignment (const char* key, const std::string& value);
+   //@}
 
-   static const char SEPERATOR;
-   static const char EQUALSIGN;
-   static const char QUOTE;
-   static const char ESCAPE;
+   static const char SEPARATOR;  ///< Character separating the entries - the semicolon (;)
+   static const char EQUALSIGN;  ///< Character separating the "key" from the "value"; the equal sign (=)
+   static const char QUOTE;  ///< Character which might quote the value; the quote (")
+   static const char ESCAPE;  ///< Character which escapes a quote inside a quoted value; the backslash (\)
 
  private:
    AssignmentParse ();

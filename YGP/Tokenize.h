@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.12 2003/05/23 03:39:30 markus Rel $
+//$Id: Tokenize.h,v 1.13 2003/07/10 21:24:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,47 +21,63 @@
 #include <string>
 
 
-// Class to split a string into sub-nodes
-//
-// This sub-strings are extracted from the beginning of the string (or the
-// character behind the last found sub-string) to a passed seperator (or to the
-// end of string). The seperator-character is not included in the result.
-//
-// If no further sub-string is available an empty string is returned. That also
-// means that two seperators behind each other are silently skipped and the
-// next following sub-string (if any) is returned.
+/**Class to split a string into sub-nodes
+
+   This sub-strings are extracted from the beginning of the string (or the
+   character behind the last found sub-string) to a passed separator (or to the
+   end of string). The separator-character is not included in the result.
+
+   If no further sub-string is available an empty string is returned. That also
+   means that two separators behind each other are silently skipped and the
+   next following sub-string (if any) is returned.
+*/
 class Tokenize {
  public:
-   //Section manager-functions
+   /// Constructor; specify the string to split
    Tokenize (const std::string& string) : actPos (0), len (0), _string (string) { }
+   /// Copy constructor; the same string as the object is holding will be split,
+   /// although the tokenization starts from the start
    Tokenize (const Tokenize& other) : actPos (0), len (0), _string (other._string) { }
+   /// Destructor
    ~Tokenize () { }
 
+   /// Assignment operator; the same string as the object is holding will be
+   /// split, although the tokenization starts from the start
    Tokenize& operator= (const Tokenize& other) {
       if (this != &other) {
          _string = other._string;
          reset ();
       }
       return *this; }
+   /// Assignment operator; assigns a new string to tokenize.
    Tokenize& operator= (const std::string& string) {
       _string = string;
       reset ();
       return *this; }
 
-   //Section access
+   /// \name Accessing the splitted string
+   //@{
+   /// Casting to a std::string
    operator const std::string& () const { return _string; }
+   /// Accessing the whole handled string
    const std::string& data () const { return _string; }
+   //@}
 
-   //Section access to sub-nodes
+   /// \name Accessing the sub-parts
+   //@{
+   /// Returns the current sub-part of the handled string or the whole string,
+   /// if splitting has not started yet.
    std::string getActNode () const { return _string.substr ((int)actPos, len - 1); }
    std::string getNextNode (const char split);
 
+   /// Resets the internal data; so next separting will start at the beginning
    void reset () { actPos = len = 0; }
 
  protected:
    int checkIntegrity () const;
-   unsigned int actPos, len;
-   std::string  _string;
+   unsigned int actPos;           ///< Starting position of the actual sub-node
+   unsigned int len;                         ///< Length of the actual sub-node
+   std::string  _string;                                 ///< String to process
 };
 
 #endif
