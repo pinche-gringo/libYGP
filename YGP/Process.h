@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.11 2005/03/17 20:36:42 markus Rel $
+//$Id: Process.h,v 1.12 2005/03/31 23:55:15 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,6 +49,8 @@ namespace YGP {
 */
 class Process {
  public:
+   enum { NO_WAIT = 0, WAIT = 1, CONNECT_STDOUT = 2, CONNECT_STDERR = 4 };
+
    /// Executes a program asynchronously to the execution of the
    /// current process. If either the file can not be found or
    /// produces an error while initializing (in the more or less 1st
@@ -63,7 +65,7 @@ class Process {
    ///    - In case of an error the output should contain a describing message
    static pid_t execAsync (const char* file, const char* const arguments[])
       throw (std::string) {
-      return start (file, arguments, false); }
+      return start (file, arguments, NO_WAIT); }
 
    /// Executes a program. The execution of the calling process is
    /// suspended, til the new program has terminated. If either the
@@ -78,7 +80,7 @@ class Process {
    ///    - In case of an error the output should contain a describing message
    static void execute (const char* file, const char* const arguments[])
       throw (std::string) {
-      start (file, arguments, true); }
+      start (file, arguments, WAIT); }
 
    /// Executes a program in the background. If either the file can not be
    /// found or produces an error while initializing (in the more or less 1st
@@ -93,9 +95,9 @@ class Process {
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
    static pid_t execIOConnected (const char* file, const char* const arguments[],
-				 int pipes[2])
+				 int pipes[2], unsigned int flags = CONNECT_STDOUT | CONNECT_STDERR)
       throw (std::string) {
-      return start (file, arguments, false, pipes); }
+      return start (file, arguments, NO_WAIT | flags, pipes); }
 
    /// Returns the process ID of the actual process
    /// \return pid_t: Process ID of running process
@@ -110,20 +112,8 @@ class Process {
    static int waitForProcess (pid_t pid);
 
  protected:
-   /// Executes a program, either in the back- or foreground. If either the file
-   /// can not be found or produces an error while executing/initializing (in the
-   /// more or less 1st second) an describing text (at least if the program
-   /// produces an helpful output) is thrown.
-   /// \param file: Name of file to execute
-   /// \param arguments: Array with arguments for the file (as understood by execv)
-   /// \param wait: Flag, if to wait til the program terminates
-   /// \returns pid_t: PID of created process
-   /// \pre \c file is a valid ASCIIZ-string
-   /// \remarks The called file must follow some convention:
-   ///    - Return 0 if OK and !0 if an error occured
-   ///    - In case of an error the output should contain a describing message
    static pid_t start (const char* file, const char* const arguments[],
-		       bool wait, int pipes[2] = NULL)
+		       int flags, int pipes[2] = NULL)
       throw (std::string);
 
  private:

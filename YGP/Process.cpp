@@ -1,14 +1,14 @@
-//$Id: Process.cpp,v 1.15 2005/03/17 20:36:41 markus Rel $
+//$Id: Process.cpp,v 1.16 2005/03/31 23:56:50 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ namespace YGP {
 /// produces an helpful output) is thrown.
 /// \param file: Name of file to execute
 /// \param arguments: Array with arguments for the file (as understood by execv)
-/// \param wait: Flag, if to wait til the program terminates
+/// \param flags: Flags; e.g. if to wait til the program terminates
 /// \param io: Filedescriptors for communication with the child; io[0] contains
 ///     the filedescriptor the child should read its data from; io[1] will be
 ///     filled with the filedescriptor for the output
@@ -102,7 +102,7 @@ namespace YGP {
 ///    - In case of an error the output should contain a describing message
 //-----------------------------------------------------------------------------
 pid_t Process::start (const char* file, const char* const arguments[],
-		      bool wait, int io[2])
+		      int flags, int io[2])
    throw (std::string)
 {
    errno = 0;
@@ -127,10 +127,12 @@ pid_t Process::start (const char* file, const char* const arguments[],
      if ((sout != -1) && (serr != -1)) {
          // Duplicate write end of pipe to stdout/err and close it
          dup2 (pipes[0], 0);
-         dup2 (dup (pipes[1]), 1);
-         dup2 (pipes[1], 2);
+	 if (flags & CONNECT_STDOUT)
+	    dup2 (dup (pipes[1]), 1);
+	 if (flags & CONNECT_STDERR)
+	    dup2 (pipes[1], 2);
 
-         pid = spawnvp (wait ? P_WAIT : P_NOWAIT, file,
+         pid = spawnvp ((flags & WAIT) ? P_WAIT : P_NOWAIT, file,
                         const_cast<char* const*> (arguments));
 
          // Restore stdout/err
@@ -146,7 +148,7 @@ pid_t Process::start (const char* file, const char* const arguments[],
 
          // Wait (or check if child has finished)
          unsigned long rc (0);
-         if (wait)
+         if ((flags & WAIT))
             GetExitCodeProcess ((HANDLE)pid, &rc);
          else {
             sleep (1);
@@ -172,8 +174,10 @@ pid_t Process::start (const char* file, const char* const arguments[],
 	 close (io[0]);
       }
 
-      dup2 (pipes[1], STDOUT_FILENO);
-      dup2 (pipes[1], STDERR_FILENO);
+      if (flags & CONNECT_STDOUT)
+	 dup2 (pipes[1], STDOUT_FILENO);
+      if (flags & CONNECT_STDERR)
+	 dup2 (pipes[1], STDERR_FILENO);
       close (pipes[1]);
 
       errno = 0;
@@ -194,11 +198,11 @@ pid_t Process::start (const char* file, const char* const arguments[],
 	 dup2 (pipes[0], io[0]);
       close (pipes[1]);
 
-      if (!(wait || io))
+      if (!((flags & WAIT) || io))
          sleep (1);
 
       int rc (0), rcwait (0);
-      if ((rcwait = waitpid (pid, &rc, (wait ? 0 : WNOHANG))) == -1)
+      if ((rcwait = waitpid (pid, &rc, ((flags & WAIT) ? 0 : WNOHANG))) == -1)
          break;
 
       TRACE9 ("RC = " << rc << "; wait: " << rcwait);
@@ -264,7 +268,7 @@ int Process::waitForProcess (pid_t pid) {
    return (int)rc;
 #elif defined HAVE_FORK
    int rc (-1);
-   waitpid (pid, (int*)&rc, WNOHANG);
+   waitpid (pid, &rc, WNOHANG);
    return rc;
 #endif
 }
