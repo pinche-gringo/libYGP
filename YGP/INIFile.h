@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.11 2002/09/13 04:43:00 markus Exp $
+//$Id: INIFile.h,v 1.12 2002/10/10 05:50:53 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -159,6 +159,8 @@ class INIFile {
    void addSection (const INISection& section);
 
    int read () throw (std::string);
+
+   Xifstream& getFile () { return file; }
 
  protected:
    virtual int foundSection (const char* section);
