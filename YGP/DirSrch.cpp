@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.2 1999/07/31 18:04:00 Markus Exp $
+//$Id: DirSrch.cpp,v 1.3 1999/07/31 18:45:06 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -44,12 +44,44 @@ const char DirectorySearch::DIR_SPLIT = '\\';
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : Copyconstructor
+//Parameter : o: Object to copy
+/*--------------------------------------------------------------------------*/
+dirEntry::dirEntry (const dirEntry& o) : pPath (new char [MAX_PATH])
+#ifdef UNIX
+   , entry (o.entry), status (o.status), userExec (o.userExec)
+   , pEndPath (pPath + (o.pEndPath - o.pEndPath))
+#endif
+{
+   assert (pPath);
+   strcpy (pPath, o.pPath);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 DirectorySearch::~DirectorySearch () {
    cleanup ();
 }
 
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Assignmentoperator
+//Parameter : o: Object to copy
+/*--------------------------------------------------------------------------*/
+const dirEntry& dirEntry::operator= (const dirEntry& o) {
+   if (this != &o) {
+      pPath = new char [MAX_PATH]; assert (pPath);
+      strcpy (pPath, o.pPath);
+#ifdef UNIX
+      entry = o.entry;
+      status = o.status;
+      pEndPath = pPath + (o.pEndPath - o.pEndPath);
+      userExec = o.userExec;
+#endif
+   } // endif
+   return *this;
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria

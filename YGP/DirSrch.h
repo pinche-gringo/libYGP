@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.2 1999/07/31 18:04:00 Markus Exp $
+//$Id: DirSrch.h,v 1.3 1999/07/31 18:45:06 Markus Exp $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -51,6 +51,8 @@ class DirectorySearch;
 #define FILE_DIRECTORY      (S_IFDIR)
 #define FILE_HIDDEN         0x80000000
 
+#define MAX_PATH            MAXNAMLEN
+
 typedef struct dirEntry {
    friend class DirectorySearch;
 
@@ -61,7 +63,10 @@ typedef struct dirEntry {
    dirEntry () : pPath (new char [MAXNAMLEN]), pEndPath (pPath)
        , userExec (false)
      { assert (pPath); *entry.d_name = '\0'; }
+   dirEntry (const dirEntry& o);
    virtual ~dirEntry () { delete [] pPath; }
+
+   const dirEntry& operator= (const dirEntry& o);
 
    //@Section query of data
    const char*         path () const { assert (pPath); return pPath; }
@@ -113,6 +118,10 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
 #endif
 #endif
 
+
+#ifndef MAX_PATH
+#error MAX_PATH must be defined as max. filelength in every operating-system!
+#endif
 
 // Class to search for files in a certain directory
 class DirectorySearch {
