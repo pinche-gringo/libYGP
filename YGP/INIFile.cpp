@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.2 2000/05/09 23:13:25 Markus Exp $
+//$Id: INIFile.cpp,v 1.3 2000/05/11 21:59:57 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -53,7 +53,6 @@ IINIAttribute::IINIAttribute (const char* name) : pName (name) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
-
 IINIAttribute::~IINIAttribute () {
 }
 
@@ -79,6 +78,12 @@ INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
    _Attributes[2] = &Value; _Attributes[3] = NULL;
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+INISection::~INISection () {
+}
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds an attribute to parse to the section
@@ -88,17 +93,29 @@ INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
 /*--------------------------------------------------------------------------*/
 void INISection::addAttribute (IINIAttribute& attribute) throw (std::string) {
 #ifndef NDEBUG
-   // Check if an attribute with the same name exists
-   std::vector<IINIAttribute*>::iterator i;
-   for (i = attributes.begin (); i != attributes.end (); ++i)
-      if ((*i)->matches (attribute.getName ()))
-         throw (std::string ("Attribute '") + std::string (attribute.getName ())
-                + std::string ("' already exists"));
+   if (findAttribute (attribute.getName ()))
+      throw (std::string ("Attribute '") + std::string (attribute.getName ())
+             + std::string ("' already exists"));
 #endif
 
    attributes.push_back (&attribute);
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Tries to find a section with the specified name in the
+//            definition of the INI-file
+//Parameters: name: Name of section to find
+//Returns   : Section*: Pointer to section or NULL (if not found)
+/*--------------------------------------------------------------------------*/
+const IINIAttribute* INISection::findAttribute (const char* name) const {
+   std::vector<IINIAttribute*>::iterator i;
+   for (i = const_cast <IINIAttribute**> (attributes.begin ());
+	i != attributes.end (); ++i)
+      if ((*i)->matches (name))
+         return *i;
+
+   return NULL;
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Reads a whole section from a stream
@@ -206,7 +223,7 @@ INIFile::~INIFile () {
 //Purpose   : Adds a section to parse to the INI-file
 //Parameters: section: Specification of the section
 /*--------------------------------------------------------------------------*/
-void INIFile::addSection (INISection& section) {
+void INIFile::addSection (const INISection& section) {
 #ifndef NDEBUG
    // Check if a section with the same name exists
    if (findSection (section.getName ()))
@@ -246,7 +263,7 @@ int INIFile::read () throw (std::string) {
 //Parameters: name: Name of section to find
 //Returns   : Section*: Pointer to section or NULL (if not found)
 /*--------------------------------------------------------------------------*/
-INISection* INIFile::findSection (const char* name) const {
+const INISection* INIFile::findSection (const char* name) const {
    std::vector<INISection*>::iterator i;
    for (i = const_cast <INISection**> (sections.begin ()); i != sections.end (); ++i)
       if ((*i)->matches (name))
@@ -254,7 +271,6 @@ INISection* INIFile::findSection (const char* name) const {
 
    return NULL;
 }
-
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Callback when the name of a section was found
@@ -265,7 +281,7 @@ int INIFile::foundSection (const char* section) {
    assert (section);
    TRACE5 ("Found section: '" << section << '\'');
 
-   pSection = findSection (section);
+   pSection = const_cast<INISection*> (findSection (section));
 
    return pSection ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
 }
