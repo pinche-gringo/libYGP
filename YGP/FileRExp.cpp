@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.2 1999/08/12 12:55:54 Markus Exp $
+//$Id: FileRExp.cpp,v 1.3 1999/08/21 19:39:43 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -54,9 +54,10 @@ const char FileRegularExpr::NEGREGION   = '^';
 //Require   : pAktRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) const {
-   assert (pAktRegExp); assert (pCompare);
+   assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
 
-#ifdef UNIX
+#ifdef HAVE_FNMATCH
+   // Use fnmatch if available and working
    return !fnmatch (pAktRegExp, pCompare, FNM_PATHNAME);
 #else
    // Auswerten des Vergleichsstrings
