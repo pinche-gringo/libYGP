@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.2 2001/04/09 15:06:19 markus Exp $
+//$Id: RDirSrch.cpp,v 1.3 2001/08/08 01:44:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -47,20 +47,19 @@ RemoteDirSearch::~RemoteDirSearch () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
-//Parameters: search: Files to search
-//            res: Buffer where to place the result
+//Parameters: res: Buffer where to place the result
 //            attribs: Attributes of files to find
 //Returns   : Status; 0: OK
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::find (const std::string& search, dirEntry& res,
-			   unsigned long attribs) throw (domain_error) {
+int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_error) {
    TRACE3 ("RemoteDirSearch::find (dirEntry&, unsigned long)");
 
    pEntry = &res;
 
    std::string send ("Find:\"");
-   send += search;
+   send += host;
+   send += files;
    send += "\";Attr=";
    send += "TODO";
    send += ';';
@@ -85,19 +84,40 @@ int RemoteDirSearch::find () throw (domain_error) {
 }
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the passed parameter contains a host-seperator-char
+//Parameters: dir: Directory whose validity should be checked
+//Returns   : True if the remote directory does exis
+/*--------------------------------------------------------------------------*/
+bool RemoteDirSearch::containsSeperator (const std::string& dir) const {
+#if SYSTEM == UNIX
+   int pos (dir.find (HOSTSEPERATOR));
+#else
+   // Search after drive-letter-seperator in Windoze, ...
+   int pos ((dir.length < 3) ? std::string::npos
+	    : (dir.find (HOSTSEPERATOR, 2) == std::string::npos
+	       ? std::string::npos : dir.find (dirEntry::DIRSEPERATOR, pos)));
+#endif
+
+   return pos != std::string::npos;
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the searchDir is really a direcory
 //Parameters: dir: Directory whose validity should be checked
 //Returns   : bool: True if the directory exists
 /*--------------------------------------------------------------------------*/
 bool RemoteDirSearch::isValid (const std::string& dir) const {
-    std::string write ("Check:\"");
-    write += dir;
-    write += '"';
+   if (containsSeperator (dir)) {
+      std::string write ("Check:\"");
+      write += dir;
+      write += '"';
 
-    sock.write (write.data (), write.length ());
-    char OK;
-    sock.read (&OK, 1);
-    return OK == '1';
+      sock.write (write.data (), write.length ());
+      char OK;
+      sock.read (&OK, 1);
+      return OK == '1';
+   }
+   return false;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -105,5 +125,36 @@ bool RemoteDirSearch::isValid (const std::string& dir) const {
 //Returns   : True if the remote directory does exis
 /*--------------------------------------------------------------------------*/
 bool RemoteDirSearch::isValid () const {
-   return true;
+   return isValid (host);
 }
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Splits the search-string in its host-, directory- and filepart;
+//            it prepares the internal data also for a new search
+//Parameters: search: Files to find
+/*--------------------------------------------------------------------------*/
+void RemoteDirSearch::setSearchValue (const std::string& search) {
+   assert (isValid (search));
+
+   int len (search.rfind (dirEntry::DIRSEPERATOR));
+   host = search;
+   host.replace (len + 1, host.length (), 0, '\0');
+   files = search;
+   files.replace (0, len + 1, 0, '\0');
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Retrieves the directory-part of search-string (including host)
+//Returns   : std::string: Directory to search
+/*--------------------------------------------------------------------------*/
+const std::string& RemoteDirSearch::getDirectory () const {
+    return host;
+ }
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Retrieves the directory-part of search-string (including host)
+//Returns   : std::string: Files to find
+/*--------------------------------------------------------------------------*/
+const std::string& RemoteDirSearch::getFileSpec () const {
+    return files;
+ }
