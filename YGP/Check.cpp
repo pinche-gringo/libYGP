@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.4 2002/07/08 03:29:04 markus Rel $
+//$Id: Check.cpp,v 1.5 2002/11/13 04:30:02 markus Exp $
 
-//PROJECT     : XGeneral
+//PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,25 +24,50 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <gzo-cfg.h>
 
 #include <stdio.h>
 
 #include <iostream>
 
-#include "XMessageBox.h"
+#if SYSTEM == UNIX
+
+#  ifdef HAVE_GTKMM
+#     include <../X-windows/XMessageBox.h>
+
+      inline bool show (const char* expr, const char* title) {
+         return (XMessageBox::Show (expr, title, 
+                                    XMessageBox::CRITICAL | XMessageBox::OKCANCEL)
+                 != XMessageBox::OK); }
+#  else
+      inline bool show (const char* expr, const char*) {
+         cerr << "Assertion '" << expr << "' failed\n";
+         return true; }
+#  endif
+#elif SYSTEM == WINDOWS
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+
+   inline bool show (const char* expr, const char* title) {
+      return MessageBox (NULL, expr, title,
+                         MB_OKCANCEL | MB_ICONERROR | MB_TASKMODAL) != IDOK; }
+
+#endif
 
 
 int check (const char* expr, const char* file, unsigned int line) {
-   char title[strlen (file) + 30];
-   sprintf (title, "Check in %s line %u", file, line);
-   cerr << title << ": " << expr << '\n';
-   if (XMessageBox::Show (expr, title, 
-                          XMessageBox::CRITICAL | XMessageBox::OKCANCEL)
-       != XMessageBox::OK) {
-      cerr << "\t-> User canceled\n";
+#ifdef _MSC_VER
+   // Arrays with dynamic lengths don't exist in some parts of the world
+   char title[MAX_PATH + 40];
+#else
+   char title[strlen (file) + 40];
+#endif
+   sprintf (title, "Check in %s, line %u", file, line);
+   std::cerr << title << ": " << expr << '\n';
+   if (show (expr, title)) {
+      std::cerr << "\t-> Canceled\n";
       exit (-1);
    }
-
-   cerr << "\t-> User continued\n";
+   std::cerr << "\t-> Continue\n";
    return 0;
 }
