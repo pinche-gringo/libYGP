@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.15 2001/08/24 20:56:38 markus Exp $
+//$Id: ADate.h,v 1.16 2001/09/25 21:15:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,10 @@
 
 #include <time.h>
 #include <assert.h>
+
+#ifdef TM_IN_SYS_TIME
+#include <sys/time.h>
+#endif
 
 #include <string>
 

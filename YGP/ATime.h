@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.8 2001/08/24 20:56:18 markus Exp $
+//$Id: ATime.h,v 1.9 2001/09/25 21:15:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,10 @@
 
 
 #include <time.h>
+
+#ifdef TM_IN_SYS_TIME
+#include <sys/time.h>
+#endif
 
 #include <string>
 
