@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.14 2002/11/12 06:30:10 markus Exp $
+//$Id: XApplication.cpp,v 1.15 2002/12/22 20:09:51 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -48,8 +48,12 @@ using namespace Menu_Helpers;
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor for program without prg-info in client
-//Parameters: pTitle: Pointer to title
+//Purpose   : Constructor; creates a program-window showing only an empty menu
+//            and an area (a GTK::VBox) for the client.
+//
+//            Furthermore SIGSEGV and SIGBUS signals are trapped to produce
+//            a stackdump in the log file.
+//Parameters: pTitle: Pointer to title of the application
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
    : vboxClient (new VBox ()), aLastMenus (5), pMenu (new MenuBar ())
@@ -92,8 +96,11 @@ XApplication::~XApplication () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Adds one menuentry
-//Parameters: menuEntry: Entry to add
+//Purpose   : Adds a single menuentry to the menu. Items and submenus are
+//            added to the last defined menu; menus are added to the menubar.
+//Parameters: menuEntry: Menuentry to add
+//Returns   : Widget*: Pointer to the newly added menu or menuitem
+//Remarks   : Radioitems can't be added with that method!
 /*--------------------------------------------------------------------------*/
 Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    TRACE1 ("XApplication::addMenu (const MenuEntry&) - " << menuEntry.name);
@@ -165,8 +172,12 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Adds menuentries
+//Purpose   : Adds a whole bunch of menuentries to the menu. Items and
+//            submenus are added to the last defined menu; menus are added to
+//            the menubar.
 //Parameters: menuEntries: Pointer to array of MenuEntries
+//            cMenus: Number of elements in the array
+//Requires  : menuEntries not NULL
 /*--------------------------------------------------------------------------*/
 void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
    TRACE9 ("XApplication::addMenus (const MenuEntry[], int) - " << cMenus);
@@ -203,7 +214,8 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Initializes program for internationalition
+//Purpose   : Initializes the program for internationalition by setting the
+//            locale and loading the messagefile.
 //Parameters: package: Name of the message-catalog
 //            dir: root-directory for message-catalogs
 /*--------------------------------------------------------------------------*/

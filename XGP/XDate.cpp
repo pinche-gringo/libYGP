@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.8 2002/07/08 03:38:47 markus Rel $
+//$Id: XDate.cpp,v 1.9 2002/12/22 20:09:51 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -43,9 +43,10 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; adds all controls to the dialog
-//Parameters: title: Title of dialog
-//            date: Default date; will be overwritten with input
+//Purpose   : Constructor; adds all controls to the dialog. Only the specified
+//            fields are shown.
+//Parameters: title: Text to display in the titlebar of the dialog
+//            date: Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
 //            showFields: Bitfield describing wich fields to show
 /*--------------------------------------------------------------------------*/
 XDate::XDate (const string& title, ATimestamp& date, int showFields)
@@ -136,9 +137,8 @@ XDate::~XDate () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Commandhandling of the dialog
+//Purpose   : Callback to handle the user input
 //Parameters: id: Command to perform
-//TODO      : Locale-handling
 /*--------------------------------------------------------------------------*/
 void XDate::command (commands id) {
    TRACE9 ("XDate::command: " << id);

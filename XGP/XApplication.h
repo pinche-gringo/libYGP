@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.12 2002/11/12 06:30:10 markus Exp $
+//$Id: XApplication.h,v 1.13 2002/12/22 20:09:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,29 +49,43 @@ typedef SmartPtr<AccelGroup>     PAccelGroup;
 
 // Baseclass for X-applications; it creates an application-window with a
 // client. The virtual method command is used to handle the commands defined
-// with the menus
+// with the menus.
 //
 // Furthermore exist the addMenu(s) to create the menu-structure. Note that
-// separators and (check)items are added to the last branch (so you better
-// start with one of the latter ;) Should you need a more flexible handling
-// (for dynamic menus, for example), save the pointer to the branch (which is
-// returned by addMenu))
+// separators and items are added to the last branch (so you better start with
+// one of the latter ;). The menus can be accessed via the apMenus map.
+//
+// Menus to add are specified by objects of type XApplication::MenuEntry which
+// consists of the following entries:
+//
+//   - name: Name of the menu as it should be displayed.
+//   - accel: Accelerator in a format understood by Gtk (like <alt>a).
+//   - id: Identifier for the menu. Menus causing actions must have an unique
+//         ID. Entries having an ID other than 0 are stored in the protected
+//         member apMenus for later usage.
+//   - type: Type of the menu; the following values are supported:
+//             * ITEM: Ordinary menu entry, usually causing an action.
+//             * CHECKITEM: Menu entry having one of two states.
+//             * RADIOITEM: Menu entries which allows the selection of only one
+//                          in a group.
+//             * LASTRADIOITEM: As an RADIOITEM, but terminating the group.
+//             * SEPARATOR: A separating line in between any of the above items.
+//             * BRANCH: A new entry in the menu bar, usually causing no action.
+//             * LASTBRANCH: As BRANCH but causing the entry to be aligned to
+//                           the right of the menu bar.
+//             * SUBMENU: Causes the creation of a new menu inside the previous
+//                        menu.
+//             * SUBMENUEND: As SUBMENU but terminates the last submenu.
 //
 // Note: Due to limitations in the Gtk-- toolkit (or my stupidity) you can NOT
 // add RadioMenuItems with the addMenu method; but must use the addMenus method
 // (as Gtk-- needs a unique group for them, which must be allocated on the
-// stack)
+// stack).
 class XApplication : public Window {
  public:
    // Manager functions
    XApplication (const char* pTitle);
    ~XApplication ();         // No need to be virtual. There´s only 1 instance
-
-   // Events
-   gint delete_event_impl (_GdkEventAny*) {
-      Main::quit ();
-      return 0;
-   }
 
    static void initI18n (const char* package, const char* dir);
 
@@ -105,13 +119,21 @@ class XApplication : public Window {
    XApplication (const XApplication&);
    const XApplication& operator= (const XApplication&);
 
+   // Events
+   gint delete_event_impl (_GdkEventAny*) {
+      Main::quit ();
+      return 0;
+   }
+
    vector<Menu*> aLastMenus;
 };
 
 
-// Baseclass for X-applications; it creates an application-window with a
-// client. The client contains the program-info on top (2 icons for program
-// and programmer, 2 lines for program-info and author)
+// Baseclass for X-applications showing the program-information inside the
+// client.
+//
+// The top of the client contains 2 icons for program and programmer and two
+// lines for program-information and about the author.
 class XInfoApplication : public XApplication {
  public:
    XInfoApplication (const char* pTitle, const char* pPrgInfo, const char* pCopyright);

@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.4 2002/04/11 18:33:46 markus Rel $
+//$Id: XDate.h,v 1.5 2002/12/22 20:09:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,18 +44,29 @@ typedef SmartPtr<SpinButton>  PSpinButton;
 typedef SmartPtr<Adjustment>  PAdjustment;
 
 
-// Class to enter a date.
+// Class to show a dialog to enter a date (year, month, day, hour, minute,
+// second or any combination of those).
+//
+// Which parts of the date should be displayed/entered is specified by one of:
+//   - SHOW_YEAR
+//   - SHOW_MONTH
+//   - SHOW_DAY
+//   - SHOW_HOUR
+//   - SHOW_MINUTE
+//   - SHOW_SECOND
+//   - SHOW_ALL
+// (which are hopefully self explainatory).
 class XDate : public Dialog {
  public:
-   XDate (const string& title, ATimestamp& date,
-          int showFields = SHOW_ALL);
+   XDate (const string& title, ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
 
-   enum { SHOW_DATE = 1, SHOW_MONTH = 2, SHOW_YEAR = 4, SHOW_HOUR = 8,
+   enum { SHOW_DAY = 1, SHOW_MONTH = 2, SHOW_YEAR = 4, SHOW_HOUR = 8,
           SHOW_MINUTE = 16, SHOW_SECOND = 32, SHOW_ALL = -1 };
 
-   static XDate* perform (const string& title, ATimestamp& date) {
-      return new XDate (title, date); }
+   static XDate* perform (const string& title, ATimestamp& date,
+                          int showFields = SHOW_ALL) {
+      return new XDate (title, date, showFields); }
 
  private:
    // Prohibited manager-functions
