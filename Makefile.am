@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = Common X-windows CORBA
+# SUBDIRS = Common X-windows CORBA
+SUBDIRS = @SUBDIRS@
 
 include_HEADERS=gzo-cfg.h
 
