@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.17 2002/04/19 22:49:39 markus Exp $
+//$Id: CRegExp.h,v 1.18 2002/04/20 00:14:03 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ class RegularExpression : public IRegularExpression {
    virtual ~RegularExpression ();
 
    virtual int checkIntegrity () const throw (std::string);
-   RegularExpression& operator= (const char* pRegExp);
+   RegularExpression& operator= (const char* pRegExp) throw (std::string);
 
    // Contstants for repeating
    static const char MULTIMATCHOPT = '*';
@@ -176,7 +176,7 @@ class RegularExpression : public IRegularExpression {
    // Prohibited manager functions
    RegularExpression ();
    RegularExpression (const RegularExpression&);
-   const RegularExpression& operator= (const RegularExpression&);
+   RegularExpression& operator= (const RegularExpression&);
 
    std::string getError (int rc, unsigned int pos) const;
 

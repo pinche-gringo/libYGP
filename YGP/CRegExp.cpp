@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.25 2002/04/19 22:48:15 markus Exp $
+//$Id: CRegExp.cpp,v 1.26 2002/04/20 00:14:03 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -68,7 +68,7 @@ RegularExpression::~RegularExpression () {
 //Purpose   : Changes the regular expression to check
 //Parameters: pRegExp: Pointer to regular expression
 /*--------------------------------------------------------------------------*/
-RegularExpression& RegularExpression::operator= (const char* pRegExp) {
+RegularExpression& RegularExpression::operator= (const char* pRegExp) throw (std::string) {
    IRegularExpression::operator= (pRegExp);
 #ifdef HAVE_REGEX_H
    regfree (&regexp);
