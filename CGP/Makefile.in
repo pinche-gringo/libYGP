@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.4 2001/01/24 16:25:29 Markus Exp $
+# $Id: Makefile.in,v 1.5 2001/02/18 23:24:17 Markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -65,10 +65,11 @@ else
    LIB_TARGETS=
 endif
 
+IDL_FILES=CDirSrch.idl
 DIST_HEADERS=CIDirSrch.h
-HEADERS=CDirSrch.h $(DIST_HEADERS)
+HEADERS=CDirSrch.h $(DIST_HEADERS) $(IDL_FILES)
 OBJECTS=CDirSrch.lo CIDirSrch.lo Version.lo
-SOURCES=CDirSrch.idl CIDirSrch.cpp Version.cpp
+SOURCES=$(IDL_FILES) CIDirSrch.cpp Version.cpp
 
 TEXINFO=
 EXTRA_DIST=
@@ -134,7 +135,7 @@ clean:
 	  fi; \
 	done
 	rm -f *.o core *.core;
-	@list=`ls *.idl`; \
+	@list=$(IDL_FILES); \
 	for i in $$list; do \
 	   rm -f $${i%.*}.cc $${i%.*}.h; \
 	done
@@ -150,3 +151,5 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+
+check:
