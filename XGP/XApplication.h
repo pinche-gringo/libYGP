@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.7 2000/04/07 22:44:40 Markus Rel $
+//$Id: XApplication.h,v 1.8 2002/04/01 22:44:40 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 
 
 #include <gtk--/main.h>
+#include <gtk--/menu.h>
 #include <gtk--/window.h>
 
 #include "SmartPtr.h"
 
 
 // Forward declarations
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class Main;
    class HBox;
@@ -38,32 +38,10 @@ namespace Gtk {
 
 using namespace Gtk;
 
-#else
-class Gtk_HBox;
-class Gtk_VBox;
-class Gtk_Label;
-class Gtk_Widget;
-class Gtk_Pixmap;
-class Gtk_MenuBar;
-class Gtk_AccelGroup;
-class Gtk_ItemFactory_MenuBar;
-
-typedef Gtk_Main                Main;
-typedef Gtk_VBox                VBox;
-typedef Gtk_HBox                HBox;
-typedef Gtk_Label               Label;
-typedef Gtk_Widget              Widget;
-typedef Gtk_Window              Window;
-typedef Gtk_Pixmap              Pixmap;
-typedef Gtk_MenuBar             MenuBar;
-typedef Gtk_AccelGroup          AccelGroup;
-typedef Gtk_ItemFactory_MenuBar ItemFactory_MenuBar;
-
-#endif
-
 typedef SmartPtr<HBox>           PHBox;
 typedef SmartPtr<Label>          PLabel;
 typedef SmartPtr<Pixmap>         PPixmap;
+typedef SmartPtr<MenuBar>        PMenuBar;
 typedef SmartPtr<AccelGroup>     PAccelGroup;
 
 
@@ -78,11 +56,7 @@ class XApplication : public Window {
 
    // Events
    gint delete_event_impl (_GdkEventAny*) {
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       Main::quit ();
-#else
-      Main::instance()->quit ();
-#endif
       return 0;
    }
 
@@ -94,31 +68,24 @@ class XApplication : public Window {
       int          id;
       const string type;
    } MenuEntry;
+   typedef SmartPtr<VBox>           PVBox;
 
    Widget* addMenu (const MenuEntry& menuEntry);
    void        addMenus (const MenuEntry menuEntryies[], int cMenus);
    virtual void command (int menu) = 0;
 
-   // Protected data
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   MenuBar* pMenu;
-#else
-   ItemFactory_MenuBar* pMenu;
-#endif
-   typedef SmartPtr<VBox>           PVBox;
+   VBox* getClient () const { return vboxClient; }
 
-   PVBox                vboxClient;
+   // Protected data
+   PMenuBar pMenu;
+   PVBox    vboxClient;
 
  private:
    // Protected manager functions
    XApplication (const XApplication&);
    const XApplication& operator= (const XApplication&);
 
-   PAccelGroup accels;
-
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    Menu* pLastMenu;
-#endif
 };
 
 

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.9 2001/10/12 23:08:21 markus Exp $
+//$Id: XApplication.cpp,v 1.10 2002/04/01 22:44:40 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -34,13 +34,9 @@
 #include <gtk--/pixmap.h>
 #include <gtk--/accelgroup.h>
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-#  include <gtk--/menubar.h>
-#  include <gtk--/menu.h>
-#  include <gtk--/radiomenuitem.h>
-#else
-#  include <gtk--/itemfactory.h>
-#endif
+#include <gtk--/menubar.h>
+#include <gtk--/menu.h>
+#include <gtk--/radiomenuitem.h>
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -54,18 +50,15 @@
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
    : vboxClient (new VBox ())
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   , accels (AccelGroup::create ()), pLastMenu (NULL)
-#else
-  , accels (new AccelGroup)
-#endif
+   /*, accels (AccelGroup::create ())*/, pMenu (new MenuBar ()), pLastMenu (NULL)
 {
-   TRACE9 ("XApplication::XApplication");
+   TRACE9 ("XApplication::XApplication ()");
 
    signal (SIGSEGV, handleSignal);
    signal (SIGBUS, handleSignal);
 
-   Check3 (accels); Check3 (vobxClient);
+   //Check3 (accels);
+   Check3 (vobxClient);
 
    Check3 (pTitle);
    set_title (pTitle);
@@ -73,31 +66,26 @@ XApplication::XApplication (const char* pTitle)
    vboxClient->show ();
    add (*vboxClient);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   pMenu = new MenuBar (); Check3 (pMenu);
-
+   Check3 (pMenu);
    pMenu->show ();
    vboxClient->pack_start (*pMenu, false);
-#else
-   // pMenu needs an accelerator-group -> Create at end
-   pMenu = new ItemFactory_MenuBar ("<Main>", *accels); Check3 (pMenu);
 
-   Gtk_ObjectHandle<MenuBar> menubar (pMenu->get_menubar_widget (""));
-   Check3 (menubar.get_object ());
-   menubar->show ();
-
-   vboxClient->pack_start (*menubar, false);
-#endif
-
-   add_accel_group (*accels);
+   // add_accel_group (*accels);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 XApplication::~XApplication () {
+   TRACE9 ("XApplication::~XApplication () - start");
+
+   vboxClient->hide ();
+   pMenu->hide ();
+   hide ();
    signal (SIGSEGV, SIG_DFL);
    signal (SIGBUS, SIG_DFL);
+
+   TRACE9 ("XApplication::~XApplication () - end");
 }
 
 
@@ -106,66 +94,54 @@ XApplication::~XApplication () {
 //Parameters: menuEntry: Entry to add
 /*--------------------------------------------------------------------------*/
 Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
-   TRACE1 ("XApplication::addMenu: " << menuEntry.path);
+   TRACE1 ("XApplication::addMenu:  (const MenuEntry&) - " << menuEntry.path);
    Check3 (pMenu);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   Check3 (accels);
    using namespace Menu_Helpers;
 
    string menu (menuEntry.path.substr (menuEntry.path.find_last_of ('/') + 1));
    char chType (menuEntry.type.empty () ? 'I' : menuEntry.type[1]);
    TRACE3 ("XApplication::addMenu -> Type (" << menu << ") = " << chType);
 
-   Element* pItem (NULL);
-
    switch (chType) {
    case 'I':
    case 'C':
       Check3 (pLastMenu);
-      if (chType == 'I') {
-         pItem = new MenuElem (menu, menuEntry.accel,
-			       bind (slot (this, &XApplication::command), menuEntry.id));
-	 pLastMenu->items ().push_back (*pItem);
-      }
+      if (chType == 'I')
+	 pLastMenu->items ().push_back (
+                              MenuElem (menu, menuEntry.accel,
+                                        bind (slot (this, &XApplication::command),
+                                                    menuEntry.id)));
       else {
-         pItem = new CheckMenuElem (menu, menuEntry.accel,
-				    bind (slot (this, &XApplication::command), menuEntry.id));
-	 pLastMenu->items ().push_back (*pItem);
+	 pLastMenu->items ().push_back (
+                             CheckMenuElem (menu, menuEntry.accel,
+                                            bind (slot (this, &XApplication::command),
+                                                  menuEntry.id)));
 	 static_cast<CheckMenuItem*> (pLastMenu->items ().back ())->set_show_toggle (true);
       } // endif
-      return pLastMenu->items ().back ();
+      break;
 
    case 'S':
       Check3 (pLastMenu);
-      pItem = new SeparatorElem ();
-      pLastMenu->items ().push_back (*pItem);
-      return pLastMenu->items ().back ();
+      pLastMenu->items ().push_back (SeparatorElem ());
+      break;
 
    case 'B':
-   case 'L': {
-      pLastMenu = new Menu (); Check3 (pLastMenu);
-      MenuElem* pElem (new MenuElem (menu, menuEntry.accel, *pLastMenu));
+   case 'L':
+      pLastMenu = manage (new Menu ()); Check3 (pLastMenu);
       Check3 (pMenu);
-      pMenu->items ().push_back (*pElem);
+      pMenu->items ().push_back (MenuElem (menu, menuEntry.accel, *pLastMenu));
 
       if (chType == 'L')
          pMenu->items ().back ()->right_justify ();
 
       return pLastMenu;
-      }
 
    default:
       Check (0);
    } // end-switch type of menu
 
-   Check (0);
-   return NULL;
-#else
-   return pMenu->create_item (menuEntry.path, menuEntry.accel, menuEntry.type,
-                       ItemFactoryConnector<XApplication, int>
-                           (this, &XApplication::command, menuEntry.id));
-#endif
+   return pLastMenu->items ().back ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -193,8 +169,8 @@ XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
                                     const char* pCopyright)
    : XApplication (pTitle), hboxTitle (new HBox)
    , vboxPrgInfo (new VBox), txtProgramm (new Label (pPrgInfo))
-   , txtCopyright (new Label (pCopyright)) {
-   TRACE9 ("XInfoApplication::XInfoApplication");
+   , txtCopyright (new Label (pCopyright)), iconAuthor (NULL), iconPrg (NULL) {
+   TRACE9 ("XInfoApplication::XInfoApplication ()");
    Check3 (pPrgInfo); Check3 (pCopyright);
 
    hboxTitle->show ();
@@ -214,6 +190,12 @@ XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 XInfoApplication::~XInfoApplication () {
+   TRACE9 ("XInfoApplication::~XInfoApplication ()");
+
+   txtCopyright->hide ();
+   txtProgramm->hide ();
+   vboxPrgInfo->hide ();
+   hboxTitle->hide ();
 }
 
 
@@ -228,11 +210,7 @@ void XInfoApplication::setIconProgram (const char* const* iconData) {
 
    Check3 (hboxTitle);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    iconPrg = new Pixmap (iconData);
-#else
-   iconPrg = new Pixmap (*hboxTitle, iconData);
-#endif
    Check3 (iconPrg);
 
    iconPrg->show ();
@@ -250,11 +228,7 @@ void XInfoApplication::setIconAuthor (const char* const* iconData) {
 
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    iconAuthor = new Pixmap (iconData);
-#else
-   iconAuthor = new Pixmap (*hboxTitle, iconData);
-#endif
    Check3 (iconAuthor);
 
    iconAuthor->show ();
