@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.2 1999/08/10 16:27:41 Markus Exp $
+//$Id: IVIOAppl.h,v 1.3 1999/08/11 16:19:54 Markus Exp $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -56,6 +56,7 @@ class IVIOApplication {
     const IVIOApplication& operator= (const IVIOApplication&);
 
     char getOption ();
+    void moveOption (unsigned int numOpt) const;
 
     unsigned int args;
     char**       ppArgs;

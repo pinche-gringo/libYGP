@@ -1,11 +1,11 @@
-//$Id: IVIOAppl.cpp,v 1.2 1999/08/10 23:57:21 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.3 1999/08/11 16:19:54 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -47,7 +47,7 @@ inline bool isOptionChar (const char ch) {
 
 
 //static const char* const Version = "@§$%" PACKAGE " V" VERSION "." MICRO_VERSION "\n"
-//                                   __FILE__ " $Revision: 1.2 $@§$%";
+//                                   __FILE__ " $Revision: 1.3 $@§$%";
 
 
 /*--------------------------------------------------------------------------*/
@@ -135,12 +135,10 @@ int IVIOApplication::run () {
 /*--------------------------------------------------------------------------*/
 char* IVIOApplication::getOptionValue () {
    char* pHelp;
-
-   if (pOptionParam) {
-       pHelp = pOptionParam;
-       pOptionParam = NULL;
-   }
-   else
+   if (pOptionParam && *pOptionParam) {
+      pHelp = pOptionParam;
+      pOptionParam = NULL;
+   } else
       pHelp = ppArgs[startArg];
 
    ++startArg;
@@ -160,63 +158,77 @@ char* IVIOApplication::getOptionValue () {
 //Notes     : In non-UNIX-systems slash (/) is also an option-char
 /*--------------------------------------------------------------------------*/
 char IVIOApplication::getOption () {
-   unsigned int i (startArg);
-   char option (0);
+   unsigned int i (startArg - 1);
+   char option ('\0');
 
-   while (i < args) {
+   while (++i < args) {
       assert (ppArgs[i]); assert (*ppArgs[i]);
+
       if (isOptionChar (*ppArgs[i])) {                        // Option passed
-	 unsigned int j (i);
+	 if (!pOptionParam) {
+	    pOptionParam = ppArgs[i] + 1;
+	    if (!*pOptionParam)
+	       continue;
+	 } // endif init option-params
 
-	 if (!pOptionParam)
-	    pOptionParam = (ppArgs[i] + 1);
+         assert (pOptionParam);
+         option = *pOptionParam++;
+         if (!option) {
+            if (i != startArg)
+               moveOption (i);                 // Move option before arguments
 
-	 option = *pOptionParam++;
-	 if (!*pOptionParam)
-	    pOptionParam = NULL;
+            ++startArg;
+            pOptionParam = NULL;
+            continue;
+         } // endif actual option finished
 
-	 // If option has been passed after parameters -> Move opt. to begin.
-	 if (j != startArg) {
-	    char* pHelp (ppArgs[i]);
+         if (isOptionChar (option)) {               // Specialhandling of "--"
+            if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
+               unsigned int i (numLongOpt);
 
-	    while (j > startArg) {
-	       assert (ppArgs[j - 1]); assert (!isOptionChar (*ppArgs[j - 1]));
-	       assert (ppArgs[j]);
-	       ppArgs[j] = ppArgs[j - 1];
-	       j--;
-	    }
-	    ppArgs[j] = pHelp;
-	 }
-	 if (!pOptionParam)
-	    startArg++;
+	       while (i--) {
+                  assert (longOpt); assert (longOpt->longVal);
+                  if (!strcmp (longOpt[i].longVal, pOptionParam))
+                     break;
+               } // end-while
+
+               if (i == (unsigned int)-1) {
+        	  option = '?';
+        	  cerr << name () << "-Error: Unrecognized option '"
+                       << pOptionParam << "'\n";
+               } // endif no longopt found
+               else {
+        	  option = longOpt[i].shortVal;
+        	  getOptionValue ();
+               } // endif
+            }
+            else                             // Option --? Means end of option
+               option = '\0';
+	 } // endif longoption found
 	 break;
-      }
-      i++;
-   }
-
-   if (isOptionChar (option))                       // Specialhandling of "--"
-      if (pOptionParam && *pOptionParam) {      // Text behind --? Long option
-	 unsigned int i (numLongOpt);
-
-	 while (i--) {
-	    assert (longOpt);
-	    assert (longOpt->longVal);
-	    if (!strcmp (longOpt[i].longVal, pOptionParam))
-	       break;
-	 } // end-while
-
-	 if (i == (unsigned int)-1) {
-	    option = '?';
-	    cerr << name () << "-Error: Unrecognized option '"
-		 << pOptionParam << "'\n";
-	 }
-	 else {
-	    option = longOpt[i].shortVal;
-	    getOptionValue ();
-	 } // endif
-      }
-      else                                   // Option --? Means end of option
-	 option = '\0';
+      } // endif option found
+   } // end-while arguments
 
    return option;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Moves the option in parameter numOpt before the arguments
+//            (indicated with startArg)
+//Parameters: numOpt: Option (argument) to move
+/*--------------------------------------------------------------------------*/
+void IVIOApplication::moveOption (unsigned int numOpt) const {
+   assert (numOpt > startArg); assert (numOpt < args);
+   assert (isOptionChar (*ppArgs[numOpt]));
+
+   char* pHelp (ppArgs[numOpt]);
+
+   while (numOpt > startArg) {
+      assert (ppArgs[numOpt - 1]); assert (ppArgs[numOpt]);
+      assert (!isOptionChar (*ppArgs[numOpt - 1]));
+
+      ppArgs[numOpt] = ppArgs[numOpt - 1];
+      --numOpt;
+   } // end-while option before params
+   ppArgs[numOpt] = pHelp;
 }
