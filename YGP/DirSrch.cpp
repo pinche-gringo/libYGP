@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.15 2000/02/15 21:18:00 Markus Exp $
+//$Id: DirSrch.cpp,v 1.16 2000/02/21 18:29:18 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -95,18 +95,15 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
    TRACE5 ("DirectorySearch::find " << searchDir.c_str () << searchFile.c_str ());
 
-#ifndef WINDOWS
-   attr = ~(attribs | FILE_ATTRIBUTE_ARCHIVE);
-#endif
-
 #ifdef UNIX
+   attr = attribs;
    pDir = opendir (searchDir.c_str ());
    if (!pDir)
       return errno;
 #else
 #   ifdef WINDOWS
    // Attribut-handling: Files having attrs not specified here are not ret.
-   attr = ~attribs;
+   attr = ~(attribs | FILE_ATTRIBUTE_ARCHIVE);
 
    std::string temp (searchDir + '*');
    hSearch = FindFirstFile (temp.c_str (), pEntry);
