@@ -32,7 +32,8 @@
 <HR>
 <H1><A NAME="options">OPTIONS</A></H1>
 <PRE>
-  --verbose, -v .... Be verbose
+  --verbose, -v .... Be verbose (changes also output of --version)
+  --version, -V .... Print version and exit
   --help, -?, -h ... Show this help and exit</PRE>
 <P>
 <HR>
@@ -42,12 +43,16 @@
 <P>
 <HR>
 <H1><A NAME="description">DESCRIPTION</A></H1>
-<P>Script to extract the function description out of a <CODE>C(++)</CODE> source. Those
+<P>Script to extract the function description out of a (C++) source. Those
 descriptions are identified by a C++ comment starting directly with
 <STRONG>Purpose:</STRONG> (no whitespaces in between the comment characters and the keyword).</P>
 <P>Then the next lines starting with the C++ comment characters are checked for
 the keywords <STRONG>Parameters</STRONG>, <STRONG>Returns</STRONG>, <STRONG>Requires</STRONG> and/or <STRONG>Throws</STRONG>.</P>
-<P>Their respective contents is printed out in a HTML format.</P>
+<P>Their respective contents is printed out in a HTML format. Note that uppercase
+words in the purpose and parameter section are replaced by their equivalent
+bold lowercase version.</P>
+<P>Furthermore every parameter needs to be described in one line, as must every
+requirement.</P>
 
 </BODY>
 
