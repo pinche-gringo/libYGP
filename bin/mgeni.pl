@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mgeni.pl,v 1.1 2004/11/02 21:56:56 markus Exp $
+# $Id: mgeni.pl,v 1.2 2004/11/03 05:07:01 markus Rel $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ pod2usage (1) if ($help);
 
 if ($version) {
     $0 =~ s!.*/(.*)!$1!;
-    my $rev = '$Revision: 1.1 $';
+    my $rev = '$Revision: 1.2 $';
     $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
     print "$0 - V0.1.00     ($rev)\n";
     print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
@@ -94,6 +94,7 @@ my $following='';
 my $name;
 my $value='';
 my $getline_ok;
+my $fncs="\n";
 
 line: while (<>) {
     chomp;	# strip record separator
@@ -168,15 +169,26 @@ line: while (<>) {
 	}
 	if ($attr ne '') {
 	    $following = $following . '   addAttribute (*new YGP::Attribute<'
-
 	      . $type . "> (\"" . $name . "\", " . $attr . "));\n";
+
+	    my $upperAttr = uc (substr ($attr, 0, 1)) . substr ($attr, 1);
+	    if ($with_get == 1) {
+		$fncs = "$fncs\n$type " . $className . "::get$upperAttr () const {\n"
+		    . "   return $attr; }\n"
+	    }
+
+	    if ($with_set == 1) {
+		$fncs = "$fncs\nvoid " . $className . "::set$upperAttr (const $type& value) {\n"
+		    . "   $attr = value; }\n"
+	    }
 	}
     }
 }
 
 if ($foundClass == 1) {
-    print "{\n", $following, "}\n";
+    print "{\n", $following, "}\n\n";
     print $className, '::~', $className, " () {\n}\n";
+    print $fncs;
 }
 
 sub Getline0 {
