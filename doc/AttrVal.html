@@ -1,4 +1,6 @@
-<!-- $Id: AttrVal.html,v 1.9 2001/10/02 23:01:33 markus Exp $ -->
+<!-- -*-HTML-*- -->
+
+<!-- $Id: AttrVal.html,v 1.10 2002/04/11 19:05:48 markus Rel $ -->
 
 <html>
   <head>
@@ -77,6 +79,9 @@
         <td><a href="AttrVal.html#operatorlshift"><tt><font color="black"><b>operator</b></font>&lt;&lt;</tt></a></td>
         <td><tt>(<font color="purple">ostream</font>&amp; <font color="blue">out</font>, <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <font color="blue">outValue</font>)</tt></td></tr>
 
+      <tr valign="top"><td><tt><font color="purple">void</font></tt></td>
+        <td><a href="AttrVal.html#setDefined"><b>setDefined</b></a></td>
+        <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="navy">std::string</font></tt></tt> </td>
         <td><a href="AttrVal.html#toString"><b>toString</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
@@ -165,6 +170,13 @@
     <dl>
       <dd>Defines the attribute; to be implemented by derived objects.
         <p>Derived objects must call define of their superclass!</p>
+      </dd>
+    </dl>
+
+    <pre><a name="setDefined"></a>void setDefined ()</pre>
+    <dl>
+      <dd>Defines the attribute; non-virtual method to be called
+        inside define-methods of derived classes.
       </dd>
     </dl>
   </body>
