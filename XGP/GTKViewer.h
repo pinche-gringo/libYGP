@@ -1,7 +1,7 @@
 #ifndef GTKVIEWER_H
 #define GTKVIEWER_H
 
-//$Id: GTKViewer.h,v 1.1 2003/10/17 06:33:20 markus Exp $
+//$Id: GTKViewer.h,v 1.2 2003/10/19 00:00:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,9 +26,10 @@
 extern "C" {
 #endif
 
-    GtkWidget* gtkhtmlGetWidget ();
-    int  gtkhtmlDisplayFile (GtkWidget* ctrl, const char* file);
-    void gtkhtmlDeleteWidget (GtkWidget*);
+    void*      gtkhtmlInitialize ();
+    GtkWidget* gtkhtmlGetWidget (void* gtkData);
+    int        gtkhtmlDisplayFile (void* gtkData, const char* file);
+    void       gtkhtmlFree (void* );
 
     const char* gtkhtmlGetError ();
 
