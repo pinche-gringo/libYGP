@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.28 2005/01/08 22:12:07 markus Exp $
+//$Id: Attribute.h,v 1.29 2005/01/12 22:35:00 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -322,6 +322,8 @@ template <class T> class AttributeList : public IAttribute {
    /// Destructor
    ~AttributeList () { }
 
+   virtual IAttribute* clone () { return new AttributeList<T> (*this); }
+
    /// Method to assign a value from a character-pointer to the attribute
    /// list.
    ///
@@ -391,7 +393,8 @@ template <class T> class AttributeList : public IAttribute {
    }
 
  private:
-   AttributeList (const AttributeList&);
+   AttributeList (const AttributeList& o) : IAttribute ((const IAttribute&)o),
+      list_ (o.list_) { }
    const AttributeList& operator= (const AttributeList&);
 
    std::vector<T>& list_;
