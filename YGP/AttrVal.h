@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.3 1999/09/10 21:35:12 Markus Exp $
+//$Id: AttrVal.h,v 1.4 1999/09/10 23:00:30 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,6 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+#include <string>
 
 
 // Base-class for all attribut-values
@@ -33,6 +36,9 @@ class AttributValue {
       defined = other.defined; }
 
    virtual void define () = 0;
+   virtual std::string toString () const { return ""; }
+
+   void toString (std::string& value) { value = toString (); }
 
  private:
    bool defined;
