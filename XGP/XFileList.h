@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.8 2001/10/03 16:26:29 markus Exp $
+//$Id: XFileList.h,v 1.9 2002/04/09 04:10:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,13 +30,7 @@
 
 
 // Forward declarations
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 using namespace Gtk;
-
-#else
-typedef Gtk_CList       CList;
-typedef Gtk_Widget      Widget;
-#endif
 
 struct File;
 
