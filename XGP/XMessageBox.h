@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.6 2000/04/21 13:08:02 Markus Rel $
+//$Id: XMessageBox.h,v 1.7 2002/04/09 04:09:50 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@
 
 
 // Forward declarations
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class HBox;
    class Label;
@@ -37,26 +36,14 @@ namespace Gtk {
    
 using namespace Gtk;
 
-#else
-class Gtk_HBox;
-class Gtk_Label;
-class Gtk_Pixmap;
-class Gtk_Button;
-
-typedef Gtk_HBox        HBox;
-typedef Gtk_Label       Label;
-typedef Gtk_Button      Button;
-typedef Gtk_Pixmap      Pixmap;
-typedef Gtk_Dialog      Dialog;
-#endif
-
 
 // Class to display simple messages in a dialog-window. This window contains
 // action-buttons and a title (if not a specific one is passed) according to
 // the passed flag.
 class XMessageBox : public Dialog {
  public:
-   enum options { INFO, QUESTION, WARNING, ERROR, CRITICAL, TYPEMASK = 0xf,
+   enum options { INFO, QUESTION, WARNING, ERROR, CRITICAL,
+                  TYPEBITS = 4, TYPEMASK = 0xf,
                   OK = 16, RETRY = 32, YES = 64, NO = 128, CANCEL = 256,
                   END = CANCEL, YESNO = YES | NO, YESNOCANCEL = YESNO | CANCEL,
                   OKCANCEL = OK | CANCEL, RETRYCANCEL = RETRY | CANCEL,
@@ -68,10 +55,11 @@ class XMessageBox : public Dialog {
                     unsigned int defButton = 0) {
       Show (text, "", flags, defButton); }
 
+   ~XMessageBox ();
+
  protected:
    XMessageBox (const string& text, const string& title = "",
                 int flags = OK | INFO, unsigned int defButton = 0);
-   ~XMessageBox ();
 
    virtual void perform (int action);
 
@@ -92,6 +80,16 @@ class XMessageBox : public Dialog {
    PLabel txt;
    PHBox  client;
    PPixmap icon;
+
+   static const char* const iconInfo[];
+   static const char* const iconQuestion[];
+   static const char* const iconWarning[];
+   static const char* const iconError[];
+   static const char* const iconCritical[];
+
+   static const char* const titles[];
+   static const char* const labels[];
+   static const char* const * const icons[];
 };
 
 #endif
