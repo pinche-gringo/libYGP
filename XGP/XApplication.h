@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.13 2002/12/22 20:09:51 markus Rel $
+//$Id: XApplication.h,v 1.14 2003/01/14 20:51:34 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -93,6 +93,8 @@ class XApplication : public Window {
    typedef enum { ITEM, CHECKITEM, RADIOITEM, LASTRADIOITEM, SEPARATOR, BRANCH,
                   SUBMENU, SUBMENUEND, LASTBRANCH } menuTypes;
 
+   enum { ABOUT = 1, CONTENT, CONFIGUREBROWSER, LAST };
+
    // Menu-handling (including callback for menu-events)
    typedef struct {
       const string name;
@@ -113,6 +115,15 @@ class XApplication : public Window {
    PVBox    vboxClient;
 
    map <unsigned int, Widget*> apMenus;
+
+   //Help-menu
+   void showHelpMenu ();
+
+   //Callbacks for help
+   virtual const char* getHelpfile () { return NULL; }
+   virtual void showAboutbox () { }
+
+   string helpBrowser;
 
  private:
    // Protected manager functions

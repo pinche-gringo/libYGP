@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.15 2002/12/22 20:09:51 markus Rel $
+//$Id: XApplication.cpp,v 1.16 2003/01/14 20:51:34 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,6 +27,9 @@
 #include <signal.h>
 #include <locale.h>
 
+#include <errno.h>
+#include <unistd.h>
+
 #include "Check.h"
 #include "StackTrc.h"
 
@@ -40,7 +43,8 @@
 
 #include <Internal.h>
 
-#include "Trace_.h"
+#include <Trace_.h>
+#include "BrowserDlg.h"
 
 #include "XApplication.h"
 
@@ -75,8 +79,6 @@ XApplication::XApplication (const char* pTitle)
    Check3 (pMenu);
    pMenu->show ();
    vboxClient->pack_start (*pMenu, false);
-
-   // add_accel_group (*accels);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -225,6 +227,65 @@ void XApplication::initI18n (const char* package, const char* dir) {
    setlocale (LC_ALL, "");                         // Activate current locale
    bindtextdomain (package, dir);
    textdomain (package);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Adds a help-menu at the end of the menu
+/*--------------------------------------------------------------------------*/
+void XApplication::showHelpMenu () {
+   MenuEntry menuItems[] = {
+      { _("_Help"),                  _("<alt>H"), 0,                LASTBRANCH },
+      { _("_Content..."),            _("F1"),     CONTENT,          ITEM },
+      { _("Configure _browser ..."), "",          CONFIGUREBROWSER, ITEM },
+      { "",                          "",          0,                SEPARATOR },
+      { _("_About..."),              "",          ABOUT,            ITEM } };
+
+   addMenu (menuItems[0]);
+   if (getHelpfile ())
+      addMenus (&menuItems[1], 4);
+   else
+      addMenu (menuItems[4]);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Command-handler
+//Parameters: menu: ID of command (menu)
+/*--------------------------------------------------------------------------*/
+void XApplication::command (int menu) {
+   switch (menu) {
+   case ABOUT:
+      showAboutbox ();
+      break;
+
+   case CONTENT: {
+      Check3 (getHelpfile ());
+      pid_t pid (fork ());
+      
+      switch (pid) {
+      case 0: {                                         // Child: Start browser
+         TRACE9 ("XApplication::command (int) - Show help " << getHelpfile ());
+         execlp (helpBrowser.c_str (), helpBrowser.c_str (), getHelpfile (), NULL);
+         perror (_("Error starting browser for help! Reason"));
+         _exit (1); }
+
+      case -1: {
+         string errMsg (_("Error starting browser for help!\n\nReason: "));
+         errMsg += strerror (errno);
+         gdk_threads_enter ();
+         XMessageBox::Show (errMsg, XMessageBox::ERROR | XMessageBox::OK);
+         gdk_threads_leave ();
+         break; }
+      }
+      break; }
+
+   case CONFIGUREBROWSER:
+      Check3 (getHelpfile ());
+      BrowserDlg::perform (helpBrowser);
+      break;
+
+   default:
+      Check3 (0);
+   }
 }
 
 
