@@ -1,5 +1,8 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Parse.html,v 1.20 2003/02/14 20:37:31 markus Exp $ -->
+<!-- $Id: Parse.html,v 1.21 2003/02/17 23:55:07 markus Rel $ -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
 
 <html>
   <head>
@@ -10,9 +13,16 @@
     <meta name="DC.Creator" content="Markus Schwab">
     <meta name="DC.Date" content="2000-04-14">
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
+
+    <style type="text/css">
+      body { background-color:#F0F0F0; color:#000000; }
+      a:link { color:#0000FF; }
+      a:visited { color:#000077; }
+      a:active { color:#FF0000; }
+    </style>
   </head>
 
-  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+  <body>
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
       <td><a href="cross_index.html">Cross Index</a></td></tr>
@@ -22,7 +32,7 @@
     <p>Classes to parse objects and sequences of objects from a stream. If an
       object is found it is possible to perform an action.</p>
 
-    <p>There are 3 kind of parsing objects: Attomic ones, which enables the
+    <p>There are 3 sort of parsing objects: Attomic ones, which enables the
       parsing of some kind of data; special ones, to perform special tasks
       and sequences to &quot;glue&quot; together a set of objects.</p>
 
@@ -39,6 +49,10 @@
       <dd>Parses (a part) of the specified characters in that sequence.</dd>
       <dt><a href="Parse.html#ParseUpperExact"><b>ParseUpperExact</b></a></dt>
       <dd>As ParseExact, but ignores the case.</dd>
+      <dt><a href="Parse.html#ParseQuoted"><b>ParseQuoted</b></a></dt>
+      <dd>Parses quoted text; the quoting character can be specified.</dd>
+      <dt><a href="Parse.html#ParseQuotedEsc"><b>ParseQuotedEc</b></a></dt>
+      <dd>As ParseQuoted, but the terminating character can be escaped</dd>
     </dl>
 
     <p>The following special objects exists:
@@ -936,7 +950,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: List of valid characters (see class description)</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -1032,7 +1046,9 @@
           parsed data is pushed back into the stream and <code>PARSE_ERROR</code> is
           returned.</p>
         <p>If parsing is not optional and the error is not recoverable (&lt; 0),
-          an exception (std::string) is thrown.</p></dd>
+          an exception (std::string) is thrown. This exception contains a text
+          describing which object was expected and what text was found (only
+          partially, if it is longer than 20 characters).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>stream</code>: Source from which to read</dd>
           <dd><code>optional</code>: Flag, if node must be found</dd></dl></dd>
@@ -1129,7 +1145,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: List of valid characters (see class description)</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -1238,7 +1254,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: List of valid characters (see class description)</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
@@ -1301,7 +1317,8 @@
       Derived by:
       <a href="Parse.html#CBParseText">CBParseText</a>
       <a href="Parse.html#OMParseText">OFParseText&lt;T&gt;</a>
-      <a href="Parse.html#ParseTextEsc">ParseTextEsc</a></p>
+      <a href="Parse.html#ParseTextEsc">ParseTextEsc</a>
+      <a href="Parse.html#ParseTextEsc">ParseQuoted</a></p>
 
     <p>#include &lt;Parse.h&gt;</p>
 
@@ -1344,7 +1361,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>abort</code>: Characters ending parsing of the object.</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -1377,7 +1394,7 @@
           <dd>Reference to this</dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="checkValue"></a>int <b>checkValue</b> (char ch)</pre>
+    <pre><a name="POTxtcheckValue"></a>int <b>checkValue</b> (char ch)</pre>
     <dl>
       <dd><p>Checks if the parsed value is according the abort-list of the object.</p>
         <p>Valid are every characters <b>not</b> in <code>pValue</code>.</p></dd>
@@ -1447,7 +1464,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>abort</code>: Characters ending parsing of the object.</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -1559,7 +1576,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>abort</code>: Characters ending parsing of the object.</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
@@ -1622,7 +1639,8 @@
       <br>
       Derived by:
       <a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a>
-      <a href="Parse.html#OMParseTextEsc">OFParseTextEsc&lt;T&gt;</a></p>
+      <a href="Parse.html#OMParseTextEsc">OFParseTextEsc&lt;T&gt;</a>
+      <a href="Parse.html#ParseQuotedEsc">ParseQuotedEsc</a></p>
 
     <p>#include &lt;Parse.h&gt;</p>
 
@@ -1666,12 +1684,13 @@
     <hr noshade>
     <h2>Member descriptions</h2>
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="ParseTextEsc1"></a> <b>ParseTextEsc</b> (const char* abort, const char* description, unsigned int max, unsigned int min, char escape, bool skipWhitespace, bool reportData)</pre>
+    <pre><a name="ParseTextEsc1"></a> <b>ParseTextEsc</b> (const char* abort, const char* description, unsigned int max,
+               unsigned int min, char escape, bool skipWhitespace, bool reportData)</pre>
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>abort</code>: List of valid characters</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
           <dd><code>escape</code>: Character which escapes characters in value</dd>
@@ -1778,7 +1797,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>abort</code>: Characters ending parsing of the object.</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -1889,7 +1908,7 @@
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>abort</code>: Characters ending parsing of the object.</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
@@ -1928,6 +1947,672 @@
 
     <h3 style="color:navy">Parsing</h3>
     <pre><a name="OFTxEfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Calls the defined callback of the specified object with the passed
+        parameter and returns its result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="ParseQuoted"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class ParseQuoted</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseText">ParseText</a>
+      <br>
+      Derived by:
+      <a href="Parse.html#CBParseQuoted">CBParseQuoted</a>
+      <a href="Parse.html#OMParseQuoted">OFParseQuoted&lt;T&gt;</a></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse a quoted text-value until a specified abort-character is found.</p>
+
+    <p>Parsing of this element is stopped, if the closing quote is found (or
+      the maximal cardinality is reached). Note that this closing character is
+      not necessarily the same as the opening one. The following characters have
+      different closing characters (for all others opening and closing quote are
+      the same):</p>
+
+    <ul>
+      <li>The less-sign (<b>&lt;</b>) is closed with a bigger-sign (<b>&gt;</b>).</li>
+      <li>An opening parenthesis (<b>{</b>) is closed with a closing one (<b>}</b>).</li>
+      <li>An opening bracket (<b>(</b>) is closed with a closing one (<b>)</b>).</li>
+      <li>An opening square bracket (<b>[</b>) is closed with a closing one (<b>]</b>).</li>
+      <li>An opening single quote (<b>`</b>) is closed with a closing one (<b>´</b>).</li>
+    </ul>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseQuoted1"><b>ParseQuoted</b></a></td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">quote</span></tt>, <tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">description</span></tt>, <tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">max</span></tt>, <tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">min</span></tt> = 1, <tt><span style="color:purple">bool</span></tt> <tt><span style="color:blue">skipWhitespace</span></tt> = true, <tt><span style="color:purple;">bool</span></tt> <tt><span style="color:blue;">reportData</span></tt> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseQuoted2"><b>ParseQuoted</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#ParseQuoted"><b>ParseQuoted</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#ParseQuoted"><b>ParseQuoted</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#POQuooperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#ParseQuoted"><b>ParseQuoted</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~ParseQuoted"><b>~ParseQuoted</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="Parse.html#POQuocheckValue"><b>checkValue</b></a></td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">ch</span></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="ParseQuoted1"></a><b>ParseQuoted</b> (char quote, const char* description, unsigned int max,
+           unsigned int min, bool skipWhitespace, bool reportData)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>quote</code>: Characters limiting the text; the equivalent characters ends parsing.</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="ParseQuoted2"></a><b>ParseQuoted</b> (const ParseQuoted&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseQuoted"></a> <b>~ParseQuoted</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POQuooperator="></a>ParseQuoted&amp; <b>operator=</b> (const ParseQuoted&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POQuocheckValue"></a>int <b>checkValue</b> (char ch)</pre>
+    <dl>
+      <dd><p>Checks if the parsed value is according the quote. The quotes
+          themself are also valid, though not included in the output.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ch</code>: Char to check</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>boolean: Result; 1 if <code>ch</code> is an ordinary character, -1 if it is quote, 0 after ending quote.</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="CBParseQuoted"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class CBParseQuoted</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseQuoted">ParseQuoted</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse quoted text.</p>
+
+    <p>See the documentation of <a href="Parse.html#ParseQuoted"><b>ParseQuoted</b></a>
+      for further details.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseQuoted1"><b>CBParseQuoted</b></a></td>
+        <td><tt>(<span style="color:purple">char</span> <span style="color:blue">quote</span>, const <span style="color:purple">char</span>* <span style="color:blue">description</span>, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <span style="color:blue">callback</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">max</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">min</span> = 1, <span style="color:purple">bool</span> <span style="color:blue">skipWhitespace</span> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseQuoted2"><b>CBParseQuoted</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseQuoted"><b>CBParseQuoted</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#CBParseQuoted"><b>CBParseQuoted</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#CBQuooperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseQuoted"><b>CBParseQuoted</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
+        <td><a href="Parse.html#CBQuosetCallback"><b>setCallback</b></a></td>
+        <td><tt>(<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <span style="color:blue">callback</span>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~CBParseQuoted"><b>~CBParseQuoted</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
+        <td><a href="Parse.html#CBQuofound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="CBParseQuoted1"></a><b>CBParseQuoted</b> (char quote, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+               unsigned int max, unsigned int min, bool skipWhitespace)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>quote</code>: Characters limiting the text; the equivalent characters ends parsing.</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBParseQuoted2"></a><b>CBParseQuoted</b> (const CBParseQuoted&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseQuoted"></a> <b>~CBParseQuoted</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBQuooperator="></a>CBParseQuoted&amp; <b>operator=</b> (const CBParseQuoted&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBQuosetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
+    </dl>
+
+    <h3 style="color:navy">Parsing</h3>
+    <pre><a name="CBQuofound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="OMParseQuoted"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class OFParseQuoted&lt;T&gt;</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseQuoted">ParseQuoted</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse quoted text</p>
+    <p>See the documentation of <a href="Parse.html#ParseQuoted">ParseQuoted</a>
+      for further details.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="Parse.html#OFParseQuoted1"><b>OFParseQuoted</b></a></td>
+        <td><tt>(<span style="color:purple">char</span> <span style="color:blue">quote</span>, const <span style="color:purple">char</span>* <span style="color:blue">description</span>, <span style="color:navy">T</span>&amp; <span style="color:blue">objToNotify</span>, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> <span style="color:blue">callback</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">max</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">min</span> = 1, <span style="color:purple">bool</span> <span style="color:blue">skipWhitespace</span> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#OFParseQuoted2"><b>OFParseQuoted</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseQuoted"><b>OFParseQuoted</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#OFParseQuoted"><b>OFParseQuoted</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#OFQuooperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseQuoted"><b>OFParseQuoted</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~OFParseQuoted"><b>~OFParseQuoted</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
+        <td><a href="Parse.html#OFQuofound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="OFParseQuoted1"></a><b>OFParseQuoted</b> (char quote, const char* description, T&amp; objToNotify,
+               <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max,
+               unsigned int min, bool skipWhitespace)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>quote</code>: Characters limiting the text; the equivalent characters ends parsing.</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFParseQuoted2"></a><b>OFParseQuoted</b> (const OFParseQuoted&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseQuoted"></a><b>~OFParseQuoted</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFQuooperator="></a>OFParseQuoted&amp; <b>operator=</b> (const OFParseQuoted&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <h3 style="color:navy">Parsing</h3>
+    <pre><a name="OFQuofound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Calls the defined callback of the specified object with the passed
+        parameter and returns its result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="ParseQuotedEsc"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class ParseQuotedEsc</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseTextEsc">ParseTextEsc</a>
+      <br>
+      Derived by:
+      <a href="Parse.html#CBParseQuotedEsc">CBParseQuotedEsc</a>
+      <a href="Parse.html#OMParseQuotedEsc">OFParseQuotedEsc&lt;T&gt;</a></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse a quoted text-value until a specified
+      abort-character is found. However, parsing is continued if those
+      characters are preceeded by a escape-character (which "escapes"
+      the special meaning of that character).</p>
+
+    <p>Parsing of this element is stopped, if the closing quote is found (or
+      the maximal cardinality is reached). Note that this closing character is
+      not necessarily the same as the opening one. The following characters have
+      different closing characters (for all others opening and closing quote are
+      the same):</p>
+
+    <ul>
+      <li>The less-sign (<b>&lt;</b>) is closed with a bigger-sign (<b>&gt;</b>).</li>
+      <li>An opening parenthesis (<b>{</b>) is closed with a closing one (<b>}</b>).</li>
+      <li>An opening bracket (<b>(</b>) is closed with a closing one (<b>)</b>).</li>
+      <li>An opening square bracket (<b>[</b>) is closed with a closing one (<b>]</b>).</li>
+      <li>An opening single quote (<b>`</b>) is closed with a closing one (<b>´</b>).</li>
+    </ul>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseQuotedEsc1"><b>ParseQuotedEsc</b></a></td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">quote</span></tt>, <tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">description</span></tt>, <tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">max</span></tt>, <tt><span style="color:navy">unsigned</span></tt> <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">min</span></tt> = 1, <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">escape</span></tt> = '\\', <tt><span style="color:purple">bool</span></tt> <tt><span style="color:blue">skipWhitespace</span></tt> = true, <tt><span style="color:purple;">bool</span></tt> <tt><span style="color:blue;">reportData</span></tt> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseQuotedEsc2"><b>ParseQuotedEsc</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#ParseQuotedEsc"><b>ParseQuotedEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#ParseQuotedEsc"><b>ParseQuotedEsc</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#POQuEoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#ParseQuotedEsc"><b>ParseQuotedEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~ParseQuotedEsc"><b>~ParseQuotedEsc</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">bool</span></tt></tt> </td>
+        <td><a href="Parse.html#POQuEcheckValue"><b>checkValue</b></a></td>
+        <td><tt>(<tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">ch</span></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="ParseQuotedEsc1"></a><b>ParseQuotedEsc</b> (char quote, const char* description, unsigned int max,
+                unsigned int min, char escape, bool skipWhitespace, bool reportData)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>quote</code>: Characters limiting the text; the equivalent characters ends parsing.</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>escape</code>: Character which escapes characters in value</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="ParseQuotedEsc2"></a><b>ParseQuotedEsc</b> (const ParseQuotedEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseQuotedEsc"></a> <b>~ParseQuotedEsc</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POQuEoperator="></a>ParseQuotedEsc&amp; <b>operator=</b> (const ParseQuotedEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POQuocheckValue"></a>int <b>checkValue</b> (char ch)</pre>
+    <dl>
+      <dd><p>Checks if the parsed value is according the quote. The quotes
+          themself are also valid, though not included in the output.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ch</code>: Char to check</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>boolean: Result; 1 if <code>ch</code> is an ordinary character, -1 if it is quote, 0 after ending quote.</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="CBParseQuotedEsc"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class CBParseQuotedEsc</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseQuotedEsc">ParseQuotedEsc</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse quoted text (which might contain such (escaped) quotes).</p>
+
+    <p>See the documentation of <a href="Parse.html#ParseQuotedEsc"><b>ParseQuotedEsc</b></a>
+      for further details.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseQuotedEsc1"><b>CBParseQuotedEsc</b></a></td>
+        <td><tt>(<span style="color:purple">char</span> <span style="color:blue">quote</span>, const <span style="color:purple">char</span>* <span style="color:blue">description</span>, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <span style="color:blue">callback</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">max</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">min</span> = 1, <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">escape</span></tt> = '\\', <span style="color:purple">bool</span> <span style="color:blue">skipWhitespace</span> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseQuotedEsc2"><b>CBParseQuotedEsc</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseQuotedEsc"><b>CBParseQuotedEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#CBParseQuotedEsc"><b>CBParseQuotedEsc</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#CBQuooperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseQuotedEsc"><b>CBParseQuotedEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
+        <td><a href="Parse.html#CBQuosetCallback"><b>setCallback</b></a></td>
+        <td><tt>(<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <span style="color:blue">callback</span>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~CBParseQuotedEsc"><b>~CBParseQuotedEsc</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
+        <td><a href="Parse.html#CBQuofound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="CBParseQuotedEsc1"></a><b>CBParseQuotedEsc</b> (char quote, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+               unsigned int max, unsigned int min, char escape, bool skipWhitespace)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>quote</code>: Characters limiting the text; the equivalent characters ends parsing.</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>escape</code>: Character which escapes characters in value</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBParseQuotedEsc2"></a><b>CBParseQuotedEsc</b> (const CBParseQuotedEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseQuotedEsc"></a> <b>~CBParseQuotedEsc</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBQuooperator="></a>CBParseQuotedEsc&amp; <b>operator=</b> (const CBParseQuotedEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBQuosetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing</dd>
+      </dl></dd>
+    </dl>
+
+    <h3 style="color:navy">Parsing</h3>
+    <pre><a name="CBQuofound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value</dd>
+          <dd><code>len</code>: Length of found data</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="OMParseQuotedEsc"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class OFParseQuotedEsc&lt;T&gt;</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseQuotedEsc">ParseQuotedEsc</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to parse quoted text (which might contain such (escaped) quotes).</p>
+    <p>See the documentation of <a href="Parse.html#ParseQuotedEsc">ParseQuotedEsc</a>
+      for further details.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="Parse.html#OFParseQuotedEsc1"><b>OFParseQuotedEsc</b></a></td>
+        <td><tt>(<span style="color:purple">char</span> <span style="color:blue">quote</span>, const <span style="color:purple">char</span>* <span style="color:blue">description</span>, <span style="color:navy">T</span>&amp; <span style="color:blue">objToNotify</span>, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> <span style="color:blue">callback</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">max</span>, <span style="color:navy">unsigned</span> <span style="color:purple">int</span> <span style="color:blue">min</span> = 1, <span style="color:purple">bool</span> <span style="color:blue">skipWhitespace</span> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#OFParseQuotedEsc2"><b>OFParseQuotedEsc</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseQuotedEsc"><b>OFParseQuotedEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#OFParseQuotedEsc"><b>OFParseQuotedEsc</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#OFQuEoperator="><tt><span style="color:black"><b>operator=</b></span></tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseQuotedEsc"><b>OFParseQuotedEsc</b></a>&amp; <tt><span style="color:blue">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~OFParseQuotedEsc"><b>~OFParseQuotedEsc</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
+        <td><a href="Parse.html#OFQufound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="OFParseQuotedEsc1"></a><b>OFParseQuotedEsc</b> (char quote, const char* description, T&amp; objToNotify,
+               <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max,
+               unsigned int min, bool skipWhitespace)</pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>quote</code>: Characters limiting the text; the equivalent characters ends parsing.</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
+          <dd><code>objToNofity</code>: Object to notify</dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
+          <dd><code>escape</code>: Character which escapes characters in value</dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFParseQuotedEsc2"></a><b>OFParseQuotedEsc</b> (const OFParseQuotedEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseQuotedEsc"></a><b>~OFParseQuotedEsc</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFQuEoperator="></a>OFParseQuotedEsc&amp; <b>operator=</b> (const OFParseQuotedEsc&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone</dd>
+      </dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <h3 style="color:navy">Parsing</h3>
+    <pre><a name="OFQuEfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
       <dd><p>Calls the defined callback of the specified object with the passed
         parameter and returns its result.</p></dd>
@@ -2008,7 +2693,7 @@
       <dd><p>Constructor; sets the neccessary data of this object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
           <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
       </dl></dd>
@@ -2028,7 +2713,7 @@
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -2141,7 +2826,7 @@
       <dd>Constructor; sets the neccessary data for this object.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
           <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
@@ -2162,7 +2847,7 @@
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -2277,7 +2962,7 @@
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -2299,7 +2984,7 @@
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
@@ -2416,7 +3101,7 @@
       <dd><p>Constructor; sets the neccessary data of this object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
           <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
       </dl></dd>
@@ -2436,7 +3121,7 @@
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -2549,7 +3234,7 @@
       <dd>Constructor; sets the neccessary data for this object.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
           <dd><code>reportData</code>: Flag, if data should be stored and reported</dd>
@@ -2571,7 +3256,7 @@
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -2687,7 +3372,7 @@
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -2709,7 +3394,7 @@
           to parse.</dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>value</code>: Sequence of characters to parse in that order</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
@@ -2836,7 +3521,7 @@
       <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -2986,7 +3671,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -3096,7 +3781,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
@@ -3200,7 +3885,7 @@
       <dd><p>Constructor; sets the neccessary data of this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pObjectList</code>: NULL-terminated array of objects to parse</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>max</code>: Maximal cardinality</dd>
           <dd><code>min</code>: Minimal cardinality</dd>
           <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped</dd>
@@ -3310,7 +3995,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>calback</code>: Callback to notify of successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
           <dd><code>min</code>: Minimal cardinality, how often must the object be parsed</dd>
@@ -3420,7 +4105,7 @@
       <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>pObjectList</code>: NULL-terminated array of pointers to objects to parse</dd>
-          <dd><code>description</code>: Description of object (what it parses)</dd>
+          <dd><code>description</code>: Description of the object (what it parses)</dd>
           <dd><code>objToNofity</code>: Object to notify</dd>
           <dd><code>callback</code> Pointer to object member to inform about successfull parsing</dd>
           <dd><code>max</code>: Maximal cardinality, how often can the object be parsed</dd>
