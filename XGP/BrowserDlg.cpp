@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.6 2003/03/06 04:27:55 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.7 2003/06/29 01:53:31 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -45,7 +45,7 @@ BrowserDlg::BrowserDlg (std::string& cmd)
    : XDialog (OKCANCEL), pboxOther (new Gtk::HBox ()), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (std::string&) - " << cmd);
    Check3 (sizeof (browserNames) < sizeof (aBrowsers));
-   set_title (_("Select a browser"));
+   set_title (Glib::locale_to_utf8 (_("Select a browser")));
 
    pboxOther->show ();
 
