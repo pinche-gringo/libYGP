@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.6 2001/08/17 13:21:38 markus Exp $
+//$Id: INIFile.h,v 1.7 2001/08/26 02:21:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@
 // section is ended with the begin of a new section.
 
 
-#include <errno.h>
 #include <stdlib.h>
 #include <assert.h>
 
@@ -44,147 +43,19 @@
 
 #include <Parse.h>
 #include <XStream.h>
+#include <Attribute.h>
 
 
 // Macros to define the INI-file-structure.
 #define INIFILE(file)       INIFile _inifile_ (file);
 #define INISECTION(section) INISection section (#section); \
                             _inifile_.addSection (section);
-#define INIATTR(section, type, attr) INIAttribute<type> attr##_ (#attr, attr); \
+#define INIATTR(section, type, attr) Attribute<type> attr##_ (#attr, attr); \
                              section.addAttribute (attr##_);
-#define INIATTR2(section, type, attr, name) INIAttribute<type> name##_ (#name, attr); \
+#define INIATTR2(section, type, attr, name) Attribute<type> name##_ (#name, attr); \
                              section.addAttribute (name##_);
 #define INIFILE_READ()       _inifile_.read ();
                             
-
-// Baseclass for attributes inside an INI-file. Derive from it for every type
-// of attribute inside an INI-file.
-class IINIAttribute {
- public:
-   bool matches (const char* name) const {
-      assert (name);
-      return !strcmp (name, pName); }
-
-   virtual bool assignFromString (const char* value) = 0;
-
-   const char* getName () const { return pName; }
-
- protected:
-   IINIAttribute (const char* name);
-   virtual ~IINIAttribute ();
-
- private:
-   IINIAttribute (const IINIAttribute&);
-   const IINIAttribute& operator= (const IINIAttribute&);
-
-   const char* pName;
-};
-
-
-// Class representing an attribute inside an INI-file. This class is a template
-// to handle differing types of attributes.
-template <class T> class INIAttribute : public IINIAttribute {
- public:
-   INIAttribute (const char* name, T& attr) : IINIAttribute (name), attr_ (attr) { }
-   ~INIAttribute () {  }
-
-   virtual bool assignFromString (const char* value) {
-      try {
-         attr_ = value;
-         return true;
-      }
-      catch (invalid_argument& e) {
-         return false;
-      }
-   }
-
- private:
-   INIAttribute (const INIAttribute&);
-   const INIAttribute& operator= (const INIAttribute&);
-
-   T& attr_;
-};
-
-// Specialization of INIAttribute for ints
-bool INIAttribute<char>::assignFromString (const char* value) {
-   assert (value);
-   attr_ = *value;
-   return *value && !value[1];
-}
-
-bool INIAttribute<char*>::assignFromString (const char* value) {
-   assert (value);
-   delete [] attr_;
-   attr_ = new char[strlen (value) + 1];
-   if (!attr_)
-      return false;
-   strcpy (attr_, value);
-   return true;
-}
-
-bool INIAttribute<short>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtol (value, &pTail, 10); assert (pTail);
-   return !(errno || *pTail);
-}
-
-bool INIAttribute<unsigned short>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtoul (value, &pTail, 10); assert (pTail);
-   return !(errno || *pTail);
-}
-
-bool INIAttribute<int>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtol (value, &pTail, 10); assert (pTail);
-   return !(errno || *pTail);
-}
-
-bool INIAttribute<unsigned int>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtoul (value, &pTail, 10); assert (pTail);
-   return !(errno || *pTail);
-}
-
-bool INIAttribute<long>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtol (value, &pTail, 10); assert (pTail);
-   return !(errno || *pTail);
-}
-
-bool INIAttribute<unsigned long>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtoul (value, &pTail, 10); assert (pTail);
-   return !(errno || *pTail);
-}
-
-bool INIAttribute<double>::assignFromString (const char* value) {
-   assert (value);
-   char* pTail = NULL;
-   errno = 0;
-   attr_ = strtod (value, &pTail); assert (pTail);
-   return !(errno || *pTail);
-}
-
-// Specialization of INIAttribute for strings
-bool INIAttribute<std::string>::assignFromString (const char* value) {
-   assert (value);
-   attr_ = value;
-   return true;
-}
-
 
 // Class to bundle attributes of an INI-file together (into a section)
 class INISection {
@@ -192,8 +63,10 @@ class INISection {
    INISection (const char* name);
    virtual ~INISection ();
 
-   const IINIAttribute* findAttribute (const char* name) const;
-   void addAttribute (IINIAttribute& attribute) throw (std::string);
+   const IAttribute* findAttribute (const std::string& name) const {
+      return findAttribute (name.c_str ()); }
+   const IAttribute* findAttribute (const char* name) const;
+   void addAttribute (IAttribute& attribute) throw (std::string);
 
    int readFromStream (Xistream& stream) throw (std::string);
    int readAttributes (Xistream& stream) throw (std::string);
@@ -211,7 +84,7 @@ class INISection {
 
  private:
    const char* pName;
-   std::vector<IINIAttribute*> attributes;
+   std::vector<IAttribute*> attributes;
 
    INISection (const INISection&);
    INISection& operator= (const INISection&);
@@ -219,7 +92,7 @@ class INISection {
    typedef OFParseAttomic<INISection> OMParseAttomic;
    typedef OFParseText<INISection>    OMParseText;
 
-   IINIAttribute* pFoundAttr;
+   IAttribute* pFoundAttr;
 
    // Parser-Objects
    ParseObject*   _Section[3];

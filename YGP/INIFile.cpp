@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.3 2000/05/11 21:59:57 Markus Exp $
+//$Id: INIFile.cpp,v 1.4 2001/08/26 02:21:21 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -46,22 +46,6 @@ static unsigned int LEN_VALUE = 256;
 //Parameters: name: Name of section
 //Remarks   : name must be an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-IINIAttribute::IINIAttribute (const char* name) : pName (name) {
-  assert (pName);
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
-IINIAttribute::~IINIAttribute () {
-}
-
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
-//Parameters: name: Name of section
-//Remarks   : name must be an ASCIIZ-string
-/*--------------------------------------------------------------------------*/
 INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
    , Section (_Section, "INI-File", 1, 1)
    , SectionHeader (_SectionHeader, "Section-header", 1, 1)
@@ -91,7 +75,7 @@ INISection::~INISection () {
 //Throws    : In the debug-versions an exception is thrown, it the attribute
 //            already exists
 /*--------------------------------------------------------------------------*/
-void INISection::addAttribute (IINIAttribute& attribute) throw (std::string) {
+void INISection::addAttribute (IAttribute& attribute) throw (std::string) {
 #ifndef NDEBUG
    if (findAttribute (attribute.getName ()))
       throw (std::string ("Attribute '") + std::string (attribute.getName ())
@@ -107,9 +91,9 @@ void INISection::addAttribute (IINIAttribute& attribute) throw (std::string) {
 //Parameters: name: Name of section to find
 //Returns   : Section*: Pointer to section or NULL (if not found)
 /*--------------------------------------------------------------------------*/
-const IINIAttribute* INISection::findAttribute (const char* name) const {
-   std::vector<IINIAttribute*>::iterator i;
-   for (i = const_cast <IINIAttribute**> (attributes.begin ());
+const IAttribute* INISection::findAttribute (const char* name) const {
+   std::vector<IAttribute*>::iterator i;
+   for (i = const_cast <IAttribute**> (attributes.begin ());
 	i != attributes.end (); ++i)
       if ((*i)->matches (name))
          return *i;
@@ -164,7 +148,7 @@ int INISection::foundKey (const char* key) {
    TRACE5 ("Found key: '" << key << '\'');
 
    // Search for attribute
-   std::vector<IINIAttribute*>::iterator i;
+   std::vector<IAttribute*>::iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i) {
       if ((*i)->matches (key)) {      // If attribute matches: Store for value
 	 pFoundAttr = *i;
