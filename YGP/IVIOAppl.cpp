@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.23 2002/04/28 00:17:16 markus Rel $
+///$Id: IVIOAppl.cpp,v 1.24 2002/05/24 06:45:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -30,9 +30,10 @@
 #include <assert.h>
 
 #include <signal.h>
+#include <locale.h>
 
 #include <string>
-#include <iostream>
+#include <iostream.h>
 
 #include "File.h"
 #include "Internal.h"
@@ -69,7 +70,9 @@ IVIOApplication::IVIOApplication (const int argc, const char* argv[],
    assert (ppArgs);
 
    signal (SIGSEGV, handleSignal);
+#ifdef HAVE_SIGBUS
    signal (SIGBUS, handleSignal);
+#endif
 
    if (pOpt)
       setLongOptions (pOpt);        // Store the long-option-array (if passed)
@@ -81,7 +84,9 @@ IVIOApplication::IVIOApplication (const int argc, const char* argv[],
 /*--------------------------------------------------------------------------*/
 IVIOApplication::~IVIOApplication () {
    signal (SIGSEGV, SIG_DFL);
+#ifdef HAVE_SIGBUS
    signal (SIGBUS, SIG_DFL);
+#endif
 }
 
 
@@ -234,7 +239,7 @@ char IVIOApplication::getOption () {
                         else {
                            std::string error (_("-error: Option `%1' is ambiguous"));
                            error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
-                           cerr << name () << error << '\n';
+                           cerr << name () << error.c_str () << '\n';
                            return '?';
                         } // end-else option ambigous
                      } // endif option matches
@@ -243,7 +248,7 @@ char IVIOApplication::getOption () {
                   if (found == (unsigned int)-1) {     // No long-option found
                      std::string error (_("-error: Unrecognized option `%1'"));
                      error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
-                     cerr << name () << error << '\n';
+                     cerr << name () << error.c_str () << '\n';
                      return '?';
                    } // endif no longopt found
                   else {
@@ -296,6 +301,19 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
 //Returns   : const char*: Name of programm
 /*--------------------------------------------------------------------------*/
 const char* IVIOApplication::name () const {
-   const char* pEnd (strrchr (filename (), File::DIRSEPERATOR));
+   const char* pEnd = strrchr (filename (), File::DIRSEPARATOR);
    return pEnd ? pEnd + 1 : filename ();
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Initializes program for internationalition
+//Parameters: package: Name of the message-catalog
+//            dir: root-directory for message-catalogs
+/*--------------------------------------------------------------------------*/
+void IVIOApplication::initI18n (const char* package, const char* dir) {
+   assert (package); assert (dir);
+
+   setlocale (LC_ALL, "");                         // Activate current locale
+   bindtextdomain (package, dir);
+   textdomain (package);
 }
