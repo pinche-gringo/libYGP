@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.7 1999/08/11 21:46:13 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.8 1999/08/21 19:53:56 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -83,7 +83,8 @@ bool Application::handleOption (const char option) {
    ++cOptions;
 
    if ((option == 'a') || (option == 'A')) {
-      char* pValue (getOptionValue ());
+      const char* pValue (checkOptionValue ());
+      assert (pValue == getOptionValue ());
       if (option == 'A')
 	 check (pValue);
    } // endif special option     
