@@ -1,4 +1,4 @@
-# $Id: POTFILES.in,v 1.1 2002/04/11 19:16:29 markus Exp $
+# $Id: POTFILES.in,v 1.2 2002/04/22 21:10:08 markus Rel $
 #
 # List of source files containing translatable strings.
 #     
@@ -19,3 +19,8 @@ Common/RDirSrch.cpp
 Common/RDirSrchSrv.cpp
 Common/RemoteFile.cpp
 Common/Socket.cpp
+X-windows/XPrintDlg.cpp
+X-windows/XMessageBox.cpp
+X-windows/XFileDlg.cpp
+X-windows/XDate.cpp
+X-windows/XAbout.cpp
