@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.2 1999/08/24 23:45:48 Markus Exp $
+//$Id: Parse.cpp,v 1.3 1999/08/25 22:40:21 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,12 +26,16 @@
 
 #include <ctype.h>
 
-#define DEBUG 0
+#define DEBUG 9
 #include "Trace.h"
 #include "Parse.h"
 #include "XStream.h"
 
 
+// Structure for global values: Contains the (growing-if-neccessary buffer for
+// parsing (In case you wonder why I didn't use std::string and care about
+// growing and clean-up by myself? Well, for some reason I got a segmentation
+// fault during prg-cleanup. Don't ask me why)
 typedef struct globVars {
    unsigned int buflen;
    char*        buffer;
@@ -58,13 +62,17 @@ static char ESCAPE = '\\';
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor
 //Parameters  : description: Description of object (what it parses)
+//              max: Maximal cardinality
+//              min: Minimal cardinality
 //              callback: Method to call if object is parsed
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : description != NULL
 /*--------------------------------------------------------------------------*/
-ParseObject::ParseObject (const char* description, const PFNCALLBACK callback,
+ParseObject::ParseObject (const char* description, unsigned int max,
+                          unsigned int min, const PFNCALLBACK callback,
 			  bool skipWhitespace)
-   : pDescription (description), pCallback (callback), skip (skipWhitespace) {
+   : pDescription (description), maxCard (max), minCard (min)
+   , pCallback (callback), skip (skipWhitespace) {
    TRACE9 ("Creating ParseObject " << pDescription);
    assert (!checkIntegrity ());
 }
@@ -74,8 +82,8 @@ ParseObject::ParseObject (const char* description, const PFNCALLBACK callback,
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const ParseObject& other)
-   : pDescription (other.pDescription), pCallback (other.pCallback)
-   , skip (other.skip) {
+   : pDescription (other.pDescription), maxCard (other.maxCard)
+   , minCard (other.minCard), pCallback (other.pCallback), skip (other.skip) {
    TRACE9 ("Copying ParseObject " << pDescription);
    assert (!checkIntegrity ());
 }
@@ -96,6 +104,8 @@ const ParseObject& ParseObject::operator= (const ParseObject& other) {
    TRACE9 ("Assigning ParseObject " << pDescription);
    if (&other != this) {
       pDescription = other.pDescription;
+      maxCard = other.maxCard;
+      minCard = other.minCard;
       pCallback = other.pCallback;
       skip = other.skip;
    } // endif other object
@@ -129,7 +139,7 @@ void ParseObject::skipWS (Xistream& stream) const {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int ParseObject::checkIntegrity () const {
-   return !pDescription;
+   return pDescription ? (maxCard < minCard) : 2;
 }
 
 
@@ -146,8 +156,8 @@ int ParseObject::checkIntegrity () const {
 ParseAttomic::ParseAttomic (const char* value, const char* description,
                             unsigned int max, unsigned int min,
                             PFNCALLBACK callback, bool skipWhitespace)
-   : ParseObject (description, callback, skipWhitespace), pValue (value)
-   , maxCard (max), minCard (min) {
+   : ParseObject (description, max, min, callback, skipWhitespace)
+   , pValue (value) {
    TRACE9 ("Creating ParseAttomic " << getDescription ());
    assert (!checkIntegrity ());
 }
@@ -179,8 +189,6 @@ const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
    if (&other != this) {
       ParseObject::operator= ((const ParseObject&)other);
       pValue = other.pValue;
-      maxCard = other.maxCard;
-      minCard = other.minCard;
    } // endif other object
 
    assert (!checkIntegrity ());
@@ -225,29 +233,30 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) const {
       ++i;
    } // end-while !maximal cardinality
    *pAkt = '\0';
-   TRACE2 ("ParseAttomic::doParse " << getDescription () << " -> "
+   TRACE2 ("ParseAttomic::doParse final" << getDescription () << " -> "
            << global.buffer);
 
    int rc (PARSE_OK);
-   if ((i >= minCard) && (i <= maxCard)) {                // Cardinalities OK?
-      TRACE6 ("ParseAttomic::doParse " << getDescription () << "Found ("
-              << global.buffer << ')');
+   if (i >= minCard) {                                    // Cardinalities OK?
+      TRACE6 ("ParseAttomic::doParse " << getDescription () << "Found '"
+              << global.buffer << '\'');
       if (pCallback)
          rc = pCallback (global.buffer);           // Execute callback (if set)
    } // endif value OK
    else
       rc = PARSE_ERROR;
 
-   if (rc)
-      if (optional)
+   if (rc) {
+      if (optional || (rc < 0))
          while (pAkt > global.buffer)
             stream.putback (*--pAkt);
-      else {
-         global.buffer = '\0';
+      if (!optional || (rc < 0)) {
+         global.buffer[10] = '\0';
          error << "Parse-error in line " << stream.getLine () << " column "
                << stream.getColumn () << ":\nExpected: " << getDescription ()
                << " found: " << global.buffer << '\n';
       } // end-if mandatory value not found
+   } // endif error
    else
       skipWS (stream);
 
@@ -299,5 +308,107 @@ bool ParseAttomic::checkValue (char ch) const {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::checkIntegrity () const {
-   return pValue ? maxCard < minCard ? 10 : ParseObject::checkIntegrity () : 11;
+   return pValue ? ParseObject::checkIntegrity () : 11;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Constructor
+//Parameters  : pObjectList: NULL-terminated array of objects to parse
+//              description: Description of object (what it parses)
+//              max: Maximal cardinality
+//              min: Minimal cardinality
+//              callback: Method to call if object is parsed
+//              skipWhitespace: Flag if TRAILING WS are skipped
+//Requires    : description != NULL
+/*--------------------------------------------------------------------------*/
+ParseSequence::ParseSequence (const ParseObject* apObjectList[],
+                              const char* description, unsigned int max,
+                              unsigned min, PFNCALLBACK callback,
+                              bool skipWhitespace)
+   : ParseObject (description, max, min, callback, skipWhitespace)
+   , ppList (apObjectList) {
+   TRACE9 ("Creating ParseSequence " << getDescription ());
+   assert (!checkIntegrity ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Copy-constructor
+//Parameters  : other: Object to clone
+/*--------------------------------------------------------------------------*/
+ParseSequence::ParseSequence (const ParseSequence& other)
+   : ParseObject ((const ParseObject&)other), ppList (other.ppList) {
+   TRACE9 ("Copying ParseSequence " << getDescription ());
+   assert (!checkIntegrity ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseSequence::~ParseSequence () {
+   TRACE9 ("Deleting ParseSequence " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+/*--------------------------------------------------------------------------*/
+const ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
+   TRACE9 ("Assigning ParseSequence " << getDescription ());
+
+   if (&other != this) {
+      ParseObject::operator= ((const ParseObject&)other);
+      ppList = other.ppList;
+   } // endif other object
+
+   assert (!checkIntegrity ());
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Tries to parse the object from the stream
+//Parameters  : stream: Source from which to read
+//              optional: Flag, if node must be found
+/*--------------------------------------------------------------------------*/
+int ParseSequence::doParse (Xistream& stream, bool optional) const {
+   TRACE9 ("ParseSequence::doParse " << getDescription ());
+   assert (!checkIntegrity ());
+
+   unsigned int i (0);
+   int rc (PARSE_OK);
+
+   while (i++ < maxCard) {
+      const ParseObject** ppAct (ppList); assert (*ppAct);
+
+      while (*ppAct != NULL) {                  // While list contains objects
+         if (rc = (**ppAct).doParse (stream,   // Parse (putback first always)
+                                     ppAct == ppList ? true : optional))
+            break;
+
+         ++ppAct;
+      } // end-while list-entries
+
+      if (rc) {   // Simple error while parsing: Check if in begin of sequence
+         if ((rc > 0) && (ppAct == ppList) && (i >= minCard))
+            rc = PARSE_OK;
+         break;
+      } // endif error occured
+   } // end-while i < maxCard
+
+   if (!rc && pCallback)         // Perform callback with sequence-description
+      rc = pCallback (getDescription ());
+
+   if ((rc < 0) || (rc && !optional))
+      error << "Parse-error in line " << stream.getLine () << " column "
+            << stream.getColumn () << ":\nExpected: " << getDescription () << '\n';
+
+   return rc;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Checks the constraints of the object
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int ParseSequence::checkIntegrity () const {
+   return (ppList && *ppList) ? ParseObject::checkIntegrity () : 10;
 }
