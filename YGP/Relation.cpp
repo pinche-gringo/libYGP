@@ -1,11 +1,11 @@
-//$Id: Relation.cpp,v 1.2 2004/10/25 02:58:39 markus Exp $
+//$Id: Relation.cpp,v 1.3 2004/11/04 16:29:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Relation
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -75,16 +75,30 @@ void RelationManager::remove (const IRelation* relation) {
 
 //-----------------------------------------------------------------------------
 /// Retuns the relation with the passed name
-/// \param relation: Name of relation to find
+/// \param name: Name of relation to find
 /// \returns IRelation*: Relation searched for or NULL
 //-----------------------------------------------------------------------------
 IRelation* RelationManager::getRelation (const char* name) {
    TRACE9 ("RelationManager::getRelation (const char*) - " << name);
 
-   
    std::map<const std::string, IRelation*>::iterator i (relations.find (name));
    return (i != relations.end ()) ?  i->second : NULL;
 }
+
+//-----------------------------------------------------------------------------
+/// Retuns the name of the passed relation
+/// \param relation: Relation to get the name for
+/// \returns const std::string&: Name of the passed relation
+//-----------------------------------------------------------------------------
+const std::string& RelationManager::getRelationName (const IRelation& relation) {
+   std::map<const std::string, IRelation*>::iterator i (relations.begin ());
+   for (; i != relations.end (); ++i)
+      if (i->second == &relation)
+	 break;
+   Check (i != relations.end ());
+   return i->first;
+}
+
 
 }
 
