@@ -4,231 +4,230 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6 ($Revision: 1.20 $)\n"
-"POT-Creation-Date: 2003-11-03 15:42-0500\n"
-"PO-Revision-Date: 2003-10-18 23:43-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.21 $)\n"
+"POT-Creation-Date: 2003-11-28 17:56-0500\n"
+"PO-Revision-Date: 2003-11-28 17:59-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:212 Common/ATime.cpp:204
+#: YGP/ADate.cpp:215 YGP/ATime.cpp:206
 msgid "Position %1"
 msgstr "Posición %1"
 
-#: Common/ANumeric.cpp:92 Common/ANumeric.cpp:255
+#: YGP/ANumeric.cpp:94 YGP/ANumeric.cpp:257
 msgid "No number"
 msgstr "No número"
 
-#: Common/AssParse.cpp:64
+#: YGP/AssParse.cpp:67
 msgid "Not a valid assignment: '%1'"
 msgstr "Asignación no es válida: '%1'"
 
-#: Common/AssParse.cpp:76
+#: YGP/AssParse.cpp:79
 msgid "Invalid value for an attribute: '%1'"
 msgstr "Valor invalido por atributo: '%1'"
 
-#: Common/AssParse.cpp:90
+#: YGP/AssParse.cpp:93
 msgid "Quoted value is not followed by a separator: '%1'"
 msgstr "Valor no es seguido de un seperator: '%1'"
 
-#: Common/AttrParse.cpp:57
+#: YGP/AttrParse.cpp:59
 msgid "Attribute '%1' already exists"
 msgstr "Atributo '%1' ya existe"
 
-#: Common/AttrParse.cpp:118
+#: YGP/AttrParse.cpp:120
 msgid "Error assigning '%1' to %2"
 msgstr "Error asignar '%1' a %2"
 
-#: Common/AttrParse.cpp:125
+#: YGP/AttrParse.cpp:127
 msgid "Key '%1' not found"
 msgstr "No encontré llave '%1'"
 
-#: Common/CRegExp.cpp:1033
+#: YGP/CRegExp.cpp:1035
 msgid "Unmatched [ or [^"
 msgstr "[ ó [^ desemparejado"
 
-#: Common/CRegExp.cpp:1034
+#: YGP/CRegExp.cpp:1036
 msgid "Unmatched ( or )"
 msgstr "( ó ) desemparejados"
 
-#: Common/CRegExp.cpp:1035
+#: YGP/CRegExp.cpp:1037
 msgid "Invalid range end"
 msgstr "Fin invalido de la región"
 
-#: Common/CRegExp.cpp:1036
+#: YGP/CRegExp.cpp:1038
 msgid "Repeating suffix without previous expression"
 msgstr "Factor repitente sin anterior expresión regular"
 
-#: Common/CRegExp.cpp:1037
+#: YGP/CRegExp.cpp:1039
 msgid "Invalid group-number"
 msgstr "Número de grupo invalido"
 
-#: Common/CRegExp.cpp:1038
+#: YGP/CRegExp.cpp:1040
 msgid "Invalid range (lower border larger than upper border)"
 msgstr "Enumeración invalido (frontera baja más alta que la alta)"
 
-#: Common/CRegExp.cpp:1039
+#: YGP/CRegExp.cpp:1041
 msgid "Invalid bound"
 msgstr "Unión invalida"
 
-#: Common/CRegExp.cpp:1040
+#: YGP/CRegExp.cpp:1042
 msgid "Regular expression ends with escape-character (\\)"
 msgstr "Expresión regular termina con la letra especial de escapar (\\)"
 
-#: Common/CRegExp.cpp:1041
+#: YGP/CRegExp.cpp:1043
 msgid "Unknown error"
 msgstr "Error general"
 
-#: Common/CRegExp.cpp:1045 Common/FileRExp.cpp:252
+#: YGP/CRegExp.cpp:1047 YGP/FileRExp.cpp:254
 msgid "`%1', position %2: %3"
 msgstr "'%1', posición %2: %3"
 
-#: Common/File.cpp:271
+#: YGP/File.cpp:273
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Error abriendo el fichero '%1'! Causa: %2"
 
-#: Common/File.cpp:286
+#: YGP/File.cpp:288
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Error cerrando el fichero '%1'! Causa: %2"
 
-#: Common/File.cpp:309
+#: YGP/File.cpp:311
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Error leyendo fichero '%1'! Causa: %2"
 
-#: Common/File.cpp:331
+#: YGP/File.cpp:333
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Error escribiendo al fichero '%1'! Causa: %2"
 
-#: Common/FileRExp.cpp:215
+#: YGP/FileRExp.cpp:217
 msgid "Open region"
 msgstr "Región abierta"
 
-#: Common/FileRExp.cpp:228
+#: YGP/FileRExp.cpp:230
 msgid "Empty range"
 msgstr "Enumeración vacía"
 
-#: Common/FileRExp.cpp:232
+#: YGP/FileRExp.cpp:234
 msgid "Empty region"
 msgstr "Región vacía"
 
-#: Common/INIFile.cpp:45
+#: YGP/INIFile.cpp:47
 msgid "Start of section ([)"
 msgstr "Comienzo de sección ([)"
 
-#: Common/INIFile.cpp:46
+#: YGP/INIFile.cpp:48
 msgid "End of section (])"
 msgstr "Fin de sección (])"
 
-#: Common/INIFile.cpp:47
+#: YGP/INIFile.cpp:49
 msgid "Equal-sign (=)"
 msgstr "Signo de igualidad (=)"
 
-#: Common/INIFile.cpp:61 Common/INIFile.cpp:237
+#: YGP/INIFile.cpp:63 YGP/INIFile.cpp:239
 msgid "Section-header"
 msgstr "Cabeza de sección"
 
-#: Common/INIFile.cpp:62
+#: YGP/INIFile.cpp:64
 msgid "Attribute"
 msgstr "Atributo"
 
-#: Common/INIFile.cpp:63 Common/INIFile.cpp:238
+#: YGP/INIFile.cpp:65 YGP/INIFile.cpp:240
 msgid "Name of section"
 msgstr "Nombre de sección"
 
-#: Common/INIFile.cpp:64
+#: YGP/INIFile.cpp:66
 msgid "Identifier (key)"
 msgstr "Identificación (llave)"
 
-#: Common/INIFile.cpp:65
+#: YGP/INIFile.cpp:67
 msgid "Value"
 msgstr "Valor"
 
-#: Common/INIFile.cpp:249
+#: YGP/INIFile.cpp:251
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
-#: Common/IVIOAppl.cpp:272
+#: YGP/IVIOAppl.cpp:274
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-error: Opción '%1' es ambigua"
 
-#: Common/IVIOAppl.cpp:281
+#: YGP/IVIOAppl.cpp:283
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
-#: Common/Parse.cpp:293
+#: YGP/Parse.cpp:296
 msgid "Expected %1, found: '%2'"
 msgstr "Expectó %1, encontré '%2'"
 
-#: Common/Parse.cpp:920
+#: YGP/Parse.cpp:923
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Error en la seria %1; Expecté: %2"
 
-#: Common/Parse.cpp:920
+#: YGP/Parse.cpp:923
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: Common/Parse.cpp:1038
+#: YGP/Parse.cpp:1041
 msgid "Expected selection %1"
 msgstr "Expectó selección %1"
 
-#: Common/RDirSrch.cpp:257 Common/RemoteFile.cpp:233
+#: YGP/RDirSrch.cpp:259 YGP/RemoteFile.cpp:235
 msgid "Server returned an error: "
 msgstr "El servidor retornó un error: "
 
-#: Common/RDirSrchSrv.cpp:251
+#: YGP/RDirSrchSrv.cpp:253
 msgid "Not yet implemented"
 msgstr "Ya no implementado"
 
-#: Common/RDirSrchSrv.cpp:277
+#: YGP/RDirSrchSrv.cpp:279
 msgid "Invalid command"
 msgstr "Comando invalido"
 
-#: Common/RDirSrchSrv.cpp:313
+#: YGP/RDirSrchSrv.cpp:315
 msgid "Invalid arguments: "
 msgstr "Argumentos invalidos: "
 
-#: Common/Socket.cpp:73 Common/Socket.cpp:86 Common/Socket.cpp:120
-#: Common/Socket.cpp:145
+#: YGP/Socket.cpp:75 YGP/Socket.cpp:88 YGP/Socket.cpp:122 YGP/Socket.cpp:147
 msgid "Can't create socket"
 msgstr "No puedo generar el socket (para la comunicación)"
 
-#: Common/Socket.cpp:176
+#: YGP/Socket.cpp:178
 msgid "Can't bind socket"
 msgstr "No puedo atar al socket"
 
-#: Common/Socket.cpp:179
+#: YGP/Socket.cpp:181
 msgid "Can't listen on socket"
 msgstr "No puedo escuchar al socket"
 
-#: Common/Socket.cpp:203
+#: YGP/Socket.cpp:205
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Puerto '%1' ni es numérico (decimal, octal o hexadecimal) ni un servicio"
 
-#: Common/Socket.cpp:237 Common/Socket.cpp:257
+#: YGP/Socket.cpp:239 YGP/Socket.cpp:259
 msgid "Error reading data"
 msgstr "Error leyendo los datos"
 
-#: Common/Socket.cpp:283
+#: YGP/Socket.cpp:285
 msgid "Error accepting connection"
 msgstr "Error acceptando la connectión"
 
-#: Common/Socket.cpp:306
+#: YGP/Socket.cpp:308
 msgid "Can't resolve name '%1'"
 msgstr "No puedo resolvar el nombre '%1'"
 
-#: Common/Socket.cpp:314
+#: YGP/Socket.cpp:316
 msgid "Can't connect to server '%1'"
 msgstr "No puedo conectar al servidor '%1'"
 
-#: Common/Socket.cpp:334
+#: YGP/Socket.cpp:336
 msgid "Error sending data"
 msgstr "Error enviar los datos"
 
-#: Common/Process.cpp:166
+#: YGP/Process.cpp:168
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -237,7 +236,7 @@ msgstr ""
 "Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
-#: Common/Process.cpp:189
+#: YGP/Process.cpp:191
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -247,19 +246,19 @@ msgstr ""
 "\n"
 "Salida: %2"
 
-#: X-windows/XPrintDlg.cpp:50
+#: XGP/XPrintDlg.cpp:52
 msgid "Print"
 msgstr "Imprimir"
 
-#: X-windows/XPrintDlg.cpp:51
+#: XGP/XPrintDlg.cpp:53
 msgid "Print command: "
 msgstr "Orden para imprimir: "
 
-#: X-windows/XPrintDlg.cpp:96
+#: XGP/XPrintDlg.cpp:98
 msgid "No print-command specified"
 msgstr "No orden para imprimir especificado"
 
-#: X-windows/XPrintDlg.cpp:104
+#: XGP/XPrintDlg.cpp:106
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
@@ -267,95 +266,103 @@ msgstr ""
 "No puedo ejecutar el comando '%1'\n"
 "Causa: %2"
 
-#: X-windows/XFileDlg.cpp:110
+#: XGP/XFileDlg.cpp:112
 msgid "File `%1' does not exist!"
 msgstr "Fichero '%1' no existe!"
 
-#: X-windows/XFileDlg.cpp:120
+#: XGP/XFileDlg.cpp:122
 msgid "File `%1' exists! Overwrite?"
 msgstr "¡Fichero '%1' existe! ¿Sobreescribirlo?"
 
-#: X-windows/XFileList.cpp:299
+#: XGP/XFileList.cpp:301
 msgid "Open in %1 ..."
 msgstr "Abrir con %1 ..."
 
-#: X-windows/XFileList.cpp:312
+#: XGP/XFileList.cpp:314
 msgid "Rename/Move ..."
 msgstr "Cambiar el nombre/Mover ..."
 
-#: X-windows/XFileList.cpp:316
+#: XGP/XFileList.cpp:318
 msgid "Delete"
 msgstr "Eleminar"
 
-#: X-windows/XFileList.cpp:341
+#: XGP/XFileList.cpp:343
 msgid "Environment variable `TERM' not defined!"
 msgstr "¡Variable de etorno 'TERM' no es definida!"
 
-#: X-windows/XFileList.h:173
+#: XGP/XFileList.h:178
 msgid "File"
 msgstr "Archivo"
 
-#: X-windows/XAttrEntry.h:85
+#: XGP/XAttrEntry.h:87
 msgid "Invalid value!"
 msgstr "¡Valor invalido!"
 
-#: X-windows/BrowserDlg.cpp:39
+#: XGP/BrowserDlg.cpp:41
 msgid "GTKHTML"
 msgstr ""
 
-#: X-windows/BrowserDlg.cpp:41
+#: XGP/BrowserDlg.cpp:43
 msgid "galeon"
 msgstr "Galeon"
 
-#: X-windows/BrowserDlg.cpp:41
+#: XGP/BrowserDlg.cpp:43
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: X-windows/BrowserDlg.cpp:41
+#: XGP/BrowserDlg.cpp:43
 msgid "netscape"
 msgstr "Netscape"
 
-#: X-windows/BrowserDlg.cpp:41
+#: XGP/BrowserDlg.cpp:43
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: X-windows/BrowserDlg.cpp:49
+#: XGP/BrowserDlg.cpp:51
 msgid "Select a browser"
 msgstr "Selecta un explorador"
 
-#: X-windows/BrowserDlg.cpp:61
+#: XGP/BrowserDlg.cpp:63
 msgid "Other: "
 msgstr "Otro"
 
-#: X-windows/XApplication.cpp:242
+#: XGP/XApplication.cpp:244
 msgid "_Help"
 msgstr "_Ayuda"
 
-#: X-windows/XApplication.cpp:242
+#: XGP/XApplication.cpp:244
 msgid "<alt>H"
 msgstr "<alt>A"
 
-#: X-windows/XApplication.cpp:243
+#: XGP/XApplication.cpp:245
 msgid "_Content..."
 msgstr "_Contenido ..."
 
-#: X-windows/XApplication.cpp:243
+#: XGP/XApplication.cpp:245
 msgid "F1"
 msgstr ""
 
-#: X-windows/XApplication.cpp:244
+#: XGP/XApplication.cpp:246
 msgid "Configure _browser ..."
 msgstr "Configurar el _browser ..."
 
-#: X-windows/XApplication.cpp:246
+#: XGP/XApplication.cpp:248
 msgid "_About..."
 msgstr "_Acerca de ..."
 
-#: X-windows/XAbout.cpp:49
+#: XGP/XAbout.cpp:51
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Distribuido bajo los condiciones de la GNU Licensia General Público"
 
-#: X-windows/GTKViewer.c:162
+#: XGP/GTKViewer.c:162
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr "Error abriendo el fichero '%s'! %s"
+
+#: XGP/MessageDlg.cpp:89
+msgid "Hide _details"
+msgstr "_Corto"
+
+#: XGP/MessageDlg.cpp:89
+msgid "Show _details"
+msgstr "_Detalles"
