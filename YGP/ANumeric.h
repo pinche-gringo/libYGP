@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.11 2000/04/02 16:14:32 Markus Exp $
+//$Id: ANumeric.h,v 1.12 2000/04/07 22:42:42 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,6 +46,20 @@ class ANumeric : public AttributValue {
      value = other.value;
 #endif
 }
+   ANumeric (const unsigned int val) : AttributValue () {
+#ifdef HAVE_LIBGMP
+      mpz_init_set_ui (value, (long)val);
+#else
+      value = (long)val;
+#endif
+      AttributValue::define (); }
+   ANumeric (const unsigned long val) : AttributValue () {
+#ifdef HAVE_LIBGMP
+      mpz_init_set_ui (value, val);
+#else
+      value = val;
+#endif
+      AttributValue::define (); }
    ANumeric (const int val) : AttributValue () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, (long)val);
@@ -66,6 +80,15 @@ class ANumeric : public AttributValue {
 
    ANumeric& operator= (const ANumeric& other);
    ANumeric& operator= (const int val) { operator= ((const long)val); }
+   ANumeric& operator= (const unsigned int val) { operator= ((const unsigned long)val); }
+   ANumeric& operator= (const unsigned long val) { AttributValue::define (); 
+#ifdef HAVE_LIBGMP
+      mpz_set_ui (value, val);
+#else
+      value = val;
+#endif
+      return *this;
+   }
    ANumeric& operator= (const long val) { AttributValue::define (); 
 #ifdef HAVE_LIBGMP
       mpz_set_si (value, val);
