@@ -1,20 +1,20 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on VCGeneral.dsp
 !IF "$(CFG)" == ""
-CFG=General - Win32 Debug
-!MESSAGE Keine Konfiguration angegeben. General - Win32 Debug wird als Standard verwendet.
+CFG=VCGeneral - Win32 Debug
+!MESSAGE Keine Konfiguration angegeben. VCGeneral - Win32 Debug wird als Standard verwendet.
 !ENDIF 
 
-!IF "$(CFG)" != "General - Win32 Release" && "$(CFG)" != "General - Win32 Debug"
+!IF "$(CFG)" != "VCGeneral - Win32 Release" && "$(CFG)" != "VCGeneral - Win32 Debug"
 !MESSAGE UngÅltige Konfiguration "$(CFG)" angegeben.
 !MESSAGE Sie kînnen beim AusfÅhren von NMAKE eine Konfiguration angeben
 !MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
-!MESSAGE NMAKE /f "VCGeneral.mak" CFG="General - Win32 Debug"
+!MESSAGE NMAKE /f "VCGeneral.mak" CFG="VCGeneral - Win32 Debug"
 !MESSAGE 
 !MESSAGE FÅr die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "General - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "General - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "VCGeneral - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "VCGeneral - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 !ERROR Eine ungÅltige Konfiguration wurde angegeben.
 !ENDIF 
@@ -25,11 +25,7 @@ NULL=
 NULL=nul
 !ENDIF 
 
-CPP=cl.exe
-MTL=midl.exe
-RSC=rc.exe
-
-!IF  "$(CFG)" == "General - Win32 Release"
+!IF  "$(CFG)" == "VCGeneral - Win32 Release"
 
 OUTDIR=.\Release
 INTDIR=.\Release
@@ -41,17 +37,31 @@ ALL : "$(OUTDIR)\VCGeneral.dll"
 
 
 CLEAN :
+	-@erase "$(INTDIR)\AByteArray.obj"
 	-@erase "$(INTDIR)\ADate.obj"
 	-@erase "$(INTDIR)\ANumeric.obj"
+	-@erase "$(INTDIR)\AssParse.obj"
 	-@erase "$(INTDIR)\ATime.obj"
 	-@erase "$(INTDIR)\ATStamp.obj"
+	-@erase "$(INTDIR)\AttrParse.obj"
+	-@erase "$(INTDIR)\CRegExp.obj"
 	-@erase "$(INTDIR)\DirSrch.obj"
+	-@erase "$(INTDIR)\Entity.obj"
+	-@erase "$(INTDIR)\File.obj"
 	-@erase "$(INTDIR)\FileRExp.obj"
 	-@erase "$(INTDIR)\Handle.obj"
+	-@erase "$(INTDIR)\IDirSrch.obj"
+	-@erase "$(INTDIR)\INIFile.obj"
 	-@erase "$(INTDIR)\IVIOAppl.obj"
 	-@erase "$(INTDIR)\Parse.obj"
 	-@erase "$(INTDIR)\PathDirSrch.obj"
+	-@erase "$(INTDIR)\PathSrch.obj"
+	-@erase "$(INTDIR)\RDirSrch.obj"
+	-@erase "$(INTDIR)\RDirSrchSrv.obj"
+	-@erase "$(INTDIR)\RemoteFile.obj"
+	-@erase "$(INTDIR)\Socket.obj"
 	-@erase "$(INTDIR)\StackTrc.obj"
+	-@erase "$(INTDIR)\Thread.obj"
 	-@erase "$(INTDIR)\Tokenize.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\Version.obj"
@@ -63,102 +73,8 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MT /Za /W3 /GX /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GENERAL_EXPORTS" /D "WINDOWS" /D PACKAGE=\"General\" /D VERSION=\"0.6\" /D MICRO_VERSION=\"00\" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
-MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32 
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" 
-LINK32_OBJS= \
-	"$(INTDIR)\ADate.obj" \
-	"$(INTDIR)\ANumeric.obj" \
-	"$(INTDIR)\ATime.obj" \
-	"$(INTDIR)\ATStamp.obj" \
-	"$(INTDIR)\DirSrch.obj" \
-	"$(INTDIR)\FileRExp.obj" \
-	"$(INTDIR)\Handle.obj" \
-	"$(INTDIR)\IVIOAppl.obj" \
-	"$(INTDIR)\Parse.obj" \
-	"$(INTDIR)\PathDirSrch.obj" \
-	"$(INTDIR)\Tokenize.obj" \
-	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj" \
-	"$(INTDIR)\StackTrc.obj"
-
-"$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-!ELSEIF  "$(CFG)" == "General - Win32 Debug"
-
-OUTDIR=.\Debug
-INTDIR=.\Debug
-# Begin Custom Macros
-OutDir=.\Debug
-# End Custom Macros
-
-ALL : "$(OUTDIR)\VCGeneral.dll"
-
-
-CLEAN :
-	-@erase "$(INTDIR)\ADate.obj"
-	-@erase "$(INTDIR)\ANumeric.obj"
-	-@erase "$(INTDIR)\ATime.obj"
-	-@erase "$(INTDIR)\ATStamp.obj"
-	-@erase "$(INTDIR)\DirSrch.obj"
-	-@erase "$(INTDIR)\FileRExp.obj"
-	-@erase "$(INTDIR)\Handle.obj"
-	-@erase "$(INTDIR)\IVIOAppl.obj"
-	-@erase "$(INTDIR)\Parse.obj"
-	-@erase "$(INTDIR)\PathDirSrch.obj"
-	-@erase "$(INTDIR)\StackTrc.obj"
-	-@erase "$(INTDIR)\Tokenize.obj"
-	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(INTDIR)\vc60.pdb"
-	-@erase "$(INTDIR)\Version.obj"
-	-@erase "$(INTDIR)\XStrBuf.obj"
-	-@erase "$(OUTDIR)\VCGeneral.dll"
-	-@erase "$(OUTDIR)\VCGeneral.exp"
-	-@erase "$(OUTDIR)\VCGeneral.ilk"
-	-@erase "$(OUTDIR)\VCGeneral.lib"
-	-@erase "$(OUTDIR)\VCGeneral.pdb"
-
-"$(OUTDIR)" :
-    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
-
-CPP_PROJ=/nologo /MTd /Za /W3 /Gm /GX /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GENERAL_EXPORTS" /D "WINDOWS" /D PACKAGE=\"General\" /D VERSION=\"0.6\" /D MICRO_VERSION=\"00\" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c 
-MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32 
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc" 
-BSC32_SBRS= \
-	
-LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept 
-LINK32_OBJS= \
-	"$(INTDIR)\ADate.obj" \
-	"$(INTDIR)\ANumeric.obj" \
-	"$(INTDIR)\ATime.obj" \
-	"$(INTDIR)\ATStamp.obj" \
-	"$(INTDIR)\DirSrch.obj" \
-	"$(INTDIR)\FileRExp.obj" \
-	"$(INTDIR)\Handle.obj" \
-	"$(INTDIR)\IVIOAppl.obj" \
-	"$(INTDIR)\Parse.obj" \
-	"$(INTDIR)\PathDirSrch.obj" \
-	"$(INTDIR)\Tokenize.obj" \
-	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj" \
-	"$(INTDIR)\StackTrc.obj"
-
-"$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
-<<
-
-!ENDIF 
+CPP=cl.exe
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /I ../Windows;./Common /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -190,6 +106,180 @@ LINK32_OBJS= \
    $(CPP_PROJ) $< 
 <<
 
+MTL=midl.exe
+MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32 
+RSC=rc.exe
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" 
+LINK32_OBJS= \
+	"$(INTDIR)\AByteArray.obj" \
+	"$(INTDIR)\ADate.obj" \
+	"$(INTDIR)\ANumeric.obj" \
+	"$(INTDIR)\AssParse.obj" \
+	"$(INTDIR)\ATime.obj" \
+	"$(INTDIR)\ATStamp.obj" \
+	"$(INTDIR)\AttrParse.obj" \
+	"$(INTDIR)\CRegExp.obj" \
+	"$(INTDIR)\DirSrch.obj" \
+	"$(INTDIR)\Entity.obj" \
+	"$(INTDIR)\File.obj" \
+	"$(INTDIR)\FileRExp.obj" \
+	"$(INTDIR)\Handle.obj" \
+	"$(INTDIR)\IDirSrch.obj" \
+	"$(INTDIR)\INIFile.obj" \
+	"$(INTDIR)\IVIOAppl.obj" \
+	"$(INTDIR)\Parse.obj" \
+	"$(INTDIR)\PathDirSrch.obj" \
+	"$(INTDIR)\PathSrch.obj" \
+	"$(INTDIR)\RDirSrch.obj" \
+	"$(INTDIR)\RDirSrchSrv.obj" \
+	"$(INTDIR)\RemoteFile.obj" \
+	"$(INTDIR)\Socket.obj" \
+	"$(INTDIR)\StackTrc.obj" \
+	"$(INTDIR)\Thread.obj" \
+	"$(INTDIR)\Tokenize.obj" \
+	"$(INTDIR)\Version.obj" \
+	"$(INTDIR)\XStrBuf.obj"
+
+"$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+!ELSEIF  "$(CFG)" == "VCGeneral - Win32 Debug"
+
+OUTDIR=.\VCGeneral___Win32_Debug
+INTDIR=.\VCGeneral___Win32_Debug
+# Begin Custom Macros
+OutDir=.\VCGeneral___Win32_Debug
+# End Custom Macros
+
+ALL : "$(OUTDIR)\VCGeneral.dll"
+
+
+CLEAN :
+	-@erase "$(INTDIR)\AByteArray.obj"
+	-@erase "$(INTDIR)\ADate.obj"
+	-@erase "$(INTDIR)\ANumeric.obj"
+	-@erase "$(INTDIR)\AssParse.obj"
+	-@erase "$(INTDIR)\ATime.obj"
+	-@erase "$(INTDIR)\ATStamp.obj"
+	-@erase "$(INTDIR)\AttrParse.obj"
+	-@erase "$(INTDIR)\CRegExp.obj"
+	-@erase "$(INTDIR)\DirSrch.obj"
+	-@erase "$(INTDIR)\Entity.obj"
+	-@erase "$(INTDIR)\File.obj"
+	-@erase "$(INTDIR)\FileRExp.obj"
+	-@erase "$(INTDIR)\Handle.obj"
+	-@erase "$(INTDIR)\IDirSrch.obj"
+	-@erase "$(INTDIR)\INIFile.obj"
+	-@erase "$(INTDIR)\IVIOAppl.obj"
+	-@erase "$(INTDIR)\Parse.obj"
+	-@erase "$(INTDIR)\PathDirSrch.obj"
+	-@erase "$(INTDIR)\PathSrch.obj"
+	-@erase "$(INTDIR)\RDirSrch.obj"
+	-@erase "$(INTDIR)\RDirSrchSrv.obj"
+	-@erase "$(INTDIR)\RemoteFile.obj"
+	-@erase "$(INTDIR)\Socket.obj"
+	-@erase "$(INTDIR)\StackTrc.obj"
+	-@erase "$(INTDIR)\Thread.obj"
+	-@erase "$(INTDIR)\Tokenize.obj"
+	-@erase "$(INTDIR)\vc60.idb"
+	-@erase "$(INTDIR)\vc60.pdb"
+	-@erase "$(INTDIR)\Version.obj"
+	-@erase "$(INTDIR)\XStrBuf.obj"
+	-@erase "$(OUTDIR)\VCGeneral.dll"
+	-@erase "$(OUTDIR)\VCGeneral.exp"
+	-@erase "$(OUTDIR)\VCGeneral.ilk"
+	-@erase "$(OUTDIR)\VCGeneral.lib"
+	-@erase "$(OUTDIR)\VCGeneral.pdb"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+CPP=cl.exe
+CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I../Common /I../Windows /c 
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.c{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cpp{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+.cxx{$(INTDIR)}.sbr::
+   $(CPP) @<<
+   $(CPP_PROJ) $< 
+<<
+
+MTL=midl.exe
+MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32 
+RSC=rc.exe
+BSC32=bscmake.exe
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc" 
+BSC32_SBRS= \
+	
+LINK32=link.exe
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept 
+LINK32_OBJS= \
+	"$(INTDIR)\AByteArray.obj" \
+	"$(INTDIR)\ADate.obj" \
+	"$(INTDIR)\ANumeric.obj" \
+	"$(INTDIR)\AssParse.obj" \
+	"$(INTDIR)\ATime.obj" \
+	"$(INTDIR)\ATStamp.obj" \
+	"$(INTDIR)\AttrParse.obj" \
+	"$(INTDIR)\CRegExp.obj" \
+	"$(INTDIR)\DirSrch.obj" \
+	"$(INTDIR)\Entity.obj" \
+	"$(INTDIR)\File.obj" \
+	"$(INTDIR)\FileRExp.obj" \
+	"$(INTDIR)\Handle.obj" \
+	"$(INTDIR)\IDirSrch.obj" \
+	"$(INTDIR)\INIFile.obj" \
+	"$(INTDIR)\IVIOAppl.obj" \
+	"$(INTDIR)\Parse.obj" \
+	"$(INTDIR)\PathDirSrch.obj" \
+	"$(INTDIR)\PathSrch.obj" \
+	"$(INTDIR)\RDirSrch.obj" \
+	"$(INTDIR)\RDirSrchSrv.obj" \
+	"$(INTDIR)\RemoteFile.obj" \
+	"$(INTDIR)\Socket.obj" \
+	"$(INTDIR)\StackTrc.obj" \
+	"$(INTDIR)\Thread.obj" \
+	"$(INTDIR)\Tokenize.obj" \
+	"$(INTDIR)\Version.obj" \
+	"$(INTDIR)\XStrBuf.obj"
+
+"$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+    $(LINK32) @<<
+  $(LINK32_FLAGS) $(LINK32_OBJS)
+<<
+
+!ENDIF 
+
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
 !IF EXISTS("VCGeneral.dep")
@@ -200,7 +290,13 @@ LINK32_OBJS= \
 !ENDIF 
 
 
-!IF "$(CFG)" == "General - Win32 Release" || "$(CFG)" == "General - Win32 Debug"
+!IF "$(CFG)" == "VCGeneral - Win32 Release" || "$(CFG)" == "VCGeneral - Win32 Debug"
+SOURCE=..\Common\AByteArray.cpp
+
+"$(INTDIR)\AByteArray.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\Common\ADate.cpp
 
 "$(INTDIR)\ADate.obj" : $(SOURCE) "$(INTDIR)"
@@ -210,6 +306,12 @@ SOURCE=..\Common\ADate.cpp
 SOURCE=..\Common\ANumeric.cpp
 
 "$(INTDIR)\ANumeric.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\AssParse.cpp
+
+"$(INTDIR)\AssParse.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -225,9 +327,33 @@ SOURCE=..\Common\ATStamp.cpp
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE=..\Common\AttrParse.cpp
+
+"$(INTDIR)\AttrParse.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\CRegExp.cpp
+
+"$(INTDIR)\CRegExp.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\Common\DirSrch.cpp
 
 "$(INTDIR)\DirSrch.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\Entity.cpp
+
+"$(INTDIR)\Entity.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\File.cpp
+
+"$(INTDIR)\File.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -240,6 +366,18 @@ SOURCE=..\Common\FileRExp.cpp
 SOURCE=..\Common\Handle.cpp
 
 "$(INTDIR)\Handle.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\IDirSrch.cpp
+
+"$(INTDIR)\IDirSrch.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\INIFile.cpp
+
+"$(INTDIR)\INIFile.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -261,9 +399,45 @@ SOURCE=..\Common\PathDirSrch.cpp
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE=..\Common\PathSrch.cpp
+
+"$(INTDIR)\PathSrch.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\RDirSrch.cpp
+
+"$(INTDIR)\RDirSrch.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\RDirSrchSrv.cpp
+
+"$(INTDIR)\RDirSrchSrv.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\RemoteFile.cpp
+
+"$(INTDIR)\RemoteFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\Socket.cpp
+
+"$(INTDIR)\Socket.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\Common\StackTrc.cpp
 
 "$(INTDIR)\StackTrc.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\Common\Thread.cpp
+
+"$(INTDIR)\Thread.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
