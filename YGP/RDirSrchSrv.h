@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.7 2001/10/08 14:30:47 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.8 2001/10/12 23:06:31 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class AByteArray;
 //   <- RC=0;ID=<ID>
 //
 //   -> Read="<ID>;Length=<length>
-//   <- RC=0;Data="<data>"
+//   <- RC=0;Length=<length>;Data="<data>"
 //
 //   -> Write=<ID>;Length=<length>;Data="<data>"
 //   <- RC=0

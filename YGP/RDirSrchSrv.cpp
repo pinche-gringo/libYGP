@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.9 2001/10/09 17:21:04 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.10 2001/10/12 23:06:31 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -199,8 +199,10 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 
          char contents[length];
          if (length = fread (contents, 1, length, pFile)) {
-            std::string send ("RC=0;");
-            send += AssignmentParse::makeAssignment ("Data", contents, length);
+            std::string send ("RC=0;Length=");
+            ANumeric len (length);
+            send += len.toUnformatedString ();
+            send += AssignmentParse::makeAssignment (";Data", contents, length);
             sock.write (send.data (), send.length ());
          }
          else {
