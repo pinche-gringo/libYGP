@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: Log.html,v 1.4 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: Log.html,v 1.5 2002/12/15 18:11:47 markus Exp $ -->
 
 <html>
   <head>
@@ -30,9 +29,9 @@
     <hr noshade>
     <h2>Description</h2>
     <p>Class to perform some logging into either a log-file (if
-      available) or to console.</p>
+      available) or to the console.</p>
 
-    <p>Every entry into the log-file can be classified (according to its serverity).</p>
+    <p>Every entry can be classified (according to its serverity).</p>
 
     <p>The following classifications are available:</p>
 
@@ -56,11 +55,11 @@
     </dl>
 
     <p>The following macros (all of them taking just a character-pointer as parameter)
-      exists to make the use of the class more easy:</p>
+      exists to make the use of the class easier:</p>
 
     <dl compact>
       <dt><b>LOGEMERGENCY</b></dt>
-      <dd>Logs an emergency-message./dd>
+      <dd>Logs an emergency-message.</dd>
       <dt><b>LOGALERT</b></dt>
       <dd>Logs an alert-message.</dd>
       <dt><b>LOGCRITICAL</b></dt>
@@ -80,13 +79,13 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Log.html#Syslog"><b>Syslog</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">appl</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">appl</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Log.html#Syslog2"><b>Syslog</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">appl</font></tt>, <tt><font color="purple">int</font></tt> <tt><font color="blue">facility</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">appl</span></tt>, <tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">facility</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Log.html#write"><b>write</b></a></td>
-        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">level</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">text</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:purple">int</span></tt> <tt><span style="color:blue">level</span></tt>, <tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">text</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Log.html#~Syslog"><b>~Syslog</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -95,24 +94,38 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="Syslog"></a>Syslog (const char* appl)</pre>
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="Syslog"></a><b>Syslog</b> (const char* appl)</pre>
     <dl>
-      <dd>Constructor; creates an an object to log into the system-file.</dd>
+      <dd><p>Constructor; creates an an object to log into the system-file.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>appl</code>: Pointer to character array containing the name of the logging application<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="Syslog2"></a>Syslog (const char* appl, int facility)</pre>
+    <hr>
+    <pre><a name="Syslog2"></a><b>Syslog</b> (const char* appl, int facility)</pre>
     <dl>
-      <dd>Constructor; creates an an object to log into the system-file.
-        The <i>facility</i>-parameters gives further information about the
-        programm doing the logging (e.g.: Kernel, mail-subsystem,  an FTP-server, ...</dd>
+      <dd><p>Constructor; creates an an object to log into the system-file.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>appl</code>: Pointer to character array containing the name of the logging application<dd>
+          <dd><code>facility</code>: Further information about the logging application (Kernel, mail-subsystem, ...)<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="~Syslog"></a>~Syslog ()</pre>
-
-    <pre><a name="write"></a>void write (int level, const char* text)</pre>
+    <hr>
+    <pre><a name="~Syslog"></a><b>~Syslog</b> ()</pre>
     <dl>
-      <dd>Writes a message into the log. <i>Level</i> specifies the type of message
-        to log.</dd>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="write"></a>void <b>write</b> (int level, const char* text)</pre>
+    <dl>
+      <dd>Writes a message into the log-file.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>level</code>: Type of message to log (one of the constants above)<dd>
+          <dd><code>text</code>: Pointer to character array containing text to log<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>text</code> a valid pointer (zero-terminated)<dd></dl><dd>
     </dl>
   </body>
 </html>
