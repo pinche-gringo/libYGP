@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.10 2000/03/21 23:29:08 Markus Rel $
+//$Id: AttrVal.h,v 1.11 2001/03/25 09:53:35 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ class AttributValue {
   
  protected:
    AttributValue () : defined (false) { }
+   AttributValue (bool define) : defined (define) { }
    AttributValue (const AttributValue& other) : defined (other.defined) { }
    virtual ~AttributValue () { }
 
