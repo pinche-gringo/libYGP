@@ -1,6 +1,6 @@
  ## Process this file with automake to produce Makefile.in
 
-LDADD = libPort.la
+LDADD=-lgmp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h \
