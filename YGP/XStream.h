@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.9 2002/03/23 20:48:26 markus Rel $
+// $Id: XStream.h,v 1.10 2002/08/20 05:20:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 //     beyond this border is not possible.
 //
 // Note: The extensions of the stream must be initialized with the
-//       init-function must (after creating/assigning)!
+//       init-function (after creating/assigning)!
 //
 // Example:
 //    Xifstream xin;
