@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.15 2002/12/08 04:48:23 markus Exp $
+//$Id: RDirSrch.cpp,v 1.16 2002/12/15 22:19:29 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -164,7 +164,7 @@ const File* RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::strin
 //
 //            Only files matching also the attributes are returned!
 //Parameters: attribs: Attributes of files to find
-//Returns   : const File*: Pointer to found file-obect or NULL
+//Returns   : const File*: Pointer to found file-object or NULL
 //Throws    : std::string: Containing error message in case of an error
 //Requires  : searchDir, pEntry already set
 /*--------------------------------------------------------------------------*/
@@ -203,7 +203,7 @@ const File* RemoteDirSearch::find (unsigned long attribs) throw (std::string) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Returns the next matching file according to the parameters
 //            specified in earlier find-calls.
-//Returns   : const File*: Pointer to found file-obect or NULL
+//Returns   : const File*: Pointer to found file-object or NULL
 //Requires  : A find must have been (successfully) performed
 //Throws    : std::string: Containing error message in case of an error
 /*--------------------------------------------------------------------------*/
