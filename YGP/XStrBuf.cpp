@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.11 2000/03/04 22:35:56 Markus Rel $
+// $Id: XStrBuf.cpp,v 1.12 2000/04/24 14:24:16 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -119,15 +119,13 @@ int extStreambuf::underflow () {
       *pTemp++ = (char)ch;
       TRACE9 ("New char: " << (char)ch);
 
-      if ((char)ch == '\n') {
-         ch = *pBuffer;
+      if ((char)ch == '\n')
          break;
-      } // endif last character
    } // end-while !EOF
 
    pushbackOffset = -1 - int (pTemp - pBuffer);
    setg (pBuffer, pBuffer, pTemp);
-   return ch;
+   return (pTemp == pBuffer) ? EOF : *pBuffer;
 }
 
 /*--------------------------------------------------------------------------*/
