@@ -1,0 +1,101 @@
+<!-- -*-HTML-*- -->
+<!-- $Id: XFileEntry.html,v 1.1 2002/12/24 17:47:41 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: XFileEntry</title>
+    <meta name="description" content="Documentation of XFileEntry-class">
+    <meta name="keywords" content="Documentation, Docu, XFileEntry, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2002-12-18">
+    <meta name="DC.Rights" content="Anticopyright (A) 2002, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class XFileEntry</h1>
+    <p>Derived from
+      Gtk::Entry
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;XFileEntry.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Enhances the ordinary entry field with completing the input to the first file
+      matching it (if the entered part is a valid file); analogue to modern web
+      browsers.</p>
+
+    <p>During construction the type of files to complete can be specified. See the
+      ocumentation of <a href="IDirSrch.html">IDirectorySearch</a> for details.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XFileEntry.html#XFileEntry"><b>XFileEntry</b></a></td>
+        <td><tt>(<tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">fileAttrs</span></tt> = DirectorySearch::FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XFileEntry.html#XFileEntry2"><b>XFileEntry</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">guint</span></tt> <tt><span style="color:blue;">max</span></tt>, <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">fileAttrs</span></tt> = DirectorySearch::FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XFileEntry.html#XFileEntry3"><b>XFileEntry</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">GtkEntry</span></tt>* <tt><span style="color:blue;">castitem</span></tt>, <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">fileAttrs</span></tt> = DirectorySearch::FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XFileEntry.html#~XFileEntry"><b>~XFileEntry</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">gint</span></tt></tt> </td>
+        <td><a href="XFileEntry.html#key_press_event_impl"><b>key_press_event_impl</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">GdkEventKey</span></tt>* <tt><span style="color:blue;">ev</span></tt>)</tt>;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <pre><a name="XFileEntry"></a> <b>XFileEntry</b> (int fileAttrs)</pre>
+    <dl>
+      <dd><p>Constructor; Creates an entry field completing the input to a file name</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>fileAttrs</code>: Attributes the files must contain; as understood by the DirectorySearch-class<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="XFileEntry2"></a> <b>XFileEntry</b> (guint max, int fileAttrs)</pre>
+    <dl>
+      <dd><p>Constructor; Creates an entry field with a maximal size completing the input to a file name</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>max</code>: Maximal length of the entry field<dd>
+          <dd><code>fileAttrs</code>: Attributes the files must contain; as understood by the DirectorySearch-class<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="XFileEntry3"></a> <b>XFileEntry</b> (GtkEntry* castitem, int fileAttrs)</pre>
+    <dl>
+      <dd><p>Constructor; Creates an entry field with a maximal size completing the input to a file name</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>castitem</code>: GTk+ widget to use<dd>
+          <dd><code>fileAttrs</code>: Attributes the files must contain; as understood by the DirectorySearch-class<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~XFileEntry"></a> <b>~XFileEntry</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="key_press_event_impl"></a>gint <b>key_press_event_impl</b> (GdkEventKey* ev)</pre>
+    <dl>
+      <dd><p>Handling of pressed key; Tries to complete the input to the first file
+        matching the input.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ev</code>: Event, containing input-information<dd>
+      </dl><dd>
+    </dl>
+  </body>
+</html>
