@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.14 2005/02/19 05:30:55 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.15 2005/03/08 04:48:57 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -70,11 +70,10 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
 
    if (htmlCtrl) {
       resize (640, 400);
-      GtkWidget* ctrl (gtkhtmlGetWidget (htmlCtrl));
-      gtk_widget_show (ctrl);
+      gtk_widget_show (htmlCtrl);
       get_vbox ()->pack_start (*scrl);
 
-      scrl->add (*Glib::wrap (ctrl, false));
+      scrl->add (*Glib::wrap (htmlCtrl, false));
       scrl->set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
       display (file);
@@ -93,9 +92,7 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
 //----------------------------------------------------------------------------
 HTMLViewer::~HTMLViewer () {
    TRACE9 ("HTMLViewer::~HTMLViewer ()");
-   GtkWidget* ctrl (gtkhtmlGetWidget (htmlCtrl)); Check3 (ctrl);
-   gtk_widget_destroy (ctrl);
-   gtkhtmlFree (htmlCtrl);
+   gtk_widget_destroy (htmlCtrl);
 }
 
 

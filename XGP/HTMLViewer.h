@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.6 2004/01/14 19:19:19 markus Rel $
+//$Id: HTMLViewer.h,v 1.7 2005/03/08 04:48:57 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ class HTMLViewer : public XDialog {
     HTMLViewer (const HTMLViewer&);
     const HTMLViewer& operator= (const HTMLViewer&);
 
-    void*                htmlCtrl;
+    GtkWidget*           htmlCtrl;
     Gtk::ScrolledWindow* scrl;
 };
 
