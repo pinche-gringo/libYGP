@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.12 2003/07/10 21:24:58 markus Exp $
+//$Id: AssParse.cpp,v 1.13 2003/07/16 06:58:35 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -67,15 +67,14 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
    }
 
    posValue = actPos + len;
-   unsigned int pos (posValue);
-   char ch (_string[pos]);
+   unsigned int pos (posValue + 1);
+   char ch (_string[posValue]);
    if (ch == QUOTE) {
       do {
-         pos = _string.find (QUOTE, pos + 1);
-
-         if (pos == std::string::npos) {
-            key = _("Invalid value for attribute: '%1'");
-            key.replace (key.find ("%1"), 2, _string.substr (actPos + 1));
+         TRACE9 ("AssignmentParse::getNextNode () - Analyzing " << _string.substr (pos));
+         if ((pos = _string.find (QUOTE, pos)) == std::string::npos) {
+            key = _("Invalid value for an attribute: '%1'");
+            key.replace (key.find ("%1"), 2, _string.substr (posValue));
             throw key;
          }
 
@@ -83,21 +82,19 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
             break;
 
          // Remove all escape-characters before quotes
-         _string.replace (pos++ - 1, 1, 0, '\0');
+         _string.replace (pos - 1, 1, 0, '\0');
       } while (true);
       ++pos;
 
       if ((pos < _string.length ()) && (_string[pos] != SEPARATOR)) {
-         key = _("Quoted value not followed by separator: '%1'");
+         key = _("Quoted value is not followed by a separator: '%1'");
          key.replace (key.find ("%1"), 2, _string.substr (pos - 10, 20));
          throw key;
       }
    }
-   else {
-      pos = _string.find (SEPARATOR, pos);
-      if (pos == std::string::npos)
+   else
+      if ((pos = _string.find (SEPARATOR, pos)) == std::string::npos)
          pos = _string.length ();
-   }
 
    len = pos - actPos + 1;
 
@@ -127,10 +124,8 @@ std::string AssignmentParse::getActValue () const {
    TRACE9 ("AssignmentParse::getActValue () const - Pos = " << posValue);
    Check1 (posValue != std::string::npos);
 
-   bool quoted (_string[posValue] == QUOTE);
    std::string ret;
-
-   if (quoted)
+   if (_string[posValue] == QUOTE)
       ret = _string.substr (posValue + 1, len - 3 - posValue + actPos);
    else
       ret = _string.substr (posValue, len - posValue + actPos - 1);
