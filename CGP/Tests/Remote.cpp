@@ -1,11 +1,11 @@
-// $Id: Remote.cpp,v 1.1 2002/07/12 00:08:51 markus Exp $
+// $Id: Remote.cpp,v 1.2 2002/07/15 21:00:18 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Remote
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -34,7 +34,6 @@
 
 #include <Internal.h>
 
-#define TRACELEVEL 1
 #include <Trace_.h>
 
 #include <CIDirSrch.h>
@@ -61,20 +60,30 @@ int main (int argc, char* argv[]) {
       char id[1024];
       int bytes = read (aiPipe[0], id, sizeof (id) - 1);
       id[bytes] = '\0';
-      TRACE1 ("Remote (client): ID of created object: '" << id << '\'');
+      TRACE2 ("Remote (client): ID of created object: '" << id << '\'');
       close (aiPipe[0]);
 
       CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
 
-      CDirectorySearch_var srchClt (CDirectorySearch::_narrow (orb->string_to_object (id)));
+      CORBA::Object_var cltObj (orb->string_to_object (id));
+      assert (cltObj);
+      CDirectorySearch_var srchClt (CDirectorySearch::_narrow (cltObj));
       assert (srchClt);
       srchClt->setSearchValue ("Rem*");
 
-      CFile_ptr file = (srchClt->find (CDirectorySearch::FILE_NORMAL));
+      unsigned int files (0);
+      CFile_var file = (srchClt->find (CDirectorySearch::FILE_NORMAL));
       while (file) {
-         TRACE ("Found: " << file->path () << file->name ());
+         CORBA::String_var id = orb->object_to_string (file);
+         TRACE2 ("Remote (client): ID of found file: " << id);
+
+         TRACE1 ("Found: " << file->path () << file->name ());
+         ++files;
          file = srchClt->next ();
       }
+
+      srchClt->exit ();
+      return files != 3;
       }
       break;
 
@@ -85,18 +94,22 @@ int main (int argc, char* argv[]) {
    default: {
       close (aiPipe[0]);
 
-      CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
+      CORBA::ORB_var orb (CORBA::ORB_init (argc, argv, "mico-local-orb" ));
+      CORBA::BOA_var boa (orb->BOA_init (argc, argv, "mico-local-boa" ));
 
       CIDirectorySearch* srchSrv = new CIDirectorySearch (); assert (srchSrv);
+      boa->impl_is_ready (CORBA::ImplementationDef::_nil ());
+
       CORBA::String_var id = orb->object_to_string (srchSrv);
 
-      TRACE1 ("Remote (parent): ID of created object: '" << id << '\'');
+      TRACE2 ("Remote (parent): ID of created object: '" << id << '\'');
 
       FILE* stream = fdopen (aiPipe[1], "w");
       fputs (id, stream);
       fclose (stream);
 
       orb->run ();
+      CORBA::release (srchSrv);
       }
    } // end-switch
 
