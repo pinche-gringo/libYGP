@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.7 2003/11/17 15:08:24 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.8 2004/01/05 07:41:30 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -32,6 +32,8 @@
 #include <gtkmm/scrolledwindow.h>
 
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 
@@ -94,6 +96,8 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
 //----------------------------------------------------------------------------
 HTMLViewer::~HTMLViewer () {
    TRACE9 ("HTMLViewer::~HTMLViewer ()");
+   GtkWidget* ctrl (gtkhtmlGetWidget (htmlCtrl)); Check3 (ctrl);
+   gtk_widget_destroy (ctrl);
    gtkhtmlFree (htmlCtrl);
 }
 
