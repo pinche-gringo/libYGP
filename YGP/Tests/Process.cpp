@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.6 2005/04/01 06:33:47 markus Exp $
+// $Id: Process.cpp,v 1.7 2005/04/05 04:10:55 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -102,7 +102,7 @@ int main (int argc, char* argv[]) {
 	 check ((r = read (pipes[0], buffer + 1, sizeof (buffer) - 1)) == 1);
       check (buffer[1] == 'K');
 
-      YGP::Process::waitForProcess (pid);
+      check (YGP::Process::waitForProcess (pid) == 3);
       close (pipes[0]);
       close (pipes[1]);
 
@@ -118,7 +118,7 @@ int main (int argc, char* argv[]) {
       check (read (pipes[2], buffer + 3, sizeof (buffer) - 3) == 1);
       check (buffer[3] == 'K');
 
-      YGP::Process::waitForProcess (pid);
+      check (YGP::Process::waitForProcess (pid) == 3);
       close (pipes[0]);
       close (pipes[1]);
    }
