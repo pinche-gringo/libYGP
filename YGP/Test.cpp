@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.47 2001/04/02 21:05:39 markus Exp $
+// $Id: Test.cpp,v 1.48 2001/04/09 15:08:07 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.47 $
+//REVISION    : $Revision: 1.48 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -450,11 +450,11 @@ int Application::perform (int argc, const char* argv[]) {
    cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
    dirEntry file;
-   check (!ds.find ("T*", file, DirectorySearch::FILE_NORMAL
-                                  | DirectorySearch::FILE_READONLY));
+   check (!ds.find ("T*", file, IDirectorySearch::FILE_NORMAL
+                                  | IDirectorySearch::FILE_READONLY));
    check (!ds.find ());
 
-   check (!ds.find (".*", file, DirectorySearch::FILE_DIRECTORY
+   check (!ds.find (".*", file, IDirectorySearch::FILE_DIRECTORY
                                   | DirectorySearch::FILE_HIDDEN));
    check (!ds.find ());
    check (!ds.find ());
@@ -462,21 +462,21 @@ int Application::perform (int argc, const char* argv[]) {
    check (ds.find ());
 
    check (!ds.find (".", file, DirectorySearch::FILE_DIRECTORY
-                               | DirectorySearch::FILE_HIDDEN));
+                               | IDirectorySearch::FILE_HIDDEN));
    std::string temp ("..");
    temp += dirEntry::DIRSEPERATOR;
    temp += "Common";
    temp += dirEntry::DIRSEPERATOR;
-   check (!ds.find (temp.c_str (), file, DirectorySearch::FILE_DIRECTORY));
+   check (!ds.find (temp.c_str (), file, IDirectorySearch::FILE_DIRECTORY));
    temp = "..";
    temp += dirEntry::DIRSEPERATOR;
    temp += "X-windows";
-   check (!ds.find (temp.c_str (), file, DirectorySearch::FILE_DIRECTORY));
+   check (!ds.find (temp.c_str (), file, IDirectorySearch::FILE_DIRECTORY));
    check (ds.find ());
 
    check (!dirSearchRecursive (NULL));
 
-   check (ds.find ("CVS", file, DirectorySearch::FILE_NORMAL));
+   check (ds.find ("CVS", file, IDirectorySearch::FILE_NORMAL));
 
    cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX
@@ -514,6 +514,7 @@ int Application::perform (int argc, const char* argv[]) {
    cout << "Testing SmartPtr & Handle...\n";
    definePtr (test);
    Ptest pTest (new test ("SmartPtr"));
+   pTest->n = "222";
    defineHndl (test);
    Htest hHandle;
    check (!hHandle.isDefined ());
