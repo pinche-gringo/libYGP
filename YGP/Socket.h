@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.12 2004/09/06 00:29:11 markus Rel $
+//$Id: Socket.h,v 1.13 2004/10/14 04:02:16 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,14 +22,12 @@
 
 
 // Headers for communication
-#if SYSTEM == UNIX
+#if HAVE_SYS_SOCKET_H
 #  include <sys/socket.h>
+#elif HAVE_WINSOCK2_H
+#  include "winsock2.h"
 #else
-#  if SYSTEM == WINDOWS
-#     include "winsock2.h"
-#  else
-#     error Not yet implemented!
-#  endif
+#  error You need a socket implementation!
 #endif
 
 #include <string>

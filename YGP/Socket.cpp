@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.25 2004/09/06 00:29:11 markus Rel $
+//$Id: Socket.cpp,v 1.26 2004/10/14 04:02:16 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -36,23 +36,21 @@
 #include "YGP/Internal.h"
 
 
-#if SYSTEM == UNIX
+#if HAVE_SYS_SOCKET_H
 #  include <sys/select.h>
 #  include <netinet/in.h>
 #  include <netdb.h>
 
 #  include <unistd.h>
-#else
-#  if SYSTEM == WINDOWS
-      // Define the macros/functions to access the socket-functions of Windows
-      // (of course they are different - as if they didn't steal the whole
-      // thing from BSD)
-#     define close			closesocket
-      inline int write (int socket, const char* buffer, int length) {
-         return send (socket, buffer, length, 0); }
-      inline int read (int socket, char* buffer, int length) {
-         return recv (socket, buffer, length, 0); }
-#  endif
+#elif HAVE_WINSOCK2_H
+   // Define the macros/functions to access the socket-functions of Windows
+   // (of course they are different - probably just to show that they didn't
+   // steal the whole thing from BSD)
+#  define close	      closesocket
+   inline int write (int socket, const char* buffer, int length) {
+      return send (socket, buffer, length, 0); }
+   inline int read (int socket, char* buffer, int length) {
+      return recv (socket, buffer, length, 0); }
 #endif
 
 
