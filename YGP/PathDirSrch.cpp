@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.10 2001/01/19 14:38:48 Markus Exp $
+//$Id: PathDirSrch.cpp,v 1.11 2001/04/02 21:04:16 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -134,8 +134,8 @@ bool PathDirectorySearch::makePath (std::string& path, const std::string& file) 
    wordfree (&result);
 #endif
 
-   if (path[path.length () - 1] != DirectorySearch::getSplitChar ())
-      path += DirectorySearch::getSplitChar ();
+   if (path[path.length () - 1] != dirEntry::DIRSEPERATOR)
+      path += dirEntry::DIRSEPERATOR;
    path += file;
    return true;
 }
