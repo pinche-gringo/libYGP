@@ -1,6 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-# SUBDIRS = intl Common X-windows CORBA po
 SUBDIRS = intl @SUBDIRS@ po
 DIST_SUBDIRS = intl Common CORBA X-windows po
 
