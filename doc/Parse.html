@@ -1,0 +1,218 @@
+<!-- $Id: Parse.html,v 1.1 2000/03/30 22:56:59 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: Parser</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">General parser-information</h1>
+    <p>Classes to parse objects and sequences of objects from a stream. If an
+      object is found it is possible to start an action for this event.</p>
+
+    <p>The classes of the parser exists in 3 variants:</p>
+    <ul>
+      <li>The first variant reports matching objects with a virtual
+	function called <i>found</i>. These classes have the prefix
+	<i>Parse</i>.</li>
+      <li>The second calls a C-style function if an object was found and has
+	therefore a function-pointer as parameter of the constructor(s). These
+	classes	have a prefix of <i>CBParse</i>.</li>
+      <li>The third calls a C++-style function if an object was found and has
+	therefore an object and a pointer to a memberfunction as parameter of
+	he constructor(s). These classes starts with <i>OMParse</i>.</li>
+    </ul>
+
+    <p>Every of this functions must return the following values (which  specifies
+      how the parsing should be continued):</p>
+    <ul>
+      <li><b>0</b>: Parsing (actually callback) OK</li>
+      <li><b>&gt; 0</b>: Error while parsing; parsing can be continued (in
+	sequences, ...)</li>
+      <li><b>&lt; 0</b>: Error while parsing; abort parsing (unrecoverable
+	error)</li>
+    </ul>
+
+    <p>If possible use the error-values (PARSE_OK, PARSE_ERROR, PARSE_CB_ERROR,
+      PARSE_CB_ABORT) in the error-enum of <a href="Parse.html#ParseObject">
+	ParseObject</a>.</p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseObject">Class ParseObject</a></h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Abstract base-class for parsing objects. It contains methods of general
+      purpose.</p>
+
+    <p><b>Note</b>: The passed const char*-parameters are only stored and not
+      copied, so ensure that they are valid during the lifetime of each
+      parse-object!</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseObject1">ParseObject</a></td>
+	<td>(const char* description, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseObject2">ParseObject</a></td>
+	<td>(const <a href="Parse.html#ParseObject">ParseObject</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseObject">~ParseObject</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseObject">ParseObject</a>&amp;</td>
+	<td><a href="Parse.html#POoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseObject">ParseObject</a>&amp; other)</td></tr>
+      
+      <tr valign="top"><td>static void</td>
+	<td><a href="Parse.html#POsetParseErrorStream">setParseErrorStream</a></td>
+	<td>(ostream& err)</td></tr>
+
+      <tr valign="top"><td>const char*</td>
+	<td><a href="Parse.html#POgetDescription">getDescription</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POsetDescription">setDescription</a></td>
+	<td>(const char* desc)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POsetSkipWS">setSkipWS</a></td>
+	<td>(bool skipWhitespace)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POskipWS">skipWS</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream)</td></tr>
+      <tr valign="top"><td>int</td>
+	<td><a href="Parse.html#POparse">parse</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream)</td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POdoParse">doParse</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
+	  bool optional) = 0</td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="ParseObject1"><i>ParseObject (const char* description, bool
+	  skipWhitespace = true)</i> - Constructor</a></p>
+    <p><a name="ParseObject2"><i>ParseObject (const ParseObject& other)</i>
+	- Copy-constructor</a></p>
+
+    <p><a name="~ParseObject"><i>virtual ~ParseObject ()</i> - Destructor</a></p>
+
+    <p><a name="POoperator="><i>ParseObject&amp; operator= (const ParseObject&amp; other)</i>
+	- Assignmentoperator</a></p>
+
+    <p><a name="POsetParseErrorStream"><i>static void setParseErrorStream
+	  (ostream&amp; err)</i> - Sets the error-stream for the output.
+	<b>Note</b>: This setting changes the output (of the parser) for the
+	whole process!</a></p>
+
+    <h4>Accessing values</h4>
+    <p><a name="POgetDescription"><i>const char* getDescription () const</i> -
+	Retrieves the pointer to the description specified to this object.</a></p>
+    <p><a name="POsetDescription"><i>void setDescription (const char* desc)</i>
+	- Changes the description of the object.</a></p>
+    <p><a name="POsetSkipWS"><i>void setSkipWS (bool skipWhitespace)</i> -
+	Sets the flag if whitespaces should be skipped after sucessfully
+	parsing data matching this object. Pass <i>true</i> if this should
+	happen and <i>false</i> if not.</a></p>
+
+    <h4>Parsing</h4>
+    <p><a name="POskipWS"><i>void skipWS (<a href="XStream.html#Xistream">Xistream</a>&amp;
+      stream) const</i> - Skips all whitespace (blank, tabulator, carriage
+      return and line feed) characters from the current position in the passed
+      stream.</a></p>
+
+    <p><a name="POparse"><i>int parse (<a href="XStream.html#Xistream">Xistream</a>&amp;
+      stream)</i> - Tries to parse data matching the information stored with
+      this parse-object from the passed stream. If this parsing is successful
+      (the parsed data matches) this function returns <i>PARSE_OK</i>; else
+      a non-zero value. Errors larger than 0 are <i>soft errors</i> and the
+      parsing can be continued, errors less than 0 are <i>hard errors</i> and
+      the parsing is stopped.</a></p>
+    <p><a name="POdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
+      stream)</i> - Pure virtual method defining the interface for the actual
+      parse-method for the different parse-objects; to be implemented by the
+      derived classes. If this parsing is successful (the parsed data matches)
+      this function must returns <i>PARSE_OK</i>; else a non-zero value. Errors
+      larger than 0 are <i>soft errors</i> and the parsing can be continued,
+      errors less than 0 are <i>hard errors</i> and the parsing is stopped. If
+      possible used the predefined error-codes <i>PARSE_ERROR</i>, 
+      <i>PARSE_CB_ERROR</i> and <i>PARSE_CB_ABORT.</i></a></p>
+
+    <p><a name="POfound"><i>virtual int found (const char* pFoundValue)</i> -
+	Callback to notify caller that an object has found itself during
+	parsing. This callback can return report its status with the return
+	codes <i>PARSE_OK</i> or 0 for OK, <i>PARSE_CB_ERROR</i> or any other
+	number larger than 0 for <i>soft errors</i> and <i>PARSE_CB_ABORT</i>
+	or any number below 0 for <i>hard errors</i>.</a></p>
+
+    <h4>Status-handling</h4>
+    <p><a name="POcheckIntegrity"><i>virtual int checkIntegrity () const</i> -
+	Checks if this object is in a valid state.</a></p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseEOF">Class ParseEOF</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseObject">ParseObject</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse the end of a file (EOF).</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseEOF1">ParseEOF</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseEOF">~ParseEOF</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POEOFdoParse">doParse</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
+	  bool optional) = 0</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="ParseEOF1"><i>ParseEOF ()</i> - Defaultconstructor</a></p>
+    <p><a name="~ParseEOF"><i>virtual ~ParseEOF ()</i> - Destructor</a></p>
+
+    <h4>Parsing</h4>
+    <p><a name="POEOFdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
+      stream)</i> - Returns <i>PARSE_OK</i>; if the end of the stream has been
+      reached; <i>PARSE_ERROR</i> if not.</i></a></p>
+  </body>
+</html>
