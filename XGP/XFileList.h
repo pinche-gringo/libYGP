@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.25 2003/12/05 19:49:22 markus Exp $
+//$Id: XFileList.h,v 1.26 2003/12/09 04:39:13 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,12 @@
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/treeview.h>
+
+#include <ygp-cfg.h>
+
+#if !defined (HAVE_GETTEXT) || !defined (ENABLE_NLS)
+#  define dgettext(pkg, text) (text)
+#endif
 
 
 // Forward declarations
@@ -178,7 +184,8 @@ class XFileList : public Gtk::TreeView {
    /// file are displayed in one column
    template <class T> void set_model (const Glib::RefPtr<XGP::XFileStore<T> >& model) {
       Gtk::TreeView::Column* pColumn = Gtk::manage (new Gtk::TreeView::Column
-                                                    (Glib::locale_to_utf8 (_("File"))));
+                                                    (Glib::locale_to_utf8
+                                                     (dgettext (LIBYGP_NAME, "File"))));
 
       pColumn->pack_start (model->getColumns ().icon, false);
       pColumn->pack_start (model->getColumns ().name);

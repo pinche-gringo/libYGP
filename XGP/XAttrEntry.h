@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.14 2003/11/14 20:28:08 markus Rel $
+//$Id: XAttrEntry.h,v 1.15 2003/12/09 04:39:13 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <YGP/Internal.h>
+#include <ygp-cfg.h>
+
+#if !defined (HAVE_GETTEXT) || !defined (ENABLE_NLS)
+#  define dgettext(pkg, text) (text)
+#endif
 
 #include <cstdio>
 #include <stdexcept>
@@ -84,7 +88,7 @@ template <class T, class P = Gtk::Entry> class XAttributeEntry : public P {
       catch (std::invalid_argument& e) {
          inError = true;
          Gtk::MessageDialog msg (e.what (), Gtk::MESSAGE_ERROR);
-         msg.set_title (Glib::locale_to_utf8 (_("Invalid value!")));
+         msg.set_title (Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, "Invalid value!")));
          msg.run ();
          Glib::signal_timeout ().connect (slot (*this, &XAttributeEntry::takeFocus), 10);
          return true;
