@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.20 2001/08/08 01:41:44 markus Exp $
+//$Id: DirSrch.h,v 1.21 2001/08/28 20:18:20 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,8 +86,6 @@ class DirectorySearch : public IDirectorySearch {
    //@Section prohibited manager functions
    DirectorySearch (const DirectorySearch&);
    DirectorySearch& operator= (const DirectorySearch&);
-
-   void convertAttributes (unsigned long attributes);
 
 #if SYSTEM == UNIX
    DIR* pDir;

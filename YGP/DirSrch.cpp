@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.29 2001/08/21 23:49:27 markus Exp $
+//$Id: DirSrch.cpp,v 1.30 2001/08/28 20:18:20 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -40,29 +40,6 @@
 #include "Trace_.h"
 #include "DirSrch.h"
 #include "FileRExp.h"
-
-
-#if SYSTEM == UNIX
-static const int FILE_NORMAL_    = (S_IFREG   | S_IFLNK | S_ISUID | S_ISGID
-                                    | S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
-static const int FILE_READONLY_  = (S_IFREG   | S_IFLNK | S_ISUID | S_ISGID
-                                    | S_ISVTX | S_IRUSR | S_IRGRP | S_IROTH
-                                    | S_IXUSR | S_IXGRP | S_IXOTH);
-static const int FILE_DIRECTORY_ = (S_IFDIR | S_ISUID | S_ISGID | S_ISVTX
-                                    | S_IRWXU | S_IRWXG | S_IRWXO);
-static const int FILE_HIDDEN_    = (1 << (sizeof (long) * 8 - 1));
-
-#elif SYSTEM == WINDOWS
-static const int FILE_NORMAL_    = ~FILE_ATTRIBUTE_DIRECTORY;
-static const int FILE_READONLY_  = FILE_ATTRIBUTE_READONLY;
-static const int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY,
-static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN;
-#else
-#  error Not implemented yet!
-#endif
-
-#define ADDATTRIB(result, sample, flag) if (sample & IDirectorySearch::flag)\
-                                           result |= flag##_;
 
 
 /*--------------------------------------------------------------------------*/
@@ -112,7 +89,7 @@ DirectorySearch::~DirectorySearch () {
 int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    cleanup ();
    pEntry = &result; assert (pEntry);
-   convertAttributes (attribs);
+   attr = convertToSysAttribs (attribs);
    pEntry->path_ = searchDir;
 
    assert (!checkIntegrity ());
@@ -301,18 +278,4 @@ bool DirectorySearch::isValid (const std::string& dir) const {
 /*--------------------------------------------------------------------------*/
 bool DirectorySearch::isValid () const {
    return isValid (searchDir);
-}
-
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the searchDir is really a direcory
-//Parameters: dir: Directory whose validity should be checked
-//Returns   : bool: True if the directory exists
-/*--------------------------------------------------------------------------*/
-void DirectorySearch::convertAttributes (unsigned long attributes) {
-   attr = 0;
-   ADDATTRIB (attr, attributes, FILE_NORMAL);
-   ADDATTRIB (attr, attributes, FILE_READONLY);
-   ADDATTRIB (attr, attributes, FILE_DIRECTORY);
-   ADDATTRIB (attr, attributes, FILE_HIDDEN);
 }
