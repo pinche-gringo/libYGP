@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.22 2002/10/10 05:46:52 markus Exp $
+//$Id: ADate.cpp,v 1.23 2002/11/04 00:47:00 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -337,21 +337,20 @@ long ADate::compare (const ADate& other) {
    assert (!checkIntegrity ()); assert (!other.checkIntegrity ());
 
    // Both sides are defined -> return (approximated) difference
-   if (isDefined () && other.isDefined ()) {
-     TRACE5 ("ADate::compare -> " << ((year - other.year) * 365
-                                      + ((month - other.month) * 31)
-                                      + day - other.day));
+   if (isDefined ()) {
+      if (other.isDefined ()) {
+         TRACE5 ("ADate::compare -> " << ((year - other.year) * 365
+                                          + ((month - other.month) * 31)
+                                          + day - other.day));
 
-      return ((year - other.year) * 365 + ((month - other.month) * 31)
-              + day - other.day);
+         return ((year - other.year) * 365 + ((month - other.month) * 31)
+                 + day - other.day);
+      }
+      else
+         return 1;                    // this defined, other not: Return bigger
    }
-
-   if (isDefined ())                             // this defined: Return bigger
-      return 1;
-   else if (other.isDefined ())                // other defined: Return smaller
-      return -1;
    else
-      return 0;                               // Both not defined: Return equal
+      return other.isDefined () ? -1 : 0;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -437,26 +436,19 @@ bool ADate::minAdapt () {
    
    TRACE9 ("ADate::minAdapt (month adapted (1)): " << toString ());
 
-   while ((day < 1) || (day > maxDayOf ())) {       // Adapt date if underflow
-      --month;
-      if (month < 1) {
-         month = 12;
-         --year;
-         TRACE9 ("ADate::minAdapt (month adapted (2)): " << toString ());
-      }
-
-      if (((unsigned char)day - 1) & 0x80)
-         day += maxDayOf ();
-      else {
-         day -= maxDayOf ();
-         month++;
-         if (month > 12) {
-            month = 1;
-            year++;
+   if ((signed char)day > maxDayOf ())
+      day = maxDayOf ();
+   else
+      while (((signed char)day) < 1) {               // Adapt date if underflow
+         --month;
+         if (month < 1) {
+            month = 12;
+            --year;
+            TRACE9 ("ADate::minAdapt (month adapted (2)): " << toString ());
          }
-      }
-      TRACE9 ("ADate::minAdapt (day adapted (1)): " << toString ());
-   } // endif day invalid
+         day += maxDayOf ();
+         TRACE9 ("ADate::minAdapt (day adapted (1)): " << toString ());
+      } // endif day invalid
 
    return !ADate::checkIntegrity ();      // Can only ensure proper ADate-part
 }
