@@ -1,20 +1,20 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on VCGeneral.dsp
 !IF "$(CFG)" == ""
-CFG=VCGeneral - Win32 Debug
+CFG=Debug
 !MESSAGE Keine Konfiguration angegeben. VCGeneral - Win32 Debug wird als Standard verwendet.
 !ENDIF
 
-!IF "$(CFG)" != "VCGeneral - Win32 Release" && "$(CFG)" != "VCGeneral - Win32 Debug"
+!IF "$(CFG)" != "Release" && "$(CFG)" != "Debug"
 !MESSAGE UngÅltige Konfiguration "$(CFG)" angegeben.
 !MESSAGE Sie kînnen beim AusfÅhren von NMAKE eine Konfiguration angeben
 !MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE
-!MESSAGE NMAKE /f "VCGeneral.mak" CFG="VCGeneral - Win32 Debug"
+!MESSAGE NMAKE /f "VCGeneral.mak" CFG="Debug"
 !MESSAGE
 !MESSAGE FÅr die Konfiguration stehen zur Auswahl:
 !MESSAGE
-!MESSAGE "VCGeneral - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "VCGeneral - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE
 !ERROR Eine ungÅltige Konfiguration wurde angegeben.
 !ENDIF
@@ -25,7 +25,7 @@ NULL=
 NULL=nul
 !ENDIF
 
-!IF  "$(CFG)" == "VCGeneral - Win32 Release"
+!IF  "$(CFG)" == "Release"
 
 OUTDIR=.\Release
 INTDIR=.\Release
@@ -154,7 +154,7 @@ LINK32_OBJS= \
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
-!ELSEIF  "$(CFG)" == "VCGeneral - Win32 Debug"
+!ELSEIF  "$(CFG)" == "Debug"
 
 OUTDIR=.\Debug
 INTDIR=.\Debug
@@ -298,7 +298,7 @@ LINK32_OBJS= \
 !ENDIF
 
 
-!IF "$(CFG)" == "VCGeneral - Win32 Release" || "$(CFG)" == "VCGeneral - Win32 Debug"
+!IF "$(CFG)" == "Release" || "$(CFG)" == "Debug"
 SOURCE=..\Common\AByteArray.cpp
 
 "$(INTDIR)\AByteArray.obj" : $(SOURCE) "$(INTDIR)"
@@ -477,4 +477,4 @@ SOURCE=..\Common\XStrBuf.cpp
 !ENDIF
 
 check: ALL
-        nmake /f VCTest.mak
+        nmake /f VCTests.mak check
