@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.10 2002/05/01 00:40:57 markus Exp $
+//$Id: ygp-cfg.h.in,v 1.11 2002/05/09 08:10:33 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -142,6 +142,9 @@
 /* Define if you have the `gmp' library (-lgmp). */
 #undef HAVE_LIBGMP
 
+/* Define if you have the `pthread' library (-lpthread). */
+#undef HAVE_LIBPTHREAD
+
 /* Define if you have the `stdc++' library (-lstdc++). */
 #undef HAVE_LIBSTDC__
 
@@ -171,9 +174,6 @@
 
 /* Define if you have the <nl_types.h> header file. */
 #undef HAVE_NL_TYPES_H
-
-/* Define if you have the <pthread.h> header file. */
-#undef HAVE_PTHREAD_H
 
 /* Define if you have the `putenv' function. */
 #undef HAVE_PUTENV
