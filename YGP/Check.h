@@ -1,7 +1,7 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-//$Id: Check.h,v 1.2 2002/07/08 03:29:52 markus Rel $
+//$Id: Check.h,v 1.3 2002/11/18 04:37:32 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 
 
 #undef Check
-#undef Check
 #undef Check1
 #undef Check2
 #undef Check3
@@ -29,6 +28,7 @@
 #undef Check7
 #undef Check8
 #undef Check9
+
 
 // CHECK undefined means no checks at all
 #if !defined CHECK || defined (NDEBUG)
