@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.5 2002/05/24 06:59:13 markus Exp $
+// $Id: DirSrch.cpp,v 1.6 2002/10/10 05:53:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,19 +24,26 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <iostream.h>
+#include <gzo-cfg.h>
+
+#include <iostream>
 
 #include <File.h>
 #include <DirSrch.h>
 
 #define VERBOSE
 #undef  VERBOSE
-#include <Internal.h>
 #include "Test.h"
+
+#if SYSTEM == UNIX
+#  define PATH
+#else
+#  define PATH "..\\Common\\Tests\\"
+#endif
 
 
 int dirSearchRecursive (const char* pFile) {
-   DirectorySearch ds (pFile ? "T*" : "D*");
+   DirectorySearch ds (pFile ? PATH "T*" : PATH "D*");
 
    if (!ds.find (DirectorySearch::FILE_NORMAL))
       return 1;
@@ -45,41 +52,33 @@ int dirSearchRecursive (const char* pFile) {
 }
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing DirectorySearch...\n";
+   std::cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
-   check (ds.find ("T*", IDirectorySearch::FILE_NORMAL
-                         | IDirectorySearch::FILE_READONLY));
+   check (ds.find (PATH "T*", IDirectorySearch::FILE_NORMAL
+                              | IDirectorySearch::FILE_READONLY));
    check (ds.next ());
 
-   check (ds.find (".*", IDirectorySearch::FILE_DIRECTORY
-                         | DirectorySearch::FILE_HIDDEN));
+   check (ds.find (PATH ".*", IDirectorySearch::FILE_DIRECTORY
+                              | DirectorySearch::FILE_HIDDEN));
+   check (ds.next ());
+#if SYSTEM == UNIX
    check (ds.next ());
    check (ds.next ());
-   check (ds.next ());
+#endif
    check (!ds.next ());
 
    check (ds.find (".", DirectorySearch::FILE_DIRECTORY
                         | IDirectorySearch::FILE_HIDDEN));
-   std::string temp ("..");
+   std::string temp (PATH "..");
    temp += File::DIRSEPARATOR;
    temp += "Tests";
    check (ds.find (temp.c_str (), IDirectorySearch::FILE_DIRECTORY));
    check (!ds.next ());
 
    check (!dirSearchRecursive (NULL));
-
-   check (!ds.find ("CVS", IDirectorySearch::FILE_NORMAL));
-
-   check (ds.find (std::string (1, File::DIRSEPARATOR),
-                   IDirectorySearch::FILE_DIRECTORY));
-
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.7 2002/08/21 20:21:28 markus Exp $
+// $Id: CRegExp.cpp,v 1.8 2002/10/10 05:53:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -24,15 +24,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <gzo-cfg.h>
+
 #include <assert.h>
+
+#include <iostream>
 
 #include "Test.h"
 #include <Trace_.h>
 
+#include <ANumeric.h>
 #include <Parse.h>
 #include <CRegExp.h>
 #include <XStream.h>
-#include <ANumeric.h>
 
 
 unsigned int cErrors (0);
@@ -90,7 +94,7 @@ int main (int argc, char* argv[]) {
       if (argc > 1) { // If a parameter is passed, treat it as regexp to check
          regexp = argv[1];
 
-         const char* pMatch ((argc > 2) ? argv[2] : "");
+         const char* pMatch = ((argc > 2) ? argv[2] : "");
          int result ((argc > 3) ? (*argv[3] - '0') : 1);
          PRINT (argv[1] << " matches " << pMatch << " == " << result << '\n');
          int rc (regexp.matches (pMatch));
@@ -106,7 +110,7 @@ int main (int argc, char* argv[]) {
 
    Xifstream frexexp;
    try {
-      frexexp.open (TESTFILE, ios::in | ios::nocreate);
+      frexexp.open (TESTFILE, ios::in);
       check (frexexp);
       if (frexexp) {
          frexexp.init ();

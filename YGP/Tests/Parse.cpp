@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: Parse.cpp,v 1.3 2002/10/10 05:53:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <gzo-cfg.h>
 
 #include <assert.h>
 #include <locale.h>
@@ -35,6 +36,11 @@
 #include <Internal.h>
 #include "Test.h"
 
+#if SYSTEM == UNIX
+#  define PATH
+#else
+#  define PATH "..\\Common\\Tests\\"
+#endif
 
 class Application : public IVIOApplication {
  public:
@@ -84,11 +90,11 @@ bool Application::handleOption (const char option) {
    return true;
 }
 void Application::showHelp () const {
-   cout << "Usage: " << name () << " [--help]\n\n";
+   std::cout << "Usage: " << name () << " [--help]\n\n";
 }
 
 int Application::perform (int argc, const char* argv[]) {
-   cout << "Testing Parser...\n";
+   std::cout << "Testing Parser...\n";
    CBParseAttomic nr ("\\9", "Number", foundNumber, 4, 2);
    OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this,
                                       &Application::foundAlpha, 4, 2);
@@ -102,7 +108,7 @@ int Application::perform (int argc, const char* argv[]) {
    ParseTextEsc text2 ("34", "TextEsc", 10, 1, '2');
 
    Xifstream xstr;
-   xstr.open ("Parsertest.dat", ios::in | ios::nocreate);
+   xstr.open (PATH "Parsertest.dat", ios::in);
    check (xstr);
    if (xstr) {
       xstr.init ();
@@ -118,13 +124,13 @@ int Application::perform (int argc, const char* argv[]) {
          check (xstr.getColumn () == 8);
       } // end-try
       catch (std::string e) {
-         cerr << "Error parsing Parsertest.dat in line " << xstr.getLine () << " ("
-              << xstr.getColumn () << "): " << e.c_str () << '\n';
+         std::cerr << "Error parsing Parsertest.dat in line " << xstr.getLine () << " ("
+                   << xstr.getColumn () << "): " << e.c_str () << '\n';
       } // end-catch
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }
 

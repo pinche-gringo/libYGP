@@ -1,11 +1,11 @@
-// $Id: PathDirSrch.cpp,v 1.3 2002/04/27 19:05:32 markus Rel $
+// $Id: PathDirSrch.cpp,v 1.4 2002/10/10 05:53:33 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <iostream.h>
+#include <iostream>
 
 #include <PathDirSrch.h>
 
@@ -33,17 +33,13 @@
 
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing PathDirectorySearch...\n";
+   std::cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX
    PathDirectorySearch pds (".:../../X-windows", "Makefile.*");
 #else
-   PathDirectorySearch pds (".;..\\..\\X-windows", "Makefile.*");
+   PathDirectorySearch pds ("..\\Common;..\\X-windows", "Makefile.*");
 #endif
    check (pds.find (DirectorySearch::FILE_NORMAL
                     | DirectorySearch::FILE_READONLY));
@@ -53,6 +49,6 @@ int main (int argc, char* argv[]) {
    check (!pds.next ());
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

@@ -1,11 +1,11 @@
-// $Id: XStream.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: XStream.cpp,v 1.3 2002/10/10 05:53:33 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStream
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -26,25 +26,27 @@
 
 #include <ctype.h>
 
-#include <iostream.h>
+#include <iostream>
 
 #include <XStream.h>
 
-#include <Internal.h>
 #include "Test.h"
 
+using namespace std;
+
+#if SYSTEM == UNIX
+#  define PATH ""
+#else
+#  define PATH "..\\Common\\Tests\\"
+#endif
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing XStream...\n";
+   std::cout << "Testing XStream...\n";
    
    Xifstream xin;
-   xin.open ("Parsertest.dat", ios::in | ios::nocreate);
+   xin.open (PATH "Parsertest.dat", ios::in);
    check (xin);
    if (xin) {
       char c;
@@ -58,6 +60,6 @@ int main (int argc, char* argv[]) {
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

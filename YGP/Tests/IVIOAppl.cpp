@@ -1,11 +1,11 @@
-// $Id: IVIOAppl.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: IVIOAppl.cpp,v 1.3 2002/10/10 05:53:33 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/IVIOAppl
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -28,16 +28,14 @@
 #include <assert.h>
 #include <locale.h>
 
-#include <iostream.h>
+#include <iostream>
 
 #include <Log.h>
 #include <Trace_.h>
 #include <IVIOAppl.h>
 #include <StackTrc.h>
 
-#include <Internal.h>
 #include "Test.h"
-
 
 class Application : public IVIOApplication {
  public:
@@ -89,7 +87,7 @@ bool Application::handleOption (const char option) {
    } // endif special option
 
    if (option == 's') {
-      cout << "Testing logging and stack-trace...\n";
+      std::cout << "Testing logging and stack-trace...\n";
       Syslog log ("Test");
 
       LOGDEBUG ("Test-Stacktrace:");
@@ -99,29 +97,25 @@ bool Application::handleOption (const char option) {
    return true;
 }
 void Application::showHelp () const {
-  cout << "Usage: " << name () << " [<OPTION>] <ARGUMENT>\n\n"
-          "  ARGUMENT ......... Argument (not starting with minus (-)\n"
-          "  -a, --arg-opt .... Option with optional argument\n"
-          "  -A, --arg-mand ... Option with mandatory argument\n\n"
-          "The number of options and arguments are displayed\n";
+  std::cout << "Usage: " << name () << " [<OPTION>] <ARGUMENT>\n\n"
+               "  ARGUMENT ......... Argument (not starting with minus (-)\n"
+               "  -a, --arg-opt .... Option with optional argument\n"
+               "  -A, --arg-mand ... Option with mandatory argument\n\n"
+               "The number of options and arguments are displayed\n";
 }
 
 int Application::perform (int argc, const char* argv[]) {
-   cout << "Testing IVIOApplication...\n";
-   cout << "    " << cOptions << " options and " << argc
-        << " arguments passed\n";
+   std::cout << "Testing IVIOApplication...\n";
+   std::cout << "    " << cOptions << " options and " << argc
+             << " arguments passed\n";
    check (!argv[argc]);
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    setlocale (LC_ALL, "");                         // Activate current locale
 
    Application appl (argc, const_cast<const char**> (argv));
