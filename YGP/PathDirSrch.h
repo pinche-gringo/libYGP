@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.9 2001/10/02 23:03:52 markus Exp $
+//$Id: PathDirSrch.h,v 1.10 2002/05/09 06:58:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,6 @@ class PathDirectorySearch : public DirectorySearch {
    virtual ~PathDirectorySearch ();
 
    void setPath (const std::string& path) { searchPath = path; }
-   static void checkPath (const std::string& path) throw (std::string);
 
    //@Section searching
    const File* find (const std::string& path, const std::string& search,
@@ -74,7 +73,6 @@ class PathDirectorySearch : public DirectorySearch {
    enum { NO_PATH = DirectorySearch::LAST, LAST };
 
  private:
-
    bool makePath (std::string& path, const std::string& file);
 
    std::string srch;
