@@ -1,14 +1,14 @@
-//$Id: File.cpp,v 1.20 2003/06/19 03:16:47 markus Exp $
+//$Id: File.cpp,v 1.21 2003/06/19 03:27:21 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,9 +26,9 @@
 
 #include <gzo-cfg.h>
 
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+#include <cstdio>
+#include <cerrno>
+#include <cstring>
 
 #if SYSTEM == UNIX
 #  include <unistd.h>
