@@ -1,10 +1,11 @@
                    SPECIAL NOTES FOR VERY SPECIAL WINDOWS
                    ======================================
 
-This package can be compiled in 2 ways for Windows:
+This package can be compiled in 3 ways for Windows:
 
   - Using the Cygwin package
   - Using Visual C++ (tested with VC++ 6.0)
+  - Using Borland C++ (tested with BCC 5.0)
 
 
 The first way is the traditional UNIX-way; with running ./configure followed
@@ -21,7 +22,7 @@ project (or nmake /f VCGeneral.mak [check] in the Windows directory (both
 after setting the environment for VC). If you add a "CFG=Release" to either
 command a release version (without internal checks and the like) is created.
 
-In both cases you must copy the created DLL into a directory in your path and
+In every case you must copy the created DLL into a directory in your path and
 the created import library into a fitting directory (searched by the linker).
 Also add the Common and Windows subdirectory to your INCLUDE-path (or - even
 better - copy all of the headers into a fitting place). If you have installed
