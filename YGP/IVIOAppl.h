@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.18 2002/11/04 00:54:13 markus Rel $
+//$Id: IVIOAppl.h,v 1.19 2002/12/09 00:12:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,13 +18,17 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Class to handle the startup of a program
+// Class to handle the startup of a program, which includes reading the data
+// stored in an INI file and (afterwards) the parsing of the parameters
+// before the actual run of the program. Furthermore in case of a
+// segmentation fault a stacktrace is dumped to the systemlog (or to stdout).
 //
-// The main purpose/advantage of this class is its parameter-handling.
 // Parameters starting with a minus (-) or (only in Windoze) with a slash
 // (/) are treated as options and reported via the handleOption-method. Every
-// option can also represented in a verbose way starting with two
-// minus-characters (--).
+// option can also be represented in a verbose way starting with two
+// minus-characters (--). What follows is only a short description; more
+// information can be found in the getopt man page (which
+// unfortunately can't be found on a Windows system, but such is life).
 //
 // The parameters are parsed from left to right. Each parameter is
 // classified as a short option, a long option (both reported via the
@@ -48,14 +52,18 @@
 // line). Long options may be abbreviated, as long as the abbreviation
 // is not ambiguous.
 //
-// Note: If long options are supported, they are checked in reverse
-//       order (last first).
-//
 // Every parameter which is not an option or an argument to an option
 // or after a '--'-parameter is a non-option parameter and are passed
 // to the perform-method. Options are inspected before that method is called!
 //
 // Note: The options "-h" and "-?" causes the call of the showHelp-method!
+//
+// Programmers information:
+//
+// Unlike in the UNIX getopt-function, optional paramters need not to be
+// marked in a special way. Instead use the checkOptionValue-method
+// to retrieve the value of the possible argument, analyze it (like for having
+// no leading minus (-)) and retrieve it with the getOptionValue-method if OK.
 
 
 #define IVIOAPPL_HELP_OPTION    "help", 'h'
