@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.17 2002/12/25 04:32:29 markus Exp $
+//$Id: XFileList.cpp,v 1.18 2002/12/25 05:33:23 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -172,7 +172,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 gint XFileList::append (const File* file, const SArray& text) {
    rows ().push_back (text);
    if (file)
-      setIcon (rows ().size () - 1, file);
+      setIcon (rows ().size () - 1, *file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -183,7 +183,7 @@ gint XFileList::append (const File* file, const SArray& text) {
 gint XFileList::prepend (const File* file, const SArray& text) {
    rows ().push_front (text);
    if (file)
-      setIcon (0, file);
+      setIcon (0, *file);
 }
 
 /*--------------------------------------------------------------------------*/
