@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.14 2005/01/12 22:13:03 markus Rel $
+//$Id: Process.cpp,v 1.15 2005/03/17 20:36:41 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -96,17 +96,18 @@ namespace YGP {
 ///     the filedescriptor the child should read its data from; io[1] will be
 ///     filled with the filedescriptor for the output
 /// \pre \c file is a valid ASCIIZ-string
+/// \returns pid_t: PID of created process
 /// \remarks The called file must follow some convention:
 ///    - Return 0 if OK and !0 if an error occured
 ///    - In case of an error the output should contain a describing message
 //-----------------------------------------------------------------------------
-void Process::start (const char* file, const char* const arguments[],
-		     bool wait, int io[2])
+pid_t Process::start (const char* file, const char* const arguments[],
+		      bool wait, int io[2])
    throw (std::string)
 {
    errno = 0;
    std::string err;
-   pid_t pid;
+   pid_t pid (0);
    int pipes[2];
 
 #if defined HAVE_SPAWNVP && HAVE_WINDOWS_H
@@ -188,7 +189,7 @@ void Process::start (const char* file, const char* const arguments[],
       break;
 
    default: {
-      TRACE9 ("Process::start (const char*, const char*) - Fork OK");
+      TRACE9 ("Process::start (const char*, const char*) - Fork OK - " << pid);
       if (io)
 	 dup2 (pipes[0], io[0]);
       close (pipes[1]);
@@ -225,6 +226,8 @@ void Process::start (const char* file, const char* const arguments[],
       err.replace (err.find ("%1"), 2, cmd);
       throw err;
    }
+
+   return pid;
  }
 
 //-----------------------------------------------------------------------------
@@ -248,5 +251,23 @@ std::string Process::readChildOutput (int file) {
    TRACE8 ("Process::readChildOutput (const char*, const char*) - Prg-error: " << err);
    return err;
 }
+
+//-----------------------------------------------------------------------------
+/// Wait til process has terminated
+/// \param pid: Proess to wait for
+/// \returns int: Returncode of the program
+//-----------------------------------------------------------------------------
+int Process::waitForProcess (pid_t pid) {
+#if defined HAVE_SPAWNVP && HAVE_WINDOWS_H
+   unsigned long rc (-1);
+   GetExitCodeProcess ((HANDLE)pid, &rc);
+   return (int)rc;
+#elif defined HAVE_FORK
+   int rc (-1);
+   waitpid (pid, (int*)&rc, WNOHANG);
+   return rc;
+#endif
+}
+
 
 }

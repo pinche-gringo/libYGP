@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.10 2005/01/12 22:13:03 markus Rel $
+//$Id: Process.h,v 1.11 2005/03/17 20:36:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,13 +56,14 @@ class Process {
    /// helpful output) is thrown.
    /// \param file: Name of file to execute
    /// \param arguments: Array with arguments for the file (as understood by execv)
+   /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static void execAsync (const char* file, const char* const arguments[])
+   static pid_t execAsync (const char* file, const char* const arguments[])
       throw (std::string) {
-      start (file, arguments, false); }
+      return start (file, arguments, false); }
 
    /// Executes a program. The execution of the calling process is
    /// suspended, til the new program has terminated. If either the
@@ -85,15 +86,16 @@ class Process {
    /// output) is thrown.
    /// \param file: Name of file to execute
    /// \param arguments: Array with arguments for the file (as understood by execv)
-   /// \param pipes: Pipes for communication; 
+   /// \param pipes: Pipes for communication;
+   /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static void execIOConnected (const char* file, const char* const arguments[],
-				int pipes[2])
+   static pid_t execIOConnected (const char* file, const char* const arguments[],
+				 int pipes[2])
       throw (std::string) {
-      start (file, arguments, false, pipes); }
+      return start (file, arguments, false, pipes); }
 
    /// Returns the process ID of the actual process
    /// \return pid_t: Process ID of running process
@@ -105,6 +107,8 @@ class Process {
 #endif
    }
 
+   static int waitForProcess (pid_t pid);
+
  protected:
    /// Executes a program, either in the back- or foreground. If either the file
    /// can not be found or produces an error while executing/initializing (in the
@@ -113,12 +117,13 @@ class Process {
    /// \param file: Name of file to execute
    /// \param arguments: Array with arguments for the file (as understood by execv)
    /// \param wait: Flag, if to wait til the program terminates
+   /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static void start (const char* file, const char* const arguments[],
-		      bool wait, int pipes[2] = NULL)
+   static pid_t start (const char* file, const char* const arguments[],
+		       bool wait, int pipes[2] = NULL)
       throw (std::string);
 
  private:
