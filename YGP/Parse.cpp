@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.21 2000/06/02 22:42:35 Markus Exp $
+//$Id: Parse.cpp,v 1.22 2000/06/06 22:22:45 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -626,11 +626,10 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
       ppAct = ppList; assert (ppAct); assert (*ppAct);
 
       while (*ppAct) {                          // While list contains objects
-         if ((rc = (**ppAct).doParse (stream,  // Parse (putback first always)
-                                      ppAct == ppList ? true : optional)) != 0)
+         if ((rc = (**ppAct).doParse (stream,    // Parse (putback only first)
+                                      ppAct == ppList ? optional : false)) != 0)
             break;
 
-         optional = false;
          ++ppAct;
       } // end-while list-entries
 
@@ -744,12 +743,11 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
             break;
          } // endif
 
-	 optional = false;
          ++ppAct;
       } // end-while list-entries
 
       if (!*ppAct) {                                     // Does no entry fit?
-         if (i >= minCard)
+         if (i > minCard)
             rc = PARSE_OK;
          break;
       }
