@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.2 1999/07/31 03:30:09 Markus Exp $
+//$Id: PathSrch.h,v 1.3 1999/07/31 18:05:02 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -30,7 +30,6 @@ class PathSearch : public Tokenize {
    //@Section access to sub-nodes
    std::string getNextNode () { return Tokenize::getNextNode (SPLIT_CHAR); }
 
- private:
    static const char SPLIT_CHAR;
 };
 
