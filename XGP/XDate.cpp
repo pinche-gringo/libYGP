@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.18 2003/07/20 02:20:00 markus Rel $
+//$Id: XDate.cpp,v 1.19 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -33,13 +33,13 @@
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
-#include <Check.h>
-#include <Trace_.h>
-#include <Internal.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/Internal.h>
 
-#include "ATStamp.h"
+#include <YGP/ATStamp.h>
 
-#include "XDate.h"
+#include <XGP/XDate.h>
 
 
 //-----------------------------------------------------------------------------

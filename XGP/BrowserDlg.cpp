@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.11 2003/10/19 00:03:22 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.12 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -28,10 +28,10 @@
 #include <gtkmm/box.h>
 #include <gtkmm/radiobutton.h>
 
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include "BrowserDlg.h"
+#include "XGP/BrowserDlg.h"
 
 
 const char* BrowserDlg::browserNames[BROWSERS] = {

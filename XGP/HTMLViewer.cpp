@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.4 2003/10/28 07:29:52 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.5 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,18 +25,18 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
 #ifdef HAVE_GTKHTML
 
 #include <gtkmm/scrolledwindow.h>
 
 
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include "GTKViewer.h"
-#include "HTMLViewer.h"
+#include "XGP/GTKViewer.h"
+#include "XGP/HTMLViewer.h"
 
 
 //----------------------------------------------------------------------------

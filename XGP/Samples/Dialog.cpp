@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.5 2003/07/05 05:12:40 markus Rel $
+//$Id: Dialog.cpp,v 1.6 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -28,11 +28,11 @@
 #include <gtkmm/label.h>
 #include <gtkmm/table.h>
 
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/ANumeric.h>
 
-#include <ANumeric.h>
-#include <XFileEntry.h>
+#include <XGP/XFileEntry.h>
 
 #include "Dialog.h"
 

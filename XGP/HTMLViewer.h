@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.3 2003/10/19 04:54:04 markus Rel $
+//$Id: HTMLViewer.h,v 1.4 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ namespace Gtk {
     class ScrolledWindow;
 }
 
-#include <XDialog.h>
+#include <XGP/XDialog.h>
 
 
 /**Helper class to display a HTML document in a dialog.

@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.5 2003/09/05 02:36:17 markus Rel $
+//$Id: ConnectDlg.h,v 1.6 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <XDialog.h>
+#include <XGP/XDialog.h>
 
 namespace std {
    class domain_error;

@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.13 2003/10/19 00:03:22 markus Rel $
+//$Id: XDate.h,v 1.14 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <XDialog.h>
+#include <YGP/SmartPtr.h>
 
-#include <SmartPtr.h>
+#include <XGP/XDialog.h>
 
 
 // Forward declarations

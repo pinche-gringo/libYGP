@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.4 2003/10/19 00:00:56 markus Rel $
+//$Id: Dialog.h,v 1.5 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,10 +20,10 @@
 
 #include <string>
 
-#include <XDialog.h>
+#include <XGP/XAttrLabel.h>
+#include <XGP/XAttrEntry.h>
 
-#include <XAttrLabel.h>
-#include <XAttrEntry.h>
+#include <XGP/XDialog.h>
 
 namespace Gtk {
    class HBox;

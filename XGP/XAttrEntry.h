@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.12 2003/07/25 00:25:18 markus Rel $
+//$Id: XAttrEntry.h,v 1.13 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
 #include <cstdio>
 #include <stdexcept>

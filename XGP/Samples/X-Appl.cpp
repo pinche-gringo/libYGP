@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.14 2003/07/25 00:20:42 markus Rel $
+//$Id: X-Appl.cpp,v 1.15 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -26,8 +26,8 @@
 
 #include <gzo-cfg.h>
 
-#include <errno.h>
-#include <stdlib.h>
+#include <cerrno>
+#include <cstdlib>
 
 #include <fstream>
 #include <iomanip>
@@ -35,18 +35,17 @@
 #include <gtkmm/liststore.h>
 #include <gtkmm/messagedialog.h>
 
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/File.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/ConnMgr.h>
+#include <YGP/ANumeric.h>
 
-#include <File.h>
-#include <ConnMgr.h>
-#include <ANumeric.h>
-
-#include <XDate.h>
-#include <XAbout.h>
-#include <XFileDlg.h>
-#include <XPrintDlg.h>
-#include <ConnectDlg.h>
+#include <XGP/XDate.h>
+#include <XGP/XAbout.h>
+#include <XGP/XFileDlg.h>
+#include <XGP/XPrintDlg.h>
+#include <XGP/ConnectDlg.h>
 
 #include "Dialog.h"
 #include "X-Appl.h"

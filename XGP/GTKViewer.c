@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.5 2003/11/03 04:44:45 markus Rel $
+//$Id: GTKViewer.c,v 1.6 2003/11/14 00:23:56 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
 #ifdef HAVE_GTKHTML
 

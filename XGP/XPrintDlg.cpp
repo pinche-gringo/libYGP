@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.17 2003/10/19 00:03:22 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.18 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -30,17 +30,17 @@
 #include <string>
 #include <fstream>
 
-#include "Trace_.h"
-#include "Check.h"
-
 #include <gtkmm/box.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/label.h>
 #include <gtkmm/button.h>
 #include <gtkmm/messagedialog.h>
 
-#include "Internal.h"
-#include "XPrintDlg.h"
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/Internal.h>
+
+#include "XGP/XPrintDlg.h"
 
 
 //-----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.23 2003/10/19 04:55:19 markus Rel $
+//$Id: XApplication.h,v 1.24 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <gtkmm/menu.h>
 #include <gtkmm/window.h>
 
-#include "SmartPtr.h"
+#include <YGP/SmartPtr.h>
 
 
 // Forward declarations

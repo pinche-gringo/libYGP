@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.8 2003/10/19 04:54:29 markus Rel $
+// $Id: Version.cpp,v 1.9 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
 /**\mainpage Overview of the XGP library
 

@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.21 2003/10/19 00:03:22 markus Rel $
+//$Id: XAbout.cpp,v 1.22 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -32,11 +32,11 @@
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
 
-#include "Trace_.h"
-#include "Check.h"
-#include "Internal.h"
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/Internal.h>
 
-#include "XAbout.h"
+#include "XGP/XAbout.h"
 
 
 //-----------------------------------------------------------------------------

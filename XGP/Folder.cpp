@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.4 2003/11/12 23:38:21 markus Exp $
+//$Id: Folder.cpp,v 1.5 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,10 +25,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include "Folder.h"
+#include "XGP/Folder.h"
 
 
 //-----------------------------------------------------------------------------

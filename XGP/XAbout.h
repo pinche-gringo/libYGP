@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.15 2003/10/28 07:31:01 markus Rel $
+//$Id: XAbout.h,v 1.16 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 
 #include <string>
 
-#include <SmartPtr.h>
+#include <YGP/SmartPtr.h>
 
-#include "XDialog.h"
+#include <XGP/XDialog.h>
 
 
 // Forward declarations

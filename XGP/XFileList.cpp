@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.31 2003/07/25 00:24:52 markus Rel $
+//$Id: XFileList.cpp,v 1.32 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Internal.h"
+#include <YGP/Internal.h>
 
 #include <string.h>
 
@@ -36,15 +36,15 @@
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
-#include <File.h>
-#include <Check.h>
-#include <Trace_.h>
-#include <Process_.h>
-#include <PathDirSrch.h>
+#include <YGP/File.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/Process_.h>
+#include <YGP/PathDirSrch.h>
 
-#include "XFileDlg.h"
+#include "XGP/XFileDlg.h"
 
-#include "XFileList.h"
+#include "XGP/XFileList.h"
 
 
 static const char* iconDirectory[] = {

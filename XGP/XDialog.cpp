@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.12 2003/10/19 00:13:21 markus Rel $
+//$Id: XDialog.cpp,v 1.13 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
@@ -34,10 +34,10 @@
 #include <gtkmm/button.h>
 #include <gtkmm/accelgroup.h>
 
-#include <Check.h>
-#include <Trace_.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include "XDialog.h"
+#include "XGP/XDialog.h"
 
 
 

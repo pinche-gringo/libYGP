@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.7 2003/10/19 00:03:22 markus Rel $
+//$Id: BrowserDlg.h,v 1.8 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 
 #include <string>
 
-#include <XAttrEntry.h>
+#include <XGP/XAttrEntry.h>
 
-#include <XDialog.h>
+#include <XGP/XDialog.h>
 
 #ifdef HAVE_GTKHTML
 #  define BROWSERS 5

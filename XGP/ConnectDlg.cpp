@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.6 2003/09/05 02:39:49 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.7 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
 #include <sstream>
 
@@ -34,13 +34,13 @@
 #include <gtkmm/table.h>
 #include <gtkmm/messagedialog.h>
 
-#include <Check.h>
-#include <Trace_.h>
-#include <Socket.h>
-#include <Thread.h>
-#include <ConnMgr.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/Socket.h>
+#include <YGP/Thread.h>
+#include <YGP/ConnMgr.h>
 
-#include "ConnectDlg.h"
+#include "XGP/ConnectDlg.h"
 
 
 //-----------------------------------------------------------------------------

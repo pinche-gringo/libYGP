@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.8 2003/07/25 00:20:42 markus Rel $
+//$Id: X-Appl.h,v 1.9 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,11 +24,11 @@
 #include <gtkmm/statusbar.h>
 #include <gtkmm/scrolledwindow.h>
 
-#include <ATStamp.h>
-#include <ANumeric.h>
+#include <YGP/ATStamp.h>
+#include <YGP/ANumeric.h>
 
-#include <XFileList.h>
-#include <XApplication.h>
+#include <XGP/XFileList.h>
+#include <XGP/XApplication.h>
 
 
 // Class with the graphical interface to PDir

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.32 2003/10/28 07:32:39 markus Rel $
+//$Id: XApplication.cpp,v 1.33 2003/11/14 00:23:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -41,19 +41,19 @@
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/radiomenuitem.h>
 
-#include <Internal.h>
+#include <YGP/Internal.h>
 
-#include <Check.h>
-#include <Trace_.h>
-#include <Process_.h>
-#include <StackTrc.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/Process_.h>
+#include <YGP/StackTrc.h>
 
-#include <Tokenize.h>
+#include <YGP/Tokenize.h>
 
-#include "HTMLViewer.h"
-#include "BrowserDlg.h"
+#include "XGP/HTMLViewer.h"
+#include "XGP/BrowserDlg.h"
 
-#include "XApplication.h"
+#include "XGP/XApplication.h"
 
 using namespace Gtk::Menu_Helpers;
 

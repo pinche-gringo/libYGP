@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.10 2003/07/20 04:33:40 markus Rel $
+//$Id: XFileEntry.h,v 1.11 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <gtkmm/entry.h>
 
-#include "DirSrch.h"
+#include <YGP/DirSrch.h>
 
 
 /**Enhances the ordinary entry field with completing the input to the first

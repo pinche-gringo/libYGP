@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.16 2003/10/19 00:03:22 markus Rel $
+//$Id: XPrintDlg.h,v 1.17 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 
 #include <iosfwd>
 
-#include <XDialog.h>
+#include <YGP/SmartPtr.h>
 
-#include "SmartPtr.h"
+#include <XGP/XDialog.h>
 
 namespace Gtk {
    class HBox;

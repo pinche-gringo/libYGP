@@ -1,7 +1,7 @@
 #ifndef XATTRIBUTE_H
 #define XATTRIBUTE_H
 
-//$Id: XAttribute.h,v 1.1 2003/07/08 18:05:42 markus Rel $
+//$Id: XAttribute.h,v 1.2 2003/11/14 00:23:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <glibmm/ustring.h>
 
-#include <Attribute.h>
+#include <YGP/Attribute.h>
 
 // Specialization of Attribute<T> for Glib::ustring
 template <> inline bool Attribute<Glib::ustring>::assignFromString (const char* value) const {
