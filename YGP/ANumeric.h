@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.9 2000/02/19 15:43:06 Markus Exp $
+//$Id: ANumeric.h,v 1.10 2000/03/21 23:29:38 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,6 +46,13 @@ class ANumeric : public AttributValue {
      value = other.value;
 #endif
 }
+   ANumeric (const int val) : AttributValue () {
+#ifdef HAVE_LIBGMP
+      mpz_init_set_si (value, (long)val);
+#else
+      value = (long)val;
+#endif
+      AttributValue::define (); }
    ANumeric (const long val) : AttributValue () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, val);
@@ -53,9 +60,12 @@ class ANumeric : public AttributValue {
       value = val;
 #endif
       AttributValue::define (); }
+   ANumeric (const char* pValue) : AttributValue () { operator= (pValue); }
+   ANumeric (const std::string& value) : AttributValue () { operator= (value.c_str ()); }
    virtual ~ANumeric ();
 
    ANumeric& operator= (const ANumeric& other);
+   ANumeric& operator= (int val) { operator= ((long)val); }
    ANumeric& operator= (long val) { AttributValue::define (); 
 #ifdef HAVE_LIBGMP
       mpz_set_si (value, val);
@@ -64,16 +74,18 @@ class ANumeric : public AttributValue {
 #endif
       return *this;
    }
+   ANumeric& operator= (const char* pValue);
+   ANumeric& operator= (const std::string& value) { operator= (value.c_str ()); }
 
    virtual void define ();
    virtual std::string toString () const;
    virtual void readFromStream (istream& in);
 
    // Calculation
-   ANumeric& operator += (const ANumeric& lhs);
-   ANumeric& operator -= (const ANumeric& lhs);
-   ANumeric& operator *= (const ANumeric& lhs);
-   ANumeric& operator /= (const ANumeric& lhs);
+   ANumeric& operator += (const ANumeric& rhs);
+   ANumeric& operator -= (const ANumeric& rhs);
+   ANumeric& operator *= (const ANumeric& rhs);
+   ANumeric& operator /= (const ANumeric& rhs);
 
    friend ANumeric operator+ (const ANumeric& lhs, const ANumeric& rhs);
    friend ANumeric operator- (const ANumeric& lhs, const ANumeric& rhs);

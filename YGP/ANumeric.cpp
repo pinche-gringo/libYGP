@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.8 2000/02/19 15:42:38 Markus Exp $
+//$Id: ANumeric.cpp,v 1.9 2000/03/21 23:29:38 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -64,6 +64,29 @@ ANumeric::~ANumeric () {
 #ifdef HAVE_LIBGMP
    mpz_clear (value);
 #endif
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor
+//Parameters: pValue: Pointer to ASCIIZ-string containing numeric value
+//Requires  : pValue valid ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+ANumeric& ANumeric::operator= (const char* pValue) {
+   assert (pValue);
+
+#ifdef HAVE_LIBGMP
+   if (mpz_init_set_str (value, pValue, 10))
+#else
+   const char* pTail = NULL;
+   value = strtol (pValue, &pTail, 10);
+   if (errno || !(pTail && *pTail))
+#endif
+      undefine ();
+   else
+      AttributValue::define ();
+
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
