@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.14 2001/01/11 20:18:46 Markus Exp $
+//$Id: ADate.cpp,v 1.15 2001/01/19 14:39:26 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,10 +26,12 @@
 
 #include <locale.h>
 
-#if defined UNIX || defined __GNUG__
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX
 #  include <strstream.h>
 #else
-#  ifdef WINDOWS
+#  if SYSTEM == WINDOWS
 #     define WIN32_LEAN_AND_MEAN
 #     include <windows.h>
 #  endif
@@ -236,9 +238,9 @@ ADate& ADate::operator-= (const ADate& rhs) {
 //            year: Year to add
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
-ADate& ADate::add (char Day, char Month, int Year) {
-   TRACE7 ("ADate::add: " << toString () << " + " << (char)(Day + '0') << '.'
-	   << (char)(Month + '0') << '.' << Year);
+ADate& ADate::add (signed char Day, signed char Month, int Year) {
+   TRACE7 ("ADate::add: " << toString () << " + " << (int)Day << '.'
+	   << (int)Month << '.' << Year);
    assert (!checkIntegrity ());
 
    if (isDefined ()) {
@@ -246,11 +248,13 @@ ADate& ADate::add (char Day, char Month, int Year) {
       Month %= 12;
       month += Month;
       year += Year;
+      maxAdapt ();
 
-      char maxDay;
+      signed char maxDay;
       while (maxDay = maxDayOf (), Day > maxDay) {
          Day -= maxDay;
          ++month;
+	 maxAdapt ();
       } // end-while passed days bigger than one month
       day += Day;
       maxAdapt ();
@@ -267,9 +271,9 @@ ADate& ADate::add (char Day, char Month, int Year) {
 //            year: Year to substract
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
-ADate& ADate::sub (char Day, char Month, int Year) {
-   TRACE7 ("ADate::sub: " << toString () << " - " << (char)(Day + '0') << '.'
-	   << (char)(Month + '0') << '.' << Year);
+ADate& ADate::sub (signed char Day, signed char Month, int Year) {
+   TRACE7 ("ADate::sub: " << toString () << " - " << (int)Day << '.'
+	   << (int)Month << '.' << Year);
 
    assert (!checkIntegrity ());
 
@@ -278,14 +282,19 @@ ADate& ADate::sub (char Day, char Month, int Year) {
       Month %= 12;
       month -= Month;
       year -= Year;
+      minAdapt ();
 
-      char maxDay;
-      while (maxDay = maxDayOf (month - 1, year), Day > maxDay) {
+      signed char maxDay;
+      while (maxDay = maxDayOf (month > 1 ? month - 1 : 12, year),
+	     Day > maxDay) {
          Day -= maxDay;
          --month;
+	 minAdapt ();
       } // end-while passed days bigger than one month
-      day -= Day;
-      minAdapt ();
+      if (Day) {
+	 day -= Day;
+	 minAdapt ();
+      }
 
       assert (!checkIntegrity ());
    }
@@ -390,33 +399,20 @@ bool ADate::isLeapYear (int year) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Corrects the date if a month is not valid
-/*--------------------------------------------------------------------------*/
-void ADate::adaptMonth () {
-   if ((month < 1) || (month > 12)) {              // Adapt month if underflow
-      int mon (month - 1);
-      if (mon > 0) {
-         year += ((int)mon / 12);
-         month = (mon % 12) + 1;
-      }
-      else {
-         mon += 12;
-         year -= ((int)mon / 12) + 1;
-         month = (mon % 12) + 1;
-      }
-   } // endif invalid month
-}
-
-/*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible underflow
 //Returns   : bool: Flag, if object is integer
 /*--------------------------------------------------------------------------*/
 bool ADate::minAdapt () {
    TRACE7 ("ADate::minAdapt: " << toString ());
-   adaptMonth ();
+   if (((unsigned char)(month - 1)) > 11) {
+      int mon (255 - (unsigned char)(month - 1));
+      year -= (mon / 12) + 1;
+      month = 12 - (mon % 12);
+   }
+   
    TRACE9 ("ADate::minAdapt (month dapted (1)): " << toString ());
 
-   if ((day < 1) || (day > maxDayOf ())) {          // Adapt date if underflow
+   while ((day < 1) || (day > maxDayOf ())) {       // Adapt date if underflow
       --month;
       if (month < 1) {
          month = 12;
@@ -424,7 +420,16 @@ bool ADate::minAdapt () {
          TRACE9 ("ADate::minAdapt (month adapted (2)): " << toString ());
       }
 
-      day += maxDayOf ();
+      if (((unsigned char)day - 1) & 0x80)
+         day += maxDayOf ();
+      else {
+         day -= maxDayOf ();
+         month++;
+         if (month > 12) {
+            month = 1;
+            year++;
+         }
+      }
       TRACE9 ("ADate::minAdapt (day adapted (1)): " << toString ());
    } // endif day invalid
 
@@ -437,11 +442,15 @@ bool ADate::minAdapt () {
 /*--------------------------------------------------------------------------*/
 bool ADate::maxAdapt () {
    TRACE7 ("ADate::maxAdapt: " << toString ());
-   adaptMonth ();
+   if (((unsigned char)(month - 1)) > 11) {
+      year += month / 12;
+      month = month % 12;
+   }
+
    TRACE9 ("ADate::maxAdapt (month dapted (1)): " << toString ());
 
    unsigned char maxDay (maxDayOf ());               // Adapt date if overflow
-   if (day > maxDay) {
+   while (day > maxDay) {
       day -= maxDay;
       ++month;
    }
