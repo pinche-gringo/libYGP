@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.34 2003/11/14 20:27:55 markus Exp $
+//$Id: DirSrch.h,v 1.35 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #  endif
 #endif
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #include <YGP/IDirSrch.h>
 

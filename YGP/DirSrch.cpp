@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.46 2003/11/14 20:27:55 markus Exp $
+//$Id: DirSrch.cpp,v 1.47 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #if SYSTEM == UNIX
 #  include <unistd.h>

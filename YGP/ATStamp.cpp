@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.20 2003/11/14 20:27:55 markus Exp $
+//$Id: ATStamp.cpp,v 1.21 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -26,7 +26,7 @@
 
 #include <cstdio>
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #include <sstream>
 #include <stdexcept>

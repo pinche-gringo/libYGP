@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.20 2003/11/14 20:27:55 markus Exp $
+//$Id: Socket.cpp,v 1.21 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include "gzo-cfg.h"
+#include "ygp-cfg.h"
 
 #include <cerrno>
 #include <cstring>

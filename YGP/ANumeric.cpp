@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.39 2003/11/14 20:27:55 markus Exp $
+//$Id: ANumeric.cpp,v 1.40 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -29,7 +29,7 @@
 #include <clocale>
 #include <climits>
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #ifndef HAVE_LIBGMP
 #  include <cctype>

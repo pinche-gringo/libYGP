@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.17 2003/11/14 20:27:55 markus Exp $
+// $Id: RemoteFile.cpp,v 1.18 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -28,7 +28,7 @@
 #pragma warning(disable:4786) // disable warning about truncating debug info
 #endif
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #ifndef TRACELEVEL
 #  define TRACELEVEL -1

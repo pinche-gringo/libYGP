@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.8 2003/11/14 20:27:55 markus Exp $
+//$Id: Process.h,v 1.9 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 #if SYSTEM == UNIX
 #  include <unistd.h>
 #  include <sys/types.h>

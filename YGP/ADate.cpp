@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.35 2003/11/14 20:27:54 markus Exp $
+//$Id: ADate.cpp,v 1.36 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -26,7 +26,7 @@
 
 #include <cstdio>
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #if SYSTEM == WINDOWS
 #   define WIN32_LEAN_AND_MEAN

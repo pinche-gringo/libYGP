@@ -1,7 +1,7 @@
 #ifndef INTERNAL_H
 #define INTERNAL_H
 
-//$Id: Internal.h,v 1.5 2003/06/11 04:30:04 markus Rel $
+//$Id: Internal.h,v 1.6 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #undef _
 #undef N_

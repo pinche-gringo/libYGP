@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.10 2003/11/14 20:27:55 markus Exp $
+//$Id: Socket.h,v 1.11 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "gzo-cfg.h"
+#include "ygp-cfg.h"
 
 
 // Headers for communication

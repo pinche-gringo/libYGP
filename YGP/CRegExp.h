@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.32 2003/11/14 20:27:55 markus Exp $
+//$Id: CRegExp.h,v 1.33 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #endif
 
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 // Uncommment to work with own regular-expressions, even if real ones are present
 // #undef HAVE_REGEX_H
@@ -90,7 +90,7 @@ namespace YGP {
      - <b>\\w</b> matches any word-constituent character.
      - <b>\\W</b> matches any character that is not word-constituent.
 
-   - \b >[\<match\>] matches the characters specified in match.
+   - \b [\<match\>] matches the characters specified in match.
 
    - '\b [^\<match\>] or \b [!\<match\>] matches the characters not specified in match.<br>
        \<match\> ::= | \<char\>\<match\> | \<range\>\<match\> | \<character-class\>\<match\> | {}<br>

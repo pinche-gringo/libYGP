@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.18 2003/11/14 20:27:55 markus Exp $
+//$Id: RDirSrch.h,v 1.19 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 #include <stdexcept>
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 #include <YGP/Socket.h>
 #include <YGP/ATStamp.h>
 #include <YGP/AttrParse.h>

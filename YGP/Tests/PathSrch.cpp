@@ -1,11 +1,11 @@
-// $Id: PathSrch.cpp,v 1.6 2003/11/14 20:27:55 markus Exp $
+// $Id: PathSrch.cpp,v 1.7 2003/11/16 19:25:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -26,7 +26,7 @@
 
 #include <iostream>
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #include <YGP/PathSrch.h>
 #include <YGP/Internal.h>

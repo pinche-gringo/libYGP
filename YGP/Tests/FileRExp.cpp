@@ -1,11 +1,11 @@
-// $Id: FileRExp.cpp,v 1.7 2003/11/14 20:27:55 markus Exp $
+// $Id: FileRExp.cpp,v 1.8 2003/11/16 19:25:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/FileRExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #include <iostream>
 

@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.30 2003/11/14 20:27:55 markus Exp $
+// $Id: XStrBuf.cpp,v 1.31 2003/11/16 19:25:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #include <stdio.h>
 #include <malloc.h>

@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.21 2003/11/14 20:27:55 markus Exp $
+//$Id: File.h,v 1.22 2003/11/16 19:25:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 #  include <sys/time.h>
 #endif
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 #if SYSTEM == UNIX
 #  if HAVE_DIRENT_H
