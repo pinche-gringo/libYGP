@@ -1,3 +1,9 @@
+Overview of Changes in version 0.6.23:
+
+  - Fixed problem linking the tests with external libintl
+  - Testing for strftime returning the needed buffersize during configuring
+  - Test of file regular expressions don't fail when fnmatch lacks features
+  
 Overview of Changes in version 0.6.22:
 
   - Process got a getPID method
@@ -20,7 +26,7 @@ Overview of Changes in version 0.6.20:
   - AttributeList implements getValue
   - X-windows classes convert their text to UTF-8
   - Class Folder added to display objects folder-like (like nautilus, explorer)
-  - Renamed to libXMP and libYMP
+  - Renamed to libXGP and libYGP
   - Fixed AssParse (escaped quotes haven't been handled correctly)
   - Fixed compile(r) bug for tests in Common subdirectory (only MVC)
   - Actualized (X-windows) samples
