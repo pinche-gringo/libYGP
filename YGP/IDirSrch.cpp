@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.14 2004/01/15 06:26:30 markus Rel $
+//$Id: IDirSrch.cpp,v 1.15 2004/10/14 04:00:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -54,15 +54,46 @@
 #     error Autoconf reported invalid file-type macros (S_ISDIR, ...)
 #  else
 #     include <sys/stat.h>
+
+#     ifndef S_IFLNK
+#        define S_IFLNK     0
+#     endif
+#     ifndef S_ISUID
+#        define S_ISUID     0
+#     endif
+#     ifndef S_ISGID
+#        define S_ISGID     0
+#     endif
+#     ifndef S_ISVTX
+#        define S_ISVTX     0
+#     endif
+#     ifndef S_IRWXG
+#        define S_IRWXG     (((S_IREAD) | (S_IWRITE) | (S_IEXEC)) >> 3)
+#     endif
+#     ifndef S_IRWXO
+#        define S_IRWXO     (((S_IREAD) | (S_IWRITE) | (S_IEXEC)) >> 6)
+#     endif
+#     ifndef S_IRGRP
+#        define S_IRGRP     ((S_IREAD) >> 3)
+#     endif
+#     ifndef S_IROTH
+#        define S_IROTH     ((S_IREAD) >> 6)
+#     endif
+#     ifndef S_IWGRP
+#        define S_IWGRP     ((S_IWRITE) >> 3)
+#     endif
+#     ifndef S_IWOTH
+#        define S_IWOTH     ((S_IWRITE) >> 6)
+#     endif
 #  endif
 
-static const int FILE_NORMAL_    = (S_IFREG   | S_IFLNK | S_ISUID | S_ISGID
-                                    | S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
-static const int FILE_READONLY_  = (S_IFREG   | S_IFLNK | S_ISUID | S_ISGID
-                                    | S_ISVTX | S_IRUSR | S_IRGRP | S_IROTH
-                                    | S_IXUSR | S_IXGRP | S_IXOTH);
-static const int FILE_DIRECTORY_ = (S_IFDIR | S_ISUID | S_ISGID | S_ISVTX
-                                    | S_IRWXU | S_IRWXG | S_IRWXO);
+static const int FILE_NORMAL_    = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
+                                    | (S_ISVTX)|(S_IRWXU)|(S_IRWXG)|(S_IRWXO));
+static const int FILE_READONLY_  = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
+                                    | (S_ISVTX)|(S_IRUSR)|(S_IRGRP)|(S_IROTH)
+                                    | (S_IXUSR)|(S_IXGRP)|(S_IXOTH));
+static const int FILE_DIRECTORY_ = ((S_IFDIR)  |(S_ISUID)|(S_ISGID)|(S_ISVTX)
+                                    | (S_IRWXU)|(S_IRWXG)|(S_IRWXO));
 static const int FILE_HIDDEN_    = (1 << (sizeof (long) * 8 - 1));
 
 #elif SYSTEM == WINDOWS
