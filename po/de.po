@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.18 $)\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.19 $)\n"
 "POT-Creation-Date: 2003-08-11 21:30-0500\n"
-"PO-Revision-Date: 2003-08-11 22:39-0500\n"
+"PO-Revision-Date: 2003-08-11 22:44-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "'[' oder '[^' ohne schlieﬂende Klammer"
 
 #: Common/CRegExp.cpp:1034
 msgid "Unmatched ( or )"
-msgstr "'(' oder '\\(' ohne schlieﬂende Klammer"
+msgstr "'(' oder '(' ohne schlieﬂende Klammer"
 
 #: Common/CRegExp.cpp:1035
 msgid "Invalid range end"
@@ -290,7 +290,7 @@ msgstr "Lˆschen"
 
 #: X-windows/XFileList.cpp:341
 msgid "Environment variable `TERM' not defined!"
-msgstr "Die Umgebungsvariable 'TERM' ist nicht definiert!"
+msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 
 #: X-windows/XAttrEntry.h:85
 msgid "Invalid value!"
@@ -360,11 +360,11 @@ msgstr ""
 
 #: X-windows/XApplication.cpp:359
 msgid "Configure _browser ..."
-msgstr "Broswer _ausw‰hlen"
+msgstr "Broswer _ausw‰hlen ..."
 
 #: X-windows/XApplication.cpp:361
 msgid "_About..."
-msgstr "_‹ber"
+msgstr "_‹ber ..."
 
 #: X-windows/XAbout.cpp:49
 msgid "Distributed under the terms of the GNU General Public License"
