@@ -1,0 +1,15 @@
+[Global]
+Attr1=1
+Attr2=value2
+Attr3=1999
+Attr4=29022000
+
+[Special]
+Attr5=
+Attr6=28021900-113015
+
+[Local]
+Attr1=2
+Attr2=value1
+Attr3=2000
+Attr4=28021999
