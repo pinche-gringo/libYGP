@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.4 1999/08/11 17:22:23 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.5 1999/08/11 21:38:15 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -55,7 +55,7 @@ inline bool isOptionChar (const char ch) {
 IVIOApplication::IVIOApplication (int argc, char* argv[],
 				  const longOptions* pOpt = NULL)
    : args (argc), ppArgs (argv), startArg (1), pOptionParam (NULL)
-   ,  longOpt (NULL)
+   , longOpt (NULL), startOpt (1)
    , numLongOpt (0) {
    assert (args > 0);
    assert (ppArgs);
@@ -137,13 +137,21 @@ int IVIOApplication::run () {
 //Returns   : char*: Parameter for the option
 /*--------------------------------------------------------------------------*/
 char* IVIOApplication::getOptionValue () {
+   if (startOpt > startArg)
+      moveOption (startOpt);
+
    char* pHelp;
-   if (pOptionParam && *pOptionParam) {
+   if (pOptionParam && *pOptionParam)
       pHelp = pOptionParam;
-      pOptionParam = NULL;
+   else {
+      pHelp = ppArgs[++startOpt];
       ++startArg;
-   } else
-      pHelp = ppArgs[++startArg];
+      moveOption (startOpt);
+   }
+
+   ++startArg;
+   ++startOpt;
+   pOptionParam = NULL;
    return pHelp;
 }
 
@@ -160,25 +168,24 @@ char* IVIOApplication::getOptionValue () {
 //Notes     : In non-UNIX-systems slash (/) is also an option-char
 /*--------------------------------------------------------------------------*/
 char IVIOApplication::getOption () {
-   unsigned int i (startArg - 1);
    char option ('\0');
 
-   while (++i < args) {
-      assert (ppArgs[i]); assert (*ppArgs[i]);
+   while (startOpt < args) {
+      assert (ppArgs[startOpt]); assert (*ppArgs[startOpt]);
 
-      if (isOptionChar (*ppArgs[i])) {                        // Option passed
+      // Check parameters: Option start with - and are longer than 1 char
+      if (isOptionChar (*ppArgs[startOpt]) && ppArgs[startOpt][1]) {
 	 if (!pOptionParam) {
-	    pOptionParam = ppArgs[i] + 1;
-	    if (!*pOptionParam)
-	       continue;
+	    pOptionParam = ppArgs[startOpt] + 1;
+	    assert (*pOptionParam);
 	 } // endif init option-params
 
-         assert (pOptionParam);
          option = *pOptionParam++;
          if (!option) {
-            if (i != startArg)
-               moveOption (i);                 // Move option before arguments
+	    assert (startOpt >= startArg);
+            moveOption (startOpt);             // Move option before arguments
 
+	    ++startOpt;
             ++startArg;
             pOptionParam = NULL;
             continue;
@@ -201,33 +208,40 @@ char IVIOApplication::getOption () {
                } // endif no longopt found
                else {
         	  option = longOpt[i].shortVal;
-        	  getOptionValue ();
+        	  pOptionParam += strlen (pOptionParam);
                } // endif
             }
-            else                             // Option --? Means end of option
+            else {                           // Option --? Means end of option
+               moveOption (startOpt);
+	       startArg++;
                option = '\0';
+	    }
 	 } // endif longoption found
 	 break;
       } // endif option found
+      else
+	 ++startOpt;
    } // end-while arguments
 
    return option;
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Moves the option in parameter numOpt before the arguments
-//            (indicated with startArg)
+//Purpose   : Moves the option (or option-value) in parameter numOpt before
+//            the arguments (indicated with startArg)
 //Parameters: numOpt: Option (argument) to move
 /*--------------------------------------------------------------------------*/
 void IVIOApplication::moveOption (unsigned int numOpt) const {
+   if (numOpt == startArg)
+      return;
+
+cout << "Moving " << ppArgs[numOpt] << " from " << numOpt << " to " << startArg << endl;
    assert (numOpt > startArg); assert (numOpt < args);
-   assert (isOptionChar (*ppArgs[numOpt]));
 
    char* pHelp (ppArgs[numOpt]);
 
    while (numOpt > startArg) {
       assert (ppArgs[numOpt - 1]); assert (ppArgs[numOpt]);
-      assert (!isOptionChar (*ppArgs[numOpt - 1]));
 
       ppArgs[numOpt] = ppArgs[numOpt - 1];
       --numOpt;
