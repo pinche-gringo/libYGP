@@ -12,7 +12,10 @@ Version 0.6.00: - Class for logging added
 		- Using header for configuration
 		- AttrVals uses exceptions to signal errors
 		- Class to handle Entities added
-		- I8n added
+		- I18n
+		- XMessageBox is now really modal
+		- Support for Gtk-- < 1.2 removed
+		- Loads of (minor) improvements
 
 Version 0.5.21: - Fixes for Windoze-version
 		- Docu improved, fixed
