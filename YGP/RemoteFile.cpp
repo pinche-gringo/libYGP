@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.1 2001/10/08 14:30:16 markus Exp $
+// $Id: RemoteFile.cpp,v 1.2 2001/10/08 23:37:10 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -27,7 +27,7 @@
 
 #include <gzo-cfg.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "ANumeric.h"
 #include "AttrParse.h"
@@ -147,7 +147,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 
    if (isOK (text)) {
       AttributeParse attrs;
-      ATTRIBUTE (attrs, char*, buffer, "Data");
+      ATTRIBUTE (attrs, char* const, buffer, "Data");
 
       attrs.assignValues (text.data () + 5);
       return length;   //TODO
