@@ -1,0 +1,82 @@
+<!-- $Id: SmartPtr.html,v 1.1 2000/04/04 21:36:02 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: SmartPtr</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class SmartPtr&lt;T&gt;</h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: SmartPtr.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Smart-pointer-class; its referenced object is freed when the smart
+      pointer-object is released.</p>
+    <p>In counterpart to auto_ptr there is <b>no</b> ownership handling (and
+      therefor no copy-constructor nor an assignment-operator).</p>
+    <p><b>Note</b>: This class is (intented to be) simple. Consider this when
+      using it!</p>
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="SmartPtr.html#SmartPtr">SmartPtr</a></td>
+	<td>(T* pValue = NULL)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="SmartPtr.html#~SmartPtr">~SmartPtr</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="SmartPtr.html">SmartPtr</a>&amp</td>
+	<td><a href="SmartPtr.html#operator=">operator=</a></td>
+	<td>(T* pValue)</td></tr>
+
+      <tr valign="top"><td>T*</td>
+	<td><a href="SmartPtr.html#operator-g">operator-&gt;</a></td><td>() const</td></tr>
+      <tr valign="top"><td>T&amp;</td>
+	<td><a href="SmartPtr.html#operator*">operator*</a></td><td>() const</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="SmartPtr.html#operatorT*">operator T*</a></td><td>() const</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="SmartPtr">SmartPtr (T* pValue = NULL)</a></pre>
+    <dl>
+      <dd><p>Defaultconstructor; lets the SmartPtr-object point to the passed
+	value.</p>
+	<p><b>Note</b>: The parameter must be the address of an object on the
+	  heap (created with new)!</p></dd>
+    </dl>
+    <pre><a name="~SmartPtr">~SmartPtr ()</a></pre>
+
+    <pre><a name="operator=">SmartPtr&amp; operator= (T* pValue)</a></pre>
+    <dl>
+      <dd>Assignmentoperator; releases the old object pointed to and starts
+	handling the new (passed) one.</dd>
+    </dl>
+
+    <h4>Accessing the object</h4>
+    <pre><a name="operator-g">T* operator-&gt; () const</a></pre>
+    <dl>
+      <dd>Retrieves the stored pointer to the object.</dd>
+    </dl>
+
+    <pre><a name="operator*">T&amp; operator* () = 0</a></pre>
+    <dl>
+      <dd>Retrieves a reference to the stored obect.</dd>
+    </dl>
+
+    <pre><a name="operatorT*">operator T* () const</a></pre>
+    <dl>
+      <dd>Type-conversion; Retrieves the stored pointer to the object.</dd>
+    </dl>
+
+  </body>
+</html>
