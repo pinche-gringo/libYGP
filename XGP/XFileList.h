@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.17 2003/03/03 05:53:34 markus Exp $
+//$Id: XFileList.h,v 1.18 2003/03/04 05:00:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,26 +32,45 @@ namespace Gtk {
    class ListStore;
    class TreeStore;
 }
-
+class XFileList;
 
 
 // Class representing the (inimal) columns in the view
 class FileColumns : public Gtk::TreeModel::ColumnRecord {
  public:
-   Gtk::TreeModelColumn <const File*>                pFile;
    Gtk::TreeModelColumn <Glib::RefPtr<Gdk::Pixbuf> > icon;
    Gtk::TreeModelColumn <std::string>                name;
 
-   FileColumns () { add (pFile); add (icon); add (name); }
+   FileColumns () { add (icon); add (name); }
 };
 
 
-extern void XFileStore_loadIcons (const char* path, const char* files,
-                                          unsigned int namePrefix = 0);
-extern void XFileStore_loadDefaultIcons ();
-extern Gtk::TreeModel::iterator XFileStore_setIcon (Gtk::TreeModel::iterator row,
-                                                    const File& file,
-                                                    const FileColumns& columns);
+// Abstract baseclass for XFileStore
+class IFileStore {
+ public:
+   virtual ~IFileStore ();
+
+   static void loadIcons (const char* path, const char* files,
+                          unsigned int namePrefix = 0);
+
+   Gtk::TreeModel::iterator setIcon (Gtk::TreeModel::iterator row, const File& pFile);
+
+   const FileColumns& getColumns () const { return cols; }
+
+   virtual std::string getFilename (unsigned int line) = 0;
+   virtual void setFilename (unsigned int line, const std::string& file) = 0;
+
+ protected:
+   IFileStore (const FileColumns& columns);
+
+   const FileColumns& cols;
+
+ private:
+   // Prohibited manager-functions
+   IFileStore ();
+   IFileStore& operator= (const IFileStore&);
+};
+
 
 // Class for a (columned) list which holds files represented by an icon
 // and textual information.
@@ -64,13 +83,11 @@ extern Gtk::TreeModel::iterator XFileStore_setIcon (Gtk::TreeModel::iterator row
 //
 // Template, to be used with any Gtk::TreeStore
 template <class Parent>
-class XFileStore : public Parent {
+class XFileStore : public Parent, public IFileStore {
+   friend class XFileList;
+
  public:
    virtual ~XFileStore () { }
-
-   static void loadIcons (const char* path, const char* files,
-                                  unsigned int namePrefix = 0) {
-      XFileStore_loadIcons (path, files, namePrefix); }
 
    // Insert data
    Gtk::TreeModel::iterator append (const File* file) {
@@ -80,31 +97,27 @@ class XFileStore : public Parent {
    Gtk::TreeModel::iterator insert (const File* file, Gtk::TreeModel::iterator row) {
       return file ? setIcon (Parent::insert (row), *file) : Parent::insert (row); }
 
-   Gtk::TreeModel::iterator setIcon (Gtk::TreeModel::iterator row, const File& pFile) {
-      return XFileStore_setIcon (row, pFile, cols); }
-
    static Glib::RefPtr<XFileStore<Parent> >
       create (const FileColumns& columns) {
-      XFileStore_loadDefaultIcons ();
       return Glib::RefPtr<XFileStore<Parent> > (new XFileStore<Parent> (columns));
    }
 
-   const FileColumns& getColumns () const { return cols; }
-
-   virtual std::string getFilename (unsigned int line) const { }
-   virtual void setFilename (unsigned int line, const std::string& file) { }
-
+   virtual std::string getFilename (unsigned int line) {
+      return children ()[line][cols.name]; }
+   virtual void setFilename (unsigned int line, const std::string& file) {
+      children ()[line][cols.name] = file; }
 
  protected:
    XFileStore (const FileColumns& columns) : Parent (columns)
-      , cols (columns) { }
+      , IFileStore (columns) { }
 
  private:
    // Prohibited manager-functions
    XFileStore ();
    XFileStore& operator= (const XFileStore&);
 
-   const FileColumns& cols;
+   const IFileStore* getBaseAddress () const {
+      return static_cast<const IFileStore*> (this); }
 };
 
 typedef XFileStore<Gtk::ListStore> XFileListStore;
@@ -120,7 +133,7 @@ class XFileList : public Gtk::TreeView {
  public:
    XFileList () : Gtk::TreeView (), pMenuPopAction (NULL) { }
    template <class T>
-      XFileList (const Glib::RefPtr<XFileStore<T> >& model) : Gtk::TreeView (model)
+      XFileList (const Glib::RefPtr<XFileStore<T> >& model) : Gtk::TreeView ()
       , pMenuPopAction (NULL) { set_model (model); }
    virtual ~XFileList ();
 
@@ -130,7 +143,9 @@ class XFileList : public Gtk::TreeView {
       pColumn->pack_start (model->getColumns ().icon, false);
       pColumn->pack_start (model->getColumns ().name);
 
-      append_column (*pColumn); }
+      append_column (*pColumn);
+      fileModel = const_cast<IFileStore*> (model->getBaseAddress ());
+      Gtk::TreeView::set_model (model); }
 
    std::string getFilename (unsigned int line) const;
    void setFilename (unsigned int line, const std::string& file);
@@ -150,6 +165,9 @@ class XFileList : public Gtk::TreeView {
    void remove (unsigned int line);
 
    Gtk::Menu* pMenuPopAction;
+
+ private:
+   IFileStore* fileModel;
 };
 
 #endif

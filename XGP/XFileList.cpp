@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.25 2003/03/03 05:53:34 markus Exp $
+//$Id: XFileList.cpp,v 1.26 2003/03/04 05:00:55 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -36,6 +36,8 @@
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include <File.h>
 #include <Check.h>
 #include <Trace_.h>
@@ -126,20 +128,36 @@ static std::map<std::string, Glib::RefPtr<Gdk::Pixbuf> > icons;
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : Constructor; loads the default icons to display in the listbox
+//Parameters: columns: Columns of the model
+/*--------------------------------------------------------------------------*/
+IFileStore::IFileStore (const FileColumns& columns) : cols (columns) {
+#ifdef PKGDIR
+   loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
+#endif
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+IFileStore::~IFileStore () {
+}
+
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Loads (additional) icons which should be used for the list-entries
 //Parameters: path: Path where to search for the icons
 //            files: Files to use as icon-files
 //            namePrefix: Length of the prefix of the name, which should be removed before comparing with actual filename
 //Requires  : namePrefix < strlen (files)
 /*--------------------------------------------------------------------------*/
-void XFileStore_loadIcons (const char* path, const char* files,
-                                   unsigned int namePrefix) {
+void IFileStore::loadIcons (const char* path, const char* files,
+                            unsigned int namePrefix) {
    Check1 (path); Check1 (files);
    Check1 (namePrefix < strlen (files));
-   TRACE2 ("XFileList_loadIcons (const char*, const char*, unsigned int) - "
+   TRACE2 ("IFileList::loadIcons (const char*, const char*, unsigned int) - "
            << path << '/' << files);
 
-   Check3 (win.get_style ());
    static bool first (true);
    if (first) {
       first = false;
@@ -156,11 +174,11 @@ void XFileStore_loadIcons (const char* path, const char* files,
    while (file) {
       // Read icon-file and store it
       std::string filename (file->path ()); filename += file->name ();
-      TRACE5 ("XFileList_loadIcons (const char*, const char*, unsigned int) - Read icon "
+      TRACE5 ("IFileList::loadIcons (const char*, const char*, unsigned int) - Read icon "
               << filename);
 
       const char* pTypepart (file->name () + namePrefix);
-      TRACE9 ("XFileList_loadIcons (const char*, const char*, unsigned int) - Store icon "
+      TRACE9 ("IFileList::loadIcons (const char*, const char*, unsigned int) - Store icon "
               << std::string (pTypepart, strrchr (pTypepart, '.') - pTypepart));
       type.assign (pTypepart,
                    strrchr (pTypepart, '.') - pTypepart);
@@ -169,14 +187,6 @@ void XFileStore_loadIcons (const char* path, const char* files,
    } // end-while icon-files found
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Loads the default icons to display in the listbox
-/*--------------------------------------------------------------------------*/
-void XFileStore_loadDefaultIcons () {
-#ifdef PKGDIR
-   XFileStore_loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
-#endif
-}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Searches for and sets an icon for the passed file
@@ -190,13 +200,11 @@ void XFileStore_loadDefaultIcons () {
 //               - If no name-part is left use a special default-icon.
 //Parameters: row: Path where to search for the icons
 //            files: Files to use as icon-files
-//            columns: The columns of the model
 //Returns   : Reference to inserted line
 /*--------------------------------------------------------------------------*/
-Gtk::TreeModel::iterator XFileStore_setIcon (Gtk::TreeModel::iterator row,
-                                             const File& file,
-                                             const FileColumns& columns) {
-   TRACE7 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&, Gtk::TreeModel::ColumnRecord&)");
+Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
+                                              const File& file) {
+   TRACE7 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&)");
 
    Glib::RefPtr<Gdk::Pixbuf> actIcon (iconDef);
 
@@ -212,9 +220,8 @@ Gtk::TreeModel::iterator XFileStore_setIcon (Gtk::TreeModel::iterator row,
          // Try to find an icon for the file in the preloaded list; 
          // use every dot (.)-seperated part of the filename
          if ((i = icons.find (++pName)) != icons.end ()) {
-            TRACE9 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&, "
-                    "Gtk::TreeModel::ColumnRecord&) - Use icon "
-                    << pName << " for file " << file.name ());
+            TRACE9 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&)"
+                    " - Use icon " << pName << " for file " << file.name ());
             actIcon = (*i).second;
             break;
          } // endif icons available
@@ -222,8 +229,7 @@ Gtk::TreeModel::iterator XFileStore_setIcon (Gtk::TreeModel::iterator row,
    } // end-else
    Check3 (actIcon);
 
-   (*row)[columns.icon] = actIcon;
-   (*row)[columns.pFile] = &file;
+   (*row)[cols.icon] = actIcon;
    return row;
 }
 
@@ -242,6 +248,8 @@ XFileList::~XFileList () {
 //Returns   : Filename
 /*--------------------------------------------------------------------------*/
 std::string XFileList::getFilename (unsigned int line) const {
+   Check1 (fileModel);
+   return fileModel->getFilename (line);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -251,6 +259,8 @@ std::string XFileList::getFilename (unsigned int line) const {
 //            file: Filename to set
 /*--------------------------------------------------------------------------*/
 void XFileList::setFilename (unsigned int line, const std::string& file) {
+   Check1 (fileModel);
+   fileModel->setFilename (line, file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -259,9 +269,9 @@ void XFileList::setFilename (unsigned int line, const std::string& file) {
 //Returns   : true: Event has been handled; false else
 /*--------------------------------------------------------------------------*/
 bool XFileList::on_event (GdkEvent* event) {
-   TRACE2 ("XDirComp::on_event (GdkEvent*) - " << event->type);
+   TRACE2 ("XFileList::on_event (GdkEvent*) - " << event->type);
 
-   if (event->type == GDK_BUTTON_PRESS) {
+   if (event->type == GDK_BUTTON_RELEASE) {
       GdkEventButton* bev ((GdkEventButton*)(event));
       if (bev->button == 3) {
          if (pMenuPopAction) {
@@ -270,8 +280,6 @@ bool XFileList::on_event (GdkEvent* event) {
          }
 
          TRACE9 ("XFileList::on_event (GdkEvent*) - Y-offset: " << bev->y);
-         TRACE9 ("XFileList::on_event (GdkEvent*) - Height of line: "
-                 << get_row_height ());
          TRACE9 ("XFileList::on_event (GdkEvent*) - VScroll "
                  << (get_vadjustment () ? get_vadjustment ()->get_value () : -1));
          float scrolled (get_vadjustment ()
@@ -283,7 +291,7 @@ bool XFileList::on_event (GdkEvent* event) {
          Check3 (lineHeight);
          unsigned int entry (static_cast<unsigned int>
                              ((bev->y + scrolled)
-                              / (lineHeight + 1)));
+                              / (lineHeight + 2)));
          TRACE9 ("XFileList::on_event (GdkEvent*) - Line " << entry
                  << " = " << getFilename (entry));
 
