@@ -1,3 +1,23 @@
+Overview of Changes in version 0.6.20:
+
+  - Generating documentation with doxygen; therefore mdocu.pl removed
+  - Removed AByteArray class (use std::string instead)
+  - Using C++ standard headers (and not C standard headers)
+  - Fixed a bug in formatting negative numbers
+  - AttributeList implements getValue
+  - X-windows classes convert their text to UTF-8
+  - Class Folder added to display objects folder-like (like nautilus, explorer)
+  - Remand to libXGP and libYGP
+  - Fixed AssParse (escaped quotes haven't been handled correctly)
+  - Fixed compile(r) bug for tests in Common subdirectory (only MVC)
+
+Overview of Changes in version 0.6.11:
+
+  - Removed asserts from XFileEntry and XApplication
+  - XApplication provides a method to set the icon-data from xpm-data
+  - Fixed a bug in ParseQuoted (re-init status for further parsing)
+  - Fixed a bug in Parser documentation
+
 Overview of Changes in version 0.6.10:
 
   - libAttr renamed to libYMP
