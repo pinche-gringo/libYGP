@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.4 2000/04/06 20:49:33 Markus Rel $
+//$Id: Tokenize.h,v 1.5 2001/08/26 02:23:30 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,13 +42,14 @@ class Tokenize {
 
    void reset () { actPos = len = 0; }
 
+ protected:
+   virtual int checkIntegrity () const;
+   unsigned int actPos, len;
+   std::string  _string;
+
  private:
    Tokenize (const Tokenize& other);
    Tokenize& operator= (const Tokenize& other);
-   int checkIntegrity () const;
-
-   std::string  _string;
-   unsigned int actPos, len;
 };
 
 #endif
