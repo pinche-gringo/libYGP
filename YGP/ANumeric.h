@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.16 2001/03/25 09:53:06 markus Exp $
+//$Id: ANumeric.h,v 1.17 2001/03/27 18:42:50 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include <gzo-cfg.h>
 
 #ifdef HAVE_LIBGMP
-#  include "gmp.h"
+#  include <gmp.h>
 #endif
 #include <AttrVal.h>
 
