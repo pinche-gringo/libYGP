@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.16 $)\n"
-"POT-Creation-Date: 2003-08-11 21:30-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.17 $)\n"
+"POT-Creation-Date: 2003-10-02 18:03-0500\n"
 "PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Position %1"
 msgstr ""
 
-#: Common/ANumeric.cpp:92 Common/ANumeric.cpp:253
+#: Common/ANumeric.cpp:92 Common/ANumeric.cpp:255
 msgid "No number"
 msgstr ""
 
@@ -173,19 +173,19 @@ msgstr ""
 msgid "Expected selection %1"
 msgstr ""
 
-#: Common/RDirSrch.cpp:257 Common/RemoteFile.cpp:279
+#: Common/RDirSrch.cpp:257 Common/RemoteFile.cpp:233
 msgid "Server returned an error: "
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:250
+#: Common/RDirSrchSrv.cpp:251
 msgid "Not yet implemented"
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:276
+#: Common/RDirSrchSrv.cpp:277
 msgid "Invalid command"
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:339
+#: Common/RDirSrchSrv.cpp:313
 msgid "Invalid arguments: "
 msgstr ""
 
@@ -227,14 +227,14 @@ msgstr ""
 msgid "Error sending data"
 msgstr ""
 
-#: Common/Process.cpp:163
+#: Common/Process.cpp:166
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: Common/Process.cpp:186
+#: Common/Process.cpp:189
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
