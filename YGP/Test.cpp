@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.40 2000/05/30 21:22:16 Markus Exp $
+// $Id: Test.cpp,v 1.41 2000/06/03 12:46:11 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -306,9 +306,9 @@ int Application::perform (int argc, const char* argv[]) {
          ParseObject*   _values[4];
          ParseSequence  values (_values, "Values", 1, 1);
          OMParseTextEsc RegExp ("]", "Regular expression", *this,
-                                &Application::foundRegExp, 512, 1);
-         OMParseTextEsc value ("[=", "Value", *this, &Application::foundValue,
-                               512, 1);
+                                &Application::foundRegExp, 512, 1, '\\', false);
+         OMParseTextEsc value ("=\n\r", "Value", *this, &Application::foundValue,
+                               512, 1, false);
          OMParseAttomic result ("\\9", "Result", *this,
                                 &Application::foundResult, 1, 1);
          ParseExact RegExpBegin ("[", "Begin of regexp ([)", false);
