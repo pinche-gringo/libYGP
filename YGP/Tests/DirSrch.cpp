@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.8 2003/01/16 16:46:22 markus Exp $
+// $Id: DirSrch.cpp,v 1.9 2003/02/01 23:52:30 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -35,10 +35,14 @@
 #undef  VERBOSE
 #include "Test.h"
 
+#define NAME    "DirSrch.cpp"
+
 #if SYSTEM == UNIX
 #  define PATH
+#  define PATHBACK   "../"
 #else
-#  define PATH "..\\Common\\Tests\\"
+#  define PATH       "..\\Common\\Tests\\"
+#  define PATHBACK   "..\\"
 #endif
 
 
@@ -53,6 +57,17 @@ int dirSearchRecursive (const char* pFile) {
 
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
+
+   std::cout << "Testing File...\n";
+   File test (NAME);
+   check (!strcmp (test.name (), NAME));
+   check (*test.path () == '.');
+   check (test.path ()[1] == File::DIRSEPARATOR);
+   check (test.path ()[2] == '\0');
+
+   test = PATHBACK NAME;
+   check (!strcmp (test.name (), NAME));
+   check (!strcmp (test.path (), PATHBACK));
 
    std::cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
