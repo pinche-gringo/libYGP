@@ -1,25 +1,29 @@
-<!-- $Id: INIFile.html,v 1.1 2000/05/11 21:56:05 Markus Exp $ -->
+<!-- $Id: INIFile.html,v 1.2 2001/09/25 21:12:36 markus Exp $ -->
 
 <html>
   <head>
     <title>General Reference: INIFile</title>
     <meta name="description" content="Documentation of INIFile-classes">
-    <meta name="keywords" content="Documentation, Docu, INI-file, class">
+    <meta name="keywords" content="Documentation, Docu, INI-file, section, INIFile, INISection, class">
 
     <meta name="DC.Creator" content="Markus Schwab">
     <meta name="DC.Date" content="2000-05-10">
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center"><a name="INIFile">Class INIFile</a></h1>
-    <p>Derived from: <i>None</i></p>
+    <p>Derived from:
+      <i>none</i>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: INIFile.h</p>
+    <p>#include &lt;INIFile.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -27,17 +31,21 @@
       only includes reading of an INI-file and assigning the found values to
       some variables. In the future this might be enhanced to writing
       INI-files too.</p>
+
     <p>Technically this works by binding names (strings) to the addresses of
       variables (in attributes). Whenever a key matching those names is found,
       the apropiate value of the key is (tried to) assigned to the variable.</p>
-    <p>This attributes can be further grouped by sections. The result is a
-      OS/2- and Windoze-like INI-file with the following syntax:</p>
-    <pre>    [Special]
-    Attr1=1
-    Attr2=This is a test!
 
-    [Common]
-    Attr3=29.2.2000</pre>
+    <p>This attributes can be further grouped by sections (where every
+      attribute must belong to a section). The result is a OS/2- and
+      Windoze-like INI-file with the following syntax:</p>
+
+    <pre>    [Section1]
+    Attribute1=Value1
+    Attribute2=2
+
+    [Section2]
+    Attribute3=01012000</pre>
 
     <p>There are some predefined macros to make the generation of the
       data-structure to parse an INI-file easier. They must be used in that
@@ -65,41 +73,42 @@
 	  INIAttribute&lt;type&gt;) called <i>name_</i>.</p></dd>
     </dl>
 
-    <p>Example to parse the INI-file above:</p>
+    <p>Example to parse the INI-file (called <i>Test.ini</i> above:</p>
 
 
-    <pre>    int Attr1;
+    <pre>    int Attribute1;
     std::string attr2;
-    ADate Attr3
+    ADate Attribute3;
 
     INIFILE ("Test.ini");
-    INISECTION (Special);
-    INIATTR (Local, int, Attr1);
-    INIATTR2 (Local, std::string, attr2, Attr2);
-    INISECTION (Common);
-    INIATTR (Local, ADate, Attr3);</pre>
+    INISECTION (Section1);
+    INIATTR (Attribute1, int, Attribute1);
+    INIATTR2 (Local, std::string, attr2, Attribute2);
+    INISECTION (Section2);
+    INIATTR (Local, ADate, Attribute3);</pre>
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="INIFile.html#INIFile1">INIFile</a></td>
-        <td>(const char* filename) throw (std::string)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="INIFile.html#~INIFile">~INIFile</a></td><td>()</td></tr>
-
-      <tr valign="top"><td>void</td>
-        <td><a href="INIFile.html#IFaddSection">addSection</a></td>
-	<td>(const <a href="INIFile.html#INISection">INISection</a>&amp; section)</td></tr>
-      <tr valign="top"><td>int</td>
-        <td><a href="INIFile.html#IFread">read</a></td><td>() throw (std::string)</td></tr>
-
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="INIFile.html#IFfoundSection">foundSection</a></td>
-	<td>(const char* section)</td></tr>
-      <tr valign="top"><td>const <a href="INIFile.html#INISection">INISection</a>*</td>
-        <td><a href="INIFile.html#IFfindSection">findSection</a></td>
-	<td>(const char* name) const</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="INIFile.html#INIFile1"><b>INIFile</b></a></td>
+        <td><tt>(const <font color="purple">char</font>* <font color="blue">name</font>) const throw (<font color="purple">std::string</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="INIFile.html#IFaddSection"><b>addSection</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="INIFile.html#INISection"><tt><font color="navy"><b>INISection</b></font></tt></a>&amp; <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="INIFile.html#IFread"><b>read</b></a></td>
+        <td><tt>() const throw (<font color="purple">std::string</font>&amp;)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="INIFile.html#~INIFile"><b>~INIFile</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="INIFile.html#INISection"><tt><font color="navy"><b>INISection</b></font></tt></a>*</tt> </td>
+        <td><a href="INIFile.html#IFfindSection"><b>findSection</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">name</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="INIFile.html#IFfoundSection"><b>foundSection</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -155,15 +164,19 @@
 	else NULL.</dd>
     </dl>
 
-    <hr noshade>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+    <hr noshade><a name="INISection"></a>
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
  
-    <h1 align="center"><a name="INISection">Class INISection</a></h1>
-    <p>Derived from: <i>None</i></p>
+    <h1 align="center">Class INISection</h1>
+    <p>Derived from:
+      <i>none</i>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: INIFile.h</p>
+    <p>#include &lt;INIFile.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -171,47 +184,55 @@
     <p>Usually this class is just used to bundle the attributes of a section
       together; none of their members is called directly. The only exception
       is for INI-files without any section, only with attributes. In that case
-      the <a href="INIFile.html#readAttributes">readAttributes</a>-member can
+      the <a href="INIFile.html#ISreadAttributes"><b>readAttributes</b></a>-member can
       be used to parse those values (regardless of any header-information).</p>
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="INIFile.html#INISection2">INISection</a></td>
-        <td>(const char* name)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="INIFile.html#~INISection">~INISection</a></td><td>()</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="INIFile.html#INISection"><b>INISection</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">name</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><a href="INIFile.html#IINIAttribute">IINIAttribute</a>*</td>
-        <td><a href="INIFile.html#ISfindAttribute">findAttribute</a></td>
-	<td>(const char* name) const</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="INIFile.html#ISaddAttribute">addAttribute</a></td>
-	<td>(const <a href="INIFile.html#IINIAttribute">IINIAttribute</a>&amp; attribute) throw (std::string)</td></tr>
-      <tr valign="top"><td>int</td>
-        <td><a href="INIFile.html#ISreadFromStream">readFromStream</a></td>
-	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</td></tr>
-      <tr valign="top"><td>int</td>
-        <td><a href="INIFile.html#ISreadAttributes">readAttributes</a></td>
-	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</td></tr>
+      <tr valign="top"><td><tt>void</tt></td>
+        <td><a href="INIFile.html#ISaddAttribute"><b>addAttribute</b></a></td>
+        <td><tt>(const <font color="purple"><a href="Attribute.html"><b>IAttribute</b></a></font>&amp; <font color="blue">attribute</font>) throw (<font color="purple">std::string</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="Attribute.html"><tt><font color="navy"><b>IAttribute</b></font></tt></a>*</tt> </td>
+        <td><a href="INIFile.html#ISfindAttribute2"><b>findAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <a href="Attribute.html"><tt><font color="navy"><b>IAttribute</b></font></tt></a>*</tt> </td>
+        <td><a href="INIFile.html#ISfindAttribute"><b>findAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">name</font></tt>) <tt>const</tt></tt>;</td></tr>
 
-      <tr valign="top"><td>const char*</td>
-        <td><a href="INIFile.html#ISgetName">getName</a></td>
-	<td>() const</td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="INIFile.html#ISmatches">matches</a></td>
-	<td>(const char* name) const</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">char</font></tt>*</tt> </td>
+        <td><a href="INIFile.html#ISgetName"><b>getName</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="INIFile.html#ISmatches"><b>matches</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">name</font></tt>) <tt>const</tt></tt>;</td></tr>
 
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="INIFile.html#ISfoundSection">foundSection</a></td>
-	<td>(const char* section)</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="INIFile.html#ISfoundKey">foundKey</a></td>
-	<td>(const char* key)</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="INIFile.html#ISfoundValue">foundValue</a></td>
-	<td>(const char* value)</td></tr>
+      <tr valign="top"><td><tt><font color="purple">int</font></tt></td>
+        <td><a href="INIFile.html#ISreadAttributes"><b>readAttributes</b></a></td>
+        <td><tt>(<font color="purple"><a href="XStream.html#Xistream"><b>Xistream</b></a></font>&amp; <font color="blue">result</font>) throw (<font color="purple">std::string</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><font color="purple">int</font></tt></td>
+        <td><a href="INIFile.html#ISreadFromStream"><b>readFromStream</b></a></td>
+        <td><tt>(<font color="purple"><a href="XStream.html#Xistream"><b>Xistream</b></a></font>&amp; <font color="blue">result</font>) throw (<font color="purple">std::string</font>)</tt>;</td></tr>
+
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="INIFile.html#~INISection"><b>~INISection</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="INIFile.html#ISfoundKey"><b>foundKey</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">key</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="INIFile.html#ISfoundSection"><b>foundSection</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">section</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="INIFile.html#ISfoundValue"><b>foundValue</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -224,16 +245,13 @@
     </dl>
     <pre><a name="~INISection"></a>~INISection ()</pre>
 
-    <pre><a name="ISaddAttribute"></a>void addAttribute (const <a href="INIFile.html#IINIAttribute">IINIAttribute</a>&amp; attribute) throw (std::string)</pre>
+    <pre><a name="ISaddAttribute"></a>void addAttribute (const <a href="Attribute.html"><b>IAttribute</b></a>&amp; attribute) throw (std::string)</pre>
     <dl>
       <dd><p>Adds an attribute to parse to the section. In the debug-version an
 	  exception is thrown, if an attribute with the same name already
 	  exists.</p></dd>
     </dl>
 
-      <tr valign="top"><td>const char*</td>
-        <td><a href="INIFile.html#ISgetName">getName</a></td>
-	<td>() const</td></tr>
     <pre><a name="ISgetName"></a>const char* getName () const</pre>
     <dl>
       <dd>Returns the name of the section.</dd>
@@ -245,7 +263,12 @@
 	section.</dd>
     </dl>
 
-    <pre><a name="ISfindAttribute"></a>const IINIAttribute* findAttribute (const char* name) const</pre>
+    <pre><a name="ISfindAttribute"></a>const IAttribute* findAttribute (const char* name) const</pre>
+    <dl>
+      <dd>Searches for an attribute matching the passed name. If such an
+	attribute is not found, NULL is returned.</p>
+    </dl>
+    <pre><a name="ISfindAttribute2"></a>const IAttribute* findAttribute (const std::string&amp; name) const</pre>
     <dl>
       <dd>Searches for an attribute matching the passed name. If such an
 	attribute is not found, NULL is returned.</p>
@@ -253,7 +276,7 @@
     
 
     <h4>Parsing</h4>
-    <pre><a name="ISreadFromStream"></a>int readFromStream (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</pre>
+    <pre><a name="ISreadFromStream"></a>int readFromStream (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
     <dl>
       <dd>
 	<p>Tries to read the (whole) section from the INI-file.</p>
@@ -269,7 +292,7 @@
 	<p><b>Note</b>: The exact behaviour depends on the type of the
 	  attribute!</dd>
     </dl>
-    <pre><a name="ISreadAttributes"></a>int readAttributes (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</pre>
+    <pre><a name="ISreadAttributes"></a>int readAttributes (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
     <dl>
       <dd>
 	<p>Tries to read the attributes of a section from the INI-file.</p>
@@ -305,136 +328,19 @@
     <dl>
       <dd><p>Callback if a value of an attribute has been found. This value is
 	  assigned using the pure-virtual
-	  <a href="INIFile.html#IAassignFromString">assignFromString</a>-member
-	  of <a href="INIFile.html#IINIAttribute">IINIAttribute</a>.</p>
+	  <a href="INIFile.html#IAassignFromString"><b>assignFromString</b></a>-member
+	  of <a href="Attribute.html"><b>IAttribute</b></a>.</p>
 	<p>This method is defined in templatized subclasses of
-	  <a href="INIFile.html#IINIAttribute">IINIAttribute</a> for the
+	  <a href="Attribute.html"><b>IAttribute</b></a> for the
 	  standard C types (int, double and the like), std::string, classes
-	  derived from <a href="AttrVal.html">AttributValues</a> and everything
+	  derived from <a href="AttrVal.html"><b>AttributValues</b></a> and everything
 	  having an <i>operator=(const char*)</i>-member to assign values and
 	  a <i>isDefined ()</i>-member the check for conistency; to enhance
 	  that for other types simply define  
-	  <a href="INIFile.html#INIAttribute">INIAttribute</a>::<a href="INIFile.html#IAassignFromString">assignFromString</a>
+	  <a href="Attribute.html"><b>IAttribute</b></a>::<a href="Attribute.html#assignFromString"><b>assignFromString</b></a>
 	  for your class.</p>
 	<p>If assigning the value succeeds,  ParseObject::PARSE_OK is returned;
 	  else ParseObject::PARSE_CB_ABORT.</dd>
     </dl>
-
-    <hr noshade>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
-    </table>
- 
-    <h1 align="center"><a name="IINIAttribute">Class IINIAttribute</a></h1>
-    <p>Derived from: <i>None</i></p>
-
-    <p>Header-file: INIFile.h</p>
-
-    <hr noshade>
-    <h2>Description</h2>
-    <p>Class to bundle a name to the address of an variable; together called
-      attribute.</p>
-    <p>This is an abstract base-class to define the interface for concrete
-      realizations with a type for the attribute-variable.</p>
-
-    <hr noshade>
-    <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td>bool</td><td><a href="INIFile.html#IIAmatches">matches</a></td>
-        <td>(const char* name) const</td></tr>
-      <tr valign="top"><td>virtual bool</td><td><a href="INIFile.html#IIAassignFromString">assignFromString</a></td>
-        <td>(const char* value) = 0</td></tr>
-      <tr valign="top"><td>const char*</td>
-        <td><a href="INIFile.html#ISgetName">getName</a></td>
-	<td>() const</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="INIFile.html#IINIAttribute2">IINIAttribute</a></td>
-        <td>(const char* name)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="INIFile.html#~IINIAttribute">~IINIAttribute</a></td><td>()</td></tr>
-    </table>
-
-    <hr noshade>
-    <h2>Member descriptions</h2>
-
-    <h4>Management functions</h4>
-    <pre><a name="IINIAttribute2"></a>IINIAttribute (const char* name)</pre>
-    <dl>
-      <dd><p>Constructor; name is the name of the attribute and must not be NULL.</p></dd>
-    </dl>
-    <pre><a name="~IINIAttribute"></a>~IINIAttribute ()</pre>
-
-    <pre><a name="IIAgetName"></a>const char* getName () const</pre>
-    <dl>
-      <dd>Returns the name of the attribute.</dd>
-    </dl>
-
-    <pre><a name="IIAmatches"></a>bool matches (const char* name) const</pre>
-    <dl>
-      <dd>Checks if the passed name matches (case-sensitive!) the name of the
-	attribute.</dd>
-    </dl>
-
-    <pre><a name="IIAassignFromString"></a>virtual bool assignFromString (const char* value) = 0</pre>
-    <dl>
-      <dd>Pure virtual method to assign an ASCIIZ-string to the variable stored
-	withing the attribute. Derived objects must define this method and
-	return true, if the assignment is OK; else false.</dd>
-    </dl>
-
-    <hr noshade>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
-    </table>
- 
-    <h1 align="center"><a name="INIAttribute">Class INIAttribute&lt;T&gt;</a></h1>
-    <p>Derived from: <a href="INIFile.html#IINIAttribute">IINIAttribute</a></p>
-
-    <p>Header-file: INIFile.h</p>
-
-    <hr noshade>
-    <h2>Description</h2>
-    <p>Templated subclass of <a href="INIFile.html#IINIAttribute">IINIAttribute</a>
-      to specify the type of the variable.</p>
-    <p>Usually this class is not used directly (except of course defined), but
-      just a helper-class for <a href="INIFile.html#INIFile">INIFile</a>- and
-      <a href="INIFile.html#INISection">INISection</a>-classes.</p>
-
-    <hr noshade>
-    <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="INIFile.html#INIAttribute2">INIAttribute</a></td>
-        <td>(const char* name)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="INIFile.html#~INIAttribute">~INIAttribute</a></td><td>()</td></tr>
-      <tr valign="top"><td>virtual bool</td><td><a href="INIFile.html#IAassignFromString">assignFromString</a></td>
-        <td>(const char* value) = 0</td></tr>
-    </table>
-
-    <hr noshade>
-    <h2>Member descriptions</h2>
-
-    <h4>Management functions</h4>
-    <pre><a name="INIAttribute2"></a>INIAttribute (const char* name T&amp; attr)</pre>
-    <dl>
-      <dd><p>Constructor; name is the name of the attribute and must not be
-	  NULL; attr is the variable to bind to the name.</p></dd>
-    </dl>
-    <pre><a name="~INIAttribute"></a>~INIAttribute ()</pre>
-
-    <pre><a name="IAassignFromString"></a>virtual bool assignFromString (const char* value)</pre>
-    <dl>
-      <dd><p>Virtual method to assign an ASCIIZ-string to the variable stored
-	withing the attribute.</p>
-	<p>This method return true, if assign the value was OK, else false.
-	  At the moment there are implementations for the standard C-types,
-	  std::string and classes derived from <a href="AttrVal.html">AttributValue</a>.</p>
-	<p>This can be easily enhanced by own types by defining (and
-	  implementing) your own <i>assignFromStream</i>-members with your
-	  own type (see the header INIFile.h for examples).</p></dd>
-    </dl>
-
-    <hr noshade>
-    <p>Maintained by <a href=mailto:Markus.Schwab@digitalsignum.com">Markus Schwab</a></p>
   </body>
 </html>
