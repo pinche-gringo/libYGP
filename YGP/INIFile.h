@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.12 2002/10/10 05:50:53 markus Exp $
+//$Id: INIFile.h,v 1.13 2002/10/23 05:46:13 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -121,9 +121,9 @@ class INISection {
       return !strcmp (name, pName); }
 
  protected:
-   virtual int foundSection (const char* section);
-   virtual int foundKey (const char* key);
-   virtual int foundValue (const char* value);
+   virtual int foundSection (const char* section, unsigned int );
+   virtual int foundKey (const char* key, unsigned int );
+   virtual int foundValue (const char* value, unsigned int );
 
  private:
    const char* pName;
@@ -163,7 +163,7 @@ class INIFile {
    Xifstream& getFile () { return file; }
 
  protected:
-   virtual int foundSection (const char* section);
+   virtual int foundSection (const char* section, unsigned int);
 
    const INISection* findSection (const char* name) const;
 
