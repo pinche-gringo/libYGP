@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.41 2003/07/03 01:51:29 markus Exp $
+//$Id: Parse.cpp,v 1.42 2003/07/03 01:53:04 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -29,8 +29,8 @@
 #endif
 
 
-#include <ctype.h>
-#include <string.h>
+#include <cctype>
+#include <cstring>
 
 #include <map>
 #include <string>
