@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.72 2004/12/29 18:39:47 markus Rel $
+dnl $Id: configure.in,v 1.73 2005/01/20 05:24:23 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_REVISION($Revision: 1.72 $)
-AC_INIT(libYGP, 0.7.00, [g17m0@lycos.com], libYGP)
+AC_REVISION($Revision: 1.73 $)
+AC_INIT(libYGP, 0.7.01, [g17m0@lycos.com], libYGP)
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=$PACKAGE_VERSION
-dnl LIBRELEASE=0.6.47
+dnl LIBRELEASE=$PACKAGE_VERSION
+LIBRELEASE=0.7.00
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
@@ -148,7 +148,7 @@ AC_FUNC_FNMATCH
 AC_FUNC_CLOSEDIR_VOID
 
 AC_CHECK_FUNCS(timegm strfmon beginthread _beginthread pipe _pipe fork \
-	       spawnvp _sleep getlogin strftime strptime)
+	       spawnvp _sleep getlogin strftime strptime backtrace)
 
 AC_MSG_CHECKING(if signal.h defines SIGBUS)
 AC_CACHE_VAL(ac_cv_HAVE_SIGBUS, ac_cv_HAVE_SIGBUS=$ac_HAVE_SIGBUS)
