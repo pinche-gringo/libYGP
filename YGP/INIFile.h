@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.19 2003/02/18 02:50:20 markus Rel $
+//$Id: INIFile.h,v 1.20 2003/06/19 23:27:21 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,82 +18,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Class to handle the information of an INI-file (containing the settings
-// of an application).
-//
-// Technically this works by binding names (strings) to the addresses
-// of variables (in attributes). Whenever a key matching those names
-// is found, the apropiate value of the key is (tried to) assigned to
-// the variable.
-//
-// This attributes are grouped into sections (every attribute principally
-// belongs to a section. And a section ends with the start of a new
-// section.). The result is an OS/2- and Windoze-like INI-file with
-// the following syntax:
-//
-// [Section1]
-// Key1=Value1
-// Key2=2
-//
-// [Section2]
-// Key3=03012000
-//
-// There are some predefined macros to make the generation of the
-// data-structure to parse an INI-file easier. They must be used in
-// that (top-down) order.
-//
-// INIFILE (file)
-//      Defines an object of type INIFile named _inifile_;
-//
-//INISECTION (name) Defines an object of type INISection. Both the
-//      defined variable and the section-name in the INI-file are called
-//      name.
-//
-//      Note: This macro defines a variable (of type INISection) called name.
-//
-//INIATTR (section, type, name)
-//      Defines an attribute for section section having the key (in the INI-file)
-//      of name. The value of this key is assigned to a variable of type type and
-//      (also) name name.
-//
-//      Note: This macro defines a variable (of type INIAttribute<type>) called name_.
-//
-//INIATTR2 (section, type, attr, name)
-//      Defines an attribute for section section having the key (in
-//      the INI-file) of name. The value of this key is assigned to a
-//      variable of type type and name attr.
-//
-//      Note: This macro defines a variable (of type INIAttribute<type>) called name_.
-//
-//INILIST(name)
-//      Defines a section to parse a list. Both the section and the variable
-//      containing the list are called name.
-//
-//INILIST2(section, name)
-//      Defines a section to parse a list. The section in the INI file is called
-//      section and its values are stored in the array (vector) name.
-//
-// To parse the INI-file above use the following commands:
-//
-//    int Key1;
-//    std::string attr2;
-//    ADate Key3;
-//
-//    INIFILE ("Test.ini");
-//    INISECTION (Section1);
-//    INIATTR (Section1, int, Key1);
-//    INIATTR2 (Section1, std::string, attr2, Key2);
-//    INISECTION (Section2);
-//    INIATTR (Section2, ADate, Key3);
-
-
 #ifdef _MSC_VER
 #pragma warning(disable:4786) // disable warning about truncating debug info
 #endif
 
 
-#include <errno.h>
-#include <stdlib.h>
+#include <cerrno>
+#include <cstdlib>
 
 #include <string>
 #include <vector>
@@ -124,12 +55,15 @@ class INIFile;
 #define INIFILE_READ()       _inifile_.read ()
 
 
-// Class to handle the information stored in a section of an INI-file.
-// Usually this class is just used to bundle the attributes of a
-// section together; none of their members is called directly. The
-// only exception is for INI-files without any section, only with
-// attributes. In that case the readAttributes-member can be used to
-// parse those values (regardless of any header-information).
+/**Class to handle the information stored in a section of an INI-file (see
+   INIFile for more details).
+
+   Usually this class is just used to bundle the attributes of a
+   section together; none of their members is called directly. The
+   only exception is for INI-files without any section, only with
+   attributes. In that case the readAttributes()-member can be used to
+   parse those values (regardless of any header-information).
+*/
 class INISection {
  public:
    INISection (const char* name);
@@ -142,8 +76,10 @@ class INISection {
    int readFromStream (Xistream& stream) throw (std::string);
    int readAttributes (Xistream& stream) throw (std::string);
 
+   /// Returns the name of the section
    const char* getName () const { return pName; }
 
+   /// Returns if the name of the section matches the passed text
    bool matches (const char* name) const {
       Check3 (name);
       return !strcmp (name, pName); }
@@ -178,16 +114,29 @@ class INISection {
 };
 
 
-// Class to parse all entries of a section into a list (vector) of values
+/**Class to parse all entries of a section into a list (vector) of values (see
+   INIFile for more details).
+
+   The entries of the section must have a numeric key, which specifies the
+   (zero-based) offset of the entry of the list its value belongs to.
+*/
 template <class T> class INIList : public INISection {
  public:
-   INIList (const char* name, std::vector<T>& values) : INISection (name), offset (0) {
+   /// Constructor; Creates an object named \c name and a vector to receive
+   /// the parsed values
+   INIList (const char* name, std::vector<T>& values)
+       : INISection (name), offset (0) {
       addAttribute (*new AttributeList<T> (name, values)); }
+   /// Destructor; Frees the internally used attribute list
    ~INIList () { delete attributes.front (); }
 
+   /// Writes the contents of the holded attribute values to the passed stream
+   /// (in its own section).
    void write (std::ostream& stream) {
       return write (stream, attributes[0]->getName (),
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
+   /// Writes the contents of the passed values to the passed stream
+   /// (in its own section named \c section).
    static void write (std::ostream& stream, const char* section, const std::vector<T>& values) {
       INIFile::writeSectionHeader (stream, section);
       for (unsigned int i (0); i < values.size (); ++i)
@@ -195,6 +144,10 @@ template <class T> class INIList : public INISection {
       stream << '\n'; }
 
  protected:
+   /// Callback when a key is found while parsing the INI-file (during parsing
+   /// the INIList).
+   ///
+   /// This method considers the \c key as offet for the value in the list.
    virtual int foundKey (const char* key, unsigned int) {
       Check3 (key);
       errno = 0;
@@ -203,6 +156,10 @@ template <class T> class INIList : public INISection {
       pFoundAttr = attributes.front ();
       return (errno || *pEnd) ? ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK; }
 
+   /// Callback when a value is found while parsing the INI-file (during
+   /// parsing the INIList).
+   ///
+   /// This method assigns \c value to the previously parsed offset.
    virtual int foundValue (const char* value, unsigned int len) {
       Check3 (pFoundAttr);
       return ((((AttributeList<T>*)pFoundAttr)->assign
@@ -215,7 +172,76 @@ template <class T> class INIList : public INISection {
 };
 
 
-// Class to handle the information of an INI-file
+/**Class to handle the information of an INI-file (containing the settings
+   of an application).
+
+   Technically this works by binding names (strings) to the addresses
+   of variables (in attributes). Whenever a key matching those names
+   is found, the apropiate value of the key is (tried to) assigned to
+   the variable.
+
+   This attributes are grouped into sections (every attribute principally
+   belongs to a section. And a section ends with the start of a new
+   section.). The result is an OS/2- and Windoze-like INI-file with
+   the following syntax:
+
+   \verbatim
+   [Section1]
+   Key1=Value1
+   Key2=2
+
+   [Section2]
+   Key3=03012000
+   \endverbatim
+
+   There are some predefined macros to make the generation of the
+   data-structure to parse an INI-file easier. They must be used in
+   that (top-down) order.
+
+   - INIFILE(file): Defines an object of type \c INIFile named \c _inifile_;
+
+   - INISECTION(name): Defines an object of type INISection. Both the defined
+        variable and the section-name in the INI-file are called name.
+
+        \note This macro defines a variable (of type \c INISection) called \c
+              name.
+
+   - INIATTR(section, type, name): Defines an attribute for section section
+        having the key (in the INI-file) of name. The value of this key is
+        assigned to a variable of type type and (also) name name.
+
+        \note This macro defines a variable (of type \c INIAttribute<type>)
+             called \c name_.
+
+   - INIATTR2(section, type, attr, name) Defines an attribute for section
+       section having the key (in the INI-file) of name. The value of this
+        key is assigned to a variable of type type and name attr.
+
+        \note This macro defines a variable (of type \c INIAttribute<type>)
+              called \c name_.
+
+   - INILIST(name): Defines a section to parse a list. Both the section and
+        the variable containing the list are called name.
+
+   - INILIST2(section, name): Defines a section to parse a list. The section
+        in the INI file is called section and its values are stored in the
+        array (vector) name.
+
+   To parse the INI-file above use the following commands:
+
+   \verbatim
+      int Key1;
+      std::string attr2;
+      ADate Key3;
+
+      INIFILE ("Test.ini");
+      INISECTION (Section1);
+      INIATTR (Section1, int, Key1);
+      INIATTR2 (Section1, std::string, attr2, Key2);
+      INISECTION (Section2);
+      INIATTR (Section2, ADate, Key3);
+   \endverbatim
+*/
 class INIFile {
  public:
    INIFile (const char* filename) throw (std::string);
@@ -224,18 +250,22 @@ class INIFile {
    void addSection (const INISection& section);
    INISection* addSection (const char* section);
 
-   void addEntity (const Entity& obj, INISection& section);
+   /// Adds all attributes of an entity to the specified section.
    void addEntity (const Entity& obj, const char* section) {
       Check3 (section);
       addEntity (obj, *addSection (section)); }
+   void addEntity (const Entity& obj, INISection& section);
 
    int read () throw (std::string);
 
+   /// Returns the stream the data is parsed from.
    Xifstream& getFile () { return file; }
 
-   static void write (std::ostream& stream, const char* section, const Entity& obj);
+   /// Writes a header for the section to the passed stream.
    static void writeSectionHeader (std::ostream& stream, const char* section) {
       stream << '[' << section << "]\n"; }
+   static void write (std::ostream& stream, const char* section,
+                      const Entity& obj);
 
  protected:
    virtual int foundSection (const char* section, unsigned int);

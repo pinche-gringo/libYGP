@@ -1,14 +1,14 @@
-//$Id: INIFile.cpp,v 1.21 2003/03/06 04:16:02 markus Rel $
+//$Id: INIFile.cpp,v 1.22 2003/06/19 23:27:20 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2000 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #pragma warning(disable:4786) // disable warning about truncating debug info
 #endif
 
-#include <string.h>
+#include <cstring>
 
 #include "Trace_.h"
 #include "Entity.h"
@@ -51,11 +51,11 @@ static unsigned int LEN_KEY = 32;
 static unsigned int LEN_VALUE = 256;
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; name is the name of the section.
-//Parameters: name: Name of section
-//Remarks   : name must be a valid ASCIIZ-string (not NULL)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; name is the name of the section.
+/// \param name: Name of section
+/// \remarks name must be a valid ASCIIZ-string (not NULL)
+//-----------------------------------------------------------------------------
 INISection::INISection (const char* name) : pFoundAttr (NULL), pName (name)
    , Section (_Section, "INI-File", 1, 1)
    , SectionHeader (_SectionHeader, _("Section-header"), 1, 1)
@@ -73,30 +73,30 @@ INISection::INISection (const char* name) : pFoundAttr (NULL), pName (name)
    _Attributes[2] = &Value; _Attributes[3] = NULL;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 INISection::~INISection () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds an attribute to parse to the section
-//Parameters: attribute: Attribute to add
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds an attribute to parse to the section
+/// \param attribute: %Attribute to add
+//-----------------------------------------------------------------------------
 void INISection::addAttribute (const IAttribute& attribute) {
    Check3 (!findAttribute (attribute.getName ()));
    TRACE9 ("INISection::addAttribute (const IAttribute&) - " << attribute.getName ());
    attributes.push_back (&attribute);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Searches for an attribute matching the passed name. If such an
-//            attribute is not found, NULL is returned.
-//Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
-//Remarks   : name must not be a NULL pointer
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Searches for an attribute matching the passed name. If such an attribute
+/// is not found, NULL is returned.
+/// \param name: Name of attribute to find
+/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \remarks name must not be a NULL pointer
+//-----------------------------------------------------------------------------
 const IAttribute* INISection::findAttribute (const char* name) const {
    TRACE9 ("INISection::findAttribute (const char*) - " << name);
    Check1 (name);
@@ -108,12 +108,12 @@ const IAttribute* INISection::findAttribute (const char* name) const {
    return NULL;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : TriesSearches for an attribute matching the passed name. If such
-//            an attribute is not found, NULL is returned.
-//Parameters: name: Name of attribute to find
-//Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// TriesSearches for an attribute matching the passed name. If such an
+/// attribute is not found, NULL is returned.
+/// \param name: Name of attribute to find
+/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+//-----------------------------------------------------------------------------
 const IAttribute* INISection::findAttribute (const std::string& name) const {
    TRACE9 ("INISection::findAttribute (const std::string&) - " << name);
    std::vector<const IAttribute*>::const_iterator i;
@@ -124,29 +124,23 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
    return NULL;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Tries to reads the (whole) section from the INI-file.
-//
-//            First the section header is parsed. Note that the name of the
-//            section in the INI-file must match those of the class.
-//
-//            If the header can be parsed successfully, every following
-//            key=value pair is inspected and - if key matches the name of an
-//            attribute in the section - assigned to the connected variable.
-//
-//            The function returns ParseObject::PARSE_OK, if EOF or a new
-//            section-header (to be exact: Anything which is not a key) is
-//            reached.
-//
-//            Errors are returned (or execeptions are thrown) if the attribute
-//            is either not found inside the class or the value can not be
-//            assigned.
-//Parameters: stream: Extended stream to read from
-//Returns   : int: ParseObject::OK if a know key is found and it's value can be assigned
-//Remarks     The exact behaviour depends on the type of the attribute!
-//Throws    : std::string: Text describing error if an unrecoverable error
-//                         occurs
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Tries to reads the (whole) section from the INI-file. First the section
+/// header is parsed. Note that the name of the section in the INI-file must
+/// match those of the class. If the header can be parsed successfully, every
+/// following key=value pair is inspected and - if key matches the name of an
+/// attribute in the section - assigned to the connected variable. The
+/// function returns ParseObject::PARSE_OK, if EOF or a new section-header (to
+/// be exact: Anything which is not a key) is reached. Errors are returned (or
+/// execeptions are thrown) if the attribute is either not found inside the
+/// class or the value can not be assigned.
+/// \param stream: Extended stream to read from
+/// \returns \c int: ParseObject::OK if a know key is found and it's value can
+///     be assigned Remarks The exact behaviour depends on the type of the
+///     attribute!
+/// \throw \c std::string: Text describing error if an unrecoverable error
+///     occurs
+//-----------------------------------------------------------------------------
 int INISection::readFromStream (Xistream& stream) throw (std::string) {
    TRACE9 ("INISection::readFromStream (Xistream&)");
    Section.skipWS (stream);
@@ -154,35 +148,33 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
    return rc ? rc : readAttributes (stream);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Tries to read the attributes of a section from the INI-file.
-//
-//            Every key=value pair is inspected and - if key matches the name
-//            of an attribute in the section - assigned to the connected variable.
-//
-//            The function returns ParseObject::PARSE_OK, if EOF or a new
-//            section-header (to be exact: Anything which is not a key) is
-//            reached.
-//
-//            Errors are returned (or execeptions are thrown) if the attribute
-//            is either not found inside the class or the value can not be
-//            assigned.
-//Parameters: stream: Extended stream to read from
-//Returns   : int: ParseObject::OK if a know key is found and it's value can be assigned
-//Remarks     The exact behaviour depends on the type of the attribute!
-//Throws    : std::string: Text describing error if an unrecoverable error occurs
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Tries to read the attributes of a section from the INI-file. Every
+/// key=value pair is inspected and - if key matches the name of an attribute
+/// in the section - assigned to the connected variable. The function returns
+/// ParseObject::PARSE_OK, if EOF or a new section-header (to be exact:
+/// Anything which is not a key) is reached. Errors are returned (or
+/// execeptions are thrown) if the attribute is either not found inside the
+/// class or the value can not be assigned.
+/// \param stream: Extended stream to read from
+/// \returns \c int: ParseObject::OK if a know key is found and it's value can
+///     be assigned Remarks The exact behaviour depends on the type of the
+///     attribute!
+/// \throw \c std::string: Text describing error if an unrecoverable error
+///     occurs
+//-----------------------------------------------------------------------------
 int INISection::readAttributes (Xistream& stream) throw (std::string) {
    TRACE9 ("INISection::readAttributes (Xistream&)");
    Attributes.skipWS (stream);
    return Attributes.parse (stream);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback when the name of a section was found
-//Parameters: section: Name of found section
-//Returns   : int: PARSE_OK, if name of section is OK
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback when the name of a section was found
+/// \param section: Name of found section
+/// \param int: Unused length of the section name
+/// \returns \c int: PARSE_OK, if name of section is OK
+//-----------------------------------------------------------------------------
 int INISection::foundSection (const char* section, unsigned int) {
    TRACE5 ("INISection::foundSection (const char*, unsigned int): '" << section << '\'');
    Check1 (section); Check3 (pName);
@@ -191,13 +183,15 @@ int INISection::foundSection (const char* section, unsigned int) {
       ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback if a key of an attribute has been found. Every
-//            attribute of the section is compared with the passed key. If
-//            they match the value of the key is assigned to the attribute
-//Parameters: key: Name of the found key
-//Returns   : int: PARSE_OK, if key is found; else ParseObject::PARSE_CB_ABORT.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback if a key of an attribute has been found. Every attribute of the
+/// section is compared with the passed key. If they match the value of the
+/// key is assigned to the attribute
+/// \param key: Name of the found key
+/// \param int: Unused length of the section name
+/// \returns \c int: PARSE_OK, if key is found; else
+///     ParseObject::PARSE_CB_ABORT.
+//-----------------------------------------------------------------------------
 int INISection::foundKey (const char* key, unsigned int) {
    TRACE5 ("INISection::foundKey (const char*, unsigned int): '" << key << '\'');
    Check1 (key);
@@ -214,12 +208,14 @@ int INISection::foundKey (const char* key, unsigned int) {
    return ParseObject::PARSE_CB_ABORT;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback if a value of an attribute has been found. This value is
-//            assigned using the assign-member of IAttribute.
-//Parameters: value: Value to assign to the (previously) found attribute
-//Returns   : int: PARSE_OK, if value could be assigned successfully; else ParseObject::PARSE_CB_ABORT
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback if a value of an attribute has been found. This value is assigned
+/// using the assign-member of IAttribute.
+/// \param value: Value to assign to the (previously) found attribute
+/// \param len: Length of text hold by \c value
+/// \returns \c int: PARSE_OK, if value could be assigned successfully; else
+///     ParseObject::PARSE_CB_ABORT
+//-----------------------------------------------------------------------------
 int INISection::foundValue (const char* value, unsigned int len) {
    Check3 (value); Check3 (pFoundAttr);
    TRACE5 ("INISection::foundValue (const char*, unsigned int): '" << value << '\'');
@@ -229,14 +225,14 @@ int INISection::foundValue (const char* value, unsigned int len) {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; The parameter filename specifies the file to parse
-//            for initialization-information. If this file does not exist, an
-//            exception is thrown.
-//Parameters: name: Name of the INI file
-//Remarks   : name must be an ASCIIZ-string
-//Throws    : string: If file couldn't be open a text describing the error
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; The parameter filename specifies the file to parse for
+/// initialization-information. If this file does not exist, an exception is
+/// thrown.
+/// \param filename: Name of the INI file
+/// \throw \c string: If file couldn't be open a text describing the error
+/// \remarks filename must be an ASCIIZ-string
+//-----------------------------------------------------------------------------
 INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    , SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
    , SectionName ("\\X\\9_.", _("Name of section"), *this,
@@ -258,9 +254,9 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    file.init ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 INIFile::~INIFile () {
    std::vector<INISection*>::iterator i;
    for (i = sectionsToFree.begin (); i != sectionsToFree.end (); ++i)
@@ -268,23 +264,23 @@ INIFile::~INIFile () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds the passed section to the list of sections to parse.
-//Parameters: section: Specification of the section
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds the passed section to the list of sections to parse.
+/// \param section: Specification of the section
+//-----------------------------------------------------------------------------
 void INIFile::addSection (const INISection& section) {
    TRACE9 ("INIFile::addSection (const INISection&) - " << section.getName ());
    Check3 (!findSection (section.getName ()));
    sections.push_back (&section);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds a section to parse to the INI-file; does nothing if section
-//            already exists
-//Parameters: section: Name of the section
-//Returns   : INISection*: Pointer to new (or existing) section
+//-----------------------------------------------------------------------------
+/// Adds a section to parse to the INI-file; does nothing if section already
+/// exists
+/// \param section: Name of the section
+/// \returns \c INISection*: Pointer to new (or existing) section
 
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
 INISection* INIFile::addSection (const char* section) {
    TRACE9 ("INIFile::addSection (const char*) - " << section);
    Check3 (section);
@@ -297,22 +293,17 @@ INISection* INIFile::addSection (const char* section) {
    return pSec;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Tries to read the INI-file from the file.
-//
-//            First the section header is parsed. If the name of the section
-//            from the file is found in the list of sections, those sections
-//            are parsed.
-//
-//            This step is repeated, until the end of the file is reached or a
-//            line is found which is neither a section-header, nor an attribute.
-//
-//            The function returns ParseObject::PARSE_OK, if EOF is reached;
-//            else a non-zero value is returned or - depending on the error - an
-//            exception is thrown.
-//Returns   : int: Status of reading: <0 hard error; 0 OK, >0 soft error
-//Throws    : string: Message describing error in case of an invalid value
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Tries to read the INI-file from the file. First the section header is
+/// parsed. If the name of the section from the file is found in the list of
+/// sections, those sections are parsed. This step is repeated, until the end
+/// of the file is reached or a line is found which is neither a
+/// section-header, nor an attribute. The function returns
+/// ParseObject::PARSE_OK, if EOF is reached; else a non-zero value is
+/// returned or - depending on the error - an exception is thrown.
+/// \returns \c int: Status of reading: <0 hard error; 0 OK, >0 soft error
+/// \throw \c string: Message describing error in case of an invalid value
+//-----------------------------------------------------------------------------
 int INIFile::read () throw (std::string) {
   TRACE9 ("INIFile::read ()");
 
@@ -333,13 +324,13 @@ int INIFile::read () throw (std::string) {
    return rc;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Searches the entries of the INI-file-object for a section with
-//            the passed name. If a matching entry is found, a pointer to it
-//            is returned; else NULL.
-//Parameters: name: Name of section to find
-//Returns   : Section*: Pointer to section or NULL (if not found)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Searches the entries of the INI-file-object for a section with the passed
+/// name. If a matching entry is found, a pointer to it is returned; else
+/// NULL.
+/// \param name: Name of section to find
+/// \returns \c Section*: Pointer to section or NULL (if not found)
+//-----------------------------------------------------------------------------
 const INISection* INIFile::findSection (const char* name) const {
    std::vector<const INISection*>::const_iterator i;
    for (i = sections.begin (); i != sections.end (); ++i)
@@ -349,15 +340,16 @@ const INISection* INIFile::findSection (const char* name) const {
    return NULL;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback if a section-header (to be exact: an identifier after
-//            the start-of-section character open bracket ([)) is found. The
-//            default action is to check, if the section matches
-//            (case-sensitive!) the passed parameter.  If yes, its attributes
-//            are parsed.
-//Parameters: section: Name of found section
-//Returns   : int: PARSE_OK, if name of section is OK, else ParseObject::PARSE_CB_ABORT.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback if a section-header (to be exact: an identifier after the
+/// start-of-section character open bracket ([)) is found. The default action
+/// is to check, if the section matches (case-sensitive!) the passed
+/// parameter. If yes, its attributes are parsed.
+/// \param section: Name of found section
+/// \param int: Unused length of the section name
+/// \returns \c int: PARSE_OK, if name of section is OK, else
+///     ParseObject::PARSE_CB_ABORT.
+//-----------------------------------------------------------------------------
 int INIFile::foundSection (const char* section, unsigned int) {
    Check3 (section);
    TRACE5 ("INIFile::foundSection (const char* , unsigned int): '" << section << '\'');
@@ -367,11 +359,11 @@ int INIFile::foundSection (const char* section, unsigned int) {
    return pSection ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds all the attributes of the Entity to the passed section
-//Parameters: obj: Object whose attributes should be added
-//            section: Section where to add the attributes
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds all the attributes of the Entity to the passed section
+/// \param obj: Object whose attributes should be added
+/// \param section: Section where to add the attributes
+//-----------------------------------------------------------------------------
 void INIFile::addEntity (const Entity& obj, INISection& section) {
    TRACE9 ("INIFile::addEntity (const Entity&, INISection&) - adding "
            << obj.attributes.size () << " attributes");
@@ -382,14 +374,14 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Writes an entity to the INI-file. Every attribute of the object
-//            is written as "name=value".
-//Parameters: stream: File to write to
-//            section: Name of the section for all attributes in the object
-//            obj: Object to write
-//Remarks   : There is no error-handling; failures are silently ignored!
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Writes an entity to the INI-file. Every attribute of the object is written
+/// as "name=value".
+/// \param stream: File to write to
+/// \param section: Name of the section for all attributes in the object
+/// \param obj: Object to write
+/// \remarks There is no error-handling; failures are silently ignored!
+//-----------------------------------------------------------------------------
 void INIFile::write (std::ostream& stream, const char* section, const Entity& obj) {
    TRACE9 ("INIFile::write (std::ostream&, const char*, const Entity&) - Section:"
            << section);
