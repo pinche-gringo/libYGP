@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: AttrParse.html,v 1.4 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: AttrParse.html,v 1.5 2002/12/01 05:13:59 markus Exp $ -->
 
 <html>
   <head>
@@ -58,7 +58,7 @@
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="AttrParse.html#addAttribute"><b>addAttribute</b></a></td>
-        <td><tt>(<tt>const</tt> <a href="Attribute.html"><b>IAttribute</b></a>&amp; <tt><font color="blue">attr</font></tt>) throw (<tt><font color="purple">std::string</font></tt>&amp;)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <a href="Attribute.html"><b>IAttribute</b></a>&amp; <tt><font color="blue">attr</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="AttrParse.html#assignValues"><b>assignValues</b></a></td>
         <td><tt>(const <font color="purple">std::string</font>&amp; <font color="blue">values</font>) const throw (<font color="purple">std::string</font>&amp;)</tt>;</td></tr>
@@ -79,33 +79,59 @@
     <h4>Management functions</h4>
     <pre><a name="AttributeParse"></a>AttributeParse ()</pre>
     <dl>
-      <dd>Defaultconstructor.</dd>
+      <dd><p>Defaultconstructor.</p></dd>
     </dl>
-
-    <pre><a name="~AttributeParse"></a>virtual ~AttributeParse ()</pre>
-
-    <pre><a name="addAttribute"></a>void addAttribute (IAttribute& attr) throw (std::string)</pre>
+    <hr>
+    <pre><a name="~AttributeParse"></a><b>~AttributeParse</b> () </pre>
     <dl>
-      <dd>Adds an attribute to parse to the object. An exception is thrown if the
-        object already contains an attribute with a name equal to the passed one
-        (only n the debug-version of the library).</dd>
+      <dd><p>Destructor</p></dd>
     </dl>
-
-    <pre><a name="assignValues"></a>int assignValues (const std::string&amp; values) const throw (std::string)</pre>
+    <hr>
+    <pre><a name="addAttribute"></a>void <b>addAttribute</b> (IAttribute& attribute)</pre>
     <dl>
-      <dd>Assigns the values from the passed string to the attribute-values stored
-        inside the object. If there is no name-match or the value does not fit to the
-        type, an exception is thrown.</dd>
+      <dd><p>Adds an attribute to the request</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>attribute</code>: Attribute to add<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>In the debug version a message is shown, if the attribute already exists
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="assignValues"></a>void <b>assignValues</b> (const std::string& values) const throw (std::string) </pre>
+    <dl>
+      <dd><p>Assigns the values from the passed string to the attribute-values stored
+        inside the object. If the name does not match none
+        of the attributes or the value does not fit to the type,
+        an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of attribute to find<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Throws</b></dt>
+        <dd>std::string in case of an unknown name or an invalid value</dd></dl><dd>
     </dl>
 
     <h4>Find functions</h4>
-    <pre><a name="findAttribute"></a>const IAttribute* findAttribute (const std::string&amp; name) const</pre>
+    <pre><a name="IAttribute*"></a>const <b>IAttribute*</b> AttributeParse::findAttribute (const std::string& name) const </pre>
     <dl>
-      <dd>Searches for an attribute with the passed name. If not found, NULL is returned.</dd>
+      <dd><p>Searches for an attribute with the passed name.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of attribute to find<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>IAttribute*: Pointer to attribute or NULL (if not found)
+</dd></dl></dd>
     </dl>
-    <pre><a name="findAttribute2"></a>const IAttribute* findAttribute (const char* name) const</pre>
+    <hr>
+    <pre><a name="IAttribute*"></a>const <b>IAttribute*</b> AttributeParse::findAttribute (const char* name) const </pre>
     <dl>
-      <dd>Searches for an attribute with the passed name. If not found, NULL is returned.</dd>
+      <dd><p>Searches for an attribute with the passed name.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>name</code>: Name of attribute to find<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>IAttribute*: Pointer to attribute or NULL (if not found)
+</dd></dl></dd>
     </dl>
   </body>
 </html>
