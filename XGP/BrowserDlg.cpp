@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.1 2003/01/14 17:03:25 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.2 2003/01/14 22:40:29 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -28,8 +28,6 @@
 #include <gtk--/box.h>
 #include <gtk--/radiobutton.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <Check.h>
 #include <Trace_.h>
 
@@ -44,17 +42,24 @@ const char* BrowserDlg::browserNames[4] = { N_("galeon"), N_("mozilla"),
 //Purpose   : Constructor
 /*--------------------------------------------------------------------------*/
 BrowserDlg::BrowserDlg (string& cmd)
-   : XDialog (OKCANCEL), path (cmd) {
+   : XDialog (OKCANCEL), path (cmd), pboxOther (new Gtk::HBox ()) {
    TRACE3 ("BrowserDlg::BrowserDlg (string&) - " << cmd);
    Check3 (sizeof (browserNames) < sizeof (aBrowsers));
    set_title (_("Select a browser"));
+
+   pboxOther->show ();
+
+   if (cmd.empty ())
+      cmd = browserNames[0];
 
    Gtk::RadioButton_Helpers::Group group;
 
    // Create Other radio button
    aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])] =
-      new Gtk::RadioButton (group, _("Other"), 0);
+      new Gtk::RadioButton (group, _("Other: "), 0);
    aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->set_active (true);
+   pboxOther->pack_start (*aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])],
+                          false, false);
    aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->show ();
    aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->clicked.connect
       (bind (slot (this, &BrowserDlg::control),
@@ -65,6 +70,7 @@ BrowserDlg::BrowserDlg (string& cmd)
         ++i) {
       aBrowsers[i] = new Gtk::RadioButton (group, _(browserNames[i]), 0);
       aBrowsers[i]->clicked.connect (bind (slot (this, &BrowserDlg::control), i));
+      get_vbox ()->pack_start (*aBrowsers[i], false, false);
       aBrowsers[i]->show ();
       if (cmd == browserNames[i]) {
          aBrowsers[i]->set_active (true);
@@ -73,10 +79,8 @@ BrowserDlg::BrowserDlg (string& cmd)
    }
 
    path.show ();
-
-   for (unsigned int i (0); i < (sizeof (aBrowsers) / sizeof (aBrowsers[0])); ++i)
-      get_vbox ()->pack_start (*aBrowsers[i], false, false);
-   get_vbox ()->pack_start (path, false, false);
+   pboxOther->pack_start (path, true, true);
+   get_vbox ()->pack_start (*pboxOther, false, false);
 
    show ();
 }

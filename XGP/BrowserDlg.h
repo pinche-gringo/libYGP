@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.1 2003/01/14 17:03:25 markus Exp $
+//$Id: BrowserDlg.h,v 1.2 2003/01/14 22:40:29 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <XDialog.h>
 
 namespace Gtk {
+   class Box;
    class RadioButton;
 }
 
@@ -45,6 +46,7 @@ class BrowserDlg : public XDialog {
    void control (unsigned int cmd);
    virtual void okEvent ();
 
+   Gtk::Box*         pboxOther;
    Gtk::RadioButton* aBrowsers[5];
    static const char* browserNames[4];
 
