@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.17 2004/10/13 03:54:31 markus Exp $
+//$Id: Log.h,v 1.18 2004/12/29 18:21:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -102,6 +102,7 @@ class Syslog {
    // Don't rename ERR to ERROR, as this causes an error with BCC
    enum { EMERGENCY, ALERT, CRITICAL, ERR, WARNING, NOTICE, INFO, DEBUGGING };
 
+ private:
    // Declaration is in Version.cpp!
    static std::map <unsigned int, char*> apAppl;
 #endif // HAVE_SYSLOG_H

@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.39 2004/10/29 01:25:15 markus Exp $
+//$Id: XFileList.cpp,v 1.40 2004/12/29 18:17:36 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -216,7 +216,7 @@ Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
 
       std::map<std::string, Glib::RefPtr<Gdk::Pixbuf> >::iterator i;
       do {
-         // Try to find an icon for the file in the preloaded list; 
+         // Try to find an icon for the file in the preloaded list;
          // use every dot (.)-seperated part of the filename
          if ((i = icons.find (++pName)) != icons.end ()) {
             TRACE9 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&)"
@@ -224,7 +224,7 @@ Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
             actIcon = (*i).second;
             break;
          } // endif icons available
-      } while ((pName = strchr (pName, '.')) != NULL); 
+      } while ((pName = strchr (pName, '.')) != NULL);
    } // end-else
    Check3 (actIcon);
 
