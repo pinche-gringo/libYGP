@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.5 1999/08/01 23:08:50 Markus Exp $
+//$Id: DirSrch.cpp,v 1.6 1999/08/11 17:21:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -98,8 +98,8 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
 
 #ifdef UNIX
    attr = attribs;
-   if (!(attr & FILE_NORMAL))
-      attr |= FILE_NORMAL;
+   if ((attr & FILE_NORMAL) == FILE_NORMAL)
+      attr &= ~FILE_NORMAL;
 
    pDir = opendir (searchDir.c_str ());
    if (!pDir)
@@ -163,7 +163,10 @@ int DirectorySearch::find () {
          *pEntry->pEndPath = '\0';
 
          // Do attributes match?
-         if (!(pEntry->status.st_mode & ~attr)) {
+         short access (pEntry->status.st_mode & FILE_NORMAL);
+         short type (pEntry->status.st_mode & ~FILE_NORMAL);
+         if (!(access & attr)
+	     || (type & attr)) {
             pEntry->entry = *pDirEnt;
             return 0;
          } // endif attributs OK
