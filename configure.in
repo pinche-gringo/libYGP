@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.26 $)
+AC_REVISION($Revision: 1.27 $)
 
 AC_INIT()
 
@@ -101,4 +101,4 @@ AC_FUNC_FNMATCH
 AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_STRFTIME
 
-AC_OUTPUT([Makefile Common/Makefile X-windows/Makefile CORBA/Makefile])
+AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile CORBA/Makefile])
