@@ -16,7 +16,7 @@ libAttr_la_LDFLAGS=-version-info $(LIBVERSION) -release $(LIBRELEASE) \
 libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
                    FileRExp.cpp Parse.cpp Handle.cpp Version.cpp ATime.cpp \
 		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp \
-		   INIFile.h INIFile.cpp CRegExp.cpp StackTrc.cpp \
+		   INIFile.cpp CRegExp.cpp StackTrc.cpp \
 		   AByteArray.cpp Socket.cpp RDirSrch.cpp File.cpp \
 		   RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp IDirSrch.cpp \
 		   RemoteFile.cpp Entity.cpp Thread.cpp PathSrch.cpp
@@ -27,4 +27,4 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		CRegExp.h RegExp.h Log.h StackTrc.h AByteArray.h Socket.h \
 		RDirSrch.h IDirSrch.h File.h RDirSrchSrv.h AssParse.h \
 		Attribute.h AttrParse.h RemoteFile.h Entity.h Internal.h \
-		Thread.h Mutex.h
+		Thread.h Mutex.h INIFile.h
