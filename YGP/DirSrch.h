@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.31 2003/07/21 23:52:55 markus Rel $
+//$Id: DirSrch.h,v 1.32 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -106,11 +106,11 @@ class DirectorySearch : public IDirectorySearch {
 
    void cleanup ();
 
-   std::string searchDir;
-   std::string searchFile;
+   std::string searchDir;   ///< Holding the directory part of the search value
+   std::string searchFile;       ///< Holding the file part of the search value
 
-   unsigned long attr;
-   /// Status of object 
+   unsigned long attr;             ///< Attributes the found file must have set
+   /// Status of object
    enum { DIRSRCH_OK = 0,                       ///< Object is in a valid state
           NO_ENTRY,     ///< Object is in a valid state, but has no entry found
           NO_DIR,                      ///< No directory to search in specified

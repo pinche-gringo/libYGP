@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.13 2003/07/25 05:43:54 markus Rel $
+//$Id: Thread.h,v 1.14 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@
 */
 class Thread {
  public:
+   /// Declaration of prototype of callback.
    typedef void* (*THREAD_FUNCTION) (void*);
 
    virtual ~Thread ();
@@ -93,7 +94,7 @@ class Thread {
    void ret (void* rc) const;
    void init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string);
 
-   void* pArgs_;
+   void* pArgs_;             ///< Pointer to (array of) arguments to the thread
 
  private:
 #ifdef HAVE_LIBPTHREAD
@@ -120,6 +121,7 @@ class Thread {
 */
 template <class T> class OThread : public Thread {
  public:
+   /// Declaration of type of callback
    typedef void* (T::*THREAD_OBJMEMBER) (void*);
 
    /// Destructor

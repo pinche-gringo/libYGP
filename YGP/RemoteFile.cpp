@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.14 2003/07/03 04:10:53 markus Rel $
+// $Id: RemoteFile.cpp,v 1.15 2003/10/02 22:59:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -178,52 +178,6 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 }
 
 //-----------------------------------------------------------------------------
-/// Writes the specified number of characters to the (previously opened) file
-/// and returns the number of actually written bytes. If an error occurres, an
-/// exception is thrown.
-/// \param file: Handle of openeded file
-/// \param buffer: Buffer of data
-/// \param length: Length of buffer (= bytes to write)
-/// \returns \c int: Number of written bytes
-/// \throw string: In case of an error a textual description
-//-----------------------------------------------------------------------------
-int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
-   TRACE5 ("RemoteFile::write (void*, char*, unsigned int) const - "
-           << path () << name ());
-   Check3 (file);
-   Check3 (buffer);
-   Check3 (length);
-
-   std::string text ("Write=");
-   ANumeric id ((unsigned int)file);
-   text += id.toUnformattedString ();
-
-   id = length;
-   text += ";Length=";
-   text += id.toUnformattedString ();
-
-   text += ";Data=\"";
-   text.append (buffer, length);
-   text += '"';
-
-   try {
-      sock.write (text);
-      sock.read (text);
-   }
-   catch (std::domain_error& error) {
-      std::string err (error.what ());
-      throw err;
-   }
-   text += '\0';
-
-   if (isOK (text))
-      return length;
-   else
-      handleServerError (text.data ());
-   return 0;
-}
-
-//-----------------------------------------------------------------------------
 /// Checks if further data is available for reading
 /// \param file: Handle of openeded file
 //-----------------------------------------------------------------------------
@@ -297,4 +251,50 @@ void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnsw
       TRACE ("RemoteFile::handleServerMsg (const AttributeParse&, const char*) const"
              "\n - Error parsing attributes: " << error.c_str ());
    }
+}
+
+//-----------------------------------------------------------------------------
+/// Writes the specified number of characters to the (previously opened) file
+/// and returns the number of actually written bytes. If an error occurres, an
+/// exception is thrown.
+/// \param file: Handle of openeded file
+/// \param buffer: Buffer of data
+/// \param length: Length of buffer (= bytes to write)
+/// \returns \c int: Number of written bytes
+/// \throw string: In case of an error a textual description
+//-----------------------------------------------------------------------------
+int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
+   TRACE5 ("RemoteFile::write (void*, char*, unsigned int) const - "
+           << path () << name ());
+   Check3 (file);
+   Check3 (buffer);
+   Check3 (length);
+
+   std::string text ("Write=");
+   ANumeric id ((unsigned int)file);
+   text += id.toUnformattedString ();
+
+   id = length;
+   text += ";Length=";
+   text += id.toUnformattedString ();
+
+   text += ";Data=\"";
+   text.append (buffer, length);
+   text += '"';
+
+   try {
+      sock.write (text);
+      sock.read (text);
+   }
+   catch (std::domain_error& error) {
+      std::string err (error.what ());
+      throw err;
+   }
+   text += '\0';
+
+   if (isOK (text))
+      return length;
+   else
+      handleServerError (text.data ());
+   return 0;
 }

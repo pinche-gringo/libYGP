@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.36 2003/09/18 17:32:11 markus Exp $
+//$Id: ANumeric.cpp,v 1.37 2003/10/02 22:59:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -71,7 +71,7 @@ ANumeric::~ANumeric () {
 /// Assignmentoperator; tries to extract an integer-value from the passed
 /// value. pValue must not be a NULL-pointer, may have leading white-spaces
 /// which may follow a sign (plus (+) or minus (-)) followed by numeric
-/// characters and a zero-characer (\0). If pValue has a different format an
+/// characters and a zero-characer (\\0). If pValue has a different format an
 /// excpetion is thrown.
 /// \param  pValue: Pointer to ASCIIZ-string containing numeric value to assign
 /// \throw invalid_argument in case of an exception

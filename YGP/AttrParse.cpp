@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.9 2003/06/14 20:14:57 markus Rel $
+//$Id: AttrParse.cpp,v 1.10 2003/10/02 22:59:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -79,7 +79,7 @@ const IAttribute* AttributeParse::findAttribute (const char* name) const {
 
 //----------------------------------------------------------------------------
 /// Searches for an attribute with the passed name.
-/// \param: name: Name of attribute to find
+/// \param name: Name of attribute to find
 /// \return \c IAttribute*: Pointer to attribute or NULL (if not found)
 //----------------------------------------------------------------------------
 const IAttribute* AttributeParse::findAttribute (const std::string& name) const {

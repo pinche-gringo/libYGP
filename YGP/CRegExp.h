@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.29 2003/07/03 01:52:36 markus Rel $
+//$Id: CRegExp.h,v 1.30 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -77,24 +77,24 @@
 
    - <b>\\</b> (Backslash):
      - Quotes the following character (including the backlash (\) itself:
-     - <b>\DIGIT</b> to repeat the matched text of the DIGIT'th
+     - <b>\\DIGIT</b> to repeat the matched text of the DIGIT'th
          (...)-construct.
-     - <b>\b</b> matches the empty string, provided its at the beginning or the
+     - <b>\\b</b> matches the empty string, provided its at the beginning or the
             end of a word.
-     - <b>\B</b> matches the empty string, provided its not at the beginning or
+     - <b>\\B</b> matches the empty string, provided its not at the beginning or
             the end of a word.
      - <b>\\\<</b> matches the empty string, provided its at the beginning of a word.
      - <b>\\\></b> matches the empty string, provided its at the end of a word.
-     - <b>\w</b> matches any word-constituent character.
-     - <b>\W</b> matches any character that is not word-constituent.
+     - <b>\\w</b> matches any word-constituent character.
+     - <b>\\W</b> matches any character that is not word-constituent.
 
-   - \b >[<match>] matches the characters specified in match.
+   - \b >[\<match\>] matches the characters specified in match.
 
-   - '\b [^<match>] or \b [!<match>] matches the characters not specified in match.<br>
-       <match> ::= | <char><match> | <range><match> | <character-class><match> | {}<br>
-       <range> ::= <low>-<high><br>
-       <character-class> ::= [:<class>:]<br>
-       <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
+   - '\b [^\<match\>] or \b [!\<match\>] matches the characters not specified in match.<br>
+       \<match\> ::= | \<char\>\<match\> | \<range\>\<match\> | \<character-class\>\<match\> | {}<br>
+       \<range\> ::= \<low\>-\<high\><br>
+       \<character-class\> ::= [:\<class\>:]<br>
+       \<class\> ::= alnum | alpha | cntrl | digit | space | graph | lower
                    | print | punct | space | upper</p><p>
        \note To include the character square bracket ([) in the match, it
              must be the first character; similar to the match-negators caret
@@ -110,8 +110,8 @@
    constructs are also supported (Warning: Those things are not regulary
    tested):
 
-   - <match> ::= ... | <wordborder><match><br>
-        <wordborder> ::= [:<:] | [:>:]           (Matches beginn or end of word)
+   - \<match\> ::= ... | \<wordborder\>\<match\><br>
+        \<wordborder\> ::= [:\<:] | [:\>:]           (Matches beginn or end of word)
 
 
    \note The \c pExpression-parameter is stored as is (and not copied); so

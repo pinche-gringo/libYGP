@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.18 2003/07/16 07:01:10 markus Rel $
+//$Id: File.h,v 1.19 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -160,14 +160,15 @@ struct File {
    virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
    //@}
 
+   ///< Character to separte directories of the operating system
    static const char DIRSEPARATOR;
 
  protected:
-   std::string   path_;
-   struct dirent entry;
-   struct stat   status;
+   std::string   path_;           ///< Path of the file (don't access directly)
+   struct dirent entry;           ///< File entry (as seen by the OS - don't access directly)
+   struct stat   status;          ///< Attributes of the file (don't access directly)
 
-   bool  userExec;
+   bool  userExec;   ///< Flag, if the file can be executed by the current user (don't access directly)
 
    void throwErrorText (const char* error) const throw (std::string);
 

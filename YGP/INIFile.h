@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.20 2003/06/19 23:27:21 markus Rel $
+//$Id: INIFile.h,v 1.21 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -89,8 +89,8 @@ class INISection {
    virtual int foundKey (const char* key, unsigned int);
    virtual int foundValue (const char* value, unsigned int);
 
-   const IAttribute* pFoundAttr;
-   std::vector<const IAttribute*> attributes;
+   const IAttribute* pFoundAttr;          ///< Pointer to last parsed attribute
+   std::vector<const IAttribute*> attributes;    ///< Attributes of the section
 
  private:
    const char* pName;

@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.18 2003/06/15 05:19:12 markus Rel $
+//$Id: ATime.h,v 1.19 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,9 +85,9 @@ class ATime : public AttributValue {
    void setSecond (char second) throw (std::invalid_argument);
 
    // Query-functions
-   char getHour () const { return hour; }
-   char getMinute () const { return min_; }
-   char getSecond () const { return sec; }
+   char getHour () const { return hour; }                 ///< Returns the hour
+   char getMinute () const { return min_; }             ///< Returns the minute
+   char getSecond () const { return sec; }              ///< Returns the second
 
    static ATime now () { return ATime (true); }    ///< Returns the actual time
 

@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.7 2003/07/03 04:49:47 markus Rel $
+//$Id: XDirSrch.h,v 1.8 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,11 +49,12 @@ class XDirectorySearch : public Parent {
 
    /// \name Searching
    //@{
-   /// Returns the first found file matching \c spec, having the attributes \attribs
+   /// Returns the first found file matching \c spec, having the attributes \c
+   /// attribs
    virtual const File* find (const std::string& spec, unsigned long attribs = FILE_NORMAL) {
       setSearchValue (spec);
       return Parent::find (attribs); }
-   /// Returns the first found file, having the attributes \attribs
+   /// Returns the first found file, having the attributes \c attribs
    /// \pre The files to search for must have been previously specified
    virtual const File* find (unsigned long attribs = FILE_NORMAL) {
       const File* r = Parent::find (attribs);

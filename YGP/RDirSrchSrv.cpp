@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.19 2003/07/03 04:09:51 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.20 2003/10/02 22:59:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -90,6 +90,7 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 //-----------------------------------------------------------------------------
 /// Handles the commands send from the client; the respectative action is
 /// performed and data is returned accordingly.
+/// 
 /// \param socket: Socket for communication
 /// \returns \c int: 0 in case of end-of-communication; 99 after the END-command
 /// \throw std::domain_error: In case of a communication problem
@@ -283,33 +284,6 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
 }
 
 //-----------------------------------------------------------------------------
-/// Sends information about the found file to the client
-/// \param socket: Socket for communication
-/// \param result: Found file
-//-----------------------------------------------------------------------------
-void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
-   throw (std::domain_error) {
-   std::string write ("RC=0;File=\"");
-   write += result.path ();
-   write += result.name ();
-   write += '"';
-
-   write += ";Size=";
-   ANumeric number (result.size ());
-   write += number.toUnformattedString ();
-
-   write += ";Time=";
-   ATimestamp time (result.time ());
-   write += time.toUnformattedString ();
-
-   ANumeric attr (IDirectorySearch::convertFromSysAttribs (result.attributes ()));
-   write += ";Attr=";
-   write += attr.toUnformattedString ();
-
-   socket.write (write);
-}
-
-//-----------------------------------------------------------------------------
 /// Sends information about the occured error to the client
 /// \param socket: Socket for communication
 /// \param error: Errornumber
@@ -339,4 +313,31 @@ void RemoteDirSearchSrv::handleArgError (Socket& sock, const std::string& error)
    errText += _("Invalid arguments: ");
    errText += error;
    sock.write (errText.c_str (), errText.length ());
+}
+
+//-----------------------------------------------------------------------------
+/// Sends information about the found file to the client
+/// \param socket: Socket for communication
+/// \param result: Found file
+//-----------------------------------------------------------------------------
+void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
+   throw (std::domain_error) {
+   std::string write ("RC=0;File=\"");
+   write += result.path ();
+   write += result.name ();
+   write += '"';
+
+   write += ";Size=";
+   ANumeric number (result.size ());
+   write += number.toUnformattedString ();
+
+   write += ";Time=";
+   ATimestamp time (result.time ());
+   write += time.toUnformattedString ();
+
+   ANumeric attr (IDirectorySearch::convertFromSysAttribs (result.attributes ()));
+   write += ";Attr=";
+   write += attr.toUnformattedString ();
+
+   socket.write (write);
 }

@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.34 2003/07/03 01:51:29 markus Rel $
+//$Id: Parse.h,v 1.35 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ class ParseObject {
  protected:
    virtual int checkIntegrity () const;
 
-   bool        skip;
+   bool skip;                       ///< Flag, if whitespaces should be skipped
 
    /// Possible errors of checkIntegrity
    enum objStatus { OK = 0, NO_DESCRIPTION, LAST };
@@ -300,7 +300,7 @@ class ParseAttomic : public ParseObject {
 */
 class ParseText : public ParseAttomic {
  public:
-   // Manager-functions
+   /// Constructor
    ParseText (const char* abort, const char* description,
               unsigned int max, unsigned int min = 1,
               bool skipWhitespace = true, bool reportData = true)
@@ -351,8 +351,8 @@ class ParseTextEsc : public ParseText {
  protected:
    virtual int checkValue (char ch);
 
-   char esc;
-   char last;
+   char esc;                       ///< Character escaping the end character(s)
+   char last;                                        ///< Last parsed character
 
  private:
    // Prohibited manager functions
@@ -449,11 +449,11 @@ class ParseQuotedEsc : public ParseTextEsc {
    The \c min- and \c max-members are not totally wasted; they could be used
    to define the minimal length of certain keywords which would be
    valid even if just written in a short(er) form and/or to include values with
-   a zero ('\0') character (although the main reason for them is that I didn't
+   a zero ('\\0') character (although the main reason for them is that I didn't
    want to re-consider the class-hierarchy anymore).
 
    \note This class uses strlen to get the length of its value so don't use
-   its first constructor to check for text with a '\0' inside!
+   its first constructor to check for text with a '\\0' inside!
 
    See ParseObject for a general description of the parser.
 */
@@ -494,11 +494,11 @@ class ParseExact : public ParseAttomic {
    The \c min- and \c max-members are not totally wasted; they could be used
    to define the minimal length of certain keywords which would be
    valid even if just written in a short(er) form and/or to include values with
-   a zero ('\0') character (although the main reason for them is that I didn't
+   a zero ('\\0') character (although the main reason for them is that I didn't
    want to  re-consider the class-hierarchy anymore).
 
    \note This class uses strlen to get the length of its value so don't use its
-   first constructor to check for text with a '\0' inside!
+   first constructor to check for text with a '\\0' inside!
 
    See ParseObject for a general description of the parser.
 */
@@ -578,10 +578,10 @@ class ParseSequence : public ParseObject {
    // Parsing
    virtual int doParse (Xistream& stream, bool optional) throw (std::string);
 
-   ParseObject** ppList;
+   ParseObject** ppList;       ///< Pointer to array of objects in the sequence
 
-   unsigned int maxCard;
-   unsigned int minCard;
+   unsigned int maxCard;               ///< Maximal cardinality of the sequence
+   unsigned int minCard;               ///< Minimal cardinality of the sequence
 
 private:
    // Prohibited manager functions
@@ -618,7 +618,7 @@ class ParseSelection : public ParseSequence {
 
 // Second part: Classes having an parameter for a callback-function
 
-/* Prototype of callback-function (called if an object is found).
+/**Prototype of callback-function (called if an object is found).
    The return-value specifies how the parsing should be continued:
    0 ..... Parsing (and callback OK)
    > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
@@ -1338,6 +1338,7 @@ template <class T> class OFParseExact : public ParseExact {
                  PTCALLBACK callback, bool skipWhitespace = true)
       : ParseExact (value, description, skipWhitespace, true)
       , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
+   /// Constructor; with callback to call if object is found
    OFParseExact (const char* value, const char* description, T& objToNotify,
                  PTCALLBACK callback, unsigned int max, unsigned int min,
                  bool skipWhitespace = true)
@@ -1389,6 +1390,7 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
                       bool skipWhitespace = true)
       : ParseUpperExact (value, description, skipWhitespace, true)
       , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
+   /// Constructor; with callback to call if object is found
    OFParseUpperExact (const char* value, const char* description,
                       T& objToNotify, PTCALLBACK callback, unsigned int max,
                       unsigned int min, bool skipWhitespace = true)
@@ -1433,6 +1435,7 @@ template <class T> class OFParseSequence : public ParseSequence {
    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
 
  public:
+   /// Constructor; with callback to call if object is found
    OFParseSequence (ParseObject* apObjectList[], const char* description,
                     T& objToNotify, PTCALLBACK callback, unsigned int max = 1,
                     unsigned int min = 1, bool skipWhitespace = true)

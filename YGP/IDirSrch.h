@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.14 2003/07/21 23:52:55 markus Rel $
+//$Id: IDirSrch.h,v 1.15 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ class IDirectorySearch {
    static const int FILE_HIDDEN;        ///< The file is "hidden" in normal use
 
  protected:
-   File* pEntry;
+   File* pEntry;                       ///< Pointer to (last) found File object
 
    /// Frees the buffer holding the last found file.
    void clearEntry () { delete pEntry; pEntry = NULL; }

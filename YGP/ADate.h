@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.25 2003/06/15 05:22:02 markus Rel $
+//$Id: ADate.h,v 1.26 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,6 +85,7 @@ class ADate : public AttributValue {
       setDefined (); day = month = (unsigned char)1; year = 1900; }
    void setDay (char Day) throw (std::invalid_argument);
    void setMonth (char Month) throw (std::invalid_argument);
+   /// Sets the year of the date object
    void setYear (int Year) { setDefined (); year = Year; }
 
    /// \name Query methods

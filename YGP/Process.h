@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.6 2003/09/11 04:17:52 markus Exp $
+//$Id: Process.h,v 1.7 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -74,6 +74,8 @@ class Process {
       throw (std::string) {
       start (file, arguments, true); }
 
+   /// Returns the process ID of the actual process
+   /// \return pid_t: Process ID of running process
    static pid_t getPID () {
 #if SYSTEM == UNIX
       return getpid ();

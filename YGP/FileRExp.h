@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.13 2003/07/01 04:12:24 markus Rel $
+//$Id: FileRExp.h,v 1.14 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,13 +32,13 @@
 
    - <b>?</b> (Question mark): matches any single character
 
-   - \b >[<match>] matches the characters specified in match.
+   - \b >[\<match\>] matches the characters specified in match.
 
-   - '\b [^<match>] or \b [!<match>] matches the characters not specified in match.<br>
-       <match> ::= | <char><match> | <range><match> | <character-class><match> | {}<br>
-       <range> ::= <low>-<high><br>
-       <character-class> ::= [:<class>:]<br>
-       <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
+   - '\b [^\<match\>] or \b [!\<match\>] matches the characters not specified in match.<br>
+       \<match\> ::= | \<char\>\<match\> | \<range\>\<match\> | \<character-class\>\<match\> | {}<br>
+       \<range\> ::= \<low\>-\<high\><br>
+       \<character-class\> ::= [:\<class\>:]<br>
+       \<class\> ::= alnum | alpha | cntrl | digit | space | graph | lower
                    | print | punct | space | upper</p><p>
        \note To include the character square bracket ([) in the match, it
              must be the first character; similar to the match-negators caret

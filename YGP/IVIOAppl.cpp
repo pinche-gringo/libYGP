@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.31 2003/07/01 04:57:49 markus Rel $
+///$Id: IVIOAppl.cpp,v 1.32 2003/10/02 22:59:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -93,7 +93,7 @@ IVIOApplication::~IVIOApplication () {
 
 //-----------------------------------------------------------------------------
 /// Sets a table which maps options to a verbose version. This table must be
-/// terminated with an entry where the short option is '\0' and the associated
+/// terminated with an entry where the short option is '\\0' and the associated
 /// long options is NULL; the previous entries must not have lines with those
 /// values.
 /// \param pLongOpts: Pointer to an array of longOptions; terminated with a
@@ -101,8 +101,8 @@ IVIOApplication::~IVIOApplication () {
 /// \pre
 ///     - \c pLongOpts not NULL
 ///     - all long-entries not NULL
-///     - all short-entries not '\0'
-///     - An entry with an { NULL, '\0' } at the end
+///     - all short-entries not '\\0'
+///     - An entry with an { NULL, '\\0' } at the end
 //-----------------------------------------------------------------------------
 void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
    Check1 (pLongOpts);
@@ -120,13 +120,13 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
 
 //-----------------------------------------------------------------------------
 /// Sets a table which maps options to a verbose version. This table must not
-/// contain entries with either '\0' as short option or NULL as long option.
+/// contain entries with either '\\0' as short option or NULL as long option.
 /// \param pLongOpts: Pointer to an array of longOptions
 /// \param numLongOpts: Number of elements in the array
 /// \pre
 ///     - \c pLongOpts not NULL
 ///     - all long-entries not NULL
-///     - all short-entries not '\0'
+///     - all short-entries not '\\0'
 //-----------------------------------------------------------------------------
 void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 				      unsigned int numLongOpts) {
@@ -227,7 +227,7 @@ const char* IVIOApplication::getOptionValue () {
 ///     --<LongOption>
 ///     --<LongOption>=<Value>
 ///     --<LongOption> <Value>
-/// \returns \c char: Next option ('\0' at last option)
+/// \returns \c char: Next option ('\\0' at last option)
 /// \remarks : In non-UNIX-systems the slash (/) is also an option-char
 //-----------------------------------------------------------------------------
 char IVIOApplication::getOption () {

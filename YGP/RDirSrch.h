@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.15 2003/06/19 22:50:21 markus Rel $
+//$Id: RDirSrch.h,v 1.16 2003/10/02 22:59:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -83,11 +83,10 @@ class RemoteDirSearch : public IDirectorySearch {
    virtual bool isValid () const throw (std::domain_error);
    bool isValid (const std::string& dir) throw (std::domain_error);
 
-   static const char SEPARATOR;
+   static const char SEPARATOR;            ///< Separator between host and port
 
  protected:
-   // Variables for sending
-   Socket sock;
+   Socket sock;                               ///< Socket for the communication
 
  private:
    //@Section prohibited manager functions
