@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.8 2002/12/15 22:18:01 markus Rel $
+//$Id: Log.h,v 1.9 2003/02/21 19:35:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 #define LOGEMERGENCY(text) Syslog::write (Syslog::EMERGENCY, text);
 #define LOGALERT(text)     Syslog::write (Syslog::ALERT, text);
 #define LOGCRITICAL(text)  Syslog::write (Syslog::CRITICAL, text);
-#define LOGERROR(text)     Syslog::write (Syslog::ERROR, text);
+#define LOGERROR(text)     Syslog::write (Syslog::ERR, text);
 #define LOGWARNING(text)   Syslog::write (Syslog::WARNING, text);
 #define LOGNOTICE(text)    Syslog::write (Syslog::NOTICE, text);
 #define LOGINFO(text)      Syslog::write (Syslog::INFO, text);
@@ -72,7 +72,7 @@ class Syslog {
       syslog (level, "%s", text);
 #elif SYSTEM == WINDOWS
 // Use printf to log under Windoze (although NT does have some logging-thing)
-      static char* levels[] = { "Alert", "Critical", "Error", "Warning",
+      static char* levels[] = { "Emergency", "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
       Check1 (level < (sizeof (levels) / sizeof (levels[0])));
       std::cerr << levels[level] << ": " << text << '\n';
@@ -81,11 +81,12 @@ class Syslog {
 
 #if SYSTEM == UNIX
    enum { EMERGENCY = LOG_EMERG, ALERT = LOG_ALERT, CRITICAL = LOG_CRIT,
-          ERROR = LOG_ERR, WARNING = LOG_WARNING, NOTICE = LOG_NOTICE,
+          ERR = LOG_ERR, WARNING = LOG_WARNING, NOTICE = LOG_NOTICE,
           INFO = LOG_INFO, DEBUGGING = LOG_DEBUG };
 #elif SYSTEM == WINDOWS
-   enum { EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUGGING };
-#endif // UNIX
+   // Don't rename ERR to ERROR, as this causes an error with BCC
+   enum { EMERGENCY, ALERT, CRITICAL, ERR, WARNING, NOTICE, INFO, DEBUGGING };
+#endif // WINDOWS
 };
 
 #endif
