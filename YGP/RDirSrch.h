@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.7 2001/09/05 15:59:36 markus Exp $
+//$Id: RDirSrch.h,v 1.8 2001/09/08 13:43:06 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,8 +58,8 @@ class RemoteDirSearch : public IDirectorySearch {
 
    enum { FILE_NORMAL = 0, FILE_READONLY = 1, FILE_DIRECTORY = 2, FILE_HIDDEN = 4 };
 
-   virtual bool isValid () const;
-   bool isValid (const std::string& dir);
+   virtual bool isValid () const throw (domain_error);
+   bool isValid (const std::string& dir) throw (domain_error);
 
    static const char SEPERATOR = ':';
 
