@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.2 2000/02/02 22:09:13 Markus Exp $
+// $Id: Handle.cpp,v 1.3 2000/03/23 19:29:20 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -38,7 +38,7 @@ IHandle::~IHandle () {
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
-const IHandle& IHandle::operator= (const IHandle& other) {
+IHandle& IHandle::operator= (const IHandle& other) {
    if (getValue () != other.getValue ()) {
       if (isDefined ())
          unlink ();
