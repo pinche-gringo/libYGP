@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.11 2002/05/24 06:52:49 markus Rel $
+//$Id: RDirSrch.h,v 1.12 2002/12/08 04:48:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 #include <time.h>
 #include <stddef.h>
 #include <string.h>
-#include <assert.h>
 
 #include <stdexcept>
 
@@ -87,8 +86,6 @@ class RemoteDirSearch : public IDirectorySearch {
    //@Section prohibited manager functions
    RemoteDirSearch (const RemoteDirSearch&);
    RemoteDirSearch& operator= (const RemoteDirSearch&);
-
-   void init (const std::string& server, unsigned int port) throw (std::domain_error);
 
    int posSeparator (const std::string& dir) const;
 
