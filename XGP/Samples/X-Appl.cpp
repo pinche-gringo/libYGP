@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.6 2003/03/03 23:29:20 markus Exp $
+//$Id: X-Appl.cpp,v 1.7 2003/03/04 04:59:53 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -197,7 +197,6 @@ XAppl::XAppl ()
    TRACE3 ("XAppl::XAppl ()");
 
    listFiles.set_model (files);
-   listFiles.set_reorderable ();
 
    set_size_request (620, 400);
 
