@@ -2,6 +2,10 @@
 
 LDADD = libPort.la
 
+include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
+		FileRExp.h PathSrch.h XStrBuf.h
+
+
 lib_LTLIBRARIES=libPort.la
 noinst_PROGRAMS=Test
 Test_SOURCES=XStrBuf.cpp Test.cpp
