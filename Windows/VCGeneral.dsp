@@ -1,10 +1,10 @@
-# Microsoft Developer Studio Project File - Name="General" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="VCGeneral" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=General - Win32 Debug
+CFG=VCGeneral - Win32 Debug
 !MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
 !MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
 !MESSAGE 
@@ -13,12 +13,12 @@ CFG=General - Win32 Debug
 !MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
 !MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
 !MESSAGE 
-!MESSAGE NMAKE /f "VCGeneral.mak" CFG="General - Win32 Debug"
+!MESSAGE NMAKE /f "VCGeneral.mak" CFG="VCGeneral - Win32 Debug"
 !MESSAGE 
 !MESSAGE Für die Konfiguration stehen zur Auswahl:
 !MESSAGE 
-!MESSAGE "General - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "General - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "VCGeneral - Win32 Release" (basierend auf  "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "VCGeneral - Win32 Debug" (basierend auf  "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -29,7 +29,7 @@ CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "General - Win32 Release"
+!IF  "$(CFG)" == "VCGeneral - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -42,8 +42,8 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GENERAL_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MT /Za /W3 /GX /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GENERAL_EXPORTS" /D "WINDOWS" /D PACKAGE=\"General\" /D VERSION=\"0.6\" /D MICRO_VERSION=\"00\" /YX /FD /c
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /YX /FD /I ../Windows;./Common /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x407 /d "NDEBUG"
@@ -53,14 +53,14 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /machine:I386
 
-!ELSEIF  "$(CFG)" == "General - Win32 Debug"
+!ELSEIF  "$(CFG)" == "VCGeneral - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "General___Win32_Debug"
-# PROP BASE Intermediate_Dir "General___Win32_Debug"
+# PROP BASE Output_Dir "VCGeneral___Win32_Debug"
+# PROP BASE Intermediate_Dir "VCGeneral___Win32_Debug"
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
@@ -68,8 +68,8 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GENERAL_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /Za /W3 /Gm /GX /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GENERAL_EXPORTS" /D "WINDOWS" /D PACKAGE=\"General\" /D VERSION=\"0.6\" /D MICRO_VERSION=\"00\" /YX /FD /GZ /c
+# ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /YX /FD /GZ /I../Common /I../Windows /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x407 /d "_DEBUG"
@@ -79,17 +79,21 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
 # Begin Target
 
-# Name "General - Win32 Release"
-# Name "General - Win32 Debug"
+# Name "VCGeneral - Win32 Release"
+# Name "VCGeneral - Win32 Debug"
 # Begin Group "Quellcodedateien"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Source File
+
+SOURCE=..\Common\AByteArray.cpp
+# End Source File
 # Begin Source File
 
 SOURCE=..\Common\ADate.cpp
@@ -97,6 +101,10 @@ SOURCE=..\Common\ADate.cpp
 # Begin Source File
 
 SOURCE=..\Common\ANumeric.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\AssParse.cpp
 # End Source File
 # Begin Source File
 
@@ -108,7 +116,23 @@ SOURCE=..\Common\ATStamp.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\AttrParse.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\CRegExp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\DirSrch.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Entity.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\File.cpp
 # End Source File
 # Begin Source File
 
@@ -117,6 +141,14 @@ SOURCE=..\Common\FileRExp.cpp
 # Begin Source File
 
 SOURCE=..\Common\Handle.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\IDirSrch.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\INIFile.cpp
 # End Source File
 # Begin Source File
 
@@ -132,16 +164,35 @@ SOURCE=..\Common\PathDirSrch.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\PathSrch.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\RDirSrch.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\RDirSrchSrv.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\RemoteFile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Socket.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\StackTrc.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\Common\Tokenize.cpp
+SOURCE=..\Common\Thread.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\VCGeneral.def
-# PROP Exclude_From_Build 1
+SOURCE=..\Common\Tokenize.cpp
 # End Source File
 # Begin Source File
 
@@ -157,11 +208,19 @@ SOURCE=..\Common\XStrBuf.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=..\Common\AByteArray.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\ADate.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\Common\ANumeric.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\AssParse.h
 # End Source File
 # Begin Source File
 
@@ -173,7 +232,19 @@ SOURCE=..\Common\ATStamp.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\Attribute.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\AttrParse.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\AttrVal.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\CRegExp.h
 # End Source File
 # Begin Source File
 
@@ -181,11 +252,35 @@ SOURCE=..\Common\DirSrch.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\Entity.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\File.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\FileRExp.h
 # End Source File
 # Begin Source File
 
+SOURCE=".\gzo-cfg.h"
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\Handle.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\IDirSrch.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\INIFile.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Internal.h
 # End Source File
 # Begin Source File
 
@@ -194,6 +289,10 @@ SOURCE=..\Common\IVIOAppl.h
 # Begin Source File
 
 SOURCE=..\Common\Log.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Mutex.h
 # End Source File
 # Begin Source File
 
@@ -209,7 +308,19 @@ SOURCE=..\Common\PathSrch.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\RDirSrch.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\RDirSrchSrv.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\RegExp.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\RemoteFile.h
 # End Source File
 # Begin Source File
 
@@ -217,7 +328,15 @@ SOURCE=..\Common\SmartPtr.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\Common\Socket.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\Common\StackTrc.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\Common\Thread.h
 # End Source File
 # Begin Source File
 
