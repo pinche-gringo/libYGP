@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.5 2000/05/09 23:31:34 Markus Exp $
+//$Id: ATime.cpp,v 1.6 2001/01/11 20:18:46 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -33,7 +33,6 @@
 #  ifdef WINDOWS
 #     define WIN32_LEAN_AND_MEAN
 #     include <windows.h>
-#     include <winnt.h>
 #  endif
 #  include <strstrea.h>
 #endif
@@ -62,7 +61,7 @@ ATime::ATime (bool now) : AttributValue () {
 //            minute: Minute
 //            second: Second to set
 /*--------------------------------------------------------------------------*/
-ATime::ATime (char Hour, char minute, char second) : AttributValue (), 
+ATime::ATime (char Hour, char minute, char second) : AttributValue (),
    hour (Hour), min_ (minute), sec (second) {
    if (checkIntegrity ()) {
       TRACE ("ATime::ATime (Hour, minute, second) -> checkIntegrity failed with "
@@ -156,11 +155,11 @@ std::string ATime::toString (const char* format) const {
 void ATime::readFromStream (istream& in) {
    unsigned int first (0), second (0), third (0);
    char split;
-   
+
    in >> first >> split >> second >> split >> third;
    TRACE9 ("ATime::readFromStream: Read: " << first << split << second
           << split << third);
-   
+
    hour = (char)first;
    min_ = (char)second;
    sec = (char)third;
@@ -189,7 +188,7 @@ ATime& ATime::operator+= (const ATime& rhs) {
          hour += rhs.hour;
          min_ += rhs.min_;
          sec += rhs.sec;
-      
+
          if (maxAdapt ())
             undefine ();
       }

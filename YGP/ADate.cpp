@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.13 2000/07/17 11:36:59 Markus Exp $
+//$Id: ADate.cpp,v 1.14 2001/01/11 20:18:46 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,7 +32,6 @@
 #  ifdef WINDOWS
 #     define WIN32_LEAN_AND_MEAN
 #     include <windows.h>
-#     include <winnt.h>
 #  endif
 #  include <strstrea.h>
 #endif
