@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.15 2003/03/03 06:18:36 markus Exp $
+//$Id: Attribute.h,v 1.16 2003/05/23 03:38:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -119,15 +119,15 @@ template <class T> class Attribute : public IAttribute {
 
 
 // Specialization of Attribute for character (arrays)
-template <> bool Attribute<char>::assignFromString (const char* value) const {
+template <> inline bool Attribute<char>::assignFromString (const char* value) const {
    Check3 (value);
    attr_ = *value;
    return *value && !value[1];
 }
-template <> std::string Attribute<char>::getValue () const { return std::string (1, attr_); }
-template <> std::string Attribute<char>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<char>::getValue () const { return std::string (1, attr_); }
+template <> inline std::string Attribute<char>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<char*>::assign (const char* value, unsigned int length) const {
+template <> inline bool Attribute<char*>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    delete [] attr_;
    attr_ = new char[length + 1];
@@ -137,133 +137,133 @@ template <> bool Attribute<char*>::assign (const char* value, unsigned int lengt
    attr_[length] = '\0';
    return true;
 }
-template <> bool Attribute<char*>::assignFromString (const char* value) const {
+template <> inline bool Attribute<char*>::assignFromString (const char* value) const {
    Check3 (value);
    return assign (value, strlen (value));
 }
-template <> std::string Attribute<char*>::getValue () const { return attr_; }
-template <> std::string Attribute<char*>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<char*>::getValue () const { return attr_; }
+template <> inline std::string Attribute<char*>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<char* const>::assignFromString (const char* value) const {
+template <> inline bool Attribute<char* const>::assignFromString (const char* value) const {
    Check3 (value);
    strcpy (attr_, value);
    return true;
 }
-template <> bool Attribute<char* const>::assign (const char* value, unsigned int length) const {
+template <> inline bool Attribute<char* const>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    memcpy (attr_, value, length);
    return true;
 }
-template <> std::string Attribute<char* const>::getValue () const { return attr_; }
-template <> std::string Attribute<char* const>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<char* const>::getValue () const { return attr_; }
+template <> inline std::string Attribute<char* const>::getFormattedValue () const { return getValue (); }
 
 // Specialization of Attribute for ints
-template <> bool Attribute<short>::assignFromString (const char* value) const {
+template <> inline bool Attribute<short>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<short>::getValue () const {
+template <> inline std::string Attribute<short>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<short>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<short>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<unsigned short>::assignFromString (const char* value) const {
+template <> inline bool Attribute<unsigned short>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<unsigned short>::getValue () const {
+template <> inline std::string Attribute<unsigned short>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<unsigned short>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<unsigned short>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<int>::assignFromString (const char* value) const {
+template <> inline bool Attribute<int>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<int>::getValue () const {
+template <> inline std::string Attribute<int>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<int>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<int>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<unsigned int>::assignFromString (const char* value) const {
+template <> inline bool Attribute<unsigned int>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<unsigned int>::getValue () const {
+template <> inline std::string Attribute<unsigned int>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<unsigned int>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<unsigned int>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<long>::assignFromString (const char* value) const {
+template <> inline bool Attribute<long>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<long>::getValue () const {
+template <> inline std::string Attribute<long>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%ld", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<long>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<long>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<unsigned long>::assignFromString (const char* value) const {
+template <> inline bool Attribute<unsigned long>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<unsigned long>::getValue () const {
+template <> inline std::string Attribute<unsigned long>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%ld", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<unsigned long>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<unsigned long>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<double>::assignFromString (const char* value) const {
+template <> inline bool Attribute<double>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtod (value, &pTail); Check3 (pTail);
    return !(errno || *pTail);
 }
-template <> std::string Attribute<double>::getValue () const {
+template <> inline std::string Attribute<double>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%lg", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<double>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<double>::getFormattedValue () const { return getValue (); }
 
 // Specialization of Attribute for strings
-template <> bool Attribute<std::string>::assignFromString (const char* value) const {
+template <> inline bool Attribute<std::string>::assignFromString (const char* value) const {
    Check3 (value);
    attr_ = value;
    return true;
 }
-template <> bool Attribute<std::string>::assign (const char* value, unsigned int length) const {
+template <> inline bool Attribute<std::string>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    attr_.assign (value, length);
    return true;
 }
-template <> std::string Attribute<std::string>::getValue () const { return attr_; }
-template <> std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<std::string>::getValue () const { return attr_; }
+template <> inline std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
 
-template <> bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
+template <> inline bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    attr_.assign (value, length);
    return true;
@@ -340,13 +340,13 @@ template <class T> class AttributeList : public IAttribute {
 
 
 // Specialization of Attribute for character (arrays)
-template <> bool AttributeList<char>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<char>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    list_[offset] = *value;
    return *value && !value[1];
 }
 
-template <> bool AttributeList<char*>::assign (unsigned int offset, const char* value, unsigned int length) const {
+template <> inline bool AttributeList<char*>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    delete [] list_[offset];
    list_[offset] = new char[length + 1];
@@ -357,18 +357,18 @@ template <> bool AttributeList<char*>::assign (unsigned int offset, const char* 
    return true;
 }
 
-template <> bool AttributeList<char*>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<char*>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    return assign (offset, value, strlen (value));
 }
 
 #ifndef _MSC_VER
-template <> bool AttributeList<char* const>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<char* const>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    strcpy (list_[offset], value);
    return true;
 }
-template <> bool AttributeList<char* const>::assign (unsigned int offset, const char* value, unsigned int length) const {
+template <> inline bool AttributeList<char* const>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    memcpy (list_[offset], value, length);
    return true;
@@ -376,7 +376,7 @@ template <> bool AttributeList<char* const>::assign (unsigned int offset, const 
 #endif
 
 // Specialization of AttributeList for ints
-template <> bool AttributeList<short>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<short>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -384,7 +384,7 @@ template <> bool AttributeList<short>::assignFromString (unsigned int offset, co
    return !(errno || *pTail);
 }
 
-template <> bool AttributeList<unsigned short>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<unsigned short>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -392,7 +392,7 @@ template <> bool AttributeList<unsigned short>::assignFromString (unsigned int o
    return !(errno || *pTail);
 }
 
-template <> bool AttributeList<int>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<int>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -400,7 +400,7 @@ template <> bool AttributeList<int>::assignFromString (unsigned int offset, cons
    return !(errno || *pTail);
 }
 
-template <> bool AttributeList<unsigned int>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<unsigned int>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -408,7 +408,7 @@ template <> bool AttributeList<unsigned int>::assignFromString (unsigned int off
    return !(errno || *pTail);
 }
 
-template <> bool AttributeList<long>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<long>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -416,7 +416,7 @@ template <> bool AttributeList<long>::assignFromString (unsigned int offset, con
    return !(errno || *pTail);
 }
 
-template <> bool AttributeList<unsigned long>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<unsigned long>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -424,7 +424,7 @@ template <> bool AttributeList<unsigned long>::assignFromString (unsigned int of
    return !(errno || *pTail);
 }
 
-template <> bool AttributeList<double>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<double>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
@@ -433,19 +433,19 @@ template <> bool AttributeList<double>::assignFromString (unsigned int offset, c
 }
 
 // Specialization of AttributeList for strings
-template <> bool AttributeList<std::string>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<std::string>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    list_[offset] = value;
    return true;
 }
 
-template <> bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
+template <> inline bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    list_[offset].assign (value, length);
    return true;
 }
 
-template <> bool AttributeList<AByteArray>::assign (unsigned int offset, const char* value, unsigned int length) const {
+template <> inline bool AttributeList<AByteArray>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    list_[offset].assign (value, length);
    return true;
