@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.22 2003/07/01 04:46:06 markus Rel $
+//$Id: IVIOAppl.h,v 1.23 2003/07/16 06:59:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#define IVIOAPPL_HELP_OPTION    "help", 'h'
 
 /**Class to handle the startup of a program, which includes reading the data
    stored in an INI file and (afterwards) the parsing of the parameters
@@ -57,7 +59,7 @@
    abbreviated, as long as the abbreviation is not ambiguous.
 
    Every parameter which is not an option or an argument to an option or after
-   a '--'-parameter is a non-option parameter and are passed to the
+   a '--'-parameter is a non-option parameter and is passed to the
    perform()-method. Options are inspected before that method is called!
 
    \note: The options <tt>-h</tt> and <tt>-?</tt> causes the call of the
@@ -72,9 +74,6 @@
 
    As a further feature a stackdump is logged in case of a protection fault.
 */
-
-#define IVIOAPPL_HELP_OPTION    "help", 'h'
-
 class IVIOApplication {
  public:
    /// Helper-structure to store long-options
