@@ -1,7 +1,7 @@
-dnl $Id: configure.in,v 1.51 2003/09/05 03:25:14 markus Rel $
+dnl $Id: configure.in,v 1.52 2003/09/18 17:30:54 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.51 $)
+AC_REVISION($Revision: 1.52 $)
 
 AC_INIT()
 
@@ -51,7 +51,7 @@ AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(gmp, main)
 AC_CHECK_LIB(pthread, main)
 
-if test -z $HAVE_LIBGMP; then
+if test $HAVE_LIBGMP; then
    LIB_GMP=-lgmp
 fi
 AC_SUBST(LIB_GMP)
