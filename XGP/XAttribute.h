@@ -1,7 +1,7 @@
 #ifndef XATTRIBUTE_H
 #define XATTRIBUTE_H
 
-//$Id: XAttribute.h,v 1.3 2003/11/14 20:28:08 markus Exp $
+//$Id: XAttribute.h,v 1.4 2003/11/15 04:01:59 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,23 +23,19 @@
 #include <YGP/Attribute.h>
 
 
-namespace XGP {
-
 /**Specialization of Attribute<T> for Glib::ustring
 */
-template <> inline bool Attribute<Glib::ustring>::assignFromString (const char* value) const {
+template <> inline bool YGP::Attribute<Glib::ustring>::assignFromString (const char* value) const {
    Check3 (value);
    attr_ = value;
    return true;
 }
-template <> inline bool Attribute<Glib::ustring>::assign (const char* value, unsigned int length) const {
+template <> inline bool YGP::Attribute<Glib::ustring>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    attr_.assign (value, length);
    return true;
 }
-template <> inline std::string Attribute<Glib::ustring>::getValue () const { return attr_; }
-template <> inline std::string Attribute<Glib::ustring>::getFormattedValue () const { return getValue (); }
-
-}
+template <> inline std::string YGP::Attribute<Glib::ustring>::getValue () const { return attr_; }
+template <> inline std::string YGP::Attribute<Glib::ustring>::getFormattedValue () const { return getValue (); }
 
 #endif
