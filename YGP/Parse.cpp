@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.7 1999/09/21 23:40:55 Markus Rel $
+//$Id: Parse.cpp,v 1.8 1999/10/25 17:59:30 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -54,7 +54,7 @@ void ParseAttomic::freeBuffer () {
 }
 #endif
 
-ostream& ParseObject::error = cerr;
+_IO_ostream_withassign& ParseObject::error = cerr;
 
 
 static char ESCAPE = '\\';
@@ -98,7 +98,7 @@ ParseObject::~ParseObject () {
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseObject& ParseObject::operator= (const ParseObject& other) {
-   TRACE9 ("Assigning ParseObject " << pDescription);
+   TRACE8 ("Assigning ParseObject " << pDescription);
    if (&other != this) {
       pDescription = other.pDescription;
       pCallback = other.pCallback;
@@ -118,7 +118,7 @@ void ParseObject::skipWS (Xistream& stream) const {
    if (!skip)
       return;
 
-   TRACE9 ("Skipping WS after " << pDescription);
+   TRACE8 ("Skipping WS after " << pDescription);
    char c;
    stream >> c; assert (!isspace (c));
    stream.putback (c);
@@ -144,8 +144,8 @@ int ParseObject::checkIntegrity () const {
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const char* value, const char* description,
-                            PARSECALLBACK callback, unsigned int max,
-                            unsigned int min, bool skipWhitespace)
+                            unsigned int max, unsigned int min,
+                            PARSECALLBACK callback, bool skipWhitespace)
    : ParseObject (description, callback, skipWhitespace)
    , pValue (value), maxCard (max), minCard (min) {
    TRACE9 ("Creating ParseAttomic " << getDescription ());
@@ -174,7 +174,7 @@ ParseAttomic::~ParseAttomic () {
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
-   TRACE9 ("Assigning ParseAttomic " << getDescription ());
+   TRACE8 ("Assigning ParseAttomic " << getDescription ());
 
    if (&other != this) {
       ParseObject::operator= ((const ParseObject&)other);
@@ -193,7 +193,7 @@ const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 //              optional: Flag, if node must be found
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::doParse (Xistream& stream, bool optional) {
-   TRACE9 ("ParseAttomic::doParse " << getDescription ());
+   TRACE8 ("ParseAttomic::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
 #ifdef MULTIBUFFER
@@ -206,7 +206,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
    unsigned int i (0);
    while (i < maxCard) {                    // While not max. card is reached
       ch = stream.get ();
-      TRACE6 ("ParseAttomic::doParse " << getDescription () << " -> " << (char)ch);
+      TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> " << (char)ch);
 
       if (ch == EOF)
          break;
@@ -228,12 +228,12 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
       ++i;
    } // end-while !maximal cardinality
    *pAkt = '\0';
-   TRACE2 ("ParseAttomic::doParse-final " << getDescription () << " -> "
-           << global.buffer);
+   TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
+           << global.buffer << '\'');
 
    int rc (PARSE_OK);
    if (i >= minCard) {                                    // Cardinalities OK?
-      TRACE6 ("ParseAttomic::doParse " << getDescription () << " Found '"
+      TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
               << global.buffer << '\'');
       if (pCallback)
          rc = pCallback (global.buffer);           // Execute callback (if set)
@@ -270,7 +270,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
 bool ParseAttomic::checkValue (char ch) {
-   TRACE9 ("ParseAttomic::checkValue " << getDescription () << ' ' << ch);
+   TRACE8 ("ParseAttomic::checkValue " << getDescription () << ' ' << ch);
    assert (!checkIntegrity ());
 
    const char* pHelp = pValue; assert (pHelp);
@@ -322,7 +322,7 @@ int ParseAttomic::checkIntegrity () const {
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
 bool ParseText::checkValue (char ch) {
-   TRACE9 ("ParseText::checkValue " << getDescription () << ' ' << ch);
+   TRACE8 ("ParseText::checkValue " << getDescription () << ' ' << ch);
 
    const char* pHelp = pValue; assert (pHelp);
    while (*pHelp) {
@@ -370,7 +370,7 @@ ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
 bool ParseTextEsc::checkValue (char ch) {
-   TRACE9 ("ParseTextEsc::checkValue " << getDescription () << ' ' << ch);
+   TRACE8 ("ParseTextEsc::checkValue " << getDescription () << ' ' << ch);
 
    const char* pHelp = pValue; assert (pHelp);
    while (*pHelp) {
@@ -397,12 +397,12 @@ bool ParseTextEsc::checkValue (char ch) {
 /*--------------------------------------------------------------------------*/
 ParseExact::ParseExact (const char* value, const char* description,
                   PARSECALLBACK callback, bool skipWhitespace)
-   : ParseAttomic (value, description, callback, 1, 1, skipWhitespace)
+   : ParseAttomic (value, description, 1, 1, callback, skipWhitespace)
    , pos (0) {
    TRACE9 ("Creating ParseExact " << getDescription ());
    unsigned int len (strlen (value));      // value !NULL is checked by parent
-   setMinCard (len);
-   setMaxCard (len);
+   minCard = len;
+   maxCard = len;
    assert (!checkIntegrity ());
 }
 
@@ -411,7 +411,7 @@ ParseExact::ParseExact (const char* value, const char* description,
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseExact& ParseExact::operator= (const ParseExact& other) {
-   TRACE9 ("Assigning ParseExact " << getDescription ());
+   TRACE8 ("Assigning ParseExact " << getDescription ());
 
    if (&other != this) {
       ParseAttomic::operator= ((const ParseAttomic&)other);
@@ -429,9 +429,13 @@ const ParseExact& ParseExact::operator= (const ParseExact& other) {
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
 bool ParseExact::checkValue (char ch) {
-   TRACE9 ("ParseExact::checkValue " << getDescription () << ' ' << ch);
-   if (pValue[pos++] == ch)     // Valid if ch == act-char; if wrong reset pos
+   TRACE8 ("ParseExact::checkValue " << getDescription () << ' ' << ch);
+   if (pValue[pos++] == ch) {   // Valid if ch == act-char; if wrong reset pos
+      if (pos >= maxCard)           // Reset position after successfull serach
+         pos = 0;
+
       return true;
+   }
 
    pos = 0;
    return false;
@@ -454,7 +458,7 @@ int ParseExact::checkIntegrity () const {
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
 bool ParseUpperExact::checkValue (char ch) {
-   TRACE9 ("ParseUpperExact::checkValue " << getDescription () << ' ' << ch);
+   TRACE8 ("ParseUpperExact::checkValue " << getDescription () << ' ' << ch);
    return ParseExact::checkValue ((char)toupper (ch));
 }
 
@@ -513,7 +517,7 @@ ParseSequence::~ParseSequence () {
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
-   TRACE9 ("Assigning ParseSequence " << getDescription ());
+   TRACE8 ("Assigning ParseSequence " << getDescription ());
 
    if (&other != this) {
       ParseObject::operator= ((const ParseObject&)other);
@@ -532,7 +536,7 @@ const ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 //              optional: Flag, if node must be found
 /*--------------------------------------------------------------------------*/
 int ParseSequence::doParse (Xistream& stream, bool optional) {
-   TRACE9 ("ParseSequence::doParse " << getDescription ());
+   TRACE8 ("ParseSequence::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
    unsigned int i (0);
@@ -545,12 +549,16 @@ int ParseSequence::doParse (Xistream& stream, bool optional) {
          if ((rc = (**ppAct).doParse (stream,  // Parse (putback first always)
                                       ppAct == ppList ? true : optional)) != 0)
             break;
-
          ++ppAct;
       } // end-while list-entries
 
       if (rc) {   // Simple error while parsing: Check if in begin of sequence
-         if ((rc > 0) && (ppAct == ppList) && (i >= minCard))
+         TRACE8 ("ParseSequence::doParse -> " << getDescription ()
+                 << " exiting with rc = " << rc);
+
+         // Reset error if not hard (<0) and the error happened parsing the
+         // first element (but only if mincard is fullfilled)
+         if ((rc > 0) && (ppAct == ppList) && (i > minCard))
             rc = PARSE_OK;
          break;
       } // endif error occured
@@ -618,7 +626,7 @@ ParseSelection::~ParseSelection () {
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
-   TRACE9 ("Assigning ParseSelection " << getDescription ());
+   TRACE8 ("Assigning ParseSelection " << getDescription ());
 
    if (&other != this)
       ParseSequence::operator= ((const ParseSequence&)other);
@@ -633,7 +641,7 @@ const ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 //              optional: Flag, if node must be found
 /*--------------------------------------------------------------------------*/
 int ParseSelection::doParse (Xistream& stream, bool optional) {
-   TRACE9 ("ParseSelection::doParse " << getDescription ());
+   TRACE8 ("ParseSelection::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
    unsigned int i (0);
@@ -644,14 +652,17 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
 
       while (*ppAct != NULL) {                  // While list contains objects
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
-                                      true)) == 0)     // Break if match found
+                                      (ppAct + 1) == NULL ? optional : true))
+             == 0)                                     // Break if match found
+{        TRACE8 ("ParseSelection::doParse -> " << getDescription ()
+                 << " exiting with rc = " << rc);
             break;
-
+}
          ++ppAct;
       } // end-while list-entries
 
       if (*ppAct == NULL) {             // Does no entry of the selection fit?
-	rc = PARSE_ERROR;                               // Return error anyway
+         rc = PARSE_ERROR;                              // Return error anyway
          break;
       } // endif no entry found
    } // end-while i < maxCard
