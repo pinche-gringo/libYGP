@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.6 2003/02/01 23:53:10 markus Exp $
+// $Id: XStrBuf.cpp,v 1.7 2003/02/14 20:16:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -34,12 +34,10 @@
 
 #include "Test.h"
 
-using namespace std;
-
 #if SYSTEM == WINDOWS
-static const char* TESTFILE = "..\\Common\\Tests\\Parsertest.dat";
+static const char* TESTFILE = "..\\Common\\Tests\\XStrBuf.test";
 #else
-static const char* TESTFILE = "Parsertest.dat";
+static const char* TESTFILE = "XStrBuf.test";
 #endif
 
 

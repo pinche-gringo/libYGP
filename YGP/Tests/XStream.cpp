@@ -1,11 +1,11 @@
-// $Id: XStream.cpp,v 1.3 2002/10/10 05:53:33 markus Rel $
+// $Id: XStream.cpp,v 1.4 2003/02/14 20:16:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStream
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -46,7 +46,7 @@ int main (int argc, char* argv[]) {
    std::cout << "Testing XStream...\n";
    
    Xifstream xin;
-   xin.open (PATH "Parsertest.dat", ios::in);
+   xin.open (PATH "XStrBuf.test", ios::in);
    check (xin);
    if (xin) {
       char c;
