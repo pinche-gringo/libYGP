@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.9 2003/11/17 15:07:05 markus Rel $
+//$Id: XDirSrch.cpp,v 1.10 2003/12/12 18:18:57 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -43,7 +43,7 @@ namespace YGP {
 /// \remarks If the list starts with an x-node, a leading i*-node is assumed
 //-----------------------------------------------------------------------------
 bool _XDSfileIsValid (const std::string& files, const char* pFile) {
-   TRACE9 ("_fileIsValid (const char*) const - " << pFile);
+   TRACE9 ("_XDSfileIsValid (const char*) const - " << pFile);
    Check1 (pFile);
 
    if (files.empty ())
@@ -57,7 +57,7 @@ bool _XDSfileIsValid (const std::string& files, const char* pFile) {
 
    // Test every file in list
    while (!((node = list.getNextNode ()).empty ())) {
-      TRACE8 ("_fileIsValid (const string&, const char*) const - Node: " << node);
+      TRACE8 ("_XDSfileIsValid (const string&, const char*) const - Node: " << node);
       Check3 ((node[0] == 'i') || (node[0] == 'x'));
 
       include = node[0] == 'i';
@@ -80,6 +80,10 @@ bool _XDSfileIsValid (const std::string& files, const char* pFile) {
 /// \remarks The node is added to the beginning of the list
 //-----------------------------------------------------------------------------
 void _XDSaddNode (std::string& list, char prefix, const std::string& node) {
+   TRACE9 ("_XDSaddNode (const char*) const - " << ((prefix == 'i') ? '+' : '-')
+           << node);
+   Check1 ((prefix == 'i') || (prefix == 'x'));
+
    PathSearch  l (node);
    std::string temp;
 
