@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.4 1999/09/10 23:00:30 Markus Rel $
+//$Id: AttrVal.h,v 1.5 1999/10/12 00:22:56 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ class AttributValue {
    virtual std::string toString () const { return ""; }
 
    void toString (std::string& value) { value = toString (); }
+
+   friend ostream& operator<< (ostream& out, const AttributValue& outValue) {
+      if (outValue.isDefined ())
+         out << outValue.toString ();
+      return out; }
 
  private:
    bool defined;
