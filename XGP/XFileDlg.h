@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.1 1999/11/14 15:50:37 Markus Exp $
+//$Id: XFileDlg.h,v 1.2 1999/11/15 00:15:40 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,23 +24,23 @@ class string
 
 #include <gtk--/fileselection.h>
 
-#include "SmartPtr.h"
-
 
 // Class to select file(s) to in- or exclude; files can either entered or
 // selected
 class XFileDialog : public Gtk_FileSelection {
  public:
-   typedef void (Gtk_Object::*PFILEDIALOGACTION)(const string&);
+   typedef void (Gtk_Object::*PACTION)(const string&);
+   typedef enum { NONE, ASK_OVERWRITE, MUST_EXIST } option;
 
-   XFileDialog (const string& title, Gtk_Object* pNotify, PFILEDIALOGACTION callback);
+   XFileDialog (const string& title, Gtk_Object* pNotify,
+                const PACTION callback, option dlgOption = NONE);
    XFileDialog (GtkFileSelection* castitem, Gtk_Object* pNotify,
-                PFILEDIALOGACTION callback);
+                const PACTION callback, option dlgOption = NONE);
    ~XFileDialog ();
 
    static XFileDialog* perform (const string& title, Gtk_Object* pNotify,
-				PFILEDIALOGACTION callback) {
-      return new XFileDialog (title, pNotify, callback); }
+				const PACTION callback, option dlgOption = NONE) {
+      return new XFileDialog (title, pNotify, callback, dlgOption); }
 
  private:
    typedef enum { OK, CANCEL } commandID;
@@ -56,8 +56,9 @@ class XFileDialog : public Gtk_FileSelection {
       connect_to_method (get_cancel_button ()->clicked, this, &command, CANCEL);
       show (); }
 
-   Gtk_Object*       pCaller;
-   PFILEDIALOGACTION callerMethod;
+   option        opt;
+   Gtk_Object*   pCaller;
+   const PACTION callerMethod;
 };
 
 #endif
