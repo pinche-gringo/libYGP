@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.4 2002/04/09 20:03:40 markus Rel $
+// $Id: Version.cpp,v 1.5 2002/05/24 06:52:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -30,6 +30,7 @@
 // Function to initialize various global data
 static const int _init () {
    bindtextdomain (PACKAGE, LOCALEDIR);
+   return 0;
 }
 
 
