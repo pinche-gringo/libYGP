@@ -1,7 +1,7 @@
 #ifndef INTERNAL_H
 #define INTERNAL_H
 
-//$Id: Internal.h,v 1.4 2003/01/15 19:13:16 markus Exp $
+//$Id: Internal.h,v 1.5 2003/06/11 04:30:04 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #undef binddomain
 #undef bindtextdomain
 
-#ifdef HAVE_GETTEXT
+#if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
 #  include <libintl.h>
 #  define _(String)                           dgettext (PACKAGE, String)
 #  define N_(String)                          (String)
