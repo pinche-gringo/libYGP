@@ -59,10 +59,9 @@ How to report bugs and/or send patches
 --------------------------------------
 
 Bug reports and patches should be send to the e-mail address of the author (me)
-(g17m0@lycos.com). Don't bother telling me that this address sounds like the
-name of a robot and/or sucks ;)
+(g17m0@lycos.com).
 
-Please include
+Please include for bugs:
 
   - The version of the library.
   - How to reproduce the bug.
