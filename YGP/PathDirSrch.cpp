@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.2 1999/09/26 02:42:40 Markus Rel $
+//$Id: PathDirSrch.cpp,v 1.3 1999/09/29 21:23:32 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <errno.h>
 
 #define DEBUG 0
 #include "Trace.h"
