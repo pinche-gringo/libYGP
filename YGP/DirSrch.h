@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.35 2003/11/16 19:25:55 markus Rel $
+//$Id: DirSrch.h,v 1.36 2005/03/06 06:36:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -89,6 +89,8 @@ class DirectorySearch : public IDirectorySearch {
    /// \name Searching
    //@{
    /// Searches for the specified files with the passed attributes.
+   /// \param search: Files to search for
+   /// \param attribs: Attributes the searched files must have
    /// \returns <tt>const File*</tt>: Pointer to found file or NULL
    const File* find (const std::string& search,
                      unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
@@ -96,6 +98,7 @@ class DirectorySearch : public IDirectorySearch {
       setSearchValue (search);
       return find (attribs); }
    /// Searches for previously specified files with the passed attributes.
+   /// \param attribs: Attributes the searched files must have
    /// \returns <tt>const File*</tt>: Pointer to found file or NULL
    virtual const File* find (unsigned long attribs = IDirectorySearch::FILE_NORMAL);
    /// Method to find the next file matching the  previously specified values.
