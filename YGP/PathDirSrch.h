@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.1 1999/09/26 01:52:26 Markus Exp $
+//$Id: PathDirSrch.h,v 1.2 1999/09/26 02:04:30 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ class PathDirectorySearch : public DirectorySearch {
  public:
    //@Section manager-functions
    PathDirectorySearch () : DirectorySearch (), searchPath ("") { }
+   PathDirectorySearch (const std::string& path) : DirectorySearch ()
+      , searchPath (path) { }
    PathDirectorySearch (const std::string& path, const std::string& search)
       : DirectorySearch (), srch (search), searchPath (path) { }
    virtual ~PathDirectorySearch ();
