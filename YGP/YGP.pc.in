@@ -5,6 +5,6 @@ includedir=@includedir@
 
 Name: YGP
 Description: Portable general classes
-Version: @VERSION@
+Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lYGP @LIB_GMP@
 Cflags: -I${includedir}
