@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.3 1999/09/11 00:40:40 Markus Rel $
+//$Id: ANumeric.cpp,v 1.4 1999/10/14 22:23:32 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -99,6 +99,29 @@ std::string ANumeric::toString () const {
    }
    return str;
 }
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Reads string-representation from stream
+//Parameters: in: Stream to parse
+/*--------------------------------------------------------------------------*/
+void ANumeric::readFromStream (istream& in) {
+   std::string help;
+   char ch;
+
+   in >> ch; assert (!isspace (ch));               // Skip leading whitespaces
+   while (!in.eof ()) {
+      if (!strchr (loc->thousands_sep, ch)) {   // Ignore thousand-seperators,
+         if (isdigit (ch))                  // add only digits; else terminate
+            help += ch;
+         else
+            break;
+      } // endif
+
+      in.get (ch);
+   } // end-while !eof
+   in.putback (ch);
+}
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds a value to this
