@@ -1,4 +1,4 @@
-<!-- $Id: IVIOAppl.html,v 1.1 2000/03/27 22:38:45 Markus Exp $ -->
+<!-- $Id: IVIOAppl.html,v 1.2 2000/03/27 22:47:17 Markus Exp $ -->
 
 <html>
   <head>
@@ -126,12 +126,12 @@
       this method does not change the next option which would be returned, so
       in the previous example the next found option would be the 'l'.</p>
 
-    <p><a name="setLongOption"><i>void setLongOptions (const longOptions* pLongOptions)</i>
+    <p><a name="setLongOptions"><i>void setLongOptions (const longOptions* pLongOptions)</i>
 	- Sets a table which maps options to a verbose version. This table must
 	be terminated with an entry where the short option is '\0' and the
 	associated long options is NULL; the previous entries must not have
 	lines with those values.</a></p>
-    <p><a name="setLongOption2"><i>void setLongOptions (const longOptions*
+    <p><a name="setLongOptions2"><i>void setLongOptions (const longOptions*
 	  pLongOptions, unsigned int numLongOptions)</i> - Sets a table which
 	maps options to a verbose version. This table must not contain entries
 	with either '\0' as short option or NULL as long option.</a></p>
@@ -155,5 +155,28 @@
 	of name and description).</a></p>
     <p><a name="showHelp"><i>virtual void showHelp () const = 0</i> - Displays
 	the help-screen of the application.</a></p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="longOptions">Struct IVIOApplication::longOptions</a></h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: IVIOAppl.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Structure to associate long (verbose) options with the corrosponding
+      short version.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="2"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td>char*</td><td>longVal</td></tr>
+      <tr valign="top"><td>char</td><td>shortVal</td></tr>
+    </table>
   </body>
 </html>
