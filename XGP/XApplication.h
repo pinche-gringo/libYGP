@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.22 2003/10/02 23:03:26 markus Rel $
+//$Id: XApplication.h,v 1.23 2003/10/19 04:55:19 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ namespace Gtk {
    consists of the following entries:
 
      - \b name: Name of the menu as it should be displayed.
-     - \b accel: Accelerator in a format understood by Gtk (like \<alt\>a).
+     - \b accel: Accelerator in a format understood by GTK+ (like \<alt\>a).
      - \b id: Identifier for the menu. Menus causing actions must have an
            unique ID. Entries having an ID other than 0 are stored in the
            protected member \c apMenus for later usage.
@@ -93,7 +93,7 @@ namespace Gtk {
       -# Else assume a local file to display and check the language
          settings: If the environment variable \c LANGUAGE is not empty,
          take that value, else the locale settings (\c LC_MESSAGES).
-      -# Take every (comma-separated) entry from the value of step 2
+      -# Take every (colon-separated) entry from the value of step 2
          and append it to the name of the help-file.
       -# If step 3 does not specify a valid file name, cut the
          language specifier at the last underscore (_). (E.g. change

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.30 2003/10/17 06:33:07 markus Exp $
+//$Id: XApplication.cpp,v 1.31 2003/10/19 04:55:18 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -282,7 +282,7 @@ void XApplication::command (int menu) {
          // Check every language-entry (while removing trailing specifiers)
          std::string extension;
          struct stat sfile;
-         while ((extension = ext.getNextNode (',')).size ()) {
+         while ((extension = ext.getNextNode (':')).size ()) {
             std::string search;
             do {
                search = file + std::string (1, '.') + extension;
