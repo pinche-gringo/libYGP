@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.7 2002/05/24 06:58:11 markus Rel $
+// $Id: RemoteFile.cpp,v 1.8 2002/12/01 21:51:16 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -27,6 +27,7 @@
 
 #include <gzo-cfg.h>
 
+#include "Check.h"
 #include "Trace_.h"
 #include "Internal.h"
 #include "ANumeric.h"
@@ -43,22 +44,25 @@ RemoteFile::~RemoteFile () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Copy-method
-//Returns   : RemoteFile*: Pointer to newly created clone
+//Purpose   : Duplicates (clones) the object and returns a pointer to the
+//            newly created object.
+//Returns   : File*: Pointer to newly created clone
 /*--------------------------------------------------------------------------*/
 File* RemoteFile::clone () const {
    return new RemoteFile (*this);
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Opens this for further read/write access
+//Purpose   : Opends the file in the specified mode. The mode parameter can
+//            have the same values than the ANSI-C fopen-function.
 //Parameters: mode: Mode for open the file (analogue to libc's fopen)
-//Returns   : void*: Pointer to a handle to the opened file.
+//Returns   : void*: Pointer to a handle for the opened file.
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 void* RemoteFile::open (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
    TRACE5 ("RemoteFile::open (const char*) const - " << file);
-   assert (mode);
+   Check3 (mode);
 
    AByteArray buffer ("Open=\"");
    buffer += file;
@@ -89,12 +93,13 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Closes the (previously opened file
+//Purpose   : Closes a (previously opened) file
 //Parameters: file: Handle of opened file
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 void RemoteFile::close (void* file) const throw (std::string) {
    TRACE5 ("RemoteFile::close (void*) const - " << path () << name ());
-   assert (file);
+   Check3 (file);
 
    AByteArray buffer ("Close=");
    ANumeric id ((unsigned int)file);
@@ -115,18 +120,25 @@ void RemoteFile::close (void* file) const throw (std::string) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Reads (the next) length bytes from the (previously opened) file
+//Purpose   : Reads the (next) specified number of characters from the
+//            (previously opened) file (or less, if the end of the file has
+//            been reached) into buffer. and returns the number of actually
+//            read bytes.
+//
+//            If an error occurres, an exception is thrown
 //Parameters: file: Handle of openeded file
 //            buffer: Buffer for data
 //            length: Maximal length of buffer
+//Returns   : int: Number of read bytes
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("RemoteFile::read (void*, char*, unsigned int) const - "
            << path () << name ());
 
-   assert (file);
-   assert (buffer);
-   assert (length);
+   Check3 (file);
+   Check3 (buffer);
+   Check3 (length);
 
    AByteArray text ("Read=");
    ANumeric id ((unsigned int)file);
@@ -160,17 +172,22 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Writes length bytes to the (previously opened) file
+//Purpose   : Writes the specified number of characters to the  (previously
+//            opened) file and returns the number of actually written bytes.
+//
+//            If an error occurres, an exception is thrown.
 //Parameters: file: Handle of openeded file
 //            buffer: Buffer of data
 //            length: Length of buffer (= bytes to write)
+//Returns   : int: Number of written bytes
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("RemoteFile::write (void*, char*, unsigned int) const - "
            << path () << name ());
-   assert (file);
-   assert (buffer);
-   assert (length);
+   Check3 (file);
+   Check3 (buffer);
+   Check3 (length);
 
    AByteArray text ("Write=");
    ANumeric id ((unsigned int)file);
@@ -202,12 +219,12 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if further data is available
+//Purpose   : Checks if further data is available for reading
 //Parameters: file: Handle of openeded file
 /*--------------------------------------------------------------------------*/
 bool RemoteFile::isEOF (void* file) const throw (std::string) {
    TRACE5 ("RemoteFile::isEOF (void*) const - " << path () << name ());
-   assert (file);
+   Check3 (file);
 
    AByteArray buffer ("EOF=");
    ANumeric id ((unsigned int)file);
@@ -231,12 +248,11 @@ bool RemoteFile::isEOF (void* file) const throw (std::string) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the remote directory does exist
-//Returns   : True if the remote directory does exis
+//Purpose   : Checks if response from the server is 
+//Returns   : True if the server sent an RC=0 response
 /*--------------------------------------------------------------------------*/
 bool RemoteFile::isOK (const AByteArray& answer) const {
-   return (answer.length () > 3)
-           && !strncmp (answer.data (), "RC=", 3) && (answer[3] == '0');
+   return (answer.length () == 4) && !strcmp (answer.data (), "RC=0");
 }
 
 /*--------------------------------------------------------------------------*/
@@ -268,7 +284,7 @@ void RemoteFile::handleServerError (const char* pAnswer) const throw (std::strin
 /*--------------------------------------------------------------------------*/
 void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnswer)
    const throw (std::string) {
-   assert (pAnswer);
+   Check3 (pAnswer);
 
    try {
       attrs.assignValues (pAnswer);
