@@ -10,6 +10,8 @@ Overview of Changes in version 0.6.01:
   - README and INSTALL contains usefull information
   - Check for gtkmm improved (and Gtk-- renamed to gtkmm)
   - CORBA-ability re-added (actualized according to code-changes)
+  - Tests for CORBA-objects added
+  - Modal MessageBox added
 
 Overview of Changes in version 0.6.00:
 
@@ -58,8 +60,8 @@ Overview of changes in version 0.5.10:
 
   - Fileselection- and print-dialog added
   - Bugfix in XMessageBox, ADate
-  - Parser-classes reports found objects by either virtual
-  function, global or member-function
+  - Parser-classes reports found objects by either virtual function, global
+    or member-function
 
 Overview of changes in version 0.5.01:
 
