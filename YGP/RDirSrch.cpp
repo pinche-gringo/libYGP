@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.10 2001/10/02 23:03:52 markus Exp $
+//$Id: RDirSrch.cpp,v 1.11 2001/10/08 14:30:01 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -122,13 +122,13 @@ const File* RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::strin
 
    attrs.assignValues (pAnswer);
 
-   pEntry = new RemoteFile;
+   pEntry = new RemoteFile (sock);
 
    // Set filename
    unsigned int posDirEnd (file.rfind (File::DIRSEPERATOR));
    if (posDirEnd != std::string::npos) {
-      pEntry->path (file.substr (0, posDirEnd));
-      pEntry->name (file.substr (posDirEnd + 1));
+      pEntry->path (file.substr (0, ++posDirEnd));
+      pEntry->name (file.substr (posDirEnd));
    }
    else {
       pEntry->path ("");
@@ -169,7 +169,7 @@ const File* RemoteDirSearch::find (unsigned long attribs) throw (std::string) {
    buffer += "\";Attr=";
    
    ANumeric attrs (attribs);
-   buffer += attrs.toString ();
+   buffer += attrs.toUnformatedString ();
    buffer += '\0';
 
    TRACE8 ("RemoteDirSearch::find (unsigned long) - Sending:\n\t"
@@ -233,6 +233,8 @@ const File* RemoteDirSearch::next () throw (std::string) {
 void RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string) {
    int rc;
    std::string error;
+
+   clearEntry ();
 
    AttributeParse attrs;
    ATTRIBUTE (attrs, int, rc, "RC");
