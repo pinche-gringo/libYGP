@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = Common X-windows
+SUBDIRS = Common X-windows CORBA
 
 dist-hook:
 	mkdir $(distdir)/Windows
