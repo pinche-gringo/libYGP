@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.11 2002/09/12 23:53:05 markus Rel $
+//$Id: XMessageBox.cpp,v 1.12 2002/12/25 04:31:54 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -413,11 +413,18 @@ const char* const XMessageBox::iconError[] = {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; adds all controls to the dialog
-//Parameters: text: Text of MessageBox
-//            title: Title of MessageBox
+//Purpose   : Constructor; Creates a message box of the specified type and
+//            with the selected buttons having both a user supplied text and
+//            title.
+//
+//            The button specified by defButton is the default button (selected
+//            if ENTER is pressed).
+//Parameters: text: Text to display in the body of the message box
+//            title: Text to display as title of the message box
 //            flags: Flags for display; indicates type of MessageBox and the
 //                   Buttons which should be displayed
+//            defButton: Button which should be the default (activated by
+//                       pressing enter)
 /*--------------------------------------------------------------------------*/
 XMessageBox::XMessageBox (const string& text, const string& title,
                           int flags, unsigned int defButton)
@@ -490,8 +497,9 @@ XMessageBox::~XMessageBox () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Performs the action of the selected button
-//Parameters: action: ID of pressed button
+//Purpose   : Event handler of the message box. The id selected button is
+//            stored and the box is closed.
+//Parameters: action: Id of pressed button
 /*--------------------------------------------------------------------------*/
 void XMessageBox::perform (int action) {
    TRACE9 ("XMessageBox::perform (int) - Action = " << action);
@@ -501,12 +509,18 @@ void XMessageBox::perform (int action) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Displays and performs the message-box
-//Parameters: text: Text of the message
-//            title: Title of the window; if empty us default-text according
-//                   to the passed flags
-//            flags: Bitset for buttons to show and type of message
-//            defButton: Number of default-button
+//Purpose   : Creates a message box of the specified type and with the
+//            selected buttons having both a user supplied text and title.
+//
+//            The button specified by defButton is the default button (selected
+//            if ENTER is pressed).
+//Parameters: text: Text to display in the body of the message box
+//            title: Text to display as title of the message box
+//            flags: Flags for display; indicates type of MessageBox and the
+//                   Buttons which should be displayed
+//            defButton: Button which should be the default (activated by
+//                       pressing enter)
+//Returns   : Id of the pressed button
 /*--------------------------------------------------------------------------*/
 int XMessageBox::Show (const string& text, const string& title, int flags,
                        unsigned int defButton) {
@@ -517,3 +531,10 @@ int XMessageBox::Show (const string& text, const string& title, int flags,
    Gtk::Main::run ();
    return box->ret;
 }
+
+extern "C"
+int showMessageBox (char* text, char* title,
+                    int flags, unsigned int defButton) {
+   return XMessageBox::Show (text, title, flags, defButton);
+}
+

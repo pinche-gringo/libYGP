@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.8 2002/08/01 03:51:49 markus Rel $
+//$Id: XMessageBox.h,v 1.9 2002/12/25 04:31:54 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,8 +38,31 @@ using namespace Gtk;
 
 
 // Class to display simple messages in a dialog-window. This window contains
-// action-buttons and a title (if not a specific one is passed) according to
-// the passed flag.
+// action-buttons, a title (either a default one according to the type of the
+// message or a specified one) and an icon according to the type of the message.
+//
+// The following (self explainatory) message types are supported:
+//   - INFO
+//   - QUESTION
+//   - WARNING
+//   - ERROR
+//   - CRITICAL
+// depending on the message displaced.
+//
+// The action buttons can be one of the following; selecting the button makes
+// the message box return the same ID:
+//   - OK
+//   - CANCEL
+//   - END
+//   - YES
+//   - NO
+//   - RETRY
+// or any of those combinations:
+//   - YESNO
+//   - YESNOCANCEL
+//   - OKCANCEL
+//   - RETRYCANCEL
+//   - OKRETRYCANCEL
 class XMessageBox : public Dialog {
  public:
    enum options { INFO, QUESTION, WARNING, ERROR, CRITICAL,
@@ -124,5 +147,9 @@ template <class T> class XMessageDialog : public XMessageBox {
    T& obj;
    PCALLBACK pCallback;
 };
+
+
+extern "C"
+int showMessageBox (char* text, char* title, int flags, unsigned int defButton);
 
 #endif
