@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.14 2000/01/24 22:52:47 Markus Rel $
+//$Id: Parse.h,v 1.15 2000/02/02 22:11:21 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -328,7 +328,7 @@ class ParseSequence : public ParseObject {
  protected:
    virtual int checkIntegrity () const;
 
-   void writeError (Xistream& stream) const {
+   void writeError (Xistream&) const {               // Parameter not used yet
       error << "Expected '" << getDescription () << "'\n";
    }
 

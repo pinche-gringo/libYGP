@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.9 2000/01/26 22:13:24 Markus Rel $
+//$Id: DirSrch.h,v 1.10 2000/02/02 22:11:21 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,34 +23,34 @@
 #include <assert.h>
 
 #ifdef UNIX
+#  if HAVE_DIRENT_H
+#     include <dirent.h>
+#     define NAMLEN(dirent) strlen((dirent)->d_name)
+#  else
+#     define dirent direct
+#     define NAMLEN(dirent) (dirent)->d_namlen
+#     if HAVE_SYS_NDIR_H
+#        include <sys/ndir.h>
+#     endif
+#     if HAVE_SYS_DIR_H
+#        include <sys/dir.h>
+#     endif
+#     if HAVE_NDIR_H
+#        include <ndir.h>
+#     endif
+#  endif
 
-#if HAVE_DIRENT_H
-# include <dirent.h>
-# define NAMLEN(dirent) strlen((dirent)->d_name)
-#else
-# define dirent direct
-# define NAMLEN(dirent) (dirent)->d_namlen
-# if HAVE_SYS_NDIR_H
-#  include <sys/ndir.h>
-# endif
-# if HAVE_SYS_DIR_H
-#  include <sys/dir.h>
-# endif
-# if HAVE_NDIR_H
-#  include <ndir.h>
-# endif
-#endif
-
-#include <sys/stat.h>
-#else
-#ifdef WINDOWS
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#  include <sys/stat.h>
 
 #else
-#error Not yet implemented!
-#endif
+#  ifdef WINDOWS
+
+#     define WIN32_LEAN_AND_MEAN
+#     include <windows.h>
+
+#  else
+#     error Not yet implemented!
+#  endif
 #endif
 
 #include <string>
@@ -99,10 +99,6 @@ typedef struct dirEntry {
 } dirEntry;
 #else
 #  ifdef WINDOWS
-#define FILE_NORMAL         FILE_ATTRIBUTE_ARCHIVE
-#define FILE_READONLY       FILE_ATTRIBUTE_READONLY
-#define FILE_DIRECTORY      FILE_ATTRIBUTE_DIRECTORY
-#define FILE_HIDDEN         (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN)
 
 typedef struct dirEntry : public WIN32_FIND_DATA {
    char* pPath;
@@ -122,7 +118,7 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    const unsigned long attributs () const { return dwFileAttributes; }
 
    //@Section file-type
-   bool isDirectory () const { return dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY; }
+   bool isDirectory () const { return (dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
    bool isExecuteable () const;
    bool isUserExec () const { return isExecuteable (); }
 } dirEntry;

@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.13 2000/01/24 22:52:24 Markus Rel $
+//$Id: Parse.cpp,v 1.14 2000/02/02 22:11:21 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,7 +28,7 @@
 #include <string.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 #include "Parse.h"
 #include "XStream.h"
 
@@ -127,6 +127,7 @@ void ParseObject::skipWS (Xistream& stream) const {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int ParseObject::found (const char* pFoundValue) {
+   assert (pFoundValue);
    return PARSE_OK;
 }
 
@@ -215,7 +216,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
 #endif
 
    char* pAkt = global.buffer;
-   int   ch;
+   int   ch (0);
 
    unsigned int i (0);
    while (i < maxCard) {                     // While not max. card is reached
@@ -225,8 +226,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
       if (ch == EOF)
          break;
 
-      if (!checkValue (ch)) {                      // Read and check next char
-         stream.putback (ch);
+      if (!checkValue ((char)ch)) {                // Read and check next char
+         stream.putback ((char)ch);
          break;
       }
 
@@ -238,7 +239,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
          pAkt = global.buffer + i;
       } // endif old buffer full
 
-      *pAkt++ = ch;                                            // Store, if OK
+      *pAkt++ = (char)ch;                                      // Store, if OK
       ++i;
    } // end-while !maximal cardinality
    *pAkt = '\0';
@@ -600,7 +601,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) {
    int rc (PARSE_OK);
 
    while (i++ < maxCard) {
-      ParseObject** ppAct (ppList); assert (ppAct); assert (*ppAct);
+      ParseObject** ppAct = ppList; assert (ppAct); assert (*ppAct);
 
       while (*ppAct != NULL) {                  // While list contains objects
          if ((rc = (**ppAct).doParse (stream,  // Parse (putback first always)
@@ -703,7 +704,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
    int rc (PARSE_OK);
 
    while (i++ < maxCard) {
-      ParseObject** ppAct (ppList); assert (ppAct); assert (*ppAct);
+      ParseObject** ppAct = ppList; assert (ppAct); assert (*ppAct);
 
       while (*ppAct != NULL) {                  // While list contains objects
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)

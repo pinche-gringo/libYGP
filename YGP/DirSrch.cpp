@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.12 2000/01/26 22:12:48 Markus Rel $
+//$Id: DirSrch.cpp,v 1.13 2000/02/02 22:11:21 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -33,7 +33,7 @@
 #include <errno.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 #include "DirSrch.h"
 #include "FileRExp.h"
 
@@ -108,7 +108,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    // Attribut-handling: Files having attrs not specified here are not ret.
    attr = ~attribs;
 
-   std::string temp = searchDir + '*';
+   std::string temp (searchDir + '*');
    hSearch = FindFirstFile (temp.c_str (), pEntry);
    if (hSearch == INVALID_HANDLE_VALUE)
       return GetLastError ();
@@ -265,7 +265,7 @@ void DirectorySearch::cleanup () {
 //            there's even another WINDOZE-format) are not considered as exes.
 /*--------------------------------------------------------------------------*/
 bool dirEntry::isExecuteable () const {
-   const char* pEnd (strrchr (cFileName, '.'));
+   const char* pEnd = strrchr (cFileName, '.');
    if (pEnd++)
       // Check the next 4 bytes; ignore end-of-string, the buffer is long
       // enough (MAX_PATH) and the trailing \0 is in the compare

@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.7 1999/09/21 23:44:26 Markus Rel $
+// $Id: XStrBuf.cpp,v 1.8 2000/02/02 22:12:05 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,10 +26,11 @@
 
 
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "XStrBuf.h"
 
@@ -68,7 +69,7 @@ int extStreambuf::underflow () {
 
    assert (!checkIntegrity ());
 
-   char* pTemp (pBuffer);
+   char* pTemp = pBuffer;
    int   ch;
 
    ++line;

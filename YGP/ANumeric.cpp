@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.5 1999/10/19 22:48:27 Markus Rel $
+//$Id: ANumeric.cpp,v 1.6 2000/02/02 22:11:21 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -39,7 +39,7 @@
 #include <string>
 
 #define DEBUG 0
-#include <Trace.h>
+#include "Trace_.h"
 
 #include "ANumeric.h"
 

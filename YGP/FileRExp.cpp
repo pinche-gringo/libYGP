@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.4 1999/09/11 01:07:57 Markus Rel $
+//$Id: FileRExp.cpp,v 1.5 2000/02/02 22:11:21 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -130,7 +130,7 @@ bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) con
 int FileRegularExpr::checkIntegrity () const {
    assert (pFileRegExp);
 
-   const char* pRegExp (pFileRegExp);
+   const char* pRegExp = pFileRegExp;
 
    while (*pRegExp) {
       if (*pRegExp == REGIONBEGIN) {

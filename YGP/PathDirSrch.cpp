@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.5 1999/11/19 00:00:26 Markus Rel $
+//$Id: PathDirSrch.cpp,v 1.6 2000/02/02 22:12:05 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,7 +27,7 @@
 #include <errno.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 #include "PathDirSrch.h"
 
 

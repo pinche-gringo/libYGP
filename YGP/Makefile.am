@@ -9,7 +9,7 @@ libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
 Test_SOURCES=$(libAttr_la_SOURCES) Test.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
-		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h \
+		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h \
 		SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h
 
 EXTRA_DIST=Test.Dat
