@@ -1,7 +1,7 @@
 #ifndef AYEAR_H
 #define AYEAR_H
 
-//$Id: AYear.h,v 1.1 2004/11/07 22:01:57 markus Exp $
+//$Id: AYear.h,v 1.2 2004/11/11 04:23:29 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ class AYear : public AttributValue {
    //@{
    /// Assignment operator from an (unformatted) text
    AYear& operator= (const std::string& year) throw (std::invalid_argument) {
-      return operator= (year); }
+      return operator= (year.c_str ()); }
    AYear& operator= (const AYear& other);
    AYear& operator= (const char* pValue) throw (std::invalid_argument);
    AYear& operator= (int Year) { setDefined (); year = Year; return *this; }
