@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.31 2003/02/18 02:50:50 markus Exp $
+//$Id: Parse.h,v 1.32 2003/02/21 19:20:11 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -283,7 +283,6 @@ class ParseTextEsc : public ParseText {
 
    char esc;
    char last;
-   char prelast;
 
  private:
    // Prohibited manager functions

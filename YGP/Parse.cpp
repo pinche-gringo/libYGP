@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.37 2003/02/18 02:50:50 markus Exp $
+//$Id: Parse.cpp,v 1.38 2003/02/21 19:20:11 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -246,7 +246,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
    while (buffer.size () < maxCard) {        // While not max. card is reached
       ch = stream.get ();
       TRACE6 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
-              << " -> " << (char)ch << " = 0x" << hex << ch << dec);
+              << " -> " << (char)ch << " = 0x" << std::hex << ch << std::dec);
 
       if (ch == EOF)
          break;
@@ -424,7 +424,7 @@ ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
                             unsigned int max, unsigned int min, char escape,
                             bool skipWhitespace, bool reportData)
    : ParseText (abort, description, max, min, skipWhitespace, reportData)
-   , esc (escape), last (!escape), prelast (!escape) {
+   , esc (escape), last (!escape) {
    TRACE9 ("Creating ParseTextEsc " << getDescription ());
 };
 
@@ -433,7 +433,7 @@ ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
-   : ParseText (other), esc (other.esc), last (!other.esc), prelast (!other.esc) {
+   : ParseText (other), esc (other.esc), last (!other.esc) {
    TRACE9 ("Copying ParseTextEsc " << getDescription ());
 }
 
@@ -455,7 +455,7 @@ ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
 
    if (&other != this) {
       esc = other.esc;
-      prelast = !other.esc;last = !other.esc;
+      last = !other.esc;
       ParseText::operator= (other);
    } // endif other object
 
@@ -475,22 +475,20 @@ ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
 /*--------------------------------------------------------------------------*/
 int ParseTextEsc::checkValue (char ch) {
    TRACE8 ("ParseTextEsc::checkValue (char) - " << getDescription () << ' '
-           << ch << " [" << last << '/' << prelast << ']');
+           << ch << " - " << last);
    Check1 (!other.checkIntegrity ());
 
    const char* pHelp = pValue; Check3 (pHelp);
    while (*pHelp) {
-      if ((*pHelp == ch) && ((last != esc)
-                             || ((last == esc) && (prelast == esc)))) {
-         prelast = last = !esc;
-	 return false;
+      if ((*pHelp == ch) && (last != esc)) {
+         last = !esc;
+         return false;
       } // endif
       ++pHelp;
    } // endwhile chars available
 
-   prelast = last;
-   last = ch;
-   return ((ch == esc) && (prelast != esc)) ? -1 : true;
+   last = ((last == esc) && (ch == esc)) ? !esc : ch;
+   return (last == esc) ? -1 : true;
 }
 
 
@@ -594,7 +592,7 @@ char ParseQuoted::getClosingChar (char ch) {
 /*--------------------------------------------------------------------------*/
 int ParseQuoted::checkValue (char ch) {
    TRACE8 ("ParseQuoted::checkValue (char) - " << getDescription () << ": " << ch);
-   
+
    int rc (0);
    switch (pos) {
    case 0:
@@ -695,7 +693,7 @@ ParseQuotedEsc& ParseQuotedEsc::operator= (const ParseQuotedEsc& other) {
 /*--------------------------------------------------------------------------*/
 int ParseQuotedEsc::checkValue (char ch) {
    TRACE8 ("ParseQuotedEsc::checkValue (char) - " << getDescription () << ": " << ch);
-   
+
    int rc (0);
    switch (pos) {
    case 0:
