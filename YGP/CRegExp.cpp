@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.27 2002/05/24 06:52:49 markus Exp $
+//$Id: CRegExp.cpp,v 1.28 2002/11/04 00:53:16 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
