@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.9 2000/04/17 23:34:18 Markus Rel $ -->
+<!-- $Id: Parse.html,v 1.10 2001/10/17 23:46:48 markus Exp $ -->
 
 <html>
   <head>
@@ -11,10 +11,11 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
+  <a name="General"></a>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
-	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center">General parser-information</h1>
@@ -41,13 +42,14 @@
 
     <p>Any of this functions must return the following values (which  specifies
       how the parsing should be continued):</p>
-    <ul>
-      <li><b>0</b>: Parsing (actually callback) OK</li>
-      <li><b>&gt; 0</b>: Error while parsing; parsing can be continued (in
-	sequences, ...)</li>
-      <li><b>&lt; 0</b>: Error while parsing; abort parsing (unrecoverable
-	error)</li>
-    </ul>
+    <dl compact>
+      <dt><b>0</b></dt>
+      <dd>Parsing (actually callback) OK</dd>
+      <dt><b>&gt; 0</b></dt>
+      <dd>Error while parsing; parsing can be continued (in sequences, ...)</dd>
+      <dt><b>&lt; 0</b></dt>
+      <dd>Error while parsing; abort parsing (unrecoverable error)</dd>
+    </dl>
 
     <p>If possible use the error-values (PARSE_OK, PARSE_ERROR, PARSE_CB_ERROR,
       PARSE_CB_ABORT) in the error-enum of <a href="Parse.html#ParseObject">
@@ -60,19 +62,24 @@
       <a href="Parse.html#POAttfreeBuffer">ParseAttomic::freeBuffer</a> can
       be called (but better not while an object is parsed).</p>
 
-    <hr noshade>
-
+    <hr noshade><a name="ParseObject"></a>
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
-	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+      <td><a href="cross_index.html">Cross Index</a></td>
+      <td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
-    <h1 align="center"><a name="ParseObject"></a>Class ParseObject</h1>
-    <p>Derived from: <i>None</i></p>
+    <h1 align="center">Class ParseObject</h1>
+    <p>Derived from
+      <i>none</i>
+      <br>
+      Derived by:
+      <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+      <a href="Parse.html#ParseEOF">ParseEOF</a>
+      <a href="Parse.html#ParseSequence">ParseSequence</a></p>
 
-    <p>Header-file: Parse.h</p>
+    <p>#include &lt;Parse.h&gt;</p>
 
-    <hr noshade>
     <h2>Description</h2>
     <p>Abstract base-class for parsing objects. It contains methods of general
       purpose.</p>
@@ -83,47 +90,45 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#ParseObject1">ParseObject</a></td>
-        <td>(const char* description, bool skipWhitespace = true)</td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#ParseObject2">ParseObject</a></td>
-        <td>(const <a href="Parse.html#ParseObject">ParseObject</a>&amp; other)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~ParseObject">~ParseObject</a></td><td>()</td></tr>
-
-      <tr valign="top"><td><a href="Parse.html#ParseObject">ParseObject</a>&amp;</td>
-        <td><a href="Parse.html#POoperator=">operator=</a></td>
-        <td>(const <a href="Parse.html#ParseObject">ParseObject</a>&amp; other)</td></tr>
-
-      <tr valign="top"><td>const char*</td>
-        <td><a href="Parse.html#POgetDescription">getDescription</a></td>
-        <td>() const</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#POsetDescription">setDescription</a></td>
-        <td>(const char* desc)</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#POsetSkipWS">setSkipWS</a></td>
-        <td>(bool skipWhitespace)</td></tr>
-
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#POskipWS">skipWS</a></td>
-        <td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream)</td></tr>
-      <tr valign="top"><td>int</td>
-        <td><a href="Parse.html#POparse">parse</a></td>
-        <td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw
-          (std::string)</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#POdoParse">doParse</a></td>
-        <td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
-          bool optional) = 0</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#POfound">found</a></td>
-        <td>(const char* pFoundValue)</td></tr>
-
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseObject1"><b>ParseObject</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">description</font></tt>, <tt><font color="purple">bool</font></tt> <tt><font color="blue">skipWhitespace</font></tt> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseObject2"><b>ParseObject</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="ParseObject.html#ParseObject"><b>ParseObject</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POdoParse"><b>doParse</b></a></td>
+        <td><tt>(<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; <tt><font color="blue">stream</font></tt>, <tt><font color="purple">bool</font></tt> <tt><font color="blue">optional</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pFoundValue</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">char</font></tt>*</tt> </td>
+        <td><a href="Parse.html#POgetDescription"><b>getDescription</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ParseObject.html#ParseObject"><b>ParseObject</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#POoperator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ParseObject.html#ParseObject"><b>ParseObject</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POparse"><b>parse</b></a></td>
+        <td><tt>(<a href="XStream.html#Xistram"><b>Xistream</b></a>&amp; <tt><font color="blue">stream</font></tt>) throw (<font color="purple">std::string</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POsetDescription"><b>setDescription</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">desc</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POsetSkipWS"><b>setSkipWS</b></a></td>
+        <td><tt>(<tt><font color="purple">bool</font></tt> <tt><font color="blue">skipWhitespace</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POskipWS"><b>skipWS</b></a></td>
+        <td><tt>(<a href="XStream.html#Xistram"><b>Xistream</b></a>&amp; <tt><font color="blue">stream</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~ParseObject"><b>~ParseObject</b></a></td>
+        <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#POcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POcheckIntegrity"><b>checkIntegrity</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -159,12 +164,12 @@
     </dl>
 
     <h4>Parsing</h4>
-    <pre><a name="skipWS"></a>void skipWS (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) const</pre>
+    <pre><a name="POskipWS"></a>void skipWS (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) const</pre>
     <dl>
       <dd>Skips all whitespace characters (blank, tabulator, carriage return
         and line feed) from the current position in the passed stream.</dd>
     </dl>
-    <pre><a name="POparse"></a>int parse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</pre>
+    <pre><a name="POparse"></a>int parse (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream) throw (std::string)</pre>
     <dl>
       <dd>Tries to parse data matching the information stored with this
         parse-object from the passed stream. If this parsing is successful (the
@@ -176,7 +181,7 @@
       <dt>&nbsp;&nbsp;&nbsp;&nbsp;Throws:</dt><dd>std::string with a description of
         the expected and the found data</dd>
     </dl>
-    <pre><a name="POdoParse"></a>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream, bool optional)</pre>
+    <pre><a name="POdoParse"></a>virtual int doParse (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional)</pre>
     <dl>
       <dd><p>Pure virtual method defining the interface for the actual
         parse-method for the different parse-objects; to be implemented by the
@@ -211,17 +216,23 @@
       <dd>Checks if this object is in a valid state.</dd>
     </dl>
 
-    <hr noshade>
+    <hr noshade><a name="ParseEOF">
 
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
-        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+      <td><a href="cross_index.html">Cross Index</a></td>
+      <td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
-    <h1 align="center"><a name="ParseEOF"></a>Class ParseEOF</h1>
-    <p>Derived from: <a href="Parse.html#ParseObject">ParseObject</a></p>
+    <h1 align="center"></a>Class ParseEOF</h1>
+    <p>Derived from
+      <a href="Parse.html#ParseObject">ParseObject</a>
+      <br>
+      Derived by:
+      <a href="Parse.html#CBParseEOF">CBParseEOF</a>
+      <a href="Parse.html#OMParseEOF">OFParseEOF&lt;T&gt;</a></p>
 
-    <p>Header-file: Parse.h</p>
+    <p>#include &lt;Parse.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -229,15 +240,15 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#ParseEOF1">ParseEOF</a></td><td>()</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~ParseEOF">~ParseEOF</a></td><td>()</td></tr>
-
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#POEOFdoParse">doParse</a></td>
-        <td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
-          bool optional)</td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="ParseEOF.html#ParseEOF"><b>ParseEOF</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POEOFdoParse"><b>doParse</b></a></td>
+        <td><tt>(<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; <tt><font color="blue">stream</font></tt>, <tt><font color="purple">bool</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~ParseEOF"><b>~ParseEOF</b></a></td>
     </table>
 
     <hr noshade>
@@ -254,17 +265,21 @@
         reached; <i>PARSE_ERROR</i> if not.</dd>
     </dl>
 
-    <hr noshade>
+    <hr noshade><a name="CBParseEOF"></a>
 
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
-        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+      <td><a href="cross_index.html">Cross Index</a></td>
+      <td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
-    <h1 align="center"><a name="CBParseEOF"></a>Class CBParseEOF</h1>
-    <p>Derived from: <a href="Parse.html#ParseEOF">ParseEOF</a></p>
+    <h1 align="center">Class CBParseEOF</h1>
+    <p>Derived from
+      <a href="ParseEOF.html">ParseEOF</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: Parse.h</p>
+    <p>#include &lt;Parse.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -273,34 +288,34 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#CBParseEOF1">CBParseEOF</a></td>
-        <td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~CBParseEOF">~CBParseEOF</a></td><td>()</td></tr>
-
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#CBEOFsetCallback">setCallback</a></td>
-        <td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
-
-      <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#CBEOFfound">found</a></td>
-        <td>(const char* pFoundValue)</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseEOF"><b>CBParseEOF</b></a></td>
+        <td><tt>(<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <tt><font color="blue">callback</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#CBEOFsetCallback"><b>setCallback</b></a></td>
+        <td><tt>(<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <tt><font color="blue">callback</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~CBParseEOF"><b>~CBParseEOF</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#CBEOFfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pFoundValue</font></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="CBParseEOF1"></a>CBParseEOF (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</pre>
+    <pre><a name="CBParseEOF1"></a>CBParseEOF (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback)</pre>
     <dl>
       <dd>Constructor setting the callback.</dd>
     </dl>
     <pre><a name="~CBParseEOF"></a>virtual ~CBParseEOF ()</pre>
 
-    <pre><a name="CBEOFsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</pre>
+    <pre><a name="CBEOFsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
     <dl>
       <dd>Changes the callback to the passed parameter.</dd>
     </dl>
@@ -312,17 +327,21 @@
         result.</dd>
     </dl>
 
-    <hr noshade>
+    <hr noshade><a name="OMParseEOF"></a>
 
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
-        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+      <td><a href="cross_index.html">Cross Index</a></td>
+      <td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
-    <h1 align="center"><a name="OMParseEOF"></a>Class OFParseEOF&lt;T&gt;</h1>
-    <p>Derived from: <a href="Parse.html#ParseEOF">ParseEOF</a></p>
+    <h1 align="center">Class OFParseEOF&lt;T&gt;</h1>
+    <p>Derived from
+      <a href="ParseEOF.html">ParseEOF</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: Parse.h</p>
+    <p>#include &lt;Parse.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -331,45 +350,56 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#OFParseEOF1">OFParseEOF</a></td>
-        <td>(T&amp; objToNotify, <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~OFParseEOF">~OFParseEOF</a></td><td>()</td></tr>
-
-      <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#CBEOFfound">found</a></td>
-        <td>(const char* pFoundValue)</td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#OFParseEOF"><b>CBParseEOF</b></a></td>
+        <td><tt>(<tt><font color="navy">T</font>&amp;</tt> <tt><font color="blue">objToNotify</font></tt>, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> <tt><font color="blue">callback</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~OFParseEOF"><b>~CBParseEOF</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#OFEOFfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pFoundValue</font></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="OFParseEOF1"></a>OFParseEOF (T&amp; objToNotify, <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback)</pre>
+    <pre><a name="OFParseEOF1"></a>OFParseEOF (T&amp; objToNotify, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback)</pre>
     <dl>
       <dd>Constructor setting the object to notify and its callback-method.</dd>
     </dl>
     <pre><a name="~OFParseEOF"></a>virtual ~OFParseEOF ()</pre>
 
     <h4>Parsing</h4>
-    <pre><a name="CBEOFfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFEOFfound"></a>virtual int found (const char* pFoundValue)</pre>
     <dl>
       <dd>Calls the defined callback of the specified object with the passed
         parameter and returns its result.</dd>
     </dl>
 
-    <hr noshade>
+    <hr noshade><a name="ParseAttomic"></a>
 
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
         <td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
-    <h1 align="center"><a name="ParseAttomic"></a>Class ParseAttomic</h1>
-    <p>Derived from: <a href="Parse.html#ParseObject"></a>ParseObject</p>
+    <h1 align="center">Class ParseAttomic</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseObject">ParseObject</a>
+      <br>
+      Derived by:
+      <a href="Parse.html#CBParseAttomic">CBParseAttomic</a>
+      <a href="Parse.html#OMParseAttomic">OFParseAttomic&lt;T&gt;</a>
+      <a href="Parse.html#ParseExact">ParseExact</a>
+      <a href="Parse.html#ParseText">ParseText</a></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
 
     <p>Header-file: Parse.h</p>
 
@@ -400,52 +430,52 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#ParseAttomic1">ParseAttomic</a></td>
-        <td>(const char* value, const char* description, unsigned int max = 1,
-	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#ParseAttomic2">ParseAttomic</a></td>
-        <td>(const <a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp; other)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~ParseAttomic">~ParseAttomic</a></td><td>()</td></tr>
-
-      <tr valign="top"><td><a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp;</td>
-        <td><a href="Parse.html#POAttoperator=">operator=</a></td>
-        <td>(const <a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp; other)</td></tr>
-
-      <tr valign="top"><td>const char*</td>
-        <td><a href="Parse.html#POAttgetValue">getValue</a></td><td>() const</td></tr>
-      <tr valign="top"><td>unsigned int</td>
-        <td><a href="Parse.html#POAttgetMaxCard">getMaxCard</a></td>
-        <td>() const</td></tr>
-      <tr valign="top"><td>unsigned int</td>
-        <td><a href="Parse.html#POAttgetMinCard">getMinCard</a></td>
-        <td>() const</td></tr>
-
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#POAttsetValue">setValue</a></td>
-        <td>(const char* value)</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#POAttsetMaxCard">setMaxCard</a></td>
-        <td>(unsigned int val)</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#POAttsetMinCard">setMinCard</a></td>
-        <td>(unsigned int val)</td></tr>
-
-      <tr valign="top"><td>static void</td>
-        <td><a href="Parse.html#POAttfreeBuffer">freeBuffer</a></td><td>()</td></tr>
-
-      <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#POAttcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
-      <tr valign="top"><td>virtual bool</td>
-        <td><a href="Parse.html#POAttcheckValue">checkValue</a></td><td>(char ch)</td></tr>
-
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#POAttdoParse">doParse</a></td>
-        <td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
-	  bool optional) throw (std::string)</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseAttomic1"><b>ParseAttomic</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">description</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">max</font></tt> = 1, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">min</font></tt> = 1, <tt><font color="purple">bool</font></tt> <tt><font color="blue">skipWhitespace</font></tt> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseAttomic2"><b>ParseAttomic</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>& <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>static</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttfreeBuffer"><b>freeBuffer</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttgetMaxCard"><b>getMaxCard</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttgetMinCard"><b>getMinCard</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">char</font></tt>*</tt> </td>
+        <td><a href="Parse.html#POAttgetValue"><b>getValue</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>&</tt> </td>
+        <td><a href="Parse.html#POAttoperator="><tt><font color="black"><b>operator</b></font>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>& <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttsetMaxCard"><b>setMaxCard</b></a></td>
+        <td><tt>(<tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttsetMinCard"><b>setMinCard</b></a></td>
+        <td><tt>(<tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">val</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttsetValue"><b>setValue</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~ParseAttomic"><b>~ParseAttomic</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttcheckIntegrity"><b>checkIntegrity</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="Parse.html#POAttcheckValue"><b>checkValue</b></a></td>
+        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">ch</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt>virtual <font color="purple">int</font></tt></td>
+        <td><a href="Parse.html#POAttdoParse"><b>doParse</b></a></td>
+        <td>(<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; <font color="blue">stream</font>,
+	  <font color="purple">bool</font> <font color="blue">optional</font>) throw (<font color="purple">std::string</font>)</td></tr>
     </table>
 
     <hr noshade>
@@ -485,7 +515,7 @@
 
     <pre><a name="POAttoperator="></a>ParseAttomic&amp; operator= (const ParseAttomic&amp; other)</pre>
 
-    <pre><a name="POAttfreeBuffer"></a>static void freeBuffer</pre>
+    <pre><a name="POAttfreeBuffer"></a>static void freeBuffer ()</pre>
     <dl>
       <dd><p>Frees the buffer which is used to store the parsed data. Use with
           care (only at the end of parsing and not during parsing a single
@@ -555,55 +585,58 @@
       <dd>Checks if this object is in a valid state.</dd>
     </dl>
 
-    <hr noshade>
+    <hr noshade><a name="CBParseAttomic">
 
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
         <td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
-    <h1 align="center"><a name="CBParseAttomic"></a>Class CBParseAttomic</h1>
-    <p>Derived from: <a href="Parse.html#ParseAttomic">ParseAttomic</a></p>
+    <h1 align="center"></a>Class CBParseAttomic</h1>
+    <p>Derived from:
+      <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: Parse.h</p>
+    <p>#include &lt;Parse.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
     <p>Class to parse attomic values with a callback to report matching input.</p>
-    <p>See the documentation of <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+    <p>See the documentation of <a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>
       for further details.</p>
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#CBParseAttomic1">CBParseAttomic</a></td>
-        <td>(const char* value, const char* description,
-          <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
-          unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#CBParseAttomic2">CBParseAttomic</a></td>
-        <td>(const <a href="Parse.html#CBParseAttomic">CBParseAttomic</a>&amp; other)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~CBParseAttomic">~CBParseAttomic</a></td><td>()</td></tr>
-      <tr valign="top"><td><a href="Parse.html#CBParseAttomic">CBParseAttomic</a>&amp;</td>
-        <td><a href="Parse.html#CBAttoperator=">operator=</a></td>
-        <td>(const <a href="Parse.html#CBParseAttomic">CBParseAttomic</a>&amp; other)</td></tr>
-
-      <tr valign="top"><td>void</td>
-        <td><a href="Parse.html#CBAttsetCallback">setCallback</a></td>
-        <td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
-
-      <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#CBAttfound">found</a></td>
-        <td>(const char* pFoundValue)</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseAttomic1"><b>CBParseAttomic</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">description</font></tt>, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</a></b> <tt><font color="blue">callback</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">max</font></tt> = 1, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">min</font></tt> = 1, <tt><font color="purple">bool</font></tt> <tt><font color="blue">skipWhitespace</font></tt> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseAttomic2"><b>CBParseAttomic</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseAttomic"><b>CBParseAttomic</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#CBParseAttomic"><b>CBParseAttomic</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#CBAttoperator="><tt><font color="black"><b>operator</b></font>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseAttomic"><b>CBParseAttomic</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#CBAttsetCallback"><b>setCallback</b></a></td>
+        <td><tt>(<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <tt><font color="blue">callback</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~CBParseAttomic"><b>~CBParseAttomic</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#CBAttfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pFoundValue</font></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="CBParseAttomic1"></a>CBParseAttomic (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+    <pre><a name="CBParseAttomic1"></a>CBParseAttomic (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
                 unsigned int max = 1, unsigned int min = 1,
                 bool skipWhitespace = true)</pre>
     <dl>
@@ -613,7 +646,7 @@
     <pre><a name="~CBParseAttomic"></a>virtual ~CBParseAttomic ()</pre>
     <pre><a name="CBAttoperator="></a>CBParseAttomic&amp; operator= (const CBParseAttomic&amp; other)</pre>
 
-    <pre><a name="CBAttsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</pre>
+    <pre><a name="CBAttsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
     <dl>
       <dd>Changes the callback to the passed parameter.</dd>
     </dl>
@@ -633,36 +666,42 @@
     </table>
 
     <h1 align="center"><a name="OMParseAttomic"></a>Class OFParseAttomic&lt;T&gt;</h1>
-    <p>Derived from: <a href="Parse.html#ParseAttomic">ParseAttomic</a></p>
+    <p>Derived from:
+      <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: Parse.h</p>
+    <p>#include &lt;Parse.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
     <p>Class to parse attomic values with a callback to report matching input.</p>
-    <p>See the documentation of <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+    <p>See the documentation of <a href="Parse.html#ParseAttomic"><b>ParseAttomic</b></a>
       for further details.</p>
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#OFParseAttomic1">OFParseAttomic</a></td>
-        <td>(const char* value, const char* description, T&amp; objToNotify,
-	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
-	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
-      <tr valign="top"><td></td><td><a href="Parse.html#OFParseAttomic2">OFParseAttomic</a></td>
-        <td>(const <a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp; other)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="Parse.html#~OFParseAttomic">~OFParseAttomic</a></td><td>()</td></tr>
-      <tr valign="top"><td><a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp;</td>
-        <td><a href="Parse.html#OFAttoperator=">operator=</a></td>
-        <td>(const <a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp; other)</td></tr>
-
-      <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="Parse.html#OFAttfound">found</a></td>
-        <td>(const char* pFoundValue)</td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="Parse.html#OFParseAttomic1"><b>OFParseAttomic</b></a></td>
+        <td><tt>(const <font color="purple">char</font>* <font color="blue">value</font>, const <font color="purple">char</font>* <font color="blue">description</font>, <font color="navy">T</font>&amp; <font color="blue">objToNotify</font>, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</a></b> <font color="blue">callback</font>, <font color="navy">unsigned</font> <font color="purple">int</font> <font color="blue">max</font> = 1, <font color="navy">unsigned</font> <font color="purple">int</font> <font color="blue">min</font> = 1, <font color="purple">bool</font> <font color="blue">skipWhitespace</font> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#OFParseAttomic2"><b>OFParseAttomic</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseAttomic"><b>OFParseAttomic</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#OFParseAttomic"><b>OFParseAttomic</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#OFAttoperator="><tt><font color="black"><b>operator</b></font>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseAttomic"><b>OFParseAttomic</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Parse.html#OFAttsetCallback"><b>setCallback</b></a></td>
+        <td><tt>(<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> <tt><font color="blue">callback</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~OFParseAttomic"><b>~OFParseAttomic</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="Parse.html#OFAttfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pFoundValue</font></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -670,7 +709,7 @@
 
     <h4>Management functions</h4>
     <pre><a name="OFParseAttomic1"></a>OFParseAttomic (const char* value, const char* description, T&amp; objToNotify,
-                <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
+                <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max = 1,
                 unsigned int min = 1, bool skipWhitespace = true)</pre>
     <dl>
       <dd>Constructor setting the object to notify and its callback-method.</dd>
