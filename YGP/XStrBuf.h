@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.18 2003/02/13 07:20:44 markus Exp $
+// $Id: XStrBuf.h,v 1.19 2003/02/21 19:39:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,6 +47,10 @@
 // Note: This buffer only works for input and needs a "real" data-sink
 //       as source, so provide another streambuf-object to get its data
 //       from with the constructor or with the setSource-method!
+//
+// Also note that after repositionating in the stream (with seekoff/seekpos)
+// the line-information might not reflect the truth anymore (and also not
+// the column, at least til the next end-of-line is reached).
 //
 // ATTENTION: A wee bit of overhandling neccessary! Although extStreambuf is
 // derived from streambuf another streambuf* as member is needed (at least
