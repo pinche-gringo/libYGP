@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: FileRExp.cpp,v 1.2 1999/08/12 12:55:54 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -65,13 +65,13 @@ bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) con
       switch (ch = upper (ch)) {
       case MULTIMATCH:
          if (!*++pAktRegExp)
-            return 1;                          // Asterisk at end? Return match
+            return true;                       // Asterisk at end? Return match
 
          while (*pCompare)
             if (matches (pAktRegExp, pCompare++))
-            return 1;
+               return true;
 
-         return 0;
+         return false;
 
       case SINGLEMATCH:
          break;
@@ -99,9 +99,8 @@ bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) con
                   break;
          } // end-while
 
-         if (((ch == REGIONEND) && !fNeg)
-             || (fNeg && (ch != REGIONEND)))
-            return 0;
+         if ((ch != REGIONEND) == fNeg)
+            return false;
 
          while (ch && (ch != REGIONEND))
             ch = *++pAktRegExp;
@@ -110,7 +109,7 @@ bool FileRegularExpr::matches (const char* pAktRegExp, const char* pCompare) con
 
       default:
          if (upper (*pCompare) != ch)
-            return 0;
+            return false;
          break;
       } // end-switch reg.exp-character
       ++pAktRegExp;
