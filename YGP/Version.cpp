@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.2 2000/05/09 23:34:49 Markus Exp $
+// $Id: Version.cpp,v 1.3 2001/01/19 14:38:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,10 +24,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-const char* libraryVersion_General = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
-                                     " Compiled on " __DATE__ "%$@!\n";
+#include <gzo-cfg.h>
 
-#ifdef WINDOWS
+static const char* Version = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
+                             " Compiled on " __DATE__ "%$@!\n";
+
+#if SYSTEM == WINDOWS
 
 #ifdef __GNUG__
 // This is needed to terminate the list for inport stuff
@@ -42,7 +44,8 @@ extern "C" {
 /*--------------------------------------------------------------------------*/
 //Purpose   : DLL-entry point
 //Parameters: HANDLE hDLL: Handle to DLL
-//            DWORD reason: Reason for calling (attach/detach to/from process/thread
+//            DWORD reason: Reason for calling (attach/detach to/from
+//            process/thread
 //            LPVOID reserved
 /*--------------------------------------------------------------------------*/
 int WINAPI dllEntry (HANDLE, DWORD, LPVOID) {

@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.23 2000/05/09 23:33:38 Markus Exp $
+//$Id: DirSrch.cpp,v 1.24 2001/01/19 14:38:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,9 +25,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifdef WINDOWS
-#include <ctype.h>
-#include <string.h>
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX
+#  include <unistd.h>
+#elif SYSTEM == WINDOWS
+#  include <ctype.h>
+#  include <string.h>
 #endif
 
 #include <errno.h>
@@ -37,20 +41,16 @@
 #include "DirSrch.h"
 #include "FileRExp.h"
 
-#ifdef UNIX
-#include <unistd.h>
-#endif
-
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Copyconstructor
 //Parameter : o: Object to copy
 /*--------------------------------------------------------------------------*/
 dirEntry::dirEntry (const dirEntry& o) : path_ (o.path_)
-#ifdef UNIX
+#if SYSTEM == UNIX
    , entry (o.entry), status (o.status), userExec (o.userExec)
 #else
-#  ifdef WINDOWS
+#  if SYSTEM == WINDOWS
    , WIN32_FIND_DATA (o)
 #  else
 #     error Not implemented!
@@ -74,7 +74,7 @@ DirectorySearch::~DirectorySearch () {
 const dirEntry& dirEntry::operator= (const dirEntry& o) {
    if (this != &o) {
       path_ = o.path_;
-#ifdef UNIX
+#if SYSTEM == UNIX
       entry = o.entry;
       status = o.status;
       userExec = o.userExec;
@@ -99,12 +99,12 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
    TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str () << searchFile.c_str ());
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    pDir = opendir (searchDir.c_str ());
    if (!pDir)
       return errno;
 #else
-#  ifdef WINDOWS
+#  if SYSTEM == WINDOWS
    std::string temp (searchDir + '*');
    hSearch = FindFirstFile (temp.c_str (), pEntry);
    if (hSearch == INVALID_HANDLE_VALUE)
@@ -114,10 +114,10 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 #  endif
 #endif
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    return find ();
 #else
-#  ifdef WINDOWS
+#  if SYSTEM == WINDOWS
    TRACE8 ("DirectorySearch::find (result, attribs) - found " << pEntry->name ());
 
    FileRegularExpr regExp (searchFile.c_str ());
@@ -145,7 +145,7 @@ int DirectorySearch::find () {
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    assert (pDir);
 
    std::string workfile (pEntry->path_);
@@ -176,7 +176,7 @@ int DirectorySearch::find () {
 
    return ENOENT;
 #else
-#  ifdef WINDOWS
+#  if SYSTEM == WINDOWS
    // Attribut-handling: Files having attrs not specified here are not ret.
    unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
 
@@ -227,7 +227,7 @@ void DirectorySearch::setFile (const std::string& search) {
       } // endif
    } // end-while
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    searchDir = "./";
 #else
    searchDir = ".\\";
@@ -239,25 +239,25 @@ void DirectorySearch::setFile (const std::string& search) {
 //Purpose   : Cleanup of data
 /*--------------------------------------------------------------------------*/
 void DirectorySearch::cleanup () {
-#ifdef UNIX
+#if SYSTEM == UNIX
 #  ifdef CLOSEDIR_VOID
-   int rc (closedir (pDir)); assert (!rc);
-#  else
    closedir (pDir);
+#  else
+   if (pDir) {
+      int rc (closedir (pDir)); assert (!rc);
+   }
 #  endif
    pDir = NULL;
-#else
-#  ifdef WINDOWS
+#elif SYSTEM == WINDOWS
    FindClose (hSearch);
    hSearch = INVALID_HANDLE_VALUE;
-#  else
-#     error Not implemented yet!
-#  endif
+#else
+#  error Not implemented yet!
 #endif
 }
 
 
-#ifdef WINDOWS
+#if SYSTEM == WINDOWS
 /*--------------------------------------------------------------------------*/
 //Purpose   : Tests, if the file is executeable. This is decided on the file-
 //            extension: EXE-, COM- and BAT-files are considered executeable

@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.6 2000/05/09 23:32:19 Markus Exp $
+//$Id: ATStamp.cpp,v 1.7 2001/01/19 14:38:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,7 +26,9 @@
 
 #include <assert.h>
 
-#if defined UNIX || defined __GNUG__
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX || defined __GNUG__
 #include <strstream.h>
 #else
 #include <strstrea.h>

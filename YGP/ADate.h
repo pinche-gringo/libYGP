@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.11 2000/03/21 23:27:38 Markus Rel $
+//$Id: ADate.h,v 1.12 2001/01/19 14:38:46 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,8 +86,8 @@ class ADate : public AttributValue {
    friend ADate operator+ (const ADate& lhs, const ADate& rhs);
    friend ADate operator- (const ADate& lhs, const ADate& rhs);
 
-   ADate& add (char Day, char Month = 0, int Year = 0);
-   ADate& sub (char Day, char month = 0, int Year = 0);
+   ADate& add (signed char Day, signed char Month = 0, int Year = 0);
+   ADate& sub (signed char Day, signed char month = 0, int Year = 0);
 
    // Comparison
    bool operator== (const ADate& other) { return !compare (other); }
@@ -117,8 +117,6 @@ class ADate : public AttributValue {
    unsigned char day;
    unsigned char month;
    int           year;
-
-   void adaptMonth ();
 };
 
 #endif

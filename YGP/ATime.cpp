@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.6 2001/01/11 20:18:46 Markus Exp $
+//$Id: ATime.cpp,v 1.7 2001/01/19 14:38:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,10 +27,12 @@
 #include <assert.h>
 #include <locale.h>
 
-#if defined UNIX || defined __GNUG__
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX
 #  include <strstream.h>
 #else
-#  ifdef WINDOWS
+#  if SYSTEM == WINDOWS
 #     define WIN32_LEAN_AND_MEAN
 #     include <windows.h>
 #  endif

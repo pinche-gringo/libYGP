@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.12 2000/04/24 14:24:16 Markus Rel $
+// $Id: XStrBuf.cpp,v 1.13 2001/01/19 14:38:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -36,6 +36,7 @@
 
 #include "XStrBuf.h"
 
+#include <gzo-cfg.h>
 
 static int lenBuffer = 512;
 
@@ -141,7 +142,7 @@ int extStreambuf::pbackfail (int c) {
    assert (!checkIntegrity ());
    assert (c != EOF);
 
-#ifdef WINDOWS
+#if SYSTEM == WINDOWS
    if (gptr () > eback ())        // gptr () > eback -> pushback of wrong char
 #else
    if (gptr () > Gbase ())        // gptr () > Gbase -> pushback of wrong char

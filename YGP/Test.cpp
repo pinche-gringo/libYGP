@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.43 2000/12/07 20:43:19 Markus Exp $
+// $Id: Test.cpp,v 1.44 2001/01/19 14:38:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -33,7 +33,9 @@
 #include <fstream.h>
 #include <iostream.h>
 
-#if defined UNIX || defined __GNUG__
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX || defined __GNUG__
 #  include <strstream.h>
 #else
 #  include <strstrea.h>
@@ -376,7 +378,14 @@ int Application::perform (int argc, const char* argv[]) {
    today.add (0, 1);
    check (today == ADate::today ());
    today.sub (0, 1);
-   today -= ADate::today ();
+   today -= ADate::today ();                 // Results in 0.11.-1 => 31.10.-1
+
+   today.setMonth (1);
+   today.sub (0, 2);
+   check (today.getMonth () == 10);
+
+   today.add (0, 3);
+   check (today.getMonth () == 1);
 
    today.setYear (2000);
    check (today.isLeapYear ());
@@ -469,7 +478,7 @@ int Application::perform (int argc, const char* argv[]) {
    check (ds.find ("CVS", file, DirectorySearch::FILE_NORMAL));
 
    cout << "Testing PathDirectorySearch...\n";
-#ifdef UNIX
+#if SYSTEM == UNIX
    PathDirectorySearch pds (".:../X-windows", "Makefile.*");
 #else
    PathDirectorySearch pds (".;..\\X-windows", "Makefile.*");
@@ -482,7 +491,7 @@ int Application::perform (int argc, const char* argv[]) {
    check (pds.find ());
 
    cout << "Testing PathSearch...\n";
-#ifdef UNIX
+#if SYSTEM == UNIX
    PathSearch ps (".:..:/::/usr/:/usr");
    check (ps.getActNode () == ".:..:/::/usr/:/usr");
    check (ps.getNextNode () == ".");

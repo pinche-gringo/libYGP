@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.13 2001/01/11 20:47:07 Markus Exp $
+//$Id: FileRExp.cpp,v 1.14 2001/01/19 14:38:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -29,11 +29,13 @@
 #include <string.h>
 #include <assert.h>
 
+#include <gzo-cfg.h>
+
 #ifdef HAVE_FNMATCH
 #  include <fnmatch.h>
 #endif
 
-#ifdef UNIX
+#if SYSTEM == UNIX
 #  define UPPER
 #else
 #  define UPPER        (char)toupper

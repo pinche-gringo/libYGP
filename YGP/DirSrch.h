@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.16 2000/04/21 00:55:49 Markus Rel $
+//$Id: DirSrch.h,v 1.17 2001/01/19 14:38:47 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,9 @@
 #include <string.h>
 #include <assert.h>
 
-#ifdef UNIX
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX
 #  if HAVE_DIRENT_H
 #     include <dirent.h>
 #     define NAMLEN(dirent) strlen((dirent)->d_name)
@@ -55,15 +57,12 @@
 #     include <sys/stat.h>
 #  endif
 
+#elif SYSTEM == WINDOWS
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+
 #else
-#  ifdef WINDOWS
-
-#     define WIN32_LEAN_AND_MEAN
-#     include <windows.h>
-
-#  else
-#     error Not yet implemented!
-#  endif
+#  error Not yet implemented!
 #endif
 
 #include <string>
@@ -73,7 +72,7 @@ class DirectorySearch;
 
 
 // Class to handle result of DirectorySearch
-#ifdef UNIX
+#if SYSTEM == UNIX
 
 #define MAX_PATH            MAXNAMLEN
 
@@ -81,7 +80,7 @@ typedef struct dirEntry {
    friend class DirectorySearch;
 
    dirEntry () : userExec (false)
-     { *entry.d_name = '\0'; }
+      { *entry.d_name = '\0'; }
    dirEntry (const dirEntry& o);
    ~dirEntry () { }
 
@@ -115,8 +114,7 @@ typedef struct dirEntry {
 
    bool  userExec;
 } dirEntry;
-#else
-#  ifdef WINDOWS
+#elif SYSTEM == WINDOWS
 
 typedef struct dirEntry : public WIN32_FIND_DATA {
    friend class DirectorySearch;
@@ -151,14 +149,13 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    std::string path_;
 } dirEntry;
 
-#  else
-#error Not implemented yet!
-#  endif
+#else
+#  error Not implemented yet!
 #endif
 
 
 #ifndef MAX_PATH
-#error MAX_PATH must be defined as max. filelength in every operating-system!
+#  error MAX_PATH must be defined as max. filelength in every operating-system!
 #endif
 
 // Class to search for files in a certain directory
@@ -166,14 +163,14 @@ class DirectorySearch {
  public:
    //@Section manager-functions
    DirectorySearch () : pEntry (NULL)
-#ifdef UNIX
+#if SYSTEM == UNIX
      , pDir (NULL)
 #else
      , hSearch (INVALID_HANDLE_VALUE)
 #endif
      { }
    DirectorySearch (const std::string& search) : pEntry (NULL)
-#ifdef UNIX
+#if SYSTEM == UNIX
       , pDir (NULL)
 #else
       , hSearch (INVALID_HANDLE_VALUE)
@@ -182,7 +179,7 @@ class DirectorySearch {
    virtual ~DirectorySearch ();
 
    static char getSplitChar () {
-#ifdef UNIX
+#if SYSTEM == UNIX
       return '/';
 #else
       return '\\';
@@ -201,7 +198,7 @@ class DirectorySearch {
    virtual int find (dirEntry& result, unsigned long attribs = FILE_NORMAL);
    virtual int find ();
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    enum { FILE_NORMAL    = (S_IFREG | S_IFLNK | S_ISUID | S_ISGID | S_ISVTX
                             | S_IRWXU | S_IRWXG | S_IRWXO),
           FILE_READONLY  = (S_IFREG | S_IFLNK | S_ISUID | S_ISGID | S_ISVTX
@@ -210,15 +207,13 @@ class DirectorySearch {
           FILE_DIRECTORY = (S_IFDIR | S_ISUID | S_ISGID | S_ISVTX
                             | S_IRWXU | S_IRWXG | S_IRWXO),
 	  FILE_HIDDEN    = (1 << (sizeof (long) * 8 - 1)) };
-#else
-#  ifdef WINDOWS
+#elif SYSTEM == WINDOWS
    enum { FILE_NORMAL    = (~FILE_ATTRIBUTE_DIRECTORY),
           FILE_READONLY  = FILE_ATTRIBUTE_READONLY,
           FILE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY,
           FILE_HIDDEN    = (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN) };
-#  else
-#    error Not implemented yet!
-#  endif
+#else
+#  error Not implemented yet!
 #endif
 
 
@@ -238,12 +233,10 @@ class DirectorySearch {
    std::string searchFile;
 
    unsigned long attr;
-#ifdef UNIX
+#if SYSTEM == UNIX
    DIR* pDir;
-#else
-#ifdef WINDOWS
+#elif SYSTEM == WINDOWS
    HANDLE hSearch;
-#endif
 #endif
    dirEntry* pEntry;
 };
@@ -257,4 +250,4 @@ inline int DirectorySearch::find (const std::string& search, dirEntry& result,
    return find (result, attribs);
 }
 
-#endif
+#endif // DIRSRCH_H

@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.9 2000/04/14 20:01:54 Markus Rel $
+//$Id: PathDirSrch.cpp,v 1.10 2001/01/19 14:38:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,7 +26,9 @@
 
 #include <errno.h>
 
-#ifdef UNIX
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX
 #  include <wordexp.h>
 #endif
 
@@ -118,7 +120,7 @@ int PathDirectorySearch::checkIntegrity () const {
 //            excpetion is thrown.
 /*--------------------------------------------------------------------------*/
 bool PathDirectorySearch::makePath (std::string& path, const std::string& file) {
-#ifdef UNIX
+#if SYSTEM == UNIX
    wordexp_t result;
    int       rc (wordexp (path.c_str (), &result, 0));
 
@@ -145,7 +147,7 @@ bool PathDirectorySearch::makePath (std::string& path, const std::string& file) 
 //            course only if one node is wrong)
 /*--------------------------------------------------------------------------*/
 void PathDirectorySearch::checkPath (const std::string& path) throw (std::string) {
-#ifdef UNIX
+#if SYSTEM == UNIX
    PathSearch ps (path);
    std::string node (ps.getNextNode ());
    std::string temp;

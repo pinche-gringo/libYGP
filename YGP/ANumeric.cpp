@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.14 2000/12/08 02:44:50 Markus Exp $
+//$Id: ANumeric.cpp,v 1.15 2001/01/19 14:38:46 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -29,6 +29,8 @@
 #include <assert.h>
 #include <locale.h>
 
+#include <gzo-cfg.h>
+
 #ifndef HAVE_LIBGMP
 #  include <ctype.h>
 #  include <stdlib.h>
@@ -36,7 +38,7 @@
 
 #include <iomanip>
 #include <iostream.h>
-#if defined UNIX || defined __GNUG__
+#if SYSTEM == UNIX || defined __GNUG__
 #  include <strstream.h>
 #else
 #  include <strstrea.h>

@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.6 2000/06/03 12:45:10 Markus Exp $
+//$Id: CRegExp.h,v 1.7 2001/01/19 14:38:47 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,9 +17,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <gzo-cfg.h>
 
 #ifdef HAVE_REGEX_H
-#  undef HAVE_REGEX_H
+//#  undef HAVE_REGEX_H
 #  include <sys/types.h>
 #  include <regex.h>
 #else
@@ -36,8 +37,8 @@
 #include "RegExp.h"
 
 // Class to compare text with regular expressions. Here is a little
-// intruduction into the supported constructs; see the EMACS-info for a
-// better description.
+// intruduction into the supported constructs; see regex(7) or the GNU regexp
+// manual for a better description.
 // '*' Is not a construct by itself; it is a suffix which repeats the (smallest
 //     possible) preceding regular expression as many times as possible.
 // '+' is a suffix character similar to '*', except that it requires that the
@@ -67,6 +68,9 @@
 //     Note: To include the character square bracket ([) in the match, it
 //           must be the first character; similar to the caret (^), wich must
 //           *not* be the first character to get included.
+// {i}, {i,}, {i,j} the previous regular expression must be repeated either
+//                  exactly i times; i times or more; i through j (inclusive)
+//                  times.
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
 //       care it is valid during the life-time of the object.
@@ -83,6 +87,7 @@ class RegularExpression : public IRegularExpression {
 
    enum { // Contstants for repeating
           MULTIMATCHOPT = '*', MULTIMATCHMAND = '+', MULTIMATCH1 = '?',
+          BOUNDBEG = '{', BOUNDEND = '}',
           // Special single characters
           SINGLEMATCH = '.', LINEBEGIN = '^', LINEEND = '$', ESCAPE = '\\',
           // Contants related to regions
@@ -111,7 +116,7 @@ class RegularExpression : public IRegularExpression {
    std::string getError (int rc, unsigned int pos) const;
 
    enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
-          INV_RANGE };
+          INV_RANGE, ENDING_BACKSLASH, INV_BOUND, BOUND_OPEN };
 
 #ifdef HAVE_REGEX_H
    regex_t regexp;
@@ -127,7 +132,7 @@ class RegularExpression : public IRegularExpression {
          throw (getError (rc, 0));
    }
 #else
-   bool doCompare (const char* pAktRegExp, const char* pCompare);
+   bool doCompare (const char* pAktRegExp, const char*& pCompare);
    const char* findEndOfAlternative (const char* pRegExp) const;
    const char* findEndOfRegion (const char* pRegExp) const;
    const char* findEndOfGroup (const char* pRegExp) const;

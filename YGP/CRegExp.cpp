@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.11 2000/06/03 20:09:14 Markus Exp $
+//$Id: CRegExp.cpp,v 1.12 2001/01/19 14:38:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -25,13 +25,16 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 8
+#define DEBUG 0
 #include "Trace_.h"
 
 #include "CRegExp.h"
 #include "ANumeric.h"
 
+#include <gzo-cfg.h>
+
 #ifndef HAVE_REGEX_H
+#  include <stdlib.h>
 #  include <ctype.h>
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
@@ -96,7 +99,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    bool rc (false);
    do {
       rc = doCompare (pAktRegExp, pCompare);
-      if (rc && !*pCompare)
+      if (rc)
          break;
 
       rc = false;
@@ -152,7 +155,7 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare
             } // endif GROUPBEGIN
          else {
             if (pAktRegExp[1] == ALTERNATIVE)       // Handling of alternative:
-               return true;                   // OK til act. pos -> Return true
+               return !*pCompare;             // OK til act. pos -> Return true
 
             fnCompare = &RegularExpression::compEscChar;
             pEnd = pAktRegExp + 1;
@@ -425,16 +428,18 @@ const char* RegularExpression::findEndOfRegion (const char* pRegExp) const {
       ++pRegExp;
 
    // Search for end-of-region, with regard of region-classes ([:xxx:])
-   for (int cClass = 0; *pRegExp != REGIONEND; ++pRegExp) {
+   for (bool bClass = false; *pRegExp != REGIONEND; ++pRegExp) {
       TRACE9 ("Search for region-end: " << *pRegExp);
 
       if (*pRegExp == REGIONCLASS) {
 	 if (pRegExp[-1] == REGIONBEGIN)
-	    ++cClass;
+	    bClass = true;
 	 else
 	    if (pRegExp[1] == REGIONEND)
-	       if (!cClass--)          // If no class left -> Exit anyway
+	       if (!bClass)                 // If no class left -> Exit anyway
 		  break;
+               else
+                  bClass = false;
 	 ++pRegExp;
       } // endif region-class found
    } // end-for region-end found
@@ -485,8 +490,8 @@ const char* RegularExpression::findEndOfAlternative (const char* pRegExp) const 
    } // end-while regexp not empty
 
    return pRegExp;
-}
 #endif
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks the consistency of the regular expression
@@ -556,8 +561,28 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
       case MULTIMATCHMAND:
       case MULTIMATCH1:
          if (!pPrevExpr)
-            throw (getError (NO_PREV_EXP, 0));
+            throw (getError (NO_PREV_EXP, pRegExp - getExpression ()));
          pPrevExpr = NULL;
+         break;
+
+      case BOUNDBEG:
+         if (isdigit (pRegExp[1])) {       // Check if bound or just '{' found
+            if (pPrevExpr) 
+               throw (getError (NO_PREV_EXP, pRegExp - getExpression ()));
+
+	    char** pEnd;
+            unsigned long min (strtoul (pRegExp + 1, &pEnd, 10)); assert (pEnd != (pRegExp + 1));
+            unsigned long max ((unsigned long)-1);
+            if ((*pEnd == ',') && isdigit (pEnd[1]))
+               max = strtoul (pRegExp + 1, &pEnd, 10);
+
+            if (min > max)
+               throw (getError (INV_BOUND, pRegExp - getExpression () + 1));
+
+            pRegExp++ = pEnd;
+	    if (*pRegExp != BOUNDEND)
+               throw (getError (INV_BOUND, pRegExp - getExpression ()));
+         } // endif bound found
          break;
 
       default:
@@ -569,6 +594,10 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
 
    if (cGroups)
       throw (getError (GROUP_OPEN, 0));
+
+   if (pRegExp[-1] == ESCAPE)
+      throw (getError (ENDING_BACKSLASH, pRegExp - getExpression () - 1));
+
 #endif
    return 0;
 }
@@ -591,9 +620,12 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
    case REGION_OPEN: error = "Unmatched [ or [^"; break;
    case GROUP_OPEN: error = "Unmatched \\( or \\)"; break;
    case RANGE_OPEN: error = "Invalid range end"; break;
-   case NO_PREV_EXP: error = "Suffix without previous expression"; break;
+   case BOUND_OPEN: error = "Bound does not end with (})"; break;
+   case NO_PREV_EXP: error = "Repeating suffix without previous expression"; break;
    case INV_DIGIT: error = "Invalid group-number"; break;
-   case INV_RANGE: error = "Invalid range (lower border larger than upper border"; break;
+   case INV_RANGE: error = "Invalid range (lower border larger than upper border)"; break;
+   case INV_BOUND: error = "Invalid bound (lower border larger than upper border)"; break;
+   case ENDING_BACKSLASH: error = "Regular expression ends with escape-character (\\)"; break;
    default: error = "Unknown error"; break;
    } // end-switch
 #endif

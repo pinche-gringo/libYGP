@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.18 2001/01/11 20:47:37 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.19 2001/01/19 14:38:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -42,7 +42,7 @@
 //Returns   : bool: Result (true: char starts option)
 /*--------------------------------------------------------------------------*/
 static inline bool isOptionChar (const char ch) {
-#ifdef UNIX
+#if SYSTEM == UNIX
    return ch == '-';
 #else
    return (ch == '-') || (ch == '/');

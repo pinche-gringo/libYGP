@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.3 2001/01/09 02:19:47 Markus Exp $
+//$Id: Log.h,v 1.4 2001/01/19 14:38:47 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,9 @@
 
 #include <assert.h>
 
-#ifdef UNIX
+#include <gzo-cfg.h>
+
+#if SYSTEM == UNIX
 
 #include <syslog.h>
 
@@ -32,9 +34,7 @@
 #define LOGINFO(text)      syslog (Syslog::INFO, "%s", text);
 #define LOGDEBUG(text)     syslog (Syslog::DEBUGGING, "%s", text);
 
-#else  // UNIX
-
-#ifdef WINDOWS
+#elif SYSTEM == WINDOWS
 
 #include <iostream.h>
 
@@ -46,52 +46,46 @@
 #define LOGINFO(text)      Syslog::write (Syslog::INFO, text);
 #define LOGDEBUG(text)     Syslog::write (Syslog::DEBUGGING, text);
 
-#endif // WINDOWS
-
 #endif // UNIX
 
 class Syslog {
  public:
    Syslog (const char* appl) { assert (appl);
-#ifdef UNIX
+#if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
 #endif // UNIX
    }
 
    Syslog (const char* appl, int facility) { assert (appl);
-#ifdef UNIX
+#if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, facility);
 #endif // UNIX
    }
    ~Syslog () {
-#ifdef UNIX
+#if SYSTEM == UNIX
       closelog ();
 #endif
    }
 
    static void write (int level, const char* text) {
       assert (text);
-#ifdef UNIX
+#if SYSTEM == UNIX
       syslog (level, "%s", text);
-#else
+#elif SYSTEM == WINDOWS
 // Use printf to log under Windoze (although NT does have some logging-thing)
-#ifdef WINDOWS
       static char* levels[] = { "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
       assert (level < (sizeof (levels) / sizeof (levels[0])));
       cerr << levels[level] << ": " << text << '\n';
-#endif // WINDOWS
 #endif // UNIX
    }
 
-#ifdef UNIX
+#if SYSTEM == UNIX
    enum { ALERT = LOG_ALERT, CRITICAL = LOG_CRIT, ERROR = LOG_ERR,
           WARNING = LOG_WARNING, NOTICE = LOG_NOTICE, INFO = LOG_INFO,
           DEBUGGING = LOG_DEBUG };
-#else
-#ifdef WINDOWS
+#elif SYSTEM == WINDOWS
    enum { ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUGGING };
-#endif
 #endif // UNIX
 };
 
