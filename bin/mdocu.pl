@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.8 2002/12/15 22:34:35 markus Exp $
+# $Id: mdocu.pl,v 1.9 2002/12/25 04:26:50 markus Exp $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -83,9 +83,9 @@ pod2usage (1) if ($help);
 
 if ($version) {
   $0 =~ s!.*/(.*)!$1!;
-  my $rev = '$Revision: 1.8 $ ';
+  my $rev = '$Revision: 1.9 $ ';
   $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
-  print "$0 - V0.2.01     ($rev)\n";
+  print "$0 - V0.3.00     ($rev)\n";
   print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
          "Distributed under the terms of the GNU General Public License\n" if ($verbose);
   exit (1);
@@ -97,7 +97,7 @@ my %values;
 while (<>) {
     if (m!^//Purpose *:!) {
         $purpose = $_;
-        $purpose =~ s#^//[^:]+:\s*(.*)\n*#$1#;
+        $purpose =~ s#^//[^:]+:\s*(.*)#$1#;
 
         my $lastVar = \$purpose;
         # Read next lines til end of header
@@ -111,14 +111,13 @@ while (<>) {
                 if (m!^//Requires *:!) {$lastVar = \$values{'Requires'}; last; }
                 if (m!^//Remarks *:!) {$lastVar = \$values{'Remarks'}; last; }
                 if (m!^//Throws *:!) {$lastVar = \$values{'Throws'}; last; }
-                if (m!^//\s*$!) { $$lastVar .= "\n    <p>"; next READLINE; }
+                if (m!^//\s*$!) { $$lastVar .= "\n"; next READLINE; }
                 s#^//\s*(.*)#$1#;
-                $$lastVar .= " $_"; next READLINE;
+                $$lastVar .= "$_"; next READLINE;
             }
             s#^//[^:]*:\s*(.*)#$1#;
             $$lastVar .= $_;
         }
-        $$lastVar =~ s/(.*)\s*/$1/;
 
         # Now skip over the trailing comment line (if available) and start
         # start parsing with what should be the function name
@@ -156,26 +155,41 @@ while (<>) {
         # Convert uppercase words in the description into <b>word</b>
         $purpose =~ s/([[:upper:]][[:upper:]]+)/<b>\L$1\E<\/b>/g;
 
+        # Exchange double \n's with paragraphs in the purpose
+        $purpose =~ s#\n\n\s*#</p>\n        </p>#g;
+        # ... and later single \n's with \n and identation
+        $purpose =~ s/\n([^\s])/\n          $1/g;
+        $purpose =~ s/\s*$//g;
+
         print ("    <pre><a name=\"$name\"></a>$type <b>$name</b> $rest</pre>\n");
         print ("    <dl>\n");
         print ("      <dd><p>$purpose</p></dd>\n");
         my @params;
         if ($values{'Parameters'}) {
             print ("      <dd><dl><dt><b>Parameters</b></dt>\n");
+            my $follow = 0;
             foreach (split /\n+/, $values{'Parameters'}) {
                 convertToHTML ($_);
 
-                /(\w+)(.*)/;
-                my $var = $1;
-                my $desc = $2;
+                if (/^\w+:/) {
+                  /^(\w+)(.*)/;
+                  my $var = $1;
+                  my $desc = $2;
 
-                # Convert uppercase words in the parameter description into <b>word</b>
-                $desc =~ s/ ([[:upper:]][[:upper:]]+) /<b>\L$1\E<\/b>/g;
+                  # Convert uppercase words in the parameter description into <b>word</b>
+                  $desc =~ s/ ([[:upper:]][[:upper:]]+) / <b>\L$1\E<\/b> /g;
 
-                print ("          <dd><code>$var</code>$desc<dd>\n");
-                $params[++$#params] = $1;
+                  print ("</dd>\n") if ($follow);
+                  $follow = 1;
+
+                  print ("          <dd><code>$var</code>$desc");
+                  @params[@params] = $1;
+                }
+                else {
+                  print ("\n            $_");
+                }
             }
-            print ("      </dl><dd>\n");
+            print ("</dl></dd>\n");
         }
 
         # Print out the rest of the stuff
@@ -183,8 +197,8 @@ while (<>) {
             if ($values{$i}) {
                 convertToHTML ($values{$i});
                 print ("      <dd><dl><dt><b>$i</b></dt>\n");
-                foreach (@params) {
-                    $values{$i} =~ s/(.*)(\b$_\b)(.*)/$1<code>$2<\/code>$3/; }
+                foreach my $p (@params) {
+                    $values{$i} =~ s/\b($p)\b/<code>$1<\/code>/g; }
                 print ("          <dd>$values{$i}</dd></dl></dd>\n");
             }
         }
