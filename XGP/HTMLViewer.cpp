@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.2 2003/10/19 00:02:46 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.3 2003/10/19 03:16:35 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -32,8 +32,6 @@
 #include <gtkmm/scrolledwindow.h>
 
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <Check.h>
 #include <Trace_.h>
 
@@ -93,6 +91,7 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
 //----------------------------------------------------------------------------
 HTMLViewer::~HTMLViewer () {
    TRACE9 ("HTMLViewer::~HTMLViewer ()");
+   gtkhtmlFree (htmlCtrl);
 }
 
 
@@ -108,10 +107,6 @@ void HTMLViewer::display (const std::string& file) throw (std::string) {
    std::string err;
    int rc (gtkhtmlDisplayFile (htmlCtrl, file.c_str ()));
    switch (rc) {
-   case 1:
-      err = _("File `%1' not found!");
-      break;
-
    case -1:
       err = _("Can't display the HTML control!\n\nReason: %1");
       err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
