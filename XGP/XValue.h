@@ -1,7 +1,7 @@
 #ifndef XVALUE_H
 #define XVALUE_H
 
-//$Id: XValue.h,v 1.2 2004/11/14 21:21:16 markus Exp $
+//$Id: XValue.h,v 1.3 2004/12/29 18:18:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,10 +34,12 @@ namespace Glib {
  */
 class ValueBase_Attribute : public ValueBase {
  public:
-   typedef const gchar* CType;
+   typedef const gchar* CType;                   ///< Description of data-type
+   /// Returns a string describing the data type
    static GType value_type () G_GNUC_CONST {
       return G_TYPE_STRING; }
 
+   /// Creates the parameter specification for the passed data-type
    GParamSpec* create_param_spec (const ustring& name) const {
       return g_param_spec_string
 	 (name.c_str (), 0, 0, get_cstring (),

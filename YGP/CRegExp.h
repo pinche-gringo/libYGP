@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.33 2003/11/16 19:25:55 markus Rel $
+//$Id: CRegExp.h,v 1.34 2004/12/29 18:21:57 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ namespace YGP {
 /**Class to compare text with (UNIX-style) regular expressions. This is just
    a little intruduction into the supported constructs; see regex(7) or the
    GNU regexp manual for a better description.
-  
+
    \attention This class implements regular expressions as the functions in \c
          regex.h do (at least in glibc 2.2.4), which might differ from what
          you expect from the reading (or how - e.g. - emacs behaves). But I
@@ -90,9 +90,9 @@ namespace YGP {
      - <b>\\w</b> matches any word-constituent character.
      - <b>\\W</b> matches any character that is not word-constituent.
 
-   - \b [\<match\>] matches the characters specified in match.
+   - <b>[\<match\>]</b> matches the characters specified in match.
 
-   - '\b [^\<match\>] or \b [!\<match\>] matches the characters not specified in match.<br>
+   - <b>[^\<match\>]</b> or <b>[!\<match\>]</b> matches the characters not specified in match.<br>
        \<match\> ::= | \<char\>\<match\> | \<range\>\<match\> | \<character-class\>\<match\> | {}<br>
        \<range\> ::= \<low\>-\<high\><br>
        \<character-class\> ::= [:\<class\>:]<br>

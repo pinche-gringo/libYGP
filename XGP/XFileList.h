@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.28 2004/10/29 01:25:15 markus Exp $
+//$Id: XFileList.h,v 1.29 2004/12/29 18:18:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,6 +80,8 @@ class IFileStore {
    /// Sets the file for the specified line in the model.
    virtual void setFilename (unsigned int line, const std::string& file) = 0;
 
+   /// Removes the passed line
+   /// \param line: Line to remove (zero-based)
    virtual void remove (unsigned int line) = 0;
 
  protected:
@@ -149,6 +151,8 @@ class XFileStore : public Parent, public IFileStore {
    const IFileStore* getBaseAddress () const {
       return static_cast<const IFileStore*> (this); }
 
+   /// Removes the passed line
+   /// \param line: Line to remove (zero-based)
    virtual void remove (unsigned int line) { erase (Parent::children ()[line]); }
 
  protected:

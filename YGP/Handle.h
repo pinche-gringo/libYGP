@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.11 2004/11/28 01:02:33 markus Exp $
+// $Id: Handle.h,v 1.12 2004/12/29 18:21:57 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -192,7 +192,7 @@ template <class T> class Handle : public IHandle {
    //@}
 
  public:
-   RefCount<T>* pData;
+   RefCount<T>* pData; ///< Don't access! Should be private; but fails to compile
 };
 
 #define defineHndl(class)         typedef YGP::Handle<class> H##class

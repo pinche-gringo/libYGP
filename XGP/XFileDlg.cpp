@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.27 2004/12/05 03:33:22 markus Exp $
+//$Id: XFileDlg.cpp,v 1.28 2004/12/29 18:18:08 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -72,7 +72,7 @@ IFileDialog::~IFileDialog () {
 
 //-----------------------------------------------------------------------------
 /// Callback on user-action (file selected or dialog closed)
-/// \param action: ID of selected action
+/// \param cmd: ID of selected action
 /// \remarks - Depending on the option, the file must either exist or it is
 ///     checked if it should be overwritten
 //-----------------------------------------------------------------------------

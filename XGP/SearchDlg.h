@@ -1,7 +1,7 @@
 #ifndef SEARCHDLG_H
 #define SEARCHDLG_H
 
-//$Id: SearchDlg.h,v 1.1 2004/12/22 16:51:51 markus Exp $
+//$Id: SearchDlg.h,v 1.2 2004/12/29 18:18:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@ class SearchDialog : public XGP::XDialog {
  public:
    virtual ~SearchDialog ();
 
+   /// Creates a search-dialog
+   /// \param parent: Parent window
    static SearchDialog* create (const Glib::RefPtr<Gdk::Window>& parent) {
       SearchDialog* dlg (new SearchDialog);
       dlg->get_window ()->set_transient_for (parent);
@@ -42,6 +44,7 @@ class SearchDialog : public XGP::XDialog {
       return dlg;
    }
 
+   /// Signal emitted, when OK is selected
    sigc::signal<void, const Glib::ustring&> signalFind;
 
  protected:
