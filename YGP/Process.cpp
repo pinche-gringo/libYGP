@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.13 2004/10/25 02:57:04 markus Rel $
+//$Id: Process.cpp,v 1.14 2005/01/12 22:13:03 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -92,35 +92,52 @@ namespace YGP {
 /// \param file: Name of file to execute
 /// \param arguments: Array with arguments for the file (as understood by execv)
 /// \param wait: Flag, if to wait til the program terminates
+/// \param io: Filedescriptors for communication with the child; io[0] contains
+///     the filedescriptor the child should read its data from; io[1] will be
+///     filled with the filedescriptor for the output
 /// \pre \c file is a valid ASCIIZ-string
 /// \remarks The called file must follow some convention:
 ///    - Return 0 if OK and !0 if an error occured
 ///    - In case of an error the output should contain a describing message
 //-----------------------------------------------------------------------------
-void Process::start (const char* file, const char* const arguments[], bool wait)
+void Process::start (const char* file, const char* const arguments[],
+		     bool wait, int io[2])
    throw (std::string)
 {
    errno = 0;
    std::string err;
-   int pipes[2];
    pid_t pid;
+   int pipes[2];
 
 #if defined HAVE_SPAWNVP && HAVE_WINDOWS_H
    if (pipe (pipes) != -1) {
       // Save original output-handles
+      int sin;
+      if (io) {
+	 sin = dup (0);
+	 dup2 (io[0], 0);
+	 close (io[1]);
+	 dup2 (dup (pipes[1]), io[1]);
+      }
+
       int sout (dup (1));
       int serr (dup (2));
 
      if ((sout != -1) && (serr != -1)) {
          // Duplicate write end of pipe to stdout/err and close it
+         dup2 (pipes[0], 0);
          dup2 (dup (pipes[1]), 1);
          dup2 (pipes[1], 2);
-         close (pipes[1]);
 
          pid = spawnvp (wait ? P_WAIT : P_NOWAIT, file,
                         const_cast<char* const*> (arguments));
 
          // Restore stdout/err
+	 if (io) {
+	    dup2 (sin, 0);
+	    close (sin);
+	 }
+
          dup2 (sout, 1);
          dup2 (serr, 2);
          close (sout);
@@ -146,14 +163,24 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
    pid = (pipe (pipes) ? - 1 : fork ());
    switch (pid) {
    case 0: {                                            // Child: Start program
-      // Close read pipe and set output to the write pipe
+      // Close input pipe and set output to the write pipe
       close (pipes[0]);
-      close (0);
-      dup2 (dup (pipes[1]), 1);
-      dup2 (pipes[1], 2);
-      execvp (file, const_cast<char* const*> (arguments));
+      if (io) {
+	 close (io[1]);
+	 dup2 (io[0], STDIN_FILENO);
+	 close (io[0]);
+      }
+
+      dup2 (pipes[1], STDOUT_FILENO);
+      dup2 (pipes[1], STDERR_FILENO);
+      close (pipes[1]);
+
+      errno = 0;
+      int rc (execvp (file, const_cast<char* const*> (arguments)));
+      if (!errno)
+	 errno = rc;
       perror ("");
-      _exit (1);
+      exit (1);
       break; }
 
    case -1:
@@ -162,12 +189,14 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
 
    default: {
       TRACE9 ("Process::start (const char*, const char*) - Fork OK");
+      if (io)
+	 dup2 (pipes[0], io[0]);
       close (pipes[1]);
 
-      if (!wait)
+      if (!(wait || io))
          sleep (1);
 
-      int rc (0), rcwait;
+      int rc (0), rcwait (0);
       if ((rcwait = waitpid (pid, &rc, (wait ? 0 : WNOHANG))) == -1)
          break;
 
@@ -179,12 +208,13 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
 #else
 #  error Not yet implemented!
 #endif
+   if (!io)
+      close (pipes[0]);
 
-   if (errno && !err.length ()) {
+   if (errno && err.empty ()) {
       err = (_("Error executing program `%1'!\n\nReason: %2"));
       err.replace (err.find ("%2"), 2, strerror (errno));
    }
-   close (pipes[0]);
 
    if (err.length ()) {
       std::string cmd (file);
