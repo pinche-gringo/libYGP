@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.8 2001/10/18 01:22:17 markus Exp $
+//$Id: Tokenize.h,v 1.9 2002/03/23 20:47:29 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class Tokenize {
    const std::string& data () const { return _string; }
 
    //Section access to sub-nodes
-   std::string getActNode () const { return _string.substr ((int)actPos, (int)len - 1); }
+   std::string getActNode () const { return _string.substr ((int)actPos, len - 1); }
    std::string getNextNode (const char split);
 
    void reset () { actPos = len = 0; }
