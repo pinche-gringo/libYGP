@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.6 1999/09/11 00:58:14 Markus Rel $
+//$Id: Parse.h,v 1.7 1999/09/21 23:40:55 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,25 +36,25 @@
 // > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
 // < 1 ... Error while parsing; abort parsing (unrecoverable error)
 // If possible use the error-values in the error-enum
-typedef int (*PFNCALLBACK)(const char*);
+typedef int (*PARSECALLBACK)(const char*);
 
 // Base-class for parsing objects
 // Note: None of the member-pointers is freed!
 class ParseObject {
  public:
    // Manager-functions
-   ParseObject (const char* description, PFNCALLBACK callback = NULL,
+   ParseObject (const char* description, PARSECALLBACK callback = NULL,
                 bool skipWhitespace = true);
    ParseObject (const ParseObject& other);
    virtual ~ParseObject ();
 
    const ParseObject& operator= (const ParseObject& other);
-   
+
    // Accessing values
-   const char*  getDescription () const { return pDescription; }
+   const char* getDescription () const { return pDescription; }
 
    void setDescription (const char* desc) { assert (desc); pDescription = desc; }
-   void setCallback (PFNCALLBACK pCB) { assert (pCB); pCallback = pCB; }
+   void setCallback (PARSECALLBACK pCB) { assert (pCB); pCallback = pCB; }
    void setSkipWS (bool skipWhitespace) { skip = skipWhitespace; }
 
    // Parsing
@@ -66,16 +66,23 @@ class ParseObject {
    enum { PARSE_OK = 0, PARSE_ERROR = 1, PARSE_CB_ERROR = 2,
           PARSE_CB_ABORT = -1 };
 
-   // TODO: Should be protected; but EGCS has a different opinion?!
-   virtual int doParse (Xistream& stream, bool optional) = 0;
-
    // Possible errors of checkIntegrity
    enum { OK = 0, NO_DESCRIPTION, LAST };
 
+#ifdef UNIX
+   // Should be protected; but EGCS don't accept it
+   virtual int doParse (Xistream& stream, bool optional) {};
+#endif
+
  protected:
+#ifndef UNIX
+   // Should be protected everywhere; but EGCS don't accept it
+   virtual int doParse (Xistream& stream, bool optional) {};
+#endif
+
    virtual int checkIntegrity () const;
 
-   PFNCALLBACK pCallback;       // Protected to enable sub-classes easy access
+   PARSECALLBACK pCallback;     // Protected to enable sub-classes easy access
 
    static ostream& error;
 
@@ -116,13 +123,13 @@ class ParseAttomic : public ParseObject {
  public:
    // Manager-functions
    ParseAttomic (const char* value, const char* description,
-                 PFNCALLBACK callback = NULL, unsigned int max = 1,
+                 PARSECALLBACK callback = NULL, unsigned int max = 1,
 	         unsigned min = 1, bool skipWhitespace = true);
    ParseAttomic (const ParseAttomic& other);
    virtual ~ParseAttomic ();
 
    const ParseAttomic& operator= (const ParseAttomic& other);
-   
+
    // Accessing values
    const char*  getValue () const { return pValue; }
    unsigned int getMaxCard () const { return maxCard; }
@@ -131,7 +138,7 @@ class ParseAttomic : public ParseObject {
    void setMaxCard (unsigned int val) { maxCard = val; }
    void setMinCard (unsigned int val) { minCard = val; }
    void setValue (const char* value) {assert (value); pValue = value; }
-  
+
 #ifdef MULTIBUFFER
    static void freeBuffer () { }
 #else
@@ -165,7 +172,7 @@ class ParseText : public ParseAttomic {
    // Manager-functions
    ParseText (const char* abort, const char* description,
               unsigned int max, unsigned min = 1,
-              PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+              PARSECALLBACK callback = NULL, bool skipWhitespace = true)
       : ParseAttomic (abort, description, callback, max, min, skipWhitespace) { }
    ParseText (const ParseText& other) : ParseAttomic (other) { }
    ~ParseText () { }
@@ -185,7 +192,7 @@ class ParseTextEsc : public ParseText {
    // Manager-functions
    ParseTextEsc (const char* abort, const char* description,
                  unsigned int max, unsigned min = 1, char escape = '\\',
-                 PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+                 PARSECALLBACK callback = NULL, bool skipWhitespace = true);
    ParseTextEsc (const ParseTextEsc& other);
    ~ParseTextEsc () { }
 
@@ -211,10 +218,10 @@ class ParseExact : public ParseAttomic {
  public:
    // Manager-functions
    ParseExact (const char* value, const char* description,
-               PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+               PARSECALLBACK callback = NULL, bool skipWhitespace = true);
    ParseExact (const char* value, const char* description,
                unsigned int max, unsigned min,
-               PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+               PARSECALLBACK callback = NULL, bool skipWhitespace = true)
       : ParseAttomic (value, description, callback, max, min, skipWhitespace)
       , pos (0) { }
    ParseExact (const ParseExact& other) : ParseAttomic (other), pos (0) { }
@@ -246,11 +253,11 @@ class ParseUpperExact : public ParseExact {
  public:
    // Manager-functions
    ParseUpperExact (const char* value, const char* description,
-                    PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+                    PARSECALLBACK callback = NULL, bool skipWhitespace = true)
       : ParseExact (value, description, callback, skipWhitespace) { }
    ParseUpperExact (const char* value, const char* description,
                     unsigned int max, unsigned min,
-                    PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+                    PARSECALLBACK callback = NULL, bool skipWhitespace = true)
       : ParseExact (value, description, max, min, callback, skipWhitespace) { }
    ParseUpperExact (const ParseExact& other) : ParseExact (other) { }
    virtual ~ParseUpperExact () { }
@@ -273,7 +280,7 @@ class ParseSequence : public ParseObject {
  public:
    ParseSequence (ParseObject* apObjectList[], const char* description,
                   unsigned int max = 1, unsigned min = 1,
-                  PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+                  PARSECALLBACK callback = NULL, bool skipWhitespace = true);
    ParseSequence (const ParseSequence& other);
    ~ParseSequence ();
 
@@ -316,7 +323,7 @@ class ParseSelection : public ParseSequence {
  public:
    ParseSelection (ParseObject* apObjectList[], const char* description,
                    unsigned int max = 1, unsigned min = 1,
-                   PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+                   PARSECALLBACK callback = NULL, bool skipWhitespace = true);
    ParseSelection (const ParseSelection& other);
    ~ParseSelection ();
 

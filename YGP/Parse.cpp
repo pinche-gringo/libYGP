@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.6 1999/09/11 00:58:14 Markus Rel $
+//$Id: Parse.cpp,v 1.7 1999/09/21 23:40:55 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -67,7 +67,7 @@ static char ESCAPE = '\\';
 //              skipWhitespace: Flag if TRAILING WS are skipped
 //Requires    : description != NULL
 /*--------------------------------------------------------------------------*/
-ParseObject::ParseObject (const char* description, const PFNCALLBACK callback,
+ParseObject::ParseObject (const char* description, const PARSECALLBACK callback,
 			  bool skipWhitespace)
    : pDescription (description), pCallback (callback), skip (skipWhitespace) {
    TRACE9 ("Creating ParseObject " << pDescription);
@@ -144,7 +144,7 @@ int ParseObject::checkIntegrity () const {
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const char* value, const char* description,
-                            PFNCALLBACK callback, unsigned int max,
+                            PARSECALLBACK callback, unsigned int max,
                             unsigned int min, bool skipWhitespace)
    : ParseObject (description, callback, skipWhitespace)
    , pValue (value), maxCard (max), minCard (min) {
@@ -288,7 +288,6 @@ bool ParseAttomic::checkValue (char ch) {
             break;
 
          case '*': return true;
-            break;
 
          default:
             if (ch == *pHelp)
@@ -329,7 +328,7 @@ bool ParseText::checkValue (char ch) {
    while (*pHelp) {
       if (*pHelp++ == ch)
 	 return false;
-   } // endwhile chars available   
+   } // endwhile chars available
 
    return true;
 }
@@ -348,7 +347,7 @@ bool ParseText::checkValue (char ch) {
 /*--------------------------------------------------------------------------*/
 ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
                             unsigned int max, unsigned min, char escape,
-                            PFNCALLBACK callback, bool skipWhitespace)
+                            PARSECALLBACK callback, bool skipWhitespace)
    : ParseText (abort, description, max, min, callback, skipWhitespace)
    , esc (escape), last (!escape) {
    TRACE9 ("Creating ParseTextEsc " << getDescription ());
@@ -382,7 +381,7 @@ bool ParseTextEsc::checkValue (char ch) {
 
       ++pHelp;
       last = ch;
-   } // endwhile chars available   
+   } // endwhile chars available
 
    return true;
 }
@@ -397,7 +396,7 @@ bool ParseTextEsc::checkValue (char ch) {
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseExact::ParseExact (const char* value, const char* description,
-                	PFNCALLBACK callback, bool skipWhitespace)
+                  PARSECALLBACK callback, bool skipWhitespace)
    : ParseAttomic (value, description, callback, 1, 1, skipWhitespace)
    , pos (0) {
    TRACE9 ("Creating ParseExact " << getDescription ());
@@ -484,7 +483,7 @@ int ParseUpperExact::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 ParseSequence::ParseSequence (ParseObject* apObjectList[],
                               const char* description, unsigned int max,
-                              unsigned min, PFNCALLBACK callback,
+                              unsigned min, PARSECALLBACK callback,
                               bool skipWhitespace)
    : ParseObject (description, callback, skipWhitespace)
    , ppList (apObjectList), maxCard (max), minCard (min) {
@@ -540,11 +539,11 @@ int ParseSequence::doParse (Xistream& stream, bool optional) {
    int rc (PARSE_OK);
 
    while (i++ < maxCard) {
-      ParseObject** ppAct (ppList); assert (*ppAct);
+      ParseObject** ppAct (ppList); assert (ppAct); assert (*ppAct);
 
       while (*ppAct != NULL) {                  // While list contains objects
-         if (rc = (**ppAct).doParse (stream,   // Parse (putback first always)
-                                     ppAct == ppList ? true : optional))
+         if ((rc = (**ppAct).doParse (stream,  // Parse (putback first always)
+                                      ppAct == ppList ? true : optional)) != 0)
             break;
 
          ++ppAct;
@@ -589,7 +588,7 @@ int ParseSequence::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 ParseSelection::ParseSelection (ParseObject* apObjectList[],
                                 const char* description, unsigned int max,
-                                unsigned min, PFNCALLBACK callback,
+                                unsigned min, PARSECALLBACK callback,
                                 bool skipWhitespace)
    : ParseSequence (apObjectList, description, max, min, callback,
                     skipWhitespace) {
@@ -641,11 +640,11 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
    int rc (PARSE_OK);
 
    while (i++ < maxCard) {
-      ParseObject** ppAct (ppList); assert (*ppAct);
+      ParseObject** ppAct (ppList); assert (ppAct); assert (*ppAct);
 
       while (*ppAct != NULL) {                  // While list contains objects
-         if (!(rc = (**ppAct).doParse (stream,       // Parse (putback always)
-                                       true)))         // Break if match found
+         if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
+                                      true)) == 0)     // Break if match found
             break;
 
          ++ppAct;

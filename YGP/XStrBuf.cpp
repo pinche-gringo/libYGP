@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.6 1999/09/15 23:58:13 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.7 1999/09/21 23:44:26 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -41,8 +41,11 @@ static int lenBuffer = 512;
 //Purpose   : Constructur; Initializes object
 //Parameter : source: Original streambuffer, which should be enhanced
 /*--------------------------------------------------------------------------*/
-extStreambuf::extStreambuf (streambuf& source)
-   : streambuf (source), line (0), pushbackOffset (-1), pSource (&source)
+extStreambuf::extStreambuf (streambuf& source) :
+#ifndef WINDOWS
+   streambuf (source),                 // Copyconstructor is in BCC probhibted
+#endif
+   line (0), pushbackOffset (-1), pSource (&source)
    , pBuffer (new char[lenBuffer]) {
    setb (pBuffer, pBuffer + lenBuffer, 1);
 }
