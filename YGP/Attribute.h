@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.21 2003/07/05 07:17:18 markus Rel $
+//$Id: Attribute.h,v 1.22 2003/07/09 18:12:50 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,9 +34,6 @@
 #include <AssParse.h>
 
 #include <gzo-cfg.h>
-#ifdef HAVE_GTKMM
-#  include <glibmm/ustring.h>
-#endif
 
 /**Baseclass for attributes. Derive from it for every type of attribute.
 
@@ -100,7 +97,6 @@ class IAttribute {
      - unsigned long
      - double
      - std::string
-     - Glib::ustring (if available)
 */
 template <class T> class Attribute : public IAttribute {
  public:
@@ -281,21 +277,6 @@ template <> inline bool Attribute<std::string>::assign (const char* value, unsig
 }
 template <> inline std::string Attribute<std::string>::getValue () const { return attr_; }
 template <> inline std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
-
-#ifdef HAVE_GTKMM
-template <> inline bool Attribute<Glib::ustring>::assignFromString (const char* value) const {
-   Check3 (value);
-   attr_ = value;
-   return true;
-}
-template <> inline bool Attribute<Glib::ustring>::assign (const char* value, unsigned int length) const {
-   Check3 (value);
-   attr_.assign (value, length);
-   return true;
-}
-template <> inline std::string Attribute<Glib::ustring>::getValue () const { return attr_; }
-template <> inline std::string Attribute<Glib::ustring>::getFormattedValue () const { return getValue (); }
-#endif
 
 
 /**Template for s list of attributes of a specific type.
