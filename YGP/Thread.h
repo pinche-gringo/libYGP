@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.3 2002/05/13 02:52:22 markus Rel $
+//$Id: Thread.h,v 1.4 2002/05/19 11:45:53 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,11 @@
 
 #include <string>
 
-// Class to execute a certain function 
+// Class to execute a certain function in a thread
+// There are two create-functions: The first calles the passed function with
+// the parameters directly; the second passed a pointer to the created thread
+// and enables to get the paramters with its getArgs-method. This enables
+// controlling the thread.
 class Thread {
  public:
    typedef void* (*THREAD_FUNCTION) (void*);
@@ -31,8 +35,14 @@ class Thread {
 
    static Thread* create (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
       return new Thread (fnc, paArgs); }
+   static Thread* create2 (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
+      Thread* t (new Thread);
+      t->paArgs_ = paArgs;
+      t->init (fnc, t);
+      return t; }
 
    void* getArgs () const { return paArgs_; }
+
    void ret (void* rc) const;
    void cancel ();
    static void* waitForThread (const Thread& id);
@@ -57,6 +67,11 @@ class Thread {
 #endif
 };
 
+// Class to execute a member-function in a thread.
+// There are two create-functions: The first calles the passed function with
+// the parameters directly; the second passed a pointer to the created thread
+// and enables to get the paramters with its getArgs-method. This enables
+// controlling the thread.
 template <class T> class OThread : public Thread {
  public:
    typedef void* (T::*THREAD_OBJMEMBER) (void*);
@@ -66,22 +81,29 @@ template <class T> class OThread : public Thread {
    static OThread<T>* create (T& obj, THREAD_OBJMEMBER fnc, void* paArgs)
                               throw (std::string) {
       return new OThread<T> (obj, fnc, paArgs); }
+   static OThread<T>* create2 (T& obj, THREAD_OBJMEMBER fnc, void* paArgs)
+                              throw (std::string) {
+      return new OThread<T> (obj, fnc, paArgs, true); }
+
 
  protected:
-   OThread (T& obj, THREAD_OBJMEMBER fnc, void* paArgs) throw (std::string) 
-      : Thread (), object (obj), callback (fnc) {
+   OThread (T& obj, THREAD_OBJMEMBER fnc, void* paArgs, bool threadAsArg = false)
+      throw (std::string) 
+      : Thread (), object (obj), callback (fnc), indirect (threadAsArg) {
       // Don't create Thread directly with data, because the thread might start
       // without object and callback beeing initialized!!
-      init (&proxy, this);
-      paArgs_ = paArgs; }
+      paArgs_ = paArgs;
+      init (&proxy, this); }
 
  private:
    static void* proxy (void* pArgs) {
       OThread<T>* thread (static_cast <OThread<T>*> (pArgs));
-      void* rc = ((thread->object).*(thread->callback)) (thread->getArgs ());
+      void* rc = ((thread->object).*(thread->callback))
+         (thread->indirect ? thread : thread->getArgs ());
       delete thread;
       return rc; }
 
+   bool indirect;
    T& object;
    THREAD_OBJMEMBER callback;
 };
