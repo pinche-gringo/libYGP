@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.16 $)\n"
+"Project-Id-Version: General 0.6 ($Revision: 1.17 $)\n"
 "POT-Creation-Date: 2003-08-11 21:30-0500\n"
-"PO-Revision-Date: 2003-08-11 22:42-0500\n"
+"PO-Revision-Date: 2003-09-04 21:44-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,15 +23,15 @@ msgstr "No número"
 
 #: Common/AssParse.cpp:64
 msgid "Not a valid assignment: '%1'"
-msgstr "No asignación valida: '%1'"
+msgstr "Asignación no es válida: '%1'"
 
 #: Common/AssParse.cpp:76
 msgid "Invalid value for an attribute: '%1'"
-msgstr "Valor invalido por attributo: '%1'"
+msgstr "Valor invalido por atributo: '%1'"
 
 #: Common/AssParse.cpp:90
 msgid "Quoted value is not followed by a separator: '%1'"
-msgstr "Valor no está seguido de un seperator: '%1'"
+msgstr "Valor no es seguido de un seperator: '%1'"
 
 #: Common/AttrParse.cpp:57
 msgid "Attribute '%1' already exists"
@@ -43,7 +43,7 @@ msgstr "Error asignar '%1' a %2"
 
 #: Common/AttrParse.cpp:125
 msgid "Key '%1' not found"
-msgstr "No encontre llave '%1'"
+msgstr "No encontré llave '%1'"
 
 #: Common/CRegExp.cpp:1033
 msgid "Unmatched [ or [^"
@@ -55,11 +55,11 @@ msgstr "( ó ) desemparejados"
 
 #: Common/CRegExp.cpp:1035
 msgid "Invalid range end"
-msgstr "Invalido termino de la región"
+msgstr "Fin invalido de la región"
 
 #: Common/CRegExp.cpp:1036
 msgid "Repeating suffix without previous expression"
-msgstr "Factor repitente sin expresión regular anterior"
+msgstr "Factor repitente sin anterior expresión regular"
 
 #: Common/CRegExp.cpp:1037
 msgid "Invalid group-number"
@@ -67,7 +67,7 @@ msgstr "Número de grupo invalido"
 
 #: Common/CRegExp.cpp:1038
 msgid "Invalid range (lower border larger than upper border)"
-msgstr "Enumeración invalido (frontera baja mejor que la alta)"
+msgstr "Enumeración invalido (frontera baja más alta que la alta)"
 
 #: Common/CRegExp.cpp:1039
 msgid "Invalid bound"
@@ -75,7 +75,7 @@ msgstr "Unión invalida"
 
 #: Common/CRegExp.cpp:1040
 msgid "Regular expression ends with escape-character (\\)"
-msgstr "Expresión regular termine con la letra especial de escapar (\\)"
+msgstr "Expresión regular termina con la letra especial de escapar (\\)"
 
 #: Common/CRegExp.cpp:1041
 msgid "Unknown error"
@@ -99,7 +99,7 @@ msgstr "Error leyendo fichero '%1'! Causa: %2"
 
 #: Common/File.cpp:331
 msgid "Error writing to file `%1!' Reason: %2"
-msgstr "Error escritiendo al fichero '%1'! Causa: %2"
+msgstr "Error escribiendo al fichero '%1'! Causa: %2"
 
 #: Common/FileRExp.cpp:215
 msgid "Open region"
@@ -119,7 +119,7 @@ msgstr "Comienzo de sección ([)"
 
 #: Common/INIFile.cpp:46
 msgid "End of section (])"
-msgstr "Termino de sección (])"
+msgstr "Fin de sección (])"
 
 #: Common/INIFile.cpp:47
 msgid "Equal-sign (=)"
@@ -147,23 +147,23 @@ msgstr "Valor"
 
 #: Common/INIFile.cpp:249
 msgid "Could not open INI-file '%1': Reason: %2"
-msgstr "No puedo abrir el fichero de inicialisción '%1'! Causa: %2"
+msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
 #: Common/IVIOAppl.cpp:272
 msgid "-error: Option `%1' is ambiguous"
-msgstr "-error: Opción '%1' está ambigua"
+msgstr "-error: Opción '%1' es ambigua"
 
 #: Common/IVIOAppl.cpp:281
 msgid "-error: Unrecognized option `%1'"
-msgstr "-error: Opción '%1' está inválida"
+msgstr "-error: Opción '%1' es inválida"
 
 #: Common/Parse.cpp:293
 msgid "Expected %1, found: '%2'"
-msgstr "Expectó %1, encontró '%2'"
+msgstr "Expectó %1, encontré '%2'"
 
 #: Common/Parse.cpp:920
 msgid "Error in sequence %1; Expected: %2"
-msgstr "Error en la seria %1; Expectó: %2"
+msgstr "Error en la seria %1; Expecté: %2"
 
 #: Common/Parse.cpp:920
 msgid "Error in sequence %1"
@@ -183,7 +183,7 @@ msgstr "Ya no implementado"
 
 #: Common/RDirSrchSrv.cpp:276
 msgid "Invalid command"
-msgstr "Orden invalido"
+msgstr "Comando invalido"
 
 #: Common/RDirSrchSrv.cpp:339
 msgid "Invalid arguments: "
@@ -206,15 +206,15 @@ msgstr "No puedo escuchar al socket"
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
-"Puerto '%1' ni está numérico (decimal, octal o hexadecimal) ni un servicio"
+"Puerto '%1' ni es numérico (decimal, octal o hexadecimal) ni un servicio"
 
 #: Common/Socket.cpp:237 Common/Socket.cpp:257
 msgid "Error reading data"
-msgstr "Error durante leer los datos"
+msgstr "Error leyendo los datos"
 
 #: Common/Socket.cpp:283
 msgid "Error accepting connection"
-msgstr "Error acceptar la connectión"
+msgstr "Error acceptando la connectión"
 
 #: Common/Socket.cpp:306
 msgid "Can't resolve name '%1'"
@@ -234,7 +234,7 @@ msgid ""
 "\n"
 "Reason: %2"
 msgstr ""
-"Error ejecutando programa '%1'!\n"
+"Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
 #: Common/Process.cpp:186
@@ -264,7 +264,7 @@ msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
 msgstr ""
-"No puedo ejecutar el orden '%1'\n"
+"No puedo ejecutar el comando '%1'\n"
 "Causa: %2"
 
 #: X-windows/XFileDlg.cpp:110
@@ -273,7 +273,7 @@ msgstr "Fichero '%1' no existe!"
 
 #: X-windows/XFileDlg.cpp:120
 msgid "File `%1' exists! Overwrite?"
-msgstr "¡Fichero '%1' existe! ¿Sobreescribe?"
+msgstr "¡Fichero '%1' existe! ¿Sobreescribirlo?"
 
 #: X-windows/XFileList.cpp:299
 msgid "Open in %1 ..."
@@ -281,7 +281,7 @@ msgstr "Abrir con %1 ..."
 
 #: X-windows/XFileList.cpp:312
 msgid "Rename/Move ..."
-msgstr "Cambiar el nombre/Movir ..."
+msgstr "Cambiar el nombre/Mover ..."
 
 #: X-windows/XFileList.cpp:316
 msgid "Delete"
@@ -289,7 +289,7 @@ msgstr "Eleminar"
 
 #: X-windows/XFileList.cpp:341
 msgid "Environment variable `TERM' not defined!"
-msgstr "¡Variable de etorno 'TERM' no está definida!"
+msgstr "¡Variable de etorno 'TERM' no es definida!"
 
 #: X-windows/XAttrEntry.h:85
 msgid "Invalid value!"
@@ -325,7 +325,7 @@ msgstr "Otro"
 
 #: X-windows/XApplication.cpp:108
 msgid "Help window"
-msgstr ""
+msgstr "Window de ayuda"
 
 #: X-windows/XApplication.cpp:127 X-windows/XApplication.cpp:158
 msgid ""
@@ -333,6 +333,9 @@ msgid ""
 "\n"
 "Reason: %1"
 msgstr ""
+"No puedo mostrar el control de HTML!\n"
+"\n"
+"Causa: %1"
 
 #: X-windows/XApplication.cpp:166
 msgid ""
@@ -340,6 +343,9 @@ msgid ""
 "\n"
 "Reason: %1"
 msgstr ""
+"No puedo mostrar el documento HTML!\n"
+"\n"
+"Causa: %1"
 
 #: X-windows/XApplication.cpp:357
 msgid "_Help"
@@ -351,7 +357,7 @@ msgstr "<alt>A"
 
 #: X-windows/XApplication.cpp:358
 msgid "_Content..."
-msgstr "_Contento ..."
+msgstr "_Contenido ..."
 
 #: X-windows/XApplication.cpp:358
 msgid "F1"
@@ -359,7 +365,7 @@ msgstr ""
 
 #: X-windows/XApplication.cpp:359
 msgid "Configure _browser ..."
-msgstr "Configura el _browser ..."
+msgstr "Configurar el _browser ..."
 
 #: X-windows/XApplication.cpp:361
 msgid "_About..."
