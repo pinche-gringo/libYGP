@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.11 2003/07/20 04:33:40 markus Rel $
+//$Id: XAttrEntry.h,v 1.12 2003/07/25 00:25:18 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,6 +107,17 @@ template <> inline XAttributeEntry<std::string>::XAttributeEntry (std::string& a
 template <> inline bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {
    set_text (value); }
 template <> inline bool XAttributeEntry<std::string>::on_focus_out_event (GdkEventFocus* ev) {
+   return Gtk::Entry::on_focus_in_event (ev); }
+   return false; }
+   temp = get_text ();
+   return Gtk::Entry::on_focus_out_event (ev); }
+template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustring& attr) : temp (attr)
+     , attr_ (attr), inError (false) { parent::set_text (attr); }
+
+     , attr_ (attr), inError (false) { set_text (attr); }
+template <> inline void XAttributeEntry<Glib::ustring>::update () { set_text (temp = attr_); }
+template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { set_text (temp = value); }
+template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
    return Gtk::Entry::on_focus_in_event (ev); }
    return false; }
 
