@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.20 2001/09/04 22:58:33 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.21 2002/04/05 07:20:54 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,6 +32,7 @@
 
 #include <iostream.h>
 
+#include "File.h"
 #include "StackTrc.h"
 #include "IVIOAppl.h"
 
@@ -283,4 +284,13 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
       --numOpt;
    } // end-while option before params
    ppArgs[numOpt] = pHelp;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Returns the name of the program (without any path-information)
+//Returns   : const char*: Name of programm
+/*--------------------------------------------------------------------------*/
+const char* IVIOApplication::name () const {
+   const char* pEnd (strrchr (filename (), File::DIRSEPERATOR));
+   return pEnd ? pEnd + 1 : filename ();
 }
