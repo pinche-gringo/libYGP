@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.4 1999/08/26 22:52:06 Markus Exp $
+//$Id: Parse.cpp,v 1.5 1999/08/27 22:15:03 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,7 +27,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace.h"
 #include "Parse.h"
 #include "XStream.h"
@@ -144,8 +144,8 @@ int ParseObject::checkIntegrity () const {
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const char* value, const char* description,
-                            unsigned int max, unsigned int min,
-                            PFNCALLBACK callback, bool skipWhitespace)
+                            PFNCALLBACK callback, unsigned int max,
+                            unsigned int min, bool skipWhitespace)
    : ParseObject (description, callback, skipWhitespace)
    , pValue (value), maxCard (max), minCard (min) {
    TRACE9 ("Creating ParseAttomic " << getDescription ());
@@ -233,7 +233,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
 
    int rc (PARSE_OK);
    if (i >= minCard) {                                    // Cardinalities OK?
-      TRACE6 ("ParseAttomic::doParse " << getDescription () << "Found '"
+      TRACE6 ("ParseAttomic::doParse " << getDescription () << " Found '"
               << global.buffer << '\'');
       if (pCallback)
          rc = pCallback (global.buffer);           // Execute callback (if set)
@@ -259,7 +259,14 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the passed character is valid acc. to pValue
+//Purpose     : Checks if the passed character is valid acc. to pValue. Valid
+//              are every characters specified in pValue. If pValue contains
+//              a backslash (\) the next character has a special meaning:
+//                - 9: ch is valid if it is a digit
+//                - A: ch is valid if it is alphabetic
+//                - X: ch is valid if it is alphanumeric
+//                - *: ch is valid.
+//                - Else: ch is valid if it equal to this char
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
@@ -311,6 +318,78 @@ int ParseAttomic::checkIntegrity () const {
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Checks if the passed character is valid acc. to pValue. This
+//              is true if ch doesn't match any character in the list.
+//Parameters  : ch: Char to check
+//Returns     : boolean: Result; true if valid
+/*--------------------------------------------------------------------------*/
+bool ParseText::checkValue (char ch) {
+   TRACE9 ("ParseText::checkValue " << getDescription () << ' ' << ch);
+
+   const char* pHelp = pValue; assert (pHelp);
+   while (*pHelp) {
+      if (*pHelp++ == ch)
+	 return false;
+   } // endwhile chars available   
+
+   return true;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Constructor
+//Parameters  : abort: List of valid characters
+//              description: Description of object (what it parses)
+//              max: Maximal cardinality
+//              min: Minimal cardinality
+//              escape: Character which escapes chars in value
+//              callback: Method to call if object is parsed
+//              skipWhitespace: Flag if TRAILING WS are skipped
+//Requires    : value != NULL && !ParseObject::checkIntegrity ()
+/*--------------------------------------------------------------------------*/
+ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
+                            unsigned int max, unsigned min, char escape,
+                            PFNCALLBACK callback, bool skipWhitespace)
+   : ParseText (abort, description, max, min, callback, skipWhitespace)
+   , esc (escape), last (!escape) {
+   TRACE9 ("Creating ParseTextEsc " << getDescription ());
+};
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Copy-constructor
+//Parameters  : other: Object to clone
+/*--------------------------------------------------------------------------*/
+ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
+   : ParseText (other), esc (other.esc), last (!other.esc) {
+   TRACE9 ("Copying ParseTextEsc " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Checks if the passed character is valid acc. to pValue. This
+//              is true if ch doesn't match any character in the list (except
+//              if it is escaped by the passed escape-character
+//Parameters  : ch: Char to check
+//Returns     : boolean: Result; true if valid
+/*--------------------------------------------------------------------------*/
+bool ParseTextEsc::checkValue (char ch) {
+   TRACE9 ("ParseTextEsc::checkValue " << getDescription () << ' ' << ch);
+
+   const char* pHelp = pValue; assert (pHelp);
+   while (*pHelp) {
+      if ((*pHelp == ch) && (last != esc)) {
+         last = !esc;
+	 return false;
+      } // endif
+
+      ++pHelp;
+      last = ch;
+   } // endwhile chars available   
+
+   return true;
+}
+
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Constructor
 //Parameters  : value: List of valid characters
 //              description: Description of object (what it parses)
@@ -320,13 +399,15 @@ int ParseAttomic::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 ParseExact::ParseExact (const char* value, const char* description,
                 	PFNCALLBACK callback, bool skipWhitespace)
-   : ParseAttomic (value, description, 1, 1, callback, skipWhitespace)
+   : ParseAttomic (value, description, callback, 1, 1, skipWhitespace)
    , pos (0) {
+   TRACE9 ("Creating ParseExact " << getDescription ());
    unsigned int len (strlen (value));      // value !NULL is checked by parent
    setMinCard (len);
    setMaxCard (len);
    assert (!checkIntegrity ());
 }
+
 /*--------------------------------------------------------------------------*/
 //Purpose     : Assignment-operator
 //Parameters  : other: Object to clone
@@ -344,7 +425,8 @@ const ParseExact& ParseExact::operator= (const ParseExact& other) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the passed character is valid acc. to pValue
+//Purpose     : Checks if the passed character is valid acc. to pValue. This
+//              is true, if
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
@@ -367,7 +449,9 @@ int ParseExact::checkIntegrity () const {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the passed character is valid acc. to pValue
+//Purpose     : Checks if the passed character is valid acc. to pValue. This
+//              is true if  ch matches the char in pValue in the same position
+//              (not case-sensitive)
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/

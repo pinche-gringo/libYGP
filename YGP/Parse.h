@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.4 1999/08/26 22:52:06 Markus Exp $
+//$Id: Parse.h,v 1.5 1999/08/27 22:15:03 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -116,8 +116,8 @@ class ParseAttomic : public ParseObject {
  public:
    // Manager-functions
    ParseAttomic (const char* value, const char* description,
-                 unsigned int max = 1, unsigned min = 1,
-                 PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+                 PFNCALLBACK callback = NULL, unsigned int max = 1,
+	         unsigned min = 1, bool skipWhitespace = true);
    ParseAttomic (const ParseAttomic& other);
    virtual ~ParseAttomic ();
 
@@ -159,6 +159,46 @@ class ParseAttomic : public ParseObject {
 };
 
 
+// Class to parse text til a certain abort-criteria
+class ParseText : public ParseAttomic {
+ public:
+   // Manager-functions
+   ParseText (const char* abort, const char* description,
+              unsigned int max, unsigned min = 1,
+              PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+      : ParseAttomic (abort, description, callback, max, min, skipWhitespace) { }
+   ParseText (const ParseText& other) : ParseAttomic (other) { }
+   ~ParseText () { }
+
+   const ParseText& operator= (const ParseText& other) {
+      return (const ParseText&)ParseAttomic::operator= (other); }
+
+ protected:
+   virtual bool checkValue (char ch);
+};
+
+
+// Class to parse text til a certain abort-criteria. This abort-characters can
+// be escaped
+class ParseTextEsc : public ParseText {
+ public:
+   // Manager-functions
+   ParseTextEsc (const char* abort, const char* description,
+                 unsigned int max, unsigned min = 1, char escape = '\\',
+                 PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+   ParseTextEsc (const ParseTextEsc& other);
+   ~ParseTextEsc () { }
+
+   const ParseTextEsc& operator= (const ParseTextEsc& other);
+
+ protected:
+   virtual bool checkValue (char ch);
+
+   char esc;
+   char last;
+};
+
+
 // Class to parse exactly a certain text (case-sensitive!)
 // The min/max-parameters of the second constructor may seem a wee bit
 // useless, but with them its possible to parse for example an ID where just
@@ -175,7 +215,7 @@ class ParseExact : public ParseAttomic {
    ParseExact (const char* value, const char* description,
                unsigned int max, unsigned min,
                PFNCALLBACK callback = NULL, bool skipWhitespace = true)
-      : ParseAttomic (value, description, max, min, callback, skipWhitespace)
+      : ParseAttomic (value, description, callback, max, min, skipWhitespace)
       , pos (0) { }
    ParseExact (const ParseExact& other) : ParseAttomic (other), pos (0) { }
    virtual ~ParseExact () { }
