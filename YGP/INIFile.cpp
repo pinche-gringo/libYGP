@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.15 2002/12/01 08:39:16 markus Rel $
+//$Id: INIFile.cpp,v 1.16 2003/01/15 19:11:19 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -24,7 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <errno.h>
 
 #include <string.h>
 
@@ -188,7 +187,7 @@ int INISection::foundSection (const char* section, unsigned int) {
 //Purpose   : Callback if a key of an attribute has been found. Every
 //            attribute of the section is compared with the passed key. If
 //            they match the value of the key is assigned to the attribute
-//Parameters: section: Name of the found key
+//Parameters: key: Name of the found key
 //Returns   : int: PARSE_OK, if key is found; else ParseObject::PARSE_CB_ABORT.
 /*--------------------------------------------------------------------------*/
 int INISection::foundKey (const char* key, unsigned int) {
@@ -280,6 +279,7 @@ void INIFile::addSection (const INISection& section) {
 
 /*--------------------------------------------------------------------------*/
 INISection* INIFile::addSection (const char* section) {
+   TRACE9 ("INIFile::addSection (const char*) - " << section);
    Check3 (section);
    INISection* pSec = const_cast<INISection*> (findSection (section));
    if (!pSec) {
@@ -373,4 +373,23 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
       Check3 (*i);
       section.addAttribute (**i);
    }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Writes an entity to the INI-file
+//Parameters: stream: File to write to
+//            section: Name of the section for all attributes in the object
+//            obj: Object to write
+//Remarks   : There is no error-handling; failures are silently ignored!
+/*--------------------------------------------------------------------------*/
+void INIFile::write (ostream& stream, const char* section, const Entity& obj) {
+   Check1 (section); Check1 (stream);
+
+   writeSectionHeader (stream, section);
+   std::vector<const IAttribute*>::const_iterator i;
+   for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i) {
+      Check3 (*i);
+      stream << (*i)->getName () << '=' << (*i)->getValue () << '\n';
+   }
+   stream << '\n';
 }

@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.15 2003/01/08 22:45:11 markus Exp $
+//$Id: INIFile.h,v 1.16 2003/01/15 19:11:19 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,6 +86,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 #include <stdexcept>
 
 #include <Check.h>
@@ -94,6 +95,7 @@
 #include <Attribute.h>
 
 class Entity;
+class INIFile;
 
 
 // Macros to define the INI-file-structure.
@@ -173,6 +175,15 @@ class INIList : public INISection {
       addAttribute (*new AttributeList<T> (name, values)); }
    ~INIList () { delete attributes.front (); }
 
+   void write (ostream& stream) {
+      return write (stream, attributes[0]->getName (),
+                    ((AttributeList<T>*)attributes[0])->getAttribute ()); }
+   static void write (ostream& stream, const char* section, vector<T>& values) {
+      INIFile::writeSectionHeader (stream, section);
+      for (unsigned int i (0); i < values.size (); ++i)
+         stream << i << '=' << values[i] << '\n';
+      stream << '\n'; }
+
  protected:
    virtual int foundKey (const char* key, unsigned int) {
       Check3 (key);
@@ -211,6 +222,10 @@ class INIFile {
    int read () throw (std::string);
 
    Xifstream& getFile () { return file; }
+
+   static void write (ostream& stream, const char* section, const Entity& obj);
+   static void writeSectionHeader (ostream& stream, const char* section) {
+      stream << '[' << section << "]\n"; }
 
  protected:
    virtual int foundSection (const char* section, unsigned int);
