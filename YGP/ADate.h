@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.24 2003/06/14 20:13:56 markus Exp $
+//$Id: ADate.h,v 1.25 2003/06/15 05:22:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -94,9 +94,9 @@ class ADate : public AttributValue {
    int getYear () const { return year; }           ///< Returns the actual year
    //@}
 
-   static ADate today () { return ADate (true); }  ///< Returns the current day
+   static ADate today () { return ADate (true); } ///< Returns the current date
 
-   /// \name Conversion
+   /// \name Convertion
    //@{
    virtual std::string toUnformattedString () const;
    virtual std::string toString () const;
