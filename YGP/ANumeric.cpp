@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.4 1999/10/14 22:23:32 Markus Rel $
+//$Id: ANumeric.cpp,v 1.5 1999/10/19 22:48:27 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -38,6 +38,9 @@
 
 #include <string>
 
+#define DEBUG 0
+#include <Trace.h>
+
 #include "ANumeric.h"
 
 
@@ -46,7 +49,7 @@ static void print (ostream& out, long outValue);
 
 
 // Static (global) variables
-struct lconv* loc (localeconv ());
+static struct lconv* loc (NULL);
 
 
 /*--------------------------------------------------------------------------*/
@@ -70,6 +73,15 @@ ANumeric& ANumeric::operator= (const ANumeric& other) {
 }
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : Defining an ANumeric
+//Remarks   : If not already done: Initialize locale-definition
+/*--------------------------------------------------------------------------*/
+void ANumeric::define () {
+   AttributValue::define ();
+   mpz_set_si (value, 0);
+}
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Converting to a string
 //Returns   : String-representation of ANumeric
 /*--------------------------------------------------------------------------*/
@@ -77,26 +89,34 @@ std::string ANumeric::toString () const {
    std::string str ("");
 
    if (isDefined ()) {
+      if (!loc)
+         loc = localeconv ();             // Get locale-information if not set
+
       char* pString (mpz_get_str (NULL, 10, value)); assert (pString);
-      register char* pHelp (pString); assert (pString);
+      TRACE1 ("ANumeric::toString -> value = " << pString);
 
-      if (*pHelp == '-')
-         str = *pHelp++;
-
-      register int len (strlen (pHelp) % 3);    // Copy first bytes til 3-byte-
-      str.replace (str.length (), 0, pHelp, len);  // boundary; split with sep.
-      pHelp += len;
-      len = strlen (loc->thousands_sep);
-      while (*pHelp) {                                // Copy til end-of-string
-         str.replace (str.length (), 0, loc->thousands_sep, len);
-
-	 assert (pHelp[1]); assert (pHelp[2]);       // pHelp should be aligned
-         str.replace (str.length (), 0, pHelp, 3);        // to 3-byte-boundary
-         pHelp += 3;
-     } // end-while
-
+      str = pString;                 // Copy unformatted string to return-value
       free (pString);
-   }
+
+      register int len (str.length ());
+      if (len > 3) {
+         len = len % 3;                             // Get length of first part
+         if (!len)
+            len = 3;
+
+         TRACE8 ("ANumeric::toString -> Length of first part = " << len);
+
+         unsigned int lenSep (strlen (loc->thousands_sep));
+         while (len < str.length ()) {                // Copy til end-of-string
+            assert (str[len + 1]); assert (str[len + 2]);
+            str.replace (len, 0, loc->thousands_sep, lenSep);
+            len += 3 + lenSep;
+
+            TRACE6 ("ANumeric::toString -> New pos = " << len);
+            TRACE7 ("ANumeric::toString -> next format = " << str);
+         } // end-while
+      } // endif larger than 3 chars -> format
+   } // endif defined
    return str;
 }
 
@@ -120,6 +140,13 @@ void ANumeric::readFromStream (istream& in) {
       in.get (ch);
    } // end-while !eof
    in.putback (ch);
+
+   if (help.empty ())
+      undefine ();
+   else {
+      mpz_set_str (value, help.c_str (), 10);
+      AttributValue::define ();
+   }
 }
 
 
