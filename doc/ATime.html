@@ -1,4 +1,4 @@
-<!-- $Id: ATime.html,v 1.1 2000/03/20 21:47:18 Markus Exp $ -->
+<!-- $Id: ATime.html,v 1.2 2000/03/21 22:41:44 Markus Exp $ -->
 
 <html>
   <head>
@@ -137,7 +137,7 @@
 	<td>(const <a href="ATime.html">ATime</a>&amp; other)</td></tr>
 
       <tr valign="top"><td>virtual int</td>
-	<td><a href="ATime.html#">checkIntegrity</a></td><td>() const</td></tr>
+	<td><a href="ATime.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
@@ -178,7 +178,7 @@
         <i>hour:minute:second</i>. If the string does not represent a valid
 	time, the object is set to undefined.</a></p>
 
-    <p><a name="ATime7"><i>ATime (const struct tm&amp; date)</i> - Constructor;
+    <p><a name="ATime7"><i>ATime (const struct tm&amp; time)</i> - Constructor;
 	assigns the values from the passed struct tm to the time-object.</a></p>
 
     <p><a name="ATime8"><i>ATime (const time_t time)</i> - Constructor;
@@ -239,7 +239,7 @@
 	Converts the time to a struct tm.</a></p>
 
     <p><a name="toSysTime"><i>time_t toSysTime () const</i> - Converts
-	the date to a system-timestructure.</a></p>
+	the time to a system-timestructure.</a></p>
 
     <h4>Query</h4>
     <p><a name="getHour"><i>char getHour () const</i> - Retrieves the hour.</a></p>
@@ -252,79 +252,89 @@
 	representing the current time.</a></p>
 
     <h4>Calculation</h4>
-<-- //TODO: Continue! -->
     <p><a name="operator+="><i>ATime&amp; operator+= (const ATime&amp; rhs)</i>
 	- Adds another time-value to the object. An undefined time is
 	treated as "0:00:00"; if both objects are undefined, the result is
 	undefined. Overflows of seconds or minutes are corrected, overflows
-	of the hour are additionally reported via a return-value of true.</a></p>
+	of the hour undefines the object.</a></p>
 
     <p><a name="operator-="><i>ATime&amp; operator-= (const ATime&amp; rhs)</i>
-	- Substracts another date-value from the date-object. An undefined date
-	is treated as "0.0.0"; the result is undefined if both objects are
-	undefined. Underflows (of day or month) are corrected.</a></p>
+	- Substracts another time-value from the object. An undefined time
+	is treated as "0:00:00"; the result is undefined if both objects are
+	undefined. Underflows (of day or month) are corrected; underflows of
+	of the hour undefines the object.</a></p>
 
     <p><a name="operator+"><i>ATime&amp; operator+ (const ATime&amp; lhs, 
-	  const ATime&amp; rhs)</i> - Adds two date-values and returns the
-	result. An undefined date is treated as "0.0.0"; the result is 
-	undefined if both objects are undefined. Overflows (of day or month)
-	are corrected.</a></p>
+	  const ATime&amp; rhs)</i> - Returns the addition of two time-values.
+	An undefined time is treated as "0:00:00"; if both objects are
+	undefined, the result is undefined. Overflows of seconds or minutes
+	are corrected, overflows of the hour undefines the object.</a></p>
 
     <p><a name="operator-"><i>ATime&amp; operator- (const ATime&amp; lhs, 
-	  const ATime&amp; rhs)</i> - Substracts two date-values and returns
-	the result. An undefined date is treated as "0.0.0"; the result is
-	undefined if both objects are undefined. Overflows (of day or month)
-	are corrected.</a></p>
+	  const ATime&amp; rhs)</i> - Returns the substraction of two time-values.
+	An undefined time is treated as "0:00:00"; if both objects are
+	undefined, the result is undefined. Overflows of seconds or minutes
+	are corrected, overflows of the hour undefines the object.</a></p>
 
-    <p><a name="add"><i>ATime&amp; add (char Day, char Month = 0, int Year = 0)</i>
-	- If this is not undefined, the passed values are added (with attention
-	to overflows). The result is returned.</a></p>
+    <p><a name="add"><i>ATime&amp; add (char Hour, char minute, char second)</i>
+	- If this is not undefined, the passed values are added. Overflows of
+	seconds or minutes are corrected, overflows of the hour undefines the
+	object. The result is returned.</a></p>
 
-    <p><a name="sub"><i>ATime&amp; sub (char Day, char Month = 0, int Year = 0)</i>
-	- If this is not undefined, the passed values are substracted (with
-	attention to underflows). The result is returned.</a></p>
+    <p><a name="sub"><i>ATime&amp; sub (char Hour, char minute, char second)</i>
+	- If this is not undefined, the passed values are substracted.
+	Overflows of seconds or minutes are corrected, overflows of the hour
+	undefines the object. The result is returned.</a></p>
 
     <h4>Comparison</h4>
     <p><a name="operator=="><i>bool operator== (const ATime&amp; other)</i> -
-	Compares two date-objects and returns true, if they are equal (either
-	the same day or both undefined).</a></p>
+	Compares two time-objects and returns true, if they are equal (either
+	the same time or both undefined).</a></p>
 
     <p><a name="operator!="><i>bool operator!= (const ATime&amp; other)</i> -
-	Compares two date-objects and returns true, if they are not equal
-	(different days and not both undefined).</a></p>
+	Compares two time-objects and returns true, if they are not equal
+	(different times and not both undefined).</a></p>
 
     <p><a name="operatorl"><i>bool operator&lt; (const ATime&amp; other)</i> -
-	Compares two date-objects and returns true, if this is "older" (further
-	in the past) than other (e.g. "yesterday" &lt; "today" == true).</a></p>
+	Compares two time-objects and returns true, if this is "older" (further
+	in the past) than other (e.g. "01:01:01" &lt; "02:02:02" == true).
+	Undefined values are considered as older than any other time.</a></p>
 
     <p><a name="operatorg"><i>bool operator&gt; (const ATime&amp; other)</i> -
-	Compares two date-objects and returns true, if this is "younger" (later
-	on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).</a></p>
+	Compares two time-objects and returns true, if this is "younger" (later
+	on a time-line) than other (e.g. "13:00:00" &gt; "12:00:00" == true).
+	Undefined values are considered as older than any other time.</a></p>
 
     <p><a name="operatorl="><i>bool operator&lt;= (const ATime&amp; other)</i> -
-	Compares two date-objects and returns true, if this is "older" (further
-	in the past) than other or equal to it (e.g. "yesterday" &lt; "today"
-	== true; two undefined values are also considered as equal).</a></p>
+	Compares two time-objects and returns true, if this is "older" (further
+	in the past) than other or equal to it (e.g. "01:01:01" &lt;=
+	"02:02:02" == true). Undefined values are considered as older than
+	any other time.</a></p>
 
-    <p><a name="operatorg="><i>bool operator&gt; (const ATime&amp; other)</i> -
-	Compares two date-objects and returns true, if this is "younger" (later
-	on a time-line) than other or equal to it (e.g. "tomorrow" &gt; "today"
-	== true; two undefined values are also considered as equal).</a></p>
+    <p><a name="operatorg="><i>bool operator&gt;=(const ATime&amp; other)</i> -
+	Compares two time-objects and returns true, if this is "younger" (later
+	on a time-line) than other or equal to it (e.g. "11:01:01" &gt;=
+	"02:02:02" == true). Undefined values are considered as older than
+	any other time.</a></p>
 
     <p><a name="compare"><i>long compare (const ATime&amp; other)</i> -
-	Returns the (approximated) difference in days between two dates. If
-	both dates are undefined, those difference is "0", if only this is
-	undefined the result is MINLONG and if other is undefined MAXLONG is
-	returned (-&gt; undefined dates are considered as (incredible)
+	Returns the (approximated) difference in seconds between two times. If
+	both times are undefined, those difference is "0", if only this is
+	undefined the result is MINLONG, if only other is undefined MAXLONG
+	is returned (-&gt; undefined times are considered as (incredible)
 	old).</a></p>
 
     <h4>Utility-functions</h4>
     <p><a name="minAdapt"><i>virtual bool minAdapt ()</i> - Corrects the object
-	after underflows. If the object is integer after this operation, true 
-	is returned.</a></p>
+	after underflows. If the hour has an underflow true is returned, else
+	false.</a></p>
 
     <p><a name="maxAdapt"><i>virtual bool maxAdapt ()</i> - Corrects the object
-	after overflows. If the object is integer after this operation, true 
-	is returned.</a></p>
+	after overflows. If the hour has an overflow true is returned, else
+	false.</a></p>
+
+    <p><a name="checkIntegrity"><i>virtual int checkIntegrity () const</i> -
+	Checks if this object represents a valid time. Note: Even undefined
+	times have valid values!</a></p>
   </body>
 </html>
