@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.8 1999/11/04 20:41:08 Markus Rel $
+//$Id: DirSrch.h,v 1.9 2000/01/26 22:13:24 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,13 +61,6 @@ class DirectorySearch;
 
 // Class to handle result of DirectorySearch
 #ifdef UNIX
-#define FILE_NORMAL         (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
-                             | S_IRWXU | S_IRWXG | S_IRWXO)
-#define FILE_READONLY       (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
-                             | S_IRUSR | S_IRGRP | S_IROTH \
-                             | S_IXUSR | S_IXGRP | S_IXOTH)
-#define FILE_DIRECTORY      (S_IFDIR)
-#define FILE_HIDDEN         0x80000000
 
 #define MAX_PATH            MAXNAMLEN
 
@@ -105,7 +98,7 @@ typedef struct dirEntry {
    bool  userExec;
 } dirEntry;
 #else
-#ifdef WINDOWS
+#  ifdef WINDOWS
 #define FILE_NORMAL         FILE_ATTRIBUTE_ARCHIVE
 #define FILE_READONLY       FILE_ATTRIBUTE_READONLY
 #define FILE_DIRECTORY      FILE_ATTRIBUTE_DIRECTORY
@@ -134,9 +127,9 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    bool isUserExec () const { return isExecuteable (); }
 } dirEntry;
 
-#else
+#  else
 #error Not implemented yet!
-#endif
+#  endif
 #endif
 
 
@@ -183,6 +176,26 @@ class DirectorySearch {
       return find (*pEntry, attr); }
    virtual int find (dirEntry& result, unsigned long attribs = 0);
    virtual int find ();
+
+#ifdef UNIX
+   enum { FILE_NORMAL = (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
+                         | S_IRWXU | S_IRWXG | S_IRWXO),
+          FILE_READONLY = (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
+                           | S_IRUSR | S_IRGRP | S_IROTH \
+                           | S_IXUSR | S_IXGRP | S_IXOTH),
+          FILE_DIRECTORY = (S_IFDIR),
+	  FILE_HIDDEN = 0x80000000 };
+#else
+#  ifdef WINDOWS
+   enum { FILE_NORMAL = FILE_ATTRIBUTE_ARCHIVE,
+          FILE_READONLY = FILE_ATTRIBUTE_READONLY,
+          FILE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY,
+          FILE_HIDDEN = (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN) };
+#  else
+#    error Not implemented yet!
+#  endif
+#endif
+
 
  protected:
    virtual int checkIntegrity () const;
