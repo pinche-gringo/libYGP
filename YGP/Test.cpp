@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.27 2000/02/06 22:12:05 Markus Exp $
+// $Id: Test.cpp,v 1.28 2000/02/21 23:09:02 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -45,9 +45,7 @@
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
-#ifdef UNIX
-#  include "ANumeric.h"
-#endif
+#include "ANumeric.h"
 #include "IVIOAppl.h"
 #include "PathSrch.h"
 #include "Tokenize.h"
@@ -137,7 +135,7 @@ bool Application::handleOption (const char option) {
    ++cOptions;
 
    if ((option == 'a') || (option == 'A')) {
-      const char* pValue (checkOptionValue ());
+      const char* pValue = checkOptionValue ();
       assert (pValue == getOptionValue ());
       if (option == 'A')
          check (pValue);
@@ -160,7 +158,11 @@ int Application::perform (int argc, const char* argv[]) {
 
    cout << "Testing Parser...\n";
    CBParseAttomic nr ("\\9", "Number", foundNumber, 4, 2);
+#ifdef _MSC_VER
+   OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this, foundAlpha, 4, 2);
+#else
    OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this, &foundAlpha, 4, 2);
+#endif
    ParseExact exact ("234", "234");
    ParseUpperExact upper ("9A42", "9A42");
    ParseObject* lstSeq[] = { &nr, &exact, NULL };
@@ -319,10 +321,8 @@ int Application::perform (int argc, const char* argv[]) {
    check (num.isDefined ());
    check (num == num2);
 
-   char numBuf[10];
-   ostrstream stream (numBuf, sizeof (numBuf));
-   stream << num2 << ends;
-   check (strlen (numBuf) >= 4);
+   std::string numStr (num2.toString ());
+   check (numStr.length () >= 4);
 
    cout << "Testing Tokenize...\n";
    Tokenize token ("/usr/include/std/");
@@ -334,11 +334,11 @@ int Application::perform (int argc, const char* argv[]) {
    cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
    dirEntry file;
-   check (!ds.find ("./T*", file, DirectorySearch::FILE_NORMAL
+   check (!ds.find ("T*", file, DirectorySearch::FILE_NORMAL
                                   | DirectorySearch::FILE_READONLY));
    check (!ds.find ());
 
-   check (!ds.find ("./.*", file, DirectorySearch::FILE_DIRECTORY
+   check (!ds.find (".*", file, DirectorySearch::FILE_DIRECTORY
                                   | DirectorySearch::FILE_HIDDEN));
    check (!ds.find ());
    check (!ds.find ());
@@ -347,14 +347,25 @@ int Application::perform (int argc, const char* argv[]) {
 
    check (!ds.find (".", file, DirectorySearch::FILE_DIRECTORY
                                | DirectorySearch::FILE_HIDDEN));
-   check (!ds.find ("../Common/", file, DirectorySearch::FILE_DIRECTORY));
-   check (!ds.find ("../X-windows", file, DirectorySearch::FILE_DIRECTORY));
+   std::string temp ("..");
+   temp += DirectorySearch::getSplitChar ();
+   temp += "Common";
+   temp += DirectorySearch::getSplitChar ();
+   check (!ds.find (temp.c_str (), file, DirectorySearch::FILE_DIRECTORY));
+   temp = "..";
+   temp += DirectorySearch::getSplitChar ();
+   temp += "X-windows";
+   check (!ds.find (temp.c_str (), file, DirectorySearch::FILE_DIRECTORY));
    check (ds.find ());
 
    check (!dirSearchRecursive (NULL));
 
    cout << "Testing PathDirectorySearch...\n";
+#ifdef UNIX
    PathDirectorySearch pds (".:../../JGeneral", "ANumeric.*");
+#else
+   PathDirectorySearch pds (".;..\\..\\JGeneral", "ANumeric.*");
+#endif
    check (!pds.find (file, DirectorySearch::FILE_NORMAL
                            | DirectorySearch::FILE_READONLY));
    check (!pds.find ());
@@ -365,6 +376,7 @@ int Application::perform (int argc, const char* argv[]) {
    check (pds.find ());
 
    cout << "Testing PathSearch...\n";
+#ifdef UNIX
    PathSearch ps (".:..:/::/usr/:/usr");
    check (ps.getActNode () == ".:..:/::/usr/:/usr");
    check (ps.getNextNode () == ".");
@@ -372,7 +384,15 @@ int Application::perform (int argc, const char* argv[]) {
    check (ps.getNextNode () == "/");
    check (ps.getNextNode () == "/usr/");
    check (ps.getNextNode () == "/usr");
-
+#else
+   PathSearch ps (".;..;\\;;\\usr\\;\\usr");
+   check (ps.getActNode () == ".;..;\\;;\\usr\\;\\usr");
+   check (ps.getNextNode () == ".");
+   check (ps.getNextNode () == "..");
+   check (ps.getNextNode () == "\\");
+   check (ps.getNextNode () == "\\usr\\");
+   check (ps.getNextNode () == "\\usr");
+#endif
    // This test should be the last (to see result of cleanup close to result
    // of create). If you dont want that put a block around this context.
    cout << "Testing SmartPtr & Handle...\n";
