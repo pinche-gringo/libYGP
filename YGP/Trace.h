@@ -1,7 +1,7 @@
 #ifndef TRACE_H
 #define TRACE_H
 
-//$Id: Trace.h,v 1.3 1999/10/11 21:11:08 Markus Rel $
+//$Id: Trace.h,v 1.4 2000/05/21 13:59:11 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 
 #ifdef DEBUG
+#include <iomanip.h>
 #include <iostream.h>
 
 #define TRACE(x)            cout << x << '\n';
