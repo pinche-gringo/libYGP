@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.20 2003/01/15 19:12:13 markus Exp $
+//$Id: IVIOAppl.h,v 1.21 2003/02/01 23:52:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,14 @@
 // stored in an INI file and (afterwards) the parsing of the parameters
 // before the actual run of the program. Furthermore in case of a
 // segmentation fault a stacktrace is dumped to the systemlog (or to stdout).
+//
+// The INI file is named according the name-method, with the following changes
+// (depending on the operating system):
+//   -  UNIX: Prepend the name with the home directory of the user and make it
+//            "hidden", thus resulting in ~/.name
+//   - Windows: Prepend the name with the home directory (as specified by the
+//              environment variables HOMEDRIVE and HOMEPATH and append a .ini,
+//              thus resulting in %HOMEDRIVE%%HOMEPATH%name.ini
 //
 // Parameters starting with a minus (-) or (only in Windoze) with a slash
 // (/) are treated as options and reported via the handleOption-method. Every
