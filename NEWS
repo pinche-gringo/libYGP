@@ -1,3 +1,11 @@
+Overview of Changes in version 0.6.42:
+
+  - Fixed translating messages being in headers
+  - Fixed compilation for MSVC
+  - Fixed error message in ConnectDlg, when bind fails
+  - Translating messages in ConnectDlg
+  - Fixed resetting files to in/exclude in XDirSrch for new searches
+
 Overview of Changes in version 0.6.41:
 
   - AutoContainer can insert children into every position
@@ -124,11 +132,11 @@ Overview of Changes in version 0.6.02:
   - Utility mdocu.pl to extract function comments out of sources for docu
   - Docu actualized
   - Implemented seekoff and seekpos in XStrBuf
-  - Checks tries to display a message box, even for console applications
+  - Checks try to display a message box, even for console applications
   - Automatically generating DEF file for VC (with bin/mdef.awk)
   - Changed Make.bat to DOS format
   - Fixes
-  - ATime throws now rather exception than just undefining the object
+  - ATime throws now rather an exception than just undefining the object
   - Parse*Ignore classes removed; instead ParseAttomic got flag to store input
   - Classes use rather Checks than asserts
 

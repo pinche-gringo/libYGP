@@ -1,3 +1,49 @@
+2003-12-12  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.42
+
+	* XGP/ConnectDlg.cpp: Fixed binding-to-port error message
+
+	* po/de.po, po/en.po, po/es.po: Added messages for ConnectDlg
+
+	* po/POTFILES.in: Added ConnectDlg
+
+	* YGP/Tests/PathDirSrch.cpp: Fixed paths for UNIX
+
+	* YGP/XDirSrch.cpp: Added traces/checks
+
+	* YGP/XDirSrch.h: Added setSearchValue
+
+	* YGP/Socket.cpp: Changed error messages
+
+	* YGP/Parse.cpp: Improved traces
+
+	* YGP/DirSrch.cpp: Improved comment; Including cerrno (and not errno.h)
+
+2003-12-10  Markus Schwab  <g17m0@lycos.com>
+
+	* ygp-cfg.h.in: Added LIBYGP_NAME
+
+	* YGP/Internal.h: Removed undefinition of gettext-macros
+
+	* Windows/VCGeneral.mak, Windows/VCTests.mak: Paths updated
+
+	* Windows/ygp-cfg.h: Actualized to match UNIX version
+
+	* YGP/Log.h, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Thread.cpp, YGP/Version.cpp, YGP/ADate.cpp:
+	  Fixes for windows
+
+2003-12-09  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in: Version to 0.6.42; Defining LIBYGP_NAME
+
+	* YGP/Makefile.am: Not installing Internal.h anymore
+
+	* XGP/XAttrEntry.h, XGP/XFileList.h:
+	  Calling dgettext directly to translate text (to not interfere with using prgs)
+
+	* XGP/BrowserDlg.cpp: Including Internal.h
+
 2003-12-05  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.41
