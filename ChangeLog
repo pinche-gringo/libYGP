@@ -1,6 +1,13 @@
+Version 0.5.10: - Fileselection- and print-dialog added
+		- Bugfix in XMessageBox, ADate
+		- Parser-classes reports found objects by either virtual
+		  function, global or member-function
+
 Version 0.5.01: - Fixes in Parse-classes; Comments improved
                 - Bugfix in XFileEntry (Cursor-key-handling corrected)
                 - public constants replaced with functions (Path/DirSrch)
+		- Adapted to Windoze
+		- Seperated in subdirs (Common; X-related -> X-windows)
 
 Version 0.5.00: libPort renamed to libAttr; libXAppl for X-related classed added
 
