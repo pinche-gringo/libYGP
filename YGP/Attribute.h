@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.4 2001/10/08 23:34:12 markus Exp $
+//$Id: Attribute.h,v 1.5 2001/10/09 17:18:56 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 #include <string>
 #include <stdexcept>
 
+#include <AByteArray.h>
+
 
 // Baseclass for attributes. Derive from it for every type of attribute.
 class IAttribute {
@@ -37,6 +39,8 @@ class IAttribute {
       return name == compare; }
 
    virtual bool assignFromString (const char* value) const = 0;
+   virtual bool assign (const char* value, unsigned int length) const {
+      return assignFromString (value); }  
 
    const std::string& getName () const { return name; }
 
@@ -70,6 +74,10 @@ template <class T> class Attribute : public IAttribute {
       }
    }
 
+   virtual bool assign (const char* value, unsigned int length) const {
+      return assignFromString (value); }  
+
+
  private:
    Attribute (const Attribute&);
    const Attribute& operator= (const Attribute&);
@@ -84,19 +92,31 @@ bool Attribute<char>::assignFromString (const char* value) const {
    return *value && !value[1];
 }
 
-bool Attribute<char*>::assignFromString (const char* value) const {
+bool Attribute<char*>::assign (const char* value, unsigned int length) const {
    assert (value);
    delete [] attr_;
-   attr_ = new char[strlen (value) + 1];
+   attr_ = new char[length + 1];
    if (!attr_)
       return false;
-   strcpy (attr_, value);
+   memcpy (attr_, value, length);
+   attr_[length] = '\0';
    return true;
+}
+
+bool Attribute<char*>::assignFromString (const char* value) const {
+   assert (value);
+   return assign (value, strlen (value));
 }
 
 bool Attribute<char* const>::assignFromString (const char* value) const {
    assert (value);
    strcpy (attr_, value);
+   return true;
+}
+
+bool Attribute<char* const>::assign (const char* value, unsigned int length) const {
+   assert (value);
+   memcpy (attr_, value, length);
    return true;
 }
 
@@ -160,6 +180,18 @@ bool Attribute<double>::assignFromString (const char* value) const {
 bool Attribute<std::string>::assignFromString (const char* value) const {
    assert (value);
    attr_ = value;
+   return true;
+}
+
+bool Attribute<std::string>::assign (const char* value, unsigned int length) const {
+   assert (value);
+   attr_.assign (value, length);
+   return true;
+}
+
+bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
+   assert (value);
+   attr_.assign (value, length);
    return true;
 }
 
