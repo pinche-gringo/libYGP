@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.11 2003/02/14 04:14:43 markus Exp $
+// $Id: CRegExp.cpp,v 1.12 2003/03/03 06:01:15 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -107,7 +107,7 @@ int main (int argc, char* argv[]) {
          frexexp.init ();
 
          ParseObject*   _RegExpTest[3];
-         ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1, 0);
+         ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1U, 0);
          ParseObject*   _RegExpHeader[4];
          ParseSequence  RegExpHeader (_RegExpHeader, "Regexp-header", 1, 1);
          ParseObject*   _values[4];
