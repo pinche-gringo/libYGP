@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.23 2001/10/19 12:14:14 markus Rel $
+//$Id: Parse.h,v 1.24 2002/09/13 04:43:48 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <assert.h>
 
 #include <string>
-#include <iostream.h>
+#include <iostream>
 
 #include <XStream.h>
 
