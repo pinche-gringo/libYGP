@@ -5,10 +5,15 @@ Overview of Changes in version 0.6.02:
     (this is a shell script using awk so it might not be that handy under DOS)
   - XApplication stores menu-pointers (having an ID other than 0)
   - INIFile can parse attributes of Entities
+  - Utility mdocu.pl to extract function comments out of sources for docu
   - Docu actualized
   - Implemented seekoff and seekpos in XStrBuf
-  - Checks try to display a message box, even for console applications
-  - Automatically generating DEF file for VC (with grep, awk and bin/mdef.awk)
+  - Checks tries to display a message box, even for console applications
+  - Automatically generating DEF file for VC (with bin/mdef.awk)
+  - Changed Make.bat to DOS format
+  - Fixes
+  - ATime throws now rather exception than just undefining the object
+  - Classes use rather Checks than asserts
 
 Overview of Changes in version 0.6.01:
 
