@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.21 2003/02/01 23:52:00 markus Rel $
+//$Id: IVIOAppl.h,v 1.22 2003/07/01 04:46:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,73 +18,71 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Class to handle the startup of a program, which includes reading the data
-// stored in an INI file and (afterwards) the parsing of the parameters
-// before the actual run of the program. Furthermore in case of a
-// segmentation fault a stacktrace is dumped to the systemlog (or to stdout).
-//
-// The INI file is named according the name-method, with the following changes
-// (depending on the operating system):
-//   -  UNIX: Prepend the name with the home directory of the user and make it
-//            "hidden", thus resulting in ~/.name
-//   - Windows: Prepend the name with the home directory (as specified by the
-//              environment variables HOMEDRIVE and HOMEPATH and append a .ini,
-//              thus resulting in %HOMEDRIVE%%HOMEPATH%name.ini
-//
-// Parameters starting with a minus (-) or (only in Windoze) with a slash
-// (/) are treated as options and reported via the handleOption-method. Every
-// option can also be represented in a verbose way starting with two
-// minus-characters (--). What follows is only a short description; more
-// information can be found in the getopt man page (which
-// unfortunately can't be found on a Windows system, but such is life).
-//
-// The parameters are parsed from left to right. Each parameter is
-// classified as a short option, a long option (both reported via the
-// handleOption-method), an argument to an option, or a non-option
-// parameter.
-//
-// >A simple short option is a minus (-) or (only in Windoze) a slash
-// (/) followed by a short option character. If the option has an
-// argument, it may be written directly after the option character or
-// as the next parameter (ie. separated by whitespace on the command
-// line).
-//
-// It is possible to specify several short options after one minus
-// (-), as long as all (except possibly the last) do not have
-// arguments.
-//
-// A long option normally begins with `--' followed by the long option
-// name. If the option has an argument, it may be written directly
-// after the long option name, separated by an equal-sign (=), or as
-// the next argument (ie. separated by whitespace on the command
-// line). Long options may be abbreviated, as long as the abbreviation
-// is not ambiguous.
-//
-// Every parameter which is not an option or an argument to an option
-// or after a '--'-parameter is a non-option parameter and are passed
-// to the perform-method. Options are inspected before that method is called!
-//
-// Note: The options "-h" and "-?" causes the call of the showHelp-method!
-//
-// Programmers information:
-//
-// Unlike in the UNIX getopt-function, optional paramters need not to be
-// marked in a special way. Instead use the checkOptionValue-method
-// to retrieve the value of the possible argument, analyze it (like for having
-// no leading minus (-)) and retrieve it with the getOptionValue-method if OK.
+/**Class to handle the startup of a program, which includes reading the data
+   stored in an INI file and (afterwards) the parsing of the parameters
+   before the actual run of the program. Furthermore in case of a
+   segmentation fault a stacktrace is dumped to the systemlog (or to stdout).
 
+   The INI file is named according the name-method, with the following changes
+   (depending on the operating system):
+     -  UNIX: Prepend the name with the home directory of the user and make it
+              "hidden", thus resulting in <tt>~/.name</tt>.
+     - Windows: Prepend the name with the home directory (as specified by the
+                environment variables HOMEDRIVE and HOMEPATH and append a .ini,
+                thus resulting in <tt>%HOMEDRIVE%%HOMEPATH%name.ini</tt>.
+
+   Parameters starting with a minus (-) (in Windoze also a with a slash (/))
+   are treated as options and reported via the handleOption-method. Every
+   option can also be represented in a verbose way starting with two
+   minus-characters (--). What follows is only a short description; more
+   information can be found in the getopt man page (which unfortunately can't
+   be found on a Windows system, but such is life).
+
+   The parameters are parsed from left to right. Each parameter is classified
+   as a short option, a long option (both reported via the
+   handleOption()-method), an argument to an option, or a non-option parameter.
+
+   A simple short option is a minus (-) (or might be a slash (/) in Windoze)
+   followed by a short option character. If the option has an argument, it may
+   be written directly after the option character or as the next parameter
+   (ie. separated by whitespace on the command line).
+
+   It is possible to specify several short options after one minus (-), as
+   long as all (except possibly the last) do not have arguments.
+
+   A long option normally begins with `--' followed by the long option
+   name. If the option has an argument, it may be written directly after the
+   long option name, separated by an equal-sign (=), or as the next argument
+   (ie. separated by whitespace on the command line). Long options may be
+   abbreviated, as long as the abbreviation is not ambiguous.
+
+   Every parameter which is not an option or an argument to an option or after
+   a '--'-parameter is a non-option parameter and are passed to the
+   perform()-method. Options are inspected before that method is called!
+
+   \note: The options <tt>-h</tt> and <tt>-?</tt> causes the call of the
+   showHelp()-method!
+
+   <b>Programmers information</b>:
+
+   Unlike in the UNIX getopt-function, optional paramters need not to be
+   marked in a special way. Instead use the checkOptionValue()-method to
+   retrieve the value of the possible argument, analyze it (like for having no
+   leading minus (-)) and retrieve it with the getOptionValue()-method if OK.
+
+   As a further feature a stackdump is logged in case of a protection fault.
+*/
 
 #define IVIOAPPL_HELP_OPTION    "help", 'h'
 
 class IVIOApplication {
  public:
-   // Helper-structure to store long-options
+   /// Helper-structure to store long-options
    typedef struct {
-      char* longVal;
-      char  shortVal;
+      char* longVal; ///< Pointer to buffer holding the value of the long option
+      char  shortVal;  ///< Character representing the equivalent short option
    } longOptions;
 
-   // Manager functions
    IVIOApplication (const int argc, const char* argv[],
                     const longOptions* pOpt = NULL);
    virtual ~IVIOApplication ();
@@ -96,27 +94,40 @@ class IVIOApplication {
 
  protected:
    // Option-handling
+   /// Handle the options of the program. The current (parsed) option is passed.
    virtual bool handleOption (const char option) = 0;
    const char*  getOptionValue ();
+   /// Returns the value to the current option, but without "consuming" it.
+   /// This enables to check the value.
    const char*  checkOptionValue () const {
       return (pOptionParam && *pOptionParam) ? pOptionParam : ppArgs[startOpt + 1]; }
    void         setLongOptions (const longOptions* pLongOpts);
    void         setLongOptions (const longOptions* pLongOpts,
                                 unsigned int numLongOpts);
+   /// Parses some initialization data from a file specified by \c pFile.
    virtual void readINIFile (const char* pFile) { }
 
-   // Program-handling
+   /// \name Program-handling
+   //@{
+   /// Performs the job of the program.
    virtual int         perform (int argc, const char* argv[]) = 0;
    virtual const char* name () const;
+   /// Returns a description to the program.
    virtual const char* description () const = 0;
+   /// Returns the name of the program as passed by the operating system (argv[0]).
    const char* filename () const { return *ppArgs; }
+   //@}
 
-   // Help-handling
+   /// \name Help-handling
+   //@{
+   /// Returns true, if a short programm information (name and release) should
+   /// be displayed (default: Yes).
    virtual bool shallShowInfo () const { return true; }
    virtual void showHelp () const = 0;
+   //@}
 
-    unsigned int args;
-    const char** ppArgs;
+    unsigned int args;    ///< Number of arguments passed to the program (argc)
+    const char** ppArgs;        ///< The arguments passed to the program (argv)
 
  private:
     // Prohobited manager functions
