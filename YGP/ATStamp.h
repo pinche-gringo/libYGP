@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.10 2001/10/08 23:33:08 markus Exp $
+//$Id: ATStamp.h,v 1.11 2001/10/09 17:16:29 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -82,6 +82,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
       struct tm result (toStructTM ()); return timegm (&result); }
    time_t toLocalTime () const {
       struct tm result (toStructTM ()); return mktime (&result); }
+   time_t toSysTime () const { return toLocalTime (); }
 
    // Calculation
    ATimestamp& operator+= (const ATimestamp& rhs);
