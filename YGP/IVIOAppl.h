@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.6 1999/08/11 22:35:22 Markus Rel $
+//$Id: IVIOAppl.h,v 1.7 1999/08/21 19:52:24 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -20,6 +20,7 @@
 
 // Class to handle the startup of a program
 class IVIOApplication {
+ protected:
    // Helper-structure to store long-options
    typedef struct {
       char* longVal;
@@ -29,7 +30,7 @@ class IVIOApplication {
  public:
    // Manager functions
    IVIOApplication (const int argc, char* argv[],
-		    const longOptions* pOpt = NULL);
+                    const longOptions* pOpt = NULL);
    virtual ~IVIOApplication () { }
 
    int run ();
@@ -37,7 +38,9 @@ class IVIOApplication {
  protected:
    // Option-handling
    virtual bool handleOption (const char option) = 0;
-   char*        getOptionValue ();
+   const char*  getOptionValue ();
+   const char*  checkOptionValue () const {
+      return (pOptionParam && *pOptionParam) ? pOptionParam : ppArgs[startOpt + 1]; }
    void         setLongOptions (const longOptions* pLongOpts);
    void         setLongOptions (const longOptions* pLongOpts,
 				unsigned int numLongOpts);
