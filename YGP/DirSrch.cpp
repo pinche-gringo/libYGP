@@ -1,14 +1,14 @@
-//$Id: DirSrch.cpp,v 1.51 2004/11/04 16:31:18 markus Rel $
+//$Id: DirSrch.cpp,v 1.52 2005/03/06 06:36:24 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.51 $
+//REVISION    : $Revision: 1.52 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -98,7 +98,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
 
    attr = attribs;
 
-   TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str ()
+   TRACE5 ("DirectorySearch::find (unsigned long) " << searchDir.c_str ()
 	   << searchFile.c_str ());
 
    pEntry = new File;
@@ -106,11 +106,12 @@ const File* DirectorySearch::find (unsigned long attribs) {
    pEntry->path_ = offStrip
       ? searchDir.substr ((offStrip > 0) ? offStrip : ((offStrip < 0) ? -offStrip : 0))
       : searchDir;
-   TRACE8 ("DirectorySearch::find (result, attribs) - Search in dir " << pEntry->path_);
+   TRACE8 ("DirectorySearch::find (unsigned long) - Search in dir " << pEntry->path_);
    Check3 (!checkIntegrity ());
 
 #if SYSTEM == UNIX
    pDir = opendir (searchDir.c_str ());
+   TRACE9 ("DirectorySearch::find (unsigned long) - opendir: " << (pDir ? "OK" : "Failed"));
    if (!pDir) {
       clearEntry ();
       return NULL;
@@ -132,7 +133,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
    return next ();
 #else
 #  if SYSTEM == WINDOWS
-   TRACE8 ("DirectorySearch::find (result, attribs) - found " << pEntry->name ());
+   TRACE8 ("DirectorySearch::find (unsigned long) - found " << pEntry->name ());
 
    FileRegularExpr regExp (searchFile.c_str ());
    Check3 (!regExp.checkIntegrity ());
@@ -225,7 +226,7 @@ int DirectorySearch::checkIntegrity () const {
    TRACE9 ("DirectorySearch::checkIntegrity () const");
 
    return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
-                                        pEntry ? 
+                                        pEntry ?
                                         (pEntry->path_.empty () && !offStrip) : NO_ENTRY;
 }
 
