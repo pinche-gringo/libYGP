@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.7 2001/10/08 14:31:18 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.8 2001/10/08 23:36:17 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -29,13 +29,14 @@
 
 #include <gzo-cfg.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "File.h"
 #include "Trace_.h"
 #include "Socket.h"
 #include "ATStamp.h"
 #include "DirSrch.h"
 #include "ANumeric.h"
+#include "AssParse.h"
 #include "AttrParse.h"
 #include "AByteArray.h"
 #include "RDirSrchSrv.h"
@@ -124,16 +125,16 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             ATTRIBUTE (attrparse, unsigned long, attribs, "Attr");
 
             attrparse.assignValues (argument);
-	 }
-	 catch (std::string& error) {
-	    handleArgError (sock, error);
-	    break;
-	 }
+         }
+         catch (std::string& error) {
+            handleArgError (sock, error);
+            break;
+         }
 
          TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find " << files.c_str ());
 
-	 if (files.empty ()) {
-	    sock.write ("RC=99;E=No file specified");
+         if (files.empty ()) {
+            sock.write ("RC=99;E=No file specified");
             break;
          }
 
@@ -146,7 +147,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          break;
 
       case CMD_CHECK: {                                    // Check passed data
-	 data[data.length () - 2] = '\0';
+         data[data.length () - 2] = '\0';
          std::string argument (data.data () + commands[i].len);
          TRACE9 ("RemoteDirSearchSrv::performCommands (int) - Checking "
                  << argument.c_str ());
@@ -155,10 +156,10 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          break;
 
       case CMD_END:                                        // End communication
-	 return 99;
+         return 99;
 
       case CMD_OPEN: {
-	 std::string file, mode;
+         std::string file, mode;
 
          try {
             AttributeParse attrparse;
@@ -166,21 +167,21 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             ATTRIBUTE (attrparse, std::string, mode, "Mode");
 
             attrparse.assignValues (data.data ());
-	 }
-	 catch (std::string& error) {
-	    handleArgError (sock, error);
-	    break;
-	 }
+         }
+         catch (std::string& error) {
+            handleArgError (sock, error);
+            break;
+         }
 
          pFile = fopen (file.c_str (), mode.c_str ());
          if (pFile) {
-	    std::string res ("RC=0;ID=1");
+            std::string res ("RC=0;ID=1");
             sock.write (res);
-	 }
+         }
          else
             writeError (sock, errno);
-	 }
-	 break;
+         }
+         break;
 
       case CMD_READ: {
          unsigned int id, length;
@@ -190,21 +191,22 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             ATTRIBUTE (attrparse, unsigned int, length, "Length");
 
             attrparse.assignValues (data.data ());
-	 }
-	 catch (std::string& error) {
-	    handleArgError (sock, error);
-	    break;
-	 }
+         }
+         catch (std::string& error) {
+            handleArgError (sock, error);
+            break;
+         }
 
-         char data[length + 12];
-         strcpy (data, "RC=0;Data=\"");
-
-         if (!fread (data + 11, 1, length, pFile)) {
-            data[length + 11] = '"';
-            sock.write (data, sizeof (data));
-	 }
-         else
+         char contents[length];
+         if (length = fread (contents, 1, length, pFile)) {
+            std::string send ("RC=0;");
+            send += AssignmentParse::makeAssignment ("Data", contents);
+            sock.write (send.data (), send.length ());
+         }
+         else {
+            assert (errno);
             writeError (sock, errno);
+         }
          }
 	 break;
 
@@ -216,21 +218,22 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 
             attrparse.assignValues (data.data ());
 	 }
-	 catch (std::string& error) {
-	    handleArgError (sock, error);
-	    break;
-	 }
+         catch (std::string& error) {
+            handleArgError (sock, error);
+            break;
+         }
 
          if (fclose (pFile))
             writeError (sock, errno);
          else
             sock.write ("RC=0", 4);
-	 }
-	 break;
+         pFile = NULL;
+         }
+         break;
 
       case CMD_WRITE:
          sock.write ("RC=99;E=Not yet implemented");
-	 break;
+         break;
 
       case CMD_ISEOF:
          unsigned int id;
@@ -239,14 +242,14 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             ATTRIBUTE (attrparse, unsigned int, id, "EOF");
 
             attrparse.assignValues (data.data ());
-	 }
-	 catch (std::string& error) {
-	    handleArgError (sock, error);
-	    break;
-	 }
+         }
+         catch (std::string& error) {
+            handleArgError (sock, error);
+            break;
+         }
 
          sock.write (feof (pFile) ? "RC=0" : "RC=1");
-	 break;
+         break;
 
       default:
 	 TRACE ("RemoteDirSearchSrv::performCommands (int) - Invalid command "
