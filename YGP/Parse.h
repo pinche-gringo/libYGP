@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.16 2000/03/04 18:11:09 Markus Exp $
+//$Id: Parse.h,v 1.17 2000/03/04 18:57:04 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ class ParseObject {
 #ifdef __GNUC__
    typedef _IO_ostream_withassign ostream_withassign;
 #else
-   class ostream_withassign;
+   typedef ::ostream_withassign   ostream_withassign;
 #endif
 
    static ostream_withassign& error;
@@ -499,11 +499,11 @@ class CBParseTextEsc : public ParseTextEsc {
 class CBParseExact : public ParseExact {
  public:
    // Manager-functions
-   CBParseExact (const char* value, const char* description, bool skipWhitespace = true) 
+   CBParseExact (const char* value, const char* description, bool skipWhitespace = true)
       : ParseExact (value, description, skipWhitespace)
       , pCallback (NULL) { }
    CBParseExact (const char* value, const char* description, PARSECALLBACK callback,
-                 bool skipWhitespace = true) 
+                 bool skipWhitespace = true)
       : ParseExact (value, description, skipWhitespace)
       , pCallback (callback) { assert (pCallback); }
    CBParseExact (const char* value, const char* description, PARSECALLBACK callback,
@@ -772,7 +772,7 @@ template <class T> class OFParseExact : public ParseExact {
  public:
    // Manager-functions
    OFParseExact (const char* value, const char* description, T& objToNotify,
-                 PTCALLBACK callback, bool skipWhitespace = true) 
+                 PTCALLBACK callback, bool skipWhitespace = true)
       : ParseExact (value, description, skipWhitespace)
       , object (objToNotify), pCallback (callback) { assert (pCallback); }
    OFParseExact (const char* value, const char* description, T& objToNotify,

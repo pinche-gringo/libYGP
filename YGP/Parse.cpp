@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.14 2000/02/02 22:11:21 Markus Exp $
+//$Id: Parse.cpp,v 1.15 2000/03/04 18:57:04 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -713,7 +713,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
             TRACE8 ("ParseSelection::doParse -> " << getDescription ()
                     << " exiting with rc = " << rc);
             break;
-	 } // endif
+         } // endif
 
          ++ppAct;
       } // end-while list-entries
@@ -984,4 +984,3 @@ int CBParseSelection::found (const char* pFoundValue) {
    assert (pCallback); assert (pFoundValue);
    return pCallback (pFoundValue);
 }
-
