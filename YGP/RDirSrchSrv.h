@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.10 2002/12/08 18:21:51 markus Rel $
+//$Id: RDirSrchSrv.h,v 1.11 2003/07/03 04:09:31 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,45 +18,47 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gzo-cfg.h>
+#include <string>
+#include <stdexcept>
 
+#include <File.h>
+#include <Socket.h>
 
-class AByteArray;
+/**Class to search for files in a certain directory
+   This is the server for the RemoteDirSearch-class
 
+   Supported commands are:
 
-// Class to search for files in a certain directory
-// This is the server for the RemoteDirSearch-class
-//
-// Supported commands are:
-//   -> Check="<file>"
-//   <- RC=0
-//
-//   -> Find="<file>;Attr=<attr>
-//   <- RC=0;File="<file>";Size=<size>;Time=<timestamp>;Attr=<attributes>
-//
-//   -> Next
-//   <- RC=0;File="<file>";Size=<size>;Time=<timestamp>;Attr=<attributes>
-//
-//   -> End
-//   <- RC=0
-//
-//   -> Open="<file>";Mode=<mode>
-//   <- RC=0;ID=<ID>
-//
-//   -> Read="<ID>;Length=<length>
-//   <- RC=0;Length=<length>;Data="<data>"
-//
-//   -> Write=<ID>;Length=<length>;Data="<data>"
-//   <- RC=0
-//
-//   -> EOF=<ID>
-//   <- RC=0
-//
-//   -> Close=<ID>
-//   <- RC=0
-//
-// Errors are reported in the following format:
-//   - RC=<status>[;E=<errortext>]
+     - -> <b>Check</b>="<<tt>file</tt>>"<br>
+       <- <b>RC</b>=0
+
+     - -> <b>Find</b>="<<tt>file</tt>>";<b>Attr</b>=<<tt>attr</tt>><br>
+       <- <b>RC</b>=0;<b>%File</b>="<<tt>file</tt>>";<b>Size</b>=<<tt>size</tt>><b>Time</b>=<<tt>timestamp</tt>><b>Attr</b>=<<tt>attributes</tt>>
+
+     - -> <b>Next</b><br>
+       <- <b>RC</b>=0;<b>%File</b>="<<tt>file</tt>>";<b>Size</b>=<<tt>size</tt>><b>Time</b>=<<tt>timestamp</tt>><b>Attr</b>=<<tt>attributes</tt>>
+
+     - -> <b>End</b><br>
+       <- <b>RC</b>=0
+
+     - -> <b>Open</b>="<<tt>file</tt>>";<b>Mode</b>=<<tt>mode</tt>><br>
+       <- <b>RC</b>=0;<b>ID</b>=<<tt>ID</tt>>
+
+     - -> <b>Read</b>="<<tt>ID</tt>>";<b>Length</b>=<<tt>length</tt>><br>
+       <- <b>RC</b>=0;<b>Length</b>=<<tt>length</tt>>;<b>Data</b>=<<tt>data</tt>>
+
+     - -> <b>Write</b>=<<tt>ID</tt>>;<b>Length</b>=<<tt>length</tt>>;<b>Data</b>="<<tt>data</tt>>"<br>
+       <- <b>RC</b>=0
+
+     - -> <b>EOF</b>=<<tt>ID</tt>><br>
+       <- <b>RC</b>=0
+
+     - -> <b>Close</b>=<<tt>ID</tt>><br>
+       <- <b>RC</b>=0
+
+   Errors are reported in the following format:
+     - <b>RC</b>=<<tt>status</tt>>[;<b>E</b>=<<tt>errortext</tt>>]
+*/
 class RemoteDirSearchSrv {
  public:
    //@Section manager-functions
