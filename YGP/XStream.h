@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.14 2003/02/13 07:20:44 markus Exp $
+// $Id: XStream.h,v 1.15 2003/02/21 19:41:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,23 +49,11 @@ template <class T> struct extStream : private extStreambuf, public T {
    // Manager-functions
    extStream () : extStreambuf (), T (), oldBuf (NULL) { }
    extStream (const T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
-   ~extStream () {
-#ifdef _MSC_VER
-      typedef std::ios sios;
-      sios::rdbuf (oldBuf);
-#else
-      std::ios::rdbuf (oldBuf);
-#endif
-   }
+   ~extStream () { sios::rdbuf (oldBuf); }
 
    void init () {
       setSource (oldBuf = rdbuf ());
-#ifdef _MSC_VER
-      typedef std::ios sios;
       sios::rdbuf (this);
-#else
-      std::ios::rdbuf (this);
-#endif
    }
 
    // Accessing values
@@ -78,6 +66,9 @@ template <class T> struct extStream : private extStreambuf, public T {
    const struct extStream& operator= (const extStream&);
 
    std::streambuf* oldBuf;
+
+   // Used this type to work around Visual C's problem with calling ios::rdbuf
+   typedef std::ios sios;
 };
 
 typedef extStream<std::istream> Xistream;
