@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.48 2004/11/14 21:18:52 markus Rel $
+//$Id: ANumeric.cpp,v 1.49 2005/03/21 17:17:54 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -124,7 +124,7 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
       char* pTail = NULL;
       errno = 0;
       value = strtol (unformatted.c_str (), &pTail, 0);
-      if (errno || (pTail && *pTail))
+      if (errno || (pTail && *pTail && !isspace (*pTail)))
 #endif
 	 {
 	    std::string e =  (_("No number: %1"));
