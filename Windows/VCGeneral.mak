@@ -1,12 +1,13 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on VCGeneral.dsp
 !IF "$(CFG)" == ""
 CFG=Debug
-!MESSAGE Keine Konfiguration angegeben. VCGeneral - Win32 Debug wird als Standard verwendet.
+!MESSAGE Keine Konfiguration angegeben. Debug wird als Standard verwendet.
 !ENDIF
 
+# Custom variables for installation - change to your setup
 DEST_INCLUDE=..\..\Include
 DEST_LIB=..\..\Lib
-DEST_DLL=..\..\..\Programme\Utilities
+DEST_DLL=..\..\Programme\Utilities
 
 !IF "$(CFG)" != "Release" && "$(CFG)" != "Debug"
 !MESSAGE UngÅltige Konfiguration "$(CFG)" angegeben.
@@ -29,98 +30,6 @@ NULL=
 NULL=nul
 !ENDIF
 
-!IF  "$(CFG)" == "Release"
-
-OUTDIR=.\Release
-INTDIR=.\Release
-# Begin Custom Macros
-OutDir=.\Release
-# End Custom Macros
-
-ALL : "$(OUTDIR)\VCGeneral.dll"
-
-
-CLEAN :
-	-@erase "$(INTDIR)\ADate.obj"
-	-@erase "$(INTDIR)\ANumeric.obj"
-	-@erase "$(INTDIR)\AssParse.obj"
-	-@erase "$(INTDIR)\ATime.obj"
-	-@erase "$(INTDIR)\ATStamp.obj"
-	-@erase "$(INTDIR)\AttrParse.obj"
-	-@erase "$(INTDIR)\Check.obj"
-	-@erase "$(INTDIR)\CRegExp.obj"
-	-@erase "$(INTDIR)\DirSrch.obj"
-	-@erase "$(INTDIR)\Entity.obj"
-	-@erase "$(INTDIR)\File.obj"
-	-@erase "$(INTDIR)\FileRExp.obj"
-	-@erase "$(INTDIR)\Handle.obj"
-	-@erase "$(INTDIR)\IDirSrch.obj"
-	-@erase "$(INTDIR)\INIFile.obj"
-	-@erase "$(INTDIR)\IVIOAppl.obj"
-	-@erase "$(INTDIR)\Parse.obj"
-	-@erase "$(INTDIR)\PathDirSrch.obj"
-	-@erase "$(INTDIR)\PathSrch.obj"
-	-@erase "$(INTDIR)\RDirSrch.obj"
-	-@erase "$(INTDIR)\RDirSrchSrv.obj"
-	-@erase "$(INTDIR)\RemoteFile.obj"
-	-@erase "$(INTDIR)\Socket.obj"
-	-@erase "$(INTDIR)\StackTrc.obj"
-	-@erase "$(INTDIR)\Thread.obj"
-	-@erase "$(INTDIR)\Tokenize.obj"
-	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(INTDIR)\Version.obj"
-	-@erase "$(INTDIR)\XDirSrch.obj"
-	-@erase "$(INTDIR)\XStrBuf.obj"
-	-@erase "$(INTDIR)\Process.obj"
-	-@erase "$(OUTDIR)\VCGeneral.dll"
-	-@erase "$(OUTDIR)\VCGeneral.exp"
-	-@erase "$(OUTDIR)\VCGeneral.lib"
-
-"$(OUTDIR)" :
-    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
-
-CPP=cl.exe
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /I ".." /I "../Windows" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-MTL=midl.exe
-MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
-RSC=rc.exe
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
-BSC32_SBRS= \
-
-LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386 /def:"$(OUTDIR)\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib"
 DEF_FILE= \
         "$(OUTDIR)\VCGeneral.def"
 LINK32_OBJS= \
@@ -155,10 +64,38 @@ LINK32_OBJS= \
         "$(INTDIR)\XDirSrch.obj" \
 	"$(INTDIR)\Process.obj"
 
-"$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
-    $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
+CPP=cl.exe
+MTL=midl.exe
+RSC=rc.exe
+BSC32=bscmake.exe
+LINK32=link.exe
+LIB=lib.exe
+
+.c{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $<
 <<
+
+.cpp{$(INTDIR)}.obj::
+   $(CPP) @<<
+   $(CPP_PROJ) $<
+<<
+
+
+!IF  "$(CFG)" == "Release"
+
+OUTDIR=.\Release
+INTDIR=.\Release
+# Begin Custom Macros
+OutDir=.\Release
+# End Custom Macros
+
+ALL : "$(OUTDIR)\VCGeneral.dll" "$(OUTDIR)\VCGenerals.lib"
+
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I. /I.. /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386
 
 !ELSEIF  "$(CFG)" == "Debug"
 
@@ -168,133 +105,24 @@ INTDIR=.\Debug
 OutDir=.\Debug
 # End Custom Macros
 
-ALL : "$(OUTDIR)\VCGeneral.dll"
+ALL : "$(OUTDIR)\VCGeneral.dll" "$(OUTDIR)\VCGenerals.lib"
 
-
-CLEAN :
-	-@erase "$(INTDIR)\ADate.obj"
-	-@erase "$(INTDIR)\ANumeric.obj"
-	-@erase "$(INTDIR)\AssParse.obj"
-	-@erase "$(INTDIR)\ATime.obj"
-	-@erase "$(INTDIR)\ATStamp.obj"
-	-@erase "$(INTDIR)\AttrParse.obj"
-	-@erase "$(INTDIR)\Check.obj"
-	-@erase "$(INTDIR)\CRegExp.obj"
-	-@erase "$(INTDIR)\DirSrch.obj"
-	-@erase "$(INTDIR)\Entity.obj"
-	-@erase "$(INTDIR)\File.obj"
-	-@erase "$(INTDIR)\FileRExp.obj"
-	-@erase "$(INTDIR)\Handle.obj"
-	-@erase "$(INTDIR)\IDirSrch.obj"
-	-@erase "$(INTDIR)\INIFile.obj"
-	-@erase "$(INTDIR)\IVIOAppl.obj"
-	-@erase "$(INTDIR)\Parse.obj"
-	-@erase "$(INTDIR)\PathDirSrch.obj"
-	-@erase "$(INTDIR)\PathSrch.obj"
-	-@erase "$(INTDIR)\RDirSrch.obj"
-	-@erase "$(INTDIR)\RDirSrchSrv.obj"
-	-@erase "$(INTDIR)\RemoteFile.obj"
-	-@erase "$(INTDIR)\Socket.obj"
-	-@erase "$(INTDIR)\StackTrc.obj"
-	-@erase "$(INTDIR)\Thread.obj"
-	-@erase "$(INTDIR)\Tokenize.obj"
-	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(INTDIR)\vc60.pdb"
-	-@erase "$(INTDIR)\Version.obj"
-	-@erase "$(INTDIR)\XDirSrch.obj"
-	-@erase "$(INTDIR)\XStrBuf.obj"
-	-@erase "$(INTDIR)\Process.obj"
-	-@erase "$(OUTDIR)\VCGeneral.dll"
-	-@erase "$(OUTDIR)\VCGeneral.exp"
-	-@erase "$(OUTDIR)\VCGeneral.ilk"
-	-@erase "$(OUTDIR)\VCGeneral.lib"
-	-@erase "$(OUTDIR)\VCGeneral.pdb"
-
-"$(OUTDIR)" :
-    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
-
-CPP=cl.exe
-CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I "." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I.. /I../Windows /c
-
-.c{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cpp{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cxx{$(INTDIR)}.obj::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.c{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cpp{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-.cxx{$(INTDIR)}.sbr::
-   $(CPP) @<<
-   $(CPP_PROJ) $<
-<<
-
-MTL=midl.exe
+CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I. /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I.. /c
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32
-RSC=rc.exe
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
-BSC32_SBRS= \
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /pdbtype:sept
 
-LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /dll /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /def:"$(OUTDIR)\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGeneral.lib" /pdbtype:sept
-DEF_FILE= \
-        "$(OUTDIR)\VCGeneral.def"
-LINK32_OBJS= \
-	"$(INTDIR)\ADate.obj" \
-	"$(INTDIR)\ANumeric.obj" \
-	"$(INTDIR)\AssParse.obj" \
-	"$(INTDIR)\ATime.obj" \
-	"$(INTDIR)\ATStamp.obj" \
-	"$(INTDIR)\AttrParse.obj" \
-	"$(INTDIR)\Check.obj" \
-	"$(INTDIR)\CRegExp.obj" \
-	"$(INTDIR)\DirSrch.obj" \
-	"$(INTDIR)\Entity.obj" \
-	"$(INTDIR)\File.obj" \
-	"$(INTDIR)\FileRExp.obj" \
-	"$(INTDIR)\Handle.obj" \
-	"$(INTDIR)\IDirSrch.obj" \
-	"$(INTDIR)\INIFile.obj" \
-	"$(INTDIR)\IVIOAppl.obj" \
-	"$(INTDIR)\Parse.obj" \
-	"$(INTDIR)\PathDirSrch.obj" \
-	"$(INTDIR)\PathSrch.obj" \
-	"$(INTDIR)\RDirSrch.obj" \
-	"$(INTDIR)\RDirSrchSrv.obj" \
-	"$(INTDIR)\RemoteFile.obj" \
-	"$(INTDIR)\Socket.obj" \
-	"$(INTDIR)\StackTrc.obj" \
-	"$(INTDIR)\Thread.obj" \
-	"$(INTDIR)\Tokenize.obj" \
-	"$(INTDIR)\Version.obj" \
-	"$(INTDIR)\XStrBuf.obj" \
-        "$(INTDIR)\XDirSrch.obj" \
-	"$(INTDIR)\Process.obj"
+!ENDIF
 
 "$(OUTDIR)\VCGeneral.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(LINK32_OBJS)
+  $(LINK32_FLAGS) $(LINK32_OBJS) /dll /def:"$(OUTDIR)\VCGeneral.def" /out:"$(OUTDIR)\VCGeneral.dll" /implib:"$(OUTDIR)\VCGenerald.lib"
 <<
 
-!ENDIF
+"$(OUTDIR)\VCGenerals.lib" : "$(OUTDIR)" $(LINK32_OBJS)
+    $(LIB) @<<
+  $(LINK32_OBJS) /out:"$(OUTDIR)\VCGenerals.lib"
+<<
+
 
 !IF "$(NO_EXTERNAL_DEPS)" != "1"
 !IF EXISTS("VCGeneral.dep")
@@ -498,11 +326,51 @@ $(OUTDIR)\VCGeneral.def: $(LINK32_OBJS)
         gawk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
 	Del Dumpbin.out
 
+CLEAN :
+	-@erase "$(INTDIR)\ADate.obj"
+	-@erase "$(INTDIR)\ANumeric.obj"
+	-@erase "$(INTDIR)\AssParse.obj"
+	-@erase "$(INTDIR)\ATime.obj"
+	-@erase "$(INTDIR)\ATStamp.obj"
+	-@erase "$(INTDIR)\AttrParse.obj"
+	-@erase "$(INTDIR)\Check.obj"
+	-@erase "$(INTDIR)\CRegExp.obj"
+	-@erase "$(INTDIR)\DirSrch.obj"
+	-@erase "$(INTDIR)\Entity.obj"
+	-@erase "$(INTDIR)\File.obj"
+	-@erase "$(INTDIR)\FileRExp.obj"
+	-@erase "$(INTDIR)\Handle.obj"
+	-@erase "$(INTDIR)\IDirSrch.obj"
+	-@erase "$(INTDIR)\INIFile.obj"
+	-@erase "$(INTDIR)\IVIOAppl.obj"
+	-@erase "$(INTDIR)\Parse.obj"
+	-@erase "$(INTDIR)\PathDirSrch.obj"
+	-@erase "$(INTDIR)\PathSrch.obj"
+	-@erase "$(INTDIR)\RDirSrch.obj"
+	-@erase "$(INTDIR)\RDirSrchSrv.obj"
+	-@erase "$(INTDIR)\RemoteFile.obj"
+	-@erase "$(INTDIR)\Socket.obj"
+	-@erase "$(INTDIR)\StackTrc.obj"
+	-@erase "$(INTDIR)\Thread.obj"
+	-@erase "$(INTDIR)\Tokenize.obj"
+	-@erase "$(INTDIR)\vc60.idb"
+	-@erase "$(INTDIR)\Version.obj"
+	-@erase "$(INTDIR)\XDirSrch.obj"
+	-@erase "$(INTDIR)\XStrBuf.obj"
+	-@erase "$(INTDIR)\Process.obj"
+	-@erase "$(OUTDIR)\VCGeneral.dll"
+	-@erase "$(OUTDIR)\VCGeneral.exp"
+	-@erase "$(OUTDIR)\VCGeneral.lib"
+
+"$(OUTDIR)" :
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
 check: ALL
 	nmake /f VCTests.mak check
 
 install: ALL
-        copy ..\YGP\*.h $(DEST_INCLUDE)
+        if not exist "$(DEST_INCLUDE)\YGP" mkdir "$(DEST_INCLUDE)\YGP"
+        copy ..\YGP\*.h $(DEST_INCLUDE)\YGP
         copy *.h $(DEST_INCLUDE)
         copy $(OUTDIR)\*.lib $(DEST_LIB)
         copy $(OUTDIR)\*.dll $(DEST_DLL)
