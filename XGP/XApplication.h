@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.2 2000/01/23 23:06:37 Markus Rel $
+//$Id: XApplication.h,v 1.3 2000/02/24 22:16:36 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,40 +25,53 @@
 
 
 // Forward declarations
-class Gtk_VBox;
-class Gtk_HBox;
-class Gtk_Label;
-class Gdk_Pixmap;
-class Gtk_Pixmap;
-class Gtk_AccelGroup;
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-class Gtk_MenuBar;
+namespace Gtk {
+   class Main;
+   class HBox;
+   class VBox;
+   class Label;
+   class Pixmap;
+   class MenuBar;
+   class AccelGroup;
+}
+
+using namespace Gtk;
+
 #else
-class Gtk_ItemFactory_MenuBar;
+
+typedef Gtk_Main                Main;
+typedef Gtk_VBox                VBox;
+typedef Gtk_HBox                HBox;
+typedef Gtk_Label               Label;
+typedef Gtk_Pixmap              Pixmap;
+typedef Gtk_AccelGroup          AccelGroup;
+typedef Gtk_ItemFactory_MenuBar ItemFactory_MenuBar;
+
 #endif
 
-definePtr (Gtk_HBox);
-definePtr (Gtk_VBox);
-definePtr (Gtk_Label);
-definePtr (Gtk_Pixmap);
-definePtr (Gtk_AccelGroup);
+typedef SmartPtr<HBox>           PHBox;
+typedef SmartPtr<VBox>           PVBox;
+typedef SmartPtr<Label>          PLabel;
+typedef SmartPtr<Pixmap>         PPixmap;
+typedef SmartPtr<AccelGroup>     PAccelGroup;
 
 
 // Baseclass for X-applications; it creates an application-window with a
 // client. The virtual method command is used to handle the commands defined
 // with the menus
-class XApplication : public Gtk_Window {
+class XApplication : public Window {
  public:
    // Manager functions
    XApplication (const char* pTitle);
-   ~XApplication () { }      // No need to be virtual. There´s only 1 instance
+   ~XApplication ();         // No need to be virtual. There´s only 1 instance
 
    // Events
    gint delete_event_impl (_GdkEventAny*) {
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-      Gtk_Main::instance()->quit ();
+      Main::quit ();
 #else
-      Gtk_Main::instance()->quit ();
+      Main::instance()->quit ();
 #endif
       return 0;
    }
@@ -72,27 +85,27 @@ class XApplication : public Gtk_Window {
       const string type;
    } MenuEntry;
 
-   Gtk_Widget* addMenu (const MenuEntry& menuEntry);
+   Widget* addMenu (const MenuEntry& menuEntry);
    void        addMenus (const MenuEntry menuEntryies[], int cMenus);
    virtual void command (int menu) = 0;
 
    // Protected data
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-   Gtk_MenuBar* pMenu;
+   MenuBar* pMenu;
 #else
-   Gtk_ItemFactory_MenuBar* pMenu;
+   ItemFactory_MenuBar* pMenu;
 #endif
-   PGtk_VBox                vboxClient;
+   PVBox                vboxClient;
 
  private:
    // Protected manager functions
    XApplication (const XApplication&);
    const XApplication& operator= (const XApplication&);
 
-   PGtk_AccelGroup accels;
+   PAccelGroup accels;
 
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-   Gtk_Menu* pLastMenu;
+   Menu* pLastMenu;
 #endif
 };
 
@@ -115,13 +128,13 @@ class XInfoApplication : public XApplication {
    XInfoApplication (const XInfoApplication&);
    const XInfoApplication& operator= (const XInfoApplication&);
 
-   PGtk_HBox  hboxTitle;
-   PGtk_VBox  vboxPrgInfo;
-   PGtk_Label txtProgramm;
-   PGtk_Label txtCopyright;
+   PHBox  hboxTitle;
+   PVBox  vboxPrgInfo;
+   PLabel txtProgramm;
+   PLabel txtCopyright;
 
-   PGtk_Pixmap iconPrg;
-   PGtk_Pixmap iconAuthor;
+   PPixmap iconPrg;
+   PPixmap iconAuthor;
 };
 
 #endif

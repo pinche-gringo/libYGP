@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.3 2000/01/23 23:06:37 Markus Rel $
+//$Id: XFileList.h,v 1.4 2000/02/24 22:16:36 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,10 +29,21 @@
 
 
 // Forward declarations
-class dirEntry;
-class Gtk_Pixmap;
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+namespace Gtk {
+   class Pixmap;
+}
 
-definePtr (Gtk_Pixmap);
+using namespace Gtk;
+
+#else 
+typedef Gtk_Pixmap      Pixmap;
+typedef Gtk_CList       CList;
+#endif
+
+class dirEntry;
+
+typedef SmartPtr<Pixmap> PPixmap;
 
 
 // Class for a (columned) list which holds files represented by an icon
@@ -40,11 +51,11 @@ definePtr (Gtk_Pixmap);
 // The icons of the files are loaded by default from all Icon.*-files in the
 // package-data-directory; user-specified can be added to or overridden from
 // this list.
-class XFileList : public Gtk_CList {
+class XFileList : public CList {
  public:
    XFileList (int columns, const gchar *titles[] = 0)
-     : Gtk_CList (columns, titles) { }
-   XFileList (GtkCList *castitem) : Gtk_CList (castitem) { }
+     : CList (columns, titles) { }
+   XFileList (GtkCList *castitem) : CList (castitem) { }
    virtual ~XFileList ();
 
    unsigned int loadIcons (const char* path, const char* files);
@@ -70,11 +81,11 @@ class XFileList : public Gtk_CList {
    static const char* iconDefault[];
    static const char* iconExecuteable[];
 
-   static PGtk_Pixmap iconDir;
-   static PGtk_Pixmap iconDef;
-   static PGtk_Pixmap iconExe;
+   static PPixmap iconDir;
+   static PPixmap iconDef;
+   static PPixmap iconExe;
 
-   map<string, Gtk_Pixmap*> icons;
+   map<string, Pixmap*> icons;
 };
 
 #endif

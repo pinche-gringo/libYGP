@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.1 1999/11/13 01:18:07 Markus Rel $
+//$Id: XDate.h,v 1.2 2000/02/24 22:16:36 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,19 +30,31 @@ class string;
 // Forward declarations
 class ATimestamp;
 
-class Gtk_HBox;
-class Gtk_Button;
-class Gtk_Adjustment;
-class Gtk_SpinButton;
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+namespace Gtk {
+   class HBox;
+   class Button;
+   class Adjustment;
+   class SpinButton;
+}
+using namespace Gtk;
 
-definePtr (Gtk_HBox);
-definePtr (Gtk_Button);
-definePtr (Gtk_SpinButton);
-definePtr (Gtk_Adjustment);
+#else
+typedef Gtk_HBox              HBox;
+typedef Gtk_Button            Button;
+typedef Gtk_Dialog            Dialog;
+typedef Gtk_Adjustment        Adjustment;
+typedef Gtk_SpinButton        SpinButton;
+#endif
+
+typedef SmartPtr<HBox>        PHBox;
+typedef SmartPtr<Button>      PButton;
+typedef SmartPtr<SpinButton>  PSpinButton;
+typedef SmartPtr<Adjustment>  PAdjustment;
 
 
 // Class to enter a date.
-class XDate : public Gtk_Dialog {
+class XDate : public Dialog {
  public:
    XDate (const string& title, ATimestamp& date,
           int showFields = SHOW_ALL);
@@ -63,24 +75,24 @@ class XDate : public Gtk_Dialog {
 
    void command (commands);
 
-   PGtk_Button ok;
-   PGtk_Button cancel;
+   PButton ok;
+   PButton cancel;
 
-   PGtk_HBox   client;
+   PHBox   client;
 
-   PGtk_Adjustment adjDay;
-   PGtk_SpinButton spinDay;
-   PGtk_Adjustment adjMonth;
-   PGtk_SpinButton spinMonth;
-   PGtk_Adjustment adjYear;
-   PGtk_SpinButton spinYear;
+   PAdjustment adjDay;
+   PSpinButton spinDay;
+   PAdjustment adjMonth;
+   PSpinButton spinMonth;
+   PAdjustment adjYear;
+   PSpinButton spinYear;
 
-   PGtk_Adjustment adjHour;
-   PGtk_SpinButton spinHour;
-   PGtk_Adjustment adjMinute;
-   PGtk_SpinButton spinMinute;
-   PGtk_Adjustment adjSecond;
-   PGtk_SpinButton spinSecond;
+   PAdjustment adjHour;
+   PSpinButton spinHour;
+   PAdjustment adjMinute;
+   PSpinButton spinMinute;
+   PAdjustment adjSecond;
+   PSpinButton spinSecond;
 
    ATimestamp& result;
 };

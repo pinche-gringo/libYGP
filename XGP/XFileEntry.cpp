@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.1 1999/11/13 01:18:07 Markus Rel $
+//$Id: XFileEntry.cpp,v 1.2 2000/02/24 22:16:35 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,7 +26,7 @@
 
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "XFileEntry.h"
 
@@ -37,7 +37,7 @@
 /*--------------------------------------------------------------------------*/
 gint XFileEntry::key_press_event_impl (GdkEventKey* ev) {
    assert (ev);
-   gint rc (Gtk_Entry::key_press_event_impl (ev));
+   gint rc (Entry::key_press_event_impl (ev));
 
    TRACE5 ("XFileEntry::key_press_event_impl: Input: " << ev->keyval);
 

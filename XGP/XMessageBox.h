@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.2 2000/02/22 18:45:52 Markus Exp $
+//$Id: XMessageBox.h,v 1.3 2000/02/24 22:16:36 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,10 +27,14 @@
 
 // Forward declarations
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+namespace Gtk {
+   class HBox;
+   class Label;
+   class Pixmap;
+   class Button;
+}
+   
 using namespace Gtk;
-
-class Pixmap;
-class Button;
 
 #else 
 typedef Gtk_HBox        HBox;

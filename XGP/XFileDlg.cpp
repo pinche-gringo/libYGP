@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.3 1999/12/19 13:48:58 Markus Rel $
+//$Id: XFileDlg.cpp,v 1.4 2000/02/24 22:16:35 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -29,7 +29,7 @@
 #include <string>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 #include "Check.h"
 
 #include "XFileDlg.h"
@@ -39,13 +39,13 @@
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; connects the controls with methods
 //Parameters: title: Title of dialog
-//            pNotify: Gtk_Object to notify of selected file
+//            pNotify: Object to notify of selected file
 //            callback: Method of pNotify to call after file is selected
 //            dlgOption: Checks to perform after OK-event
 /*--------------------------------------------------------------------------*/
-XFileDialog::XFileDialog (const string& title, Gtk_Object* pNotify,
+XFileDialog::XFileDialog (const string& title, Object* pNotify,
                           const PACTION callback, option dlgOption)
-   : Gtk_FileSelection (title), pCaller (pNotify), callerMethod (callback)
+   : FileSelection (title), pCaller (pNotify), callerMethod (callback)
    , opt (dlgOption) {
    TRACE9 ("XFileDialog::XFileDialog (title)");
    Check3 (pCaller); Check3 (callerMethod);
@@ -56,13 +56,13 @@ XFileDialog::XFileDialog (const string& title, Gtk_Object* pNotify,
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; connects the controls with methods
 //Parameters: title: Title of dialog
-//            pNotify: Gtk_Object to notify of selected file
+//            pNotify: Object to notify of selected file
 //            callback: Method of pNotify to call after file is selected
 //            dlgOption: Checks to perform after OK-event
 /*--------------------------------------------------------------------------*/
-XFileDialog::XFileDialog (GtkFileSelection* castitem, Gtk_Object* pNotify,
+XFileDialog::XFileDialog (GtkFileSelection* castitem, Object* pNotify,
                           const PACTION callback, option dlgOption)
-   : Gtk_FileSelection (castitem), pCaller (pNotify), callerMethod (callback)
+   : FileSelection (castitem), pCaller (pNotify), callerMethod (callback)
    , opt (dlgOption) {
    TRACE9 ("XFileDialog::XFileDialog (castitem)");
    Check3 (pCaller); Check3 (callerMethod);

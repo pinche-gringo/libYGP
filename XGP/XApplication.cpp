@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.2 2000/01/23 23:06:37 Markus Rel $
+//$Id: XApplication.cpp,v 1.3 2000/02/24 22:16:35 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -31,16 +31,17 @@
 #include <gtk--/label.h>
 #include <gtk--/pixmap.h>
 #include <gtk--/accelgroup.h>
+
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-#include <gtk--/menubar.h>
-#include <gtk--/menu.h>
-#include <gtk--/radiomenuitem.h>
+#  include <gtk--/menubar.h>
+#  include <gtk--/menu.h>
+#  include <gtk--/radiomenuitem.h>
 #else
-#include <gtk--/itemfactory.h>
+#  include <gtk--/itemfactory.h>
 #endif
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "XApplication.h"
 
@@ -50,11 +51,11 @@
 //Parameters: pTitle: Pointer to title
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
-   : vboxClient (new Gtk_VBox ())
+   : vboxClient (new VBox ())
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-   , accels (Gtk_AccelGroup::create ()), pLastMenu (NULL)
+   , accels (AccelGroup::create ()), pLastMenu (NULL)
 #else
-  , accels (new Gtk_AccelGroup)
+  , accels (new AccelGroup)
 #endif
 {
    TRACE9 ("XApplication::XApplication");
@@ -68,15 +69,15 @@ XApplication::XApplication (const char* pTitle)
    add (*vboxClient);
 
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-   pMenu = new Gtk_MenuBar (); Check3 (pMenu);
+   pMenu = new MenuBar (); Check3 (pMenu);
 
    pMenu->show ();
    vboxClient->pack_start (*pMenu, false);
 #else
    // pMenu needs an accelerator-group -> Create at end
-   pMenu = new Gtk_ItemFactory_MenuBar ("<Main>", *accels); Check3 (pMenu);
+   pMenu = new ItemFactory_MenuBar ("<Main>", *accels); Check3 (pMenu);
 
-   Gtk_ObjectHandle<Gtk_MenuBar> menubar (pMenu->get_menubar_widget (""));
+   ObjectHandle<MenuBar> menubar (pMenu->get_menubar_widget (""));
    Check3 (menubar.get_object ());
    menubar->show ();
 
@@ -86,18 +87,24 @@ XApplication::XApplication (const char* pTitle)
    add_accel_group (*accels);
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+XApplication::~XApplication () {
+}
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds one menuentry
 //Parameters: menuEntry: Entry to add
 /*--------------------------------------------------------------------------*/
-Gtk_Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
+Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    TRACE1 ("XApplication::addMenu: " << menuEntry.path);
    Check3 (pMenu);
 
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
    Check3 (accels);
-   using namespace Gtk_Menu_Helpers;
+   using namespace Menu_Helpers;
 
    string menu (menuEntry.path.substr (menuEntry.path.find_last_of ('/') + 1));
    char chType (menuEntry.type.empty () ? 'I' : menuEntry.type[1]);
@@ -110,23 +117,12 @@ Gtk_Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    case 'C':
       Check3 (pLastMenu);
       if (chType == 'I')
-         pItem = new MenuElem (menu, accels,
+         pItem = new MenuElem (menu, menuEntry.accel,
 			       bind (slot (this, &command), menuEntry.id));
       else {
-         pItem = new CheckMenuElem (menu, accels,
+         pItem = new CheckMenuElem (menu, menuEntry.accel,
 				    bind (slot (this, &command), menuEntry.id));
-         ((Gtk_CheckMenuItem*)pItem->get_child ())->set_show_toggle (true);
-      } // endif
-
-      if (!menuEntry.accel.empty ()) {
-	 TRACE3 ("XApplication::addMenu -> Accelerator = " << menuEntry.accel);
-
-	 guint           keyAccel;
-	 GdkModifierType modAccel;
-	 gtk_accelerator_parse (menuEntry.accel.c_str (), &keyAccel, &modAccel);
-	 pItem->get_child ()->add_accelerator
-	    ("activate", *accels, keyAccel, modAccel,
-	     GtkAccelFlags(GTK_ACCEL_VISIBLE | GTK_ACCEL_SIGNAL_VISIBLE));
+         ((CheckMenuItem*)pItem->get_child ())->set_show_toggle (true);
       } // endif
       break;
 
@@ -137,11 +133,10 @@ Gtk_Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
 
    case 'B':
    case 'L': {
-      pLastMenu = new Gtk_Menu (); Check3 (pLastMenu);
-      MenuElem* pElem (new MenuElem (menu, accels, NULL, GDK_MOD1_MASK));
-      pElem->set_submenu (*pLastMenu);
+      pLastMenu = new Menu (); Check3 (pLastMenu);
+      MenuElem* pElem (new MenuElem (menu, menuEntry.accel, *pLastMenu));
       if (chType == 'L')
-         pElem->right_justify ();
+         pElem->get_child ()->right_justify ();
 
       Check3 (pMenu);
       pMenu->items ().push_back (*pElem);
@@ -189,9 +184,9 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
 /*--------------------------------------------------------------------------*/
 XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
                                     const char* pCopyright)
-   : XApplication (pTitle), hboxTitle (new Gtk_HBox)
-   , vboxPrgInfo (new Gtk_VBox), txtProgramm (new Gtk_Label (pPrgInfo))
-   , txtCopyright (new Gtk_Label (pCopyright)) {
+   : XApplication (pTitle), hboxTitle (new HBox)
+   , vboxPrgInfo (new VBox), txtProgramm (new Label (pPrgInfo))
+   , txtCopyright (new Label (pCopyright)) {
    TRACE9 ("XInfoApplication::XInfoApplication");
    Check3 (pPrgInfo); Check3 (pCopyright);
 
@@ -215,10 +210,12 @@ XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
 /*--------------------------------------------------------------------------*/
 void XInfoApplication::setIconProgram (Gdk_Pixmap& picProgram) {
    TRACE9 ("XInfoApplication::setIconProgram");
+   if (iconPrg)
+      return;
 
    Check3 (hboxTitle);
 
-   iconPrg = new Gtk_Pixmap (picProgram, Gdk_Bitmap ()); Check3 (iconPrg);
+   iconPrg = new Pixmap (picProgram, Gdk_Bitmap ()); Check3 (iconPrg);
 
    iconPrg->show ();
    hboxTitle->pack_start (*iconPrg, false, false, 5);
@@ -230,10 +227,12 @@ void XInfoApplication::setIconProgram (Gdk_Pixmap& picProgram) {
 /*--------------------------------------------------------------------------*/
 void XInfoApplication::setIconAuthor (Gdk_Pixmap& picAuthor) {
    TRACE9 ("XInfoApplication::setIconAuthor");
+   if (iconAuthor)
+      return;
 
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
-   iconAuthor = new Gtk_Pixmap (picAuthor, Gdk_Bitmap ()); Check3 (iconAuthor);
+   iconAuthor = new Pixmap (picAuthor, Gdk_Bitmap ()); Check3 (iconAuthor);
 
    iconAuthor->show ();
    hboxTitle->pack_end (*iconAuthor, false, false, 5);

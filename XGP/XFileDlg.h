@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.3 1999/12/19 13:48:58 Markus Rel $
+//$Id: XFileDlg.h,v 1.4 2000/02/24 22:16:36 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,21 +24,28 @@ class string
 
 #include <gtk--/fileselection.h>
 
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+using namespace Gtk;
+
+#else
+typedef Gtk_FileSelection  FileSelection;
+#endif
+
 
 // Class to select file(s) to in- or exclude; files can either entered or
 // selected
-class XFileDialog : public Gtk_FileSelection {
+class XFileDialog : public FileSelection {
  public:
-   typedef void (Gtk_Object::*PACTION)(const string&);
+   typedef void (Object::*PACTION)(const string&);
    typedef enum { NONE, ASK_OVERWRITE, MUST_EXIST } option;
 
-   XFileDialog (const string& title, Gtk_Object* pNotify,
+   XFileDialog (const string& title, Object* pNotify,
                 const PACTION callback, option dlgOption = NONE);
-   XFileDialog (GtkFileSelection* castitem, Gtk_Object* pNotify,
+   XFileDialog (GtkFileSelection* castitem, Object* pNotify,
                 const PACTION callback, option dlgOption = NONE);
    ~XFileDialog ();
 
-   static XFileDialog* perform (const string& title, Gtk_Object* pNotify,
+   static XFileDialog* perform (const string& title, Object* pNotify,
 				const PACTION callback, option dlgOption = NONE) {
       return new XFileDialog (title, pNotify, callback, dlgOption); }
 
@@ -62,7 +69,7 @@ class XFileDialog : public Gtk_FileSelection {
       show (); }
 
    option        opt;
-   Gtk_Object*   pCaller;
+   Object*       pCaller;
    const PACTION callerMethod;
 };
 

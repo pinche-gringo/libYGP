@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.2 1999/12/19 13:47:35 Markus Rel $
+//$Id: XPrintDlg.cpp,v 1.3 2000/02/24 22:16:35 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -31,7 +31,7 @@
 #include <fstream.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 #include "Check.h"
 
 #include <gtk--/box.h>
@@ -45,14 +45,14 @@
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; connects the controls with methods
-//Parameters: pNotify: Gtk_Object to notify of selected file
+//Parameters: pNotify: Object to notify of selected file
 //            callback: Method of pNotify to call after file is selected
 /*--------------------------------------------------------------------------*/
-XPrintDialog::XPrintDialog (Gtk_Object* pNotify, const PACTION callback)
-   : Gtk_Dialog (), pCaller (pNotify), callerMethod (callback)
-   , ok (new Gtk_Button ("OK")), cancel (new Gtk_Button ("Cancel"))
-   , lblCommand (new Gtk_Label ("Print command: "))
-   , txtCommand (new Gtk_Entry ()), boxCommand (new Gtk_HBox ()) {
+XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
+   : Dialog (), pCaller (pNotify), callerMethod (callback)
+   , ok (new Button ("OK")), cancel (new Button ("Cancel"))
+   , lblCommand (new Label ("Print command: "))
+   , txtCommand (new Entry ()), boxCommand (new HBox ()) {
    TRACE9 ("XPrintDialog::XPrintDialog (title) '" << title << '\'');
    Check3 (pCaller); Check3 (callerMethod);
 
@@ -63,15 +63,15 @@ XPrintDialog::XPrintDialog (Gtk_Object* pNotify, const PACTION callback)
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; connects the controls with methods
 //Parameters: title: Title of dialog
-//            pNotify: Gtk_Object to notify of selected file
+//            pNotify: Object to notify of selected file
 //            callback: Method of pNotify to call after file is selected
 /*--------------------------------------------------------------------------*/
-XPrintDialog::XPrintDialog (GtkDialog* castitem, Gtk_Object* pNotify,
+XPrintDialog::XPrintDialog (GtkDialog* castitem, Object* pNotify,
                             const PACTION callback)
-   : Gtk_Dialog (castitem), pCaller (pNotify), callerMethod (callback)
-   , ok (new Gtk_Button ("OK")), cancel (new Gtk_Button ("Cancel"))
-   , lblCommand (new Gtk_Label ("Print command: "))
-   , txtCommand (new Gtk_Entry ()), boxCommand (new Gtk_HBox ()) {
+   : Dialog (castitem), pCaller (pNotify), callerMethod (callback)
+   , ok (new Button ("OK")), cancel (new Button ("Cancel"))
+   , lblCommand (new Label ("Print command: "))
+   , txtCommand (new Entry ()), boxCommand (new HBox ()) {
    TRACE9 ("XPrintDialog::XPrintDialog (castitem)");
    Check3 (pCaller); Check3 (callerMethod);
 

@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.3 1999/12/19 13:47:35 Markus Rel $
+//$Id: XMessageBox.cpp,v 1.4 2000/02/24 22:16:35 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -31,7 +31,7 @@
 #include <gtk--/pixmap.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "XMessageBox.h"
 
@@ -413,7 +413,7 @@ static const char* iconError[] = {
 /*--------------------------------------------------------------------------*/
 XMessageBox::XMessageBox (const string& text, const string& title,
                           int flags, unsigned int defButton)
-   : parent (), txt (new Gtk_Label (text)), client (new Gtk_HBox ())
+   : Dialog (), txt (new Label (text)), client (new HBox ())
    , ret (CANCEL) {
    assert (txt); assert (client);
 
@@ -436,9 +436,9 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    assert (icons[flags & TYPEMASK]);
 
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-   icon = new Gtk_Pixmap (icons[flags & TYPEMASK]); assert (icon);
+   icon = new Pixmap (icons[flags & TYPEMASK]); assert (icon);
 #else
-   icon = new Gtk_Pixmap (*client, icons[flags & TYPEMASK]); assert (icon);
+   icon = new Pixmap (*client, icons[flags & TYPEMASK]); assert (icon);
 #endif
    icon->show (); assert (icon->is_visible ());
    client->pack_start (*icon, false, false, 5);
@@ -453,7 +453,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
       if (flags & (1 << (i + 4))) {
          TRACE5 ("XMessageBox::XMessageBox - Add Button " << labels[i]);
 
-         Gtk_Button* temp (new Gtk_Button (labels[i]));       // Create button
+         Button* temp (new Button (labels[i]));       // Create button
          temp->show ();
 
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
@@ -476,7 +476,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    client->show ();
    get_vbox ()->pack_start (*client, true, false, 5);
 
-   parent::show ();
+   Dialog::show ();
    set_modal (true);
 }
 
@@ -486,10 +486,10 @@ XMessageBox::XMessageBox (const string& text, const string& title,
 XMessageBox::~XMessageBox () {
    TRACE9 ("XMessageBox::~XMessageBox");
 
-   for (vector<Gtk_Button*>::iterator i (buttons.begin ());
+   for (vector<Button*>::iterator i (buttons.begin ());
         i != buttons.end (); ++i)
       delete *i;
-   parent::hide ();
+   Dialog::hide ();
 
    TRACE5 ("XMessageBox::~XMessageBox - returning " << ret);
 }

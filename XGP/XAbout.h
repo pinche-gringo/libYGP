@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.3 2000/02/22 18:45:52 Markus Exp $
+//$Id: XAbout.h,v 1.4 2000/02/24 22:16:35 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,13 @@ class string
 
 // Forward declarations
 #if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+namespace Gtk {
+   class HBox;
+   class Label;
+   class Button;
+   class Pixmap;
+}
+
 using namespace Gtk;
 
 #else 
