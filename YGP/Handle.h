@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.5 2002/03/23 20:44:38 markus Rel $
+// $Id: Handle.h,v 1.6 2002/11/30 05:59:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,14 +19,18 @@
 
 
 #include <stdio.h>
-#include <assert.h>
 
+#include <Check.h>
 #include <AttrVal.h>
 #include <SmartPtr.h>
 
 
 // Smart-pointer-class with reference-counting; base-class for type-safe
 // classes (defined with template at end of file)
+//
+// The object is freed if there are no more references to it
+//
+// As every attribute, handles can be undefined (equivalent to NULL pointers).
 class IHandle : public AttributValue {
  public:
    // Manager functions
@@ -52,7 +56,11 @@ class IHandle : public AttributValue {
 };
 
 
-// Class for reference-couting
+// Object-pointer with reference-counter.
+//
+// The class gives the opportunity to link and unlink to and from an
+// object. If no more object is linked, the object destroys itself and the
+// referenced object.
 template <class T> class RefCount {
  public:
    // Manager-functions
@@ -61,7 +69,7 @@ template <class T> class RefCount {
 
    // Connecting other references
    void link () { ++count; }
-   void unlink () { assert (count); if (!--count) delete this; }
+   void unlink () { Check2 (count); if (!--count) delete this; }
 
    SmartPtr<T> pValue;
 
@@ -75,6 +83,14 @@ template <class T> class RefCount {
 
 
 // Type-safe versions of IHandle (smart pointer with reference-counting)
+//
+// The object is freed if there are no more references to it
+//
+// The macro defineHndl(class) can be used to create a type for
+// the handle (defined as typedef Handle<class> H##class; defineHndl
+// (string) would create a typedef Hstring).
+//
+// As every attribute, handles can be undefined (equivalent to NULL pointers).
 template <class T> class Handle : public IHandle {
  public:
    // Manager functions
@@ -82,7 +98,7 @@ template <class T> class Handle : public IHandle {
    Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { setDefined (); }
    Handle (const Handle& other) : IHandle (other), pData (other.pData) { 
       if (isDefined ()) link ();
-      assert (isDefined () ? pData != NULL : pData == NULL); }
+      Check2 (isDefined () ? pData != NULL : pData == NULL); }
    ~Handle () { if (isDefined ()) unlink (); }
 
    Handle& operator= (const Handle& other) {
@@ -98,8 +114,8 @@ template <class T> class Handle : public IHandle {
  protected:
    // Interface to RefCount
    virtual void create (void* pValue) { pData = new RefCount<T> ((T*)pValue); }
-   virtual void link () { assert (pData); pData->link (); }
-   virtual void unlink () { assert (pData); pData->unlink (); }
+   virtual void link () { Check2 (pData); pData->link (); }
+   virtual void unlink () { Check2 (pData); pData->unlink (); }
    virtual void* getValue () const { return pData; }
    virtual void assignValue (void* pValue) { pData = (RefCount<T>*)pValue; }
   
