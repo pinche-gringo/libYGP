@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: IVIOAppl.h,v 1.2 1999/08/10 16:27:41 Markus Exp $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -41,8 +41,9 @@ class IVIOApplication {
 
    // Program-handling
    virtual int         perform (int argc, char* argv[]) = 0;
-   virtual const char* name () const = 0;
+   virtual const char* name () const { return filename (); }
    virtual const char* description () const = 0;
+   const char* filename () const { return *ppArgs; }
 
    // Help-handling
    virtual bool shallShowInfo () const { return true; }
