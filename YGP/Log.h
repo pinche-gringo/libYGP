@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.1 2000/12/03 15:06:42 Markus Exp $
+//$Id: Log.h,v 1.2 2000/12/07 20:43:43 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,15 +21,18 @@
 #include <assert.h>
 
 #ifdef UNIX
-#include <syslog.h>
 
-#define LOGALERT(stream)     syslog (LOG_ALERT, "%s", stream);
-#define LOGCRITICAL(stream)  syslog (LOG_CRIT, "%s", stream);
-#define LOGERROR(stream)     syslog (LOG_ERR, "%s", stream);
-#define LOGWARNING(stream)   syslog (LOG_WARNING, "%s", stream);
-#define LOGNOTICE(stream)    syslog (LOG_NOTICE, "%s", stream);
-#define LOGINFO(stream)      syslog (LOG_INFO, "%s", stream);
-#define LOGDEBUG(stream)     syslog (LOG_DEBUG, "%s", stream);
+#define LOGALERT(text)     syslog (Syslog::ALERT, "%s", text);
+#define LOGCRITICAL(text)  syslog (Syslog::CRIT, "%s", text);
+#define LOGERROR(text)     syslog (Syslog::ERR, "%s", text);
+#define LOGWARNING(text)   syslog (Syslog::WARNING, "%s", text);
+#define LOGNOTICE(text)    syslog (Syslog::NOTICE, "%s", text);
+#define LOGINFO(text)      syslog (Syslog::INFO, "%s", text);
+#define LOGDEBUG(text)     syslog (Syslog::DEBUGGING, "%s", text);
+
+#define LOG                syslog
+
+#include <syslog.h>
 
 class Syslog {
  public:
@@ -38,6 +41,10 @@ class Syslog {
    Syslog (const char* appl, int facility) { assert (appl);
       openlog (appl, LOG_PID | LOG_CONS, facility); }
    ~Syslog () { closelog (); }
+
+   enum { ALERT = LOG_ALERT, CRITICAL = LOG_CRIT, ERROR = LOG_ERR,
+          WARNING = LOG_WARNING, NOTICE = LOG_NOTICE, INFO = LOG_INFO,
+          DEBUGGING = LOG_DEBUG };
 };
 
 #endif // UNIX
