@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.4 2002/08/20 05:19:17 markus Exp $
+//$Id: PathSrch.cpp,v 1.5 2002/11/04 00:55:12 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -78,7 +78,7 @@ std::string PathSearch::expandNode (const std::string& input) {
    } // endfor
 
    std::string ret (input);
-   if (i == 1) {                // No name after 
+   if (i == 1) {                // No name after
 #if SYSTEM == UNIX
       const char* user = getenv ("HOME");
       if (user)
@@ -97,8 +97,8 @@ std::string PathSearch::expandNode (const std::string& input) {
          ret.replace (i, 0, env);
 #endif
    }
-   else {
 #if SYSTEM == UNIX
+   else {
       std::string user (input.substr (1, i));
       TRACE5 ("PathSearch::expandNode (const std::string&) - Expanding user "
               << user);
@@ -106,10 +106,8 @@ std::string PathSearch::expandNode (const std::string& input) {
       struct passwd* entry (getpwnam (user.c_str ()));
       if (entry)
          ret.replace (0, i, entry->pw_dir);
-
-#endif
    }
-
+#endif
    TRACE1 ("PathSearch::expandNode (const std::string&) - Expanded user "
            << ret);
    return ret;
