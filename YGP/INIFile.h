@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.3 2000/05/10 22:39:36 Markus Exp $
+//$Id: INIFile.h,v 1.4 2000/05/11 22:00:28 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ class IINIAttribute {
 
  protected:
    IINIAttribute (const char* name);
-   ~IINIAttribute ();
+   virtual ~IINIAttribute ();
 
  private:
    IINIAttribute (const IINIAttribute&);
@@ -99,11 +99,75 @@ template <class T> class INIAttribute : public IINIAttribute {
 };
 
 // Specialization of INIAttribute for ints
+bool INIAttribute<char>::assignFromString (const char* value) {
+   assert (value);
+   attr_ = *value;
+   return *value && !value[1];
+}
+
+bool INIAttribute<char*>::assignFromString (const char* value) {
+   assert (value);
+   delete [] attr_;
+   attr_ = new char[strlen (value) + 1];
+   if (!attr_)
+      return false;
+   strcpy (attr_, value);
+   return true;
+}
+
+bool INIAttribute<short>::assignFromString (const char* value) {
+   assert (value);
+   char* pTail = NULL;
+   errno = 0;
+   attr_ = strtol (value, &pTail, 10); assert (pTail);
+   return !(errno || *pTail);
+}
+
+bool INIAttribute<unsigned short>::assignFromString (const char* value) {
+   assert (value);
+   char* pTail = NULL;
+   errno = 0;
+   attr_ = strtoul (value, &pTail, 10); assert (pTail);
+   return !(errno || *pTail);
+}
+
 bool INIAttribute<int>::assignFromString (const char* value) {
    assert (value);
    char* pTail = NULL;
    errno = 0;
    attr_ = strtol (value, &pTail, 10); assert (pTail);
+   return !(errno || *pTail);
+}
+
+bool INIAttribute<unsigned int>::assignFromString (const char* value) {
+   assert (value);
+   char* pTail = NULL;
+   errno = 0;
+   attr_ = strtoul (value, &pTail, 10); assert (pTail);
+   return !(errno || *pTail);
+}
+
+bool INIAttribute<long>::assignFromString (const char* value) {
+   assert (value);
+   char* pTail = NULL;
+   errno = 0;
+   attr_ = strtol (value, &pTail, 10); assert (pTail);
+   return !(errno || *pTail);
+}
+
+bool INIAttribute<unsigned long>::assignFromString (const char* value) {
+   assert (value);
+   char* pTail = NULL;
+   errno = 0;
+   attr_ = strtoul (value, &pTail, 10); assert (pTail);
+   return !(errno || *pTail);
+}
+
+bool INIAttribute<double>::assignFromString (const char* value) {
+   assert (value);
+   char* pTail = NULL;
+   errno = 0;
+   attr_ = strtod (value, &pTail); assert (pTail);
    return !(errno || *pTail);
 }
 
@@ -119,8 +183,9 @@ bool INIAttribute<std::string>::assignFromString (const char* value) {
 class INISection {
  public:
    INISection (const char* name);
-   ~INISection () { }
+   virtual ~INISection ();
 
+   const IINIAttribute* findAttribute (const char* name) const;
    void addAttribute (IINIAttribute& attribute) throw (std::string);
 
    int readFromStream (Xistream& stream) throw (std::string);
@@ -166,23 +231,23 @@ class INISection {
 class INIFile {
  public:
    INIFile (const char* filename) throw (std::string);
-   ~INIFile ();
+   virtual ~INIFile ();
 
-   void addSection (INISection& section);
+   void addSection (const INISection& section);
 
    int read () throw (std::string);
 
  protected:
    virtual int foundSection (const char* section);
 
-   INISection* findSection (const char* name) const;
+   const INISection* findSection (const char* name) const;
 
  private:
    INIFile (const INIFile&);
    INIFile& operator= (const INIFile&);
 
    Xifstream file;
-   std::vector<INISection*> sections;
+   std::vector<const INISection*> sections;
    INISection* pSection;
 
    typedef OFParseAttomic<INIFile> OMParseAttomic;
