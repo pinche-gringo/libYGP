@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.26 2002/11/27 04:56:29 markus Rel $
+//$Id: ANumeric.cpp,v 1.27 2003/02/03 03:52:39 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -85,19 +85,20 @@ ANumeric::~ANumeric () {
 //Throws    : invalid_argument in case of an exception
 /*--------------------------------------------------------------------------*/
 ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument) {
-   Check3 (pValue);
-
+   if (!(pValue && *pValue))
+      undefine ();
+   else {
 #ifdef HAVE_LIBGMP
-   if (mpz_init_set_str (value, pValue, 0))
+      if (mpz_init_set_str (value, pValue, 0))
 #else
-   char* pTail = NULL;
-   errno = 0;
-   value = strtol (pValue, &pTail, 0);
-   if (errno || (pTail && *pTail))
+      char* pTail = NULL;
+      errno = 0;
+      value = strtol (pValue, &pTail, 0);
+      if (errno || (pTail && *pTail))
 #endif
-      throw std::invalid_argument (_("No number"));
-
-   setDefined ();
+         throw std::invalid_argument (_("No number"));
+      setDefined ();
+   }
    return *this;
 }
 
