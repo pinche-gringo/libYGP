@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.6 2000/03/12 12:51:46 Markus Exp $
+// $Id: XStream.h,v 1.7 2000/04/06 21:03:32 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ template <class T> struct extStream : private extStreambuf, public T {
  public:
    // Manager-functions
    extStream () : extStreambuf (), T (), oldBuf (NULL) { }
-   extStream (T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
+   extStream (const T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
    ~extStream () {
 #if defined (__BORLANDC__) || defined (_MSC_VER)
       ios::bp = oldBuf;              // rdbuf (buffer) not defined in MSC, BCC
