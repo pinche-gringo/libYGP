@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: acconfig.h,v 1.2 2001/03/06 23:02:41 markus Exp $
+//$Id: acconfig.h,v 1.3 2002/04/09 04:12:03 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,11 @@
 #undef VERSION
 #endif
 
+/* Define the micro-version */
+#ifndef MICRO_VERSION
+#undef MICRO_VERSION
+#endif
+
 @TOP@
 
 /* acconfig.h
@@ -54,10 +59,6 @@
    a given entry is in the file.
 
    Leave the following blank line there!!  Autoheader needs it.  */
-^L
-
-/* Define the micro-version */
-#undef MICRO_VERSION
 
 /* Define for working regex.h */
 #undef HAVE_REGEX_H
@@ -67,7 +68,6 @@
 #undef HAVE_REGEXP_H
 
 
-^L
 /* Leave that blank line there!!  Autoheader needs it.
    If you're adding to this file, keep in mind:
    The entries are in sort -df order: alphabetical, case insensitive,
@@ -75,5 +75,17 @@
 
 
 @BOTTOM@
+
+#ifdef HAVE_GETTEXT
+#  include <libintl.h>
+#  define _(String)                           gettext (String)
+#  define N_(String)                          gettext_noop (String)
+#else
+#  define _(String)                           (String)
+#  define N_(String)                          gettext_noop (String)
+#  define gettext_noop(String)                (String)
+#  define binddomain(Domain)
+#  define bindtextdomain(Package, Directory)
+#endif
 
 #endif
