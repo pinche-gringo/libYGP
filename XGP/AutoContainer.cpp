@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.6 2003/11/28 23:11:32 markus Rel $
+//$Id: AutoContainer.cpp,v 1.7 2003/12/01 18:19:15 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -71,7 +71,6 @@ void AutoContainer::add (Gtk::Widget& child) {
    TRACE9 ("AutoContainer::add (Gtk::Widget&) - Child " << &child);
    Check2 (view.children ().size ());
 
-   Check3 (view.children ().size ());
    Gtk::Box_Helpers::Child& line_ (view.children ()[view.children ().size () - 1]);
    Gtk::HBox* line (dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
 
@@ -221,12 +220,38 @@ void AutoContainer::remove (Gtk::Widget& widget) {
             if (j->get_widget () == &widget) {
                line.remove (widget);
 
-               if (line.children ().empty ())
+               // Remove also the line, if it is empty (and not the last one)
+               if ((line.children ().empty ())
+                   && (view.children ().size () > 1))
                   view.remove (line);
                return;
             }
    }
    Check2 (0);
+}
+
+//----------------------------------------------------------------------------
+/// Inserts a widget to a given position
+/// \param widget: Widget to insert 
+/// \param pos: Position where to insert the widget
+//----------------------------------------------------------------------------
+void AutoContainer::insert (Gtk::Widget& widget, unsigned int pos) {
+   TRACE4 ("AutoContainer::insert (Gtk::Widget&, unsigned int) - " << pos);
+
+   for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
+        i != view.children ().end (); ++i) {
+      Gtk::Box_Helpers::Child& line_ (*i);
+      Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
+
+      unsigned int count (line.children ().size ());
+      if (pos > count)
+         pos -= count;
+      else {
+         line.pack_start (widget, Gtk::PACK_SHRINK, 5);
+         line.reorder_child (widget, pos);
+         break;
+      }
+   }
 }
 
 }
