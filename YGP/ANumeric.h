@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.17 2001/03/27 18:42:50 markus Exp $
+//$Id: ANumeric.h,v 1.18 2001/08/11 15:10:35 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,6 +107,13 @@ class ANumeric : public AttributValue {
    virtual void readFromStream (istream& in);
    static std::string toString (long value) { ANumeric temp (value); return temp.toString (); }
    static std::string toString (unsigned long value) { ANumeric temp (value); return temp.toString (); }
+   operator long int () const {
+#ifdef HAVE_LIBGMP
+      return mpz_get_si (value);
+#else
+      return value;
+#endif
+   }
 
    // Calculation
    ANumeric& operator += (const ANumeric& rhs);

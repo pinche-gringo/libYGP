@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.3 2001/04/09 15:07:23 markus Exp $
+//$Id: Socket.h,v 1.4 2001/08/11 15:11:17 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-// Heaers for communication
+// Headers for communication
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -60,6 +60,7 @@ class Socket {
    static unsigned int getPortOfService (const char* service) throw (domain_error);
 
    int number () const { return sock; }
+   operator int () const { return sock; }
 
  protected:
    static void throwError (const std::string& error, int errNum) throw (domain_error);
