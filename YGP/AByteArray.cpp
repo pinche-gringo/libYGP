@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.8 2002/11/19 21:49:30 markus Exp $
+// $Id: AByteArray.cpp,v 1.9 2002/11/27 04:57:18 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -24,9 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
 #include <string.h>
 
+#include "Check.h"
 #include "Trace_.h"
 
 #include "AByteArray.h"
@@ -54,14 +54,14 @@ AByteArray::AByteArray (const AByteArray& other)
 //Purpose   : Constructor from char-array
 //Parameters: pSource: Pointer to the initial value
 //            length: Length of the char-array to copy
-//Requires  : pSource a valid pointer to at leasat length bytes reserved
+//Requires  : pSource a valid pointer to at least length bytes reserved
 /*--------------------------------------------------------------------------*/
 AByteArray::AByteArray (const char* pSource, unsigned int length)
    : AttributValue (true), pValue (new char [length]), len (length)
    , allocated (length) {
    TRACE5 ("AByteArray::AByteArray (const char*, unsinged int)");
 
-   assert (pSource);
+   Check3 (pSource);
    memcpy (pValue, pSource, len);
 }
 
@@ -122,7 +122,7 @@ AByteArray& AByteArray::assign (const AByteArray& rhs) {
       if (rhs.len > len) {
 	 delete [] pValue;
 	 pValue = new char [allocated = rhs.len];
-	 assert (!checkIntegrity ());
+	 Check3 (!checkIntegrity ());
       }
       len = rhs.len;
       memcpy (pValue, rhs.pValue, len);
@@ -140,14 +140,14 @@ AByteArray& AByteArray::assign (const AByteArray& rhs) {
 AByteArray& AByteArray::assign (const char* pSource, unsigned int length) {
    TRACE5 ("AByteArray::assign (const char*, unsigned int)");
 
-   assert (pSource);
+   Check3 (pSource);
    setDefined ();
 
    len = length;
    if (allocated < len) {
       delete [] pValue;
       pValue = new char [allocated = len];
-      assert (!checkIntegrity ());
+      Check3 (!checkIntegrity ());
    }
    memcpy (pValue, pSource, len);
    return *this;
@@ -223,10 +223,10 @@ AByteArray& AByteArray::append (const char* pSource) {
 AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
    TRACE5 ("AByteArray::append (const char*, unsigned int)");
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    if (length) {
-      assert (pSource);
+      Check3 (pSource);
 
       // Check if array is large enough to hold both values
       if (allocated < (len + length)) {
@@ -239,7 +239,7 @@ AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
       memcpy (pValue + len, pSource, length);
       len += length;
       setDefined ();
-      assert (!checkIntegrity ());
+      Check3 (!checkIntegrity ());
    }
    return *this;
 }
@@ -251,7 +251,7 @@ AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
 /*--------------------------------------------------------------------------*/
 char AByteArray::operator[] (unsigned int pos) const throw (std::out_of_range) {
    TRACE5 ("AByteArray::operator[] (unsigned int) const");
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    TRACE9 ("   -> len = " << len);
    TRACE9 ("   -> Value = " << pValue);
@@ -268,7 +268,7 @@ char AByteArray::operator[] (unsigned int pos) const throw (std::out_of_range) {
 /*--------------------------------------------------------------------------*/
 char& AByteArray::operator[] (unsigned int pos) throw (std::out_of_range) {
    TRACE5 ("AByteArray::operator[] (unsigned int)");
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    TRACE9 ("   -> len = " << len);
    TRACE9 ("   -> Value = " << pValue);
@@ -285,7 +285,7 @@ char& AByteArray::operator[] (unsigned int pos) throw (std::out_of_range) {
 /*--------------------------------------------------------------------------*/
 const char& AByteArray::at (unsigned int pos) const throw (std::out_of_range) {
    TRACE5 ("AByteArray::at (unsigned int) const");
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    if (pos < len)
       return pValue[pos];
@@ -300,7 +300,7 @@ const char& AByteArray::at (unsigned int pos) const throw (std::out_of_range) {
 /*--------------------------------------------------------------------------*/
 char& AByteArray::at (unsigned int pos) throw (std::out_of_range) {
    TRACE5 ("AByteArray::at (unsigned int)");
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    if (pos < len)
       return pValue[pos];
@@ -440,7 +440,7 @@ AByteArray operator+ (const AByteArray& lhs, char rhs) {
 int AByteArray::compare (const AByteArray& other) const {
    TRACE5 ("AByteArray::compare (const AByteArray&)");
 
-   assert (!checkIntegrity ()); assert (!other.checkIntegrity ());
+   Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
 
    // Both objects are defined -> Compare them
    if (isDefined ()) {
@@ -471,7 +471,7 @@ int AByteArray::compare (const AByteArray& other) const {
 int AByteArray::compare (const char* other) const {
    TRACE5 ("AByteArray::compare (const char*)");
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    if (isDefined ()) {
       TRACE6 ("   -> Comparing two defined values");
@@ -495,8 +495,8 @@ int AByteArray::compare (const char* other) const {
 int AByteArray::compare (const char* other, unsigned int length) const {
    TRACE5 ("AByteArray::compare (const char*, unsigned int)");
 
-   assert ((length && other) || !length);
-   assert (!checkIntegrity ());
+   Check3 ((length && other) || !length);
+   Check3 (!checkIntegrity ());
 
    // Both objects are defined -> Compare them
    if (isDefined ()) {
@@ -522,7 +522,7 @@ int AByteArray::compare (const char* other, unsigned int length) const {
 int AByteArray::compare (const char other) const {
    TRACE5 ("AByteArray::compare (const char)");
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    // Both objects are defined -> Compare them
    if (isDefined () && len > 0) {
