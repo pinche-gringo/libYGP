@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.16 2004/09/17 17:42:09 markus Rel $
+//$Id: Log.h,v 1.17 2004/10/13 03:54:31 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 
 #include <ygp-cfg.h>
 
-#if SYSTEM == UNIX
+#ifdef HAVE_SYSLOG_H
 #  include <syslog.h>
-#elif SYSTEM == WINDOWS
+#else
 #  include <iostream>
 #  include <map>
 
@@ -53,27 +53,27 @@ class Syslog {
  public:
    /// Constructor; specifying the logging application
    Syslog (const char* appl) { Check1 (appl);
-#if SYSTEM == UNIX
+#ifdef HAVE_SYSLOG_H
       openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
 #else
       apAppl[Process::getPID ()] = new char[strlen (appl) + 1];
       strcpy (apAppl[Process::getPID ()], appl);
-#endif // UNIX
+#endif // HAVE_SYSLOG_H
    }
 
    /// Constructor; specifying the logging application and the type of that
    /// application
    Syslog (const char* appl, int facility) { Check1 (appl);
-#if SYSTEM == UNIX
+#ifdef HAVE_SYSLOG_H
       openlog (appl, LOG_PID | LOG_CONS, facility);
 #else
       apAppl[Process::getPID ()] = new char[strlen (appl) + 1];
       strcpy (apAppl[Process::getPID ()], appl);
-#endif // UNIX
+#endif // HAVE_SYSLOG_H
    }
    /// Destructor
    ~Syslog () {
-#if SYSTEM == UNIX
+#ifdef HAVE_SYSLOG_H
       closelog ();
 #else
       delete apAppl[Process::getPID ()];
@@ -83,28 +83,28 @@ class Syslog {
    /// Writes a message to the logfile; specifying the level of the message
    static void write (int level, const char* text) {
       Check1 (text);
-#if SYSTEM == UNIX
+#ifdef HAVE_SYSLOG_H
       syslog (level, "%s", text);
-#elif SYSTEM == WINDOWS
+#else
 // Use printf to log under Windoze (although NT does have some logging-thing)
       static char* levels[] = { "Emergency", "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
       Check1 (level < (sizeof (levels) / sizeof (levels[0])));
       std::cerr << apAppl[Process::getPID ()] << '-' << levels[level] << ": " << text << '\n';
-#endif // UNIX
+#endif // HAVE_SYSLOG_H
    }
 
-#if SYSTEM == UNIX
+#ifdef HAVE_SYSLOG_H
    enum { EMERGENCY = LOG_EMERG, ALERT = LOG_ALERT, CRITICAL = LOG_CRIT,
           ERR = LOG_ERR, WARNING = LOG_WARNING, NOTICE = LOG_NOTICE,
           INFO = LOG_INFO, DEBUGGING = LOG_DEBUG };
-#elif SYSTEM == WINDOWS
+#else
    // Don't rename ERR to ERROR, as this causes an error with BCC
    enum { EMERGENCY, ALERT, CRITICAL, ERR, WARNING, NOTICE, INFO, DEBUGGING };
 
    // Declaration is in Version.cpp!
    static std::map <unsigned int, char*> apAppl;
-#endif // WINDOWS
+#endif // HAVE_SYSLOG_H
 };
 
 }
