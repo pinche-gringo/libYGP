@@ -2,11 +2,10 @@
 # Anti-Copyright (A) 2002 Markus Schwab
 # Markus Schwab <g17m0@lycos.com>, 2002.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: General 0.6.00\n"
-"POT-Creation-Date: 2002-04-22 15:55-0500\n"
+"POT-Creation-Date: 2002-05-11 02:07-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -165,7 +164,7 @@ msgstr ""
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr ""
 
-#: Common/IVIOAppl.cpp:234
+#: Common/IVIOAppl.cpp:235
 #, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr ""
@@ -174,7 +173,7 @@ msgstr ""
 #. endif option matches
 #. end-while
 #. No long-option found
-#: Common/IVIOAppl.cpp:243
+#: Common/IVIOAppl.cpp:244
 #, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr ""
@@ -197,30 +196,6 @@ msgstr ""
 #: Common/Parse.cpp:768
 #, c-format, ycp-format
 msgid "Expected selection %1"
-msgstr ""
-
-#: Common/PathDirSrch.cpp:167
-#, ycp-format
-msgid "'%1' expands to more than one file"
-msgstr ""
-
-#: Common/PathDirSrch.cpp:171
-msgid "Out of memory"
-msgstr ""
-
-#: Common/PathDirSrch.cpp:172
-#, ycp-format
-msgid "'%1' contains unquoted invalid character such as `|'"
-msgstr ""
-
-#: Common/PathDirSrch.cpp:173
-#, ycp-format
-msgid "Syntax error in '%1' (unmatched quoting character?)"
-msgstr ""
-
-#: Common/PathDirSrch.cpp:174
-#, ycp-format
-msgid "Unknown error in '%1'"
 msgstr ""
 
 #: Common/RDirSrch.cpp:245 Common/RemoteFile.cpp:257
