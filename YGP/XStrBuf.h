@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.12 2001/08/27 15:31:48 markus Exp $
+// $Id: XStrBuf.h,v 1.13 2002/03/23 20:48:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,9 +29,20 @@
 #endif
 
 
-// Extended streambuf, specialized to parse text. Its enhanced features are
-// column- and line-information and a variable-sized putback-buffer (putback
-// beyond block-size possible)
+// Extended streambuf, designed to parse text.
+//
+// It overcomes two drawbacks of the original streambuf:
+//
+//   - Column- and line-information (which - to be fair - wouldn't
+//     make very much sense in the common streambuf anyway)
+//   - A variable-sized putback-buffer. The common streambuf only
+//     stores one block (and a few bytes from the last), so a pushback
+//     beyond this border is not possible.
+//
+// Note: This buffer only works for input and needs a "real" data-sink
+//       as source, so provide another streambuf-object to get its data
+//       from with the constructor or with the setSource-method!
+//
 // ATTENTION: A wee bit of overhandling neccessary! Although extStreambuf is
 // derived from streambuf another streambuf* as member is needed (at least
 // I was not able to figure out another way)

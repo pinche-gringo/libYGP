@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.8 2001/03/25 09:51:45 markus Exp $
+// $Id: XStream.h,v 1.9 2002/03/23 20:48:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,13 +25,18 @@
 #include <XStrBuf.h>
 
 
-// Extended stream, specialized to parse text. It enhanced features are
-// column- and line-information and a variable-sized putback-buffer (putback
-// beyond block-size possible).
+// Extended stream, designed to parse text.
 //
-// Note: After creating (assigning) the istream-part of the extStream the
-//       init-function must be called to set the extStreambuf, because
-//       other istream-methods might change/set its streambuf.
+// It overcomes two drawbacks of the original streams:
+//
+//   - Column- and line-information (which - to be fair - wouldn't
+//     make very much sense in the common streams anyway)
+//   - A variable-sized putback-buffer. The common streams only
+//     stores one block (and a few bytes from the last), so a pushback
+//     beyond this border is not possible.
+//
+// Note: The extensions of the stream must be initialized with the
+//       init-function must (after creating/assigning)!
 //
 // Example:
 //    Xifstream xin;

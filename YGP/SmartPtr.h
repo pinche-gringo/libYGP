@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.4 2000/04/06 20:49:00 Markus Rel $
+// $Id: SmartPtr.h,v 1.5 2002/03/23 20:46:32 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,11 +18,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Smart-pointer-class; the memory is freed within the destructor
-// It contains (different to auto_ptr) no copy-constructur and assignment-
-// operator. That also means, that there is no ownership-handling, so don't let
-// two SmartPtrs point to the same object (if you need that, assign the second
-// with the operator T*-method (or use auto_ptr)).
+// Smart-pointer-class; its referenced object is freed when the smart
+// pointer-object is realeased.
+//
+// In counterpart to auto_ptr there is no ownership handling (and
+// therefor no copy-constructor nor an assignment-operator).
+// 
 // Note: This class is (intented to be) simple. Consider this when using it!
 template <class T> class SmartPtr {
  public:
