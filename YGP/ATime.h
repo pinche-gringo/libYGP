@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.22 2004/11/05 04:17:04 markus Exp $
+//$Id: ATime.h,v 1.23 2004/11/05 15:38:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,11 +48,13 @@ class ATime : public AttributValue {
    ATime (bool now);
    ATime (const ATime& other)     /// Copy constructor from another time object
        : AttributValue ((const AttributValue&)other)
-       , hour (other.hour), min_ (other.min_), sec (other.sec), mode (MODE_LOCALE) { }
+       , hour (other.hour), min_ (other.min_), sec (other.sec), mode (other.mode) { }
    ATime (char Hour, char minute, char second) throw (std::invalid_argument);
-   ATime (const char* pTime) throw (std::invalid_argument) : mode (MODE_LOCALE) {
+   ATime (const char* pTime) throw (std::invalid_argument)
+      : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       operator= (pTime); }           ///< Constructor from a text (unformatted)
-   ATime (const std::string& time) throw (std::invalid_argument) : mode (MODE_LOCALE) {
+   ATime (const std::string& time) throw (std::invalid_argument)
+      : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       operator= (time); }            ///< Constructor from a text (unformatted)
    ATime (const struct tm& tm) : mode (MODE_LOCALE) {
       operator= (tm); }                  ///< Constructor from broken down time
@@ -83,7 +85,7 @@ class ATime : public AttributValue {
    void assign (const char* pTime, unsigned int len);
    //@}
 
-   /// Defining the object; setting it to a default value (of <tt>0:0:00</tt>)
+   /// Defining the object; setting it to a default value (of <tt>0:00:00</tt>)
    virtual void define () { setDefined (); hour = min_ = sec = 0; }
    void setHour (char Hour) throw (std::invalid_argument);
    void setMinute (char minute) throw (std::invalid_argument);
