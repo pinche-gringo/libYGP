@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.12 2000/05/09 23:32:19 Markus Exp $
+//$Id: ANumeric.cpp,v 1.13 2000/06/04 17:53:37 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <errno.h>
 #include <assert.h>
 #include <locale.h>
 
@@ -80,8 +81,8 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 #else
    char* pTail = NULL;
    errno = 0;
-   value = strtol (pValue, &pTail, 10); assert (pTail);
-   if (errno || !*pTail)
+   value = strtol (pValue, &pTail, 10);
+   if (errno || !(pTail && *pTail))
 #endif
       undefine ();
    else
