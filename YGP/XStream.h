@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.2 1999/08/23 20:27:20 Markus Rel $
+// $Id: XStream.h,v 1.3 1999/08/24 00:08:15 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,8 +38,6 @@
 //    xin.open ("Test.Dat");
 //    xin.init ();
 template <class T> struct extStream : public T  {
-   typedef T parent;
-
    // Manager-functions
    extStream () : pBuffer (NULL) { }
    extStream (T& source) : pBuffer (NULL) { }
