@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.42 2000/06/04 18:01:13 Markus Exp $
+// $Id: Test.cpp,v 1.43 2000/12/07 20:43:19 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -41,7 +41,7 @@
 
 
 #define ERROROUT(x) cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n";
-#define CHECK(x) { if (!(x)) ERROROUT (#x) }
+#define CHECK(x) { if (!(x)) { rc++; ERROROUT (#x) } }
 
 #define VERBOSE
 #undef VERBOSE
@@ -55,6 +55,7 @@
 #endif
 
 
+#include "Log.h"
 #include "Parse.h"
 #include "Trace_.h"
 #include "CRegExp.h"
@@ -69,6 +70,7 @@
 #include "PathSrch.h"
 #include "Tokenize.h"
 #include "FileRExp.h"
+#include "StackTrc.h"
 #include "PathDirSrch.h"
 
 
@@ -88,7 +90,7 @@ class Application : public IVIOApplication {
  public:
    Application (const int argc, const char* argv[])
       : IVIOApplication (argc, argv, lo), cOptions (0), regexp ("")
-      , strRE ("") { }
+      , strRE (""), rc (0) { }
   ~Application () { }
 
  protected:
@@ -112,6 +114,8 @@ class Application : public IVIOApplication {
    std::string strRE, strVal;
    RegularExpression regexp;;
    bool match;
+
+   int rc;
 
    static const longOptions lo[];
 
@@ -165,6 +169,7 @@ class Application : public IVIOApplication {
 
 const IVIOApplication::longOptions Application::lo[] = {
    { "help", 'h' },
+   { "stackdump", 'd' },
    { "arg-opt", 'a' },
    { "arg-mand", 'A' },
    { NULL, '\0' } };
@@ -181,6 +186,15 @@ bool Application::handleOption (const char option) {
 
       TRACE1 ("Option param: " << pValue);
    } // endif special option
+
+   if (option == 's') {
+      Syslog log ("Test");
+
+      cout << "Performing stacktrace\n";
+      LOGDEBUG ("Test-Stacktrace:");
+      dumpStack ();
+   }
+
    return true;
 }
 void Application::showHelp () const {
@@ -563,7 +577,7 @@ int Application::perform (int argc, const char* argv[]) {
       cerr << e.c_str () << '\n';
    }
 
-   return 0;
+   return rc;
 }
 
 
