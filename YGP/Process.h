@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.5 2003/07/03 03:23:57 markus Rel $
+//$Id: Process.h,v 1.6 2003/09/11 04:17:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,6 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#include <gzo-cfg.h>
+#if SYSTEM == UNIX
+#  include <unistd.h>
+#  include <sys/types.h>
+#elif SYSTEM == WINDOWS
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+
+typedef int pid_t;
+#endif
 
 
 #include <string>
@@ -62,6 +73,14 @@ class Process {
    static void execute (const char* file, const char* const arguments[])
       throw (std::string) {
       start (file, arguments, true); }
+
+   static pid_t getPID () {
+#if SYSTEM == UNIX
+      return getpid ();
+#elif SYSTEM == WINDOWS
+      return GetCurrentProcessId ();
+#endif
+   }
 
  protected:
    static void start (const char* file, const char* const arguments[], bool wait)
