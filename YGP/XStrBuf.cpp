@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.25 2003/02/22 18:25:31 markus Exp $
+// $Id: XStrBuf.cpp,v 1.26 2003/03/03 06:00:24 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -38,11 +38,6 @@
 
 static unsigned int lenBuffer = 512;
 
-#if SYSTEM == WINDOWS
-#  define cur std::ios_base::cur
-#else
-#  define cur ios::cur
-#endif
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Defaultconstructor; Although reading from this object should work
@@ -166,16 +161,12 @@ int extStreambuf::pbackfail (int c) {
    Check1 (!checkIntegrity ());
    Check1 (c != EOF);
 
-#if SYSTEM == WINDOWS
    if (gptr () > eback ())        // gptr () > eback -> pushback of wrong char
-#else
-   if (gptr () > Gbase ())        // gptr () > Gbase -> pushback of wrong char
-#endif
       return EOF;
 
    TRACE5 ("extStreambuf::pbackfail (int) - Buffer underrun");
 
-   int rc (pSource->pubseekoff (pushbackOffset, cur));
+   int rc (pSource->pubseekoff (pushbackOffset, std::ios_base::cur));
    pushbackOffset = -1;
    if (rc == EOF)
       return EOF;
@@ -183,7 +174,7 @@ int extStreambuf::pbackfail (int c) {
 #if TRACELEVEL > 8
    TRACE ("extStreambuf::pbackfail (int) - Next = " << (rc = pSource->sbumpc ()));
    Check3 (rc = c);
-   pSource->pubseekoff (-1, cur);
+   pSource->pubseekoff (-1, std::ios_base::cur);
 #endif
 
    setg (NULL, NULL, NULL);
@@ -202,18 +193,20 @@ int extStreambuf::pbackfail (int c) {
 //            mode: Which pointer to move (get, put)
 //Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
-std::streampos extStreambuf::seekoff (std::streamoff off, _seek_dir dir, int mode) {
+std::streampos extStreambuf::seekoff (std::streamoff off,
+                                      std::ios_base::seekdir dir,
+                                      std::ios_base::openmode mode) {
    TRACE7 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - " << off
            << "; " << dir << '/' << mode);
    Check1 (pSource);
 
    // Correct offset, if positionate relative to current position as
    // pSource is already further (at end of line)
-   if (dir == cur)
+   if (dir == std::ios_base::cur)
       off -= (egptr () - gptr ());
    TRACE7 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - New value: " << off);
    setg (NULL, NULL, NULL);
-   return off ? pSource->pubseekoff (off, dir, mode) : 0;
+   return off ? pSource->pubseekoff (off, dir, mode) : std::streampos (0);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -222,7 +215,8 @@ std::streampos extStreambuf::seekoff (std::streamoff off, _seek_dir dir, int mod
 //            mode: Which pointer to move (get, put)
 //Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
-std::streampos extStreambuf::seekpos (std::streampos pos, int mode) {
+std::streampos extStreambuf::seekpos (std::streampos pos,
+                                      std::ios_base::openmode mode) {
    TRACE7 ("extStreambuf::seekpos (streampos, mode)");
    Check1 (pSource);
    setg (NULL, NULL, NULL);

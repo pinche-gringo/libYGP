@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.19 2003/02/21 19:39:55 markus Exp $
+// $Id: XStrBuf.h,v 1.20 2003/03/03 06:00:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,15 +20,11 @@
 
 #include <gzo-cfg.h>
 
-#if SYSTEM == UNIX || defined __GNUG__
-#  include <streambuf.h>
-#elif SYSTEM == WINDOWS
-#  include <iosfwd>
-#  include <streambuf>
+#include <ios>
+#include <streambuf>
 
-#  if defined (_MSC_VER) || defined (__BORLANDC__)
-      typedef std::ios_base::seekdir _seek_dir;
-#  endif
+#if SYSTEM == WINDOWS
+#  include <iosfwd>
 #endif
 
 #include <Check.h>
@@ -69,10 +65,10 @@ class extStreambuf : public std::streambuf {
    virtual int pbackfail (int c);
 
    // Position handling
-   virtual std::streampos seekoff (std::streamoff, _seek_dir,
-                                   int mode=std::ios::in|std::ios::out);
+   virtual std::streampos seekoff (std::streamoff, std::ios_base::seekdir,
+                                   std::ios_base::openmode mode = std::ios::in|std::ios::out);
    virtual std::streampos seekpos (std::streampos pos,
-                                  int mode = std::ios::in|std::ios::out);
+                                   std::ios_base::openmode  mode = std::ios::in|std::ios::out);
 
    // Setting of data-sink
    void setSource (std::streambuf* source) { Check1 (source); pSource = source; }
