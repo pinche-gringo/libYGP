@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.26 2002/05/25 07:08:14 markus Exp $
+//$Id: DirSrch.h,v 1.27 2002/08/20 05:18:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,14 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-
-// TODO/FIXME?: Maybe the classes in this files should be changed to either
-// 1. File is protected derived from "local" base
-//   or maybe even better
-// 2. Use an abstract implementation-class with concrete realizations for
-//    every OS (like abstract IFile with concrete IFileUNIX, which
-//    is (protected) used by File).
 
 
 #include <time.h>
