@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.2 2000/02/24 22:16:35 Markus Rel $
+//$Id: XFileEntry.cpp,v 1.3 2001/10/03 16:26:29 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -53,14 +53,14 @@ gint XFileEntry::key_press_event_impl (GdkEventKey* ev) {
 
    TRACE5 ("XFileEntry::key_press_event_impl: Text: " << input);
 
-   dirEntry result;
+   const File* result;
    DirectorySearch ds (input);
-   if (!ds.find (result, attrs)) {              // If input matches attributes
+   if (result = ds.find (attrs)) {              // If input matches attributes
       int len (get_text_length ());                  // Complete name and mark
 
-      input = result.path (); input += result.name ();     // part after input
+      input = result->path (); input += result->name ();   // part after input
       TRACE7 ("XFileEntry::key_press_event_impl: Changed input: " << input);
-      if (result.isDirectory ())
+      if (result->isDirectory ())
          input += '/';
       set_text (input);
      

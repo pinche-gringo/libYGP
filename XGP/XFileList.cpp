@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.10 2000/04/12 16:20:02 Markus Rel $
+//$Id: XFileList.cpp,v 1.11 2001/10/03 16:26:28 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,7 +28,7 @@
 
 #include <gtk--/pixmap.h>
 
-#define DEBUG 0
+#define DEBUG 9
 #include "Check.h"
 #include "Trace_.h"
 
@@ -150,28 +150,27 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 #endif
    } // endif first call to loadIcons: Create default-icons
 
-   // Use Icon.*-files as icon for *-files
-   PathDirectorySearch ds (path, files);
-   dirEntry file;
-
    Gdk_Pixmap* temp;
 
-   int rc (ds.find (file, DirectorySearch::FILE_NORMAL));
-   while (!rc) {
+   // Use Icon.*-files as icon for *-files
+   PathDirectorySearch ds (path, files);
+
+   const File* file = ds.find (DirectorySearch::FILE_NORMAL);
+   while (file) {
       // Read icon-file and store it
-      string filename (file.path ()); filename += file.name ();
-      TRACE5 ("XFileList::loadIcons: Read icon " << file.path () << file.name ());
+      string filename (file->path ()); filename += file->name ();
+      TRACE5 ("XFileList::loadIcons: Read icon " << filename);
 
       Check3 (temp);
       TRACE9 ("XCompDirs::loadIcons: Store icon "
-	      << (file.name () + namePrefix));
+	      << (file->name () + namePrefix));
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-      icons[file.name () + namePrefix].create_from_xpm (NULL, color, filename);
+      icons[file->name () + namePrefix].create_from_xpm (NULL, color, filename);
 #else
-      icons[file.name () + namePrefix].create_from_xpm
-	(icons[file.name () + namePrefix], color, filename);
+      icons[file->name () + namePrefix].create_from_xpm
+	(icons[file->name () + namePrefix], color, filename);
 #endif
-      rc = ds.find ();
+      file = ds.next ();
    } // end-while icon-files found
 }
 
@@ -180,7 +179,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 //Parameters: file: File; used to query icon; NULL: Don´t show icon
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::append (const dirEntry* file, const gchar* text[]) {
+gint XFileList::append (const File* file, const gchar* text[]) {
    CList::append (text);
    if (file)
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
@@ -195,7 +194,7 @@ gint XFileList::append (const dirEntry* file, const gchar* text[]) {
 //Parameters: file: File; used to query icon; NULL: Don´t show icon
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::append (const dirEntry* file, const vector<string> text) {
+gint XFileList::append (const File* file, const vector<string> text) {
    CList::append (text);
    if (file)
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
@@ -210,7 +209,7 @@ gint XFileList::append (const dirEntry* file, const vector<string> text) {
 //Parameters: file: File; used to query icon; NULL: Don´t show icon
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::prepend (const dirEntry* file, const gchar *text[]) {
+gint XFileList::prepend (const File* file, const gchar *text[]) {
    CList::prepend (text);
    if (file)
       setIcon (0, file);
@@ -221,7 +220,7 @@ gint XFileList::prepend (const dirEntry* file, const gchar *text[]) {
 //Parameters: file: File; used to query icon; NULL: Don´t show icon
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::prepend (const dirEntry* file, const vector<string> text) {
+gint XFileList::prepend (const File* file, const vector<string> text) {
    CList::prepend (text);
    if (file)
       setIcon (0, file);
@@ -233,7 +232,7 @@ gint XFileList::prepend (const dirEntry* file, const vector<string> text) {
 //            row: Row where to insert the entry
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::insert_row (const dirEntry* file, gint row, const gchar* text[]) {
+gint XFileList::insert_row (const File* file, gint row, const gchar* text[]) {
    CList::insert_row (row, text);
    if (file)
       setIcon (row, file);
@@ -245,7 +244,7 @@ gint XFileList::insert_row (const dirEntry* file, gint row, const gchar* text[])
 //            row: Row where to insert the entry
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
-gint XFileList::insert_row (const dirEntry* file, gint row, const vector<string> &text) {
+gint XFileList::insert_row (const File* file, gint row, const vector<string> &text) {
    CList::insert_row (row, text);
    if (file)
       setIcon (row, file);
@@ -264,7 +263,7 @@ gint XFileList::insert_row (const dirEntry* file, gint row, const vector<string>
 //                 repeat the previous step
 //               - If no name-part left use a special default-icon
 /*--------------------------------------------------------------------------*/
-void XFileList::setIcon (int row, const dirEntry* pFile) {
+void XFileList::setIcon (int row, const File* pFile) {
    TRACE7 ("XFileList::setIcon");
    Check3 (pFile);
 

@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.7 2000/04/07 22:46:10 Markus Rel $
+//$Id: XFileList.h,v 1.8 2001/10/03 16:26:29 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ typedef Gtk_CList       CList;
 typedef Gtk_Widget      Widget;
 #endif
 
-class dirEntry;
+struct File;
 
 
 // Class for a (columned) list which holds files represented by an icon
@@ -57,12 +57,12 @@ class XFileList : public CList {
                            unsigned int namePrefix = 0);
 
    // Insert data
-   gint append (const dirEntry* file, const gchar* text[]);
-   gint append (const dirEntry* file, const vector<string> text);
-   gint prepend (const dirEntry* file, const gchar* text[]);
-   gint prepend (const dirEntry* file, const vector<string> text);
-   gint insert_row (const dirEntry* file, gint row, const gchar* text[]);
-   gint insert_row (const dirEntry* file, gint row, const vector<string> &text);
+   gint append (const File* file, const gchar* text[]);
+   gint append (const File* file, const vector<string> text);
+   gint prepend (const File* file, const gchar* text[]);
+   gint prepend (const File* file, const vector<string> text);
+   gint insert_row (const File* file, gint row, const gchar* text[]);
+   gint insert_row (const File* file, gint row, const vector<string> &text);
 
  protected:
    virtual void realize_impl ();
@@ -72,7 +72,7 @@ class XFileList : public CList {
    XFileList ();
    XFileList& operator= (const XFileList&);
 
-   void setIcon (int row, const dirEntry* pFile);
+   void setIcon (int row, const File* pFile);
 
    static const char* iconDirectory[];
    static const char* iconDefault[];
