@@ -1,9 +1,12 @@
 Overview of Changes in version 0.6.10:
 
-  - Supporting Borland C++
+  - ATimestamp got operator<</>> to avoid ambigouity
+  - Tokenize got copy constructor and assignment operator
   - Added toString-methods for ints and shorts to ANumeric
-  - Class XAttributeLabel to display formated Attributes added
-  - Class XAttributeEntry to edit formated Attributes added
+  - Added conversion functions for ints and shorts to ANumeric
+  - Renamed toUnformatedString of Attributes to toUnformattedString 
+  - Class XAttributeLabel[2] to display formatted Attributes added
+  - Class XAttributeEntry to edit formatted Attributes added
   - Class XDialog (base class for dialogs) added
   - Template AttributeLists added
   - Class Process added to execute process with error-handling
@@ -16,6 +19,11 @@ Overview of Changes in version 0.6.10:
   - Samples/Tests for X-windows classes added
   - Class File got ctr from const char*
   - New Parser-classes ParseQuoted
+  - Removed compiler warnings (with -Wall)
+  - Supporting Borland C++ (at least it compiles with it)
+  - Switched to GCC 3.3, AUTOMAKE 1.7, AUTOCONF 2.57
+  - Using GTKMM/GTK+ 2
+  - Using PKG-CONFIG
   - Fixes
 
 Overview of Changes in version 0.6.02:
