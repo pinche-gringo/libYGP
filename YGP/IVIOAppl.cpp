@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.24 2002/05/24 06:45:57 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.25 2002/05/25 07:08:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
@@ -33,13 +33,15 @@
 #include <locale.h>
 
 #include <string>
-#include <iostream.h>
+#include <iostream>
 
 #include "File.h"
 #include "Internal.h"
 #include "StackTrc.h"
 #include "IVIOAppl.h"
 
+
+using namespace std;
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks char if it starts an option
@@ -314,6 +316,8 @@ void IVIOApplication::initI18n (const char* package, const char* dir) {
    assert (package); assert (dir);
 
    setlocale (LC_ALL, "");                         // Activate current locale
+#ifdef HAVE_GETTEXT
    bindtextdomain (package, dir);
    textdomain (package);
+#endif
 }

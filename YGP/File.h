@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.10 2002/05/24 06:52:49 markus Exp $
+//$Id: File.h,v 1.11 2002/05/25 07:08:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -147,13 +147,15 @@ typedef struct File : protected WIN32_FIND_DATA {
 
    File& operator= (const File& o);
 
+   virtual File* clone () const;
+
    //@Section query of data
    const char*         path () const { return path_.c_str (); }
    const char*         name () const { return cFileName; }
    const unsigned long size () const { return nFileSizeLow; }
    const time_t        time () const;
    void                time (struct tm& time) const {
-      setTime (&ftLastWriteTime, time); }
+      setTime (ftLastWriteTime, time); }
    void                localtime (struct tm& time) const;
    const unsigned long attributes () const { return dwFileAttributes; }
 
@@ -182,17 +184,17 @@ typedef struct File : protected WIN32_FIND_DATA {
  protected:
    std::string path_;
 
-   void appendErrorText (std::string& error) const;
+   void throwErrorText (const char* error) const throw (std::string);
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
-   void name (const char* name) {
+   void name (const char* name) { if (name) strcpy (cFileName, name); }
    void name (const std::string& name) { strcpy (cFileName, name.c_str ()); }
    void size (unsigned long size) { nFileSizeLow = size; }
    void time (time_t) { assert (0); }
    void attributes (unsigned long attr) { dwFileAttributes = attr; }
 
-   void setTime (const FILETIME& time, struct tm& result);
+   static void setTime (const FILETIME& time, struct tm& result);
 } File;
 
 #else

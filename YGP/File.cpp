@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.9 2002/05/24 06:52:49 markus Exp $
+//$Id: File.cpp,v 1.10 2002/05/25 07:08:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -48,12 +48,10 @@ const char File::DIRSEPARATOR = '\\';
 File::File (const File& o) : path_ (o.path_)
 #if SYSTEM == UNIX
    , entry (o.entry), status (o.status), userExec (o.userExec)
-#else
-#  if SYSTEM == WINDOWS
+#elif SYSTEM == WINDOWS
    , WIN32_FIND_DATA (o)
-#  else
-#     error Not implemented!
-#  endif
+#else
+#  error Not implemented!
 #endif
 {
 }
@@ -144,7 +142,7 @@ const time_t File::time () const {
 void File::localtime (struct tm& time) const {
    FILETIME fileTemp;
    FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
-   setTime (fileTimp, time);
+   setTime (fileTemp, time);
 }
 
 /*--------------------------------------------------------------------------*/

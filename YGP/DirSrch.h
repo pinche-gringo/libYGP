@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.25 2002/05/09 08:12:00 markus Rel $
+//$Id: DirSrch.h,v 1.26 2002/05/25 07:08:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -97,9 +97,9 @@ class DirectorySearch : public IDirectorySearch {
    DirectorySearch (const DirectorySearch&);
    DirectorySearch& operator= (const DirectorySearch&);
 
+   int offStrip;
 #if SYSTEM == UNIX
    DIR* pDir;
-   int offStrip;
 #elif SYSTEM == WINDOWS
    HANDLE hSearch;
 #endif

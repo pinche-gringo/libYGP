@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.18 2002/05/24 06:52:49 markus Exp $
+//$Id: FileRExp.cpp,v 1.19 2002/05/25 07:08:14 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -44,8 +44,6 @@
 #include "Trace_.h"
 #include "ANumeric.h"
 #include "FileRExp.h"
-
-#include <iostream.h>
 
 
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))

@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.19 2002/05/24 06:52:49 markus Exp $
+//$Id: CRegExp.h,v 1.20 2002/05/25 07:08:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -195,7 +195,7 @@ class RegularExpression : public IRegularExpression {
    const char* findEndOfGroup (const char* pRegExp) const;
 
    const char* pStartCompare;
-   vector<std::string> groupValues;
+   std::vector<std::string> groupValues;
    unsigned int cGroups;
 #endif
 };

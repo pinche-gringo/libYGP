@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.2 2002/05/24 06:52:49 markus Exp $
+//$Id: PathSrch.cpp,v 1.3 2002/05/25 07:08:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -25,7 +25,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#if SYSTEM == UNIX
 #include <pwd.h>
+#endif
 #include <ctype.h>
 #include <stdlib.h>
 
