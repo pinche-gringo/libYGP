@@ -1,11 +1,11 @@
-// $Id: Remote.cpp,v 1.2 2002/07/15 21:00:18 markus Rel $
+// $Id: Remote.cpp,v 1.3 2003/03/04 05:14:33 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Remote
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -49,7 +49,7 @@ int main (int argc, char* argv[]) {
    int aiPipe[2];
 
    if (pipe (aiPipe)) {
-      cerr << "Remote: Can't create pipe\n";
+      std::cerr << "Remote: Can't create pipe\n";
       return -1;
    }
 
@@ -88,7 +88,7 @@ int main (int argc, char* argv[]) {
       break;
 
    case -1:
-      TRACE ("Remote: Can't create child process");
+      std::cerr << "Remote: Can't create child process\n";
       return -2;
 
    default: {
