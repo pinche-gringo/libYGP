@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.7 2002/08/20 05:18:42 markus Rel $
+//$Id: RegExp.h,v 1.8 2002/12/08 18:41:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
+#include <Check.h>
 
 // Base-class for any regular expression. Provides interface for other
 // regular-expression-like classes.
@@ -27,7 +27,7 @@
 class IRegularExpression {
  public:
    bool matches (const char* pCompare) {
-      assert (pCompare); assert (pRegExp); assert (!checkIntegrity ());
+      Check1 (pCompare); Check1 (pRegExp); Check1 (!checkIntegrity ());
       return compare (pRegExp, pCompare); }
 
    virtual int checkIntegrity () const { return 0; }
