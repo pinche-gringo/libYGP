@@ -1,3 +1,16 @@
+2003-09-05  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.21 cummented
+
+	* po/es.po: Fixes
+
+	* Common/Mutex.h: Comments corrected
+
+	* Common/ConnMgr.h: Only setting mode, if connect succeeds
+
+	* Common/ConnectDlg.cpp, Common/ConnectDlg.h:
+	  Implemented okEvent to free communiation thread
+
 2003-08-12  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.6.20 commented
