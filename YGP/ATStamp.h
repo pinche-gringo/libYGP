@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.3 1999/10/16 00:39:20 Markus Rel $
+//$Id: ATStamp.h,v 1.4 1999/11/09 22:01:41 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,8 +42,21 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp (const time_t stamp) { operator= (stamp); }
    virtual ~ATimestamp ();
 
-   bool         isDefined () const { return AttributValue::isDefined (); }
-   virtual void undefine () { return AttributValue::undefine (); }
+   bool         isDefined () const {
+#ifdef __BORLANDC__
+      return ADate::isDefined ();
+#else
+      return AttributValue::isDefined ();
+#endif
+   }
+   virtual void undefine () {
+#ifdef __BORLANDC__
+      ADate::undefine ();
+      ATime::undefine ();
+#else
+      AttributValue::undefine ();
+#endif
+   }
 
    static ATimestamp now () { return ATimestamp (true); }
 

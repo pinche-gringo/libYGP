@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.10 1999/11/04 20:43:11 Markus Rel $
+//$Id: Parse.h,v 1.11 1999/11/09 22:01:41 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -77,7 +77,13 @@ class ParseObject {
 
    PARSECALLBACK pCallback;     // Protected to enable sub-classes easy access
 
-   static _IO_ostream_withassign& error;
+#ifdef __GNUC__
+   typedef _IO_ostream_withassign ostream_withassign;
+#else
+   typedef ostream_withassign ostream_withassign;
+#endif
+
+   static ostream_withassign& error;
 
  private:
    // Prohibited manager functions

@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.6 1999/10/15 21:34:26 Markus Rel $
+//$Id: ADate.h,v 1.7 1999/11/09 22:01:41 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,12 +50,12 @@ class ADate : public AttributValue {
    ADate& operator= (istream& stream);
    ADate& operator= (const std::string& date) { return operator= (date.c_str ()); }
    ADate& operator= (const struct tm& tm) { year = tm.tm_year + 1900;
-      month = tm.tm_mon + 1; setDay (tm.tm_mday); }
+      month = (unsigned char)(tm.tm_mon + 1); setDay ((unsigned char)tm.tm_mday); }
    ADate& operator= (const time_t date) { operator= (*localtime (&date)); }
 
    virtual void readFromStream (istream& in);
 
-   virtual void define () { AttributValue::define (); day = month = 1; year = 1900; }
+   virtual void define () { AttributValue::define (); day = month = (unsigned char)1; year = 1900; }
    void setDay (char Day);
    void setMonth (char Month);
    void setYear (unsigned int Year) { AttributValue::define (); year = Year; }

@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.3 1999/09/29 21:23:32 Markus Rel $
+//$Id: PathDirSrch.cpp,v 1.4 1999/11/09 22:01:41 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -56,20 +56,15 @@ int PathDirectorySearch::find (dirEntry& result, unsigned long attribs) {
       // Build filename with first node of path
       std::string node (searchPath.getNextNode ());
       if (node.empty ())
-#ifdef UNIX
          return ENOENT;
-#else
-#  ifdef WINDOWS
-         return //WinGetLastError ();
-#  endif
-#endif
 
       makePath (node, srch);
-   
+
       TRACE9 ("PathDirectorySearch::find (result, attribs): " << node);
       setFile (node);
       rc = DirectorySearch::find (result, attribs);
    } while (rc);
+   return 0;
 }
 
 /*--------------------------------------------------------------------------*/

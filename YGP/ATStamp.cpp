@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.2 1999/10/15 21:35:07 Markus Rel $
+//$Id: ATStamp.cpp,v 1.3 1999/11/09 22:01:41 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -103,7 +103,11 @@ ATimestamp& ATimestamp::operator= (const char* pStamp) {
 
    TRACE5 ("ATimestamp::operator= (const char*): " << pDate);
 
+#ifdef __BORLANDC__
+   istrstream help (const_cast <char*> (pStamp));
+#else
    istrstream help (pStamp);
+#endif
    readFromStream (help);
    return *this;
 
@@ -118,6 +122,7 @@ ATimestamp& ATimestamp::operator= (const char* pStamp) {
 ATimestamp& ATimestamp::operator= (const struct tm& tm) {
    ADate::operator= (tm);
    ATime::operator= (tm);
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -147,7 +152,7 @@ std::string ATimestamp::toString (const char* format) const {
 /*--------------------------------------------------------------------------*/
 void ATimestamp::readFromStream (istream& in) {
    ADate::readFromStream (in);
-   ATime::readFromStream (in);   
+   ATime::readFromStream (in);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -278,7 +283,7 @@ bool ATimestamp::minAdapt () {
    if (ATime::minAdapt ())
       decDay ();
 
-   ADate::minAdapt ();
+   return ADate::minAdapt ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -287,7 +292,7 @@ bool ATimestamp::minAdapt () {
 bool ATimestamp::maxAdapt () {
    if (ATime::maxAdapt ())
       incDay ();
-   ADate::maxAdapt ();
+   return ADate::maxAdapt ();
 }
 
 /*--------------------------------------------------------------------------*/

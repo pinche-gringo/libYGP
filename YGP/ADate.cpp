@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.6 1999/10/15 21:34:26 Markus Rel $
+//$Id: ADate.cpp,v 1.7 1999/11/09 22:01:41 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -108,7 +108,11 @@ ADate& ADate::operator= (const char* pDate) {
 
    TRACE5 ("ADate::operator= (const char*): " << pDate);
 
+#ifdef __BORLANDC__
+   istrstream help (const_cast <char*> (pDate));
+#else
    istrstream help (pDate);
+#endif
    readFromStream (help);
    return *this;
 }
@@ -142,7 +146,7 @@ std::string ADate::toString (const char* format) const {
    if (checkIntegrity ())
       TRACE ("ADate::toString: Invalid ADate " << (int)day << '.'
              << (int)month << '.' << year);
-   return szBuffer;
+   return std::string (szBuffer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -153,11 +157,11 @@ std::string ADate::toString (const char* format) const {
 void ADate::readFromStream (istream& in) {
    unsigned int first (0), second (0);
    char split;
-   
+
    in >> first >> split >> second >> split >> year;
    TRACE9 ("ADate::readFromStream: Read: " << first << split << second
           << split << year);
-   
+
    day = (char)first;
    month = (char)second;
 
@@ -185,7 +189,7 @@ ADate& ADate::operator+= (const ADate& rhs) {
          day += rhs.day;
          month += rhs.month;
          year += rhs.year;
-      
+
          maxAdapt ();
       }
       else
@@ -259,6 +263,7 @@ ADate& ADate::sub (char Day, char Month, unsigned int Year) {
 
       assert (!checkIntegrity ());
    }
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -335,15 +340,15 @@ int ADate::checkIntegrity () const {
 //            year: Year to check
 //Returns   : int: Max. day
 /*--------------------------------------------------------------------------*/
-char  ADate::maxDayOf (char month, unsigned int year) {
+char ADate::maxDayOf (char month, unsigned int year) {
    assert ((month > 0) && (month < 13));
 
-   if (month == 2)                             // Special-handling of february
-      return isLeapYear (year) ? 29 : 28;
+   if (month == (unsigned char)2)              // Special-handling of february
+      return (unsigned char)(isLeapYear (year) ? 29 : 28);
 
-   if (month > 7)             // Adapt month after july for easier calculation
+   if (month > (unsigned char)7)    // Adapt month after july for easier calc.
       --month;
-   return month & 1 ? 31 : 30;
+   return (unsigned char)(month & 1 ? 31 : 30);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -367,7 +372,7 @@ bool ADate::minAdapt () {
       --month;
 
    if ((month < 1) || (month > 12)) {              // Adapt month if underflow
-      month += 12;              // Assuming calculation was with correct month
+      month += (unsigned char)12;     // Assuming calc. was with correct month
       --year;
    }
 
@@ -381,14 +386,14 @@ bool ADate::minAdapt () {
 //Purpose   : Adapt value after recalculation with possible overflow
 /*--------------------------------------------------------------------------*/
 bool ADate::maxAdapt () {
-   int maxDay (maxDayOf ());                         // Adapt date if overflow
+   unsigned char maxDay (maxDayOf ());               // Adapt date if overflow
    if (day > maxDay) {
       day -= maxDay;
       ++month;
    }
 
-   if (month > 12) {                                // Adapt month if overflow
-      month -= 12;              // Assuming calculation was with correct month
+   if (month > (unsigned char)12) {                 // Adapt month if overflow
+      month -= (unsigned char)12;     // Assuming calc. was with correct month
       ++year;
    }
    return !checkIntegrity ();
