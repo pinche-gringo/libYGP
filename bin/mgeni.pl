@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mgeni.pl,v 1.2 2004/11/03 05:07:01 markus Rel $
+# $Id: mgeni.pl,v 1.3 2005/01/10 23:21:37 markus Exp $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ pod2usage (1) if ($help);
 
 if ($version) {
     $0 =~ s!.*/(.*)!$1!;
-    my $rev = '$Revision: 1.2 $';
+    my $rev = '$Revision: 1.3 $';
     $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
     print "$0 - V0.1.00     ($rev)\n";
     print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
@@ -95,6 +95,8 @@ my $name;
 my $value='';
 my $getline_ok;
 my $fncs="\n";
+my $nextValue='';
+my $lastChar='';
 
 line: while (<>) {
     chomp;	# strip record separator
@@ -107,7 +109,7 @@ line: while (<>) {
 	    }
 	    else {
 		$inComment = 0;
-		$_ = substr($_, $pos + 1, 999999);
+		$_ = substr($_, $pos + 1);
 	    }
 	}
 
@@ -115,7 +117,7 @@ line: while (<>) {
 	if ($pos != -1) {
 	    $endPos = index($_, '*/');
 	    if ($endPos > $pos) {	#???
-		$end = substr($_, $endPos + 1, 999999);
+		$end = substr($_, $endPos + 1);
 		$_ = substr($_, 0, $pos - 1);
 		$_ = $_ . $Fld[$end];
 	    }
@@ -133,17 +135,32 @@ line: while (<>) {
 	    for ($i = 0; $i < $#Fld; $i++) {
 		if ($Fld[$i] =~ /class/) {
 		    $className = $Fld[$i + 1];
+		    $nextValue = ($#Fld > ($i + 1)) ? $Fld[$i + 2] : '';
 		    last;
 		}
 	    }
 	    if ($className eq '') {
-		$_ = &Getline0();
+		do {
+		    $_ = &Getline0 ();
+		} while ($_ eq '');
 		$className = $Fld[1];
+		$nextValue = ($#Fld > 1) ? $Fld[2] : '';
 	    }
-	    $foundClass = 1;
+	    while ($nextValue eq '') {
+		$nextValue = &Getline0 ();
+	    }
 
-	    print $className, '::', $className, " ()\n";
-	    $FS = ";[ \t]*";
+	    $lastChar = substr ($className, -1);
+	    if (($lastChar ne '{') && ($lastChar ne ':') && ($lastChar ne ';')) {
+		$lastChar = substr ($nextValue, 0, 1);
+	    }
+
+	    if (($lastChar eq '{') || ($lastChar eq ':')) {
+		$foundClass = 1;
+
+		print $className, '::', $className, " ()\n";
+		$FS = ";[ \t]*";
+	    }
 	}
 	else {
 	    next line;
@@ -153,21 +170,19 @@ line: while (<>) {
 
     if ($_ =~ /(\/\/|\/*)[[:blank:]]*%attrib%/) {
 	$type = $Fld[0];
-	$name = $Fld[2];
-	$value = $Fld[3];
+	$name = ($#Fld > 1) ? $Fld[2] : "";
+	$value = ($#Fld > 2) ? $Fld[3] : "";
 	$type =~ s/^[[:blank:]]*//;
 	$attr = $type;
 	$attr =~ s/.*[[:blank:]]//;
 	$type =~ s/[[:blank:]]+[^[:blank:]]*$//;
-	if ($name eq '') {
-	    $name = $attr;
-	}
+
 	if ($value ne '') {
 	    print '   ', (($firstVal == 1) ? ':' : ','), ' ', $attr, ' (',
 		   $value, ")\n";
 	    $firstVal = 0;
 	}
-	if ($attr ne '') {
+	if ($name ne '') {
 	    $following = $following . '   addAttribute (*new YGP::Attribute<'
 	      . $type . "> (\"" . $name . "\", " . $attr . "));\n";
 
