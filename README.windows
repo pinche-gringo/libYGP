@@ -9,18 +9,26 @@ This package can be compiled in 3 ways for Windows:
 
 
 The first way is the traditional UNIX-way; with running ./configure followed
-by make (see INSTALL for details).
+by make (see INSTALL for details). But get a grip on live and a real UNIX.
 
 If you insist on the second way, please note that although there exists a
 project file for the library, it is not recommended to use it as it does NOT
 automatically generate the DEF-file and the package also contains tests which
 can't be obtained that way (as the IDE don't support to run the tests
-simultanously and would need every test to be in a seperate project).
+simultanously and would need every test to be in a seperate project - or so it
+seems).
 
-Instead you should just run Make.bat [check] in the root directory of the
+Instead you should just run Make.bat MSC [check] in the root directory of the
 project (or nmake /f VCGeneral.mak [check] in the Windows directory (both
 after setting the environment for VC). If you add a "CFG=Release" to either
 command a release version (without internal checks and the like) is created.
+Note that the DLL does not really work - there seem to be a problem returning a
+string from the DLL. It looks like this string then gets freed once to often.
+I'm not sure, who's to blame for that - the thing works fine, if you link
+directly with the objects (which let's shitty Visual C++ look guilty).
+
+The project at least compiles with Borland C++. I never created a DLL, nor
+did test the result. To build it with that compiler, type Make BCC [check].
 
 In every case you must copy the created DLL into a directory in your path and
 the created import library into a fitting directory (searched by the linker).
@@ -31,3 +39,7 @@ Cygwin properly this step might be done with a make install.
 The makefile generates automatically a DEF-file containing all methods of the
 classes.  Note that you need AWK (tested with GNU awk from the Cygwin package)
 to work.
+
+A final word of warning: If you unzip the tarball with WinZIP one test will
+fail! The test ist XStrBuf.exe and the reason is WinZIP converting the UNIX
+linefeeds into Windows CR/LFs. Live with that.
