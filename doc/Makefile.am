@@ -11,4 +11,9 @@ EXTRA_DIST=AByteArray.html ADate.html ANumeric.html ATStamp.html ATime.html\
 	   Socket.html Tokenize.html Thread.html XDirSrch.html XStrBuf.html\
 	   XStream.html cross_index.html index.html mdocu.html\
 	   XAbout.html XApplication.html XDate.html XFileDlg.html \
-	   XFileEntry.html XFileList.html XPrintDlg.html
+	   XFileEntry.html XFileList.html XPrintDlg.html YMP.doxy.in \
+	   XMP.doxy.in
+
+doc:	YGP.doxy XGP.doxy
+	doxygen YGP.doxy
+	doxygen XGP.doxy
