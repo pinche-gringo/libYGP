@@ -77,21 +77,22 @@ abcd=1
 abfcd=0
 ab cd=0
 
-[ab\\|cd]
+[ab|cd]
 ab=1
 cd=1
+abc=0
 abcd=0
 cdab=0
 xxx=0
 
-[a\\(bc\\|de\\)f]
+[a(bc|de)f]
 abcf=1
 adef=1
 acdf=0
 abc=0
 def=0
 
-[a\\(bc\\|bcd\\)e]
+[a(bc|bcd)e]
 abce=1
 abcde=1
 abe=0
