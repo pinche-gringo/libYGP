@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.11 2002/10/20 23:10:51 markus Rel $
+//$Id: File.cpp,v 1.12 2002/12/01 21:18:34 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -43,13 +43,13 @@ const char File::DIRSEPARATOR = '\\';
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Copyconstructor
-//Parameter : o: Object to copy
+//Parameter : other: Object to copy
 /*--------------------------------------------------------------------------*/
-File::File (const File& o) : path_ (o.path_)
+File::File (const File& other) : path_ (other.path_)
 #if SYSTEM == UNIX
-   , entry (o.entry), status (o.status), userExec (o.userExec)
+   , entry (other.entry), status (other.status), userExec (other.userExec)
 #elif SYSTEM == WINDOWS
-   , WIN32_FIND_DATA (o)
+   , WIN32_FIND_DATA (other)
 #else
 #  error Not implemented!
 #endif
@@ -66,25 +66,26 @@ File::~File () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Assignmentoperator
-//Parameter : o: Object to copy
+//Parameters: other: Object to copy
 //Returns   : File&: Reference to this
 /*--------------------------------------------------------------------------*/
-File& File::operator= (const File& o) {
-   if (this != &o) {
-      path_ = o.path_;
+File& File::operator= (const File& other) {
+   if (this != &other) {
+      path_ = other.path_;
 #if SYSTEM == UNIX
-      entry = o.entry;
-      status = o.status;
-      userExec = o.userExec;
+      entry = other.entry;
+      status = other.status;
+      userExec = other.userExec;
 #elif SYSTEM == WINDOWS
-      WIN32_FIND_DATA::operator= (o);
+      WIN32_FIND_DATA::operator= (other);
 #endif
    } // endif
    return *this;
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Copy-method
+//Purpose   : Duplicates (clones) the object and returns a pointer to the
+//            newly created object.
 //Returns   : File*: Pointer to newly created clone
 /*--------------------------------------------------------------------------*/
 File* File::clone () const {
@@ -94,41 +95,41 @@ File* File::clone () const {
 #if SYSTEM == WINDOWS
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tests, if the file is executeable. This is decided on the file-
-//            extension: EXE-, COM- and BAT-files are considered executeable
+//Purpose   : Returns true, if the file is executeable. Under UNIX it checks
+//            the file-permissions (any execute-right is sufficient), under
+//            DOS/WINDOZE the extension of the file (EXE/COM/BAT).
 //Returns   : Flag, if file is executeable
-//Remarks   : Other also executeable files (like 4DOS BTM-files; I think
-//            there's even another WINDOZE-format) are not considered as exes.
+//Remarks   : - VBS, WSH, and whatever Windows executes directly are not considered executable
+//            - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
 bool File::isExecuteable () const {
    const char* pEnd = strrchr (cFileName, '.');
-   if (pEnd++)
-      // Check the next 4 bytes; ignore end-of-string, the buffer is long
-      // enough (MAX_PATH) and the trailing \0 is in the compare
-      switch (toupper (*pEnd++) + (toupper (*pEnd++) << 8)
-              + (toupper (*pEnd++) << 16) + (toupper (*pEnd) << 24)) {
-#if defined __BORLANDC__ || defined __GNUG__
-      case 'EXE\0' :
-      case 'COM\0' :
-      case 'BAT\0' :
-#else
-#  ifdef _MSC_VER
-      case '\0EXE' :
-      case '\0MOC' :
-      case '\0TAB' :
-#  else
-#     error Unsupported compiler! Please check how long character-constants are treated.
-#  endif
-#endif
-	 return true;
-      } // end-switch
-   return false;
+   if (pEnd++) {
+      static char* aexeExtensions[] = { "EXE", "COM", "BAT" };
+      char   compExt[4];
+      unsigned int i;
+
+      // Copy uppercase extension for compare
+      for (i = 0; i < sizeof (compExt); ++) {
+         compExt[i] = toupper (*pEnd);
+         if (!*pEnd)
+            break;
+         ++pEnd;
+      }
+
+      // Check if an extension matches
+      for (i = 0; i < (sizeof (aexeExtensions) / sizeof (aexeExtensions[0])); ++i)
+         if (*(unsigned int *)aexeExtensions[i] == *(unsigned int *)compExt)
+            return true;
+      return false;
+   }
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Returns the time of the file in a time_t.
+//Purpose   : Retrieves the modification time of the file in the format of the
+//            system-time.
 //Returns   : struct tm*: Pointer to time
-//Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
+//Remarks   : - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
 const time_t File::time () const {
    struct tm fileTime;
@@ -138,8 +139,8 @@ const time_t File::time () const {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Returns the (local) time of the file in a (C-)struct tm.
-//Returns   : struct tm*: Pointer to time
-//Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
+//Returns   : time: Broken down time structure to set
+//Remarks   : - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
 void File::localtime (struct tm& time) const {
    FILETIME fileTemp;
@@ -148,9 +149,11 @@ void File::localtime (struct tm& time) const {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Returns the (local) time of the file in a (C-)struct tm.
-//Returns   : struct tm*: Pointer to time
-//Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
+//Purpose   : Converts the filetime into a (C-)struct tm.
+//Parameters: time: Time of the file (in Windows format)
+//            result: Time of file converted into a struct tm
+//Remarks   : - The tm_wday, tm_yday and tm_isdst-members are not set!
+//            - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
 void File::setTime (const FILETIME& time, struct tm& result) {
    SYSTEMTIME sysTime;
@@ -162,8 +165,8 @@ void File::setTime (const FILETIME& time, struct tm& result) {
    result.tm_mday = sysTime.wDay;
    result.tm_wday = sysTime.wDayOfWeek;
    result.tm_mon = sysTime.wMonth - 1;
-   assert ((result.tm_mon >= 0) && (result.tm_mon <= 11));
-   result.tm_year = sysTime.wYear - 1900; assert (result.tm_year >= 0);
+   Check3 ((result.tm_mon >= 0) && (result.tm_mon <= 11));
+   result.tm_year = sysTime.wYear - 1900; Check3 (result.tm_year >= 0);
    result.tm_yday = 0;                                                // TODO?
    result.tm_isdst = 1;
 }
@@ -171,14 +174,16 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 #endif
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Opens this for further read/write access
+//Purpose   : Opends the file in the specified mode. The mode parameter can
+//            have the same values than the ANSI-C fopen-function.
 //Parameters: mode: Mode for open the file (analogue to libc's fopen)
-//Returns   : void*: Pointer to a handle to the opened file.
+//Returns   : void*: Pointer to a handle for the opened file.
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 void* File::open  (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
    TRACE5 ("File::open  (const char*) const - " << file);
-   assert (mode);
+   Check3 (mode);
 
    FILE* pFile = fopen (file.c_str (), mode);
    if (pFile == NULL)
@@ -188,29 +193,37 @@ void* File::open  (const char* mode) const throw (std::string) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Closes the (previously opened file
+//Purpose   : Closes a (previously opened) file
 //Parameters: file: Handle of opened file
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 void File::close (void* file) const throw (std::string) {
    TRACE5 ("File::close  () const - " << path () << name ());
-   assert (file);
+   Check3 (file);
 
    if (fclose (static_cast <FILE*> (file)))
       throwErrorText (N_("Error closing file `%1'! Reason: %2"));
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Reads (the next) length bytes from the (previously opened) file
+//Purpose   : Reads the (next) specified number of characters from the
+//            (previously opened) file (or less, if the end of the file has
+//            been reached) into buffer. and returns the number of actually
+//            read bytes.
+//
+//            If an error occurres, an exception is thrown
 //Parameters: file: Handle of openeded file
 //            buffer: Buffer for data
 //            length: Maximal length of buffer
+//Returns   : int: Number of read bytes
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 int File::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
 
-   assert (file);
-   assert (buffer);
-   assert (length);
+   Check3 (file);
+   Check3 (buffer);
+   Check3 (length);
 
    int rc (fread (buffer, 1, length, static_cast <FILE*> (file)));
    if (!rc)                        // Exception only if *no* char has been read
@@ -220,16 +233,21 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Writes length bytes to the (previously opened) file
+//Purpose   : Writes the specified number of characters to the  (previously
+//            opened) file and returns the number of actually written bytes.
+//
+//            If an error occurres, an exception is thrown.
 //Parameters: file: Handle of openeded file
 //            buffer: Buffer of data
 //            length: Length of buffer (= bytes to write)
+//Returns   : int: Number of written bytes
+//Throws    : string: In case of an error a textual description
 /*--------------------------------------------------------------------------*/
 int File::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
-   assert (file);
-   assert (buffer);
-   assert (length);
+   Check3 (file);
+   Check3 (buffer);
+   Check3 (length);
 
    int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
    if (rc < length)
@@ -239,21 +257,24 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if further data is available
+//Purpose   : Checks if further data is available for reading.
 //Parameters: file: Handle of openeded file
+//Returns   : bool: True, if further data is available
 /*--------------------------------------------------------------------------*/
 bool File::isEOF (void* file) const throw (std::string) {
-   assert (file);
+   Check3 (file);
    return feof (static_cast <FILE*> (file)) != 0;
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Appends a description of the last error the the passed string
+//Purpose   : Throws an error consisting of the passed string, where the
+//            characters '%1' are subsituted with the name of the file and
+//           '%2' with an error message (according to strerror).
 //Parameters: error: ASCIIZ-String describing error-message
 //Requires  : error != NULL, an ASCIIZ-string with the placeholders %1, %2
 /*--------------------------------------------------------------------------*/
 void File::throwErrorText (const char* error) const throw (std::string) {
-   assert (error);
+   Check3 (error);
    std::string file (path ());
    file += name ();
    std::string err (_(error));
