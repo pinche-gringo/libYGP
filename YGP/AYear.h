@@ -1,7 +1,7 @@
 #ifndef AYEAR_H
 #define AYEAR_H
 
-//$Id: AYear.h,v 1.2 2004/11/11 04:23:29 markus Exp $
+//$Id: AYear.h,v 1.3 2004/12/29 18:20:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ class AYear : public AttributValue {
    //@}
 
  protected:
-   int year;
+   int year;                                              ///< Stores the year
 };
 
 }

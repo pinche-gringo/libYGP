@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.35 2004/11/14 21:19:39 markus Exp $
+//$Id: ATime.cpp,v 1.36 2004/12/29 18:20:00 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -130,6 +130,7 @@ ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
 /// either in the local format or as HHMMSS. If the buffer does not represent a
 /// valid time an excpetion is thrown.
 /// \param pTime: Character array specifying time to assign
+/// \param len: Length of the passed date
 /// \returns Reference to self
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid time

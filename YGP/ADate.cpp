@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.42 2004/11/14 21:18:33 markus Exp $
+//$Id: ADate.cpp,v 1.43 2004/12/29 18:19:59 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -120,6 +120,7 @@ ADate& ADate::operator= (const char* pValue) throw (std::invalid_argument) {
 /// either in the local format or as DDMMY[...}. If the buffer does not
 /// represent a valid date an excpetion is thrown.
 /// \param pDate: Character array specifying date to assign
+/// \param len: Length of the passed date
 /// \returns Reference to self
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid date
