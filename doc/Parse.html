@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.2 2000/04/01 00:22:08 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.3 2000/04/02 02:56:11 Markus Exp $ -->
 
 <html>
   <head>
@@ -89,10 +89,6 @@
 	<td><a href="Parse.html#POoperator=">operator=</a></td>
 	<td>(const <a href="Parse.html#ParseObject">ParseObject</a>&amp; other)</td></tr>
       
-      <tr valign="top"><td>static void</td>
-	<td><a href="Parse.html#POsetParseErrorStream">setParseErrorStream</a></td>
-	<td>(ostream& err)</td></tr>
-
       <tr valign="top"><td>const char*</td>
 	<td><a href="Parse.html#POgetDescription">getDescription</a></td>
 	<td>() const</td></tr>
@@ -108,7 +104,8 @@
 	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream)</td></tr>
       <tr valign="top"><td>int</td>
 	<td><a href="Parse.html#POparse">parse</a></td>
-	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream)</td></tr>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw
+	  (std::string)</td></tr>
       <tr valign="top"><td>virtual int</td>
 	<td><a href="Parse.html#POdoParse">doParse</a></td>
 	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
@@ -127,66 +124,82 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="ParseObject1"><i>ParseObject (const char* description, bool
-	  skipWhitespace = true)</i> - Constructor; the parameter
-	<i>description</i> must contain a description of the object,
-	<i>skipWhitespace</i> defines if white-spaces should be skipped
-	<b>after</b> sucessful parsing this object.</a></p>
-    <p><a name="ParseObject2"><i>ParseObject (const ParseObject& other)</i>
-	- Copy-constructor</a></p>
+    <pre><a name="ParseObject1">ParseObject (const char* description, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor; the parameter <i>description</i> must contain a
+	description of the object, <i>skipWhitespace</i> defines if white-spaces
+	should be skipped <b>after</b> sucessful parsing this object.
+	<p><b>Note</b>: The description must be valid during the lifetime (or
+	  at least the usage) of the object!</p></dd>
+    </dl>
+    <pre><a name="ParseObject2">ParseObject (const ParseObject& other)</a></pre>
+    <pre><a name="~ParseObject">virtual ~ParseObject ()</a></pre>
 
-    <p><a name="~ParseObject"><i>virtual ~ParseObject ()</i> - Destructor</a></p>
-
-    <p><a name="POoperator="><i>ParseObject&amp; operator= (const ParseObject&amp; other)</i>
-	- Assignmentoperator</a></p>
-
-    <p><a name="POsetParseErrorStream"><i>static void setParseErrorStream
-	  (ostream&amp; err)</i> - Sets the error-stream for the output.
-	<b>Note</b>: This setting changes the output (of the parser) for the
-	whole process!</a></p>
+    <pre><a name="POoperator=">ParseObject&amp; operator= (const ParseObject&amp; other)</a></pre>
 
     <h4>Accessing values</h4>
-    <p><a name="POgetDescription"><i>const char* getDescription () const</i> -
-	Retrieves the pointer to the description specified to this object.</a></p>
-    <p><a name="POsetDescription"><i>void setDescription (const char* desc)</i>
-	- Changes the description of the object.</a></p>
-    <p><a name="POsetSkipWS"><i>void setSkipWS (bool skipWhitespace)</i> -
-	Sets the flag if whitespaces should be skipped after sucessfully
-	parsing data matching this object.</a></p>
+    <pre><a name="POgetDescription">const char* getDescription () const</a></pre>
+    <dl>
+      <dd>Retrieves the pointer to the description specified to this object.</dd>
+    </dl>
+    <pre><a name="POsetDescription">void setDescription (const char* desc)</a></pre>
+    <dl>
+      <dd>Changes the description of the object</dd>
+    </dl>
+    <pre><a name="POsetSkipWS">void setSkipWS (bool skipWhitespace)</a></pre>
+    <dl>
+      <dd>Sets the flag if whitespaces should be skipped after sucessfully
+	parsing data matching the object.</dd>
+    </dl>
 
     <h4>Parsing</h4>
-    <p><a name="POskipWS"><i>void skipWS (<a href="XStream.html#Xistream">Xistream</a>&amp;
-      stream) const</i> - Skips all whitespace (blank, tabulator, carriage
-      return and line feed) characters from the current position in the passed
-      stream.</a></p>
+    <pre><a>void skipWS (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream) const</a></pre>
+    <dl>
+      <dd>Skips all whitespace characters (blank, tabulator, carriage return
+	and line feed) from the current position in the passed stream.</dd>
+    </dl>
+    <pre><a name="POparse">int parse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</a></pre>
+    <dl>
+      <dd>Tries to parse data matching the information stored with this
+	parse-object from the passed stream. If this parsing is successful (the
+	parsed data matches) this function returns <i>PARSE_OK</i>; else a
+	non-zero value. Errors larger than 0 are <i>soft errors</i> and the
+	parsing can be continued, errors less than 0 are <i>hard errors</i> and
+	the parsing is stopped.</dd>
 
-    <p><a name="POparse"><i>int parse (<a href="XStream.html#Xistream">Xistream</a>&amp;
-      stream)</i> - Tries to parse data matching the information stored with
-      this parse-object from the passed stream. If this parsing is successful
-      (the parsed data matches) this function returns <i>PARSE_OK</i>; else
-      a non-zero value. Errors larger than 0 are <i>soft errors</i> and the
-      parsing can be continued, errors less than 0 are <i>hard errors</i> and
-      the parsing is stopped.</a></p>
-    <p><a name="POdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
-      stream)</i> - Pure virtual method defining the interface for the actual
-      parse-method for the different parse-objects; to be implemented by the
-      derived classes. If this parsing is successful (the parsed data matches)
-      this function must returns <i>PARSE_OK</i>; else a non-zero value. Errors
-      larger than 0 are <i>soft errors</i> and the parsing can be continued,
-      errors less than 0 are <i>hard errors</i> and the parsing is stopped. If
-      possible used the predefined error-codes <i>PARSE_ERROR</i>, 
-      <i>PARSE_CB_ERROR</i> and <i>PARSE_CB_ABORT.</i></a></p>
+      <dt>&nbsp;&nbsp;&nbsp;&nbsp;Throws:</dt><dd>std::string with a description of
+	the expected and the found data</dd>
+    </dl>
+    <pre><a name="POdoParse">virtual int doParse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream)</a></pre>
+    <dl>
+      <dd>Pure virtual method defining the interface for the actual
+	parse-method for the different parse-objects; to be implemented by the
+	derived classes.
 
-    <p><a name="POfound"><i>virtual int found (const char* pFoundValue)</i> -
-	Callback to notify caller that an object has found itself during
-	parsing. This callback can return report its status with the return
-	codes <i>PARSE_OK</i> or 0 for OK, <i>PARSE_CB_ERROR</i> or any other
-	number larger than 0 for <i>soft errors</i> and <i>PARSE_CB_ABORT</i>
-	or any number below 0 for <i>hard errors</i>.</a></p>
+	<p>If this parsing is successful (the parsed data matches) this
+	  function must return <i>PARSE_OK</i>; else a non-zero value. Errors
+	  larger than 0 are <i>soft errors</i> and the parsing can be continued,
+	  errors less than 0 are <i>hard errors</i> and the parsing is stopped.</p>
+	<p>If possible used the predefined error-codes <i>PARSE_ERROR</i>,
+	  <i>PARSE_CB_ERROR</i> and <i>PARSE_CB_ABORT</i>. Unrecoverable
+	  (<i>hard</i>) errors can also be reported with an (explaining)
+	  exception.</p></dd>
+    </dl>
+    <pre><a name="POfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Callback to notify caller that an object has found itself during
+	parsing. This callback can report its status with the return codes
+	<i>PARSE_OK</i> or 0 for OK, <i>PARSE_CB_ERROR</i> or any other number
+	larger than 0 for <i>soft errors</i> and <i>PARSE_CB_ABORT</i> or any
+	number below 0 for <i>hard errors</i>.  Unrecoverable (<i>hard</i>)
+	errors can also be reported with an (explaining) exception.</dd>
+    </dl>
 
     <h4>Status-handling</h4>
-    <p><a name="POcheckIntegrity"><i>virtual int checkIntegrity () const</i> -
-	Checks if this object is in a valid state.</a></p>
+    <pre><a name="POcheckIntegrity">virtual int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks if this object is in a valid state.</dd>
+    </dl>
 
     <hr noshade="noshade">
 
@@ -221,13 +234,15 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="ParseEOF1"><i>ParseEOF ()</i> - Defaultconstructor</a></p>
-    <p><a name="~ParseEOF"><i>virtual ~ParseEOF ()</i> - Destructor</a></p>
+    <pre><a name="ParseEOF1">ParseEOF ()</a></pre>
+    <pre><a name="~ParseEOF">virtual ~ParseEOF ()</a></pre>
 
     <h4>Parsing</h4>
-    <p><a name="POEOFdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
-      stream)</i> - Returns <i>PARSE_OK</i>; if the end of the stream has been
-      reached; <i>PARSE_ERROR</i> if not.</i></a></p>
+    <pre><a name="POEOFdoParse">virtual int doParse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream)</a></pre>
+    <dl>
+      <dd>Returns <i>PARSE_OK</i>; if the end of the stream has been
+	reached; <i>PARSE_ERROR</i> if not.</dd>
+    </dl>
 
     <hr noshade="noshade">
 
@@ -258,6 +273,7 @@
 	<td><a href="Parse.html#CBEOFsetCallback">setCallback</a></td>
 	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
 
+      <tr valign="top"><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual int</td>
 	<td><a href="Parse.html#CBEOFfound">found</a></td>
@@ -268,18 +284,23 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="CBParseEOF1"><i>CBParseEOF (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</i>
-      - Constructor setting the callback.</a></p>
-    <p><a name="~CBParseEOF"><i>virtual ~CBParseEOF ()</i> - Destructor</a></p>
+    <pre><a name="CBParseEOF1">CBParseEOF (</a><a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="~CBParseEOF">virtual ~CBParseEOF ()</a></pre>
 
-    <p><a name="CBEOFsetCallback"><i>void setCallback
-	  (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</i> - Changes
-      the callback.</a></p>
+    <pre><a name="CBEOFsetCallback">void setCallback (</a><a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
 
     <h4>Parsing</h4>
-    <p><a name="CBEOFfound"><i>virtual int found (const char* pFoundValue)</i>
-	- Calls the defined callback with the passed parameter and returns its
-	result.</i></a></p>
+    <pre><a name="CBEOFfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
 
     <hr noshade="noshade">
 
@@ -297,9 +318,9 @@
     <h2>Description</h2>
     <p>Class to parse an attomic value; Base-class of all attomic values.</p>
 
-    <p>The pValue parameter has the following semantic: A parsed character is
-      valid if it occures in the pValue-list, where the backslash (\) escapes
-      the next charater to the following meaning:</p>
+    <p>The member <i>pValue</i> has the following semantic: A parsed character
+      is valid if it occures in the pValue-list, where the backslash (\)
+      escapes the next charater to the following meaning:</p>
 
     <ul>
       <li><b>A</b> ... Any alphabethic character is valid</li>
@@ -313,7 +334,10 @@
       <li><b>*</b> ... Any character is valid</li>
     </ul>
 
-    <p>
+    <p>The members <i>maxCard</i> and <i>minCard</i> specify how many characters
+      the object can or must have. If there are less matching characters parsed,
+      the object is considered as not found; after reaching the upper border,
+      parsing is stopped (for this object).</p>
 
     <hr noshade="noshade">
     <table border="0">
@@ -322,7 +346,7 @@
 	<td>(const char* value, const char* description, unsigned int max = 1,
 	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
       <tr valign="top"><td></td><td><a href="Parse.html#ParseAttomic2">ParseAttomic</a></td>
-	<td>(const <a href="Parse.html#ParseAttomic2">ParseAttomic</a>&amp; other)</td></tr>
+	<td>(const <a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp; other)</td></tr>
       <tr valign="top"><td>virtual</td>
 	<td><a href="Parse.html#~ParseAttomic">~ParseAttomic</a></td><td>()</td></tr>
 
@@ -350,12 +374,14 @@
 	<td>(unsigned int val)</td></tr>
 
       <tr valign="top"><td>static void</td>
-	<td><a href="Parse.html#POAttfreeBuffer">freeBuffer</a></td><td>()</td>
+	<td><a href="Parse.html#POAttfreeBuffer">freeBuffer</a></td><td>()</td></tr>
 
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual int</td>
-	<td><a href="Parse.html#POAttrcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+	<td><a href="Parse.html#POAttcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
       <tr valign="top"><td>virtual bool</td>
-	<td><a href="Parse.html#POAttrcheckValue">checkValue</a></td><td>(char ch)</td></tr>
+	<td><a href="Parse.html#POAttcheckValue">checkValue</a></td><td>(char ch)</td></tr>
 
       <tr valign="top"><td>virtual int</td>
 	<td><a href="Parse.html#POAttdoParse">doParse</a></td>
@@ -367,56 +393,163 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="ParseAttomic1"><i>ParseAttomic (const char* value, const char*
-	  description, unsigned int max = 1, unsigned int min = 1, bool
-	  skipWhitespace = true)</i> - Constructor; sets the neccessary data
-	of this object. The parameter <i>value</i> specifies the valid characters
-	for the object (which can either be listed or specified by type with
-	<i>\A</i> for alphabetic, <i>\9</i> for numeric, <i>\X</i> for
-	alpha-numeric characters, <i>\0</i> for the zero-character, <i>\n</i>
-	and <i>\r</i> for line-feed and carriage-return and blank ( ) for
-	white-spaces. A <i>\*</i> means every character). The parameters <i>max</i>
-	and <i>min</i> specify the maximal and minimal number of characters
-	this object may contain.</a></p>
-    <p><a name="ParseAttomic2"><i>ParseAttomic (const ParseAttomic&amp; other)</i>
-	- Copyconstructor</a></p>
-    <p><a name="~ParseAttomic"><i>virtual ~ParseAttomic ()</i> - Destructor</a></p>
+    <pre><a name="ParseAttomic1">ParseAttomic (const char* value, const char* description, unsigned int max = 1,
+              unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor; sets the neccessary data of this object.
+	<p>The parameter <i>value</i> specifies the valid characters for the
+	  object, which can either be listed or specified by a type behind a
+	  backslash (\) with the following characters:</p>
 
-    <p><a name="POAttoperator="><i>ParseAttomic&amp; operator= (const ParseAttomic&amp; other)</i>
-	- Assignmentoperator</a></p>
+	<ul type="bullet">
+	  <li><b>A</b> ... Any alphabethic character is valid</li>
+	  <li><b>X</b> ... Any alphanumeric character is valid</li>
+	  <li><b>9</b> ... Any number is valid</li>
+	  <li><b>0</b> ... The zero-character (\0) is valid</li>
+	  <li><b>n</b> ... The line-feed-character (\n) is valid</li>
+	  <li><b>r</b> ... The carriage-return-character (\r) is valid</li>
+	  <li><b>\</b> ... The backslash itself is valid</li>
+	  <li><b>blank ( )</b> ... Any whitespace is valid</li>
+	  <li><b>*</b> ... Any character is valid</li>
+	</ul>
 
-    <p><a name="POAttfreeBuffer"><i>static void freeBuffer</i> - Frees the buffer
-	which is used to store the parsed data. Use with care (at the end of
-	parsing and not during parsing a single object).</a></p>
+	<p>That means a value like "\9abcdeABCDE" would report all
+	  hexadecimal values as valid. <b>Note</b>: The backslash (\) is a
+	  character itself, so in a C-file this definition must be written as
+	  "\\9abcdeABCDE"!</p>
+
+	<p>The parameters <i>max</i> and <i>min</i> specify the maximal and
+	  minimal number of characters this object may contain.</p></dd>
+    </dl>
+    <pre><a name="ParseAttomic2">ParseAttomic (const ParseAttomic&amp; other)</a></pre>
+    <pre><a name="~ParseAttomic">virtual ~ParseAttomic ()</a></pre>
+
+    <pre><a name="POAttoperator=">ParseAttomic&amp; operator= (const ParseAttomic&amp; other)</a></pre>
+
+    <pre><a name="POAttfreeBuffer">static void freeBuffer</a></pre>
+    <dl>
+      <dd>Frees the buffer which is used to store the parsed data. Use with
+	care (only at the end of parsing and not during parsing a single
+	object).
+
+      <p>By default the parse-buffer is freed during the cleanup at the
+	  termination of the program or (if compiled with the macro
+	  MULTIBUFFER defined) everytime an attomic object finishes its
+	  parsing (successful or not).</p></dd>
+    </dl>
 
     <h4>Accessing values</h4>
-    <p><a name="POAttgetValues"><i>const char*  getValue () const</i> - Returns
-	a pointer to the stored valid characters.</a></p>
-    <p><a name="POAttsetValues"><i>setValue (const char* value)</i> - Changes
-	the valid characters. This parameter must be valid (not freed) for the
-	whole lifetime (usage) of the object.</a></p>
-    <p><a name="POAttgetMaxCard"><i>unsigned int getMaxCard () const</i> -
-	Returns	the maximal number of characters this object may match while
-	parsing.</a></p>
-    <p><a name="POAttsetMaxCard"><i>setMaxCard (unsigned int val)</i> - Changes
-	the maximal number of characters this object may match while parsing.</a></p>
-    <p><a name="POAttgetMinCard"><i>unsigned int getMinCard () const</i> -
-	Returns	the minimal number of characters this object must match while
-	parsing.</a></p>
-    <p><a name="POAttsetMinCard"><i>setMinCard (unsigned int val)</i> - Changes
-	the minimal number of characters this object must match while parsing.</a></p>
+    <pre><a name="POAttgetValue">const char* getValue () const</a></pre>
+    <dl>
+      <dd>Returns a pointer to the stored valid characters.</dd>
+    </dl>
+    <pre><a name="POAttsetValue">setValue (const char* value)</a></pre>
+    <dl>
+      <dd>Changes the valid characters. This parameter must be valid (not
+	freed) for the whole lifetime (usage) of the object.</dd>
+    </dl>
+    <pre><a name="POAttgetMaxCard">unsigned int getMaxCard () const</a></pre>
+    <dl>
+      <dd>Returns the maximal number of characters this object may match while
+	parsing.</dd>
+    </dl>
+    <pre><a name="POAttsetMaxCard">setMaxCard (unsigned int val)</a></pre>
+    <dl>
+      <dd>Changes the maximal number of characters this object may match while
+	parsing.</dd>
+    </dl>
+    <pre><a name="POAttgetMinCard">unsigned int getMinCard () const</a></pre>
+    <dl>
+      <dd>Returns the minimal number of characters this object must match while
+	parsing.</dd>
+    </dl>
+    <pre><a name="POAttsetMinCard">setMinCard (unsigned int val)</a></pre>
+    <dl>
+      <dd>Changes the minimal number of characters this object must match while
+	parsing.</dd>
+    </dl>
 
     <h4>Parsing</h4>
-    <p><a name="POAttdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
-      stream)</i> - Returns <i>PARSE_OK</i>; if the end of the stream has been
-      reached; <i>PARSE_ERROR</i> if not.</i></a></p>
-    <p><a name="POAttcheckValue"><i>virtual bool checkValue (char ch) const</i>
-	- Checks if ch is valid according the value-list of the object. See the
-	constructor and the general information at the beginning of the
-	documentation to this class for further information</a></p>
+    <pre><a name="POAttdoParse">virtual int doParse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream)</a></pre>
+    <dl>
+      <dd>Returns <i>PARSE_OK</i>; if the end of the stream has been reached;
+	<i>PARSE_ERROR</i> if not.</dd>
+    </dl>
+    <pre><a name="POAttcheckValue">virtual bool checkValue (char ch) const</a></pre>
+    <dl>
+      <dd>Checks if ch is valid according the value-list of the object. See the
+	<a href="Parse.html#ParseAttomic1">constructor</a> or the
+	<a href="Parse.html#ParseAttomic">general information</a> at the
+	beginning of the documentation to this class for further information</dd>
+    </dl>
 
     <h4>Status-handling</h4>
-    <p><a name="POAttcheckIntegrity"><i>virtual int checkIntegrity () const</i> -
-	Checks if this object is in a valid state.</a></p>
+    <pre><a name="POAttcheckIntegrity">virtual int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks if this object is in a valid state.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseText">Class ParseText</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseAttomic">ParseAttomic</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse a text-value til a certain abort-criteria.</p>
+
+    <p>Parsing of this element is stopped, if any of the characters in the
+      abort-parameters is found (or the maximal cardinality is reached).</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseText1">ParseText</a></td>
+	<td>(const char* abort, const char* description, unsigned int max = 1,
+	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseText2">ParseText</a></td>
+	<td>(const <a href="Parse.html#ParseText">ParseText</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseText">~ParseText</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseText">ParseText</a>&amp;</td>
+	<td><a href="Parse.html#POTxtoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseText">ParseText</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="Parse.html#POTxtcheckValue">checkValue</a></td><td>(char ch)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="ParseText1">ParseText (const char* abort, const char* description, unsigned int max = 1,
+              unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor; sets the neccessary data of this object.
+	<p>The parameter <i>abort</i> specifies the characters which ends the
+	  parsing for this object.</p></dd>
+    </dl>
+
+    <pre><a name="ParseText2">ParseText (const ParseText&amp; other)</a></pre>
+    <pre><a name="~ParseText">virtual ~ParseText ()</a></pre>
+
+    <pre><a name="POTxtoperator=">ParseText&amp; operator= (const ParseText&amp; other)</a></pre>
+
+    <pre><a name="POTxtcheckValue">virtual bool checkValue (char ch) const</a></pre>
+    <dl>
+      <dd>Checks if the parsed value is according the abort-list of the object.
+	If the parsed character is inside the list, false is returned; if not
+	true.</dd>
+    </dl>
   </body>
 </html>
