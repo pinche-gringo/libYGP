@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.40 2004/09/04 04:09:16 markus Exp $
+//$Id: Parse.h,v 1.41 2004/09/17 17:42:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -376,9 +376,9 @@ class ParseTextEsc : public ParseText {
 
      - The less-sign (<) is closed with a bigger-sign (>).
      - An opening parenthesis ({) is closed with a closing one (}).
-     - An opening bracket (() is closed with a closing one ()).
+     - An opening bracket "(" is closed with a closing one ")".
      - An opening square bracket ([) is closed with a closing one (]).
-     - An opening single quote (`) is closed with a closing one (´.
+     - An opening single quote (`) is closed with a closing one (´).
 
    See ParseObject for a general description of the parser.
 */
