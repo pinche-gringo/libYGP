@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.9 2003/07/16 07:00:41 markus Rel $
+// $Id: Version.cpp,v 1.10 2003/09/11 04:15:58 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -64,8 +64,18 @@ static const int init = _init ();
 
 #if SYSTEM == WINDOWS
 
+#ifdef _MSC_VER
+#pragma warning(disable:4786)   // disable warning about truncating debug info
+#endif
+
+#  include <map>
+#  include <Log.h>
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+std::map <unsigned int, char*> Syslog::apAppl;
+
 
 extern "C" {
 

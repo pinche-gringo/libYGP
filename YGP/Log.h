@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.10 2003/07/10 20:43:11 markus Rel $
+//$Id: Log.h,v 1.11 2003/09/11 04:15:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,13 +21,12 @@
 #include <gzo-cfg.h>
 
 #if SYSTEM == UNIX
-
-#include <syslog.h>
-
+#  include <syslog.h>
 #elif SYSTEM == WINDOWS
+#  include <iostream>
+#  include <map>
 
-#include <iostream>
-
+#  include <Process_.h>
 #endif
 
 #include <Check.h>
@@ -55,8 +54,8 @@ class Syslog {
 #if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
 #else
-      pAppl = new char[strlen (appl) + 1];
-      strcpy (pAppl, appl);
+      apAppl[Process::getPID ()] = new char[strlen (appl) + 1];
+      strcpy (apAppl[Process::getPID ()], appl);
 #endif // UNIX
    }
 
@@ -66,8 +65,8 @@ class Syslog {
 #if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, facility);
 #else
-      pAppl = new char[strlen (appl) + 1];
-      strcpy (pAppl, appl);
+      apAppl[Process::getPID ()] = new char[strlen (appl) + 1];
+      strcpy (apAppl[Process::getPID ()], appl);
 #endif // UNIX
    }
    /// Destructor
@@ -75,7 +74,7 @@ class Syslog {
 #if SYSTEM == UNIX
       closelog ();
 #else
-      delete pAppl;
+      delete apAppl[Process::getPID ()];
 #endif
    }
 
@@ -89,7 +88,7 @@ class Syslog {
       static char* levels[] = { "Emergency", "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
       Check1 (level < (sizeof (levels) / sizeof (levels[0])));
-      std::cerr << pAppl << '-' << levels[level] << ": " << text << '\n';
+      std::cerr << apAppl[Process::getPID ()] << '-' << levels[level] << ": " << text << '\n';
 #endif // UNIX
    }
 
@@ -101,7 +100,8 @@ class Syslog {
    // Don't rename ERR to ERROR, as this causes an error with BCC
    enum { EMERGENCY, ALERT, CRITICAL, ERR, WARNING, NOTICE, INFO, DEBUGGING };
 
-   const char* pAppl;
+   // Declaration is in Version.cpp!
+   static std::map <unsigned int, char*> apAppl;
 #endif // WINDOWS
 };
 
