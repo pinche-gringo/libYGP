@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.14 2002/10/10 05:51:20 markus Exp $
+// $Id: XStrBuf.h,v 1.15 2002/10/23 05:55:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ class extStreambuf : public streambuf {
    virtual int pbackfail (int c);
 
    // Setting of data-sink
-   void setSource (streambuf* source) { assert (pSource); pSource = source; }
+   void setSource (streambuf* source) { assert (source); pSource = source; }
    void setSource (streambuf& source) { pSource = &source; }
 
    // Accessing values
