@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.6 2002/05/19 11:45:53 markus Exp $
+//$Id: Thread.cpp,v 1.7 2002/05/23 04:56:58 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -42,7 +42,6 @@
 #include <stdlib.h>
 #endif
 
-#define DEBUG 9
 #include <Trace_.h>
 
 #include "Thread.h"
@@ -133,21 +132,32 @@ void Thread::cancel () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Waits for the passed thread to terminate
+//Parameters: id: Thread-ID to wait for
+//Returns   : void* 
+/*--------------------------------------------------------------------------*/
+void* Thread::waitForThread (unsigned long id) {
+   TRACE3 ("Thread::waitForThread (unsigned) - " << (int)id);
+
+#ifdef HAVE_LIBPTHREAD
+   void* rc;
+   pthread_join (id, &rc);
+   return rc;
+#else
+   int rc;
+   wait (id, &rc, 0);
+   return (void*)rc;
+#endif
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Waits for the passed thread to terminate
 //Parameters: id: Thread to wait for
 //Returns   : void* 
 /*--------------------------------------------------------------------------*/
 void* Thread::waitForThread (const Thread& id) {
    TRACE3 ("Thread::waitForThread (const Thread&) - " << (int)id.id);
 
-#ifdef HAVE_LIBPTHREAD
-   void* rc;
-   pthread_join (id.id, &rc);
-   return rc;
-#else
-   int rc;
-   wait (id.id, &rc, 0);
-   return (void*)rc;
-#endif
+   return waitForThread (id.id);
 }
 
 /*--------------------------------------------------------------------------*/

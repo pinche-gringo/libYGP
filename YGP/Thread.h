@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.4 2002/05/19 11:45:53 markus Exp $
+//$Id: Thread.h,v 1.5 2002/05/23 04:56:58 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,9 +46,10 @@ class Thread {
    void ret (void* rc) const;
    void cancel ();
    static void* waitForThread (const Thread& id);
+   static void* waitForThread (unsigned long id);
    void isToCancel () const;
 
-   int getID () const { return (int)id; }
+   unsigned long getID () const { return id; }
 
  protected:
    Thread ();
