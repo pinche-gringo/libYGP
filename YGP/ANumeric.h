@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.25 2003/01/08 22:43:54 markus Exp $
+//$Id: ANumeric.h,v 1.26 2003/02/22 18:22:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,8 +37,9 @@
 
 
 // Forward declarations
-class std::invalid_argument;
-
+namespace std {
+   class invalid_argument;
+}
 
 
 // Class for numeric attributes. As every AttributValue is supports undefined

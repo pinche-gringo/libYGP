@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.13 2002/11/28 19:45:43 markus Rel $
+//$Id: ATime.h,v 1.14 2003/02/22 18:22:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,8 +30,10 @@
 
 
 // Forward declarations
+namespace std {
+   class invalid_argument;
+}
 class istream;
-class std::invalid_argument;
 
 
 // Class for date attributes. As every AttributValue is supports undefined

@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.14 2002/10/10 05:46:52 markus Rel $
+//$Id: ATStamp.h,v 1.15 2003/02/22 18:22:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,8 +27,9 @@
 
 
 // Forward declarations
-class std::invalid_argument;
-
+namespace std {
+   class invalid_argument;
+}
 
 // Class for timestamp attributes. As every AttributValue is supports
 // undefined values.

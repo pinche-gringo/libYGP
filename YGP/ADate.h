@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.20 2002/11/27 04:56:29 markus Rel $
+//$Id: ADate.h,v 1.21 2003/02/22 18:22:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,8 +31,10 @@
 
 
 // Forward declarations
+namespace std {
+   class invalid_argument;
+}
 class istream;
-class std::invalid_argument;
 
 
 // Class for date attributes. As every AttributValue is supports undefined
