@@ -45,7 +45,7 @@ Inside the directory containing the source code type
   mv configure.in~ configure.in		      # Undo changes made by gettextize
   libtoolize
   aclocal -I m4 && automake -a && autoconf    # Create configure.in
-  autoheader				      # Create gzo-cfg.in
+  autoheader				      # Create ygp-cfg.in
   ./configure [configure-options]
   make [make-options]
 
