@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.11 1999/11/19 00:09:41 Markus Exp $
+//$Id: Parse.cpp,v 1.12 2000/01/21 23:47:50 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,7 +27,7 @@
 #include <ctype.h>
 #include <string.h>
 
-#define DEBUG 0
+#define DEBUG 9
 #include "Trace.h"
 #include "Parse.h"
 #include "XStream.h"
@@ -68,7 +68,7 @@ static char ESCAPE = '\\';
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const char* description, bool skipWhitespace)
    : pDescription (description), skip (skipWhitespace) {
-   TRACE9 ("Creating ParseObject " << pDescription);
+   TRACE9 ("Creating ParseObject " << getDescription ());
    assert (!checkIntegrity ());
 }
 
@@ -78,7 +78,7 @@ ParseObject::ParseObject (const char* description, bool skipWhitespace)
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const ParseObject& other)
    : pDescription (other.pDescription), skip (other.skip) {
-   TRACE9 ("Copying ParseObject " << pDescription);
+   TRACE9 ("Copying ParseObject " << getDescription ());
    assert (!checkIntegrity ());
 }
 
@@ -86,7 +86,7 @@ ParseObject::ParseObject (const ParseObject& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseObject::~ParseObject () {
-   TRACE9 ("ParseObject::~ParseObject: " << pDescription);
+   TRACE9 ("ParseObject::~ParseObject: " << getDescription ());
 }
 
 
@@ -136,6 +136,14 @@ int ParseObject::found (const char* pFoundValue) {
 /*--------------------------------------------------------------------------*/
 int ParseObject::checkIntegrity () const {
    return pDescription ? OK : NO_DESCRIPTION;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseEOF::~ParseEOF () {
+   TRACE9 ("ParseEOF::~ParseEOF: " << getDescription ());
 }
 
 
@@ -324,7 +332,7 @@ int ParseAttomic::checkIntegrity () const {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseText::~ParseText () {
-   TRACE9 ("ParseText::~ParseText: " << pDescription);
+   TRACE9 ("ParseText::~ParseText: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -377,7 +385,7 @@ ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseTextEsc::~ParseTextEsc () {
-   TRACE9 ("ParseTextEsc::~ParseTextEsc: " << pDescription);
+   TRACE9 ("ParseTextEsc::~ParseTextEsc: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -445,7 +453,7 @@ ParseExact::ParseExact (const char* value, const char* description,
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseExact::~ParseExact () {
-   TRACE9 ("ParseExact::~ParseExact: " << pDescription);
+   TRACE9 ("ParseExact::~ParseExact: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -497,7 +505,7 @@ int ParseExact::checkIntegrity () const {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseUpperExact::~ParseUpperExact () {
-   TRACE9 ("ParseUpperExact::~ParseUppeExact: " << pDescription);
+   TRACE9 ("ParseUpperExact::~ParseUppeExact: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -627,7 +635,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int ParseSequence::checkIntegrity () const {
-   return ((ppList && *ppList)
+   return ((ppList)
            ? maxCard < minCard ? MAX_MIN_ERROR : ParseObject::checkIntegrity ()
 	   : INVALID_LIST);
 }
@@ -700,11 +708,12 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
       while (*ppAct != NULL) {                  // While list contains objects
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
                                       (ppAct + 1) == NULL ? optional : true))
-             == 0)                                     // Break if match found
-{        TRACE8 ("ParseSelection::doParse -> " << getDescription ()
-                 << " exiting with rc = " << rc);
+             == 0) {                                   // Break if match found
+            TRACE8 ("ParseSelection::doParse -> " << getDescription ()
+                    << " exiting with rc = " << rc);
             break;
-}
+	 } // endif
+
          ++ppAct;
       } // end-while list-entries
 
@@ -730,8 +739,26 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
+CBParseEOF::~CBParseEOF () {
+   TRACE9 ("CBParseEOF::~CBParseEOF: " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Callback if an object was found
+//Parameters  : pFoundValue: Pointer to found value
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseEOF::found (const char* pFoundValue) {
+   assert (pCallback); assert (pFoundValue);
+   return pCallback (pFoundValue);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
 CBParseAttomic::~CBParseAttomic () {
-   TRACE9 ("CBParseAttomic::~CBParseAttomic: " << pDescription);
+   TRACE9 ("CBParseAttomic::~CBParseAttomic: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -764,7 +791,7 @@ int CBParseAttomic::found (const char* pFoundValue) {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 CBParseText::~CBParseText () {
-   TRACE9 ("CBParseText::~CBParseText: " << pDescription);
+   TRACE9 ("CBParseText::~CBParseText: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -797,7 +824,7 @@ int CBParseText::found (const char* pFoundValue) {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 CBParseTextEsc::~CBParseTextEsc () {
-   TRACE9 ("CBParseTextEsc::~CBParseTextEsc: " << pDescription);
+   TRACE9 ("CBParseTextEsc::~CBParseTextEsc: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -830,7 +857,7 @@ int CBParseTextEsc::found (const char* pFoundValue) {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 CBParseExact::~CBParseExact () {
-   TRACE9 ("CBParseExact::~CBParseExact: " << pDescription);
+   TRACE9 ("CBParseExact::~CBParseExact: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -863,7 +890,7 @@ int CBParseExact::found (const char* pFoundValue) {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 CBParseUpperExact::~CBParseUpperExact () {
-   TRACE9 ("CBParseUpperExact::~CBParseUpperExact: " << pDescription);
+   TRACE9 ("CBParseUpperExact::~CBParseUpperExact: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -896,7 +923,7 @@ int CBParseUpperExact::found (const char* pFoundValue) {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 CBParseSequence::~CBParseSequence () {
-   TRACE9 ("CBParseSequence::~CBParseSequence: " << pDescription);
+   TRACE9 ("CBParseSequence::~CBParseSequence: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -929,7 +956,7 @@ int CBParseSequence::found (const char* pFoundValue) {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 CBParseSelection::~CBParseSelection () {
-   TRACE9 ("CBParseSelection::~CBParseSelection: " << pDescription);
+   TRACE9 ("CBParseSelection::~CBParseSelection: " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
