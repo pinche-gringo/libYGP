@@ -1,4 +1,4 @@
-<!-- $Id: IVIOAppl.html,v 1.3 2000/03/30 23:31:43 Markus Exp $ -->
+<!-- $Id: IVIOAppl.html,v 1.4 2000/04/02 18:52:33 Markus Exp $ -->
 
 <html>
   <head>
@@ -92,72 +92,108 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <p><a name="IVIOApplication"><i>IVIOApplication (const int argc, const
-	  char* argv[], const <a href="IVIOAppl.html#longOptions">longOptions</a>*
-      pOpt = NULL)</i> -
-      Constructor; the parameters specify the number of and an array with the
-      program-arguments (as passed to the main-function) and a table to map
-      the verbose long-options to their short equivalent. If the third
-      parameter is NULL, no long options are used.</a></p>
-    <p><a name="~IVIOApplication"><i>~IVIOApplication ()</i> - Destructor</a></p>
+    <pre><a name="IVIOApplication">IVIOApplication (const int argc, const char* argv[], const <a href="IVIOAppl.html#longOptions">longOptions</a>* pOpt = NULL)</a></pre>
+    <dl>
+      <dd>Constructor; the parameters specify the number of and an array with
+	the program-arguments (as passed to the main-function) and a table to
+	map the verbose long-options to their short equivalent. If the third
+	parameter is NULL, no long options are used.</dd>
+    </dl>
+    <pre><a name="~IVIOApplication">~IVIOApplication ()</a></pre>
 
-    <p><a name="run"><i>int run ()</i> - Runs the application; first the
-	options are checked and then the actual job is performed. </a></p>
+    <pre><a name="run">int run ()</a></pre>
+    <dl>
+      <dd>Runs the application; first the options are checked. If an invalid or
+	a help-option is passed, the help-screen is displayed, else the
+	actual job of the application is performed.</dd>
+    </dl>
 
     <h4>Option handling</h4>
-    <p><a name="handleOption"><i>virtual bool handleOption (const char option) = 0</i>
-	- Checks if the passed option is supported by the application. This
+    <pre><a name="handleOption">virtual bool handleOption (const char option) = 0</a></pre>
+    <dl>
+      <dd>Checks if the passed option is supported by the application. This
 	method must return true, if yes and false if not. In the second case
 	the help is displayed and the program terminates with an error-code of
-	-1.</a></p>
+	-1.</dd>
+    </dl>
 
-    <p><a name="getOptionValue"><i>const char* getOptionValue ()</i>
-	- Returns parameters to the actual option. This parameter are either
-	the remaining characters in a list of simple options (e.g. if called
-	for the option d in "-dlevel1" the method would return "level1") or the
-	next argument of the application. Long options only support the second
-	way. If no further argument is available NULL is returned.</a></p>
-    <p><a name="checkOptionValue"><i>const char* checkOptionValue ()</i>
-	- Checks the parameter to the actual option. This parameter are either
-	the remaining characters in a list of simple options (e.g. if called
-	for the option d in "-dlevel1" the method would return "level1") or the
-	next argument of the application. Long options only support the second
-	way. If no further argument is available NULL is returned.</a></p>
-    <p>In difference to <a href="IVIOAppl.html#getOptionValue">getOptionValue</a>
-      this method does not change the next option which would be returned, so
-      in the previous example the next found option would be the 'l'.</p>
+    <pre><a name="getOptionValue">const char* getOptionValue ()</a></pre>
+    <dl>
+      <dd>Returns parameters to the actual option and increases the pointer to
+	the next option. This parameter are searched
+	using the following algorithm:
+	<ul type=bullet>
+	  <li>The remaining characters in a list of simple options (e.g. if
+	    called for the option d in "-dlevel1" the method would return
+	    "level1")</li>
+	  <li>The next argument of the application. Long options only support
+	    the second way.</li>
+	  <li>NULL</li>
+	</ul>
+      </dd>
+    </dl>
+    <pre><a name="checkOptionValue">const char* checkOptionValue ()</a></pre>
+    <dl>
+      <dd>Returns parameters to the actual option. This parameter are searched
+	using the following algorithm:
+	<ul type=bullet>
+	  <li>The remaining characters in a list of simple options (e.g. if
+	    called for the option d in "-dlevel1" the method would return
+	    "level1")</li>
+	  <li>The next argument of the application. Long options only support
+	    the second way.</li>
+	  <li>NULL</li>
+	</ul>
+	<p>In difference to <a href="IVIOAppl.html#getOptionValue">getOptionValue</a>
+	  this method does not change the next option which would be returned,
+	  so in the previous example the next found option would be the 'l'.</p></dd>
+    </dl>
 
-    <p><a name="setLongOptions"><i>void setLongOptions (const
-	  <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions)</i>
-      - Sets a table which maps options to a verbose version. This table must
-      be terminated with an entry where the short option is '\0' and the
-      associated long options is NULL; the previous entries must not have
-      lines with those values.</a></p>
-    <p><a name="setLongOptions2"><i>void setLongOptions (const
-	  <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions,
-      unsigned int numLongOptions)</i> - Sets a table which maps options to a
-      verbose version. This table must not contain entries with either '\0' as
-      short option or NULL as long option.</a></p>
+    <pre><a name="setLongOptions">void setLongOptions (const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions)</a></pre>
+    <dl>
+      <dd>Sets a table which maps options to a verbose version. This table must
+	be terminated with an entry where the short option is '\0' and the
+	associated long options is NULL; the previous entries must not have
+	lines with those values.</dd>
+    </dl>
+    <pre><a name="setLongOptions2">void setLongOptions (const <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions, unsigned int numLongOptions)</a></pre>
+    <dl>
+      <dd>Sets a table which maps options to a verbose version. This table
+	must not contain entries with either '\0' as short option or NULL as
+	long option.</dd>
+    </dl>
 
     <h4>Program handling</h4>
-    <p><a name="perform"><i>virtual int perform (int argc, const char* argv[]) = 0</i>
-	- Performs the job of the application. The return-code of this method
-	is returned as error-code of the application.</a></p>
+    <pre><a name="perform">virtual int perform (int argc, const char* argv[]) = 0</a></pre>
+    <dl>
+      <dd>Performs the job of the application. The return-code of this method
+	is returned as error-code of the application.</dd>
+    </dl>
 
-    <p><a name="name"><i>virtual const char* name () const</i> - Returns the
-	name of the application. The default action is to return the name of the
-	file as stored in index 0 of the argv-array.</a></p>
-    <p><a name="description"><i>virtual const char* description () const = 0</i>
-	- Returns a description to the program. This text must start with the
-	vesion-number.</a></p>
-    <p><a name="filename"><i>virtual const char* filename () const</i> - Returns
-	the filename of the application as stored in index 0 of the argv-array.</a></p>
+    <pre><a name="name">virtual const char* name () const</a></pre>
+    <dl>
+      <dd>Returns the name of the application. The default action is to return
+	the name of the file as stored in index 0 of the argv-array.</dd>
+    </dl>
+    <pre><a name="description">virtual const char* description () const = 0</a></pre>
+    <dl>
+      <dd>Returns a description to the program. This text must start with the
+	version-number.</dd>
+    </dl>
+    <pre><a name="filename">virtual const char* filename () const</a></pre>
+    <dl>Returns the filename of the application as stored in index 0 of the
+      argv-array.</dd>
+    </dl>
 
-    <p><a name="shallShowInfo"><i>virtual bool shallShowInfo () const</i> - 
-	Specifies if the application shall display the program-info (consisting
-	of name and description).</a></p>
-    <p><a name="showHelp"><i>virtual void showHelp () const = 0</i> - Displays
-	the help-screen of the application.</a></p>
+    <pre><a name="shallShowInfo">virtual bool shallShowInfo () const</a></pre>
+    <dl>
+      <dd>Specifies if the application shall display the program-info
+	(consisting of name and description).</dd>
+    </dl>
+    <pre><a name="showHelp">virtual void showHelp () const = 0</a></pre>
+    <dl>
+      <dd>Displays the help-screen of the application.</dd>
+    </dl>
 
     <hr noshade="noshade">
 
