@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.4 1999/10/13 21:43:51 Markus Rel $
+//$Id: ADate.cpp,v 1.5 1999/10/14 22:23:32 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -117,7 +117,6 @@ ADate& ADate::operator= (const ADate& other) {
 //Purpose   : Assignment-operator
 //Parameters: pDate: Object to assign as char-string
 //Returns   : Reference to self
-//TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator= (const char* pDate) {
    assert (pDate);
@@ -125,24 +124,8 @@ ADate& ADate::operator= (const char* pDate) {
 
    TRACE5 ("ADate::operator= (const char*): " << pDate);
 
-   unsigned int first (0), second (0);
-   char split;
-   
    istrstream help (pDate);
-   help >> first >> split >> second >> split >> year;
-   TRACE9 ("ADate::operator= (const char*): Read: " << first << split << second
-          << split << year);
-   
-   day = (char)first;
-   month = (char)second;
-   AttributValue::define ();
-   
-   TRACE9 ("ADate::operator= (const char*): result = " << toString ());
-   if (checkIntegrity ()) {
-      TRACE ("ADate::operator= (const char* -> checkIntegrity failed with "
-             << checkIntegrity ());
-      undefine ();
-   }
+   readFromStream (help);
    return *this;
 }
 
@@ -165,10 +148,10 @@ std::string ADate::toString () const {
 std::string ADate::toString (const char* format) const {
    assert (format);
 
-   char szBuffer[20] = "";
+   char szBuffer[80] = "";
 
    if (isDefined ()) {
-      struct tm tm = { 0, 0, 0, day, month - 1, year - 1900 };
+      struct tm tm (toStructTM ());
       strftime (szBuffer, sizeof (szBuffer), format, &tm);
    }
 
@@ -178,6 +161,31 @@ std::string ADate::toString (const char* format) const {
    return szBuffer;
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Reads string-representation from stream
+//Parameters: in: Stream to parse
+//TODO      : Parsing according to locale
+/*--------------------------------------------------------------------------*/
+void ADate::readFromStream (istream& in) {
+   unsigned int first (0), second (0);
+   char split;
+   
+   in >> first >> split >> second >> split >> year;
+   TRACE9 ("ADate::readFromStream: Read: " << first << split << second
+          << split << year);
+   
+   day = (char)first;
+   month = (char)second;
+
+   TRACE9 ("ADate::readFromStream: result = " << toString ());
+   if (checkIntegrity ()) {
+      TRACE ("ADate::readFromStream -> checkIntegrity failed with "
+             << checkIntegrity ());
+      undefine ();
+   }
+   else
+      AttributValue::define ();
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds a value to this
@@ -371,7 +379,7 @@ bool ADate::isLeapYear (unsigned int year) {
 //Purpose   : Adapt value after recalculation with possible underflow
 /*--------------------------------------------------------------------------*/
 void ADate::minAdapt () {
-   if (day < 1)                                     // Adapt date if underflow
+   if ((day < 1) || (day > maxDayOf ()))            // Adapt date if underflow
       --month;
 
    if ((month < 1) || (month > 12)) {              // Adapt month if underflow
@@ -379,7 +387,7 @@ void ADate::minAdapt () {
       --year;
    }
 
-   if (day < 1)                  // Finish day-adaption after month-correction
+   if ((day < 1) || (day > maxDayOf ()))                    // Finish adaption
       day += maxDayOf ();
 
    assert (!checkIntegrity ());
@@ -407,13 +415,14 @@ void ADate::maxAdapt () {
 //Parameters: Day: Day to set
 /*--------------------------------------------------------------------------*/
 void ADate::setDay (char Day) {
-   AttributValue::define ();
    day = Day;
 
    if (checkIntegrity ()) {
       TRACE ("ADate::setDay -> checkIntegrity failed with " << checkIntegrity ());
       undefine ();
    }
+   else
+      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -421,13 +430,14 @@ void ADate::setDay (char Day) {
 //Parameters: Day: Day to set
 /*--------------------------------------------------------------------------*/
 void ADate::setMonth (char Month) {
-   AttributValue::define ();
    month = Month;
 
    if (checkIntegrity ()) {
       TRACE ("ADate::setMonth -> checkIntegrity failed with " << checkIntegrity ());
       undefine ();
    }
+   else
+      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -437,11 +447,11 @@ void ADate::setMonth (char Month) {
 //            struct tm (after 1900 and before 2039)
 /*--------------------------------------------------------------------------*/
 struct tm ADate::toStructTM () const {
-  struct tm result = { 0, 0, 0, 0, 0, 0 };
-  if (isDefined ()) {
-     result.tm_mday = day;
-     result.tm_mon = month - 1;
-     result.tm_year = year - 1900;
-  }
-  return result;
+   struct tm result = { 0, 0, 0, 0, 0, 0 };
+   if (isDefined ()) {
+      result.tm_mday = day;
+      result.tm_mon = month - 1;
+      result.tm_year = year - 1900;
+   }
+   return result;
 }

@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.19 1999/10/13 00:09:43 Markus Exp $
+// $Id: Test.cpp,v 1.20 1999/10/14 22:23:32 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -40,6 +40,7 @@
 #include "ADate.h"
 #include "Parse.h"
 #include "Handle.h"
+#include "ATStamp.h"
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
@@ -258,6 +259,16 @@ int Application::perform (int argc, char* argv[]) {
    past.add (0, 0, 4);
    check (past.isLeapYear ());
    
+   cout << "Testing ATimestamp...\n";
+   ATimestamp now;
+   check (!now.isDefined ());
+   ATimestamp early (false);
+   check (early.isDefined ());
+   check (now < early);
+
+   now = ATimestamp::now ();
+   check (now.isDefined ());
+   check (now > early);
 
    cout << "Testing ANumeric...\n";
    ANumeric num;
