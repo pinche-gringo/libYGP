@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.19 2001/01/19 14:38:47 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.20 2001/09/04 22:58:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -65,6 +65,7 @@ IVIOApplication::IVIOApplication (const int argc, const char* argv[],
    assert (ppArgs);
 
    signal (SIGSEGV, handleSignal);
+   signal (SIGBUS, handleSignal);
 
    if (pOpt)
       setLongOptions (pOpt);        // Store the long-option-array (if passed)
@@ -76,6 +77,7 @@ IVIOApplication::IVIOApplication (const int argc, const char* argv[],
 /*--------------------------------------------------------------------------*/
 IVIOApplication::~IVIOApplication () {
    signal (SIGSEGV, SIG_DFL);
+   signal (SIGBUS, SIG_DFL);
 }
 
 
