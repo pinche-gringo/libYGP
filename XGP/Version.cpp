@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.12 2004/01/15 06:26:35 markus Rel $
+// $Id: Version.cpp,v 1.13 2004/01/17 04:03:04 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -53,7 +53,11 @@
    and some classes for dialogs.
 */
 
-namespace XGP {
+/**\namespace XGP
+
+   This namespace holds classes related to the X-windows system (basing on
+   GTKMM-2/GKT+-2).
+ */
 
 static const char* Version = "\n!@$%" PACKAGE " V" VERSION
                              " Compiled on " __DATE__ "%$@!\n";
@@ -65,5 +69,3 @@ static const int _init () {
 }
 
 static const int init = _init ();
-
-}
