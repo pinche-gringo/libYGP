@@ -1,14 +1,14 @@
-//$Id: RDirSrch.cpp,v 1.20 2003/06/14 06:23:57 markus Exp $
+//$Id: RDirSrch.cpp,v 1.21 2003/06/19 22:49:36 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ RemoteDirSearch::~RemoteDirSearch () {
 /// Specifies the partner (name and port) for the communication.
 /// \param search: String identifying server to connect to.
 /// \param port: Port number the server is listening at.
-// \throw std::domain_error: With error message in case of an error
+/// \throw std::domain_error: With an error message in case of an error
 //----------------------------------------------------------------------------
 void RemoteDirSearch::sendTo (const std::string& search, unsigned int port)
    throw (std::domain_error) {

@@ -1,14 +1,14 @@
-//$Id: IDirSrch.cpp,v 1.8 2003/06/19 22:34:39 markus Exp $
+//$Id: IDirSrch.cpp,v 1.9 2003/06/19 22:49:36 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
