@@ -41,7 +41,6 @@ ALL : "$(OUTDIR)\VCGeneral.dll"
 
 
 CLEAN :
-	-@erase "$(INTDIR)\AByteArray.obj"
 	-@erase "$(INTDIR)\ADate.obj"
 	-@erase "$(INTDIR)\ANumeric.obj"
 	-@erase "$(INTDIR)\AssParse.obj"
@@ -125,7 +124,6 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi3
 DEF_FILE= \
         "$(OUTDIR)\VCGeneral.def"
 LINK32_OBJS= \
-	"$(INTDIR)\AByteArray.obj" \
 	"$(INTDIR)\ADate.obj" \
 	"$(INTDIR)\ANumeric.obj" \
 	"$(INTDIR)\AssParse.obj" \
@@ -174,7 +172,6 @@ ALL : "$(OUTDIR)\VCGeneral.dll"
 
 
 CLEAN :
-	-@erase "$(INTDIR)\AByteArray.obj"
 	-@erase "$(INTDIR)\ADate.obj"
 	-@erase "$(INTDIR)\ANumeric.obj"
 	-@erase "$(INTDIR)\AssParse.obj"
@@ -261,7 +258,6 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi3
 DEF_FILE= \
         "$(OUTDIR)\VCGeneral.def"
 LINK32_OBJS= \
-	"$(INTDIR)\AByteArray.obj" \
 	"$(INTDIR)\ADate.obj" \
 	"$(INTDIR)\ANumeric.obj" \
 	"$(INTDIR)\AssParse.obj" \
@@ -310,12 +306,6 @@ LINK32_OBJS= \
 
 
 !IF "$(CFG)" == "Release" || "$(CFG)" == "Debug"
-SOURCE=..\Common\AByteArray.cpp
-
-"$(INTDIR)\AByteArray.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE=..\Common\ADate.cpp
 
 "$(INTDIR)\ADate.obj" : $(SOURCE) "$(INTDIR)"
@@ -498,10 +488,12 @@ SOURCE=..\Common\XStrBuf.cpp
 
 !ENDIF
 
+VCGeneral.def: $(OUTDIR)\VCGeneral.def
+
 $(OUTDIR)\VCGeneral.def: $(LINK32_OBJS)
 	Echo LIBRARY VCGeneral > $(OUTDIR)\VCGeneral.def
 	Echo EXPORTS >> $(OUTDIR)\VCGeneral.def
-	Del Dumpbin.out
+        if exist Dumpbin.out Del Dumpbin.out
 	for %%i in ($(OUTDIR)\*.obj) do dumpbin /SYMBOLS %%i >> Dumpbin.out
         gawk -f ..\bin\mdef.awk Dumpbin.out >> $(OUTDIR)\VCGeneral.def
 	Del Dumpbin.out
