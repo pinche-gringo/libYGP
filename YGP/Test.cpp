@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.10 1999/08/23 17:54:35 Markus Exp $
+// $Id: Test.cpp,v 1.11 1999/08/24 23:46:11 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -31,6 +31,7 @@
 #include <iostream.h>
 #include <strstream.h>
 
+#include "Parse.h"
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
@@ -104,6 +105,19 @@ int Application::perform (int argc, char* argv[]) {
    cout << "    " << cOptions << " options and " << argc
 	<< " arguments passed\n";
    check (!argv[argc]);
+
+   cout << "Testing Parser...\n";
+   ParseAttomic nr ("\\9", "Number", 5);
+   ParseAttomic alpha ("\\X", "Alphanum", 5);
+
+   Xifstream xstr;
+   xstr.open ("Test.Dat");
+   xstr.init ();
+
+   check (!(nr.parse ((Xistream&)xstr)));
+   check (!(alpha.parse ((Xistream&)xstr)));
+   check (xstr.getLine () == 2);
+   check (xstr.getColumn () == 0);
 
    cout << "Testing extStreambuf...\n";
 
