@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.8 2002/05/24 06:52:49 markus Exp $
+//$Id: IDirSrch.h,v 1.9 2002/10/20 05:34:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@ class IDirectorySearch {
    virtual const File* next () = 0;
 
    virtual bool isValid () const = 0;
+   static bool isSpecial (const char* pFile) {
+      return (*pFile == '.') ? ((pFile[1] == '.') ? pFile[2] : pFile[1]) : 1; }
 
    static unsigned long convertToSysAttribs (unsigned long attributes);
    static unsigned long convertFromSysAttribs (unsigned long attributes);
