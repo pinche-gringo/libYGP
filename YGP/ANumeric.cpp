@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.11 2000/04/14 19:15:13 Markus Rel $
+//$Id: ANumeric.cpp,v 1.12 2000/05/09 23:32:19 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -35,7 +35,7 @@
 
 #include <iomanip>
 #include <iostream.h>
-#ifdef UNIX
+#if defined UNIX || defined __GNUG__
 #  include <strstream.h>
 #else
 #  include <strstrea.h>
@@ -79,8 +79,9 @@ ANumeric& ANumeric::operator= (const char* pValue) {
    if (mpz_init_set_str (value, pValue, 10))
 #else
    char* pTail = NULL;
-   value = strtol (pValue, &pTail, 10);
-   if (errno || !(pTail && *pTail))
+   errno = 0;
+   value = strtol (pValue, &pTail, 10); assert (pTail);
+   if (errno || !*pTail)
 #endif
       undefine ();
    else
@@ -136,12 +137,15 @@ std::string ANumeric::toString () const {
       char* pString = new char [16];
       ostrstream ostr (pString, 16);
       ostr << value << '\0';
-      
 #endif
       TRACE1 ("ANumeric::toString -> value = " << pString);
 
       str = pString;                 // Copy unformatted string to return-value
       free (pString);
+
+      // TODO?: Does formatting the number with strfnum make sense, just for
+      // the rare case of a system with libc but without GMP?
+      // TODO: Check locale-functions for Cygwin & MSC
 
       register int len (str.length ());
       if (len > 3) {

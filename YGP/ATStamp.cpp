@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.5 2000/03/23 19:28:45 Markus Rel $
+//$Id: ATStamp.cpp,v 1.6 2000/05/09 23:32:19 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,7 +26,7 @@
 
 #include <assert.h>
 
-#ifdef UNIX
+#if defined UNIX || defined __GNUG__
 #include <strstream.h>
 #else
 #include <strstrea.h>
@@ -151,7 +151,10 @@ std::string ATimestamp::toString (const char* format) const {
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
 void ATimestamp::readFromStream (istream& in) {
+   char ch;
+
    ADate::readFromStream (in);
+   in.get (ch);
    ATime::readFromStream (in);
 }
 
