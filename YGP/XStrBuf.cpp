@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.18 2002/10/23 05:54:40 markus Exp $
+// $Id: XStrBuf.cpp,v 1.19 2002/11/04 00:56:25 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -36,7 +36,7 @@
 
 #include <gzo-cfg.h>
 
-static int lenBuffer = 512;
+static unsigned int lenBuffer = 512;
 
 #if SYSTEM == WINDOWS
 #  define cur std::ios_base::cur
@@ -78,8 +78,7 @@ extStreambuf::extStreambuf (streambuf* source)
 
 /*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
-   // Don't delete pBuffer as this is done by the streambuf-dtr (?)
-   // delete [] eback ();
+   free (pBuffer); 
 }
 
 
@@ -117,8 +116,9 @@ int extStreambuf::underflow () {
          pTemp = pBuffer;
          pBuffer = static_cast <char*> (malloc (lenBuffer << 1));
          memcpy (pBuffer, pTemp, lenBuffer);          // & copy old contents
+         free (pTemp);
          pTemp = pBuffer + lenBuffer;
-         lenBuffer <<= 1;
+         lenBuffer <<= 1; assert (lenBuffer);
          setg (pBuffer, pBuffer, pBuffer + lenBuffer);
       }
       *pTemp++ = (char)ch;
