@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.36 2004/12/29 18:20:00 markus Rel $
+//$Id: ATime.cpp,v 1.37 2005/03/21 17:23:04 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -163,17 +163,22 @@ void ATime::assign (const char* pTime, unsigned int len) {
       fail = strptime (pTime, MODES[mode], &result);
       break;
    case 4:
-      fail = strptime (pTime, MODES[(unsigned)mode + 2], &result);
+      fail = ((pTime[1] == ':') || (pTime[2] == ':')
+	      ? strptime (pTime, MODES[mode], &result)
+	      : strptime (pTime, MODES[(unsigned)mode + 2], &result));
       break;
    default:
       fail = NULL;
    } // endswitch
    operator= (result);
-   if (!fail || *fail || (fail = pTime, checkIntegrity ())) {
+   if (!fail || (*fail && !isspace (*fail)) || checkIntegrity ()) {
       undefine ();
+      if (!fail)
+	 fail = pTime;
       TRACE9 ("ATime::assign (const char*, unsigned int) - Failed: " << fail);
-      std::string error (_("Position %1"));
-      error.replace (error.find ("%1"), 2, 1, char ((fail - pTime) + '0'));
+      std::string error (_("No time: Position %1"));
+      Check3 ((fail - pTime) < 10);
+      error.replace (error.find ("%1"), 2, 1, (char)((fail - pTime) + '0'));
       throw std::invalid_argument (error);
    }
 #else
@@ -201,8 +206,11 @@ void ATime::assign (const char* pTime, unsigned int len) {
 	 read = -1;
       break;
    case 4:
-      read = ((mode == MODE_MMSS) ? sscanf (pTime, "%2u%2u", (int*)&min_, (int*)&sec)
-	      : sscanf (pTime, "%2u%2u", (int*)&hour, (int*)&min_));
+      read = ((pTime[1] == ':') || (pTime[2] == ':')
+	      ? ((mode == MODE_MMSS) ? sscanf (pTime, "%2u:%2u", (int*)&min_, (int*)&sec)
+		 : sscanf (pTime, "%2u:%2u", (int*)&hour, (int*)&min_))
+	      : ((mode == MODE_MMSS) ? sscanf (pTime, "%2u%2u", (int*)&min_, (int*)&sec)
+		 : sscanf (pTime, "%2u%2u", (int*)&hour, (int*)&min_)));
       if (read != 2)
 	 read = -1;
       break;
@@ -213,7 +221,7 @@ void ATime::assign (const char* pTime, unsigned int len) {
 
    if ((read == -1) || checkIntegrity ()) {
       undefine ();
-      throw std::invalid_argument (pTime);
+      throw std::invalid_argument (_"No time: Position 0"));
    }
    else
       setDefined ();
