@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.1 2001/08/26 14:36:19 markus Exp $
+//$Id: AttrParse.cpp,v 1.2 2001/10/09 17:18:29 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -102,17 +102,19 @@ int AttributeParse::assignValues (const std::string& values) throw (std::string)
    std::string node;
    while (!((node = ass.getNextNode ()).empty ())) {
       // Try to find the key
-      TRACE5 ("AttributeParse::assignValues (const std::string&) - Search for key "
+      TRACE6 ("AttributeParse::assignValues (const std::string&) - Search for key "
               << ass.getActKey ());
 
       IAttribute* attr (const_cast <IAttribute*> (findAttribute (ass.getActKey ())));
       if (attr) {
+	 std::string value (ass.getActValue ());
+
          TRACE5 ("AttributeParse::assignValues (const std::string&) - Assigning "
-                 << ass.getActValue ());
-         if (!attr->assignFromString (ass.getActValue ().c_str ())) {
-            std::string error ("Error assigning '" + ass.getActValue ()
+                 << value << " (" << value.length () << ')');
+         if (!attr->assign (value.c_str (), value.length ())) {
+            std::string error ("Error assigning '" + value
                                + "' to " + ass.getActKey ());
-	    throw (error);
+            throw (error);
          }
       } // endif
       else {
