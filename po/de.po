@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6 ($Revision: 1.14 $)\n"
-"POT-Creation-Date: 2003-03-27 13:09-0500\n"
-"PO-Revision-Date: 2002-04-04 00:45-0500\n"
+"Project-Id-Version: General 0.6 ($Revision: 1.15 $)\n"
+"POT-Creation-Date: 2003-05-23 12:58-0500\n"
+"PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: Common/ADate.cpp:202 Common/ATime.cpp:206
-#, c-format, ycp-format
 msgid "Position %1"
 msgstr "Position %1"
 
@@ -23,32 +22,26 @@ msgid "No number"
 msgstr "Keine Nummer"
 
 #: Common/AssParse.cpp:66
-#, ycp-format
 msgid "Not a valid assignment: '%1'"
 msgstr "Keine gültige Zuweisung: '%1'"
 
 #: Common/AssParse.cpp:79
-#, ycp-format
 msgid "Invalid value for attribute: '%1'"
 msgstr "Ungültiger Wert für das Attribut: '%1'"
 
 #: Common/AssParse.cpp:93
-#, ycp-format
 msgid "Quoted value not followed by separator: '%1'"
 msgstr "Dem Wert (in Anführungszeichen) folgt kein Trennzeichen: '%1'"
 
 #: Common/AttrParse.cpp:57
-#, ycp-format
 msgid "Attribute '%1' already exists"
 msgstr "Das Attribut '%1' existiert bereits"
 
 #: Common/AttrParse.cpp:119
-#, ycp-format
 msgid "Error assigning '%1' to %2"
 msgstr "Fehler beim Zuweisen von '%1' zu %2"
 
 #: Common/AttrParse.cpp:126
-#, ycp-format
 msgid "Key '%1' not found"
 msgstr "Schlüssel '%1' nicht gefunden"
 
@@ -89,27 +82,22 @@ msgid "Unknown error"
 msgstr "Allgemeiner Fehler"
 
 #: Common/CRegExp.cpp:1031 Common/FileRExp.cpp:254
-#, ycp-format
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
 
 #: Common/File.cpp:270
-#, ycp-format
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
 #: Common/File.cpp:285
-#, ycp-format
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
 #: Common/File.cpp:310
-#, ycp-format
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Fehler beim Lesen von Datei '%1'! Ursache: %2"
 
 #: Common/File.cpp:333
-#, ycp-format
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Fehler beim Schreiben in Datei '%1'! Ursache: %2"
 
@@ -125,7 +113,6 @@ msgstr "Leerer Bereich"
 msgid "Empty region"
 msgstr "Leere Aufzählung"
 
-#. Define constant values; don't skip white-spaces after parsing
 #: Common/INIFile.cpp:45
 msgid "Start of section ([)"
 msgstr "Beginn einer Sektion ([)"
@@ -159,41 +146,30 @@ msgid "Value"
 msgstr "Wert"
 
 #: Common/INIFile.cpp:253
-#, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "Konnte INI-Datein '%1' nicht öffnen! Ursache: %2"
 
 #: Common/IVIOAppl.cpp:272
-#, ycp-format
 msgid "-error: Option `%1' is ambiguous"
-msgstr "-Fehler: Die Option '%' ist nicht eindeutig"
+msgstr "-Fehler: Die Option '%1' ist nicht eindeutig"
 
-#. end-else option ambigous
-#. endif option matches
-#. end-while
-#. No long-option found
 #: Common/IVIOAppl.cpp:281
-#, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
 #: Common/Parse.cpp:294
-#, ycp-format
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
 #: Common/Parse.cpp:930
-#, ycp-format
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
 #: Common/Parse.cpp:930
-#, c-format, ycp-format
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
 #: Common/Parse.cpp:1052
-#, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
 
@@ -227,7 +203,6 @@ msgid "Can't listen on socket"
 msgstr "Fehler beim Warten auf Daten von Socket"
 
 #: Common/Socket.cpp:203
-#, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
@@ -242,12 +217,10 @@ msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
 #: Common/Socket.cpp:337
-#, ycp-format
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
 #: Common/Socket.cpp:345
-#, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr "Kann nicht zum Server '%1' verbinden"
 
@@ -256,7 +229,6 @@ msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
 
 #: Common/Process.cpp:164
-#, ycp-format
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -266,7 +238,6 @@ msgstr ""
 "Ursache: %2"
 
 #: Common/Process.cpp:187
-#, ycp-format
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -284,13 +255,11 @@ msgstr "Druckbefehl: "
 msgid "Print"
 msgstr "Drucken"
 
-#. No input?
 #: X-windows/XPrintDlg.cpp:119
 msgid "No print-command specified"
 msgstr "Kein Druckbefehl angegeben"
 
 #: X-windows/XPrintDlg.cpp:127
-#, ycp-format
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
@@ -298,20 +267,15 @@ msgstr ""
 "Fehler beim Ausführen des Druckbefehls '%1'\n"
 "Ursache: %2"
 
-#. File does not exist: Show msg and exit
 #: X-windows/XFileDlg.cpp:110
-#, ycp-format
 msgid "File `%1' does not exist!"
 msgstr "Datei '%1' existiert nicht!"
 
 #: X-windows/XFileDlg.cpp:120
-#, ycp-format
 msgid "File `%1' exists! Overwrite?"
 msgstr "Datei '%1' existiert! Überschreiben?"
 
-#. Testing if $EDITOR exists and add that to list; else use VI
 #: X-windows/XFileList.cpp:301
-#, ycp-format
 msgid "Open in %1 ..."
 msgstr "Öffnen in %1 ..."
 
@@ -355,60 +319,30 @@ msgstr "Auswählen eines Browsers"
 msgid "Other: "
 msgstr "Anderer: "
 
-#: X-windows/XApplication.cpp:245
+#: X-windows/XApplication.cpp:246
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: X-windows/XApplication.cpp:245
+#: X-windows/XApplication.cpp:246
 msgid "<alt>H"
 msgstr ""
 
-#: X-windows/XApplication.cpp:246
+#: X-windows/XApplication.cpp:247
 msgid "_Content..."
 msgstr "_Inhalt ..."
 
-#: X-windows/XApplication.cpp:246
+#: X-windows/XApplication.cpp:247
 msgid "F1"
 msgstr ""
 
-#: X-windows/XApplication.cpp:247
+#: X-windows/XApplication.cpp:248
 msgid "Configure _browser ..."
 msgstr "Broswer _auswählen"
 
-#: X-windows/XApplication.cpp:249
+#: X-windows/XApplication.cpp:250
 msgid "_About..."
 msgstr "_Über"
 
 #: X-windows/XAbout.cpp:49
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Vertrieben unter den Bedingungen der GNU General Public License"
-
-#~ msgid "Info"
-#~ msgstr "Information"
-
-#~ msgid "Question"
-#~ msgstr "Frage"
-
-#~ msgid "Warning"
-#~ msgstr "Warnung"
-
-#~ msgid "Error"
-#~ msgstr "Fehler"
-
-#~ msgid "Critical"
-#~ msgstr "Schwerer Fehler"
-
-#~ msgid "OK"
-#~ msgstr "OK"
-
-#~ msgid "Retry"
-#~ msgstr "Wiederholen"
-
-#~ msgid "Yes"
-#~ msgstr "Ja"
-
-#~ msgid "No"
-#~ msgstr "Nein"
-
-#~ msgid "Cancel"
-#~ msgstr "Abbrechen"
