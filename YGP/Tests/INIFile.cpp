@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.4 2002/10/10 05:54:08 markus Exp $
+// $Id: INIFile.cpp,v 1.5 2002/10/23 05:56:00 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -92,6 +92,7 @@ int main (int argc, char* argv[]) {
       check (!rc);
    } // end-try
    catch (std::string& e) {
+      ++cErrors;
       std::cerr << e.c_str () << '\n';
    }
 
