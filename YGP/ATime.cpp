@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.16 2002/11/28 19:45:08 markus Exp $
+//$Id: ATime.cpp,v 1.17 2002/12/17 20:45:06 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -163,12 +163,14 @@ std::string ATime::toString (const char* format) const {
 
    if (isDefined ()) {
       struct tm tm (toStructTM ());
-      unsigned int size (strftime (NULL, 200, format, &tm) + 1);
-      char* pBuffer = new char [size + 1];
+#ifdef _MSC_VER
+      char aBuffer[80];      // VC doesn't return the buffersize it would need
+#else
+      char aBuffer[strftime (NULL, 200, format, &tm) + 1];
+#endif
 
-      strftime (pBuffer, size, format, &tm);
-      result = pBuffer;
-      delete [] pBuffer;
+      strftime (aBuffer, sizeof (aBuffer), format, &tm);
+      result = aBuffer;
    }
    return result;
 }

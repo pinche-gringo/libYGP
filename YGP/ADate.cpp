@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.25 2002/12/07 23:31:33 markus Exp $
+//$Id: ADate.cpp,v 1.26 2002/12/17 20:45:06 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -160,12 +160,13 @@ std::string ADate::toString (const char* format) const {
 
    if (isDefined ()) {
       struct tm tm (toStructTM ());
-      unsigned int size (strftime (NULL, 200, format, &tm) + 1);
-      char* pBuffer = new char [size + 1];
-
-      strftime (pBuffer, size, format, &tm);
-      result = pBuffer;
-      delete [] pBuffer;
+#ifdef _MSC_VER
+      char aBuffer[80];      // VC doesn't return the buffersize it would need
+#else
+      char aBuffer[strftime (NULL, 200, format, &tm) + 1];
+#endif
+      strftime (aBuffer, sizeof (aBuffer), format, &tm);
+      result = aBuffer;
    }
    return result;
 }
@@ -463,7 +464,7 @@ bool ADate::minAdapt () {
       year -= (mon / 12) + 1;
       month = 12 - (mon % 12);
    }
-   
+
    TRACE9 ("ADate::minAdapt (month adapted (1)): " << toString ());
 
    if ((signed char)day > maxDayOf ())
