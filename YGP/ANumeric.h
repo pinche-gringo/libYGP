@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.7 1999/10/19 22:48:12 Markus Rel $
+//$Id: ANumeric.h,v 1.8 2000/02/11 22:59:41 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,7 +21,9 @@
 
 #include <string>
 
-#include "gmp.h"
+#ifdef HAVE_LIBGMP
+#  include "gmp.h"
+#endif
 #include "AttrVal.h"
 
 
@@ -30,16 +32,37 @@
 // library)
 class ANumeric : public AttributValue {
  public:
-   ANumeric () : AttributValue () { mpz_init_set_si (value, 0); }
+   ANumeric () : AttributValue () {
+#ifdef HAVE_LIBGMP
+      mpz_init_set_si (value, 0);
+#else
+      value = 0;
+#endif
+}
    ANumeric (const ANumeric& other) : AttributValue ((const AttributValue&)other) {
-     mpz_init_set (value, other.value); }
+#ifdef HAVE_LIBGMP
+     mpz_init_set (value, other.value);
+#else
+     value = other.value;
+#endif
+}
    ANumeric (const long val) : AttributValue () {
+#ifdef HAVE_LIBGMP
       mpz_init_set_si (value, val);
+#else
+      value = val;
+#endif
       AttributValue::define (); }
    virtual ~ANumeric ();
 
    ANumeric& operator= (const ANumeric& other);
-   ANumeric& operator= (long val) { AttributValue::define ();  mpz_set_si (value, val); }
+   ANumeric& operator= (long val) { AttributValue::define (); 
+#ifdef HAVE_LIBGMP
+      mpz_set_si (value, val);
+#else
+      value = val;
+#endif
+   }
 
    virtual void define ();
    virtual std::string toString () const;
@@ -66,7 +89,11 @@ class ANumeric : public AttributValue {
    int compare (const ANumeric& other);
 
  private: 
+#ifdef HAVE_LIBGMP
    mpz_t value;
+#else
+   long value;
+#endif
 };
 
 #endif

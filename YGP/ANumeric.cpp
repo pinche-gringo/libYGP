@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.6 2000/02/02 22:11:21 Markus Exp $
+//$Id: ANumeric.cpp,v 1.7 2000/02/11 22:59:41 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,12 +28,17 @@
 #include <assert.h>
 #include <locale.h>
 
+#ifndef HAVE_LIBGMP
+#  include <ctype.h>
+#  include <stdlib.h>
+#endif
+
 #include <iomanip>
 #include <iostream.h>
 #ifdef UNIX
-#include <strstream.h>
+#  include <strstream.h>
 #else
-#include <strstrea.h>
+#  include <strstrea.h>
 #endif
 
 #include <string>
@@ -56,7 +61,9 @@ static struct lconv* loc (NULL);
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 ANumeric::~ANumeric () {
+#ifdef HAVE_LIBGMP
    mpz_clear (value);
+#endif
 }
 
 /*--------------------------------------------------------------------------*/
@@ -66,7 +73,11 @@ ANumeric::~ANumeric () {
 /*--------------------------------------------------------------------------*/
 ANumeric& ANumeric::operator= (const ANumeric& other) {
    if (this != &other) {
+#ifdef HAVE_LIBGMP
       mpz_set (value, other.value);
+#else
+      value = other.value;
+#endif
       AttributValue::operator= ((const AttributValue&) other);
    }
    return *this;
@@ -78,7 +89,11 @@ ANumeric& ANumeric::operator= (const ANumeric& other) {
 /*--------------------------------------------------------------------------*/
 void ANumeric::define () {
    AttributValue::define ();
+#ifdef HAVE_LIBGMP
    mpz_set_si (value, 0);
+#else
+   value = 0;
+#endif
 }
 
 /*--------------------------------------------------------------------------*/
@@ -92,7 +107,14 @@ std::string ANumeric::toString () const {
       if (!loc)
          loc = localeconv ();             // Get locale-information if not set
 
+#ifdef HAVE_LIBGMP
       char* pString (mpz_get_str (NULL, 10, value)); assert (pString);
+#else
+      char* pString = new char [16];
+      ostrstream str (pString, 16);
+      str << value;
+      
+#endif
       TRACE1 ("ANumeric::toString -> value = " << pString);
 
       str = pString;                 // Copy unformatted string to return-value
@@ -144,21 +166,34 @@ void ANumeric::readFromStream (istream& in) {
    if (help.empty ())
       undefine ();
    else {
+#ifdef HAVE_LIBGMP
       mpz_set_str (value, help.c_str (), 10);
       AttributValue::define ();
+#else
+      char* pEnd;
+      value = strtol (help.c_str (), &pEnd, 10);
+      if (!*pEnd || isspace (*pEnd))
+          AttributValue::define ();
+      else
+         undefine ();
+#endif
    }
 }
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds a value to this
-//Parameters: lhs: Value to add
+//Parameters: rhs: Value to add
 //Returns   : Self
-//Note      : If lhs is not defined this is not changed
+//Note      : If rhs is not defined this is not changed
 /*--------------------------------------------------------------------------*/
-ANumeric& ANumeric::operator+= (const ANumeric& lhs) {
-   if (lhs.isDefined ()) {
-      mpz_add (value, value, lhs.value);
+ANumeric& ANumeric::operator+= (const ANumeric& rhs) {
+   if (rhs.isDefined ()) {
+#ifdef HAVE_LIBGMP
+      mpz_add (value, value, rhs.value);
+#else
+      value += rhs.value;
+#endif
       AttributValue::define ();
    }
    return *this;
@@ -166,13 +201,17 @@ ANumeric& ANumeric::operator+= (const ANumeric& lhs) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Substract a value from this
-//Parameters: lhs: Value to substract
+//Parameters: rhs: Value to substract
 //Returns   : Self
-//Note      : If lhs is not defined this is not changed
+//Note      : If rhs is not defined this is not changed
 /*--------------------------------------------------------------------------*/
-ANumeric& ANumeric::operator-= (const ANumeric& lhs) {
-   if (lhs.isDefined ()) {
-      mpz_sub (value, value, lhs.value);
+ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
+   if (rhs.isDefined ()) {
+#ifdef HAVE_LIBGMP
+      mpz_sub (value, value, rhs.value);
+#else
+      value -= rhs.value;
+#endif
       AttributValue::define ();
    }
    return *this;
@@ -180,33 +219,41 @@ ANumeric& ANumeric::operator-= (const ANumeric& lhs) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Multiply this with a value
-//Parameters: lhs: Value to multiply
+//Parameters: rhs: Value to multiply
 //Returns   : Self
-//Note      : If lhs is not defined this is not changed; if this is not defined
-//            it is set to lhs
+//Note      : If rhs is not defined this is not changed; if this is not defined
+//            it is set to rhs
 /*--------------------------------------------------------------------------*/
-ANumeric& ANumeric::operator*= (const ANumeric& lhs) {
-   if (lhs.isDefined ())
+ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
+   if (rhs.isDefined ())
       if (isDefined ())
-         mpz_mul (value, value, lhs.value);
+#ifdef HAVE_LIBGMP
+         mpz_mul (value, value, rhs.value);
+#else
+         value *= rhs.value;
+#endif
       else
-         operator= (lhs);
+         operator= (rhs);
    return *this;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Divides this through a value
-//Parameters: lhs: Value to divide with
+//Parameters: rhs: Value to divide with
 //Returns   : Self
-//Note      : If lhs is not defined this is not changed; if this is not defined
-//            it is set to lhs
+//Note      : If rhs is not defined this is not changed; if this is not defined
+//            it is set to rhs
 /*--------------------------------------------------------------------------*/
-ANumeric& ANumeric::operator/= (const ANumeric& lhs) {
-   if (lhs.isDefined ())
+ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
+   if (rhs.isDefined ())
       if (isDefined ())
-         mpz_tdiv_q (value, value, lhs.value);
+#ifdef HAVE_LIBGMP
+         mpz_tdiv_q (value, value, rhs.value);
+#else
+         value /= rhs.value;
+#endif
       else
-         operator= (lhs);
+         operator= (rhs);
    return *this;
 }
 
