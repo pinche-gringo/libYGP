@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.32 $)\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.33 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-01-07 00:45-0400\n"
-"PO-Revision-Date: 2005-01-07 00:49-0400\n"
+"POT-Creation-Date: 2005-01-31 11:52-0400\n"
+"PO-Revision-Date: 2005-01-31 11:52-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -245,7 +245,7 @@ msgstr "Kann keine Verbindung zu Server '%1' herstellen"
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
 
-#: YGP/Process.cpp:184
+#: YGP/Process.cpp:215
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -254,7 +254,7 @@ msgstr ""
 "Fehler beim Ausführen von Programm '%1'!\n"
 "Ursache: %2"
 
-#: YGP/Process.cpp:207
+#: YGP/Process.cpp:237
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -356,28 +356,24 @@ msgstr "Anderer:"
 msgid "Select a browser"
 msgstr "Auswählen eines Browsers"
 
-#: XGP/XApplication.cpp:251
-msgid "_Help"
-msgstr "_Hilfe"
+#: XGP/XApplication.cpp:137
+msgid "_Contents"
+msgstr "_Inhalt"
 
-#: XGP/XApplication.cpp:251
-msgid "<alt>H"
-msgstr ""
-
-#: XGP/XApplication.cpp:252
-msgid "_Content..."
-msgstr "_Inhalt ..."
-
-#: XGP/XApplication.cpp:252
+#: XGP/XApplication.cpp:138
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:253
-msgid "Configure _browser ..."
-msgstr "Browser _auswählen ..."
+#: XGP/XApplication.cpp:141
+msgid "Set help-_browser ..."
+msgstr "Auswählen eines _Browsers ..."
 
-#: XGP/XApplication.cpp:255
-msgid "_About..."
+#: XGP/XApplication.cpp:142
+msgid "Enables selecting which browser to use"
+msgstr "Ermöglicht die Auswahl eines Browsers zum Anzeigen der Hilfe"
+
+#: XGP/XApplication.cpp:148
+msgid "_About ..."
 msgstr "_Über ..."
 
 #: XGP/XAbout.cpp:51
@@ -469,11 +465,11 @@ msgstr "Benutzerinformation"
 
 #: XGP/LoginDlg.cpp:54
 msgid "_Userid:"
-msgstr "Benutzername:"
+msgstr "_Benutzername:"
 
 #: XGP/LoginDlg.cpp:58
 msgid "_Password:"
-msgstr "Paßwort:"
+msgstr "_Paßwort:"
 
 #: XGP/LoginDlg.cpp:70
 msgid "_Login"

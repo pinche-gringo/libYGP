@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.30 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.31 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-01-07 00:45-0400\n"
-"PO-Revision-Date: 2005-01-07 00:49-0400\n"
+"POT-Creation-Date: 2005-01-31 11:52-0400\n"
+"PO-Revision-Date: 2005-01-31 11:53-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Valor invalido por atributo: '%1'"
 
 #: YGP/AssParse.cpp:93
 msgid "Quoted value is not followed by a separator: '%1'"
-msgstr "Valor no es seguido de un seperator: '%1'"
+msgstr "Valor no es seguido de un separator: '%1'"
 
 #: YGP/AttrParse.cpp:59
 msgid "Attribute '%1' already exists"
@@ -156,15 +156,15 @@ msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
 #: YGP/IVIOAppl.cpp:191
 msgid "-warning: Unhandled exception (std::exception): "
-msgstr "-aviso: Exception no tratado (std::exception): "
+msgstr "-aviso: Excepción no manejada (std::exception): "
 
 #: YGP/IVIOAppl.cpp:194
 msgid "-warning: Unhandled exception (std::string): "
-msgstr "-aviso: Exception no tratado (std::string): "
+msgstr "-aviso: Excepción no manejada (std::string): "
 
 #: YGP/IVIOAppl.cpp:197
 msgid "-warning: Unhandled exception!"
-msgstr "-aviso: Exception no tratado!"
+msgstr "-aviso: Excepción no manejada!"
 
 #: YGP/IVIOAppl.cpp:285
 msgid "-error: Option `%1' is ambiguous"
@@ -176,11 +176,11 @@ msgstr "-error: Opción '%1' es inválida"
 
 #: YGP/Parse.cpp:290
 msgid "Expected %1, found: '%2'"
-msgstr "Expectó %1, encontré '%2'"
+msgstr "Esperaba %1, encontré '%2'"
 
 #: YGP/Parse.cpp:924
 msgid "Error in sequence %1; Expected: %2"
-msgstr "Error en la seria %1; Expecté: %2"
+msgstr "Error en la seria %1; Esperaba: %2"
 
 #: YGP/Parse.cpp:924
 msgid "Error in sequence %1"
@@ -188,7 +188,7 @@ msgstr "Error en la seria %1"
 
 #: YGP/Parse.cpp:1042
 msgid "Expected selection %1"
-msgstr "Expectó selección %1"
+msgstr "Esperaba selección %1"
 
 #: YGP/RDirSrch.cpp:259 YGP/RemoteFile.cpp:235
 msgid "Server returned an error: "
@@ -244,7 +244,7 @@ msgstr "No puedo conectar al servidor '%1'"
 msgid "Error sending data"
 msgstr "Error enviar los datos"
 
-#: YGP/Process.cpp:184
+#: YGP/Process.cpp:215
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -253,7 +253,7 @@ msgstr ""
 "Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
-#: YGP/Process.cpp:207
+#: YGP/Process.cpp:237
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -355,28 +355,24 @@ msgstr "Otro:"
 msgid "Select a browser"
 msgstr "Selecta un explorador"
 
-#: XGP/XApplication.cpp:251
-msgid "_Help"
-msgstr "_Ayuda"
-
-#: XGP/XApplication.cpp:251
-msgid "<alt>H"
-msgstr "<alt>A"
-
-#: XGP/XApplication.cpp:252
-msgid "_Content..."
+#: XGP/XApplication.cpp:137
+msgid "_Contents"
 msgstr "_Contenido ..."
 
-#: XGP/XApplication.cpp:252
+#: XGP/XApplication.cpp:138
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:253
-msgid "Configure _browser ..."
-msgstr "Configurar el _browser ..."
+#: XGP/XApplication.cpp:141
+msgid "Set help-_browser ..."
+msgstr "Selecta un e_xplorador ..."
 
-#: XGP/XApplication.cpp:255
-msgid "_About..."
+#: XGP/XApplication.cpp:142
+msgid "Enables selecting which browser to use"
+msgstr "Permite elegir el explorador para mostrar la ayuda"
+
+#: XGP/XApplication.cpp:148
+msgid "_About ..."
 msgstr "_Acerca de ..."
 
 #: XGP/XAbout.cpp:51

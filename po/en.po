@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.29 $)\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.30 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-01-07 00:45-0400\n"
+"POT-Creation-Date: 2005-01-31 11:52-0400\n"
 "PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -243,14 +243,14 @@ msgstr ""
 msgid "Error sending data"
 msgstr ""
 
-#: YGP/Process.cpp:184
+#: YGP/Process.cpp:215
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: YGP/Process.cpp:207
+#: YGP/Process.cpp:237
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -347,28 +347,24 @@ msgstr ""
 msgid "Select a browser"
 msgstr ""
 
-#: XGP/XApplication.cpp:251
-msgid "_Help"
+#: XGP/XApplication.cpp:137
+msgid "_Contents"
 msgstr ""
 
-#: XGP/XApplication.cpp:251
-msgid "<alt>H"
-msgstr ""
-
-#: XGP/XApplication.cpp:252
-msgid "_Content..."
-msgstr ""
-
-#: XGP/XApplication.cpp:252
+#: XGP/XApplication.cpp:138
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:253
-msgid "Configure _browser ..."
+#: XGP/XApplication.cpp:141
+msgid "Set help-_browser ..."
 msgstr ""
 
-#: XGP/XApplication.cpp:255
-msgid "_About..."
+#: XGP/XApplication.cpp:142
+msgid "Enables selecting which browser to use"
+msgstr ""
+
+#: XGP/XApplication.cpp:148
+msgid "_About ..."
 msgstr ""
 
 #: XGP/XAbout.cpp:51
