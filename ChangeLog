@@ -1,3 +1,7 @@
+Version 0.5.11: - Minor fixes (DirSrch, ADate, ATime); adapted to Visual C++
+		- ANumeric uses long if GMP is not available
+		- Adapted to Gtk-- 1.1.x (using namespaces)
+
 Version 0.5.10: - Fileselection- and print-dialog added
 		- Bugfix in XMessageBox, ADate
 		- Parser-classes reports found objects by either virtual
@@ -6,7 +10,7 @@ Version 0.5.10: - Fileselection- and print-dialog added
 Version 0.5.01: - Fixes in Parse-classes; Comments improved
                 - Bugfix in XFileEntry (Cursor-key-handling corrected)
                 - public constants replaced with functions (Path/DirSrch)
-		- Adapted to Windoze
+		- Ported to Windoze (Borland-C++)
 		- Seperated in subdirs (Common; X-related -> X-windows)
 
 Version 0.5.00: libPort renamed to libAttr; libXAppl for X-related classed added
@@ -17,6 +21,6 @@ Version 0.4.11: Bugfix(es) in ADate
 
 Version 0.4.10: ADate-classes added
 
-Version 0.4.00: PathDirSrch-class added; Adapted for Windoze
+Version 0.4.00: PathDirSrch-class added; Ported to Windoze (BCC)
 
 Version 0.3.00: Parse-class(es) added
