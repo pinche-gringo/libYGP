@@ -69,7 +69,7 @@ MTL=midl.exe
 RSC=rc.exe
 BSC32=bscmake.exe
 LINK32=link.exe
-LIB=lib.exe
+LIB32=lib.exe
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -92,7 +92,7 @@ OutDir=.\Release
 
 ALL : "$(OUTDIR)\VCGeneral.dll" "$(OUTDIR)\VCGenerals.lib"
 
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /I. /I.. /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I. /I.. /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /incremental:no /pdb:"$(OUTDIR)\VCGeneral.pdb" /machine:I386
@@ -107,7 +107,7 @@ OutDir=.\Debug
 
 ALL : "$(OUTDIR)\VCGeneral.dll" "$(OUTDIR)\VCGenerals.lib"
 
-CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I. /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I.. /c
+CPP_PROJ=/nologo /MTd /W3 /Gm /GX /ZI /Od /I. /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /I.. /c
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /incremental:yes /pdb:"$(OUTDIR)\VCGeneral.pdb" /debug /machine:I386 /pdbtype:sept
 
@@ -119,7 +119,7 @@ LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi3
 <<
 
 "$(OUTDIR)\VCGenerals.lib" : "$(OUTDIR)" $(LINK32_OBJS)
-    $(LIB) @<<
+    $(LIB32) @<<
   $(LINK32_OBJS) /out:"$(OUTDIR)\VCGenerals.lib"
 <<
 
@@ -359,8 +359,8 @@ CLEAN :
 	-@erase "$(INTDIR)\XStrBuf.obj"
 	-@erase "$(INTDIR)\Process.obj"
 	-@erase "$(OUTDIR)\VCGeneral.dll"
-	-@erase "$(OUTDIR)\VCGeneral.exp"
-	-@erase "$(OUTDIR)\VCGeneral.lib"
+        -@erase "$(OUTDIR)\VCGenerald.exp"
+        -@erase "$(OUTDIR)\VCGeneral?.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
