@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.12 2000/01/21 23:38:23 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.13 2000/01/24 22:51:57 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -195,7 +195,7 @@ char IVIOApplication::getOption () {
             continue;
          } // endif actual option finished
 
-         if (isOptionChar (option)) {               // Specialhandling of "--"
+         if (isOptionChar (option) && longOpt) {    // Specialhandling of "--"
             if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
                unsigned int i (numLongOpt);
 
