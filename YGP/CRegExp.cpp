@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.7 2000/05/21 18:46:56 Markus Exp $
+//$Id: CRegExp.cpp,v 1.8 2000/05/23 22:56:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 3
+#define DEBUG 0
 #include "Trace_.h"
 
 #include "CRegExp.h"
@@ -91,6 +91,8 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
    // Use system-regular expressions if available
    return !regexec (&regexp, pCompare, 0, NULL, 0);
 #else
+   const_cast<RegularExpression*>(this)->pStartCompare = pCompare;
+
    std::string lastExpr;
 
    char ch;
@@ -157,7 +159,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
          } // end GROUPBEGIN
          else {
             fnCompare = &RegularExpression::compEscChar;
-            pEnd = pAktRegExp + 2;
+            pEnd = pAktRegExp + 1;
             lastExpr = pAktRegExp[1];
          } // endif other escaped character
          break;
@@ -337,8 +339,8 @@ bool RegularExpression::compChar (const char*& pAktPos,
       break;
 
    case LINEBEGIN:
-      assert (pAktPos >= getExpression ());
-      if (pAktPos == getExpression () || (pAktPos[-1] == '\n'))
+      assert (pAktPos >= pStartCompare);
+      if (pAktPos == pStartCompare || (pAktPos[-1] == '\n'))
          break;
       return false;
 
@@ -382,22 +384,25 @@ bool RegularExpression::compEscChar (const char*& pAktPos,
       return false;
 
    case WORDBORDER:
-      assert (pAktPos >= getExpression ());
-      return (pAktPos == getExpression () || !isalnum (*pAktPos));
+      assert (pAktPos >= pStartCompare);
+      return ((pAktPos == pStartCompare) || !pAktPos[1]
+              || ((isalnum (*pAktPos)) != isalpha (pAktPos[1]))
+              || ((isalnum (*pAktPos)) != isalpha (pAktPos[-1])));
 
    case NOTWORDBORDER:
-      assert (pAktPos >= getExpression ());
-      return isalnum (*pAktPos);
+      assert (pAktPos >= pStartCompare);
+      return (pAktPos != pStartCompare) && pAktPos[1]
+	&& isalnum (*pAktPos) == isalnum (pAktPos[1]) && isalnum (pAktPos[-1]);
 
    case WORDBEGIN:
-      assert (pAktPos >= getExpression ());
-      return (pAktPos == getExpression ()
-              || (!isalnum (*pAktPos)) && isalpha (pAktPos[1]));
+      assert (pAktPos >= pStartCompare);
+      return ((pAktPos == pStartCompare)
+              || ((isalnum (*pAktPos)) && !isalpha (pAktPos[1])));
 
    case WORDEND:
-      assert (pAktPos >= getExpression ());
-      return (pAktPos != getExpression ()
-              && isalnum (*pAktPos) && !isalnum (pAktPos[-1]));
+      assert (pAktPos >= pStartCompare);
+      return ((pAktPos != pStartCompare)
+              && !isalnum (*pAktPos) && isalnum (pAktPos[-1]));
 
    default:
       return compChar (pAktPos, ch);
