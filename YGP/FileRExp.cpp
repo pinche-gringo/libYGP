@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.7 2000/05/14 17:47:37 Markus Exp $
+//$Id: FileRExp.cpp,v 1.8 2000/05/15 21:57:26 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,22 +25,27 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifdef UNIX
-#include <fnmatch.h>
+#include <assert.h>
 
-#define upper
-#else
-#include <ctype.h>
-#define upper        (char)toupper
+#ifdef HAVE_FNMATCH
+#  include <fnmatch.h>
 #endif
 
+#ifdef UNIX
+#  define upper
+#else
+#  include <ctype.h>
+#  define upper        (char)toupper
+#endif
+
+#include "ANumeric.h"
 #include "FileRExp.h"
 
 #include <iostream.h>
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Destructor
+//Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 FileRegularExpr::~FileRegularExpr () {
 }
@@ -86,7 +91,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) con
          } // endif
 
          while ((ch = *++pAktRegExp) != REGIONEND) {
-            if (pAktRegExp[1] == REGION) {
+            if (pAktRegExp[1] == RANGE) {
                char chUpper (upper (pAktRegExp[2]));
                assert ((chUpper != '\0') && (chUpper != REGIONEND));
                char chAkt (upper (*pCompare));
@@ -122,28 +127,27 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) con
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks the consistency of the regular expression
-//Returns   : int: Status; 0: OK; 1: Region not closed; 2: Open region-area
-//            3: Empty region
+//Returns   : int: Status; 0: OK; 1: No regulare expression
 //Require   : pFileRegExp is a valid reg. exp.
+//Throws    : std::string: In case of error a describing text
 /*--------------------------------------------------------------------------*/
-int FileRegularExpr::checkIntegrity () const {
+int FileRegularExpr::checkIntegrity () const throw (std::string) {
    const char* pRegExp = getExpression ();
-   assert (pRegExp);
+   if (!(pRegExp || *pRegExp))
+      return 1;
 
    while (*pRegExp) {
       if (*pRegExp == REGIONBEGIN) {
          if (!*++pRegExp)
-            return 1;
+            throw (getError ("Open region", pRegExp - getExpression ()));
          if (*pRegExp == REGIONEND)
-            return 3;
+            throw (getError ("Empty region", pRegExp - getExpression ()));
 
          while (*++pRegExp != REGIONEND) {
             switch (*pRegExp) {
-            case REGION:
-               if (!pRegExp[1])
-                  return 2;
-               if (pRegExp[1] == REGIONEND)
-                  return 1;
+            case RANGE:
+               if (!pRegExp[1] || (pRegExp[1] == REGIONEND))
+                  throw (getError ("Empty range", pRegExp - getExpression ()));
                break;
             case '\0':
                return 1;
@@ -153,4 +157,18 @@ int FileRegularExpr::checkIntegrity () const {
       ++pRegExp;
    } // end-while
    return 0;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Builds the error-string for checkIntegrity ()
+//Parameters: error: Text describing error
+//            pos: Position of the error inside the regular expression
+//Returns   : std::string: Text describing error in human-readable format
+//Require   : error is an ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+std::string FileRegularExpr::getError (const char* error, unsigned int pos) const {
+   assert (error);
+   return (std::string (getExpression ()) + std::string (", position ")
+           + ANumeric::toString ((unsigned long)pos) + std::string (": ")
+           + std::string (error));
 }
