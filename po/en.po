@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: General 0.6.00\n"
-"POT-Creation-Date: 2002-04-04 00:33-0500\n"
+"POT-Creation-Date: 2002-04-10 23:58-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,36 +14,67 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Socket.cpp:49 Socket.cpp:61 Socket.cpp:91 Socket.cpp:115
+#: Common/Socket.cpp:50 Common/Socket.cpp:62 Common/Socket.cpp:92
+#: Common/Socket.cpp:116
 msgid "Can't create socket"
-msgstr "Can't create socket"
+msgstr "Can't create socket (for communication)"
 
-#: Socket.cpp:144
+#: Common/Socket.cpp:145
 msgid "Can't bind socket"
 msgstr "Can't bind socket"
 
-#: Socket.cpp:147
+#: Common/Socket.cpp:148
 msgid "Can't listen on socket"
-msgstr "Can't listen on socket"
+msgstr "Can't listen on socket (for communication)"
 
-#: Socket.cpp:168
+#: Common/Socket.cpp:169
 #, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
-msgstr "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
+msgstr ""
+"Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 
-#: Socket.cpp:201 Socket.cpp:219
+#: Common/Socket.cpp:201 Common/Socket.cpp:229 Common/Socket.cpp:247
 msgid "Error reading data"
 msgstr "Error reading data"
 
-#: Socket.cpp:237
+#: Common/Socket.cpp:265
 msgid "Error accepting connection"
 msgstr "Error accepting connection"
 
-#: Socket.cpp:266
+#: Common/Socket.cpp:286
+#, ycp-format
+msgid "Can't resolve name '%1'"
+msgstr ""
+
+#: Common/Socket.cpp:294
 #, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr "Can't connect to server '%1'"
 
-#: Socket.cpp:283
+#: Common/Socket.cpp:311
 msgid "Error sending data"
 msgstr "Error sending data"
+
+#: Common/ADate.cpp:200 Common/ATime.cpp:199
+#, c-format, ycp-format
+msgid "Position %1"
+msgstr ""
+
+#: Common/ANumeric.cpp:248
+msgid "No number"
+msgstr ""
+
+#: Common/AssParse.cpp:59
+#, ycp-format
+msgid "Not a valid assignment: '%1'"
+msgstr ""
+
+#: Common/AssParse.cpp:72
+#, ycp-format
+msgid "Invalid value for attribute: '%1'"
+msgstr ""
+
+#: Common/AssParse.cpp:86
+#, ycp-format
+msgid "Quoted value not followed by seperator: '%1'"
+msgstr ""

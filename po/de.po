@@ -2,11 +2,10 @@
 # Anti-Copyright (A) 2002 Markus Schwab
 # Markus Schwab <g17m0@lycos.com>, 2002.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: General 0.6.00\n"
-"POT-Creation-Date: 2002-04-09 01:28-0500\n"
+"POT-Creation-Date: 2002-04-10 23:58-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,44 +13,68 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: ../Common/Socket.cpp:49 ../Common/Socket.cpp:61 ../Common/Socket.cpp:91
-#: ../Common/Socket.cpp:115
+#: Common/Socket.cpp:50 Common/Socket.cpp:62 Common/Socket.cpp:92
+#: Common/Socket.cpp:116
 msgid "Can't create socket"
 msgstr "Kann keinen Socket (für die Kommunikation) erzeugen"
 
-#: ../Common/Socket.cpp:144
+#: Common/Socket.cpp:145
 msgid "Can't bind socket"
 msgstr "Fehler beim Verbinden zu Socket"
 
-#: ../Common/Socket.cpp:147
+#: Common/Socket.cpp:148
 msgid "Can't listen on socket"
 msgstr "Fehler beim Warten auf Daten von Socket"
 
-#: ../Common/Socket.cpp:168
+#: Common/Socket.cpp:169
 #, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
 "Service-name"
 
-#: ../Common/Socket.cpp:201 ../Common/Socket.cpp:219
+#: Common/Socket.cpp:201 Common/Socket.cpp:229 Common/Socket.cpp:247
 msgid "Error reading data"
 msgstr "Fehler beim Lesen von Daten"
 
-#: ../Common/Socket.cpp:237
+#: Common/Socket.cpp:265
 msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
-#: ../Common/Socket.cpp:258
+#: Common/Socket.cpp:286
 #, ycp-format
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
-#: ../Common/Socket.cpp:266
+#: Common/Socket.cpp:294
 #, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr "Kann nicht zum Server '%1' verbinden"
 
-#: ../Common/Socket.cpp:283
+#: Common/Socket.cpp:311
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
+
+#: Common/ADate.cpp:200 Common/ATime.cpp:199
+#, c-format, ycp-format
+msgid "Position %1"
+msgstr "Position %1"
+
+#: Common/ANumeric.cpp:248
+msgid "No number"
+msgstr "Keine Nummer"
+
+#: Common/AssParse.cpp:59
+#, ycp-format
+msgid "Not a valid assignment: '%1'"
+msgstr "Keine gültige Zuweisung: '%1'"
+
+#: Common/AssParse.cpp:72
+#, ycp-format
+msgid "Invalid value for attribute: '%1'"
+msgstr "Ungültiger Wert für das Attribut: '%1'"
+
+#: Common/AssParse.cpp:86
+#, ycp-format
+msgid "Quoted value not followed by seperator: '%1'"
+msgstr "Dem Wert (in Anführungszeichen) folgt kein Trennzeichen: '%1'"
