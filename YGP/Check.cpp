@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.10 2003/03/03 05:55:45 markus Exp $
+//$Id: Check.cpp,v 1.11 2003/05/31 18:07:31 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -55,6 +55,8 @@
                                                      GTK_MESSAGE_ERROR,
                                                      GTK_BUTTONS_OK_CANCEL,
                                                      expr));
+            gtk_window_set_title (GTK_WINDOW (mbox), title);
+            gtk_window_set_default_size (GTK_WINDOW (mbox), 300, -1);
             gint rc (gtk_dialog_run (GTK_DIALOG (mbox)));
             gtk_widget_destroy (mbox);
             return rc != GTK_RESPONSE_OK;
