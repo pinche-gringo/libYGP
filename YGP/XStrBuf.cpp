@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.1.1.1 1999/07/31 00:15:08 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.1.1.1 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999

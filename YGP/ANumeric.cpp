@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: ANumeric.cpp,v 1.1.1.1 1999/07/31 00:15:08 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.1.1.1 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999

@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: ANumeric.h,v 1.1.1.1 1999/07/31 00:15:08 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public

@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.1 1999/07/31 00:15:08 Markus Exp $
+// $Id: XStrBuf.h,v 1.1.1.1 1999/07/31 00:15:08 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
