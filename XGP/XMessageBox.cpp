@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.7 2000/04/21 13:07:40 Markus Rel $
+//$Id: XMessageBox.cpp,v 1.8 2002/04/09 04:09:05 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,6 +26,7 @@
 
 
 #include <gtk--/box.h>
+#include <gtk--/main.h>
 #include <gtk--/label.h>
 #include <gtk--/button.h>
 #include <gtk--/pixmap.h>
@@ -36,7 +37,13 @@
 #include "XMessageBox.h"
 
 
-static const char* iconInfo[] = {
+const char* const XMessageBox::titles[] = { "Info", "Question", "Warning", "Error",
+                                            "Critical" };
+const char* const XMessageBox::labels[] = { "OK", "Retry", "Yes", "No", "Cancel"};
+const char* const * const XMessageBox::icons[] = { iconInfo, iconQuestion, iconWarning,
+                                                   iconError, iconCritical };
+
+const char* const XMessageBox::iconInfo[] = {
    /* columns rows colors chars-per-pixel */
    "32 32 4 1",
    "  c #000000",
@@ -77,7 +84,7 @@ static const char* iconInfo[] = {
    "oooooooooooo........oooooooooooo",
    "oooooooooooooooooooooooooooooooo" };
 
-static const char* iconCritical[] = {
+const char* const XMessageBox::iconCritical[] = {
    "38 42 40 1",
    "       c None",
    ".      c #514451445144",
@@ -166,7 +173,7 @@ static const char* iconCritical[] = {
    "            66XX$$$$$$XXXXrXrXrXqee00ww ",
    "               t6t......yuipiuiw0awws   " };
 
-static const char* iconQuestion[] = {
+const char* const XMessageBox::iconQuestion[] = {
    "42 33 64 1",
    "       c None",
    ".      c #415151",
@@ -266,7 +273,7 @@ static const char* iconQuestion[] = {
    "#!|^(210a8'''v>w>v'v'v''y8ax0m1m(^/^{{~!:4",
    "@44444444444444444444444444444444444444444" };
 
-static const char* iconWarning[]={
+const char* const XMessageBox::iconWarning[]={
    "27 19 2 1",
    "# c #FF0000",
    ". c None",
@@ -290,7 +297,7 @@ static const char* iconWarning[]={
    "...#.............#########.",
    "..#...............#########" };
 
-static const char* iconError[] = {
+const char* const XMessageBox::iconError[] = {
    "45 47 63 1",
    "       c None",
    ".      c #CF3CCB2BCF3C",
@@ -417,50 +424,39 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    , ret (CANCEL) {
    assert (txt); assert (client);
 
-   TRACE9 ("XMessageBox::XMessageBox - Show: " << text);
-   TRACE9 ("XMessageBox::XMessageBox - Title: " << title);
+   TRACE1 ("XMessageBox::XMessageBox (const string&, const string&,"
+           " int, unsigned int)\n - Text: " << text << "\nTitle: " << title);
+
+   set_modal (true);
 
    if (title.empty ()) {
-      static const char* titles[] = { "Info", "Question", "Warning", "Error",
-                                      "Critical" };
-
       assert ((flags & TYPEMASK) < (sizeof (titles) / sizeof (titles[0])));
+      TRACE8 ("XMessageBox::XMessageBox (const string&, const string&,"
+              " int, unsigned int)\n - Defaulttitle: " << titles[flags & TYPEMASK]);
       set_title (titles[flags & TYPEMASK]);
    }
    else
       set_title (title);
 
-   static const char* const * icons[] = { iconInfo, iconQuestion, iconWarning,
-                                   iconError, iconCritical };
    assert ((flags & TYPEMASK) < (sizeof (icons) / sizeof (icons[0])));
    assert (icons[flags & TYPEMASK]);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    icon = new Pixmap (icons[flags & TYPEMASK]); assert (icon);
-#else
-   icon = new Pixmap (*client, icons[flags & TYPEMASK]); assert (icon);
-#endif
-   icon->show (); assert (icon->is_visible ());
    client->pack_start (*icon, false, false, 5);
-
-   static const char* labels[] = { "OK", "Retry", "Yes", "No", "Cancel"};
 
    if (!(flags & ~TYPEMASK))       // Assure, that there's at least one button
       flags |= OK;
 
    // Check which buttons should be set
    for (unsigned int i (0); i < sizeof (labels) / sizeof (labels[0]); ++i)
-      if (flags & (1 << (i + 4))) {
-         TRACE5 ("XMessageBox::XMessageBox - Add Button " << labels[i]);
+      if (flags & (1 << (i + TYPEBITS))) {
+         TRACE5 ("XMessageBox::XMessageBox (const string&, const string&,"
+                 " int, unsigned int)\n - Add Button " << labels[i]);
 
          Button* temp (new Button (labels[i]));       // Create button
-         temp->show ();
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform), 1 << (i + 4)));
-#else
-         connect_to_method (temp->clicked, this, &XMessageBox::perform, 1 << (i + 4));
-#endif
+	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform),
+                                      1 << (i + TYPEBITS)));
 
          get_action_area ()->pack_start (*temp, false, false, 5);   // and add
          buttons.push_back (temp);
@@ -471,25 +467,21 @@ XMessageBox::XMessageBox (const string& text, const string& title,
             temp->grab_default ();
       } // endif button to set
 
-   txt->show ();
    client->pack_start (*txt, true, false, 5);          // Put text into client
-   client->show ();
    get_vbox ()->pack_start (*client, true, false, 5);
 
-   Dialog::show ();
-   set_modal (true);
+   show_all ();
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 XMessageBox::~XMessageBox () {
-   TRACE9 ("XMessageBox::~XMessageBox");
+   TRACE9 ("XMessageBox::~XMessageBox ()");
 
    for (vector<Button*>::iterator i (buttons.begin ());
         i != buttons.end (); ++i)
       delete *i;
-   Dialog::hide ();
 
    TRACE5 ("XMessageBox::~XMessageBox - returning " << ret);
 }
@@ -499,10 +491,10 @@ XMessageBox::~XMessageBox () {
 //Parameters: action: ID of pressed button
 /*--------------------------------------------------------------------------*/
 void XMessageBox::perform (int action) {
-   TRACE9 ("XMessageBox::perform - Action = " << action);
+   TRACE9 ("XMessageBox::perform (int) - Action = " << action);
 
    ret = action;
-   delete this;
+   Gtk::Main::quit();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -515,8 +507,10 @@ void XMessageBox::perform (int action) {
 /*--------------------------------------------------------------------------*/
 int XMessageBox::Show (const string& text, const string& title, int flags,
                        unsigned int defButton) {
-   TRACE9 ("XMessageBox::show");
+   TRACE1 ("XMessageBox::show (const string&, const string&,"
+           " int, unsigned int)\n - Text: " << text << "\nTitle: " << title);
 
-   new XMessageBox (text, title, flags, defButton);
-   return CANCEL;
+   SmartPtr<XMessageBox> box (new XMessageBox (text, title, flags, defButton));
+   Gtk::Main::run ();
+   return box->ret;
 }
