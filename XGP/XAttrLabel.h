@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.2 2003/02/03 03:49:30 markus Exp $
+//$Id: XAttrLabel.h,v 1.3 2003/02/18 02:56:32 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,22 +23,22 @@
 #include <gtk--/label.h>
 
 
-// Class to displaying an attribute in a formatted style while preservering its
+// Class to display an attribute in a formated style while preservering its
 // other abilities.
 template <class T> class XAttributeLabel : public Gtk::Label {
  public:
-   XAttributeLabel (T attr, gfloat x=0.5, gfloat y=0.5)
+   XAttributeLabel (const T& attr, gfloat x = 0.5, gfloat y = 0.5)
       : Gtk::Label (NULL, x, y), attr_ (attr) { update (); }
    ~XAttributeLabel () { }
 
    void update () { set_text (attr_.toString ()); }
-   T& getAttribute () { return attr_; }
+   T& getAttribute () { return const_cast<T&> (attr_); }
 
  private:
    XAttributeLabel (const XAttributeLabel&);
    const XAttributeLabel& operator= (const XAttributeLabel&);
 
-   T attr_;
+   const T& attr_;
 };
 
 // Specialization of XAttributeLabel for C++'s number types
