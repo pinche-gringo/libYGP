@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6 ($Revision: 1.24 $)\n"
-"POT-Creation-Date: 2003-12-11 18:18-0500\n"
+"Project-Id-Version: General 0.6 ($Revision: 1.25 $)\n"
+"POT-Creation-Date: 2004-01-05 02:46-0500\n"
 "PO-Revision-Date: 2003-12-11 18:18-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -157,19 +157,19 @@ msgstr "-Fehler: Die Option '%1' ist nicht eindeutig"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
-#: YGP/Parse.cpp:294
+#: YGP/Parse.cpp:291
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
-#: YGP/Parse.cpp:921
+#: YGP/Parse.cpp:925
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
-#: YGP/Parse.cpp:921
+#: YGP/Parse.cpp:925
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
-#: YGP/Parse.cpp:1039
+#: YGP/Parse.cpp:1043
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
 
@@ -355,7 +355,7 @@ msgstr "_Über ..."
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Vertrieben unter den Bedingungen der GNU General Public License"
 
-#: XGP/GTKViewer.c:162
+#: XGP/GTKViewer.c:225
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr "Fehler beim Öffnen von Datei '%s': %s"

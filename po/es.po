@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.22 $)\n"
-"POT-Creation-Date: 2003-12-11 18:18-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.23 $)\n"
+"POT-Creation-Date: 2004-01-05 02:46-0500\n"
 "PO-Revision-Date: 2003-12-11 18:24-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -157,19 +157,19 @@ msgstr "-error: Opción '%1' es ambigua"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
-#: YGP/Parse.cpp:294
+#: YGP/Parse.cpp:291
 msgid "Expected %1, found: '%2'"
 msgstr "Expectó %1, encontré '%2'"
 
-#: YGP/Parse.cpp:921
+#: YGP/Parse.cpp:925
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Error en la seria %1; Expecté: %2"
 
-#: YGP/Parse.cpp:921
+#: YGP/Parse.cpp:925
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: YGP/Parse.cpp:1039
+#: YGP/Parse.cpp:1043
 msgid "Expected selection %1"
 msgstr "Expectó selección %1"
 
@@ -354,7 +354,7 @@ msgstr "_Acerca de ..."
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Distribuido bajo los condiciones de la GNU Licensia General Público"
 
-#: XGP/GTKViewer.c:162
+#: XGP/GTKViewer.c:225
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr "Error abriendo el fichero '%s'! %s"
@@ -387,9 +387,11 @@ msgid ""
 "If you want to connect to a server, enter its address (name or IP number) in "
 "the entry field and click on \"Connect\"."
 msgstr ""
-"Haz clic en \"Espera por conección\" para eserpar a una conección de una otra máquina.\n"
+"Haz clic en \"Espera por conección\" para eserpar a una conección de una "
+"otra máquina.\n"
 "\n"
-"Si quieres conectarte a un servidor, entra su dirección (nombre or número IP) en las entradas y haz clic en \"Conectar\"."
+"Si quieres conectarte a un servidor, entra su dirección (nombre or número "
+"IP) en las entradas y haz clic en \"Conectar\"."
 
 #: XGP/ConnectDlg.cpp:71
 msgid "_Server:"
