@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.41 2004/11/07 22:02:30 markus Exp $
+//$Id: ADate.cpp,v 1.42 2004/11/14 21:18:33 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -240,9 +240,10 @@ ADate& ADate::operator= (const struct tm& date) {
 /// \return \c std::string: String-representation of ADate
 //----------------------------------------------------------------------------
 std::string ADate::toUnformattedString () const {
-   char buffer[12];
+   char buffer[20] = "";
 
-   sprintf (buffer, "%02d%02d%04d", (unsigned)day, (unsigned)month, year);
+   if (isDefined ())
+      sprintf (buffer, "%02d%02d%d", (unsigned)day, (unsigned)month, year);
    return std::string (buffer);
 }
 

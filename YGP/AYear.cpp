@@ -1,11 +1,11 @@
-//$Id: AYear.cpp,v 1.1 2004/11/07 22:01:56 markus Exp $
+//$Id: AYear.cpp,v 1.2 2004/11/14 21:19:25 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
 //COPYRIGHT   : Copyright (C) 2004
@@ -76,7 +76,7 @@ AYear& AYear::operator= (const AYear& other) {
 //----------------------------------------------------------------------------
 AYear& AYear::operator= (const char* pValue) throw (std::invalid_argument) {
    TRACE5 ("AYear::operator= (const char*): " << pValue);
-   if (pValue) {
+   if (pValue && *pValue) {
       char* pTail = NULL;
       errno = 0;
       year = strtol (pValue, &pTail, 0);
@@ -98,9 +98,10 @@ AYear& AYear::operator= (const char* pValue) throw (std::invalid_argument) {
 /// \return \c std::string: String-representation of AYear
 //----------------------------------------------------------------------------
 std::string AYear::toUnformattedString () const {
-   char buffer[12];
+   char buffer[12] = "";
 
-   sprintf (buffer, "%4d", year);
+   if (isDefined ())
+      sprintf (buffer, "%4d", year);
    return std::string (buffer);
 }
 

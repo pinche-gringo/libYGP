@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.34 2004/11/07 22:02:58 markus Exp $
+//$Id: ATime.cpp,v 1.35 2004/11/14 21:19:39 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -226,9 +226,10 @@ void ATime::assign (const char* pTime, unsigned int len) {
 /// \returns String-representation of ATime
 //-----------------------------------------------------------------------------
 std::string ATime::toUnformattedString () const {
-   char buffer[8];
+   char buffer[8] = "";
 
-   sprintf (buffer, "%02u%02u%02u", (unsigned)hour, (unsigned)min_, (unsigned)sec);
+   if (isDefined ())
+      sprintf (buffer, "%02u%02u%02u", (unsigned)hour, (unsigned)min_, (unsigned)sec);
    return std::string (buffer);
 }
 
