@@ -1,7 +1,7 @@
 #ifndef DIRENTRY_H
 #define DIRENTRY_H
 
-//$Id: File.h,v 1.3 2001/08/24 20:57:24 markus Exp $
+//$Id: File.h,v 1.4 2001/08/28 20:17:32 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -97,6 +97,7 @@ typedef struct dirEntry {
       return strcmp (name (), other->name ()); }
 
    //@Section file-type
+   bool isHidden () const { return *entry.d_name == '.'; }
    bool isDirectory () const { return S_ISDIR (status.st_mode); }
    bool isExecuteable () const { return status.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH); }
    bool isUserExec () const { return userExec; }
@@ -116,6 +117,7 @@ typedef struct dirEntry {
    void name (const std::string& name) { strcpy (entry.d_name, name.c_str ()); }
    void size (unsigned long size) { status.st_size = size; }
    void time (time_t time) { status.st_mtime = time; }
+   void attributes (unsigned long attr) { status.st_mode = attr; }
 } dirEntry;
 #elif SYSTEM == WINDOWS
 
@@ -147,6 +149,7 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
       return stricmp (name (), other->name ()); }
 
    //@Section file-type
+   bool isHidden () const { return (dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)!= 0; }
    bool isDirectory () const { return (dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
    bool isExecuteable () const;
    bool isUserExec () const { return isExecuteable (); }
@@ -162,6 +165,7 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    void name (const std::string& name) { strcpy (cFileName, name.c_str ()); }
    void size (unsigned long size) { nFileSizeLow = size; }
    void time (time_t) { assert (0); }
+   void attributes (unsigned long attr) { dwFileAttributes = attr; }
 
    void setTime (const FILETIME& time, struct tm& result);
 } dirEntry;
