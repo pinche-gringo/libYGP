@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.15 2002/05/09 22:22:00 markus Rel $
+//$Id: XFileList.cpp,v 1.16 2002/07/08 03:38:47 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,7 +28,6 @@
 
 #include <gtk--/pixmap.h>
 
-#define DEBUG 0
 #include "Check.h"
 #include "Trace_.h"
 

@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.9 2002/04/22 21:09:00 markus Rel $
+//$Id: XMessageBox.cpp,v 1.10 2002/07/08 03:38:47 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -31,7 +31,6 @@
 #include <gtk--/button.h>
 #include <gtk--/pixmap.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 
 #include "Internal.h"

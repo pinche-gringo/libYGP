@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.6 2002/04/22 21:07:32 markus Rel $
+//$Id: XFileDlg.cpp,v 1.7 2002/07/08 03:38:47 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,7 +28,6 @@
 
 #include <string>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Check.h"
 #include "Internal.h"

@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.7 2002/04/22 21:07:32 markus Rel $
+//$Id: XDate.cpp,v 1.8 2002/07/08 03:38:47 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -32,7 +32,6 @@
 #include <gtk--/spinbutton.h> 
 #include <gtk--/adjustment.h>
 
-#define DEBUG 0
 #include <Check.h>
 #include <Trace_.h>
 #include <Internal.h>

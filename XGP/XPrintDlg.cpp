@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.8 2002/04/28 00:19:49 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.9 2002/07/08 03:38:47 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -30,7 +30,6 @@
 #include <string>
 #include <fstream.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 #include "Check.h"
 
