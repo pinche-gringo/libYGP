@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.29 2005/01/12 22:35:00 markus Exp $
+//$Id: Attribute.h,v 1.30 2005/01/20 05:26:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -313,16 +313,16 @@ template <> inline std::string Attribute<std::string>::getFormattedValue () cons
      - double
      - std::string
 */
-template <class T> class AttributeList : public IAttribute {
+template <class T, class L=std::vector<T> > class AttributeList : public IAttribute {
  public:
    /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
-   AttributeList (const char* name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
+   AttributeList (const char* name, L& list) : IAttribute (name), list_ (list) { }
    /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
-   AttributeList (const std::string& name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
+   AttributeList (const std::string& name, L& list) : IAttribute (name), list_ (list) { }
    /// Destructor
    ~AttributeList () { }
 
-   virtual IAttribute* clone () { return new AttributeList<T> (*this); }
+   virtual IAttribute* clone () { return new AttributeList<T, L> (*this); }
 
    /// Method to assign a value from a character-pointer to the attribute
    /// list.
@@ -397,7 +397,7 @@ template <class T> class AttributeList : public IAttribute {
       list_ (o.list_) { }
    const AttributeList& operator= (const AttributeList&);
 
-   std::vector<T>& list_;
+   L& list_;
 };
 
 
