@@ -1,0 +1,153 @@
+<!-- $Id: RemoteFile.html,v 1.1 2001/10/17 23:03:51 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: RemoteFile</title>
+    <meta name="description" content="Documentation of RemoteFile-structure">
+    <meta name="keywords" content="Documentation, Docu, RemoteFile, class, struct, structure">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2001-10-17">
+    <meta name="DC.Rights" content="Anticopyright (A) 2001, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Struct RemoteFile</h1>
+    <p>Derived from: <a href="File.html">File.html</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;RemoteFile.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class representing a file on a remote server with simple
+      management-functions.</p>
+
+    <p>This class offers the same functionality like its parent
+      although the file is actually stored on a remote computer.</p>
+
+    <p>This class is not really (very) useful by itself but is designed
+      to be used by a <a href="RDirSrch.html"><b>RemoteDirSearch</b></a>-object.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="RemoteFile.html#RemoteFile"><b>RemoteFile</b></a></td>
+        <td><tt>(<a href="Socket.html"><b>Socket</b></a> <font color="blue">socket</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt></td>
+        <td><a href="RemoteFile.html#RemoteFile2"><b>RemoteFile</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="RemoteFile.html"><b>RemoteFile</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="RemoteFile.html"><b>RemoteFile</b></a>&amp;</tt> </td>
+        <td><a href="RemoteFile.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="RemoteFile.html"><b>RemoteFile</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="RemoteFile.html#~RemoteFile"><b>~RemoteFile</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt>virtual <tt><a href="File.html"><b>File</b></a>*</tt></td>
+        <td><a href="File.html#clone"><b>clone</b></a></td>
+        <td><tt>() const</tt>;</td></tr>
+
+      <tr valign="top"><td><tt>virtual <font color="purple">void</font>*</tt></td>
+        <td><a href="RemoteFile.html#open"><b>open</b></a></td>
+        <td><tt>(const <font color="purple">char</font>* <font color="blue">mode</font>) const throw (<font color="purple">std::string</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>virtual <font color="purple">void</font></tt></td>
+        <td><a href="RemoteFile.html#close"><b>close</b></a></td>
+        <td><tt>(<font color="purple">void</font>* <font color="blue">file</font>) const throw (<font color="purple">std::string</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>virtual <font color="purple">bool</font></tt></td>
+        <td><a href="RemoteFile.html#isEOF"><b>isEOF</b></a></td>
+        <td><tt>(<font color="purple">void</font>* <font color="blue">file</font>) const throw (<font color="purple">std::string</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>virtual <font color="purple">int</font></tt></td>
+        <td><a href="RemoteFile.html#read"><b>read</b></a></td>
+        <td><tt>(<font color="purple">void</font>* <font color="blue">file</font>, <font color="purple">char</font>* <font color="blue">buffer</font>, <font color="navy">unsigned</font> <font color="purple">int</font> <font color="blue">length</font>) const throw (<font color="purple">std::string</font>);</tt></td></tr>
+      <tr valign="top"><td><tt>virtual <font color="purple">int</font></tt></td>
+        <td><a href="RemoteFile.html#write"><b>write</b></a></td>
+        <td><tt>(<font color="purple">void</font>* <font color="blue">file</font>, const <font color="purple">char</font>* <font color="blue">buffer</font>, <font color="navy">unsigned</font> <font color="purple">int</font> <font color="blue">length</font>) const throw (<font color="purple">std::string</font>);</tt></td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <h4>Management functions</h4>
+    <pre><a name="RemoteFile"></a>RemoteFile (<a href="Socket.html"><b>Socket</b></a> socket)</pre>
+    <dl>
+      <dd>Constructor; creates an empty object (containing no
+        directory-entry) with a socket for communication.</dd>
+    </dl>
+    <pre><a name="RemoteFile2"></a>RemoteFile (const RemoteFile&amp; other)</pre>
+    <pre><a name="~RemoteFile"></a>~RemoteFile ()</pre>
+    <pre><a name="operator="></a>RemoteFile&amp; operator= (const RemoteFile&amp; other)</pre>
+
+    <pre><a name="clone"></a>File* clone () const</pre>
+    <dl>
+      <dd>Duplicates (clones) the object and returns a pointer to the
+        newly created object.</dd>
+    </dl>
+
+    <h4>File-access</h4>
+    <pre><a name="open"></a>void* open (const char* mode) const throw (std::string)</pre>
+    <dl>
+      <dd>Opends the file with the specified mode. This parameter can have the
+        same values than the ANSI-C fopen-function.</dd>
+    </dl>
+    <pre><a name="close"></a>void close (void* file) const throw (std::string)</pre>
+    <dl>
+      <dd>Closes a previously opened file.</dd>
+    </dl>
+
+    <pre><a name="isEOF"></a>bool isEOF (void* file) const throw (std::string)</pre>
+    <dl>
+      <dd>Checks if the end of the file has been reached while reading from it.</dd>
+    </dl>
+
+    <pre><a name="read"></a>int read (void* file, char* buffer, unsigned int length) const throw (std::string)</pre>
+    <dl>
+      <dd><p>Reads the specified number of characters (or less, if the end of the file
+        has been reached) into buffer. and returns the number of actually read bytes.</p>
+
+        <p>If an error occurres, an exception is thrown.</p></dd>
+    </dl>
+    <pre><a name="write"></a>int write (void* file, const char* buffer, unsigned int length) const throw (std::string)</pre>
+    <dl>
+      <dd><p>Writes the specified number of characters to the file and returns
+        the number of actually written bytes.</p>
+
+        <p>If an error occurres, an exception is thrown.</p></dd>
+    </dl>
+
+    <h4>Comparison</h4>
+    <pre><a name="compare"></a>int compare (const char* pszName) const</pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
+        The return code is (analogue to strcmp) 0 if they are equal. Note:
+        Depending on your operating system, the compare might or might not be
+        case-sensitive.</dd>
+    </dl>
+    <pre><a name="compare2"></a>int compare (const std::string&amp; Name) const</pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
+        The return code is (analogue to strcmp) 0 if they are equal. Note:
+        Depending on your operating system, the compare might or might not be
+        case-sensitive.</dd>
+    </dl>
+    <pre><a name="compare3"></a>int compare (const RemoteFile&amp; other) const</pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
+        The return code is (analogue to strcmp) 0 if they are equal. Note:
+        Depending on your operating system, the compare might or might not be
+        case-sensitive.</dd>
+    </dl>
+    <pre><a name="compare4"></a>int compare (const RemoteFile* other) const</pre>
+    <dl>
+      <dd>Compares the filename (without path-information) with the passed one.
+        The return code is (analogue to strcmp) 0 if they are equal. Note:
+        Depending on your operating system, the compare might or might not be
+        case-sensitive.</dd>
+    </dl>
+  </body>
+</html>
