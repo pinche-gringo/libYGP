@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.15 2003/11/17 15:08:24 markus Rel $
+//$Id: XDialog.cpp,v 1.16 2004/01/05 07:40:03 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -160,7 +160,8 @@ void XDialog::cancelEvent () {
 /// \remarks Must not be called
 //-----------------------------------------------------------------------------
 void XDialog::command (int action) {
-   Check (0);
+   TRACE9 ("XDialog::command (int) - " << action);
+   Check1 (action == Gtk::RESPONSE_DELETE_EVENT);
 }
 
 //-----------------------------------------------------------------------------
@@ -168,6 +169,7 @@ void XDialog::command (int action) {
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
 void XDialog::free (int) {
+   TRACE9 ("XDialog::free (int)");
    delete this;
 }
 
