@@ -1,14 +1,14 @@
-//$Id: PathDirSrch.cpp,v 1.23 2003/03/06 03:08:05 markus Rel $
+//$Id: PathDirSrch.cpp,v 1.24 2003/06/19 22:49:15 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,24 +34,23 @@
 #include "PathDirSrch.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 PathDirectorySearch::~PathDirectorySearch () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Searches for first file matching the input specified by the
-//            constructor(s) or the set-methods.
-//
-//            If a search within a node of the path returns an error, continue
-//            with the next node.
-//Parameters: attribs: Attributes the file must contain
-//Returns   : const File*: Pointer to found file-object
-//Requires  : The values to search for must have been set before!
-//Remarks   : Every node of the path is tilde-expanded (UNIX-like to the home directory).
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Searches for first file matching the input specified by the constructor(s)
+/// or the set-methods. If a search within a node of the path returns an
+/// error, continue with the next node.
+/// \param attribs: Attributes the file must contain
+/// \returns <tt>const File*</tt>: Pointer to found file-object
+/// \pre The values to search for must have been set before!
+/// \remarks Every node of the path is tilde-expanded (UNIX-like to the home
+///     directory).
+//-----------------------------------------------------------------------------
 const File* PathDirectorySearch::find (unsigned long attribs) {
    TRACE9 ("PathDirectorySearch::find (unsigned long) - "
            << (std::string)searchPath << " -> " << srch);
@@ -76,16 +75,15 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
    return rc;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the next matching file according to parameters specified
-//            in earlier find-calls.
-//
-//            If a search within a node of the path returns an error, continue
-//            with the next node.
-//Returns   : const File*: Pointer to found file-object or NULL
-//Requires  : The search must have already been started by a find!
-//Remarks   : Every node of the path is tilde-expanded (UNIX-like to the home directory).
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the next matching file according to parameters specified in
+/// earlier find-calls. If a search within a node of the path returns an
+/// error, continue with the next node.
+/// \returns <tt>const File*</tt>: Pointer to found file-object or NULL
+/// \pre The search must have already been started by a find!
+/// \remarks Every node of the path is tilde-expanded (UNIX-like to the home
+///     directory).
+//-----------------------------------------------------------------------------
 const File* PathDirectorySearch::next () {
    TRACE9 ("PathDirectorySearch::next (): " << searchPath.data ()  << " -> " << srch);
    Check1 (!checkIntegrity ());
@@ -105,11 +103,11 @@ const File* PathDirectorySearch::next () {
    return tmp;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if this object is integer. If yes 0 is returned, else a
-//            number describing the error.
-//Returns   : int: Status; 0: OK
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if this object is integer. If yes 0 is returned, else a number
+/// describing the error.
+/// \returns \c int: Status; 0: OK
+//-----------------------------------------------------------------------------
 int PathDirectorySearch::checkIntegrity () const {
    return (((const std::string&)searchPath).empty ()
             ? NO_PATH : DirectorySearch::checkIntegrity ());

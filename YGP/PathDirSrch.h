@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.11 2002/12/07 23:28:01 markus Rel $
+//$Id: PathDirSrch.h,v 1.12 2003/06/19 22:49:15 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,34 +23,44 @@
 #include <DirSrch.h>
 #include <PathSrch.h>
 
-// Class to search for files in directories listed in a path. This
-// search can be restricted to files matching certain name-criterias
-// or by attributes.
-//
-// The name-part of the files to search supports UNIX-like wildcards;
-// that are the asterisk (*) for any number of any characters, the
-// question-mark for any single character and a set of characters in
-// brackets (([) and (])). This set can contain a list of characters
-// (like [abcde]) or a region (like [a-e]). To invert this set use a
-// leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
-//
-// The found (and matching) files are retrieved by objects of type File.
-//
-// Note: The class does not do any word expansion for the search-path
-//       (like expanding the tilde (~) to the home-directory)!
+/**Class to search for files in directories listed in a path. This
+   search can be restricted to files matching certain name-criterias
+   or by attributes.
+
+   The name-part of the files to search supports UNIX-like wildcards;
+   that are the asterisk (*) for any number of any characters, the
+   question-mark for any single character and a set of characters in
+   brackets (([) and (])). This set can contain a list of characters
+   (like [abcde]) or a region (like [a-e]). To invert this set use a
+   leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
+
+   The found (and matching) files are retrieved by objects of type File.
+
+   Note: The class does not do any word expansion for the search-path
+         (like expanding the tilde (~) to the home-directory)!
+*/
 class PathDirectorySearch : public DirectorySearch {
  public:
    //@Section manager-functions
+   /// Default constructur; creates an empty object, not ready to search for files
    PathDirectorySearch () : DirectorySearch (), searchPath ("") { }
+   /// Constructur; creates an object with an path to files in.
    PathDirectorySearch (const std::string& path) : DirectorySearch ()
       , searchPath (path) { }
+   /// Constructur; creates an object with an path to files in and the files
+   /// to search for.
    PathDirectorySearch (const std::string& path, const std::string& search)
       : DirectorySearch (), srch (search), searchPath (path) { }
    virtual ~PathDirectorySearch ();
 
+   /// Sets/Changes the path to search in.
    void setPath (const std::string& path) { searchPath = path; }
 
-   //@Section searching
+   /// \name Searching
+   //@{
+   /// Searches for the specified files with the passed attributes in all the
+   /// nodes specified by \c path.
+   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
    const File* find (const std::string& path, const std::string& search,
 	             unsigned long attribs = FILE_NORMAL) {
       setPath (path);
@@ -64,6 +74,7 @@ class PathDirectorySearch : public DirectorySearch {
 
    virtual const File* find (unsigned long attribs = FILE_NORMAL);
    virtual const File* next ();
+   //@}
 
  protected:
    virtual int checkIntegrity () const;
