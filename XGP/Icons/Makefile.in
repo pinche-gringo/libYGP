@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.7 2003/07/20 08:17:24 markus Rel $
+# $Id: Makefile.in,v 1.8 2003/11/14 18:23:35 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -39,7 +39,7 @@ VERSION = @VERSION@
 
 SUBDIRS = .
 
-subdir = X-windows/Icons
+subdir = XGP/Icons
 
 pkgdata_DATA=Icon_c.xpm    Icon_gif.xpm  Icon_html.xpm Icon_jpg.xpm Icon_ps.xpm   \
 	     Icon_tgz.xpm  Icon_xpm.xpm  Icon_cpp.xpm  Icon_gz.xpm  Icon_info.xpm \
