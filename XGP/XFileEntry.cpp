@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.7 2003/03/03 05:53:43 markus Exp $
+//$Id: XFileEntry.cpp,v 1.8 2003/03/06 04:27:55 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -54,7 +54,7 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
       input += '*';
       const File* result;
       DirectorySearch ds (input);
-      if (result = ds.find (attrs)) {           // If input matches attributes
+      if ((result = ds.find (attrs))) {         // If input matches attributes
          int len (get_text_length ());               // Complete name and mark
 
          input = result->path (); input += result->name ();// part after input

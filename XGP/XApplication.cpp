@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.23 2003/03/06 03:11:47 markus Exp $
+//$Id: XApplication.cpp,v 1.24 2003/03/06 04:27:55 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -66,9 +66,8 @@ using namespace Gtk::Menu_Helpers;
 //Parameters: pTitle: Pointer to title of the application
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
-   : vboxClient (new Gtk::VBox ()), aLastMenus (5), pMenu (new Gtk::MenuBar ())
-     , helpBrowser (BrowserDlg::getDefaultBrowser ())
-{
+   : pMenu (new Gtk::MenuBar ()), vboxClient (new Gtk::VBox ())
+     , helpBrowser (BrowserDlg::getDefaultBrowser ()), aLastMenus (5) {
    TRACE9 ("XApplication::XApplication (const char*) - " << pTitle);
    signal (SIGSEGV, handleSignal);
    signal (SIGBUS, handleSignal);
@@ -91,13 +90,8 @@ XApplication::XApplication (const char* pTitle)
 XApplication::~XApplication () {
    TRACE9 ("XApplication::~XApplication () - start");
 
-   vboxClient->hide ();
-   pMenu->hide ();
-   hide ();
    signal (SIGSEGV, SIG_DFL);
    signal (SIGBUS, SIG_DFL);
-
-   TRACE9 ("XApplication::~XApplication () - end");
 }
 
 
@@ -352,8 +346,9 @@ void XApplication::command (int menu) {
 XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
                                     const char* pCopyright)
    : XApplication (pTitle), hboxTitle (new Gtk::HBox)
-   , vboxPrgInfo (new Gtk::VBox), txtProgramm (new Gtk::Label (pPrgInfo))
-   , txtCopyright (new Gtk::Label (pCopyright)), iconAuthor (NULL), iconPrg (NULL) {
+     , vboxPrgInfo (new Gtk::VBox), txtProgramm (new Gtk::Label (pPrgInfo))
+     , txtCopyright (new Gtk::Label (pCopyright)), iconPrg (NULL)
+     , iconAuthor (NULL) {
    TRACE9 ("XInfoApplication::XInfoApplication ()");
    Check3 (pPrgInfo); Check3 (pCopyright);
 

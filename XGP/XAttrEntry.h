@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.6 2003/03/03 23:35:26 markus Exp $
+//$Id: XAttrEntry.h,v 1.7 2003/03/06 04:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
 template <class T> class XAttributeEntry : public Gtk::Entry {
    typedef P parent;
    XAttributeEntry (T& attr)
-      : Gtk::Entry (), attr_ (attr), temp (attr), inError (false) {
+      : Gtk::Entry (), temp (attr), attr_ (attr), inError (false) {
       P::set_text (attr_.toString ());
    }
    ~XAttributeEntry () { }
@@ -86,8 +86,8 @@ template <class T> class XAttributeEntry : public Gtk::Entry {
 
 
 // Specialication for strings
-XAttributeEntry<std::string>::XAttributeEntry (std::string& attr) : attr_ (attr), temp (attr) {
-   set_text (attr); }
+XAttributeEntry<std::string>::XAttributeEntry (std::string& attr) : temp (attr)
+     , attr_ (attr), inError (false) { parent::set_text (attr); }
 
 void XAttributeEntry<std::string>::update () { set_text (temp = attr_); }
 bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {

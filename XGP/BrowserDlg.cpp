@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.5 2003/03/03 05:53:42 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.6 2003/03/06 04:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -42,7 +42,7 @@ const char* BrowserDlg::browserNames[4] = { N_("galeon"), N_("mozilla"),
 //Purpose   : Constructor
 /*--------------------------------------------------------------------------*/
 BrowserDlg::BrowserDlg (std::string& cmd)
-   : XDialog (OKCANCEL), path (cmd), pboxOther (new Gtk::HBox ()) {
+   : XDialog (OKCANCEL), pboxOther (new Gtk::HBox ()), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (std::string&) - " << cmd);
    Check3 (sizeof (browserNames) < sizeof (aBrowsers));
    set_title (_("Select a browser"));

@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.13 2003/03/06 03:11:47 markus Exp $
+//$Id: XDate.cpp,v 1.14 2003/03/06 04:27:55 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -87,7 +87,7 @@ XDate::XDate (const std::string& title, ATimestamp& date, int showFields)
 
    // Create spinbuttons
    Gtk::SpinButton* spins[] = { spinHour, spinMinute, spinSecond };
-   for (int i = 0; i < sizeof (spins) / sizeof (spins[0]); ++i)
+   for (unsigned int i = 0; i < sizeof (spins) / sizeof (spins[0]); ++i)
       if (showFields & (1 << i)) {
          Check3 (spins[i]);
 
