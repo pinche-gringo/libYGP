@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.12 2000/12/07 21:16:23 Markus Exp $
+//$Id: IVIOAppl.h,v 1.13 2001/02/18 23:20:31 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,6 +36,10 @@
 // long-values are associated with the options).
 //
 // Note: The option "-h" causes the call of the showHelp-method!
+
+
+#define IVIOAPPL_HELP_OPTION    "help", 'h'
+
 class IVIOApplication {
  public:
    // Helper-structure to store long-options
