@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.35 2003/07/03 18:04:23 markus Rel $
+//$Id: ANumeric.cpp,v 1.36 2003/09/18 17:32:11 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -136,8 +136,10 @@ std::string ANumeric::toUnformattedString () const {
       char* pString (mpz_get_str (NULL, 10, value)); Check3 (pString);
 #else
       char* pString = new char [40];
-      std::ostringstream ostr (pString, 16);
+      std::ostringstream ostr;
       ostr << value << '\0';
+      Check3 (value.str ().length () < 40);
+      strcpy (pString, ostr.str ().c_str ());
 #endif
       TRACE1 ("ANumeric::toUnformatedString -> value = " << pString);
 
