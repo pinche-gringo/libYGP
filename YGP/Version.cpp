@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.6 2002/07/08 03:30:24 markus Rel $
+// $Id: Version.cpp,v 1.7 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -40,11 +40,6 @@ static const int init = _init ();
 
 
 #if SYSTEM == WINDOWS
-
-#ifdef __GNUG__
-// This is needed to terminate the list for inport stuff
-   asm (".section .idata$3\n" ".long 0,0,0,0, 0,0,0,0,0");
-#endif
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.30 2003/02/13 06:47:52 markus Exp $
+//$Id: CRegExp.cpp,v 1.31 2003/03/06 04:16:02 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -262,7 +262,7 @@ bool RegularExpression::doCompare (const char*& pActRegExp, const char*& pCompar
    } // end-while
 
    TRACE2 ("RegularExpression::doCompare (const char*, const char*&) - Found: "
-           << static_cast <const char*> (pCompare ? "False": "True"));
+           << static_cast<const char*> (pCompare ? "False": "True"));
    return !*pCompare;                             // Match OK, if regexp empty
 }
 
@@ -408,13 +408,12 @@ bool RegularExpression::compGroup (const char*& pActRegExp,
    TRACE3 ("RegularExpression::compGroup (const char*&, const char*&) -> "
            << pCompare << " in (" << group << ')');
 
-   int min, max;
+   unsigned int min, max;
    const char* pEndRE = getRepeatFactor (pEnd + 1, min, max);
    TRACE7 ("RegularExpression::compGroup (const char*&, const char*&) - "
            "Repeating group: " << min << " - " << max);
 
-   Check3 (min >= 0);
-   Check3 (static_cast<unsigned int> (min) <= static_cast<unsigned int> (max));
+   Check3 (min <= max);
 
    return doCompGroup (pActRegExp, pEndRE, pCompare, min, max);
 }
@@ -428,11 +427,13 @@ bool RegularExpression::compGroup (const char*& pActRegExp,
 //Requires  : pActRegExp, pCompare ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
-                                     const char*& pCompare, int min, int max) {
+                                     const char*& pCompare, unsigned int min,
+                                     unsigned int max) {
 
    Check1 (pActRegExp); Check1 (*pActRegExp); Check1 (pCompare);
 
-   TRACE8 ("RegularExpression::doCompGroup (const char*&, const char*&) - "
+   TRACE8 ("RegularExpression::doCompGroup (const char*&, const char*, "
+           "const char*&, unsigned int, unsigned int) - "
            "Checking for " << (min ? "mandatory" : "optional") << " (max. "
            << (min ? min : max) << ')');
 
@@ -448,8 +449,7 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
       }
    }
 
-   while (*pActRegExp                          // While alternatives available
-          && static_cast <unsigned int> (max) >=1) {
+   while (*pActRegExp && max >=1) {            // While alternatives available
       pSaveRE = pActRegExp;
 
       pCompare = pSaveComp;
@@ -459,8 +459,9 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
 
          Check3 (pSaveComp < pCompare);
          std::string value (pSaveComp, pCompare - pSaveComp);
-         TRACE8 ("RegularExpression::doCompGroup (const char*&, const char*&)"
-                 " - Storing found value[" << cGroups - 1 << "] = '" << value << '\'');
+         TRACE8 ("RegularExpression::doCompGroup (const char*&, const char*, "
+                 "const char*&, unsigned int, unsigned int) - "
+                 " Storing found value[" << cGroups - 1 << "] = '" << value << '\'');
 
          Check3 (cGroups);
          if (groupValues.size () < cGroups) {
@@ -601,8 +602,8 @@ bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd
 
    default:
       if (isdigit (*pActRegExp)) {
-         int group (*pActRegExp - '1');
-         if (group < 0)
+         unsigned int group (*pActRegExp - '1');
+         if (group == -1U)
             group = 10;
 
          TRACE8 ("RegularExpression::doCompEscChar (const char*&, const char*&) -> "
@@ -780,10 +781,9 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActReg
            " const char*&) - Analyzing: '" << std::string (pActRegExp, pEndRE - pActRegExp)
            << '\'');
 
-   int min, max;
+   unsigned int min, max;
    pEndRE = getRepeatFactor (pEndRE, min, max);     // Check, RE repeat-factor
-   Check3 (static_cast<unsigned int> (min) <= static_cast<unsigned int> (max));
-   Check3 (min >= 0);
+   Check3 (min <= max);
 
    TRACE3 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
            " const char*&) - Repeating: " << min << " - " << max);
@@ -793,13 +793,13 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActReg
       TRACE3 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
               " const char*&) - Repeating: " << i << ". mandatory");
 
-      if (!(this->*fnCompare) (pActRegExp, pEndRE, pCompare))    // Match til min
+      if (!(this->*fnCompare) (pActRegExp, pEndRE, pCompare)) // Match til min
          return false;
    }
 
    const char* pSaveEnd = pEndRE;
    const char* pSaveComp = pCompare;
-   for (; i <= static_cast <unsigned int> (max); ++i) {   // then (til max) try
+   for (; i <= max; ++i) {                               // then (til max) try
       if (!*pCompare) {
          if (*pEndRE)
             return false;
@@ -840,24 +840,25 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActReg
 //Returns   : const char*: End of repeat-factor (char behind)
 //Requieres : pRE ASCIIZ-string; not NULL
 /*--------------------------------------------------------------------------*/
-const char* RegularExpression::getRepeatFactor (const char* pRE, int& min, int& max) const {
+const char* RegularExpression::getRepeatFactor (const char* pRE, unsigned int& min,
+                                                unsigned int& max) const {
    Check1 (pRE);
 
-   TRACE3 ("RegularExpression::getRepeatFactor (const char*, int&, int&) const - Checking: "
-           << pRE);
+   TRACE3 ("RegularExpression::getRepeatFactor (const char*, unsigned int&, "
+           "unsigned int&) const - Checking: " << pRE);
 
-   char* pEnd = const_cast <char*> (pRE);
+   char* pEnd = const_cast<char*> (pRE);
 
    switch (*pRE) {
    case MULTIMATCHOPT:
       min = 0;
-      max = -1;
+      max = -1U;
       ++pEnd;
       break;
 
    case MULTIMATCHMAND:
       min = 1;
-      max = -1;
+      max = -1U;
       ++pEnd;
       break;
 
@@ -869,11 +870,10 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, int& min, int& 
 
    case BOUNDBEG:
       if (isdigit (pRE[1])) {
-         min = static_cast <int> (strtoul (pRE + 1, &pEnd, 10));
+         min = static_cast<int> (strtoul (pRE + 1, &pEnd, 10));
          max = min;
          if (*pEnd == ',')
-            max = isdigit (*++pEnd)
-               ? static_cast <int> (strtoul (pEnd, &pEnd, 10)) : -1;
+            max = isdigit (*++pEnd) ? strtoul (pEnd, &pEnd, 10) : -1U;
          ++pEnd;
       }
       else
@@ -973,8 +973,7 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
             unsigned long min (strtoul (pRegExp + 1, &pEnd, 10));
             unsigned long max (min);
             if (*pEnd == ',')
-               max = isdigit (*++pEnd) ? strtoul (pEnd, &pEnd, 10)
-                                       : static_cast <unsigned long> (-1);
+               max = isdigit (*++pEnd) ? strtoul (pEnd, &pEnd, 10) : -1UL;
 
             TRACE7 ("RegularExpression::checkIntegrity () const - Bound: " << min
                     << '/' << max);

@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.23 2003/02/13 06:47:52 markus Exp $
+//$Id: CRegExp.h,v 1.24 2003/03/06 04:16:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -138,7 +138,7 @@ class RegularExpression : public IRegularExpression {
    bool doCompare (const char*& pAktRegExp, const char*& pCompare);
 
    bool doCompGroup (const char*& pAktRegExp, const char* pEnd,
-                     const char*& pCompare, int min, int max);
+                     const char*& pCompare, unsigned int min, unsigned int max);
    bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
    bool doCompChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
    bool doCompEscChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
@@ -154,7 +154,8 @@ class RegularExpression : public IRegularExpression {
 
    typedef bool (RegularExpression::*MFCOMPARE) (const char*&, const char*, const char*&);
 
-   const char* getRepeatFactor (const char* pRE, int& min, int& max) const;
+   const char* getRepeatFactor (const char* pRE, unsigned int& min,
+                                unsigned int& max) const;
    bool compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
                        const char* pEndRE, const char*& pCompare);
 

@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.18 2003/03/03 06:18:36 markus Exp $
+//$Id: RDirSrch.cpp,v 1.19 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -334,7 +334,8 @@ void RemoteDirSearch::setSearchValue (const std::string& search) {
    TRACE9 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
            << search);
 
-   int len (search.find (SEPARATOR)); Check1 (len != std::string::npos);
+   unsigned int len (search.find (SEPARATOR));
+   Check1 (len != std::string::npos);
    files = server = search;
    server.replace (len, server.length (), 0, '\0');
    files.replace (0, len + 1, 0, '\0');
@@ -356,7 +357,7 @@ std::string RemoteDirSearch::getDirectory () const {
    std::string ret (server);
    ret += SEPARATOR;
 
-   int pos (files.rfind (File::DIRSEPARATOR));
+   unsigned int pos (files.rfind (File::DIRSEPARATOR));
    if (pos != std::string::npos)
       ret += files.substr (0, pos + 1);
 

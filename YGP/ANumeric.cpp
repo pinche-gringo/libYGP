@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.29 2003/03/03 06:18:36 markus Exp $
+//$Id: ANumeric.cpp,v 1.30 2003/03/06 04:16:02 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -50,9 +50,6 @@
 
 #include "ANumeric.h"
 
-
-// Prototypes
-static void print (std::ostream& out, long outValue);
 
 
 // Static (global) variables

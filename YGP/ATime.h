@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.16 2003/03/03 06:18:36 markus Exp $
+//$Id: ATime.h,v 1.17 2003/03/06 04:16:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ class ATime : public AttributValue {
    ATime () : AttributValue (), hour (0), min_ (0), sec (0) { }
    ATime (bool now);
    ATime (const ATime& other) : AttributValue ((const AttributValue&)other)
-      , hour (other.hour), sec (other.sec), min_ (other.min_) { }
+      , hour (other.hour), min_ (other.min_), sec (other.sec) { }
    ATime (char Hour, char minute, char second) throw (std::invalid_argument);
    ATime (const char* pTime) throw (std::invalid_argument) { operator= (pTime); }
    ATime (const std::string& time) throw (std::invalid_argument) { operator= (time); }

@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.32 2003/02/21 19:20:11 markus Exp $
+//$Id: Parse.h,v 1.33 2003/03/06 04:16:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -958,8 +958,8 @@ template <class T> class OFParseText : public ParseText {
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
-   PTCALLBACK pCallback;
    T&         object;
+   PTCALLBACK pCallback;
 
    // Prohibited manager functions
    OFParseText ();

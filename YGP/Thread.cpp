@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.11 2002/12/16 03:47:54 markus Rel $
+//$Id: Thread.cpp,v 1.12 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -152,7 +152,10 @@ void Thread::ret (void* rc) const {
 /*--------------------------------------------------------------------------*/
 void Thread::cancel () {
 #ifdef HAVE_LIBPTHREAD
-   int rc (pthread_cancel (id));
+#  if CHECK >= 3
+   int rc =
+#  endif
+   pthread_cancel (id);
    Check3 (!rc);
 #else
    canceled = true;

@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.17 2003/03/06 03:08:05 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.18 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -76,7 +76,7 @@ static const struct {
 /*--------------------------------------------------------------------------*/
 RemoteDirSearchSrv::RemoteDirSearchSrv () {
 #if CHECK > 2
-   for (int i (0); i < (sizeof (commands) / sizeof (commands[0])); ++i)
+   for (unsigned int i (0); i < (sizeof (commands) / sizeof (commands[0])); ++i)
       Check (strlen (commands[i].cmd) == commands[i].len);
 #endif
 }
@@ -210,7 +210,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
          }
 
          char* contents = new char [length];
-         if (length = fread (contents, 1, length, pFile)) {
+         if ((length = fread (contents, 1, length, pFile))) {
             std::string send ("RC=0;Length=");
             ANumeric len (length);
             send += len.toUnformattedString ();

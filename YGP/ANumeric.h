@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.27 2003/03/03 06:18:36 markus Exp $
+//$Id: ANumeric.h,v 1.28 2003/03/06 04:16:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -117,7 +117,7 @@ class ANumeric : public AttributValue {
    }
    ANumeric& operator= (const char* pValue) throw (std::invalid_argument);
    ANumeric& operator= (const std::string& value) throw (std::invalid_argument) {
-      operator= (value.c_str ()); }
+      return operator= (value.c_str ()); }
 
    virtual void define ();
    virtual std::string toString () const;

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.20 2003/03/06 03:07:11 markus Exp $
+//$Id: INIFile.cpp,v 1.21 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -56,7 +56,7 @@ static unsigned int LEN_VALUE = 256;
 //Parameters: name: Name of section
 //Remarks   : name must be a valid ASCIIZ-string (not NULL)
 /*--------------------------------------------------------------------------*/
-INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
+INISection::INISection (const char* name) : pFoundAttr (NULL), pName (name)
    , Section (_Section, "INI-File", 1, 1)
    , SectionHeader (_SectionHeader, _("Section-header"), 1, 1)
    , Attributes (_Attributes, _("Attribute"), -1U, 0)

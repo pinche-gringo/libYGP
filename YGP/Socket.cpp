@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.14 2003/02/13 07:17:13 markus Exp $
+//$Id: Socket.cpp,v 1.15 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -227,7 +227,7 @@ int Socket::read (AByteArray& input) const throw (std::domain_error) {
    // Read from socket til either error or buffer not completely filled
    while ((cRead = ::read (sock, buffer, sizeof (buffer))) != -1) {
       input.append (buffer, cRead);
-      if (cRead < sizeof (buffer))
+      if ((unsigned int)cRead < sizeof (buffer))
          break;
    }
 
@@ -257,7 +257,7 @@ int Socket::read (std::string& input) const throw (std::domain_error) {
    // Read from socket til either error or buffer not completely filled
    while ((cRead = ::read (sock, buffer, sizeof (buffer))) != -1) {
       input.append (buffer, cRead);
-      if (cRead < sizeof (buffer))
+      if ((unsigned int)cRead < sizeof (buffer))
          break;
    }
 

@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.39 2003/03/06 03:08:05 markus Exp $
+//$Id: Parse.cpp,v 1.40 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -66,7 +66,7 @@ static char ESCAPE = '\\';
 //Requires    : description valid ASCIIZ string != NULL
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const char* description, bool skipWhitespace)
-   : pDescription (description), skip (skipWhitespace) {
+   : skip (skipWhitespace), pDescription (description) {
    TRACE9 ("ParseObject::ParseObject (const char*, bool) - " << getDescription ());
    Check1 (!checkIntegrity ());
 }
@@ -76,7 +76,7 @@ ParseObject::ParseObject (const char* description, bool skipWhitespace)
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const ParseObject& other)
-   : pDescription (other.pDescription), skip (other.skip) {
+   : skip (other.skip) , pDescription (other.pDescription) {
    TRACE9 ("ParseObject::ParseObject (const ParseObject&) - " << getDescription ());
    Check1 (!checkIntegrity ());
 }

@@ -1,7 +1,7 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-//$Id: Check.h,v 1.4 2002/12/01 21:18:06 markus Rel $
+//$Id: Check.h,v 1.5 2003/03/06 04:16:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,8 +32,10 @@
 
 // CHECK undefined means no checks at all
 #if !defined CHECK || defined (NDEBUG)
-#define Check(expr)         0
-#define CheckMsg(expr, msg) 0
+// In counterpart to the original assert don't define Check to 0; it's bad style
+// to change the program behaviour in debug and release versions.
+#define Check(expr)
+#define CheckMsg(expr, msg)
 #else
 int check (const char* expr, const char* file, unsigned int line);
 
@@ -44,55 +46,55 @@ int check (const char* expr, const char* file, unsigned int line);
 #if CHECK > 0
 #define Check1(expr)  Check(expr)
 #else
-#define Check1(expr)  0
+#define Check1(expr)
 #endif
 
 #if CHECK > 1
 #define Check2(expr)  Check(expr)
 #else
-#define Check2(expr)  0
+#define Check2(expr)
 #endif
 
 #if CHECK > 2
 #define Check3(expr)  Check(expr)
 #else
-#define Check3(expr)  0
+#define Check3(expr)
 #endif
 
 #if CHECK > 3
 #define Check4(expr)  Check(expr)
 #else
-#define Check4(expr)  0
+#define Check4(expr)
 #endif
 
 #if CHECK > 4
 #define Check5(expr)  Check(expr)
 #else
-#define Check5(expr)  0
+#define Check5(expr)
 #endif
 
 #if CHECK > 5
 #define Check6(expr)  Check(expr)
 #else
-#define Check6(expr)  0
+#define Check6(expr)
 #endif
 
 #if CHECK > 6
 #define Check7(expr)  Check(expr)
 #else
-#define Check7(expr)  0
+#define Check7(expr)
 #endif
 
 #if CHECK > 7
 #define Check8(expr)  Check(expr)
 #else
-#define Check8(expr)  0
+#define Check8(expr)
 #endif
 
 #if CHECK > 8
 #define Check9(expr)  Check(expr)
 #else
-#define Check9(expr)  0
+#define Check9(expr)
 #endif
 
 #endif

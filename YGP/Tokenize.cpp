@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.7 2003/03/06 03:08:05 markus Exp $
+//$Id: Tokenize.cpp,v 1.8 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -53,7 +53,7 @@ std::string Tokenize::getNextNode (const char split) {
       len = _string.find (split, ++actPos);
       Check3 (len >= actPos);
    } while (len == actPos);
-   if (len++ == -1)
+   if (len++ == -1U)
       len = _string.length () + 1;
    len -= actPos;
    return getActNode ();

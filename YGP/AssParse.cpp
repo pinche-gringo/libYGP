@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.10 2002/12/15 22:15:27 markus Rel $
+//$Id: AssParse.cpp,v 1.11 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -69,7 +69,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
    }
 
    posValue = actPos + len;
-   int pos (posValue);
+   unsigned int pos (posValue);
    char ch (_string[pos]);
    if (ch == QUOTE) {
       do {
@@ -147,7 +147,7 @@ std::string AssignmentParse::getActValue () const {
 /*--------------------------------------------------------------------------*/
 void AssignmentParse::escapeQuotes (std::string& value) {
    TRACE9 ("AssignmentParse::escapeQuotes (std::string&) - " << value);
-   int pos (-1);
+   unsigned int pos (-1U);
 
    while ((pos = value.find (QUOTE, pos + 1)) != std::string::npos) {
       TRACE8 ("AssignmentParse::escapeQuotes (std::string&) - Quote position " << pos);
@@ -171,7 +171,7 @@ std::string AssignmentParse::makeAssignment (const char* key, const char* value,
    Check1 (key);
    Check1 (value);
 
-   std::string temp (value, (length == -1) ? strlen (value) : length);
+   std::string temp (value, (length == -1U) ? strlen (value) : length);
    escapeQuotes (temp);
    
    std::string ret (key);

@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.41 2003/03/06 03:08:05 markus Exp $
+//$Id: DirSrch.cpp,v 1.42 2003/03/06 04:16:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -284,8 +284,11 @@ void DirectorySearch::cleanup () {
       closedir (pDir);
 #  else
    if (pDir) {
-      int rc (closedir (pDir)); Check3 (!rc);
-   }
+#if CHECK >= 3
+      int rc =
+#endif
+      closedir (pDir);
+      Check3 (!rc); }
 #  endif
    pDir = NULL;
 #elif SYSTEM == WINDOWS
