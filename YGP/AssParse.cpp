@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.3 2001/10/08 23:33:41 markus Exp $
+//$Id: AssParse.cpp,v 1.4 2001/10/09 17:17:17 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -43,6 +43,7 @@ AssignmentParse::~AssignmentParse () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose     : Retrieves the next (= first, at first call) node of the string.
+//              All escaped quotes are changed back (-> (\") is changed to ("))
 //Returns     : Next node (empty string at end)
 //Requires    : split != '\0' (operates on strings)
 /*--------------------------------------------------------------------------*/
@@ -64,11 +65,18 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
    if (ch == QUOTE) {
       do {
          pos = _string.find (QUOTE, pos + 1);
+
          if (pos == std::string::npos) {
             key = "Invalid value for attribute: " + _string.substr (actPos + 1);
             throw key;
          }
-      } while (_string[pos - 1] == ESCAPE);
+
+         if (_string[pos - 1] != ESCAPE)           // Check if quote is escaped
+            break;
+
+         // Remove all escape-characters before quotes
+         _string.replace (pos++, 1, 0, '\0');
+      } while (true);
       ++pos;
 
       if ((pos < _string.length ()) && (_string[pos] != SEPERATOR)) {
@@ -108,24 +116,18 @@ std::string AssignmentParse::getActKey () const {
 //Requires    : Must be called after getNextNode
 /*--------------------------------------------------------------------------*/
 std::string AssignmentParse::getActValue () const {
+   TRACE9 ("AssignmentParse::getActValue () const - Pos = " << posValue);
    assert (posValue != std::string::npos);
 
    bool quoted (_string[posValue] == QUOTE);
    std::string ret;
 
-   if (quoted) {
+   if (quoted)
       ret = _string.substr (posValue + 1, len - 3 - posValue + actPos);
-      int pos (0);
-      
-      // Remove all escape-characters inside the string (although only quotes
-      // should be quoted)!
-      while ((pos = ret.find (ESCAPE, pos)) != std::string::npos)
-	 ret.replace (pos++, 1, 0, '\0');
-   }
    else
       ret = _string.substr (posValue, len - posValue + actPos - 1);
 
-   TRACE3 ("AssignmentParse::getActValue () - " << ret.c_str ());
+   TRACE3 ("AssignmentParse::getActValue () const - " << ret.c_str ());
    return ret;
 }
 
@@ -134,9 +136,11 @@ std::string AssignmentParse::getActValue () const {
 //Parameters  : value: String to check (and change)
 /*--------------------------------------------------------------------------*/
 void AssignmentParse::escapeQuotes (std::string& value) {
+   TRACE9 ("AssignmentParse::escapeQuotes (std::string&) - " << value);
    int pos (-1);
 
-   while ((pos = value.find (QUOTE, pos + 1)) == std::string::npos) {
+   while ((pos = value.find (QUOTE, pos + 1)) != std::string::npos) {
+      TRACE8 ("AssignmentParse::escapeQuotes (std::string&) - Quote position " << pos);
       value.replace (pos++, 0, 1, ESCAPE);
    } // endwhile
 }
@@ -148,11 +152,14 @@ void AssignmentParse::escapeQuotes (std::string& value) {
 //Returns     : std::string: Created assignment
 //Requires    : key is an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-std::string AssignmentParse::makeAssignment (const char* key, const char* value) {
+std::string AssignmentParse::makeAssignment (const char* key, const char* value,
+                                             size_t length) {
+   TRACE9 ("AssignmentParse::makeAssignment (const char*, const char*) - "
+           << key << " = " << value);
    assert (key);
    assert (value);
 
-   std::string temp (value);
+   std::string temp (value, length);
    escapeQuotes (temp);
    
    std::string ret (key);
@@ -171,10 +178,13 @@ std::string AssignmentParse::makeAssignment (const char* key, const char* value)
 //Returns     : std::string: Created assignment
 //Requires    : key is an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-std::string AssignmentParse::makeAssignment (const char* key, const std::string& value) {
+std::string AssignmentParse::makeAssignment (const char* key, const std::string& value,
+                                             size_t length) {
+   TRACE9 ("AssignmentParse::makeAssignment (const char*, const std::string&) - "
+           << key << " = " << value);
    assert (key);
 
-   std::string ret (value);
+   std::string ret (value, length);
    escapeQuotes (ret);
 
    ret = std::string (key) + std::string (EQUALSIGN, 1) + std::string (QUOTE, 1) + ret;
