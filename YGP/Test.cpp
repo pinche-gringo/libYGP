@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.34 2000/05/09 23:34:28 Markus Exp $
+// $Id: Test.cpp,v 1.35 2000/05/10 22:39:56 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -425,43 +425,40 @@ int Application::perform (int argc, const char* argv[]) {
    check (!hHandle2.isDefined ());
 
    cout << "Testing INI-file parser...\n";
-   int attr1;
-   std::string attr2;
-   ANumeric attr3;
-   ADate attr4;
+   int Attr1;
+   std::string Attr2;
+   ANumeric Attr3;
+   ADate Attr4;
    Xifstream inifile;
-   ATime attr5;
-   ATimestamp attr6;
+   ATime Attr5;
+   ATimestamp Attr6;
    try {
       INISection global ("Global");
-      INIAttribute<int> Attr1 ("Attr1", attr1);
-      INIAttribute<std::string> Attr2 ("Attr2", attr2);
-      INIAttribute<ANumeric> Attr3 ("Attr3", attr3);
-      INIAttribute<ADate> Attr4 ("Attr4", attr4);
-      global.addAttribute (Attr1);
-      global.addAttribute (Attr2);
-      global.addAttribute (Attr3);
-      global.addAttribute (Attr4);
+      INIAttribute<int> attr1 ("Attr1", Attr1);
+      INIAttribute<std::string> attr2 ("Attr2", Attr2);
+      INIAttribute<ANumeric> attr3 ("Attr3", Attr3);
+      INIAttribute<ADate> attr4 ("Attr4", Attr4);
+      global.addAttribute (attr1);
+      global.addAttribute (attr2);
+      global.addAttribute (attr3);
+      global.addAttribute (attr4);
 
       inifile.open ("Test.ini", ios::in | ios::nocreate);
       check (inifile);
 
-      INISection local ("Local"), special ("Special");
-      local.addAttribute (Attr1);
-      local.addAttribute (Attr2);
-      local.addAttribute (Attr3);
-      local.addAttribute (Attr4);
+      INIFILE ("Test.ini");
+      INISECTION (Special);
+      INIATTR (Special, ATime, Attr5);
+      INIATTR (Special, ATimestamp, Attr6);
 
-      INIAttribute<ATime> Attr5 ("Attr5", attr5);
-      INIAttribute<ATimestamp> Attr6 ("Attr6", attr6);
+      INISECTION (Local);
+      INIATTR (Local, int, Attr1);
+      std::string attr2_;
+      INIATTR2 (Local, std::string, attr2_, Attr2);
+      INIATTR (Local, ANumeric, Attr3);
+      INIATTR (Local, ADate, Attr4);
 
-      special.addAttribute (Attr5);
-      special.addAttribute (Attr6);
-
-      INIFile file ("Test.ini");
-      file.addSection (local);
-      file.addSection (global);
-      file.addSection (special);
+      _inifile_.addSection (global);
 
       if (inifile) {
          inifile.init ();
@@ -476,7 +473,7 @@ int Application::perform (int argc, const char* argv[]) {
                    + std::string ("): ") + e);
          } // end-catch
 
-         int rc = file.read ();
+         int rc = INIFILE_READ ();
          check (!rc);
       } // endif
    } // end-try
