@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.22 2003/11/14 20:27:55 markus Rel $
+//$Id: AttrVal.h,v 1.23 2005/01/10 02:16:14 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,9 +43,9 @@ class AttributValue {
    bool         isDefined () const { return defined; }
    virtual void undefine () { defined = false; }      ///< Undefines the object
 
-   /// Reads an (unformatted) value from the passed stream. To be implemented
-   /// by derived objects (this class does nothing).
-   virtual void readFromStream (std::istream&) throw (std::invalid_argument) { }
+   /// Reads a value from the passed stream. To be implemented by derived
+   /// objects (this class does nothing).
+   virtual void readFromStream (std::istream&) throw (std::invalid_argument) = 0;
 
    /// Converts the attribute into an unformatted string.
    virtual std::string toUnformattedString () const { return ""; }
