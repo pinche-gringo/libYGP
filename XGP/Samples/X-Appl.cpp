@@ -1,11 +1,11 @@
- //$Id: X-Appl.cpp,v 1.3 2003/02/03 03:48:52 markus Exp $
+//$Id: X-Appl.cpp,v 1.4 2003/02/24 17:33:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -27,6 +27,7 @@
 #include <gzo-cfg.h>
 
 #include <errno.h>
+#include <stdlib.h>
 
 #include <fstream>
 
@@ -162,23 +163,23 @@ const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 
 
 XApplication::MenuEntry XAppl::menuItems[] = {
-    { "_File",                  "<alt>f",      0,       BRANCH },
+    { "_File",                  "<alt>F",      0,       BRANCH },
     { "_Open",                  "<ctl>O",      OPEN,    ITEM },
-    { "_Save",                  "<ctl>s",      SAVE,    ITEM },
-    { "_Print",                 "<ctl>p",      PRINT,   ITEM },
+    { "_Save",                  "<ctl>S",      SAVE,    ITEM },
+    { "_Print",                 "<ctl>P",      PRINT,   ITEM },
     { "",                       "",            0,       SEPARATOR },
-    { "E_xit",                  "<ctl>q",      EXIT,    ITEM },
-    { "_Dialogs",               "<alt>d",      0,       BRANCH },
-    { "_MessageBox",            "<ctl>m",      MSGBOX,  ITEM },
-    { "_Dialog",                "<ctl>d",      DIALOG,  ITEM },
-    { "Da_te",                  "<ctl>t",      DATE,  ITEM },
-    { "_Menus",                 "<alt>m",      0,       BRANCH },
-    { "_Radiobuttons",          "<alt>r",      0,       SUBMENU },
+    { "E_xit",                  "<ctl>Q",      EXIT,    ITEM },
+    { "_Dialogs",               "<alt>D",      0,       BRANCH },
+    { "_MessageBox",            "<ctl>M",      MSGBOX,  ITEM },
+    { "_Dialog",                "<ctl>D",      DIALOG,  ITEM },
+    { "Da_te",                  "<ctl>T",      DATE,  ITEM },
+    { "_Menus",                 "<alt>M",      0,       BRANCH },
+    { "_Radiobuttons",          "<alt>R",      0,       SUBMENU },
     {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
     {    "Button _2",           "<ctl>2",      0,       RADIOITEM },
     {    "Button _3",           "<ctl>3",      0,       LASTRADIOITEM },
     {  "",                      "",            0,       SUBMENUEND },
-    { "_Checkbuttons",          "<alt>c",      0,       SUBMENU },
+    { "_Checkbuttons",          "<alt>C",      0,       SUBMENU },
     {    "Button _1",           "<alt>1",      0,       CHECKITEM },
     {    "Button _2",           "<alt>2",      0,       CHECKITEM },
     {    "Button _3",           "<alt>3",      0,       CHECKITEM } };
@@ -249,7 +250,7 @@ void XAppl::command (int menu) {
       break;
 
    case SAVE:
-      XFileDialog::perform (string ("Save search result to..."), this,
+      XFileDialog::perform (string ("Save search result to ..."), this,
                             (XFileDialog::PACTION)&XAppl::saveToFile,
                             XFileDialog::ASK_OVERWRITE);
       break;
@@ -272,7 +273,8 @@ void XAppl::command (int menu) {
       break;
 
    case MSGBOX:
-      XMessageBox::Show ("Text", "Title", XMessageBox::YESNO);
+      XMessageBox::Show ("Text", "Title", rand () % XMessageBox::TYPEBITS
+                                          | (rand () % 31) << XMessageBox::TYPEBITS);
       break;
 
    default:
@@ -328,7 +330,7 @@ void XAppl::addFile (string& file) {
       apMenus[SAVE]->set_sensitive (true);
       apMenus[PRINT]->set_sensitive (true);
    }
-   catch (const char* e) {
+   catch (std::string& e) {
       XMessageBox::Show (e, XMessageBox::ERROR);
    }
 }
@@ -380,6 +382,8 @@ void XAppl::writeToStream (ofstream& file) {
 //Returns   : int: Status
 /*--------------------------------------------------------------------------*/
 int main (int argc, char* argv[]) {
+   srand (time (0));
+
    XAppl::initI18n ();
 
    Gtk::Main appl (argc, argv);
