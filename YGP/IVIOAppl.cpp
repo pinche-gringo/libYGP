@@ -1,14 +1,14 @@
-//$Id: IVIOAppl.cpp,v 1.35 2003/12/05 19:49:22 markus Rel $
+//$Id: IVIOAppl.cpp,v 1.36 2004/01/15 03:00:17 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
-//COPYRIGHT   : Anticopyright (A) 1999 - 2003
+//COPYRIGHT   : Anticopyright (A) 1999 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -155,37 +155,47 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 /// \returns \c int: Status
 //-----------------------------------------------------------------------------
 int IVIOApplication::run () {
-   std::string inifile (PathSearch::expandNode (std::string (1, '~')));
-   Check1 (inifile.size ());
-   if (inifile[inifile.size () - 1] != File::DIRSEPARATOR)
-      inifile += File::DIRSEPARATOR;
+   try {
+      std::string inifile (PathSearch::expandNode (std::string (1, '~')));
+      Check1 (inifile.size ());
+      if (inifile[inifile.size () - 1] != File::DIRSEPARATOR)
+         inifile += File::DIRSEPARATOR;
 #if SYSTEM == UNIX
-   inifile += '.';
+      inifile += '.';
 #endif
-   inifile += name ();
+      inifile += name ();
 #if SYSTEM != UNIX
-   inifile += ".ini";
+      inifile += ".ini";
 #endif
-   readINIFile (inifile.c_str ());
+      readINIFile (inifile.c_str ());
 
-   char ch;
-   bool showHlp (false);
+      char ch;
+      bool showHlp (false);
+      while ((ch = getOption ()) != '\0')
+         if ((ch == '?') || (ch == 'h') || !handleOption (ch)) {
+            showHlp = true;
+            break;
+         }
 
-   while ((ch = getOption ()) != '\0')
-      if ((ch == '?') || (ch == 'h') || !handleOption (ch)) {
-         showHlp = true;
-         break;
+      if (shallShowInfo ())
+         std::cout << name () << " V" << description () << "\n\n";
+
+      if (showHlp) {
+         showHelp ();
+         return -1;
       }
 
-   if (shallShowInfo ())
-      std::cout << name () << " V" << description () << "\n\n";
-
-   if (showHlp) {
-      showHelp ();
-      return -1;
+      return perform (args - startArg, &ppArgs[startArg]);
    }
-
-   return perform (args - startArg, &ppArgs[startArg]);
+   catch (std::exception& e) {
+      std::cerr << name () << _("-warning: Unhandled exception (std::exception): ") << e.what ();
+   }
+   catch (std::string& e) {
+      std::cerr << name () << _("-warning: Unhandled exception (std::string): ") << e;
+   }
+   catch (...) {
+      std::cerr << name () << _("-warning: Unhandled exception!");
+   }
 }
 
 //-----------------------------------------------------------------------------
