@@ -2,13 +2,14 @@
 CPP=BCC32.exe
 LINK=ILink32.exe
 
-CPPFLAGS=-c -I..\Common -I. -g100 -j50 -DWin32 -IE:\Programme\BCC55\Include -D__MT__
+CPPFLAGS=-c -I..\Common -I. -g100 -j50 -DWin32 -I$(INCLUDE) -D__MT__
+LINKFLAGS=-E50 -q -Gi -L$LIB) -Gpr
 
 INDIR=..\Common
 
 !if "$(CFG)" != "Release" && "$(CFG)" != "Debug"
 !if "$(CFG)" == ""
-CFG=DEBUG
+CFG=Debug
 !MESSAGE Keine Konfiguration angegeben. Debug wird als Standard verwendet.
 !else
 !MESSAGE UngÅltige Konfiguration "$(CFG)" angegeben.
@@ -27,26 +28,27 @@ CFG=DEBUG
 !endif
 
 !if $(CFG) == Debug
-CPP_FLAGS=$(CPP_FLAGS) -v
+CPPFLAGS=$(CPPFLAGS) -v
+LINKFLAGS=$(LINKFLAGS) -v
+OUTDIR=Debug
+
+!else
+CPPFLAGS=$(CPPFLAGS) -Os
 
 OUTDIR=Release
-!else
-CPP_FLAGS=$(CPP_FLAGS) -Os
-
-OUTDIR=Debug
 !endif
 
 ALL: $(OUTDIR) $(OUTDIR)\BCGeneral.dll
 
 $(OUTDIR) :
-    if not exist "$(OUTDIR)\." mkdir "$(OUTDIR)"
+    if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 .cpp.obj:
-        $(CPP) $(CPPFLAGS) -o$@ $<
+	$(CPP) $(CPPFLAGS) -o$@ $<
 
 .SUFFIXES: .exe .obj .cpp
 
-$(OUTDIR)\BCGeneral.dll: $(OUTDIR)\AByteArray.obj $(OUTDIR)\ADate.obj \
+OBJECTS = $(OUTDIR)\AByteArray.obj $(OUTDIR)\ADate.obj \
      $(OUTDIR)\AssParse.obj $(OUTDIR)\ATime.obj $(OUTDIR)\ATStamp.obj \
      $(OUTDIR)\AttrParse.obj $(OUTDIR)\Check.obj $(OUTDIR)\CRegExp.obj \
      $(OUTDIR)\DirSrch.obj $(OUTDIR)\Entity.obj $(OUTDIR)\File.obj \
@@ -57,7 +59,10 @@ $(OUTDIR)\BCGeneral.dll: $(OUTDIR)\AByteArray.obj $(OUTDIR)\ADate.obj \
      $(OUTDIR)\StackTrc.obj $(OUTDIR)\Thread.obj $(OUTDIR)\Tokenize.obj \
      $(OUTDIR)\Version.obj $(OUTDIR)\XStrBuf.obj $(OUTDIR)\ANumeric.obj \
      $(OUTDIR)\Process.obj $(OUTDIR)\XDirSrch.obj
-        echo Making DLL
+
+
+$(OUTDIR)\BCGeneral.dll: $(OBJECTS)
+	$(LINK) $(LINKFLAGS) -Tpd $(OBJECTS), $@
 
 $(OUTDIR)\AByteArray.obj: $(INDIR)\AByteArray.cpp
 
@@ -120,3 +125,5 @@ $(OUTDIR)\Process.obj: $(INDIR)\Process.cpp
 $(OUTDIR)\ANumeric.obj: $(INDIR)\ANumeric.cpp
 
 $(OUTDIR)\XDirSrch.obj: $(INDIR)\XDirSrch.cpp
+
+check:
