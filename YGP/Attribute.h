@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.18 2003/06/19 22:34:23 markus Exp $
+//$Id: Attribute.h,v 1.19 2003/06/23 01:54:00 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -359,10 +359,12 @@ template <class T> class AttributeList : public IAttribute {
    /// [offset]=[value];</tt> entries.
    std::string getValue ()  const {
       std::string help;
+      char nummer[20];
       for (unsigned int i (0); i < list_.size (); ++i) {
-         help += itoa (i);
+         sprintf (nummer, "%d", i);
+         help += nummer;
          help += '=';
-         help += i->toUnformattedString ();
+         help += list_[i].toUnformattedString ();
          help += ';';
       }
       return help;
