@@ -1,7 +1,7 @@
 #ifndef XDIALOG_H
 #define XDIALOG_H
 
-//$Id: XDialog.h,v 1.5 2003/03/06 03:10:50 markus Rel $
+//$Id: XDialog.h,v 1.6 2003/07/05 05:11:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,8 +41,15 @@ class XDialog : public Gtk::Dialog {
 
  protected:
    typedef enum { NONE = 0, OK = 1, CANCEL = 2, OKCANCEL = (OK | CANCEL) } buttons;
-   XDialog (unsigned int buttons = OKCANCEL);
-   XDialog (GtkDialog*, unsigned int buttons = OKCANCEL);
+
+   XDialog (const Glib::ustring& title, Gtk::Window& parent,
+            unsigned int buttons = OKCANCEL, bool modal = false, bool use_separator = false);
+   XDialog (const Glib::ustring& title, unsigned int buttons = OKCANCEL,
+            bool modal = false, bool use_separator = false);
+   XDialog (unsigned int buttons = OKCANCEL, bool modal = false,
+            bool use_separator = false);
+
+   void init (unsigned int buttons = OKCANCEL);
 
    //@Events of dialog; to be implemented
    virtual void okEvent ();

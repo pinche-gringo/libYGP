@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.7 2003/06/02 01:31:49 markus Rel $
+//$Id: XDialog.cpp,v 1.8 2003/07/05 05:11:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -40,38 +40,51 @@
 #include "XDialog.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : (Default-)Constructor; creates the dialog with the specified buttons
-//Parameters: buttons: Bitfield for buttons to display
-/*--------------------------------------------------------------------------*/
-XDialog::XDialog (unsigned int buttons)
-   : Gtk::Dialog ()
-     , ok ((buttons & OK) ? add_button (Gtk::Stock::OK,
-                                        Gtk::RESPONSE_OK) : NULL)
-     , cancel ((buttons & CANCEL) ? add_button (Gtk::Stock::CANCEL,
-                                                Gtk::RESPONSE_CANCEL) : NULL) {
-   TRACE9 ("XDialog::XDialog (unsigned int) - " << buttons);
-   init ();
+
+//-----------------------------------------------------------------------------
+/// (Default-)Constructor; creates the dialog with the specified buttons
+/// \param buttons: Bitfield for buttons to display
+/// \param modal: Flag, if the dialog is modal
+/// \param use_separator: Flag, if the dialog should display a separator line
+///     between its contents and its buttons
+//-----------------------------------------------------------------------------
+XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
+    : Gtk::Dialog ("", modal, use_separator) {
+   init (buttons);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor from an GTK+-object
-//Parameters: dialog: GTK+ object to use
-//            buttons: Bitfield for buttons to display
-/*--------------------------------------------------------------------------*/
-XDialog::XDialog (GtkDialog* dialog, unsigned int buttons)
-   : Gtk::Dialog (dialog)
-     , ok ((buttons & OK) ? add_button (Gtk::Stock::OK,
-                                        Gtk::RESPONSE_OK) : NULL)
-     , cancel ((buttons & CANCEL) ? add_button (Gtk::Stock::CANCEL,
-                                                Gtk::RESPONSE_CANCEL) : NULL) {
-   TRACE9 ("XDialog::XDialog (GtkDialog*, unsigned int) - " << buttons);
-   init ();
+//-----------------------------------------------------------------------------
+/// (Default-)Constructor; creates the dialog with the specified buttons
+/// \param buttons: Bitfield for buttons to display
+/// \param title: Title to display
+/// \param modal: Flag, if the dialog is modal
+/// \param use_separator: Flag, if the dialog should display a separator line
+///     between its contents and its buttons
+//-----------------------------------------------------------------------------
+XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
+                  bool modal, bool use_separator)
+    : Gtk::Dialog (title, modal, use_separator) {
+   init (buttons);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// (Default-)Constructor; creates the dialog with the specified buttons
+/// \param buttons: Bitfield for buttons to display
+/// \param title: Title to display
+/// \param parent: Parent of the dialog
+/// \param modal: Flag, if the dialog is modal
+/// \param use_separator: Flag, if the dialog should display a separator line
+///     between its contents and its buttons
+//-----------------------------------------------------------------------------
+XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
+                  unsigned int buttons, bool modal, bool use_separator)
+    : Gtk::Dialog (title, parent, modal, use_separator) {
+   init (buttons);
+}
+
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 XDialog::~XDialog () {
    TRACE9 ("XDialog::~XDialog ()");
    delete ok;
@@ -79,12 +92,17 @@ XDialog::~XDialog () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the dialog
-//Parameters: buttons: Bitfield for buttons to display
-/*--------------------------------------------------------------------------*/
-void XDialog::init () {
+//-----------------------------------------------------------------------------
+/// Initializes the dialog
+/// \param buttons: Bitfield for buttons to display
+//-----------------------------------------------------------------------------
+void XDialog::init (unsigned int buttons) {
    TRACE9 ("XDialog::init ()");
+   ok = (buttons & OK) ? add_button (Gtk::Stock::OK,
+                                     Gtk::RESPONSE_OK) : NULL;
+   cancel = (buttons & CANCEL) ? add_button (Gtk::Stock::CANCEL,
+                                     Gtk::RESPONSE_CANCEL) : NULL;
+
    get_action_area ()->set_homogeneous (false);
 
    if (cancel) {
@@ -100,10 +118,10 @@ void XDialog::init () {
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback after button-events
-//Parameters: cmd: ID of pressed button
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback after button-events
+/// \param cmd: ID of pressed button
+//-----------------------------------------------------------------------------
 void XDialog::on_response (int cmd) {
    TRACE9 ("XDialog::on_response (int)" << cmd);
    switch (cmd) {
@@ -120,27 +138,27 @@ void XDialog::on_response (int cmd) {
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback after pressing the OK button
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback after pressing the OK button
+//-----------------------------------------------------------------------------
 void XDialog::okEvent () {
    TRACE9 ("XDialog::okEvent ()");
    delete this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback after pressing the Cancel button
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback after pressing the Cancel button
+//-----------------------------------------------------------------------------
 void XDialog::cancelEvent () {
    TRACE9 ("XDialog::okEvent ()");
    delete this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Command handler of the dialog
-//Parameters: action: Selected action
-//Remarks   : Must not be called
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Command handler of the dialog
+/// \param action: Selected action
+/// \remarks Must not be called
+//-----------------------------------------------------------------------------
 void XDialog::command (int action) {
    Check (0);
 }
