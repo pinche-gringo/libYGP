@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.13 2000/01/21 23:47:50 Markus Exp $
+//$Id: Parse.h,v 1.14 2000/01/24 22:52:47 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -640,19 +640,18 @@ template <class T> class OFParseEOF : public ParseEOF {
 
  public:
    OFParseEOF (T& objToNotify, PTCALLBACK callback) : ParseEOF ()
-      , object (objToNotify), pCallback (callback) {
-      assert (pCallback); }
+      , object (objToNotify), pCallback (callback) { assert (pCallback); }
    virtual ~OFParseEOF () { }
 
    virtual int found (const char* pFoundValue) {
-      assert (object); assert (pCallback); assert (pFoundValue);
-      object->*pCallback (pFoundValue); }
+      assert (pCallback); assert (pFoundValue);
+      return (object.*pCallback) (pFoundValue); }
 
  private:
    OFParseEOF (const OFParseEOF&);             // Not very usefull -> prohibit
    const OFParseEOF& operator= (const OFParseEOF&);
 
-   T*         object;
+   T&         object;
    PTCALLBACK pCallback;
 };
 
