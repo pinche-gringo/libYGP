@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.18 2000/02/24 23:46:14 Markus Exp $
+//$Id: DirSrch.cpp,v 1.19 2000/03/07 20:46:05 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -279,9 +279,19 @@ bool dirEntry::isExecuteable () const {
       // enough (MAX_PATH) and the trailing \0 is in the compare
       switch (toupper (*pEnd++) + (toupper (*pEnd++) << 8)
               + (toupper (*pEnd++) << 16) + (toupper (*pEnd) << 24)) {
+#ifdef __BORLANDC__
       case 'EXE\0' :
       case 'COM\0' :
       case 'BAT\0' :
+#else
+#  ifdef _MSC_VER
+      case '\0EXE' :
+      case '\0MOC' :
+      case '\0TAB' :
+#  else
+#     error Unsupported compiler! Please check how long character-constants are treated.
+#  endif
+#endif
 	 return true;
       } // end-switch
    return false;
