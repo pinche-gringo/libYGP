@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h,v 1.4 2002/12/17 20:43:51 markus Rel $
+//$Id: ygp-cfg.h,v 1.5 2003/02/14 04:23:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@
 
 /* Define the micro-version */
 #ifndef MICRO_VERSION
-#define MICRO_VERSION "02"
+#define MICRO_VERSION "10"
 #endif
 
 
