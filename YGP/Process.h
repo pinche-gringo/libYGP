@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.3 2003/02/14 04:13:45 markus Exp $
+//$Id: Process.h,v 1.4 2003/02/18 02:51:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,8 +21,18 @@
 #include <string>
 
 
-// Class to execute a program while capturing its output.
-// Includes also error-handling
+// Class to execute a program either synchronlously or asynchronlously.
+//
+// The program is supposed to return 0, if it succeeds and any other value
+// if it encounters an error. In case of an error it should display its error
+// on stdout or stderr. This output is captured and thrown as exception for
+// the caller.
+//
+// In case of an asynchron running program it must display its error in
+// (more or less) the first second of its execution (as the controlling
+// process only waits one second before checking for program termination).
+//
+// Note that this class has only static members!
 class Process {
  public:
    static void execAsync (const char* file, const char* const arguments[])

@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.4 2003/02/14 04:13:45 markus Exp $
+//$Id: Process.cpp,v 1.5 2003/02/18 02:51:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -65,16 +65,17 @@ typedef int pid_t;
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Executes a program in the background. If either the file can
-//            not be found or produces an error while executing/initializing
-//            (in the more or less 1st second) an describing text is thrown.
+//Purpose   : Executes a program, either in the back- or foreground. If either
+//            the file can not be found or produces an error while
+//            executing/initializing (in the more or less 1st second) an describing
+//            text (at least if the program produces an helpful output) is thrown.
 //Parameters: file: Name of file to execute
 //            arguments: Array with arguments for the file (as understood by execv)
 //            wait: Flag, if to wait til the program terminates
-//Requires  : file a valid ASCIIZ-string
+//Requires  : file is a valid ASCIIZ-string
 //Remarks   : The called file must follow some convention:
 //              - Return 0 if OK and !0 if an error occured
-//              - In case of an error the output should contain the message
+//              - In case of an error the output should contain a describing message
 /*--------------------------------------------------------------------------*/
 void Process::start (const char* file, const char* const arguments[], bool wait)
    throw (std::string)
@@ -160,7 +161,7 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
 #endif
 
    if (errno && !err.length ()) {
-      err = (_("Error starting program `%1'!\n\nReason: %2"));
+      err = (_("Error executing program `%1'!\n\nReason: %2"));
       err.replace (err.find ("%2"), 2, strerror (errno));
    }
    close (pipes[0]);
