@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.17 2003/01/16 16:46:22 markus Exp $
+//$Id: INIFile.h,v 1.18 2003/02/13 06:55:40 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -174,17 +174,16 @@ class INISection {
 
 
 // Class to parse all entries of a section into a list (vector) of values
-template <class T>
-class INIList : public INISection {
+template <class T> class INIList : public INISection {
  public:
-   INIList (const char* name, vector<T>& values) : INISection (name), offset (0) {
+   INIList (const char* name, std::vector<T>& values) : INISection (name), offset (0) {
       addAttribute (*new AttributeList<T> (name, values)); }
    ~INIList () { delete attributes.front (); }
 
-   void write (ostream& stream) {
+   void write (std::ostream& stream) {
       return write (stream, attributes[0]->getName (),
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
-   static void write (ostream& stream, const char* section, vector<T>& values) {
+   static void write (std::ostream& stream, const char* section, std::vector<T>& values) {
       INIFile::writeSectionHeader (stream, section);
       for (unsigned int i (0); i < values.size (); ++i)
          stream << i << '=' << values[i] << '\n';
@@ -229,8 +228,8 @@ class INIFile {
 
    Xifstream& getFile () { return file; }
 
-   static void write (ostream& stream, const char* section, const Entity& obj);
-   static void writeSectionHeader (ostream& stream, const char* section) {
+   static void write (std::ostream& stream, const char* section, const Entity& obj);
+   static void writeSectionHeader (std::ostream& stream, const char* section) {
       stream << '[' << section << "]\n"; }
 
  protected:

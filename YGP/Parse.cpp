@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.34 2003/01/15 19:12:55 markus Exp $
+//$Id: Parse.cpp,v 1.35 2003/02/13 06:55:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -46,7 +46,7 @@
 
 
 // Parse-buffers; one per thread
-static map<unsigned long, std::string> buffers;
+static std::map<unsigned long, std::string> buffers;
 
 
 void ParseObject::freeBuffer () {
@@ -237,7 +237,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
    TRACE1 ("ParseAttomic::doParse -> " << getDescription ());
    Check1 (!checkIntegrity ());
 
-   int ch (0);
+   int ch;
    std::string& buffer = BUFFER;
    buffer = "";
    unsigned int len (0);

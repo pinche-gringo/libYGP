@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.28 2002/12/14 22:46:14 markus Rel $
+//$Id: Parse.h,v 1.29 2003/02/13 06:55:40 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@
 //        escaped
 //   - ParseExact: Parses (a part) of the specified characters in that sequence
 //   - ParseUpperExact: As ParseExact, but ignores the case
-// 
+//
 // The following special objects exists:
 //   - ParseEOF: "Parses" or matches the end of the file
 //   - ParseSkip: Skips the specified number of characters (from the current
@@ -144,7 +144,7 @@ class ParseSkip : public ParseObject {
       return *this; }
 
    virtual int doParse (Xistream& stream, bool) {
-      stream.seekg (offset, ios::cur);
+      stream.seekg (offset, std::ios::cur);
       return PARSE_OK; }
 
    void setOffset (unsigned int val) { offset = val; }

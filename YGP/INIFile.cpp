@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.16 2003/01/15 19:11:19 markus Exp $
+//$Id: INIFile.cpp,v 1.17 2003/02/13 06:55:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -24,6 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 #include <string.h>
 
@@ -240,7 +243,7 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
    _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
 
-   file.open (filename, ios::in);
+   file.open (filename, std::ios::in);
    if (!file) {
       std::string error (_("Could not open INI-file '%1': Reason: %2"));
       error.replace (error.find ("%1"), 2, filename);
@@ -382,7 +385,7 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
 //            obj: Object to write
 //Remarks   : There is no error-handling; failures are silently ignored!
 /*--------------------------------------------------------------------------*/
-void INIFile::write (ostream& stream, const char* section, const Entity& obj) {
+void INIFile::write (std::ostream& stream, const char* section, const Entity& obj) {
    Check1 (section); Check1 (stream);
 
    writeSectionHeader (stream, section);
