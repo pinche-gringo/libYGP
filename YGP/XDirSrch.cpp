@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.5 2003/02/13 07:18:37 markus Rel $
+//$Id: XDirSrch.cpp,v 1.6 2003/07/03 18:14:39 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -32,14 +32,14 @@
 #include "PathSrch.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks the validity of the filename
-//Parameters: files: Nodes of files to in/exclude
-//            pFile: Pointer to filename
-//Returns   : bool: True: Name valid
-//Requires  : pFile is ASCIIZ-string
-//Remarks   : If the list starts with an x-node, a leading i*-node is assumed
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks the validity of the filename
+/// \param files: Nodes of files to in/exclude
+/// \param pFile: Pointer to filename
+/// \returns \c bool: True: Name valid
+/// \pre pFile is ASCIIZ-string
+/// \remarks If the list starts with an x-node, a leading i*-node is assumed
+//-----------------------------------------------------------------------------
 bool _XDSfileIsValid (const std::string& files, const char* pFile) {
    TRACE9 ("_fileIsValid (const char*) const - " << pFile);
    Check1 (pFile);
@@ -69,14 +69,14 @@ bool _XDSfileIsValid (const std::string& files, const char* pFile) {
    return !include;          // 'x'-nodes starts list -> Imply leading i*-node
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Appends a (list of) node to a list. Every subnode in the node is
-//            prefixed with the prefix-character
-//Parameters: list: List to change
-//            prefix: Leading character
-//            node: Node to check
-//Remarks   : The node is added to the beginning of the list
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Appends a (list of) node to a list. Every subnode in the node is prefixed
+/// with the prefix-character
+/// \param list: List to change
+/// \param prefix: Leading character
+/// \param node: Node to check
+/// \remarks The node is added to the beginning of the list
+//-----------------------------------------------------------------------------
 void _XDSaddNode (std::string& list, char prefix, const std::string& node) {
    PathSearch  l (node);
    std::string temp;
