@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.3 2003/10/02 23:03:26 markus Rel $
+//$Id: Folder.cpp,v 1.4 2003/11/12 23:38:21 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -114,8 +114,10 @@ void Folder::on_size_allocate (GtkAllocation* size) {
       std::vector<Gtk::Widget*> widgets;
       for (Gtk::Table::TableList::const_iterator i (view.children ().begin ());
            i != view.children ().end (); ++i) {
-         Check3 (i->get_widget ());
-         widgets.push_back (i->get_widget ());
+         Gtk::Widget* obj (i->get_widget ());
+         Check3 (obj);
+         obj->reference ();
+         widgets.push_back (obj);
       }
       while (view.children ().begin () != view.children ().end ())
          view.remove (*view.children ().begin ()->get_widget ());
@@ -124,11 +126,12 @@ void Folder::on_size_allocate (GtkAllocation* size) {
       cols = actCol = 0;
       colWidths.clear ();
       // Gtk seems to return the children in reverse order as they have been
-      // added, so add them  also reversed
+      // added, so add them reversed again
       for (std::vector<Gtk::Widget*>::reverse_iterator i (widgets.rbegin ());
           i != widgets.rend (); ++i) {
          Check1 (*i);
          add (**i);
+         (*i)->unreference ();
       }
    }
 }
