@@ -3,8 +3,8 @@ SUBDIRS=.
 INCLUDES=-I..
 
 TESTS=IVIOAppl ANumeric ADate ATime ATStamp AByteArray XStrBuf XStream Parse \
-      FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute AssParse \
-      AttrParse INIFile Handle
+      FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
+      AssParse AttrParse INIFile Handle
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -48,11 +48,12 @@ PathSrch_SOURCES=PathSrch.cpp
 PathSrch_LDADD=../Tokenize.o
 
 DirSrch_SOURCES=DirSrch.cpp
-DirSrch_LDADD=../DirSrch.o ../DirEntry.o ../FileRExp.o ../ANumeric.o
+DirSrch_LDADD=../DirSrch.o ../IDirSrch.o ../DirEntry.o ../FileRExp.o \
+              ../ANumeric.o
 
 PathDirSrch_SOURCES=PathDirSrch.cpp
-PathDirSrch_LDADD=../PathDirSrch.o ../DirSrch.o ../DirEntry.o ../FileRExp.o \
-                  ../ANumeric.o ../Tokenize.o
+PathDirSrch_LDADD=../PathDirSrch.o ../DirSrch.o ../IDirSrch.o ../DirEntry.o \
+                  ../FileRExp.o ../ANumeric.o ../Tokenize.o
 
 Attribute_SOURCES=Attribute.cpp
 Attribute_LDADD=../ATime.o
