@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.24 2004/12/05 03:34:55 markus Exp $
+//$Id: X-Appl.cpp,v 1.25 2004/12/22 16:52:40 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -46,6 +46,7 @@
 #include <XGP/LoginDlg.h>
 #include <XGP/XFileDlg.h>
 #include <XGP/XPrintDlg.h>
+#include <XGP/SearchDlg.h>
 #include <XGP/ConnectDlg.h>
 #include <XGP/MessageDlg.h>
 
@@ -169,28 +170,29 @@ const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 
 
 XGP::XApplication::MenuEntry XAppl::menuItems[] = {
-    { "_File",                  "<alt>F",      0,       BRANCH },
-    { "_Open ...",              "<ctl>O",      OPEN,    ITEM },
-    { "_Save ...",              "<ctl>S",      SAVE,    ITEM },
-    { "_Print ...",             "<ctl>P",      PRINT,   ITEM },
-    { "",                       "",            0,       SEPARATOR },
-    { "E_xit",                  "<ctl>Q",      EXIT,    ITEM },
-    { "_Dialogs",               "<alt>D",      0,       BRANCH },
-    { "_Dialog ...",            "<ctl>D",      DIALOG,  ITEM },
-    { "Da_te ...",              "<ctl>T",      DATE,    ITEM },
-    { "_Connection ...",        "<ctl>C",      CONNECT, ITEM },
-    { "_Messagedialog ...",     "<ctl>M",      MSGDLG,  ITEM },
-    { "_Logindialog ...",       "<ctl>L",      LOGINDLG,ITEM },
-    { "_Menus",                 "<alt>M",      0,       BRANCH },
-    { "_Radiobuttons",          "<alt>R",      0,       SUBMENU },
-    {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
-    {    "Button _2",           "<ctl>2",      0,       RADIOITEM },
-    {    "Button _3",           "<ctl>3",      0,       LASTRADIOITEM },
-    {  "",                      "",            0,       SUBMENUEND },
-    { "_Checkbuttons",          "<alt>C",      0,       SUBMENU },
-    {    "Button _1",           "<alt>1",      0,       CHECKITEM },
-    {    "Button _2",           "<alt>2",      0,       CHECKITEM },
-    {    "Button _3",           "<alt>3",      0,       CHECKITEM } };
+    { "_File",                  "<alt>F",      0,         BRANCH },
+    { "_Open ...",              "<ctl>O",      OPEN,      ITEM },
+    { "_Save ...",              "<ctl>S",      SAVE,      ITEM },
+    { "_Print ...",             "<ctl>P",      PRINT,     ITEM },
+    { "",                       "",            0,         SEPARATOR },
+    { "E_xit",                  "<ctl>Q",      EXIT,      ITEM },
+    { "_Dialogs",               "<alt>D",      0,         BRANCH },
+    { "_Dialog ...",            "<ctl>D",      DIALOG,    ITEM },
+    { "Da_te ...",              "<ctl>T",      DATE,      ITEM },
+    { "_Connection ...",        "<ctl>C",      CONNECT,   ITEM },
+    { "_Messagedialog ...",     "<ctl>M",      MSGDLG,    ITEM },
+    { "_Logindialog ...",       "<ctl>L",      LOGINDLG,  ITEM },
+    { "_Searchdialog ...",      "<ctl>F",      SEARCHDLG, ITEM },
+    { "_Menus",                 "<alt>M",      0,         BRANCH },
+    { "_Radiobuttons",          "<alt>R",      0,         SUBMENU },
+    {    "Button _1",           "<ctl>1",      0,         RADIOITEM },
+    {    "Button _2",           "<ctl>2",      0,         RADIOITEM },
+    {    "Button _3",           "<ctl>3",      0,         LASTRADIOITEM },
+    {  "",                      "",            0,         SUBMENUEND },
+    { "_Checkbuttons",          "<alt>C",      0,         SUBMENU },
+    {    "Button _1",           "<alt>1",      0,         CHECKITEM },
+    {    "Button _2",           "<alt>2",      0,         CHECKITEM },
+    {    "Button _3",           "<alt>3",      0,         CHECKITEM } };
 
 
 /*--------------------------------------------------------------------------*/
@@ -287,6 +289,11 @@ void XAppl::command (int menu) {
 
    case LOGINDLG:
       XGP::TLoginDialog<XAppl>::create ("", *this, &XAppl::loginEvent);
+      break;
+
+   case SEARCHDLG:
+      XGP::SearchDialog::create (get_window ())->signalFind.connect
+	 (mem_fun (*this, &XAppl::find));
       break;
 
    default:
@@ -400,6 +407,16 @@ bool XAppl::loginEvent (const Glib::ustring& user,
    txt += password;
    status.push (txt);
    return true;
+}
+
+//-----------------------------------------------------------------------------
+/// Callback for find-dialog
+/// \param text: Text to find
+//-----------------------------------------------------------------------------
+void XAppl::find (const Glib::ustring& text) {
+   status.pop ();
+   Glib::ustring txt ("Find: ");
+   status.push (txt + text);
 }
 
 
