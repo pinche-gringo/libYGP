@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.2 2001/04/02 21:03:14 markus Exp $
+//$Id: Socket.h,v 1.3 2001/04/09 15:07:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,12 +45,13 @@ class Socket {
    void listenAt (unsigned int port) throw (domain_error);
    int waitForInput () const throw (domain_error);
 
-   int  read (AByteArray& input) throw (domain_error);
-   int  read (char* pBuffer, int lenBuffer) throw (domain_error);
+   int  read (AByteArray& input) const throw (domain_error);
+   int  read (char* pBuffer, int lenBuffer) const throw (domain_error);
 
    void writeTo (const char* host, unsigned int port) throw (domain_error);
    void writeTo (const std::string& host, unsigned int port) throw (domain_error) {
       writeTo (host.c_str (), port); }
+   void write (const char* pBuffer) const throw (domain_error);
    void write (const char* pBuffer, int lenBuffer) const throw (domain_error);
    void write (const AByteArray& output) const throw (domain_error) {
       write (output.data (), output.length ()); }

@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.2 2001/04/02 21:03:13 markus Exp $
+//$Id: Socket.cpp,v 1.3 2001/04/09 15:07:23 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -177,7 +177,7 @@ unsigned int Socket::getPortOfService (const char* service) throw (domain_error)
 //            input: AByteArray receiving the input
 //Returns   : int: Number of bytes actually read
 /*--------------------------------------------------------------------------*/
-int Socket::read (AByteArray& input) throw (domain_error) {
+int Socket::read (AByteArray& input) const throw (domain_error) {
    TRACE9 ("Socket::read (AByteArray&)");
 
    char buffer[50] = "";
@@ -205,7 +205,7 @@ int Socket::read (AByteArray& input) throw (domain_error) {
 //            lenBuffer: Length of that buffer
 //Returns   : int: Number of bytes actually read
 /*--------------------------------------------------------------------------*/
-int Socket::read (char* pBuffer, int lenBuffer) throw (domain_error) {
+int Socket::read (char* pBuffer, int lenBuffer) const throw (domain_error) {
    TRACE9 ("Socket::read (const char*, int)");
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
@@ -269,6 +269,16 @@ void Socket::write (const char* pBuffer, int lenBuffer) const throw (domain_erro
 
    if (::write (sock, pBuffer, lenBuffer) < 0)
       throwError ("Error sending data", errno);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Writes a buffer to a socket
+//Parameters: pBuffer: Buffer to write
+/*--------------------------------------------------------------------------*/
+void Socket::write (const char* pBuffer) const throw (domain_error) {
+   assert (pBuffer);
+
+   write (pBuffer, strlen (pBuffer));
 }
 
 /*--------------------------------------------------------------------------*/
