@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.43 2004/12/29 18:19:59 markus Rel $
+//$Id: ADate.cpp,v 1.44 2005/03/21 17:35:29 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -157,8 +157,10 @@ void ADate::assign (const char* pDate, unsigned int len) {
       fail = NULL;
    } // endswitch
    operator= (result);
-   if (!fail || *fail || (fail = pDate, checkIntegrity ())) {
+   if (!fail || (*fail && !isspace (*fail)) || checkIntegrity ()) {
       undefine ();
+      if (!fail)
+	 fail = pDate;
       TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << fail);
       std::string error (_("Invalid date: %1"));
       error.replace (error.find ("%1"), 2, 1, char ((fail - pDate) + '0'));
@@ -212,9 +214,9 @@ void ADate::assign (const char* pDate, unsigned int len) {
 
    if ((read == -1) || checkIntegrity ()) {
       undefine ();
-      TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << fail);
+      TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << pDate);
       std::string error (_("Invalid date: %1"));
-      error.replace (error.find ("%1"), 2, 1, char ((fail - pDate) + '0'));
+      error.replace (error.find ("%1"), 2, 1, '0');
    }
    else
       setDefined ();
