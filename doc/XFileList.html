@@ -1,0 +1,160 @@
+<!-- -*-HTML-*- -->
+<!-- $Id: XFileList.html,v 1.1 2002/12/24 19:38:00 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: XFileList</title>
+    <meta name="description" content="Documentation of XFileList-class">
+    <meta name="keywords" content="Documentation, Docu, XFileList, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2002-12-18">
+    <meta name="DC.Rights" content="Anticopyright (A) 2002, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class XFileList</h1>
+    <p>Derived from
+      CList
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;XFileList.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class for a (columned) list which holds files represented by an icon and
+      textual information.</p>
+
+    <p>The icons of the files are loaded by default from all Icon_*.xpm-files in
+      he package-data-directory (/usr/local/share/General by default);
+      user-specified ones can be added to or overridden from this list.</p>
+
+    <p>Note: Only the name is used to determine the icon; not the path!</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XFileList.html#XFileList"><b>XFileList</b></a></td>
+        <td><tt>(<tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">columns</span></tt>, <tt>const</tt> <tt><span style="color:navy;">gchar</span></tt>* <tt><span style="color:blue;">titles[]</span></tt> = 0)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XFileList.html#XFileList2"><b>XFileList</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">GtkCList</span></tt>* <tt><span style="color:blue;">castitem</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">gint</span></tt></tt> </td>
+        <td><a href="XFileList.html#append"><b>append</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><a href="File.html"><b>File</b></a></tt>* <tt><span style="color:blue;">file</span></tt>, <tt>const</tt> <tt><span style="color:navy;">SArray</span></tt>&amp; <tt><span style="color:blue;">text</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">gint</span></tt></tt> </td>
+        <td><a href="XFileList.html#insert"><b>insert</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><a href="File.html"><b>File</b></a></tt>* <tt><span style="color:blue;">file</span></tt>, <tt>const</tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">row</span></tt>, <tt>const</tt> <tt><span style="color:navy;">SArray</span></tt>&amp; <tt><span style="color:blue;">text</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt></tt> </td>
+        <td><a href="XFileList.html#loadIcons"><b>loadIcons</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">path</span></tt>, <tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">files</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">namePrefix</span></tt> = 0)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">gint</span></tt></tt> </td>
+        <td><a href="XFileList.html#prepend"><b>prepend</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><a href="File.html"><b>File</b></a></tt>* <tt><span style="color:blue;">file</span></tt>, <tt>const</tt> <tt><span style="color:navy;">SArray</span></tt>&amp; <tt><span style="color:blue;">text</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XFileList.html#setIcon"><b>setIcon</b></a></td>
+        <td><tt>(<tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">row</span></tt>, <tt>const</tt> <tt><a href="File.html"><b>File</b></a></tt>&amp; <tt><span style="color:blue;">file</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="XFileList.html#~XFileList"><b>~XFileList</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XFileList.html#realize_impl"><b>realize_impl</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <pre><a name="XFileList"></a> <b>XFileList</b> (int columns, const gchar* titles[])</pre>
+    <dl>
+      <dd><p>Constructor; creates a file list whose columns are named as specified</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>columns</code>: Number of the columns<dd>
+          <dd><code>titles</code>: Array of pointers to character arrays containing the titles<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd><code>titles</code> an array of <code>columns</code> zero-terminated character pointers </dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="XFileList2"></a> <b>XFileList</b> (GtkCList* castitem)</pre>
+    <dl>
+      <dd><p>Constructor; creates a file list from the past GTK+ widget.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>castitem</code>: GTk+ widget to use for output<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~XFileList"></a> <b>~XFileList</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="loadIcons"></a>unsigned int <b>loadIcons</b> (const char* path, const char* files, unsigned int namePrefix)</pre>
+    <dl>
+      <dd><p>Loads (additional) icons which should be used for the list-entries</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>path</code>: Path where to search for the icons<dd>
+          <dd><code>files</code>: Files to use as icon-files<dd>
+          <dd><code>namePrefix</code>: Length of the prefix of the name, which should be removed before comparing with actual filename<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>namePrefix &lt; strlen (files)</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="append"></a>gint <b>append</b> (const <a href="File.html">File</a>* file, const SArray&amp; text)</pre>
+    <dl>
+      <dd><p>Appends an entry to the list</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon<dd>
+          <dd><code>text</code>: Array of text for the other columns<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="prepend"></a>gint <b>prepend</b> (const <a href="File.html">File</a>* file, const SArray&amp; text)</pre>
+    <dl>
+      <dd><p>Prepends an entry to the list</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon<dd>
+          <dd><code>text</code>: Array of text for the other columns<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="insert"></a>gint <b>insert</b> (const <a href="File.html">File</a>* file, gint row, const SArray&amp; text)</pre>
+    <dl>
+      <dd><p>Inserts an entry into the list</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>file</code>: File to use to query icon; NULL: Don´t show an icon<dd>
+          <dd><code>row</code>: Row where to insert the entry (starting with 0)<dd>
+          <dd><code>text</code>: Array of text for the other columns<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="setIcon"></a>void <b>setIcon</b> (int row, const <a href="File.html">File</a>&amp; file)</pre>
+    <dl>
+      <dd><p>Searches for and sets an icon for the passed file.</p>
+        <p>The icon for the file is calculated according the following algorithm:</p>
+        <p><ul>
+          <li>Use special (predifined) ones for directories or executeables.</li>
+          <li>Use the icon named as the name of file is stored in the icon-map.</li>
+          <li>Remove the first part (til the next dot (.)) of the name and repeat the previous step.</li>
+          <li>If no name-part is left use a special default-icon.</li>
+        </ul></p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>row</code>: Row where to insert the icon (starting with 0)<dd>
+          <dd><code>file</code>: File to use to query icon<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="realize_impl"></a>void <b>realize_impl</b> ()</pre>
+    <dl>
+      <dd><p>Callback when widget is realized (shown); loads the default icons.</p></dd>
+    </dl>
+  </body>
+</html>
