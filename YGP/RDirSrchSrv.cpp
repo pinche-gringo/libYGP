@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.13 2002/12/08 18:21:30 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.14 2003/02/13 07:15:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -24,6 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 #include <errno.h>
 

@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.4 2003/02/03 03:54:30 markus Exp $
+//$Id: XDirSrch.cpp,v 1.5 2003/02/13 07:18:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -81,6 +81,6 @@ void _XDSaddNode (std::string& list, char prefix, const std::string& node) {
    PathSearch  l (node);
    std::string temp;
 
-   while (!(temp = l.getNextNode ()).empty ())
-      list = prefix + temp + (std::string)(PathSearch::PATHSEPARATOR + list);
+   while ((temp = l.getNextNode ()).size ())
+      list = prefix + temp + std::string (1, PathSearch::PATHSEPARATOR) + list;
 }

@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.13 2002/12/15 00:03:44 markus Rel $
+//$Id: Socket.cpp,v 1.14 2003/02/13 07:17:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -225,13 +225,13 @@ int Socket::read (AByteArray& input) const throw (std::domain_error) {
    input = "";
 
    // Read from socket til either error or buffer not completely filled
-   while ((cRead = ::read (sock, buffer, sizeof (buffer))) >= 0) {
+   while ((cRead = ::read (sock, buffer, sizeof (buffer))) != -1) {
       input.append (buffer, cRead);
       if (cRead < sizeof (buffer))
          break;
    }
 
-   if (cRead < 0) {
+   if (cRead == -1) {
       TRACE9 ("Socket::read (AByteArray&) - error=" << errno << "; Bytes="
               << cRead);
       throwError (_("Error reading data"), errno);
@@ -255,13 +255,13 @@ int Socket::read (std::string& input) const throw (std::domain_error) {
    input = "";
 
    // Read from socket til either error or buffer not completely filled
-   while ((cRead = ::read (sock, buffer, sizeof (buffer))) >= 0) {
+   while ((cRead = ::read (sock, buffer, sizeof (buffer))) != -1) {
       input.append (buffer, cRead);
       if (cRead < sizeof (buffer))
          break;
    }
 
-   if (cRead < 0) {
+   if (cRead == -1) {
       TRACE9 ("Socket::read (std::string&) - error=" << errno << "; Bytes="
               << cRead);
       throwError (_("Error reading data"), errno);
@@ -283,7 +283,7 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (std::domai
    TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
-   if (cRead < 0)
+   if (cRead == -1)
       throwError (_("Error reading data"), errno);
 
    TRACE5 ("Socket::read (char*, int) - read: " << pBuffer);

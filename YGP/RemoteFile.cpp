@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.8 2002/12/01 21:51:16 markus Rel $
+// $Id: RemoteFile.cpp,v 1.9 2003/02/13 07:15:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -24,6 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 #include <gzo-cfg.h>
 
@@ -66,7 +69,10 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
 
    AByteArray buffer ("Open=\"");
    buffer += file;
-   buffer += "\";Mode=rb";
+   buffer += "\";Mode=";
+   buffer += mode;
+   if (mode[1] != 'b')
+      buffer += 'b';
 
    try {
       sock.write (buffer);
@@ -143,7 +149,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
    AByteArray text ("Read=");
    ANumeric id ((unsigned int)file);
    text += id.toUnformatedString ();
-   
+
    id = length;
    text += ";Length=";
    text += id.toUnformatedString ();
@@ -192,7 +198,7 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
    AByteArray text ("Write=");
    ANumeric id ((unsigned int)file);
    text += id.toUnformatedString ();
-   
+
    id = length;
    text += ";Length=";
    text += id.toUnformatedString ();

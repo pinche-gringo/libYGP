@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.20 2002/12/08 21:41:25 markus Rel $
+//$Id: FileRExp.cpp,v 1.21 2003/02/13 07:17:13 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -49,14 +49,14 @@
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))
 
 
-const char FileRegularExpr::MULTIMATCH = '*';
-const char FileRegularExpr::SINGLEMATCH = '?';
-const char FileRegularExpr::REGIONBEGIN = '[';
-const char FileRegularExpr::REGIONEND = ']';
-const char FileRegularExpr::RANGE = '-';
-const char FileRegularExpr::NEGREGION1 = '^';
-const char FileRegularExpr::NEGREGION2 = '!';
-const char FileRegularExpr::REGIONCLASS = ':';
+#define MULTIMATCH '*'
+#define SINGLEMATCH '?'
+#define REGIONBEGIN '['
+#define REGIONEND ']'
+#define RANGE '-'
+#define NEGREGION1 '^'
+#define NEGREGION2 '!'
+#define REGIONCLASS ':'
 
 
 /*--------------------------------------------------------------------------*/
@@ -130,7 +130,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
                           << pAktRegExp + 2);
                   inClass = true;
 
-                  int temp (0), len (pEndClass - pAktRegExp - 2);
+                  int temp, len (pEndClass - pAktRegExp - 2);
                   int val ((temp = isclass (alnum, pAktRegExp + 2, len, *pCompare)) ? temp :
                            (temp = isclass (alpha, pAktRegExp + 2, len, *pCompare)) ? temp :
                            (temp = isclass (digit, pAktRegExp + 2, len, *pCompare)) ? temp :

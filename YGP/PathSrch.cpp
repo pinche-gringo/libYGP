@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.6 2002/12/15 22:18:28 markus Rel $
+//$Id: PathSrch.cpp,v 1.7 2003/02/13 07:17:13 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -40,8 +40,10 @@
 
 #if SYSTEM == UNIX
 const char PathSearch::PATHSEPARATOR = ':';
-#else
+#elif SYSTEM == WINDOWS
 const char PathSearch::PATHSEPARATOR = ';';
+#else
+#  error Unsupported plattform!
 #endif
 
 
@@ -68,7 +70,7 @@ std::string PathSearch::expandNode (const std::string& input) {
    if (input.empty () || input[0] != '~')
       return input;
 
-   int i (1);
+   unsigned int i (1);
    for (; i < input.length (); ++i) {
       if (isspace (input[i]) || (input[i] == File::DIRSEPARATOR))
          break;

@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.16 2002/12/15 22:19:29 markus Rel $
+//$Id: RDirSrch.cpp,v 1.17 2003/02/13 07:15:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -23,6 +23,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 
 #include <ctype.h>
@@ -174,7 +178,7 @@ const File* RemoteDirSearch::find (unsigned long attribs) throw (std::string) {
    AByteArray buffer ("Find=\"");
    buffer += files;
    buffer += "\";Attr=";
-   
+
    ANumeric attrs (attribs);
    buffer += attrs.toUnformatedString ();
    buffer += '\0';
