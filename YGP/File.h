@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.23 2003/12/05 19:49:22 markus Rel $
+//$Id: File.h,v 1.24 2004/01/17 04:04:25 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -92,8 +92,8 @@ class DirectorySearch;
    but can also be used by themself.
 */
 struct File {
-   friend class DirectorySearch;
-   friend class RemoteDirSearch;
+   friend class DirectorySearch;                   ///< Class mainly using File
+   friend class RemoteDirSearch;                   ///< Class mainly using File
 
    /// Default constructor; creates an empty file object (holding no file)
    File () : userExec (false)
