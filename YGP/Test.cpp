@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.8 1999/08/21 19:53:56 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.9 1999/08/22 18:57:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -106,23 +106,35 @@ int Application::perform (int argc, char* argv[]) {
 
    cout << "Testing extStreambuf...\n";
 
-#if 0
    ifstream in ("Test.Dat");
    extStreambuf str (*in.rdbuf ());
    in.ios::rdbuf (&str);
    char c;
-   
-   in.get (c);
-   cout << c << endl;
 
-   while (in.get (c), c != EOF) {
-      cout << c;
+   char buffer[20], *pAct (buffer);
+
+   int forAlpha (0), afterAlpha (0);
+
+   while ((in.get (c)), in) {
       if (isalpha (c)) {
+cout << "Column: " << str.getColumn () << endl;
+	 check (str.getLine () == 3);
+	 assert (pAct + 4 >= buffer);
 	 in.putback (c);
+         in.putback (*--pAct);
+         in.putback (*--pAct);
+         in.putback (*--pAct);
 	 break;
       }
+      assert (buffer + sizeof (buffer) > pAct);
+      *pAct++ = c;
+      ++forAlpha;
    } // end-while
-#endif
+
+   while ((in.get (c)), in)
+      ++afterAlpha;
+
+   check ((forAlpha == 16) && (afterAlpha == 12))
 
    cout << "Testing FileRegularExpr...\n";
    FileRegularExpr regExp ("a*b");
