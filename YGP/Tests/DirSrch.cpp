@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.3 2002/04/27 19:05:32 markus Exp $
+// $Id: DirSrch.cpp,v 1.4 2002/05/01 00:42:57 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -75,6 +75,9 @@ int main (int argc, char* argv[]) {
    check (!dirSearchRecursive (NULL));
 
    check (!ds.find ("CVS", IDirectorySearch::FILE_NORMAL));
+
+   check (ds.find (std::string (1, File::DIRSEPERATOR),
+                   IDirectorySearch::FILE_DIRECTORY));
 
    if (cErrors)
       cout << "Failures: " << cErrors << '\n';
