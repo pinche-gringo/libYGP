@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.4 2003/03/04 05:00:19 markus Rel $
+//$Id: Dialog.cpp,v 1.5 2003/07/05 05:12:40 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -43,7 +43,7 @@
 //            file: File read from FileEntry
 /*--------------------------------------------------------------------------*/
 Dialog::Dialog (ANumeric& numEntry, std::string& file)
-   : XDialog (OKCANCEL), pClient (new Gtk::Table (3, 2))
+   : XDialog ("Dialog", OKCANCEL), pClient (new Gtk::Table (3, 2))
      , lblLabel (new Gtk::Label ("AttributeLabel"))
      , lblEntry (new Gtk::Label ("_AttributeEntry", true))
      , lblFileEntry (new Gtk::Label ("_FileEntry", true))
@@ -53,7 +53,6 @@ Dialog::Dialog (ANumeric& numEntry, std::string& file)
      , file_ (file) {
    TRACE9 ("Dialog::Dialog (ANumeric&, std::string&) - Num: " << numEntry
            << "; String: " << file);
-   set_title ("Dialog");
 
    TRACE5 ("Dialog::Dialog (ANumeric&, std::string&) - Creating labels");
    lblLabel->set_justify (Gtk::JUSTIFY_LEFT);
