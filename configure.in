@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.69 2004/10/07 21:31:02 markus Rel $
+dnl $Id: configure.in,v 1.70 2004/10/13 03:53:34 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_REVISION($Revision: 1.69 $)
-AC_INIT(libYGP, 0.6.48, [g17m0@lycos.com], libYGP)
+AC_REVISION($Revision: 1.70 $)
+AC_INIT(libYGP, 0.6.50, [g17m0@lycos.com], libYGP)
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -42,7 +42,7 @@ AM_GNU_GETTEXT
 dnl Checks for libraries.
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(gmp, main)
-AC_CHECK_LIB(pthread, main)
+ AC_CHECK_LIB(pthread, main)
 
 if test $ac_cv_lib_gmp_main = yes; then
    LIB_GMP=-lgmp
@@ -52,18 +52,7 @@ AC_SUBST(LIB_GMP)
 dnl Checks for header files.
 AC_HEADER_DIRENT
 
-AC_MSG_CHECKING(for header regex.h)
-AC_CACHE_VAL(ac_cv_header_regex_h, ac_cv_header_regex_h=$ac_cv_header_regex_h)
-if test -z $ac_cv_header_regex_h; then
-AC_COMPILE_IFELSE(
-   [ #include <sys/types.h>
-     #include <regex.h>],
-   [],
-   [ ac_cv_header_regex_h=yes
-     AC_DEFINE(HAVE_REGEX_H, 1, [Define for working regex.h])],
-   [ ac_cv_header_regex_h=no])
-fi
-AC_MSG_RESULT([$ac_cv_header_regex_h])
+AC_CHECK_HEADERS(regex.h syslog.h sys/socket.h winsocket.h)
 
 if test "$enable_corba" == "yes"; then
    AC_CHECK_HEADERS([CORBA.h], [ac_cv_header_CORBA_h=yes],
