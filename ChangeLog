@@ -1,4 +1,19 @@
+2003-06-19  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.11 commented
+
+	* doc/Parse.html: Fixed a bug in referencing ParseQuoted from ParseText
+
+	* Common/Parse.cpp:
+	  Resetting status of ParseQuoted after object was parsed for next parse
+
 2003-06-11  Markus Schwab  <g17m0@lycos.com>
+
+	* INSTALL: Build-info (from CVS) corrected
+
+	* Common/YMP.pc.in, X-windows/XMP.pc.in: Renamed libs
+
+	* gzo-cfg.h.in: Removed PACKAGE and VERSION macros
 
 	* ChangeLog, NEWS: Changes of V0.6.10 actualized
 

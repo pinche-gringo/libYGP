@@ -1,3 +1,10 @@
+Overview of Changes in version 0.6.11:
+
+  - Removed asserts from XFileEntry and XApplication
+  - XApplication provides a method to set the icon-data from xpm-data
+  - Fixed a bug in ParseQuoted (re-init status for further parsing)
+  - Fixed a bug in Parser documentation
+
 Overview of Changes in version 0.6.10:
 
   - libAttr renamed to libYMP
