@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.21 2002/03/23 20:43:35 markus Rel $
+//$Id: ANumeric.h,v 1.22 2002/09/13 04:43:00 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ class ANumeric : public AttributValue {
    ANumeric& operator= (const ANumeric& other);
    ANumeric& operator= (const int val) { return operator= ((const long)val); }
    ANumeric& operator= (const unsigned int val) { return operator= ((const unsigned long)val); }
-   ANumeric& operator= (const unsigned long val) { setDefined (); 
+   ANumeric& operator= (const unsigned long val) { setDefined ();
 #ifdef HAVE_LIBGMP
       mpz_set_ui (value, val);
 #else
@@ -105,7 +105,7 @@ class ANumeric : public AttributValue {
 #endif
       return *this;
    }
-   ANumeric& operator= (const long val) { setDefined (); 
+   ANumeric& operator= (const long val) { setDefined ();
 #ifdef HAVE_LIBGMP
       mpz_set_si (value, val);
 #else
@@ -120,7 +120,7 @@ class ANumeric : public AttributValue {
    virtual void define ();
    virtual std::string toString () const;
    virtual std::string toUnformatedString () const;
-   virtual void readFromStream (istream& in) throw (invalid_argument);
+   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
    static std::string toString (long value) { ANumeric temp (value); return temp.toString (); }
    static std::string toString (unsigned long value) { ANumeric temp (value); return temp.toString (); }
    operator long int () const {
@@ -151,7 +151,7 @@ class ANumeric : public AttributValue {
    bool operator>= (const ANumeric& other) { return compare (other) >= 0; }
    int compare (const ANumeric& other);
 
- private: 
+ private:
    numType value;
 };
 

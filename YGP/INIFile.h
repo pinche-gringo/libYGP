@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.10 2002/03/23 20:45:45 markus Rel $
+//$Id: INIFile.h,v 1.11 2002/09/13 04:43:00 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,10 +68,10 @@
 //
 //    INIFILE ("Test.ini");
 //    INISECTION (Section1);
-//    INIATTR (Local, int, Key1);
-//    INIATTR2 (Local, std::string, attr2, Key2);
+//    INIATTR (Section1, int, Key1);
+//    INIATTR2 (Section1, std::string, attr2, Key2);
 //    INISECTION (Section2);
-//    INIATTR (Local, ADate, Key3);
+//    INIATTR (Section2, ADate, Key3);
 
 #include <stdlib.h>
 #include <assert.h>
@@ -93,7 +93,7 @@
                              section.addAttribute (attr##_);
 #define INIATTR2(section, type, attr, name) Attribute<type> name##_ (#name, attr); \
                              section.addAttribute (name##_);
-#define INIFILE_READ()       _inifile_.read ();
+#define INIFILE_READ()       _inifile_.read ()
                             
 
 // Class to handle the information stored in a section of an INI-file.

@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.14 2002/03/23 20:46:55 markus Rel $
+//$Id: AttrVal.h,v 1.15 2002/09/13 04:43:00 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <iostream.h>
+#include <iostream>
 
 #include <string>
 
 
 // Forward declarations
-class invalid_argument;
+class std::invalid_argument;
 
 
 // Base-class for all attribut-values
@@ -32,7 +32,7 @@ class AttributValue {
  public:
    bool         isDefined () const { return defined; }
    virtual void undefine () { defined = false; }
-  
+
  protected:
    AttributValue () : defined (false) { }
    AttributValue (bool define) : defined (define) { }
@@ -50,11 +50,11 @@ class AttributValue {
    void toUnformatedString (std::string& result) const {
       result = toUnformatedString (); }
 
-   virtual void readFromStream (istream&) throw (invalid_argument) { }
+   virtual void readFromStream (std::istream&) throw (std::invalid_argument) { }
 
-   friend ostream& operator>> (istream& in, AttributValue& inValue) {
+   friend std::ostream& operator>> (std::istream& in, AttributValue& inValue) {
       inValue.readFromStream (in); }
-   friend ostream& operator<< (ostream& out, const AttributValue& outValue) {
+   friend std::ostream& operator<< (std::ostream& out, const AttributValue& outValue) {
       if (outValue.isDefined ())
          out.operator<< (outValue.toUnformatedString ().c_str ());
       return out; }

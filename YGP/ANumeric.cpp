@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.23 2002/05/25 07:07:22 markus Exp $
+//$Id: ANumeric.cpp,v 1.24 2002/09/13 04:43:00 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -57,7 +57,7 @@
 
 
 // Prototypes
-static void print (ostream& out, long outValue);
+static void print (std::ostream& out, long outValue);
 
 
 // Static (global) variables
@@ -196,7 +196,7 @@ std::string ANumeric::toString () const {
 //Purpose   : Reads string-representation from stream
 //Parameters: in: Stream to parse
 /*--------------------------------------------------------------------------*/
-void ANumeric::readFromStream (istream& in) throw (invalid_argument) {
+void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
    undefine ();
 
 #ifdef HAVE_LIBGMP
@@ -412,7 +412,7 @@ ANumeric operator/ (const ANumeric& lhs, const ANumeric& rhs) {
 //            outValue: ANumeric to print
 //Returns   : Reference to out
 /*--------------------------------------------------------------------------*/
-ostream& operator<< (ostream& out, const ANumeric& outValue) {
+std::ostream& operator<< (std::ostream& out, const ANumeric& outValue) {
    if (outValue.isDefined ())
       out << outValue.toString ().c_str ();
    return out;

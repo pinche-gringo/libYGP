@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.6 2001/10/09 17:19:43 markus Rel $
+//$Id: Log.h,v 1.7 2002/09/13 04:43:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 
 #elif SYSTEM == WINDOWS
 
-#include <iostream.h>
+#include <iostream>
 
 #endif
 
@@ -71,7 +71,7 @@ class Syslog {
       static char* levels[] = { "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
       assert (level < (sizeof (levels) / sizeof (levels[0])));
-      cerr << levels[level] << ": " << text << '\n';
+      std::cerr << levels[level] << ": " << text << '\n';
 #endif // UNIX
    }
 
