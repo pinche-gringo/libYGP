@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.7 2003/07/20 02:21:20 markus Rel $
+// $Id: Version.cpp,v 1.8 2003/10/19 04:54:29 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -44,7 +44,8 @@
 
      - An application framework (mainly providing easier menu creation, help
        menu handling and an about box).
-     - Labels displaying (e.g. numbers, dates, ...)
+     - Labels displaying "attributes" (e.g. numbers, dates, ...) in a formatted
+       way.
      - Entry fields their text formatted  and checking the input for validity.
      - A listbox, designed to display files (with an icon according to the
        type).
