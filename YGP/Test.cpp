@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.45 2001/02/18 23:21:03 Markus Exp $
+// $Id: Test.cpp,v 1.46 2001/03/25 09:55:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -73,6 +73,7 @@
 #include "Tokenize.h"
 #include "FileRExp.h"
 #include "StackTrc.h"
+#include "AByteArray.h"
 #include "PathDirSrch.h"
 
 
@@ -584,6 +585,26 @@ int Application::perform (int argc, const char* argv[]) {
    } // end-try
    catch (std::string& e) {
       cerr << e.c_str () << '\n';
+   }
+
+   try {
+      cout << "Testing AByteArray...\n";
+      AByteArray a1; check (!a1.isDefined ());
+      AByteArray a2 (""); check (a2.isDefined ());
+      AByteArray a3 (std::string ("")); check (a3.isDefined ()); check (a3.empty ());
+      AByteArray a4 ((const char*)NULL); check (!a4.isDefined ());
+
+      a1 = "1234"; check (a1.isDefined ());
+      a2 = "5678";
+      a3.assign ("9012", 2);
+      a4 += a1 + a2 + a3; check (a1.isDefined ());
+      check (a4[5] == '6');
+      check (a4.length () == 10);
+      check (a1 < a4);
+      check (a3 >= a2);
+   }
+   catch (logic_error& e) {
+      cerr << "Exception in AByteArray: " << e.what () << '\n';
    }
 
    if (cErrors)
