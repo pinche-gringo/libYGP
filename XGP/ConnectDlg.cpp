@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.3 2003/07/27 03:35:45 markus Exp $
+//$Id: ConnectDlg.cpp,v 1.4 2003/07/27 03:44:42 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : Common
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -114,6 +114,8 @@ ConnectDlg::~ConnectDlg () {
 /// Performs the dialog (modal)
 /// \param cMaxConnections: Maximal number of connections the dialog (in
 ///    server mode) will wait for.
+/// \param defPort: Default port to listen at/send to
+/// \param connMgr: Connection manager; holding the connections to use
 /// \returns ConnectDlg::modeConnect: Mode of the connection
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
@@ -128,6 +130,8 @@ void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
 /// Performs the dialog (modal)
 /// \param cMaxConnections: Maximal number of connections the dialog (in
 ///    server mode) will wait for.
+/// \param defPort: Default port to listen at/send to
+/// \param connMgr: Connection manager; holding the connections to use
 /// \returns ConnectDlg::modeConnect: Mode of the connection
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------

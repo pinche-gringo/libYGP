@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.3 2003/07/27 03:35:45 markus Exp $
+//$Id: ConnectDlg.h,v 1.4 2003/07/27 03:44:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,13 +61,13 @@ class ConnectDlg : public XDialog {
    virtual void connect (const Glib::ustring& target, unsigned int port);
 
  protected:
-   Gtk::Entry*  pTarget;
-   Gtk::Entry*  pPort;
-   Gtk::Button* pWait;
-   Gtk::Button* pConnect;
-   Gtk::Table*  pClient;
+   Gtk::Entry*  pTarget;  ///< Entry field holding the target computer (IP address or name)
+   Gtk::Entry*  pPort;          ///< Entry field for the port of the connection
+   Gtk::Button* pWait;        ///< Button to wait for connections (server mode)
+   Gtk::Button* pConnect;      ///< Button to connect to a server (client mode)
+   Gtk::Table*  pClient;          ///< Table holding the controls of the dialog
 
-   ConnectionMgr& cmgr;
+   ConnectionMgr& cmgr;                      ///< Class holding the connections
 
  private:
    Gtk::Label*  pExplain;

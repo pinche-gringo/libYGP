@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.2 2003/07/25 05:45:18 markus Exp $
+//$Id: ConnMgr.cpp,v 1.3 2003/07/27 03:44:42 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -56,6 +56,8 @@ void ConnectionMgr::clearConnections () {
    for (std::vector<Socket*>::iterator i (connections.begin ());
         i != connections.end (); ++i)
       delete *i;
+
+   connections.clear ();
 }
 
 //-----------------------------------------------------------------------------
@@ -73,7 +75,7 @@ void ConnectionMgr::changeMode (modeConnect newMode) {
 
 //----------------------------------------------------------------------------
 /// Connect to \c server on the specified \c port.
-/// \param server: Server to connect to
+/// \param target: Server to connect to
 /// \param port: Port the server is listening at
 /// \throws std::domain_error: In case of a connection error
 //----------------------------------------------------------------------------
@@ -86,8 +88,7 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port)
 }
 
 //----------------------------------------------------------------------------
-/// Connect to \c server on the specified \c port.
-/// \param server: Server to connect to
+/// Wait at port \c port for connections
 /// \param port: Port the server is listening at
 /// \throws std::domain_error: In case of a connection error
 //----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #ifndef CONNMGR_H
 #define CONNMGR_H
 
-//$Id: ConnMgr.h,v 1.2 2003/07/25 05:45:18 markus Exp $
+//$Id: ConnMgr.h,v 1.3 2003/07/27 03:44:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,6 +63,7 @@ class ConnectionMgr {
    int  getNewConnection () const;
    Socket* addConnection (int socket);
 
+   /// Returns the clients already connected to the server
    const std::vector<Socket*>& getClients () const { return connections; }
    //@}
 
