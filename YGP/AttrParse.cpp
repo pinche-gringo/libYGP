@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.8 2003/06/14 06:23:23 markus Exp $
+//$Id: AttrParse.cpp,v 1.9 2003/06/14 20:14:57 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -95,7 +95,7 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 /// Assigns the values from the passed string to the attribute-values stored
 /// inside the object. If the name does not match any of the attributes or the
 /// value does not fit to the type, an exception is thrown.
-/// \param name: Name of attribute to find
+/// \param values: Name of attribute to find
 /// \throw std::string in case of an unknown name or an invalid value
 //----------------------------------------------------------------------------
 void AttributeParse::assignValues (const std::string& values) const throw (std::string) {
