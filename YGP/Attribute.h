@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.26 2003/12/05 19:49:22 markus Rel $
+//$Id: Attribute.h,v 1.27 2004/09/04 04:04:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -410,19 +410,6 @@ template <> inline bool AttributeList<char*>::assignFromString (unsigned int off
    Check3 (value);
    return assign (offset, value, strlen (value));
 }
-
-#ifndef _MSC_VER
-template <> inline bool AttributeList<char* const>::assignFromString (unsigned int offset, const char* value) const {
-   Check3 (value);
-   strcpy (list_[offset], value);
-   return true;
-}
-template <> inline bool AttributeList<char* const>::assign (unsigned int offset, const char* value, unsigned int length) const {
-   Check3 (value);
-   memcpy (list_[offset], value, length);
-   return true;
-}
-#endif
 
 // Specialization of AttributeList for ints
 template <> inline bool AttributeList<short>::assignFromString (unsigned int offset, const char* value) const {
