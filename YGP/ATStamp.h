@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.5 2000/02/02 22:09:13 Markus Exp $
+//$Id: ATStamp.h,v 1.6 2000/03/23 19:28:45 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp (bool now);
    ATimestamp (const ATimestamp& other) : ADate ((const ADate&)other)
       , ATime ((const ATime&)other) { }
-   ATimestamp (char Day, char Month, unsigned int Year, char Hour,
+   ATimestamp (char Day, char Month, int Year, char Hour,
                char minute, char second);
    ATimestamp (const char* pStamp) { operator= (pStamp); }
    ATimestamp (const std::string& stamp) { operator= (stamp); }
@@ -65,7 +65,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp& operator= (const char* pStamp);
    ATimestamp& operator= (const std::string& stamp) { return operator= (stamp.c_str ()); }
    ATimestamp& operator= (const struct tm& tm);
-   ATimestamp& operator= (const time_t date) { return operator= (*localtime (&date)); }
+   ATimestamp& operator= (const time_t stamp) { return operator= (*localtime (&stamp)); }
 
    virtual void readFromStream (istream& in);
 
@@ -86,9 +86,9 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    friend ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs);
    friend ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs);
 
-   ATimestamp& add (char Day, char Month = 0, unsigned int Year = 0,
+   ATimestamp& add (char Day, char Month = 0, int Year = 0,
                     char Hour = 0, char minute = 0,char second = 0);
-   ATimestamp& sub (char Day, char month = 0, unsigned int Year = 0,
+   ATimestamp& sub (char Day, char month = 0, int Year = 0,
                     char Hour = 0, char minute = 0,char second = 0);
 
    // Comparison

@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.4 2000/02/02 22:09:13 Markus Exp $
+//$Id: ATStamp.cpp,v 1.5 2000/03/23 19:28:45 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -58,7 +58,7 @@ ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
 //Parameters: day: Day for this ATimestamp
 //            mont, year, hour, minute, second: Other time-parameters
 /*--------------------------------------------------------------------------*/
-ATimestamp::ATimestamp (char Day, char Month, unsigned int Year, char Hour,
+ATimestamp::ATimestamp (char Day, char Month, int Year, char Hour,
                         char minute, char second) : ADate (Day, Month, Year)
    , ATime (Hour, minute, second) {
    if (checkIntegrity ()) {
@@ -190,7 +190,7 @@ ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
 //            year: Year to add
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
-ATimestamp& ATimestamp::add (char Day, char Month, unsigned int Year,
+ATimestamp& ATimestamp::add (char Day, char Month, int Year,
                              char Hour, char minute ,char second) {
    assert (!checkIntegrity ());
 
@@ -206,7 +206,7 @@ ATimestamp& ATimestamp::add (char Day, char Month, unsigned int Year,
 //            year: Year to substract
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
-ATimestamp& ATimestamp::sub (char Day, char Month, unsigned int Year,
+ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
                              char Hour, char minute ,char second) {
    assert (!checkIntegrity ());
 
