@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.3 2001/04/09 15:07:23 markus Exp $
+//$Id: Socket.cpp,v 1.4 2001/08/15 15:45:54 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -30,7 +30,7 @@
 
 #include <assert.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "AByteArray.h"
 
@@ -186,14 +186,16 @@ int Socket::read (AByteArray& input) const throw (domain_error) {
 
    // Read from socket til either error or buffer not completely filled
    while ((cRead = ::read (sock, buffer, sizeof (buffer))) >= 0) {
-      input += buffer;
+      input.append (buffer, cRead);
       if (cRead < sizeof (buffer))
          break;
-      *buffer = '\0';
    }
 
-   if (cRead < 0)
+   if (cRead < 0) {
+      TRACE9 ("Socket::read (AByteArray&) - error=" << errno << "; Bytes="
+              << cRead);
       throwError ("Error reading data", errno);
+   }
 
    TRACE5 ("Socket::read (AByteArray&) - read: " << input.data ());
    return input.length ();
@@ -212,7 +214,7 @@ int Socket::read (char* pBuffer, int lenBuffer) const throw (domain_error) {
    if (cRead < 0)
       throwError ("Error reading data", errno);
 
-   TRACE5 ("Socket::read (AByteArray&) - read: " << pBuffer);
+   TRACE5 ("Socket::read (char*, int) - read: " << pBuffer);
    return cRead;
 }
 
