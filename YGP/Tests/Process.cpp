@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.2 2005/01/08 22:09:05 markus Exp $
+// $Id: Process.cpp,v 1.3 2005/01/12 22:11:57 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -25,11 +25,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <unistd.h>
+
+#include <cerrno>
+#include <cstring>
 #include <fstream>
 #include <iostream>
-
-#include <string.h>
-#include <unistd.h>
 
 #include <YGP/Process.h>
 
@@ -37,37 +38,67 @@
 
 unsigned int count (0);
 
-const char TESTCHAR = '\xf3';
+const char  TESTCHAR = '\xf3';
 
 
-const char* argument ("Process.test");
+const char* argFile ("Process.test");
+const char* argIOConnected ("--io");
 
 
 int main (int argc, char* argv[]) {
+   char buffer[40] = "";
+
    if (argc == 1)
       std::cout << "Testing processes ...\n";
    else {
-      if (strcmp (argv[1], argument))
-	 return 1;
+      if (!strcmp (argv[1], argFile)) {
+	 std::ofstream file (argv[1]);
+	 file << TESTCHAR;
+	 return 0;
+      }
+      else if (!strcmp (argv[1], argIOConnected)) {
+	 std::cin.read (buffer, sizeof (buffer));
 
-      std::ofstream file (argv[1]);
-      file << TESTCHAR;
-      return 0;
-   } 
+	 if (strcmp (buffer, argIOConnected)) {
+	    std::cout << "Invalid input: '" << buffer << "'!\n";
+	    return 2;
+	 }
+	 else {
+	    std::cout << "OK";
+	    return 3;
+	 }
+      }
+      std::cout << "Invalid parameter!";
+      return 1;
+   }
 
    unsigned int cErrors (0);
-
    try {
-      const char* arguments[] = { argv[0], argument, NULL };
+      const char* arguments[] = { argv[0], argFile, NULL };
       YGP::Process::execute (argv[0], arguments);
 
-      std::ifstream input (argument);
+      std::ifstream input (argFile);
       check (input);
 
       char ch;
       input >> ch;
       check (ch == TESTCHAR);
-      unlink (argument);
+      unlink (argFile);
+
+      int pipes[2];
+      int rc (pipe (pipes));
+      check (!rc);
+
+      arguments[1] = argIOConnected;
+      YGP::Process::execIOConnected (argv[0], arguments, pipes);
+
+      check (write (pipes[1], argIOConnected, strlen (argIOConnected)) != -1);
+      check (close (pipes[1]) != -1);
+      check (!*buffer);
+      check (read (pipes[0], buffer, sizeof (buffer)) != -1);
+      close (pipes[0]);
+      close (pipes[1]);
+      check (!strcmp (buffer, "OK"));
    }
    catch (std::string& err) {
       std::cerr << err << '\n';
