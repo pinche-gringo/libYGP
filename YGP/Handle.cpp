@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.5 2002/04/09 20:05:09 markus Rel $
+// $Id: Handle.cpp,v 1.6 2002/11/30 05:59:31 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -35,8 +35,10 @@ IHandle::~IHandle () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Assignment-operator
-//Parameters  : other: Object to clone
+//Purpose   : Assignment operator; both handles points to the same object and
+//            the reference-counter is increased. The count of the object
+//            referenced before is decreased.
+//Parameters: other: Object to clone
 /*--------------------------------------------------------------------------*/
 IHandle& IHandle::operator= (const IHandle& other) {
    if (getValue () != other.getValue ()) {
@@ -52,8 +54,10 @@ IHandle& IHandle::operator= (const IHandle& other) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Changing value of ptr
-//Parameters  : pValue: New value where handle shall be pointed to
+//Purpose   : Method to set the object pointed to by the handle. This method
+//            cares about the reference count (and unlinks the old and links
+//            the new object).
+//Parameters: pValue: New value the handle shall manage
 /*--------------------------------------------------------------------------*/
 void IHandle::setValue (void* pValue) {
    if (isDefined ())
@@ -65,7 +69,8 @@ void IHandle::setValue (void* pValue) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Undefines the object
+//Purpose   : Undefines the handle; the referenced object is unlinked, if no
+//            more handles point to this object, it is freed.
 /*--------------------------------------------------------------------------*/
 void IHandle::undefine () {
    if (isDefined ()) {
@@ -76,7 +81,8 @@ void IHandle::undefine () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Defines the object
+//Purpose   : Defines the handle and creates a new object pointed to (with
+//            reference-count 1).
 /*--------------------------------------------------------------------------*/
 void IHandle::define () {
    setDefined ();
