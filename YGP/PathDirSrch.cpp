@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.16 2001/10/02 23:03:53 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.17 2001/10/03 23:58:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -89,18 +89,15 @@ const File* PathDirectorySearch::next () {
    TRACE5 ("PathDirectorySearch::next () - searchPath::actNode ()="
 	   << searchPath.getActNode ());
 
-   File* result = pEntry;
-
    const File* tmp (DirectorySearch::next ());
    while (!tmp) {
       if (searchPath.getActNode ().empty ()) {
          clearEntry ();
          return NULL;
-      }
+      } // endif nodes available
 
-      pEntry = result;
       tmp = find (attr);
-   }
+   } // end-while
    return tmp;
 }
 
