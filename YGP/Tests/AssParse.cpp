@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.7 2003/09/11 04:18:32 markus Rel $
+// $Id: AssParse.cpp,v 1.8 2003/10/23 03:34:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -50,7 +50,7 @@
 #else
 #define KV3    "abcd\\\042def\042"
 #define KV4    "\042\\\042v4\\\042\042"
-#define K4NODE  "=\042\042v4\042\04"
+#define K4NODE  "=\042\042v4\042\042"
 #define K4VALUE "\042v4\042"
 #endif
 #define A3     K3 "=" KV3
