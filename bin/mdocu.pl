@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.1 2002/11/24 18:34:14 markus Exp $
+# $Id: mdocu.pl,v 1.2 2002/11/25 05:14:20 markus Exp $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -62,17 +62,53 @@ GetOptions ('verbose+' => \$verbose, 'help|h|?' => \$help) or pod2usage(2);
 
 pod2usage (1) if ($help);
 
-while (<>) {
-    if (m!//Purpose   :!) {
-        my $purpose = $_;
-        $purpose =~ s#^//[^:]+:\s*(.*)#$1#;
-        print $purpose;
+my $purpose;
+my %values;
 
+while (<>) {
+    if (m!^//Purpose   :!) {
+        $purpose = $_;
+        $purpose =~ s#^//[^:]+:\s*(.*)#$1#;
+
+        my $lastVar = \$purpose;
         # Read next lines til end of header
+    READLINE:
         while (<>) {
             last if !m!^//!;
-            print $_;
+            # Check for other values or if previous continues
+            {
+                if (m!^//Parameters:!) {$lastVar = \$values{'Parameters'}; last; }
+                if (m!^//Returns   :!) {$lastVar = \$values{'Returns'}; last; }
+                if (m!^//Requires  :!) {$lastVar = \$values{'Requires'}; last; }
+                if (m!^//Throws    :!) {$lastVar = \$values{'Throws'}; last; }
+                if (m!^//\s*$!) { $$lastVar .= "<br>"; last READLINE; }
+                s#^//\s*(.*)#$1#;
+                $$lastVar .= $_; last;
+            }
+            s#^//[^:]+:\s*(.*)#$1#;
+            $$lastVar .= $_;
         }
+
+        # Now skip over trailing comment line
+        $_ = <>;
+        $_ = <> if m!/\*-*\*/!;
+        my $fnc = $_;
+
+        # ... and parse finally function name (until an open curly brace)
+        while (!/\{|:/) { $fnc .= $_; print "Parsed: $fnc\n"; $_ = <>; }
+
+        # Strip the part after the brace or a ':'
+        print ("Fnc : $fnc");
+        $fnc =~ s/\s\s+/ /g;
+        $fnc =~ /(.*\s)*\w*::\s*([^\s]*)(.*)(\{|:|\n)/g;
+        my $type = $1 ? $1 : "";
+        print ("Split: ", $type, " - ", $2, " - ", $3, "\n");
+
+        print ("    \<pre\>\<a name=\"$2\"\>\</a>$type\<b\>$2\</b\>$3\</pre\>");
+        print $purpose;
+        foreach (%values) { print ($_); }
+        print ("\n\n");
+        %values = ();
     }
 }
 
