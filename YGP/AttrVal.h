@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.16 2002/10/10 05:46:52 markus Rel $
+//$Id: AttrVal.h,v 1.17 2002/12/15 22:16:53 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,11 +50,11 @@ class AttributValue {
 
    virtual void readFromStream (std::istream&) throw (std::invalid_argument) { }
 
-   friend std::ostream& operator>> (std::istream& in, AttributValue& inValue) {
-      inValue.readFromStream (in); }
+   friend std::istream& operator>> (std::istream& in, AttributValue& inValue) {
+      inValue.readFromStream (in); return in; }
    friend std::ostream& operator<< (std::ostream& out, const AttributValue& outValue) {
       if (outValue.isDefined ())
-         out.operator<< (outValue.toUnformatedString ().c_str ());
+         out << outValue.toUnformatedString ();
       return out; }
 
  private:
