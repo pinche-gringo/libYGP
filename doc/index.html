@@ -1,193 +1,125 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: index.html,v 1.15 2003/03/27 00:36:21 markus Rel $ -->
+<!-- $Id: index.html,v 1.16 2003/07/21 23:42:15 markus Rel $ -->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
 
 <html>
   <head>
-    <title>General classes: Class Index</title>
-    <meta name="description" content="Documentation of base-classes">
-    <meta name="keywords" content="Documentation, Docu, class">
+    <title>General Purpose Classes</title>
+    <meta name="description" content="Documentation of the General Purpose Classes">
+    <meta name="keywords" content="Documentation, Docu, class, classes,
+    general purpose classes">
 
     <meta name="DC.Creator" content="Markus Schwab">
-    <meta name="DC.Date" content="2000-04-14">
-    <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
+    <meta name="DC.Date" content="2003-07-21">
+    <meta name="DC.Rights" content="Anticopyright (A) 2003, distributed under the GNU General Public License">
 
     <style type="text/css">
-      body { background-color:#F0F0F0; color:#000000; }
-      a:link { color:#0000FF; }
-      a:visited { color:#000077; }
-      a:active { color:#FF0000; }
+      body { background: white; }
     </style>
   </head>
 
   <body>
-    <table align="center" border="0" cellspacing="10">
-        <tr><td>Class Index</td>
-          <td><a href="cross_index.html">Cross Index</a></td></tr>
-    </table>
+    <h1 align="center">General Purpose Classes</h1>
+    <p>Some generally usefull classes; separated in a common part (subdir
+      Common), designed to be independent of the used operating system or
+      (GUI) library/system and in parts specific to such things (subdirs
+      CORBA, Windows, X-windows)).</p>
 
-    <h1 align="center">Classes</h1>
-    <ul style="list-style-type:disc;">
-      <li><b><a href="AttrVal.html">AttributValue</a></b>
-	<ul style="list-style-type:disc;">
-	  <li><b><a href="AByteArray.html">AByteArray</a></b> - AttributValue</li>
-	  <li><b><a href="ADate.html">ADate</a></b> - AttributValue</li>
-	  <li><b><a href="ANumeric.html">ANumeric</a></b> - AttributValue</li>
-	  <li><b><a href="ATime.html">ATime</a></b> - AttributValue
-	    <ul style="list-style-type:disc;">
-	      <li><b><a href="ATStamp.html">ATimestamp</a></b> - ADate, ATime</li>
-	    </ul></li>
-	  <li><b><a href="Handle.html">IHandle</a></b> - AttributValue
-	    <ul style="list-style-type:disc;">
-	      <li><b><a href="Handle.html#Handle">Handle&lt;T&gt;</a></b> - IHandle</li>
-	    </ul></li>
-	</ul></li>
+    <p>Up to 3 libraries are created (note that you need to generate the
+      documentation, before the links actually work):</p>
 
-      <li><b><a href="AttrParse.html">AttributeParse</a></b></li>
-      <li><b><a href="Attribute.html">IAttribute</a></b>
-	<ul style="list-style-type:disc;">
-	  <li><b><a href="Attribute.html#Attribute">Attribute&lt;T&gt;</a></b> - IAttribute</li>
-	  <li><b><a href="Attribute.html#AttributeList">AttributeList&lt;T&gt;</a></b> - IAttribute</li>
-	</ul></li>
-      <li><b><a href="INIFile.html">INIFile</a></b></li>
-      <li><b><a href="INIFile.html#INISection">INISection</a></b>
-  	<ul style="list-style-type:disc;">
-          <li><b><a href="INIFile.html#INIList">INIList</a></b></li>
-	</ul></li>
+    <dl>
+      <dt><b><a href="YGP/index.html">libYGP</a></b></dt>
+      <dd>Consists of generell purpose classes without dependency to the
+        used/installed operating system/library.</dd>
 
-      <li><b><a href="Entity.html">Entity</a></b>
-      <li><b><a href="File.html">File</a></b>
-	<ul type=disc>
-          <li><b><a href="RemoteFile.html">RemoteFile</a></b>
-	</ul></li>
-      <li><b><a href="IDirSrch.html">IDirectorySearch</a></b>
-	<ul type=disc>
-	  <li><b><a href="DirSrch.html">DirectorySearch</a></b> - IDirectorySearch
-            <ul type=disc>
-              <li><b><a href="XDirSrch.html#XDirectorySearch">XDirectorySearch</a></b> - DirectorySearch</li>
-              <li><b><a href="PathDirSrch.html">PathDirectorySearch</a></b> - DirectorySearch
-                <ul type=disc>
-                  <li><b><a href="XDirSrch.html#XPathDirectorySearch">XPathDirectorySearch</a></b> - PathDirectorySearch</li>
-                </ul></li>
-            </ul></li>
-          <li><b><a href="RDirSrch.html">RemoteDirSearch</a></b> - IDirectorySearch
-            <ul type=disc>
-              <li><b><a href="XDirSrch.html#XRemoteDirSearch">XRemoteDirSearch</a></b> - RemoteDirSearch</li>
-            </ul></li>
-        </ul></li>
-      <li><b><a href="RDirSrchSrv.html">RemoteDirSearchSrv</a></b></li>
-      <li><b><a href="XDirSrch.html">XDirectorySearch&lt;T&gt;</a></b></li>
+      <dt><b><a href="XGP/index.html">libXGP</a></b></dt>
+      <dd>Classes for the X-windows system; basing on gtkmm/gtk+ (only made
+         when a proper installation of gtkmm (formerly known as Gtk--) is
+         found).</dd>
 
-      <li><b><a href="RegExp.html">IRegularExpression</a></b>
-        <ul type=disc>
-          <li><b><a href="FileRExp.html">FileRegularExpr</a></b> - IRegularExpression</li>
-	  <li><b><a href="CRegExp.html">RegularExpression</a></b> - IRegularExpression</li>
-        </ul></li>
+      <dt><b>libCGP</b></dt>
+      <dd>Classes to be used with CORBA (only made when a
+          CORBA-implementation (MICO) is found).
 
-      <li><b><a href="IVIOAppl.html">IVIOApplication</a></b></li>
-      <li><b><a href="Mutex.html">Mutex</a></b></li>
-      <li><b><a href="Parse.html#ParseObject">ParseObject</a></b>
-	<ul style="list-style-type:disc;">
-	  <li><b><a href="Parse.html#ParseEOF">ParseEOF</a></b> - ParseObject
-	    <ul style="list-style-type:disc;">
-              <li><a href="Parse.html#CBParseEOF">CBParseEOF</a> - ParseEOF</li>
-              <li><a href="Parse.html#OMParseEOF">OFParseEOF&lt;T&gt;</a> - ParseEOF</li>
-	    </ul></li>
-	  <li><b><a href="Parse.html#ParseSkip">ParseSkip</a></b> - ParseObject
-            <ul style="list-style-type:disc;">
-              <li><a href="Parse.html#CBParseSkip">CBParseSkip</a> - ParseSkip</li>
-              <li><a href="Parse.html#OMParseSkip">OFParseSkip&lt;T&gt;</a> - ParseSkip</li>
-            </ul></li>
-          <li><b><a href="Parse.html#ParseAttomic">ParseAttomic</a></b> - ParseObject
-            <ul style="list-style-type:disc;">
-              <li><a href="Parse.html#CBParseAttomic">CBParseAttomic</a> - ParseAttomic</li>
-              <li><a href="Parse.html#OMParseAttomic">OFParseAttomic&lt;T&gt;</a> - ParseAttomic</li>
-              <li><b><a href="Parse.html#ParseText">ParseText</a></b> - ParseAttomic
-                <ul style="list-style-type:disc;">
-                  <li><a href="Parse.html#CBParseText">CBParseText</a> - ParseText</li>
-                  <li><a href="Parse.html#OMParseText">OFParseText&lt;T&gt;</a> - ParseText</li>
-                  <li><b><a href="Parse.html#ParseTextEsc">ParseTextEsc</a></b> - ParseText
-                    <ul style="list-style-type:disc;">
-                      <li><a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a> - ParseTextEsc</li>
-                      <li><a href="Parse.html#OMParseTextEsc">OFParseTextEsc&lt;T&gt;</a> - ParseTextEsc</li>
-                      <li><b><a href="Parse.html#ParseQuotedEsc">ParseQuotedEsc</a></b> - ParseTextEsc
-                        <ul style="list-style-type:disc;">
-                          <li><a href="Parse.html#CBParseQuotedEsc">CBParseQuotedEsc</a> - ParseQuotedEsc</li>
-                          <li><a href="Parse.html#OMParseQuotedEsc">OFParseQuotedEsc&lt;T&gt;</a> - ParseQuotedEsc
-                        </ul></li>
-		    </ul></li>
-                  <li><b><a href="Parse.html#ParseQuoted">ParseQuoted</a></b> - ParseText
-                    <ul style="list-style-type:disc;">
-                      <li><a href="Parse.html#CBParseQuoted">CBParseQuoted</a> - ParseQuoted</li>
-                      <li><a href="Parse.html#OMParseQuoted">OFParseQuoted&lt;T&gt;</a> - ParseQuoted</li>
-		    </ul></li>
-		</ul></li>
-	      <li><b><a href="Parse.html#ParseExact">ParseExact</a></b> - ParseAttomic
-		<ul style="list-style-type:disc;">
-		  <li><a href="Parse.html#CBParseExact">CBParseExact</a> - ParseExact</li>
-		  <li><a href="Parse.html#OMParseExact">OFParseExact&lt;T&gt;</a> - ParseExact</li>
-		  <li><b><a href="Parse.html#ParseUpperExact">ParseUpperExact</a></b> - ParseExact
-		    <ul style="list-style-type:disc;">
-		      <li><a href="Parse.html#CBParseUpperExact">CBParseUpperExact</a> - ParseUpperExact</li>
-		      <li><a href="Parse.html#OMParseUpperExact">OFParseUpperExact&lt;T&gt;</a> - ParseUpperExact</li>
-		    </ul></li>
-		</ul></li>
-	    </ul></li>
-	  <li><b><a href="Parse.html#ParseSequence">ParseSequence</a></b> - ParseObject
-	    <ul style="list-style-type:disc;">
-	      <li><a href="Parse.html#CBParseSequence">CBParseSequence</a> - ParseSequence</li>
-	      <li><a href="Parse.html#OMParseSequence">OFParseSequence&lt;T&gt;</a> - ParseSequence</li>
-	      <li><b><a href="Parse.html#ParseSelection">ParseSelection</a></b> - ParseSequence
-		<ul style="list-style-type:disc;">
-		  <li><a href="Parse.html#CBParseSelection">CBParseSelection</a> - ParseSelection</li>
-		  <li><a href="Parse.html#OMParseSelection">OFParseSelection&lt;T&gt;</a> - Parse</li>
-		</ul></li>
-	    </ul></li>
-	</ul></li>
-      <li><b><a href="Process.html">Process</a></b></li>
-      <li><b><a href="Handle.html#RefCount">RefCount&lt;T&gt;</a></b></li>
-      <li><b><a href="SmartPtr.html">SmartPtr&lt;T&gt;</a></b></li>
-      <li><b><a href="Socket.html">Socket</a></b></li>
-      <li><b><a href="Log.html">Syslog</a></b></li>
-      <li><b><a href="Thread.html">Thread</a></b>
-	<ul style="list-style-type:disc;">
-          <li><b><a href="Thread.html#OThread">OThread&lt;T&gt;</a></b> - Thread</li>
-	</ul></li>
-      <li><b><a href="Tokenize.html">Tokenize</a></b>
-	<ul style="list-style-type:disc;">
-          <li><b><a href="AssParse.html">AssignmentParse</a></b> - Tokenize</li>
-	  <li><b><a href="PathSrch.html">PathSearch</a></b> - Tokenize</li>
-	</ul></li>
-      <li><b><a href="XStrBuf.html">extStreambuf</a></b> - streambuf
-	<ul style="list-style-type:disc;">
-	  <li><b><a href="XStream.html">extStream&lt;T&gt;</a></b> - [extStreambuf], T
-	    <ul style="list-style-type:disc;">
-	      <li><b><a href="XStream.html#Xistream">Xistream</a></b> - typedef extStream&lt;istream&gt;</li>
-	      <li><b><a href="XStream.html#Xifstream">Xifstream</a></b> - typedef extStream&lt;ifstream&gt;</li>
-	    </ul></li>
-	</ul></li>
+        <p>At the moment there exists no documentation (as actually hardly any
+          classes).</p></dd>
+    </dl>
+
+    <p>The whole thing is:</p>
+ 
+    <p><center><tt>Anti-Copyright (A) 1999 - 2003 Markus Schwab
+      <a href="mailto:g17m0@lycos.com">g17m0@lycos.com</a></tt></center></p>
+
+    <p>Basically this means, the package is distributed under the GNU General
+      Public License; in the hope that it will be useful, but WITHOUT ANY
+      WARRANTY; without even the implied warranty of MERCHANTABILITY or
+      FITNESS FOR A PARTICULAR PURPOSE.  See the file <a
+      href="../COPYING">COPYING</a> or the GNU homepage (<a
+      href="www.gnu.org">www.gnu.org</a>) for more details.</p>
+
+
+    <h2>Installation</h2>
+    <p>Principally according the GNU make system:</p>
+    <pre>
+  make
+  [make check]
+  make install</pre>
+
+    <p>See the file <a href="../INSTALL">INSTALL</a> for more details.</p>
+
+    <h2>Examples</h2>
+    <p>Both the <tt>CORBA</tt> and the <tt>Common</tt> section contain a
+      <tt>Test</tt> subdirectory with some files demonstrating the intended
+      usage (though the main purpose is the test of the classes).</p>
+
+    <p>The X-windows subdirectory has a Samples directory with a sample
+      application.</p>
+
+    <h2>Structure</h2>
+    <dl>
+      <dt><b>Common</b></dt>
+      <dd>Contains common classes of general interest.</dd>
+      <dt><b>CORBA</b></dt>
+      <dd>Classes and other stuff related to CORBA.</dd>
+      <dt><b>Windows</b></dt>
+      <dd>Classes and other stuff related to M$ Windoze.</dd>
+      <dt><b>X-windows</b></dt>
+      <dd>Classes and other stuff related to X-windows.</dd>
+      <dt><b>bin</b></dt>
+      <dd>Contains scripts</dd>
+      <dt><b>doc</b></dt>
+      <dd>Documentation</dd>
+      <dt><b>intl</b></dt>
+      <dd>(GNU) Library for I18n</dd>
+      <dt><b>po</b></dt>
+      <dd>Translations of the messages</dd>
+    </dl>
+
+    <p>Depending on your <tt>automake</tt> version you might also get a
+      <tt>m4</tt> and a <tt>autom4te.cache</tt> directory.</p>
+
+
+    <h2>How to report bugs and/or send patches</h2>
+    <p>Bug reports and patches should be send to the e-mail address of the
+      author (me) (<a href="mailto:g17m0@lycos.com">g17m0@lycos.com</a>).
+
+    <p>Please include for bugs:</p>
+
+    <ul>
+      <li>The version of the library.</li>
+      <li>How to reproduce the bug.</li>
+      <li>In case of a crash (and if you used the <a
+        href="YGP/classIVIOApplication.html">IVIOApplication</a> or <a
+        href="XGP/classXApplication.html">XApplication</a> classes) there
+        should also be a stackdump in your system log which might help in
+        localizing the bug.</li>
+      <li> Anything else you think might be helpful.</li>
     </ul>
 
-    <h1 align="center">X-windows classes</h1>
-    <ul style="list-style-type:disc;">
-      <li><b><a href="XApplication.html">XApplication</a></b>- Gtk::Window
-        <ul style="list-style-type:disc;">
-          <li><b><a href="XApplication.html#XInfoApplication">XInfoApplication</a></b>- XApplication</li>
-        </ul></li>
-      <li><b><a href="XAttrEntry.html">XAttributeEntry&lt;T&gt;</a></b>- Gtk::Entry</li>
-      <li><b><a href="XAttrLabel.html">XAttributeLabel&lt;T&gt;</a></b>- Gtk::Label</li>
-      <li><b><a href="XDate.html">XDate</a></b>- XDialog</li>
-      <li><b><a href="XDialog.html">XDialog</a></b>- Gtk::Dialog
-        <ul style="list-style-type:disc;">
-          <li><b><a href="BrowserDlg.html">BrowserDlg</a></b>- Gtk::Dialog</li>
-          <li><b><a href="XAbout.html">XAbout</a></b>- Gtk::Dialog</li>
-          <li><b><a href="XFileDlg.html">XFileDialog</a></b>- Gtk::FileSelection</li>
-          <li><b><a href="XPrintDlg.html">XPrintDlg</a></b>- XDialog</li>
-        </ul></li>
-      <li><b><a href="XFileEntry.html">XFileEntry</a></b>- Gtk::Entry</li>
-      <li><b><a href="XFileList.html">XFileList</a></b>- Gtk::CList</li>
-    </ul>
+    <p>Please note that I don't (can't) check my mails daily, so please be
+      patient.</p>
   </body>
 </html>
