@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.11 2003/07/05 05:14:47 markus Rel $
+//$Id: XPrintDlg.h,v 1.12 2003/07/20 04:15:38 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,18 +31,17 @@ namespace Gtk {
    class Gtk_Entry;
 }
 
-// Class to display a dialog to enter the command to print some text.
-//
-// This is a very basic interface; only supporting the line printer.
-class XPrintDialog : public XDialog {
+/**Class to display a dialog to enter the command to print some text.
+
+   This is a very basic interface; only supporting the line printer.
+*/
+class IPrintDialog : public XDialog {
  public:
-   typedef void (Object::*PACTION)(std::ofstream&);
+   IPrintDialog ();
+   ~IPrintDialog ();
 
-   XPrintDialog (Object* pNotify, const PACTION callback);
-   ~XPrintDialog ();
-
-   static XPrintDialog* perform (Object* pNotify, const PACTION callback) {
-      return new XPrintDialog (pNotify, callback); }
+   /// Method to display the dialog
+   static IPrintDialog* perform () { return new IPrintDialog (); }
 
    typedef SmartPtr<Gtk::HBox>   PHBox;
    typedef SmartPtr<Gtk::Label>  PLabel;
@@ -51,19 +50,61 @@ class XPrintDialog : public XDialog {
 
  private:
    // Prohibited manager-functions
-   XPrintDialog (const XPrintDialog&);
-   const XPrintDialog& operator= (const XPrintDialog&);
+   IPrintDialog (const IPrintDialog&);
+   const IPrintDialog& operator= (const IPrintDialog&);
 
    virtual void okEvent ();
+   /// Print to the passed stream.
+   /// \param stream: Stream to write to (for printing)
+   virtual void printToStream (std::ostream& stream) { }
 
    void init ();
-
-   Object*   pCaller;
-   const PACTION callerMethod;
 
    PLabel  lblCommand;
    PEntry  txtCommand;
    PHBox   boxCommand;
 };
+
+
+/**Templated version of the IPrintDialog which allows a (typesafe)
+   notification of the caller about user input.
+*/
+template <class T>
+class TPrintDialog : public IPrintDialog {
+ public:
+   typedef void (T::*PCALLBACK)(std::ostream&);
+
+   /// Constructor
+   /// \param parent: Window to notify of the print command
+   /// \param callback: Method of \c parent to call for printing
+   TPrintDialog (T& parent, PCALLBACK callback) : IPrintDialog ()
+       , pCaller (parent), callerMethod (callback) { }
+   /// Destructor
+   ~TPrintDialog () { }
+
+   /// Method to display the dialog
+   /// \param parent: Window to notify of the print command
+   /// \param callback: Method of \c parent to call for printing
+   static TPrintDialog* perform (T& parent, PCALLBACK callback) {
+      TPrintDialog<T>* dlg (new TPrintDialog<T> (parent, callback));
+      dlg->get_window ()->set_transient_for (parent.get_window ());
+      return dlg;
+   }
+
+ protected:
+   /// Print to the passed stream.
+   /// \param stream: Stream to write to (for printing)
+   virtual void printToStream (std::ostream& stream) {
+       (pCaller.*callerMethod) (stream);
+   }
+
+ private:
+   T& pCaller;
+   PCALLBACK callerMethod;
+};
+
+
+// Typedef for backward compatibility
+typedef TPrintDialog<Gtk::Object> XPrintDialog;
 
 #endif

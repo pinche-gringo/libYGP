@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.14 2003/07/05 05:14:47 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.15 2003/07/20 04:15:38 markus Rel $
 
 //PROJECT     : XGeneral
-//SUBSYSTEM   : XPrintDlg
+//SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -43,35 +43,29 @@
 #include "XPrintDlg.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates a small dialog to enter the print command.
-//Parameters: pNotify: Object to notify of the print command
-//            callback: Method of pNotify to call for printing
-/*--------------------------------------------------------------------------*/
-XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
+//-----------------------------------------------------------------------------
+/// Constructor; creates a small dialog to enter the print command.
+//-----------------------------------------------------------------------------
+IPrintDialog::IPrintDialog ()
    : XDialog (Glib::locale_to_utf8 (_("Print")), OKCANCEL)
-     , pCaller (pNotify), callerMethod (callback)
      , lblCommand (new Gtk::Label (_("Print command: ")))
      , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
-   TRACE9 ("XPrintDialog::XPrintDialog (title) '" << title << '\'');
-   Check3 (pCaller); Check3 (callerMethod);
-
+   TRACE9 ("IPrintDialog::IPrintDialog (title) '" << title << '\'');
    init ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
-XPrintDialog::~XPrintDialog () {
-   TRACE9 ("XPrintDialog::~XPrintDialog");
-   hide ();
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
+IPrintDialog::~IPrintDialog () {
+   TRACE9 ("IPrintDialog::~IPrintDialog");
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Initialization of the class; creates the controls
-/*--------------------------------------------------------------------------*/
-void XPrintDialog::init () {
+//-----------------------------------------------------------------------------
+/// Initialization of the class; creates the controls
+//-----------------------------------------------------------------------------
+void IPrintDialog::init () {
    Check3 (lblCommand); Check3 (txtCommand); Check3 (boxCommand);
 
    // Command-box
@@ -90,13 +84,13 @@ void XPrintDialog::init () {
    txtCommand->grab_focus ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback after pressing OK
-/*--------------------------------------------------------------------------*/
-void XPrintDialog::okEvent () {
-   TRACE9 ("XPrintDialog::okEvent ()");
+//-----------------------------------------------------------------------------
+/// Callback after pressing OK
+//-----------------------------------------------------------------------------
+void IPrintDialog::okEvent () {
+   TRACE9 ("IPrintDialog::okEvent ()");
 
-   Check3 (pCaller); Check3 (callerMethod); Check3 (txtCommand);
+   Check3 (txtCommand);
 
    if (!txtCommand->get_text_length ()) {                      // No input?
       Gtk::MessageDialog msg (_("No print-command specified"), Gtk::MESSAGE_ERROR);
@@ -117,7 +111,7 @@ void XPrintDialog::okEvent () {
 
    // TODO!! std::ofstream pipe (fileno (stream));
    std::ofstream pipe;
-   (pCaller->*callerMethod) (pipe);
+   printToStream (pipe);
    pipe.close ();
    pclose (stream);
 
