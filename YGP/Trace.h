@@ -1,7 +1,7 @@
 #ifndef TRACE_H
 #define TRACE_H
 
-//$Id: Trace.h,v 1.5 2002/04/19 07:08:53 markus Rel $
+//$Id: Trace.h,v 1.6 2002/05/24 06:52:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifdef DEBUG
+#ifdef TRACELEVEL
 #include <iomanip.h>
 #include <iostream.h>
 
@@ -28,55 +28,55 @@
 
 #endif
 
-#if DEBUG > 0
+#if TRACELEVEL > 0
 #define TRACE1(x)           TRACE(x)
 #else
 #define TRACE1(x)
 #endif
 
-#if DEBUG > 1
+#if TRACELEVEL > 1
 #define TRACE2(x)           TRACE(x)
 #else
 #define TRACE2(x)
 #endif
 
-#if DEBUG > 2
+#if TRACELEVEL > 2
 #define TRACE3(x)           TRACE(x)
 #else
 #define TRACE3(x)
 #endif
 
-#if DEBUG > 3
+#if TRACELEVEL > 3
 #define TRACE4(x)           TRACE(x)
 #else
 #define TRACE4(x)
 #endif
 
-#if DEBUG > 4
+#if TRACELEVEL > 4
 #define TRACE5(x)           TRACE(x)
 #else
 #define TRACE5(x)
 #endif
 
-#if DEBUG > 5
+#if TRACELEVEL > 5
 #define TRACE6(x)           TRACE(x)
 #else
 #define TRACE6(x)
 #endif
 
-#if DEBUG > 6
+#if TRACELEVEL > 6
 #define TRACE7(x)           TRACE(x)
 #else
 #define TRACE7(x)
 #endif
 
-#if DEBUG > 7
+#if TRACELEVEL > 7
 #define TRACE8(x)           TRACE(x)
 #else
 #define TRACE8(x)
 #endif
 
-#if DEBUG > 8
+#if TRACELEVEL > 8
 #define TRACE9(x)           TRACE(x)
 #else
 #define TRACE9(x)

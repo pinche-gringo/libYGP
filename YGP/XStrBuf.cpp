@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.14 2002/04/09 20:05:09 markus Rel $
+// $Id: XStrBuf.cpp,v 1.15 2002/05/24 06:52:42 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -31,7 +31,6 @@
 
 #include <iostream.h>
 
-#define DEBUG 0
 #include "Trace_.h"
 
 #include "XStrBuf.h"
@@ -156,7 +155,7 @@ int extStreambuf::pbackfail (int c) {
    if (rc == EOF)
       return EOF;
 
-#if DEBUG > 8
+#if TRACELEVEL > 8
    TRACE ("Pushback: Next = " << (rc = pSource->sbumpc ()) << '\n');
    assert (rc = c);
    pSource->seekoff (-1, ios::cur);
