@@ -1,11 +1,11 @@
-// $Id: Attribute.cpp,v 1.3 2002/08/21 20:21:28 markus Exp $
+// $Id: Attribute.cpp,v 1.4 2002/11/04 01:05:06 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Attribute
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -45,7 +45,10 @@ int main (int argc, char* argv[]) {
    ATime time;
    Attribute<ATime> timeAttr ("timeAttr", time);
    check (timeAttr.assignFromString ("121005"));
+#ifndef __CYGWIN__
+   // Cygwin (at least in my version B20) seems to have problems with exceptions
    check (!timeAttr.assignFromString ("12"));
+#endif
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';

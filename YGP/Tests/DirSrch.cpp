@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.6 2002/10/10 05:53:33 markus Exp $
+// $Id: DirSrch.cpp,v 1.7 2002/11/04 01:05:20 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -65,7 +65,9 @@ int main (int argc, char* argv[]) {
    check (ds.next ());
 #if SYSTEM == UNIX
    check (ds.next ());
-   check (ds.next ());
+#  ifndef __CYGWIN__
+   check (ds.next ());               // Cygwin does not create .deps directory
+#  endif
 #endif
    check (!ds.next ());
 
