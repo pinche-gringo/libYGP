@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.2 2001/01/24 16:27:05 Markus Exp $
+//$Id: CIDirSrch.cpp,v 1.3 2001/02/18 23:23:27 Markus Exp $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -29,6 +29,12 @@
 #include "CIDirSrch.h"
 
 
+static unsigned long aAttributes[] = { DirectorySearch::FILE_NORMAL,
+                                       DirectorySearch::FILE_READONLY,
+                                       DirectorySearch::FILE_DIRECTORY,
+                                       DirectorySearch::FILE_HIDDEN };
+
+
 CIDirEntry::CIDirEntry (const dirEntry& other) : dirEntry (other) {
 }
 
@@ -50,7 +56,14 @@ char* CIDirEntry::time () {
 }
 
 CORBA::ULong CIDirEntry::attributes () {
-   return dirEntry::attributes ();
+   unsigned long attrs (dirEntry::attributes ());
+   unsigned long result (0);
+
+   // Convert dirEntry-attributes to format of component
+   for (int i (0); i < (sizeof (aAttributes) / sizeof (aAttributes[0])); ++i)
+      if ((attrs & aAttributes[i]) == aAttributes[i])
+         result |= (1 << i);
+   return result;
 }
 
 CORBA::Boolean CIDirEntry::isDirectory () {
@@ -76,7 +89,14 @@ CORBA::Short CIDirEntry::compareObject (CDirEntry_ptr other) {
 
 
 CDirEntry_ptr CIDirectorySearch::find (const char* file, CORBA::ULong attr) {
-   return DirectorySearch::find (file, entry, attr) ? &entry : NULL;
+   unsigned long attrs (0);
+
+   // Convert attributes to format of dirEntry
+   for (int i (0); i < (sizeof (aAttributes) / sizeof (aAttributes[0])); ++i)
+      if (attr & i)
+         attrs |= aAttributes[i];
+   
+   return DirectorySearch::find (file, entry, attrs) ? &entry : NULL;
 }
 
 CDirEntry_ptr CIDirectorySearch::findnext () {
