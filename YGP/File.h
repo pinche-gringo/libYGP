@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.16 2003/02/21 19:35:31 markus Rel $
+//$Id: File.h,v 1.17 2003/06/19 03:16:47 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -78,7 +78,13 @@
 
 class DirectorySearch;
 
-// Class to handle result of DirectorySearch
+/**Class representing a file in the file system of the operating system.
+
+   This class provides simple management functions.
+
+   Objects of this type are usually returned as  result of a DirectorySearch,
+   but can also be used by themself.
+*/
 #if SYSTEM == UNIX
 
 #define MAX_PATH            MAXNAMLEN
@@ -87,6 +93,7 @@ struct File {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
+   /// Default constructor; creates an empty file object (holding no file)
    File () : userExec (false)
       { *entry.d_name = '\0'; }
    File (const char* name) throw (std::string);
@@ -98,36 +105,60 @@ struct File {
 
    virtual File* clone () const;
 
-   //@Section query of data
+   /// \name Query of data
+   //@{
+    /// Returning the file name
    const char*   path () const { return path_.c_str (); }
+   /// Returning the path to the file
    const char*   name () const { return entry.d_name; }
+   /// Returning the size of the file
    unsigned long size () const { return status.st_size; }
+   /// Returning the time the file was modified the last time
    time_t        time () const { return status.st_mtime; }
+   /// Retrieving the time the file was modified the last time (GMT)
    void          time (struct tm& time) const
      { time = *gmtime (&status.st_mtime); }
+   /// Retrieving the time the file was modified the last time (local time)
    void          localtime (struct tm& time) const
      { time = *::localtime (&status.st_mtime); }
-   unsigned long attributes () const { return status.st_mode; }
+   /// Returning the system attributes of the time
+   unsigned long attributes () const {
+      return status.st_mode; }
+   //@}
 
-   //@Section compare filename
+   /// \name Compare filename
+   //@{
+   /// Checks if the file name matches the passed text
    int compare (const char* pszName) const { return strcmp (name (), pszName); }
+   /// Checks if the file name matches the passed text
    int compare (const std::string& Name) const { return name () == Name; }
+   /// Checks if the file name matches those of the other object
    int compare (const File& other) const { return strcmp (name (), other.name ()); }
+   /// Checks if the file name matches those of the other object
    int compare (const File* other) const { Check1 (other);
       return compare (*other); }
+   //@}
 
-   //@Section file-type
+   /// \name File type
+   //@{
+   /// Checks if the operating system "hides" this file during "normal" operation
    bool isHidden () const { return *entry.d_name == '.'; }
+   /// Checks if file is actually a directory (a file (potentially) holding more files)
    bool isDirectory () const { return S_ISDIR (status.st_mode); }
+   /// Checks if file can be executed
    bool isExecuteable () const { return status.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH); }
+   /// Checks if file can be executed by the current user
    bool isUserExec () const { return userExec; }
+   //@}
 
-   //@Section file-access
+   /// \name File access
+   //@{
    virtual bool isEOF (void* file) const throw (std::string);
    virtual void* open  (const char* mode) const throw (std::string);
    virtual void close (void* file) const throw (std::string);
    virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
    virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
+   //@}
 
    static const char DIRSEPARATOR;
 
@@ -140,14 +171,21 @@ struct File {
 
    void throwErrorText (const char* error) const throw (std::string);
 
+   /// Sets the path of the file (only internally)
    void path (const char* path) { path_ = path; }
+   /// Sets the path of the file (only internally)
    void path (const std::string& path) { path_ = path; }
+   /// Sets the name of the file to the passed value
    void name (const char* name) { strcpy (entry.d_name, name); }
+   /// Sets the name of the file to the passed value (only internally)
    void name (const std::string& name) {
       memcpy (entry.d_name, name.data (), name.length ());
       entry.d_name[name.length ()] = '\0'; }
+   /// Sets the size of the file (only internally)
    void size (unsigned long size) { status.st_size = size; }
+   /// Sets the last modification time of the file (only internally)
    void time (time_t time) { status.st_mtime = time; }
+   /// Sets the attributes the file (only internally)
    void attributes (unsigned long attr) { status.st_mode = attr; }
 };
 
@@ -167,7 +205,8 @@ struct File : protected WIN32_FIND_DATA {
 
    virtual File* clone () const;
 
-   //@Section query of data
+   /// \name Query of data
+   //@{
    const char*   path () const { return path_.c_str (); }
    const char*   name () const { return cFileName; }
    unsigned long size () const { return nFileSizeLow; }
@@ -176,26 +215,33 @@ struct File : protected WIN32_FIND_DATA {
       setTime (ftLastWriteTime, time); }
    void                localtime (struct tm& time) const;
    unsigned long attributes () const { return dwFileAttributes; }
+   //@}
 
-   //@Section compare filename
+   /// \name Compare filename
+   //@{
    int compare (const char* pszName) const { return stricmp (name (), pszName); }
    int compare (const std::string& Name) const { return compare (Name.c_str ()); }
    int compare (const File& other) const { return compare (other.name ()); }
    int compare (const File* other) const { Check1 (other);
       return compare (*other); }
+   //@}
 
-   //@Section file-type
+   /// \name File type
+   //@{
    bool isHidden () const { return (dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)!= 0; }
    bool isDirectory () const { return (dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
    bool isExecuteable () const;
    bool isUserExec () const { return isExecuteable (); }
+   //@}
 
-   //@Section file-access
+   /// \name File access
+   //@{
    virtual bool isEOF (void* file) const throw (std::string);
    virtual void* open  (const char* mode) const throw (std::string);
    virtual void close (void* file) const throw (std::string);
    virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
    virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
+   //@}
 
    static const char DIRSEPARATOR;
 

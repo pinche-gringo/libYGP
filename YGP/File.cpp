@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.19 2003/02/21 19:35:31 markus Rel $
+//$Id: File.cpp,v 1.20 2003/06/19 03:16:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -50,10 +50,9 @@ const char File::DIRSEPARATOR = '\\';
 #endif
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Copyconstructor
-//Parameter : other: Object to copy
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Copyconstructor Parameter : other: Object to copy
+//-----------------------------------------------------------------------------
 File::File (const File& other) : path_ (other.path_)
 #if SYSTEM == UNIX
    , entry (other.entry), status (other.status), userExec (other.userExec)
@@ -63,11 +62,11 @@ File::File (const File& other) : path_ (other.path_)
 {
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; create from a name
-//Parameter : name: Pointer to character-array holding name of file to create
-//Throws    : String describing the error
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; create from a name Parameter : name: Pointer to
+/// character-array holding name of file to create
+/// \throw \c String describing the error
+//-----------------------------------------------------------------------------
 File::File (const char* name) throw (std::string)
 #if SYSTEM == UNIX
    : userExec (false)
@@ -76,19 +75,19 @@ File::File (const char* name) throw (std::string)
    operator= (name);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 File::~File () {
 }
 
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment operator
-//Parameters: other: Object to copy
-//Returns   : File&: Reference to this
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignment operator
+/// \param other: Object to copy
+/// \returns \c File&: Reference to this
+//-----------------------------------------------------------------------------
 File& File::operator= (const File& other) {
    if (this != &other) {
       path_ = other.path_;
@@ -103,12 +102,11 @@ File& File::operator= (const File& other) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment operator; create from a name
-//Parameter : name: Name of file
-//Returns   : Reference to self
-//Throws    : String describing the error
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignment operator; create from a name Parameter : name: Name of file
+/// \returns Reference to self
+/// \throw \c String describing the error
+//-----------------------------------------------------------------------------
 File& File::operator= (const char* name) throw (std::string) {
 #if SYSTEM == UNIX
    // If file exists, fill data-fields
@@ -163,25 +161,27 @@ File& File::operator= (const char* name) throw (std::string) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Duplicates (clones) the object and returns a pointer to the
-//            newly created object.
-//Returns   : File*: Pointer to newly created clone
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Duplicates (clones) the object and returns a pointer to the newly created
+/// object.
+/// \returns \c File*: Pointer to newly created clone
+//-----------------------------------------------------------------------------
 File* File::clone () const {
    return new File (*this);
 }
 
 #if SYSTEM == WINDOWS
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns true, if the file is executeable. Under UNIX it checks
-//            the file-permissions (any execute-right is sufficient), under
-//            DOS/WINDOZE the extension of the file (EXE/COM/BAT).
-//Returns   : Flag, if file is executeable
-//Remarks   : - VBS, WSH, and whatever Windows executes directly are not considered executable
-//            - The call is only valid after a successfull find.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns true, if the file is executeable. Under UNIX it checks the
+/// file-permissions (any execute-right is sufficient), under DOS/WINDOZE the
+/// extension of the file (EXE/COM/BAT).
+/// \returns \c Flag, if file is executeable
+/// \remarks
+///     - VBS, WSH, and whatever Windows executes directly are not considered
+///       as executable.
+///     - The call is only valid with a defined object
+//-----------------------------------------------------------------------------
 bool File::isExecuteable () const {
    const char* pEnd = strrchr (cFileName, '.');
    if (pEnd++) {
@@ -205,36 +205,37 @@ bool File::isExecuteable () const {
    return false;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the modification time of the file in the format of the
-//            system-time.
-//Returns   : time_t: Filetime in system format
-//Remarks   : - The call is only valid after a successfull find.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Retrieves the modification time of the file in the format of the
+/// system-time.
+/// \returns \c time_t: Filetime in system format
+/// \remarks The call is only valid after a successfull find.
+//-----------------------------------------------------------------------------
 time_t File::time () const {
    struct tm fileTime;
    time (fileTime);
    return mktime (&fileTime);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the (local) time of the file in a (C-)struct tm.
-//Parameters: time: Broken down time structure to set
-//Remarks   : - The call is only valid after a successfull find.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the (local) time of the file in a (C-)struct tm.
+/// \param time: Broken down time structure to set
+/// \remarks The call is only valid with a valid object
+//-----------------------------------------------------------------------------
 void File::localtime (struct tm& time) const {
    FILETIME fileTemp;
    FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
    setTime (fileTemp, time);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the filetime into a (C-)struct tm.
-//Parameters: time: Time of the file (in Windows format)
-//            result: Time of file converted into a struct tm
-//Remarks   : - The tm_wday, tm_yday and tm_isdst-members are not set!
-//            - The call is only valid after a successfull find.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the filetime into a (C-)struct tm.
+/// \param time: Time of the file (in Windows format)
+/// \param result: Time of file converted into a struct tm
+/// \remarks
+///     - The tm_wday, tm_yday and tm_isdst-members are not set!
+///     - The call is only valid with a valid object
+//-----------------------------------------------------------------------------
 void File::setTime (const FILETIME& time, struct tm& result) {
    SYSTEMTIME sysTime;
    FileTimeToSystemTime (&time, &sysTime);
@@ -253,13 +254,13 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 
 #endif
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Opends the file in the specified mode. The mode parameter can
-//            have the same values than the ANSI-C fopen-function.
-//Parameters: mode: Mode for open the file (analogue to libc's fopen)
-//Returns   : void*: Pointer to a handle for the opened file.
-//Throws    : string: In case of an error a textual description
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Opends the file in the specified mode. The mode parameter can have the
+/// same values than the ANSI-C fopen-function.
+/// \param mode: Mode for open the file (analogue to libc's fopen)
+/// \returns \c void*: Pointer to a handle for the opened file.
+/// \throw \c string: In case of an error a textual description
+//-----------------------------------------------------------------------------
 void* File::open  (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
    TRACE5 ("File::open  (const char*) const - " << file);
@@ -272,11 +273,11 @@ void* File::open  (const char* mode) const throw (std::string) {
    return pFile;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Closes a (previously opened) file
-//Parameters: file: Handle of opened file
-//Throws    : string: In case of an error a textual description
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Closes a (previously opened) file
+/// \param file: Handle of opened file
+/// \throw \c string: In case of an error a textual description
+//-----------------------------------------------------------------------------
 void File::close (void* file) const throw (std::string) {
    TRACE5 ("File::close  () const - " << path () << name ());
    Check1 (file);
@@ -285,19 +286,17 @@ void File::close (void* file) const throw (std::string) {
       throwErrorText (N_("Error closing file `%1'! Reason: %2"));
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads the (next) specified number of characters from the
-//            (previously opened) file (or less, if the end of the file has
-//            been reached) into buffer. and returns the number of actually
-//            read bytes.
-//
-//            If an error occurres, an exception is thrown
-//Parameters: file: Handle of openeded file
-//            buffer: Buffer for data
-//            length: Maximal length of buffer
-//Returns   : int: Number of read bytes
-//Throws    : string: In case of an error a textual description
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Reads the (next) specified number of characters from the (previously
+/// opened) file (or less, if the end of the file has been reached) into
+/// buffer. and returns the number of actually read bytes. If an error
+/// occurres, an exception is thrown
+/// \param file: Handle of openeded file
+/// \param buffer: Buffer for data
+/// \param length: Maximal length of buffer
+/// \returns \c int: Number of read bytes
+/// \throw \c string: In case of an error a textual description
+//-----------------------------------------------------------------------------
 int File::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
    Check1 (file);
@@ -311,17 +310,16 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
    return rc;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Writes the specified number of characters to the  (previously
-//            opened) file and returns the number of actually written bytes.
-//
-//            If an error occurres, an exception is thrown.
-//Parameters: file: Handle of openeded file
-//            buffer: Buffer of data
-//            length: Length of buffer (= bytes to write)
-//Returns   : int: Number of written bytes
-//Throws    : string: In case of an error a textual description
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Writes the specified number of characters to the (previously opened) file
+/// and returns the number of actually written bytes. If an error occurres, an
+/// exception is thrown.
+/// \param file: Handle of openeded file
+/// \param buffer: Buffer of data
+/// \param length: Length of buffer (= bytes to write)
+/// \returns \c int: Number of written bytes
+/// \throw \c string: In case of an error a textual description
+//-----------------------------------------------------------------------------
 int File::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
    Check1 (file);
@@ -335,23 +333,23 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
    return rc;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if further data is available for reading.
-//Parameters: file: Handle of openeded file
-//Returns   : bool: True, if further data is available
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if further data is available for reading.
+/// \param file: Handle of openeded file
+/// \returns \c bool: True, if further data is available
+//-----------------------------------------------------------------------------
 bool File::isEOF (void* file) const throw (std::string) {
    Check1 (file);
    return feof (static_cast <FILE*> (file)) != 0;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Throws an error consisting of the passed string, where the
-//            characters '%1' are subsituted with the name of the file and
-//           '%2' with an error message (according to strerror).
-//Parameters: error: ASCIIZ-String describing error-message
-//Requires  : error != NULL, an ASCIIZ-string with the placeholders %1, %2
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Throws an error consisting of the passed string, where the characters '%1'
+/// are subsituted with the name of the file and '%2' with an error message
+/// (according to strerror).
+/// \param error: ASCIIZ-String describing error-message
+/// \pre error != NULL, an ASCIIZ-string with the placeholders %1, %2
+//-----------------------------------------------------------------------------
 void File::throwErrorText (const char* error) const throw (std::string) {
    Check1 (error);
    std::string file (path ());
