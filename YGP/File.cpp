@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.12 2002/12/01 21:18:34 markus Exp $
+//$Id: File.cpp,v 1.13 2002/12/07 23:29:32 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -110,7 +110,7 @@ bool File::isExecuteable () const {
       unsigned int i;
 
       // Copy uppercase extension for compare
-      for (i = 0; i < sizeof (compExt); ++) {
+      for (i = 0; i < sizeof (compExt); ++i) {
          compExt[i] = toupper (*pEnd);
          if (!*pEnd)
             break;
@@ -131,7 +131,7 @@ bool File::isExecuteable () const {
 //Returns   : struct tm*: Pointer to time
 //Remarks   : - The call is only valid after a successfull find.
 /*--------------------------------------------------------------------------*/
-const time_t File::time () const {
+time_t File::time () const {
    struct tm fileTime;
    time (fileTime);
    return mktime (&fileTime);
@@ -183,7 +183,7 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 void* File::open  (const char* mode) const throw (std::string) {
    std::string file (path ()); file += name ();
    TRACE5 ("File::open  (const char*) const - " << file);
-   Check3 (mode);
+   Check1 (mode);
 
    FILE* pFile = fopen (file.c_str (), mode);
    if (pFile == NULL)
@@ -199,7 +199,7 @@ void* File::open  (const char* mode) const throw (std::string) {
 /*--------------------------------------------------------------------------*/
 void File::close (void* file) const throw (std::string) {
    TRACE5 ("File::close  () const - " << path () << name ());
-   Check3 (file);
+   Check1 (file);
 
    if (fclose (static_cast <FILE*> (file)))
       throwErrorText (N_("Error closing file `%1'! Reason: %2"));
@@ -220,10 +220,9 @@ void File::close (void* file) const throw (std::string) {
 /*--------------------------------------------------------------------------*/
 int File::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
-
-   Check3 (file);
-   Check3 (buffer);
-   Check3 (length);
+   Check1 (file);
+   Check1 (buffer);
+   Check1 (length);
 
    int rc (fread (buffer, 1, length, static_cast <FILE*> (file)));
    if (!rc)                        // Exception only if *no* char has been read
@@ -245,9 +244,9 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
 /*--------------------------------------------------------------------------*/
 int File::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
-   Check3 (file);
-   Check3 (buffer);
-   Check3 (length);
+   Check1 (file);
+   Check1 (buffer);
+   Check1 (length);
 
    int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
    if (rc < length)
@@ -262,7 +261,7 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 //Returns   : bool: True, if further data is available
 /*--------------------------------------------------------------------------*/
 bool File::isEOF (void* file) const throw (std::string) {
-   Check3 (file);
+   Check1 (file);
    return feof (static_cast <FILE*> (file)) != 0;
 }
 
@@ -274,7 +273,7 @@ bool File::isEOF (void* file) const throw (std::string) {
 //Requires  : error != NULL, an ASCIIZ-string with the placeholders %1, %2
 /*--------------------------------------------------------------------------*/
 void File::throwErrorText (const char* error) const throw (std::string) {
-   Check3 (error);
+   Check1 (error);
    std::string file (path ());
    file += name ();
    std::string err (_(error));
