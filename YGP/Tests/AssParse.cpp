@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.6 2003/07/16 07:01:41 markus Rel $
+// $Id: AssParse.cpp,v 1.7 2003/09/11 04:18:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -43,11 +43,15 @@
 #define K3     "key3"
 #define K4     "key4"
 #ifndef _MSC_VER
-#define KV3    "abcd\\\"def\""
-#define KV4    "\"\\\"v4\\\"\""
+#define KV3      "abcd\\\"def\""
+#define KV4      "\"\\\"v4\\\"\""
+#define K4NODE  "=\"\"v4\"\""
+#define K4VALUE "\"v4\""
 #else
 #define KV3    "abcd\\\042def\042"
 #define KV4    "\042\\\042v4\\\042\042"
+#define K4NODE  "=\042\042v4\042\04"
+#define K4VALUE "\042v4\042"
 #endif
 #define A3     K3 "=" KV3
 #define A4     K4 "=" KV4
@@ -75,9 +79,9 @@ int main (int argc, char* argv[]) {
       check (attrs.getActValue () == KV3);
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == K4 "=\"\"v4\"\"");
+      check (attrs.getActNode () == K4 K4NODE);
       check (attrs.getActKey () == K4);
-      check (attrs.getActValue () == "\"v4\"");
+      check (attrs.getActValue () == K4VALUE);
 
       check (attrs.getNextNode ().empty ());
    }
