@@ -288,6 +288,10 @@
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
+/* Defined if strftime returns the length it would need, when passed a
+   NULL-buffer */
+#undef STRFTIME_RETURNS_LENGTH
+
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
 #undef TM_IN_SYS_TIME
 
