@@ -1,11 +1,11 @@
-// $Id: ANumeric.cpp,v 1.3 2002/08/21 20:21:28 markus Rel $
+// $Id: ANumeric.cpp,v 1.4 2003/07/03 18:04:46 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -23,6 +23,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#include <clocale>
 
 #include <iostream>
 
@@ -54,6 +56,28 @@ int main (int argc, char* argv[]) {
 
    std::string numStr (num2.toString ());
    check (numStr.length () >= 4);
+
+#ifdef TEST_OUTPUT
+   setlocale (LC_ALL, "");                         // Activate current locale
+
+   std::cout << ANumeric::toString (-1) << '\n';
+   std::cout << ANumeric::toString (-12) << '\n';
+   std::cout << ANumeric::toString (-123) << '\n';
+   std::cout << ANumeric::toString (-1234) << '\n';
+   std::cout << ANumeric::toString (-12345) << '\n';
+   std::cout << ANumeric::toString (-123456) << '\n';
+   std::cout << ANumeric::toString (-1234567) << '\n';
+   std::cout << ANumeric::toString (-12345678) << '\n';
+
+   std::cout << ANumeric::toString (1) << '\n';
+   std::cout << ANumeric::toString (12) << '\n';
+   std::cout << ANumeric::toString (123) << '\n';
+   std::cout << ANumeric::toString (1234) << '\n';
+   std::cout << ANumeric::toString (12345) << '\n';
+   std::cout << ANumeric::toString (123456) << '\n';
+   std::cout << ANumeric::toString (1234567) << '\n';
+   std::cout << ANumeric::toString (12345678) << '\n';
+#endif
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
