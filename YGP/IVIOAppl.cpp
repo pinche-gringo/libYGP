@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.9 1999/08/11 22:35:22 Markus Rel $
+///$Id: IVIOAppl.cpp,v 1.10 1999/08/21 19:53:04 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -52,8 +52,7 @@ inline bool isOptionChar (const char ch) {
 //            argv: Array of pointers to argumetns
 //            pOpt: Pointer to long-option-table
 /*--------------------------------------------------------------------------*/
-IVIOApplication::IVIOApplication (int argc, char* argv[],
-				  const longOptions* pOpt = NULL)
+IVIOApplication::IVIOApplication (int argc, char* argv[], const longOptions* pOpt)
    : args (argc), ppArgs (argv), startArg (1), pOptionParam (NULL)
    , longOpt (NULL), startOpt (1)
    , numLongOpt (0) {
@@ -136,7 +135,7 @@ int IVIOApplication::run () {
 //Purpose   : Retrieves the value-parameter for the option
 //Returns   : char*: Parameter for the option
 /*--------------------------------------------------------------------------*/
-char* IVIOApplication::getOptionValue () {
+const char* IVIOApplication::getOptionValue () {
    if (startOpt > startArg)
       moveOption ();
 
