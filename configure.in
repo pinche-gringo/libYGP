@@ -1,7 +1,7 @@
-dnl $Id: configure.in,v 1.44 2003/05/23 17:46:04 markus Exp $
+dnl $Id: configure.in,v 1.45 2003/06/11 04:28:47 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.44 $)
+AC_REVISION($Revision: 1.45 $)
 
 AC_INIT()
 
@@ -53,6 +53,11 @@ dnl Checks for libraries.
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(gmp, main)
 AC_CHECK_LIB(pthread, main)
+
+if test -z $HAVE_LIBGMP; then
+   LIB_GMP=-lgmp
+fi
+AC_SUBST(LIB_GMP)
 
 dnl Checks for header files.
 dnl AC_CHECK_HEADERS(assert.h errno.h fstream.h iomanip.h iostream.h netinet/in.h)
