@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.27 2002/08/20 05:18:02 markus Rel $
+//$Id: DirSrch.h,v 1.28 2002/12/07 22:10:08 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,19 +21,33 @@
 #include <time.h>
 #include <stddef.h>
 #include <string.h>
-#include <assert.h>
+
+#if SYSTEM == UNIX
+#  if HAVE_DIRENT_H
+#     include <dirent.h>
+#     define NAMLEN(dirent) strlen((dirent)->d_name)
+#  else
+#     define dirent direct
+#     define NAMLEN(dirent) (dirent)->d_namlen
+#     if HAVE_SYS_NDIR_H
+#        include <sys/ndir.h>
+#     endif
+#     if HAVE_SYS_DIR_H
+#        include <sys/dir.h>
+#     endif
+#     if HAVE_NDIR_H
+#        include <ndir.h>
+#     endif
+#  endif
+#endif
 
 #include <gzo-cfg.h>
 
-#include <File.h>
 #include <IDirSrch.h>
 
+struct File;
 class DirectorySearch;
 
-
-#ifndef MAX_PATH
-#  error MAX_PATH must be defined as max. filelength in every operating-system!
-#endif
 
 // Class to search for files in a certain directory.  This search can
 // be restricted to files matching certain name-criterias or by
