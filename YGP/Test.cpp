@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.17 1999/09/26 01:53:30 Markus Exp $
+// $Id: Test.cpp,v 1.18 1999/10/12 00:23:41 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -37,8 +37,9 @@
 #  include <strstrea.h>
 #endif
 
+#include "ADate.h"
 #include "Parse.h"
-#include <Handle.h>
+#include "Handle.h"
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
@@ -232,6 +233,27 @@ int Application::perform (int argc, char* argv[]) {
 
    regExp = "a[^xa-dy]b";
    check (!regExp.checkIntegrity () && regExp.matches ("afb") && !regExp.matches ("axb"));
+
+   cout << "Testing ADate...\n";
+   ADate today (true);
+   ADate past (false);
+
+   check (today == ADate::today ()); 
+   check (today > past);
+
+   today.sub (0, 1);
+   check (today < ADate::today ());
+   today -= ADate::today ();
+
+   today.setYear (2000);
+   check (today.isLeapYear ());
+   today.add (0, 0, 1);
+   check (!today.isLeapYear ());
+
+   check (!past.isLeapYear ());
+   past.add (0, 0, 4);
+   check (past.isLeapYear ());
+   
 
    cout << "Testing ANumeric...\n";
    ANumeric num;
