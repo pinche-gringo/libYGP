@@ -1,7 +1,7 @@
 #ifndef MESSAGEDLG_H
 #define MESSAGEDLG_H
 
-//$Id: MessageDlg.h,v 1.2 2003/12/01 18:12:20 markus Rel $
+//$Id: MessageDlg.h,v 1.3 2004/01/17 04:02:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@ class MessageDlg : public Gtk::MessageDialog {
    static MessageDlg* create (const YGP::StatusObject& obj);
 
    void showDetails (bool show = true);
+   void update (const YGP::StatusObject& obj);
 
  protected:
    static Gtk::MessageType getButtonType (YGP::StatusObject::type tp);
@@ -54,8 +55,6 @@ class MessageDlg : public Gtk::MessageDialog {
 
    Gtk::Label*  detail;
    Gtk::Button* showDetail;
-
-   const YGP::StatusObject& o;
 
    SigC::Connection cb;
 };

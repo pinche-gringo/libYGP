@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.4 2004/01/15 06:26:35 markus Rel $
+//$Id: MessageDlg.cpp,v 1.5 2004/01/17 04:02:32 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -47,15 +47,14 @@ MessageDlg::MessageDlg (const YGP::StatusObject& obj)
     : Gtk::MessageDialog (Glib::locale_to_utf8 (obj.getMessage ()),
                           getButtonType (obj.getType ()))
       , detail (new Gtk::Label)
-      , showDetail (new Gtk::Button), o (obj) {
-   if (o.hasDetails ()) {
+      , showDetail (new Gtk::Button) {
+   get_vbox ()->pack_end (*detail, Gtk::PACK_EXPAND_WIDGET, 5);
+   get_action_area ()->pack_end (*showDetail, Gtk::PACK_SHRINK, 5);
+   showDetail->set_use_underline ();
+
+   if (obj.hasDetails ()) {
       showDetails (false);
-
-      detail->set_text (Glib::locale_to_utf8 (o.getDetails ()));
-      get_vbox ()->pack_end (*detail, Gtk::PACK_EXPAND_WIDGET, 5);
-      get_action_area ()->pack_end (*showDetail, Gtk::PACK_SHRINK, 5);
-
-      showDetail->set_use_underline ();
+      detail->set_text (Glib::locale_to_utf8 (obj.getDetails ()));
       showDetail->show ();
    }
    show ();
@@ -108,13 +107,28 @@ MessageDlg* MessageDlg::create (const YGP::StatusObject& obj) {
    return dlg;
 }
 
-
 //-----------------------------------------------------------------------------
 /// Frees the dialog.
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
 void MessageDlg::free (int) {
    delete this;
+}
+
+//-----------------------------------------------------------------------------
+/// Frees the dialog.
+/// \remarks Call only if the dialog was created with new
+//-----------------------------------------------------------------------------
+void MessageDlg::update (const YGP::StatusObject& obj) {
+   set_message (Glib::locale_to_utf8 (obj.getMessage ()));
+   if (obj.hasDetails ()) {
+      detail->set_text (Glib::locale_to_utf8 (obj.getDetails ()));
+      showDetail->show ();
+   }
+   else {
+      detail->set_text ("");
+      showDetail->hide ();
+   }
 }
 
 }
