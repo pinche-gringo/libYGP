@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.3 1999/08/25 22:40:21 Markus Exp $
+//$Id: Parse.h,v 1.4 1999/08/26 22:52:06 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,8 +43,7 @@ typedef int (*PFNCALLBACK)(const char*);
 class ParseObject {
  public:
    // Manager-functions
-   ParseObject (const char* description, unsigned int max = 1,
-                unsigned int min = 1, PFNCALLBACK callback = NULL,
+   ParseObject (const char* description, PFNCALLBACK callback = NULL,
                 bool skipWhitespace = true);
    ParseObject (const ParseObject& other);
    virtual ~ParseObject ();
@@ -53,18 +52,14 @@ class ParseObject {
    
    // Accessing values
    const char*  getDescription () const { return pDescription; }
-   unsigned int getMaxCard () const { return maxCard; }
-   unsigned int getMinCard () const { return minCard; }
 
    void setDescription (const char* desc) { assert (desc); pDescription = desc; }
-   void setMaxCard (unsigned int val) { maxCard = val; }
-   void setMinCard (unsigned int val) { minCard = val; }
    void setCallback (PFNCALLBACK pCB) { assert (pCB); pCallback = pCB; }
    void setSkipWS (bool skipWhitespace) { skip = skipWhitespace; }
 
    // Parsing
    void skipWS (Xistream& stream) const;
-   int  parse (Xistream& stream) const {
+   int  parse (Xistream& stream) {
       assert (!checkIntegrity ());
       return doParse (stream, false); }
 
@@ -72,15 +67,15 @@ class ParseObject {
           PARSE_CB_ABORT = -1 };
 
    // TODO: Should be protected; but EGCS has a different optinion?!
-   virtual int doParse (Xistream& stream, bool optional) const = 0;
+   virtual int doParse (Xistream& stream, bool optional) = 0;
+
+   // Possible errors of checkIntegrity
+   enum { OK = 0, NO_DESCRIPTION, LAST };
 
  protected:
    virtual int checkIntegrity () const;
 
    PFNCALLBACK pCallback;       // Protected to enable sub-classes easy access
-
-   unsigned int maxCard;
-   unsigned int minCard;
 
    static ostream& error;
 
@@ -92,6 +87,14 @@ class ParseObject {
    bool        skip;
 };
 
+
+// Class to check if EOF is parsed
+class ParseEOF : public ParseObject {
+ public:
+   ParseEOF () : ParseObject ("EOF", NULL, false) { }
+
+   virtual int doParse (Xistream& stream, bool) { return stream.eof (); }
+};
 
 // Class to parse a attomic value; Base-class of all attomic values
 // The pValue parameter has the following semantics:
@@ -122,6 +125,11 @@ class ParseAttomic : public ParseObject {
    
    // Accessing values
    const char*  getValue () const { return pValue; }
+   unsigned int getMaxCard () const { return maxCard; }
+   unsigned int getMinCard () const { return minCard; }
+
+   void setMaxCard (unsigned int val) { maxCard = val; }
+   void setMinCard (unsigned int val) { minCard = val; }
    void setValue (const char* value) {assert (value); pValue = value; }
   
 #ifdef MULTIBUFFER
@@ -130,14 +138,20 @@ class ParseAttomic : public ParseObject {
    static void freeBuffer ();
 #endif
 
+   // Possible errors of checkIntegrity
+   enum { MAX_MIN_ERROR = ParseObject::LAST, NO_VALUE, LAST };
+
  protected:
    const char*  pValue;         // Protected to enable sub-classes easy access
 
+   unsigned int maxCard;
+   unsigned int minCard;
+
    virtual int  checkIntegrity () const;
-   virtual bool checkValue (char ch) const;
+   virtual bool checkValue (char ch);
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) const;
+   virtual int doParse (Xistream& stream, bool optional);
 
  private:
    // Prohibited manager functions
@@ -145,11 +159,79 @@ class ParseAttomic : public ParseObject {
 };
 
 
+// Class to parse exactly a certain text (case-sensitive!)
+// The min/max-parameters of the second constructor may seem a wee bit
+// useless, but with them its possible to parse for example an ID where just
+// the first min chars must match (PARAMETER or PARAM or ...). Well, I've to
+// admit, the main reason for this behaviour is, that I don't want to consider
+// the class-hierarchy anymore!
+// Note: This class uses strlen to get the length of value so don't use it to
+// check for text with a '\0' inside!
+class ParseExact : public ParseAttomic {
+ public:
+   // Manager-functions
+   ParseExact (const char* value, const char* description,
+               PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+   ParseExact (const char* value, const char* description,
+               unsigned int max, unsigned min,
+               PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+      : ParseAttomic (value, description, max, min, callback, skipWhitespace)
+      , pos (0) { }
+   ParseExact (const ParseExact& other) : ParseAttomic (other), pos (0) { }
+   virtual ~ParseExact () { }
+
+   const ParseExact& operator= (const ParseExact& other);
+
+   // Possible errors of checkIntegrity
+   enum { POS_ERROR = ParseAttomic::LAST, LAST };
+
+ protected:
+   virtual int  checkIntegrity () const;
+   virtual bool checkValue (char ch);
+
+ private:
+   unsigned int pos;
+};
+
+
+// Class to parse exactly a certain text (not case-sensitive!)
+// The min/max-parameters of the second constructor may seem a wee bit
+// useless, but with them its possible to parse for example an ID where just
+// the first min chars must match (PARAMETER or PARAM or ...). Well, I've to
+// admit, the main reason for this behaviour is, that I don't want to consider
+// the class-hierarchy anymore!
+// Note: This class uses strlen to get the length of value so don't use it to
+// check for text with a '\0' inside!
+class ParseUpperExact : public ParseExact {
+ public:
+   // Manager-functions
+   ParseUpperExact (const char* value, const char* description,
+                    PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+      : ParseExact (value, description, callback, skipWhitespace) { }
+   ParseUpperExact (const char* value, const char* description,
+                    unsigned int max, unsigned min,
+                    PFNCALLBACK callback = NULL, bool skipWhitespace = true)
+      : ParseExact (value, description, max, min, callback, skipWhitespace) { }
+   ParseUpperExact (const ParseExact& other) : ParseExact (other) { }
+   virtual ~ParseUpperExact () { }
+
+   const ParseUpperExact& operator= (const ParseExact& other) {
+      return (const ParseUpperExact&)ParseExact::operator= (other); }
+
+ protected:
+   // Possible errors of checkIntegrity
+   enum { VALUE_NOT_UPPERCASE = ParseExact::LAST, LAST };
+
+   virtual bool checkValue (char ch);
+   virtual int  checkIntegrity () const;
+};
+
+
 // Class to parse sequences (series of ParseObjects). Every ParseObject
 // in this list must be found (in the same order).
 class ParseSequence : public ParseObject {
  public:
-   ParseSequence (const ParseObject* apObjectList[], const char* description,
+   ParseSequence (ParseObject* apObjectList[], const char* description,
                   unsigned int max = 1, unsigned min = 1,
                   PFNCALLBACK callback = NULL, bool skipWhitespace = true);
    ParseSequence (const ParseSequence& other);
@@ -157,17 +239,57 @@ class ParseSequence : public ParseObject {
 
    const ParseSequence& operator= (const ParseSequence& other);
 
+   // Accessing values
+   unsigned int getMaxCard () const { return maxCard; }
+   unsigned int getMinCard () const { return minCard; }
+
+   void setMaxCard (unsigned int val) { maxCard = val; }
+   void setMinCard (unsigned int val) { minCard = val; }
+
+   // Possible errors of checkIntegrity
+   enum { MAX_MIN_ERROR = ParseObject::LAST, INVALID_LIST, LAST };
+
  protected:
-   virtual int  checkIntegrity () const;
+   virtual int checkIntegrity () const;
+
+   void writeError (Xistream& stream) const {
+      error << "Parse-error in line " << stream.getLine () << " column "
+            << stream.getColumn () << ":\nExpected: " << getDescription () << '\n';
+   }
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) const;
+   virtual int doParse (Xistream& stream, bool optional);
+
+   ParseObject** ppList;
+
+   unsigned int maxCard;
+   unsigned int minCard;
+
+private:
+   // Prohibited manager functions
+   ParseSequence ();
+};
+
+
+// Class to parse selections (list of ParseObjects where just one entry must
+// be valid). Every ParseObject).
+class ParseSelection : public ParseSequence {
+ public:
+   ParseSelection (ParseObject* apObjectList[], const char* description,
+                   unsigned int max = 1, unsigned min = 1,
+                   PFNCALLBACK callback = NULL, bool skipWhitespace = true);
+   ParseSelection (const ParseSelection& other);
+   ~ParseSelection ();
+
+   const ParseSelection& operator= (const ParseSelection& other);
+
+ protected:
+   // Parsing
+   virtual int doParse (Xistream& stream, bool optional);
 
  private:
    // Prohibited manager functions
-   ParseSequence ();
-
-   const ParseObject** ppList;
+   ParseSelection ();
 };
 
 #endif
