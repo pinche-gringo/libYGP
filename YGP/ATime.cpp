@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.3 2000/02/19 15:41:55 Markus Exp $
+//$Id: ATime.cpp,v 1.4 2000/03/21 23:28:33 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -190,7 +190,8 @@ ATime& ATime::operator+= (const ATime& rhs) {
          min_ += rhs.min_;
          sec += rhs.sec;
       
-         maxAdapt ();
+         if (maxAdapt ())
+            undefine ();
       }
       else
          operator= (rhs);
@@ -217,7 +218,8 @@ ATime& ATime::operator-= (const ATime& rhs) {
       min_ -= rhs.min_;
       sec -= rhs.sec;
 
-      minAdapt ();
+      if (minAdapt ())
+         undefine ();
 
       assert (!checkIntegrity ());
    }
@@ -238,7 +240,8 @@ ATime& ATime::add (char Hour, char minute, char second) {
       hour += Hour;
       min_ += minute;
       sec += second;
-      maxAdapt ();
+      if (maxAdapt ())
+         undefine ();
 
       assert (!checkIntegrity ());
    }
@@ -259,7 +262,8 @@ ATime& ATime::sub (char Hour, char minute, char second) {
       hour -= Hour;
       min_ -= minute;
       sec -= second;
-      minAdapt ();
+      if (minAdapt ())
+         undefine ();
 
       assert (!checkIntegrity ());
    }
