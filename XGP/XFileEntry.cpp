@@ -1,14 +1,14 @@
-//$Id: XFileEntry.cpp,v 1.3 2001/10/03 16:26:29 markus Exp $
+//$Id: XFileEntry.cpp,v 1.4 2002/04/22 21:08:37 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,8 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+
+#include <File.h>
 
 #include "XFileEntry.h"
 
@@ -61,7 +63,7 @@ gint XFileEntry::key_press_event_impl (GdkEventKey* ev) {
       input = result->path (); input += result->name ();   // part after input
       TRACE7 ("XFileEntry::key_press_event_impl: Changed input: " << input);
       if (result->isDirectory ())
-         input += '/';
+         input += File::DIRSEPERATOR;
       set_text (input);
      
       assert (len);
