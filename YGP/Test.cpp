@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.28 2000/02/21 23:09:02 Markus Exp $
+// $Id: Test.cpp,v 1.29 2000/02/24 23:45:47 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -359,6 +359,8 @@ int Application::perform (int argc, const char* argv[]) {
    check (ds.find ());
 
    check (!dirSearchRecursive (NULL));
+
+   check (ds.find ("CVS", file, DirectorySearch::FILE_NORMAL));
 
    cout << "Testing PathDirectorySearch...\n";
 #ifdef UNIX
