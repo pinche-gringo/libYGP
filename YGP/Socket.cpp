@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.7 2001/10/20 00:09:55 markus Exp $
+//$Id: Socket.cpp,v 1.8 2002/04/09 04:16:19 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -32,6 +32,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+#include "gzo-cfg.h"
 #include "AByteArray.h"
 
 #include "Socket.h"
@@ -45,7 +46,7 @@ Socket::Socket () throw (domain_error)
    TRACE9 ("Socket::Socket ()");
 
    if (sock < 0)
-      throwError ("Can't create socket", errno);
+      throwError (_("Can't create socket"), errno);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -57,7 +58,7 @@ Socket::Socket (unsigned int port) throw (domain_error)
    TRACE9 ("Socket::Socket (unsigned int)");
 
    if (sock < 0)
-      throwError ("Can't create socket", errno);
+      throwError (_("Can't create socket"), errno);
    listenAt (port);
 }
 
@@ -87,7 +88,7 @@ Socket::Socket (const std::string& server, unsigned int port) throw (domain_erro
    TRACE9 ("Socket::Socket (const std::string&, unsigned int)");
 
    if (sock < 0)
-      throwError ("Can't create socket", errno);
+      throwError (_("Can't create socket"), errno);
 
    writeTo (server.c_str (), port);
 }
@@ -111,7 +112,7 @@ Socket& Socket::operator= (const Socket& rhs) throw (domain_error) {
       ::close (sock);
       sock = socket (PF_INET, SOCK_STREAM, 0);
       if (sock < 0)
-	 throwError ("Can't create socket", errno);
+	 throwError (_("Can't create socket"), errno);
    }
    return *this;
 }
@@ -140,10 +141,10 @@ void Socket::listenAt (unsigned int port) const throw (domain_error) {
    addr.sin_addr.s_addr = htonl (INADDR_ANY);
 
    if (::bind (sock, (struct sockaddr*)&addr, sizeof (addr)) < 0)
-      throwError ("Can't bind socket", errno);
+      throwError (_("Can't bind socket"), errno);
 
    if (::listen (sock, 1) < 0)
-      throwError ("Can't listen on socket", 0);
+      throwError (_("Can't listen on socket"), 0);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -163,9 +164,12 @@ unsigned int Socket::getPortOfService (const char* service) throw (domain_error)
 
       if (pServent)
 	 port = ntohs (pServent->s_port);
-      else
-	 throwError ("Port neither numeric (decimal, octal or hexadecimal)"
-		     " nor a service", 0);
+      else {
+         std::string error (_("Port '%1' neither numeric (decimal, octal or "
+                              "hexadecimal) nor a service"));
+         error.replace (error.find ("%1"), 2, service);
+	 throwError (error, 0);
+      }
    }
 
    return port;
@@ -194,7 +198,7 @@ int Socket::read (AByteArray& input) const throw (domain_error) {
    if (cRead < 0) {
       TRACE9 ("Socket::read (AByteArray&) - error=" << errno << "; Bytes="
               << cRead);
-      throwError ("Error reading data", errno);
+      throwError (_("Error reading data"), errno);
    }
 
    TRACE5 ("Socket::read (AByteArray&) - read: " << input.data ());
@@ -212,7 +216,7 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (domain_err
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
    if (cRead < 0)
-      throwError ("Error reading data", errno);
+      throwError (_("Error reading data"), errno);
 
    TRACE5 ("Socket::read (char*, int) - read: " << pBuffer);
    return cRead;
@@ -230,7 +234,7 @@ int Socket::waitForInput () const throw (domain_error) {
 
    int newSocket (accept (sock, (struct sockaddr*)&client, &size));
    if (newSocket < 0)
-      throwError ("Error accepting connection", errno);
+      throwError (_("Error accepting connection"), errno);
 
    TRACE8 ("Socket::waitForInput (Socket&) const - assigning " << newSocket);
    return newSocket;
@@ -251,15 +255,18 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (domain
    
    struct hostent* hostinfo = gethostbyname (server);
    if (!hostinfo) {
-      std::string error ("Can't resolve name ");
-      error += server;
+      std::string error ("Can't resolve name '%1'");
+      error.replace (error.find ("%1"), 2, server);
       throwError (error, 0);
    }
 
    name.sin_addr = *(struct in_addr*)hostinfo->h_addr;
 
-   if (connect (sock, (struct sockaddr*)&name, sizeof (name)) < 0)
-      throwError ("Can't connect to server", errno);
+   if (connect (sock, (struct sockaddr*)&name, sizeof (name)) < 0) {
+      std::string error (_("Can't connect to server '%1'"));
+      error.replace (error.find ("%1"), 2, server);
+      throwError (error, errno);
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -273,7 +280,7 @@ void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
    assert (pBuffer);
 
    if (::write (sock, pBuffer, lenBuffer) < 0)
-      throwError ("Error sending data", errno);
+      throwError (_("Error sending data"), errno);
 }
 
 /*--------------------------------------------------------------------------*/
