@@ -3,7 +3,7 @@
 
 This package can be compiled in 2 ways for Windows:
 
-  - Using the Cygwin package
+  - Using the MinGW/MSys package
   - Using Visual C++ (tested with VC++ 6.0)
 
 
@@ -33,8 +33,8 @@ the dynamic link library) and VCGenerals.lib (the static library).
 
 In every case you must copy the created DLL into a directory in your path and
 the created libraries into a fitting directory (searched by the linker).
-Also add the YGP and Windows subdirectory to your INCLUDE-path (or - even
-better - copy all of the headers into a fitting place).
+Also add the YGP and Windows subdirectory to your INCLUDE-path (or copy all of
+the headers into a fitting place).
 
 The makefile generates automatically a DEF-file containing all methods of the
 classes.  Note that you need AWK (tested with GNU awk from the Cygwin package)
