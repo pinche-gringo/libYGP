@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.28 2002/10/23 05:48:09 markus Exp $
+//$Id: Parse.cpp,v 1.29 2002/10/24 06:37:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -239,11 +239,11 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
       rc = PARSE_ERROR;
 
    if (rc) {
-      if (optional || (rc > 0))
-         while (BUFLEN) {
-            stream.putback (*(BUFFER.end ()));
-            BUFFER.erase (BUFLEN - 1);
-         }
+      if (optional || (rc > 0)) {
+      	 unsigned int len (BUFLEN);
+         while (len--)
+            stream.putback (BUFFER[len]);
+	}
       else {
          std::string error (_("Expected %1, found: '%2'"));
          error.replace (error.find ("%1"), 2, getDescription ());
