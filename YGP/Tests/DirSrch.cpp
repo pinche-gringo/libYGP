@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.2 2001/10/02 23:05:04 markus Exp $
+// $Id: DirSrch.cpp,v 1.3 2002/04/27 19:05:32 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -31,6 +31,7 @@
 
 #define VERBOSE
 #undef  VERBOSE
+#include <Internal.h>
 #include "Test.h"
 
 
@@ -44,6 +45,10 @@ int dirSearchRecursive (const char* pFile) {
 }
 
 int main (int argc, char* argv[]) {
+   setlocale (LC_ALL, "");
+   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
+   textdomain (PACKAGE);
+
    unsigned int cErrors (0);
 
    cout << "Testing DirectorySearch...\n";

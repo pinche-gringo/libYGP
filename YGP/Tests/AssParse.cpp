@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.2 2001/10/18 01:48:46 markus Exp $
+// $Id: AssParse.cpp,v 1.3 2002/04/27 19:05:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -28,10 +28,15 @@
 
 #include <AssParse.h>
 
+#include <Internal.h>
 #include "Test.h"
 
 
 int main (int argc, char* argv[]) {
+   setlocale (LC_ALL, "");
+   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
+   textdomain (PACKAGE);
+
    unsigned int cErrors (0);
 
    cout << "Testing AssignmentParse ...\n";

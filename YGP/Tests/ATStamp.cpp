@@ -1,11 +1,11 @@
-// $Id: ATStamp.cpp,v 1.1 2001/08/27 15:24:28 markus Exp $
+// $Id: ATStamp.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ATStamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -28,10 +28,15 @@
 
 #include <ATStamp.h>
 
+#include <Internal.h>
 #include "Test.h"
 
 
 int main (int argc, char* argv[]) {
+   setlocale (LC_ALL, "");
+   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
+   textdomain (PACKAGE);
+
    unsigned int cErrors (0);
 
    cout << "Testing ATimestamp...\n";

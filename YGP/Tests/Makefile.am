@@ -2,6 +2,10 @@ SUBDIRS=.
 
 INCLUDES=-I..
 
+# Settings for gettext
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+
 TESTS=IVIOAppl ANumeric ADate ATime ATStamp AByteArray XStrBuf XStream Parse \
       FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
       AssParse AttrParse INIFile Handle

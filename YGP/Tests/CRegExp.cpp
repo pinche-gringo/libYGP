@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.5 2002/04/19 22:51:46 markus Exp $
+// $Id: CRegExp.cpp,v 1.6 2002/04/27 19:05:32 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -26,6 +26,7 @@
 
 #include <assert.h>
 
+#include <Internal.h>
 #include "Test.h"
 #include <Trace_.h>
 
@@ -80,6 +81,10 @@ int foundResult (const char* pResult) {
 static const char* TESTFILE = "CRegExp.test";
 
 int main (int argc, char* argv[]) {
+   setlocale (LC_ALL, "");
+   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
+   textdomain (PACKAGE);
+
    cout << "Testing RegularExpression...\n";
 
    Xifstream frexexp;
