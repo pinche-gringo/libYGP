@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.11 2003/12/05 19:49:22 markus Exp $
+//$Id: XDirSrch.h,v 1.12 2003/12/12 18:18:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,6 +72,12 @@ class XDirectorySearch : public Parent {
       return r;
    }
    //@}
+
+   /// Sets the value for the next search. Clears the previously specified nodes.
+   virtual void setSearchValue (const std::string& search) {
+      nodes.clear ();
+      Parent::setSearchValue (search);
+   }
 
    /// \name In/exclusion
    //@{
