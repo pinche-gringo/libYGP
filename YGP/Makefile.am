@@ -19,7 +19,8 @@ libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
 		   INIFile.cpp CRegExp.cpp StackTrc.cpp \
 		   AByteArray.cpp Socket.cpp RDirSrch.cpp File.cpp \
 		   RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp IDirSrch.cpp \
-		   RemoteFile.cpp Entity.cpp Thread.cpp PathSrch.cpp
+		   RemoteFile.cpp Entity.cpp Thread.cpp PathSrch.cpp\
+		   XDirSrch.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h \
@@ -27,4 +28,4 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		CRegExp.h RegExp.h Log.h StackTrc.h AByteArray.h Socket.h \
 		RDirSrch.h IDirSrch.h File.h RDirSrchSrv.h AssParse.h \
 		Attribute.h AttrParse.h RemoteFile.h Entity.h Internal.h \
-		Thread.h Mutex.h INIFile.h
+		Thread.h Mutex.h INIFile.h XDirSrch.h
