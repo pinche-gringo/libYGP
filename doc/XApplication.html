@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: XApplication.html,v 1.4 2003/02/17 04:42:29 markus Exp $ -->
+<!-- $Id: XApplication.html,v 1.5 2003/03/06 03:05:29 markus Rel $ -->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
@@ -142,7 +142,7 @@
         <td><tt>()</tt>;</td></tr>
       <tr><td>&nbsp;</td></tr>
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
-      <tr valign="top"><td><tt><tt><span style="color:navy;">Widget</span></tt>*</tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:navy;">Widget</span></tt>&amp;</tt> </td>
         <td><a href="XApplication.html#addMenu"><b>addMenu</b></a></td>
         <td><tt>(<tt>const</tt> <tt><span style="color:navy;">MenuEntry</span></tt>& <tt><span style="color:blue;">menuEntry</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
@@ -207,7 +207,7 @@
     </dl>
 
     <h3 style="color:navy">Menu handling</h3>
-    <pre><a name="addMenu"></a>Widget* <b>addMenu</b> (const MenuEntry&amp; menuEntry)</pre>
+    <pre><a name="addMenu"></a>Widget&amp; <b>addMenu</b> (const MenuEntry&amp; menuEntry)</pre>
     <dl>
       <dd><p>Adds a single menuentry to the menu. Items and submenus are added to the last defined menu; menus are added to the menubar.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
