@@ -15,7 +15,9 @@ Version 0.6.00: - Class for logging added
 		- I18n
 		- XMessageBox is now really modal
 		- Support for Gtk-- < 1.2 removed
-		- Loads of (minor) improvements
+		- Class to execute functions in background (as thread) added
+		- PathSearch has methods to expand nodes (only tilde)
+		- Loads of (minor) improvements and bugfixes
 
 Version 0.5.21: - Fixes for Windoze-version
 		- Docu improved, fixed
