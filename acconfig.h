@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: acconfig.h,v 1.3 2002/04/09 04:12:03 markus Exp $
+//$Id: acconfig.h,v 1.4 2002/04/11 18:48:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -75,17 +75,5 @@
 
 
 @BOTTOM@
-
-#ifdef HAVE_GETTEXT
-#  include <libintl.h>
-#  define _(String)                           gettext (String)
-#  define N_(String)                          gettext_noop (String)
-#else
-#  define _(String)                           (String)
-#  define N_(String)                          gettext_noop (String)
-#  define gettext_noop(String)                (String)
-#  define binddomain(Domain)
-#  define bindtextdomain(Package, Directory)
-#endif
 
 #endif
