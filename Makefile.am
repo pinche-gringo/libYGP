@@ -13,6 +13,5 @@ dist-hook:
 	mkdir $(distdir)/Windows
 	cp -p $(srcdir)/Windows/*.mak $(srcdir)/Windows/*.ds?\
 	      $(srcdir)/Windows/*.h $(distdir)/Windows
-	cp -p  $(srcdir)/Make.bat $(distdir)/
 
 ACLOCAL_AMFLAGS = -I m4
