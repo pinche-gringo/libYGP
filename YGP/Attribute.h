@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.10 2003/01/08 22:44:16 markus Exp $
+//$Id: Attribute.h,v 1.11 2003/01/15 19:10:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <stdio.h>
 #include <errno.h>
 
 #include <string>
@@ -49,6 +50,8 @@ class IAttribute {
       return assignFromString (value); }
 
    const std::string& getName () const { return name; }
+   virtual std::string getValue () const = 0;
+   virtual std::string getFormatedValue () const { return getValue (); }
 
  protected:
    IAttribute (const char* pName) : name (pName) { Check3 (pName); }
@@ -83,7 +86,12 @@ template <class T> class Attribute : public IAttribute {
    virtual bool assign (const char* value, unsigned int length) const {
       return assignFromString (value); }
 
+   T& getAttribute () const { return attr_; }
+   virtual std::string getValue () const { return attr_.toUnformatedString (); }
+   virtual std::string getFormatedValue () const { return attr_.toString (); }
+
  private:
+
    Attribute (const Attribute&);
    const Attribute& operator= (const Attribute&);
 
@@ -97,6 +105,8 @@ bool Attribute<char>::assignFromString (const char* value) const {
    attr_ = *value;
    return *value && !value[1];
 }
+std::string Attribute<char>::getValue () const { return std::string (1, attr_); }
+std::string Attribute<char>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<char*>::assign (const char* value, unsigned int length) const {
    Check3 (value);
@@ -108,23 +118,25 @@ bool Attribute<char*>::assign (const char* value, unsigned int length) const {
    attr_[length] = '\0';
    return true;
 }
-
 bool Attribute<char*>::assignFromString (const char* value) const {
    Check3 (value);
    return assign (value, strlen (value));
 }
+std::string Attribute<char*>::getValue () const { return attr_; }
+std::string Attribute<char*>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<char* const>::assignFromString (const char* value) const {
    Check3 (value);
    strcpy (attr_, value);
    return true;
 }
-
 bool Attribute<char* const>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    memcpy (attr_, value, length);
    return true;
 }
+std::string Attribute<char* const>::getValue () const { return attr_; }
+std::string Attribute<char* const>::getFormatedValue () const { return getValue (); }
 
 // Specialization of Attribute for ints
 bool Attribute<short>::assignFromString (const char* value) const {
@@ -134,6 +146,11 @@ bool Attribute<short>::assignFromString (const char* value) const {
    attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<short>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%d", attr_);
+   return buffer; }
+std::string Attribute<short>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<unsigned short>::assignFromString (const char* value) const {
    Check3 (value);
@@ -142,6 +159,11 @@ bool Attribute<unsigned short>::assignFromString (const char* value) const {
    attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<unsigned short>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%u", attr_);
+   return buffer; }
+std::string Attribute<unsigned short>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<int>::assignFromString (const char* value) const {
    Check3 (value);
@@ -150,6 +172,11 @@ bool Attribute<int>::assignFromString (const char* value) const {
    attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<int>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%d", attr_);
+   return buffer; }
+std::string Attribute<int>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<unsigned int>::assignFromString (const char* value) const {
    Check3 (value);
@@ -158,6 +185,11 @@ bool Attribute<unsigned int>::assignFromString (const char* value) const {
    attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<unsigned int>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%u", attr_);
+   return buffer; }
+std::string Attribute<unsigned int>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<long>::assignFromString (const char* value) const {
    Check3 (value);
@@ -166,6 +198,11 @@ bool Attribute<long>::assignFromString (const char* value) const {
    attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<long>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%ld", attr_);
+   return buffer; }
+std::string Attribute<long>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<unsigned long>::assignFromString (const char* value) const {
    Check3 (value);
@@ -174,6 +211,11 @@ bool Attribute<unsigned long>::assignFromString (const char* value) const {
    attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<unsigned long>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%ld", attr_);
+   return buffer; }
+std::string Attribute<unsigned long>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<double>::assignFromString (const char* value) const {
    Check3 (value);
@@ -182,6 +224,11 @@ bool Attribute<double>::assignFromString (const char* value) const {
    attr_ = strtod (value, &pTail); Check3 (pTail);
    return !(errno || *pTail);
 }
+std::string Attribute<double>::getValue () const {
+   char buffer[20];
+   sprintf (buffer, "%lg", attr_);
+   return buffer; }
+std::string Attribute<double>::getFormatedValue () const { return getValue (); }
 
 // Specialization of Attribute for strings
 bool Attribute<std::string>::assignFromString (const char* value) const {
@@ -189,12 +236,13 @@ bool Attribute<std::string>::assignFromString (const char* value) const {
    attr_ = value;
    return true;
 }
-
 bool Attribute<std::string>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    attr_.assign (value, length);
    return true;
 }
+std::string Attribute<std::string>::getValue () const { return attr_; }
+std::string Attribute<std::string>::getFormatedValue () const { return getValue (); }
 
 bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
    Check3 (value);
@@ -247,6 +295,8 @@ template <class T> class AttributeList : public IAttribute {
 
    virtual bool assign (unsigned int offset, const char* value, unsigned int length) const {
       return assignFromString (offset, value); }
+
+   std::string getValue ()  const { return ""; }
 
  private:
    AttributeList (const AttributeList&);
