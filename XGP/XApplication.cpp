@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.8 2000/04/21 13:07:40 Markus Rel $
+//$Id: XApplication.cpp,v 1.9 2001/10/12 23:08:21 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,8 +24,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <signal.h>
 
-#include <Check.h>
+#include "Check.h"
+#include "StackTrc.h"
 
 #include <gtk--/box.h>
 #include <gtk--/label.h>
@@ -60,6 +62,9 @@ XApplication::XApplication (const char* pTitle)
 {
    TRACE9 ("XApplication::XApplication");
 
+   signal (SIGSEGV, handleSignal);
+   signal (SIGBUS, handleSignal);
+
    Check3 (accels); Check3 (vobxClient);
 
    Check3 (pTitle);
@@ -91,6 +96,8 @@ XApplication::XApplication (const char* pTitle)
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 XApplication::~XApplication () {
+   signal (SIGSEGV, SIG_DFL);
+   signal (SIGBUS, SIG_DFL);
 }
 
 
