@@ -1,6 +1,137 @@
+2003-06-11  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog: Changes of V0.6.10 commented
+	
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* X-windows/Samples/X-Appl.cpp:
+	  Not setting name of found file in list (is done by XListFile)
+
+	* X-windows/XFileList.cpp: Setting name of file
+
+	* Windows/VCGeneral.mak: Using gawk (and not awk) to generate .def file
+
+	* Common/Internal.h: Only using gettext if ENABLE_NLS is defined
+
+	* Windows/BCGeneral.mak: A bit improved
+
+	* configure.in: Substituting LIB_GMP (if lgmp was found)
+
+2003-06-09  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Tests/XStrBuf.cpp: Workaround for MVC-bug
+
+2003-06-04  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XAppl.pc.in, Common/Attr.pc.in: New file.
+
+2003-06-02  Markus Schwab  <g17m0@lycos.com>
+
+	* po/Makevars: New file.
+
+	* bin/mgeni: Writing line-feed after Destructor
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* X-windows/Samples/X-Appl.h:
+	  Declaring files before listFiles (to optimize definition)
+
+	* X-windows/Samples/X-Appl.cpp:
+	  Using set_default_size to size window; optimized
+
+	* X-windows/XFileList.h:
+	  Delcaring get/setFilename of XFileList as virtual
+
+	* X-windows/XFileList.cpp: Disabling traces
+
+	* X-windows/XFileEntry.cpp: Including (forgotten) assert.h
+
+	* X-windows/XDialog.cpp, X-windows/XDate.cpp: Disabling traces
+
+	* X-windows/XApplication.cpp: Including (forgotten) assert.h
+
+	* X-windows/XAbout.cpp: Centering the text-labels
+
+	* X-windows/BrowserDlg.h: Using gtkmm-2 and GCC3.2
+
+	* Common/Check.cpp, X-windows/Check.cpp:
+	  Only including gtk/gtkmessagedialog.h (nto whole gtk/gkt.h
+
+	* NEWS: Changes of V0.6.10 commented
+
+2003-05-31  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Check.cpp, X-windows/Check.cpp:
+	Setting title and default size of check window (GTK+)
+
+2003-05-23  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Makefile.am: XMessageBox.html removed
+
+	* X-windows/Icons/Makefile.in: Added distclean-label
+
+	* X-windows/Samples/Makefile.am: Compiling with -Wall
+
+	* X-windows/XAttrEntry.h, X-windows/XAttrLabel.h:
+	  Declared methods of specialization of templates as inline
+
+	* Common/Makefile.am, X-windows/Makefile.am:
+	  Compiling with -Wall; Using pkgconfig; changed for new automake
+
+	* Common/CRegExp.cpp: Removed warnings when compiling with -Wall
+
+	* Common/CRegExp.h: Undefining of HAVE_REGEX?_H removed
+
+	* Common/ATStamp.cpp, Common/ATime.cpp:
+	  Using stringstream (instead of strstream)
+
+	* Common/ANumeric.cpp: Using standard-headers
+
+	* CORBA/Makefile.in: Compiling with -Wall
+
+	* gzo-cfg.h.in: Generated with new version of autoheader
+
+	* configure.in:
+	  Changed for new version of autoconf (acconfig.h-data now in configure.in)
+
+	* Makefile.am: Changed to new version of automake
+
+	* Common/Tokenize.h:
+	  Implemented copy-constructor and assignment operator
+
+	* Common/Attribute.h: Template specialization declared inline
+
+	* acconfig.h: Deleted
+
+2003-05-22  Markus Schwab  <g17m0@lycos.com>
+
+	* po/de.po, po/en.po, po/es.po: New numbers
+
+	* po/POTFILES.in: Removed XMessageBox
+
+2003-05-22  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl.
+	* configure.in (AC_OUTPUT): Add intl/Makefile.
+
+2003-05-22  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+
+2003-05-22  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add m4.
+	(SUBDIRS): Remove intl.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath.
+	* configure.in (AC_OUTPUT): Add m4/Makefile.
+	(AC_OUTPUT): Remove intl/Makefile.
+
 2002-12-25  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog: Changes of V0.6.02 commented
+
+	* X-windows/XFileList.cpp: Fixed calls to setIcon
 	
 	* doc/Makefile.am: Remaining X-windows docus added
 
