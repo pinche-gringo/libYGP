@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.7 2003/02/03 03:50:33 markus Exp $
+//$Id: XDate.h,v 1.8 2003/03/03 05:53:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifndef __STRING__
-class string;
-#endif
+#include <string>
 
 #include <XDialog.h>
 
@@ -32,6 +30,7 @@ class ATimestamp;
 
 namespace Gtk {
    class HBox;
+   class Calendar;
    class Adjustment;
    class SpinButton;
 }
@@ -51,17 +50,18 @@ namespace Gtk {
 // (which are hopefully self explainatory).
 class XDate : public XDialog {
  public:
-   XDate (const string& title, ATimestamp& date, int showFields = SHOW_ALL);
+   XDate (const std::string& title, ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
 
-   enum { SHOW_DAY = 1, SHOW_MONTH = 2, SHOW_YEAR = 4, SHOW_HOUR = 8,
-          SHOW_MINUTE = 16, SHOW_SECOND = 32, SHOW_ALL = -1 };
+   enum { SHOW_HOUR = 1, SHOW_MINUTE = 2, SHOW_SECOND = 4, SHOW_DAY = 8,
+          SHOW_MONTH = 16, SHOW_YEAR = 32, SHOW_ALL = -1 };
 
-   static XDate* perform (const string& title, ATimestamp& date,
+   static XDate* perform (const std::string& title, ATimestamp& date,
                           int showFields = SHOW_ALL) {
       return new XDate (title, date, showFields); }
 
    typedef SmartPtr<Gtk::HBox>        PHBox;
+   typedef SmartPtr<Gtk::Calendar>    PCalendar;
    typedef SmartPtr<Gtk::SpinButton>  PSpinButton;
    typedef SmartPtr<Gtk::Adjustment>  PAdjustment;
 
@@ -74,12 +74,7 @@ class XDate : public XDialog {
 
    PHBox       client;
 
-   PAdjustment adjDay;
-   PSpinButton spinDay;
-   PAdjustment adjMonth;
-   PSpinButton spinMonth;
-   PAdjustment adjYear;
-   PSpinButton spinYear;
+   PCalendar   cal;
 
    PAdjustment adjHour;
    PSpinButton spinHour;

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.21 2003/02/18 02:55:19 markus Exp $
+//$Id: XApplication.cpp,v 1.22 2003/03/03 05:53:42 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -31,13 +31,15 @@
 
 #include <sys/stat.h>
 
-#include <gtk--/box.h>
-#include <gtk--/label.h>
-#include <gtk--/pixmap.h>
-#include <gtk--/accelgroup.h>
-#include <gtk--/radiomenuitem.h>
+#include <gdkmm/pixbuf.h>
 
-#include <gtk--/menubar.h>
+#include <gtkmm/box.h>
+#include <gtkmm/label.h>
+#include <gtkmm/image.h>
+#include <gtkmm/menubar.h>
+#include <gtkmm/accelgroup.h>
+#include <gtkmm/messagedialog.h>
+#include <gtkmm/radiomenuitem.h>
 
 #include <Internal.h>
 
@@ -83,7 +85,7 @@ XApplication::XApplication (const char* pTitle)
 
    Check3 (pMenu);
    pMenu->show ();
-   vboxClient->pack_start (*pMenu, false);
+   vboxClient->pack_start (*pMenu, Gtk::PACK_SHRINK);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -109,7 +111,7 @@ XApplication::~XApplication () {
 //Returns   : Widget*: Pointer to the newly added menu or menuitem
 //Remarks   : Radioitems can't be added with that method!
 /*--------------------------------------------------------------------------*/
-Gtk::Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
+Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
    TRACE1 ("XApplication::addMenu (const MenuEntry&) - " << menuEntry.name);
    Check3 (pMenu);
 
@@ -122,17 +124,16 @@ Gtk::Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    switch (menuEntry.type) {
    case ITEM:
       Check3 (pLastMenu);
-      pLastMenu->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel,
-                                               bind (slot (this, &XApplication::command),
+      pLastMenu->items ().push_back (MenuElem (menuEntry.name, AccelKey (menuEntry.accel),
+                                               bind (slot (*this, &XApplication::command),
                                                      menuEntry.id)));
       break;
 
    case CHECKITEM:
       Check3 (pLastMenu);
-      pLastMenu->items ().push_back (CheckMenuElem (menuEntry.name, menuEntry.accel,
-                                                    bind (slot (this, &XApplication::command),
+      pLastMenu->items ().push_back (CheckMenuElem (menuEntry.name, AccelKey (menuEntry.accel),
+                                                    bind (slot (*this, &XApplication::command),
                                                           menuEntry.id)));
-      static_cast<Gtk::CheckMenuItem*> (pLastMenu->items ().back ())->set_show_toggle (true);
       break;
 
    case SEPARATOR:
@@ -146,17 +147,17 @@ Gtk::Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
       pLastMenu = manage (new Gtk::Menu ()); Check3 (pLastMenu);
       aLastMenus.insert (aLastMenus.end (), pLastMenu);
 
-      pMenu->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel, *pLastMenu));
+      pMenu->items ().push_back (MenuElem (menuEntry.name, AccelKey (menuEntry.accel), *pLastMenu));
       if (menuEntry.type == LASTBRANCH)
-         pMenu->items ().back ()->right_justify ();
+         pMenu->items ().back ().set_right_justified ();
 
-      return pLastMenu;
+      return *pLastMenu;
 
    case SUBMENU:
       Check3 (pLastMenu);
       pLastMenu = new Gtk::Menu ();
 
-      aLastMenus.back ()->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel, *pLastMenu));
+      aLastMenus.back ()->items ().push_back (MenuElem (menuEntry.name, AccelKey (menuEntry.accel), *pLastMenu));
       aLastMenus.push_back (pLastMenu);
       break;
 
@@ -172,7 +173,7 @@ Gtk::Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    if (menuEntry.id) {
       Check (apMenus.find (menuEntry.id) == apMenus.end ());
       TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menu: " << menuEntry.id);
-      apMenus[menuEntry.id] = pLastMenu->items ().back ();
+      apMenus[menuEntry.id] = &pLastMenu->items ().back ();
    }
       
    return pLastMenu->items ().back ();
@@ -202,14 +203,14 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
          do {
             cMenus--;
             pLastMenu->items ().push_back (RadioMenuElem (radioGroup, menuEntries->name,
-                                                          menuEntries->accel,
-                                                          bind (slot (this, &XApplication::command),
+                                                          AccelKey (menuEntries->accel),
+                                                          bind (slot (*this, &XApplication::command),
                                                                 menuEntries->id)));
             if (menuEntries->id) {
                Check (apMenus.find (menuEntries->id) == apMenus.end ());
                TRACE9 ("XApplication::addMenus (const MenuEntry[]) - Adding menu: "
                        << menuEntries->id);
-               apMenus[menuEntries->id] = pLastMenu->items ().back ();
+               apMenus[menuEntries->id] = &pLastMenu->items ().back ();
             }
          } while ((menuEntries++)->type != LASTRADIOITEM);
       }
@@ -275,7 +276,7 @@ void XApplication::command (int menu) {
 
    case CONTENT: {
       Check3 (getHelpfile ());
-      string file (getHelpfile ());
+      std::string file (getHelpfile ());
       TRACE9 ("XApplication::command (int) - Show help " << file);
       TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
 
@@ -291,10 +292,10 @@ void XApplication::command (int menu) {
             ext = setlocale (LC_MESSAGES, NULL);
 
          // Check every language-entry (while removing trailing specifiers)
-         string extension;
+         std::string extension;
          struct stat sfile;
          while ((extension = ext.getNextNode (',')).size ()) {
-            string search;
+            std::string search;
             do {
                search = file + std::string (1, '.') + extension;
                if (search.substr (0, 7) == "file://")
@@ -306,7 +307,7 @@ void XApplication::command (int menu) {
                   break;
 
                unsigned int pos (extension.rfind ('_'));
-               if (pos == string::npos)
+               if (pos == std::string::npos)
                   pos = 0;
                extension.replace (pos, extension.length (), 0, '\0');
             } while (extension.size ());
@@ -329,7 +330,8 @@ void XApplication::command (int menu) {
          Process::execAsync (helpBrowser.c_str (), args);
       }
       catch (std::string& error) {
-         XMessageBox::Show (error, XMessageBox::ERROR | XMessageBox::OK);
+         Gtk::MessageDialog msg (error, Gtk::MESSAGE_ERROR);
+         msg.run ();
       }
       break; }
 
@@ -385,7 +387,7 @@ XInfoApplication::~XInfoApplication () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Sets pixmap for the program
+//Purpose   : Sets an icon for the program
 //Parameters: pIconData: Pointer to xpm-data for pixmap
 /*--------------------------------------------------------------------------*/
 void XInfoApplication::setIconProgram (const char* const* iconData) {
@@ -395,7 +397,8 @@ void XInfoApplication::setIconProgram (const char* const* iconData) {
 
    Check3 (hboxTitle);
 
-   iconPrg = new Gtk::Pixmap (iconData);
+   iconPrg = new Gtk::Image
+      (Gdk::Pixbuf::create_from_xpm_data (iconData));
    Check3 (iconPrg);
 
    iconPrg->show ();
@@ -413,7 +416,8 @@ void XInfoApplication::setIconAuthor (const char* const* iconData) {
 
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
-   iconAuthor = new Gtk::Pixmap (iconData);
+   iconAuthor = new Gtk::Image
+      (Gdk::Pixbuf::create_from_xpm_data (iconData));
    Check3 (iconAuthor);
 
    iconAuthor->show ();

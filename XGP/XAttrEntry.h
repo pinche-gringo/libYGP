@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.4 2003/02/18 02:55:37 markus Exp $
+//$Id: XAttrEntry.h,v 1.5 2003/03/03 05:53:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,10 +24,9 @@
 
 #include <stdexcept>
 
-#include <gtk--/main.h>
-#include <gtk--/entry.h>
-
-#include <XMessageBox.h>
+#include <gtkmm/main.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/messagedialog.h>
 
 
 // Class to display and change an attribute inside and entry box. The value of
@@ -55,11 +54,11 @@ template <class T> class XAttributeEntry : public Gtk::Entry {
    XAttributeEntry (const XAttributeEntry&);
    const XAttributeEntry& operator= (const XAttributeEntry&);
 
-   virtual gint focus_in_event_impl (GdkEventFocus* ev) {
+   virtual bool on_focus_in_event (GdkEventFocus* ev) {
       if (!inError)
          set_text (temp.toUnformatedString ());
-      return Gtk::Entry::focus_in_event_impl (ev); }
-   virtual gint focus_out_event_impl (GdkEventFocus* ev) {
+      return Gtk::Entry::on_focus_in_event (ev); }
+   virtual bool on_focus_out_event (GdkEventFocus* ev) {
       if (inError)
          return true;
 
@@ -69,9 +68,10 @@ template <class T> class XAttributeEntry : public Gtk::Entry {
       }
       catch (std::invalid_argument& e) {
          inError = true;
-         XMessageBox::Show (e.what (), _("Invalid value!"),
-                            XMessageBox::ERROR | XMessageBox::OK);
-         Gtk::Main::timeout.connect (slot (this, &XAttributeEntry::takeFocus), 10);
+         Gtk::MessageDialog msg (e.what (), Gtk::MESSAGE_ERROR);
+         msg.set_title (_("Invalid value!"));
+         msg.run ();
+         // Glib::signal_timeout ().connect (slot (*this, &XAttributeEntry::takeFocus), 10);
          return true;
       }
       return false; }
@@ -80,22 +80,25 @@ template <class T> class XAttributeEntry : public Gtk::Entry {
    T  temp;
    T& attr_;
 
-   int takeFocus () {
+#if 0
+   bool takeFocus () {
       grab_focus ();
       inError = false;
       return 0;
    }
+#endif
 };
 
 
 // Specialication for strings
-XAttributeEntry<string>::XAttributeEntry (string& attr) : attr_ (attr), temp (attr) {
+XAttributeEntry<std::string>::XAttributeEntry (std::string& attr) : attr_ (attr), temp (attr) {
    set_text (attr); }
 
-void XAttributeEntry<string>::update () { set_text (temp = attr_); }
-gint XAttributeEntry<string>::focus_in_event_impl (GdkEventFocus* ev) {
-   return Gtk::Entry::focus_in_event_impl (ev); }
-gint XAttributeEntry<string>::focus_out_event_impl (GdkEventFocus* ev) {
-   temp = get_text (); }
+void XAttributeEntry<std::string>::update () { set_text (temp = attr_); }
+bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {
+   set_text (value); }
+bool XAttributeEntry<std::string>::on_focus_out_event (GdkEventFocus* ev) {
+   return Gtk::Entry::on_focus_in_event (ev); }
+   return true; }
 
 #endif

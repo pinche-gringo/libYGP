@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.4 2003/02/05 03:16:29 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.5 2003/03/03 05:53:42 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gtk--/box.h>
-#include <gtk--/radiobutton.h>
+#include <gtkmm/box.h>
+#include <gtkmm/radiobutton.h>
 
 #include <Check.h>
 #include <Trace_.h>
@@ -41,9 +41,9 @@ const char* BrowserDlg::browserNames[4] = { N_("galeon"), N_("mozilla"),
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
 /*--------------------------------------------------------------------------*/
-BrowserDlg::BrowserDlg (string& cmd)
+BrowserDlg::BrowserDlg (std::string& cmd)
    : XDialog (OKCANCEL), path (cmd), pboxOther (new Gtk::HBox ()) {
-   TRACE3 ("BrowserDlg::BrowserDlg (string&) - " << cmd);
+   TRACE3 ("BrowserDlg::BrowserDlg (std::string&) - " << cmd);
    Check3 (sizeof (browserNames) < sizeof (aBrowsers));
    set_title (_("Select a browser"));
 
@@ -61,20 +61,20 @@ BrowserDlg::BrowserDlg (string& cmd)
    pboxOther->pack_start (*aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])],
                           false, false);
    aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->show ();
-   aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->clicked.connect
-      (bind (slot (this, &BrowserDlg::control),
+   aBrowsers[sizeof (browserNames) / sizeof (browserNames[0])]->signal_clicked ().connect
+      (bind (slot (*this, &BrowserDlg::control),
              sizeof (browserNames) / sizeof (browserNames[0])));
 
    // Create radio button for other browsers and set them if specified by cmd
    for (unsigned int i (0); i < (sizeof (browserNames) / sizeof (browserNames[0]));
         ++i) {
       aBrowsers[i] = new Gtk::RadioButton (group, _(browserNames[i]), 0);
-      aBrowsers[i]->clicked.connect (bind (slot (this, &BrowserDlg::control), i));
+      aBrowsers[i]->signal_clicked ().connect (bind (slot (*this, &BrowserDlg::control), i));
       get_vbox ()->pack_start (*aBrowsers[i], false, false);
       aBrowsers[i]->show ();
       if (cmd == browserNames[i]) {
          aBrowsers[i]->set_active (true);
-         TRACE4 ("BrowserDlg::BrowserDlg (string&) - Using browser " << cmd);
+         TRACE4 ("BrowserDlg::BrowserDlg (std::string&) - Using browser " << cmd);
       }
    }
 

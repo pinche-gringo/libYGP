@@ -1,14 +1,14 @@
-//$Id: XFileEntry.cpp,v 1.6 2002/12/24 17:48:26 markus Rel $
+//$Id: XFileEntry.cpp,v 1.7 2003/03/03 05:53:43 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@
 //            first file matching the input.
 //Parameters: ev: Event, containing input-information
 /*--------------------------------------------------------------------------*/
-gint XFileEntry::key_press_event_impl (GdkEventKey* ev) {
+bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
    assert (ev);
-   gint rc (Entry::key_press_event_impl (ev));
+   bool rc (Entry::on_key_press_event (ev));
 
    TRACE5 ("XFileEntry::key_press_event_impl: Input: " << ev->keyval);
 
@@ -47,29 +47,27 @@ gint XFileEntry::key_press_event_impl (GdkEventKey* ev) {
        || (ev->keyval > 0xf000))         // (I've checked keysymdef.h & hope I
       return rc;                       // got the japanese/korean-stuff right)
 
-   string input (get_text ());
-   if (input.empty ())
-      return rc;
+   if (get_text_length ()) {
+      std::string input (get_text ());
+      TRACE5 ("XFileEntry::key_press_event_impl: Text: " << input);
 
-   input += '*';
+      input += '*';
+      const File* result;
+      DirectorySearch ds (input);
+      if (result = ds.find (attrs)) {           // If input matches attributes
+         int len (get_text_length ());               // Complete name and mark
 
-   TRACE5 ("XFileEntry::key_press_event_impl: Text: " << input);
-
-   const File* result;
-   DirectorySearch ds (input);
-   if (result = ds.find (attrs)) {              // If input matches attributes
-      int len (get_text_length ());                  // Complete name and mark
-
-      input = result->path (); input += result->name ();   // part after input
-      TRACE7 ("XFileEntry::key_press_event_impl: Changed input: " << input);
-      if (result->isDirectory ())
-         input += File::DIRSEPARATOR;
-      set_text (input);
+         input = result->path (); input += result->name ();// part after input
+         TRACE7 ("XFileEntry::key_press_event_impl: Changed input: " << input);
+         if (result->isDirectory ())
+            input += File::DIRSEPARATOR;
+         set_text (input);
      
-      assert (len);
-      set_position (len);
-      select_region (len, get_text_length ());
-      return true;
+         assert (len);
+         set_position (len);
+         select_region (len, get_text_length ());
+         return true;
+      }
    }
    return rc;
 }

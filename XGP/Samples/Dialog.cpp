@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.1 2003/02/03 03:47:42 markus Exp $
+//$Id: Dialog.cpp,v 1.2 2003/03/03 05:53:43 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,8 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gtk--/label.h>
-#include <gtk--/table.h>
+#include <gtkmm/label.h>
+#include <gtkmm/table.h>
 
 #include <ANumeric.h>
 #include <XFileEntry.h>
@@ -39,7 +39,7 @@
 //Parameters: numEntry: Value for the numeric fields
 //            file: File read from FileEntry
 /*--------------------------------------------------------------------------*/
-Dialog::Dialog (ANumeric& numEntry, string& file)
+Dialog::Dialog (ANumeric& numEntry, std::string& file)
    : XDialog (OKCANCEL), pClient (new Gtk::Table (3, 2))
      , lblLabel (new Gtk::Label ("AttributeLabel"))
      , lblEntry (new Gtk::Label ("AttributeEntry"))
@@ -50,9 +50,9 @@ Dialog::Dialog (ANumeric& numEntry, string& file)
      , file_ (file) {
    set_title ("Dialog");
 
-   lblLabel->set_justify (GTK_JUSTIFY_LEFT);
-   lblEntry->set_justify (GTK_JUSTIFY_LEFT);
-   lblFileEntry->set_justify (GTK_JUSTIFY_LEFT);
+   lblLabel->set_justify (Gtk::JUSTIFY_LEFT);
+   lblEntry->set_justify (Gtk::JUSTIFY_LEFT);
+   lblFileEntry->set_justify (Gtk::JUSTIFY_LEFT);
    lblLabel->show ();
    lblEntry->show ();
    lblFileEntry->show ();
@@ -63,14 +63,14 @@ Dialog::Dialog (ANumeric& numEntry, string& file)
 
    entryFile->set_text (file);
 
-   pClient->attach (*lblLabel, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 5, 2);
-   pClient->attach (*lblNum,   1, 2, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL, 5, 2);
+   pClient->attach (*lblLabel, 0, 1, 0, 1, Gtk::FILL, Gtk::FILL, 5, 2);
+   pClient->attach (*lblNum,   1, 2, 0, 1, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
-   pClient->attach (*lblEntry, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 5, 2);
-   pClient->attach (*entryNum, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, GTK_FILL, 5, 2);
+   pClient->attach (*lblEntry, 0, 1, 1, 2, Gtk::FILL, Gtk::FILL, 5, 2);
+   pClient->attach (*entryNum, 1, 2, 1, 2, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
-   pClient->attach (*lblFileEntry, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 5, 2);
-   pClient->attach (*entryFile,    1, 2, 2, 3, GTK_FILL | GTK_EXPAND, GTK_FILL, 5, 2);
+   pClient->attach (*lblFileEntry, 0, 1, 2, 3, Gtk::FILL, Gtk::FILL, 5, 2);
+   pClient->attach (*entryFile,    1, 2, 2, 3, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
    pClient->show ();
 

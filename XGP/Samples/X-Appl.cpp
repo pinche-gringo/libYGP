@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.4 2003/02/24 17:33:49 markus Exp $
+//$Id: X-Appl.cpp,v 1.5 2003/03/03 05:53:43 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,6 +30,10 @@
 #include <stdlib.h>
 
 #include <fstream>
+#include <iomanip>
+
+#include <gtkmm/liststore.h>
+#include <gtkmm/messagedialog.h>
 
 #include <Check.h>
 #include <Trace_.h>
@@ -39,9 +43,8 @@
 
 #include <XDate.h>
 #include <XAbout.h>
-#include "XFileDlg.h"
-#include "XPrintDlg.h"
-#include <XMessageBox.h>
+#include <XFileDlg.h>
+#include <XPrintDlg.h>
 
 #include "Dialog.h"
 #include "X-Appl.h"
@@ -170,9 +173,8 @@ XApplication::MenuEntry XAppl::menuItems[] = {
     { "",                       "",            0,       SEPARATOR },
     { "E_xit",                  "<ctl>Q",      EXIT,    ITEM },
     { "_Dialogs",               "<alt>D",      0,       BRANCH },
-    { "_MessageBox",            "<ctl>M",      MSGBOX,  ITEM },
     { "_Dialog",                "<ctl>D",      DIALOG,  ITEM },
-    { "Da_te",                  "<ctl>T",      DATE,  ITEM },
+    { "Da_te",                  "<ctl>T",      DATE,    ITEM },
     { "_Menus",                 "<alt>M",      0,       BRANCH },
     { "_Radiobuttons",          "<alt>R",      0,       SUBMENU },
     {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
@@ -190,12 +192,13 @@ XApplication::MenuEntry XAppl::menuItems[] = {
 /*--------------------------------------------------------------------------*/
 XAppl::XAppl ()
    : XApplication ("X" PACKAGE " V" LIB_RELEASE)
-     , tblInput (2, 2)
-     , listFiles (sizeof (pTitles) / sizeof (pTitles[0]), pTitles)
-     , status (), scroll () {
+     , tblInput (2, 2), listFiles (), status (), scroll ()
+     , files (XFileListStore::create (cols)) {
    TRACE3 ("XAppl::XAppl ()");
 
-   set_usize (620, 400);
+   listFiles.set_model (files);
+
+   set_size_request (620, 400);
 
    TRACE5 ("XAppl::XAppl () -> Create menus");
    addMenus (menuItems, sizeof (menuItems) / sizeof (menuItems[0]));
@@ -212,27 +215,28 @@ XAppl::XAppl ()
    vboxClient->pack_start (tblInput, false, true, 5);
 
    TRACE5 ("XAppl::XAppl () -> Create scrollwindow");
-   scroll.set_policy (GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+   scroll.set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
    vboxClient->pack_start (scroll);
 
    TRACE5 ("XAppl::XAppl () -> Create file-list");
-   listFiles.column_titles_passive ();
-   listFiles.set_column_justification (2, GTK_JUSTIFY_RIGHT);
-   listFiles.set_column_justification (3, GTK_JUSTIFY_CENTER);
-   listFiles.column (0).set_width (15);
-   listFiles.column (1).set_width (375);
-   listFiles.column (2).set_width (60);
-   listFiles.column (3).set_width (105);
-   listFiles.set_selection_mode (GTK_SELECTION_EXTENDED);
+   listFiles.append_column ("Icon", cols.icon);
+   listFiles.append_column ("Name", cols.name);
+   listFiles.append_column ("Size", cols.size);
+   listFiles.append_column ("Date", cols.date);
+
+   listFiles.get_column (0)->set_min_width (390);
+   listFiles.get_column (1)->set_min_width (60);
+   listFiles.get_column (2)->set_min_width (105);
+   listFiles.get_selection ()->set_mode (Gtk::SELECTION_EXTENDED);
    listFiles.show ();
 
-   scroll.add_with_viewport (listFiles);
+   scroll.add (listFiles);
    scroll.show ();
 
    TRACE5 ("XAppl::XAppl () -> Create statusbar");
-   status.push (1, "Enter filesspecification to search for");
+   status.push ("Enter filespecification to search for");
    status.show ();
-   vboxClient->pack_start (status, false);
+   vboxClient->pack_start (status, Gtk::PACK_SHRINK);
 
    show ();
 }
@@ -244,13 +248,13 @@ XAppl::XAppl ()
 void XAppl::command (int menu) {
    switch (menu) {
    case OPEN:
-      XFileDialog::perform (string ("Add file..."), this,
+      XFileDialog::perform (_("Add file..."), this,
                             (XFileDialog::PACTION)&XAppl::addFile,
                             XFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
-      XFileDialog::perform (string ("Save search result to ..."), this,
+      XFileDialog::perform (_("Save search result to ..."), this,
                             (XFileDialog::PACTION)&XAppl::saveToFile,
                             XFileDialog::ASK_OVERWRITE);
       break;
@@ -270,11 +274,6 @@ void XAppl::command (int menu) {
 
    case DIALOG:
       TDialog<XAppl>::perform (*this, &XAppl::addActFile, num, file);
-      break;
-
-   case MSGBOX:
-      XMessageBox::Show ("Text", "Title", rand () % XMessageBox::TYPEBITS
-                                          | (rand () % 31) << XMessageBox::TYPEBITS);
       break;
 
    default:
@@ -306,32 +305,28 @@ void XAppl::addActFile () {
 //Purpose   : Add the selected file to the list
 //Parameters: file: Name of file to add
 /*--------------------------------------------------------------------------*/
-void XAppl::addFile (string& file) {
-   TRACE9 ("XAppl::addFile (string&): " << file);
+void XAppl::addFile (std::string& file) {
+   TRACE9 ("XAppl::addFile (std::string&): " << file);
 
    try {
       File objFile (file.c_str ());
       ATimestamp t (objFile.time (), false );
-      string time (t.toString ().c_str ());
-      string size (ANumeric::toString (objFile.size ()));
-      string name (objFile.path ());
+      std::string name (objFile.path ());
       name += objFile.name ();
 
-      Check3 (listFiles.columns ().size () == 4);
-      const char* columns[4];
-      columns[0] = "";
-      columns[1] = name.c_str ();
-      columns[2] = size.c_str ();
-      columns[3] = time.c_str ();
-
-      listFiles.append (&objFile, columns);
+      Check3 (files);
+      Gtk::TreeModel::Row row = *(files->append (&objFile));
+      row[cols.name] = name;
+      row[cols.size] = objFile.size ();
+      row[cols.date] = t.toString ().c_str ();
 
       // Enable menus
       apMenus[SAVE]->set_sensitive (true);
       apMenus[PRINT]->set_sensitive (true);
    }
    catch (std::string& e) {
-      XMessageBox::Show (e, XMessageBox::ERROR);
+      Gtk::MessageDialog dlg (e, Gtk::MESSAGE_ERROR);
+      dlg.run ();
    }
 }
 
@@ -339,15 +334,16 @@ void XAppl::addFile (string& file) {
 //Purpose   : Save result of comparison into a file
 //Parameters: file: Name of file to create
 /*--------------------------------------------------------------------------*/
-void XAppl::saveToFile (string& file) {
+void XAppl::saveToFile (std::string& file) {
    TRACE9 ("XAppl::saveToFile (string&): " << file);
 
-   ofstream output (file.c_str ());
+   std::ofstream output (file.c_str ());
    if (!output) {
-      string error ("Can't create file `%1'\n Reason: %2");
-      error.replace (error.find ("%1"), 2, file);
-      error.replace (error.find ("%2"), 2, strerror (errno));
-      XMessageBox::Show (error, XMessageBox::ERROR);
+      std::string err ("Can't create file `%1'\n Reason: %2");
+      err.replace (err.find ("%1"), 2, file);
+      err.replace (err.find ("%2"), 2, strerror (errno));
+      Gtk::MessageDialog dlg (err, Gtk::MESSAGE_ERROR);
+      dlg.run ();
       return;
    }
    writeToStream (output);
@@ -357,20 +353,22 @@ void XAppl::saveToFile (string& file) {
 //Purpose   : Save result of comparison into a file
 //Parameters: file: Stream to fill
 /*--------------------------------------------------------------------------*/
-void XAppl::writeToStream (ofstream& file) {
+void XAppl::writeToStream (std::ofstream& file) {
    TRACE9 ("XAppl::writeToStream (ofstream&)");
    Check (file);
 
    int lenTime (ATimestamp::now ().toString ().length () + 1);
 
-   Check1 (listFiles.columns ().size () == 4);
-   for (int i (0); i < listFiles.rows ().size (); ++i) {
-      string filename (listFiles.get_text (i, 1));
+   Gtk::TreeNodeChildren rows (files->children ());
+   Gtk::TreeNodeChildren::const_iterator i (rows.begin ());
+   while (i != rows.end ()) {
+      std::string filename ((*i)[cols.name]);
       TRACE8 ("XAppl::writeToStream (ofstream&): " << filename);
+      std::string date ((*i)[cols.date]);
 
-      file << filename << setw (78 - filename.length () - lenTime) << ' ' 
-           << listFiles.get_text (i, 2).c_str () << ' '
-           << listFiles.get_text (i, 3).c_str () << '\n';
+      file << filename << std::setw (78 - filename.length () - lenTime) << ' ' 
+           << (*i)[cols.size] << ' ' << date << '\n';
+      ++i;
    } // end-for all text-columns
 }
 

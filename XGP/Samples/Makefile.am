@@ -1,13 +1,13 @@
 SUBDIRS=.
 
 INCLUDES=-I.. -I$(top_srcdir)
-INCLUDES = -I$(top_srcdir) -I.. -I../../Common `gtkmm-config --cflags` -I$(top_srcdir)/intl
+INCLUDES = -I$(top_srcdir) -I.. -I../../Common @GTKMM_CFLAGS@ -I$(top_srcdir)/intl
 
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-LIBS = @LIBS@ @GTK_LIBS@
+LIBS = @LIBS@ @GTKMM_LIBS@
 
 TESTS=X-Appl
 

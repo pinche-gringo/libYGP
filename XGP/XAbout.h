@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.10 2003/02/03 03:50:33 markus Exp $
+//$Id: XAbout.h,v 1.11 2003/03/03 05:53:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,22 +18,19 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <XDialog.h>
+#include <string>
 
-#include "SmartPtr.h"
+#include <SmartPtr.h>
 
+#include "XDialog.h"
 
-// Forward declarations
-#ifndef __STRING__
-class string
-#endif
 
 // Forward declarations
 namespace Gtk {
    class HBox;
    class Label;
    class Button;
-   class Pixmap;
+   class Image;
 }
 
 
@@ -43,28 +40,28 @@ namespace Gtk {
 // Furthermore it is possible to specify icons for programmer and application.
 class XAbout : public XDialog {
  public:
-   XAbout (const string& author, const string& program);
+   XAbout (const std::string& author, const std::string& program);
    ~XAbout ();
 
    void setIconProgram (const char* const* iconData);
    void setIconAuthor  (const char* const* iconData);
 
  private:
-   typedef SmartPtr<Gtk::HBox>    PHBox;
-   typedef SmartPtr<Gtk::Label>   PLabel;
-   typedef SmartPtr<Gtk::Pixmap>  PPixmap;
+   typedef SmartPtr<Gtk::HBox>   PHBox;
+   typedef SmartPtr<Gtk::Label>  PLabel;
+   typedef SmartPtr<Gtk::Image>  PImage;
 
    // Prohibited manager-functions
    XAbout (const XAbout&);
 
    const XAbout& operator= (const XAbout&);
 
-   PLabel  appl;
-   PLabel  writer;
-   PLabel  gpl;
-   PPixmap pIconAuthor;
-   PPixmap pIconProgramm;
-   PHBox   client;
+   PLabel appl;
+   PLabel writer;
+   PLabel gpl;
+   PImage pIconAuthor;
+   PImage pIconProgramm;
+   PHBox  client;
 };
 
 #endif

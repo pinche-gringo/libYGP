@@ -1,14 +1,14 @@
-//$Id: XMessageBox.cpp,v 1.15 2003/02/18 03:00:50 markus Exp $
+//$Id: XMessageBox.cpp,v 1.16 2003/03/03 05:53:43 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,12 +28,16 @@
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 
-#include <gtk--/box.h>
-#include <gtk--/main.h>
-#include <gtk--/label.h>
-#include <gtk--/button.h>
-#include <gtk--/pixmap.h>
+#include <gdkmm/pixbuf.h>
 
+#include <gtkmm/box.h>
+#include <gtkmm/main.h>
+#include <gtkmm/label.h>
+#include <gtkmm/image.h>
+#include <gtkmm/button.h>
+#include <gtkmm/accelgroup.h>
+
+#include "Check.h"
 #include "Trace_.h"
 
 #include "Internal.h"
@@ -429,30 +433,31 @@ const char* const XMessageBox::iconError[] = {
 //            defButton: Button which should be the default (activated by
 //                       pressing enter)
 /*--------------------------------------------------------------------------*/
-XMessageBox::XMessageBox (const string& text, const string& title,
+XMessageBox::XMessageBox (const std::string& text, const std::string& title,
                           int flags, unsigned int defButton)
    : Gtk::Dialog (), txt (new Gtk::Label (text)), client (new Gtk::HBox ())
    , ret (CANCEL) {
-   assert (txt); assert (client);
+   Check1 (txt); Check1 (client);
 
-   TRACE1 ("XMessageBox::XMessageBox (const string&, const string&,"
+   TRACE1 ("XMessageBox::XMessageBox (const std::string&, const std::string&,"
            " int, unsigned int)\n - Text: " << text << "\nTitle: " << title);
 
    set_modal (true);
 
    if (title.empty ()) {
-      assert ((flags & TYPEMASK) < (sizeof (titles) / sizeof (titles[0])));
-      TRACE8 ("XMessageBox::XMessageBox (const string&, const string&,"
+      Check3 ((flags & TYPEMASK) < (sizeof (titles) / sizeof (titles[0])));
+      TRACE8 ("XMessageBox::XMessageBox (const std::string&, const std::string&,"
               " int, unsigned int)\n - Defaulttitle: " << titles[flags & TYPEMASK]);
       set_title (_(titles[flags & TYPEMASK]));
    }
    else
       set_title (title);
 
-   assert ((flags & TYPEMASK) < (sizeof (icons) / sizeof (icons[0])));
-   assert (icons[flags & TYPEMASK]);
+   Check3 ((flags & TYPEMASK) < (sizeof (icons) / sizeof (icons[0])));
+   Check3 (icons[flags & TYPEMASK]);
 
-   icon = new Gtk::Pixmap (icons[flags & TYPEMASK]); assert (icon);
+   icon = new Gtk::Image (Gdk::Pixbuf::create_from_xpm_data (icons[flags & TYPEMASK]));
+   Check3 (icon);
    client->pack_start (*icon, false, false, 5);
 
    if (!(flags & ~TYPEMASK))       // Assure, that there's at least one button
@@ -462,29 +467,29 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    for (unsigned int i (0); i < sizeof (labels) / sizeof (labels[0]); ++i) {
       unsigned int val (1 << (i + TYPEBITS));
       if (flags & val) {
-         TRACE5 ("XMessageBox::XMessageBox (const string&, const string&,"
+         TRACE5 ("XMessageBox::XMessageBox (const std::string&, const std::string&,"
                  " int, unsigned int)\n - Add Button " << labels[i]);
 
          Gtk::Button* temp (new Gtk::Button (_(labels[i])));  // Create button
 
-	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform), val));
+	 temp->signal_clicked ().connect (bind (slot (*this, &XMessageBox::perform), val));
 
          get_action_area ()->pack_start (*temp, false, false, 5);   // and add
          buttons.push_back (temp);
 
-         temp->set_flags (GTK_CAN_DEFAULT);
-         temp->set_usize (90, 35);
+         temp->set_flags (Gtk::CAN_DEFAULT);
+         temp->set_size_request (90, 35);
 
          // Create ESC as accelerator for the Cancel button
          if (val == CANCEL) {
-            assert (get_accel_group ());
-            temp->add_accelerator ("clicked", *get_accel_group (), XK_Escape, 0,
-                                   static_cast<GtkAccelFlags> (0));
+            Check3 (get_accel_group ());
+            temp->add_accelerator ("clicked", get_accel_group (), XK_Escape,
+                                   Gdk::ModifierType (0), Gtk::ACCEL_VISIBLE);
          }
       } // endif button to set
    } // end-for
 
-   txt->set_justify (GTK_JUSTIFY_FILL);
+   txt->set_justify (Gtk::JUSTIFY_FILL);
    txt->set_line_wrap (true);
 
    client->pack_start (*txt, true, false, 5);          // Put text into client
@@ -492,7 +497,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
 
    show_all ();
 
-   assert (buttons.size () > defButton);
+   Check3 (buttons.size () > defButton);
    if (buttons.size () > defButton);
       buttons[defButton]->grab_default ();
 }
@@ -503,7 +508,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
 XMessageBox::~XMessageBox () {
    TRACE9 ("XMessageBox::~XMessageBox ()");
 
-   for (vector<Gtk::Button*>::iterator i (buttons.begin ());
+   for (std::vector<Gtk::Button*>::iterator i (buttons.begin ());
         i != buttons.end (); ++i)
       delete *i;
 
@@ -536,9 +541,9 @@ void XMessageBox::perform (int action) {
 //                       pressing enter)
 //Returns   : Id of the pressed button
 /*--------------------------------------------------------------------------*/
-int XMessageBox::Show (const string& text, const string& title, int flags,
+int XMessageBox::Show (const std::string& text, const std::string& title, int flags,
                        unsigned int defButton) {
-   TRACE1 ("XMessageBox::show (const string&, const string&,"
+   TRACE1 ("XMessageBox::show (const std::string&, const std::string&,"
            " int, unsigned int)\n - Text: " << text << "\nTitle: " << title);
 
    SmartPtr<XMessageBox> box (new XMessageBox (text, title, flags, defButton));

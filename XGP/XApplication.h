@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.16 2003/02/18 02:55:19 markus Exp $
+//$Id: XApplication.h,v 1.17 2003/03/03 05:53:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 #include <map>
 #include <vector>
 
-#include <gtk--/main.h>
-#include <gtk--/menu.h>
-#include <gtk--/window.h>
+#include <gtkmm/main.h>
+#include <gtkmm/menu.h>
+#include <gtkmm/window.h>
 
 #include "SmartPtr.h"
 
@@ -33,7 +33,7 @@ namespace Gtk {
    class HBox;
    class VBox;
    class Label;
-   class Pixmap;
+   class Image;
    class MenuBar;
    class AccelGroup;
 }
@@ -68,9 +68,9 @@ namespace Gtk {
 //                        menu.
 //             * SUBMENUEND: As SUBMENU but terminates the last submenu.
 //
-// Note: Due to limitations in the Gtk-- toolkit (or my stupidity) you can NOT
+// Note: Due to limitations in the gtkmm toolkit (or my stupidity) you can NOT
 // add RadioMenuItems with the addMenu method; but must use the addMenus method
-// (as Gtk-- needs a unique group for them, which must be allocated on the
+// (as gtkmm needs a unique group for them, which must be allocated on the
 // stack).
 //
 // Furthermore there exists the posibility to add a help-menu consisting of:
@@ -117,8 +117,8 @@ class XApplication : public Gtk::Window {
 
    // Menu-handling (including callback for menu-events)
    typedef struct {
-      const string name;
-      const string accel;
+      const std::string name;
+      const std::string accel;
       unsigned int id;
       menuTypes    type;
    } MenuEntry;
@@ -126,12 +126,12 @@ class XApplication : public Gtk::Window {
    typedef SmartPtr<Gtk::VBox>    PVBox;
    typedef SmartPtr<Gtk::HBox>    PHBox;
    typedef SmartPtr<Gtk::Label>   PLabel;
-   typedef SmartPtr<Gtk::Pixmap>  PPixmap;
+   typedef SmartPtr<Gtk::Image>   PImage;
    typedef SmartPtr<Gtk::MenuBar> PMenuBar;
 
-   Gtk::Widget* addMenu (const MenuEntry& menuEntry);
-   void        addMenus (const MenuEntry menuEntryies[], int cMenus);
-   virtual void command (int menu) = 0;
+   Gtk::Widget& addMenu (const MenuEntry& menuEntry);
+   void         addMenus (const MenuEntry menuEntryies[], int cMenus);
+   virtual void command (int menu);
 
    Gtk::VBox* getClient () const { return vboxClient; }
 
@@ -139,7 +139,7 @@ class XApplication : public Gtk::Window {
    PMenuBar pMenu;
    PVBox    vboxClient;
 
-   map <unsigned int, Widget*> apMenus;
+   std::map <unsigned int, Widget*> apMenus;
 
    //Help-menu
    void showHelpMenu ();
@@ -148,7 +148,7 @@ class XApplication : public Gtk::Window {
    virtual const char* getHelpfile () { return NULL; }
    virtual void showAboutbox () { }
 
-   string helpBrowser;
+   std::string helpBrowser;
 
  private:
    // Protected manager functions
@@ -161,7 +161,7 @@ class XApplication : public Gtk::Window {
       return 0;
    }
 
-   vector<Gtk::Menu*> aLastMenus;
+   std::vector<Gtk::Menu*> aLastMenus;
 };
 
 
@@ -190,8 +190,8 @@ class XInfoApplication : public XApplication {
    PLabel txtProgramm;
    PLabel txtCopyright;
 
-   PPixmap iconPrg;
-   PPixmap iconAuthor;
+   PImage iconPrg;
+   PImage iconAuthor;
 };
 
 #endif

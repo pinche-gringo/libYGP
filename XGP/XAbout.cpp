@@ -1,14 +1,14 @@
-//$Id: XAbout.cpp,v 1.13 2003/02/03 03:50:33 markus Exp $
+//$Id: XAbout.cpp,v 1.14 2003/03/03 05:53:42 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,10 +25,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gtk--/box.h>
-#include <gtk--/label.h>
-#include <gtk--/button.h>
-#include <gtk--/pixmap.h>
+#include <gdkmm/pixbuf.h>
+
+#include <gtkmm/box.h>
+#include <gtkmm/label.h>
+#include <gtkmm/button.h>
+#include <gtkmm/image.h>
 
 #include "Trace_.h"
 #include "Check.h"
@@ -42,7 +44,7 @@
 //Parameters: author: Author, copyright, ... of the program displayed in the client
 //            program: Name and version of the program; displaced in the title
 /*--------------------------------------------------------------------------*/
-XAbout::XAbout (const string& author, const string& program)
+XAbout::XAbout (const std::string& author, const std::string& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author)), client (new Gtk::HBox ())
      , gpl (new Gtk::Label (_("Distributed under the terms of the GNU General"
                          " Public License"))) {
@@ -74,12 +76,13 @@ XAbout::~XAbout () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Sets the icon for the program (in xpm-format)
-//Parameters: picProgram: Pixmap representing program
+//Parameters: picProgram: Image representing program
 /*--------------------------------------------------------------------------*/
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check3 (client);
 
-   pIconProgramm = new Gtk::Pixmap (pIconData);
+   pIconProgramm = new Gtk::Image
+      (Gdk::Pixbuf::create_from_xpm_data (pIconData));
 
    pIconProgramm->show ();
    client->pack_start (*pIconProgramm, false, false, 5);
@@ -92,7 +95,8 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check3 (client); Check3 (vboxPrgInfo);
    
-   pIconAuthor = new Gtk::Pixmap (pIconData);
+   pIconAuthor = new Gtk::Image
+      (Gdk::Pixbuf::create_from_xpm_data (pIconData));
 
    pIconAuthor->show ();
    client->pack_end (*pIconAuthor, false, false, 5);

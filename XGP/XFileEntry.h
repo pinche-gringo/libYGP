@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.8 2003/02/03 03:50:33 markus Exp $
+//$Id: XFileEntry.h,v 1.9 2003/03/03 05:53:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gtk--/entry.h>
+#include <gtkmm/entry.h>
 
 #include "DirSrch.h"
 
@@ -32,14 +32,12 @@ class XFileEntry : public Gtk::Entry {
  public:
    XFileEntry (int fileAttrs = DirectorySearch::FILE_NORMAL) : Entry ()
       , attrs (fileAttrs) { }
-   XFileEntry (guint max, int fileAttrs = DirectorySearch::FILE_NORMAL)
-      : Entry (max), attrs (fileAttrs) { }
    XFileEntry (GtkEntry *castitem, int fileAttrs = DirectorySearch::FILE_NORMAL)
       : Entry (castitem), attrs (fileAttrs) { }
    ~XFileEntry () { }
 
  protected:
-   virtual gint key_press_event_impl (GdkEventKey* ev);
+   virtual bool on_key_press_event (GdkEventKey* ev);
 
  private:
    int attrs;

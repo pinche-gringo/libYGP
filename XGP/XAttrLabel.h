@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.4 2003/02/24 17:30:56 markus Exp $
+//$Id: XAttrLabel.h,v 1.5 2003/03/03 05:53:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 
-#include <gtk--/label.h>
+#include <gtkmm/label.h>
 
 
 // Class to display an attribute in a formated style while preservering its

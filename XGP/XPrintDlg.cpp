@@ -1,14 +1,14 @@
-//$Id: XPrintDlg.cpp,v 1.12 2003/02/03 03:50:33 markus Exp $
+//$Id: XPrintDlg.cpp,v 1.13 2003/03/03 05:53:43 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,19 +28,19 @@
 #include <errno.h>
 
 #include <string>
-#include <fstream.h>
+#include <fstream>
 
 #include "Trace_.h"
 #include "Check.h"
 
-#include <gtk--/box.h>
-#include <gtk--/entry.h>
-#include <gtk--/label.h>
-#include <gtk--/button.h>
+#include <gtkmm/box.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/label.h>
+#include <gtkmm/button.h>
+#include <gtkmm/messagedialog.h>
 
 #include "Internal.h"
 #include "XPrintDlg.h"
-#include "XMessageBox.h"
 
 
 /*--------------------------------------------------------------------------*/
@@ -116,22 +116,24 @@ void XPrintDialog::okEvent () {
    Check3 (pCaller); Check3 (callerMethod); Check3 (txtCommand);
 
    if (!txtCommand->get_text_length ()) {                      // No input?
-      XMessageBox::Show (string (_("No print-command specified")),
-                         XMessageBox::ERROR);
+      Gtk::MessageDialog msg (_("No print-command specified"), Gtk::MESSAGE_ERROR);
+      msg.run ();
       return;
    } // endif no input
 
    FILE* stream (NULL);
    stream = popen (txtCommand->get_text ().c_str (), "w");
    if (!stream) {
-      std::string error (_("Could not run command `%1'\nReason: %2"));
-      error.replace (error.find ("%1"), 2, txtCommand->get_text ());
-      error.replace (error.find ("%2"), 2, strerror (errno));
-      XMessageBox::Show (error, XMessageBox::ERROR);
+      std::string err (_("Could not run command `%1'\nReason: %2"));
+      err.replace (err.find ("%1"), 2, txtCommand->get_text ());
+      err.replace (err.find ("%2"), 2, strerror (errno));
+      Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
+      msg.run ();
       return;
    } // endif error printing
 
-   ofstream pipe (fileno (stream));
+   // TODO!! std::ofstream pipe (fileno (stream));
+   std::ofstream pipe;
    (pCaller->*callerMethod) (pipe);
    pipe.close ();
    pclose (stream);

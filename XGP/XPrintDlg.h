@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.9 2003/02/18 02:58:35 markus Exp $
+//$Id: XPrintDlg.h,v 1.10 2003/03/03 05:53:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,16 +18,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <iosfwd>
+
 #include <XDialog.h>
 
 #include "SmartPtr.h"
-
-// Forward declarations
-#ifndef __STRING__
-class string;
-#endif
-
-class ofstream;
 
 namespace Gtk {
    class HBox;
@@ -41,7 +36,7 @@ namespace Gtk {
 // This is a very basic interface; only supporting the line printer.
 class XPrintDialog : public XDialog {
  public:
-   typedef void (Object::*PACTION)(ofstream&);
+   typedef void (Object::*PACTION)(std::ofstream&);
 
    XPrintDialog (Object* pNotify, const PACTION callback);
    XPrintDialog (GtkDialog* castitem, Object* pNotify,

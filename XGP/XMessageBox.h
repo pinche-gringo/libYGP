@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.11 2003/02/18 03:01:09 markus Exp $
+//$Id: XMessageBox.h,v 1.12 2003/03/03 05:53:43 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <vector.h>
+#include <vector>
 
-#include <gtk--/dialog.h>
+#include <gtkmm/dialog.h>
 
 #include <SmartPtr.h>
 
@@ -29,7 +29,7 @@
 namespace Gtk {
    class HBox;
    class Label;
-   class Pixmap;
+   class Image;
    class Button;
 }
    
@@ -72,24 +72,24 @@ class XMessageBox : public Gtk::Dialog {
                   OKCANCEL = OK | CANCEL, RETRYCANCEL = RETRY | CANCEL,
                   OKRETRYCANCEL = OK | RETRYCANCEL };
 
-   static int Show (const string& text, const string& title = "",
+   static int Show (const std::string& text, const std::string& title = "",
                     int flags = OK | INFO, unsigned int defButton = 0);
-   static int Show (const string& text, int flags = OK | INFO,
+   static int Show (const std::string& text, int flags = OK | INFO,
                     unsigned int defButton = 0) {
       return Show (text, "", flags, defButton); }
 
    virtual ~XMessageBox ();
 
  protected:
-   XMessageBox (const string& text, const string& title = "",
+   XMessageBox (const std::string& text, const std::string& title = "",
                 int flags = OK | INFO, unsigned int defButton = 0);
 
    virtual void perform (int action);
 
  private:
-   typedef SmartPtr<Gtk::Label>  PLabel;
-   typedef SmartPtr<Gtk::HBox>   PHBox;
-   typedef SmartPtr<Gtk::Pixmap> PPixmap;
+   typedef SmartPtr<Gtk::Label> PLabel;
+   typedef SmartPtr<Gtk::HBox>  PHBox;
+   typedef SmartPtr<Gtk::Image> PImage;
 
    // Prohibited manager-functions
    XMessageBox ();
@@ -99,10 +99,10 @@ class XMessageBox : public Gtk::Dialog {
 
    int ret;
 
-   vector<Gtk::Button*> buttons;
+   std::vector<Gtk::Button*> buttons;
    PLabel txt;
    PHBox  client;
-   PPixmap icon;
+   PImage icon;
 
    static const char* const iconInfo[];
    static const char* const iconQuestion[];
@@ -121,18 +121,18 @@ template <class T> class XMessageDialog : public XMessageBox {
    typedef void (T::*PCALLBACK) (unsigned int);
 
    static XMessageBox* Show (T& object, const PCALLBACK callback,
-                             const string& text, const string& title = "",
+                             const std::string& text, const std::string& title = "",
                              int flags = OK | INFO, unsigned int defButton = 0) {
       return new XMessageDialog<T> (object, callback, text, title, flags, defButton); }
 
    static XMessageBox* Show (T& object, const PCALLBACK callback,
-                             const string& text, int flags = OK | INFO,
+                             const std::string& text, int flags = OK | INFO,
                              unsigned int defButton = 0) {
       return Show (object, callback, text, "", flags, defButton); }
 
  protected:
    XMessageDialog (T& object, const PCALLBACK callback,
-                   const string& text, const string& title = "",
+                   const std::string& text, const std::string& title = "",
                    int flags = OK | INFO, unsigned int defButton = 0)
       : obj (object), pCallback (callback)
       , XMessageBox (text, title, flags, defButton) { }

@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.1 2003/02/03 03:47:42 markus Exp $
+//$Id: Dialog.h,v 1.2 2003/03/03 05:53:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,10 +36,10 @@ class XFileEntry;
 
 class Dialog : public XDialog {
  public:
-   Dialog (ANumeric& numEntry, string& file);
+   Dialog (ANumeric& numEntry, std::string& file);
    virtual ~Dialog ();
 
-   static Dialog* perform (ANumeric& numEntry, string& file) {
+   static Dialog* perform (ANumeric& numEntry, std::string& file) {
       return new Dialog (numEntry, file); }
 
  protected:
@@ -61,7 +61,7 @@ class Dialog : public XDialog {
 
    XFileEntry* entryFile;
 
-   string& file_;
+   std::string& file_;
 };
 
 
@@ -71,12 +71,12 @@ class TDialog : Dialog {
    typedef void (T::*PCALLBACK) (void);
 
    TDialog (T& caller, const PCALLBACK callback,
-            ANumeric& numEntry, string& file) : Dialog (numEntry, file)
+            ANumeric& numEntry, std::string& file) : Dialog (numEntry, file)
       , obj (caller), cb (callback) { }
    virtual ~TDialog () { }
 
    static Dialog* perform (T& caller, const PCALLBACK callback,
-                           ANumeric& numEntry, string& file) {
+                           ANumeric& numEntry, std::string& file) {
       return new TDialog (caller, callback, numEntry, file); }
 
  private:

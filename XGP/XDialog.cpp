@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.3 2003/02/24 17:31:36 markus Exp $
+//$Id: XDialog.cpp,v 1.4 2003/03/03 05:53:42 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,7 +30,8 @@
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 
-#include <gtk--/button.h>
+#include <gtkmm/button.h>
+#include <gtkmm/accelgroup.h>
 
 #include <Check.h>
 
@@ -78,19 +79,19 @@ void XDialog::addButtons (unsigned int buttons) {
    if (buttons & OK) {
       Check3 (ok);
       addButton (*ok);
-      ok->clicked.connect (bind (slot (this, &XDialog::basicCommand), OK));
+      ok->signal_clicked ().connect (bind (slot (*this, &XDialog::basicCommand), OK));
       ok->grab_default ();
    }
 
    if (buttons & CANCEL) {
       Check3 (cancel);
       addButton (*cancel, false);
-      cancel->clicked.connect (bind (slot (this, &XDialog::basicCommand), CANCEL));
+      cancel->signal_clicked ().connect (bind (slot (*this, &XDialog::basicCommand), CANCEL));
       if (!(buttons & OK))
          cancel->grab_default ();
       Check3 (get_accel_group ());
-      cancel->add_accelerator ("clicked", *get_accel_group (), XK_Escape, 0,
-                               static_cast<GtkAccelFlags> (0));
+      cancel->add_accelerator ("clicked", get_accel_group (), XK_Escape,
+                               Gdk::ModifierType (0), Gtk::ACCEL_VISIBLE);
    }
 }
 
@@ -100,11 +101,11 @@ void XDialog::addButtons (unsigned int buttons) {
 //            start: Flag, if button should be added at the beginning 
 /*--------------------------------------------------------------------------*/
 void XDialog::addButton (Gtk::Button& button, bool start) {
-   button.set_usize (90, -1);
+   button.set_size_request (90, -1);
    button.show ();
    start ? get_action_area ()->pack_start (button, false, false, 5)
       : get_action_area ()->pack_end (button, false, false, 5);
-   button.set_flags (GTK_CAN_DEFAULT);
+   button.set_flags (Gtk::CAN_DEFAULT);
 }
 
 /*--------------------------------------------------------------------------*/

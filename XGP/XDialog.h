@@ -1,7 +1,7 @@
 #ifndef XDIALOG_H
 #define XDIALOG_H
 
-//$Id: XDialog.h,v 1.2 2003/01/09 03:57:56 markus Exp $
+//$Id: XDialog.h,v 1.3 2003/03/03 05:53:42 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gtk--/dialog.h>
+#include <gtkmm/dialog.h>
 
 
 namespace Gtk {

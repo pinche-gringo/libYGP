@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.12 2003/02/05 06:01:21 markus Exp $
+//$Id: XFileDlg.h,v 1.13 2003/03/03 05:53:43 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,11 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifndef __STRING__
-class string
-#endif
+#include <string>
 
-#include <gtk--/fileselection.h>
+#include <gtkmm/fileselection.h>
 
 
 // This class can be be used to retrieve file or directory names
@@ -46,19 +44,19 @@ class IFileDialog : public Gtk::FileSelection {
  public:
    typedef enum { NONE, ASK_OVERWRITE, MUST_EXIST } option;
 
-   IFileDialog (const string& title, option dlgOption = NONE);
+   IFileDialog (const std::string& title, option dlgOption = NONE);
    IFileDialog (GtkFileSelection* castitem, option dlgOption = NONE);
    ~IFileDialog ();
 
-   string execModal ();
+   std::string execModal ();
 
-   static IFileDialog* perform (const string& title, option dlgOption = NONE) {
+   static IFileDialog* perform (const std::string& title, option dlgOption = NONE) {
       return new IFileDialog (title, dlgOption); }
 
  protected:
    typedef enum { OK = 1, CANCEL } commandID;
 
-   virtual void fileSelected (string& file) { }
+   virtual void fileSelected (std::string& file) { }
 
  private:
    // Prohibited manager-functions
@@ -76,9 +74,9 @@ class IFileDialog : public Gtk::FileSelection {
 template <class T>
 class TFileDialog : public IFileDialog {
  public:
-   typedef void (T::*PACTION)(const string&);
+   typedef void (T::*PACTION)(const std::string&);
 
-   TFileDialog (const string& title, T* pNotify,
+   TFileDialog (const std::string& title, T* pNotify,
                 const PACTION callback, option dlgOption = NONE)
       : IFileDialog (title, dlgOption), pCaller (pNotify)
       , callerMethod (callback) { }
@@ -88,7 +86,7 @@ class TFileDialog : public IFileDialog {
       , callerMethod (callback) { }
    ~TFileDialog () { }
 
-   static TFileDialog* perform (const string& title, T* pNotify,
+   static TFileDialog* perform (const std::string& title, T* pNotify,
 				const PACTION callback, option dlgOption = NONE) {
       return new TFileDialog (title, pNotify, callback, dlgOption); }
 
@@ -99,7 +97,7 @@ class TFileDialog : public IFileDialog {
    TFileDialog (const TFileDialog&);
    const TFileDialog& operator= (const TFileDialog&);
 
-   virtual void fileSelected (string& file) { (pCaller->*callerMethod) (file); }
+   virtual void fileSelected (std::string& file) { (pCaller->*callerMethod) (file); }
 
    T*            pCaller;
    const PACTION callerMethod;

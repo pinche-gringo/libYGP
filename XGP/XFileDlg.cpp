@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.12 2003/02/06 19:52:11 markus Exp $
+//$Id: XFileDlg.cpp,v 1.13 2003/03/03 05:53:42 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -31,14 +31,14 @@
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 
-#include <gtk--/main.h>
+#include <gtkmm/main.h>
+#include <gtkmm/messagedialog.h>
 
 #include "Trace_.h"
 #include "Check.h"
 #include "Internal.h"
 
 #include "XFileDlg.h"
-#include "XMessageBox.h"
 
 
 /*--------------------------------------------------------------------------*/
@@ -46,7 +46,7 @@
 //Parameters: title: Text to display in the title of the dialog
 //            dlgOption: Checks to perform after selecting OK
 /*--------------------------------------------------------------------------*/
-IFileDialog::IFileDialog (const string& title, option dlgOption)
+IFileDialog::IFileDialog (const std::string& title, option dlgOption)
    : Gtk::FileSelection (title), opt (dlgOption) {
    TRACE9 ("IFileDialog::IFileDialog (title)");
    Check3 (pCaller); Check3 (callerMethod);
@@ -81,11 +81,13 @@ IFileDialog::~IFileDialog () {
 /*--------------------------------------------------------------------------*/
 void IFileDialog::init () {
    Check3 (get_accel_group ());
-   get_cancel_button ()->add_accelerator ("clicked", *get_accel_group (), XK_Escape, 0,
-                                          static_cast<GtkAccelFlags> (0));
-
-   get_ok_button ()->clicked.connect (bind (slot (this, &IFileDialog::command), OK));
-   get_cancel_button ()->clicked.connect (bind (slot (this, &IFileDialog::command), CANCEL));
+   get_ok_button ()->signal_clicked ().connect (bind (slot (*this, &IFileDialog::command),
+                                                      OK));
+   get_cancel_button ()->signal_clicked ().connect (bind (slot (*this,
+                                                                &IFileDialog::command),
+                                                          CANCEL));
+   get_cancel_button ()->add_accelerator ("clicked", get_accel_group (), XK_Escape,
+                                          Gdk::ModifierType (0), Gtk::ACCEL_VISIBLE);
    modal = false;
    show ();
 }
@@ -102,7 +104,7 @@ void IFileDialog::command (commandID id) {
    case OK: {
       Check3 (pCaller); Check3 (callerMethod);
       
-      string filename (get_filename ());
+      std::string filename (get_filename ());
 
       if (opt != NONE) {
 	 struct stat fileInfo;
@@ -111,9 +113,10 @@ void IFileDialog::command (commandID id) {
          switch (opt) {
 	 case MUST_EXIST:
             if (rc) {                // File does not exist: Show msg and exit
-               std::string error (_("File `%1' does not exist!"));
-               error.replace (error.find ("%1"), 2, filename);
-               XMessageBox::Show (error, XMessageBox::ERROR);
+               std::string err (_("File `%1' does not exist!"));
+               err.replace (err.find ("%1"), 2, filename);
+               Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
+               msg.run ();
                return;
             }
             break;
@@ -122,8 +125,8 @@ void IFileDialog::command (commandID id) {
             if (!rc) {
                std::string msg (_("File `%1' exists! Overwrite?"));
                msg.replace (msg.find ("%1"), 2, filename);
-               if ((rc = XMessageBox::Show (msg, XMessageBox::QUESTION | XMessageBox::YESNO))
-                   != XMessageBox::YES)
+               Gtk::MessageDialog dlg (msg, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_YES_NO);
+               if (dlg.run () != Gtk::RESPONSE_YES)
                   return;
             }
             break;
@@ -149,10 +152,10 @@ void IFileDialog::command (commandID id) {
 //Purpose   : Performs the dialog modaly
 //Returns   : XDialog::OK, XDialog::CANCEL, depending on the user-input
 /*--------------------------------------------------------------------------*/
-string IFileDialog::execModal () {
+std::string IFileDialog::execModal () {
    set_modal (modal = true);
    Gtk::Main::run ();
-   string file (modal ? get_filename () : "");
+   std:: string file (modal ? get_filename () : "");
    delete this;
    return file;
 }

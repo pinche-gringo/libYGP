@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.3 2003/02/03 03:48:52 markus Exp $
+//$Id: X-Appl.h,v 1.4 2003/03/03 05:53:43 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@
 
 
 #include <string>
+#include <iosfwd>
 
-#include <gtk--/table.h>
-#include <gtk--/statusbar.h>
-#include <gtk--/scrolledwindow.h>
+#include <gtkmm/table.h>
+#include <gtkmm/statusbar.h>
+#include <gtkmm/scrolledwindow.h>
 
 #include <ATStamp.h>
 #include <ANumeric.h>
@@ -39,7 +40,7 @@ class XAppl : public XApplication {
    ~XAppl () { }
 
  protected:
-   enum { OPEN = LAST, EXIT, SAVE, PRINT, MSGBOX, DIALOG, DATE };
+   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE };
 
  private:
    // Protected manager functions
@@ -50,21 +51,32 @@ class XAppl : public XApplication {
    virtual void command (int menu);
 
    void addActFile ();
-   void addFile (string& file);
-   void saveToFile (string& file);
-   void writeToStream (ofstream& file);
+   void addFile (std::string& file);
+   void saveToFile (std::string& file);
+   void writeToStream (std::ofstream& file);
 
    virtual const char* getHelpfile () { return "index.html"; }
    virtual void showAboutbox ();
 
+   class FileCols : public FileColumns {
+    public:
+      Gtk::TreeModelColumn <int>         size;
+      Gtk::TreeModelColumn <std::string> date;
+
+      FileCols () : FileColumns () { add (size); add (date); }
+   };
+
+   FileCols                      cols;
+   XFileList                     listFiles;
+   Glib::RefPtr <XFileListStore> files;
+   
    Gtk::Table          tblInput;
-   XFileList           listFiles;
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
 
-   ATimestamp time;
-   string     file;
-   ANumeric   num;
+   ATimestamp  time;
+   std::string file;
+   ANumeric    num;
 
    static XApplication::MenuEntry XAppl::menuItems[];
    static const char* pTitles[];
