@@ -1,4 +1,4 @@
-<!-- $Id: FileRExp.html,v 1.4 2000/04/15 02:05:25 Markus Rel $ -->
+<!-- $Id: FileRExp.html,v 1.5 2000/05/30 21:44:00 Markus Exp $ -->
 
 <html>
   <head>
@@ -25,6 +25,9 @@
     <h2>Description</h2>
     <p>Class to compare text with (UNIX-file-style) regular expressions.</p>
 
+    <p><b>Note</b>:Depending on the operating system this comparison is either
+      case-sensitive (*NIX) or just case-preserving (DOS)!</p>
+
     <p>The following characters have a special meaning:</p>
 
     <ul>
@@ -34,12 +37,21 @@
       <li><b>[^&lt;match&gt;]</b>: matches the characters not specified in match.</li>
     </ul>
     <p>&lt;<i>match</i>&gt; ::= | &lt;<i>char</i>&gt;&lt;<i>match</i>&gt; |
-      &lt;<i>region</i>&gt;&lt;<i>match</i>&gt; | {}<br>
-      &lt;<i>region</i>&gt; ::= &lt;<i>low</i>&gt;-&lt;<i>high</i>&gt;</p>
+      &lt;<i>region</i>&gt;&lt;<i>match</i>&gt; |  
+      &lt;<i>character-class</i>&gt;&lt;<i>match</i>&gt; | {}<br>
+      &lt;<i>region</i>&gt; ::= &lt;<i>low</i>&gt;-&lt;<i>high</i>&gt;<br>
+      &lt;<i>character-class</i>&gt; ::= [:&lt;<i>class</i>&gt;:]<br>
+      &lt;<i>class</i>&gt; ::= alnum | alpha | cntrl | digit | space | graph
+                               | lower | print | punct | space | upper | xdigit
+</p>
 
-    <p>Examples are: [a-zA-Z0-9]* for all words starting with a letter or a
-      number or [^aeiuo]?? for all three letter long words starting with no
-      vocal).</p>
+    <p>Note that (for the sake of compatibility with other systems) the
+      charcter classes "ascii" and "blank" are not supported (yet; might be
+      implemented in the near future).</p>
+
+    <p>Examples are: [[:alnum:]]* for all words starting with a letter or a
+      number or [^A-Z]?? for all three letter long words starting without
+      an capital letter.</p>
 
     <p><b>Note</b>: The pRegExp-parameter is stored as is (and not copied); so
       care yourself for all the neccessary cleanup-stuff!</p>
