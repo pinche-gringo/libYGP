@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.8 2002/12/15 22:20:13 markus Rel $
+// $Id: StackTrc.cpp,v 1.9 2003/06/11 18:31:15 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -46,12 +46,12 @@ extern "C" {
 //Remarks   : A stacktrace might be useful (only?) after a segmentation fault
 /*--------------------------------------------------------------------------*/
 void handleSignal (int sig) {
-   dumpStack ();
-
    signal (SIGSEGV, SIG_DFL);       // Restore signal-handlers and reraise the
 #ifdef HAVE_SIGBUS
    signal (SIGBUS, SIG_DFL);            // signal (to abort program correctly)
 #endif
+
+   dumpStack ();
    raise (sig);
 }
 
