@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 SUBDIRS=Icons
+DIST_SUBDIRS=$(SUBDIRS) Samples
 
 lib_LTLIBRARIES=libXAppl.la
 
