@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.4 2001/08/15 15:45:54 markus Exp $
+//$Id: Socket.cpp,v 1.5 2001/08/22 01:30:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -132,7 +132,7 @@ Socket& Socket::operator= (int socket) {
 //Parameters: port: Port at which to listen
 /*--------------------------------------------------------------------------*/
 void Socket::listenAt (unsigned int port) throw (domain_error) {
-   TRACE9 ("Socket::listenAt (unsigned int) - " << port);
+   TRACE9 ("Socket::listenAt (unsigned int) - " << port << " (" << sock << ')');
 
    struct sockaddr_in addr;
    addr.sin_family = AF_INET;
@@ -178,9 +178,9 @@ unsigned int Socket::getPortOfService (const char* service) throw (domain_error)
 //Returns   : int: Number of bytes actually read
 /*--------------------------------------------------------------------------*/
 int Socket::read (AByteArray& input) const throw (domain_error) {
-   TRACE9 ("Socket::read (AByteArray&)");
+   TRACE9 ("Socket::read (AByteArray&)" << " (" << sock << ')');
 
-   char buffer[50] = "";
+   char buffer[80] = "";
    ssize_t cRead;
    input = "";
 
@@ -208,7 +208,7 @@ int Socket::read (AByteArray& input) const throw (domain_error) {
 //Returns   : int: Number of bytes actually read
 /*--------------------------------------------------------------------------*/
 int Socket::read (char* pBuffer, int lenBuffer) const throw (domain_error) {
-   TRACE9 ("Socket::read (const char*, int)");
+   TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
    if (cRead < 0)
@@ -223,7 +223,7 @@ int Socket::read (char* pBuffer, int lenBuffer) const throw (domain_error) {
 //Returns   : int: Socket over which to communicate  (with the client)
 /*--------------------------------------------------------------------------*/
 int Socket::waitForInput () const throw (domain_error) {
-   TRACE3 ("Socket::waitForInput (Socket&) const");
+   TRACE9 ("Socket::waitForInput (Socket&) const - (" << sock << ')');
 
    struct sockaddr_in client;
    socklen_t size = sizeof (client);
@@ -232,7 +232,7 @@ int Socket::waitForInput () const throw (domain_error) {
    if (newSocket < 0)
       throwError ("Error accepting connection", errno);
 
-   TRACE9 ("Socket::waitForInput (Socket&) const - assigning " << newSocket);
+   TRACE8 ("Socket::waitForInput (Socket&) const - assigning " << newSocket);
    return newSocket;
 }
 
@@ -242,6 +242,7 @@ int Socket::waitForInput () const throw (domain_error) {
 //            port: Portnumber to connect to
 /*--------------------------------------------------------------------------*/
 void Socket::writeTo (const char* host, unsigned int port) throw (domain_error) {
+   TRACE9 ("Socket::writeTo (const char*, unsigned int)");
    assert (host);
 
    struct sockaddr_in name;
@@ -267,6 +268,7 @@ void Socket::writeTo (const char* host, unsigned int port) throw (domain_error) 
 //            lenBuffer: Length of data to write
 /*--------------------------------------------------------------------------*/
 void Socket::write (const char* pBuffer, int lenBuffer) const throw (domain_error) {
+   TRACE5 ("Socket::write (const char*, int) const - " << pBuffer << " (" << sock << ')');
    assert (pBuffer);
 
    if (::write (sock, pBuffer, lenBuffer) < 0)
@@ -279,6 +281,7 @@ void Socket::write (const char* pBuffer, int lenBuffer) const throw (domain_erro
 /*--------------------------------------------------------------------------*/
 void Socket::write (const char* pBuffer) const throw (domain_error) {
    assert (pBuffer);
+   TRACE9 ("Socket::write (const char*) const - (" << sock << ')');
 
    write (pBuffer, strlen (pBuffer));
 }
