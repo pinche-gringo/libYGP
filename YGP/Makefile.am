@@ -9,11 +9,11 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -Wall
 DEFAULT_INCLUDES =
 INCLUDES = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@
-LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@
+LIBS = @LTLIBINTL@ @LIBS@
 
 includedir = ${prefix}/include/YGP
 
-libYGP_la_LDFLAGS=-release $(LIBRELEASE) -no-undefined
+libYGP_la_LDFLAGS=${LIBS} -release $(LIBRELEASE) -no-undefined
 
 libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp\
 	FileRExp.cpp Handle.cpp Version.cpp ATime.cpp XStrBuf.cpp AYear.cpp \
