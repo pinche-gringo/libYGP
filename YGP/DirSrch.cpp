@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.30 2001/08/28 20:18:20 markus Exp $
+//$Id: DirSrch.cpp,v 1.31 2001/09/05 15:58:29 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -209,6 +209,7 @@ int DirectorySearch::checkIntegrity () const {
 //Parameters: search: Files to find
 /*--------------------------------------------------------------------------*/
 void DirectorySearch::setSearchValue (const std::string& search) {
+   TRACE8 ("DirectorySearch::setSearchValue (const std::string&) - " << search);
    assert (!search.empty ());
 
    searchDir = '.';
@@ -257,8 +258,8 @@ void DirectorySearch::cleanup () {
 //Parameters: dir: Directory whose validity should be checked
 //Returns   : bool: True if the directory exists
 /*--------------------------------------------------------------------------*/
-bool DirectorySearch::isValid (const std::string& dir) const {
-   TRACE9 ("DirectorySearch::isValid (const std::string&) - " << dir.c_str ());
+bool DirectorySearch::isValid (const std::string& dir) {
+   TRACE8 ("DirectorySearch::isValid (const std::string&) - " << dir.c_str ());
 
    struct stat file;
 
