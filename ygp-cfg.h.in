@@ -73,6 +73,9 @@
 /* Define to 1 if you have the `asprintf' function. */
 #undef HAVE_ASPRINTF
 
+/* Define to 1 if you have the `beginthread' function. */
+#undef HAVE_BEGINTHREAD
+
 /* Define to 1 if you have the <CORBA.h> header file. */
 #undef HAVE_CORBA_H
 
@@ -109,6 +112,9 @@
 
 /* Define to 1 if your system has a working POSIX `fnmatch' function. */
 #undef HAVE_FNMATCH
+
+/* Define to 1 if you have the `fork' function. */
+#undef HAVE_FORK
 
 /* Define to 1 if you have the `fwprintf' function. */
 #undef HAVE_FWPRINTF
@@ -201,13 +207,16 @@
 /* Define to 1 if you have the <nl_types.h> header file. */
 #undef HAVE_NL_TYPES_H
 
+/* Define to 1 if you have the `pipe' function. */
+#undef HAVE_PIPE
+
 /* Define if your printf() function supports format strings with positions. */
 #undef HAVE_POSIX_PRINTF
 
 /* Define to 1 if you have the `putenv' function. */
 #undef HAVE_PUTENV
 
-/* Define for working regex.h */
+/* Define to 1 if you have the <regex.h> header file. */
 #undef HAVE_REGEX_H
 
 /* Define to 1 if you have the `setenv' function. */
@@ -262,6 +271,9 @@
 /* Define to 1 if you have the `strtoul' function. */
 #undef HAVE_STRTOUL
 
+/* Define to 1 if you have the <syslog.h> header file. */
+#undef HAVE_SYSLOG_H
+
 /* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
    */
 #undef HAVE_SYS_DIR_H
@@ -273,11 +285,17 @@
 /* Define to 1 if you have the <sys/param.h> header file. */
 #undef HAVE_SYS_PARAM_H
 
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <sys/wait.h> header file. */
+#undef HAVE_SYS_WAIT_H
 
 /* Define to 1 if you have the `timegm' function. */
 #undef HAVE_TIMEGM
@@ -300,8 +318,20 @@
 /* Define to 1 if you have the `wcslen' function. */
 #undef HAVE_WCSLEN
 
+/* Define to 1 if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
+
+/* Define to 1 if you have the <winsock2.h> header file. */
+#undef HAVE_WINSOCK2_H
+
 /* Define if you have the 'wint_t' type. */
 #undef HAVE_WINT_T
+
+/* Define to 1 if you have the `_beginthread' function. */
+#undef HAVE__BEGINTHREAD
+
+/* Define to 1 if you have the `_pipe' function. */
+#undef HAVE__PIPE
 
 /* Define to 1 if you have the `__argz_count' function. */
 #undef HAVE___ARGZ_COUNT
