@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.13 2000/04/14 19:15:13 Markus Rel $
+//$Id: ANumeric.h,v 1.14 2000/05/14 23:59:30 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -103,6 +103,8 @@ class ANumeric : public AttributValue {
    virtual void define ();
    virtual std::string toString () const;
    virtual void readFromStream (istream& in);
+   static std::string toString (long value) { ANumeric temp (value); return temp.toString (); }
+   static std::string toString (unsigned long value) { ANumeric temp (value); return temp.toString (); }
 
    // Calculation
    ANumeric& operator += (const ANumeric& rhs);
