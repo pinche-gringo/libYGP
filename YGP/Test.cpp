@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.33 2000/04/24 14:24:40 Markus Exp $
+// $Id: Test.cpp,v 1.34 2000/05/09 23:34:28 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -33,7 +33,7 @@
 #include <fstream.h>
 #include <iostream.h>
 
-#ifdef UNIX
+#if defined UNIX || defined __GNUG__
 #  include <strstream.h>
 #else
 #  include <strstrea.h>
@@ -45,6 +45,7 @@
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
+#include "INIFile.h"
 #include "ANumeric.h"
 #include "IVIOAppl.h"
 #include "PathSrch.h"
@@ -191,7 +192,7 @@ int Application::perform (int argc, const char* argv[]) {
       } // end-try
       catch (std::string e) {
          cerr << "Error parsing Test.Dat in line " << xstr.getLine () << " ("
-              << (xstr.getColumn () + 1) << "): " << e.c_str () << '\n';
+              << xstr.getColumn () << "): " << e.c_str () << '\n';
       } // end-catch
    }
 
@@ -422,6 +423,66 @@ int Application::perform (int argc, const char* argv[]) {
    check (hHandle2.isDefined ());
    hHandle2 = hHandle;
    check (!hHandle2.isDefined ());
+
+   cout << "Testing INI-file parser...\n";
+   int attr1;
+   std::string attr2;
+   ANumeric attr3;
+   ADate attr4;
+   Xifstream inifile;
+   ATime attr5;
+   ATimestamp attr6;
+   try {
+      INISection global ("Global");
+      INIAttribute<int> Attr1 ("Attr1", attr1);
+      INIAttribute<std::string> Attr2 ("Attr2", attr2);
+      INIAttribute<ANumeric> Attr3 ("Attr3", attr3);
+      INIAttribute<ADate> Attr4 ("Attr4", attr4);
+      global.addAttribute (Attr1);
+      global.addAttribute (Attr2);
+      global.addAttribute (Attr3);
+      global.addAttribute (Attr4);
+
+      inifile.open ("Test.ini", ios::in | ios::nocreate);
+      check (inifile);
+
+      INISection local ("Local"), special ("Special");
+      local.addAttribute (Attr1);
+      local.addAttribute (Attr2);
+      local.addAttribute (Attr3);
+      local.addAttribute (Attr4);
+
+      INIAttribute<ATime> Attr5 ("Attr5", attr5);
+      INIAttribute<ATimestamp> Attr6 ("Attr6", attr6);
+
+      special.addAttribute (Attr5);
+      special.addAttribute (Attr6);
+
+      INIFile file ("Test.ini");
+      file.addSection (local);
+      file.addSection (global);
+      file.addSection (special);
+
+      if (inifile) {
+         inifile.init ();
+         try {
+            int rc = global.readFromStream ((Xistream&)inifile);
+            check (!rc);
+         } // end-try
+         catch (std::string& e) {
+            throw (std::string ("Error parsing Test.ini in line ")
+                   + ANumeric (inifile.getLine ()).toString ()
+                   + std::string (" (") + ANumeric (inifile.getColumn ()).toString ()
+                   + std::string ("): ") + e);
+         } // end-catch
+
+         int rc = file.read ();
+         check (!rc);
+      } // endif
+   } // end-try
+   catch (std::string& e) {
+      cerr << e.c_str () << '\n';
+   }
    return 0;
 }
 
