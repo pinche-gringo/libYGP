@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.10 2003/03/03 05:59:28 markus Exp $
+// $Id: RemoteFile.cpp,v 1.11 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -110,7 +110,7 @@ void RemoteFile::close (void* file) const throw (std::string) {
 
    AByteArray buffer ("Close=");
    ANumeric id ((unsigned int)file);
-   buffer += id.toUnformatedString ();
+   buffer += id.toUnformattedString ();
 
    try {
       sock.write (buffer);
@@ -149,11 +149,11 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 
    AByteArray text ("Read=");
    ANumeric id ((unsigned int)file);
-   text += id.toUnformatedString ();
+   text += id.toUnformattedString ();
 
    id = length;
    text += ";Length=";
-   text += id.toUnformatedString ();
+   text += id.toUnformattedString ();
 
    try {
       sock.write (text);
@@ -198,11 +198,11 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
 
    AByteArray text ("Write=");
    ANumeric id ((unsigned int)file);
-   text += id.toUnformatedString ();
+   text += id.toUnformattedString ();
 
    id = length;
    text += ";Length=";
-   text += id.toUnformatedString ();
+   text += id.toUnformattedString ();
 
    text += ";Data=\"";
    text.append (buffer, length);
@@ -235,7 +235,7 @@ bool RemoteFile::isEOF (void* file) const throw (std::string) {
 
    AByteArray buffer ("EOF=");
    ANumeric id ((unsigned int)file);
-   buffer += id.toUnformatedString ();
+   buffer += id.toUnformattedString ();
    
    try {
       sock.write (buffer);

@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.22 2003/03/03 05:56:28 markus Exp $
+//$Id: ADate.h,v 1.23 2003/03/03 06:18:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ class ADate : public AttributValue {
    static ADate today () { return ADate (true); }
 
    // Conversion
-   virtual std::string toUnformatedString () const;
+   virtual std::string toUnformattedString () const;
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 

@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.15 2003/03/03 05:56:28 markus Exp $
+//$Id: ATime.h,v 1.16 2003/03/03 06:18:36 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ class ATime : public AttributValue {
    static ATime now () { return ATime (true); }
 
    // Conversion
-   virtual std::string toUnformatedString () const;
+   virtual std::string toUnformattedString () const;
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 

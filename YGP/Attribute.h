@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.14 2003/02/18 02:48:51 markus Exp $
+//$Id: Attribute.h,v 1.15 2003/03/03 06:18:36 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ class IAttribute {
 
    const std::string& getName () const { return name; }
    virtual std::string getValue () const = 0;
-   virtual std::string getFormatedValue () const { return getValue (); }
+   virtual std::string getFormattedValue () const { return getValue (); }
 
  protected:
    IAttribute (const char* pName) : name (pName) { Check3 (pName); }
@@ -106,8 +106,8 @@ template <class T> class Attribute : public IAttribute {
       return assignFromString (value); }
 
    T& getAttribute () const { return attr_; }
-   virtual std::string getValue () const { return attr_.toUnformatedString (); }
-   virtual std::string getFormatedValue () const { return attr_.toString (); }
+   virtual std::string getValue () const { return attr_.toUnformattedString (); }
+   virtual std::string getFormattedValue () const { return attr_.toString (); }
 
  private:
 
@@ -125,7 +125,7 @@ template <> bool Attribute<char>::assignFromString (const char* value) const {
    return *value && !value[1];
 }
 template <> std::string Attribute<char>::getValue () const { return std::string (1, attr_); }
-template <> std::string Attribute<char>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<char>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<char*>::assign (const char* value, unsigned int length) const {
    Check3 (value);
@@ -142,7 +142,7 @@ template <> bool Attribute<char*>::assignFromString (const char* value) const {
    return assign (value, strlen (value));
 }
 template <> std::string Attribute<char*>::getValue () const { return attr_; }
-template <> std::string Attribute<char*>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<char*>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<char* const>::assignFromString (const char* value) const {
    Check3 (value);
@@ -155,7 +155,7 @@ template <> bool Attribute<char* const>::assign (const char* value, unsigned int
    return true;
 }
 template <> std::string Attribute<char* const>::getValue () const { return attr_; }
-template <> std::string Attribute<char* const>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<char* const>::getFormattedValue () const { return getValue (); }
 
 // Specialization of Attribute for ints
 template <> bool Attribute<short>::assignFromString (const char* value) const {
@@ -169,7 +169,7 @@ template <> std::string Attribute<short>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<short>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<short>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<unsigned short>::assignFromString (const char* value) const {
    Check3 (value);
@@ -182,7 +182,7 @@ template <> std::string Attribute<unsigned short>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<unsigned short>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<unsigned short>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<int>::assignFromString (const char* value) const {
    Check3 (value);
@@ -195,7 +195,7 @@ template <> std::string Attribute<int>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<int>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<int>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<unsigned int>::assignFromString (const char* value) const {
    Check3 (value);
@@ -208,7 +208,7 @@ template <> std::string Attribute<unsigned int>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<unsigned int>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<unsigned int>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<long>::assignFromString (const char* value) const {
    Check3 (value);
@@ -221,7 +221,7 @@ template <> std::string Attribute<long>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%ld", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<long>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<long>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<unsigned long>::assignFromString (const char* value) const {
    Check3 (value);
@@ -234,7 +234,7 @@ template <> std::string Attribute<unsigned long>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%ld", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<unsigned long>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<unsigned long>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<double>::assignFromString (const char* value) const {
    Check3 (value);
@@ -247,7 +247,7 @@ template <> std::string Attribute<double>::getValue () const {
    char buffer[20];
    sprintf (buffer, "%lg", attr_);
    return std::string (buffer); }
-template <> std::string Attribute<double>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<double>::getFormattedValue () const { return getValue (); }
 
 // Specialization of Attribute for strings
 template <> bool Attribute<std::string>::assignFromString (const char* value) const {
@@ -261,7 +261,7 @@ template <> bool Attribute<std::string>::assign (const char* value, unsigned int
    return true;
 }
 template <> std::string Attribute<std::string>::getValue () const { return attr_; }
-template <> std::string Attribute<std::string>::getFormatedValue () const { return getValue (); }
+template <> std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
 
 template <> bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
    Check3 (value);

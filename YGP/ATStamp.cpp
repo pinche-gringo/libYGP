@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.13 2003/03/03 05:56:28 markus Exp $
+//$Id: ATStamp.cpp,v 1.14 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -130,10 +130,10 @@ ATimestamp& ATimestamp::operator= (const struct tm& tm) {
 //            DDMMYYYY[...] hhmmss.
 //Returns   : String-representation of ATimestamp
 /*--------------------------------------------------------------------------*/
-std::string ATimestamp::toUnformatedString () const {
-   std::string ret (ADate::toUnformatedString ());
+std::string ATimestamp::toUnformattedString () const {
+   std::string ret (ADate::toUnformattedString ());
    ret += ' ';
-   ret += ATime::toUnformatedString ();
+   ret += ATime::toUnformattedString ();
    return ret;
 }
 

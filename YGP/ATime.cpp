@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.20 2003/03/03 05:56:28 markus Exp $
+//$Id: ATime.cpp,v 1.21 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -126,7 +126,7 @@ ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
 //            leading zeros).
 //Returns   : String-representation of ATime
 /*--------------------------------------------------------------------------*/
-std::string ATime::toUnformatedString () const {
+std::string ATime::toUnformattedString () const {
    char buffer[8];
 
    sprintf (buffer, "%02d%02d%02d", (unsigned)hour, (unsigned)min_, (unsigned)sec);

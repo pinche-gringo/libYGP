@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.28 2003/03/03 05:56:48 markus Exp $
+//$Id: ANumeric.cpp,v 1.29 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -134,7 +134,7 @@ void ANumeric::define () {
 //Purpose   : Converts the number into a string without any formatting.
 //Returns   : String-representation of ANumeric
 /*--------------------------------------------------------------------------*/
-std::string ANumeric::toUnformatedString () const {
+std::string ANumeric::toUnformattedString () const {
    std::string str ("");
 
    if (isDefined ()) {
@@ -170,7 +170,7 @@ std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const - Locale-info = " << loc->grouping
            << " - " << loc->thousands_sep);
 
-   str = toUnformatedString ();
+   str = toUnformattedString ();
    TRACE5 ("ANumeric::toString () const - " << str);
 
    int len (str.length ());

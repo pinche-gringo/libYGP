@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.15 2003/03/03 05:59:28 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.16 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -211,7 +211,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
          if (length = fread (contents, 1, length, pFile)) {
             std::string send ("RC=0;Length=");
             ANumeric len (length);
-            send += len.toUnformatedString ();
+            send += len.toUnformattedString ();
             send += AssignmentParse::makeAssignment (";Data", contents, length);
             sock.write (send.data (), send.length ());
          }
@@ -295,15 +295,15 @@ void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
 
    write += ";Size=";
    ANumeric number (result.size ());
-   write += number.toUnformatedString ();
+   write += number.toUnformattedString ();
 
    write += ";Time=";
    ATimestamp time (result.time ());
-   write += time.toUnformatedString ();
+   write += time.toUnformattedString ();
 
    ANumeric attr (IDirectorySearch::convertFromSysAttribs (result.attributes ()));
    write += ";Attr=";
-   write += attr.toUnformatedString ();
+   write += attr.toUnformattedString ();
 
    socket.write (write);
 }
@@ -318,7 +318,7 @@ int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
    throw (std::domain_error) {
    AByteArray write ("RC=");
    ANumeric err (error);
-   write += err.toUnformatedString ();
+   write += err.toUnformattedString ();
 
    if (desc) {
       write += ";E=";

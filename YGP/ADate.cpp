@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.29 2003/03/03 05:56:28 markus Exp $
+//$Id: ADate.cpp,v 1.30 2003/03/03 06:18:36 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -122,7 +122,7 @@ ADate& ADate::operator= (const char* pDate) throw (std::invalid_argument) {
 //            entry is filled up with zeros.
 //Returns   : std::string: String-representation of ADate
 /*--------------------------------------------------------------------------*/
-std::string ADate::toUnformatedString () const {
+std::string ADate::toUnformattedString () const {
    char buffer[12];
 
    sprintf (buffer, "%02d%02d%04d", (unsigned)day, (unsigned)month, year);

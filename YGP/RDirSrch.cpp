@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.17 2003/02/13 07:15:57 markus Exp $
+//$Id: RDirSrch.cpp,v 1.18 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -180,7 +180,7 @@ const File* RemoteDirSearch::find (unsigned long attribs) throw (std::string) {
    buffer += "\";Attr=";
 
    ANumeric attrs (attribs);
-   buffer += attrs.toUnformatedString ();
+   buffer += attrs.toUnformattedString ();
    buffer += '\0';
 
    TRACE8 ("RemoteDirSearch::find (unsigned long) - Sending:\n\t"

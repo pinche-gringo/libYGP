@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.8 2003/02/21 19:42:12 markus Exp $
+// $Id: XStrBuf.cpp,v 1.9 2003/03/03 06:18:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -50,7 +50,7 @@ int main (int argc, char* argv[]) {
    check (in);
    if (in) {
       extStreambuf str (*in.rdbuf ());
-      in.ios::rdbuf (&str);
+      in.std::ios::rdbuf (&str);
       char c;
 
       char buffer[20], *pAct = buffer;
