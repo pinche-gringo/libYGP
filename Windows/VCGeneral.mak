@@ -77,7 +77,7 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /I ../Windows;./Common /c
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "VCGENERAL_EXPORTS" /Fp"$(INTDIR)\VCGeneral.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /I ../Windows /I ../Common /c
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCGeneral.bsc"
