@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.15 2001/01/19 14:39:26 Markus Exp $
+//$Id: ADate.cpp,v 1.16 2001/03/25 09:52:42 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -60,7 +60,7 @@ ADate::ADate (bool now) : AttributValue () {
 //            month: Month
 //            year: Year to set
 /*--------------------------------------------------------------------------*/
-ADate::ADate (char Day, char Month, int Year) : AttributValue () {
+ADate::ADate (char Day, char Month, int Year) : AttributValue (true) {
    day = Day;
    month = Month;
    year = Year;
@@ -68,9 +68,8 @@ ADate::ADate (char Day, char Month, int Year) : AttributValue () {
    if (checkIntegrity ()) {
       TRACE ("ADate::ADate (Day, Month, Year) -> checkIntegrity failed with "
              << checkIntegrity ());
+      AttributValue::undefine ();
    }
-   else
-      AttributValue::define ();
 }
 
 /*--------------------------------------------------------------------------*/
