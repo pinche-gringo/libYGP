@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.9 2000/03/12 12:38:52 Markus Exp $
+//$Id: AttrVal.h,v 1.10 2000/03/21 23:29:08 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,12 +38,12 @@ class AttributValue {
 
    AttributValue& operator= (const AttributValue& other) {
       defined = other.defined; return *this; }
-
    virtual void define () = 0;
-   virtual std::string toString () const { return ""; }
-   virtual void readFromStream (istream&) { }
 
-   void toString (std::string& value) const { value = toString (); }
+   virtual std::string toString () const { return ""; }
+   void toString (std::string& result) const { result = toString (); }
+
+   virtual void readFromStream (istream&) { }
 
    friend ostream& operator>> (istream& in, AttributValue& inValue) {
       inValue.readFromStream (in); }
