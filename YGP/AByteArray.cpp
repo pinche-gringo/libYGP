@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.1 2001/03/25 09:49:56 markus Exp $
+// $Id: AByteArray.cpp,v 1.2 2001/03/27 18:41:32 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -129,7 +129,7 @@ AByteArray& AByteArray::assign (const AByteArray& rhs) {
 AByteArray& AByteArray::assign (const char* pSource, unsigned int length) {
    TRACE5 ("AByteArray::assign (const char*, unsigned int)");
 
-   assert (pSource); assert (length);
+   assert (pSource);
    AttributValue::define ();
 
    len = length;
