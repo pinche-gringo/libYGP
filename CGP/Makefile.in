@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.2 2001/01/07 16:29:05 Markus Exp $
+# $Id: Makefile.in,v 1.3 2001/01/19 14:41:33 Markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -14,6 +14,13 @@ SHELL = @SHELL@
 
 prefix = @prefix@
 exec_prefix = @exec_prefix@
+
+top_srcdir =  @top_srcdir@
+top_builddir = ..
+
+subdir=CORBA
+
+DESTDIR=
 
 libdir = @libdir@
 includedir = @includedir@
@@ -34,43 +41,32 @@ PACKAGE = @PACKAGE@
 RELEASE = @RELEASE@
 VERSION = @VERSION@
 
-DEFS = @DEFS@ -I. -I$(srcdir)
+INCLUDES =  -I. -I$(top_srcdir) -I$(top_srcdir)/Common
+DEFS = @DEFS@
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 
-LIBS=-lmico
+LIBS=-lmico -lAttr
 
 CORBACOMPILE = mico-shc++
 CORBALINK = mico-shld
 
-top_srcdir =  @top_srcdir@
-top_builddir = ..
-
-subdir=CORBA
-
-DESTDIR=
-
-HEADER_TARGETS=
-LIB_TARGETS=libCAttr.so
+HEADER_TARGETS=CDirSrch.h
+LIB_TARGETS=@CORBA_TARGETS@
 OBJECTS=CDirSrch.o CIDirSrch.o
-#ifeq (@ac_cv_header_regexp_h@,1)
-#    OBJECTS=CDirSrch.o CIDirSrch.o
-#else
-#    OBJECTS=
-#endif
 
 .SUFFIXES: .cc .cpp .lo .o .idl
 
 .idl.cc:
 	idl $<
 .cc.o:
-	$(CORBACOMPILE) -c $<
+	$(CORBACOMPILE) -c $(INCLUDES) $<
 .cpp.o:
-	$(CXXCOMPILE) -c $<
+	$(CORBACOMPILE) -c  $(INCLUDES) $<
 
 all: Makefile $(LIB_TARGETS)
 
-libCAttr.so: $(OBJECTS)
+libCAttr.a: $(OBJECTS)
 	$(CORBALINK) $(LIBS) $(OBJECTS) -o libCAttr
 
 Makefile: Makefile.in $(top_builddir)/config.status
