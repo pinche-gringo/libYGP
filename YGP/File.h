@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.17 2003/06/19 03:16:47 markus Rel $
+//$Id: File.h,v 1.18 2003/07/16 07:01:10 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -78,6 +78,10 @@
 
 class DirectorySearch;
 
+#if SYSTEM == UNIX
+
+#define MAX_PATH            MAXNAMLEN
+
 /**Class representing a file in the file system of the operating system.
 
    This class provides simple management functions.
@@ -85,10 +89,6 @@ class DirectorySearch;
    Objects of this type are usually returned as  result of a DirectorySearch,
    but can also be used by themself.
 */
-#if SYSTEM == UNIX
-
-#define MAX_PATH            MAXNAMLEN
-
 struct File {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
