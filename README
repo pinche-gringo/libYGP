@@ -2,19 +2,19 @@
 
 General library-functions
  
-Anti-Copyright (A) 1999 Markus Schwab <MarkusSchwab@digitalsignum.com>
+Anti-Copyright (A) 1999 Markus Schwab <9izm0@altavista.com>
 ----------------------------------------------------------------------
 
 How to build:
 
 ./configure [--prefix=/usr]           # default: /usr/local
-make
+make [check] [install]
 
 
 Documentation:
 
-	Can be found in the doc-subdirectory. It's in HTML-format (as this
-is highly portabel and a browser shouldn't be to much for a programmer).
+	Can be found in the doc-subdirectory. It's in HTML-format; the file
+	index.html provides a class-index, cross_index.html a cross-index.
 
 
 Structure:
