@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.1 2002/10/20 05:34:34 markus Exp $
+//$Id: XDirSrch.cpp,v 1.2 2002/10/20 19:39:41 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <string>
 
 #include "Trace_.h"
 #include "FileRExp.h"
@@ -45,8 +46,8 @@ bool _fileIsValid (const std::string& files, const char* pFile) {
    if (files.empty ())
       return true;
 
-   PathSearch list (files);
-   string     node;
+   PathSearch  list (files);
+   std::string node;
 
    FileRegularExpr regexp (NULL);
    bool include (false);
@@ -75,7 +76,7 @@ bool _fileIsValid (const std::string& files, const char* pFile) {
 //            node: Node to check
 //Notes     : The node is added to the beginning of the list
 /*--------------------------------------------------------------------------*/
-void _addNode (string& list, char prefix, const std::string& node) {
+void _addNode (std::string& list, char prefix, const std::string& node) {
    PathSearch  l (node);
    std::string temp;
 
