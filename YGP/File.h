@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.14 2002/12/25 05:09:40 markus Rel $
+//$Id: File.h,v 1.15 2003/02/01 23:51:13 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -89,10 +89,12 @@ struct File {
 
    File () : userExec (false)
       { *entry.d_name = '\0'; }
+   File (const char* name) throw (const char*);
    File (const File& other);
    virtual ~File ();
 
    File& operator= (const File& other);
+   File& operator= (const char* name) throw (const char*);
 
    virtual File* clone () const;
 
@@ -156,10 +158,12 @@ struct File : protected WIN32_FIND_DATA {
    friend class RemoteDirSearch;
 
    File () { }
+   File (const char* name) throw (const char*);
    File (const File& other);
    virtual ~File ();
 
    File& operator= (const File& other);
+   File& operator= (const char* name) throw (const char*);
 
    virtual File* clone () const;
 

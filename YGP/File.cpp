@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.15 2002/12/17 20:31:17 markus Rel $
+//$Id: File.cpp,v 1.16 2003/02/01 23:51:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -26,6 +26,11 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <string.h>
+
+#if SYSTEM == UNIX
+#  include <unistd.h>
+#endif
 
 #include "Internal.h"
 
@@ -36,8 +41,10 @@
 
 #if SYSTEM == UNIX
 const char File::DIRSEPARATOR = '/';
-#else
+#elif SYSTEM == WINDOWS
 const char File::DIRSEPARATOR = '\\';
+#else
+#  error Unsupported plattform!
 #endif
 
 
@@ -50,10 +57,23 @@ File::File (const File& other) : path_ (other.path_)
    , entry (other.entry), status (other.status), userExec (other.userExec)
 #elif SYSTEM == WINDOWS
    , WIN32_FIND_DATA (other)
-#else
-#  error Not implemented!
 #endif
 {
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor; create from a name
+//Parameter : name: Name of file
+//Throws    : Pointer to character-array describing the error
+/*--------------------------------------------------------------------------*/
+File::File (const char* name) throw (const char*)
+#if SYSTEM == UNIX
+   : userExec (false)
+#elif SYSTEM == WINDOWS
+   , WIN32_FIND_DATA (other)
+#endif
+{
+   operator= (name);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -65,7 +85,7 @@ File::~File () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Assignmentoperator
+//Purpose   : Assignment operator
 //Parameters: other: Object to copy
 //Returns   : File&: Reference to this
 /*--------------------------------------------------------------------------*/
@@ -80,6 +100,37 @@ File& File::operator= (const File& other) {
       WIN32_FIND_DATA::operator= (other);
 #endif
    } // endif
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Assignment operator; create from a name
+//Parameter : name: Name of file
+//Returns   : Reference to self
+//Throws    : Pointer to character-array describing the error
+/*--------------------------------------------------------------------------*/
+File& File::operator= (const char* name) throw (const char*) {
+#if SYSTEM == UNIX
+   // If file exists, fill data-fields
+   if (!stat (name, &status)) {
+      const char* posName (strrchr (name, DIRSEPARATOR));
+      if (posName)
+         path_.assign (name, ++posName - name);
+      else {
+         path_ = "./";
+         posName = name;
+      }
+      strcpy (entry.d_name, posName);
+      
+      userExec = !access (name, X_OK);
+   }
+   else
+      throw (strerror (errno));
+
+#elif SYSTEM == WINDOWS
+#  error TODO
+#endif
+
    return *this;
 }
 
