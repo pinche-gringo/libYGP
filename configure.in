@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.35 $)
+AC_REVISION($Revision: 1.36 $)
 
 AC_INIT()
 
@@ -87,26 +87,27 @@ AC_MSG_RESULT([$ac_cv_header_CORBA_h])
 if test "$ac_cv_header_CORBA_h" == "yes"; then
    SUBDIRS="$SUBDIRS CORBA"
 else
-   AC_WARN(CORBA is not installed; subdir CORBA will not be made)
+   AC_MSG_WARN(CORBA is not installed; subdir CORBA will not be made)
 fi
 
-AC_MSG_CHECKING(Checking for Gtk-- - version)
-ver=`gtkmm-config --version` 2>&1 >/dev/null
-if test -z $ver; then
-   AC_WARN(Gtk-- was not found. Subdir X-windows will not be made)
-   AC_MSG_RESULT(not installed)
-else
+AC_PATH_PROG(GTKMM_CONFIG, gtkmm-config, no)
+if test "$GTKMM_CONFIG" == "no"; then
+   AC_MSG_WARN([gtkmm was not found. You need at least version $GTKMM_MINVERSION.\n
+                Subdir X-windows will not be made])
+ else
+   AC_MSG_CHECKING(Checking for gtkmm - version)
+   ver=`gtk-config --version`
+   AC_MSG_RESULT($ver)
    mayor=${ver%%.*}
    minor=${ver#*.}
    minor=${minor%.*}
    micro=${ver##*.}
-   AC_MSG_RESULT($ver)
    if test $mayor -lt $GTKMM_NEEDED_MAYOR -o $mayor -eq $GTKMM_NEEDED_MAYOR \
      -a $minor -lt $GTKMM_NEEDED_MINOR -o $minor -eq $GTKMM_NEEDED_MINOR \
      -a $micro -lt $GTKMM_NEEDED_MICRO; then
-      AC_WARN(An old version of GTK-- ($mayor.$minor.$micro) was found.\n \
-              You need at least version $GTKMM_MINVERSION.\n Subdir X-windows \
-              will not be made)
+      AC_MSG_WARN([An old version of gtkmm ($mayor.$minor.$micro) was found.\n \
+                   You need at least version $GTKMM_MINVERSION.\n Subdir X-windows \
+                   will not be made])
    else
       SUBDIRS="$SUBDIRS X-windows"
    fi
