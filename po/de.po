@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.00 ($Revision: 1.7 $)\n"
-"POT-Creation-Date: 2002-04-19 19:11-0500\n"
+"Project-Id-Version: General 0.6.00 ($Revision: 1.8 $)\n"
+"POT-Creation-Date: 2002-04-22 15:55-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -280,3 +280,88 @@ msgstr "Kann nicht zum Server '%1' verbinden"
 #: Common/Socket.cpp:311
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
+
+#: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:43
+#: X-windows/XPrintDlg.cpp:54
+msgid "OK"
+msgstr "OK"
+
+#: X-windows/XDate.cpp:54 X-windows/XMessageBox.cpp:44
+#: X-windows/XPrintDlg.cpp:54
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: X-windows/XPrintDlg.cpp:55
+#, fuzzy
+msgid "Print command: "
+msgstr "Druckbefehl: "
+
+#: X-windows/XPrintDlg.cpp:60
+msgid "Print"
+msgstr "Drucken"
+
+#. No input?
+#: X-windows/XPrintDlg.cpp:140
+msgid "No print-command specified"
+msgstr "Kein Druckbefehl angegeben"
+
+#: X-windows/XPrintDlg.cpp:149
+#, fuzzy, ycp-format
+msgid ""
+"Could not run command `%1'\n"
+"Reason: %2"
+msgstr ""
+"Fehler beim Ausführen des Druckbefehls '%1'\n"
+"Ursache: %2"
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Info"
+msgstr "Information"
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Question"
+msgstr "Frage"
+
+#: X-windows/XMessageBox.cpp:41
+msgid "Warning"
+msgstr "Warnung"
+
+#: X-windows/XMessageBox.cpp:42
+msgid "Error"
+msgstr "Fehler"
+
+#: X-windows/XMessageBox.cpp:42
+msgid "Critical"
+msgstr "Schwerer Fehler"
+
+#: X-windows/XMessageBox.cpp:43
+msgid "Retry"
+msgstr "Wiederholen"
+
+#: X-windows/XMessageBox.cpp:43
+msgid "Yes"
+msgstr "Ja"
+
+#: X-windows/XMessageBox.cpp:43
+msgid "No"
+msgstr "Nein"
+
+#. File does not exist: Show msg and exit
+#: X-windows/XFileDlg.cpp:105
+#, ycp-format
+msgid "File `%1' does not exist!"
+msgstr "Datei '%1' existiert nicht!"
+
+#: X-windows/XFileDlg.cpp:114
+#, ycp-format
+msgid "File `%1' exists! Overwrite?"
+msgstr "Datei '%1' existiert! Überschreiben?"
+
+#: X-windows/XDate.cpp:159
+#, ycp-format
+msgid "Date `%1' is not valid!"
+msgstr "Datum '%1' ist nicht gültig!"
+
+#: X-windows/XAbout.cpp:48
+msgid "Distributed under the terms of the GNU General Public License"
+msgstr "Vertrieben unter den Bedingungen der GNU General Public License"
