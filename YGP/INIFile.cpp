@@ -1,14 +1,14 @@
-//$Id: INIFile.cpp,v 1.29 2004/11/04 16:31:19 markus Rel $
+//$Id: INIFile.cpp,v 1.30 2005/01/08 22:13:29 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2004
+//COPYRIGHT   : Copyright (C) 2000 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -370,7 +370,7 @@ int INIFile::foundSection (const char* section, unsigned int) {
 void INIFile::addEntity (const Entity& obj, INISection& section) {
    TRACE9 ("INIFile::addEntity (const Entity&, INISection&) - adding "
            << obj.attributes.size () << " attributes");
-   std::vector<const IAttribute*>::const_iterator i;
+   std::vector<IAttribute*>::const_iterator i;
    for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i) {
       Check3 (*i);
       section.addAttribute (**i);
@@ -391,7 +391,7 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
    Check1 (section); Check1 (stream);
 
    writeSectionHeader (stream, section);
-   std::vector<const IAttribute*>::const_iterator i;
+   std::vector<IAttribute*>::const_iterator i;
    for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i) {
       Check3 (*i);
       stream << (*i)->getName () << '=' << (*i)->getValue () << '\n';
