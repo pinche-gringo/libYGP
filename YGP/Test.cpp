@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.9 1999/08/22 18:57:47 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.10 1999/08/23 17:54:35 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,6 +32,7 @@
 #include <strstream.h>
 
 #include "XStrBuf.h"
+#include "XStream.h"
 #include "DirSrch.h"
 #include "ANumeric.h"
 #include "IVIOAppl.h"
@@ -117,8 +118,8 @@ int Application::perform (int argc, char* argv[]) {
 
    while ((in.get (c)), in) {
       if (isalpha (c)) {
-cout << "Column: " << str.getColumn () << endl;
 	 check (str.getLine () == 3);
+	 check (str.getColumn () == 2);
 	 assert (pAct + 4 >= buffer);
 	 in.putback (c);
          in.putback (*--pAct);
@@ -134,7 +135,21 @@ cout << "Column: " << str.getColumn () << endl;
    while ((in.get (c)), in)
       ++afterAlpha;
 
-   check ((forAlpha == 16) && (afterAlpha == 12))
+   check ((forAlpha == 16) && (afterAlpha == 12));
+   check (str.getLine () == 5);
+   check (str.getColumn () == 0);
+
+   cout << "Testing XStream...\n";
+   
+   Xifstream xin;
+   xin.open ("Test.Dat");
+   check (!xin.eof ());
+
+   xin.init ();
+
+   xin >> c >> c;
+   check (xin.getLine () == 1);
+   check (xin.getColumn () == 2);
 
    cout << "Testing FileRegularExpr...\n";
    FileRegularExpr regExp ("a*b");
