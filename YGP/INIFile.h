@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.18 2003/02/13 06:55:40 markus Exp $
+//$Id: INIFile.h,v 1.19 2003/02/18 02:50:20 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,10 +18,18 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Class to handle INI-files (containing settings for an application).
-// This INI-files have a semantic similar to those in OS/2 (and M$ Windoze),
-// which means the consist of sections having keys and values.
-// The structure is like this
+// Class to handle the information of an INI-file (containing the settings
+// of an application).
+//
+// Technically this works by binding names (strings) to the addresses
+// of variables (in attributes). Whenever a key matching those names
+// is found, the apropiate value of the key is (tried to) assigned to
+// the variable.
+//
+// This attributes are grouped into sections (every attribute principally
+// belongs to a section. And a section ends with the start of a new
+// section.). The result is an OS/2- and Windoze-like INI-file with
+// the following syntax:
 //
 // [Section1]
 // Key1=Value1
@@ -29,9 +37,6 @@
 //
 // [Section2]
 // Key3=03012000
-//
-// Every key must be inside a section (which means after a section-entry). A
-// section is ended with the start of a new section.
 //
 // There are some predefined macros to make the generation of the
 // data-structure to parse an INI-file easier. They must be used in
@@ -183,7 +188,7 @@ template <class T> class INIList : public INISection {
    void write (std::ostream& stream) {
       return write (stream, attributes[0]->getName (),
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
-   static void write (std::ostream& stream, const char* section, std::vector<T>& values) {
+   static void write (std::ostream& stream, const char* section, const std::vector<T>& values) {
       INIFile::writeSectionHeader (stream, section);
       for (unsigned int i (0); i < values.size (); ++i)
          stream << i << '=' << values[i] << '\n';
