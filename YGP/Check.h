@@ -1,7 +1,7 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-//$Id: Check.h,v 1.3 2002/11/18 04:37:32 markus Exp $
+//$Id: Check.h,v 1.4 2002/12/01 21:18:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,11 +32,13 @@
 
 // CHECK undefined means no checks at all
 #if !defined CHECK || defined (NDEBUG)
-#define Check(expr)   0
+#define Check(expr)         0
+#define CheckMsg(expr, msg) 0
 #else
 int check (const char* expr, const char* file, unsigned int line);
 
-#define Check(expr)   ((expr) ? 0 : check (__STRING(expr), __FILE__, __LINE__))
+#define Check(expr)        ((expr) ? 0 : check (__STRING(expr), __FILE__, __LINE__))
+#define CheckMsg(expr,msg) ((expr) ? 0 : check (msg, __FILE__, __LINE__))
 #endif
 
 #if CHECK > 0
