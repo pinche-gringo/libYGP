@@ -4,6 +4,9 @@ SUBDIRS=. Tests
 
 lib_LTLIBRARIES=libAttr.la
 
+libAttr_la_LDFLAGS=-version-info $(LIBVERSION) -release $(LIBRELEASE) \
+                   -no-undefined
+
 libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
                    FileRExp.cpp Parse.cpp Handle.cpp Version.cpp ATime.cpp \
 		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp \
