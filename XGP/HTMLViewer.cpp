@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.15 2005/03/08 04:48:57 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.16 2005/03/08 17:10:48 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -101,33 +101,11 @@ HTMLViewer::~HTMLViewer () {
 /// \param file: File containing the HTML-document to display
 /// \throw std::string in case of error
 //----------------------------------------------------------------------------
-void HTMLViewer::display (const std::string& file) throw (std::string) {
+void HTMLViewer::display (const std::string& file) {
    TRACE9 ("HTMLViewer::display (const std::string&) - " << file);
    Check1 (file.size ());
 
-   std::string err;
-   int rc (gtkhtmlDisplayFile (htmlCtrl, file.c_str ()));
-   switch (rc) {
-   case 0:
-      break;
-
-   case -1:
-      err = Glib::locale_to_utf8 (_("Can't display the HTML control!\n\nReason: %1"));
-      err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
-      break;
-
-   case -2:
-      err = Glib::locale_to_utf8 (_("Can't display the HTML document!\n\nReason: %1"));
-      err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
-      break;
-
-   default:
-      throw (err);
-   } // end-switch
-
-   if (err.size ()) {
-      throw err;
-   }
+   gtkhtmlDisplayFile (htmlCtrl, file.c_str ());
 }
 
 }
