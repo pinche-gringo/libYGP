@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.4 2002/08/01 04:00:36 markus Exp $
+# $Id: Makefile.in,v 1.5 2002/10/17 07:06:47 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -98,7 +98,7 @@ install: $(pkgdata_DATA)
 	  fi; fi; \
 	done
 
-uninstall::
+uninstall:
 	@$(NORMAL_UNINSTALL)
 	list='$(pkgdata_DATA)'; for p in $$list; do \
 	  rm -f $(DESTDIR)$(pkgdatadir)/$$p; \
@@ -117,3 +117,5 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+
+check:
