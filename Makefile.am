@@ -3,7 +3,7 @@
 SUBDIRS = intl m4 @MYSUBDIRS@ po bin
 DIST_SUBDIRS = intl m4 YGP XGP CGP po doc bin
 
-include_HEADERS=gzo-cfg.h config.h
+include_HEADERS=ygp-cfg.h config.h
 
 EXTRA_DIST= config.rpath README.windows
 
