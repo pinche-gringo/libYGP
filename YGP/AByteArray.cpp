@@ -1,14 +1,14 @@
-// $Id: AByteArray.cpp,v 1.5 2002/03/23 20:43:35 markus Exp $
+// $Id: AByteArray.cpp,v 1.6 2002/04/09 20:05:09 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-//$Id: Tokenize.cpp,v 1.4 2001/08/26 14:41:13 markus Exp $
+//$Id: Tokenize.cpp,v 1.5 2002/04/09 20:05:09 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
