@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: AttrVal.h,v 1.2 1999/08/29 20:54:38 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -21,7 +21,7 @@
 class AttributValue {
  public:
    bool         isDefined () const { return defined; }
-   virtual void unDefine () { defined = false; }
+   virtual void undefine () { defined = false; }
   
  protected:
    AttributValue () : defined (false) { }
