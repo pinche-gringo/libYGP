@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.4 2003/02/03 03:54:30 markus Exp $
+//$Id: XDirSrch.h,v 1.5 2003/02/22 18:24:10 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <string>
 
 bool _XDSfileIsValid (const std::string&, const char*);
-void _XDSaddNode (string& list, char prefix, const string& node);
+void _XDSaddNode (std::string& list, char prefix, const std::string& node);
 
 class DirectorySearch;
 class RemoteDirSearch;
@@ -40,11 +40,11 @@ class XDirectorySearch : public Parent {
  public:
    //@Section manager-functions
    XDirectorySearch () : Parent () { }
-   XDirectorySearch (const string& spec) : Parent (spec) { }
+   XDirectorySearch (const std::string& spec) : Parent (spec) { }
    virtual ~XDirectorySearch () { }
 
    //@Section searching
-   virtual const File* find (const string& spec, unsigned long attribs = FILE_NORMAL) {
+   virtual const File* find (const std::string& spec, unsigned long attribs = FILE_NORMAL) {
       setSearchValue (spec);
       return Parent::find (attribs); }
    virtual const File* find (unsigned long attribs = FILE_NORMAL) {
@@ -60,10 +60,10 @@ class XDirectorySearch : public Parent {
    }
 
    //@Section in/exclusion
-   void addFilesToInclude (const string& spec) { _XDSaddNode (nodes, 'i', spec); }
-   void addFilesToExclude (const string& spec) { _XDSaddNode (nodes, 'x', spec); }
+   void addFilesToInclude (const std::string& spec) { _XDSaddNode (nodes, 'i', spec); }
+   void addFilesToExclude (const std::string& spec) { _XDSaddNode (nodes, 'x', spec); }
 
-   void setNodes (const string& spec) { nodes = spec; }
+   void setNodes (const std::string& spec) { nodes = spec; }
 
  private:
    //@Section prohibited manager functions
