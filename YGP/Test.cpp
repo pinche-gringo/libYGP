@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.13 1999/08/27 22:15:45 Markus Exp $
+// $Id: Test.cpp,v 1.14 1999/08/29 20:54:56 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,6 +32,7 @@
 #include <strstream.h>
 
 #include "Parse.h"
+#include <Handle.h>
 #include "XStrBuf.h"
 #include "XStream.h"
 #include "DirSrch.h"
@@ -42,7 +43,32 @@
 #include "FileRExp.h"
 
 
-#define check(x) { if (!(x)) cout << "    -> Failed (" #x "; line " << __LINE__ << ")\n"; }
+#define CHECK(x) { if (!(x)) cout << "    -> Failed (" #x "; line " << __LINE__ << ")\n"; }
+
+#define VERBOSE
+#undef VERBOSE
+#ifdef VERBOSE
+#define check(x) { cout << "Checking: " #x "\n"; CHECK(x) }
+#else
+#define check(x) CHECK(x)
+#endif
+
+class test {
+ public:
+   const char* n;
+   test (const char* name = "???") : n (name) {
+#ifdef VERBOSE
+      cout << "Construct " << n << '\n';
+#endif
+   }
+   ~test () {
+#ifdef VERBOSE
+      cout << "Destruct " << n << '\n';
+#endif
+   }
+};
+
+
 
 
 class Application : public IVIOApplication {
@@ -234,6 +260,26 @@ int Application::perform (int argc, char* argv[]) {
    check (ps.getNextNode () == "/usr/");
    check (ps.getNextNode () == "/usr");
 
+   // This test should be the last (to see result of cleanup close to result
+   // of create). If you dont want that put a block around this context.
+   cout << "Testing SmartPtr & Handle...\n";
+   definePtr (test);
+   Ptest pTest (new test ("SmartPtr"));
+   defineHndl (test);
+   Htest hHandle;
+   check (!hHandle.isDefined ());
+
+   hHandle.define ();
+   check (hHandle.isDefined ());
+   hHandle->n = "Handle";
+   check (hHandle.isDefined ());
+   hHandle.undefine ();
+   check (!hHandle.isDefined ());
+
+   Htest hHandle2 (new test ("Handle2"));
+   check (hHandle2.isDefined ());
+   hHandle2 = hHandle;
+   check (!hHandle2.isDefined ());
    return 0;
 }
 
