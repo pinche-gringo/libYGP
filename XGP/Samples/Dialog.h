@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.2 2003/03/03 05:53:43 markus Rel $
+//$Id: Dialog.h,v 1.3 2003/07/25 00:21:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,8 +39,11 @@ class Dialog : public XDialog {
    Dialog (ANumeric& numEntry, std::string& file);
    virtual ~Dialog ();
 
-   static Dialog* perform (ANumeric& numEntry, std::string& file) {
-      return new Dialog (numEntry, file); }
+   static Dialog* create (ANumeric& numEntry, std::string& file) {
+      Dialog* dlg (new Dialog (numEntry, file));
+      dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+      return dlg;
+   }
 
  protected:
    virtual void okEvent ();
@@ -75,9 +78,12 @@ class TDialog : Dialog {
       , obj (caller), cb (callback) { }
    virtual ~TDialog () { }
 
-   static Dialog* perform (T& caller, const PCALLBACK callback,
-                           ANumeric& numEntry, std::string& file) {
-      return new TDialog (caller, callback, numEntry, file); }
+   static Dialog* create (T& caller, const PCALLBACK callback,
+                          ANumeric& numEntry, std::string& file) {
+      Dialog* dlg (new TDialog (caller, callback, numEntry, file));
+      dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+      return dlg;
+   }
 
  private:
    T& obj;
