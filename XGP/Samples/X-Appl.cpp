@@ -1,11 +1,11 @@
- //$Id: X-Appl.cpp,v 1.2 2003/02/02 02:23:33 markus Exp $
+ //$Id: X-Appl.cpp,v 1.3 2003/02/03 03:48:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -42,7 +42,8 @@
 #include "XPrintDlg.h"
 #include <XMessageBox.h>
 
-#include <X-Appl.h>
+#include "Dialog.h"
+#include "X-Appl.h"
 
 // Pixmap for program
 const char* XAppl::xpmXAppl[] = {
@@ -259,7 +260,7 @@ void XAppl::command (int menu) {
       break;
 
    case EXIT:
-      Main::quit ();
+      Gtk::Main::quit ();
       break;
 
    case DATE:
@@ -267,6 +268,7 @@ void XAppl::command (int menu) {
       break;
 
    case DIALOG:
+      TDialog<XAppl>::perform (*this, &XAppl::addActFile, num, file);
       break;
 
    case MSGBOX:
@@ -288,6 +290,14 @@ void XAppl::showAboutbox () {
                               "X" PACKAGE " V" VERSION));
    about->setIconProgram (xpmXAppl);
    about->setIconAuthor (xpmAuthor);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Add the value of file to the list
+/*--------------------------------------------------------------------------*/
+void XAppl::addActFile () {
+   for (unsigned int i (0); i < num; ++i)
+      addFile (file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -372,7 +382,7 @@ void XAppl::writeToStream (ofstream& file) {
 int main (int argc, char* argv[]) {
    XAppl::initI18n ();
 
-   Main appl (argc, argv);
+   Gtk::Main appl (argc, argv);
    XAppl win;
    appl.run ();
    return 0;

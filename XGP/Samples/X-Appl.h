@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.2 2003/02/02 02:23:46 markus Exp $
+//$Id: X-Appl.h,v 1.3 2003/02/03 03:48:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,11 +18,14 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <string>
+
 #include <gtk--/table.h>
 #include <gtk--/statusbar.h>
 #include <gtk--/scrolledwindow.h>
 
 #include <ATStamp.h>
+#include <ANumeric.h>
 
 #include <XFileList.h>
 #include <XApplication.h>
@@ -46,6 +49,7 @@ class XAppl : public XApplication {
    // Event-handling
    virtual void command (int menu);
 
+   void addActFile ();
    void addFile (string& file);
    void saveToFile (string& file);
    void writeToStream (ofstream& file);
@@ -53,12 +57,14 @@ class XAppl : public XApplication {
    virtual const char* getHelpfile () { return "index.html"; }
    virtual void showAboutbox ();
 
-   Table     tblInput;
-   XFileList listFiles;
-   Statusbar status;
-   ScrolledWindow scroll;
+   Gtk::Table          tblInput;
+   XFileList           listFiles;
+   Gtk::Statusbar      status;
+   Gtk::ScrolledWindow scroll;
 
    ATimestamp time;
+   string     file;
+   ANumeric   num;
 
    static XApplication::MenuEntry XAppl::menuItems[];
    static const char* pTitles[];
