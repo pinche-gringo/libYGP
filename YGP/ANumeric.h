@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.23 2002/10/10 05:46:52 markus Rel $
+//$Id: ANumeric.h,v 1.24 2002/11/27 04:58:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,8 @@ class std::invalid_argument;
 
 // Class for numeric attributes. As every AttributValue is supports undefined
 // values. Furthermore the range is unlimitted (thanks to GNUs Multi Precission
-// library)
+// library. That also means, that if this library is not available, only longs
+// are used!)
 class ANumeric : public AttributValue {
  public:
    ANumeric () : AttributValue () {
