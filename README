@@ -20,6 +20,7 @@ is highly portabel and a browser shouldn't be to much for a programmer).
 Structure:
 
    - Common:    Contains common classes of general interest.
-   - Windows:   Classes and other stuff related to windoze.
+   - CORBA:     Classes and other stuff related to CORBA.
+   - Windows:   Classes and other stuff related to M$ Windoze.
    - X-Windows: Classes and other stuff related to X-windows.
    - doc      : Documentation
