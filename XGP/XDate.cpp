@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.16 2003/06/02 01:31:20 markus Rel $
+//$Id: XDate.cpp,v 1.17 2003/07/05 05:12:12 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -49,8 +49,8 @@
 //            date: Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
 //            showFields: Bitfield describing wich fields to show
 /*--------------------------------------------------------------------------*/
-XDate::XDate (const std::string& title, ATimestamp& date, int showFields)
-   : XDialog (OKCANCEL)
+XDate::XDate (const Glib::ustring& title, ATimestamp& date, int showFields)
+   : XDialog (title, OKCANCEL)
      , client (new Gtk::HBox)
      , cal (new Gtk::Calendar ())
      , adjHour (new Gtk::Adjustment (0, 0, 23, 1, 10, 10))
@@ -65,8 +65,6 @@ XDate::XDate (const std::string& title, ATimestamp& date, int showFields)
    Check3 (adjMinute); Check3 (spinSecond); Check3 (adjSecond);
 
    TRACE9 ("XDate::XDate: Title '" << title << "', startvalue: " << date);
-
-   set_title (title);
 
    if (!date.isDefined ())
       date = ATimestamp::now ();

@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.8 2003/03/03 05:53:42 markus Rel $
+//$Id: XDate.h,v 1.9 2003/07/05 05:12:12 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include <string>
 
 #include <XDialog.h>
 
@@ -50,13 +48,13 @@ namespace Gtk {
 // (which are hopefully self explainatory).
 class XDate : public XDialog {
  public:
-   XDate (const std::string& title, ATimestamp& date, int showFields = SHOW_ALL);
+   XDate (const Glib::ustring& title, ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
 
    enum { SHOW_HOUR = 1, SHOW_MINUTE = 2, SHOW_SECOND = 4, SHOW_DAY = 8,
           SHOW_MONTH = 16, SHOW_YEAR = 32, SHOW_ALL = -1 };
 
-   static XDate* perform (const std::string& title, ATimestamp& date,
+   static XDate* perform (const Glib::ustring& title, ATimestamp& date,
                           int showFields = SHOW_ALL) {
       return new XDate (title, date, showFields); }
 
