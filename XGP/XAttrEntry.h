@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.1 2003/01/09 04:04:34 markus Exp $
+//$Id: XAttrEntry.h,v 1.2 2003/01/14 17:05:46 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,31 +34,49 @@
 template <class T> class XAttributeEntry : public Gtk::Entry {
    typedef P parent;
    XAttributeEntry (T& attr)
-      : Gtk::Entry (), attr_ (attr) { update (); }
+      : Gtk::Entry (), attr_ (attr), temp (attr) { set_text (attr.toString ()); }
    ~XAttributeEntry () { }
 
-   void update () { set_text (attr_.toString ()); }
+   void commit () { attr_ = temp; }
+   void update () {
+      temp = attr_;
+      set_text (has_focus () ? temp.toString () : temp.toUmformattedString ()); }
    T& getAttribute () { return attr_; }
 
  private:
    XAttributeEntry (const XAttributeEntry&);
    const XAttributeEntry& operator= (const XAttributeEntry&);
 
-   virtual gint focus_in_event_impl (GdkEventFocus*) {
-      set_text (attr.toUformattedString ()); }
-   virtual gint focus_out_event_impl (GdkEventFocus*) {
+   virtual gint focus_in_event_impl (GdkEventFocus* ev) {
+      set_text (temp.toUformattedString ());
+      return Gtk::Entry::focus_in_event_impl (ev); }
+   virtual gint focus_out_event_impl (GdkEventFocus* ev) {
       try {
-         attr_ = get_text ();
+         temp = get_text ();
       }
       catch (std::invalid_argument& e) {
          XMessageBox::perform (_("Invalid value!"),
                                XMessageBox::ERROR | XMessageBox::OK);
+         grab_focus ();
          return true;
       }
       update ();
-      return false; }
+      return Gtk::Entry::focus_out_event_impl (ev); }
 
+   T  temp;
    T& attr_;
 };
+
+
+// Specialication for strings
+XAttributeEntry<string>::XAttributeEntry (string& attr) : attr_ (attr), temp (attr) {
+   set_text (attr); }
+
+void XAttributeEntry<string>::update () { set_text (temp = attr_); }
+gint XAttributeEntry<string>::focus_in_event_impl (GdkEventFocus* ev) {
+   return Gtk::Entry::focus_in_event_impl (ev); }
+gint XAttributeEntry<string>::focus_out_event_impl (GdkEventFocus* ev) {
+   temp = get_text ();
+   return Gtk::Entry::focus_out_event_impl (ev); }
 
 #endif
