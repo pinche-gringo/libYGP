@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.3 2001/08/28 20:21:12 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.4 2001/09/08 13:42:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -39,9 +39,9 @@
 #include "RDirSrchSrv.h"
 
 
-static const char* const  commands[] = { "Next", "Find=\"", "Check=\"" };
+static const char* const  commands[] = { "Next", "Find=\"", "Check=\"", "End" };
 static const unsigned int lengths[] =  { strlen (commands[0]), strlen (commands[1]),
-                                         strlen (commands[2]) };
+                                         strlen (commands[2]), strlen (commands[3]) };
 
 
 /*--------------------------------------------------------------------------*/
@@ -87,7 +87,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find next");
          i = dirSrch.find ();
          if (i)
-            return writeError (sock, i);
+            writeError (sock, i);
          else
             writeResult (sock, result);
          break;
@@ -108,7 +108,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 	 }
 	 catch (std::string& error) {
             sock.write ("RC=99;E=Invalid arguments");
-	    return 99;
+	    break;
 	 }
 
          TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find " << files.c_str ());
@@ -118,7 +118,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 
          i = dirSrch.find (files, result, attribs);
          if (i)
-            return writeError (sock, i);
+            writeError (sock, i);
          else
             writeResult (sock, result);
          }
@@ -133,13 +133,15 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          }
          break;
 
+      case 3:                                              // End communication
+	 return 99;
+
       default:
 	 data += '\0';
 	 TRACE ("RemoteDirSearchSrv::performCommands (int) - Invalid command "
                 << data.data ());
 
 	 sock.write ("RC=99;E=Invalid command");
-	 return 99;
       } // end-switch
    }
    while (data.length ());

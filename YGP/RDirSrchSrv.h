@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.3 2001/08/28 20:21:12 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.4 2001/09/08 13:42:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ class AByteArray;
 //   - Check="<file>"
 //   - Find="<file>;Attr=<attr>
 //   - Next
+//   - End
 //
 // Possible answers to those commands are
 //    - RC=<status>[;E=<errortext>]
