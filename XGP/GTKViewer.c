@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.4 2003/10/28 07:33:42 markus Exp $
+//$Id: GTKViewer.c,v 1.5 2003/11/03 04:44:45 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -133,13 +133,17 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
       if (!strncmp (file, "file://", 7))
          file += 7;
 
+      gsize bytes = 0;
+      GError* error = NULL;
+      unsigned int nlen = strlen (file);
+      file = g_filename_from_utf8 (file, nlen, 0, &bytes, &error);
+
       char tmp[4] = "";
       char* oldpath = ((GTKHTMLDATA*)data)->path ? ((GTKHTMLDATA*)data)->path : tmp;
       TRACE2 ("Oldpath = '%s'\n", oldpath);
       if (*file == '/')
          *oldpath = '\0';
       unsigned int olen = strlen (oldpath);
-      unsigned int nlen = strlen (file);
       char* newpath = (char*)malloc (nlen + olen  + 2);
       if (olen) {
          memcpy (newpath, oldpath, olen);
@@ -147,24 +151,27 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
             newpath[olen++] = '/';
       }
       memcpy (newpath + olen, file, nlen + 1);
+      oldpath = strrchr (newpath + olen, '#');
+      if (oldpath)
+         *oldpath = '\0';
 
       TRACE2 ("Reading: `%s'\n", newpath);
       FILE* pFile = fopen (newpath, "r");
       if (!pFile) {
-         gsize bytes = 0;
-         GError* error = NULL;
+         int err = errno;
          const char* const msg = _("Error loading file '%s': %s");
          char* const strError = g_locale_to_utf8 (msg, strlen (msg), 0,
                                                   &bytes, &error);
          GtkWidget* dlg = gtk_message_dialog_new
              (GTK_WINDOW (gtk_widget_get_ancestor (ctrl, GTK_TYPE_WINDOW)),
               GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-              GTK_BUTTONS_OK, strError, newpath, g_strerror (errno));
+              GTK_BUTTONS_OK, strError, newpath, g_strerror (err));
          gtk_dialog_run (GTK_DIALOG (dlg));
          gtk_widget_destroy (dlg);
          free (newpath);
          return 1;
       }
+
       if (((GTKHTMLDATA*)data)->path)
          free (((GTKHTMLDATA*)data)->path);
       ((GTKHTMLDATA*)data)->path = newpath;
