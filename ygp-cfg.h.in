@@ -117,6 +117,12 @@
 /* Define if GTK is installed (in a fitting version) */
 #undef HAVE_GTK
 
+/* Define if GTKHTML is installed (in a fitting version) */
+#undef HAVE_GTKHTML
+
+/* Define if GTKMM is installed (in a fitting version) */
+#undef HAVE_GTKMM
+
 /* Define if you have the iconv() function. */
 #undef HAVE_ICONV
 
@@ -171,9 +177,6 @@
 
 /* Define to 1 if you have the `putenv' function. */
 #undef HAVE_PUTENV
-
-/* Define for working regexp.h */
-#undef HAVE_REGEXP_H
 
 /* Define for working regex.h */
 #undef HAVE_REGEX_H
