@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.2 2004/10/23 18:53:19 markus Exp $
+//$Id: Relation.h,v 1.3 2004/10/25 02:58:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,21 +38,20 @@ class IRelation;
 class RelationManager {
    friend class IRelation;
 
+   static IRelation* getRelation (const char* name);
+
  private:
-   static void add (IRelation* relation) {
-      Check1 (find (relations.begin (), relations.end (), relation)
-	      == relations.end ());
-      relations.push_back (relation); }
+   static void remove (const IRelation* relation);
+   static void add (const char* name, IRelation* relation) {
+      Check1 (relations.find (relation) == relations.end ());
+      relations[name] = relation; }
 
    RelationManager ();
    RelationManager (const RelationManager& other);
    const RelationManager& operator= (const RelationManager& other);
    ~RelationManager ();
 
-   static void removeAll ();
-   static void remove (const IRelation* relation);
-
-   static std::vector<IRelation*> relations;
+   static std::map<const std::string, IRelation*> relations;
 };
 
 
@@ -70,7 +69,7 @@ struct lessDereferenced : public std::binary_function<_Tp, _Tp, bool> {
  */
 class IRelation {
  public:
-   IRelation ();
+   IRelation (const char* name);
    virtual ~IRelation ();
 
  private:
@@ -85,7 +84,7 @@ class IRelation {
  */
 template <class S, class T>
 class Relation1_1 : public IRelation {
-   Relation1_1 () { }                                   ///< Defaultconstructor
+   Relation1_1 (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~Relation1_1 () { }                                  ///< Destructor
 
    void relate (S source, T target) {
@@ -131,8 +130,8 @@ template <class S, class T>
 class Relation1_N : public IRelation {
  public:
    /// Creates an 1-to-n relation.
-   /// \param maxRelated: The number of elements which can be related to the object
-   Relation1_N () { }
+   /// \param name: Name of relation
+   Relation1_N (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~Relation1_N () { }                                  ///< Destructor
 
    void relate (S source, T target) {
@@ -185,15 +184,16 @@ template <class S, class T>
 class Relation1_X : public Relation1_N<S, T> {
  public:
    /// Creates an 1-to-n relation.
+   /// \param name: Name of relation
    /// \param maxRelated: The number of elements which can be related to the object
-   Relation1_X (unsigned int maxRelated) : cRelated (maxRelated){ }
+   Relation1_X (const char* name, unsigned int maxRelated)
+      : Relation1_N<S, T> (name), cRelated (maxRelated) { }
    virtual ~Relation1_X () { }                                  ///< Destructor
 
    void relate (S source, T target) throw (std::overflow_error) {
       typename std::map<S, std::vector<T> >::iterator i
 	 (Relation1_N<S, T>::objects.find (source));
       if (i != Relation1_N<S, T>::objects.end ()) {
-	 std::cout << "Adding to " << i->second.size () << " objects\n";
 	 if ((cRelated != -1U) && (i->second.size () >= cRelated))
 	    throw std::overflow_error ("");
       }
@@ -215,7 +215,9 @@ class Relation1_X : public Relation1_N<S, T> {
  */
 template <class S, class T>
 class RelationN_M : public IRelation {
-   RelationN_M () { }                                   ///< Defaultconstructor
+   /// Creates an 1-to-n relation.
+   /// \param name: Name of relation
+   RelationN_M (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~RelationN_M () { }                                  ///< Destructor
 
  private:
