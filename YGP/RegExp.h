@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.2 2000/05/15 00:12:28 Markus Exp $
+//$Id: RegExp.h,v 1.3 2000/05/30 20:25:08 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
 //       care it is valied during the life-time of the object.
 class IRegularExpression {
  public:
-   bool matches (const char* pCompare) const {
+   bool matches (const char* pCompare) {
       assert (pCompare); assert (pRegExp); assert (!checkIntegrity ());
       return compare (pRegExp, pCompare); }
 
-   virtual int  checkIntegrity () const { }
+   virtual int checkIntegrity () const { }
 
  protected:
    IRegularExpression (const char* pExpression) : pRegExp (pExpression) { assert (pRegExp); }
@@ -38,7 +38,7 @@ class IRegularExpression {
    IRegularExpression& operator= (const char* pExpr) { pRegExp = pExpr; return *this; }
    const char* getExpression () const { return pRegExp; }
 
-   virtual bool compare (const char* pAktRegExp, const char* pCompare) const = 0;
+   virtual bool compare (const char* pAktRegExp, const char* pCompare) = 0;
 
  private:
    // Prohibited manager functions

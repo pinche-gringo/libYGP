@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.9 2000/05/18 17:46:59 Markus Exp $
+//$Id: FileRExp.cpp,v 1.10 2000/05/30 20:28:58 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -31,17 +31,23 @@
 #  include <fnmatch.h>
 #endif
 
+#include <ctype.h>
+
 #ifdef UNIX
 #  define upper
 #else
-#  include <ctype.h>
 #  define upper        (char)toupper
 #endif
 
+#define DEBUG 0
+#include "Trace_.h"
 #include "ANumeric.h"
 #include "FileRExp.h"
 
 #include <iostream.h>
+
+
+#define isclass(type,str,ch) (strncmp ((str), #type, sizeof (#type) - 1) ? 0 : (is##type (ch) ? 2 : 1))
 
 
 /*--------------------------------------------------------------------------*/
@@ -58,7 +64,7 @@ FileRegularExpr::~FileRegularExpr () {
 //Returns   : bool: Result (true: match)
 //Require   : pAktRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) const {
+bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
    assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
 
 #ifdef HAVE_FNMATCH
@@ -100,9 +106,44 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) con
                   break;
                pAktRegExp += 2;
             }
-            else
-               if (upper (ch) == upper (*pCompare))
-                  break;
+            else {
+               const char* pEndClass;
+               if ((ch == REGIONBEGIN) && (pAktRegExp[1] == REGIONCLASS)
+                   && ((pEndClass = strchr (pAktRegExp + 2, REGIONCLASS)) != NULL)
+                   && (pEndClass[1] == REGIONEND)) {
+                  TRACE7 ("Check " << *pCompare << " against region-class "
+                          << pAktRegExp + 2);
+
+                  int temp (0);
+                  int val ((temp = isclass (alnum, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (alpha, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (digit, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (space, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (cntrl, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (graph, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (print, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (punct, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (upper, pAktRegExp + 2, *pCompare)) ? temp :
+                           (temp = isclass (lower, pAktRegExp + 2, *pCompare)) ? temp :
+                           (isclass (xdigit, pAktRegExp + 2, *pCompare)));
+                  if (val == 2) {
+                     TRACE8 ("Check " << *pCompare << " matches region-classes"
+                             << setw (pAktRegExp + 2 - pEndClass) << pAktRegExp + 2);
+                     break;
+                  } // endif class and input matches
+                  else {
+                     TRACE8 ("Check " << *pCompare << " doesn't match region-class "
+                             << setw (pAktRegExp + 2 - pEndClass) << pAktRegExp);
+                     if (val)
+                        pAktRegExp = pEndClass + 1;
+                  } // end-else class found, but input doesn't match
+               } // endif
+               else {
+                  TRACE7 ("Check " << *pCompare << " == " << ch);
+                  if (upper (ch) == upper (*pCompare))
+                     break;
+                } // end-else ordinary character
+	    } // end-else no range
          } // end-while
 
          if ((ch != REGIONEND) == fNeg)
