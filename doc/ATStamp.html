@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: ATStamp.html,v 1.8 2002/04/11 19:05:48 markus Exp $ -->
+<!-- $Id: ATStamp.html,v 1.9 2002/04/12 01:23:39 markus Rel $ -->
 
 <html>
   <head>
@@ -63,6 +63,9 @@
       <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
         <td><a href="ATStamp.html#add"><b>add</b></a></td>
         <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">Month</font></tt> = 0, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">Hour</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">minute</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">second</font></tt> = 0)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ATStamp.html"><b>ATimestamp</b></a>&amp;</tt> </td>
+        <td><a href="ATStamp.html#assignGMT"><b>assignGMT</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">stamp</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
         <td><a href="ATStamp.html#checkIntegrity"><b>checkIntegrity</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
@@ -249,7 +252,13 @@
     <pre><a name="operator=5"></a>ATimestamp&amp; operator= (const time_t&amp; stamp)</pre>
     <dl>
       <dd>Assignment-operator; sets the time to the value represented by the
-        parameter.</dd>
+        parameter, which is considered to specify the time according the local time.</dd>
+    </dl>
+
+    <pre><a name="assignGMT"></a>ATimestamp&amp; assignGMT (const time_t&amp; stamp)</pre>
+    <dl>
+      <dd>Assignment-operator; sets the time to the value represented by the
+        parameter, which is considered to specify the time according the GMT-time.</dd>
     </dl>
 
     <pre><a name="now"></a>static ATimestamp now ()</pre>
