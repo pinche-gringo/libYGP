@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.15 1999/09/05 01:27:53 Markus Exp $
+// $Id: Test.cpp,v 1.16 1999/09/11 00:59:40 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,12 +24,18 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
 #include <ctype.h>
 #include <assert.h>
 
 #include <fstream.h>
 #include <iostream.h>
-#include <strstream.h>
+
+#ifdef UNIX
+#  include <strstream.h>
+#else
+#  include <strstrea.h>
+#endif
 
 #include "Parse.h"
 #include <Handle.h>
@@ -48,9 +54,9 @@
 #define VERBOSE
 #undef VERBOSE
 #ifdef VERBOSE
-#define check(x) { cout << "Checking: " #x "\n"; CHECK(x) }
+#  define check(x) { cout << "Checking: " #x "\n"; CHECK(x) }
 #else
-#define check(x) CHECK(x)
+#  define check(x) CHECK(x)
 #endif
 
 class test {
@@ -67,8 +73,6 @@ class test {
 #endif
    }
 };
-
-
 
 
 class Application : public IVIOApplication {
@@ -97,6 +101,8 @@ class Application : public IVIOApplication {
    unsigned int cOptions;
 
    static const longOptions lo[];
+
+   int dirSearchRecursive (const char* pFile) const;
 };
 
 
@@ -114,7 +120,7 @@ bool Application::handleOption (const char option) {
       const char* pValue (checkOptionValue ());
       assert (pValue == getOptionValue ());
       if (option == 'A')
-	 check (pValue);
+         check (pValue);
    } // endif special option     
    return true;
 }
@@ -129,7 +135,7 @@ void Application::showHelp () const {
 int Application::perform (int argc, char* argv[]) {
    cout << "Testing IVIOApplication...\n";
    cout << "    " << cOptions << " options and " << argc
-	<< " arguments passed\n";
+        << " arguments passed\n";
    check (!argv[argc]);
 
    cout << "Testing Parser...\n";
@@ -146,62 +152,75 @@ int Application::perform (int argc, char* argv[]) {
 
    Xifstream xstr;
    xstr.open ("Test.Dat");
-   xstr.init ();
+   check (xstr);
+   if (xstr) {
+      xstr.init ();
 
-   check (!(nr.parse ((Xistream&)xstr)));
-   check (!(alpha.parse ((Xistream&)xstr)));
-   check (!seqANum.parse ((Xistream&)xstr));
-   check (!selANum.parse ((Xistream&)xstr));
-   check (!text.parse ((Xistream&)xstr));
-   check (!text2.parse ((Xistream&)xstr));
-   check (xstr.getLine () == 3);
-   check (xstr.getColumn () == 8);
+      check (!(nr.parse ((Xistream&)xstr)));
+      check (!(alpha.parse ((Xistream&)xstr)));
+      check (!seqANum.parse ((Xistream&)xstr));
+      check (!selANum.parse ((Xistream&)xstr));
+      check (!text.parse ((Xistream&)xstr));
+      check (!text2.parse ((Xistream&)xstr));
+      check (xstr.getLine () == 3);
+      check (xstr.getColumn () == 8);
+   }
 
+#ifndef WINDOWS
+// BCC has no way to set the read-buffer of an istream -> Skip test
    cout << "Testing extStreambuf...\n";
 
    ifstream in ("Test.Dat");
-   extStreambuf str (*in.rdbuf ());
-   in.ios::rdbuf (&str);
-   char c;
+   check (in);
+   if (in) {
+      extStreambuf str (*in.rdbuf ());
+      in.ios::rdbuf (&str);
+      char c;
 
-   char buffer[20], *pAct (buffer);
+      char buffer[20], *pAct (buffer);
 
-   int forAlpha (0), afterAlpha (0);
+      int forAlpha (0), afterAlpha (0);
 
-   while ((in.get (c)), in) {
-      if (isalpha (c)) {
-	 check (str.getLine () == 3);
-	 check (str.getColumn () == 2);
-	 assert (pAct + 4 >= buffer);
-	 in.putback (c);
-         in.putback (*--pAct);
-         in.putback (*--pAct);
-         in.putback (*--pAct);
-	 break;
-      }
-      assert (buffer + sizeof (buffer) > pAct);
-      *pAct++ = c;
-      ++forAlpha;
-   } // end-while
+      while ((in.get (c)), in) {
+         if (isalpha (c)) {
+            check (str.getLine () == 3);
+            check (str.getColumn () == 2);
+            assert (pAct + 4 >= buffer);
+            in.putback (c);
+            in.putback (*--pAct);
+            in.putback (*--pAct);
+            in.putback (*--pAct);
+            break;
+         } // endif alpha found
+         assert (buffer + sizeof (buffer) > pAct);
+         *pAct++ = c;
+         ++forAlpha;
+      } // end-while 
 
-   while ((in.get (c)), in)
-      ++afterAlpha;
+      while ((in.get (c)), in)
+         ++afterAlpha;
 
-   check ((forAlpha == 16) && (afterAlpha == 12));
-   check (str.getLine () == 5);
-   check (str.getColumn () == 0);
+      check ((forAlpha == 16) && (afterAlpha == 12));
+      check (str.getLine () == 5);
+      check (str.getColumn () == 0);
+   } 
+#endif
 
    cout << "Testing XStream...\n";
    
    Xifstream xin;
    xin.open ("Test.Dat");
-   check (!xin.eof ());
+   check (xin);
+   if (xin) {
+      char c;
+      check (!xin.eof ());
 
-   xin.init ();
+      xin.init ();
 
-   xin >> c >> c;
-   check (xin.getLine () == 1);
-   check (xin.getColumn () == 2);
+      xin >> c >> c;
+      check (xin.getLine () == 1);
+      check (xin.getColumn () == 2);
+   }
 
    cout << "Testing FileRegularExpr...\n";
    FileRegularExpr regExp ("a*b");
@@ -217,12 +236,21 @@ int Application::perform (int argc, char* argv[]) {
    ANumeric num;
    check (!num.isDefined ());
 
-   ANumeric   num2 (2000);
+   ANumeric num2 (-2000);
    check (num2.isDefined ());
+   check (num2 < num);
+   num2 = 0;
+   check (num2 > num);
+   num2 += 2000;
+   ANumeric num3 (num2 + num);
+   check (num3 == num2);
+   num3 = num2 / num;
+   check (num3 == num2);
    num = num2;
    check (num.isDefined ());
+   check (num == num2);
 
-   char       numBuf[10];
+   char numBuf[10];
    ostrstream stream (numBuf, sizeof (numBuf));
    stream << num2 << ends;
    check (strlen (numBuf) >= 4);
@@ -243,6 +271,8 @@ int Application::perform (int argc, char* argv[]) {
    check (!ds.find ("../General/", &file, FILE_DIRECTORY));
    check (!ds.find ("../General", &file, FILE_DIRECTORY));
    check (ds.find ());
+
+   check (!dirSearchRecursive (NULL));
 
    cout << "Testing Tokenize...\n";
    Tokenize token ("/usr/include/std/");
@@ -282,6 +312,18 @@ int Application::perform (int argc, char* argv[]) {
    check (!hHandle2.isDefined ());
    return 0;
 }
+
+
+int Application::dirSearchRecursive (const char* pFile) const {
+   DirectorySearch ds (pFile ? "T*" : "D*");
+   dirEntry file;
+
+   if (ds.find (&file, FILE_NORMAL))
+      return 1;
+
+   return pFile ? dirSearchRecursive (NULL) : 0;
+}
+
 
 int main (int argc, char* argv[]) {
    Application appl (argc, argv);
