@@ -1,45 +1,57 @@
-Version 0.6.00: - Class for logging added
-		- Class for stacktrace added
-		- Class to parse INI-files added
-		- Class to handle character-values added
-		- Class for communication (using sockets) added
-		- Class to check real regular expressions added
-		- Class to parse assigment-statements added
-		- Class to assign assignment-statements to attributes added
-		- Classes for remote search of directories added
-		- Fixes in parser, ADate
-		- Adapted for Cygwin (GCC for DOS/Windoze)
-		- Using header for configuration
-		- AttrVals uses exceptions to signal errors
-		- Class to handle Entities added
-		- I18n
-		- XMessageBox is now really modal
-		- Support for Gtk-- < 1.2 removed
-		- Class to execute functions in background (as thread) added
-		- PathSearch has methods to expand nodes (only tilde)
-		- Loads of (minor) improvements and bugfixes
+Overview of Changes in version 0.6.00:
 
-Version 0.5.21: - Fixes for Windoze-version
-		- Docu improved, fixed
-		- Adapted for Gtk-- 1.2.0
-		- Fixes in extStreambuf
-		- IVIOApplication handles long-options like getopt
+  - Class for logging added
+  - Class for stacktrace added
+  - Class to parse INI-files added
+  - Class to handle character-values added
+  - Class for communication (using sockets) added
+  - Class to check real regular expressions added
+  - Class to parse assigment-statements added
+  - Class to assign assignment-statements to attributes added
+  - Classes for remote search of directories added
+  - Fixes in parser, ADate
+  - Adapted for Cygwin (GCC for DOS/Windoze)
+  - Using header for configuration
+  - AttrVals uses exceptions to signal errors
+  - Class to handle Entities added
+  - I18n
+  - XMessageBox is now really modal
+  - Support for Gtk-- < 1.2 removed
+  - Class to execute functions in background (as thread) added
+  - PathSearch has methods to expand nodes (only tilde)
+  - Loads of (minor) improvements and bugfixes
 
-Version 0.5.20: - Documentation added
-		- Fixes and minor changes in many classes
+Overview of changes in version 0.5.21:
 
-Version 0.5.11: - Minor fixes (DirSrch, ADate, ATime); adapted to Visual C++
-		- ANumeric uses long if GMP is not available
-		- Adapted to Gtk-- 1.1.x (using namespaces)
-		- Added Windoze-parts to distribution
+  - Fixes for Windoze-version
+  - Docu improved, fixed
+  - Adapted for Gtk-- 1.2.0
+  - Fixes in extStreambuf
+  - IVIOApplication handles long-options like getopt
 
-Version 0.5.10: - Fileselection- and print-dialog added
-		- Bugfix in XMessageBox, ADate
-		- Parser-classes reports found objects by either virtual
-		  function, global or member-function
+Overview of changes in version 0.5.20:
 
-Version 0.5.01: - Fixes in Parse-classes; Comments improved
-                - Bugfix in XFileEntry (Cursor-key-handling corrected)
-                - public constants replaced with functions (Path/DirSrch)
-		- Ported to Windoze (Borland-C++)
-		- Seperated in subdirs (Common; X-related -> X-windows)
+  - Documentation added
+  - Fixes and minor changes in many classes
+
+Overview of changes in version 0.5.11:
+
+  - Minor fixes (DirSrch, ADate, ATime); adapted to Visual C++
+  - ANumeric uses long if GMP is not available
+  - Adapted to Gtk-- 1.1.x (using namespaces)
+  - Added Windoze-parts to distribution
+
+Overview of changes in version 0.5.10:
+
+  - Fileselection- and print-dialog added
+  - Bugfix in XMessageBox, ADate
+  - Parser-classes reports found objects by either virtual
+  function, global or member-function
+
+Overview of changes in version 0.5.01:
+
+  - Fixes in Parse-classes; Comments improved
+  - Bugfix in XFileEntry (Cursor-key-handling corrected)
+  - public constants replaced with functions (Path/DirSrch)
+  - Ported to Windoze (Borland-C++)
+  - Seperated in subdirs (Common; X-related -> X-windows)
