@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h,v 1.3 2002/11/13 04:33:09 markus Exp $
+//$Id: ygp-cfg.h,v 1.4 2002/12/17 20:43:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
-#define ENABLE_NLS 0
+#undef ENABLE_NLS
 
 /* Define if you have `alloca', as a function or macro. */
 #define HAVE_ALLOCA 1
