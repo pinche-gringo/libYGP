@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.1 2003/11/12 01:57:42 markus Exp $
+//$Id: AutoContainer.cpp,v 1.2 2003/11/12 23:37:46 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <gtk/gtkmain.h>
 
 #define CHECK 9
 #define TRACELEVEL 9
@@ -66,39 +68,68 @@ AutoContainer::~AutoContainer () {
 //-----------------------------------------------------------------------------
 void AutoContainer::add (Gtk::Widget& child) {
    TRACE9 ("AutoContainer::add (Gtk::Widget&) - To " << view.children ().size ());
+   TRACE9 ("AutoContainer::add (Gtk::Widget&) - Child " << &child);
    Check2 (view.children ().size ());
 
    Check3 (view.children ().size ());
    Gtk::Box_Helpers::Child& line_ (view.children ()[view.children ().size () - 1]);
    Gtk::HBox* line (dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
-   line->hide ();
-   line->pack_start (child, Gtk::PACK_SHRINK, 5);
 
-   Glib::signal_idle ().connect
-       (bind (slot (*this, &AutoContainer::checkLast), line, &child));
+   // Check if the widget fits into the line
+   GtkRequisition lineReq, childReq;
+   line->size_request (&lineReq);
+   child.size_request (&childReq);
+
+   if (lineReq.width && ((childReq.width + lineReq.width + 10) > width)) {
+      TRACE9 ("AutoContainer::checkLast (Gtk::HBox*, Gtk::Widget*) - Handle " <<  &child);
+      line->show ();
+      line = addLine ();
+   }
+
+   line->pack_start (child, Gtk::PACK_SHRINK, 5);
 }
 
 //-----------------------------------------------------------------------------
-/// Checks, if the last add produced a line longer than the widget width
-/// \param line: Line to inspect
-/// \param child: Inserted child, which might be moved to the next line
-/// \returns bool: Flag, if check should be repeated - always false
+/// Resize-request: Resize a line
+/// \param size: New size of the container
 //-----------------------------------------------------------------------------
-bool AutoContainer::checkLast (Gtk::HBox* line, Gtk::Widget* child) {
-   // Check if the widget fits into the line
+void AutoContainer::line_size_allocate (GtkAllocation* size, Gtk::HBox* line) {
+   Check1 (size); Check1 (size->width >= -1); Check1 (size->height >= -1);
+   TRACE9 ("AutoContainer::line_size_allocate (GtkAllocation*, Gtk::HBox*) - Resize "
+           << line  << " to " << size->width << " * " << size->height);
+   Check3 (line);
+
    GtkRequisition lineReq;
    line->size_request (&lineReq);
 
-   if (lineReq.width && ((lineReq.width + 10) >= width)) {
-      line->remove (*child);
-      line = addLine ();
-      line->pack_start (*child, Gtk::PACK_SHRINK, 5);
+   if ((size->width - 8) < lineReq.width) {
+      // First find line which has been resized
+       for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
+            i != view.children ().end (); ++i)
+           if ((i->get_widget () == line) && (line->children ().size () > 1)) {
+              TRACE9 ("AutoContainer::line_size_allocate (GtkAllocation*, Gtk::HBox*) - Moving last elem");
+
+              Gtk::Box::BoxList::reverse_iterator j (line->children ().rbegin ());
+              Gtk::Widget* obj (j->get_widget ());
+              Check3 (obj);
+              obj->reference ();
+              line->remove (*obj);
+
+              if (++i == view.children ().end ())
+                 line = addLine ();
+              else
+                 line = dynamic_cast<Gtk::HBox*> (i->get_widget ());
+
+              line->pack_start (*obj, Gtk::PACK_SHRINK, 5);
+              line->reorder_child (*obj, 0);
+              obj->unreference ();
+           }
    }
-   line->show ();
 }
 
 //-----------------------------------------------------------------------------
-/// Resize-request: Resort the children
+/// Resize-request: Re-arrangethe children
+/// \param size: New size of the container
 //-----------------------------------------------------------------------------
 void AutoContainer::on_size_allocate (GtkAllocation* size) {
    Check1 (size); Check1 (size->width >= -1); Check1 (size->height >= -1);
@@ -131,7 +162,8 @@ void AutoContainer::on_size_allocate (GtkAllocation* size) {
       addLine ();
       Check3 (view.children ().size () == 1);
 
-      for (std::vector<Gtk::Widget*>::iterator i (widgets.begin ()); i != widgets.end (); ++i) {
+      for (std::vector<Gtk::Widget*>::iterator i (widgets.begin ());
+           i != widgets.end (); ++i) {
          Check1 (*i);
          add (**i);
          (*i)->unreference ();
@@ -160,6 +192,8 @@ Gtk::HBox* AutoContainer::addLine () {
    TRACE9 ("AutoContainer::addLine ()");
 
    Gtk::HBox* line (new Gtk::HBox ());
+   line->signal_size_allocate ().connect
+       (bind (slot (*this, &AutoContainer::line_size_allocate), line));
    line->show ();
    view.pack_start (*manage (line), Gtk::PACK_SHRINK, 5);
    return line;
@@ -173,6 +207,21 @@ void AutoContainer::remove (Gtk::Widget& widget) {
    TRACE4 ("AutoContainer::remove (Gtk::Widget&)");
 
    for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
-        i != view.children ().end (); ++i)
-       view.children ().erase (i);
+        i != view.children ().end (); ++i) {
+      Gtk::Box_Helpers::Child& line_ (*i);
+      Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
+
+      if (&line == &widget) {
+         view.remove (widget);
+         return;
+      }
+      else
+         for (Gtk::Box::BoxList::const_iterator j (line.children ().begin ());
+              j != line.children ().end (); ++j)
+            if (j->get_widget () == &widget) {
+               line.remove (widget);
+               return;
+            }
+   }
+   Check2 (0);
 }
