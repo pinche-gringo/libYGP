@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.8 1999/10/11 21:11:36 Markus Rel $
+//$Id: Parse.h,v 1.9 1999/10/25 17:59:16 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,6 +50,8 @@ class ParseObject {
 
    const ParseObject& operator= (const ParseObject& other);
 
+   static void setParseErrorStream (ostream& err) { error = err; }
+
    // Accessing values
    const char* getDescription () const { return pDescription; }
 
@@ -70,13 +72,12 @@ class ParseObject {
    // Possible errors of checkIntegrity
    enum { OK = 0, NO_DESCRIPTION, LAST };
 
-
  protected:
    virtual int checkIntegrity () const;
 
    PARSECALLBACK pCallback;     // Protected to enable sub-classes easy access
 
-   static ostream& error;
+   static _IO_ostream_withassign& error;
 
  private:
    // Prohibited manager functions
@@ -108,15 +109,15 @@ class ParseEOF : public ParseObject {
 //       blank ( ) ... Any whitespace is valid
 //       * ... Any character is valid
 //
-// Does this remain you at COBOL (at least a wee bit?) Yes, I've to admit
+// Does this remind you at COBOL (at least a wee bit?) Yup, I've to admit
 // I was tortured with this bullshit when I was young and dynamic (centuries
 // ago). Who'd imagine that I could use that somehow?
 class ParseAttomic : public ParseObject {
  public:
    // Manager-functions
    ParseAttomic (const char* value, const char* description,
-                 PARSECALLBACK callback = NULL, unsigned int max = 1,
-	         unsigned min = 1, bool skipWhitespace = true);
+                 unsigned int max = 1, unsigned min = 1,
+                 PARSECALLBACK callback = NULL, bool skipWhitespace = true);
    ParseAttomic (const ParseAttomic& other);
    virtual ~ParseAttomic ();
 
@@ -165,7 +166,7 @@ class ParseText : public ParseAttomic {
    ParseText (const char* abort, const char* description,
               unsigned int max, unsigned min = 1,
               PARSECALLBACK callback = NULL, bool skipWhitespace = true)
-      : ParseAttomic (abort, description, callback, max, min, skipWhitespace) { }
+      : ParseAttomic (abort, description, max, min, callback, skipWhitespace) { }
    ParseText (const ParseText& other) : ParseAttomic (other) { }
    ~ParseText () { }
 
@@ -201,9 +202,9 @@ class ParseTextEsc : public ParseText {
 // Class to parse exactly a certain text (case-sensitive!)
 // The min/max-parameters of the second constructor may seem a wee bit
 // useless, but with them its possible to parse for example an ID where just
-// the first min chars must match (PARAMETER or PARAM or ...). Well, I've to
-// admit, the main reason for this behaviour is, that I don't want to consider
-// the class-hierarchy anymore!
+// the first min chars must match (PARAMETER or PARAM or ...). Well,  the main
+// reason for this behaviour is, that I don't want to re-consider the
+// class-hierarchy anymore!
 // Note: This class uses strlen to get the length of value so don't use it to
 // check for text with a '\0' inside!
 class ParseExact : public ParseAttomic {
@@ -214,7 +215,7 @@ class ParseExact : public ParseAttomic {
    ParseExact (const char* value, const char* description,
                unsigned int max, unsigned min,
                PARSECALLBACK callback = NULL, bool skipWhitespace = true)
-      : ParseAttomic (value, description, callback, max, min, skipWhitespace)
+      : ParseAttomic (value, description, max, min, callback, skipWhitespace)
       , pos (0) { }
    ParseExact (const ParseExact& other) : ParseAttomic (other), pos (0) { }
    virtual ~ParseExact () { }
