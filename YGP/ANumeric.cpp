@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.10 2000/04/02 16:14:32 Markus Exp $
+//$Id: ANumeric.cpp,v 1.11 2000/04/14 19:15:13 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -78,7 +78,7 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 #ifdef HAVE_LIBGMP
    if (mpz_init_set_str (value, pValue, 10))
 #else
-   const char* pTail = NULL;
+   char* pTail = NULL;
    value = strtol (pValue, &pTail, 10);
    if (errno || !(pTail && *pTail))
 #endif
@@ -211,8 +211,8 @@ void ANumeric::readFromStream (istream& in) {
    if (!help.empty ()) {
       mpz_set_str (value, help.c_str (), 10);
       AttributValue::define ();
-#endif
    }
+#endif
 }
 
 
@@ -307,7 +307,6 @@ int ANumeric::compare (const ANumeric& other) {
       return (value > other.value) ? 1 : (value < other.value) ? -1 : 0;
 #endif
 
-   int rc;
    if (isDefined ())                            // this defined: Compare with 0
 #ifdef HAVE_LIBGMP
       return (mpz_cmp_ui (value, 0) < 0) ? -1 : 1;

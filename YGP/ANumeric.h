@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.12 2000/04/07 22:42:42 Markus Exp $
+//$Id: ANumeric.h,v 1.13 2000/04/14 19:15:13 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -79,8 +79,8 @@ class ANumeric : public AttributValue {
    virtual ~ANumeric ();
 
    ANumeric& operator= (const ANumeric& other);
-   ANumeric& operator= (const int val) { operator= ((const long)val); }
-   ANumeric& operator= (const unsigned int val) { operator= ((const unsigned long)val); }
+   ANumeric& operator= (const int val) { return operator= ((const long)val); }
+   ANumeric& operator= (const unsigned int val) { return operator= ((const unsigned long)val); }
    ANumeric& operator= (const unsigned long val) { AttributValue::define (); 
 #ifdef HAVE_LIBGMP
       mpz_set_ui (value, val);
