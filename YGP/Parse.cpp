@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.18 2000/04/24 14:23:46 Markus Rel $
+//$Id: Parse.cpp,v 1.19 2000/05/07 19:29:05 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -245,6 +245,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 
    int rc (PARSE_OK);
    if (i >= minCard) {                                    // Cardinalities OK?
+      ch = 0;
       TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
               << global.buffer << '\'');
       rc = found (global.buffer);                    // Report found of object
@@ -258,11 +259,12 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
             stream.putback (*--pAkt);
       else {
          global.buffer[10] = '\0';
-         std::string error ("Expected '");
+         std::string error ("Expected ");
          error += getDescription ();
-         error += "'; found: '";
+         error += "; found: '";
          error += global.buffer;
-         error += (char)ch;
+	 if (ch)
+            error += (char)ch;
          error += '\'';
 	 throw (error);
       } // end-if mandatory value not found
@@ -637,6 +639,10 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
          // first element (but only if mincard is fullfilled)
          if ((rc > 0) && (ppAct == ppList) && (i > minCard))
             rc = PARSE_OK;
+	 else
+	   throw (std::string ("Error in sequence ") + std::string (getDescription ())
+                  + std::string (": Expected: ")
+                  + std::string ((**ppAct).getDescription ()));
          break;
       } // endif error occured
    } // end-while i < maxCard
