@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.3 2000/03/02 12:43:53 Markus Exp $
+//$Id: XPrintDlg.h,v 1.4 2000/03/10 21:09:05 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class string
 
 class ofstream;
 
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class HBox;
    class Label;
@@ -40,11 +40,18 @@ namespace Gtk {
 using namespace Gtk;
 
 #else
+class Gtk_HBox;
+class Gtk_Label;
+class Gtk_Entry;
+class Gtk_Button;
+class Gtk_Object;
+
 typedef Gtk_HBox        HBox;
 typedef Gtk_Label       Label;
 typedef Gtk_Entry       Entry;
 typedef Gtk_Button      Button;
 typedef Gtk_Dialog      Dialog;
+typedef Gtk_Object      Object;
 #endif
 
 typedef SmartPtr<HBox>   PHBox;

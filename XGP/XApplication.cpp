@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.4 2000/03/02 12:43:53 Markus Exp $
+//$Id: XApplication.cpp,v 1.5 2000/03/10 21:09:05 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,7 +32,7 @@
 #include <gtk--/pixmap.h>
 #include <gtk--/accelgroup.h>
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 #  include <gtk--/menubar.h>
 #  include <gtk--/menu.h>
 #  include <gtk--/radiomenuitem.h>
@@ -52,7 +52,7 @@
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
    : vboxClient (new VBox ())
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    , accels (AccelGroup::create ()), pLastMenu (NULL)
 #else
   , accels (new AccelGroup)
@@ -68,7 +68,7 @@ XApplication::XApplication (const char* pTitle)
    vboxClient->show ();
    add (*vboxClient);
 
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    pMenu = new MenuBar (); Check3 (pMenu);
 
    pMenu->show ();
@@ -77,7 +77,7 @@ XApplication::XApplication (const char* pTitle)
    // pMenu needs an accelerator-group -> Create at end
    pMenu = new ItemFactory_MenuBar ("<Main>", *accels); Check3 (pMenu);
 
-   ObjectHandle<MenuBar> menubar (pMenu->get_menubar_widget (""));
+   Gtk_ObjectHandle<MenuBar> menubar (pMenu->get_menubar_widget (""));
    Check3 (menubar.get_object ());
    menubar->show ();
 
@@ -102,7 +102,7 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    TRACE1 ("XApplication::addMenu: " << menuEntry.path);
    Check3 (pMenu);
 
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    Check3 (accels);
    using namespace Menu_Helpers;
 

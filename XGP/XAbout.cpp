@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.3 2000/02/22 18:45:52 Markus Exp $
+//$Id: XAbout.cpp,v 1.4 2000/03/10 21:09:04 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -55,7 +55,7 @@ XAbout::XAbout (const string& author, const string& program)
 
    ok->set_usize (90, 30);
    ok->show ();
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    ok->clicked.connect (bind (slot (this, &command), 0));
 #else
    connect_to_method (ok->clicked, this, &command, 0);
@@ -91,6 +91,9 @@ XAbout::~XAbout () {
 void XAbout::setIconProgram (Pixmap& picProgram) {
    Check3 (client);
 
+   picProgram.unparent ();
+   picProgram.set_style (*Widget::get_default_style ());
+
    picProgram.show ();
    client->pack_start (picProgram, false, false, 5);
 }
@@ -101,6 +104,9 @@ void XAbout::setIconProgram (Pixmap& picProgram) {
 /*--------------------------------------------------------------------------*/
 void XAbout::setIconAuthor (Pixmap& picAuthor) {
    Check3 (client); Check3 (vboxPrgInfo);
+   
+   picAuthor.unparent ();
+   picAuthor.set_style (*Widget::get_default_style ());
 
    picAuthor.show ();
    client->pack_end (picAuthor, false, false, 5);

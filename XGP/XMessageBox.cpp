@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.5 2000/03/02 12:44:32 Markus Exp $
+//$Id: XMessageBox.cpp,v 1.6 2000/03/10 21:09:05 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -435,7 +435,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    assert ((flags & TYPEMASK) < (sizeof (icons) / sizeof (icons[0])));
    assert (icons[flags & TYPEMASK]);
 
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    icon = new Pixmap (icons[flags & TYPEMASK]); assert (icon);
 #else
    icon = new Pixmap (*client, icons[flags & TYPEMASK]); assert (icon);
@@ -456,7 +456,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
          Button* temp (new Button (labels[i]));       // Create button
          temp->show ();
 
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 	 temp->clicked.connect (bind (slot (this, &perform), 1 << (i + 4)));
 #else
          connect_to_method (temp->clicked, this, &perform, 1 << (i + 4));

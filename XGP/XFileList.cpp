@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.6 2000/03/04 18:12:27 Markus Exp $
+//$Id: XFileList.cpp,v 1.7 2000/03/10 21:09:05 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -35,6 +35,9 @@
 #include "PathDirSrch.h"
 
 #include "XFileList.h"
+
+
+typedef Gtk_CList       CList;
 
 
 const char* XFileList::iconDirectory[] = {
@@ -139,15 +142,15 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
    Check3 (namePrefix < strlen (files));
    TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
 
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
 #endif
+   Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
+   Gdk_Bitmap bitmap;
 
    if (iconDir == NULL) {
       TRACE5 ("XFileList::loadIcons -> Create default icons");
-#if GTK_VERSION_GT (1, 0)
-      Gdk_Bitmap bitmap;
-
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       iconDir = new Gdk_Pixmap;
       iconDir->create_from_xpm_d (NULL, bitmap, color, iconDirectory);
       iconDef = new Gdk_Pixmap;
@@ -155,12 +158,9 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
       iconExe = new Gdk_Pixmap;
       iconExe->create_from_xpm_d (NULL, bitmap, color, iconExecuteable);
 #else
-      iconDir = new Gdk_Pixmap (*this, iconDirectory);
-      iconDef = new Gdk_Pixmap (*this, iconDefault);
-      iconExe = new Gdk_Pixmap (*this, iconExecuteable);
-      iconDir->realize ();
-      iconDef->realize ();
-      iconExe->realize ();
+      iconDir = new Gdk_Pixmap; iconDir->create_from_xpm_d (*iconDir, bitmap, color, iconDirectory);
+      iconDef = new Gdk_Pixmap; iconDef->create_from_xpm_d (*iconDef, bitmap, color, iconDefault);
+      iconExe = new Gdk_Pixmap; iconExe->create_from_xpm_d (*iconExe, bitmap, color, iconExecuteable);
 #endif
    } // endif do first initialize
 
@@ -178,11 +178,10 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
       string filename (file.path ()); filename += file.name ();
       TRACE5 ("XFileList::loadIcons: Read icon " << file.path () << file.name ());
 
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       temp = new Gdk_Pixmap (NULL, color, filename);
 #else
-      temp = new Pixmap (*this, filename);
-      temp->realize ();
+      temp = new Gdk_Pixmap; temp->create_from_xpm (*temp, color, filename);
 #endif
       Check3 (temp);
       TRACE9 ("XCompDirs::loadIcons: Store icon "

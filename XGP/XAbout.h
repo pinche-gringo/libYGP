@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.4 2000/02/24 22:16:35 Markus Exp $
+//$Id: XAbout.h,v 1.5 2000/03/10 21:09:05 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class string
 #endif
 
 // Forward declarations
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class HBox;
    class Label;
@@ -39,18 +39,20 @@ namespace Gtk {
 
 using namespace Gtk;
 
-#else 
+#else
+class Gtk_HBox;
+class Gtk_Label;
+class Gtk_Widget;
+class Gtk_Button;
+class Gtk_Pixmap;
+
 typedef Gtk_HBox    HBox;
 typedef Gtk_Label   Label;
+typedef Gtk_Widget  Widget;
 typedef Gtk_Button  Button;
 typedef Gtk_Pixmap  Pixmap;
 typedef Gtk_Dialog  Dialog;
 #endif
-
-typedef SmartPtr<HBox>    PHBox;
-typedef SmartPtr<Label>   PLabel;
-typedef SmartPtr<Button>  PButton;
-typedef SmartPtr<Pixmap>  PPixmap;
 
 
 // Class to show a dialog with about-information for a program. It is assumed,
@@ -65,6 +67,10 @@ class XAbout : public Dialog {
    void setIconAuthor  (Pixmap& icon);
 
  private:
+   typedef SmartPtr<HBox>    PHBox;
+   typedef SmartPtr<Label>   PLabel;
+   typedef SmartPtr<Button>  PButton;
+
    // Prohibited manager-functions
    XAbout (const XAbout&);
 
@@ -79,8 +85,6 @@ class XAbout : public Dialog {
    PLabel  writer;
    PLabel  gpl;
    PHBox   client;
-   PPixmap iconPrg;
-   PPixmap iconAuthor;
 };
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.4 2000/03/02 12:43:53 Markus Exp $
+//$Id: XApplication.h,v 1.5 2000/03/10 21:09:05 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 
 // Forward declarations
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class Main;
    class HBox;
@@ -39,12 +39,22 @@ namespace Gtk {
 using namespace Gtk;
 
 #else
+class Gtk_HBox;
+class Gtk_VBox;
+class Gtk_Label;
+class Gtk_Widget;
+class Gtk_Pixmap;
+class Gtk_MenuBar;
+class Gtk_AccelGroup;
 
 typedef Gtk_Main                Main;
 typedef Gtk_VBox                VBox;
 typedef Gtk_HBox                HBox;
 typedef Gtk_Label               Label;
+typedef Gtk_Widget              Widget;
+typedef Gtk_Window              Window;
 typedef Gtk_Pixmap              Pixmap;
+typedef Gtk_MenuBar             MenuBar;
 typedef Gtk_AccelGroup          AccelGroup;
 typedef Gtk_ItemFactory_MenuBar ItemFactory_MenuBar;
 
@@ -68,7 +78,7 @@ class XApplication : public Window {
 
    // Events
    gint delete_event_impl (_GdkEventAny*) {
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       Main::quit ();
 #else
       Main::instance()->quit ();
@@ -90,7 +100,7 @@ class XApplication : public Window {
    virtual void command (int menu) = 0;
 
    // Protected data
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    MenuBar* pMenu;
 #else
    ItemFactory_MenuBar* pMenu;
@@ -104,7 +114,7 @@ class XApplication : public Window {
 
    PAccelGroup accels;
 
-#if GTK_VERSION_GT (1,0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    Menu* pLastMenu;
 #endif
 };

@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.4 2000/03/02 12:43:53 Markus Exp $
+//$Id: XPrintDlg.cpp,v 1.5 2000/03/10 21:09:05 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -96,7 +96,7 @@ void XPrintDialog::init () {
 
    // Create buttons: OK
    ok->set_usize (90, 35); ok->show ();
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    ok->clicked.connect (bind (slot (this, &command), OK));
 #else
    connect_to_method (ok->clicked, this, &command, OK);
@@ -108,7 +108,7 @@ void XPrintDialog::init () {
    // - CANCEL
    cancel->set_flags (GTK_CAN_DEFAULT);
    cancel->set_usize (90, 35); cancel->show ();
-#if GTK_VERSION_GT (1, 0)
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    cancel->clicked.connect (bind (slot (this, &command), CANCEL));
 #else
    connect_to_method (cancel->clicked, this, &command, CANCEL);
