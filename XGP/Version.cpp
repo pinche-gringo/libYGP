@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.5 2003/03/06 04:27:55 markus Rel $
+// $Id: Version.cpp,v 1.6 2003/07/19 08:36:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,6 +25,32 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <Internal.h>
+
+/**\mainpage Overview of the XGP library
+
+   \section intro Introduction XGP stands for yet another X-windows General
+   Purpose library (matching its counterpart YGP) and provides some classes
+   using the X windows system.
+
+   This classes base on the GTKMM toolkit (which itself bases on GTK).
+
+   They are distributed under the GNU General Public License; in the hope that
+   it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+   warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   file COPYING for more details.
+
+   \section features Features
+   The highlights are
+
+     - An application framework (mainly providing easier menu creation, help
+       menu handling and an about box).
+     - Labels displaying (e.g. numbers, dates, ...)
+     - Entry fields their text formatted  and checking the input for validity.
+     - A listbox, designed to display files (with an icon according to the
+       type).
+
+   and some classes for dialogs.
+*/
 
 // Function to initialize various global data
 static const int _init () {
