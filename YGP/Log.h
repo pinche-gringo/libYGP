@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.9 2003/02/21 19:35:58 markus Rel $
+//$Id: Log.h,v 1.10 2003/07/10 20:43:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,29 +43,43 @@
 #define LOGDEBUG(text)     Syslog::write (Syslog::DEBUGGING, text);
 
 
-// Class to perform some logging into either a log-file (if available) or to
-// the console.
-//
-// Every entry can be classified (according to its serverity).
+/**Class to perform some logging to either a log-file (if available) or to
+   the console.
+
+   Every entry can be classified (according to its serverity).
+*/
 class Syslog {
  public:
+   /// Constructor; specifying the logging application
    Syslog (const char* appl) { Check1 (appl);
 #if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
+#else
+      pAppl = new char[strlen (appl) + 1];
+      strcpy (pAppl, appl);
 #endif // UNIX
    }
 
+   /// Constructor; specifying the logging application and the type of that
+   /// application
    Syslog (const char* appl, int facility) { Check1 (appl);
 #if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, facility);
+#else
+      pAppl = new char[strlen (appl) + 1];
+      strcpy (pAppl, appl);
 #endif // UNIX
    }
+   /// Destructor
    ~Syslog () {
 #if SYSTEM == UNIX
       closelog ();
+#else
+      delete pAppl;
 #endif
    }
 
+   /// Writes a message to the logfile; specifying the level of the message
    static void write (int level, const char* text) {
       Check1 (text);
 #if SYSTEM == UNIX
@@ -75,7 +89,7 @@ class Syslog {
       static char* levels[] = { "Emergency", "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
       Check1 (level < (sizeof (levels) / sizeof (levels[0])));
-      std::cerr << levels[level] << ": " << text << '\n';
+      std::cerr << pAppl << '-' << levels[level] << ": " << text << '\n';
 #endif // UNIX
    }
 
@@ -86,6 +100,8 @@ class Syslog {
 #elif SYSTEM == WINDOWS
    // Don't rename ERR to ERROR, as this causes an error with BCC
    enum { EMERGENCY, ALERT, CRITICAL, ERR, WARNING, NOTICE, INFO, DEBUGGING };
+
+   const char* pAppl;
 #endif // WINDOWS
 };
 

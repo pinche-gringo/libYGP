@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.12 2003/03/06 04:16:02 markus Rel $
+//$Id: Thread.cpp,v 1.13 2003/07/10 20:43:11 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -61,44 +61,44 @@ static std::map<unsigned long, void*> rcs;
 
 #endif
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Defaultconstructor; create the object but no actual thread
-/*--------------------------------------------------------------------------*/
-Thread::Thread () : paArgs_ (NULL), id (0) {
+//-----------------------------------------------------------------------------
+/// Defaultconstructor; create the object but no actual thread
+//-----------------------------------------------------------------------------
+Thread::Thread () : pArgs_ (NULL), id (0) {
    TRACE3 ("Thread::Thread ()");
 #ifndef HAVE_LIBPTHREAD
    canceled = false;
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; Create object and a thread and passes paArgs as arguments
-//Parameters: fnc: Function to be called in the thread
-//            paArgs: Pointer to argument(s)
-//Throws    : std::string describing the error
-/*--------------------------------------------------------------------------*/
-Thread::Thread (THREAD_FUNCTION fnc, void* paArgs) throw (std::string)
-   : paArgs_ (paArgs) {
+//-----------------------------------------------------------------------------
+/// Constructor; Create object and a thread and passes pArgs as arguments
+/// \param fnc: Function to be called in the thread
+/// \param pArgs: Pointer to argument(s)
+/// \throw std::string describing the error
+//-----------------------------------------------------------------------------
+Thread::Thread (THREAD_FUNCTION fnc, void* pArgs) throw (std::string)
+   : pArgs_ (pArgs) {
    TRACE3 ("Thread::Thread (THREAD_FUNCTION, void*)");
-   init (fnc, paArgs);
+   init (fnc, pArgs);
 
    TRACE9 ("Thread::Thread (THREAD_FUNCTION, void*) -id = " << (int)id);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 Thread::~Thread () {
    TRACE3 ("Thread::~Thread ()");
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Creates the actual thread from the passed function
-//Parameters: fnc: Function to be called in the thread
-//            pArgs: Pointer to parameters
-//Throws    : std::string describing the error
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Creates the actual thread from the passed function
+/// \param fnc: Function to be called in the thread
+/// \param pArgs: Pointer to parameters
+/// \throw std::string describing the error
+//-----------------------------------------------------------------------------
 void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
 #ifdef HAVE_LIBPTHREAD
    if (pthread_create (&id, NULL, fnc, pArgs) != 0) {
@@ -130,10 +130,10 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
    TRACE9 ("Thread::init (THREAD_FUNCTION) -id = " << (int)id);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the return value for the thread
-//Parameters: rc: Returncode
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets the return value for the thread
+/// \param rc: Returncode
+//-----------------------------------------------------------------------------
 void Thread::ret (void* rc) const {
 #ifdef HAVE_LIBPTHREAD
    pthread_exit (rc);
@@ -144,12 +144,12 @@ void Thread::ret (void* rc) const {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Terminates the thread
-//Remarks   : Note that not all plattforms (e.g. Windows) support to cancel
-//            a thread; in such a case the thread must itself check, if it
-//            should be canceled.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Terminates the thread
+/// \remarks Note that not all plattforms (e.g. Windows) support to cancel a
+///     thread; in such a case the thread must itself check, if it should be
+///     canceled.
+//-----------------------------------------------------------------------------
 void Thread::cancel () {
 #ifdef HAVE_LIBPTHREAD
 #  if CHECK >= 3
@@ -162,11 +162,11 @@ void Thread::cancel () {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Waits for the passed thread to terminate
-//Parameters: id: Thread to wait for
-//Returns   : void*: The returncode of the thread
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Waits for the passed thread to terminate
+/// \param id: Thread to wait for
+/// \returns \c void*: The returncode of the thread
+//-----------------------------------------------------------------------------
 void* Thread::waitForThread (const Thread& id) {
 #ifndef HAVE_BEGINTHREAD
    return waitForThread (id.id);
@@ -176,11 +176,11 @@ void* Thread::waitForThread (const Thread& id) {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Waits for the thread with the passed ID to terminate
-//Parameters: id: Thread to wait for
-//Returns   : void*: The returncode of the thread
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Waits for the thread with the passed ID to terminate
+/// \param id: Thread to wait for
+/// \returns \c void*: The returncode of the thread
+//-----------------------------------------------------------------------------
 void* Thread::waitForThread (unsigned long id) {
    TRACE3 ("Thread::waitForThread (unsigned long) - " << id);
 
@@ -199,9 +199,9 @@ void* Thread::waitForThread (unsigned long id) {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the thread should be canceled and does so, if yes
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if the thread should be canceled and does so, if yes
+//-----------------------------------------------------------------------------
 void Thread::isToCancel () const {
 #ifdef HAVE_LIBPTHREAD
    pthread_testcancel ();
@@ -214,11 +214,11 @@ void Thread::isToCancel () const {
 }
 
 #ifdef HAVE_BEGINTHREAD
-/*--------------------------------------------------------------------------*/
-//Purpose   : Dummy thread-routine, because (of course) VC++6 has a differnt
-//            signature for a thread-function and can't (of course) not cast it
-//Parameters: params: Pointer to thread
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Dummy thread-routine, because (of course) VC++6 has a differnt signature
+/// for a thread-function and can't (of course) not cast it
+/// \param params: Pointer to thread
+//-----------------------------------------------------------------------------
 void Thread::threadFunction (void* params) {
    Thread* pThread = reinterpret_cast<Thread*> (params);
    Check1 (pThread);
