@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.4 1999/08/01 23:08:04 Markus Rel $
+//$Id: DirSrch.h,v 1.5 1999/08/21 19:37:42 Markus Rel $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -22,7 +22,24 @@
 #include <assert.h>
 
 #ifdef UNIX
-#include <dirent.h>
+
+#if HAVE_DIRENT_H
+# include <dirent.h>
+# define NAMLEN(dirent) strlen((dirent)->d_name)
+#else
+# define dirent direct
+# define NAMLEN(dirent) (dirent)->d_namlen
+# if HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif
+# if HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif
+# if HAVE_NDIR_H
+#  include <ndir.h>
+# endif
+#endif
+
 #include <sys/stat.h>
 #else
 #ifdef WINDOWS
@@ -97,7 +114,10 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    char* pPath;
 
    dirEntry () : pPath (new char [MAX_PATH]) { assert (pPath); }
+   dirEntry (const dirEntry& o);
    virtual ~dirEntry () { delete [] pPath; }
+
+   const dirEntry& operator= (const dirEntry& o);
 
    //@Section query of data
    const char*         path () const { assert (pPath); return pPath; }
@@ -138,7 +158,7 @@ class DirectorySearch {
    //@Section searching
    inline int find (const std::string& search, dirEntry* pResult,
 		    unsigned long attribs = 0);
-   int find (dirEntry* pResult, unsigned long attribs);
+   int find (dirEntry* pResult, unsigned long attribs = 0);
    int find ();
 
  private:
@@ -184,7 +204,11 @@ inline int DirectorySearch::find (const std::string& search, dirEntry* pResult,
 
 inline void DirectorySearch::cleanup () {
 #ifdef UNIX
-   (void)closedir (pDir);
+# ifdef CLOSEDIR_VOID
+   int rc (closedir (pDir)); assert (!rc);   
+#else
+   closedir (pDir);
+#endif
    pDir = NULL;
 #else
 #ifdef WINDOWS
