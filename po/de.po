@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.00 ($Revision: 1.4 $)\n"
+"Project-Id-Version: General 0.6.00 ($Revision: 1.5 $)\n"
 "POT-Creation-Date: 2002-04-14 17:19-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
@@ -141,7 +141,7 @@ msgstr "Name einer Sektion"
 
 #: Common/INIFile.cpp:57
 msgid "Identifier (key)"
-msgstr "Name (Schlüssel)"
+msgstr "Kennung (Schlüssel)"
 
 #: Common/INIFile.cpp:58
 msgid "Value"
@@ -250,6 +250,3 @@ msgstr "Kann nicht zum Server '%1' verbinden"
 #: Common/Socket.cpp:311
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
-
-#~ msgid "%1, position %2: %3"
-#~ msgstr "%1, Position %2: %3"
