@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.8 2001/10/08 14:28:23 markus Exp $
+//$Id: File.h,v 1.9 2002/04/09 20:04:07 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -125,7 +125,7 @@ typedef struct File {
 
    bool  userExec;
 
-   void appendErrorText (std::string& error) const;
+   void throwErrorText (const char* error) const throw (std::string);
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
