@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: RegExp.html,v 1.4 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: RegExp.html,v 1.5 2002/12/08 18:41:24 markus Exp $ -->
 
 <html>
   <head>
@@ -41,27 +40,27 @@
     <hr noshade>
     <table border="0">
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">int</span></tt></tt> </td>
         <td><a href="RegExp.html#checkIntegrity"><b>checkIntegrity</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">bool</span></tt></tt> </td>
         <td><a href="RegExp.html#matches"><b>matches</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pCompare</span></tt>)</tt>;</td></tr>
 
       <tr><td>&nbsp;</td></tr>
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="RegExp.html#IRegularExpression"><b>IRegularExpression</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pExpression</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pExpression</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">bool</span></tt></tt> </td>
         <td><a href="RegExp.html#compare"><b>compare</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>) = 0</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">char</font></tt>*</tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pAktRegExp</span></tt>, <tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pCompare</span></tt>) = 0</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><span style="color:purple;">char</span></tt>*</tt> </td>
         <td><a href="RegExp.html#getExpression"><b>getExpression</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><a href="RegExp.html#IRegularExpression"><b>IRegularExpression</b></a>&</tt> </td>
-        <td><a href="RegExp.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pExpr</font></tt>)</tt>;</td></tr>
+        <td><a href="RegExp.html#operator="><tt><span style="color:black;"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pExpr</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="RegExp.html#~IRegularExpression"><b>~IRegularExpression</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -70,38 +69,71 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="IRegularExpression"></a>IRegularExpression (const char* pExpression)</pre>
+    <h3 style="color:navy;">Management functions</h3>
+    <pre><a name="IRegularExpression"></a><b>IRegularExpression</b> (const char* pExpression)</pre>
     <dl>
-      <dd>Creates a regular expression.</dd>
+      <dd><p>Creates a regular expression object with the passes character array to check.</p>
+        <p>Note that the parameter is not copied.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pExpression</code>: Character array (zero-terminated) with regular expression<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="~IRegularExpression"></a>~IRegularExpression ()</pre>
-
-    <pre><a name="operator="></a>IRegularExpression&amp; operator= (const char* pExpr)</pre>
+    <hr>
+    <pre><a name="~IRegularExpression"></a><b>~IRegularExpression</b> ()</pre>
     <dl>
-      <dd>Changes the regular expression to the passed value.</dd>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator="></a>IRegularExpression&amp; <b>operator=</b> (const char* pExpr)</pre>
+    <dl>
+      <dd><p>Assignment operator; Changes the regular expression to the passed value.</p>
+        <p>Note that the parameter is not copied.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pExpression</code>: Character array (zero-terminated) with regular expression<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="getExpression"></a>const char* <b>getExpression</b> () const</pre>
+    <dl>
+      <dd>Returns the regular expression handled.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const char*: Actual regular expression; the same value as received while
+            constructing or the last assignment.</dd></dl></dd>
     </dl>
 
-    <pre><a name="getExpression"></a>const char* getExpression () const</pre>
+    <h3 style="color:navy;">Matching</h3>
+    <pre><a name="matches"></a>bool <b>matches</b> (const char* pCompare)</pre>
     <dl>
-      <dd>Changes the regular expression to the passed value.</dd>
+      <dd><p>Checks if the regular expression matches the passed data.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pCompare</code>: Character array (zero-terminated) with value to check for a match<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if the regular expression matches the value; else false</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>- Both the regular expression and the value to compare must not be NULL.</dd>
+          <dd>- The regular expression must fullfill its constraints.</dd></dl></dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="compare"></a>bool <b>compare</b> (const char* pAktRegExp, const char* pCompare)</pre>
+    <dl>
+      <dd><p>Intended to check, if the passed regular expression matches the passed data.</p>
+        <p>To be implemented by derived objects.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pAktRegExp</code>: Character array (zero-terminated) to actual position in the regular expression<dd>
+          <dd><code>pCompare</code>: Character array (zero-terminated) to actual position in the compare value<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if the regular expression matches the value; else false</dd></dl></dd>
     </dl>
 
-    <h4>Matching</h4>
-    <pre><a name="matches"></a>bool matches (const char* pCompare)</pre>
+    <h3 style="color:navy;">Utility functions</h3>
+    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
     <dl>
-      <dd>Checks if the regular expression matches the passed data.</dd>
-    </dl>
-
-    <pre><a name="compare"></a>bool compare (const char* pAktRegExp, const char* pCompare)</pre>
-    <dl>
-      <dd>Checks if the passed regular expression matches the passed data.</dd>
-    </dl>
-
-    <h4>Utility functions</h4>
-    <pre><a name="checkIntegrity"></a>int checkIntegrity () const</pre>
-    <dl>
-      <dd>Checks the integrity of the regular expression.</dd>
+      <dd><p>Checks the integrity of the regular expression.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: 0 (indicating OK).</dd></dl></dd>
     </dl>
   </body>
 </html>
