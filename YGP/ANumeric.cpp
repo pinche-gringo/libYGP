@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.16 2001/03/27 18:42:24 markus Exp $
+//$Id: ANumeric.cpp,v 1.17 2001/08/17 13:19:48 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -45,6 +45,7 @@
 #endif
 
 #include <string>
+#include <stdexcept>
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -75,7 +76,7 @@ ANumeric::~ANumeric () {
 //Parameters: pValue: Pointer to ASCIIZ-string containing numeric value
 //Requires  : pValue valid ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-ANumeric& ANumeric::operator= (const char* pValue) {
+ANumeric& ANumeric::operator= (const char* pValue) throw (invalid_argument) {
    assert (pValue);
 
 #ifdef HAVE_LIBGMP
@@ -127,7 +128,7 @@ void ANumeric::define () {
 //Purpose   : Converting to a string
 //Returns   : String-representation of ANumeric
 /*--------------------------------------------------------------------------*/
-std::string ANumeric::toString () const {
+std::string ANumeric::toUnformatedString () const {
    std::string str ("");
 
    if (isDefined ()) {
@@ -141,34 +142,44 @@ std::string ANumeric::toString () const {
       ostrstream ostr (pString, 16);
       ostr << value << '\0';
 #endif
-      TRACE1 ("ANumeric::toString -> value = " << pString);
+      TRACE1 ("ANumeric::toUnformatedString -> value = " << pString);
 
       str = pString;                 // Copy unformatted string to return-value
       free (pString);
+   }
 
-      // TODO?: Does formatting the number with strfnum make sense, just for
-      // the rare case of a system with libc but without GMP?
-      // TODO: Check locale-functions for Cygwin & MSC
+   return str;
+}
 
-      register int len (str.length ());
-      if (len > 3) {
-         len = len % 3;                             // Get length of first part
-         if (!len)
-            len = 3;
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converting to a string
+//Returns   : String-representation of ANumeric
+/*--------------------------------------------------------------------------*/
+std::string ANumeric::toString () const {
+   // TODO?: Does formatting the number with strfnum make sense, just for
+   // the rare case of a system with libc but without GMP?
+   // TODO: Check locale-functions for Cygwin & MSC
 
-         TRACE8 ("ANumeric::toString -> Length of first part = " << len);
+   std::string str (toUnformatedString ());
 
-         unsigned int lenSep (strlen (loc->thousands_sep));
-         while (len < str.length ()) {                // Copy til end-of-string
-            assert (str[len + 1]); assert (str[len + 2]);
-            str.replace (len, 0, loc->thousands_sep, lenSep);
-            len += 3 + lenSep;
+   register int len (str.length ());
+   if (len > 3) {
+      len = len % 3;                                // Get length of first part
+      if (!len)
+	 len = 3;
 
-            TRACE6 ("ANumeric::toString -> New pos = " << len);
-            TRACE7 ("ANumeric::toString -> next format = " << str);
-         } // end-while
-      } // endif larger than 3 chars -> format
-   } // endif defined
+      TRACE8 ("ANumeric::toString -> Length of first part = " << len);
+
+      unsigned int lenSep (strlen (loc->thousands_sep));
+      while (len < str.length ()) {                // Copy til end-of-string
+	 assert (str[len + 1]); assert (str[len + 2]);
+	 str.replace (len, 0, loc->thousands_sep, lenSep);
+	 len += 3 + lenSep;
+
+	 TRACE6 ("ANumeric::toString -> New pos = " << len);
+	 TRACE7 ("ANumeric::toString -> next format = " << str);
+      } // end-while
+   } // endif larger than 3 chars -> format
    return str;
 }
 
@@ -176,7 +187,7 @@ std::string ANumeric::toString () const {
 //Purpose   : Reads string-representation from stream
 //Parameters: in: Stream to parse
 /*--------------------------------------------------------------------------*/
-void ANumeric::readFromStream (istream& in) {
+void ANumeric::readFromStream (istream& in) throw (invalid_argument) {
    undefine ();
 
 #ifdef HAVE_LIBGMP
@@ -220,6 +231,9 @@ void ANumeric::readFromStream (istream& in) {
       AttributValue::define ();
    }
 #endif
+
+   if (!in.eof ())
+      throw invalid_argument ("No number");
 }
 
 

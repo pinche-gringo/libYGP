@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.13 2001/03/25 09:51:43 markus Exp $
+//$Id: ADate.h,v 1.14 2001/08/17 13:19:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 
 // Forward declarations
 class istream;
+class invalid_argument;
 
 
 // Class for date attributes. As every AttributValue is supports undefined
@@ -39,16 +40,17 @@ class ADate : public AttributValue {
    ADate (const ADate& other) : AttributValue ((const AttributValue&)other)
       , day (other.day), month (other.month), year (other.year) { }
    ADate (char Day, char Month, int Year);
-   ADate (const char* pDate) { operator= (pDate); }
-   ADate (const std::string& date) { operator= (date); }
+   ADate (const char* pDate) throw (invalid_argument) { operator= (pDate); }
+   ADate (const std::string& date) throw (invalid_argument) { operator= (date); }
    ADate (const struct tm& tm) { operator= (tm); }
    ADate (const time_t date) { operator= (date); }
    virtual ~ADate ();
 
    // Set-functions
    ADate& operator= (const ADate& other);
-   ADate& operator= (const char* pDate);
-   ADate& operator= (const std::string& date) { return operator= (date.c_str ()); }
+   ADate& operator= (const char* pDate) throw (invalid_argument);
+   ADate& operator= (const std::string& date) throw (invalid_argument) {
+      return operator= (date.c_str ()); }
    ADate& operator= (const struct tm& date) {
       AttributValue::define ();
       year = date.tm_year + 1900;
@@ -57,7 +59,7 @@ class ADate : public AttributValue {
       return *this; }
    ADate& operator= (const time_t date) { return operator= (*localtime (&date)); }
 
-   virtual void readFromStream (istream& in);
+   virtual void readFromStream (istream& in) throw (invalid_argument);
 
    virtual void define () { AttributValue::define (); day = month = (unsigned char)1; year = 1900; }
    void setDay (char Day);
@@ -72,6 +74,7 @@ class ADate : public AttributValue {
    static ADate today () { return ADate (true); }
 
    // Conversion
+   virtual std::string toUnformatedString () const;
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 

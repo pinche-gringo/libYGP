@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.16 2001/03/25 09:52:42 markus Exp $
+//$Id: ADate.cpp,v 1.17 2001/08/17 13:19:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <stdio.h>
 #include <locale.h>
 
 #include <gzo-cfg.h>
@@ -37,6 +38,8 @@
 #  endif
 #  include <strstrea.h>
 #endif
+
+#include <stdexcept>
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -103,7 +106,7 @@ ADate& ADate::operator= (const ADate& other) {
 //Parameters: pDate: Object to assign as char-string
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
-ADate& ADate::operator= (const char* pDate) {
+ADate& ADate::operator= (const char* pDate) throw (invalid_argument) {
    assert (pDate);
    assert (!checkIntegrity ());
 
@@ -116,6 +119,17 @@ ADate& ADate::operator= (const char* pDate) {
 #endif
    readFromStream (help);
    return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converting to an unformated string
+//Returns   : String-representation of ADate
+/*--------------------------------------------------------------------------*/
+std::string ADate::toUnformatedString () const {
+   char buffer[12];
+
+   sprintf (buffer, "%02d%02d%04d", (unsigned)day, (unsigned)month, year);
+   return buffer;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -145,7 +159,7 @@ std::string ADate::toString (const char* format) const {
    }
 
    if (checkIntegrity ())
-      TRACE ("ADate::toString: Invalid ADate " << (int)day << '.'
+      TRACE ("ADate::toString (const char*): Invalid ADate " << (int)day << '.'
              << (int)month << '.' << year);
    return std::string (szBuffer);
 }
@@ -155,25 +169,39 @@ std::string ADate::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ADate::readFromStream (istream& in) {
-   unsigned int first (0), second (0);
-   char split;
+void ADate::readFromStream (istream& in) throw (invalid_argument) {
+   static unsigned char ADate::* const targets[] = { &ADate::day, &ADate::month };
 
-   in >> first >> split >> second >> split >> year;
-   TRACE9 ("ADate::readFromStream: Read: " << first << split << second
-          << split << year);
+   day = month = 0;
 
-   day = (char)first;
-   month = (char)second;
+   int ch;
+   int i (0);
+   for (; i < 4; ++i) {
+      ch = in.get ();
+      TRACE8 ("ADate::readFromStream (istream&): Get: " << (char)ch)
 
-   TRACE9 ("ADate::readFromStream: result = " << toString ());
-   if (checkIntegrity ()) {
-      TRACE ("ADate::readFromStream -> checkIntegrity failed with "
-             << checkIntegrity ());
+      if ((ch == EOF) || ((ch > '9') || (ch < '0')))
+         break;
+
+      this->*(targets[i >> 1]) += (ch & 0xf);
+      if (!(i & 1))
+	 this->*(targets[i >> 1]) *= 10;
+   } // endfor
+
+   in >> year;
+   TRACE9 ("ADate::readFromStream (istream&): Read: " << (int)day << '.' << (int)month
+           << '.' << year);
+
+   if ((i < 4) || checkIntegrity ()) {
       undefine ();
+      if (i)
+         throw invalid_argument (std::string ("Position " )
+                                 + std::string (char (i + '0'), 1));
    }
-   else
+   else {
+      TRACE9 ("ADate::readFromStream (istream&): Define");
       AttributValue::define ();
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -365,7 +393,9 @@ ADate operator- (const ADate& lhs, const ADate& rhs) {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int ADate::checkIntegrity () const {
-   return ((month < 1) || (month > 12)) ? 2 : (day > maxDayOf ());
+   TRACE9 ("ADate::checkIntegrity () const - " << (int)day << '.' << (int)month
+           << '.' << year);
+   return isDefined () ? ((month < 1) || (month > 12)) ? 2 : (day > maxDayOf ()) : 0;
 }
 
 /*--------------------------------------------------------------------------*/

@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.7 2001/03/25 09:51:44 markus Exp $
+//$Id: ATStamp.h,v 1.8 2001/08/17 13:19:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,10 @@
 #include <ATime.h>
 
 
+// Forward declarations
+class invalid_argument;
+
+
 // Class for timestamp attributes. As every AttributValue is supports
 // undefined values.
 class ATimestamp : virtual public ADate, virtual public ATime {
@@ -36,18 +40,13 @@ class ATimestamp : virtual public ADate, virtual public ATime {
       , ATime ((const ATime&)other) { }
    ATimestamp (char Day, char Month, int Year, char Hour,
                char minute, char second);
-   ATimestamp (const char* pStamp) { operator= (pStamp); }
-   ATimestamp (const std::string& stamp) { operator= (stamp); }
+   ATimestamp (const char* pStamp) throw (invalid_argument) { operator= (pStamp); }
+   ATimestamp (const std::string& stamp) throw (invalid_argument) { operator= (stamp); }
    ATimestamp (const struct tm& tm) { operator= (tm); }
    ATimestamp (const time_t stamp) { operator= (stamp); }
    virtual ~ATimestamp ();
 
-   bool         isDefined () const {
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-      return ADate::isDefined ();
-#else
-      return AttributValue::isDefined ();
-#endif
+   bool         isDefined () const { return ATime::isDefined ();
    }
    virtual void undefine () {
 #if defined (__BORLANDC__) || defined (_MSC_VER)
@@ -62,16 +61,18 @@ class ATimestamp : virtual public ADate, virtual public ATime {
 
    // Set-functions
    ATimestamp& operator= (const ATimestamp& other);
-   ATimestamp& operator= (const char* pStamp);
-   ATimestamp& operator= (const std::string& stamp) { return operator= (stamp.c_str ()); }
+   ATimestamp& operator= (const char* pStamp) throw (invalid_argument);
+   ATimestamp& operator= (const std::string& stamp) throw (invalid_argument) {
+      return operator= (stamp.c_str ()); }
    ATimestamp& operator= (const struct tm& tm);
    ATimestamp& operator= (const time_t stamp) { return operator= (*localtime (&stamp)); }
 
-   virtual void readFromStream (istream& in);
+   virtual void readFromStream (istream& in) throw (invalid_argument);
 
    virtual void define () { ADate::define (); ATime::define (); }
 
    // Convertion
+   virtual std::string toUnformatedString () const;
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 

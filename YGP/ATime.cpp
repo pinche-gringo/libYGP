@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.7 2001/01/19 14:38:47 Markus Exp $
+//$Id: ATime.cpp,v 1.8 2001/08/17 13:19:23 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <stdio.h>
 #include <assert.h>
 #include <locale.h>
 
@@ -38,6 +39,8 @@
 #  endif
 #  include <strstrea.h>
 #endif
+
+#include <stdexcept>
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -104,7 +107,7 @@ ATime& ATime::operator= (const ATime& other) {
 //Parameters: pDate: Object to assign as char-string
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
-ATime& ATime::operator= (const char* pDate) {
+ATime& ATime::operator= (const char* pDate) throw (invalid_argument) {
    assert (pDate);
    assert (!checkIntegrity ());
 
@@ -117,6 +120,17 @@ ATime& ATime::operator= (const char* pDate) {
 #endif
    readFromStream (help);
    return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converting to an unformated string
+//Returns   : String-representation of ATime
+/*--------------------------------------------------------------------------*/
+std::string ATime::toUnformatedString () const {
+   char buffer[8];
+
+   sprintf (buffer, "%02d%02d%02d", (unsigned)hour, (unsigned)min_, (unsigned)sec);
+   return buffer;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -134,6 +148,7 @@ std::string ATime::toString () const {
 //Returns   : String-representation of ATime
 /*--------------------------------------------------------------------------*/
 std::string ATime::toString (const char* format) const {
+   TRACE9 ("ATime::toString (const char*) const - " << format);
    assert (format);
 
    char szBuffer[80] = "";
@@ -154,26 +169,39 @@ std::string ATime::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ATime::readFromStream (istream& in) {
-   unsigned int first (0), second (0), third (0);
-   char split;
+void ATime::readFromStream (istream& in) throw (invalid_argument) {
+   static unsigned char ATime::* const targets[] = {
+      &ATime::hour, &ATime::min_, &ATime::sec };
 
-   in >> first >> split >> second >> split >> third;
-   TRACE9 ("ATime::readFromStream: Read: " << first << split << second
-          << split << third);
+   hour = min_ = sec = 0;
 
-   hour = (char)first;
-   min_ = (char)second;
-   sec = (char)third;
+   int ch;
+   int i(0);
+   for (; i < 6; ++i) {
+      ch = in.get ();
+      if ((ch == EOF) || ((ch > '9') || (ch < '0')))
+         break;
 
-   TRACE9 ("ATime::readFromStream: result = " << toString ());
-   if (checkIntegrity ()) {
-      TRACE ("ATime::readFromStream -> checkIntegrity failed with "
-             << checkIntegrity ());
+      TRACE8 ("ATime::readFromStream (istream&): Get: " << (char)ch)
+
+      this->*(targets[i >> 1]) += (ch & 0xf);
+      if (!(i & 1))
+	 this->*(targets[i >> 1]) *= 10;
+   } // endfor
+
+   TRACE9 ("ATime::readFromStream (istream&): Read: " << (int)hour << '.' << (int)min_
+           << '.' << (int)sec);
+
+   if ((i < 6) || checkIntegrity ()) {
       undefine ();
+      if (i)
+         throw invalid_argument (std::string ("Position " )
+                                 + std::string (char (i + '0'), 1));
    }
-   else
+   else {
+      TRACE9 ("ATime::readFromStream (istream&): Define");
       AttributValue::define ();
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -337,6 +365,9 @@ ATime operator- (const ATime& lhs, const ATime& rhs) {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int ATime::checkIntegrity () const {
+   TRACE9 ("ATime::checkIntegrity () const - " << (int)hour << ':'
+           << (int)min_ << ':' << (int)sec);
+
    return (hour > 23) ? 3 : (min_ > 59) ? 2 : (sec > 61);
 }
 

@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.6 2001/03/25 09:51:44 markus Exp $
+//$Id: ATime.h,v 1.7 2001/08/17 13:19:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 // Forward declarations
 class istream;
+class invalid_argument;
 
 
 // Class for date attributes. As every AttributValue is supports undefined
@@ -38,21 +39,22 @@ class ATime : public AttributValue {
    ATime (const ATime& other) : AttributValue ((const AttributValue&)other)
       , hour (other.hour), sec (other.sec), min_ (other.min_) { }
    ATime (char Hour, char minute, char second);
-   ATime (const char* pTime) { operator= (pTime); }
-   ATime (const std::string& time) { operator= (time); }
+   ATime (const char* pTime) throw (invalid_argument) { operator= (pTime); }
+   ATime (const std::string& time) throw (invalid_argument) { operator= (time); }
    ATime (const struct tm& tm) { operator= (tm); }
    ATime (const time_t time) { operator= (time); }
    virtual ~ATime ();
 
    // Set-functions
    ATime& operator= (const ATime& other);
-   ATime& operator= (const char* pTime);
-   ATime& operator= (const std::string& time) { return operator= (time.c_str ()); }
+   ATime& operator= (const char* pTime) throw (invalid_argument);
+   ATime& operator= (const std::string& time) throw (invalid_argument) {
+      return operator= (time.c_str ()); }
    ATime& operator= (const struct tm& tm) { hour = (unsigned char)tm.tm_hour;
       min_ = (unsigned char)tm.tm_min; setSecond ((unsigned char)tm.tm_sec); return *this; }
    ATime& operator= (const time_t time) { return operator= (*localtime (&time)); }
 
-   virtual void readFromStream (istream& in);
+   virtual void readFromStream (istream& in) throw (invalid_argument);
 
    virtual void define () { AttributValue::define (); hour = min_ = sec = 0; }
    void setHour (char Hour);
@@ -67,6 +69,7 @@ class ATime : public AttributValue {
    static ATime now () { return ATime (true); }
 
    // Conversion
+   virtual std::string toUnformatedString () const;
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 

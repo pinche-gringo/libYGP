@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.18 2001/08/11 15:10:35 markus Exp $
+//$Id: ANumeric.h,v 1.19 2001/08/17 13:19:48 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,10 @@
 #  include <gmp.h>
 #endif
 #include <AttrVal.h>
+
+
+// Forward declarations
+class invalid_argument;
 
 
 // Class for numeric attributes. As every AttributValue is supports undefined
@@ -76,8 +80,10 @@ class ANumeric : public AttributValue {
       value = val;
 #endif
       AttributValue::define (); }
-   ANumeric (const char* pValue) : AttributValue () { operator= (pValue); }
-   ANumeric (const std::string& value) : AttributValue () { operator= (value.c_str ()); }
+   ANumeric (const char* pValue) throw (invalid_argument) : AttributValue () {
+      operator= (pValue); }
+   ANumeric (const std::string& value) throw (invalid_argument)
+      : AttributValue () { operator= (value.c_str ()); }
    virtual ~ANumeric ();
 
    ANumeric& operator= (const ANumeric& other);
@@ -99,12 +105,14 @@ class ANumeric : public AttributValue {
 #endif
       return *this;
    }
-   ANumeric& operator= (const char* pValue);
-   ANumeric& operator= (const std::string& value) { operator= (value.c_str ()); }
+   ANumeric& operator= (const char* pValue) throw (invalid_argument);
+   ANumeric& operator= (const std::string& value) throw (invalid_argument) {
+      operator= (value.c_str ()); }
 
    virtual void define ();
    virtual std::string toString () const;
-   virtual void readFromStream (istream& in);
+   virtual std::string toUnformatedString () const;
+   virtual void readFromStream (istream& in) throw (invalid_argument);
    static std::string toString (long value) { ANumeric temp (value); return temp.toString (); }
    static std::string toString (unsigned long value) { ANumeric temp (value); return temp.toString (); }
    operator long int () const {

@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.7 2001/01/19 14:38:47 Markus Exp $
+//$Id: ATStamp.cpp,v 1.8 2001/08/17 13:19:23 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <stdio.h>
 #include <assert.h>
 
 #include <gzo-cfg.h>
@@ -33,6 +34,8 @@
 #else
 #include <strstrea.h>
 #endif
+
+#include <stdexcept>
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -52,7 +55,7 @@ ATimestamp::ATimestamp () : ADate (), ATime () {
 //                 should be set
 /*--------------------------------------------------------------------------*/
 ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
-   TRACE5 ("ATimestamp::ATimestamp (" << now ? "true)" : "false)");
+   TRACE5 ("ATimestamp::ATimestamp (" << (now ? "true)" : "false)"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -99,11 +102,11 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 //Parameters: pStamp: Char-String to assign
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
-ATimestamp& ATimestamp::operator= (const char* pStamp) {
+ATimestamp& ATimestamp::operator= (const char* pStamp) throw (invalid_argument) {
    assert (pStamp);
    assert (!checkIntegrity ());
 
-   TRACE5 ("ATimestamp::operator= (const char*): " << pDate);
+   TRACE5 ("ATimestamp::operator= (const char*): " << pStamp);
 
 #if defined (__BORLANDC__) || defined (_MSC_VER)
    istrstream help (const_cast <char*> (pStamp));
@@ -125,6 +128,19 @@ ATimestamp& ATimestamp::operator= (const struct tm& tm) {
    ADate::operator= (tm);
    ATime::operator= (tm);
    return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converting to an unformated string
+//Returns   : String-representation of ATimestamp
+//Remarks   : Only dates valid for struct tm can be printed (e.g. dates after
+//            1900)
+/*--------------------------------------------------------------------------*/
+std::string ATimestamp::toUnformatedString () const {
+   std::string ret (ADate::toUnformatedString ());
+   ret += ' ';
+   ret += ATime::toUnformatedString ();
+   return ret;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -152,7 +168,7 @@ std::string ATimestamp::toString (const char* format) const {
 //Parameters: in: Stream to parse
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
-void ATimestamp::readFromStream (istream& in) {
+void ATimestamp::readFromStream (istream& in) throw (invalid_argument) {
    char ch;
 
    ADate::readFromStream (in);
