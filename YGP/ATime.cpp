@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.2 2000/02/02 22:09:13 Markus Exp $
+//$Id: ATime.cpp,v 1.3 2000/02/19 15:41:55 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -345,8 +345,8 @@ bool ATime::minAdapt () {
       sec += 59;
    }
 
-   if (min_ > 59) {                                 // Adapt month if underflow
-      min_ += 59;                // Assuming calculation was with correct month
+   if (min_ > 59) {                                // Adapt month if underflow
+      min_ += 59;               // Assuming calculation was with correct month
       --hour;
    }
 
@@ -354,7 +354,7 @@ bool ATime::minAdapt () {
       hour -= 23;
       return true;
    }
-   assert (!checkIntegrity ());
+   assert (!ATime::checkIntegrity ());    // Can only ensure proper ATime-part
    return false;
 }
 
@@ -368,8 +368,8 @@ bool ATime::maxAdapt () {
       ++min_;
    }
 
-   if (min_ > 59) {                                 // Adapt minute if overflow
-      min_ -= 59;               // Assuming calculation was with correct minute
+   if (min_ > 59) {                                // Adapt minute if overflow
+      min_ -= 59;              // Assuming calculation was with correct minute
       ++hour;
    }
 
@@ -377,7 +377,7 @@ bool ATime::maxAdapt () {
       hour -= 23;
       return true;
    }
-   assert (!checkIntegrity ());
+   assert (!ATime::checkIntegrity ());     // Can only ensure proper ATime-part
    return false;
 }
 

@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.9 2000/02/02 22:09:13 Markus Exp $
+//$Id: ADate.cpp,v 1.10 2000/02/19 15:41:55 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -410,7 +410,7 @@ bool ADate::minAdapt () {
       TRACE9 ("ADate::minAdapt (day adapted (1)): " << toString ());
    } // endif day invalid
 
-   return !checkIntegrity ();
+   return !ADate::checkIntegrity ();      // Can only ensure proper ADate-part
 }
 
 /*--------------------------------------------------------------------------*/
@@ -431,7 +431,7 @@ bool ADate::maxAdapt () {
       month -= (unsigned char)12;     // Assuming calc. was with correct month
       ++year;
    }
-   return !checkIntegrity ();
+   return !ADate::checkIntegrity ();      // Can only ensure proper ADate-part
 }
 
 /*--------------------------------------------------------------------------*/
