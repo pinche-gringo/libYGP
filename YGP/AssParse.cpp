@@ -1,14 +1,14 @@
-//$Id: AssParse.cpp,v 1.19 2004/11/04 16:31:18 markus Rel $
+//$Id: AssParse.cpp,v 1.20 2005/01/08 22:11:21 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -169,7 +169,7 @@ std::string AssignmentParse::makeAssignment (const char* key, const char* value,
 
    std::string temp (value, (length == -1U) ? strlen (value) : length);
    escapeQuotes (temp);
-   
+
    std::string ret (key);
    ret += EQUALSIGN;
    ret += QUOTE;
@@ -195,7 +195,7 @@ std::string AssignmentParse::makeAssignment (const char* key, const std::string&
    std::string ret (value);
    escapeQuotes (ret);
 
-   ret = std::string (key) + std::string (EQUALSIGN, 1) + std::string (QUOTE, 1) + ret;
+   ret = std::string (key) + std::string (1, EQUALSIGN) + std::string (1, QUOTE) + ret;
    ret += QUOTE;
    ret += SEPARATOR;
    return ret;
