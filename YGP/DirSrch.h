@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.21 2001/08/28 20:18:20 markus Exp $
+//$Id: DirSrch.h,v 1.22 2001/09/05 15:58:50 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,11 +52,11 @@ class DirectorySearch : public IDirectorySearch {
    virtual ~DirectorySearch ();
 
    virtual void setSearchValue (const std::string& search);
-   virtual const std::string& getDirectory () const { return searchDir; }
-   virtual const std::string& getFileSpec () const { return searchFile; }
+   virtual std::string getDirectory () const { return searchDir; }
+   virtual std::string getFileSpec () const { return searchFile; }
 
    virtual bool isValid () const;
-   virtual bool isValid (const std::string& dir) const;
+   static bool isValid (const std::string& dir);
 
    //@Section searching
    int find (const std::string& search, dirEntry& result,

@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.6 2001/08/28 20:20:04 markus Exp $
+//$Id: RDirSrch.h,v 1.7 2001/09/05 15:59:36 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,9 @@
 
 #include <gzo-cfg.h>
 #include <Socket.h>
+#include <ATStamp.h>
+#include <AttrParse.h>
+
 #include <IDirSrch.h>
 
 
@@ -35,18 +38,18 @@ class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
    RemoteDirSearch () : IDirectorySearch (), sock (-1) { }
-   RemoteDirSearch (const std::string& host) throw (domain_error);
-   RemoteDirSearch (const std::string& host, unsigned int port)
+   RemoteDirSearch (const std::string& server) throw (domain_error);
+   RemoteDirSearch (const std::string& server, unsigned int port)
       throw (domain_error);
    virtual ~RemoteDirSearch ();
 
    //@Section initializing
-   void sendTo (const std::string& host, unsigned int port) throw (domain_error);
+   void sendTo (const std::string& server, unsigned int port) throw (domain_error);
 
    //@Section manipulating
    virtual void setSearchValue (const std::string& search);
-   virtual const std::string& getDirectory () const;
-   virtual const std::string& getFileSpec () const;
+   virtual std::string getDirectory () const;
+   virtual std::string getFileSpec () const;
 
    //@Section searching
    inline int find (dirEntry& result, unsigned long attribs = FILE_NORMAL)
@@ -56,14 +59,16 @@ class RemoteDirSearch : public IDirectorySearch {
    enum { FILE_NORMAL = 0, FILE_READONLY = 1, FILE_DIRECTORY = 2, FILE_HIDDEN = 4 };
 
    virtual bool isValid () const;
-   virtual bool isValid (const std::string& dir) const;
+   bool isValid (const std::string& dir);
 
-   static const char HOSTSEPERATOR = ':';
+   static const char SEPERATOR = ':';
 
  private:
    //@Section prohibited manager functions
    RemoteDirSearch (const RemoteDirSearch&);
    RemoteDirSearch& operator= (const RemoteDirSearch&);
+
+   void init (const std::string& server, unsigned int port) throw (domain_error);
 
    int posSeperator (const std::string& dir) const;
 
@@ -71,9 +76,17 @@ class RemoteDirSearch : public IDirectorySearch {
    void setFiledata (const char* pAnswer) throw (std::string);
    int handleServerError (const char* pAnswer) throw (std::string);
 
+   // Variables for sending
    Socket      sock;
-   std::string host;
+   std::string server;
    std::string files;
+
+   // Variables for receiving
+   AttributeParse attrs;
+   std::string file;
+   ATimestamp  time;
+   unsigned long attr;
+   unsigned long size;
 };
 
 #endif // RDIRSRCH_H
