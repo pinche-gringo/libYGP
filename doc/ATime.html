@@ -1,4 +1,4 @@
-<!-- $Id: ATime.html,v 1.2 2000/03/21 22:41:44 Markus Exp $ -->
+<!-- $Id: ATime.html,v 1.3 2000/03/22 18:52:54 Markus Exp $ -->
 
 <html>
   <head>
@@ -109,10 +109,10 @@
 
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
 	<td><a href="ATime.html#add">add</a></td>
-	<td>(char Day, char Month = 0, int Year = 0)</td></tr>
+	<td>(char Hour, char minute = 0, char second = 0)</td></tr>
       <tr valign="top"><td><a href="ATime.html">ATime</a>&amp;</td>
 	<td><a href="ATime.html#sub">sub</a></td>
-	<td>(char Day, char Month = 0, int Year = 0)</td></tr>
+	<td>(char Hour, char minute = 0, char second = 0)</td></tr>
 
       <tr valign="top"><td>bool</td>
 	<td><a href="ATime.html#operator==">operator==</a></td>
@@ -158,9 +158,8 @@
 	Copyconstructor</a></p>
 
     <p><a name="ATime2"><i>ATime (bool now)</i> -
-	Constructor; depending on the parameter the time is either set to the
-        0:00:00 (now = false), or to the current time (now = true).
-      </a></p>
+	Constructor; depending on the parameter the time is either set to
+        0:00:00 (now = false), or to the current time (now = true).</a></p>
 
     <p><a name="ATime4"><i>ATime (char Hour, char minute, char second)</i>
 	- Constructor; sets the passed time. The object is undefined, if the
@@ -273,15 +272,15 @@
     <p><a name="operator-"><i>ATime&amp; operator- (const ATime&amp; lhs, 
 	  const ATime&amp; rhs)</i> - Returns the substraction of two time-values.
 	An undefined time is treated as "0:00:00"; if both objects are
-	undefined, the result is undefined. Overflows of seconds or minutes
-	are corrected, overflows of the hour undefines the object.</a></p>
+	undefined, the result is undefined. Underflows of seconds or minutes
+	are corrected, underflows of the hour undefines the object.</a></p>
 
-    <p><a name="add"><i>ATime&amp; add (char Hour, char minute, char second)</i>
+    <p><a name="add"><i>ATime&amp; add (char Hour, char minute = 0, char second = 0)</i>
 	- If this is not undefined, the passed values are added. Overflows of
 	seconds or minutes are corrected, overflows of the hour undefines the
 	object. The result is returned.</a></p>
 
-    <p><a name="sub"><i>ATime&amp; sub (char Hour, char minute, char second)</i>
+    <p><a name="sub"><i>ATime&amp; sub (char Hour, char minute = 0, char second = 0)</i>
 	- If this is not undefined, the passed values are substracted.
 	Overflows of seconds or minutes are corrected, overflows of the hour
 	undefines the object. The result is returned.</a></p>
