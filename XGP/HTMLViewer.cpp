@@ -1,14 +1,14 @@
-//$Id: HTMLViewer.cpp,v 1.13 2004/10/24 00:24:53 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.14 2005/02/19 05:30:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@
 #ifdef HAVE_GTKHTML
 
 #include <gtkmm/scrolledwindow.h>
-
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
@@ -78,7 +77,7 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
       scrl->add (*Glib::wrap (ctrl, false));
       scrl->set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
-      display (file.c_str ());
+      display (file);
       show_all_children ();
       show ();
    }
