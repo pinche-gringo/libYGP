@@ -1,11 +1,11 @@
-//$Id: CDirSrch.idl,v 1.5 2002/07/08 03:31:00 markus Exp $
+//$Id: CDirSrch.idl,v 1.6 2002/07/11 07:13:54 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -43,10 +43,16 @@ interface CFile {
 };
 
 interface CDirectorySearch {
-   CFile find (in string file, in unsigned long attr);
-   CFile findnext ();
+   void setSearchValue (in string file);
+
+   CFile find (in unsigned long attr);
+   CFile next ();
+
+   boolean isValid ();
 
    string getSearchValue ();
+   string getDirectory ();
+   string getFileSpec ();
 
    const unsigned long FILE_NORMAL    = 1;
    const unsigned long FILE_READONLY  = 2;
