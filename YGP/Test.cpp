@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.16 1999/09/11 00:59:40 Markus Exp $
+// $Id: Test.cpp,v 1.17 1999/09/26 01:53:30 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -47,6 +47,7 @@
 #include "PathSrch.h"
 #include "Tokenize.h"
 #include "FileRExp.h"
+#include "PathDirSrch.h"
 
 
 #define CHECK(x) { if (!(x)) cout << "    -> Failed (" #x "; line " << __LINE__ << ")\n"; }
@@ -258,21 +259,31 @@ int Application::perform (int argc, char* argv[]) {
    cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
    dirEntry file;
-   check (!ds.find ("./T*", &file, FILE_NORMAL | FILE_READONLY));
+   check (!ds.find ("./T*", file, FILE_NORMAL | FILE_READONLY));
    check (!ds.find ());
 
-   check (!ds.find ("./.*", &file, FILE_DIRECTORY | FILE_HIDDEN));
+   check (!ds.find ("./.*", file, FILE_DIRECTORY | FILE_HIDDEN));
    check (!ds.find ());
    check (!ds.find ());
    check (!ds.find ());
    check (ds.find ());
 
-   check (!ds.find (".", &file, FILE_DIRECTORY | FILE_HIDDEN));
-   check (!ds.find ("../General/", &file, FILE_DIRECTORY));
-   check (!ds.find ("../General", &file, FILE_DIRECTORY));
+   check (!ds.find (".", file, FILE_DIRECTORY | FILE_HIDDEN));
+   check (!ds.find ("../General/", file, FILE_DIRECTORY));
+   check (!ds.find ("../General", file, FILE_DIRECTORY));
    check (ds.find ());
 
    check (!dirSearchRecursive (NULL));
+
+   cout << "Testing PathDirectorySearch...\n";
+   PathDirectorySearch pds (".:../JGeneral", "ANumeric.*");
+   check (!pds.find (file, FILE_NORMAL | FILE_READONLY));
+   check (!pds.find ());
+   check (!pds.find ());
+   check (!pds.find ());
+   check (!pds.find ());
+   check (!pds.find ());
+   check (pds.find ());
 
    cout << "Testing Tokenize...\n";
    Tokenize token ("/usr/include/std/");
@@ -318,7 +329,7 @@ int Application::dirSearchRecursive (const char* pFile) const {
    DirectorySearch ds (pFile ? "T*" : "D*");
    dirEntry file;
 
-   if (ds.find (&file, FILE_NORMAL))
+   if (ds.find (file, FILE_NORMAL))
       return 1;
 
    return pFile ? dirSearchRecursive (NULL) : 0;
