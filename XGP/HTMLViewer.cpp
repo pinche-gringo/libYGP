@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.8 2004/01/05 07:41:30 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.9 2004/01/14 19:19:19 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -136,6 +136,6 @@ void HTMLViewer::display (const std::string& file) throw (std::string) {
    }
 }
 
-#endif
-
 }
+
+#endif
