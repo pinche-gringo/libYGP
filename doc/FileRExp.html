@@ -1,0 +1,98 @@
+<!-- $Id: FileRExp.html,v 1.1 2000/03/26 18:21:54 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: FileRegularExpr</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class FileRegularExpr</h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: FileRExp.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to compare text with (UNIX-file-style) regular expressions.</p>
+
+    <p>The following characters have a special meaning:</p>
+
+    <ul>
+      <li>'*': matches any number of any characters</li>
+      <li>'?': matches any single character</li>
+      <li>'[&lt;match&gt;]:  matches the characters specified in match</li>
+      <li> '[^&lt;match&gt;]: matches the characters not specified in match.</li>
+    </ul>
+    <p>&lt;match&gt; ::= | &lt;char&gt;&lt;match&gt; | &lt;region&gt;&lt;match&gt; | {}<br>
+      &lt;region&gt; ::= &lt;low&gt;-&lt;high&gt;</p>
+    
+    <p>Examples are: [a-zA-Z0-9]* for all words starting with a letter or a
+      number or [^aeiuo]?? for all three letter long words starting with no
+      vocal).</p>
+
+    <p><b>Note</b>: The pRegExp-parameter is stored as is (and not copied); so
+      care yourself for all the neccessary cleanup-stuff!</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="FileRExp.html#FileRegularExpr">FileRegularExpr</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="FileRExp.html#FileRegularExpr2">FileRegularExpr</a></td>
+	<td>(const char* pRegExp)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="FileRExp.html#~FileRegularExpr">~FileRegularExpr</a></td>
+	<td>()</td></tr>
+
+      <tr valign="top"><td><a href="FileRExp.html">FileRegularExpr</a>&amp;</td>
+	<td><a href="FileRExp.html#operator=">operator=</a></td>
+	<td>(const char* pRegExp)</td></tr>
+
+      <tr valign="top"><td>bool</td>
+	<td><a href="FileRExp.html#matches">matches</a></td>
+	<td>(const char* pCompare)</td></tr>
+
+      <tr valign="top"><td>int</td>
+	<td><a href="FileRExp.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="FileRegularExpr"><i>FileRegularExpr ()</i> -
+	Defaultconstructor; no regular expression to compare is defined, so the
+	call of match is prohibited.</a></p>
+
+    <p><a name="FileRegularExpr2"><i>FileRegularExpr (const char* pRegExp)</i> -
+	Constructor, specifies the regular expression to match. This data is
+	<b>not</b> copied, so it must be valid during the lifetime of the
+	regular expression.</a></p>
+
+    <p><a name="~FileRegularExpr"><i>~FileRegularExpr ()</i> - Destructor</p>
+
+    <p><a name="operator="><i>FileRegularExpr&amp; operator= (const char* pRegExp)</i>
+	- Sets the passed value as regular expression to match.</a></p>
+
+    <h4>Matching</h4>
+    <p><a name="matches"><i>bool matches (const char* pCompare)</i>
+	- Checks, if the passes text matches the stored regular expression. This
+	method returns true, if yes and false if not.</a></p>
+
+    <p>Both the stored regular expression and the passed parameter must not be
+      NULL-pointers and the regular expression must be in a valid syntax (this
+      can be checked with the checkIntegrity-method).</p>
+
+    <h4>Syntax-check</h4>
+    <p><a name="checkIntegrity"><i>int checkIntegrity () const</i> - Checks the
+	syntax of the regular expression. If everything is OK, 0 is returned; 1
+	if there's the start of a region without a proper end, 2 if a list in
+	the region has no end-character and 3 if a region is empty.</a></p>
+  </body>
+</html>
