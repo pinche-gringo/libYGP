@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.2 1999/09/04 18:47:15 Markus Rel $
+// $Id: SmartPtr.h,v 1.3 1999/09/12 11:04:59 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,10 +21,11 @@
 
 
 // Smart-pointer-class; the memory is freed within the destructor
-// It contains (different to auto_ptr no copy-constructur and assignment-
-// operator to avoid the problems with ownership. If you need two pointers
-// pointing to the same area, use the operator T*-method (or auto_ptr).
-// Note: SmartPtr is no AttributValue to keep its overhead minimized
+// It contains (different to auto_ptr) no copy-constructur and assignment-
+// operator. That also means, that there is no ownership-handling, so don't let
+// two SmartPtrs point to the same object (if you need that, assign the second
+// with the operator T*-method (or use auto_ptr)).
+// Note: This class is (intented to be) simple. Consider this when using it!
 template <class T> class SmartPtr {
  public:
    // Manager functions
@@ -33,7 +34,7 @@ template <class T> class SmartPtr {
 
    // Accessing
    T* operator-> () const { return pData; }
-   T* operator*  () const { return pData; }
+   T& operator*  () const { return *pData; }
    operator T*   () const { return pData; }
 
    // Changing the value
