@@ -16,6 +16,6 @@ libAttr_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
 
 libXAppl_la_LIBADD=-lAttr -lgtkmm -lgdkmm -lgtk
 libXAppl_la_SOURCES=Check.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
-		    XMessageBox.cpp 
+		    XMessageBox.cpp Version.cpp
 
 Test_SOURCES=$(libAttr_la_SOURCES) Test.cpp
