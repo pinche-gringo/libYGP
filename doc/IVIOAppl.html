@@ -1,4 +1,4 @@
-<!-- $Id: IVIOAppl.html,v 1.10 2001/10/02 23:01:34 markus Exp $ -->
+<!-- $Id: IVIOAppl.html,v 1.11 2001/10/17 23:53:30 markus Exp $ -->
 
 <html>
   <head>
@@ -27,11 +27,13 @@
 
     <hr noshade>
     <h2>Description</h2>
-    <p>Class to handle the startup of a program.</p>
+    <p>Class to handle the startup of a program. Furthermore in case
+      of a segmentation fault a stacktrace is dumped to the systemlog
+      (or to stdout).</p>
 
     <p>The main purpose/advantage of this class is its (UNIX-like)
       parameter-handling (which has additionally the advantage of being very
-      good documented; so the following part is the - slightly changed -
+      good documented; so the following part is the - slightly modified -
       man-page of the getopt-command).</p>
 
     <p>The parameters are parsed from left to right. Each parameter is
@@ -65,7 +67,7 @@
       of the application.</p>
 
     <h4>Programmers information</h4>
-    <p>Unlike the UNIX getopt-function, optional paramters need not to be
+    <p>Unlike in the UNIX getopt-function, optional paramters need not to be
       marked in a special way. Instead use the
       <a href="IVIOAppl.html#checkOptionValue">checkOptionValue</a>-method to retrieve
       the value of the possible argument, analyze it (like for having no
