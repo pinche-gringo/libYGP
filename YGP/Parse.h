@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.21 2001/03/25 09:51:45 markus Exp $
+//$Id: Parse.h,v 1.22 2001/10/12 23:06:05 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,18 +42,18 @@
 //     pointer to a memberfunction as parameter of the constructor(s). These
 //     classes starts with OFParse.
 //
-// Every of this functions must return the following values (which  specifies
+// Any of this functions must return the following values (which  specifies
 // how the parsing should be continued):
 // 0 ..... Parsing (actually callback) OK
 // > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
 // < 1 ... Error while parsing; abort parsing (unrecoverable error)
 // If possible use the error-values in the error-enum
 
-
 // First part: Classes reporting their found-status with a virtual function
 
 // Base-class for parsing objects
-// Note: None of the member-pointers are freed!
+// Note: The passed const char*-pointers are only stored and not copied, so
+//       ensure that they are valid during the lifetime of each parse-object!
 class ParseObject {
  public:
    // Manager-functions
