@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.11 2002/11/26 04:21:47 markus Exp $
+//$Id: IDirSrch.h,v 1.12 2002/12/15 22:17:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,8 @@
 
 #include <string>
 
-struct File;
+#include <File.h>
+
 
 // Abstract base-class to search for files in a directory.
 class IDirectorySearch {
