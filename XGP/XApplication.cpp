@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.42 2005/01/24 17:12:18 markus Exp $
+//$Id: XApplication.cpp,v 1.43 2005/01/31 15:40:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -194,8 +194,7 @@ void XApplication::showHelp () {
 	 } while (extension.size ());
 
 	 if (extension.size ()) {
-	    file += '.';
-	    file += extension;
+	    file = search;
 	    break;
 	 }
       } // end-while
