@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.23 2003/06/15 05:19:12 markus Exp $
+//$Id: ATime.cpp,v 1.24 2003/06/15 23:53:01 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -218,7 +218,7 @@ void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
 /// "0:00:00"; if both objects are undefined, the result is undefined.
 /// Overflows of seconds or minutes are corrected, overflows of the hour
 /// undefines the object.
-/// \param lhs: Value to add
+/// \param rhs: Value to add
 /// \returns Self Note : If lhs is not defined this is not changed
 //-----------------------------------------------------------------------------
 ATime& ATime::operator+= (const ATime& rhs) {
@@ -246,7 +246,7 @@ ATime& ATime::operator+= (const ATime& rhs) {
 /// treated as "0:00:00"; the result is undefined if both objects are
 /// undefined. Underflows (of day or month) are corrected; underflows of of
 /// the hour undefines the object.
-/// \param lhs: Value to substract
+/// \param rhs: Value to substract
 /// \returns Self
 //-----------------------------------------------------------------------------
 ATime& ATime::operator-= (const ATime& rhs) {
@@ -323,10 +323,11 @@ ATime& ATime::sub (char Hour, char minute, char second) {
 /// undefined the result is MINLONG, if only other is undefined MAXLONG is
 /// returned (-> undefined times are considered as (very) old).
 /// \param other: Object to compare
-/// \returns >0 if this other; 0 if this == other; <0 else Note : Undefined
-///     values are considered as (incredible) old "Younger dates" (closer to
-///     the past) are considered bigger than "older dates" (further in the
-///     past; that means the numeric value of the date is compared.
+/// \returns \c long: >0 if this other; 0 if this == other; <0 else
+///     \note Undefined values are considered as (incredible) old "Younger
+///         dates" (closer to the past) are considered bigger than "older
+///         dates"(further in the past; that means the numeric value of the
+///         date is compared.
 //-----------------------------------------------------------------------------
 long ATime::compare (const ATime& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
@@ -355,7 +356,7 @@ long ATime::compare (const ATime& other) {
 /// undefines the object.
 /// \param lhs: Left-hand-side of addition
 /// \param rhs: Right-hand-side of addition
-/// \returns ATime: Result of additon
+/// \returns \c ATime: Result of additon
 //-----------------------------------------------------------------------------
 ATime operator+ (const ATime& lhs, const ATime& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -372,7 +373,7 @@ ATime operator+ (const ATime& lhs, const ATime& rhs) {
 /// undefines the object.
 /// \param lhs: Left-hand-side of substraction
 /// \param rhs: Right-hand-side of substraction
-/// \returns ATime: Result of substraction
+/// \returns \c ATime: Result of substraction
 //-----------------------------------------------------------------------------
 ATime operator- (const ATime& lhs, const ATime& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -397,7 +398,7 @@ int ATime::checkIntegrity () const {
 //-----------------------------------------------------------------------------
 /// Corrects the object after an (possible) underflows. If the hour has an
 /// underflow. true is returned, else false.
-/// \returns bool: True, if there큦 a underflow of hour
+/// \returns \c bool: True, if there큦 a underflow of hour
 //-----------------------------------------------------------------------------
 bool ATime::minAdapt () {
    if (sec > 61) {                                  // Adapt time if underflow
@@ -421,7 +422,7 @@ bool ATime::minAdapt () {
 //-----------------------------------------------------------------------------
 /// Corrects the object after an (possible) overflows. If the hour has an
 /// overflow true is returned, else false.
-/// \returns bool: True, if there큦 a overflow of the hour
+/// \returns \c bool: True, if there큦 a overflow of the hour
 //-----------------------------------------------------------------------------
 bool ATime::maxAdapt () {
    if (sec > 59) {                                   // Adapt time if overflow
@@ -486,8 +487,8 @@ void ATime::setSecond (char second) throw (std::invalid_argument) {
 
 //-----------------------------------------------------------------------------
 /// Converts the time to a struct tm
-/// \returns struct tm: Time in struct tm-format; the date-part is set to
-///     zeros
+/// \returns <tt>struct tm</tt>: Time in struct tm-format; the date-part is set
+///     to zeros
 /// \remarks It is not checked if the date is in the right range for a struct
 ///     tm (after 1900 and before 2039)
 //-----------------------------------------------------------------------------

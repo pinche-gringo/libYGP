@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.16 2003/06/15 00:47:16 markus Exp $
+//$Id: ATStamp.cpp,v 1.17 2003/06/15 23:53:01 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -57,8 +57,12 @@ ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
 /// Constructor; sets the passed time. The object is undefined, if the passed
 /// parameters represent no valid date/time-combination (e.g. Hour > 23,
 /// minute > 59, second > 61 or day > 31).
-/// \param day: Day for this object
-/// \param month, year, hour, minute, second: Other time-parameters (self explaining)
+/// \param Day: Day for this object
+/// \param Month
+/// \param Year
+/// \param Hour
+/// \param minute
+/// \param second: Other time-parameters (self explaining, I think)
 //-----------------------------------------------------------------------------
 ATimestamp::ATimestamp (char Day, char Month, int Year, char Hour,
                         char minute, char second) throw (std::invalid_argument)
@@ -93,7 +97,7 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 /// Assignment-operator from an const char-pointer. The timestamp must be
 /// passed as DDMMY[Y...] hhmmss. If the buffer does not represent a valid
 /// timestamp, an exception is thrown.
-/// \param pStamp: Character array specifying timestamp to assign
+/// \param pValue: Character array specifying timestamp to assign
 /// \returns Reference to self
 /// \throw \c std::invalid_argument if the parameters has a wrong format
 /// \remarks A NULL-pointer as parameter is not permitted!
@@ -135,7 +139,8 @@ std::string ATimestamp::toUnformattedString () const {
 /// Converts the object into a string, in a format specified by the current
 /// locale.
 /// \returns String-representation of the object
-/// \remarks Only dates valid for struct tm can be printed (e.g. dates after 1900)
+/// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
+///     after 1900)
 //-----------------------------------------------------------------------------
 std::string ATimestamp::toString () const {
    return toString ("%x %X");
@@ -145,7 +150,8 @@ std::string ATimestamp::toString () const {
 /// Converts the object into a string, in the specified format. The parameter
 /// format can be any value accepted by the strftime library-routine.
 /// \returns String-representation of the object
-/// \remarks Only dates valid for struct tm can be printed (e.g. dates after 1900)
+/// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
+///     after 1900)
 //-----------------------------------------------------------------------------
 std::string ATimestamp::toString (const char* format) const {
    return ADate::toString (format);
@@ -201,9 +207,12 @@ ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
 /// corrected. The result is returned. In counterpart to the mathematic
 /// operators (+ and -) this method does not change the object if it is
 /// undefined!
-/// \param day: Day to add
-/// \param month: Month to add
-/// \param year: Year to add
+/// \param Day: Day to add
+/// \param Month: Month to add
+/// \param Year: Year to add
+/// \param Hour: Hour to add
+/// \param minute: Minute to add
+/// \param second: Second to add
 /// \returns Self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::add (char Day, char Month, int Year,
@@ -220,9 +229,12 @@ ATimestamp& ATimestamp::add (char Day, char Month, int Year,
 /// are corrected. The result is returned. In counterpart to the mathematic
 /// operators (+ and -) this method does not change the object if it is
 /// undefined!
-/// \param day: Day to substract
-/// \param month: Month to substract
-/// \param year: Year to substract
+/// \param Day: Day to substract
+/// \param Month: Month to substract
+/// \param Year: Year to substract
+/// \param Hour: Hour to substract
+/// \param minute: Minute to substract
+/// \param second: Second to substract
 /// \returns Self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
@@ -246,7 +258,8 @@ ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
 /// undefined the result is MINLONG, if only other is undefined MAXLONG is
 /// returned (-> undefined times are considered to be very old).
 /// \param other: Object to compare
-/// \returns >0 if this is closer to the past than other; 0 if this == other; <0 else
+/// \returns \c long: >0 if this is closer to the past than other; 0 if this
+///      == other; <0 else
 //-----------------------------------------------------------------------------
 long ATimestamp::compare (const ATimestamp& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
@@ -267,7 +280,7 @@ long ATimestamp::compare (const ATimestamp& other) {
 /// undefined. Overflows are corrected.
 /// \param lhs: Left-hand-side of addition
 /// \param rhs: Right-hand-side of addition
-/// \returns ATimestamp: Result of additon
+/// \returns \c ATimestamp: Result of additon
 //-----------------------------------------------------------------------------
 ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -283,7 +296,7 @@ ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs) {
 /// undefined. Underflows are corrected.
 /// \param lhs: Left-hand-side of substraction
 /// \param rhs: Right-hand-side of substraction
-/// \returns ATimestamp: Result of substraction
+/// \returns \c ATimestamp: Result of substraction
 //-----------------------------------------------------------------------------
 ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -306,7 +319,7 @@ int ATimestamp::checkIntegrity () const {
 //-----------------------------------------------------------------------------
 /// Corrects the object after underflows. If the the object is integer after
 /// the operation, true is returned (else false).
-/// \returns bool: True, if object is integer after the operation
+/// \returns \c bool: True, if object is integer after the operation
 //-----------------------------------------------------------------------------
 bool ATimestamp::minAdapt () {
    if (ATime::minAdapt ())
@@ -318,7 +331,7 @@ bool ATimestamp::minAdapt () {
 //-----------------------------------------------------------------------------
 /// Corrects the object after overflows. If the the object is integer after
 /// the operation, true is returned (else false).
-/// \returns bool: True, if object is integer after the operation
+/// \returns \c bool: True, if object is integer after the operation
 //-----------------------------------------------------------------------------
 bool ATimestamp::maxAdapt () {
    if (ATime::maxAdapt ())
@@ -328,9 +341,9 @@ bool ATimestamp::maxAdapt () {
 
 //-----------------------------------------------------------------------------
 /// Converts the object to a struct tm.
-/// \returns struct tm: Timestamp in struct tm-format
+/// \returns <tt>struct tm</tt>: Timestamp in struct tm-format
 /// \remarks It is not checked if the date is in the right range for a
-///    struct tm (after 1900 and before 2039)
+///    <tt>struct tm</tt> (after 1900 and before 2039)
 //-----------------------------------------------------------------------------
 struct tm ATimestamp::toStructTM () const {
    struct tm result (ADate::toStructTM ());
@@ -344,7 +357,7 @@ struct tm ATimestamp::toStructTM () const {
 
 //-----------------------------------------------------------------------------
 /// Converts the object to a system-timestructure (as GMT).
-/// \returns time_t: Converted time
+/// \returns \c time_t: Converted time
 //-----------------------------------------------------------------------------
 time_t ATimestamp::toGMTTime () const {
 #ifdef HAVE_TIMEGM
