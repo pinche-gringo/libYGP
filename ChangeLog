@@ -1,3 +1,500 @@
+2002-12-25  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog: Changes of V0.6.02 commented
+	
+	* doc/Makefile.am: Remaining X-windows docus added
+
+	* po/de.po, po/en.po, po/es.po: Only line-numbers actualized
+
+	* X-windows/XPrintDlg.h, X-windows/XPrintDlg.cpp: Comments improved
+
+	* Common/Parse.cpp:
+	  Made freeBuffer more error-tolerant
+
+	* Common/File.h, Common/DirSrch.h:
+	  Undefining macros for dirent before defining them
+
+	* gzo-cfg.h.in: HAVE_GTKMM added
+
+	* README.windows: Updated
+
+	* README: Minor changes
+
+	* Makefile.am: Windows .def-file removed from the distribution
+
+	* doc/index.html: Name of XPrintDialog corrected
+
+	* doc/IVIOAppl.html: Typo corrected
+
+	* doc/XMessageBox.html: Fixes
+
+	* doc/XPrintDlg.html: New file.
+
+	* bin/mdocu.pl: Fixed end-of-parameter tags
+
+	* X-windows/XFileList.cpp, X-windows/XFileList.h:
+	  Comments improved
+
+	* X-windows/XMessageBox.cpp, X-windows/XMessageBox.h:
+	  Comments improved; C-interface added
+
+	* doc/Log.html, doc/Makefile.am, doc/Mutex.html, doc/Parse.html, doc/PathDirSrch.html, doc/PathSrch.html, doc/RDirSrch.html, doc/RDirSrchSrv.html, doc/RegExp.html, doc/RemoteFile.html, doc/SmartPtr.html, doc/Socket.html, doc/Thread.html, doc/Tokenize.html, doc/XAbout.html, doc/XApplication.html, doc/XDate.html, doc/XDirSrch.html, doc/XFileDlg.html, doc/XFileEntry.html, doc/XFileList.html, doc/XStrBuf.html, doc/XStream.html, doc/ADate.html, doc/ANumeric.html, doc/ATStamp.html, doc/ATime.html, doc/AssParse.html, doc/AttrParse.html, doc/Attribute.html, doc/CRegExp.html, doc/DirSrch.html, doc/Entity.html, doc/File.html, doc/FileRExp.html, doc/Handle.html, doc/IDirSrch.html, doc/INIFile.html, doc/IVIOAppl.html:
+	  Fixes
+
+	* doc/cross_index.html, doc/index.html: X-windows classes added
+
+	* doc/XMessageBox.html: New file.
+
+	* bin/mdocu.pl:
+	  Fixes; Parameter description can be more than 1 line per parameter
+
+2002-12-24  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/XFileList.html: New file.
+
+	* X-windows/XFileDlg.cpp, X-windows/XFileDlg.h, X-windows/XFileEntry.cpp, X-windows/XFileEntry.h:
+	  Comments improved
+
+	* doc/XFileEntry.html, doc/XFileDlg.html: New file.
+
+2002-12-22  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XDate.cpp, X-windows/XDate.h:
+	Comments improved
+
+	* doc/XDate.html: New file.
+
+	* doc/XApplication.html: Added description of XInfoApplication
+
+	* doc/XApplication.html: New file.
+
+2002-12-19  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/XAbout.html: New file.
+
+	* X-windows/XAbout.h, X-windows/XAbout.cpp: Comments improved
+
+	* X-windows/Makefile.am: Check removed
+
+2002-12-17  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/ADate.cpp, Common/ATime.cpp:
+	  VC can't return the needed length for strftime -> Using a buffer of 80 char
+
+	* Windows/gzo-cfg.h:
+	  Undefining ENABLE_NLS instead of defining it to 0
+
+	* Windows/VCGeneral.mak: Automatically making DEF-file
+
+	* Windows/VCGeneral.def:
+	  Removed from archive (is now generated automatically)
+
+	* bin/mdef.awk:
+	  Writing all class functions into DEF-file; Stripping path from inputfile
+
+	* Make.bat: Making of DEF file moved to Makefile
+
+	* doc/File.html: Fixes
+
+	* doc/File.html: Some notes moved from purpose to remark section
+
+	* Common/File.cpp: Comments fixed
+
+	* Windows/VCGeneral.mak: Name of configurations (again) simplified
+
+	* bin/mdef.awk:
+	  Adding lines according to the filename; operating on whole dumpbin output
+
+	* Common/File.cpp:
+	  Fixed isExecutable in Windows version (forgotten return in every case)
+
+2002-12-16  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Thread.cpp:
+	  Canceling thread also under Windows; asserts replaced with Checks
+
+2002-12-15  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/mdocu.pl: Description++; HTML conversion++; Formatting++
+
+	* bin/mgeni: Helptext to --version corrected
+
+	* Common/Tests/Makefile.am: Dependencies added
+
+	* Common/Tests/PathDirSrch.cpp: File.h included
+
+	* Common/Tests/ADate.cpp, Common/Tests/XStrBuf.cpp: asserts replaced with Checks
+
+	* Common/Tests/CRegExp.cpp:
+	  asserts replaced with Checks; Escape character not removed anymore
+
+	* configure.in: 
+	  Directory bin added; Caching values simplyfied; Lib-version changed
+
+	* acconfig.h: Define for HAVE_GTKMM added
+
+	* NEWS: Changes of V0.6.02 commented
+
+	* Common/XStream.h: Include of assert.h removed
+
+	* Common/XStrBuf.cpp, Common/XStrBuf.h: asserts replaced with Checks
+
+	* Common/XDirSrch.h: typedef'ed classes reneamed
+
+	* Common/Tokenize.h: Comments improved
+
+	* Common/Tokenize.cpp: asserts replaced with Checks
+
+	* Common/Thread.h: ret exists always
+
+	* Common/StackTrc.cpp: asserts replaced with Checks
+
+	* Common/Socket.h: DOS newline changed
+
+	* Common/RDirSrch.cpp: Typo in comment corrected
+
+	* Common/PathSrch.cpp, Common/PathSrch.h: Comments improved
+
+	* Common/Log.h: asserts replaced with Checks
+
+	* Common/IDirSrch.h: File.h included (not prototyped)
+
+	* Common/Entity.cpp, Common/Entity.h: Comments improved
+
+	* Common/AttrVal.h: Fixed operator>>
+
+	* Common/AssParse.h:
+	  Interface of makeAsignment changed (doesn't need length for strings)
+
+	* Common/AssParse.cpp: Comments improved; asserts replaced by Checks
+
+	* doc/index.html: Using CSS formatting; New classes added
+
+	* doc/XDirSrch.html: typedefs renamed
+
+	* doc/XStrBuf.html: Derived by corrected
+
+	* doc/XStream.html: Adapted to new style
+
+	* doc/mdocu.html: Description improved
+
+	* doc/Makefile.am: mdocu.html added
+
+	* doc/XStrBuf.html, doc/PathSrch.html, doc/AssParse.html, doc/Tokenize.html, doc/Log.html:
+	  Adapted to new style
+
+	* doc/Entity.html: New file.
+
+	* doc/FileRExp.html: Added description of return value to operator=
+
+	* doc/ADate.html, doc/AttrVal.html, doc/IDirSrch.html: h4 to (colorized) h3)
+
+	* doc/ATStamp.html, doc/AByteArray.html, doc/ADate.html, doc/ANumeric.html, doc/ATime.html, doc/AttrParse.html, doc/AttrVal.html, doc/Attribute.html, doc/DirSrch.html, doc/File.html, doc/IDirSrch.html, doc/INIFile.html, doc/PathDirSrch.html, doc/RDirSrch.html, doc/RemoteFile.html, doc/Thread.html:
+	  Using CSS instead of font
+
+	* Common/Socket.cpp: Comments improved; asserts replaced with Checks
+
+	* doc/Socket.html: Changed to new style
+
+2002-12-14  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Handle.html: Added description of return value to IHandle::operator=
+
+	* doc/SmartPtr.html: Adapted to new style
+
+	* doc/Handle.html: Using CSS instead of font for colorizationc
+
+	* Common/Parse.cpp, Common/Parse.h: 
+	  Comments improved; asserts replaced with Checks
+
+	* doc/Parse.html: *ParseSelection & *ParseSequence converted to new style
+
+2002-12-13  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Parse.html: *ParseTextEsc and *Parse*Exact converted to new style
+
+2002-12-12  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Parse.html: Fixes; *ParseText adapted to new style
+
+2002-12-11  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Parse.html: *ParseSkip added; *ParseAttomic converted to new style
+
+2002-12-10  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Parse.html: Started to adapted to new style
+
+	* doc/Mutex.html: Adapted to new style
+
+2002-12-09  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/IVIOAppl.h: Comments improved
+
+	* doc/IVIOAppl.html: Adapted to new style
+
+	* Common/IVIOAppl.cpp: Comments improved; asserts replaced with Checks
+
+2002-12-08  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/CRegExp.h:
+	  Compare helpers made private (as they are only available if regexps are missing)
+
+	* doc/CRegExp.html: Adapted to new style
+
+	* Common/CRegExp.cpp: Comments improved; asserts replaced with Checks
+
+	* doc/FileRExp.html: Adapted to new style
+
+	* Common/FileRExp.cpp: Comments improved; asserts replaced with Checks
+
+	* bin/mdocu.pl: Converting all texts to HTML; fixes
+
+	* doc/RegExp.html: Adapted to new style
+
+	* Common/RegExp.h: Asserts replaced with Check3
+
+	* Common/RDirSrchSrv.h: Include of assert.h removed
+
+	* Common/RDirSrchSrv.cpp: Comments improved; asserts replaced with Check3
+
+	* doc/RDirSrchSrv.html: Adapted to new style
+
+	* Common/XDirSrch.h: Description improved
+
+	* Common/XDirSrch.cpp: Comments improved; asserts replaced with Check3
+
+	* doc/XDirSrch.html: New file.
+
+	* Common/RDirSrch.h: init renamed to sendTo; include of assert removed
+
+	* Common/RDirSrch.cpp: Comments improved; asserts replaced with Check3
+
+	* doc/RDirSrch.html: Adapted to new style
+
+	* bin/mdocu.pl: Splitting function in parts improved
+
+2002-12-07  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/File.h: Some (stupid) const removed; Asserts replaced with Checks
+
+	* Common/IDirSrch.cpp: Comments improved
+
+	* Common/ADate.cpp: Checking input parameters with Check1
+
+	* Common/File.cpp: Fixes; Checking input parameters with Check1
+
+	* Common/PathDirSrch.h: Unnecessary includes removed; makePath removed
+
+	* Common/PathDirSrch.cpp: Comments improved; asserts replaced with Check3
+
+	* doc/PathDirSrch.html: Adapted to new style
+
+	* Common/DirSrch.h: 
+	  Include of File.h replaced with UNIX-directory search includes
+
+	* Common/DirSrch.cpp: Comments improved; asserts replaced with Check3
+
+	* doc/DirSrch.html: Adapted to new style
+
+2002-12-05  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/IDirSrch.html: Adapted to new style
+
+2002-12-01  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/RemoteFile.cpp: Comments improved; Asserts replaced with Checks
+
+	* doc/RemoteFile.html: Adapted to new style
+
+	* Common/SmartPtr.h: Comments improved; operator= fixed
+
+	* Common/File.cpp: Comments improved; Checks instead of asserts
+
+	* Common/Check.h, X-windows/Check.h: CheckMsg macro added
+
+	* doc/File.html: Adapted to new style; Actualized
+
+	* Common/INIFile.cpp: Comments improved; asserts replaced with Checks
+
+	* Common/Attribute.h: asserts replaced with Checks
+
+	* Common/AttrParse.cpp, Common/AttrParse.h:
+	  Comments improved; addAttribute doesn't throw exception anymore
+
+	* doc/INIFile.html: Adapted to new style
+
+	* doc/AttrParse.html: Headers in member description colorized
+
+	* doc/AttrParse.html, doc/Attribute.html: Adapted to new style
+
+2002-11-30  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/mdocu.pl: Fixes; More tolerant while parsing
+
+	* bin/Makefile.am: mdef.awk, mdocu.pl added
+
+	* Common/Handle.h: Comments improved; Asserts replaced with Check2
+
+	* Common/Handle.cpp: Comments improved
+
+	* doc/ATime.html: Minor fixes
+
+	* doc/AByteArray.html: Formatting changed
+
+	* doc/Handle.html: Adapted to new style
+
+	* Common/ATStamp.cpp: Comments improved; Checks instead of asserts
+
+	* doc/ATStamp.html: Changed to new style
+
+2002-11-28  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/ATime.h: set*-methods throw exception in case of error
+
+	* Common/ATime.cpp: omments improved; asserts replaced with Checks
+
+	* doc/ATime.html: Changed to new style; Fixed
+
+2002-11-27  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/ANumeric.h: Minor change of comments
+
+	* Common/AByteArray.cpp: Asserts replaced with Checks
+
+	* Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp:
+	  Asserts replaced with Checks; Comments improved
+
+	* doc/ANumeric.html: Changed to new style
+
+2002-11-26  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/cross_index.html: Actualized
+
+	* doc/ADate.html: Finished change to new style
+
+	* doc/ADate.html: Started to convert to new style
+
+	* doc/AttrVal.html: Adapted to new style
+
+	* Common/Parse.cpp:
+	  - Replaced asserts with Checks
+	  - Traces changed
+	  - Attomic::doParse can skip and/or ignore char
+	  - Parse*Ignore removed
+
+	* Common/IDirSrch.h: Fixed isSpecial
+
+	* Common/Check.cpp, X-windows/Check.cpp:
+	  Don't delete instance of Gtk::Main (as it can be created only once)
+
+	* doc/Thread.html: Added OThread<T>
+
+	* doc/Thread.html: Added throwing functions and those only in header
+
+	* doc/Thread.html: New file.
+
+	* bin/mdocu.pl: Version-option added; Handling remark-entries; Fixes
+
+2002-11-25  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/mdocu.pl: Parsing and output finished
+
+	* bin/mdocu.pl: Parser enhanced; parses more or less the header and function name
+
+2002-11-24  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/mdocu.pl, doc/mdocu.html: New file.
+
+2002-11-22  Markus Schwab  <g17m0@lycos.com>
+
+	* NEWS: Actualized
+
+	* Makefile.am: Subdir bin added
+
+	* Windows/VCTests.mak: 8 blanks replaced with TAB
+
+	* Windows/VCGeneral.mak: Check and VCGEneral.def added; check re-added
+
+	* Windows/VCGeneral.dsp: VCGeneral.def added
+
+	* Windows/VCGeneral.def: First draft of automatically generated file for V0.6
+
+	* Make.bat: Generation of DEF file fixed
+
+	* bin/mdef.awk: New file.
+
+2002-11-19  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/AByteArray.html: Function description changed to new style
+
+	* Common/AByteArray.h: Added header describing the class
+
+	* Common/AByteArray.cpp: Comments and compare method improved
+
+2002-11-18  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/XStrBuf.cpp:
+	  Fixed seekoff with ios::cur; Asserts replaced with checks; Traces improved
+
+	* Common/XStrBuf.cpp, Common/XStrBuf.h:
+	  Virtual methods seekoff and seekpos implemented
+
+	* Common/Makefile.am: Linking GTKMM libs statically
+
+	* Common/INIFile.cpp: Skipping whitespaces always before parsing sectionheader
+
+	* Common/Check.h, X-windows/Check.h: 2nd undef Check removed
+
+	* Common/Check.cpp, X-windows/Check.cpp:
+	  Loading XAppl.so dynamically to show MsgBox also for VIO-appls
+
+2002-11-13  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/gzo-cfg.h: Version increased
+
+	* Windows/VCGeneral.dsp, Windows/VCGeneral.mak: Check added
+
+	* Common/Makefile.am: GTK libs added (if available)
+
+	* Common/Check.cpp, X-windows/Check.cpp:
+	  Output is according to available libs on console or in MessageBox
+
+	* Make.bat: Option to generate VCGeneral.def file
+
+2002-11-12  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	  Storing menus (having an ID other than 0)
+
+2002-11-10  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/mgeni: Leading and trailing blanks removed from parsed data
+
+	* Common/Makefile.am: Check added (moved from X-windows)
+
+	* Common/INIFile.cpp, Common/INIFile.h:
+	  Methods to parse whole Entity object added; asserts changed to Checks
+
+	* Common/Entity.h:
+	  asserts replaced with checks; addAttribte with function template (if supported)
+
+	* Common/Entity.cpp: Freeing stored attributes
+
+	* bin/mgeni: Fixes; destructor also generated
+
+2002-11-09  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Mutex.html: New file.
+
+	* doc/AByteArray.html: Sorted methods according the alphabet
+
+	* bin/mgeni: Searching for classname to generate init-function
+
+2002-11-05  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/Makefile.am, bin/mgeni: New file.
+
 2002-11-04  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog: Actualized for V0.6.01
