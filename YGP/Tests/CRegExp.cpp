@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.10 2002/12/15 22:31:21 markus Rel $
+// $Id: CRegExp.cpp,v 1.11 2003/02/14 04:14:43 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -96,12 +96,12 @@ int main (int argc, char* argv[]) {
       }
    }
    catch (std::string& e) {
-      cerr << e.c_str () << '\n';
+      std::cerr << e.c_str () << '\n';
    }
 
    Xifstream frexexp;
    try {
-      frexexp.open (TESTFILE, ios::in);
+      frexexp.open (TESTFILE, std::ios::in);
       check (frexexp);
       if (frexexp) {
          frexexp.init ();

@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.4 2002/10/20 07:17:46 markus Rel $
+// $Id: Parse.cpp,v 1.5 2003/02/14 04:15:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -108,7 +108,7 @@ int Application::perform (int argc, const char* argv[]) {
    ParseTextEsc text2 ("34", "TextEsc", 10, 1, '2');
 
    Xifstream xstr;
-   xstr.open (PATH "Parsertest.dat", ios::in);
+   xstr.open (PATH "Parsertest.dat", std::ios::in);
    check (xstr);
    if (xstr) {
       xstr.init ();
