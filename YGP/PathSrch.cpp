@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.13 2004/01/15 06:26:30 markus Rel $
+//$Id: PathSrch.cpp,v 1.14 2004/10/14 04:01:29 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004
@@ -27,11 +27,11 @@
 
 #include <ygp-cfg.h>
 
-#if SYSTEM == UNIX
-#include <pwd.h>
+#if (SYSTEM == UNIX) && defined (HAVE_PWD_H)
+#  include <pwd.h>
 #endif
-#include <ctype.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdlib>
 
 #include "YGP/Trace.h"
 
@@ -101,7 +101,7 @@ std::string PathSearch::expandNode (const std::string& input) {
          ret.replace (i, 0, env);
 #endif
    }
-#if SYSTEM == UNIX
+#if (SYSTEM == UNIX) && defined (HAVE_PWD_H)
    else {
       std::string user (input.substr (1, i));
       TRACE5 ("PathSearch::expandNode (const std::string&) - Expanding user "
