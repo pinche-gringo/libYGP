@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.11 2003/02/05 06:01:21 markus Exp $
+//$Id: XFileDlg.cpp,v 1.12 2003/02/06 19:52:11 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -134,8 +134,11 @@ void IFileDialog::command (commandID id) {
    }
 
    case CANCEL:
-      if (modal)
+      if (modal) {
+         if (id == CANCEL)
+            modal = false;
          Gtk::Main::quit ();
+      }
       else
          delete this;
       break;
@@ -149,7 +152,7 @@ void IFileDialog::command (commandID id) {
 string IFileDialog::execModal () {
    set_modal (modal = true);
    Gtk::Main::run ();
-   string file (get_filename ());
+   string file (modal ? get_filename () : "");
    delete this;
    return file;
 }
