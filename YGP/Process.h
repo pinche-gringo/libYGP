@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.2 2003/02/05 15:06:05 markus Exp $
+//$Id: Process.h,v 1.3 2003/02/14 04:13:45 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ class Process {
    virtual ~Process ();
 
    const Process& operator= (const Process& other);
+
+   static std::string readChildOutput (int file);
 };
 
 #endif

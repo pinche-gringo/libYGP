@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.3 2003/02/12 22:44:58 markus Exp $
+//$Id: Process.cpp,v 1.4 2003/02/14 04:13:45 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,14 +30,38 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
+
+#if SYSTEM == UNIX
+#  include <unistd.h>
+#  include <sys/wait.h>
+#elif SYSTEM == WINDOWS
+#  include <io.h>
+#  include <fcntl.h>
+#  include <process.h>
+
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+
+#  define close    _close
+#  ifdef _MSC_VER
+#     define dup      _dup
+#     define dup2     _dup2
+#     define execvp   _execvp
+#  endif
+#  define pipe(p)  _pipe(p, 256, O_TEXT | O_NOINHERIT)
+#  define read     _read
+#  define sleep(s) Sleep (s * 1000)
+#  define write    _write
+
+typedef int pid_t;
+
+#endif
 
 #include "Check.h"
 #include "Trace_.h"
 #include "Internal.h"
 
-#include "Process.h"
+#include "Process_.h"
 
 
 /*--------------------------------------------------------------------------*/
@@ -56,10 +80,12 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
    throw (std::string)
 {
    errno = 0;
-   string error;
+   std::string err;
    int pipes[2];
+   pid_t pid;
 
-   pid_t pid (pipe (pipes) ? - 1 : fork ());
+#if SYSTEM == UNIX
+   pid = (pipe (pipes) ? - 1 : fork ());
    switch (pid) {
    case 0: {                                            // Child: Start program
       // Close read pipe and set output to the write pipe
@@ -88,39 +114,86 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
          break;
 
       TRACE9 ("RC = " << rc << "; wait: " << rcwait);
-      if (rcwait && rc) {
-         error = _("The command `%1' returned an error!\n\nOutput: %2");
-         std::string output;
-         char buffer[80];
-         int cChar;
-         while ((cChar = read (pipes[0], buffer, sizeof (buffer)))
-                && (cChar != -1))
-            output.append (buffer, cChar);
-         if (errno == EAGAIN)
-            errno = 0;
-
-         std::string cmd (file);
-         const char* const* arg = arguments;
-         while (*++arg)
-            cmd += (std::string (1, ' ') + std::string (*arg));
-
-         error.replace (error.find ("%1"), 2, cmd);
-         error.replace (error.find ("%2"), 2, output);
-         TRACE8 ("Process::start (const char*, const char*) - Prg-error: " << error);
-      }
+      if (rcwait && rc)
+         err = readChildOutput (pipes[0]);
       break; }
-   }
+   } // end-switch
 
-   if (errno && !error.length ()) {
+#elif SYSTEM == WINDOWS
+   if (pipe (pipes) != -1) {
+      // Save original output-handles
+      int sout (dup (1));
+      int serr (dup (2));
+
+      if ((sout != -1) && (serr != -1)) {
+         // Duplicate write end of pipe to stdout/err and close it
+         dup2 (dup (pipes[1]), 1);
+         dup2 (pipes[1], 2);
+         close (pipes[1]);
+
+         pid = spawnvp (wait ? P_WAIT : P_NOWAIT, file,
+                        const_cast<char* const*> (arguments));
+         int serror = errno;
+
+         // Restore stdout/err
+         dup2 (sout, 1);
+         dup2 (serr, 2);
+         close (sout);
+         close (serr);
+
+         // Wait (or check if child has finished)
+         unsigned long rc (0);
+         if (wait)
+            GetExitCodeProcess ((HANDLE)pid, &rc);
+         else {
+            sleep (1);
+            // Assume that process has finished, if GetProcessVersions returns 0
+            HANDLE hProc (OpenProcess (PROCESS_QUERY_INFORMATION, false, pid));
+            if (hProc) {
+               GetExitCodeProcess (hProc, &rc);
+               if (rc)
+                  err = readChildOutput (pipes[0]);
+            }
+         }
+      }
+   }
+#endif
+
+   if (errno && !err.length ()) {
+      err = (_("Error starting program `%1'!\n\nReason: %2"));
+      err.replace (err.find ("%2"), 2, strerror (errno));
+   }
+   close (pipes[0]);
+
+   if (err.length ()) {
       std::string cmd (file);
       const char* const* arg = arguments;
       while (*++arg)
          cmd += (std::string (1, ' ') + std::string (*arg));
 
-      error = (_("Error starting program `%1'!\n\nReason: %2"));
-      error.replace (error.find ("%1"), 2, cmd);
-      error.replace (error.find ("%2"), 2, strerror (errno));
+      err.replace (err.find ("%1"), 2, cmd);
+      throw err;
    }
-   if (error.length ())
-      throw error;
  }
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Reads the data for the passed descriptor and returns it with a
+//            description.
+//Parameters: file: Descriptor of stream to read from
+//Returns   : String with error-message
+/*--------------------------------------------------------------------------*/
+std::string Process::readChildOutput (int file) {
+   std::string err (_("The command `%1' returned an error!\n\nOutput: %2"));
+   std::string output;
+   char buffer[80];
+   int cChar;
+   while ((cChar = read (file, buffer, sizeof (buffer)))
+            && (cChar != -1))
+      output.append (buffer, cChar);
+   if (errno == EAGAIN)
+      errno = 0;
+
+   err.replace (err.find ("%2"), 2, output);
+   TRACE8 ("Process::readChildOutput (const char*, const char*) - Prg-error: " << err);
+   return err;
+}
