@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.29 2000/02/24 23:45:47 Markus Exp $
+// $Id: Test.cpp,v 1.30 2000/03/05 12:50:40 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -173,7 +173,7 @@ int Application::perform (int argc, const char* argv[]) {
    ParseTextEsc text2 ("34", "TextEsc", 10, 1, '2');
 
    Xifstream xstr;
-   xstr.open ("Test.Dat");
+   xstr.open ("Test.Dat", ios::in | ios::nocreate);
    check (xstr);
    if (xstr) {
       xstr.init ();
@@ -192,7 +192,7 @@ int Application::perform (int argc, const char* argv[]) {
 // BCC & MVC have no way to set the read-buffer of an istream -> Skip test
    cout << "Testing extStreambuf...\n";
 
-   ifstream in ("Test.Dat");
+   ifstream in ("Test.Dat", ios::in | ios::nocreate);
    check (in);
    if (in) {
       extStreambuf str (*in.rdbuf ());
@@ -231,7 +231,7 @@ int Application::perform (int argc, const char* argv[]) {
    cout << "Testing XStream...\n";
    
    Xifstream xin;
-   xin.open ("Test.Dat");
+   xin.open ("Test.Dat", ios::in | ios::nocreate);
    check (xin);
    if (xin) {
       char c;
