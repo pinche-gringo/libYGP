@@ -1,14 +1,14 @@
-///$Id: IVIOAppl.cpp,v 1.30 2003/07/01 04:57:31 markus Rel $
+///$Id: IVIOAppl.cpp,v 1.31 2003/07/01 04:57:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,11 +25,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <stdio.h>
-#include <string.h>
-
-#include <signal.h>
-#include <locale.h>
+#include <cstdio>
+#include <cstring>
+#include <clocale>
+#include <csignal>
 
 #include <string>
 #include <iostream>
@@ -42,11 +41,11 @@
 #include "IVIOAppl.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks char if it starts an option
-//Parameters: ch: Character to check
-//Returns   : bool: Result (true: char starts option)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks char if it starts an option
+/// \param ch: Character to check
+/// \returns \c bool: Result (true: char starts option)
+//-----------------------------------------------------------------------------
 static inline bool isOptionChar (const char ch) {
 #if SYSTEM == UNIX
    return ch == '-';
@@ -56,16 +55,15 @@ static inline bool isOptionChar (const char ch) {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; the parameters specify the number of and an array
-//            with the program-arguments (as passed to the main-function) and
-//            a table to map the verbose long-options to their short
-//            equivalent. If the third parameter is NULL, no long options are
-//            used.
-//Parameters: argc: Number of arguments
-//            argv: Array of pointers to argumetns
-//            pOpt: Pointer to long-option-table
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; the parameters specify the number of and an array with the
+/// program-arguments (as passed to the main-function) and a table to map the
+/// verbose long-options to their short equivalent. If the third parameter is
+/// NULL, no long options are used.
+/// \param argc: Number of arguments
+/// \param argv: Array of pointers to argumetns
+/// \param pOpt: Pointer to long-option-table
+//-----------------------------------------------------------------------------
 IVIOApplication::IVIOApplication (const int argc, const char* argv[],
                                   const longOptions* pOpt)
    : args (argc), ppArgs (argv), startArg (1), startOpt (1), pOptionParam (NULL)
@@ -82,9 +80,9 @@ IVIOApplication::IVIOApplication (const int argc, const char* argv[],
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 IVIOApplication::~IVIOApplication () {
    signal (SIGSEGV, SIG_DFL);
 #ifdef HAVE_SIGBUS
@@ -93,15 +91,19 @@ IVIOApplication::~IVIOApplication () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets a table which maps options to a verbose version. This table
-//            must be terminated with an entry where the short option is '\0'
-//            and the associated long options is NULL; the previous entries
-//            must not have lines with those values.
-//Parameters: pLongOptions: Pointer to an array of longOptions; terminated with a longOption with NULL as longVal
-//Requires  : - pLongOpts not NULL; all long-entries not NULL; all short-entries not '\0'
-//            - An entry with an { NULL, '\0' } at the end
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets a table which maps options to a verbose version. This table must be
+/// terminated with an entry where the short option is '\0' and the associated
+/// long options is NULL; the previous entries must not have lines with those
+/// values.
+/// \param pLongOpts: Pointer to an array of longOptions; terminated with a
+///    longOption with NULL as longVal
+/// \pre
+///     - \c pLongOpts not NULL
+///     - all long-entries not NULL
+///     - all short-entries not '\0'
+///     - An entry with an { NULL, '\0' } at the end
+//-----------------------------------------------------------------------------
 void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
    Check1 (pLongOpts);
    Check1 (pLongOpts->longVal);         // At least one valid entry must exist
@@ -116,14 +118,16 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
    Check3 (pLongOpts->shortVal == '\0'); // Last entry mustn't have a shortval
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets a table which maps options to a verbose version. This table
-//            must not contain entries with either '\0' as short option or NULL
-//            as long option.
-//Parameters: pLongOptions: Pointer to an array of longOptions
-//            numLongOpts: Number of elements in the array
-//Requires  : pLongOpts not NULL; all long-entries not NULL; all short-entries not '\0'
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets a table which maps options to a verbose version. This table must not
+/// contain entries with either '\0' as short option or NULL as long option.
+/// \param pLongOpts: Pointer to an array of longOptions
+/// \param numLongOpts: Number of elements in the array
+/// \pre
+///     - \c pLongOpts not NULL
+///     - all long-entries not NULL
+///     - all short-entries not '\0'
+//-----------------------------------------------------------------------------
 void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 				      unsigned int numLongOpts) {
    Check1 (numLongOpts); Check1 (pLongOpts);
@@ -141,13 +145,13 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Runs the application; first the method readINIFile is called to
-//            read the data from an INI file. Then the options are checked. If
-//            an invalid or a help-option is passed, the help-screen is
-//            displayed, else the actual job of the application is performed.
-//Returns   : int: Status
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Runs the application; first the method readINIFile() is called to read the
+/// data from an INI file. Then the options are checked. If an invalid or a
+/// help-option is passed, the help-screen is displayed, else the actual job
+/// of the application is performed.
+/// \returns \c int: Status
+//-----------------------------------------------------------------------------
 int IVIOApplication::run () {
    std::string inifile (PathSearch::expandNode (std::string (1, '~')));
    Check1 (inifile.size ());
@@ -182,19 +186,16 @@ int IVIOApplication::run () {
    return perform (args - startArg, &ppArgs[startArg]);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns parameters to the actual option and increases the
-//            pointer the next option. These parameter are searched using the
-//            following algorithm:
-//
-//              - The remaining characters in a list of simple options (e.g. if
-//                called for the option d in "-dlevel1" the method would return
-//                "level1") or the value behind the equal sign (=) if given in
-//                a long option.
-//              - The next argument of the application.
-//              - NULL
-//Returns   : char*: Parameter for the option
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the value to the current option and increases the pointer the
+/// next option. These parameter are searched using the following algorithm:
+///     - The remaining characters in a list of simple options (e.g. if called
+///       for the option d in "-dlevel1" the method would return "level1") or
+///       the value behind the equal sign (=) if given in a long option.
+///     - The next argument of the application.
+///     - NULL
+///  \returns \c char*: Parameter for the option
+//-----------------------------------------------------------------------------
 const char* IVIOApplication::getOptionValue () {
    if (startOpt > startArg)
       moveOption ();
@@ -218,18 +219,17 @@ const char* IVIOApplication::getOptionValue () {
    return pHelp;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads the options. It handles options in the form:
-//              -<Option>[...]
-//              -[<Option>[...]]<Option><Value>
-//              -[<Option>[...]]<Option> <Value>
-//              --
-//              --<LongOption>
-//              --<LongOption><Value>
-//              --<LongOption> <Value>
-//Returns   : char: Next option ('\0' at last option)
-//Notes     : In non-UNIX-systems slash (/) is also an option-char
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Reads the options. It handles options in the form:
+///     -<Option>[...]
+///     -[<Option>[...]]<Option><Value>
+///     -[<Option>[...]]<Option> <Value> --
+///     --<LongOption>
+///     --<LongOption>=<Value>
+///     --<LongOption> <Value>
+/// \returns \c char: Next option ('\0' at last option)
+/// \remarks : In non-UNIX-systems the slash (/) is also an option-char
+//-----------------------------------------------------------------------------
 char IVIOApplication::getOption () {
    char option ('\0');
 
@@ -306,11 +306,11 @@ char IVIOApplication::getOption () {
    return option;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Moves the option (or option-value) in parameter numOpt before
-//            the arguments (indicated with startArg)
-//Parameters: numOpt: Option (argument) to move
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Moves the option (or option-value) in parameter \c numOpt before the
+/// arguments (indicated with startArg)
+/// \param numOpt: Option (argument) to move
+//-----------------------------------------------------------------------------
 void IVIOApplication::moveOption (unsigned int numOpt) const {
    Check1 (numOpt < args);
    if (numOpt == startArg)
@@ -329,33 +329,33 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
    ppArgs[numOpt] = pHelp;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the name of the application. The default action is to
-//            return the name of the file as stored in index 0 of the
-//            argv-array, stripped by any path information.
-//Returns   : const char*: Name of programm
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the name of the application. The default action is to return the
+/// name of the file as stored in index 0 of the argv-array, stripped by any
+/// path information.
+/// \returns \c const char*: Name of programm
+//-----------------------------------------------------------------------------
 const char* IVIOApplication::name () const {
    const char* pEnd = strrchr (filename (), File::DIRSEPARATOR);
    return pEnd ? pEnd + 1 : filename ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the program for internationalization by setting the
-//            current locale.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Initializes the program for internationalization by setting the current
+/// locale.
+//-----------------------------------------------------------------------------
 void IVIOApplication::initI18n () {
    setlocale (LC_ALL, "");                         // Activate current locale
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the program for internationalization by setting the
-//            current locale and additionaly loading the message file.
-//Parameters: package: Name of the message-catalog
-//            dir: root-directory for message-catalogs
-//Remarks   : If the GNU gettext library is not installed or supported, the
-//            methods only sets the locale!
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Initializes the program for internationalization by setting the current
+/// locale and loading the message file.
+/// \param package: Name of the message-catalog
+/// \param dir: root-directory for message-catalogs
+/// \remarks If the GNU gettext library is not installed or supported, the
+///     methods only sets the locale!
+//-----------------------------------------------------------------------------
 void IVIOApplication::initI18n (const char* package, const char* dir) {
    Check1 (package); Check1 (dir);
    initI18n ();
