@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.3 2001/10/09 17:17:39 markus Exp $
+//$Id: AssParse.h,v 1.4 2001/10/18 01:21:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,10 +24,15 @@
 
 
 // Class to split a string of assignments into its single parts
+//
+// The single assignments are seperated with a semicolon (;) and look like
+// key=value or key="value".
+//
+// As for all Tokenize-objects empty assignments are silently ignored.
 class AssignmentParse : public Tokenize {
  public:
    // Manager-functions
-   AssignmentParse (const std::string& path) : Tokenize (path)
+   AssignmentParse (const std::string& assignments) : Tokenize (assignments)
       , posValue (std::string::npos) { }
    virtual ~AssignmentParse ();
 
