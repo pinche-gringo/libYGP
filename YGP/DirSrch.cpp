@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.11 1999/11/04 20:41:08 Markus Rel $
+//$Id: DirSrch.cpp,v 1.12 2000/01/26 22:12:48 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -107,17 +107,15 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 #   ifdef WINDOWS
    // Attribut-handling: Files having attrs not specified here are not ret.
    attr = ~attribs;
-   searchDir += '*';
-   hSearch = FindFirstFile (searchDir.c_str (), pEntry);
+
+   std::string temp = searchDir + '*';
+   hSearch = FindFirstFile (temp.c_str (), pEntry);
    if (hSearch == INVALID_HANDLE_VALUE)
       return GetLastError ();
 #  else
 #     error Not implemented!
 #  endif
-
-   // After (successful) start of search set searchDir to path of search
-   searchDir.replace (searchDir.length () - 1, 0, '\0');
-#  endif
+#endif
 
    strcpy (pEntry->pPath, searchDir.c_str ());
 
@@ -181,7 +179,7 @@ int DirectorySearch::find () {
 #  ifdef WINDOWS
    while (FindNextFile (hSearch, pEntry))
       if (!(pEntry->dwFileAttributes & attr) && regExp.matches (pEntry->name ())) {
-	 TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
+         TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
          return 0;
       }
    return GetLastError ();
@@ -223,12 +221,16 @@ void DirectorySearch::setFile (const std::string& search) {
          searchDir = search;
          searchDir.replace (len + 1, searchDir.length (), 0, '\0');
          searchFile.replace (0, len + 1, 0, '\0');
-	 assert (checkIntegrity () <= NO_ENTRY);
+         assert (checkIntegrity () <= NO_ENTRY);
          return;
       } // endif
    } // end-while
 
+#ifdef UNIX
    searchDir = "./";
+#else
+   searchDir = ".\\";
+#endif
    assert (checkIntegrity () <= NO_ENTRY);
 }
 
