@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.2 2002/11/25 05:14:20 markus Exp $
+# $Id: mdocu.pl,v 1.3 2002/11/25 06:08:32 markus Exp $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ my %values;
 while (<>) {
     if (m!^//Purpose   :!) {
         $purpose = $_;
-        $purpose =~ s#^//[^:]+:\s*(.*)#$1#;
+        $purpose =~ s#^//[^:]+:\s*(.*)\n*#$1#;
 
         my $lastVar = \$purpose;
         # Read next lines til end of header
@@ -81,33 +81,52 @@ while (<>) {
                 if (m!^//Returns   :!) {$lastVar = \$values{'Returns'}; last; }
                 if (m!^//Requires  :!) {$lastVar = \$values{'Requires'}; last; }
                 if (m!^//Throws    :!) {$lastVar = \$values{'Throws'}; last; }
-                if (m!^//\s*$!) { $$lastVar .= "<br>"; last READLINE; }
+                if (m!^//\s*$!) { $$lastVar .= "\n"; last READLINE; }
                 s#^//\s*(.*)#$1#;
-                $$lastVar .= $_; last;
+                $$lastVar .= $_; next READLINE;
             }
             s#^//[^:]+:\s*(.*)#$1#;
             $$lastVar .= $_;
         }
 
-        # Now skip over trailing comment line
+        # Now skip over the trailing comment line (if available) and start
+        # start parsing with what should be the function name
         $_ = <>;
         $_ = <> if m!/\*-*\*/!;
         my $fnc = $_;
 
-        # ... and parse finally function name (until an open curly brace)
+        # ... and continue unt an open curly brace or colon
         while (!/\{|:/) { $fnc .= $_; print "Parsed: $fnc\n"; $_ = <>; }
 
-        # Strip the part after the brace or a ':'
-        print ("Fnc : $fnc");
+        # Strip the part after the brace or the colon
         $fnc =~ s/\s\s+/ /g;
-        $fnc =~ /(.*\s)*\w*::\s*([^\s]*)(.*)(\{|:|\n)/g;
-        my $type = $1 ? $1 : "";
-        print ("Split: ", $type, " - ", $2, " - ", $3, "\n");
+        $fnc =~ /(.*\s|^)(\w*::|^|\s)\s*([^\s]*)([^:\{\n]*)/g;
 
-        print ("    \<pre\>\<a name=\"$2\"\>\</a>$type\<b\>$2\</b\>$3\</pre\>");
-        print $purpose;
-        foreach (%values) { print ($_); }
-        print ("\n\n");
+        # Print purpose and parameters
+        print ("    <pre><a name=\"$3\"></a>$1<b>$3</b>$4</pre>\n");
+        print ("    <dl>\n");
+        print ("      <dd><p>$purpose</p></dd>\n");
+        my @params;
+        if ($values{'Parameters'}) {
+            print ("      <dd><dl><dt><b>Parameters</b></dt>\n");
+            foreach (split /\n+/, $values{'Parameters'}) {
+                /(\w+)(.*)/g;
+                print ("          <dd><code>$1</code>$2<dd>\n");
+                $params[++$#params] = $1;
+            }
+            print ("      </dl><dd>\n");
+        }
+
+        # Print out the rest of the stuff
+        foreach my $i ('Returns', 'Requires', 'Throws') {
+            if ($values{$i}) {
+                print ("      <dd><dl><dt><b>$i</b></dt>\n");
+                foreach (@params) {
+                    $values{$i} =~ s/(.*)($_)(.*)/$1<code>$2<\/code>$3/g; }
+                print ("          <dd>$values{$i}</dd></dl></dd>\n");
+            }
+        }
+        print ("    </dl>\n");
         %values = ();
     }
 }
