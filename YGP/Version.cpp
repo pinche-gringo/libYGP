@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.16 2004/01/15 06:26:30 markus Rel $
+// $Id: Version.cpp,v 1.17 2004/10/25 02:55:18 markus Exp $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -68,19 +68,25 @@ static const int _init () {
 static const int init = _init ();
 
 
+#ifndef HAVE_SYSLOG_H
+#  include <map>
+#  include <YGP/Log.h>
+
+std::map <unsigned int, char*> YGP::Syslog::apAppl;
+#endif
+
+
 #if SYSTEM == WINDOWS
 
-#ifdef _MSC_VER
-#pragma warning(disable:4786)   // disable warning about truncating debug info
-#endif
+#  ifdef _MSC_VER
+#     pragma warning(disable:4786) // Disable warning about truncating debug info
+#  endif
 
 #  include <map>
 #  include <YGP/Log.h>
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-std::map <unsigned int, char*> YGP::Syslog::apAppl;
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
 
 
 extern "C" {
