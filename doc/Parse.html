@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.1 2000/03/30 22:56:59 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.2 2000/04/01 00:22:08 Markus Exp $ -->
 
 <html>
   <head>
@@ -22,13 +22,18 @@
 	<i>Parse</i>.</li>
       <li>The second calls a C-style function if an object was found and has
 	therefore a function-pointer as parameter of the constructor(s). These
-	classes	have a prefix of <i>CBParse</i>.</li>
+	classes	have a prefix of <i>CBParse</i>. The callbacks have the type
+        <i><a name="PARSECALLBACK">PARSECALLBACK</a></i> which are pointer to
+	functions with a const char*-paramter returning an integer.</li>
       <li>The third calls a C++-style function if an object was found and has
 	therefore an object and a pointer to a memberfunction as parameter of
-	he constructor(s). These classes starts with <i>OMParse</i>.</li>
+	he constructor(s). These classes starts with <i>OMParse</i>. The object
+	can be of any type; the callback a <a name="PTCALLBACK"><i>T::*PTCALLBACK</i></a>
+	which is a object-member expecting an const char*-paramter and returning
+	an integer.</li>
     </ul>
 
-    <p>Every of this functions must return the following values (which  specifies
+    <p>Any of this functions must return the following values (which  specifies
       how the parsing should be continued):</p>
     <ul>
       <li><b>0</b>: Parsing (actually callback) OK</li>
@@ -41,6 +46,13 @@
     <p>If possible use the error-values (PARSE_OK, PARSE_ERROR, PARSE_CB_ERROR,
       PARSE_CB_ABORT) in the error-enum of <a href="Parse.html#ParseObject">
 	ParseObject</a>.</p>
+
+    <p>To minimize the usage of storage the parser can be compiled with the
+      the macro <i>MULTIBUFFER</i> defined. This causes the buffer holding the
+      actual parsed data to be allocated and released everytime a parse-object
+      is parsed and therefore in a worse performance. Alternatively the method
+      <a href="Parse.html#POAttfreeBuffer">ParseAttomic::freeBuffer</a> can
+      be called (but better not while an object is parsed).</p>
 
     <hr noshade="noshade">
 
@@ -116,7 +128,10 @@
 
     <h4>Management functions</h4>
     <p><a name="ParseObject1"><i>ParseObject (const char* description, bool
-	  skipWhitespace = true)</i> - Constructor</a></p>
+	  skipWhitespace = true)</i> - Constructor; the parameter
+	<i>description</i> must contain a description of the object,
+	<i>skipWhitespace</i> defines if white-spaces should be skipped
+	<b>after</b> sucessful parsing this object.</a></p>
     <p><a name="ParseObject2"><i>ParseObject (const ParseObject& other)</i>
 	- Copy-constructor</a></p>
 
@@ -137,8 +152,7 @@
 	- Changes the description of the object.</a></p>
     <p><a name="POsetSkipWS"><i>void setSkipWS (bool skipWhitespace)</i> -
 	Sets the flag if whitespaces should be skipped after sucessfully
-	parsing data matching this object. Pass <i>true</i> if this should
-	happen and <i>false</i> if not.</a></p>
+	parsing data matching this object.</a></p>
 
     <h4>Parsing</h4>
     <p><a name="POskipWS"><i>void skipWS (<a href="XStream.html#Xistream">Xistream</a>&amp;
@@ -214,5 +228,195 @@
     <p><a name="POEOFdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
       stream)</i> - Returns <i>PARSE_OK</i>; if the end of the stream has been
       reached; <i>PARSE_ERROR</i> if not.</i></a></p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="CBParseEOF">Class CBParseEOF</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseEOF">ParseEOF</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse the end of a file (EOF) with a callback to report
+      matching input.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseEOF1">CBParseEOF</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseEOF">~CBParseEOF</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBEOFsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBEOFfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="CBParseEOF1"><i>CBParseEOF (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</i>
+      - Constructor setting the callback.</a></p>
+    <p><a name="~CBParseEOF"><i>virtual ~CBParseEOF ()</i> - Destructor</a></p>
+
+    <p><a name="CBEOFsetCallback"><i>void setCallback
+	  (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</i> - Changes
+      the callback.</a></p>
+
+    <h4>Parsing</h4>
+    <p><a name="CBEOFfound"><i>virtual int found (const char* pFoundValue)</i>
+	- Calls the defined callback with the passed parameter and returns its
+	result.</i></a></p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseAttomic">Class ParseAttomic</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseObject">ParseObject</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse an attomic value; Base-class of all attomic values.</p>
+
+    <p>The pValue parameter has the following semantic: A parsed character is
+      valid if it occures in the pValue-list, where the backslash (\) escapes
+      the next charater to the following meaning:</p>
+
+    <ul>
+      <li><b>A</b> ... Any alphabethic character is valid</li>
+      <li><b>X</b> ... Any alphanumeric character is valid</li>
+      <li><b>9</b> ... Any number is valid</li>
+      <li><b>0</b> ... The zero-character (\0) is valid</li>
+      <li><b>n</b> ... The line-feed-character (\n) is valid</li>
+      <li><b>r</b> ... The carriage-return-character (\r) is valid</li>
+      <li><b>\</b> ... The backslash itself is valid</li>
+      <li><b>blank ( )</b> ... Any whitespace is valid</li>
+      <li><b>*</b> ... Any character is valid</li>
+    </ul>
+
+    <p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseAttomic1">ParseAttomic</a></td>
+	<td>(const char* value, const char* description, unsigned int max = 1,
+	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseAttomic2">ParseAttomic</a></td>
+	<td>(const <a href="Parse.html#ParseAttomic2">ParseAttomic</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseAttomic">~ParseAttomic</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp;</td>
+	<td><a href="Parse.html#POAttoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>const char*</td>
+	<td><a href="Parse.html#POAttgetValue">getValue</a></td><td>() const</td></tr>
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="Parse.html#POAttgetMaxCard">getMaxCard</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="Parse.html#POAttgetMinCard">getMinCard</a></td>
+	<td>() const</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POAttsetValue">setValue</a></td>
+	<td>(const char* value)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POAttsetMaxCard">setMaxCard</a></td>
+	<td>(unsigned int val)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POAttsetMinCard">setMinCard</a></td>
+	<td>(unsigned int val)</td></tr>
+
+      <tr valign="top"><td>static void</td>
+	<td><a href="Parse.html#POAttfreeBuffer">freeBuffer</a></td><td>()</td>
+
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POAttrcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="Parse.html#POAttrcheckValue">checkValue</a></td><td>(char ch)</td></tr>
+
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POAttdoParse">doParse</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
+	  bool optional) = 0</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <p><a name="ParseAttomic1"><i>ParseAttomic (const char* value, const char*
+	  description, unsigned int max = 1, unsigned int min = 1, bool
+	  skipWhitespace = true)</i> - Constructor; sets the neccessary data
+	of this object. The parameter <i>value</i> specifies the valid characters
+	for the object (which can either be listed or specified by type with
+	<i>\A</i> for alphabetic, <i>\9</i> for numeric, <i>\X</i> for
+	alpha-numeric characters, <i>\0</i> for the zero-character, <i>\n</i>
+	and <i>\r</i> for line-feed and carriage-return and blank ( ) for
+	white-spaces. A <i>\*</i> means every character). The parameters <i>max</i>
+	and <i>min</i> specify the maximal and minimal number of characters
+	this object may contain.</a></p>
+    <p><a name="ParseAttomic2"><i>ParseAttomic (const ParseAttomic&amp; other)</i>
+	- Copyconstructor</a></p>
+    <p><a name="~ParseAttomic"><i>virtual ~ParseAttomic ()</i> - Destructor</a></p>
+
+    <p><a name="POAttoperator="><i>ParseAttomic&amp; operator= (const ParseAttomic&amp; other)</i>
+	- Assignmentoperator</a></p>
+
+    <p><a name="POAttfreeBuffer"><i>static void freeBuffer</i> - Frees the buffer
+	which is used to store the parsed data. Use with care (at the end of
+	parsing and not during parsing a single object).</a></p>
+
+    <h4>Accessing values</h4>
+    <p><a name="POAttgetValues"><i>const char*  getValue () const</i> - Returns
+	a pointer to the stored valid characters.</a></p>
+    <p><a name="POAttsetValues"><i>setValue (const char* value)</i> - Changes
+	the valid characters. This parameter must be valid (not freed) for the
+	whole lifetime (usage) of the object.</a></p>
+    <p><a name="POAttgetMaxCard"><i>unsigned int getMaxCard () const</i> -
+	Returns	the maximal number of characters this object may match while
+	parsing.</a></p>
+    <p><a name="POAttsetMaxCard"><i>setMaxCard (unsigned int val)</i> - Changes
+	the maximal number of characters this object may match while parsing.</a></p>
+    <p><a name="POAttgetMinCard"><i>unsigned int getMinCard () const</i> -
+	Returns	the minimal number of characters this object must match while
+	parsing.</a></p>
+    <p><a name="POAttsetMinCard"><i>setMinCard (unsigned int val)</i> - Changes
+	the minimal number of characters this object must match while parsing.</a></p>
+
+    <h4>Parsing</h4>
+    <p><a name="POAttdoParse"><i>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp;
+      stream)</i> - Returns <i>PARSE_OK</i>; if the end of the stream has been
+      reached; <i>PARSE_ERROR</i> if not.</i></a></p>
+    <p><a name="POAttcheckValue"><i>virtual bool checkValue (char ch) const</i>
+	- Checks if ch is valid according the value-list of the object. See the
+	constructor and the general information at the beginning of the
+	documentation to this class for further information</a></p>
+
+    <h4>Status-handling</h4>
+    <p><a name="POAttcheckIntegrity"><i>virtual int checkIntegrity () const</i> -
+	Checks if this object is in a valid state.</a></p>
   </body>
 </html>
