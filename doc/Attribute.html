@@ -1,0 +1,158 @@
+<!-- $Id: Attribute.html,v 1.1 2001/09/19 23:47:35 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: IAttribute</title>
+    <meta name="description" content="Documentation of IAttribute-classes">
+    <meta name="keywords" content="Documentation, Docu, IAttribute, Attribute, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2001-08-14">
+    <meta name="DC.Rights" content="Anticopyright (A) 2001, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class IAttribute</h1>
+    <p>Derived from
+      <i>none</i>
+      <br>
+      Derived by: <a href=Attribute.html#Attribute>Attribute&lt;T&gt;</a></p>
+
+    <p>#include &lt;Attribute.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Baseclass for attributes. Derive from it for every type of attribute.</p>
+
+    <p>An attribute is defined to be the connection between a name and an
+      attribute-value (which is not stored inside the attribute but only refereneced).</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="IAttribute.html#assignFromString"><b>assignFromString</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>) = 0;</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp;</tt> </td>
+        <td><a href="IAttribute.html#getName"><b>getName</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="IAttribute.html#matches"><b>matches</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="IAttribute.html#matches2"><b>matches</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">compare</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="IAttribute.html#~IAttribute"><b>~IAttribute</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="IAttribute.html#IAttribute"><b>IAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="IAttribute.html#IAttribute2"><b>IAttribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name_</font></tt>)</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h4>Mangement functions</h4>
+    <pre><a name="IAttribute"></a>IAttribute (const char* pName)</pre>
+    <dl>
+      <dd>Constructor; creates an attribute with the passed name. pName must point to
+        a valid ASCIIZ-string.</dd>
+    </dl>
+    <pre><a name="IAttribute2"></a>IAttribute (const std::string&amp; name_)</pre>
+    <dl>
+      <dd>Constructor; creates an attribute with the passed name.</dd>
+    </dl>
+    <pre><a name="~IAttribute"></a>~IAttribute ()</pre>
+
+    <h4>Object-handling</h4>
+    <pre><a name="assignFromString"></a>virtual bool assignFromString (const char* value) = 0</pre>
+    <dl>
+      <dd>Method to assign a value from a character-pointer to the attribute. To be
+        implemented by derived objects.</dd>
+    </dl>
+
+    <pre><a name="getName"></a>const std::string&amp; getName () const</pre>
+    <dl>
+      <dd>Retrieves the name of the attribute.</dd>
+    </dl>
+
+    <pre><a name="matches"></a>bool matches (const char* pName)</pre>
+    <dl>
+      <dd>Checks if the name of the attribute matchtes the passed one. pName must point to
+        a valid ASCIIZ-string.</dd>
+    </dl>
+    <pre><a name="matches2"></a>bool matches (const std::string&amp; compare)</pre>
+    <dl>
+      <dd>Checks if the name of the attribute matchtes the passed one.</dd>
+    </dl>
+   
+    <hr noshade>
+    <a name="Attribute"></a>
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class Attribute&lt;T&gt;</h1>
+    <p>Derived from: <a href=Attribute.html>IAttribute</a></p>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Attribute.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Template for attributes of specific type.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="IAttribute.html#Attribute1"><b>Attribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pName</font>, <font color="navy">T</font>&amp; <font color="blue">attr</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="IAttribute.html#Attribute2"><b>Attribute</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">name_</font></tt>, <font color="navy">T</font>&amp; <font color="blue">attr</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="IAttribute.html#AassignFromString"><b>assignFromString</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">value</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="IAttribute.html#~Attribute"><b>~Attribute</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h4>Mangement functions</h4>
+    <pre><a name="Attribute"></a>IAttribute (const char* pName, T& attr)</pre>
+    <dl>
+      <dd>Constructor; creates an attribute with the passed name and a reference
+         to the value. pName must point to a valid ASCIIZ-string.</dd>
+    </dl>
+    <pre><a name="Attribute2"></a>IAttribute (const std::string&amp; name_, T& attr)</pre>
+    <dl>
+      <dd>Constructor; creates an attribute with the passed name and a reference to the
+        value.</dd>
+    </dl>
+    <pre><a name="~Attribute"></a>~IAttribute ()</pre>
+
+    <h4>Object-handling</h4>
+    <pre><a name="AassignFromString"></a>virtual bool assignFromString (const char* value) = 0</pre>
+    <dl>
+      <dd>Method to assign a value from a character-pointer to the attribute. To be
+        implemented by derived objects.</dd>
+    </dl>
+  </body>
+</html>
