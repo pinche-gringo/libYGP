@@ -1,7 +1,7 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-//$Id: Mutex.h,v 1.4 2002/10/23 05:47:17 markus Rel $
+//$Id: Mutex.h,v 1.5 2003/07/01 05:16:28 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,22 +30,43 @@
 #endif
 
 
-// Class for mutual exclusive devices
+/**Class for mutual exclusive devices.
+
+   A mutual exclusive device is useful for protecting shared data structures
+   from concurrent modifications, and implementing critical sections and
+   monitors.
+
+   A mutex has two possible states: unlocked (not owned by any thread), and
+   locked (owned by one thread). A mutex can never be owned by two different
+   threads simultaneously. A thread attempting to lock a mutex that is already
+   locked by another thread is suspended until the owning thread unlocks the
+   mutex first.
+*/
 class Mutex {
  public:
 #ifdef HAVE_LIBPTHREAD
+   /// Constructor; creates an (unlicked) mutex
    Mutex ()  { pthread_mutex_init (&id, NULL); }
+   /// Destructor; the mutex is destroyed
    ~Mutex () { pthread_mutex_destroy (&id); }
 
+   /// Tries o lock the mutex, but without blocking, if it is already locked
    bool trylock () { return !pthread_mutex_trylock (&id); }
+   /// Lock the mutex; the thread blocks, if it is already locked
    void lock () { pthread_mutex_lock (&id); }
+   /// Unlock a previously locked mutex
    void unlock () { pthread_mutex_unlock (&id); }
 #elif SYSTEM == WINDOWS
+   /// Constructor; creates an (unlicked) mutex
    Mutex () : hMutex (CreateMutex (NULL, false, NULL)) { }
+   /// Destructor; the mutex is destroyed
    ~Mutex () { ReleaseMutex (hMutex); }
 
+   /// Tries o lock the mutex, but without blocking, if it is already locked
    bool trylock () { return WaitForSingleObject (hMutex, 0) == WAIT_OBJECT_0; }
+   /// Lock the mutex; the thread blocks, if it is already locked
    void lock () { WaitForSingleObject (hMutex, INFINITE); }
+   /// Unlock a previously locked mutex
    void unlock () { ReleaseMutex (hMutex); }
 #endif
 
