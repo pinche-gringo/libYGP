@@ -7,16 +7,12 @@ Goto End
 
 :MakeDEF
 cd Debug
-Echo Library General > ..\VCGeneral.def
-Echo Exports >> ..\VCGeneral.def
-if "%@eval[2+2]%" == "4" goto 4NT
-for %%i in (*.obj) do dumpbin /SYMBOLS %%i | grep -E " External.*(.*%%~ni.+)" >> ..\VCGeneral.def
-goto EndDEF
-
-:4NT
-for %%i in (*.obj) do (dumpbin /SYMBOLS %i | grep -E " External.*(.*%@NAME[%i].+)") >> ..\VCGeneral.def
-
-:EndDEF
+Del ..\VCGeneral.def
+for %%i in (*.obj) do (dumpbin /SYMBOLS %%i | grep -E " External.*\(public:.+::[^ ]+\(.+\)\)")>>Temp.def
+Echo LIBRARY VCGeneral > ..\VCGeneral.def
+Echo EXPORTS >> ..\VCGeneral.def
+awk -f ..\..\bin\mdef.awk Temp.def>>..\VCGeneral.def
+Del Temp.def
 cd ..\..
 
 :End
