@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.19 2001/08/17 13:19:48 markus Exp $
+//$Id: ANumeric.h,v 1.20 2001/09/25 21:16:08 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,12 +25,20 @@
 
 #ifdef HAVE_LIBGMP
 #  include <gmp.h>
+   typedef mpz_t numType;
+#else
+#  ifdef __GNUC__
+      typedef long long int numType;
+#  else
+      typedef long int numType;
+#  endif
 #endif
 #include <AttrVal.h>
 
 
 // Forward declarations
 class invalid_argument;
+
 
 
 // Class for numeric attributes. As every AttributValue is supports undefined
@@ -144,11 +152,7 @@ class ANumeric : public AttributValue {
    int compare (const ANumeric& other);
 
  private: 
-#ifdef HAVE_LIBGMP
-   mpz_t value;
-#else
-   long value;
-#endif
+   numType value;
 };
 
 #endif
