@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.28 2001/08/10 01:05:07 markus Exp $
+//$Id: DirSrch.cpp,v 1.29 2001/08/21 23:49:27 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -147,7 +147,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    // Attribut-handling: Files having attrs not specified here are not ret.
    unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
 
-   return ((pEntry->dwFileAttributes & attr_)
+   return ((pEntry->attributes () & attr_)
            || !regExp.matches (pEntry->name ()))
           ? find () : 0;
 #  else
@@ -202,7 +202,7 @@ int DirectorySearch::find () {
    unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
 
    while (FindNextFile (hSearch, pEntry))
-      if (!(pEntry->dwFileAttributes & attr_)
+      if (!(pEntry->attributes () & attr_)
           && regExp.matches (pEntry->name ())) {
          TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
          return 0;
