@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.18 $)\n"
-"POT-Creation-Date: 2003-10-18 23:39-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.19 $)\n"
+"POT-Creation-Date: 2003-11-03 15:42-0500\n"
 "PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -283,6 +283,10 @@ msgstr ""
 msgid "Environment variable `TERM' not defined!"
 msgstr ""
 
+#: X-windows/XFileList.h:173
+msgid "File"
+msgstr ""
+
 #: X-windows/XAttrEntry.h:85
 msgid "Invalid value!"
 msgstr ""
@@ -343,7 +347,7 @@ msgstr ""
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr ""
 
-#: X-windows/GTKViewer.c:157
+#: X-windows/GTKViewer.c:162
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr ""

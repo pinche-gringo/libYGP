@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.21 $)\n"
-"POT-Creation-Date: 2003-10-18 23:39-0500\n"
-"PO-Revision-Date: 2003-10-18 23:41-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.22 $)\n"
+"POT-Creation-Date: 2003-11-03 15:42-0500\n"
+"PO-Revision-Date: 2003-10-28 02:35-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -292,6 +292,10 @@ msgstr "Löschen"
 msgid "Environment variable `TERM' not defined!"
 msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 
+#: X-windows/XFileList.h:173
+msgid "File"
+msgstr "Datei"
+
 #: X-windows/XAttrEntry.h:85
 msgid "Invalid value!"
 msgstr "Ungültiger Wert!"
@@ -342,7 +346,7 @@ msgstr ""
 
 #: X-windows/XApplication.cpp:244
 msgid "Configure _browser ..."
-msgstr "Broswer _auswählen ..."
+msgstr "Browser _auswählen ..."
 
 #: X-windows/XApplication.cpp:246
 msgid "_About..."
@@ -352,7 +356,7 @@ msgstr "_Über ..."
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Vertrieben unter den Bedingungen der GNU General Public License"
 
-#: X-windows/GTKViewer.c:157
+#: X-windows/GTKViewer.c:162
 #, c-format
 msgid "Error loading file '%s': %s"
-msgstr "Fehler beim öffnen von Datei '%s': %s"
+msgstr "Fehler beim Öffnen von Datei '%s': %s"
