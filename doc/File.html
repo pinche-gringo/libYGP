@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: File.html,v 1.7 2002/12/17 20:35:18 markus Exp $ -->
+<!-- $Id: File.html,v 1.8 2002/12/17 20:38:28 markus Exp $ -->
 
 <html>
   <head>
@@ -209,8 +209,7 @@
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pName a valid ASCIIZ string and not NULL.</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The actual file name (on the disc) is not changed!
-</dd></dl></dd>
+          <dd>The actual file name (on the disc) is not changed!</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="name3"></a>void <b>name</b> (const std::string&amp; name)</pre>
@@ -231,8 +230,7 @@
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pPath a valid ASCIIZ string and not NULL.</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The actual file path (on the disc) is not changed!
-</dd></dl></dd>
+          <dd>The actual file path (on the disc) is not changed!</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="path3"></a>void <b>path</b> (const std::string&amp; path)</pre>
@@ -261,8 +259,7 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>time</code>: Time of the file</dd></dl><dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The actual file time (on the disc) is not changed!
-</dd></dl></dd>
+          <dd>The actual file time (on the disc) is not changed!</dd></dl></dd>
     </dl>
 
     <h3><span style="color:navy">Query of data</span></h3>
@@ -272,7 +269,7 @@
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const char*: Pointer to (zero-terminated) path of the file</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="name"></a>const char* <b>name</b> () const</pre>
@@ -281,7 +278,7 @@
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const char*: Pointer to (zero-terminated) name of the file</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="size"></a>unsigned long <b>size</b> () const</pre>
@@ -290,7 +287,7 @@
       <dd><dl><dt><b>Returns</b></dt>
           <dd>unsigned long: Size of the file</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="localtime"></a>void <b>localtime</b> (struct tm&amp; time) const </pre>
@@ -309,7 +306,7 @@
       <dd><dl><dt><b>Returns</b></dt>
           <dd>time_t: System time of the file (local time)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
 </dd></dl></dd>
     </dl>
     <hr>
@@ -319,7 +316,7 @@
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>time</code>: Modification time in broken down time structure<dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
       </dl><dd>
     </dl>
     <hr>
@@ -329,7 +326,7 @@
       <dd><dl><dt><b>Returns</b></dt>
           <dd>unsigned long: Attributes of the files (system dependend)</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="throwErrorText"></a>void <b>throwErrorText</b> (const char* error) const throw (std::string)</pre>
@@ -351,7 +348,7 @@
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if the file is executeable</dd></dl></dd>
       <dd><dl><dt><b>Remarks</b></dt>
-          <dd>The call is only valid after a successfull find.
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="isExecuteable"></a>bool <b>isExecuteable</b> () const</pre>
@@ -382,10 +379,11 @@
     <dl>
       <dd><p>Returns true, if the file is hidden. Under UNIX it checks if the
           file starts with a dot (.), under DOS/WINDOZE it inspects the attributes.
-          </p>
-        <p>The call is only valid after a successfull find.</p></dd>
+          </p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if the file is hidden</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.</dd></dl></dd>
     </dl>
 
     <h3><span style="color:navy">File-access</span></h3>
@@ -419,9 +417,9 @@
       <dd><p>Checks if further data is available for reading.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>file</code>: Handle of openeded file<dd>
+      </dl><dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if further data is available</dd></dl></dd>
-      </dl><dd>
     </dl>
     <hr>
     <pre><a name="read"></a>int <b>read</b> (void* file, char* buffer, unsigned int length) const throw (std::string) </pre>
