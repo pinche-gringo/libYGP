@@ -15,5 +15,5 @@ noinst_PROGRAMS=$(TESTS)
 
 X_Appl_SOURCES=X-Appl.cpp X-Appl.h Dialog.cpp Dialog.h
 X_Appl_LDADD=../XApplication.o -lAttr ../XFileList.o ../XFileDlg.o ../XDate.o \
-	     ../XPrintDlg.o ../XAbout.o ../XMessageBox.o ../XDialog.o \
-	     ../BrowserDlg.o ../XFileEntry.o
+	     ../XPrintDlg.o ../XAbout.o ../XDialog.o ../BrowserDlg.o \
+	     ../XFileEntry.o
