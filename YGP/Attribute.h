@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.7 2002/08/20 05:16:59 markus Exp $
+//$Id: Attribute.h,v 1.8 2002/11/04 00:51:48 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class IAttribute {
 
    virtual bool assignFromString (const char* value) const = 0;
    virtual bool assign (const char* value, unsigned int length) const {
-      return assignFromString (value); }  
+      return assignFromString (value); }
 
    const std::string& getName () const { return name; }
 
@@ -75,8 +75,7 @@ template <class T> class Attribute : public IAttribute {
    }
 
    virtual bool assign (const char* value, unsigned int length) const {
-      return assignFromString (value); }  
-
+      return assignFromString (value); }
 
  private:
    Attribute (const Attribute&);
