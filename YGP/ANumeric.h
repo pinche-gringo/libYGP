@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.33 2003/11/16 19:25:55 markus Rel $
+//$Id: ANumeric.h,v 1.34 2004/11/04 23:16:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -238,6 +238,19 @@ class ANumeric : public AttributValue {
    /// Checks if one object is bigger than or equan to another. See compare() for details.
    bool operator>= (const ANumeric& other) { return compare (other) >= 0; }
    int compare (const ANumeric& other);
+
+   /// Checks if two objects are equal. See compare() for details.
+   bool operator== (int other) { return !compare (other); }
+   /// Checks if two objects are not equal. See compare() for details.
+   bool operator!= (int other) { return compare (other) != 0; }
+   /// Checks if one object is smaller than another. See compare() for details.
+   bool operator<  (int other) { return compare (other) < 0; }
+   /// Checks if one object is bigger than another. See compare() for details.
+   bool operator>  (int other) { return compare (other) > 0; }
+   /// Checks if one object is smaller than or equan to another. See compare() for details.
+   bool operator<= (int other) { return compare (other) <= 0; }
+   /// Checks if one object is bigger than or equan to another. See compare() for details.
+   bool operator>= (int other) { return compare (other) >= 0; }
    //@}
 
  private:
