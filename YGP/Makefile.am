@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS=
+
 lib_LTLIBRARIES=libAttr.la
 noinst_PROGRAMS=Test
 
