@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.8 2002/10/23 05:53:04 markus Exp $
+//$Id: Thread.h,v 1.9 2002/11/04 03:07:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,9 +21,15 @@
 #include <gzo-cfg.h>
 
 #if SYSTEM == WINDOWS
-#  include "Mutex.h"
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
 #  include <process.h>
    typedef void* (WINTHREAD_FUNCTION) (void*);
+#endif
+
+#if !defined (HAVE_LIBPTHREAD) && !defined (HAVE_BEGINTHREAD)
+#  include <unistd.h>
+#  include <sys/types.h>
 #endif
 
 #include <string>
@@ -52,6 +58,7 @@ class Thread {
    void ret (void* rc) const;
    void cancel ();
    static void* waitForThread (const Thread& id);
+   static void* waitForThread (unsigned long threadID);
    void isToCancel () const;
 
    unsigned long getID () const { return id; }
@@ -60,7 +67,7 @@ class Thread {
       return pthread_self ();
 #elif defined HAVE_BEGINTHREAD
       return GetCurrentThreadId ();
-#elif
+#else
       return getpid ();
 #endif
    }
@@ -83,8 +90,6 @@ class Thread {
    THREAD_FUNCTION callback;
    static void threadFunction (void* thread);
    unsigned long id;
-   Mutex waitThread;
-   void* rc;
 #  else
    pid_t id;
 #  endif

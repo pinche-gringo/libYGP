@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.9 2002/10/20 23:12:27 markus Exp $
+//$Id: Thread.cpp,v 1.10 2002/11/04 03:07:40 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -23,6 +23,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 
 #include "Internal.h"
@@ -45,6 +49,17 @@
 #include <Trace_.h>
 
 #include "Thread.h"
+
+
+#ifdef HAVE_BEGINTHREAD
+#  include <map>
+#  include "Mutex.h"
+
+// Map of wait-mutexes (1 per thread
+static std::map<unsigned long, Mutex> mutexes;
+static std::map<unsigned long, void*> rcs;
+
+#endif
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Defaultconstructor
@@ -87,8 +102,8 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
    if (pthread_create (&id, NULL, fnc, pArgs) != 0) {
 #elif  defined (HAVE_BEGINTHREAD)
    callback = fnc;
-   waitThread.lock ();
-   if ((id = _beginthread (threadFunction, 0, this)) == -1) {
+   mutexes[id = _beginthread (threadFunction, 0, this)].lock ();
+   if (id == -1) {
 #endif
 
 #if defined (HAVE_LIBPTHREAD) || defined (HAVE_BEGINTHREAD)
@@ -104,7 +119,6 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
       ret (fnc (this));
 
    case -1: {                        // Error creating process: Throw exception
-      std::string
       std::string err (_("Can't create background-process!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
       throw (err);
@@ -121,7 +135,7 @@ void Thread::ret (void* rc) const {
 #ifdef HAVE_LIBPTHREAD
    pthread_exit (rc);
 #elif defined (HAVE_BEGINTHREAD)
-
+   rcs[id] = rc;
 #else
    _exit (rc ? *static_cast<int*> (rc) : -1);
 #endif
@@ -145,19 +159,34 @@ void Thread::cancel () {
 //Returns   : void*
 /*--------------------------------------------------------------------------*/
 void* Thread::waitForThread (const Thread& id) {
-   TRACE3 ("Thread::waitForThread (const Thread&) - " << (int)id.id);
+#ifndef HAVE_BEGINTHREAD
+   return waitForThread (id.id);
+#else
+   waitForThread (id.id);
+   return rcs[id.id];
+#endif
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Waits for the thread with the passed ID to terminate
+//Parameters: id: Thread to wait for
+//Returns   : void*
+//Remarks   : The windows-versions always returns NULL!
+/*--------------------------------------------------------------------------*/
+void* Thread::waitForThread (unsigned long id) {
+   TRACE3 ("Thread::waitForThread (unsigned long) - " << id);
 
 #ifdef HAVE_LIBPTHREAD
    void* rc;
-   pthread_join (id.id, &rc);
+   pthread_join (id, &rc);
    return rc;
 #elif defined HAVE_BEGINTHREAD
-   const_cast<Thread&> (id).waitThread.lock ();
-   const_cast<Thread&> (id).waitThread.unlock ();
-   return id.rc;
+   mutexes[id].lock ();
+   mutexes[id].unlock ();
+   return rcs[id];
 #else
    int rc;
-   wait (id.id, &rc, 0);
+   waitpid (id, &rc, 0);
    return (void*)rc;
 #endif
 }
@@ -183,7 +212,7 @@ void Thread::isToCancel () const {
 void Thread::threadFunction (void* params) {
    Thread* pThread = reinterpret_cast<Thread*> (params);
    assert (pThread);
-   pThread->rc = pThread->callback (pThread);
-   pThread->waitThread.unlock ();
+   rcs[pThread->id] = pThread->callback (pThread);
+   mutexes[pThread->id].unlock ();
 }
 #endif
