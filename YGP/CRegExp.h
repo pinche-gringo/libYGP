@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.12 2002/04/18 03:53:30 markus Exp $
+//$Id: CRegExp.h,v 1.13 2002/04/18 22:34:10 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -157,7 +157,7 @@ class RegularExpression : public IRegularExpression {
 
    void init (const char* pRegExp) throw (std::string);
 #else
-   bool doCompare (const char* pAktRegExp, const char*& pCompare);
+   bool doCompare (const char*& pAktRegExp, const char*& pCompare);
    bool compareParts (const char* pAktRegExp, const char*& pCompare, bool inGroup = false);
    const char* findEndOfAlternative (const char* pRegExp) const;
    const char* findEndOfRegion (const char* pRegExp) const;

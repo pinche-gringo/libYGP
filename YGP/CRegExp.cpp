@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.20 2002/04/18 08:02:31 markus Exp $
+//$Id: CRegExp.cpp,v 1.21 2002/04/18 22:34:10 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -192,7 +192,7 @@ bool RegularExpression::doCompare (const char*& pActRegExp, const char*& pCompar
          break;
 
       case ESCAPE:
-         match = compEscChar (pActRegExp, pCompare);
+         match = compEscChar (++pActRegExp, pCompare);
          break;
 
       case ALTERNATIVE:
@@ -497,37 +497,37 @@ bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd
    TRACE3 ("RegularExpression::doCompEscChar (const char*&, const char*&) const -> "
            << *pActRegExp << " == " << *pCompare);
 
-   switch (*pCompare) {
+   switch (*pActRegExp) {
    case WORD:
-      if (isalnum (*pActRegExp))
+      if (isalnum (*pCompare))
          break;
       return false;
 
    case NOTWORD:
-      if (!isalnum (*pActRegExp))
+      if (!isalnum (*pCompare))
          break;
       return false;
 
    case WORDBORDER:
-      assert (pActRegExp >= pStartCompare);
-      return ((pActRegExp == pStartCompare) || !pActRegExp[1]
-              || ((isalnum (*pActRegExp)) != isalnum (pActRegExp[1]))
-              || ((isalnum (*pActRegExp)) != isalnum (pActRegExp[-1])));
+      assert (pCompare >= pStartCompare);
+      return ((pStartCompare == pCompare) || !pCompare[1]
+              || ((isalnum (*pCompare)) != isalnum (pCompare[1]))
+              || ((isalnum (*pCompare)) != isalnum (pCompare[-1])));
 
    case NOTWORDBORDER:
-      assert (pActRegExp >= pStartCompare);
-      return (pActRegExp != pStartCompare) && pActRegExp[1]
-	&& isalnum (*pActRegExp) == isalnum (pActRegExp[1]) && isalnum (pActRegExp[-1]);
+      assert (pCompare >= pStartCompare);
+      return (pCompare != pStartCompare) && pCompare[1]
+	&& isalnum (*pCompare) == isalnum (pCompare[1]) && isalnum (pCompare[-1]);
 
    case WORDBEGIN:
-      assert (pActRegExp >= pStartCompare);
-      return ((pActRegExp == pStartCompare)
-              || ((isalnum (*pActRegExp)) && !isalnum (pActRegExp[-1])));
+      assert (pCompare >= pStartCompare);
+      return ((pCompare == pStartCompare)
+              || ((isalnum (*pCompare)) && !isalnum (pCompare[-1])));
 
    case WORDEND:
-      assert (pActRegExp >= pStartCompare);
-      return ((pActRegExp != pStartCompare)
-              && !isalnum (*pActRegExp) && isalnum (pActRegExp[-1]));
+      assert (pCompare >= pStartCompare);
+      return ((pCompare != pStartCompare)
+              && !isalnum (*pCompare) && isalnum (pCompare[-1]));
 
    default:
       return doCompChar (pActRegExp, pEnd, pCompare);
@@ -859,7 +859,7 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
 
    switch (rc) {
    case REGION_OPEN: error = N_("Unmatched [ or [^"); break;
-   case GROUP_OPEN: error = N_("Unmatched \\( or \\)"); break;
+   case GROUP_OPEN: error = N_("Unmatched ( or )"); break;
    case RANGE_OPEN: error = N_("Invalid range end"); break;
    case NO_PREV_EXP: error = N_("Repeating suffix without previous expression"); break;
    case INV_DIGIT: error = N_("Invalid group-number"); break;
