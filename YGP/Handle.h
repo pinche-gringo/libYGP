@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.4 2001/03/25 09:51:44 markus Exp $
+// $Id: Handle.h,v 1.5 2002/03/23 20:44:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -79,9 +79,10 @@ template <class T> class Handle : public IHandle {
  public:
    // Manager functions
    Handle () : IHandle (), pData (NULL) { }
-   Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { AttributValue::define (); }
+   Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { setDefined (); }
    Handle (const Handle& other) : IHandle (other), pData (other.pData) { 
-      if (isDefined ())link (); assert (isDefined () ? pData : !pData); }
+      if (isDefined ()) link ();
+      assert (isDefined () ? pData != NULL : pData == NULL); }
    ~Handle () { if (isDefined ()) unlink (); }
 
    Handle& operator= (const Handle& other) {
