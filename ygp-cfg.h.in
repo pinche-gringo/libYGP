@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.6 2002/04/09 04:15:45 markus Exp $
+//$Id: ygp-cfg.h.in,v 1.7 2002/04/11 05:38:26 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -280,17 +280,5 @@
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
-
-#ifdef HAVE_GETTEXT
-#  include <libintl.h>
-#  define _(String)                           gettext (String)
-#  define N_(String)                          gettext_noop (String)
-#else
-#  define _(String)                           (String)
-#  define N_(String)                          gettext_noop (String)
-#  define gettext_noop(String)                (String)
-#  define binddomain(Domain)
-#  define bindtextdomain(Package, Directory)
-#endif
 
 #endif
