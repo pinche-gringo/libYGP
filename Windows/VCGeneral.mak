@@ -373,7 +373,7 @@ SOURCE=..\Common\DirSrch.cpp
 
 SOURCE=..\Common\XDirSrch.cpp
 
-"$(INTDIR)\DirSrch.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\XDirSrch.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
