@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.27 2004/09/04 04:04:36 markus Rel $
+//$Id: Attribute.h,v 1.28 2005/01/08 22:12:07 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,6 +48,9 @@ class IAttribute {
    /// Destructor
    virtual ~IAttribute () { }
 
+   /// Returns a copy of the attribute
+   virtual IAttribute* clone () = 0;
+
    /// Checks if the passed text matches the name of the attribute
    bool matches (const char* pName) const {
       Check3 (pName);
@@ -76,8 +79,10 @@ class IAttribute {
    /// Constructor; creates an attribute with the specified name
    IAttribute (const std::string& name_) : name (name_) { }
 
+   /// Copyconstructor; clones the attribute
+   IAttribute (const IAttribute& other) : name (other.name) { }
+
  private:
-   IAttribute (const IAttribute&);
    const IAttribute& operator= (const IAttribute&);
 
    const std::string name;
@@ -107,7 +112,10 @@ template <class T> class Attribute : public IAttribute {
    /// Constructor; creates an attribute with the specified name, referencing the attribute value
    Attribute (const std::string& name, T& attr) : IAttribute (name), attr_ (attr) { }
    /// Destructor
-   ~Attribute () {  }
+   ~Attribute () { }
+
+   /// Returns a copy of the attribute
+   virtual IAttribute* clone () { return new Attribute<T> (*this); }
 
    virtual bool assignFromString (const char* value) const {
       try {
@@ -128,7 +136,9 @@ template <class T> class Attribute : public IAttribute {
    virtual std::string getFormattedValue () const { return attr_.toString (); }
 
  private:
-   Attribute (const Attribute&);
+   /// Copyconstructor; clones the attribute
+   Attribute (const Attribute& other) : IAttribute ((IAttribute&)other),
+      attr_ (other.attr_) { }
    const Attribute& operator= (const Attribute&);
 
    T& attr_;
