@@ -2,7 +2,7 @@
 
 SUBDIRS=. Tests
 
-lib_LTLIBRARIES=libAttr.la
+lib_LTLIBRARIES=libYMP.la
 
 # Settings for gettext
 localedir = $(datadir)/locale
@@ -10,10 +10,9 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -Wall
 INCLUDES = -I $(top_srcdir) -I . -I $(top_srcdir)/intl @GTK_CFLAGS@
 LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@
 
-libAttr_la_LDFLAGS=-version-info $(LIBVERSION) -release $(LIBRELEASE) \
-                   -no-undefined
+libYMP_la_LDFLAGS=-release $(LIBRELEASE) -no-undefined
 
-libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
+libYMP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
                    FileRExp.cpp Parse.cpp Handle.cpp Version.cpp ATime.cpp \
 		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp \
 		   INIFile.cpp CRegExp.cpp StackTrc.cpp \
@@ -30,7 +29,7 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		Attribute.h AttrParse.h RemoteFile.h Entity.h Internal.h \
 		Thread.h Mutex.h INIFile.h XDirSrch.h Check.h Process_.h
 
-EXTRA_DIST=Attr.pc.in
+EXTRA_DIST=YMP.pc.in
 
 pkgconfigdir =$(libdir)/pkgconfig
-pkgconfig_DATA=Attr.pc
+pkgconfig_DATA=YMP.pc
