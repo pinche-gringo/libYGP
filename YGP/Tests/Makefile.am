@@ -57,7 +57,7 @@ DirSrch_LDADD=../DirSrch.o ../IDirSrch.o ../File.o ../FileRExp.o \
 
 PathDirSrch_SOURCES=PathDirSrch.cpp
 PathDirSrch_LDADD=../PathDirSrch.o ../DirSrch.o ../IDirSrch.o ../File.o \
-                  ../FileRExp.o ../ANumeric.o ../Tokenize.o
+                  ../FileRExp.o ../ANumeric.o ../Tokenize.o ../PathSrch.o
 
 Attribute_SOURCES=Attribute.cpp
 Attribute_LDADD=../ATime.o
