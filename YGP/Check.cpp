@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.6 2002/11/18 04:37:10 markus Exp $
+//$Id: Check.cpp,v 1.7 2002/11/26 04:21:31 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -42,10 +42,11 @@
       typedef int (*PFNCMSGBOX)(const char*, const char*, int, unsigned int);
 
       inline bool show (const char* expr, const char* title) {
-         Main* appl (NULL);
          if (!Main::instance ()) {
             g_thread_init (NULL);
-            appl = new Main (0, NULL);
+            // Don't delete this instance, as else a second Check couldn't
+            // display a message box
+            new Main (0, NULL);
          }
 
          void* hDLL (dlopen ("libXAppl.so", 0x00001));
@@ -57,7 +58,6 @@
                               XMessageBox::CRITICAL | XMessageBox::OKCANCEL, 0)
                         != XMessageBox::OK);
                gdk_threads_leave ();
-               delete appl;
                dlclose (hDLL);
                return rc;
             }
