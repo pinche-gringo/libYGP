@@ -1,7 +1,7 @@
-#ifndef XATTRIBUTE_H
-#define XATTRIBUTE_H
+#ifndef XATTRLABEL_H
+#define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.1 2003/01/04 01:11:14 markus Exp $
+//$Id: XAttrLabel.h,v 1.2 2003/02/03 03:49:30 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ template <class T> class XAttributeLabel : public Gtk::Label {
       : Gtk::Label (NULL, x, y), attr_ (attr) { update (); }
    ~XAttributeLabel () { }
 
-   void update () { set_text (attr.toString ()); }
+   void update () { set_text (attr_.toString ()); }
    T& getAttribute () { return attr_; }
 
  private:
