@@ -1,7 +1,7 @@
-dnl $Id: configure.in,v 1.43 2003/03/03 06:22:09 markus Exp $
+dnl $Id: configure.in,v 1.44 2003/05/23 17:46:04 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.43 $)
+AC_REVISION($Revision: 1.44 $)
 
 AC_INIT()
 
@@ -15,15 +15,15 @@ AC_DEFINE_UNQUOTED(SYSTEM, UNIX)
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
 
-LIBVERSION=1:0:0
-LIBRELEASE=0.6.10
+LIBVERSION=0:0:0
+LIBRELEASE=0.6
 AC_SUBST(LIBVERSION)
 AC_SUBST(LIBRELEASE)
 
-SUBDIRS="Common"
+MYSUBDIRS="Common"
 
 GTKMM_NEEDED_MAYOR=2
-GTKMM_NEEDED_MINOR=2
+GTKMM_NEEDED_MINOR=0
 GTKMM_NEEDED_MICRO=0
 GTKMM_MINVERSION=$GTKMM_NEEDED_MAYOR.$GTKMM_NEEDED_MINOR.$GTKMM_NEEDED_MICRO
 
@@ -83,7 +83,7 @@ if test "$enable_corba" == "yes"; then
                                   [ac_cv_header_CORBA_h=yes],
                                   [ac_cv_header_CORBA_h=no])])
    if test "$ac_cv_header_CORBA_h" == "yes"; then
-      SUBDIRS="$SUBDIRS CORBA"
+      MYSUBDIRS="$MYSUBDIRS CORBA"
    else
       AC_MSG_WARN([CORBA is not installed; subdir CORBA will not be made])
    fi
@@ -93,10 +93,10 @@ dnl Check gtkmm version
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTK, 1)])
 PKG_CHECK_MODULES(GTKMM, gtkmm-2.0 >= $GTKMM_MINVERSION,
-                  [[SUBDIRS="$SUBDIRS X-windows"]
+                  [[MYSUBDIRS="$MYSUBDIRS X-windows"]
                     [GTKMM_LIBS="$GTKMM_LIBS -lgthread"]],
                   [AC_MSG_WARN([Subdir X-windows will not be made])])
-AC_SUBST(SUBDIRS)
+AC_SUBST(MYSUBDIRS)
 AC_SUBST(GTKMM_CFLAGS)
 AC_SUBST(GTKMM_LIBS)
 
@@ -138,7 +138,60 @@ AC_ARG_ENABLE(corba,
               AC_HELP_STRING([--enable-corba],
                              [Enables the check for an CORBA-implementation]))
 
-AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile \
-           X-windows/Icons/Makefile CORBA/Makefile intl/Makefile po/Makefile.in \
-           doc/Makefile CORBA/Tests/Makefile bin/Makefile \
-           X-windows/Samples/Makefile])
+AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile  intl/Makefile \
+	   m4/Makefile X-windows/Icons/Makefile \
+	   CORBA/Makefile po/Makefile.in doc/Makefile CORBA/Tests/Makefile \
+	   bin/Makefile X-windows/Samples/Makefile Common/Attr.pc \
+	   X-windows/XAppl.pc])
+
+dnl Settings for autoheader
+AH_TOP([#ifndef GZO_CFG_H
+#define GZO_CFG_H
+
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+// Detect common platforms
+#define WINDOWS 0
+#define UNIX    1
+#if defined(_WIN32)
+#  if defined(__CYGWIN__)
+#     define SYSTEM UNIX
+#  else
+#     define SYSTEM WINDOWS
+#  endif
+#else
+#  define SYSTEM UNIX
+#endif /* _WIN32 */
+
+/* Define the name of the package */
+#ifndef PACKAGE
+#undef PACKAGE
+#endif
+
+/* Define the version number */
+#ifndef VERSION
+#undef VERSION
+#endif
+
+/* Define the micro-version */
+#ifndef LIB_RELEASE
+#undef LIB_RELEASE
+#endif])
+
+AH_BOTTOM([#endif])
+AH_TEMPLATE([HAVE_REGEX_H], [Define for working regex.h])
+AH_TEMPLATE([HAVE_REGEXP_H], [Define for working regexp.h])
+AH_TEMPLATE([HAVE_SIGBUS], [Define for defined SIGBUS])
+AH_TEMPLATE([HAVE_GTK], [Define if GTK is installed (in a fitting version)])
