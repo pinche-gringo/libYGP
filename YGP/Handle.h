@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.2 2000/02/02 22:09:13 Markus Exp $
+// $Id: Handle.h,v 1.3 2000/03/23 19:29:29 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class IHandle : public AttributValue {
    IHandle (const IHandle& other) : AttributValue (other) { }
    virtual ~IHandle ();
 
-   const IHandle& operator= (const IHandle& other);
+   IHandle& operator= (const IHandle& other);
 
    virtual void undefine ();
 
@@ -68,7 +68,7 @@ template <class T> class RefCount {
  private:
    // Prohibited manager functions:
    RefCount (const RefCount& other);
-   const RefCount& operator= (const RefCount& other);
+   RefCount& operator= (const RefCount& other);
 
    unsigned int count;
 };
@@ -79,12 +79,13 @@ template <class T> class Handle : public IHandle {
  public:
    // Manager functions
    Handle () : IHandle (), pData (NULL) { }
-   Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { define (); }
-   Handle (const Handle& other) : IHandle (other) { }
+   Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { AttributValue::define (); }
+   Handle (const Handle& other) : IHandle (other), pData (other.pData) { 
+      if (isDefined ())link (); assert (isDefined () ? pData : !pData); }
    ~Handle () { if (isDefined ()) unlink (); }
 
-   const Handle& operator= (const Handle& other) {
-      return (const Handle&)IHandle::operator= (other); }
+   Handle& operator= (const Handle& other) {
+      return (Handle&)IHandle::operator= (other); }
 
    virtual void define () { IHandle::setValue (new T); }
 
@@ -96,8 +97,8 @@ template <class T> class Handle : public IHandle {
  protected:
    // Interface to RefCount
    virtual void create (void* pValue) { pData = new RefCount<T> ((T*)pValue); }
-   virtual void link () { pData->link (); }
-   virtual void unlink () { pData->unlink (); }
+   virtual void link () { assert (pData); pData->link (); }
+   virtual void unlink () { assert (pData); pData->unlink (); }
    virtual void* getValue () const { return pData; }
    virtual void assignValue (void* pValue) { pData = (RefCount<T>*)pValue; }
   
