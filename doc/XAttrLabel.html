@@ -1,5 +1,8 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: XAttrLabel.html,v 1.1 2003/02/16 21:55:40 markus Exp $ -->
+<!-- $Id: XAttrLabel.html,v 1.2 2003/02/24 17:34:22 markus Exp $ -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
 
 <html>
   <head>
@@ -10,9 +13,15 @@
     <meta name="DC.Creator" content="Markus Schwab">
     <meta name="DC.Date" content="2003-02-16">
     <meta name="DC.Rights" content="Anticopyright (A) 2003, distributed under the GNU General Public License">
+    <style type="text/css">
+      body { background-color:#F0F0F0; color:#000000; }
+      a:link { color:#0000FF; }
+      a:visited { color:#000077; }
+      a:active { color:#FF0000; }
+    </style>
   </head>
 
-  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+  <body>
     <table align=center border=0 cellspacing=10>
       <tr><td><a href="index.html">Class Index</a></td>
       <td><a href="cross_index.html">Cross Index</a></td></tr>
@@ -30,6 +39,22 @@
     <h2>Description</h2>
     <p>Class to display an attribute in a formated style while preservering its
       other abilities.</p>
+
+    <p>It exists in two variants: <code>XAttributeLabel</code> stores a
+      reference to the attribute to display, <code>XAttributeLabel2</code>
+      stores the attribute itself.</p>
+
+    <p>This class is designed to be used by AttributeValues (and derived types),
+      but there exists specializations for:</p>
+    <ul>
+      <li>short</li>
+      <li>unsigned short</li>
+      <li>int</li>
+      <li>unsigned int</li>
+      <li>long</li>
+      <li>unsigned long</li>
+      <li>double</li>
+    </ul>
 
     <hr noshade>
     <table border="0">
