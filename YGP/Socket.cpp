@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.17 2003/07/03 04:10:53 markus Rel $
+//$Id: Socket.cpp,v 1.18 2003/07/23 07:04:04 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -200,7 +200,7 @@ unsigned int Socket::getPortOfService (const char* service) throw (std::domain_e
       if (pServent)
 	 port = ntohs (pServent->s_port);
       else {
-         std::string error (_("Port '%1' neither numeric (decimal, octal or "
+         std::string error (_("Port '%1' is neither numeric (decimal, octal or "
                               "hexadecimal) nor a service"));
          error.replace (error.find ("%1"), 2, service);
 	 throwError (error, 0);
