@@ -4,22 +4,26 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.27 $)\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.28 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2004-10-07 18:13-0400\n"
-"PO-Revision-Date: 2004-01-14 21:57-0500\n"
+"POT-Creation-Date: 2004-12-29 14:30-0400\n"
+"PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:215 YGP/ATime.cpp:206
-msgid "Position %1"
+#: YGP/ADate.cpp:163 YGP/ADate.cpp:216
+msgid "Invalid date: %1"
 msgstr ""
 
-#: YGP/ANumeric.cpp:95 YGP/ANumeric.cpp:258
-msgid "No number"
+#: YGP/ANumeric.cpp:130
+msgid "No number: %1"
+msgstr ""
+
+#: YGP/ATime.cpp:175
+msgid "Position %1"
 msgstr ""
 
 #: YGP/AssParse.cpp:67
@@ -202,51 +206,51 @@ msgstr ""
 msgid "Invalid arguments: "
 msgstr ""
 
-#: YGP/Socket.cpp:79 YGP/Socket.cpp:92 YGP/Socket.cpp:126 YGP/Socket.cpp:151
+#: YGP/Socket.cpp:77 YGP/Socket.cpp:90 YGP/Socket.cpp:124 YGP/Socket.cpp:149
 msgid "Can't create socket"
 msgstr "Can't create socket (for communication)"
 
-#: YGP/Socket.cpp:182
+#: YGP/Socket.cpp:180
 msgid "Can't bind to port"
 msgstr ""
 
-#: YGP/Socket.cpp:185
+#: YGP/Socket.cpp:183
 msgid "Can't listen on port"
 msgstr ""
 
-#: YGP/Socket.cpp:209
+#: YGP/Socket.cpp:207
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 
-#: YGP/Socket.cpp:243 YGP/Socket.cpp:263
+#: YGP/Socket.cpp:241 YGP/Socket.cpp:261
 msgid "Error reading data"
 msgstr ""
 
-#: YGP/Socket.cpp:289
+#: YGP/Socket.cpp:287
 msgid "Error accepting connection"
 msgstr ""
 
-#: YGP/Socket.cpp:312
+#: YGP/Socket.cpp:310
 msgid "Can't resolve name '%1'"
 msgstr ""
 
-#: YGP/Socket.cpp:320
+#: YGP/Socket.cpp:318
 msgid "Can't connect to server '%1'"
 msgstr ""
 
-#: YGP/Socket.cpp:340
+#: YGP/Socket.cpp:338
 msgid "Error sending data"
 msgstr ""
 
-#: YGP/Process.cpp:168
+#: YGP/Process.cpp:184
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: YGP/Process.cpp:191
+#: YGP/Process.cpp:207
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -271,7 +275,7 @@ msgid ""
 "Reason: %2"
 msgstr ""
 
-#: XGP/XFileDlg.cpp:95
+#: XGP/XFileDlg.cpp:96
 msgid "File `%1' does not exist!"
 msgstr ""
 
@@ -279,27 +283,27 @@ msgstr ""
 msgid "File `%1' exists! Overwrite?"
 msgstr ""
 
-#: XGP/XFileList.cpp:302
+#: XGP/XFileList.cpp:303
 msgid "Open in %1 ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:315
+#: XGP/XFileList.cpp:316
 msgid "Rename/Move ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:319
+#: XGP/XFileList.cpp:320
 msgid "Delete"
 msgstr ""
 
-#: XGP/XFileList.cpp:344
+#: XGP/XFileList.cpp:345
 msgid "Environment variable `TERM' not defined!"
 msgstr ""
 
-#: XGP/XFileList.h:188
+#: XGP/XFileList.h:196
 msgid "File"
 msgstr ""
 
-#: XGP/XAttrEntry.h:97
+#: XGP/XAttrEntry.h:98
 msgid "Invalid value!"
 msgstr ""
 
@@ -307,51 +311,63 @@ msgstr ""
 msgid "GTKHTML"
 msgstr ""
 
-#: XGP/BrowserDlg.cpp:44
+#: XGP/BrowserDlg.cpp:45
+msgid "firefox"
+msgstr ""
+
+#: XGP/BrowserDlg.cpp:48
 msgid "galeon"
 msgstr "Galeon"
 
-#: XGP/BrowserDlg.cpp:44
+#: XGP/BrowserDlg.cpp:51
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: XGP/BrowserDlg.cpp:44
+#: XGP/BrowserDlg.cpp:54
 msgid "netscape"
 msgstr "Netscape"
 
-#: XGP/BrowserDlg.cpp:44
+#: XGP/BrowserDlg.cpp:57
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: XGP/BrowserDlg.cpp:52
+#: XGP/BrowserDlg.cpp:60
+msgid "opera"
+msgstr "Opera"
+
+#: XGP/BrowserDlg.cpp:63
+msgid "iexplore"
+msgstr "Internet Explorer"
+
+#: XGP/BrowserDlg.cpp:65
+msgid "Other:"
+msgstr ""
+
+#: XGP/BrowserDlg.cpp:73
 msgid "Select a browser"
 msgstr ""
 
-#: XGP/BrowserDlg.cpp:64
-msgid "Other: "
-msgstr ""
-
-#: XGP/XApplication.cpp:244
+#: XGP/XApplication.cpp:251
 msgid "_Help"
 msgstr ""
 
-#: XGP/XApplication.cpp:244
+#: XGP/XApplication.cpp:251
 msgid "<alt>H"
 msgstr ""
 
-#: XGP/XApplication.cpp:245
+#: XGP/XApplication.cpp:252
 msgid "_Content..."
 msgstr ""
 
-#: XGP/XApplication.cpp:245
+#: XGP/XApplication.cpp:252
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:246
+#: XGP/XApplication.cpp:253
 msgid "Configure _browser ..."
 msgstr ""
 
-#: XGP/XApplication.cpp:248
+#: XGP/XApplication.cpp:255
 msgid "_About..."
 msgstr ""
 
@@ -417,4 +433,12 @@ msgid ""
 "Can't bind to port!\n"
 "\n"
 "Reason: %1"
+msgstr ""
+
+#: XGP/SearchDlg.cpp:47
+msgid "Search"
+msgstr ""
+
+#: XGP/SearchDlg.cpp:49
+msgid "_Find:"
 msgstr ""
