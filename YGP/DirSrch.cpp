@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.3 1999/07/31 18:45:06 Markus Exp $
+//$Id: DirSrch.cpp,v 1.4 1999/08/01 18:08:19 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -210,15 +210,12 @@ int DirectorySearch::checkIntegrity () const {
 void DirectorySearch::setFile (const std::string& search) {
    assert (!search.empty ());
 
-#ifdef UNIX
-   pDir = NULL;
-#else
-   hSearch = INVALID_HANDLE_VALUE;
-#endif
-
    searchFile = search;
 
    unsigned int len (search.length ());
+   if (searchFile[len - 1] == DIR_SPLIT)
+      searchFile.replace (--len, 1, 0, '\0');
+
    while (len--) {
      if (search[len] == DIR_SPLIT) {
         searchDir = search;
@@ -255,7 +252,6 @@ bool dirEntry::isExecuteable () const {
       } // end-switch
    return false;
 }
-
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Returns the time of the file in a time_t.
