@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.6 2002/05/24 06:52:49 markus Exp $
+// $Id: RemoteFile.cpp,v 1.7 2002/05/24 06:58:11 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -85,7 +85,7 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
    }
    else
       handleServerError (buffer.data ());
-   return NULL;
+   return 0;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -156,7 +156,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
    }
    else
       handleServerError (text.data ());
-   return NULL;
+   return 0;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -198,7 +198,7 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
       return length;
    else
       handleServerError (text.data ());
-   return NULL;
+   return 0;
 }
 
 /*--------------------------------------------------------------------------*/
