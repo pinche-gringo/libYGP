@@ -1,14 +1,14 @@
-// $Id: Version.cpp,v 1.3 2001/01/19 14:38:48 Markus Exp $
+// $Id: Version.cpp,v 1.4 2002/04/09 20:03:40 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,10 +24,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gzo-cfg.h>
+#include "Internal.h"
+
+
+// Function to initialize various global data
+static const int _init () {
+   bindtextdomain (PACKAGE, LOCALEDIR);
+}
+
 
 static const char* Version = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
                              " Compiled on " __DATE__ "%$@!\n";
+static const int init = _init ();
+
 
 #if SYSTEM == WINDOWS
 
