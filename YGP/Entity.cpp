@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.11 2005/01/10 02:19:05 markus Exp $
+//$Id: Entity.cpp,v 1.12 2005/01/12 22:35:19 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2005
@@ -25,7 +25,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#define CHECK 9
 #define TRACELEVEL 2
+#include "Check.h"
 #include "Trace.h"
 #include "AttrParse.h"
 
@@ -87,7 +89,7 @@ std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
    for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i)
       output += AssignmentParse::makeAssignment ((*i)->getName ().c_str (),
 						 (*i)->getValue ());
-   out << output;
+   out << output << '\n';
    return out;
 }
 
@@ -102,7 +104,7 @@ std::istream& operator>> (std::istream& in, Entity& obj) throw () {
    AttributeParse attrs;
    for (std::vector<IAttribute*>::iterator i (obj.attributes.begin ());
 	i != obj.attributes.end (); ++i) {
-      TRACE1 ("operator>> (std::istream&, Entity& - Attribute " << (*i)->getName ());
+      TRACE9 ("operator>> (std::istream&, Entity& - Attribute " << (*i)->getName ());
       attrs.addAttribute (*(*i)->clone ());
    }
 
@@ -110,10 +112,10 @@ std::istream& operator>> (std::istream& in, Entity& obj) throw () {
    std::string input;
    do {
       in.clear ();
-      in.getline (buffer, sizeof (buffer));
-      input.append (buffer, std::cin.gcount ());
+      in.getline (buffer, 200);
+      input.append (buffer, in.gcount ());
    } while (in.fail () && !in.eof ()); // end-do
-   TRACE1 ("operator>> (std::istream&, Entity& - Assign from " << input);
+   TRACE5 ("operator>> (std::istream&, Entity& - Assign from " << input);
 
    attrs.assignValues (input.c_str ());
    return in;
