@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: Parse.html,v 1.14 2002/12/10 23:38:36 markus Exp $ -->
+<!-- $Id: Parse.html,v 1.15 2002/12/11 05:23:00 markus Exp $ -->
 
 <html>
   <head>
@@ -358,7 +358,7 @@
       <dd><p>Destructor</p></dd>
     </dl>
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="POEOFdoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream">Xistream</a>&amp; stream, bool)</pre>
+    <pre><a name="POEOFdoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool)</pre>
     <dl>
       <dd><p>Checks for end-of-file in the passed stream and returns the appropiate value.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
@@ -407,7 +407,6 @@
 
     <hr noshade>
     <h2>Member descriptions</h2>
-
     <h3 style="color:navy">Management functions</h3>
     <pre><a name="CBParseEOF1"></a><b>CBParseEOF</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback)</pre>
     <dl>
@@ -491,8 +490,8 @@
     <dl>
       <dd><p>Constructor setting the object to notify and its callback-method.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>objToNotify</code> Object to report success<dd>
-          <dd><code>callback</code> Pointer to member to inform about successfull parsing<dd>
+          <dd><code>objToNotify</code>: Object to report success<dd>
+          <dd><code>callback</code>: Pointer to member to inform about successfull parsing<dd>
       </dl><dd>
     </dl>
     <hr>
@@ -517,6 +516,313 @@
       <dd><dl><dt><b>Requires</b></dt>
           <dd>pFoundValue != NULL, len == 0</dd></dl></dd>
     </dl>
+
+    <hr noshade><a name="ParseSkip"></a>
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+        <td><a href="cross_index.html">Cross Index</a></td>
+        <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class ParseSkip</h1>
+    <p>Derived from
+      <a href="ParseObject.html">ParseObject</a>
+      <br>
+      Derived by:
+      <a href="Parse.html#CBParseSkip">CBParseSkip</a>
+      <a href="Parse.html#OMParseSkip">OFParseSkip&lt;T&gt;</a></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to skip some characters (from the current position in the stream).</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseSkip1"><b>ParseSkip</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">bytes</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#ParseSkip2"><b>ParseSkip</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="ParseSkip.html#ParseSkip"><b>ParseSkip</b></a>&amp; <tt><span style="color:blue;">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">int</span></tt></tt> </td>
+        <td><a href="Parse.html#POSkipdoParse"><b>doParse</b></a></td>
+        <td><tt>(<tt><a href="XStream.html#Xistream"><b>Xistream</b></a></tt>&amp; <tt><span style="color:blue;">stream</span></tt>, <tt><span style="color:purple;">bool</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt></tt> </td>
+        <td><a href="Parse.html#POSkipgetOffset"><b>getOffset</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="ParseSkip.html#ParseSkip"><b>ParseSkip</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#POSkipoperator="><tt><span style="color:black;"><b>operator=</b></span></tt><tt> </tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="ParseSkip.html#ParseSkip"><b>ParseSkip</b></a>&amp; <tt><span style="color:blue;">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="Parse.html#POSkipsetOffset"><b>setOffset</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">val</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~ParseSkip"><b>~ParseSkip</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="ParseSkip1"></a><b>ParseSkip</b> (unsigned int bytes)</pre>
+    <dl>
+      <dd><p>Defaultconstructor; Creates the object with the number of bytes to
+        skip, each time this object is parsed.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="ParseSkip2"></a> <b>ParseSkip</b> (const ParseSkip&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseSkip"></a> <b>~ParseSkip</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POSkipoperator="></a>ParseSkip&amp; <b>operator=</b> (const ParseSkip&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ParseSkip&amp;: Reference to this</dd></dl></dd>
+    </dl>
+
+    <hr>
+    <pre><a name="POSkipgetOffset"></a>unsigned int <b>getOffset</b> () const</pre>
+    <dl>
+      <dd><p>Returns the offset which should be skipped, each time the object is parsed.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned int: Offset to skip</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="POSkipsetOffset"></a>void <b>setOffset</b> (unsigned int bytes) const</pre>
+    <dl>
+      <dd><p>Sets the offset which should be skipped, each time the object is parsed.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
+      </dl><dd>
+    </dl>
+
+    <h3 style="color:navy">Parsing</h3>
+    <pre><a name="POSkipdoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool)</pre>
+    <dl>
+      <dd><p>Checks for end-of-file in the passed stream and returns the appropiate value.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: <b>PARSE_OK</b> if at end-of-file; else <b>PARSE_ERROR</b></dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="CBParseSkip"></a>
+
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td>
+      <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class CBParseSkip</h1>
+    <p>Derived from
+      <a href="ParseSkip.html">ParseSkip</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to skip some characters (from the current position in the stream)
+      with a callback to inform about the event.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseSkip1"><b>CBParseSkip</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">bytes</span></tt>, <tt><span style="color:navy;">PARSECALLBACK</span></tt> <tt><span style="color:blue;">callback</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#CBParseSkip2"><b>CBParseSkip</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseSkip"><b>CBParseSkip</b></a>&amp; <tt><span style="color:blue;">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#CBParseSkip"><b>CBParseSkip</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#CBSkipoperator="><tt><span style="color:black;"><b>operator=</b></span></tt><tt> </tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#CBParseSkip"><b>CBParseSkip</b></a>&amp;)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="Parse.html#CBSkipsetCallback"><b>setCallback</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">PARSECALLBACK</span></tt> <tt><span style="color:blue;">callback</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~CBParseSkip"><b>~CBParseSkip</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">int</span></tt></tt> </td>
+        <td><a href="Parse.html#CBSkipfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="CBParseSkip1"></a><b>CBParseSkip</b> (unsigned int bytes, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback)</pre>
+    <dl>
+      <dd>Constructor setting the callback to report success of parsing.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
+          <dd><code>callback</code>: Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
+    </dl>
+    <pre><a name="CBParseSkip2"></a> <b>CBParseSkip</b> (const CBParseSkip&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseSkip"></a> <b>~CBParseSkip</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBSkipoperator="></a>CBParseSkip&amp; <b>operator=</b> (const CBParseSkip&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ParseSkip&amp;: Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBSkipsetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
+    </dl>
+
+    <h3 style="color:navy">Parsing</h3>
+
+    <pre><a name="CBSkipfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Calls the defined callback with the passed parameters and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>pFoundValue != NULL, len == 0</dd></dl></dd>
+    </dl>
+
+    <hr noshade><a name="OMParseSkip"></a>
+
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td>
+      <td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center">Class OFParseSkip&lt;T&gt;</h1>
+    <p>Derived from
+      <a href="ParseSkip.html">ParseSkip</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Parse.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to skip some characters (from the current position in the stream)
+      with a callback to inform about the event.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#OFParseSkip1"><b>OFParseSkip</b></a></td>
+        <td><tt>(<tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">bytes</span></tt>, <tt><span style="color:navy;">PARSECALLBACK</span></tt> <tt><span style="color:blue;">callback</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Parse.html#OFParseSkip2"><b>OFParseSkip</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseSkip"><b>OFParseSkip</b></a>&amp; <tt><span style="color:blue;">other</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="Parse.html#OFParseSkip"><b>OFParseSkip</b></a>&amp;</tt> </td>
+        <td><a href="Parse.html#OFSkipoperator="><tt><span style="color:black;"><b>operator=</b></span></tt><tt> </tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="Parse.html#OFParseSkip"><b>OFParseSkip</b></a>&amp;)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="Parse.html#~OFParseSkip"><b>~OFParseSkip</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">int</span></tt></tt> </td>
+        <td><a href="Parse.html#OFSkipfound"><b>found</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="OFParseSkip1"></a><b>OFParseSkip</b> (unsigned int bytes, T&amp; objToNotify, <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback)</pre>
+    <dl>
+      <dd>Constructor setting the callback to report success of parsing.</dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>bytes</code>: Number of bytes to skip from current position<dd>
+          <dd><code>T</code>: Object to notify<dd>
+          <dd><code>callback</code>: Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
+    </dl>
+    <pre><a name="OFParseSkip2"></a> <b>OFParseSkip</b> (const OFParseSkip&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor; copies the values stored in <code>other</code>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseSkip"></a> <b>~OFParseSkip</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFSkipoperator="></a>OFParseSkip&amp; <b>operator=</b> (const OFParseSkip&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator; copies the values stored in <code>other</code>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ParseSkip&amp;: Reference to this</dd></dl></dd>
+    </dl>
+
+    <h3 style="color:navy">Parsing</h3>
+
+    <pre><a name="OFSkipfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Calls the defined callback with the passed parameters and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>pFoundValue != NULL, len == 0</dd></dl></dd>
+    </dl>
+
 
     <hr noshade><a name="ParseAttomic"></a>
 
@@ -560,7 +866,7 @@
       <li><b>*</b> ... Any character is valid</li>
     </ul>
 
-    <p>The members <i>maxCard</i> and <i>minCard</i> specify how many characters
+    <p>The members <code>maxCard</code> and <code>minCard</code> specify how many characters
       the object can or must have. If there are less matching characters parsed,
       the object is considered as not found; after reaching the upper border,
       parsing is stopped (for this object).</p>
@@ -614,76 +920,101 @@
 
     <hr noshade>
     <h2>Member descriptions</h2>
-
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="ParseAttomic1"></a>ParseAttomic (const char* value, const char* description, unsigned int max = 1,
-              unsigned int min = 1, bool skipWhitespace = true)</pre>
+    <pre><a name="ParseAttomic1"></a> <b>ParseAttomic</b> (const char* value, const char* description, unsigned int max, unsigned int min, bool skipWhitespace, bool reportData)</pre>
     <dl>
-      <dd><p>Constructor; sets the neccessary data of this object.</p>
-	<p>The parameter <i>value</i> specifies the valid characters for the
-	  object, which can either be listed or specified by a type behind a
-	  backslash (\) with the following characters:</p>
-
-  <ul type="disc">
-	  <li><b>A</b> ... Any alphabethic character is valid</li>
-	  <li><b>X</b> ... Any alphanumeric character is valid</li>
-	  <li><b>9</b> ... Any number is valid</li>
-	  <li><b>0</b> ... The zero-character (\0) is valid</li>
-	  <li><b>n</b> ... The line-feed-character (\n) is valid</li>
-	  <li><b>r</b> ... The carriage-return-character (\r) is valid</li>
-	  <li><b>\</b> ... The backslash itself is valid</li>
-	  <li><b>blank ( )</b> ... Any whitespace is valid</li>
-	  <li><b>*</b> ... Any character is valid</li>
-	</ul>
-
-	<p>That means a value like "\9abcdeABCDE" would report all
-	  hexadecimal values as valid. <b>Note</b>: The backslash (\) is a
-	  character itself, so in a C-file this definition must be written as
-	  "\\9abcdeABCDE"!</p>
-
-	<p>The parameters <i>max</i> and <i>min</i> specify the maximal and
-	  minimal number of characters this object may contain.</p></dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: List of valid characters (see class description)<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="ParseAttomic2"></a>ParseAttomic (const ParseAttomic&amp; other)</pre>
-    <pre><a name="~ParseAttomic"></a>virtual ~ParseAttomic ()</pre>
-
-    <pre><a name="POAttoperator="></a>ParseAttomic&amp; operator= (const ParseAttomic&amp; other)</pre>
+    <hr>
+    <pre><a name="ParseAttomic1"></a> <b>ParseAttomic</b> (const ParseAttomic&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~ParseAttomic2"></a> <b>~ParseAttomic</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="POAttoperator="></a>ParseAttomic&amp; <b>operator=</b> (const ParseAttomic&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference of this</dd></dl></dd>
+    </dl>
 
     <h3 style="color:navy">Accessing values</h3>
-    <pre><a name="POAttgetValue"></a>const char* getValue () const</pre>
+    <pre><a name="POAttgetValue"></a>const char* <b>getValue</b> () const</pre>
     <dl>
-      <dd>Returns a pointer to the stored valid characters.</dd>
+      <dd></p>Returns a pointer to the stored valid characters.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const char*: Pointer to array of the valid characters.</dd></dl></dd>
     </dl>
-    <pre><a name="POAttsetValue"></a>setValue (const char* value)</pre>
+    <hr>
+    <pre><a name="POAttsetValue"></a><b>setValue</b> (const char* value)</pre>
     <dl>
-      <dd>Changes the valid characters. This parameter must be valid (not
-        freed) for the whole lifetime (usage) of the object.</dd>
+      <dd><p>Changes the valid characters. This parameter must be valid (not
+        freed) for the whole lifetime (usage) of the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: Pointer to array of valid characters (zero-terminated)<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="POAttgetMaxCard"></a>unsigned int getMaxCard () const</pre>
+    <hr>
+    <pre><a name="POAttgetMaxCard"></a>unsigned int <b>getMaxCard</b> () const</pre>
     <dl>
-      <dd>Returns the maximal number of characters this object may match while
-        parsing.</dd>
+      <dd><p>Returns the maximal number of characters this object may match while
+        parsing.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned int: Maximal number the object can be parsed.</dd></dl></dd>
     </dl>
-    <pre><a name="POAttsetMaxCard"></a>void setMaxCard (unsigned int val)</pre>
+    <hr>
+    <pre><a name="POAttsetMaxCard"></a>void <b>setMaxCard</b> (unsigned int val)</pre>
     <dl>
-      <dd>Changes the maximal number of characters this object may match while
-        parsing.</dd>
+      <dd><p>Changes the maximal number of characters this object may match while
+        parsing.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: New maximal number the object can be parsed.<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="POAttgetMinCard"></a>unsigned int getMinCard () const</pre>
+    <hr>
+    <pre><a name="POAttgetMinCard"></a>unsigned int <b>getMinCard</b> () const</pre>
     <dl>
-      <dd>Returns the minimal number of characters this object must match while
-        parsing.</dd>
+      <dd><p>Returns the minimal number of characters this object must match while
+        parsing.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned int: Minimal number the object must be parsed.</dd></dl></dd>
     </dl>
-    <pre><a name="POAttsetMinCard"></a>void setMinCard (unsigned int val)</pre>
+    <hr>
+    <pre><a name="POAttsetMinCard"></a>void <b>setMinCard</b> (unsigned int val)</pre>
     <dl>
-      <dd>Changes the minimal number of characters this object must match while
-        parsing.</dd>
+      <dd><p>Changes the minimal number of characters this object must match while
+        parsing.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>val</code>: New minimal number the object must be parsed.<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="POAttdoParse"></a>virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream, bool optional) throw (std::string)</pre>
+    <pre><a name="POAttdoParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
     <dl>
-      <dd><p>Returns <i>PARSE_OK</i> if data matching the object is found (and
+      <dd><p>Tries to parse the object from the stream, as long as checkValue reports
+         the input as valid (or as to ignore, by returning -1). Returns <b>PARSE_OK</b> if data matching the object is found (and
           the callback does not report something different).</p>
         <p>It is a soft error (<i>PARSE_ERROR</i>) if the minimal cardinality is
           not fullfilled.</p>
@@ -692,19 +1023,44 @@
           returned.</p>
         <p>If parsing is not optional and the error is not recoverable (&lt; 0),
           an exception (std::string) is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>stream</code>: Source from which to read</dd>
+            <code>optional</code>: Flag, if node must be found</dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::string: In case of a not recoverable error</dd></dl></dd>
+      </dl><dd>
     </dl>
-    <pre><a name="POAttcheckValue"></a>virtual bool checkValue (char ch)</pre>
+    <hr>
+    <pre><a name="POAttcheckValue"></a>int <b>checkValue</b> (char ch)</pre>
     <dl>
-      <dd>Checks if ch is valid according the value-list of the object. See the
-        <a href="Parse.html#ParseAttomic1">constructor</a> or the
-        <a href="Parse.html#ParseAttomic">general information</a> at the
-          beginning of the documentation to this class for further information</dd>
+      <dd><p>Checks if the passed character is valid according to pValue. Valid are every characters specified in pValue. If pValue contains
+        a backslash (\) the next character has a special meaning:</p>
+        <ul>
+          <li><b>9</b>: ch is valid if it is a digit</li>
+          <li><b>A</b>: ch is valid if it is alphabetic</li>
+          <li><b>X</b>: ch is valid if it is alphanumeric</li>
+          <li><b>' ' (blank)</b>: ch is valid if it is a white-space</li>
+          <li><b>0</b>: ch is valid if it is the zero-character (\0)</li>
+          <li><b>\</b>: ch is valid if it is the back-slash (\)</li>
+          <li><b>r</b>: ch is valid if it is carriage-return (\r)</li>
+          <li><b>n</b>: ch is valid if it is line-feed (\n)</li>
+          <li><b>*</b>: ch is valid.</li>
+          <li> Else: ch is valid if it equal to this char</li></ul></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>ch</code>: Character to check for validity<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Result; 1 if <code>ch</code> valid, -1 if it should be just ignored. Else 0</dd></dl></dd>
     </dl>
 
     <h3 style="color:navy">Status-handling</h3>
-    <pre><a name="POAttcheckIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <pre><a name="POAttcheckIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
     <dl>
-      <dd>Checks if this object is in a valid state.</dd>
+      <dd><p>Checks if this object is in a valid state.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="CBParseAttomic">
@@ -751,33 +1107,74 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBAttfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="CBParseAttomic1"></a>CBParseAttomic (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
+    <pre><a name="CBParseAttomic1"></a><b>CBParseAttomic</b> (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a> callback,
                 unsigned int max = 1, unsigned int min = 1,
                 bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the callback.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: List of valid characters (see class description)<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>calback</code>: Callback to notify of successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="CBParseAttomic2"></a>CBParseAttomic (const CBParseAttomic&amp; other)</pre>
-    <pre><a name="~CBParseAttomic"></a>virtual ~CBParseAttomic ()</pre>
-    <pre><a name="CBAttoperator="></a>CBParseAttomic&amp; operator= (const CBParseAttomic&amp; other)</pre>
-
-    <pre><a name="CBAttsetCallback"></a>void setCallback (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <hr>
+    <pre><a name="CBParseAttomic2"></a><b>CBParseAttomic</b> (const CBParseAttomic&amp; other)</pre>
     <dl>
-      <dd>Changes the callback to the passed parameter.</dd>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~CBParseAttomic"></a> <b>~CBParseAttomic</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="CBAttoperator="></a>CBParseAttomic&amp; <b>operator=</b> (const CBParseAttomic&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment-operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="CBAttsetCallback"></a>void <b>setCallback</b> (<a href="Parse.html#PARSECALLBACK"><b>PARSECALLBACK</b></a>)</pre>
+    <dl>
+      <dd><p>Changes the callback to the passed parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>callback</code> Pointer to function to inform about successfull parsing<dd>
+      </dl><dd>
     </dl>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="CBAttfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="CBAttrfound"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
     <dl>
-      <dd>Calls the defined callback with the passed parameter and returns its
-        result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade>
@@ -820,28 +1217,67 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#OFAttfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
     <h2>Member descriptions</h2>
 
     <h3 style="color:navy">Management functions</h3>
-    <pre><a name="OFParseAttomic1"></a>OFParseAttomic (const char* value, const char* description, T&amp; objToNotify,
+    <pre><a name="OFParseAttomic1"></a><b>OFParseAttomic</b> (const char* value, const char* description, T&amp; objToNotify,
                 <a href="Parse.html#PTCALLBACK"><b>PTCALLBACK</b></a> callback, unsigned int max = 1,
                 unsigned int min = 1, bool skipWhitespace = true)</pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback-method.</dd>
+      <dd><p>Constructor; sets the neccessary data for this object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>value</code>: List of valid characters (see class description)<dd>
+          <dd><code>description</code>: Description of object (what it parses)<dd>
+          <dd><code>objToNofity</code>: Object to notify<dd>
+          <dd><code>callback</code> Pointer to object member to inform about successfull parsing<dd>
+          <dd><code>max</code>: Maximal cardinality, how often can the object be parsed<dd>
+          <dd><code>min</code>: Minimal cardinality, how often must the object be parsed<dd>
+          <dd><code>skipWhitespace</code>: Flag if <b>trailing</b> whitespaces should be skipped<dd>
+          <dd><code>reportData</code>: Flag if parsed data should be stored and reported via the virtual found method<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>!checkIntegrity ()</dd></dl></dd>
     </dl>
-    <pre><a name="OFParseAttomic2"></a>OFParseAttomic (const OFParseAttomic&amp; other)</pre>
-    <pre><a name="~OFParseAttomic"></a>virtual ~OFParseAttomic ()</pre>
-    <pre><a name="OFAttoperator="></a>OFParseAttomic&amp; operator= (const OFParseAttomic&amp; other)</pre>
+    <hr>
+    <pre><a name="OFParseAttomic2"></a><b>OFParseAttomic</b> (const OFParseAttomic&amp; other)</pre>
+    <dl>
+      <dd><p>Copy-constructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="~OFParseAttomic"></a><b>~OFParseAttomic</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="OFAttoperator="></a>OFParseAttomic&amp; <b>operator=</b> (const OFParseAttomic&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment operator</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to clone<dd>
+      </dl><dd>
+    </dl>
+    <hr>
 
     <h3 style="color:navy">Parsing</h3>
-    <pre><a name="OFAttfound"></a>virtual int found (const char* pFoundValue)</pre>
+    <pre><a name="OFAttfound"></a>int <b>found</b> (const char* pFoundValue)</pre>
     <dl>
-      <dd>Calls the defined callback of the specified object with the passed
-        parameter and returns its result.</dd>
+      <dd><p>Calls the defined callback with the passed parameter and returns its
+        result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pFoundValue</code>: Pointer to found value<dd>
+          <dd><code>len</code>: Length of found data<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
 
     <hr noshade><a name="ParseText"></a>
@@ -962,7 +1398,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBTxtfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1032,7 +1468,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#OFTxtfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1182,7 +1618,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBTxEfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1251,7 +1687,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#OFTxEfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1412,7 +1848,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBExafound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1491,7 +1927,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#OFExafound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1659,7 +2095,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBUExfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1740,7 +2176,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt>virtual <span style="color:purple">int</span></tt> </td>
         <td><a href="Parse.html#OFUExfound"><b>found</b></a></td>
-        <td><tt>(const <span style="color:purple">char</span>* <span style="color:blue">pFoundValue</span>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -1941,7 +2377,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBSeqfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -2013,7 +2449,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#OFSeqfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -2159,7 +2595,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#CBSelfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -2230,7 +2666,7 @@
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Parse.html#OFSelfound"><b>found</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt>* <tt><span style="color:blue">pFoundValue</span></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt><span style="color:blue;">pFoundValue</span></tt>, <tt><span style="color:navy;">unsigned</span></tt> <tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">len</span></tt>)</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -2260,87 +2696,6 @@
 
 
 
-    <pre><a name="~ParseSkip"></a> <b>~ParseSkip</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseAttomic"></a> <b>ParseAttomic</b> (const char* value, const char* description, unsigned int max, unsigned int min, bool skipWhitespace, bool reportData)</pre>
-    <dl>
-      <dd><p>Constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>value</code>: List of valid characters<dd>
-          <dd><code>description</code>: Description of object (what it parses)<dd>
-          <dd><code>max</code>: Maximal cardinality<dd>
-          <dd><code>min</code>: Minimal cardinality<dd>
-          <dd><code>skipWhitespace</code>: Flag if TRAILING WS are skipped<dd>
-          <dd><code>reportData</code>: Flag if parsed data should be stored and reported<dd>
-          <dd><code>via</code> the virtual found method<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Requires</b></dt>
-          <dd>!checkIntegrity ()</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="ParseAttomic"></a> <b>ParseAttomic</b> (const ParseAttomic&amp; other)</pre>
-    <dl>
-      <dd><p>Copy-constructor</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-    </dl>
-    <hr>
-    <pre><a name="~ParseAttomic"></a> <b>~ParseAttomic</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>ParseAttomic&amp; <b>operator=</b> (const ParseAttomic&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference of this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="doParse"></a>int <b>doParse</b> (Xistream&amp; stream, bool optional) throw (std::string)</pre>
-    <dl>
-      <dd><p>Tries to parse the object from the stream</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>stream</code>: Source from which to readoptional: Flag, if node must be found<dd>
-      </dl><dd>
-    </dl>
-    <hr>
-    <pre><a name="checkValue"></a>int <b>checkValue</b> (char ch)</pre>
-    <dl>
-      <dd><p>Checks if the passed character is valid acc. to pValue. Valid are every characters specified in pValue. If pValue contains
- a backslash (\) the next character has a special meaning:
- - 9: ch is valid if it is a digit
- - A: ch is valid if it is alphabetic
- - X: ch is valid if it is alphanumeric
- - ' ' (blank): ch is valid if it is a white-space
- - 0: ch is valid if it is the zero-character (\0)
- - \: ch is valid if it is the back-slash (\)
- - r: ch is valid if it is carriage-return (\r)
- - n: ch is valid if it is line-feed (\n)
- - *: ch is valid.
- - Else: ch is valid if it equal to this char
-</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>ch</code>: Char to check<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Result; true if valid</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
-    <dl>
-      <dd><p>Checks the constraints of the object</p></dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
-    </dl>
-    <hr>
     <pre><a name="~ParseText"></a> <b>~ParseText</b> ()</pre>
     <dl>
       <dd><p>Destructor</p></dd>
@@ -2515,7 +2870,7 @@
           <dd>Reference of this</dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="doParse"></a>int <b>doParse</b> (Xistream&amp; stream, bool optional) throw (std::string)</pre>
+    <pre><a name="doParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
     <dl>
       <dd><p>Tries to parse the object from the stream</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
@@ -2572,7 +2927,7 @@
           <dd>Reference of this</dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="doParse"></a>int <b>doParse</b> (Xistream&amp; stream, bool optional) throw (std::string)</pre>
+    <pre><a name="doParse"></a>int <b>doParse</b> (<a href="XStream.html#Xistream"><b>Xistream</b></a>&amp; stream, bool optional) throw (std::string)</pre>
     <dl>
       <dd><p>Tries to parse the object from the stream</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
@@ -2583,32 +2938,6 @@
           <dd>PARSE_OK if selection found; PARSE_ERROR if notNote        : If a hard error occured or any error for not-<code>optional</code>
  sequences, an exception is thrown
 </dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="~CBParseAttomic"></a> <b>~CBParseAttomic</b> ()</pre>
-    <dl>
-      <dd><p>Destructor</p></dd>
-    </dl>
-    <hr>
-    <pre><a name="operator="></a>CBParseAttomic&amp; <b>operator=</b> (const CBParseAttomic&amp; other)</pre>
-    <dl>
-      <dd><p>Assignment-operator</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>other</code>: Object to clone<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>Reference of this</dd></dl></dd>
-    </dl>
-    <hr>
-    <pre><a name="found"></a>int <b>found</b> (const char* pFoundValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Callback if an object was found</p></dd>
-      <dd><dl><dt><b>Parameters</b></dt>
-          <dd><code>pFoundValue</code>: Pointer to found value<dd>
-          <dd><code>len</code>: Length of found data<dd>
-      </dl><dd>
-      <dd><dl><dt><b>Returns</b></dt>
-          <dd>int: Status; 0 OK</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="~CBParseText"></a> <b>~CBParseText</b> ()</pre>
