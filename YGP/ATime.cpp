@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.8 2001/08/17 13:19:23 markus Exp $
+//$Id: ATime.cpp,v 1.9 2001/08/24 20:56:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -472,7 +472,9 @@ void ATime::setSecond (char second) {
 //            struct tm (after 1900 and before 2039)
 /*--------------------------------------------------------------------------*/
 struct tm ATime::toStructTM () const {
-   struct tm result = { 0, 0, 0, 0, 0, 0 };
+   struct tm result;
+
+   memset (&result, '\0', sizeof (result));
    if (isDefined ()) {
       result.tm_hour = hour;
       result.tm_min = min_;
