@@ -1,13 +1,13 @@
-dnl $Id: configure.in,v 1.48 2003/07/09 18:06:45 markus Rel $
+dnl $Id: configure.in,v 1.49 2003/07/21 23:51:47 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.48 $)
+AC_REVISION($Revision: 1.49 $)
 
 AC_INIT()
 
 MAJOR_VERSION=0
-MINOR_VERSION=7
-MICRO_VERSION=00
+MINOR_VERSION=6
+MICRO_VERSION=20
 RELEASE=$MAJOR_VERSION.$MINOR_VERSION
 VERSION=$RELEASE.$MICRO_VERSION
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -15,8 +15,7 @@ AC_DEFINE_UNQUOTED(SYSTEM, UNIX)
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=0.7
-AC_SUBST(LIBVERSION)
+LIBRELEASE=0.6.20
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="Common"
@@ -89,11 +88,11 @@ dnl Check gtkmm version
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])])
 PKG_CHECK_MODULES(GTKMM, gtkmm-2.0 >= $GTKMM_MINVERSION,
-                  [[MYSUBDIRS="$MYSUBDIRS X-windows"]
-                   [GTKMM_LIBS="$GTKMM_LIBS -lgthread"]],
+                  [[MYSUBDIRS="$MYSUBDIRS X-windows"]],
                   [AC_MSG_WARN([Subdir X-windows will not be made])])
 PKG_CHECK_MODULES(GTKHTML, libgtkhtml-2.0 >= 2.0.0,
-                  [AC_DEFINE(HAVE_GTKHTML, 1, [Define if GTKHTML is installed (in a fitting version)])])
+                  [AC_DEFINE(HAVE_GTKHTML, 1, [Define if GTKHTML is installed (in a fitting version)])],
+                  [AC_MSG_NOTICE([Don't build "native" help display])])
 GTKMM_CFLAGS="$GTKMM_CFLAGS $GTKHTML_CFLAGS"
 AC_SUBST(MYSUBDIRS)
 AC_SUBST(GTKMM_CFLAGS)
@@ -143,7 +142,7 @@ AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile  in
 	   m4/Makefile X-windows/Icons/Makefile \
 	   CORBA/Makefile po/Makefile.in doc/Makefile CORBA/Tests/Makefile \
 	   bin/Makefile X-windows/Samples/Makefile Common/YGP.pc \
-	   X-windows/XGP.pc])
+	   X-windows/XGP.pc doc/YGP.doxy doc/XGP.doxy])
 
 dnl Settings for autoheader
 AH_TOP([#ifndef GZO_CFG_H
