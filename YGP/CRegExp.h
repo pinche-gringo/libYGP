@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.28 2003/06/15 23:54:28 markus Exp $
+//$Id: CRegExp.h,v 1.29 2003/07/03 01:52:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@
 
    - \b >[<match>] matches the characters specified in match.
 
-   - '\b [^<match>] or \b [!<match>] matches the characters not specified in match.
+   - '\b [^<match>] or \b [!<match>] matches the characters not specified in match.<br>
        <match> ::= | <char><match> | <range><match> | <character-class><match> | {}<br>
        <range> ::= <low>-<high><br>
        <character-class> ::= [:<class>:]<br>
@@ -117,7 +117,7 @@
    \note The \c pExpression-parameter is stored as is (and not copied); so
          take care it is valid during the life-time of the object.
 
-   Use RegularExpression::matches to check if the object matches some data.
+   Use IRegularExpression::matches to check if the object matches some data.
 */
 class RegularExpression : public IRegularExpression {
  public:
