@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.7 2002/12/07 23:32:16 markus Rel $
+//$Id: IDirSrch.cpp,v 1.8 2003/06/19 22:34:39 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -84,25 +84,25 @@ static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN
 
 
 const int IDirectorySearch::FILE_NORMAL    = 1;
-const int IDirectorySearch::FILE_READONLY  = IDirectorySearch::FILE_NORMAL << 1;
-const int IDirectorySearch::FILE_DIRECTORY = IDirectorySearch::FILE_READONLY << 1;
-const int IDirectorySearch::FILE_HIDDEN    = IDirectorySearch::FILE_DIRECTORY << 1;
+const int IDirectorySearch::FILE_READONLY  = 2;
+const int IDirectorySearch::FILE_DIRECTORY = 4;
+const int IDirectorySearch::FILE_HIDDEN    = 8;
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 IDirectorySearch::~IDirectorySearch () {
    delete pEntry;
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts attributes according to IDirectorySearch (as defined at
-//            the top) into values used by the system.
-//Parameters: attribs: Attributes to convert
-//Returns   : unsigned long: Systemattributes
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts attributes according to IDirectorySearch (as defined at the top)
+/// into values used by the system.
+/// \param attribs: Attributes to convert
+/// \returns <tt>unsigned long</tt>: Systemattributes
+//-----------------------------------------------------------------------------
 unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertToSysAttribs (unsigned long) - "
            << std::hex << attribs);
@@ -118,12 +118,12 @@ unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
    return attr;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the attributes as used by the system into attributes 
-//            used by IDirectorySearch (as defined at the top).
-//Parameters: attribs: Attributes to convert
-//Returns   : unsigned long: Attributes according to IDirectorySearch
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the attributes as used by the system into attributes used by
+/// IDirectorySearch (as defined at the top).
+/// \param attribs: Attributes to convert
+/// \returns <tt>unsigned long</tt>: Attributes according to IDirectorySearch
+//-----------------------------------------------------------------------------
 unsigned long IDirectorySearch::convertFromSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertFromSysAttribs (unsigned long) - "
            << std::hex << attribs);
