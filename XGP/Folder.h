@@ -1,7 +1,7 @@
 #ifndef FOLDER_H
 #define FOLDER_H
 
-//$Id: Folder.h,v 1.3 2003/10/02 23:03:26 markus Rel $
+//$Id: Folder.h,v 1.4 2003/11/12 23:38:45 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,9 +24,9 @@
 #include <gtkmm/scrolledwindow.h>
 
 
-/**Class to show child widgets, sorted horicontally and vertically.
+/**Class to show child widgets, aligned horicontally and vertically.
 
-   The children are resorted, when the folder is resized (analogue to the
+   The children are realigned, when the folder is resized (analogue to the
    folders displayed by nautilus, konqueror or explorer, ...)
 */
 class Folder : public Gtk::ScrolledWindow {
@@ -40,7 +40,7 @@ class Folder : public Gtk::ScrolledWindow {
  protected:
    void on_size_allocate (GtkAllocation* size);
 
-   /// The view used to display the icons2
+   /// The view used to display the child widgets
    Gtk::Table view;
 
  private:
