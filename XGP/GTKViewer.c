@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.3 2003/10/19 03:15:53 markus Rel $
+//$Id: GTKViewer.c,v 1.4 2003/10/28 07:33:42 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -151,11 +151,15 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
       TRACE2 ("Reading: `%s'\n", newpath);
       FILE* pFile = fopen (newpath, "r");
       if (!pFile) {
-         GtkWidget* dlg = gtk_message_dialog_new 
+         gsize bytes = 0;
+         GError* error = NULL;
+         const char* const msg = _("Error loading file '%s': %s");
+         char* const strError = g_locale_to_utf8 (msg, strlen (msg), 0,
+                                                  &bytes, &error);
+         GtkWidget* dlg = gtk_message_dialog_new
              (GTK_WINDOW (gtk_widget_get_ancestor (ctrl, GTK_TYPE_WINDOW)),
               GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-              GTK_BUTTONS_OK, (const gchar*)_("Error loading file '%s': %s"),
-              (const gchar*)newpath, (const gchar*)g_strerror (errno));
+              GTK_BUTTONS_OK, strError, newpath, g_strerror (errno));
          gtk_dialog_run (GTK_DIALOG (dlg));
          gtk_widget_destroy (dlg);
          free (newpath);
