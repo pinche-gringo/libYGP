@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.26 2002/10/22 02:42:48 markus Exp $
+//$Id: Parse.h,v 1.27 2002/10/23 05:48:09 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -150,11 +150,7 @@ class ParseAttomic : public ParseObject {
    void setMinCard (unsigned int val) { minCard = val; }
    void setValue (const char* value) {assert (value); pValue = value; }
 
-#ifdef MULTIBUFFER
-   static void freeBuffer () { }
-#else
    static void freeBuffer ();
-#endif
 
    // Possible errors of checkIntegrity
    enum { MAX_MIN_ERROR = ParseObject::LAST, NO_VALUE, LAST };

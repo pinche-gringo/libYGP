@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.27 2002/10/22 02:42:48 markus Exp $
+//$Id: Parse.cpp,v 1.28 2002/10/23 05:48:09 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -24,35 +24,36 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
+
+
 #include <ctype.h>
 #include <string.h>
 
+#include <map>
+#include <string>
+
 #include "Trace_.h"
+
 #include "Parse.h"
+#include "Thread.h"
 #include "XStream.h"
 #include "Internal.h"
 
-
-// Structure for global values: Contains the (growing-if-neccessary buffer for
-// parsing (In case you wonder why I didn't use std::string and care about
-// growing and clean-up by myself? Well, for some reason I got a segmentation
-// faults during prg-cleanup. Don't ask me why)
-typedef struct globVars {
-   unsigned int buflen;
-   char*        buffer;
-
-   globVars () : buflen (50), buffer (new char [buflen + 1]) { assert (buffer); }
-   ~globVars () { delete [] buffer; }
-} globVars;
+#define BUFFER  (buffers[Thread::currentID ()])
+#define BUFLEN  (buffers[Thread::currentID ()]).size ()
+#define BUFDATA (buffers[Thread::currentID ()]).data ()
 
 
-#ifndef MULTIBUFFER
-static globVars global;
+// Parse-buffers; one per thread
+static map<unsigned long, std::string> buffers;
+
 
 void ParseAttomic::freeBuffer () {
-   delete [] global.buffer; global.buffer = NULL; global.buflen = 0;
+   buffers.erase (buffers.find (Thread::currentID ()));
 }
-#endif
 
 static char ESCAPE = '\\';
 
@@ -208,15 +209,9 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
    TRACE1 ("ParseAttomic::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
-#ifdef MULTIBUFFER
-   globVars buf;
-#endif
-
-   char* pAkt = global.buffer;
    int   ch (0);
 
-   unsigned int i (0);
-   while (i < maxCard) {                     // While not max. card is reached
+   while (BUFLEN < maxCard) {                // While not max. card is reached
       ch = stream.get ();
       TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> " << (char)ch);
 
@@ -228,48 +223,39 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          break;
       }
 
-      if (i == global.buflen) {                        // Buffer already full?
-         pAkt = global.buffer;                 // Resize to double buffer-size
-         global.buffer = new char [(global.buflen <<= 1) + 1];
-         memcpy (global.buffer, pAkt, i);
-         delete pAkt;
-         pAkt = global.buffer + i;
-      } // endif old buffer full
-
-      *pAkt++ = (char)ch;                                      // Store, if OK
-      ++i;
+      BUFFER += (char)ch;                                      // Store, if OK
    } // end-while !maximal cardinality
    TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
-           << (*pAkt = '\0', global.buffer) << '\'');
+           << BUFFER << '\'');
 
    int rc (PARSE_OK);
-   if (i >= minCard) {                                    // Cardinalities OK?
+   if (BUFLEN >= minCard) {                               // Cardinalities OK?
       ch = 0;
-      *pAkt = '\0';
       TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
-              << global.buffer << '\'');
-      rc = found (global.buffer, i);                 // Report object as found
+              << BUFFER << '\'');
+      rc = found (BUFFER.c_str (), BUFLEN);          // Report object as found
    } // endif value OK
    else
       rc = PARSE_ERROR;
 
    if (rc) {
       if (optional || (rc > 0))
-         while (pAkt > global.buffer)
-            stream.putback (*--pAkt);
+         while (BUFLEN) {
+            stream.putback (*(BUFFER.end ()));
+            BUFFER.erase (BUFLEN - 1);
+         }
       else {
-         global.buffer[minCard > 10 ? (minCard > global.buflen ? global.buflen : minCard)
-                                    : 10] = '\0';
-
          std::string error (_("Expected %1, found: '%2'"));
          error.replace (error.find ("%1"), 2, getDescription ());
-         error.replace (error.find ("%2"), 2, global.buffer);
+         error.replace (error.find ("%2"), 2, BUFFER, 0,
+                        minCard > 10 ? (minCard > BUFLEN ? BUFLEN : minCard) : 10);
 	 throw (error);
       } // end-if mandatory value not found
    } // endif error
    else
       skipWS (stream);
 
+   BUFFER = "";
    return rc;
 }
 
