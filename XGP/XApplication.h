@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.8 2002/04/01 22:44:40 markus Exp $
+//$Id: XApplication.h,v 1.9 2002/04/28 00:18:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,6 +48,12 @@ typedef SmartPtr<AccelGroup>     PAccelGroup;
 // Baseclass for X-applications; it creates an application-window with a
 // client. The virtual method command is used to handle the commands defined
 // with the menus
+//
+// Furthermore exist the addMenu(s) to create the menu-structure. Note that
+// separators and (check)items are added to the last branch (so you better
+// start with one of the latter ;) Should you need a more flexible handling
+// (for dynamic menus, for example), save the pointer to the branch (which is
+// returned by addMenu))
 class XApplication : public Window {
  public:
    // Manager functions
@@ -61,12 +67,14 @@ class XApplication : public Window {
    }
 
  protected:
+   typedef enum { ITEM, CHECKITEM, SEPARATOR, BRANCH, LASTBRANCH } menuTypes;
+
    // Menu-handling (including callback for menu-events)
    typedef struct {
-      const string path;
+      const string name;
       const string accel;
       int          id;
-      const string type;
+      menuTypes    type;
    } MenuEntry;
    typedef SmartPtr<VBox>           PVBox;
 
