@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6 ($Revision: 1.14 $)\n"
-"POT-Creation-Date: 2003-06-03 14:07-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.15 $)\n"
+"POT-Creation-Date: 2003-07-21 18:55-0500\n"
 "PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -13,103 +13,103 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:202 Common/ATime.cpp:206
+#: Common/ADate.cpp:212 Common/ATime.cpp:205
 msgid "Position %1"
 msgstr ""
 
-#: Common/ANumeric.cpp:96 Common/ANumeric.cpp:255
+#: Common/ANumeric.cpp:92 Common/ANumeric.cpp:253
 msgid "No number"
 msgstr ""
 
-#: Common/AssParse.cpp:66
+#: Common/AssParse.cpp:64
 msgid "Not a valid assignment: '%1'"
 msgstr ""
 
-#: Common/AssParse.cpp:79
-msgid "Invalid value for attribute: '%1'"
+#: Common/AssParse.cpp:76
+msgid "Invalid value for an attribute: '%1'"
 msgstr ""
 
-#: Common/AssParse.cpp:93
-msgid "Quoted value not followed by separator: '%1'"
+#: Common/AssParse.cpp:90
+msgid "Quoted value is not followed by a separator: '%1'"
 msgstr ""
 
 #: Common/AttrParse.cpp:57
 msgid "Attribute '%1' already exists"
 msgstr ""
 
-#: Common/AttrParse.cpp:119
+#: Common/AttrParse.cpp:118
 msgid "Error assigning '%1' to %2"
 msgstr ""
 
-#: Common/AttrParse.cpp:126
+#: Common/AttrParse.cpp:125
 msgid "Key '%1' not found"
 msgstr ""
 
-#: Common/CRegExp.cpp:1019
+#: Common/CRegExp.cpp:1033
 msgid "Unmatched [ or [^"
 msgstr ""
 
-#: Common/CRegExp.cpp:1020
+#: Common/CRegExp.cpp:1034
 msgid "Unmatched ( or )"
 msgstr ""
 
-#: Common/CRegExp.cpp:1021
+#: Common/CRegExp.cpp:1035
 msgid "Invalid range end"
 msgstr ""
 
-#: Common/CRegExp.cpp:1022
+#: Common/CRegExp.cpp:1036
 msgid "Repeating suffix without previous expression"
 msgstr ""
 
-#: Common/CRegExp.cpp:1023
+#: Common/CRegExp.cpp:1037
 msgid "Invalid group-number"
 msgstr ""
 
-#: Common/CRegExp.cpp:1024
+#: Common/CRegExp.cpp:1038
 msgid "Invalid range (lower border larger than upper border)"
 msgstr ""
 
-#: Common/CRegExp.cpp:1025
+#: Common/CRegExp.cpp:1039
 msgid "Invalid bound"
 msgstr ""
 
-#: Common/CRegExp.cpp:1026
+#: Common/CRegExp.cpp:1040
 msgid "Regular expression ends with escape-character (\\)"
 msgstr ""
 
-#: Common/CRegExp.cpp:1027
+#: Common/CRegExp.cpp:1041
 msgid "Unknown error"
 msgstr ""
 
-#: Common/CRegExp.cpp:1031 Common/FileRExp.cpp:254
+#: Common/CRegExp.cpp:1045 Common/FileRExp.cpp:252
 msgid "`%1', position %2: %3"
 msgstr ""
 
-#: Common/File.cpp:270
+#: Common/File.cpp:271
 msgid "Error opening file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:285
+#: Common/File.cpp:286
 msgid "Error closing file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:310
+#: Common/File.cpp:309
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:333
+#: Common/File.cpp:331
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr ""
 
-#: Common/FileRExp.cpp:217
+#: Common/FileRExp.cpp:215
 msgid "Open region"
 msgstr ""
 
-#: Common/FileRExp.cpp:230
+#: Common/FileRExp.cpp:228
 msgid "Empty range"
 msgstr ""
 
-#: Common/FileRExp.cpp:234
+#: Common/FileRExp.cpp:232
 msgid "Empty region"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Equal-sign (=)"
 msgstr ""
 
-#: Common/INIFile.cpp:61 Common/INIFile.cpp:241
+#: Common/INIFile.cpp:61 Common/INIFile.cpp:237
 msgid "Section-header"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 msgid "Attribute"
 msgstr ""
 
-#: Common/INIFile.cpp:63 Common/INIFile.cpp:242
+#: Common/INIFile.cpp:63 Common/INIFile.cpp:238
 msgid "Name of section"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: Common/INIFile.cpp:253
+#: Common/INIFile.cpp:249
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr ""
 
@@ -157,48 +157,48 @@ msgstr ""
 msgid "-error: Unrecognized option `%1'"
 msgstr ""
 
-#: Common/Parse.cpp:294
+#: Common/Parse.cpp:293
 msgid "Expected %1, found: '%2'"
 msgstr ""
 
-#: Common/Parse.cpp:930
+#: Common/Parse.cpp:920
 msgid "Error in sequence %1; Expected: %2"
 msgstr ""
 
-#: Common/Parse.cpp:930
+#: Common/Parse.cpp:920
 msgid "Error in sequence %1"
 msgstr ""
 
-#: Common/Parse.cpp:1052
+#: Common/Parse.cpp:1038
 msgid "Expected selection %1"
 msgstr ""
 
-#: Common/RDirSrch.cpp:258 Common/RemoteFile.cpp:284
+#: Common/RDirSrch.cpp:257 Common/RemoteFile.cpp:279
 msgid "Server returned an error: "
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:251
+#: Common/RDirSrchSrv.cpp:250
 msgid "Not yet implemented"
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:277
+#: Common/RDirSrchSrv.cpp:276
 msgid "Invalid command"
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:340
+#: Common/RDirSrchSrv.cpp:339
 msgid "Invalid arguments: "
 msgstr ""
 
-#: Common/Socket.cpp:74 Common/Socket.cpp:87 Common/Socket.cpp:121
-#: Common/Socket.cpp:146
+#: Common/Socket.cpp:73 Common/Socket.cpp:86 Common/Socket.cpp:120
+#: Common/Socket.cpp:145
 msgid "Can't create socket"
 msgstr "Can't create socket (for communication)"
 
-#: Common/Socket.cpp:177
+#: Common/Socket.cpp:176
 msgid "Can't bind socket"
 msgstr ""
 
-#: Common/Socket.cpp:180
+#: Common/Socket.cpp:179
 msgid "Can't listen on socket"
 msgstr "Can't listen on socket (for communication)"
 
@@ -206,53 +206,53 @@ msgstr "Can't listen on socket (for communication)"
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 
-#: Common/Socket.cpp:237 Common/Socket.cpp:267 Common/Socket.cpp:287
+#: Common/Socket.cpp:237 Common/Socket.cpp:257
 msgid "Error reading data"
 msgstr ""
 
-#: Common/Socket.cpp:313
+#: Common/Socket.cpp:283
 msgid "Error accepting connection"
 msgstr ""
 
-#: Common/Socket.cpp:337
+#: Common/Socket.cpp:306
 msgid "Can't resolve name '%1'"
 msgstr ""
 
-#: Common/Socket.cpp:345
+#: Common/Socket.cpp:314
 msgid "Can't connect to server '%1'"
 msgstr ""
 
-#: Common/Socket.cpp:365
+#: Common/Socket.cpp:334
 msgid "Error sending data"
 msgstr ""
 
-#: Common/Process.cpp:164
+#: Common/Process.cpp:163
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: Common/Process.cpp:187
+#: Common/Process.cpp:186
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
 "Output: %2"
 msgstr ""
 
-#: X-windows/XPrintDlg.cpp:53
-msgid "Print command: "
-msgstr ""
-
-#: X-windows/XPrintDlg.cpp:58
+#: X-windows/XPrintDlg.cpp:50
 msgid "Print"
 msgstr ""
 
-#: X-windows/XPrintDlg.cpp:119
+#: X-windows/XPrintDlg.cpp:51
+msgid "Print command: "
+msgstr ""
+
+#: X-windows/XPrintDlg.cpp:96
 msgid "No print-command specified"
 msgstr ""
 
-#: X-windows/XPrintDlg.cpp:127
+#: X-windows/XPrintDlg.cpp:104
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
@@ -266,71 +266,93 @@ msgstr ""
 msgid "File `%1' exists! Overwrite?"
 msgstr ""
 
-#: X-windows/XFileList.cpp:302
+#: X-windows/XFileList.cpp:299
 msgid "Open in %1 ..."
 msgstr ""
 
-#: X-windows/XFileList.cpp:315
+#: X-windows/XFileList.cpp:312
 msgid "Rename/Move ..."
 msgstr ""
 
-#: X-windows/XFileList.cpp:319
+#: X-windows/XFileList.cpp:316
 msgid "Delete"
 msgstr ""
 
-#: X-windows/XFileList.cpp:344
+#: X-windows/XFileList.cpp:341
 msgid "Environment variable `TERM' not defined!"
 msgstr ""
 
-#: X-windows/XAttrEntry.h:71
+#: X-windows/XAttrEntry.h:85
 msgid "Invalid value!"
 msgstr ""
 
-#: X-windows/BrowserDlg.cpp:37
+#: X-windows/BrowserDlg.cpp:39
+msgid "GTKHTML"
+msgstr ""
+
+#: X-windows/BrowserDlg.cpp:41
 msgid "galeon"
 msgstr "Galeon"
 
-#: X-windows/BrowserDlg.cpp:37
+#: X-windows/BrowserDlg.cpp:41
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: X-windows/BrowserDlg.cpp:38
+#: X-windows/BrowserDlg.cpp:41
 msgid "netscape"
 msgstr "Netscape"
 
-#: X-windows/BrowserDlg.cpp:38
+#: X-windows/BrowserDlg.cpp:41
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: X-windows/BrowserDlg.cpp:48
+#: X-windows/BrowserDlg.cpp:49
 msgid "Select a browser"
 msgstr ""
 
-#: X-windows/BrowserDlg.cpp:59
+#: X-windows/BrowserDlg.cpp:61
 msgid "Other: "
 msgstr ""
 
-#: X-windows/XApplication.cpp:246
+#: X-windows/XApplication.cpp:108
+msgid "Help window"
+msgstr ""
+
+#: X-windows/XApplication.cpp:127 X-windows/XApplication.cpp:158
+msgid ""
+"Can't display the HTML control!\n"
+"\n"
+"Reason: %1"
+msgstr ""
+
+#: X-windows/XApplication.cpp:166
+msgid ""
+"Can't display the HTML document!\n"
+"\n"
+"Reason: %1"
+msgstr ""
+
+#: X-windows/XApplication.cpp:357
 msgid "_Help"
 msgstr ""
 
-#: X-windows/XApplication.cpp:246
+#: X-windows/XApplication.cpp:357
 msgid "<alt>H"
 msgstr ""
 
-#: X-windows/XApplication.cpp:247
+#: X-windows/XApplication.cpp:358
 msgid "_Content..."
 msgstr ""
 
-#: X-windows/XApplication.cpp:247
+#: X-windows/XApplication.cpp:358
 msgid "F1"
 msgstr ""
 
-#: X-windows/XApplication.cpp:248
+#: X-windows/XApplication.cpp:359
 msgid "Configure _browser ..."
 msgstr ""
 
-#: X-windows/XApplication.cpp:250
+#: X-windows/XApplication.cpp:361
 msgid "_About..."
 msgstr ""
 
