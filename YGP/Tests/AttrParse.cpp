@@ -1,11 +1,11 @@
-// $Id: AttrParse.cpp,v 1.8 2004/01/15 06:26:30 markus Rel $
+// $Id: AttrParse.cpp,v 1.9 2004/11/07 22:05:17 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AttrParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -50,7 +50,8 @@ int main (int argc, char* argv[]) {
       attrs.assignValues ("File=\"ADate.cpp\";Size=18180;Time=01012000 121005");
    }
    catch (std::string& err) {
-      std::cerr << "Test: Error " << err << '\n';
+      ++cErrors;
+      std::cerr << "Test-Error: " << err << '\n';
    }
 
    if (cErrors)
