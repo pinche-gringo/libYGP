@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.7 1999/11/09 22:01:41 Markus Exp $
+//$Id: ADate.cpp,v 1.8 2000/01/21 23:38:40 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -232,6 +232,8 @@ ADate& ADate::operator-= (const ADate& rhs) {
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::add (char Day, char Month, unsigned int Year) {
+   TRACE7 ("ADate::add: " << toString () << " + " << (char)(Day + '0') << '.'
+	   << (char)(Month + '0') << '.' << Year);
    assert (!checkIntegrity ());
 
    if (isDefined ()) {
@@ -253,6 +255,9 @@ ADate& ADate::add (char Day, char Month, unsigned int Year) {
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::sub (char Day, char Month, unsigned int Year) {
+   TRACE7 ("ADate::sub: " << toString () << " - " << (char)(Day + '0') << '.'
+	   << (char)(Month + '0') << '.' << Year);
+
    assert (!checkIntegrity ());
 
    if (isDefined ()) {
@@ -363,21 +368,43 @@ bool ADate::isLeapYear (unsigned int year) {
    return (year & 3) ? false : (year % 100) ? true : !(year % 400);
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Corrects the date if a month is not valid
+/*--------------------------------------------------------------------------*/
+void ADate::adaptMonth () {
+   if ((month < 1) || (month > 12)) {              // Adapt month if underflow
+      int mon (month - 1);
+      if (mon > 0) {
+         year += ((int)mon / 12);
+         month = (mon % 12) + 1;
+      }
+      else {
+         mon += 12;
+         year -= ((int)mon / 12) + 1;
+         month = (mon % 12) + 1;
+      }
+   } // endif invalid month
+}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible underflow
 /*--------------------------------------------------------------------------*/
 bool ADate::minAdapt () {
-   if ((day < 1) || (day > maxDayOf ()))            // Adapt date if underflow
+   TRACE7 ("ADate::minAdapt: " << toString ());
+   adaptMonth ();
+   TRACE9 ("ADate::minAdapt (month dapted (1)): " << toString ());
+
+   if ((day < 1) || (day > maxDayOf ())) {          // Adapt date if underflow
       --month;
+      if (month < 1) {
+         month = 12;
+         --year;
+         TRACE9 ("ADate::minAdapt (month adapted (2)): " << toString ());
+      }
 
-   if ((month < 1) || (month > 12)) {              // Adapt month if underflow
-      month += (unsigned char)12;     // Assuming calc. was with correct month
-      --year;
-   }
-
-   if ((day < 1) || (day > maxDayOf ()))                    // Finish adaption
       day += maxDayOf ();
+      TRACE9 ("ADate::minAdapt (day adapted (1)): " << toString ());
+   } // endif day invalid
 
    return !checkIntegrity ();
 }
@@ -386,6 +413,10 @@ bool ADate::minAdapt () {
 //Purpose   : Adapt value after recalculation with possible overflow
 /*--------------------------------------------------------------------------*/
 bool ADate::maxAdapt () {
+   TRACE7 ("ADate::maxAdapt: " << toString ());
+   adaptMonth ();
+   TRACE9 ("ADate::maxAdapt (month dapted (1)): " << toString ());
+   
    unsigned char maxDay (maxDayOf ());               // Adapt date if overflow
    if (day > maxDay) {
       day -= maxDay;

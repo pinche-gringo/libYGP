@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.7 1999/11/09 22:01:41 Markus Exp $
+//$Id: ADate.h,v 1.8 2000/01/21 23:38:40 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -113,6 +113,8 @@ class ADate : public AttributValue {
    unsigned char day;
    unsigned char month;
    unsigned int year;
+
+   void adaptMonth ();
 };
 
 #endif
