@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.2 2000/05/18 23:47:34 Markus Exp $
+//$Id: CRegExp.h,v 1.3 2000/05/21 13:58:29 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,8 +52,6 @@
 //     - '\(...\)' groups regular expressions and marks the matching substring
 //                 for future reference
 //     - '\DIGIT' to repeat the matched text of the DIGIT'th '\(...\)-construt.
-//     - '\`' matches the empty string, provided its at the beginning of the buffer.
-//       '\'' matches the empty string, provided its at the end of the buffer.
 //     - '\b' matches the empty string, provided its at the beginning or the
 //            end of a word
 //     - '\B' matches the empty string, provided its not at the beginning or
@@ -62,8 +60,6 @@
 //     - '\>' matches the empty string, provided its at the end of a word
 //     - '\w' matches any word-constituent character.
 //     - '\W' matches any character that is not word-constituent.
-//     - '\sCODE' matches any character whose syntax is CODE.
-//     - '\SCODE' matches any character whose syntax is not CODE.
 // '[<region>] matches the characters specified in match
 // '[^<region>] matches the characters not specified in match
 //     <region> ::= | <char><region> | <range><region> | {}
@@ -85,17 +81,25 @@ class RegularExpression : public IRegularExpression {
    virtual int checkIntegrity () const throw (std::string);
    RegularExpression& operator= (const char* pRegExp);
 
-   enum { MULTIMATCHOPT = '*', MULTIMATCHMAND = '+', MULTIMATCH1 = '?',
-          SINGLEMATCH = '.', LINEBEGIN = '^', LINEEND = '$', QUOTE = '\\',
+   enum { // Contstants for repeating
+          MULTIMATCHOPT = '*', MULTIMATCHMAND = '+', MULTIMATCH1 = '?',
+          // Special single characters
+          SINGLEMATCH = '.', LINEBEGIN = '^', LINEEND = '$', ESCAPE = '\\',
+          // Contants related to regions
           REGIONBEGIN = '[', REGIONEND = ']', RANGE = '-', NEGREGION = '^',
-          GROUPBEGIN = '(', GROUPEND = ')' };
+          REGIONCLASS = ':',
+          // Escaped special characters (after a quoting backslash (\))
+          GROUPBEGIN = '(', GROUPEND = ')', ALTERNATIVE = '|', WORD = 'w',
+          NOTWORD = 'W', WORDBORDER = 'b', NOTWORDBORDER = 'B',
+          WORDBEGIN = '<', WORDEND = '>' };
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare) const;
 #ifndef HAVE_REGEX_H
-   virtual bool compRegion (const char*& pAktPos, const std::string& region) const;
-   virtual bool compGroup (const char*& pAktPos, const std::string& group) const;
-   virtual bool compChar (const char*& pAktPos, const std::string& ch) const;
+    bool compRegion (const char*& pAktPos, const std::string& region) const;
+    bool compGroup (const char*& pAktPos, const std::string& group) const;
+    bool compChar (const char*& pAktPos, const std::string& ch) const;
+    bool compEscChar (const char*& pAktPos, const std::string& ch) const;
 #endif
 
  private:
@@ -111,6 +115,17 @@ class RegularExpression : public IRegularExpression {
 
 #ifdef HAVE_REGEX_H
    regex_t regexp;
+
+   void init (const char* pRegExp) {
+      assert (pRegExp);
+      std::string temp ('^');
+      temp += pRegExp;
+      temp += '$';
+
+      int rc = regcomp (&regexp, temp.c_str (), REG_EXTENDED);
+      if (rc)
+         throw (getError (rc, 0));
+   }
 #endif
 };
 
