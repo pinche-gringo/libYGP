@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.9 2002/12/01 08:38:40 markus Rel $
+//$Id: Attribute.h,v 1.10 2003/01/08 22:44:16 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,9 +21,11 @@
 #include <errno.h>
 
 #include <string>
+#include <vector>
 #include <stdexcept>
 
 #include <Check.h>
+#include <AssParse.h>
 #include <AByteArray.h>
 
 
@@ -71,11 +73,11 @@ template <class T> class Attribute : public IAttribute {
    virtual bool assignFromString (const char* value) const {
       try {
          attr_ = value;
-         return true;
       }
       catch (std::invalid_argument&) {
          return false;
       }
+      return true;
    }
 
    virtual bool assign (const char* value, unsigned int length) const {
@@ -88,7 +90,8 @@ template <class T> class Attribute : public IAttribute {
    T& attr_;
 };
 
-// Specialization of Attribute for ints
+
+// Specialization of Attribute for character (arrays)
 bool Attribute<char>::assignFromString (const char* value) const {
    Check3 (value);
    attr_ = *value;
@@ -123,6 +126,7 @@ bool Attribute<char* const>::assign (const char* value, unsigned int length) con
    return true;
 }
 
+// Specialization of Attribute for ints
 bool Attribute<short>::assignFromString (const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -195,6 +199,171 @@ bool Attribute<std::string>::assign (const char* value, unsigned int length) con
 bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    attr_.assign (value, length);
+   return true;
+}
+
+
+// Class representing a list of attributes. This class is a template to handle differing
+// types of attributes.
+template <class T> class AttributeList : public IAttribute {
+ public:
+   AttributeList (const char* name, vector<T>& list) : IAttribute (name), list_ (list) { }
+   AttributeList (const std::string& name, vector<T>& list) : IAttribute (name), list_ (list) { }
+   ~AttributeList () {  }
+
+   virtual bool assignFromString (const char* value) const {
+      AssignmentParse parse (value);
+      std::string node;
+      while (node = parse.getNextNode (), !node.empty ()) {
+         try {
+            errno = 0;
+            char* pEnd = NULL;
+            unsigned int offset (strtol (parse.getActKey ().c_str (), &pEnd, 10)); Check3 (pEnd);
+            if (errno || *pEnd)
+               return false;
+
+            if (!assignFromString (offset, parse.getActValue ().c_str ()));
+                return false;
+         }
+         catch (std::invalid_argument&) {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   virtual bool assign (const char* value, unsigned int length) const {
+      return assignFromString (value); }
+
+   virtual bool assignFromString (unsigned int offset, const char* value) const {
+      try {
+         list_[offset] = value;
+      }
+      catch (std::invalid_argument&) {
+         return false;
+      }
+      return true;
+   }
+
+   virtual bool assign (unsigned int offset, const char* value, unsigned int length) const {
+      return assignFromString (offset, value); }
+
+ private:
+   AttributeList (const AttributeList&);
+   const AttributeList& operator= (const AttributeList&);
+
+   vector<T>& list_;
+};
+
+
+// Specialization of Attribute for character (arrays)
+bool AttributeList<char>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   list_[offset] = *value;
+   return *value && !value[1];
+}
+
+bool AttributeList<char*>::assign (unsigned int offset, const char* value, unsigned int length) const {
+   Check3 (value);
+   delete [] list_[offset];
+   list_[offset] = new char[length + 1];
+   if (!list_[offset])
+      return false;
+   memcpy (list_[offset], value, length);
+   list_[offset][length] = '\0';
+   return true;
+}
+
+bool AttributeList<char*>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   return assign (offset, value, strlen (value));
+}
+
+bool AttributeList<char* const>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   strcpy (list_[offset], value);
+   return true;
+}
+
+bool AttributeList<char* const>::assign (unsigned int offset, const char* value, unsigned int length) const {
+   Check3 (value);
+   memcpy (list_[offset], value, length);
+   return true;
+}
+
+// Specialization of AttributeList for ints
+bool AttributeList<short>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+bool AttributeList<unsigned short>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+bool AttributeList<int>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+bool AttributeList<unsigned int>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+bool AttributeList<long>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+bool AttributeList<unsigned long>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+bool AttributeList<double>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   list_[offset] = strtod (value, &pTail); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+// Specialization of AttributeList for strings
+bool AttributeList<std::string>::assignFromString (unsigned int offset, const char* value) const {
+   Check3 (value);
+   list_[offset] = value;
+   return true;
+}
+
+bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
+   Check3 (value);
+   list_[offset].assign (value, length);
+   return true;
+}
+
+bool AttributeList<AByteArray>::assign (unsigned int offset, const char* value, unsigned int length) const {
+   Check3 (value);
+   list_[offset].assign (value, length);
    return true;
 }
 
