@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.3 2001/09/25 21:18:18 markus Exp $
+//$Id: File.cpp,v 1.4 2001/10/02 22:58:13 markus Exp $
 
 //PROJECT     : General
-//SUBSYSTEM   : DirEntry
+//SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -27,14 +27,14 @@
 
 #include <gzo-cfg.h>
 
-#include "DirEntry.h"
+#include "File.h"
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Copyconstructor
 //Parameter : o: Object to copy
 /*--------------------------------------------------------------------------*/
-dirEntry::dirEntry (const dirEntry& o) : path_ (o.path_)
+File::File (const File& o) : path_ (o.path_)
 #if SYSTEM == UNIX
    , entry (o.entry), status (o.status), userExec (o.userExec)
 #else
@@ -47,12 +47,19 @@ dirEntry::dirEntry (const dirEntry& o) : path_ (o.path_)
 {
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+File::~File () {
+}
+
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Assignmentoperator
 //Parameter : o: Object to copy
 /*--------------------------------------------------------------------------*/
-dirEntry& dirEntry::operator= (const dirEntry& o) {
+File& File::operator= (const File& o) {
    if (this != &o) {
       path_ = o.path_;
 #if SYSTEM == UNIX
@@ -73,7 +80,7 @@ dirEntry& dirEntry::operator= (const dirEntry& o) {
 //Remarks   : Other also executeable files (like 4DOS BTM-files; I think
 //            there's even another WINDOZE-format) are not considered as exes.
 /*--------------------------------------------------------------------------*/
-bool dirEntry::isExecuteable () const {
+bool File::isExecuteable () const {
    const char* pEnd = strrchr (cFileName, '.');
    if (pEnd++)
       // Check the next 4 bytes; ignore end-of-string, the buffer is long
@@ -103,7 +110,7 @@ bool dirEntry::isExecuteable () const {
 //Returns   : struct tm*: Pointer to time
 //Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
 /*--------------------------------------------------------------------------*/
-const time_t dirEntry::time () const {
+const time_t File::time () const {
    struct tm fileTime;
    time (fileTime);
    return mktime (&fileTime);
@@ -114,7 +121,7 @@ const time_t dirEntry::time () const {
 //Returns   : struct tm*: Pointer to time
 //Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
 /*--------------------------------------------------------------------------*/
-void dirEntry::localtime (struct tm& time) const {
+void File::localtime (struct tm& time) const {
    FILETIME fileTemp;
    FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
    setTime (&fileTimp, time);
@@ -125,7 +132,7 @@ void dirEntry::localtime (struct tm& time) const {
 //Returns   : struct tm*: Pointer to time
 //Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
 /*--------------------------------------------------------------------------*/
-void dirEntry::setTime (const FILETIME& time, struct tm& result) {
+void File::setTime (const FILETIME& time, struct tm& result) {
    SYSTEMTIME sysTime;
    FileTimeToSystemTime (&time, &sysTime);
 

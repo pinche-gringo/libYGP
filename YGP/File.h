@@ -1,7 +1,7 @@
-#ifndef DIRENTRY_H
-#define DIRENTRY_H
+#ifndef FILE_H
+#define FILE_H
 
-//$Id: File.h,v 1.5 2001/09/25 21:18:18 markus Exp $
+//$Id: File.h,v 1.6 2001/10/02 22:58:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,16 +72,16 @@ class DirectorySearch;
 #define MAX_PATH            MAXNAMLEN
 
 
-typedef struct dirEntry {
+typedef struct File {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   dirEntry () : userExec (false)
+   File () : userExec (false)
       { *entry.d_name = '\0'; }
-   dirEntry (const dirEntry& o);
-   ~dirEntry () { }
+   File (const File& o);
+   virtual ~File ();
 
-   dirEntry& operator= (const dirEntry& o);
+   File& operator= (const File& o);
 
    //@Section query of data
    const char*         path () const { return path_.c_str (); }
@@ -97,8 +97,8 @@ typedef struct dirEntry {
    //@Section compare filename
    int compare (const char* pszName) const { return strcmp (name (), pszName); }
    int compare (const std::string& Name) const { return name () == Name; }
-   int compare (const dirEntry& other) const { return strcmp (name (), other.name ()); }
-   int compare (const dirEntry* other) const { assert (other);
+   int compare (const File& other) const { return strcmp (name (), other.name ()); }
+   int compare (const File* other) const { assert (other);
       return compare (*other); }
 
    //@Section file-type
@@ -123,18 +123,18 @@ typedef struct dirEntry {
    void size (unsigned long size) { status.st_size = size; }
    void time (time_t time) { status.st_mtime = time; }
    void attributes (unsigned long attr) { status.st_mode = attr; }
-} dirEntry;
+} File;
 #elif SYSTEM == WINDOWS
 
-typedef struct dirEntry : public WIN32_FIND_DATA {
+typedef struct File : protected WIN32_FIND_DATA {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   dirEntry () { }
-   dirEntry (const dirEntry& o);
-   ~dirEntry () { }
+   File () { }
+   File (const File& o);
+   virtual ~File ();
 
-   dirEntry& operator= (const dirEntry& o);
+   File& operator= (const File& o);
 
    //@Section query of data
    const char*         path () const { return path_.c_str (); }
@@ -149,8 +149,8 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    //@Section compare filename
    int compare (const char* pszName) const { return stricmp (name (), pszName); }
    int compare (const std::string& Name) const { return compare (Name.c_str ()); }
-   int compare (const dirEntry& other) const { return compare (other.name ()); }
-   int compare (const dirEntry* other) const { assert (other);
+   int compare (const File& other) const { return compare (other.name ()); }
+   int compare (const File* other) const { assert (other);
       return compare (*other); }
 
    //@Section file-type
@@ -173,7 +173,7 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    void attributes (unsigned long attr) { dwFileAttributes = attr; }
 
    void setTime (const FILETIME& time, struct tm& result);
-} dirEntry;
+} File;
 
 #else
 #  error Not implemented yet!
