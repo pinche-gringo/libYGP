@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.14 2003/03/06 04:27:55 markus Exp $
+//$Id: XDate.cpp,v 1.15 2003/03/27 00:26:12 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -33,6 +33,7 @@
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
+#define TRACELEVEL 9
 #include <Check.h>
 #include <Trace_.h>
 #include <Internal.h>
@@ -108,7 +109,7 @@ XDate::XDate (const std::string& title, ATimestamp& date, int showFields)
    get_vbox ()->pack_start (*client, true, false, 5);
 
    cal->select_day (date.getDay ());
-   cal->select_month (date.getMonth (), date.getYear ());
+   cal->select_month (date.getMonth () - 1, date.getYear ());
 
    spinHour->set_value (date.getHour ());
    spinMinute->set_value (date.getMinute ());
@@ -133,26 +134,26 @@ void XDate::okEvent () {
 
    ATimestamp help;
 
-   help.setHour (spinHour->get_value_as_int ());
-   help.setMinute (spinMinute->get_value_as_int ());
-   help.setSecond (spinSecond->get_value_as_int ());
+   try {
+      help.setHour (spinHour->get_value_as_int ());
+      help.setMinute (spinMinute->get_value_as_int ());
+      help.setSecond (spinSecond->get_value_as_int ());
 
-   guint day, month, year;
-   cal->get_date (year, month, day);
-   help.setYear (year);
-   help.setMonth (month);
-   help.setDay (day);
+      guint day, month, year;
+      cal->get_date (year, month, day);
+      TRACE5 ("XDate::okEvent () - Date: " << day << '.' << month << '.' << year);
+      help.setYear (year);
+      help.setMonth (month + 1);
+      help.setDay (day);
 
-   if (help.checkIntegrity ()) {
-      std::string err (_("Date `%1' is not valid!"));
-      err.replace (err.find ("%1"), 2, help.toString ());
+      result = help;
+      TRACE7 ("XDate::okEvent () - Result = " << result);
+      delete this;
+   }
+   catch (std::invalid_argument& e) {
+      std::string err (_("Date is not valid!\n\nReason: %1"));
+      err.replace (err.find ("%1"), 2, e.what ());
       Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
       msg.run ();
-      return;
    }
-   else {
-      result = help;;
-      TRACE7 ("XDate::okEvent () - Result = " << result);
-   }
-   delete this;
 }
