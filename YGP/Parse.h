@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.9 1999/10/25 17:59:16 Markus Exp $
+//$Id: Parse.h,v 1.10 1999/11/04 20:43:11 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -159,7 +159,9 @@ class ParseAttomic : public ParseObject {
 };
 
 
-// Class to parse text til a certain abort-criteria
+// Class to parse text til a certain abort-criteria. Parsing of this element
+// is stopped, if any of the characters in the abort-parameters is reached
+// (or the maximal cardinality is reached).
 class ParseText : public ParseAttomic {
  public:
    // Manager-functions
@@ -178,8 +180,8 @@ class ParseText : public ParseAttomic {
 };
 
 
-// Class to parse text til a certain abort-criteria. This abort-characters can
-// be escaped
+// Class to parse text til a certain abort-criteria (as in ParseText). This
+// abort-characters can be escaped
 class ParseTextEsc : public ParseText {
  public:
    // Manager-functions
