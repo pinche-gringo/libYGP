@@ -7,7 +7,7 @@ lib_LTLIBRARIES=libYMP.la
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -Wall
-INCLUDES = -I $(top_srcdir) -I . -I $(top_srcdir)/intl @GTK_CFLAGS@
+INCLUDES = -I $(top_srcdir) -I . -I $(top_srcdir)/intl @GTK_CFLAGS@ @GTKMM_CFLAGS@
 LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@
 
 libYMP_la_LDFLAGS=-release $(LIBRELEASE) -no-undefined

@@ -4,7 +4,7 @@ INCLUDES=-I.. -I$(top_srcdir)
 
 # Settings for gettext
 localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ @GTKMM_CFLAGS@
 LIBS = @LIBS@
 
 TESTS=IVIOAppl ANumeric ADate ATime ATStamp XStrBuf XStream Parse FileRExp \
