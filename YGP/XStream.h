@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.15 2003/02/21 19:41:01 markus Rel $
+// $Id: XStream.h,v 1.16 2003/07/10 20:19:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,38 +27,45 @@
 #include "XStrBuf.h"
 
 
-// Extended stream, designed to parse text.
-//
-// It overcomes two drawbacks of the original streams:
-//
-//   - Column- and line-information (which - to be fair - wouldn't
-//     make very much sense in the common streams anyway)
-//   - A variable-sized putback-buffer. The common streams only
-//     stores one block (and a few bytes from the last), so a pushback
-//     beyond this border is not possible.
-//
-// Note: The extensions of the stream must be initialized with the
-//       init-function (after creating/assigning)!
-//
+/** Extended stream, designed to parse text.
+
+   It overcomes two drawbacks of the original streams:
+
+  - Column- and line-information (which - to be fair - wouldn't
+    make very much sense in the common streams anyway)
+  - A variable-sized putback-buffer. The common streams only
+    stores one block (and a few bytes from the last), so a pushback
+    beyond this border is not possible.
+
+   \note The extensions of the stream must be initialized with the
+      init()-function (after creating/assigning)!
+*/
 // Example:
 //    Xifstream xin;
 //    xin.open ("Test.Dat");
 //    xin.init ();
 template <class T> struct extStream : private extStreambuf, public T {
  public:
-   // Manager-functions
+   // Management-functions
+   /// Default constrcutor; Creates a stream
    extStream () : extStreambuf (), T (), oldBuf (NULL) { }
+   /// Constructor; Creates a stream with a data sink (to read from)
    extStream (const T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
+   /// Destructor
    ~extStream () { sios::rdbuf (oldBuf); }
 
+   /// Initializes the extended stream
    void init () {
       setSource (oldBuf = rdbuf ());
       sios::rdbuf (this);
    }
 
-   // Accessing values
+   /// \name Accessing stream values
+   //@{
+   /// Returns the actual line of the stream read from
    unsigned int getLine () const { return extStreambuf::getLine (); }
    unsigned int getColumn () const { return extStreambuf::getColumn (); }
+   //@}
 
  private:
    // Prohibited manager functions
