@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.10 1999/09/26 01:52:51 Markus Rel $
+//$Id: DirSrch.cpp,v 1.11 1999/11/04 20:41:08 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -39,10 +39,6 @@
 
 #ifdef UNIX
 #include <unistd.h>
-
-const char DirectorySearch::DIR_SPLIT = '/';
-#else
-const char DirectorySearch::DIR_SPLIT = '\\';
 #endif
 
 
@@ -219,11 +215,11 @@ void DirectorySearch::setFile (const std::string& search) {
    searchFile = search;
 
    unsigned int len (search.length ());
-   if (searchFile[len - 1] == DIR_SPLIT)
+   if (searchFile[len - 1] == getSplitChar ())
       searchFile.replace (--len, 1, 0, '\0');
 
    while (len--) {
-      if (search[len] == DIR_SPLIT) {
+      if (search[len] == getSplitChar ()) {
          searchDir = search;
          searchDir.replace (len + 1, searchDir.length (), 0, '\0');
          searchFile.replace (0, len + 1, 0, '\0');

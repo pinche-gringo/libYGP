@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.4 1999/09/11 01:07:57 Markus Rel $
+//$Id: PathSrch.h,v 1.5 1999/11/04 20:41:08 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,14 +24,20 @@
 // Class to split a string of path-nodes into its sub-nodes
 class PathSearch : public Tokenize {
  public:
-   //@Section manager-functions
+   // Manager-functions
    PathSearch (const std::string& path) : Tokenize (path) { }
    virtual ~PathSearch () { }
 
-   //@Section access to sub-nodes
-   std::string getNextNode () { return Tokenize::getNextNode (SPLIT_CHAR); }
+   // Access to sub-nodes
+   std::string getNextNode () { return Tokenize::getNextNode (getSplitChar ()); }
 
-   static const char SPLIT_CHAR;
+   static char getSplitChar () {
+#ifdef UNIX
+      return ':';
+#else
+      return ';';
+#endif
+   }
 };
 
 #endif

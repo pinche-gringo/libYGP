@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.7 1999/09/26 01:52:51 Markus Rel $
+//$Id: DirSrch.h,v 1.8 1999/11/04 20:41:08 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -147,8 +147,6 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
 // Class to search for files in a certain directory
 class DirectorySearch {
  public:
-   static const char DIR_SPLIT;
-
    //@Section manager-functions
    DirectorySearch () : pEntry (NULL)
 #ifdef UNIX
@@ -165,6 +163,14 @@ class DirectorySearch {
 #endif
       { setFile (search); }
    virtual ~DirectorySearch ();
+
+   static char getSplitChar () {
+#ifdef UNIX
+      return '/';
+#else
+      return '\\';
+#endif
+   }
 
    void setFile (const std::string& search);
    std::string getFile () const { return searchDir + searchFile; }
