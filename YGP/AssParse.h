@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.10 2003/11/14 20:27:55 markus Rel $
+//$Id: AssParse.h,v 1.11 2005/01/08 22:11:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ namespace YGP {
    The single assignments are separated with a semicolon (;) and look like
    <tt>key=value</tt> or <tt>key="value"</tt>.
 
-   Quoted values (as in the second example) can still contain the quotes, if
-   they are escaped by a leading backslash (\).
+   Quoted values can still contain the quotes, if they are escaped by
+   a leading backslash (\).
 
    As for all Tokenize objects empty assignments are silently ignored.
 */
