@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.27 2003/01/16 16:46:22 markus Exp $
+//$Id: ADate.cpp,v 1.28 2003/02/05 06:03:37 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -176,8 +176,11 @@ std::string ADate::toString (const char* format) const {
 //Parameters: in: Stream to parse
 /*--------------------------------------------------------------------------*/
 void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
+   if (in.eof ()) {
+      undefine ();
+      return;
+   }
    static unsigned char ADate::*const targets[] = { &ADate::day, &ADate::month };
-
    day = month = 0;
 
    int ch;
