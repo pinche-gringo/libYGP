@@ -1,11 +1,11 @@
-// $Id: PathDirSrch.cpp,v 1.4 2002/10/10 05:53:33 markus Rel $
+// $Id: PathDirSrch.cpp,v 1.5 2002/12/15 22:32:22 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -26,6 +26,7 @@
 
 #include <iostream>
 
+#include <File.h>
 #include <PathDirSrch.h>
 
 #include <Internal.h>
