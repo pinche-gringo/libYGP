@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.10 2003/02/04 05:00:18 markus Exp $
+//$Id: XFileDlg.cpp,v 1.11 2003/02/05 06:01:21 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -31,6 +31,8 @@
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 
+#include <gtk--/main.h>
+
 #include "Trace_.h"
 #include "Check.h"
 #include "Internal.h"
@@ -42,15 +44,11 @@
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; Creates a (modeless) dialog to select a file
 //Parameters: title: Text to display in the title of the dialog
-//            pNotify: Object to notify of the selection
-//            callback: Method of pNotify to call after file is selected
 //            dlgOption: Checks to perform after selecting OK
 /*--------------------------------------------------------------------------*/
-XFileDialog::XFileDialog (const string& title, Object* pNotify,
-                          const PACTION callback, option dlgOption)
-   : Gtk::FileSelection (title), pCaller (pNotify), callerMethod (callback)
-   , opt (dlgOption) {
-   TRACE9 ("XFileDialog::XFileDialog (title)");
+IFileDialog::IFileDialog (const string& title, option dlgOption)
+   : Gtk::FileSelection (title), opt (dlgOption) {
+   TRACE9 ("IFileDialog::IFileDialog (title)");
    Check3 (pCaller); Check3 (callerMethod);
 
    init ();
@@ -59,15 +57,11 @@ XFileDialog::XFileDialog (const string& title, Object* pNotify,
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; Creates a (modeless) dialog to select a file
 //Parameters: title: Text to display in the title of the dialog
-//            pNotify: Object to notify of the selection
-//            callback: Method of pNotify to call after file is selected
 //            dlgOption: Checks to perform after selecting OK
 /*--------------------------------------------------------------------------*/
-XFileDialog::XFileDialog (GtkFileSelection* castitem, Object* pNotify,
-                          const PACTION callback, option dlgOption)
-   : FileSelection (castitem), pCaller (pNotify), callerMethod (callback)
-   , opt (dlgOption) {
-   TRACE9 ("XFileDialog::XFileDialog (castitem)");
+IFileDialog::IFileDialog (GtkFileSelection* castitem, option dlgOption)
+   : FileSelection (castitem), opt (dlgOption) {
+   TRACE9 ("IFileDialog::IFileDialog (castitem)");
    Check3 (pCaller); Check3 (callerMethod);
 
    init ();
@@ -76,8 +70,8 @@ XFileDialog::XFileDialog (GtkFileSelection* castitem, Object* pNotify,
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
-XFileDialog::~XFileDialog () {
-   TRACE9 ("XFileDialog::~XFileDialog");
+IFileDialog::~IFileDialog () {
+   TRACE9 ("IFileDialog::~IFileDialog");
    hide ();
 }
 
@@ -85,13 +79,14 @@ XFileDialog::~XFileDialog () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
 /*--------------------------------------------------------------------------*/
-void XFileDialog::init () {
+void IFileDialog::init () {
    Check3 (get_accel_group ());
    get_cancel_button ()->add_accelerator ("clicked", *get_accel_group (), XK_Escape, 0,
                                           static_cast<GtkAccelFlags> (0));
 
-   get_ok_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), OK));
-   get_cancel_button ()->clicked.connect (bind (slot (this, &XFileDialog::command), CANCEL));
+   get_ok_button ()->clicked.connect (bind (slot (this, &IFileDialog::command), OK));
+   get_cancel_button ()->clicked.connect (bind (slot (this, &IFileDialog::command), CANCEL));
+   modal = false;
    show ();
 }
 
@@ -100,8 +95,8 @@ void XFileDialog::init () {
 //Parameters: action: ID of pressed button
 //Remarks   : - Depending on the option, the file must either exist or it is checked if it should be overwritten
 /*--------------------------------------------------------------------------*/
-void XFileDialog::command (commandID id) {
-   TRACE9 ("XFileDialog::command: " << id);
+void IFileDialog::command (commandID id) {
+   TRACE9 ("IFileDialog::command: " << id);
 
    switch (id) {
    case OK: {
@@ -135,10 +130,26 @@ void XFileDialog::command (commandID id) {
 	 } // end-switch option
       } // endif option set 
 
-      (pCaller->*callerMethod) (filename);
-      }
+      fileSelected (filename);
+   }
+
    case CANCEL:
-      delete this;
+      if (modal)
+         Gtk::Main::quit ();
+      else
+         delete this;
       break;
    } // end-switch command-id
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Performs the dialog modaly
+//Returns   : XDialog::OK, XDialog::CANCEL, depending on the user-input
+/*--------------------------------------------------------------------------*/
+string IFileDialog::execModal () {
+   set_modal (modal = true);
+   Gtk::Main::run ();
+   string file (get_filename ());
+   delete this;
+   return file;
 }

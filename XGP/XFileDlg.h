@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.11 2003/02/04 05:00:18 markus Exp $
+//$Id: XFileDlg.h,v 1.12 2003/02/05 06:01:21 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,34 +42,70 @@ class string
 //                 exists for non-existing files.
 //
 // See also the description of the parent for further options!
-class XFileDialog : public Gtk::FileSelection {
+class IFileDialog : public Gtk::FileSelection {
  public:
-   typedef void (Object::*PACTION)(const string&);
    typedef enum { NONE, ASK_OVERWRITE, MUST_EXIST } option;
 
-   XFileDialog (const string& title, Object* pNotify,
-                const PACTION callback, option dlgOption = NONE);
-   XFileDialog (GtkFileSelection* castitem, Object* pNotify,
-                const PACTION callback, option dlgOption = NONE);
-   ~XFileDialog ();
+   IFileDialog (const string& title, option dlgOption = NONE);
+   IFileDialog (GtkFileSelection* castitem, option dlgOption = NONE);
+   ~IFileDialog ();
 
-   static XFileDialog* perform (const string& title, Object* pNotify,
+   string execModal ();
+
+   static IFileDialog* perform (const string& title, option dlgOption = NONE) {
+      return new IFileDialog (title, dlgOption); }
+
+ protected:
+   typedef enum { OK = 1, CANCEL } commandID;
+
+   virtual void fileSelected (string& file) { }
+
+ private:
+   // Prohibited manager-functions
+   IFileDialog (const IFileDialog&);
+   const IFileDialog& operator= (const IFileDialog&);
+
+   void init ();
+   void command (commandID id);
+
+   option opt;
+   bool   modal;
+};
+
+
+template <class T>
+class TFileDialog : public IFileDialog {
+ public:
+   typedef void (T::*PACTION)(const string&);
+
+   TFileDialog (const string& title, T* pNotify,
+                const PACTION callback, option dlgOption = NONE)
+      : IFileDialog (title, dlgOption), pCaller (pNotify)
+      , callerMethod (callback) { }
+   TFileDialog (GtkFileSelection* castitem, T* pNotify,
+                const PACTION callback, option dlgOption = NONE)
+      : IFileDialog (castitem, dlgOption), pCaller (pNotify)
+      , callerMethod (callback) { }
+   ~TFileDialog () { }
+
+   static TFileDialog* perform (const string& title, T* pNotify,
 				const PACTION callback, option dlgOption = NONE) {
-      return new XFileDialog (title, pNotify, callback, dlgOption); }
+      return new TFileDialog (title, pNotify, callback, dlgOption); }
 
  private:
    typedef enum { OK = 1, CANCEL } commandID;
 
    // Prohibited manager-functions
-   XFileDialog (const XFileDialog&);
-   const XFileDialog& operator= (const XFileDialog&);
+   TFileDialog (const TFileDialog&);
+   const TFileDialog& operator= (const TFileDialog&);
 
-   void command (commandID id);
-   void init ();
+   virtual void fileSelected (string& file) { (pCaller->*callerMethod) (file); }
 
-   option        opt;
-   Object*       pCaller;
+   T*            pCaller;
    const PACTION callerMethod;
 };
+
+
+typedef TFileDialog<Gtk::Object> XFileDialog;
 
 #endif
