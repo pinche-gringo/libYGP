@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.28 2003/06/11 04:31:01 markus Rel $
+//$Id: XFileList.cpp,v 1.29 2003/06/29 01:55:09 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -276,7 +276,7 @@ bool XFileList::on_event (GdkEvent* event) {
          if (pMenuPopAction) {
             delete pMenuPopAction;
             pMenuPopAction = NULL;
-         }
+	 }
 
          TRACE9 ("XFileList::on_event (GdkEvent*) - Y-offset: " << bev->y);
          TRACE9 ("XFileList::on_event (GdkEvent*) - VScroll "
@@ -423,6 +423,7 @@ void XFileList::remove (unsigned int line) {
    std::string entry (getFilename (line));
    const char* args[] = { "rm", "-f", entry.c_str (), NULL };
    if (execProgram (args[0], args, true)) {
-      // TODO get_model ()->row_deleted (entry);
+      Glib::RefPtr<Gtk::TreeModel> model (get_model ());
+      model->row_deleted (model->get_path (model->children ()[line]));
    }
 }
