@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.26 2005/03/07 22:32:14 markus Exp $
+//$Id: INIFile.h,v 1.27 2005/03/08 01:51:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,6 +80,7 @@ class INISection {
 
    int readFromStream (Xistream& stream) throw (std::string);
    int readAttributes (Xistream& stream) throw (std::string);
+   static void skipComments (Xistream& stream);
 
    /// Returns the name of the section
    const char* getName () const { return pName; }
@@ -113,12 +114,7 @@ class INISection {
       ISectionParser ();
       virtual ~ISectionParser ();
 
-      /// Parses the section header
-      /// \param stream: Stream to parse from
-      /// \returns int: Status of parse
-      int parse (Xistream& stream) throw (std::string) {
-	 ParseObject::skipWS (stream);
-	 return SectionHeader.parse (stream); }
+      int parse (Xistream& stream) throw (std::string);
 
     protected:
       virtual int foundSection (const char* name, unsigned int len) = 0;
@@ -171,6 +167,7 @@ class INISection {
    ParseObject*   _Attributes[4];
    ParseSequence  Attributes;
    OMParseAttomic Identifier;
+   ParseExact     equals;
    OMParseText    Value;
 };
 
@@ -253,6 +250,9 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
    [Section2]
    Key3=03012000
    \endverbatim
+
+   The INI-file can also contain some comments. They must be on separate lines,
+   start with a semi-colon (;) and go til the end of the line.
 
    There are some predefined macros to make the generation of the
    data-structure to parse an INI-file easier. They must be used in

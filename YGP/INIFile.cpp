@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.31 2005/03/07 22:32:14 markus Exp $
+//$Id: INIFile.cpp,v 1.32 2005/03/08 01:51:08 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -42,7 +42,6 @@
 
 
 // Define constant values; don't skip white-spaces after parsing
-static YGP::ParseExact equals ("=", _("Equal-sign (=)"), false);
 
 static unsigned int LEN_SECTIONNAME = 32;
 static unsigned int LEN_KEY = 32;
@@ -71,13 +70,24 @@ INISection::ISectionParser::~ISectionParser () {
 
 
 //-----------------------------------------------------------------------------
+/// Parses the section header
+/// \param stream: Stream to parse from
+/// \returns int: Status of parse
+//-----------------------------------------------------------------------------
+int INISection::ISectionParser::parse (Xistream& stream) throw (std::string) {
+   INISection::skipComments (stream);
+   return SectionHeader.parse (stream);
+}
+
+//-----------------------------------------------------------------------------
 /// Constructor; name is the name of the section.
 /// \param name: Name of section
 /// \remarks name must be a valid ASCIIZ-string (not NULL)
 //-----------------------------------------------------------------------------
 INISection::INISection (const char* name) : pFoundAttr (NULL), pName (name)
-   , Attributes (_Attributes, _("Attribute"), -1U, 0)
+   , Attributes (_Attributes, _("Attribute"), 1, 0)
    , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
+   , equals ("=", _("Equal-sign (=)"), false)
    , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
    TRACE9 ("INISection::INISection (const char*) - Create: " << pName);
    Check1 (pName);
@@ -179,8 +189,29 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
 //-----------------------------------------------------------------------------
 int INISection::readAttributes (Xistream& stream) throw (std::string) {
    TRACE9 ("INISection::readAttributes (Xistream&)");
+   int rc (ParseObject::PARSE_OK);
+
+   do {
+      pFoundAttr = NULL;
+      INISection::skipComments (stream);
+      rc = Attributes.parse (stream);
+   } while (pFoundAttr != NULL);
+
+   return rc;
+}
+
+//-----------------------------------------------------------------------------
+/// Skips over comments (the text following a semi-colon (;) til the end of the
+/// line.
+/// \param stream: Stream to read from
+//-----------------------------------------------------------------------------
+void INISection::skipComments (Xistream& stream) {
+   ParseExact semi (";", "Semicolon", true, false);
+   ParseText line ("\n", "EOL", -1U, 0, true, false);
+
    ParseObject::skipWS (stream);
-   return Attributes.parse (stream);
+   while (semi.parse (stream) == ParseObject::PARSE_OK)
+      line.parse (stream);
 }
 
 //-----------------------------------------------------------------------------
@@ -238,7 +269,6 @@ int INISection::foundValue (const char* value, unsigned int len) {
       ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
 }
 
-
 //-----------------------------------------------------------------------------
 /// Constructor; The parameter filename specifies the file to parse for
 /// initialization-information. If this file does not exist, an exception is
@@ -247,7 +277,7 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// \throw string: If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-   INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL) {
+INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL) {
    Check3 (filename);
 
    TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
