@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.8 1999/09/11 01:07:57 Markus Rel $
+//$Id: IVIOAppl.h,v 1.9 2000/01/21 23:38:23 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class IVIOApplication {
 
  public:
    // Manager functions
-   IVIOApplication (const int argc, char* argv[],
+   IVIOApplication (const int argc, const char* argv[],
                     const longOptions* pOpt = NULL);
    virtual ~IVIOApplication () { }
 
@@ -43,10 +43,10 @@ class IVIOApplication {
       return (pOptionParam && *pOptionParam) ? pOptionParam : ppArgs[startOpt + 1]; }
    void         setLongOptions (const longOptions* pLongOpts);
    void         setLongOptions (const longOptions* pLongOpts,
-				unsigned int numLongOpts);
+                                unsigned int numLongOpts);
 
    // Program-handling
-   virtual int         perform (int argc, char* argv[]) = 0;
+   virtual int         perform (int argc, const char* argv[]) = 0;
    virtual const char* name () const { return filename (); }
    virtual const char* description () const = 0;
    const char* filename () const { return *ppArgs; }
@@ -66,11 +66,11 @@ class IVIOApplication {
     void moveOption (unsigned int numOpt) const;
 
     unsigned int args;
-    char**       ppArgs;
+    const char** ppArgs;
 
     unsigned int startArg;
     unsigned int startOpt;
-    char*        pOptionParam;
+    const char*  pOptionParam;
 
     const longOptions* longOpt;
     unsigned int       numLongOpt;

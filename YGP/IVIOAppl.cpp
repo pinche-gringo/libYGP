@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.11 1999/09/11 01:07:57 Markus Rel $
+///$Id: IVIOAppl.cpp,v 1.12 2000/01/21 23:38:23 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -52,7 +52,8 @@ inline bool isOptionChar (const char ch) {
 //            argv: Array of pointers to argumetns
 //            pOpt: Pointer to long-option-table
 /*--------------------------------------------------------------------------*/
-IVIOApplication::IVIOApplication (int argc, char* argv[], const longOptions* pOpt)
+IVIOApplication::IVIOApplication (const int argc, const char* argv[],
+                                  const longOptions* pOpt)
    : args (argc), ppArgs (argv), startArg (1), pOptionParam (NULL)
    , longOpt (NULL), startOpt (1)
    , numLongOpt (0) {
@@ -117,7 +118,7 @@ int IVIOApplication::run () {
    while ((ch = getOption ()) != '\0')
       if ((ch == '?') || (ch == 'h') || !handleOption (ch)) {
          showHlp = true;
-	 break;
+          break;
       }
 
    if (shallShowInfo ())
@@ -139,13 +140,14 @@ const char* IVIOApplication::getOptionValue () {
    if (startOpt > startArg)
       moveOption ();
 
-   char* pHelp;
+   const char* pHelp;
+
    if (pOptionParam && *pOptionParam)
       pHelp = pOptionParam;
    else {
       ++startArg;
       if (++startOpt == args)
-	 return NULL;
+         return NULL;
 
       pHelp = ppArgs[startOpt];
       moveOption ();
@@ -177,17 +179,17 @@ char IVIOApplication::getOption () {
 
       // Check parameters: Option start with - and are longer than 1 char
       if (isOptionChar (*ppArgs[startOpt]) && ppArgs[startOpt][1]) {
-	 if (!pOptionParam) {
-	    pOptionParam = ppArgs[startOpt] + 1;
-	    assert (*pOptionParam);
-	 } // endif init option-params
+         if (!pOptionParam) {
+            pOptionParam = ppArgs[startOpt] + 1;
+            assert (*pOptionParam);
+         } // endif init option-params
 
          option = *pOptionParam++;
          if (!option) {
-	    assert (startOpt >= startArg);
+            assert (startOpt >= startArg);
             moveOption ();                     // Move option before arguments
 
-	    ++startOpt;
+            ++startOpt;
             ++startArg;
             pOptionParam = NULL;
             continue;
@@ -197,7 +199,7 @@ char IVIOApplication::getOption () {
             if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
                unsigned int i (numLongOpt);
 
-	       while (--i) {
+               while (--i) {
                   assert (longOpt); assert (longOpt->longVal);
                   if (!strcmp (longOpt[i].longVal, pOptionParam))
                      break;
@@ -215,14 +217,14 @@ char IVIOApplication::getOption () {
             }
             else {                           // Option --? Means end of option
                moveOption ();
-	       ++startArg;
+               ++startArg;
                option = '\0';
-	    }
-	 } // endif longoption found
-	 break;
+            }
+         } // endif longoption found
+         break;
       } // endif option found
       else
-	 ++startOpt;
+         ++startOpt;
    } // end-while arguments
 
    return option;
@@ -239,7 +241,7 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
 
    assert (numOpt > startArg); assert (numOpt < args);
 
-   char* pHelp (ppArgs[numOpt]);
+   const char* pHelp (ppArgs[numOpt]);
 
    while (numOpt > startArg) {
       assert (ppArgs[numOpt - 1]); assert (ppArgs[numOpt]);
