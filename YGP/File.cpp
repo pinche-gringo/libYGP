@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.17 2003/02/13 06:49:14 markus Exp $
+//$Id: File.cpp,v 1.18 2003/02/14 04:12:44 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -305,9 +305,9 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
    Check1 (length);
 
    int rc (fread (buffer, 1, length, static_cast <FILE*> (file)));
-   if (!rc)                        // Exception only if *no* char has been read
-      throwErrorText (N_("Error reading from file `%1'! Reason: %2"));
-
+   if (!rc)                              // Exception only if an error occured
+      if (ferror (static_cast <FILE*> (file)))
+         throwErrorText (N_("Error reading from file `%1'! Reason: %2"));
    return rc;
 }
 
