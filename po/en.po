@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: General 0.6.00\n"
-"POT-Creation-Date: 2002-04-14 17:19-0500\n"
+"POT-Creation-Date: 2002-04-18 17:34-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -53,43 +53,43 @@ msgstr ""
 msgid "Key '%1' not found"
 msgstr ""
 
-#: Common/CRegExp.cpp:622
+#: Common/CRegExp.cpp:861
 msgid "Unmatched [ or [^"
 msgstr ""
 
-#: Common/CRegExp.cpp:623
-msgid "Unmatched \\( or \\)"
+#: Common/CRegExp.cpp:862
+msgid "Unmatched ( or )"
 msgstr ""
 
-#: Common/CRegExp.cpp:624
+#: Common/CRegExp.cpp:863
 msgid "Invalid range end"
 msgstr ""
 
-#: Common/CRegExp.cpp:625
+#: Common/CRegExp.cpp:864
 msgid "Repeating suffix without previous expression"
 msgstr ""
 
-#: Common/CRegExp.cpp:626
+#: Common/CRegExp.cpp:865
 msgid "Invalid group-number"
 msgstr ""
 
-#: Common/CRegExp.cpp:627
+#: Common/CRegExp.cpp:866
 msgid "Invalid range (lower border larger than upper border)"
 msgstr ""
 
-#: Common/CRegExp.cpp:628
-msgid "Invalid bound (lower border larger than upper border)"
-msgstr ""
+#: Common/CRegExp.cpp:867
+msgid "Invalid bound"
+msgstr "Invalid bound"
 
-#: Common/CRegExp.cpp:629
+#: Common/CRegExp.cpp:868
 msgid "Regular expression ends with escape-character (\\)"
 msgstr ""
 
-#: Common/CRegExp.cpp:630
+#: Common/CRegExp.cpp:869
 msgid "Unknown error"
 msgstr ""
 
-#: Common/CRegExp.cpp:635 Common/FileRExp.cpp:242
+#: Common/CRegExp.cpp:874 Common/FileRExp.cpp:242
 #, ycp-format
 msgid "`%1', position %2: %3"
 msgstr ""
