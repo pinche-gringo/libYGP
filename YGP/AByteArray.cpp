@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.2 2001/03/27 18:41:32 markus Exp $
+// $Id: AByteArray.cpp,v 1.3 2001/08/17 13:17:32 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -212,7 +212,7 @@ AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
       // Check if array is large enough to hold both values
       if (allocated < (len + length)) {
 	 char* pNew = new char [allocated = len + length + MEMADD];
-	 memcpy (pNew, pSource, len);
+	 memcpy (pNew, pValue, len);
 	 delete [] pValue;
 	 pValue = pNew;
       }
@@ -234,6 +234,8 @@ char AByteArray::operator[] (unsigned int pos) const throw (out_of_range) {
    TRACE5 ("AByteArray::operator[] (unsigned int) const");
    assert (!checkIntegrity ());
 
+   TRACE9 ("   -> len = " << len);
+   TRACE9 ("   -> Value = " << pValue);
    if (pos < len)
       return pValue[pos];
    else
