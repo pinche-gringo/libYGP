@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.4 1999/09/11 19:32:41 Markus Rel $
+//$Id: ANumeric.h,v 1.5 1999/10/12 00:22:38 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,8 +63,6 @@ class ANumeric : public AttributValue {
    bool operator<= (const ANumeric& other) { return compare (other) <= 0; }
    bool operator>= (const ANumeric& other) { return compare (other) >= 0; }
    int compare (const ANumeric& other);
-
-   friend ostream& operator<< (ostream& out, const ANumeric& outValue);
 
  private: 
    mpz_t value;
