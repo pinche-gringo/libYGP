@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.9 2003/02/01 23:52:30 markus Exp $
+// $Id: DirSrch.cpp,v 1.10 2003/02/14 04:15:15 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -42,7 +42,7 @@
 #  define PATHBACK   "../"
 #else
 #  define PATH       "..\\Common\\Tests\\"
-#  define PATHBACK   "..\\"
+#  define PATHBACK   "..\\Common\\"
 #endif
 
 
@@ -59,15 +59,22 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing File...\n";
-   File test (NAME);
-   check (!strcmp (test.name (), NAME));
-   check (*test.path () == '.');
-   check (test.path ()[1] == File::DIRSEPARATOR);
-   check (test.path ()[2] == '\0');
+   try {
+      File test (PATH NAME);
+      check (!strcmp (test.name (), NAME));
+      check (*test.path () == '.');
+#if SYSTEM == UNIX
+      check (test.path ()[1] == File::DIRSEPARATOR);
+      check (test.path ()[2] == '\0');
+#endif
 
-   test = PATHBACK NAME;
-   check (!strcmp (test.name (), NAME));
-   check (!strcmp (test.path (), PATHBACK));
+      test = PATHBACK NAME;
+      check (!strcmp (test.name (), NAME));
+      check (!strcmp (test.path (), PATHBACK));
+   }
+   catch (const char* err) {
+      std::cerr << err << '\n';
+   }
 
    std::cout << "Testing DirectorySearch...\n";
    DirectorySearch ds;
