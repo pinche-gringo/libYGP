@@ -1,14 +1,14 @@
-//$Id: Parse.cpp,v 1.35 2003/02/13 06:55:40 markus Exp $
+//$Id: Parse.cpp,v 1.36 2003/02/14 20:12:45 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ static char ESCAPE = '\\';
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const char* description, bool skipWhitespace)
    : pDescription (description), skip (skipWhitespace) {
-   TRACE9 ("Creating ParseObject " << getDescription ());
+   TRACE9 ("ParseObject::ParseObject (const char*, bool) - " << getDescription ());
    Check1 (!checkIntegrity ());
 }
 
@@ -77,7 +77,7 @@ ParseObject::ParseObject (const char* description, bool skipWhitespace)
 /*--------------------------------------------------------------------------*/
 ParseObject::ParseObject (const ParseObject& other)
    : pDescription (other.pDescription), skip (other.skip) {
-   TRACE9 ("Copying ParseObject " << getDescription ());
+   TRACE9 ("ParseObject::ParseObject (const ParseObject&) - " << getDescription ());
    Check1 (!checkIntegrity ());
 }
 
@@ -85,7 +85,7 @@ ParseObject::ParseObject (const ParseObject& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseObject::~ParseObject () {
-   TRACE9 ("ParseObject::~ParseObject: " << getDescription ());
+   TRACE9 ("ParseObject::~ParseObject () - " << getDescription ());
 }
 
 
@@ -95,7 +95,7 @@ ParseObject::~ParseObject () {
 //Returns     : Reference to this
 /*--------------------------------------------------------------------------*/
 ParseObject& ParseObject::operator= (const ParseObject& other) {
-   TRACE8 ("ParseObject::operator=: " << pDescription);
+   TRACE9 ("ParseObject::operator= (const ParseObject&) - " << pDescription);
    Check1 (!other.checkIntegrity ());
 
    if (&other != this) {
@@ -171,7 +171,8 @@ ParseAttomic::ParseAttomic (const char* value, const char* description,
                             bool skipWhitespace, bool reportData)
    : ParseObject (description, skipWhitespace)
    , pValue (value), maxCard (max), minCard (min), report (reportData) {
-   TRACE9 ("Creating ParseAttomic " << getDescription ());
+   TRACE9 ("ParseAttomic::ParseAttomic (2x const char*, 3x unsigned int, "
+           "2x bool)\n\t- " << getDescription ());
    Check1 (!checkIntegrity ());
 }
 
@@ -182,7 +183,7 @@ ParseAttomic::ParseAttomic (const char* value, const char* description,
 ParseAttomic::ParseAttomic (const ParseAttomic& other)
    : ParseObject ((const ParseObject&)other), pValue (other.pValue)
      , maxCard (other.maxCard), minCard (other.minCard), report (other.report) {
-   TRACE9 ("Copying ParseAttomic " << getDescription ());
+   TRACE9 ("ParseAttomic::ParseAttomic (const ParseAttomic&) - " << getDescription ());
    Check1 (!checkIntegrity ());
 }
 
@@ -190,7 +191,7 @@ ParseAttomic::ParseAttomic (const ParseAttomic& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseAttomic::~ParseAttomic () {
-   TRACE9 ("ParseAttomic::~ParseAttomic: " << getDescription ());
+   TRACE9 ("ParseAttomic::~ParseAttomic () - " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -199,7 +200,7 @@ ParseAttomic::~ParseAttomic () {
 //Returns     : Reference to this
 /*--------------------------------------------------------------------------*/
 ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
-   TRACE8 ("ParseAttomic::operator=: " << getDescription ());
+   TRACE9 ("ParseAttomic::operator= (const ParseAttomic&) - " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
    if (&other != this) {
@@ -234,7 +235,7 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 //Throws      : std::string: In case of a not recoverable error
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE1 ("ParseAttomic::doParse -> " << getDescription ());
+   TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
    Check1 (!checkIntegrity ());
 
    int ch;
@@ -244,8 +245,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 
    while (buffer.size () < maxCard) {        // While not max. card is reached
       ch = stream.get ();
-      TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> "
-              << (char)ch << " = 0x" << hex << ch << dec);
+      TRACE6 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
+              << " -> " << (char)ch << " = 0x" << hex << ch << dec);
 
       if (ch == EOF)
          break;
@@ -263,8 +264,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          buffer += (char)ch;                                   // Store, if OK
       ++len;
    } // end-while !maximal cardinality
-   TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
-           << buffer << '\'');
+   TRACE6 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
+           << ": Final = '" << buffer << '\'');
 
    int rc (PARSE_OK);
    if (len >= minCard) {                                  // Cardinalities OK?
@@ -275,8 +276,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          buffer += "...";
          buffer += ch;
       }
-      TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
-              << buffer << '\'');
+      TRACE2 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
+              << ": Found '" << buffer << '\'');
    } // endif value OK
    else
       rc = PARSE_ERROR;
@@ -325,7 +326,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 //Returns     : int: Result; 1 if ch valid, -1 if it should be just ignored. Else 0
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::checkValue (char ch) {
-   TRACE8 ("ParseAttomic::checkValue " << getDescription () << ' ' << ch);
+   TRACE8 ("ParseAttomic::checkValue (char) - " << getDescription () << ' ' << ch);
    Check1 (!checkIntegrity ());
 
    const char* pHelp = pValue; Check3 (pHelp);
@@ -383,7 +384,7 @@ int ParseAttomic::checkIntegrity () const {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseText::~ParseText () {
-   TRACE9 ("ParseText::~ParseText: " << getDescription ());
+   TRACE9 ("ParseText::~ParseText () - " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -395,7 +396,7 @@ ParseText::~ParseText () {
 //Returns     : int: Result; true if ch does not match any of those values.
 /*--------------------------------------------------------------------------*/
 int ParseText::checkValue (char ch) {
-   TRACE8 ("ParseText::checkValue " << getDescription () << ' ' << ch);
+   TRACE8 ("ParseText::checkValue (char) -  " << getDescription () << ": " << ch);
    Check1 (!checkIntegrity ());
 
    const char* pHelp = pValue; Check3 (pHelp);
@@ -494,6 +495,232 @@ int ParseTextEsc::checkValue (char ch) {
 
 
 /*--------------------------------------------------------------------------*/
+//Purpose     : Constructor; sets the neccessary data of this object.
+//Parameters  : quote: Character limiting the text
+//              description: Description of object (what it parses)
+//              max: Maximal cardinality, how often can the object be parsed
+//              min: Minimal cardinality, how often must the object be parsed
+//              skipWhitespace: Flag if TRAILING whitespaces should be skipped after sucessfully parsing the object
+//              reportData: Flag if parsed data should be stored and reported via the virtual found method
+//Requires    : !checkIntegrity ()
+/*--------------------------------------------------------------------------*/
+ParseQuoted::ParseQuoted (char quote, const char* description,
+                          unsigned int max, unsigned int min,
+                          bool skipWhitespace, bool reportData)
+   : ParseText (pQuote, description, max, min, skipWhitespace, reportData)
+   , pos (0) {
+   TRACE9 ("ParseQuoted::ParseQuoted (char, const char*, 2x unsigned int, 2x bool)"
+           "\n\t- " << getDescription ());
+
+   *pQuote = getClosingChar (quote);
+   pQuote[1] = '\0';
+   pQuote[2] = quote;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Copy-constructor
+//Parameters  : other: Object to clone
+/*--------------------------------------------------------------------------*/
+ParseQuoted::ParseQuoted (const ParseQuoted& other)
+   : ParseText (other), pos (0) {
+   TRACE9 ("ParseQuoted::ParseQuoted (const ParseQuoted&) - " << getDescription ());
+
+   *pQuote = *other.pQuote;
+   pQuote[1] = '\0';
+   pQuote[2] = other.pQuote[2];
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseQuoted::~ParseQuoted () {
+   TRACE9 ("ParseQuoted::~ParseQuoted () - " << getDescription ());
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference to this
+/*--------------------------------------------------------------------------*/
+ParseQuoted& ParseQuoted::operator= (const ParseQuoted& other) {
+   TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << pDescription);
+   Check1 (!other.checkIntegrity ());
+
+   if (&other != this) {
+      ParseText::operator= ((const ParseText&)other);
+      *pQuote = *other.pQuote;
+      pQuote[1] = '\0';
+      pQuote[2] = other.pQuote[2];
+   } // endif other object
+
+   pos = 0;
+   Check3 (!checkIntegrity ());
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Returns the matching "closing" character to the passed one.
+//
+//              This is considered to be:
+//                - '>' if ch == '<'
+//                - ')' if ch == '('
+//                - ']' if ch == '['
+//                - '}' if ch == '{'
+//                - '´' if ch == '`'
+//                - Else: ch
+//Parameters  : ch: Char to find match to
+//Returns     : Character "closing" the passed one
+/*--------------------------------------------------------------------------*/
+char ParseQuoted::getClosingChar (char ch) {
+   static char open[]  = "<([{`";
+   static char close[] = ">)]}´";
+   Check1 (sizeof (open) == sizeof (close));
+
+   for (unsigned int i (0); i < sizeof (open); ++i)
+      if (open[i] == ch)
+         return close[i];
+
+   return ch;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Checks if the parsed value is according the abort-list of the
+//              object.
+//
+//              Valid are every characters NOT in pValue.
+//Parameters  : ch: Char to check
+//Returns     : int: Result; true if ch does not match any of those values.
+/*--------------------------------------------------------------------------*/
+int ParseQuoted::checkValue (char ch) {
+   TRACE8 ("ParseQuoted::checkValue (char) - " << getDescription () << ": " << ch);
+   
+   int rc (0);
+   switch (pos) {
+   case 0:
+      if (ch == pQuote[2]) {
+         rc = -1;
+         pos = 1;
+      }
+      break;
+
+   case -1:
+      break;
+
+   default:
+      rc = ParseText::checkValue (ch);
+      if (rc)
+         break;
+
+      if (ch == *pQuote)
+         rc = pos = -1;
+   } // end-switch
+   return rc;
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Constructor; sets the neccessary data of this object.
+//Parameters  : quote: Character limiting the text
+//              description: Description of object (what it parses)
+//              max: Maximal cardinality, how often can the object be parsed
+//              min: Minimal cardinality, how often must the object be parsed
+//              escape: Character which escapes characters in value
+//              skipWhitespace: Flag if TRAILING whitespaces should be skipped after sucessfully parsing the object
+//              reportData: Flag if parsed data should be stored and reported via the virtual found method
+//Requires    : !checkIntegrity ()
+/*--------------------------------------------------------------------------*/
+ParseQuotedEsc::ParseQuotedEsc (char quote, const char* description,
+                                unsigned int max, unsigned int min, char escape,
+                                bool skipWhitespace, bool reportData)
+   : ParseTextEsc (pQuote, description, max, min, escape, skipWhitespace, reportData)
+   , pos (0) {
+   TRACE9 ("ParseQuotedEsc::ParseQuotedEsc (char, const char*, 2x unsigned int, char, 2x bool)"
+           "\n\t- " << getDescription ());
+
+   *pQuote = ParseQuoted::getClosingChar (quote);
+   pQuote[1] = '\0';
+   pQuote[2] = quote;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Copy-constructor
+//Parameters  : other: Object to clone
+/*--------------------------------------------------------------------------*/
+ParseQuotedEsc::ParseQuotedEsc (const ParseQuotedEsc& other)
+   : ParseTextEsc (other), pos (0) {
+   TRACE9 ("ParseQuotedEsc::ParseQuotedEsc (const ParseQuotedEsc&) - " << getDescription ());
+
+   *pQuote = *other.pQuote;
+   pQuote[1] = '\0';
+   pQuote[2] = other.pQuote[2];
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseQuotedEsc::~ParseQuotedEsc () {
+   TRACE9 ("ParseQuotedEsc::~ParseQuotedEsc () - " << getDescription ());
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference to this
+/*--------------------------------------------------------------------------*/
+ParseQuotedEsc& ParseQuotedEsc::operator= (const ParseQuotedEsc& other) {
+   TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << pDescription);
+   Check1 (!other.checkIntegrity ());
+
+   if (&other != this) {
+      ParseTextEsc::operator= ((const ParseTextEsc&)other);
+      *pQuote = *other.pQuote;
+      pQuote[1] = '\0';
+      pQuote[2] = other.pQuote[2];
+   } // endif other object
+
+   pos = 0;
+   Check3 (!checkIntegrity ());
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Checks if the parsed value is according the abort-list of the
+//              object.
+//
+//              Valid are every characters NOT in pValue.
+//Parameters  : ch: Char to check
+//Returns     : int: Result; true if ch does not match any of those values.
+/*--------------------------------------------------------------------------*/
+int ParseQuotedEsc::checkValue (char ch) {
+   TRACE8 ("ParseQuotedEsc::checkValue (char) - " << getDescription () << ": " << ch);
+   
+   int rc (0);
+   switch (pos) {
+   case 0:
+      if (ch == pQuote[2]) {
+         rc = -1;
+         pos = 1;
+      }
+      break;
+
+   case -1:
+      break;
+
+   default:
+      rc = ParseTextEsc::checkValue (ch);
+      if (rc)
+         break;
+
+      if (ch == *pQuote)
+         rc = pos = -1;
+   } // end-switch
+   return rc;
+}
+
+
+/*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object
 //Parameters  : value: Sequence of characters to parse in that order
 //              description: Description of object (what it parses)
@@ -528,10 +755,9 @@ ParseExact& ParseExact::operator= (const ParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (&other != this) {
+   if (&other != this)
       ParseAttomic::operator= ((const ParseAttomic&)other);
-      pos = 0;
-   } // endif other object
+   pos = 0;
 
    Check3 (!checkIntegrity ());
    return *this;
@@ -1000,6 +1226,82 @@ CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseTextEsc::found (const char* pFoundValue, unsigned int len) {
+   Check1 (pCallback); Check1 (pFoundValue);
+   return pCallback (pFoundValue, len);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseQuoted::~CBParseQuoted () {
+   TRACE9 ("CBParseQuoted::~CBParseQuoted () - " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference to this
+/*--------------------------------------------------------------------------*/
+CBParseQuoted& CBParseQuoted::operator= (const CBParseQuoted& other) {
+   TRACE8 ("ParseQuoted::operator= (const CBParseQuoted&) - " << getDescription ());
+   Check1 (!other.checkIntegrity ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; Check3 (pCallback);
+      ParseQuoted::operator= (other);
+   }
+
+   Check3 (!checkIntegrity ());
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Calls the defined callback with the passed parameter and
+//              returns its result.
+//Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseQuoted::found (const char* pFoundValue, unsigned int len) {
+   Check1 (pCallback); Check1 (pFoundValue);
+   return pCallback (pFoundValue, len);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+CBParseQuotedEsc::~CBParseQuotedEsc () {
+   TRACE9 ("CBParseQuotedEsc::~CBParseQuotedEsc () - " << getDescription ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Assignment-operator
+//Parameters  : other: Object to clone
+//Returns     : Reference to this
+/*--------------------------------------------------------------------------*/
+CBParseQuotedEsc& CBParseQuotedEsc::operator= (const CBParseQuotedEsc& other) {
+   TRACE8 ("ParseQuotedEsc::operator= (const CBParseQuotedEsc&) - " << getDescription ());
+   Check1 (!other.checkIntegrity ());
+
+   if (this != &other) {
+      pCallback = other.pCallback; Check3 (pCallback);
+      ParseQuotedEsc::operator= (other);
+   }
+
+   Check3 (!checkIntegrity ());
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Calls the defined callback with the passed parameter and
+//              returns its result.
+//Parameters  : pFoundValue: Pointer to found value
+//              len: Length of found data
+//Returns     : int: Status; 0 OK
+/*--------------------------------------------------------------------------*/
+int CBParseQuotedEsc::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
    return pCallback (pFoundValue, len);
 }

@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.29 2003/02/13 06:55:40 markus Exp $
+//$Id: Parse.h,v 1.30 2003/02/14 20:12:45 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,9 @@
 //        escaped
 //   - ParseExact: Parses (a part) of the specified characters in that sequence
 //   - ParseUpperExact: As ParseExact, but ignores the case
+//   - ParseQuoted: Parses quoted text (which is returned without the quotes)
+//   - ParseQuotedEsc: Parses escaped quoted text (which is returned without
+//        the quotes)
 //
 // The following special objects exists:
 //   - ParseEOF: "Parses" or matches the end of the file
@@ -288,6 +291,57 @@ class ParseTextEsc : public ParseText {
 };
 
 
+// Class// Class to parse quoted text
+class ParseQuoted : public ParseText {
+ public:
+   // Manager-functions
+   ParseQuoted (char quote, const char* description,
+                unsigned int max, unsigned int min = 1,
+                bool skipWhitespace = true, bool reportData = true);
+   ParseQuoted (const ParseQuoted& other);
+   virtual ~ParseQuoted ();
+
+   ParseQuoted& operator= (const ParseQuoted& other);
+
+   static char getClosingChar (char ch);
+
+ protected:
+   virtual int checkValue (char ch);
+
+ private:
+   // Prohibited manager functions
+   ParseQuoted ();
+
+   int  pos;
+   char pQuote[3];
+};
+
+
+// Class// Class to parse quoted text, where the special characters can be
+// escaped
+class ParseQuotedEsc : public ParseTextEsc {
+ public:
+   // Manager-functions
+   ParseQuotedEsc (char quote, const char* description,
+                   unsigned int max, unsigned int min = 1, char escape = '\\',
+                   bool skipWhitespace = true, bool reportData = true);
+   ParseQuotedEsc (const ParseQuotedEsc& other);
+   virtual ~ParseQuotedEsc ();
+
+   ParseQuotedEsc& operator= (const ParseQuotedEsc& other);
+
+ protected:
+   virtual int checkValue (char ch);
+
+ private:
+   // Prohibited manager functions
+   ParseQuotedEsc ();
+
+   int  pos;
+   char pQuote[3];
+};
+
+
 // Class to parse exactly a certain text (case-sensitive!)
 //
 // The min- and max-members are not totally wasted; they could be used
@@ -488,7 +542,7 @@ class CBParseSkip : public ParseSkip {
 };
 
 
-// Class to parse a attomic value with callback-function if object found
+// Class to parse a attomic value with callback-function if object was found
 class CBParseAttomic : public ParseAttomic {
  public:
    // Manager-functions
@@ -516,8 +570,8 @@ class CBParseAttomic : public ParseAttomic {
 };
 
 
-// Class to parse text til a certain abort-criteria with callback-found
-// (called if an object was found)
+// Class to parse text til a certain abort-criteria with a callback (executed
+// if an object was found)
 class CBParseText : public ParseText {
  public:
    // Manager-functions
@@ -570,6 +624,63 @@ class CBParseTextEsc : public ParseTextEsc {
 
    // Prohibited manager functions
    CBParseTextEsc ();
+};
+
+
+// Class to parse quoted text. If an object is found, the passed callback is
+// executed.
+class CBParseQuoted : public ParseQuoted {
+ public:
+   // Manager-functions
+   CBParseQuoted (char quote, const char* description, PARSECALLBACK callback,
+                  unsigned int max, unsigned int min = 1, bool skipWhitespace = true)
+      : ParseQuoted (quote, description, max, min, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
+   CBParseQuoted (const CBParseQuoted& other) : ParseQuoted (other)
+      , pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~CBParseQuoted ();
+
+   CBParseQuoted& operator= (const CBParseQuoted& other);
+
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len);
+
+ private:
+   PARSECALLBACK pCallback;
+
+   // Prohibited manager functions
+   CBParseQuoted ();
+};
+
+
+// Class to parse quoted text. If an object is found, the passed callback is
+// executed.
+class CBParseQuotedEsc : public ParseQuotedEsc {
+ public:
+   // Manager-functions
+   CBParseQuotedEsc (char quote, const char* description, PARSECALLBACK callback,
+                     unsigned int max, unsigned int min = 1, char escape = '\\',
+                     bool skipWhitespace = true)
+      : ParseQuotedEsc (quote, description, max, min, escape, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
+   CBParseQuotedEsc (const CBParseQuotedEsc& other) : ParseQuotedEsc (other)
+      , pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~CBParseQuotedEsc ();
+
+   CBParseQuotedEsc& operator= (const CBParseQuotedEsc& other);
+
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len);
+
+ private:
+   PARSECALLBACK pCallback;
+
+   // Prohibited manager functions
+   CBParseQuotedEsc ();
 };
 
 
@@ -849,7 +960,7 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
    OFParseTextEsc& operator= (const OFParseTextEsc& other) {
       if (this != &other) {
          pCallback = other.pCallback; Check1 (pCallback);
-	 ParseText::operator= (other);
+	 ParseTextEsc::operator= (other);
       }
       return *this; }
 
@@ -864,6 +975,81 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
 
    // Prohibited manager functions
    OFParseTextEsc ();
+};
+
+
+// Class to parse quoted text; which is returned without the quotes.
+template <class T> class OFParseQuoted : public ParseQuoted {
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+
+ public:
+   // Manager-functions
+   OFParseQuoted (char quote, const char* description,T& objToNotify,
+                  PTCALLBACK callback,unsigned int max, unsigned int min = 1,
+                  bool skipWhitespace = true)
+      : ParseQuoted (quote, description, max, min, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
+   OFParseQuoted (const OFParseQuoted& other) : ParseQuoted (other)
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~OFParseQuoted () { }
+
+   OFParseQuoted& operator= (const OFParseQuoted& other) {
+      if (this != &other) {
+         pCallback = other.pCallback; Check1 (pCallback);
+	 ParseQuoted::operator= (other);
+      }
+      return *this; }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len) {
+      Check1 (pCallback); Check1 (pFoundValue);
+      return (object.*pCallback) (pFoundValue, len); }
+
+ private:
+   T&         object;
+   PTCALLBACK pCallback;
+
+   // Prohibited manager functions
+   OFParseQuoted ();
+};
+
+
+// Class to parse quoted text; which is returned without the quotes. The text
+// can contain escaped characters (where the escaping character just is removed
+// and the escapted character does not end parsing).
+template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+
+ public:
+   // Manager-functions
+   OFParseQuotedEsc (char quote, const char* description,
+                     T& objToNotify, PTCALLBACK callback,
+                     unsigned int max, unsigned int min = 1, char escape = '\\',
+                  bool skipWhitespace = true)
+      : ParseQuotedEsc (quote, description, max, min, escape, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
+   OFParseQuotedEsc (const OFParseQuotedEsc& other) : ParseQuotedEsc (other)
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~OFParseQuotedEsc () { }
+
+   OFParseQuotedEsc& operator= (const OFParseQuotedEsc& other) {
+      if (this != &other) {
+         pCallback = other.pCallback; Check1 (pCallback);
+	 ParseQuotedEsc::operator= (other);
+      }
+      return *this; }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len) {
+      Check1 (pCallback); Check1 (pFoundValue);
+      return (object.*pCallback) (pFoundValue, len); }
+
+ private:
+   T&         object;
+   PTCALLBACK pCallback;
+
+   // Prohibited manager functions
+   OFParseQuotedEsc ();
 };
 
 
