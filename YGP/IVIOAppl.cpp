@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.14 2000/02/02 22:10:24 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.15 2000/04/04 18:15:08 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -77,6 +77,7 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
 
    longOpt = pLongOpts;
    while (pLongOpts->longVal != NULL) {
+      assert (pLongOpts->shortVal != '\0');
       ++numLongOpt;
       pLongOpts++;
    } // end-while
@@ -119,7 +120,7 @@ int IVIOApplication::run () {
    while ((ch = getOption ()) != '\0')
       if ((ch == '?') || (ch == 'h') || !handleOption (ch)) {
          showHlp = true;
-          break;
+         break;
       }
 
    if (shallShowInfo ())
