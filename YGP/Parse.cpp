@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.1 1999/08/24 00:07:43 Markus Exp $
+//$Id: Parse.cpp,v 1.2 1999/08/24 23:45:48 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,12 +26,27 @@
 
 #include <ctype.h>
 
+#define DEBUG 0
+#include "Trace.h"
 #include "Parse.h"
 #include "XStream.h"
 
 
+typedef struct globVars {
+   unsigned int buflen;
+   char*        buffer;
+
+   globVars () : buflen (50), buffer (new char [buflen]) { assert (buffer); }
+   ~globVars () { delete [] buffer; }
+} globVars;
+
+
 #ifndef MULTIBUFFER
-std::string ParseAttomic::buffer;
+static globVars global;
+
+void ParseAttomic::freeBuffer () {
+   delete [] global.buffer; global.buffer = NULL; global.buflen = 0;
+}
 #endif
 
 ostream& ParseObject::error = cerr;
@@ -50,6 +65,7 @@ static char ESCAPE = '\\';
 ParseObject::ParseObject (const char* description, const PFNCALLBACK callback,
 			  bool skipWhitespace)
    : pDescription (description), pCallback (callback), skip (skipWhitespace) {
+   TRACE9 ("Creating ParseObject " << pDescription);
    assert (!checkIntegrity ());
 }
 
@@ -60,6 +76,7 @@ ParseObject::ParseObject (const char* description, const PFNCALLBACK callback,
 ParseObject::ParseObject (const ParseObject& other)
    : pDescription (other.pDescription), pCallback (other.pCallback)
    , skip (other.skip) {
+   TRACE9 ("Copying ParseObject " << pDescription);
    assert (!checkIntegrity ());
 }
 
@@ -67,6 +84,7 @@ ParseObject::ParseObject (const ParseObject& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseObject::~ParseObject () {
+   TRACE9 ("Deleting ParseObject " << pDescription);
 }
 
 
@@ -75,6 +93,7 @@ ParseObject::~ParseObject () {
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseObject& ParseObject::operator= (const ParseObject& other) {
+   TRACE9 ("Assigning ParseObject " << pDescription);
    if (&other != this) {
       pDescription = other.pDescription;
       pCallback = other.pCallback;
@@ -88,8 +107,13 @@ const ParseObject& ParseObject::operator= (const ParseObject& other) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Skips the whitespaces (blank and tab) at the actual stream-pos
 //Parameters  : stream: Source from which to read
+//Remarks     : Only skip whitespaces, if param skip is true
 /*--------------------------------------------------------------------------*/
 void ParseObject::skipWS (Xistream& stream) const {
+   if (!skip)
+      return;
+
+   TRACE9 ("Skipping WS after " << pDescription);
    char c;
    while (!stream.eof ()) {
       stream >> c;
@@ -124,6 +148,7 @@ ParseAttomic::ParseAttomic (const char* value, const char* description,
                             PFNCALLBACK callback, bool skipWhitespace)
    : ParseObject (description, callback, skipWhitespace), pValue (value)
    , maxCard (max), minCard (min) {
+   TRACE9 ("Creating ParseAttomic " << getDescription ());
    assert (!checkIntegrity ());
 }
 
@@ -133,6 +158,7 @@ ParseAttomic::ParseAttomic (const char* value, const char* description,
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const ParseAttomic& other)
    : ParseObject ((const ParseObject&)other), pValue (other.pValue) {
+   TRACE9 ("Copying ParseAttomic " << getDescription ());
    assert (!checkIntegrity ());
 }
 
@@ -140,6 +166,7 @@ ParseAttomic::ParseAttomic (const ParseAttomic& other)
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseAttomic::~ParseAttomic () {
+   TRACE9 ("Deleting ParseAttomic " << getDescription ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -147,6 +174,8 @@ ParseAttomic::~ParseAttomic () {
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
+   TRACE9 ("Assigning ParseAttomic " << getDescription ());
+
    if (&other != this) {
       ParseObject::operator= ((const ParseObject&)other);
       pValue = other.pValue;
@@ -164,39 +193,63 @@ const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 //              optional: Flag, if node must be found
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::doParse (Xistream& stream, bool optional) const {
+   TRACE9 ("ParseAttomic::doParse " << getDescription ());
    assert (!checkIntegrity ());
 
 #ifdef MULTIBUFFER
-   std::string buffer;
+   globVars buf;
 #endif
-   char ch;
+
+   char* pAkt = global.buffer;
+   char  ch;
+
    unsigned int i (0);
-   while (i <= maxCard) {                    // While not max. card is reached
+   while (i < maxCard) {                    // While not max. card is reached
       stream >> ch;
+      TRACE6 ("ParseAttomic::doParse " << getDescription () << " -> " << ch);
 
-      if (!checkValue (ch))                        // Read and check next char
+      if (!checkValue (ch)) {                      // Read and check next char
+         stream.putback (ch);
          break;
+      }
 
-      buffer[i++] = ch;                                        // Store, if OK
+      if (i == global.buflen) {                        // Buffer already full?
+         pAkt = global.buffer;                // Resize to double  buffer-size
+         delete global.buffer;
+         global.buffer = new char [global.buflen <<= 1];
+         memcpy (global.buffer, pAkt, i);
+         pAkt += i;
+      } // endif old buffer full
+
+      *pAkt++ = ch;                                            // Store, if OK
+      ++i;
    } // end-while !maximal cardinality
+   *pAkt = '\0';
+   TRACE2 ("ParseAttomic::doParse " << getDescription () << " -> "
+           << global.buffer);
 
    int rc (PARSE_OK);
    if ((i >= minCard) && (i <= maxCard)) {                // Cardinalities OK?
+      TRACE6 ("ParseAttomic::doParse " << getDescription () << "Found ("
+              << global.buffer << ')');
       if (pCallback)
-         rc = pCallback (buffer.c_str ());        // Execute callback (if set)
+         rc = pCallback (global.buffer);           // Execute callback (if set)
    } // endif value OK
    else
       rc = PARSE_ERROR;
 
-   if (rc && optional) {
-      while (i)
-         stream.putback (buffer[--i]);
-
-      buffer[10] = '\0';
-      error << "Parse-error in line " << stream.getLine () << " column "
-            << stream.getColumn () << ":\nExpected: " << getDescription ()
-            << " found: " << buffer << '\n';
-   } // end-if mandatory value not found
+   if (rc)
+      if (optional)
+         while (pAkt > global.buffer)
+            stream.putback (*--pAkt);
+      else {
+         global.buffer = '\0';
+         error << "Parse-error in line " << stream.getLine () << " column "
+               << stream.getColumn () << ":\nExpected: " << getDescription ()
+               << " found: " << global.buffer << '\n';
+      } // end-if mandatory value not found
+   else
+      skipWS (stream);
 
    return rc;
 }
@@ -206,6 +259,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) const {
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
 bool ParseAttomic::checkValue (char ch) const {
+   TRACE9 ("ParseAttomic::checkValue " << getDescription () << ' ' << ch);
    assert (!checkIntegrity ());
 
    const char* pHelp = pValue; assert (pHelp);
