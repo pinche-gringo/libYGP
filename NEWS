@@ -1,20 +1,21 @@
 Overview of Changes in version 0.6.10:
 
-  -! Supporting Borland C++
+  - Supporting Borland C++
   - Added toString-methods for ints and shorts to ANumeric
   - Class XAttributeLabel to display formated Attributes added
   - Class XAttributeEntry to edit formated Attributes added
   - Class XDialog (base class for dialogs) added
   - Template AttributeLists added
+  - Class Process added to execute process with error-handling
   - INIFile can parse AttributeLists (as own section) and write to a file
   - XAppliation handles help-menu
   - XAppliation's search for help files depends on locale information
   - Attomic Parser classes show only beginning and end for long data in errors
-  - mgeni creates constructor setting (specified) defaultvalues
+  - mgeni creates constructor setting (specified) default values
   - Attributes provides methods to acces the attribute or its value
   - Samples/Tests for X-windows classes added
   - Class File got ctr from const char*
-  -! New Parser-classes ParseQuoted
+  - New Parser-classes ParseQuoted
   - Fixes
 
 Overview of Changes in version 0.6.02:
@@ -173,7 +174,7 @@ Overview of changes in version 0.3.00:
 
 Overview of changes in version 0.1.01:
 
-  - Class to handle streams with an extendes streambuffer
+  - Class to handle streams with an extended streambuffer
   - Fixes and improvements (const correctness, ...)
 
 Overview of Version 0.1.00:
@@ -185,3 +186,4 @@ Overview of Version 0.1.00:
   - Baseclass for VIO applications
   - Class to separate strings
   - Class handling a streambuffer with enhanced putback and position-information
+
