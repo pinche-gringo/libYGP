@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.15 2003/11/14 17:26:22 markus Exp $
+# $Id: Makefile.in,v 1.16 2003/11/14 17:28:27 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -19,7 +19,7 @@ top_srcdir =  @top_srcdir@
 top_builddir = ..
 srcdir = @srcdir@
 
-subdir=CORBA
+subdir=CGP
 
 DESTDIR=
 
