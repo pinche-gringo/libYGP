@@ -1,14 +1,14 @@
-//$Id: AttrParse.cpp,v 1.15 2004/11/04 16:31:18 markus Rel $
+//$Id: AttrParse.cpp,v 1.16 2005/01/12 22:34:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ void AttributeParse::assignValues (const std::string& values) const throw (std::
 
       IAttribute* attr = const_cast<IAttribute*> (findAttribute (ass.getActKey ()));
       if (attr) {
-	     std::string value (ass.getActValue ());
+	 std::string value (ass.getActValue ());
 
          TRACE5 ("AttributeParse::assignValues (const std::string&) - Assigning "
                  << value << " (" << value.length () << ')');
