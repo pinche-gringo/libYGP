@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.10 2002/07/08 03:38:47 markus Exp $
+//$Id: XMessageBox.cpp,v 1.11 2002/09/12 23:53:05 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -464,14 +464,16 @@ XMessageBox::XMessageBox (const string& text, const string& title,
 
          temp->set_flags (GTK_CAN_DEFAULT);
          temp->set_usize (90, 35);
-         if (i == defButton)
-            temp->grab_default ();
       } // endif button to set
 
    client->pack_start (*txt, true, false, 5);          // Put text into client
    get_vbox ()->pack_start (*client, true, false, 5);
 
    show_all ();
+
+   assert (buttons.size () > defButton);
+   if (buttons.size () > defButton);
+      buttons[defButton]->grab_default ();
 }
 
 /*--------------------------------------------------------------------------*/
