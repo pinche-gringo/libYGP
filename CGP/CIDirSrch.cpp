@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.5 2002/07/08 03:31:00 markus Exp $
+//$Id: CIDirSrch.cpp,v 1.6 2002/07/11 07:15:29 markus Exp $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -86,19 +86,32 @@ CORBA::Short CIFile::compareObject (CFile_ptr other) {
 }
 
 
-
-CFile_ptr CIDirectorySearch::find (const char* file, CORBA::ULong attr) {
-   const File* pEntry (DirectorySearch::find (file, attr));
-   assert (pEntry);
-   return new CIFile (*pEntry);
+void CIDirectorySearch::setSearchValue (const char* file) {
+  srch.setSearchValue (file);
 }
 
-CFile_ptr CIDirectorySearch::findnext () {
-   const File* pEntry (DirectorySearch::next ());
-   assert (pEntry);
-   return new CIFile (*pEntry);
+CFile_ptr CIDirectorySearch::find (CORBA::ULong attr) {
+   const File* pEntry (srch.find (attr));
+   return pEntry ? new CIFile (*pEntry) : NULL;
+}
+
+CFile_ptr CIDirectorySearch::next () {
+   const File* pEntry (srch.next ());
+   return pEntry ? new CIFile (*pEntry) : NULL;
+}
+
+CORBA::Boolean CIDirectorySearch::isValid () {
+  return srch.isValid ();
+}
+
+char* CIDirectorySearch::getDirectory () {
+   return const_cast<char*> (srch.getDirectory ().c_str ());
 }
 
 char* CIDirectorySearch::getSearchValue () {
-   return const_cast<char*> (DirectorySearch::getSearchValue ().c_str ());
+   return const_cast<char*> (srch.getSearchValue ().c_str ());
+}
+
+char* CIDirectorySearch::getFileSpec () {
+   return const_cast<char*> (srch.getFileSpec ().c_str ());
 }
