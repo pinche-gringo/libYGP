@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.50 2004/01/15 06:26:30 markus Rel $
+//$Id: Parse.cpp,v 1.51 2004/01/29 01:28:00 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.50 $
+//REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -237,7 +237,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
    TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
    Check1 (!checkIntegrity ());
 
-   int ch;
+   int ch ('\0');
    std::string& buffer = BUFFER;
    buffer = "";
 
@@ -266,7 +266,6 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 
    int rc (PARSE_OK);
    if (buffer.length () >= minCard) {                     // Cardinalities OK?
-      ch = 0;
       if (report)
          rc = found (buffer.c_str (), buffer.length ());
       else {
