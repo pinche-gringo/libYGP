@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.18 2004/10/24 00:19:04 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.19 2004/10/28 19:03:54 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -28,8 +28,6 @@
 #include <gtkmm/box.h>
 #include <gtkmm/radiobutton.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/Internal.h>
