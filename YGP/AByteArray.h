@@ -1,7 +1,7 @@
 #ifndef ABYTEARRAY_H
 #define ABYTEARRAY_H
 
-// $Id: AByteArray.h,v 1.5 2003/01/08 22:43:20 markus Rel $
+// $Id: AByteArray.h,v 1.6 2003/06/13 17:49:45 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
