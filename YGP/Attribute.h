@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.1 2001/08/26 02:20:48 markus Exp $
+//$Id: Attribute.h,v 1.2 2001/08/26 14:37:54 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +28,8 @@
 // Baseclass for attributes. Derive from it for every type of attribute.
 class IAttribute {
  public:
+   virtual ~IAttribute () { }
+
    bool matches (const char* pName) const {
       assert (pName);
       return name == pName; }
@@ -40,7 +42,6 @@ class IAttribute {
 
  protected:
    IAttribute (const std::string& name_) : name (name_) { }
-   virtual ~IAttribute () { }
 
  private:
    IAttribute (const IAttribute&);
