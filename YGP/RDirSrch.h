@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.5 2001/08/26 14:40:06 markus Exp $
+//$Id: RDirSrch.h,v 1.6 2001/08/28 20:20:04 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,8 +50,8 @@ class RemoteDirSearch : public IDirectorySearch {
 
    //@Section searching
    inline int find (dirEntry& result, unsigned long attribs = FILE_NORMAL)
-      throw (domain_error, std::string);
-   virtual int find () throw (domain_error, std::string);
+      throw (std::string);
+   virtual int find () throw (std::string);
 
    enum { FILE_NORMAL = 0, FILE_READONLY = 1, FILE_DIRECTORY = 2, FILE_HIDDEN = 4 };
 
@@ -69,6 +69,7 @@ class RemoteDirSearch : public IDirectorySearch {
 
    bool isOK (const AByteArray& answer) const;
    void setFiledata (const char* pAnswer) throw (std::string);
+   int handleServerError (const char* pAnswer) throw (std::string);
 
    Socket      sock;
    std::string host;

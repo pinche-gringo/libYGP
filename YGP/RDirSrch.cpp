@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.6 2001/08/26 14:40:06 markus Exp $
+//$Id: RDirSrch.cpp,v 1.7 2001/08/28 20:20:03 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <ctype.h>
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -96,12 +98,14 @@ void RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
    assert (pEntry);
 
    std::string file;
-   ANumeric    size;
    ATimestamp  time;
+   unsigned long attr;
+   unsigned long size;
 
    AttributeParse attrs;
    ATTRIBUTE (attrs, std::string, file, "File");
-   ATTRIBUTE (attrs, ANumeric, size, "Size");
+   ATTRIBUTE (attrs, unsigned long, size, "Size");
+   ATTRIBUTE (attrs, unsigned long, attr, "Attr");
    ATTRIBUTE (attrs, ATimestamp, time, "Time");
 
    attrs.assignValues (pAnswer);
@@ -122,14 +126,17 @@ void RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
 
    // Set size
    pEntry->size (size);
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size="
-	   << size.toString ());
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size=" << size);
 
    // Set filetime
    time.setGMT (time.toSysTime ());
    pEntry->time (time.toSysTime ());
    TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Time="
 	   << time.toString ());
+
+   // Set attributes
+   pEntry->attributes (IDirectorySearch::convertToSysAttribs (attr));
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Attr=" << attr);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -140,12 +147,12 @@ void RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearch::find (dirEntry& res, unsigned long attribs)
-   throw (domain_error, std::string) {
+   throw (std::string) {
    TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long)");
 
    pEntry = &res;
 
-   AByteArray buffer ("Find:\"");
+   AByteArray buffer ("Find=\"");
    buffer += files;
    buffer += "\";Attr=";
    
@@ -155,9 +162,13 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs)
 
    TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Sending:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
-   sock.write (buffer);
-
-   sock.read (buffer);
+   try {
+      sock.write (buffer);
+      sock.read (buffer);
+   }
+   catch (domain_error& error) {
+      throw error.what ();
+   }
    buffer += '\0';
    TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Read:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
@@ -166,25 +177,30 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs)
       setFiledata (buffer.data () + 5);
       return 0;
    }
-   else {
-      return 1;
-   }
+   else
+      return handleServerError (buffer.data ());
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the next file which matches the search-criteria
 //Returns   : Status; 0: OK
 //Requires  : searchDir, pEntry  already set
+//Notes     : In case of an (unexpected) error it is thrown for the caller
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::find () throw (domain_error, std::string) {
+int RemoteDirSearch::find () throw (std::string) {
    AByteArray buffer ("Next");
 
    TRACE8 ("RemoteDirSearch::find () - Sending:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
-   sock.write (buffer);
-   TRACE9 ("RemoteDirSearch::find () - Sended");
+   try {
+      sock.write (buffer);
+      TRACE9 ("RemoteDirSearch::find () - Sended");
 
-   sock.read (buffer);
+      sock.read (buffer);
+   }
+   catch (domain_error& error) {
+      throw error.what ();
+   }
    buffer += '\0';
    TRACE8 ("RemoteDirSearch::find () - Read:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
@@ -193,9 +209,32 @@ int RemoteDirSearch::find () throw (domain_error, std::string) {
       setFiledata (buffer.data () + 5);
       return 0;
    }
-   else {
-      return 1;
+   else
+      return handleServerError (buffer.data ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks out the error send by the server; if it sends an
+//            explaining string this is thrown to inform the client
+//            name and directory to analyze
+//Parameters: pAnswer: Response from the host
+//Returns   : True if the remote directory does exis
+/*--------------------------------------------------------------------------*/
+int RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string) {
+   int rc;
+   std::string error;
+
+   AttributeParse attrs;
+   ATTRIBUTE (attrs, int, rc, "RC");
+   ATTRIBUTE (attrs, std::string, error, "E");
+
+   attrs.assignValues (pAnswer);
+
+   if (!error.empty ()) {
+      error = "Server returned an error: " + error;
+      throw (error);
    }
+   return rc;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -225,7 +264,7 @@ int RemoteDirSearch::posSeperator (const std::string& dir) const {
 bool RemoteDirSearch::isValid (const std::string& dir) const {
    TRACE5 ("RemoteDirSearch::isValid (const std::string&) - " << dir.c_str ());
 
-   std::string write ("Check:\"");
+   std::string write ("Check=\"");
    write.append (dir, 0, dir.rfind (dirEntry::DIRSEPERATOR));
    write += '"';
    TRACE8 ("RemoteDirSearch::isValid (const std::string&) - Cmd = "
@@ -254,8 +293,8 @@ bool RemoteDirSearch::isValid () const {
 //Returns   : True if the remote directory does exis
 /*--------------------------------------------------------------------------*/
 bool RemoteDirSearch::isOK (const AByteArray& answer) const {
-   assert (answer.length () > 3);
-   return !strncmp (answer.data (), "RC=", 3) && (answer[3] == '0');
+   return (answer.length () > 3)
+           && !strncmp (answer.data (), "RC=", 3) && (answer[3] == '0');
 }
 
 /*--------------------------------------------------------------------------*/
