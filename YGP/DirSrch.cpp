@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.48 2003/11/17 15:07:05 markus Rel $
+//$Id: DirSrch.cpp,v 1.49 2003/12/12 18:16:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -34,7 +34,7 @@
 #  include <sys/stat.h>
 #endif
 
-#include <errno.h>
+#include <cerrno>
 
 #include "YGP/File.h"
 #include "YGP/Check.h"
@@ -230,8 +230,9 @@ int DirectorySearch::checkIntegrity () const {
 }
 
 //-----------------------------------------------------------------------------
-/// Splits the search-string in its directory- and filepart; it prepares the
-/// internal data also for a new search
+/// Sets the value for the next search. Internally it splits the search-string
+/// in its directory- and filepart; it prepares the internal data also for a
+/// new search.
 /// \param search: Files to find
 //-----------------------------------------------------------------------------
 void DirectorySearch::setSearchValue (const std::string& search) {
