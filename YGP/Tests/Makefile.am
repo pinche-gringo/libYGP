@@ -9,7 +9,7 @@ LIBS = -L.. -lYGP @LTLIBINTL@ @LIBS@
 
 TESTS=IVIOAppl ANumeric ADate ATime ATStamp XStrBuf XStream Parse FileRExp \
       CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute AssParse \
-      AttrParse INIFile Handle Thread
+      AttrParse INIFile Handle Thread Relation Process
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -52,5 +52,9 @@ INIFile_SOURCES=INIFile.cpp
 Handle_SOURCES=Handle.cpp
 
 Thread_SOURCES=Thread.cpp
+
+Relation_SOURCES=Relation.cpp
+
+Process_SOURCES=Process.cpp
 
 EXTRA_DIST=Parser.test INIFile.test CRegExp.test Test.h XStrBuf.test
