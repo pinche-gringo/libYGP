@@ -1,28 +1,29 @@
-//$Id: DirSrch.cpp,v 1.7 1999/08/12 03:17:49 Markus Rel $
+//$Id: DirSrch.cpp,v 1.8 1999/09/07 22:40:39 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
 
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-//
-// This library is distributed in the hope that it will be useful,
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free
-// Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 
 #ifdef WINDOWS
 #include <ctype.h>
@@ -31,6 +32,8 @@
 
 #include <errno.h>
 
+#define DEBUG 0
+#include "Trace.h"
 #include "DirSrch.h"
 #include "FileRExp.h"
 
@@ -92,6 +95,8 @@ const dirEntry& dirEntry::operator= (const dirEntry& o) {
 int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
    assert (pResult);
 
+   TRACE5 ("dirEntry::find " << searchDir << searchFile);
+
    cleanup ();
    pEntry = pResult;
    assert (!checkIntegrity ());
@@ -103,20 +108,20 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
    if (!pDir)
       return errno;
 #else
-   #ifdef WINDOWS
+#   ifdef WINDOWS
    // Attribut-handling: Files having attrs not specified here are not ret.
    attr = ~attribs;
    searchDir += '*';
    hSearch = FindFirstFile (searchDir.c_str (), pEntry);
    if (hSearch == INVALID_HANDLE_VALUE)
       return GetLastError ();
-   #else
-      #error Not implemented!
-   #endif
+#  else
+#     error Not implemented!
+#  endif
 
    // After (successful) start of search set searchDir to path of search
    searchDir.replace (searchDir.length () - 1, 0, '\0');
-#endif
+#  endif
 
    strcpy (pEntry->pPath, searchDir.c_str ());
 
@@ -124,15 +129,17 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
    pEntry->pEndPath = pEntry->pPath + searchDir.length ();
    return find ();
 #else
-   #ifdef WINDOWS
+#  ifdef WINDOWS
+   TRACE9 ("dirEntry::find - found " << pEntry->name ());
+
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
 
    return ((pEntry->dwFileAttributes & attr) || !regExp.matches (pEntry->name ()))
           ? find () : 0;
-   #else
-      #error Not implemented!
-   #endif
+#  else
+#     error Not implemented!
+#  endif
 #endif
 }
 
@@ -151,6 +158,8 @@ int DirectorySearch::find () {
 
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
+     TRACE9 ("dirEntry::find - found " << pDirEnt->d_name);
+
      if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
         continue;
 
@@ -165,6 +174,7 @@ int DirectorySearch::find () {
          unsigned short type (pEntry->status.st_mode & ~FILE_NORMAL);
          if (((access & attr) == access) || (type & attr)) {
             pEntry->entry = *pDirEnt;
+	    TRACE5 ("dirEntry::find - match " << pEntry->name ());
             return 0;
          } // endif attributs OK
    } // endif filename OK
@@ -172,10 +182,12 @@ int DirectorySearch::find () {
 
    return ENOENT;
 #else
-   #ifdef WINDOWS
+#  ifdef WINDOWS
    while (FindNextFile (hSearch, pEntry))
-      if (!(pEntry->dwFileAttributes & attr) && regExp.matches (pEntry->name ()))
+      if (!(pEntry->dwFileAttributes & attr) && regExp.matches (pEntry->name ())) {
+	 TRACE5 ("dirEntry::find - match " << pEntry->name ());
          return 0;
+      }
    return GetLastError ();
    #else
       #error Not implemented yet!
@@ -196,10 +208,7 @@ int DirectorySearch::checkIntegrity () const {
 #endif
    }
 
-#ifdef UNIX
    assert (!searchFile.empty ());
-#endif
-
    return 0;
 }
 
