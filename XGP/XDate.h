@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.10 2003/07/20 02:20:00 markus Rel $
+//$Id: XDate.h,v 1.11 2003/07/25 00:24:09 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,19 +68,30 @@ class XDate : public XDialog {
           SHOW_ALL = -1            ///< Show all fields the dialog has to offer
    };
 
-   /// Method to display the dialog
+   /// Method to display the dialog; caring about freeing it afterwards
    /// \param title: Title to display for the dialog
    /// \param date: Date/time to preselect in the dialog
    /// \param showFields: Which fields to display; a combination of the \c
    ///     SHOW_* values.
-   static XDate* perform (const Glib::ustring& title, ATimestamp& date,
-                          int showFields = SHOW_ALL) {
-      return new XDate (title, date, showFields); }
+   static XDate* create (const Glib::ustring& title, ATimestamp& date,
+                         int showFields = SHOW_ALL) {
+      XDate* dlg (new XDate (title, date, showFields));
+      dlg->signal_delete_event ().connect (slot (*dlg, &XDate::free));
+      return dlg;
+   }
 
    typedef SmartPtr<Gtk::HBox>        PHBox;
    typedef SmartPtr<Gtk::Calendar>    PCalendar;
    typedef SmartPtr<Gtk::SpinButton>  PSpinButton;
    typedef SmartPtr<Gtk::Adjustment>  PAdjustment;
+
+ protected:
+   /// Frees the dialog.
+   /// \remarks Call only if the dialog was created with new
+   bool free (GdkEventAny*) {
+      delete this;
+      return false;
+   }
 
  private:
    // Prohibited manager-functions

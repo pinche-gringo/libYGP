@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.8 2003/07/20 02:20:38 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.9 2003/07/25 00:24:09 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -45,10 +45,10 @@ const char* BrowserDlg::browserNames[BROWSERS] = {
 //-----------------------------------------------------------------------------
 /// Constructor
 //-----------------------------------------------------------------------------
-BrowserDlg::BrowserDlg (std::string& cmd)
+BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    : XDialog (Glib::locale_to_utf8 (_("Select a browser")), OKCANCEL)
      , pboxOther (new Gtk::HBox ()), path (cmd) {
-   TRACE3 ("BrowserDlg::BrowserDlg (std::string&) - " << cmd);
+   TRACE3 ("BrowserDlg::BrowserDlg (Glib::ustring&) - " << cmd);
 
    pboxOther->show ();
 
@@ -74,7 +74,7 @@ BrowserDlg::BrowserDlg (std::string& cmd)
       aBrowsers[i]->show ();
       if (cmd == browserNames[i]) {
          aBrowsers[i]->set_active (true);
-         TRACE4 ("BrowserDlg::BrowserDlg (std::string&) - Using browser " << cmd);
+         TRACE4 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Using browser " << cmd);
       }
    }
 
@@ -118,4 +118,16 @@ void BrowserDlg::control (unsigned int cmd) {
          path.update ();
       }
    }
+}
+
+//----------------------------------------------------------------------------
+/// Creates a (modeless) dialog and registers a handler to free it after
+/// deleting.
+/// \param cmd: Default command to execute to start the browser
+//  \returns BrowserDlg*: Pointer to created dialog
+//----------------------------------------------------------------------------
+BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
+    BrowserDlg* dlg (new BrowserDlg (cmd));
+    dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+    return dlg;
 }

@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.19 2003/07/19 08:27:32 markus Rel $
+//$Id: XAbout.cpp,v 1.20 2003/07/25 00:24:09 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -107,4 +107,15 @@ void XAbout::setIconAuthor (const char* const* pIconData) {
 
    Check3 (writer);
    client->reorder_child (*writer, 3);
+}
+
+//----------------------------------------------------------------------------
+/// Creates a (modeless) about dialog and registers a handler to free it
+/// after deleting
+/// \returns IPrintDialog*: Pointer to created dialog
+//----------------------------------------------------------------------------
+XAbout* XAbout::create (const Glib::ustring& author, const Glib::ustring& program) {
+    XAbout* dlg (new XAbout (author, program));
+    dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+    return dlg;
 }

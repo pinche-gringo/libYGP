@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.13 2003/07/20 08:17:00 markus Rel $
+//$Id: XPrintDlg.h,v 1.14 2003/07/25 00:24:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,10 +38,9 @@ namespace Gtk {
 class IPrintDialog : public XDialog {
  public:
    IPrintDialog ();
-   ~IPrintDialog ();
+   virtual ~IPrintDialog ();
 
-   /// Method to display the dialog
-   static IPrintDialog* perform () { return new IPrintDialog (); }
+   static IPrintDialog* create ();
 
    typedef SmartPtr<Gtk::HBox>   PHBox;
    typedef SmartPtr<Gtk::Label>  PLabel;
@@ -82,11 +81,14 @@ class TPrintDialog : public IPrintDialog {
    /// Destructor
    ~TPrintDialog () { }
 
-   /// Method to display the dialog
+   /// Creates a (modeless) print dialog and registers a handler to free it
+   /// after deleting.
    /// \param parent: Window to notify of the print command
    /// \param callback: Method of \c parent to call for printing
-   static TPrintDialog* perform (T& parent, PCALLBACK callback) {
+   /// \remark
+   static TPrintDialog* create (T& parent, PCALLBACK callback) {
       TPrintDialog<T>* dlg (new TPrintDialog<T> (parent, callback));
+      dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
       dlg->get_window ()->set_transient_for (parent.get_window ());
       return dlg;
    }

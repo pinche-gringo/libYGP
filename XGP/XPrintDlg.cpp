@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.15 2003/07/20 04:15:38 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.16 2003/07/25 00:24:24 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -116,4 +116,15 @@ void IPrintDialog::okEvent () {
    pclose (stream);
 
    delete this;
+}
+
+//----------------------------------------------------------------------------
+/// Creates a (modeless) print dialog and registers a handler to free it
+/// after deleting.
+/// \returns IPrintDialog*: Pointer to created dialog
+//----------------------------------------------------------------------------
+IPrintDialog* IPrintDialog::create () {
+    IPrintDialog* dlg (new IPrintDialog ());
+    dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+    return dlg;
 }

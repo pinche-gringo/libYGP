@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.16 2003/07/20 08:16:40 markus Rel $
+//$Id: XFileDlg.cpp,v 1.17 2003/07/25 00:24:09 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -155,4 +155,26 @@ std::string IFileDialog::execModal () {
    std:: string file (modal ? get_filename () : "");
    delete this;
    return file;
+}
+
+
+//----------------------------------------------------------------------------
+/// Creates a (modeless) dialog and registers a handler to free it after
+/// deleting.
+/// \param cmd: Default command to execute to start the browser
+//  \returns IFileDialog*: Pointer to created dialog
+//----------------------------------------------------------------------------
+IFileDialog* IFileDialog::create (const Glib::ustring& title, option dlgOption) {
+    IFileDialog* dlg (new IFileDialog (title, dlgOption));
+    dlg->signal_delete_event ().connect (slot (*dlg, &IFileDialog::free));
+    return dlg;
+}
+
+//-----------------------------------------------------------------------------
+/// Frees the dialog.
+/// \remarks Call only if the dialog was created with new
+//-----------------------------------------------------------------------------
+bool IFileDialog::free (GdkEventAny*) {
+   delete this;
+   return false;
 }

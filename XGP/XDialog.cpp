@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.10 2003/07/23 07:02:03 markus Exp $
+//$Id: XDialog.cpp,v 1.11 2003/07/25 00:24:09 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -161,4 +161,13 @@ void XDialog::cancelEvent () {
 //-----------------------------------------------------------------------------
 void XDialog::command (int action) {
    Check (0);
+}
+
+//-----------------------------------------------------------------------------
+/// Frees the dialog.
+/// \remarks Call only if the dialog was created with new
+//-----------------------------------------------------------------------------
+bool XDialog::free (GdkEventAny*) {
+   delete this;
+   return false;
 }

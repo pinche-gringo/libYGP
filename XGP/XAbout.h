@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.13 2003/07/19 08:27:32 markus Rel $
+//$Id: XAbout.h,v 1.14 2003/07/25 00:24:09 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,6 +46,8 @@ class XAbout : public XDialog {
 
    void setIconProgram (const char* const* iconData);
    void setIconAuthor  (const char* const* iconData);
+
+   static XAbout* create (const Glib::ustring& author, const Glib::ustring& program);
 
  private:
    typedef SmartPtr<Gtk::HBox>   PHBox;
