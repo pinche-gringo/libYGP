@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.7 2003/02/14 20:16:08 markus Exp $
+// $Id: XStrBuf.cpp,v 1.8 2003/02/21 19:42:12 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -44,9 +44,9 @@ static const char* TESTFILE = "XStrBuf.test";
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
-   cout << "Testing extStreambuf...\n";
+   std::cout << "Testing extStreambuf...\n";
 
-   ifstream in (TESTFILE, ios::in);
+   std::ifstream in (TESTFILE, std::ios::in);
    check (in);
    if (in) {
       extStreambuf str (*in.rdbuf ());
@@ -54,7 +54,6 @@ int main (int argc, char* argv[]) {
       char c;
 
       char buffer[20], *pAct = buffer;
-
       int forAlpha (0), afterAlpha (0);
 
       while ((in.get (c)), in) {
@@ -82,6 +81,6 @@ int main (int argc, char* argv[]) {
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }
