@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.3 2000/02/02 22:09:13 Markus Exp $
+//$Id: ATime.h,v 1.4 2000/02/02 23:10:31 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ class ATime : public AttributValue {
    // Set-functions
    ATime& operator= (const ATime& other);
    ATime& operator= (const char* pTime);
-   ATime& operator= (istream& stream);
+   ATime& operator= (istream& stream) { readFromStream (stream); return *this; }
    ATime& operator= (const std::string& time) { return operator= (time.c_str ()); }
    ATime& operator= (const struct tm& tm) { hour = (unsigned char)tm.tm_hour;
       min_ = (unsigned char)tm.tm_min; setSecond ((unsigned char)tm.tm_sec); return *this; }
