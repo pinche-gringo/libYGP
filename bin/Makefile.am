@@ -2,7 +2,7 @@
 
 SUBDIRS=.
 
-bin_SCRIPTS=mgeni
+bin_SCRIPTS=mgeni.pl
 
 noinst_SCRIPTS=mdef.awk
 
