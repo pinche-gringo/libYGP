@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.3 2002/12/15 22:22:27 markus Rel $
+//$Id: XDirSrch.h,v 1.4 2003/02/03 03:54:30 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 
 #include <string>
 
-bool _fileIsValid (const std::string&, const char*);
-void _addNode (string& list, char prefix, const string& node);
+bool _XDSfileIsValid (const std::string&, const char*);
+void _XDSaddNode (string& list, char prefix, const string& node);
 
 class DirectorySearch;
 class RemoteDirSearch;
@@ -45,22 +45,25 @@ class XDirectorySearch : public Parent {
 
    //@Section searching
    virtual const File* find (const string& spec, unsigned long attribs = FILE_NORMAL) {
-      return Parent::find (spec, attribs); }
+      setSearchValue (spec);
+      return Parent::find (attribs); }
    virtual const File* find (unsigned long attribs = FILE_NORMAL) {
       const File* r = Parent::find (attribs);
-      return (r && !_fileIsValid (nodes, r->name ())) ? next () : r;
+      return (r && !_XDSfileIsValid (nodes, r->name ())) ? next () : r;
    }
    virtual const File* next () {
       const File* r;
       do {
          r = Parent::next ();
-      } while (r && !_fileIsValid (nodes, r->name ()));
+      } while (r && !_XDSfileIsValid (nodes, r->name ()));
       return r;
    }
 
    //@Section in/exclusion
-   void addFilesToInclude (const string& spec) { _addNode (nodes, 'i', spec); }
-   void addFilesToExclude (const string& spec) { _addNode (nodes, 'x', spec); }
+   void addFilesToInclude (const string& spec) { _XDSaddNode (nodes, 'i', spec); }
+   void addFilesToExclude (const string& spec) { _XDSaddNode (nodes, 'x', spec); }
+
+   void setNodes (const string& spec) { nodes = spec; }
 
  private:
    //@Section prohibited manager functions
@@ -74,5 +77,6 @@ class XDirectorySearch : public Parent {
 typedef XDirectorySearch<DirectorySearch>     ExtDirectorySearch;
 typedef XDirectorySearch<RemoteDirSearch>     ExtRemoteDirSearch;
 typedef XDirectorySearch<PathDirectorySearch> ExtPathDirectorySearch;
+
 
 #endif

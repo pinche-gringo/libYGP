@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.3 2002/12/08 08:06:02 markus Rel $
+//$Id: XDirSrch.cpp,v 1.4 2003/02/03 03:54:30 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -40,7 +40,7 @@
 //Requires  : pFile is ASCIIZ-string
 //Remarks   : If the list starts with an x-node, a leading i*-node is assumed
 /*--------------------------------------------------------------------------*/
-bool _fileIsValid (const std::string& files, const char* pFile) {
+bool _XDSfileIsValid (const std::string& files, const char* pFile) {
    TRACE9 ("_fileIsValid (const char*) const - " << pFile);
    Check1 (pFile);
 
@@ -77,7 +77,7 @@ bool _fileIsValid (const std::string& files, const char* pFile) {
 //            node: Node to check
 //Remarks   : The node is added to the beginning of the list
 /*--------------------------------------------------------------------------*/
-void _addNode (std::string& list, char prefix, const std::string& node) {
+void _XDSaddNode (std::string& list, char prefix, const std::string& node) {
    PathSearch  l (node);
    std::string temp;
 
