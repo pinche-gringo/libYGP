@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.1 1999/11/13 01:18:07 Markus Exp $
+//$Id: XAbout.cpp,v 1.2 2000/01/23 23:06:37 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -55,7 +55,12 @@ XAbout::XAbout (const string& author, const string& program)
 
    ok->set_usize (90, 30);
    ok->show ();
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+   ok->clicked.connect (bind (slot (this, &command), 0));
+#else
    connect_to_method (ok->clicked, this, &command, 0);
+#endif
+
    get_action_area ()->pack_start (*ok, false, false, 5);
    ok->set_flags (GTK_CAN_DEFAULT);
    ok->grab_default ();
@@ -83,25 +88,21 @@ XAbout::~XAbout () {
 //Purpose   : Sets pixmap for the program
 //Parameters: picProgram: Pixmap for program
 /*--------------------------------------------------------------------------*/
-void XAbout::setIconProgram (Gdk_Pixmap& picProgram) {
+void XAbout::setIconProgram (Gtk_Pixmap& picProgram) {
    Check3 (client);
 
-   iconPrg = new Gtk_Pixmap (picProgram, Gdk_Bitmap ()); Check3 (iconPrg);
-
-   iconPrg->show ();
-   client->pack_start (*iconPrg, false, false, 5);
+   picProgram.show ();
+   client->pack_start (picProgram, false, false, 5);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Sets pixmap for the programmer
 //Parameters: picAuthor: Pixmap for programmer
 /*--------------------------------------------------------------------------*/
-void XAbout::setIconAuthor (Gdk_Pixmap& picAuthor) {
+void XAbout::setIconAuthor (Gtk_Pixmap& picAuthor) {
    Check3 (client); Check3 (vboxPrgInfo);
 
-   iconAuthor = new Gtk_Pixmap (picAuthor, Gdk_Bitmap ()); Check3 (iconAuthor);
-
-   iconAuthor->show ();
-   client->pack_end (*iconAuthor, false, false, 5);
+   picAuthor.show ();
+   client->pack_end (picAuthor, false, false, 5);
    client->reorder_child (*writer, 3);
 }

@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.1 1999/11/13 01:18:07 Markus Exp $
+//$Id: XAbout.h,v 1.2 2000/01/23 23:06:37 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,6 @@ class string
 class Gtk_HBox;
 class Gtk_Label;
 class Gtk_Button;
-class Gdk_Pixmap;
 class Gtk_Pixmap;
 
 definePtr (Gtk_HBox);
@@ -48,8 +47,8 @@ class XAbout : public Gtk_Dialog {
    XAbout (const string& author, const string& program);
    ~XAbout ();
 
-   void setIconProgram (Gdk_Pixmap& icon);
-   void setIconAuthor  (Gdk_Pixmap& icon);
+   void setIconProgram (Gtk_Pixmap& icon);
+   void setIconAuthor  (Gtk_Pixmap& icon);
 
  private:
    // Prohibited manager-functions
@@ -58,7 +57,7 @@ class XAbout : public Gtk_Dialog {
    const XAbout& operator= (const XAbout&);
 
    void command (int) {
-      delete_self ();
+      delete this;
    }
 
    PGtk_Button ok;

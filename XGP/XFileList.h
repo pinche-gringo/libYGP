@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.2 1999/11/14 15:24:09 Markus Exp $
+//$Id: XFileList.h,v 1.3 2000/01/23 23:06:37 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,8 +18,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <map.h>
 #include <string>
+
+#include <map.h>
+#include <vector.h>
 
 #include <gtk--/clist.h>
 
@@ -28,9 +30,9 @@
 
 // Forward declarations
 class dirEntry;
-class Gdk_Pixmap;
+class Gtk_Pixmap;
 
-definePtr (Gdk_Pixmap);
+definePtr (Gtk_Pixmap);
 
 
 // Class for a (columned) list which holds files represented by an icon
@@ -62,17 +64,17 @@ class XFileList : public Gtk_CList {
    XFileList ();
    XFileList& operator= (const XFileList&);
 
-   void setIcon (const dirEntry* pFile);
+   void setIcon (int row, const dirEntry* pFile);
 
    static const char* iconDirectory[];
    static const char* iconDefault[];
    static const char* iconExecuteable[];
 
-   static PGdk_Pixmap iconDir;
-   static PGdk_Pixmap iconDef;
-   static PGdk_Pixmap iconExe;
+   static PGtk_Pixmap iconDir;
+   static PGtk_Pixmap iconDef;
+   static PGtk_Pixmap iconExe;
 
-   map<string, Gdk_Pixmap*> icons;
+   map<string, Gtk_Pixmap*> icons;
 };
 
 #endif

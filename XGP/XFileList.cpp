@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.2 1999/11/14 15:23:57 Markus Exp $
+//$Id: XFileList.cpp,v 1.3 2000/01/23 23:06:37 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -108,15 +108,19 @@ const char* XFileList::iconExecuteable[] = {
    "                ",
    "                " };
 
-PGdk_Pixmap XFileList::iconDir (new Gdk_Pixmap);
-PGdk_Pixmap XFileList::iconDef (new Gdk_Pixmap);
-PGdk_Pixmap XFileList::iconExe (new Gdk_Pixmap);
+PGtk_Pixmap XFileList::iconDir (NULL);
+PGtk_Pixmap XFileList::iconDef (NULL);
+PGtk_Pixmap XFileList::iconExe (NULL);
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 XFileList::~XFileList () {
+   // Delete all loaded icons
+   std::map<string, Gtk_Pixmap*>::iterator i;
+   for (i = icons.begin (); i != icons.end (); ++i)
+      delete (*i).second;
 }
 
 
@@ -127,50 +131,49 @@ XFileList::~XFileList () {
 //Remarks   : Call *after* the window (and the parent) is shown!!
 /*--------------------------------------------------------------------------*/
 unsigned int XFileList::loadIcons (const char* path, const char* files) {
-   Check3 (iconDir); Check3 (iconDef); Check3 (iconExe);
-
-   if (!iconDir->connected ()) {
-      Gdk_Bitmap bitmap;
-      Gdk_Color color (&get_style ()->gtkobj ()->bg[GTK_STATE_NORMAL]);
-
-      // Preload icons for fast(er) access when displayed
-      iconDir->create_from_xpm_d (get_window (), bitmap, color, iconDirectory);
-      iconDef->create_from_xpm_d (get_window (), bitmap, color, iconDefault);
-      iconExe->create_from_xpm_d (get_window (), bitmap, color, iconExecuteable);
-      Check9 (iconDir->connected ());
-      Check9 (iconDef->connected ());
-      Check9 (iconExe->connected ());
-   } // endif do first initialize
-
    Check3 (path); Check3 (files);
    TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
+
+   if (iconDir == NULL) {
+      TRACE5 ("XFileList::loadIcons -> Create default icons");
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+      iconDir = new Gtk_Pixmap (iconDirectory);
+      iconDef = new Gtk_Pixmap (iconDefault);
+      iconExe = new Gtk_Pixmap (iconExecuteable);
+#else
+      iconDir = new Gtk_Pixmap (*this, iconDirectory);
+      iconDef = new Gtk_Pixmap (*this, iconDefault);
+      iconExe = new Gtk_Pixmap (*this, iconExecuteable);
+#endif
+      iconDir->realize ();
+      iconDef->realize ();
+      iconExe->realize ();
+   } // endif do first initialize
+
+   Check3 (iconDir); Check3 (iconDef); Check3 (iconExe);
 
    // Use Icon.*-files as icon for *-files
    PathDirectorySearch ds (path, files);
    dirEntry file;
 
-   Gdk_Bitmap bitmap;
-   Gdk_Color color (&get_style ()->gtkobj ()->bg[GTK_STATE_NORMAL]);
-   Gdk_Pixmap* temp;
+   Gtk_Pixmap* temp;
 
    int rc (ds.find (file, FILE_NORMAL));
    while (!rc) {
       // Read icon-file and store it
-      temp = new Gdk_Pixmap (NULL); Check3 (temp);
       string filename (file.path ()); filename += file.name ();
       TRACE5 ("XFileList::loadIcons: Read icon " << file.path () << file.name ());
 
-      temp->create_from_xpm (get_window (), bitmap, color, filename);
-
-      if (temp->connected ()) {
-         TRACE9 ("XCompDirs::loadIcons: Store icon "
-                 << (filename.c_str () + sizeof ("Icon")));
-          icons[file.name () + sizeof ("Icon")] = temp;
-      }
-      else
-         XMessageBox::show (string ("Error loading file '") + filename
-                            + "'\nMaybe open or not an xpm-file",
-                            XMessageBox::WARNING);
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+      temp = new Gtk_Pixmap (filename);
+#else
+      temp = new Gtk_Pixmap (*this, filename);
+#endif
+      temp->realize ();
+      Check3 (temp);
+      TRACE9 ("XCompDirs::loadIcons: Store icon "
+	      << (file.name () + sizeof ("Icon")));
+      icons[file.name () + sizeof ("Icon")] = temp;
       rc = ds.find ();
    } // end-while icon-files found
 }
@@ -183,7 +186,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files) {
 gint XFileList::append (const dirEntry* file, const gchar* text[]) {
    Gtk_CList::append (text);
    if (file)
-      setIcon (file);
+      setIcon (rows () - 1, file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -194,7 +197,7 @@ gint XFileList::append (const dirEntry* file, const gchar* text[]) {
 gint XFileList::append (const dirEntry* file, const vector<string> text) {
    Gtk_CList::append (text);
    if (file)
-      setIcon (file);
+      setIcon (rows () - 1, file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -205,7 +208,7 @@ gint XFileList::append (const dirEntry* file, const vector<string> text) {
 gint XFileList::prepend (const dirEntry* file, const gchar *text[]) {
    Gtk_CList::prepend (text);
    if (file)
-      setIcon (file);
+      setIcon (0, file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -216,7 +219,7 @@ gint XFileList::prepend (const dirEntry* file, const gchar *text[]) {
 gint XFileList::prepend (const dirEntry* file, const vector<string> text) {
    Gtk_CList::prepend (text);
    if (file)
-      setIcon (file);
+      setIcon (0, file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -228,7 +231,7 @@ gint XFileList::prepend (const dirEntry* file, const vector<string> text) {
 gint XFileList::insert_row (const dirEntry* file, gint row, const gchar* text[]) {
    Gtk_CList::insert_row (row, text);
    if (file)
-      setIcon (file);
+      setIcon (row, file);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -240,7 +243,7 @@ gint XFileList::insert_row (const dirEntry* file, gint row, const gchar* text[])
 gint XFileList::insert_row (const dirEntry* file, gint row, const vector<string> &text) {
    Gtk_CList::insert_row (row, text);
    if (file)
-      setIcon (file);
+      setIcon (row, file);
 }
 
 
@@ -256,10 +259,11 @@ gint XFileList::insert_row (const dirEntry* file, gint row, const vector<string>
 //                 repeat the previous step
 //               - If no name-part left use a special default-icon
 /*--------------------------------------------------------------------------*/
-void XFileList::setIcon (const dirEntry* pFile) {
+void XFileList::setIcon (int row, const dirEntry* pFile) {
+   TRACE7 ("XFileList::setIcon");
    Check3 (pFile);
 
-   Gdk_Pixmap* actIcon (NULL);
+   Gtk_Pixmap* actIcon (NULL);
 
    if (pFile->isDirectory ())
       actIcon = iconDir;
@@ -270,12 +274,12 @@ void XFileList::setIcon (const dirEntry* pFile) {
 
       const char* pName (pFile->name () - 1);
 
-      std::map<string, Gdk_Pixmap*>::iterator i;
+      std::map<string, Gtk_Pixmap*>::iterator i;
       do {
          // Try to find an icon for the file in the preloaded list; 
          // use every dot (.)-seperated part of the filename
          if ((i = icons.find (++pName)) != icons.end ()) {
-            TRACE5 ("XPDir::command (show) - Use icon Icon."
+            TRACE9 ("XFileList::setIcon - Use icon Icon."
                     << pName << " for file " << pFile->name ());
             actIcon = (*i).second;
             break;
@@ -285,7 +289,9 @@ void XFileList::setIcon (const dirEntry* pFile) {
    Check3 (actIcon);
 
    Gdk_Bitmap bmp;
-   set_pixmap (rows () - 1, 0, *actIcon, bmp);
+   Gdk_Pixmap pixmap;
+   actIcon->get (pixmap, bmp);
+   set_pixmap (row, 0, pixmap, bmp);
 }
 
 
