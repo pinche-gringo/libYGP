@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.3 2001/02/18 23:23:27 Markus Exp $
+//$Id: CIDirSrch.cpp,v 1.4 2001/08/22 01:38:28 markus Rel $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -103,6 +103,6 @@ CDirEntry_ptr CIDirectorySearch::findnext () {
    return DirectorySearch::find () ? &entry : NULL;
 }
 
-char* CIDirectorySearch::getFile () {
-   return const_cast<char*> (DirectorySearch::getFile ().c_str ());
+char* CIDirectorySearch::getSearchValue () {
+   return const_cast<char*> (DirectorySearch::getSearchValue ().c_str ());
 }

@@ -1,7 +1,7 @@
 #ifndef CIDIRCOMP_H
 #define CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.1 2001/01/24 16:25:47 Markus Exp $
+//$Id: CIDirSrch.h,v 1.2 2001/08/22 01:38:28 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <CORBA.h>
+
+#include "DirEntry.h"
 
 #include "DirSrch.h"
 #include "CDirSrch.h"
@@ -47,9 +49,9 @@ class CIDirectorySearch : virtual public CDirectorySearch,
    CDirEntry_ptr find (const char* file, CORBA::ULong attr);
    CDirEntry_ptr findnext ();
 
-   char* getFile ();
+   char* getSearchValue ();
 
-   static CORBA::Char getSplitChar () { return DirectorySearch::getSplitChar (); }
+   static CORBA::Char getSplitChar () { return dirEntry::DIRSEPERATOR; }
 
  private:
    CIDirEntry entry;
