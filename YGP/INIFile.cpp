@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.10 2002/05/24 06:45:05 markus Exp $
+//$Id: INIFile.cpp,v 1.11 2002/10/10 05:48:25 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -76,12 +76,7 @@ INISection::~INISection () {
 //Parameters: attribute: Attribute to add
 /*--------------------------------------------------------------------------*/
 void INISection::addAttribute (const IAttribute& attribute) {
-#ifndef NDEBUG
-   if (findAttribute (attribute.getName ()))
-      assert (0);
-#endif
-
-   attributes.push_back (&attribute);
+   assert (!findAttribute (attribute.getName ()));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -123,7 +118,8 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /*--------------------------------------------------------------------------*/
 int INISection::readFromStream (Xistream& stream) throw (std::string) {
    Section.skipWS (stream);
-   return Section.parse (stream);
+   int rc (Section.parse (stream));
+   return rc ? rc : readAttributes (stream);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -193,7 +189,8 @@ int INISection::foundValue (const char* value) {
 /*--------------------------------------------------------------------------*/
 INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    , SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
-   , SectionName ("\\X\\9_.", _("Name of section"), *this, &INIFile::foundSection, LEN_SECTIONNAME, 1) {
+   , SectionName ("\\X\\9_.", _("Name of section"), *this,
+                  &INIFile::foundSection, LEN_SECTIONNAME, 1) {
    assert (filename);
 
    TRACE9 ("INIFile::INIFile: Read from " << filename);
@@ -201,11 +198,12 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
    _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
 
-   file.open (filename, ios::in | ios::nocreate);
+   file.open (filename, ios::in);
    if (!file) {
       std::string error (_("Could not open INI-file '%1': Reason: %2"));
       error.replace (error.find ("%1"), 2, filename);
       error.replace (error.find ("%2"), 2, strerror (errno));
+      throw (error);
    }
    file.init ();
 }
@@ -223,12 +221,7 @@ INIFile::~INIFile () {
 //Parameters: section: Specification of the section
 /*--------------------------------------------------------------------------*/
 void INIFile::addSection (const INISection& section) {
-#ifndef NDEBUG
-   // Check if a section with the same name exists
-   if (findSection (section.getName ()))
-      assert (0);
-#endif
-
+   assert (!findSection (section.getName ()));
    sections.push_back (&section);
 }
 
