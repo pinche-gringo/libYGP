@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.16 2002/04/19 09:26:50 markus Exp $
+//$Id: CRegExp.h,v 1.17 2002/04/19 22:49:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include <gzo-cfg.h>
 
+// Uncommment to work with own regular-expressions, even if real ones are present
 #undef HAVE_REGEX_H
 #undef HAVE_REGEXP_H
 
@@ -32,15 +33,29 @@
 #  endif
 #endif
 
+#ifndef HAVE_REGEX_H
+#  include <ctype.h>
+#endif
+
 #include <assert.h>
 
 #include <string>
+#include <vector>
 
 #include <RegExp.h>
 
 // Class to compare text with regular expressions. Here is a little
 // intruduction into the supported constructs; see regex(7) or the GNU regexp
 // manual for a better description.
+//
+// Note: This class implements regular expressions as the functions in regex.h
+//       do (at least in glibc 2.2.4 (as included in SuSE 7.3)), which might
+//       differ from that what you expect from the reading (or how - e.g. -
+//       emacs behaves). But I have no fucking idea what is the *real* standard
+//       and for testing it was the easiest to follow an existing implementation!
+//
+// But here's the promised short-intruduction:
+//
 // '*' Is not a construct by itself; it is a suffix which repeats the (smallest
 //     possible) preceding regular expression as many times as possible.
 // '+' is a suffix character similar to '*', except that it requires that the
@@ -71,11 +86,19 @@
 //     <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
 //                 | print | punct | space | upper
 //     Note: To include the character square bracket ([) in the match, it
-//           must be the first character; similar to the caret (^), wich must
-//           *not* be the first character to get included.
+//           must be the first character; similar to the match-negators caret (^)
+//           and exclamaition-mark (!), wich must *not* be the first character
+//           to get included.
 // '|' seperates two alternatives.
 // '(...)' groups regular expressions and marks the matching substring
 //         for future reference.
+//
+// If the class is compiled with ENHANCED_REGEXP defined the following constructs
+// are also supported (Warning: Those things are not regulary tested):
+//
+// <match> ::= ... | <wordborder><match>
+//    <wordborder> ::= [:<:] | [:>:]             (Matches beginn or end of word)
+//
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
 //       care it is valid during the life-time of the object.
@@ -126,21 +149,27 @@ class RegularExpression : public IRegularExpression {
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
 #ifndef HAVE_REGEX_H
    bool doCompGroup (const char*& pAktRegExp, const char* pEnd,
-                     const char*& pCompare, int min, int max) const;
-   bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
-   bool doCompChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
-   bool doCompEscChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
-   bool compRegion (const char*& pAktRegExp, const char*& pCompare) const;
-   bool compGroup (const char*& pAktRegExp, const char*& pCompare) const;
-   bool compChar (const char*& pAktRegExp, const char*& pCompare) const;
-   bool compEscChar (const char*& pAktRegExp, const char*& pCompare) const;
+                     const char*& pCompare, int min, int max);
+   bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+   bool doCompChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+   bool doCompEscChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+   bool compRegion (const char*& pAktRegExp, const char*& pCompare);
+   bool compGroup (const char*& pAktRegExp, const char*& pCompare);
+   bool compChar (const char*& pAktRegExp, const char*& pCompare);
+   bool compEscChar (const char*& pAktRegExp, const char*& pCompare);
 
-   typedef bool (RegularExpression::*MFCOMPARE) (const char*&, const char*,
-                                                 const char*&) const;
+   bool isWordConstituent (char ch) const { return isalnum (ch) || (ch == '_'); }
+   bool isWordBorder (const char* pCompare) const;
+   bool isWordBeginn (const char* pCompare) const;
+   bool isWordEnd (const char* pCompare) const;
+
+   typedef bool (RegularExpression::*MFCOMPARE) (const char*&, const char*, const char*&);
 
    const char* getRepeatFactor (const char* pRE, int& min, int& max) const;
    bool compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
-                       const char* pEndRE, const char*& pCompare) const;
+                       const char* pEndRE, const char*& pCompare);
+
+   bool doCompare (const char*& pAktRegExp, const char*& pCompare);
 #endif
 
  private:
@@ -159,14 +188,15 @@ class RegularExpression : public IRegularExpression {
 
    void init (const char* pRegExp) throw (std::string);
 #else
-   bool doCompare (const char*& pAktRegExp, const char*& pCompare) const;
    bool compareParts (const char*& pAktRegExp, const char*& pCompare,
-                      bool inGroup = false) const;
+                      bool inGroup = false);
    const char* findEndOfAlternative (const char* pRegExp, bool inGroup = false) const;
    const char* findEndOfRegion (const char* pRegExp) const;
    const char* findEndOfGroup (const char* pRegExp) const;
 
    const char* pStartCompare;
+   vector<std::string> groupValues;
+   unsigned int cGroups;
 #endif
 };
 
