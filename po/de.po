@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.00 ($Revision: 1.6 $)\n"
-"POT-Creation-Date: 2002-04-18 17:34-0500\n"
+"Project-Id-Version: General 0.6.00 ($Revision: 1.7 $)\n"
+"POT-Creation-Date: 2002-04-19 19:11-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -52,44 +52,44 @@ msgstr "Fehler beim Zuweisen von '%1' zu %2"
 msgid "Key '%1' not found"
 msgstr "Schlüssel '%1' nicht gefunden"
 
-#: Common/CRegExp.cpp:861
+#: Common/CRegExp.cpp:969
 msgid "Unmatched [ or [^"
 msgstr "'[' oder '[^' ohne schließende Klammer"
 
-#: Common/CRegExp.cpp:862
+#: Common/CRegExp.cpp:970
 #, fuzzy
 msgid "Unmatched ( or )"
 msgstr "'(' oder '\\(' ohne schließende Klammer"
 
-#: Common/CRegExp.cpp:863
+#: Common/CRegExp.cpp:971
 msgid "Invalid range end"
 msgstr "Bereich ohne Wert"
 
-#: Common/CRegExp.cpp:864
+#: Common/CRegExp.cpp:972
 msgid "Repeating suffix without previous expression"
 msgstr "Wiederholfaktor ohne vorhergehenden regulären Ausruck"
 
-#: Common/CRegExp.cpp:865
+#: Common/CRegExp.cpp:973
 msgid "Invalid group-number"
 msgstr "Ungültige Gruppennummer"
 
-#: Common/CRegExp.cpp:866
+#: Common/CRegExp.cpp:974
 msgid "Invalid range (lower border larger than upper border)"
 msgstr "Ungültiger Bereich (untere Grenze ist größer als die obere)"
 
-#: Common/CRegExp.cpp:867
+#: Common/CRegExp.cpp:975
 msgid "Invalid bound"
 msgstr "Ungültige Wiederholfaktoren"
 
-#: Common/CRegExp.cpp:868
+#: Common/CRegExp.cpp:976
 msgid "Regular expression ends with escape-character (\\)"
 msgstr "Regulärer Ausdruck endet mit dem Quotenzeichen (\\)"
 
-#: Common/CRegExp.cpp:869
+#: Common/CRegExp.cpp:977
 msgid "Unknown error"
 msgstr "Allgemeiner Fehler"
 
-#: Common/CRegExp.cpp:874 Common/FileRExp.cpp:242
+#: Common/CRegExp.cpp:981 Common/FileRExp.cpp:242
 #, ycp-format
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
