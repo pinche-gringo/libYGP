@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.16 2003/11/14 17:28:27 markus Exp $
+# $Id: Makefile.in,v 1.17 2003/11/17 15:07:34 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -25,6 +25,7 @@ DESTDIR=
 
 libdir = @libdir@
 includedir = @includedir@/CGP
+pkgconfigdir = $(libdir)/pkgconfig
 
 AS = @AS@
 CC = @CC@
@@ -37,6 +38,7 @@ INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
+pkgconfigDATA_INSTALL = $(INSTALL_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 
 MAKEINFO = @MAKEINFO@
@@ -72,8 +74,10 @@ HEADERS=CDirSrch.h $(IDL_FILES) $(DIST_HEADERS)
 OBJECTS=CDirSrch.lo CIDirSrch.lo Version.lo
 SOURCES=$(IDL_FILES) CIDirSrch.cpp Version.cpp
 
+pkgconfig=CGP.pc
+
 TEXINFO=
-EXTRA_DIST=
+EXTRA_DIST=$(pkgconfig) CGP.pc.in
 
 DIST_COMMON = Makefile.in
 
@@ -173,6 +177,13 @@ install: all
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(includedir)/$$p; \
 	done
+	$(mkinstalldirs) $(DESTDIR)$(pkgconfigdir)
+	@list='$(pkgconfig)'; for p in $$list; do \
+          if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+          f="`echo $$p | sed -e 's|^.*/||'`"; \
+          echo " $(pkgconfigDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgconfigdir)/$$f"; \
+          $(pkgconfigDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgconfigdir)/$$f; \
+        done
 
 clean: clean-recursive
 	@list='$(LIB_TARGETS)'; for p in $$list; do \
