@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.11 2003/07/25 00:24:09 markus Rel $
+//$Id: XDialog.cpp,v 1.12 2003/10/19 00:13:21 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -123,7 +123,7 @@ void XDialog::init (unsigned int buttons) {
 /// \param cmd: ID of pressed button
 //-----------------------------------------------------------------------------
 void XDialog::on_response (int cmd) {
-   TRACE9 ("XDialog::on_response (int)" << cmd);
+   TRACE9 ("XDialog::on_response (int) " << cmd);
    switch (cmd) {
    case Gtk::RESPONSE_OK:
       okEvent ();
@@ -143,7 +143,6 @@ void XDialog::on_response (int cmd) {
 //-----------------------------------------------------------------------------
 void XDialog::okEvent () {
    TRACE9 ("XDialog::okEvent ()");
-   destroy_ ();
 }
 
 //-----------------------------------------------------------------------------
@@ -151,7 +150,6 @@ void XDialog::okEvent () {
 //-----------------------------------------------------------------------------
 void XDialog::cancelEvent () {
    TRACE9 ("XDialog::cancelEvent ()");
-   destroy_ ();
 }
 
 //-----------------------------------------------------------------------------
@@ -167,7 +165,6 @@ void XDialog::command (int action) {
 /// Frees the dialog.
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
-bool XDialog::free (GdkEventAny*) {
+void XDialog::free (int) {
    delete this;
-   return false;
 }
