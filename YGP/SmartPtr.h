@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.3 1999/09/12 11:04:59 Markus Rel $
+// $Id: SmartPtr.h,v 1.4 2000/04/06 20:49:00 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-#include <iostream.h>
 
 
 // Smart-pointer-class; the memory is freed within the destructor
@@ -38,7 +36,7 @@ template <class T> class SmartPtr {
    operator T*   () const { return pData; }
 
    // Changing the value
-   const SmartPtr& operator= (T* pValue) { delete pData; pData = pValue; }
+   SmartPtr& operator= (T* pValue) { delete pData; pData = pValue; }
 
  private:
    // Prohibited manager functions
