@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.2 1999/11/15 00:15:40 Markus Exp $
+//$Id: XFileDlg.cpp,v 1.3 1999/12/19 13:48:58 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -123,7 +123,7 @@ void XFileDialog::command (commandID id) {
       }
 
    case CANCEL:
-      delete_self ();
+      delete this;
       break;
    } // end-switch command-id
 }

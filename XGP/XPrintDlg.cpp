@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.1 1999/11/15 00:17:16 Markus Exp $
+//$Id: XPrintDlg.cpp,v 1.2 1999/12/19 13:47:35 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -96,7 +96,11 @@ void XPrintDialog::init () {
 
    // Create buttons: OK
    ok->set_usize (90, 35); ok->show ();
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+   ok->clicked.connect (bind (slot (this, &command), OK));
+#else
    connect_to_method (ok->clicked, this, &command, OK);
+#endif
    get_action_area ()->pack_start (*ok, false, false, 0);
 
    ok->set_flags (GTK_CAN_DEFAULT);
@@ -104,7 +108,11 @@ void XPrintDialog::init () {
    // - CANCEL
    cancel->set_flags (GTK_CAN_DEFAULT);
    cancel->set_usize (90, 35); cancel->show ();
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+   cancel->clicked.connect (bind (slot (this, &command), CANCEL));
+#else
    connect_to_method (cancel->clicked, this, &command, CANCEL);
+#endif
    get_action_area ()->pack_start (*cancel, false, false, 0);
 
    // Command-box
@@ -158,7 +166,7 @@ void XPrintDialog::command (commandID id) {
       }
 
    case CANCEL:
-      delete_self ();
+      delete this;
       break;
    } // end-switch command-id
 }

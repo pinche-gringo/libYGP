@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.2 1999/11/15 00:16:36 Markus Exp $
+//$Id: XMessageBox.cpp,v 1.3 1999/12/19 13:47:35 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -430,12 +430,16 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    else
       set_title (title);
 
-   static const char** icons[] = { iconInfo, iconQuestion, iconWarning,
+   static const char* const * icons[] = { iconInfo, iconQuestion, iconWarning,
                                    iconError, iconCritical };
    assert ((flags & TYPEMASK) < (sizeof (icons) / sizeof (icons[0])));
    assert (icons[flags & TYPEMASK]);
 
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+   icon = new Gtk_Pixmap (icons[flags & TYPEMASK]); assert (icon);
+#else
    icon = new Gtk_Pixmap (*client, icons[flags & TYPEMASK]); assert (icon);
+#endif
    icon->show (); assert (icon->is_visible ());
    client->pack_start (*icon, false, false, 5);
 
@@ -451,7 +455,12 @@ XMessageBox::XMessageBox (const string& text, const string& title,
 
          Gtk_Button* temp (new Gtk_Button (labels[i]));       // Create button
          temp->show ();
+
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+	 temp->clicked.connect (bind (slot (this, &perform), 1 << (i + 4)));
+#else
          connect_to_method (temp->clicked, this, &perform, 1 << (i + 4));
+#endif
 
          get_action_area ()->pack_start (*temp, false, false, 5);   // and add
          buttons.push_back (temp);
@@ -493,7 +502,7 @@ void XMessageBox::perform (int action) {
    TRACE9 ("XMessageBox::perform - Action = " << action);
 
    ret = action;
-   delete_self ();
+   delete this;
 }
 
 /*--------------------------------------------------------------------------*/
