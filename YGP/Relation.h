@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.3 2004/10/25 02:58:39 markus Exp $
+//$Id: Relation.h,v 1.4 2004/11/04 16:30:25 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,12 +38,14 @@ class IRelation;
 class RelationManager {
    friend class IRelation;
 
-   static IRelation* getRelation (const char* name);
+ public:
+   static IRelation*  getRelation (const char* name);
+   static const std::string& getRelationName (const IRelation& relation);
 
  private:
    static void remove (const IRelation* relation);
    static void add (const char* name, IRelation* relation) {
-      Check1 (relations.find (relation) == relations.end ());
+      Check1 (relations.find (name) == relations.end ());
       relations[name] = relation; }
 
    RelationManager ();
@@ -60,7 +62,8 @@ class RelationManager {
  */
 template <class _Tp>
 struct lessDereferenced : public std::binary_function<_Tp, _Tp, bool> {
-   bool operator() (const _Tp& __x, const _Tp& __y) const {return *__x < *__y; }
+   bool operator() (const _Tp& __x, const _Tp& __y) const {
+      return __x.ptr () < __y.ptr (); }
 };
 
 
@@ -71,6 +74,9 @@ class IRelation {
  public:
    IRelation (const char* name);
    virtual ~IRelation ();
+
+   const std::string& name () const {
+      return RelationManager::getRelationName (*this); }
 
  private:
    IRelation (const IRelation& other);
@@ -84,29 +90,55 @@ class IRelation {
  */
 template <class S, class T>
 class Relation1_1 : public IRelation {
+ public:
    Relation1_1 (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~Relation1_1 () { }                                  ///< Destructor
 
-   void relate (S source, T target) {
-      Check1 (objects.find (source) == objects.end ());
+   void relate (const S& source, const T& target) throw (std::overflow_error) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
+      typename std::map<S, T >::iterator i (objects.find (source));
+      if (i == objects.end ()) {
 #if defined (CHECK) && (CHECK > 0)
-      for (typename std::map<S, T >::iterator i (objects.begin ());
-	   i != objects.end (); ++i)
-	 Check (i->second != target);
+	 for (typename std::map<S, T >::iterator i (objects.begin ());
+	      i != objects.end (); ++i)
+	    Check (i->second != target);
 #endif
-      objects[source] = target;
+	 objects[source] = target;
+      }
+      else
+	 throw std::overflow_error (name ());
+   }
+   void unrelate (const S& source, const T& target) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
+      Check1 (objects.find (source) != objects.end ());
+      objects.erase (objects.find (source));
    }
 
+   bool isRelated (const S& owner) {
+      Check1 (owner.isDefined ());
+      return objects.find (owner) != objects.end ();
+   }
+   bool isRelated (const T& object) {
+      Check1 (object.isDefined ());
+      for (typename std::map<S, T >::iterator i (objects.begin ());
+	   i != objects.end (); ++i)
+	 if (i->second == object)
+	    return true;
+      return false;
+   }
    bool isRelated (const S& owner, const T& object) {
+      Check1 (owner.isDefined ()); Check1 (object.isDefined ());
       typename std::map<S, T >::iterator i (objects.find (owner));
-      return ((i != objects.end ()) ? (*i == object) : false);
+      return ((i != objects.end ()) ? (i->second == object) : false);
    }
 
    T& getObject (const S& owner) const {
+      Check1 (owner.isDefined ());
       Check1 (objects.find (owner));
       return objects[owner];
    }
    S& getParent (const T& object) const {
+      Check1 (object.isDefined ());
       for (typename std::map<S, T >::iterator i (objects.begin ());
 	   i != objects.end (); ++i)
 	 if (i->second == object)
@@ -134,7 +166,8 @@ class Relation1_N : public IRelation {
    Relation1_N (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~Relation1_N () { }                                  ///< Destructor
 
-   void relate (S source, T target) {
+   void relate (const S& source, const T& target) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
 #if defined (CHECK) && (CHECK > 0)
       for (typename std::map<S, std::vector<T> >::iterator i (objects.begin ());
 	   i != objects.end (); ++i)
@@ -143,8 +176,34 @@ class Relation1_N : public IRelation {
 #endif
       objects[source].push_back (target);
    }
+   void unrelate (const S& source, const T& target) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
+      typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
+      Check1 (i != objects.end ());
 
+      typename std::vector<T>::iterator j
+	 (find (i->second.begin (), i->second.end (), target));
+      Check1 (j != i->second.end ());
+      i->second.erase (j);
+      if (i->second.empty ())
+	 objects.erase (i);
+   }
+
+   bool isRelated (const S& owner) {
+      Check1 (owner.isDefined ());
+      return objects.find (owner) != objects.end ();
+   }
+   bool isRelated (const T& object) {
+      Check1 (object.isDefined ());
+      for (typename std::map<S, std::vector<T> >::iterator i (objects.begin ());
+	   i != objects.end (); ++i)
+	 if (find (i->second.begin (), i->second.end (), object)
+	     != i->second.end ())
+	    return true;
+      return false;
+   }
    bool isRelated (const S& owner, const T& object) {
+      Check1 (owner.isDefined ()); Check1 (object.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i (objects.find (owner));
       return ((i != objects.end ())
 	      ? (find (i->second.begin (), i->second.end (), object)
@@ -153,10 +212,12 @@ class Relation1_N : public IRelation {
    }
 
    std::vector<T>& getObjects (const S& owner) {
+      Check1 (owner.isDefined ());
       Check1 (objects.find (owner) != objects.end ());
       return objects[owner];
    }
    S getParent (const T& object) const {
+      Check1 (object.isDefined ());
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {
 	 typename std::vector<T>::const_iterator o (find (i->second.begin (),
@@ -191,11 +252,12 @@ class Relation1_X : public Relation1_N<S, T> {
    virtual ~Relation1_X () { }                                  ///< Destructor
 
    void relate (S source, T target) throw (std::overflow_error) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i
 	 (Relation1_N<S, T>::objects.find (source));
       if (i != Relation1_N<S, T>::objects.end ()) {
 	 if ((cRelated != -1U) && (i->second.size () >= cRelated))
-	    throw std::overflow_error ("");
+	    throw std::overflow_error (IRelation::name ());
       }
       Relation1_N<S, T>::relate (source, target);
    }
@@ -215,17 +277,85 @@ class Relation1_X : public Relation1_N<S, T> {
  */
 template <class S, class T>
 class RelationN_M : public IRelation {
+ public:
    /// Creates an 1-to-n relation.
    /// \param name: Name of relation
    RelationN_M (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~RelationN_M () { }                                  ///< Destructor
 
+   void relate (const S& source, const T& target) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
+      objects[source].push_back (target);
+      parents[target].push_back (source);
+   }
+   void unrelate (const S& source, const T& target) {
+      Check1 (source.isDefined ()); Check1 (target.isDefined ());
+      typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
+      Check1 (i != objects.end ());
+
+      typename std::vector<T>::iterator j
+	 (find (i->second.begin (), i->second.end (), target));
+      Check1 (j != i->second.end ());
+      i->second.erase (j);
+      if (i->second.empty ())
+	 objects.erase (i);
+
+      typename std::map<T, std::vector<S> >::iterator k (parents.find (target));
+      Check1 (k != parents.end ());
+
+      typename std::vector<S>::iterator l
+	 (find (k->second.begin (), k->second.end (), source));
+      Check1 (l != k->second.end ());
+      k->second.erase (l);
+      if (l->second.empty ())
+	 objects.erase (k);
+   }
+
+   bool isRelated (const S& owner) {
+      Check1 (owner.isDefined ());
+      return objects.find (owner) != objects.end ();
+   }
+   bool isRelated (const T& object) {
+      Check1 (object.isDefined ());
+      return parents.find (object) != parents.end ();
+   }
+   bool isRelated (const S& owner, const T& object) {
+      Check1 (owner.isDefined ()); Check1 (object.isDefined ());
+      typename std::map<S, std::vector<T> >::iterator i (objects.find (owner));
+      return ((i != objects.end ())
+	      ? (find (i->second.begin (), i->second.end (), object)
+		 != i->second.end ())
+	      : false);
+   }
+
+   const std::vector<T>& getObjects (const S& owner) {
+      Check1 (owner.isDefined ());
+      Check1 (objects.find (owner) != objects.end ());
+      return objects[owner];
+   }
+   const std::vector<S>& getParents (const T& object) const {
+      Check1 (object.isDefined ());
+      for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
+	   i != objects.end (); ++i) {
+	 typename std::vector<T>::const_iterator o (find (i->second.begin (),
+							  i->second.end (), object));
+	 if (o != i->second.end ()) {
+	    typename std::map<T, std::vector<S> >::const_iterator p
+	       (parents.find (*o));
+	    Check3 (p != parents.end ());
+	    return p->second;
+	 }
+      }
+      Check1 (0);
+   }
+
+ protected:
+   std::map<S, std::vector<T>, lessDereferenced<S> > objects;
+   std::map<T, std::vector<S>, lessDereferenced<T> > parents;
+
  private:
    RelationN_M (const RelationN_M& other);
    const RelationN_M& operator= (const RelationN_M& other);
-
-   std::vector<S> objects;
-   std::vector<T> related;
 };
 
 
