@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.13 2002/10/23 05:46:13 markus Rel $
+//$Id: INIFile.h,v 1.14 2002/11/10 23:07:47 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -74,25 +74,28 @@
 //    INIATTR (Section2, ADate, Key3);
 
 #include <stdlib.h>
-#include <assert.h>
 
 #include <string>
 #include <vector>
 #include <stdexcept>
 
+#include <Check.h>
 #include <Parse.h>
 #include <XStream.h>
 #include <Attribute.h>
 
+class Entity;
+
 
 // Macros to define the INI-file-structure.
-#define INIFILE(file)       INIFile _inifile_ (file);
-#define INISECTION(section) INISection section (#section); \
-                            _inifile_.addSection (section);
-#define INIATTR(section, type, attr) Attribute<type> attr##_ (#attr, attr); \
-                             section.addAttribute (attr##_);
-#define INIATTR2(section, type, attr, name) Attribute<type> name##_ (#name, attr); \
-                             section.addAttribute (name##_);
+#define INIFILE(file)        INIFile _inifile_ (file);
+#define INIOBJ(obj, section) _inifile_.addEntity ((obj), #section);
+#define INISECTION(section)  INISection section (#section); \
+                             _inifile_.addSection (section);
+#define INIATTR(section, type, attr) Attribute<type> attr##_ (#attr, (attr)); \
+                             (section).addAttribute (attr##_);
+#define INIATTR2(section, type, attr, name) Attribute<type> name##_ (#name, (attr)); \
+                             (section).addAttribute (name##_);
 #define INIFILE_READ()       _inifile_.read ()
                             
 
@@ -117,7 +120,7 @@ class INISection {
    const char* getName () const { return pName; }
 
    bool matches (const char* name) const {
-      assert (name);
+      Check3 (name);
       return !strcmp (name, pName); }
 
  protected:
@@ -157,6 +160,12 @@ class INIFile {
    virtual ~INIFile ();
 
    void addSection (const INISection& section);
+   INISection* addSection (const char* section);
+
+   void addEntity (const Entity& obj, INISection& section);
+   void addEntity (const Entity& obj, const char* section) {
+      Check3 (section);
+      addEntity (obj, *addSection (section)); }
 
    int read () throw (std::string);
 
@@ -173,6 +182,7 @@ class INIFile {
 
    Xifstream file;
    std::vector<const INISection*> sections;
+   std::vector<INISection*> sectionsToFree;
    INISection* pSection;
 
    typedef OFParseAttomic<INIFile> OMParseAttomic;

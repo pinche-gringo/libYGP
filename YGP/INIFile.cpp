@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.12 2002/10/23 05:46:35 markus Rel $
+//$Id: INIFile.cpp,v 1.13 2002/11/10 23:07:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include "Trace_.h"
+#include "Entity.h"
 #include "INIFile.h"
 #include "Internal.h"
 
@@ -60,7 +61,7 @@ INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
    , SectionName ("\\X\\9_.", _("Name of section"), *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
    , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
    , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
-  assert (pName);
+  Check3 (pName);
 
    _Section[0] = &SectionHeader; _Section[1] = &Attributes; _Section[2] = NULL;
    _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
@@ -81,7 +82,8 @@ INISection::~INISection () {
 //Parameters: attribute: Attribute to add
 /*--------------------------------------------------------------------------*/
 void INISection::addAttribute (const IAttribute& attribute) {
-   assert (!findAttribute (attribute.getName ()));
+   Check3 (!findAttribute (attribute.getName ()));
+   TRACE9 ("INISection::addAttribute (const IAttribute&) - " << attribute.getName ());
    attributes.push_back (&attribute);
 }
 
@@ -146,7 +148,7 @@ int INISection::readAttributes (Xistream& stream) throw (std::string) {
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
 int INISection::foundSection (const char* section, unsigned int) {
-   assert (section); assert (pName);
+   Check3 (section); Check3 (pName);
    TRACE5 ("INISection::foundSection (const char*, unsigned int): '" << section << '\'');
 
    return strcmp (pName, section) ?
@@ -159,7 +161,7 @@ int INISection::foundSection (const char* section, unsigned int) {
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
 int INISection::foundKey (const char* key, unsigned int) {
-   assert (key);
+   Check3 (key);
    TRACE5 ("INISection::foundKey (const char*, unsigned int): '" << key << '\'');
 
    // Search for attribute
@@ -180,7 +182,7 @@ int INISection::foundKey (const char* key, unsigned int) {
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
 int INISection::foundValue (const char* value, unsigned int) {
-   assert (value); assert (pFoundAttr);
+   Check3 (value); Check3 (pFoundAttr);
    TRACE5 ("INISection::foundValue (const char*, unsigned int): '" << value << '\'');
 
    return pFoundAttr->assignFromString (value) ?
@@ -190,14 +192,14 @@ int INISection::foundValue (const char* value, unsigned int) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
-//Parameters: name: Name of
+//Parameters: name: Name of the INI file
 //Remarks   : name must be an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    , SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
    , SectionName ("\\X\\9_.", _("Name of section"), *this,
                   &INIFile::foundSection, LEN_SECTIONNAME, 1) {
-   assert (filename);
+   Check3 (filename);
 
    TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
 
@@ -219,6 +221,9 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
 /*--------------------------------------------------------------------------*/
 
 INIFile::~INIFile () {
+   std::vector<INISection*>::iterator i;
+   for (i = sectionsToFree.begin (); i != sectionsToFree.end (); ++i)
+      delete (*i);
 }
 
 
@@ -227,8 +232,26 @@ INIFile::~INIFile () {
 //Parameters: section: Specification of the section
 /*--------------------------------------------------------------------------*/
 void INIFile::addSection (const INISection& section) {
-   assert (!findSection (section.getName ()));
+   TRACE9 ("INIFile::addSection (const INISection&) - " << section.getName ());
+   Check3 (!findSection (section.getName ()));
    sections.push_back (&section);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Adds a section to parse to the INI-file; does nothing if section
+//            already exists
+//Parameters: section: Name of the section
+//Returns   : INISection*: Pointer to new (or existing) section
+/*--------------------------------------------------------------------------*/
+INISection* INIFile::addSection (const char* section) {
+   Check3 (section);
+   INISection* pSec = const_cast<INISection*> (findSection (section));
+   if (!pSec) {
+      pSec = new INISection (section);
+      sections.push_back (pSec);
+      sectionsToFree.push_back (pSec);
+   }
+   return pSec;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -243,12 +266,13 @@ int INIFile::read () throw (std::string) {
    int rc = 0;
 
    do {
+      pSection = NULL;
       rc = SectionHeader.parse ((Xistream&)file);
       if (rc || file.eof ())
 	break;
 
-      assert (pSection);
-      rc = pSection->readAttributes ((Xistream&)file);
+      if (pSection)
+         rc = pSection->readAttributes ((Xistream&)file);
    } while (!rc); // end-do
 
    return rc;
@@ -275,10 +299,25 @@ const INISection* INIFile::findSection (const char* name) const {
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
 int INIFile::foundSection (const char* section, unsigned int) {
-   assert (section);
+   Check3 (section);
    TRACE5 ("INIFile::foundSection (const char* , unsigned int): '" << section << '\'');
 
    pSection = const_cast<INISection*> (findSection (section));
 
    return pSection ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Adds all the attributes of the Entity to the passed section
+//Parameters: obj: Object whose attributes should be added
+//            section: Section where to add the attributes
+/*--------------------------------------------------------------------------*/
+void INIFile::addEntity (const Entity& obj, INISection& section) {
+   TRACE9 ("INIFile::addEntity (const Entity&, INISection&) - adding "
+           << obj.attributes.size () << " attributes");
+   std::vector<const IAttribute*>::const_iterator i;
+   for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i) {
+      Check3 (*i);
+      section.addAttribute (**i);
+   }
 }
