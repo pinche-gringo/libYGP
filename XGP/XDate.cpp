@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.22 2004/01/15 06:26:35 markus Rel $
+//$Id: XDate.cpp,v 1.23 2004/10/24 00:24:53 markus Rel $
 
-//PROJECT     : XGeneral
-//SUBSYSTEM   : XAbout
+//PROJECT     : MessageDialog
+//SUBSYSTEM   : XDate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Copyright (C) 2001 - 2004

@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.18 2004/10/16 19:17:10 markus Exp $
+//$Id: XDialog.cpp,v 1.19 2004/10/24 00:24:53 markus Exp $
 
-//PROJECT     : General
-//SUBSYSTEM   : X-windows
+//PROJECT     : libXGP
+//SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

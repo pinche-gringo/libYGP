@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.37 2004/09/06 00:27:38 markus Rel $
+//$Id: XFileList.cpp,v 1.38 2004/10/24 00:24:54 markus Exp $
 
-//PROJECT     : XGeneral
+//PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

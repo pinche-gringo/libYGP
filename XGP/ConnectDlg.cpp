@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.12 2004/09/06 00:27:38 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.13 2004/10/24 00:24:53 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libXGP
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

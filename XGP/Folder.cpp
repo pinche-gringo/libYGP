@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.11 2004/10/07 21:27:11 markus Rel $
+//$Id: Folder.cpp,v 1.12 2004/10/24 00:24:53 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libXGP
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.15 2004/01/15 06:26:35 markus Rel $
+//$Id: XFileEntry.cpp,v 1.16 2004/10/24 00:24:54 markus Rel $
 
-//PROJECT     : XGeneral
+//PROJECT     : libXGP
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

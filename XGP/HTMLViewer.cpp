@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.12 2004/09/06 00:27:38 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.13 2004/10/24 00:24:53 markus Rel $
 
-//PROJECT     : XGeneral
+//PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

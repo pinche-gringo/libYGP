@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.7 2004/09/07 05:57:30 markus Rel $
+//$Id: MessageDlg.cpp,v 1.8 2004/10/24 00:24:53 markus Exp $
 
-//PROJECT     : Cardgames
-//SUBSYSTEM   : <FILLIN>
+//PROJECT     : libXGP
+//SUBSYSTEM   : MessageDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

@@ -1,11 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.3 2004/10/24 00:19:39 markus Exp $
+//$Id: LoginDlg.cpp,v 1.4 2004/10/24 00:24:53 markus Exp $
 
-//PROJECT     : libYGP
+//PROJECT     : libXGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005

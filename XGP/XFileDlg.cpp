@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.25 2004/10/16 19:17:10 markus Exp $
+//$Id: XFileDlg.cpp,v 1.26 2004/10/24 00:24:53 markus Exp $
 
-//PROJECT     : XGeneral
+//PROJECT     : libXGP
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

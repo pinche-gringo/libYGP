@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.26 2004/09/06 00:27:38 markus Rel $
+//$Id: XAbout.cpp,v 1.27 2004/10/24 00:24:53 markus Rel $
 
-//PROJECT     : XGeneral
+//PROJECT     : MessageDialog
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

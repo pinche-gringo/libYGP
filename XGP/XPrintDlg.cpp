@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.22 2004/09/06 00:27:38 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.23 2004/10/24 00:24:54 markus -Rel $
 
-//PROJECT     : XGeneral
+//PROJECT     : libXGP
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
