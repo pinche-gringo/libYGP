@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.1 $)
+AC_REVISION($Revision: 1.2 $)
 
 AC_INIT()
 
@@ -23,6 +23,7 @@ AC_PROG_CXX
 AC_LANG_CPLUSPLUS
 
 AC_C_CONST
+AC_C_INLINE
 AC_C_BIGENDIAN
 
 dnl Checks for programs.
@@ -32,9 +33,12 @@ dnl Checks for libraries.
 AC_CHECK_LIB(stdc++, main)
 
 dnl Checks for header files.
+AC_HEADER_DIRENT
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
+AC_FUNC_FNMATCH
+AC_FUNC_CLOSEDIR_VOID
 
 AC_OUTPUT(Makefile)
