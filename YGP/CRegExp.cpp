@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.21 2002/04/18 22:34:10 markus Exp $
+//$Id: CRegExp.cpp,v 1.22 2002/04/19 00:45:46 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -123,36 +123,26 @@ bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
 //Returns   : bool: Result (true: match)
 //Requires  : pActRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::compareParts (const char* pActRegExp,
+bool RegularExpression::compareParts (const char*& pActRegExp,
                                       const char*& pCompare, bool inGroup) {
    assert (pActRegExp); assert (pCompare); assert (!checkIntegrity ());
 
-   TRACE1 ("RegularExpression::compareParts (const char*, const char*&) -> "
+   TRACE1 ("RegularExpression::compareParts (const char*&, const char*&) -> "
            << pActRegExp << " <-> " << pCompare);
 
-   pStartCompare = pCompare;
-   bool rc (false);
-
+   const char* pSaveCompare = pCompare;
    do {
-      rc = doCompare (pActRegExp, pCompare);         // Compare the whole thing
-      if (rc) {                               // If matched and both regexp and
-         TRACE1 ("RegularExpression::compareParts (const char*, const char*&) -> Remaining: '"
-                 << pCompare << '\'');
+      if (doCompare (pActRegExp, pCompare))  {       // Compare the whole thing
+         TRACE1 ("RegularExpression::compareParts (const char*&, const char*&)"
+                 " - Found; Remaining: '" << pCompare << '\'');
 
-         if (!*pCompare)                    // string to compare empty -> Found
+         if (!*pCompare || inGroup)         // String to compare empty -> Found
             return true;
-         else {                            // Part found, but remaining string:
-            if (inGroup)                      // If in a group let caller check
-               return true;                 // with its rest; if not in a group
-            else                                // check remaining alternatives
-               pCompare = pStartCompare;
-         }
       }
-      else                             // Not found: Search for alternative and
-         pCompare = pStartCompare;  // start comparison again (with old values)
+      pCompare = pStartCompare;     // start comparison again (with old values)
 
-      rc = false;
-      pActRegExp = findEndOfAlternative (pActRegExp + 1);
+      if (!(pActRegExp = findEndOfAlternative (pActRegExp + 1, inGroup)))
+         break;
    } while (*pActRegExp++); // end-do while alternatives available
 
    return false;
@@ -349,64 +339,67 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
 bool RegularExpression::compGroup (const char*& pActRegExp,
                                    const char*& pCompare) {
    assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
-   const char* pEnd (findEndOfGroup (++pActRegExp));
+   const char* pEnd (findEndOfGroup (pActRegExp));
    assert (pEnd); assert (pEnd > pActRegExp);
 
-   std::string group (pActRegExp, pEnd - pActRegExp - 1);
+   std::string group (pActRegExp, pEnd - pActRegExp);
 
    TRACE3 ("RegularExpression::compGroup (const char*&, const char*&) -> "
-           << pActRegExp << " in \\(" << group << "\\)");
+           << pCompare << " in (" << group << ')');
 
    int min, max;
-   pEnd = getRepeatFactor (++pEnd, min, max);
+   const char* pEndRE (getRepeatFactor (pEnd + 1, min, max));
+   TRACE7 ("RegularExpression::compGroup (const char*&, const char*&) - "
+           "Repeating group: " << min << " - " << max);
+
    assert (min >= 0);
    assert (static_cast<unsigned int> (min) <= static_cast<unsigned int> (max));
 
+   const char* pHelp;
    unsigned int i;
-   for (i = 0; i <= min; ++i)
-      if (!doCompGroup (pActRegExp, pActRegExp + group.size (),   // Match min
-                        pCompare))
+   for (i = 1; i <= min; ++i) {
+      pHelp = group.c_str ();
+      TRACE8 ("RegularExpression::compGroup (const char*&, const char*&) - "
+              "Repeating: " << i << ". mandatory");
+
+      if (!compareParts (pHelp, pCompare, true))        // Match group-members
          return false;
+   }
 
-   const char* pHelp = group.c_str ();
+   const char* pSaveEnd (pEndRE);
    const char* pSaveComp (pCompare);
-
    bool match;
    for (; i <= static_cast<unsigned int> (max); ++i) {      // Check til. max.
-      if (match = compareParts (pHelp, pCompare, true)) { // If grouppart fits
-         if (*pCompare) {                                 // If fits with rest
-            if (compareParts (pEnd, pCompare))         // Compare with rest-RE 
-               return true;                                // Fits also: Found
+      TRACE8 ("RegularExpression::compGroup (const char*&, const char*&) - "
+              "Repeating: " << i << ". optional");
 
-            pHelp = findEndOfAlternative (pHelp);
-            if (!*pHelp)
-               return false;
+      if (compareParts (pEndRE, pCompare)) // Check if part behind group match
+         break;
+
+      pCompare = pSaveComp;
+      do {
+         if (doCompare (pHelp, pCompare)) {       // Compare the group; if the
+            TRACE1 ("RegularExpression::compGroup (const char*&, const char*&)"
+                    " - Found; Remaining: '" << pCompare << '\'');
+
+            if (!*pCompare)           // string to compare is found: Terminate
+               break;
          }
-      }
-      return false;
+
+         if (!(pHelp = findEndOfAlternative (pHelp + 1, true)))
+            break;
+
+         pCompare = pSaveComp;          // Else: Compare with next alternative
+      } while (*pActRegExp++); // end-do while alternatives available
    } // endfor til max
 
-   return false;
+   TRACE8 ("RegularExpression::compRegion (const char*&, const char*&) - Found:\n"
+           "\t->ActRegExp = '" << pActRegExp << "', pEnd = '"
+           << pEndRE << "', pCompare = " << pCompare);
+
+   pActRegExp = pEndRE;
+   return true;
 }
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the passed string matches the group
-//Parameters: pActRegExp: Reference to pointer to actual position in match
-//            pEnd: Pointer to after group (incl. repeat-factor)
-//            pCompare: Value to compare with
-//Returns   : bool: Result (true: match)
-//Requires  : pActPos ASCIIZ-string; group not empty
-/*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
-                                     const char*& pCompare) {
-   assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
-   assert (pEnd); assert (pEnd > pActRegExp);
-
-   TRACE3 ("RegularExpression::doCompGroup (const char*&, const char*, const char*&) const -> "
-           << pActRegExp << " in (" << std::string (pActRegExp, pEnd - pActRegExp) << ")");
-   return compareParts (pActRegExp, pCompare);
-}
-
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the single character (incl.
@@ -589,31 +582,49 @@ const char* RegularExpression::findEndOfGroup (const char* pRegExp) const {
    } while (cGroups); // end-do 
 
    TRACE9 ("RegularExpression::findEndOfGroup (const char*) const - End: " << pRegExp + 1);
-   return ++pRegExp;
+   return pRegExp;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Finds the end of an alternative
 //Parameters: pRegExp: Pointer to the beginning of the regexp
-//Returns   : const char*: Pointer to alternative-seperator
-//Requires  : pRegExp not NULL
+//            inGroup: Flag, if we are searching only inside a group
+//Returns   : const char*: Pointer to alternative-seperator (or NULL, if no
+//                         alternative found)
+//Requires  : pRegExp not NULL and at least 1 char long
 /*--------------------------------------------------------------------------*/
-const char* RegularExpression::findEndOfAlternative (const char* pRegExp) const {
-   assert (pRegExp);
+const char* RegularExpression::findEndOfAlternative (const char* pRegExp,
+                                                     bool inGroup) const {
+   assert (pRegExp); assert (*pRegExp);
 
    // Search for alternative with attention of regions
    while (*++pRegExp) {
       TRACE9 ("RegularExpression::findEndOfAlternative (const char*) const - Search for alternative: "
               << pRegExp);
 
-      if (*pRegExp == REGIONBEGIN)
-         pRegExp = findEndOfRegion (pRegExp + 1);
-      else
- 	 if ((*pRegExp == ALTERNATIVE) && (pRegExp[-1] != ESCAPE))
-            break;
+      switch (*pRegExp) {
+      case REGIONBEGIN:
+         if (pRegExp[-1] != ESCAPE)
+            pRegExp = findEndOfRegion (pRegExp + 1);
+         break;
+
+      case GROUPBEGIN:
+         if (pRegExp[-1] != ESCAPE)
+            pRegExp = findEndOfGroup (pRegExp + 1);
+         break;
+
+      case ALTERNATIVE:
+ 	 if (pRegExp[-1] != ESCAPE)
+            return pRegExp;
+         break;
+         
+      case GROUPEND:
+         if (inGroup)
+            return NULL;
+      } // end-switch act. char
    } // end-while regexp not empty
 
-   return pRegExp;
+   return NULL;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -661,8 +672,8 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActReg
       TRACE3 ("RegularExpression::compActREPart (MFCOMPARE, const char*&, const char*,"
               " const char*&) - Repeating: " << i << ". optional");
 
-      if (doCompare (pEndRE, pCompare))   // if remaining parts match; if yes:
-         break;                                                // Return found
+      if (compareParts (pEndRE, pCompare))        // If remaining parts match;
+         break;                                        // If yes: Return found
 
       pEndRE = pSaveEnd;
       pCompare = pSaveComp;                        // Else: Check if act. part
