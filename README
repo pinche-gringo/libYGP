@@ -2,20 +2,20 @@
                      =======================
 
 
-General purpose classes (separated in a common part (subdir Common), designed
-to be independent of the used operating system or (GUI) library/system and in
-parts specific to such things (subdirs CORBA, Windows, X-windows)).
-
+Some generally usefull classes; ; separated in a common part (subdir Common),
+designed to be independent of the used operating system or (GUI)
+library/system and in parts specific to such things (subdirs CORBA, Windows,
+X-windows).
 
 Up to 3 libraries are created:
 
   - libYGP ..... Consists of generell purpose classes without dependency to
-                 the used/installed operating system/library
+                 the used/installed operating system/library.
   - libXGP ..... Classes for the X-windows system; basing on gtkmm/gtk+ (only
                  made when a proper installation of gtkmm (formerly known as
-                 Gtk--) is found)
+                 Gtk--) is found).
   - libCGP ..... Classes to be used with CORBA (only made when a CORBA-
-                 implementation is found)
+                 implementation (MICO) is found).
 
 
 The whole thing is:
@@ -38,8 +38,8 @@ See the file INSTALL
 Documentation
 -------------
 
-Can be found in the doc-subdirectory. It's in HTML-format; the file index.html
-provides a class-index, cross_index.html a cross-index.
+Can be found in the doc-subdirectory; In HTML-format; the file index.html is a
+good starting point.
 
 
 Samples
