@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.2 2002/05/03 20:53:11 markus Exp $
+//$Id: Thread.cpp,v 1.3 2002/05/09 22:21:59 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -42,7 +42,7 @@
 #include <stdlib.h>
 #endif
 
-#define DEBUG 5
+#define DEBUG 0
 #include <Trace_.h>
 
 #include "Thread.h"
