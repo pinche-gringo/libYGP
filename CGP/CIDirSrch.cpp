@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.6 2002/07/11 07:15:29 markus Exp $
+//$Id: CIDirSrch.cpp,v 1.7 2002/07/15 21:02:40 markus Rel $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -27,7 +27,9 @@
 
 #include <assert.h>
 
-#include "ATStamp.h"
+#include <Trace_.h>
+#include <ATStamp.h>
+
 #include "CIDirSrch.h"
 
 
@@ -36,12 +38,12 @@ CIFile::CIFile (const File& other) : pFile (&other) {
 
 char* CIFile::path () {
    assert (pFile);
-   return const_cast <char*> (pFile->path ());
+   return CORBA::string_dup (pFile->path ());
 }
 
 char* CIFile::name () {
    assert (pFile);
-   return const_cast <char*> (pFile->name ());
+   return CORBA::string_dup (pFile->name ());
 }
 
 CORBA::ULong CIFile::size () {
@@ -52,7 +54,7 @@ CORBA::ULong CIFile::size () {
 char* CIFile::time () {
    assert (pFile);
    ATimestamp time (pFile->time ());
-   return const_cast<char*> (time.toString ().c_str ());
+   return CORBA::string_dup (time.toString ().c_str ());
 }
 
 CORBA::ULong CIFile::attributes () {
@@ -85,6 +87,14 @@ CORBA::Short CIFile::compareObject (CFile_ptr other) {
    return pFile->compare (other->name ());
 }
 
+void CIFile::exit () {
+   CORBA::ORB_var orb (_orb ());
+   CORBA::BOA_var boa (_boa ());
+
+   boa->deactivate_impl (CORBA::ImplementationDef::_nil ());
+   orb->shutdown (true);
+}
+
 
 void CIDirectorySearch::setSearchValue (const char* file) {
   srch.setSearchValue (file);
@@ -92,12 +102,12 @@ void CIDirectorySearch::setSearchValue (const char* file) {
 
 CFile_ptr CIDirectorySearch::find (CORBA::ULong attr) {
    const File* pEntry (srch.find (attr));
-   return pEntry ? new CIFile (*pEntry) : NULL;
+   return pEntry ? CFile::_duplicate (new CIFile (*pEntry)) : NULL;
 }
 
 CFile_ptr CIDirectorySearch::next () {
    const File* pEntry (srch.next ());
-   return pEntry ? new CIFile (*pEntry) : NULL;
+   return pEntry ? CFile::_duplicate (new CIFile (*pEntry)) : NULL;
 }
 
 CORBA::Boolean CIDirectorySearch::isValid () {
@@ -109,9 +119,17 @@ char* CIDirectorySearch::getDirectory () {
 }
 
 char* CIDirectorySearch::getSearchValue () {
-   return const_cast<char*> (srch.getSearchValue ().c_str ());
+   return CORBA::string_dup (srch.getSearchValue ().c_str ());
 }
 
 char* CIDirectorySearch::getFileSpec () {
-   return const_cast<char*> (srch.getFileSpec ().c_str ());
+   return CORBA::string_dup (srch.getFileSpec ().c_str ());
+}
+
+void CIDirectorySearch::exit () {
+   CORBA::ORB_var orb (_orb ());
+   CORBA::BOA_var boa (_boa ());
+
+   boa->deactivate_impl (CORBA::ImplementationDef::_nil ());
+   orb->shutdown (true);
 }
