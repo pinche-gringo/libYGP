@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.12 2001/01/19 14:38:47 Markus Exp $
+//$Id: CRegExp.cpp,v 1.13 2001/03/25 09:54:39 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -38,6 +38,37 @@
 #  include <ctype.h>
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
+
+// Contstants for repeating
+const char RegularExpression::MULTIMATCHOPT = '*';
+const char RegularExpression::MULTIMATCHMAND = '+';
+const char RegularExpression::MULTIMATCH1 = '?';
+const char RegularExpression::BOUNDBEG = '{';
+const char RegularExpression::BOUNDEND = '}';
+
+// Special single characters
+const char RegularExpression::SINGLEMATCH = '.';
+const char RegularExpression::LINEBEGIN = '^';
+const char RegularExpression::LINEEND = '$';
+const char RegularExpression::ESCAPE = '\\';
+
+// Contants related to regions
+const char RegularExpression::REGIONBEGIN = '[';
+const char RegularExpression::REGIONEND = ']';
+const char RegularExpression::RANGE = '-';
+const char RegularExpression::NEGREGION = '^';
+const char RegularExpression::REGIONCLASS = ':';
+
+// Escaped special characters (after a quoting backslash (\))
+const char RegularExpression::GROUPBEGIN = '(';
+const char RegularExpression::GROUPEND = ')';
+const char RegularExpression::ALTERNATIVE = '|';
+const char RegularExpression::WORD = 'w';
+const char RegularExpression::NOTWORD = 'W';
+const char RegularExpression::WORDBORDER = 'b';
+const char RegularExpression::NOTWORDBORDER = 'B';
+const char RegularExpression::WORDBEGIN = '<';
+const char RegularExpression::WORDEND = '>';
 
 
 /*--------------------------------------------------------------------------*/
@@ -570,7 +601,7 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
             if (pPrevExpr) 
                throw (getError (NO_PREV_EXP, pRegExp - getExpression ()));
 
-	    char** pEnd;
+	    char* pEnd;
             unsigned long min (strtoul (pRegExp + 1, &pEnd, 10)); assert (pEnd != (pRegExp + 1));
             unsigned long max ((unsigned long)-1);
             if ((*pEnd == ',') && isdigit (pEnd[1]))
@@ -579,8 +610,8 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
             if (min > max)
                throw (getError (INV_BOUND, pRegExp - getExpression () + 1));
 
-            pRegExp++ = pEnd;
-	    if (*pRegExp != BOUNDEND)
+            pRegExp = pEnd;
+	    if (*++pRegExp != BOUNDEND)
                throw (getError (INV_BOUND, pRegExp - getExpression ()));
          } // endif bound found
          break;
