@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.14 2003/06/14 06:23:57 markus Exp $
+//$Id: RDirSrch.h,v 1.15 2003/06/19 22:50:21 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -67,10 +67,12 @@ class RemoteDirSearch : public IDirectorySearch {
    virtual std::string getDirectory () const;
    virtual std::string getFileSpec () const;
 
-   //@Section searching
+   /// \name Searching
+   //@{
    virtual const File* find (unsigned long attribs = FILE_NORMAL)
       throw (std::string);
    virtual const File* next () throw (std::string);
+   //@}
 
    enum FileType { FILE_NORMAL = 0,                          ///< Ordinary file
                    FILE_READONLY = 1,                    ///< %File is readonly
