@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.71 2004/10/14 03:52:34 markus Exp $
+dnl $Id: configure.in,v 1.72 2004/12/29 18:39:47 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_REVISION($Revision: 1.71 $)
-AC_INIT(libYGP, 0.6.50, [g17m0@lycos.com], libYGP)
+AC_REVISION($Revision: 1.72 $)
+AC_INIT(libYGP, 0.7.00, [g17m0@lycos.com], libYGP)
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-dnl LIBRELEASE=$PACKAGE_VERSION
-LIBRELEASE=0.6.47
+LIBRELEASE=$PACKAGE_VERSION
+dnl LIBRELEASE=0.6.47
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
@@ -39,10 +39,70 @@ AC_PROG_MAKE_SET
 
 AM_GNU_GETTEXT
 
+dnl Use yes/no as values, as this is also shown by configure
+AC_CHECK_PROG([HAVE_AWK], [awk], [yes], [no])
+if test "$HAVE_AWK" = "no"; then
+    AC_MSG_WARN([Program 'awk' not found - bin/mgeni will not work!])
+fi
+
+AC_CHECK_PROG([HAVE_FIREFOX], [firefox], [yes], [no])
+AC_CHECK_PROG([HAVE_GALEON], [galeon], [yes], [no])
+AC_CHECK_PROG([HAVE_MOZILLA], [mozilla], [yes], [no])
+AC_CHECK_PROG([HAVE_NETSCAPE], [netscape], [yes], [no])
+AC_CHECK_PROG([HAVE_KONQUEROR], [konqueror], [yes], [no])
+AC_CHECK_PROG([HAVE_OPERA], [opera], [yes], [no])
+AC_CHECK_PROG([HAVE_IEXPLORER], [iexplore], [yes], [no])
+
+dnl Convert yes/no values to values understood by the pre-processor
+if test "$HAVE_FIREFOX" = "yes"; then
+   HAVE_FIREFOX=1
+else
+   HAVE_FIREFOX=0
+fi
+if test "$HAVE_GALEON" = "yes"; then
+   HAVE_GALEON=1
+else
+   HAVE_GALEON=0
+fi
+if test "$HAVE_MOZILLA" = "yes"; then
+   HAVE_MOZILLA=1
+else
+   HAVE_MOZILLA=0
+fi
+if test "$HAVE_NETSCAPE" = "yes"; then
+   HAVE_NETSCAPE=1
+else
+   HAVE_NETSCAPE=0
+fi
+if test "$HAVE_KONQUEROR" = "yes"; then
+   HAVE_KONQUEROR=1
+else
+   HAVE_KONQUEROR=0
+fi
+if test "$HAVE_OPERA" = "yes"; then
+   HAVE_OPERA=1
+else
+   HAVE_OPERA=0
+fi
+if test "$HAVE_IEXPLORER" = "yes"; then
+   HAVE_IEXPLORER=1
+else
+   HAVE_IEXPLORER=0
+fi
+AC_DEFINE_UNQUOTED([HAVE_FIREFOX], $HAVE_FIREFOX, [Set to 1 if Firefox exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_GALEON], $HAVE_GALEON, [Set to 1 if Galeon exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_MOZILLA], $HAVE_MOZILLA, [Set to 1 if Mozilla exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_NETSCAPE], $HAVE_NETSCAPE, [Set to 1 if Netscape exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_KONQUEROR], $HAVE_KONQUEROR, [Set to 1 if Konqueror exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_OPERA], $HAVE_OPERA, [Set to 1 if Opera exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_IEXPLORER], $HAVE_IEXPLORER, [Set to 1 if Internet Explorer exists, 0 if not])
+
+
 dnl Checks for libraries.
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(gmp, main)
 AC_CHECK_LIB(pthread, main)
+AC_CHECK_LIB(ws2_32, main)
 
 if test $ac_cv_lib_gmp_main = yes; then
    LIB_GMP=-lgmp
@@ -87,7 +147,8 @@ dnl Checks for library functions.
 AC_FUNC_FNMATCH
 AC_FUNC_CLOSEDIR_VOID
 
-AC_CHECK_FUNCS(timegm strfmon beginthread _beginthread pipe _pipe fork)
+AC_CHECK_FUNCS(timegm strfmon beginthread _beginthread pipe _pipe fork \
+	       spawnvp _sleep getlogin strftime strptime)
 
 AC_MSG_CHECKING(if signal.h defines SIGBUS)
 AC_CACHE_VAL(ac_cv_HAVE_SIGBUS, ac_cv_HAVE_SIGBUS=$ac_HAVE_SIGBUS)
