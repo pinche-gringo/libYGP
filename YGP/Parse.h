@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.15 2000/02/02 22:11:21 Markus Exp $
+//$Id: Parse.h,v 1.16 2000/03/04 18:11:09 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ class ParseObject {
 #ifdef __GNUC__
    typedef _IO_ostream_withassign ostream_withassign;
 #else
-   typedef ostream_withassign ostream_withassign;
+   class ostream_withassign;
 #endif
 
    static ostream_withassign& error;
