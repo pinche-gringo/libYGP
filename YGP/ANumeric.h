@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.8 2000/02/11 22:59:41 Markus Exp $
+//$Id: ANumeric.h,v 1.9 2000/02/19 15:43:06 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ class ANumeric : public AttributValue {
 #else
       value = val;
 #endif
+      return *this;
    }
 
    virtual void define ();
@@ -81,7 +82,7 @@ class ANumeric : public AttributValue {
 
    // Comparison
    bool operator== (const ANumeric& other) { return !compare (other); }
-   bool operator!= (const ANumeric& other) { return compare (other); }
+   bool operator!= (const ANumeric& other) { return compare (other) != 0; }
    bool operator<  (const ANumeric& other) { return compare (other) < 0; }
    bool operator>  (const ANumeric& other) { return compare (other) > 0; }
    bool operator<= (const ANumeric& other) { return compare (other) <= 0; }
