@@ -12,13 +12,12 @@ includedir = ${prefix}/include/XGP
 nobase_include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
 	XFileList.h XDate.h XFileDlg.h XPrintDlg.h XAttrLabel.h	XDialog.h \
 	XAttrEntry.h Folder.h XAttribute.h ConnectDlg.h HTMLViewer.h \
-	GTKViewer.h AutoContainer.h
+	GTKViewer.h AutoContainer.h MessageDlg.h
 
 libXGP_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 	Version.cpp XFileList.cpp XDate.cpp XFileDlg.cpp XPrintDlg.cpp \
 	BrowserDlg.cpp Folder.cpp ConnectDlg.cpp HTMLViewer.cpp GTKViewer.c \
-	AutoContainer.cpp \
-	$(include_HEADERS) 
+	AutoContainer.cpp MessageDlg.cpp $(include_HEADERS) 
 
 libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
