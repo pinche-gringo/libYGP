@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.3 2003/02/13 07:15:34 markus Rel $
+// $Id: RemoteFile.h,v 1.4 2003/06/19 03:26:50 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,15 +22,26 @@
 #include <File.h>
 #include <Socket.h>
 
-class AByteArray;
 class AttributeParse;
 
+/**Class representing a file on a remote server with simple
+   management-functions.
 
+   This class offers the same functionality like its parent although the file
+   is (or can be) actually stored on a remote computer.
+
+   This class is not really (very) useful by itself but designed to be used by
+   a RemoteDirSearch-object.
+*/
 typedef struct RemoteFile : public File {
+   /// Default constructor; creates an empty object (holding no file) with the
+   /// socket for the communication
    RemoteFile (Socket& socket) : File (), sock (socket) { }
+   /// Copy constructor; with the socket for the communication
    RemoteFile (const RemoteFile& o) : File (o), sock (o.sock) { }
    virtual ~RemoteFile ();
 
+   /// Assignment operator; with the socket for the communication
    RemoteFile& operator= (const RemoteFile& o) { File::operator= (o); sock = o.sock; return *this; }
 
    virtual File* clone () const;
@@ -48,7 +59,7 @@ typedef struct RemoteFile : public File {
    void handleServerMsg (const AttributeParse& attr, const char* pValue)
         const throw (std::string);
    void handleServerError (const char*) const throw (std::string);
-   bool isOK (const AByteArray& answer) const;
+   bool isOK (const std::string& answer) const;
 } RemoteFile;
 
 #endif
