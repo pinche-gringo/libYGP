@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.12 2000/06/04 00:55:33 Markus Exp $
+//$Id: FileRExp.cpp,v 1.13 2001/01/11 20:47:07 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -34,9 +34,9 @@
 #endif
 
 #ifdef UNIX
-#  define upper
+#  define UPPER
 #else
-#  define upper        (char)toupper
+#  define UPPER        (char)toupper
 #endif
 
 #define DEBUG 0
@@ -74,7 +74,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
    // Auswerten des Vergleichsstrings
    char ch;
    while (((ch = *pAktRegExp) != '\0') || *pCompare) {
-      switch (ch = upper (ch)) {
+      switch (ch = UPPER (ch)) {
       case MULTIMATCH:
          if (!*++pAktRegExp)
             return true;                       // Asterisk at end? Return match
@@ -99,11 +99,11 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 
          while ((ch = *++pAktRegExp) != REGIONEND) {
             if (pAktRegExp[1] == RANGE) {
-               char chUpper (upper (pAktRegExp[2]));
+               char chUpper (UPPER (pAktRegExp[2]));
                assert ((chUpper != '\0') && (chUpper != REGIONEND));
-               char chAkt (upper (*pCompare));
+               char chAkt (UPPER (*pCompare));
 
-               if ((chAkt >= upper (ch)) && (chAkt <= chUpper))
+               if ((chAkt >= UPPER (ch)) && (chAkt <= chUpper))
                   break;
                pAktRegExp += 2;
             }
@@ -142,11 +142,11 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
                } // endif
                else {
                   TRACE7 ("Check " << *pCompare << " == " << ch);
-                  if (upper (ch) == upper (*pCompare))
+                  if (UPPER (ch) == UPPER (*pCompare))
                      break;
                 } // end-else ordinary character
-	    } // end-else no range
-	    inClass = false;
+            } // end-else no range
+            inClass = false;
          } // end-while
          TRACE9 ("Match ended; remaining: " << pAktRegExp);
 
@@ -173,7 +173,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
          }
 
       default:
-         if (upper (*pCompare) != ch)
+         if (UPPER (*pCompare) != ch)
             return false;
          break;
       } // end-switch reg.exp-character
@@ -217,7 +217,7 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
                throw (getError ("Empty region", pRegExp - getExpression ()));
             } // endif
 
-	    ++pRegExp;
+            ++pRegExp;
          } // end-while
       } // endif
       ++pRegExp;
