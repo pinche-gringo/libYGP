@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.19 2003/12/05 19:49:22 markus Rel $
+// $Id: XStream.h,v 1.20 2004/09/04 04:09:44 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ template <class T> struct extStream : private extStreambuf, public T {
 
    /// Initializes the extended stream
    void init () {
-      setSource (oldBuf = rdbuf ());
+      setSource (oldBuf = T::rdbuf ());
       sios::rdbuf (this);
    }
 
