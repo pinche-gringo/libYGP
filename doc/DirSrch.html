@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: DirSrch.html,v 1.13 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: DirSrch.html,v 1.14 2002/12/07 22:08:42 markus Exp $ -->
 
 <html>
   <head>
@@ -59,7 +59,7 @@
 
       <tr valign="top"><td><tt>const <a href="File.html"><b>File</b></a>*</tt></td>
         <td><a href="DirSrch.html#find"><b>find</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font> = IDirectorySearch::FILE_NORMAL</tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font> = FILE_NORMAL</tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual const</tt> <a href="File.html"><b>File</b></a>*</tt></td>
         <td><a href="DirSrch.html#find2"><b>find</b></a></td>
         <td><tt>(<font color="navy">unsigned</font> <font color="purple">long</font> <font color="blue">attribs</font> = FILE_NORMAL)</tt>;</td></tr>
@@ -100,78 +100,128 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="DirectorySearch"></a>DirectorySearch ()</pre>
-    <pre><a name="DirectorySearch2"></a>DirectorySearch (const std::string &amp; search)</pre>
+    <h3><font color="navy">Management functions</font></h3>
+    <pre><a name="DirectorySearch"></a><b>DirectorySearch</b> ()</pre>
     <dl>
-      <dd>Constructor; creates an object with the files to search. The
-        parameter can include path-information.</dd>
+      <dd><p>Defaultconstructor</p></dd>
     </dl>
-    <pre><a name="~DirectorySearch"></a>~DirectorySearch ()</pre>
-
-    <pre><a name="setSearchValue"></a>void setSearchValue (const std::string&amp; search)</pre>
+    <hr>
+    <pre><a name="DirectorySearch2"></a><b>DirectorySearch</b> (const std::string&amp; search)</pre>
     <dl>
-      <dd>Sets the files to search for (and the path where to search).</dd>
+      <dd><p>Constructor; creates an object with the files to search. The
+        parameter may include path-information.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>search</code>: Files (including the path) to search for.<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="getDirectory"></a>std::string getDirectory () const</pre>
+    <hr>
+    <pre><a name="~DirectorySearch"></a><b>~DirectorySearch</b> () </pre>
     <dl>
-      <dd>Retrieves the path where to search files.</dd>
+      <dd><p>Destructor</p></dd>
     </dl>
-    <pre><a name="getFileSpec"></a>std::string getDirectory () const</pre>
+    <hr>
+
+    <pre><a name="setSearchValue"></a>void <b>setSearchValue</b> (const std::string&amp; search) </pre>
     <dl>
-      <dd>Retrieves the name of the files to search.</dd>
+      <dd><p>Splits the search-string in its directory- and filepart; it prepares the internal data also for a new search
+</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>search</code>: Files to find<dd>
+      </dl><dd>
     </dl>
-
-    <h4>Find functions</h4>
-    <pre><a name="find">const <a href="File.html"><b>File</b></a>* find</a> (const std::string&amp; search, unsigned long attribs = FILE_NORMAL)</pre>
+    <hr>
+    <pre><a name="getDirectory"></a>std::string <b>getDirectory</b> () const</pre>
     <dl>
-      <dd><p>Searches for files specified by search; if at least one is found, the
-          result is placed into result.</p>
-
-        <p>Possible values for <i>attribs</i> are described
-          <a href="IDirSrch.html#Attributes"><b>here</b></a>.</p>
-
-        <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
+      <dd><p>Retrieves the path where to search files.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Path where th search
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="find2">virtual const <a href="File.html"><b>File</b></a>* find</a> (unsigned long attribs = FILE_NORMAL)</pre>
+    <hr>
+    <pre><a name="getFileSpec"></a>std::string <b>getFileSpec</b> () const</pre>
     <dl>
-      <dd><p>Searches for the first file matching the input specified by the
-          constructor or the setFile-method. The first found file is placed into
-          result.</p>
-
-        <p>Possible values for <i>attribs</i> are described
-          <a href="IDirSrch.html#Attributes"><b>here</b></a>.</p>
-
-        <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
-    </dl>
-
-    <pre><a name="next"></a>virtual const <a href="File.html"><b>File</b></a>* next ()</pre>
-    <dl>
-      <dd>Returns the next matching file according to parameters specified in
-        early find-calls. If a file was found 0 is returned, errno otherwise.</dd>
+      <dd><p>Retrieves the name of the files to search.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Name of files to search for
+</dd></dl></dd>
     </dl>
 
-    <h4>Utility functions</h4>
-    <pre><a name="isValid2"></a>virtual bool isValid () const</pre>
+    <h3><font color="navy">Find functions</font></h3>
+    <pre><a name="find">const <a href="File.html"><b>File</b></a>* <b>find</b> (const std::string&amp; search, unsigned long attribs)</pre>
     <dl>
-      <dd>Checks if the directory-part of this object specifies an existing directory.</dd>
+      <dd><p>Retrieves the first file matching the previously specified search-criteria.</p>
+
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>search</code>: Files to find<dd>
+          <dd><code>attribs</code>: Attributes the file must contain<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const File*: Pointer to found file-object or NULL
+</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>The search values must have been specified!
+</dd></dl></dd>
     </dl>
-    <pre><a name="isValid"></a>static bool isValid (const std::string&amp; dir) const</pre>
+    <hr>
+    <pre><a name="find2">const <a href="File.html"><b>File</b></a>* <b>find</b> (unsigned long attribs)</pre>
     <dl>
-      <dd>Checks if the passed string specifies an existing directory.</dd>
+      <dd><p>Retrieves the first file matching the previously specified search-criteria.</p>
+
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>attribs</code>: Attributes the file must contain<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const File*: Pointer to found file-object or NULL
+</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>The search values must have been specified!
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="next"></a>virtual const <a href="File.html"><b>File</b></a>* <b>next</b> ()</pre>
+    <dl>
+      <dd><p>Returns the next matching file according to parameters specified in
+        earlier find-calls.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const File*: Pointer to found file-object or NULL
+</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+          <dd>The search must have already been started by a find!
+</dd></dl></dd>
     </dl>
 
-
-    <pre><a name="checkIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <h3><font color="navy">Utility functions</font></h3>
+    <pre><a name="isValid2"></a>bool <b>isValid</b> () const </pre>
     <dl>
-      <dd>Checks if this object is integer. If yes 0 is returned, else a number
-        describing the error.</dd>
+      <dd><p>Checks if the directory-part of this object specifies an existing directory.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True if the directory exists
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="cleanup"></a>void cleanup ()</pre>
+    <hr>
+    <pre><a name="isValid"></a>bool <b>isValid</b> (const std::string&amp; dir) </pre>
     <dl>
-      <dd>Releases all internally used resources.</dd>
+      <dd><p>Checks if the passed string specifies an existing directory.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>dir</code>: Directory whose validity should be checked<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True if the directory exists
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const </pre>
+    <dl>
+      <dd><p>Checks if this object is integer. If yes 0 is returned, else a number
+        describing the error.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: Status; 0: OK
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="cleanup"></a>void <b>cleanup</b> () </pre>
+    <dl>
+      <dd><p>Releases all internally used resources.</p></dd>
     </dl>
   </body>
 </html>
