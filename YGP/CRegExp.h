@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.3 2000/05/21 13:58:29 Markus Exp $
+//$Id: CRegExp.h,v 1.4 2000/05/23 22:58:56 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -118,7 +118,7 @@ class RegularExpression : public IRegularExpression {
 
    void init (const char* pRegExp) {
       assert (pRegExp);
-      std::string temp ('^');
+      std::string temp ("^");
       temp += pRegExp;
       temp += '$';
 
@@ -126,6 +126,8 @@ class RegularExpression : public IRegularExpression {
       if (rc)
          throw (getError (rc, 0));
    }
+#else
+   const char* pStartCompare;   
 #endif
 };
 
