@@ -1,7 +1,7 @@
 #ifndef XDIALOG_H
 #define XDIALOG_H
 
-//$Id: XDialog.h,v 1.1 2003/01/04 08:12:09 markus Exp $
+//$Id: XDialog.h,v 1.2 2003/01/09 03:57:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,15 @@ namespace Gtk {
 }
 
 
+// Baseclass for dialogs; Installs OK and/or Cancel buttons and registers
+// a command handler for them. Pressing OK is reported with the okEvent-
+// method; cancel with the cancelEvent-method. The baseclase destroys the
+// dialog in both cases.
+//
+// Note that the OK button is added at the beginning and CANCEL at the end
+// of the action area.
+//
+// Pressing ESC is equal to selecting the CANCEL button.
 class XDialog : public Gtk::Dialog {
  public:
    virtual ~XDialog ();
@@ -39,7 +48,10 @@ class XDialog : public Gtk::Dialog {
    virtual void okEvent ();
    virtual void cancelEvent ();
 
-   void addButton (Gtk::Button& button);
+   void addButton (Gtk::Button& button, bool start = true);
+
+   Gtk::Button* ok;
+   Gtk::Button* cancel;
 
  private:
    XDialog (const XDialog& other);
@@ -47,9 +59,6 @@ class XDialog : public Gtk::Dialog {
 
    void basicCommand (buttons cmd);
    void addButtons (unsigned int buttons);
-   
-   Gtk::Button* ok;
-   Gtk::Button* cancel;
 };
 
 #endif
