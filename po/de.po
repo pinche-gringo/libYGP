@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.12 $)\n"
-"POT-Creation-Date: 2002-11-03 20:22-0500\n"
+"Project-Id-Version: General 0.6.01 ($Revision: 1.13 $)\n"
+"POT-Creation-Date: 2002-12-25 00:12-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -13,26 +13,26 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:191 Common/ATime.cpp:190
+#: Common/ADate.cpp:205 Common/ATime.cpp:209
 #, c-format, ycp-format
 msgid "Position %1"
 msgstr "Position %1"
 
-#: Common/ANumeric.cpp:241
+#: Common/ANumeric.cpp:98 Common/ANumeric.cpp:257
 msgid "No number"
 msgstr "Keine Nummer"
 
-#: Common/AssParse.cpp:65
+#: Common/AssParse.cpp:66
 #, ycp-format
 msgid "Not a valid assignment: '%1'"
 msgstr "Keine gültige Zuweisung: '%1'"
 
-#: Common/AssParse.cpp:78
+#: Common/AssParse.cpp:79
 #, ycp-format
 msgid "Invalid value for attribute: '%1'"
 msgstr "Ungültiger Wert für das Attribut: '%1'"
 
-#: Common/AssParse.cpp:92
+#: Common/AssParse.cpp:93
 #, ycp-format
 msgid "Quoted value not followed by separator: '%1'"
 msgstr "Dem Wert (in Anführungszeichen) folgt kein Trennzeichen: '%1'"
@@ -42,129 +42,129 @@ msgstr "Dem Wert (in Anführungszeichen) folgt kein Trennzeichen: '%1'"
 msgid "Attribute '%1' already exists"
 msgstr "Das Attribut '%1' existiert bereits"
 
-#: Common/AttrParse.cpp:115
+#: Common/AttrParse.cpp:119
 #, ycp-format
 msgid "Error assigning '%1' to %2"
 msgstr "Fehler beim Zuweisen von '%1' zu %2"
 
-#: Common/AttrParse.cpp:122
+#: Common/AttrParse.cpp:126
 #, ycp-format
 msgid "Key '%1' not found"
 msgstr "Schlüssel '%1' nicht gefunden"
 
-#: Common/CRegExp.cpp:1003
+#: Common/CRegExp.cpp:1017
 msgid "Unmatched [ or [^"
 msgstr "'[' oder '[^' ohne schließende Klammer"
 
-#: Common/CRegExp.cpp:1004
+#: Common/CRegExp.cpp:1018
 msgid "Unmatched ( or )"
 msgstr "'(' oder '\\(' ohne schließende Klammer"
 
-#: Common/CRegExp.cpp:1005
+#: Common/CRegExp.cpp:1019
 msgid "Invalid range end"
 msgstr "Bereich ohne Wert"
 
-#: Common/CRegExp.cpp:1006
+#: Common/CRegExp.cpp:1020
 msgid "Repeating suffix without previous expression"
 msgstr "Wiederholfaktor ohne vorhergehenden regulären Ausruck"
 
-#: Common/CRegExp.cpp:1007
+#: Common/CRegExp.cpp:1021
 msgid "Invalid group-number"
 msgstr "Ungültige Gruppennummer"
 
-#: Common/CRegExp.cpp:1008
+#: Common/CRegExp.cpp:1022
 msgid "Invalid range (lower border larger than upper border)"
 msgstr "Ungültiger Bereich (untere Grenze ist größer als die obere)"
 
-#: Common/CRegExp.cpp:1009
+#: Common/CRegExp.cpp:1023
 msgid "Invalid bound"
 msgstr "Ungültige Wiederholfaktoren"
 
-#: Common/CRegExp.cpp:1010
+#: Common/CRegExp.cpp:1024
 msgid "Regular expression ends with escape-character (\\)"
 msgstr "Regulärer Ausdruck endet mit dem Quotenzeichen (\\)"
 
-#: Common/CRegExp.cpp:1011
+#: Common/CRegExp.cpp:1025
 msgid "Unknown error"
 msgstr "Allgemeiner Fehler"
 
-#: Common/CRegExp.cpp:1015 Common/FileRExp.cpp:248
+#: Common/CRegExp.cpp:1029 Common/FileRExp.cpp:254
 #, ycp-format
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
 
-#: Common/File.cpp:185
+#: Common/File.cpp:190
 #, ycp-format
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
-#: Common/File.cpp:199
+#: Common/File.cpp:205
 #, ycp-format
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
 #. Exception only if *no* char has been read
-#: Common/File.cpp:217
+#: Common/File.cpp:229
 #, ycp-format
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Fehler beim Lesen von Datei '%1'! Ursache: %2"
 
-#: Common/File.cpp:236
+#: Common/File.cpp:253
 #, ycp-format
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Fehler beim Schreiben in Datei '%1'! Ursache: %2"
 
-#: Common/FileRExp.cpp:211
+#: Common/FileRExp.cpp:217
 msgid "Open region"
 msgstr "Offener Bereich"
 
-#: Common/FileRExp.cpp:224
+#: Common/FileRExp.cpp:230
 msgid "Empty range"
 msgstr "Leerer Bereich"
 
-#: Common/FileRExp.cpp:228
+#: Common/FileRExp.cpp:234
 msgid "Empty region"
 msgstr "Leere Aufzählung"
 
 #. Define constant values; don't skip white-spaces after parsing
-#: Common/INIFile.cpp:42
+#: Common/INIFile.cpp:43
 msgid "Start of section ([)"
 msgstr "Beginn einer Sektion ([)"
 
-#: Common/INIFile.cpp:43
+#: Common/INIFile.cpp:44
 msgid "End of section (])"
 msgstr "Ende einer Sektion (])"
 
-#: Common/INIFile.cpp:44
+#: Common/INIFile.cpp:45
 msgid "Equal-sign (=)"
 msgstr "Gleichheitszeichen (=)"
 
-#: Common/INIFile.cpp:58 Common/INIFile.cpp:197
+#: Common/INIFile.cpp:59 Common/INIFile.cpp:234
 msgid "Section-header"
 msgstr "Sektionskopf"
 
-#: Common/INIFile.cpp:59
+#: Common/INIFile.cpp:60
 msgid "Attribute"
 msgstr "Attribut"
 
-#: Common/INIFile.cpp:60 Common/INIFile.cpp:198
+#: Common/INIFile.cpp:61 Common/INIFile.cpp:235
 msgid "Name of section"
 msgstr "Name einer Sektion"
 
-#: Common/INIFile.cpp:61
+#: Common/INIFile.cpp:62
 msgid "Identifier (key)"
 msgstr "Kennung (Schlüssel)"
 
-#: Common/INIFile.cpp:62
+#: Common/INIFile.cpp:63
 msgid "Value"
 msgstr "Wert"
 
-#: Common/INIFile.cpp:209
+#: Common/INIFile.cpp:246
 #, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "Konnte INI-Datein '%1' nicht öffnen! Ursache: %2"
 
-#: Common/IVIOAppl.cpp:256
+#: Common/IVIOAppl.cpp:275
 #, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-Fehler: Die Option '%' ist nicht eindeutig"
@@ -173,95 +173,95 @@ msgstr "-Fehler: Die Option '%' ist nicht eindeutig"
 #. endif option matches
 #. end-while
 #. No long-option found
-#: Common/IVIOAppl.cpp:265
+#: Common/IVIOAppl.cpp:284
 #, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
-#: Common/Parse.cpp:247
+#: Common/Parse.cpp:293
 #, ycp-format
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
-#: Common/Parse.cpp:781
+#: Common/Parse.cpp:706
 #, ycp-format
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
-#: Common/Parse.cpp:781
+#: Common/Parse.cpp:706
 #, c-format, ycp-format
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
-#: Common/Parse.cpp:896
+#: Common/Parse.cpp:828
 #, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
 
-#: Common/RDirSrch.cpp:248 Common/RemoteFile.cpp:259
+#: Common/RDirSrch.cpp:254 Common/RemoteFile.cpp:275
 msgid "Server returned an error: "
 msgstr "Server lieferte einen Fehler: "
 
-#: Common/RDirSrchSrv.cpp:242
+#: Common/RDirSrchSrv.cpp:245
 msgid "Not yet implemented"
 msgstr "Noch nicht implementiert"
 
-#: Common/RDirSrchSrv.cpp:268
+#: Common/RDirSrchSrv.cpp:271
 msgid "Invalid command"
 msgstr "Ungültiger Befehl"
 
-#: Common/RDirSrchSrv.cpp:331
+#: Common/RDirSrchSrv.cpp:334
 msgid "Invalid arguments: "
 msgstr "Ungültige Argumente: "
 
-#: Common/Socket.cpp:74 Common/Socket.cpp:86 Common/Socket.cpp:116
-#: Common/Socket.cpp:140
+#: Common/Socket.cpp:74 Common/Socket.cpp:87 Common/Socket.cpp:121
+#: Common/Socket.cpp:146
 msgid "Can't create socket"
 msgstr "Kann keinen Socket (für die Kommunikation) erzeugen"
 
-#: Common/Socket.cpp:169
+#: Common/Socket.cpp:177
 msgid "Can't bind socket"
 msgstr "Fehler beim Verbinden zu Socket"
 
-#: Common/Socket.cpp:172
+#: Common/Socket.cpp:180
 msgid "Can't listen on socket"
 msgstr "Fehler beim Warten auf Daten von Socket"
 
-#: Common/Socket.cpp:193
+#: Common/Socket.cpp:203
 #, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
 "Service-name"
 
-#: Common/Socket.cpp:225 Common/Socket.cpp:253 Common/Socket.cpp:271
+#: Common/Socket.cpp:237 Common/Socket.cpp:267 Common/Socket.cpp:287
 msgid "Error reading data"
 msgstr "Fehler beim Lesen von Daten"
 
-#: Common/Socket.cpp:289
+#: Common/Socket.cpp:313
 msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
-#: Common/Socket.cpp:310
+#: Common/Socket.cpp:337
 #, ycp-format
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
-#: Common/Socket.cpp:318
+#: Common/Socket.cpp:345
 #, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr "Kann nicht zum Server '%1' verbinden"
 
-#: Common/Socket.cpp:335
+#: Common/Socket.cpp:365
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
 
-#: X-windows/XDate.cpp:52 X-windows/XMessageBox.cpp:42
+#: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:42
 #: X-windows/XPrintDlg.cpp:53
 msgid "OK"
 msgstr "OK"
 
-#: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:43
+#: X-windows/XDate.cpp:54 X-windows/XMessageBox.cpp:43
 #: X-windows/XPrintDlg.cpp:53
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -321,12 +321,12 @@ msgid "No"
 msgstr "Nein"
 
 #. File does not exist: Show msg and exit
-#: X-windows/XFileDlg.cpp:104
+#: X-windows/XFileDlg.cpp:103
 #, ycp-format
 msgid "File `%1' does not exist!"
 msgstr "Datei '%1' existiert nicht!"
 
-#: X-windows/XFileDlg.cpp:113
+#: X-windows/XFileDlg.cpp:112
 #, ycp-format
 msgid "File `%1' exists! Overwrite?"
 msgstr "Datei '%1' existiert! Überschreiben?"
