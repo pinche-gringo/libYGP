@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.1 2001/04/02 20:57:47 markus Exp $
+//$Id: RDirSrch.cpp,v 1.2 2001/04/09 15:06:19 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -59,7 +59,7 @@ int RemoteDirSearch::find (const std::string& search, dirEntry& res,
 
    pEntry = &res;
 
-   std::string send ("FindFirst:\"");
+   std::string send ("Find:\"");
    send += search;
    send += "\";Attr=";
    send += "TODO";
@@ -77,9 +77,33 @@ int RemoteDirSearch::find (const std::string& search, dirEntry& res,
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearch::find () throw (domain_error) {
-   std::string send ("Cmd=FindNext");
+   std::string send ("Next");
 
    TRACE8 ("RemoteDirSearch::find () - Sending:\n\t"
            << send.length () << " bytes: " << send.data ());
    sock.write (send.data (), send.length ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the searchDir is really a direcory
+//Parameters: dir: Directory whose validity should be checked
+//Returns   : bool: True if the directory exists
+/*--------------------------------------------------------------------------*/
+bool RemoteDirSearch::isValid (const std::string& dir) const {
+    std::string write ("Check:\"");
+    write += dir;
+    write += '"';
+
+    sock.write (write.data (), write.length ());
+    char OK;
+    sock.read (&OK, 1);
+    return OK == '1';
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the remote directory does exist
+//Returns   : True if the remote directory does exis
+/*--------------------------------------------------------------------------*/
+bool RemoteDirSearch::isValid () const {
+   return true;
 }
