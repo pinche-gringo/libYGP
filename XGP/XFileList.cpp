@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.11 2001/10/03 16:26:28 markus Exp $
+//$Id: XFileList.cpp,v 1.12 2001/10/12 23:08:56 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,7 +28,7 @@
 
 #include <gtk--/pixmap.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Check.h"
 #include "Trace_.h"
 
@@ -162,7 +162,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
       TRACE5 ("XFileList::loadIcons: Read icon " << filename);
 
       Check3 (temp);
-      TRACE9 ("XCompDirs::loadIcons: Store icon "
+      TRACE9 ("XFileList::loadIcons: Store icon "
 	      << (file->name () + namePrefix));
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       icons[file->name () + namePrefix].create_from_xpm (NULL, color, filename);
