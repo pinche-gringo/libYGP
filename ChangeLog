@@ -1,3 +1,24 @@
+2003-12-05  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.41
+
+	* XGP/AutoContainer.cpp, XGP/XAttribute.h, XGP/XFileList.h, YGP/ANumeric.cpp, YGP/Attribute.h, YGP/Entity.h, YGP/File.h, YGP/INIFile.cpp, YGP/IVIOAppl.cpp, YGP/Parse.cpp, YGP/Parse.h, YGP/RDirSrchSrv.cpp, YGP/StatusObj.cpp, YGP/StatusObj.h, YGP/Thread.cpp, YGP/Version.cpp, YGP/XDirSrch.h, YGP/XStrBuf.cpp, YGP/XStream.h:
+	  Fixed documenatation (doxygen behaves differntly with namespaces
+
+	* configure.in: Increased version numbers
+
+	* doc/XGP.doxy.in, doc/YGP.doxy.in: Actualized the path-references
+
+2003-12-01  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/AutoContainer.cpp:
+	  Added insert-method; Fixed removing of widget (don't delete last line)
+
+	* XGP/MessageDlg.cpp, XGP/MessageDlg.h: Added create-method
+
+	* XGP/AutoContainer.h:
+	  Added insert-method; Fixed removing of widget (don't delete last line)
+
 2003-11-28  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.6.40 added
