@@ -1,11 +1,11 @@
-// $Id: Local.cpp,v 1.1 2002/07/11 07:05:44 markus Exp $
+// $Id: Local.cpp,v 1.2 2002/07/11 07:17:09 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Local
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -52,10 +52,11 @@ int main (int argc, char* argv[]) {
    assert (srchClt);
    srchClt->setSearchValue ("Loc*");
 
-   CFile_ptr file (srchClt->find (CDirectorySearch::FILE_NORMAL));
-   assert (file);
-
-   TRACE ("Found: " << file->path () << file->name ());
+   CFile_ptr file = (srchClt->find (CDirectorySearch::FILE_NORMAL));
+   while (file) {
+      TRACE ("Found: " << file->path () << file->name ());
+      file = srchClt->next ();
+   }
 
    CORBA::release (srchSrv);
    return 0;
