@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.15 2001/01/19 14:38:46 Markus Exp $
+//$Id: ANumeric.cpp,v 1.16 2001/03/27 18:42:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -84,7 +84,7 @@ ANumeric& ANumeric::operator= (const char* pValue) {
    char* pTail = NULL;
    errno = 0;
    value = strtol (pValue, &pTail, 0);
-   if (errno || !(pTail && *pTail))
+   if (errno || (pTail && *pTail))
 #endif
       undefine ();
    else
