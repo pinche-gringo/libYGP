@@ -1,4 +1,4 @@
-<!-- $Id: IVIOAppl.html,v 1.2 2000/03/27 22:47:17 Markus Exp $ -->
+<!-- $Id: IVIOAppl.html,v 1.3 2000/03/30 23:31:43 Markus Exp $ -->
 
 <html>
   <head>
@@ -93,11 +93,12 @@
 
     <h4>Management functions</h4>
     <p><a name="IVIOApplication"><i>IVIOApplication (const int argc, const
-	  char* argv[], const longOptions* pOpt = NULL)</i> -
-	Constructor; the parameters specify the number of and an array with the
-	program-arguments (as passed to the main-function) and a table to map
-	the verbose long-options to their short equivalent. If the third
-	parameter is NULL, no long options are used.</a></p>
+	  char* argv[], const <a href="IVIOAppl.html#longOptions">longOptions</a>*
+      pOpt = NULL)</i> -
+      Constructor; the parameters specify the number of and an array with the
+      program-arguments (as passed to the main-function) and a table to map
+      the verbose long-options to their short equivalent. If the third
+      parameter is NULL, no long options are used.</a></p>
     <p><a name="~IVIOApplication"><i>~IVIOApplication ()</i> - Destructor</a></p>
 
     <p><a name="run"><i>int run ()</i> - Runs the application; first the
@@ -126,15 +127,17 @@
       this method does not change the next option which would be returned, so
       in the previous example the next found option would be the 'l'.</p>
 
-    <p><a name="setLongOptions"><i>void setLongOptions (const longOptions* pLongOptions)</i>
-	- Sets a table which maps options to a verbose version. This table must
-	be terminated with an entry where the short option is '\0' and the
-	associated long options is NULL; the previous entries must not have
-	lines with those values.</a></p>
-    <p><a name="setLongOptions2"><i>void setLongOptions (const longOptions*
-	  pLongOptions, unsigned int numLongOptions)</i> - Sets a table which
-	maps options to a verbose version. This table must not contain entries
-	with either '\0' as short option or NULL as long option.</a></p>
+    <p><a name="setLongOptions"><i>void setLongOptions (const
+	  <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions)</i>
+      - Sets a table which maps options to a verbose version. This table must
+      be terminated with an entry where the short option is '\0' and the
+      associated long options is NULL; the previous entries must not have
+      lines with those values.</a></p>
+    <p><a name="setLongOptions2"><i>void setLongOptions (const
+	  <a href="IVIOAppl.html#longOptions">longOptions</a>* pLongOptions,
+      unsigned int numLongOptions)</i> - Sets a table which maps options to a
+      verbose version. This table must not contain entries with either '\0' as
+      short option or NULL as long option.</a></p>
 
     <h4>Program handling</h4>
     <p><a name="perform"><i>virtual int perform (int argc, const char* argv[]) = 0</i>
