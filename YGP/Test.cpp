@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.4 1999/08/01 23:09:19 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.5 1999/08/11 16:20:34 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -72,7 +72,8 @@ class Application : public IVIOApplication {
 
 int Application::perform (int argc, char* argv[]) {
    cout << "Testing IVIOApplication...\n";
-   cout << "    " << cOptions << " and " << argc << " arguments passed\n";
+   cout << "    " << cOptions << " options and " << argc
+	<< " arguments passed\n";
    check (!argv[argc]);
 
    cout << "Testing extStreambuf...\n";
