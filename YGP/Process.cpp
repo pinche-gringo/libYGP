@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.12 2004/10/14 04:01:43 markus Exp $
+//$Id: Process.cpp,v 1.13 2004/10/25 02:57:04 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -46,10 +46,13 @@
 #     include <sys/wait.h>
 #   endif
 
-#  if defined __MINGW_H && defined HAVE_WINDOWS_H
+#  if defined HAVE_WINDOWS_H
 #     include <windows.h>                // For HANDLE and GetExitCodeProcess
 #     include <cstdlib>                                          // For sleep
-#     define sleep      _sleep
+
+#     if defined HAVE__SLEEP
+#        define sleep      _sleep
+#     endif
 #  endif
 
 #elif SYSTEM == WINDOWS
