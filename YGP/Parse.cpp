@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.17 2000/04/04 18:14:33 Markus Rel $
+//$Id: Parse.cpp,v 1.18 2000/04/24 14:23:46 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -113,7 +113,7 @@ void ParseObject::skipWS (Xistream& stream) const {
       return;
 
    TRACE8 ("Skipping WS after " << pDescription);
-   char c;
+   char c ('\0');
    stream >> c; assert (!isspace (c));
    stream.putback (c);
 }
