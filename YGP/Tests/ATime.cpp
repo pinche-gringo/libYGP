@@ -1,11 +1,11 @@
-// $Id: ATime.cpp,v 1.7 2004/01/15 06:26:30 markus Rel $
+// $Id: ATime.cpp,v 1.8 2004/11/05 04:16:39 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -23,6 +23,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 
 #include <iostream>
 
@@ -44,7 +45,27 @@ int main (int argc, char* argv[]) {
    act = YGP::ATime::now ();
    check (act.isDefined ());
    check (act > first);
- 
+
+   try {
+      act = "12:34:50";
+      YGP::ATime now ("123450");
+      check (act == now);
+
+      act = "11:11:00";
+      now.setMode (YGP::ATime::MODE_HHMM);
+      now = "1111";
+      check (act == now);
+
+      act = "00:11:11";
+      now.setMode (YGP::ATime::MODE_MMSS);
+      now = "1111";
+      check (act == now);
+   }
+   catch (std::exception& e) {
+      std::cout << "Error: " << e.what () << '\n';
+      check (!"Unhandled exception!");
+   }
+
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
