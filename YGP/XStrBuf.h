@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.11 2001/01/19 14:38:48 Markus Exp $
+// $Id: XStrBuf.h,v 1.12 2001/08/27 15:31:48 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
 
 
 #include <gzo-cfg.h>
+
+#include <assert.h>
 
 #if SYSTEM == UNIX || defined __GNUG__
 #  include <streambuf.h>
