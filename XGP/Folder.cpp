@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.10 2004/09/14 04:03:16 markus Rel $
+//$Id: Folder.cpp,v 1.11 2004/10/07 21:27:11 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -76,8 +76,10 @@ void Folder::add (Gtk::Widget& child) {
       lineWidth += colWidths[i];
    TRACE1 ("Folder::add (Gtk::Widget&) - Adding: " << req.width << " to "
            << lineWidth << " -> " << width);
-   
-   if ((req.width + lineWidth + 5) < static_cast<unsigned int> (width - 30)) {
+
+   // If element does fit into line or its the first element of the line
+   if (((req.width + lineWidth + 5) < static_cast<unsigned int> (width - 30))
+       || !colWidths.size ()) {
       lineWidth += req.width + 5;
       if (actCol >= cols) {
          view.resize (rows, ++cols);
