@@ -3,7 +3,8 @@
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h \
 		SmartPtr.h Handle.h PathDirSrch.h ADate.h ATStamp.h ATime.h \
-		Check.h XAbout.h XApplication.h XFileEntry.h XMessageBox.h
+		Check.h XAbout.h XApplication.h XFileEntry.h XMessageBox.h \
+		XFileList.h
 
 lib_LTLIBRARIES=libAttr.la libXAppl.la
 
@@ -16,6 +17,6 @@ libAttr_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
 
 libXAppl_la_LIBADD=-lAttr -lgtkmm -lgdkmm -lgtk
 libXAppl_la_SOURCES=Check.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
-		    XMessageBox.cpp Version.cpp
+		    XMessageBox.cpp Version.cpp XFileList.cpp
 
 Test_SOURCES=$(libAttr_la_SOURCES) Test.cpp
