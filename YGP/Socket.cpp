@@ -1,14 +1,14 @@
-//$Id: Socket.cpp,v 1.15 2003/03/06 04:16:02 markus Rel $
+//$Id: Socket.cpp,v 1.16 2003/06/14 20:27:39 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,12 +26,11 @@
 
 #include "gzo-cfg.h"
 
-#include <errno.h>
-#include <string.h>
+#include <cerrno>
+#include <cstring>
 
 #include "Check.h"
 #include "Trace_.h"
-#include "AByteArray.h"
 
 #include "Socket.h"
 #include "Internal.h"
@@ -41,7 +40,7 @@
 #  include <unistd.h>
 #else
 #  if SYSTEM == WINDOWS
-      // Define the macros/functions to access the socket-function of Windows
+      // Define the macros/functions to access the socket-functions of Windows
       // (of course they are different - as if they didn't steal the whole
       // thing from BSD)
 #     define close			closesocket
@@ -62,10 +61,10 @@ typedef int socklen_t;
 
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Defaultconstructor; creates an socket but without any connection.
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Defaultconstructor; creates an socket but without any connection.
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 Socket::Socket () throw (std::domain_error)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket ()");
@@ -74,11 +73,11 @@ Socket::Socket () throw (std::domain_error)
       throwError (_("Can't create socket"), errno);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates an socket which waits for input on port.
-//Parameters: port: Port to listen at
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Constructor; creates an socket which waits for input on \c port.
+/// \param port: Port to listen at
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 Socket::Socket (unsigned int port) throw (std::domain_error)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (unsigned int)");
@@ -88,13 +87,13 @@ Socket::Socket (unsigned int port) throw (std::domain_error)
    listenAt (port);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates an socket which tries to write to server
-//            using the passed port.
-//Parameters: server: Name (or number) of server to send to
-//            port: Port to write to
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Constructor; creates an socket which tries to write to \c server using the
+/// passed \c port.
+/// \param server: Name (or number) of server to send to
+/// \param port: Port to write to
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 Socket::Socket (const char* server, unsigned int port) throw (std::domain_error)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const char*, unsigned int)");
@@ -106,13 +105,13 @@ Socket::Socket (const char* server, unsigned int port) throw (std::domain_error)
    writeTo (server, port);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates an socket which tries to write to server
-//            using the passed port.
-//Parameters: server: Name (or number) of server to send to
-//            port: Port to write to
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Constructor; creates an socket which tries to write to \c server using the
+/// passed  \c port.
+/// \param server: Name (or number) of server to send to
+/// \param port: Port to write to
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 Socket::Socket (const std::string& server, unsigned int port) throw (std::domain_error)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const std::string&, unsigned int)");
@@ -123,21 +122,21 @@ Socket::Socket (const std::string& server, unsigned int port) throw (std::domain
    writeTo (server.c_str (), port);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Destructor
+//----------------------------------------------------------------------------
 Socket::~Socket () {
    TRACE9 ("Socket::~Socket ()");
    ::close (sock);
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment-operator; duplicates a socket. The old socket is closed.
-//Parameters: rhs: Socket to assign
-//Returns   : Socket&: Reference to self
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Assignment-operator; duplicates a socket. The old socket is closed.
+/// \param rhs: Socket to assign
+/// \return \c Socket&: Reference to self
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 Socket& Socket::operator= (const Socket& rhs) throw (std::domain_error) {
    if (&rhs != this) {
       close (sock);
@@ -148,11 +147,11 @@ Socket& Socket::operator= (const Socket& rhs) throw (std::domain_error) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignmentoperator; creates an socket out of a system-socket.
-//Parameters: rhs: Socket to assign
-//Returns   : Socket&: Reference to self
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Assignmentoperator; creates an socket out of a system-socket.
+/// \param socket: Socket to assign
+/// \return \c Socket&: Reference to self
+//----------------------------------------------------------------------------
 Socket& Socket::operator= (int socket) {
    close (sock);
    sock = socket;
@@ -160,11 +159,11 @@ Socket& Socket::operator= (int socket) {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Specifies the port to listen at (for incoming connections).
-//Parameters: port: Port at which to listen
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Specifies the port to listen at (for incoming connections).
+/// \param port: Port at which to listen
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 void Socket::listenAt (unsigned int port) const throw (std::domain_error) {
    TRACE9 ("Socket::listenAt (unsigned int) - " << port << " (" << sock << ')');
 
@@ -180,12 +179,13 @@ void Socket::listenAt (unsigned int port) const throw (std::domain_error) {
       throwError (_("Can't listen on socket"), 0);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the port-number of the passed textual port-description
-//            (service name or number as text).
-//Parameters: service: Text describing port
-//Throws    : std::domain_error in case of an invalid input
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Retrieves the port-number of the passed textual port-description (service
+/// name or number as text).
+/// \param service: Text describing port
+/// \return <tt>unsigned int</tt>: Number of the passed service
+/// \throw \c std::domain_error in case of an invalid input
+//----------------------------------------------------------------------------
 unsigned int Socket::getPortOfService (const char* service) throw (std::domain_error) {
    TRACE9 ("Socket::getPortOfService (const char*)");
 
@@ -210,43 +210,13 @@ unsigned int Socket::getPortOfService (const char* service) throw (std::domain_e
    return port;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads all available data into the buffer specified by input from
-//            the previously specified source.
-//Parameters: input: AByteArray receiving the input
-//Returns   : int: Number of bytes read
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
-int Socket::read (AByteArray& input) const throw (std::domain_error) {
-   TRACE9 ("Socket::read (AByteArray&)" << " (" << sock << ')');
-
-   char buffer[80] = "";
-   ssize_t cRead;
-   input = "";
-
-   // Read from socket til either error or buffer not completely filled
-   while ((cRead = ::read (sock, buffer, sizeof (buffer))) != -1) {
-      input.append (buffer, cRead);
-      if ((unsigned int)cRead < sizeof (buffer))
-         break;
-   }
-
-   if (cRead == -1) {
-      TRACE9 ("Socket::read (AByteArray&) - error=" << errno << "; Bytes="
-              << cRead);
-      throwError (_("Error reading data"), errno);
-   }
-
-   TRACE5 ("Socket::read (AByteArray&) - read: " << input.data ());
-   return input.length ();
-}
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads all available data into the buffer specified by input from
-//            the previously specified source.
-//Parameters: input: string receiving the input
-//Returns   : int: Number of bytes read
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Reads all available data into the buffer specified by \c input from the
+/// previously specified source.
+/// \param input: String receiving the input
+/// \return \c int: Number of bytes read<br>
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 int Socket::read (std::string& input) const throw (std::domain_error) {
    TRACE9 ("Socket::read (std::string&)" << " (" << sock << ')');
 
@@ -271,14 +241,14 @@ int Socket::read (std::string& input) const throw (std::domain_error) {
    return input.length ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads up to lenBuffer bytes data into the buffer specified by
-//            pBuffer from the previously specified source.
-//Parameters: pBuffer: Pointer to buffer receiving the input
-//            lenBuffer: Length of that buffer
-//Returns   : int: Number of bytes read
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Reads up to \c lenBuffer bytes data into the buffer specified by \c pBuffer
+/// from the previously specified source.
+/// \param pBuffer: Pointer to buffer receiving the input
+/// \param lenBuffer: Length of that buffer
+/// \return \c int: Number of bytes read<br>
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error) {
    TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
 
@@ -290,18 +260,18 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (std::domai
    return cRead;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Waits until someone wants to create a (new) connection using the
-//            the previously specified port.
-//
-//            The new (system-)socket for this communication is returned.
-//
-//            TECHNICAL NOTE: If a new connection is opened to a Socket,
-//            it is actually "duplicated" and returned to enable multiple
-//            connections to one port (socket)".
-//Returns   : int: Socket over which to communicate
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Waits until someone wants to create a (new) connection using the previously
+/// specified port.
+///
+/// The new (system-)socket for this communication is returned.
+///
+/// <b>Technical note</b>: If a new connection is opened to a Socket, it is
+/// actually "duplicated" and returned to enable multiple connections to one
+/// port (socket).
+/// \return \c int: Socket over which to communicate<br>
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 int Socket::waitForInput () const throw (std::domain_error) {
    TRACE9 ("Socket::waitForInput (Socket&) const - (" << sock << ')');
 
@@ -316,14 +286,13 @@ int Socket::waitForInput () const throw (std::domain_error) {
    return newSocket;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Specifies the server and port to write to (for outgoing
-//            connections).
-//Parameters: server: Name (or number) of the server to connect to
-//            port: Portnumber to connect to
-//Requieres : server not NULL
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Specifies the \c server and \c port to write to (for outgoing connections).
+/// \param server: Name (or number) of the server to connect to
+/// \param port: Portnumber to connect to
+/// \throw \c std::domain_error in case of a communication error
+/// \pre \c server not NULL<br>
+//----------------------------------------------------------------------------
 void Socket::writeTo (const char* server, unsigned int port) const throw (std::domain_error) {
    TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << server << ':' << port);
    Check1 (server);
@@ -348,14 +317,14 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (std::d
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Writes lenBuff bytes of the buffer pointed to by pBuffer to the
-//            socket (which must have been connected to an address).
-//Parameters: pBuffer: Buffer to write
-//            lenBuffer: Length of data to write
-//Requieres : pBuffer not NULL
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Writes \c %lenBuff bytes of the buffer pointed to by \c pBuffer to the
+/// socket (which must have been connected to an address).
+/// \param pBuffer: Buffer to write
+/// \param lenBuffer: Length of data to write
+/// \throw \c std::domain_error in case of a communication error
+/// \pre \c pBuffer not NULL
+//----------------------------------------------------------------------------
 void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
    throw (std::domain_error) {
    TRACE5 ("Socket::write (const char*, int) const - " << pBuffer << " (" << sock << ')');
@@ -365,13 +334,13 @@ void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
       throwError (_("Error sending data"), errno);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Writes the contents of pBuffer up to the first zero-byte to the
-//            socket (which must have been connected to an address).
-//Parameters: pBuffer: Buffer to write
-//Requieres : pBuffer not NULL
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Writes the contents of \c pBuffer up to the first zero-byte to the socket
+/// (which must have been connected to an address).
+/// \param pBuffer: Buffer to write
+/// \throw \c std::domain_error in case of a communication error
+/// \pre \c pBuffer not NULL
+//----------------------------------------------------------------------------
 void Socket::write (const char* pBuffer) const throw (std::domain_error) {
    Check1 (pBuffer);
    TRACE9 ("Socket::write (const char*) const - (" << sock << ')');
@@ -379,12 +348,12 @@ void Socket::write (const char* pBuffer) const throw (std::domain_error) {
    write (pBuffer, strlen (pBuffer));
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Throws a domain_error with an explaining text.
-//Parameters: error: Text describing the error
-//            errNum: Number of error; if !=0 an explaining text is appended
-//Throws    : std::domain_error in case of a communication error
-/*--------------------------------------------------------------------------*/
+//----------------------------------------------------------------------------
+/// Throws a domain_error with an explaining text.
+/// \param error: Text describing the error
+/// \param errNum: Number of error; if !=0 an explaining text is appended
+/// \throw \c std::domain_error in case of a communication error
+//----------------------------------------------------------------------------
 void Socket::throwError (const std::string& error, int errNum) throw (std::domain_error) {
    std::string str (error);
    if (errNum) {
