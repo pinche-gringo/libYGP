@@ -15,4 +15,4 @@ dist-hook:
 	cp -p  $(srcdir)/Make.bat $(distdir)/
 	# Finally add documentation
 	mkdir $(distdir)/doc
-	cp -p $(srcdir)/doc/*.html $(distdir)/doc
+	cp -p $(srcdir)/doc/*.html.* $(distdir)/doc
