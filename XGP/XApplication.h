@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.27 2005/01/31 15:40:44 markus Rel $
+//$Id: XApplication.h,v 1.28 2005/03/21 17:26:27 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ class XApplication : public Gtk::Window {
 */
 class XInfoApplication : public XApplication {
  public:
-   XInfoApplication (const char* pTitle, const char* pPrgInfo, const char* pCopyright);
+   XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo, const Glib::ustring& copyright);
    ~XInfoApplication ();     // No need to be virtual. There´s only 1 instance
 
  protected:

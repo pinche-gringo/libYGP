@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.44 2005/01/31 15:54:26 markus Rel $
+//$Id: XApplication.cpp,v 1.45 2005/03/21 17:26:27 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -145,7 +145,11 @@ void XApplication::addHelpMenu (Glib::ustring& uiString) {
       uiString += ("<menuitem action='HlpContent'/>"
 		   "<menuitem action='HlpSetBrowser'/><separator/>");
    }
+#ifdef HAVE_GTKMM26
+   grpAction->add (Gtk::Action::create ("HlpAbout", Gtk::Stock::ABOUT),
+#else
    grpAction->add (Gtk::Action::create ("HlpAbout", _("_About ...")),
+#endif
 		   mem_fun (*this, &XApplication::showAboutbox));
 
    uiString += "<menuitem action='HlpAbout'/></menu>";
@@ -271,17 +275,16 @@ void XApplication::setIconProgram (const char* const* pIconData) {
 /// \param pPrgInfo: Pointer to text describing the application
 /// \param pCopyright: Pointer to copyright-information
 //-----------------------------------------------------------------------------
-XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
-                                    const char* pCopyright)
+XInfoApplication::XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo,
+                                    const Glib::ustring& copyright)
    : XApplication (pTitle), hboxTitle (new Gtk::HBox)
-     , vboxPrgInfo (new Gtk::VBox), txtProgramm (new Gtk::Label (pPrgInfo))
-     , txtCopyright (new Gtk::Label (pCopyright)), iconPrg (NULL)
+     , vboxPrgInfo (new Gtk::VBox), txtProgramm (new Gtk::Label (prgInfo))
+     , txtCopyright (new Gtk::Label (copyright)), iconPrg (NULL)
      , iconAuthor (NULL) {
    TRACE9 ("XInfoApplication::XInfoApplication ()");
-   Check1 (pPrgInfo); Check1 (pCopyright);
 
    hboxTitle->show ();
-   vboxClient->pack_start (*hboxTitle, false, false, 5);
+   vboxClient->pack_start (*hboxTitle, Gtk::PACK_SHRINK, 5);
 
    vboxPrgInfo->show ();
    hboxTitle->pack_end (*vboxPrgInfo);
@@ -320,7 +323,7 @@ void XInfoApplication::setIconProgram (const char* const* pIconData) {
    Check3 (iconPrg);
 
    iconPrg->show ();
-   hboxTitle->pack_start (*iconPrg, false, false, 5);
+   hboxTitle->pack_start (*iconPrg, Gtk::PACK_SHRINK, 5);
 
    XApplication::setIconProgram (pIconData);
 }
@@ -339,7 +342,7 @@ void XInfoApplication::setIconAuthor (const char* const* pIconData) {
    Check3 (iconAuthor);
 
    iconAuthor->show ();
-   hboxTitle->pack_end (*iconAuthor, false, false, 5);
+   hboxTitle->pack_end (*iconAuthor, Gtk::PACK_SHRINK, 5);
    hboxTitle->reorder_child (*vboxPrgInfo, 3);
 }
 
