@@ -1,4 +1,4 @@
-<!-- $Id: XStream.html,v 1.2 2000/04/15 02:05:25 Markus Rel $ -->
+<!-- $Id: XStream.html,v 1.3 2001/10/20 00:59:00 markus Exp $ -->
 
 <html>
   <head>
@@ -11,29 +11,34 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
     <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center">Class extStream&lt;T&gt;</h1>
-    <p>Derived from: private <a href="XStrBuf.html">extStream</a>, public T</p>
+    <p>Derived from:
+      private <a href="XStrBuf.html">extStreambuf</a>, public T
+      <br>
+      Derived by: <a href="XStream.html#Xistream">Xistream</a> <a href="XStream.html#Xifstream">Xifstream</a></p>
 
-    <p>Header-file: XStream.h</p>
+    <p>#include &lt;XStrBuf.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
     <p>Extended stream, designed to parse text.</p>
-    <p>It overcomes two drawbacks of the original stream:</p>
+
+    <p>It overcomes two drawbacks of the original streams:</p>
     <ul>
       <li>Column- and line-information (which - to be fair - wouldn't make very
-        much sense in the common stream anyway).</li>
-      <li>A variable-sized putback-buffer. The common stream only stores one
+        much sense in the common streams anyway).</li>
+      <li>A variable-sized putback-buffer. The common streams only stores one
         block (and a few bytes from the last), so a pushback beyond this border
         is not possible.</li>
     </ul>
     <p><b>Note</b>: The extensions of the stream must be initialized with the
-      <a href="XStream.html#init">init</a>-method!</p>
+      <a href="XStream.html#init">init</a>-method (after creating/assigning)!</p>
 
     <p>For easier usage there are definitions of the (propably) most common
       used extended Streams:</p>
@@ -44,20 +49,26 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="XStream.html#extStream">extStream</a></td>
-        <td>()</td></tr>
-      <tr valign="top"><td></td><td><a href="XStream.html#extStream2">extStream</a></td>
-        <td>(const T&amp; source)</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="XStream.html#extStream"><b>extStream</b></a></td>
+        <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td></td>
-        <td><a href="XStream.html#~extStream">~extStream</a></td><td>()</td></tr>
+        <td><a href="XStream.html#extStream2"><b>extStream</b></a></td>
+        <td><tt>(const <font color="navy">T</font>&amp; <font color="blue">source</font>)</tt>;</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="XStream.html#~extStream"><b>~extStream</b></a></td>
+        <td><tt>()</tt>;</td></tr>
 
-      <tr valign="top"><td>void</td><td><a href="XStream.html#init">init</a></td><td>()</td></tr>
+      <tr valign="top"><td><tt><font color="purple">void</font></tt></td>
+        <td><a href="XStream.html#init"><b>init</b></a></td>
+        <td><tt>()</tt>;</td></tr>
 
-      <tr valign="top"><td>unsigned int</td>
-        <td><a href="XStream.html#getLine">getLine</a></td><td>() const</td></tr>
-      <tr valign="top"><td>unsigned int</td>
-        <td><a href="XStream.html#getColumn">getColumn</a></td><td>() const</td></tr>
+      <tr valign="top"><td><font color="navy">unsigned</font> <font color="purple">int</font></td>
+        <td><a href="XStream.html#getLine"><b>getLine</b></a></td>
+      <td><tt>() const</tt>;</td></tr>
+      <tr valign="top"><td><font color="navy">unsigned</font> <font color="purple">int</font></td>
+        <td><a href="XStream.html#getColumn"><b>getColumn</b></a></td>
+      <td><tt>() const</tt>;</td></tr>
     </table>
 
     <hr noshade>
