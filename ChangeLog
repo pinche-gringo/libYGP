@@ -1,9 +1,121 @@
+2005-01-31  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.7.01
+
+	* XGP/XApplication.cpp: Fixed messages in help-menu
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* doc/index.html: Actualized copyright
+
+	* bin/mgeni.pl:
+	  Seperating >> to > > in line for attributes, to suppress compiler warnings
+
+	* YGP/Internal.h:
+	  Added define to decide if gettext also converts strings to UTF8
+
+	* ygp-cfg.h.in: Added define for backtrace
+
+	* XGP/XAttribute.h:
+	  Ustring::assign (value, length) does not seem to work
+
+	* XGP/XApplication.cpp: Minor optimization
+
+	* XGP/XApplication.h: Removed unused menu-enum
+
+	* XGP/Samples/X-Appl.h, XGP/Samples/X-Appl.cpp:
+	  Disabling actions and not menus
+
+2005-01-25  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/X-Appl.cpp: Using stock-icon for find-dialog menu item
+
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h:
+	  Adapted to new menu-style
+
+2005-01-24  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h, XGP/XApplication.cpp, XGP/XApplication.h:
+	  Using UIManager
+
+2005-01-20  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/MetaEnum.h: Fixed comment
+
+	* YGP/INIFile.h:
+	  INIList derives not directly from std::vector but from a template argument
+
+	* YGP/Attribute.h:
+	  AttributeList derives not directly from std::vector but from a template argument
+
+	* configure.in: Checking for backtrace; Version to 0.7.01
+
+2005-01-12  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Entity.cpp: Fixed operator>>
+
+	* YGP/Attribute.h: Added copy-constructor to AttributeList
+
+	* YGP/AttrParse.cpp: Changed formatting
+
+	* YGP/Tests/Entity.cpp:
+	  Separated definition of input(-stream) from output(-stream)
+
+	* YGP/Process.cpp, YGP/Process.h: Added execIOConnected
+
+	* YGP/Tests/Process.cpp: Added test for execIOConnected
+
+2005-01-10  Markus Schwab  <g17m0@lycos.com>
+
+	* bin/mgeni.pl: Skipping forward declarations
+
+	* YGP/Entity.cpp: Fixed operator>>
+
+	* YGP/Handle.h: Added readFromStream
+
+	* YGP/AttrVal.h: readFromStream made absolut virtual
+
+2005-01-09  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/StackTrc.cpp: Using backtrace, if available
+
+2005-01-08  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Entity.h, YGP/Entity.cpp:
+	  Added operator<< and operator>>; vector of attributes stores const-less IAttribute*
+
+	* YGP/INIFile.cpp:
+	  Adapted to new (const-less) vector of attributes of Entity
+
+	* YGP/Attribute.h: Added copyconstructor and a clone method
+
+	* YGP/AssParse.h: Fixed comment
+
+	* YGP/AssParse.cpp: Fixed makeAssignment from a std::string
+
+	* YGP/Tests/Handle.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/MetaEnum.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Process.cpp, YGP/Tests/Relation.cpp, YGP/Tests/Thread.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AYear.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp:
+	  Fixed value for Project; Changed year of copyright
+
+	* YGP/Tests/Makefile.am: Added test for Entity
+
+	* YGP/Tests/Entity.cpp: New file.
+
+2005-01-07  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/LoginDlg.cpp: Converting locale to UTF-8
+
+	* po/POTFILES.in, po/de.po, po/en.po, po/es.po: Added LoginDlg
+
+2005-01-05  Markus Schwab  <g17m0@lycos.com>
+
+	* Makefile.am: Removed Make.bat from distribution
+
 2004-12-29  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.7.00
 
 	* configure.in:
-	Version to 0.7.00; Browsertest defines HAVE_XXX macros; Library-checks improved
+	  Version to 0.7.00; Browsertest defines HAVE_XXX macros; Library-checks improved
 
 	* po/de.po, po/en.po, po/es.po: Added search-dialog messages
 

@@ -1,3 +1,12 @@
+Overview of Changes in version 0.7.01:
+
+  - YGP::Entity got operator<< and operator>>
+  - YGP::Stacktrace uses backtrace from libc (if available)
+  - YGP::IAttribute got a clone method
+  - Classes derived from YGP::AttributValue must implement readFromStream
+  - Improved mgeni
+  - Using GTK+/GTKMM's new menu style
+
 Overview of Changes in version 0.7.00:
 
   - Fixed compiling with included libintl
