@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.11 2004/01/15 06:26:30 markus Rel $
+//$Id: Process.cpp,v 1.12 2004/10/14 04:01:43 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -38,7 +38,20 @@
 
 #if SYSTEM == UNIX
 #  include <unistd.h>
-#  include <sys/wait.h>
+#  if !defined HAVE_PIPE && defined HAVE__PIPE
+#    define pipe(p)  _pipe((p), 256, 0)
+#  endif
+
+#  ifdef HAVE_SYS_WAIT_H
+#     include <sys/wait.h>
+#   endif
+
+#  if defined __MINGW_H && defined HAVE_WINDOWS_H
+#     include <windows.h>                // For HANDLE and GetExitCodeProcess
+#     include <cstdlib>                                          // For sleep
+#     define sleep      _sleep
+#  endif
+
 #elif SYSTEM == WINDOWS
 #  include <io.h>
 #  include <fcntl.h>
@@ -89,7 +102,44 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
    int pipes[2];
    pid_t pid;
 
-#if SYSTEM == UNIX
+#if defined HAVE_SPAWNVP && HAVE_WINDOWS_H
+   if (pipe (pipes) != -1) {
+      // Save original output-handles
+      int sout (dup (1));
+      int serr (dup (2));
+
+     if ((sout != -1) && (serr != -1)) {
+         // Duplicate write end of pipe to stdout/err and close it
+         dup2 (dup (pipes[1]), 1);
+         dup2 (pipes[1], 2);
+         close (pipes[1]);
+
+         pid = spawnvp (wait ? P_WAIT : P_NOWAIT, file,
+                        const_cast<char* const*> (arguments));
+
+         // Restore stdout/err
+         dup2 (sout, 1);
+         dup2 (serr, 2);
+         close (sout);
+         close (serr);
+
+         // Wait (or check if child has finished)
+         unsigned long rc (0);
+         if (wait)
+            GetExitCodeProcess ((HANDLE)pid, &rc);
+         else {
+            sleep (1);
+            // Assume that process has finished, if GetProcessVersions returns 0
+            HANDLE hProc (OpenProcess (PROCESS_QUERY_INFORMATION, false, pid));
+            if (hProc) {
+               GetExitCodeProcess (hProc, &rc);
+               if (rc)
+                  err = readChildOutput (pipes[0]);
+            }
+         }
+      }
+   }
+#elif defined HAVE_FORK
    pid = (pipe (pipes) ? - 1 : fork ());
    switch (pid) {
    case 0: {                                            // Child: Start program
@@ -123,45 +173,8 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
          err = readChildOutput (pipes[0]);
       break; }
    } // end-switch
-
-#elif SYSTEM == WINDOWS
-   if (pipe (pipes) != -1) {
-      // Save original output-handles
-      int sout (dup (1));
-      int serr (dup (2));
-
-      if ((sout != -1) && (serr != -1)) {
-         // Duplicate write end of pipe to stdout/err and close it
-         dup2 (dup (pipes[1]), 1);
-         dup2 (pipes[1], 2);
-         close (pipes[1]);
-
-         pid = spawnvp (wait ? P_WAIT : P_NOWAIT, file,
-                        const_cast<char* const*> (arguments));
-         int serror = errno;
-
-         // Restore stdout/err
-         dup2 (sout, 1);
-         dup2 (serr, 2);
-         close (sout);
-         close (serr);
-
-         // Wait (or check if child has finished)
-         unsigned long rc (0);
-         if (wait)
-            GetExitCodeProcess ((HANDLE)pid, &rc);
-         else {
-            sleep (1);
-            // Assume that process has finished, if GetProcessVersions returns 0
-            HANDLE hProc (OpenProcess (PROCESS_QUERY_INFORMATION, false, pid));
-            if (hProc) {
-               GetExitCodeProcess (hProc, &rc);
-               if (rc)
-                  err = readChildOutput (pipes[0]);
-            }
-         }
-      }
-   }
+#else
+#  error Not yet implemented!
 #endif
 
    if (errno && !err.length ()) {
