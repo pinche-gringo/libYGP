@@ -1,6 +1,6 @@
 SUBDIRS=.
 
-INCLUDES=-I.. -I$(top_srcdir)
+INCLUDES=-I.. -I$(top_srcdir) -I../..
 
 # Settings for gettext
 localedir = $(datadir)/locale
