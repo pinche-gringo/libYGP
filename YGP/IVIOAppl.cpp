@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.33 2003/11/14 00:22:57 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.34 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -40,6 +40,8 @@
 #include "YGP/StackTrc.h"
 #include "YGP/IVIOAppl.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Checks char if it starts an option
@@ -365,3 +367,6 @@ void IVIOApplication::initI18n (const char* package, const char* dir) {
    textdomain (package);
 #endif
 }
+
+}
+

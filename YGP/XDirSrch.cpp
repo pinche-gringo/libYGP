@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
+//$Id: XDirSrch.cpp,v 1.8 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -31,6 +31,8 @@
 #include "YGP/FileRExp.h"
 #include "YGP/PathSrch.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Checks the validity of the filename
@@ -83,4 +85,6 @@ void _XDSaddNode (std::string& list, char prefix, const std::string& node) {
 
    while ((temp = l.getNextNode ()).size ())
       list = prefix + temp + std::string (1, PathSearch::PATHSEPARATOR) + list;
+}
+
 }

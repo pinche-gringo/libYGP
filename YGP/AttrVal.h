@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.21 2003/06/14 06:23:24 markus Rel $
+//$Id: AttrVal.h,v 1.22 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 
 #include <stdexcept>
 
+
+namespace YGP {
 
 /**Base-class for all attribut-values
 
@@ -95,6 +97,8 @@ class AttributValue {
 //-----------------------------------------------------------------------------
 inline void AttributValue::define () {
    setDefined ();
+}
+
 }
 
 #endif

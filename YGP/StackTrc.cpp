@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.11 2003/11/14 00:22:57 markus Exp $
+// $Id: StackTrc.cpp,v 1.12 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -38,18 +38,18 @@
 #include "YGP/Check.h"
 #include "YGP/StackTrc.h"
 
-// Define for logging (printf for testing; LOGINFO for real)
+// Define for logging (printf for testing; YGP::LOGINFO for real)
 #define PRINT LOGINFO
 //#define PRINT puts
 
 
 extern "C" {
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Signalhandler; dumps stack when signal is caught
-//Parameters: sig: Number of signal caught
-//Remarks   : A stacktrace might be useful (only?) after a segmentation fault
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Signalhandler; dumps stack when signal is caught
+/// \param sig: Number of signal caught
+/// \remarks A stacktrace might be useful (only?) after a segmentation fault
+//-----------------------------------------------------------------------------
 void handleSignal (int sig) {
    signal (SIGSEGV, SIG_DFL);       // Restore signal-handlers and reraise the
 #ifdef HAVE_SIGBUS
@@ -60,19 +60,15 @@ void handleSignal (int sig) {
    raise (sig);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Dumps the calling-sequence into the log-file
-//Remarks   : The layout of the stack is like the following:
-//              - argument(s) (if any)
-//              - address to return to (address of caller)
-//              - pointer to local vars of caller
-//              - local variables (if any)
-//
-//            Because of that, the calling-sequence can be found by examining
-//            the two value before the local variables; the first contains the
-//            address of the caller and the second allows the follow the stack
-//            down to the stack for the caller.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Dumps the calling-sequence into the log-file
+/// \remarks The layout of the stack is like the following: - argument(s) (if
+///     any) - address to return to (address of caller) - pointer to local
+///     vars of caller - local variables (if any) Because of that, the
+///     calling-sequence can be found by examining the two value before the
+///     local variables; the first contains the address of the caller and the
+///     second allows the follow the stack down to the stack for the caller.
+//-----------------------------------------------------------------------------
 void dumpStack () {
    char* pBuffer = (char*)malloc (64);
 

@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.22 2003/11/14 00:22:57 markus Exp $
+// $Id: XStrBuf.h,v 1.23 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@
 
 #include <YGP/Check.h>
 
+
+namespace YGP {
 
 /**Extended streambuf, designed to parse text.
 
@@ -112,5 +114,6 @@ class extStreambuf : public std::streambuf {
    char*           pBuffer;
 };
 
+}
 
 #endif

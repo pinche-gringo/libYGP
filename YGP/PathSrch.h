@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.14 2003/11/14 00:22:57 markus Exp $
+//$Id: PathSrch.h,v 1.15 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #include <YGP/Tokenize.h>
 
+
+namespace YGP {
 
 /**Class to split a string of path-nodes into its sub-nodes
 
@@ -69,5 +71,7 @@ class PathSearch : public Tokenize {
 
    PathSearch& operator= (const PathSearch& other);
 };
+
+}
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.15 2003/11/14 00:22:57 markus Exp $
+//$Id: FileRExp.h,v 1.16 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,9 @@
 #include <string>
 
 #include <YGP/RegExp.h>
+
+
+namespace YGP {
 
 /**Class to compare text with (UNIX-file-style) regular expressions
 
@@ -76,5 +79,7 @@ class FileRegularExpr : public IRegularExpression {
 
    std::string getError (const char* error, unsigned int pos) const;
 };
+
+}
 
 #endif

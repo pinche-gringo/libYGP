@@ -1,11 +1,11 @@
-// $Id: Thread.cpp,v 1.3 2003/11/14 00:22:57 markus Exp $
+// $Id: Thread.cpp,v 1.4 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -33,8 +33,8 @@
 #include "Test.h"
 
 unsigned int count (0);
-Mutex waitThread;
-Mutex waitParent;
+YGP::Mutex waitThread;
+YGP::Mutex waitParent;
 
 const unsigned int COUNT (1000);
 
@@ -50,7 +50,7 @@ void* sum (void*) {
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
-   Thread* thread (Thread::create (&sum, NULL));
+   YGP::Thread* thread (YGP::Thread::create (&sum, NULL));
    check (thread);
    while (waitThread.trylock ()) {
       waitThread.unlock ();

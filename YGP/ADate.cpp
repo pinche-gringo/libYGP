@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.34 2003/11/14 00:22:56 markus Exp $
+//$Id: ADate.cpp,v 1.35 2003/11/14 20:27:54 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -40,6 +40,9 @@
 #include "YGP/Internal.h"
 
 #include "YGP/ADate.h"
+
+
+namespace YGP {
 
 //----------------------------------------------------------------------------
 /// Constructor; depending on the parameter the date is either set to the first
@@ -561,4 +564,6 @@ struct tm ADate::toStructTM () const {
       result.tm_year = year - 1900;
    }
    return result;
+}
+
 }

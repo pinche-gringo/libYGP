@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.36 2003/11/14 00:22:57 markus Exp $
+//$Id: Parse.h,v 1.37 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@
 #include <YGP/Check.h>
 #include <YGP/XStream.h>
 
+
+namespace YGP {
 
 /**Classes to parse objects and sequences of objects from a stream. If an
    object is found it is possible to perform an action for this event.
@@ -1514,5 +1516,7 @@ template <class T> class OFParseSelection : public ParseSelection {
    // Prohibited manager functions
    OFParseSelection ();
 };
+
+}
 
 #endif

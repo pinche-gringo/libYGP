@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.23 2003/07/16 06:59:46 markus Rel $
+//$Id: IVIOAppl.h,v 1.24 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+namespace YGP {
 
 #define IVIOAPPL_HELP_OPTION    "help", 'h'
 
@@ -145,5 +147,7 @@ class IVIOApplication {
     const longOptions* longOpt;
     unsigned int       numLongOpt;
 };
+
+}
 
 #endif

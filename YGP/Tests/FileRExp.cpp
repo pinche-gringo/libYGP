@@ -1,11 +1,11 @@
-// $Id: FileRExp.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
+// $Id: FileRExp.cpp,v 1.7 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/FileRExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -37,7 +37,7 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing FileRegularExpr...\n";
-   FileRegularExpr regExp ("a*b");
+   YGP::FileRegularExpr regExp ("a*b");
    check (!regExp.checkIntegrity () && regExp.matches ("ab"));
 
    regExp = "a[a-d]b";

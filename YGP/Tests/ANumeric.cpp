@@ -1,11 +1,11 @@
-// $Id: ANumeric.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
+// $Id: ANumeric.cpp,v 1.7 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -37,16 +37,16 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing ANumeric...\n";
-   ANumeric num;
+   YGP::ANumeric num;
    check (!num.isDefined ());
 
-   ANumeric num2 (-2000);
+   YGP::ANumeric num2 (-2000);
    check (num2.isDefined ());
    check (num2 < num);
    num2 = 0;
    check (num2 > num);
    num2 += 2000;
-   ANumeric num3 (num2 + num);
+   YGP::ANumeric num3 (num2 + num);
    check (num3 == num2);
    num3 = num2 / num;
    check (num3 == num2);
@@ -60,23 +60,23 @@ int main (int argc, char* argv[]) {
 #ifdef TEST_OUTPUT
    setlocale (LC_ALL, "");                         // Activate current locale
 
-   std::cout << ANumeric::toString (-1) << '\n';
-   std::cout << ANumeric::toString (-12) << '\n';
-   std::cout << ANumeric::toString (-123) << '\n';
-   std::cout << ANumeric::toString (-1234) << '\n';
-   std::cout << ANumeric::toString (-12345) << '\n';
-   std::cout << ANumeric::toString (-123456) << '\n';
-   std::cout << ANumeric::toString (-1234567) << '\n';
-   std::cout << ANumeric::toString (-12345678) << '\n';
+   std::cout << YGP::ANumeric::toString (-1) << '\n';
+   std::cout << YGP::ANumeric::toString (-12) << '\n';
+   std::cout << YGP::ANumeric::toString (-123) << '\n';
+   std::cout << YGP::ANumeric::toString (-1234) << '\n';
+   std::cout << YGP::ANumeric::toString (-12345) << '\n';
+   std::cout << YGP::ANumeric::toString (-123456) << '\n';
+   std::cout << YGP::ANumeric::toString (-1234567) << '\n';
+   std::cout << YGP::ANumeric::toString (-12345678) << '\n';
 
-   std::cout << ANumeric::toString (1) << '\n';
-   std::cout << ANumeric::toString (12) << '\n';
-   std::cout << ANumeric::toString (123) << '\n';
-   std::cout << ANumeric::toString (1234) << '\n';
-   std::cout << ANumeric::toString (12345) << '\n';
-   std::cout << ANumeric::toString (123456) << '\n';
-   std::cout << ANumeric::toString (1234567) << '\n';
-   std::cout << ANumeric::toString (12345678) << '\n';
+   std::cout << YGP::ANumeric::toString (1) << '\n';
+   std::cout << YGP::ANumeric::toString (12) << '\n';
+   std::cout << YGP::ANumeric::toString (123) << '\n';
+   std::cout << YGP::ANumeric::toString (1234) << '\n';
+   std::cout << YGP::ANumeric::toString (12345) << '\n';
+   std::cout << YGP::ANumeric::toString (123456) << '\n';
+   std::cout << YGP::ANumeric::toString (1234567) << '\n';
+   std::cout << YGP::ANumeric::toString (12345678) << '\n';
 #endif
 
    if (cErrors)

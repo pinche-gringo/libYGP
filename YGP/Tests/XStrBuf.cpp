@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.14 2003/11/14 00:22:57 markus Exp $
+// $Id: XStrBuf.cpp,v 1.15 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -49,7 +49,7 @@ int main (int argc, char* argv[]) {
    std::ifstream in (TESTFILE, std::ios::in);
    check (in);
    if (in) {
-      extStreambuf str (*in.rdbuf ());
+      YGP::extStreambuf str (*in.rdbuf ());
       typedef std::ios sin;          // Workaround for MVC-bug (in V6; SP-5!?)
       in.sin::rdbuf (&str);
       char c;

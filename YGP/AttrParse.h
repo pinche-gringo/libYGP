@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.9 2003/11/14 00:22:56 markus Exp $
+//$Id: AttrParse.h,v 1.10 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,8 +28,10 @@
 #include <YGP/Attribute.h>
 
 
+namespace YGP {
+
 // Macros to set the attribute-values to parse into the attribute-parser
-#define ATTRIBUTE(APobj, type, var, name)  APobj.addAttribute (*new Attribute<type> (name, var));
+#define ATTRIBUTE(APobj, type, var, name)  APobj.addAttribute (*new YGP::Attribute<type> (name, var));
 
 
 /**Class to parse attribute-assignments from a string and sets its values
@@ -80,5 +82,7 @@ class AttributeParse {
    IAttribute** attrs;                 // Pointer to array holding attributes
    std::vector<IAttribute*> apAttrs;
 };
+
+}
 
 #endif

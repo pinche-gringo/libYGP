@@ -1,11 +1,11 @@
-// $Id: IVIOAppl.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
+// $Id: IVIOAppl.cpp,v 1.8 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/IVIOAppl
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -42,10 +42,10 @@
 
 #include "Test.h"
 
-class Application : public IVIOApplication {
+class Application : public YGP::IVIOApplication {
  public:
    Application (const int argc, const char* argv[])
-      : IVIOApplication (argc, argv, lo), cOptions (0), cErrors (0) { }
+      : YGP::IVIOApplication (argc, argv, lo), cOptions (0), cErrors (0) { }
   ~Application () { }
 
  protected:
@@ -71,7 +71,7 @@ class Application : public IVIOApplication {
    static const longOptions lo[];
 };
 
-const IVIOApplication::longOptions Application::lo[] = {
+const YGP::IVIOApplication::longOptions Application::lo[] = {
    { "help", 'h' },
    { "stackdump", 'd' },
    { "arg-opt", 'a' },
@@ -93,7 +93,7 @@ bool Application::handleOption (const char option) {
 
    if (option == 's') {
       std::cout << "Testing logging and stack-trace...\n";
-      Syslog log ("Test");
+      YGP::Syslog log ("Test");
 
       LOGDEBUG ("Test-Stacktrace:");
       dumpStack ();

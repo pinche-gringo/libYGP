@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.23 2003/11/14 00:22:57 markus Exp $
+//$Id: File.cpp,v 1.24 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -40,6 +40,8 @@
 
 #include "YGP/File.h"
 
+
+namespace YGP {
 
 #if SYSTEM == UNIX
 const char File::DIRSEPARATOR = '/';
@@ -359,3 +361,6 @@ void File::throwErrorText (const char* error) const throw (std::string) {
    err.replace (err.find ("%2"), 2, strerror (errno));
    throw (err);
 }
+
+}
+

@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.11 2003/11/14 00:22:56 markus Exp $
+//$Id: AttrParse.cpp,v 1.12 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -32,6 +32,8 @@
 
 #include "YGP/AttrParse.h"
 
+
+namespace YGP {
 
 //----------------------------------------------------------------------------
 /// Destructor
@@ -127,4 +129,6 @@ void AttributeParse::assignValues (const std::string& values) const throw (std::
          throw (error);
       }
    } // end-while
+}
+
 }

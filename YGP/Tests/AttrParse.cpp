@@ -1,11 +1,11 @@
-// $Id: AttrParse.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
+// $Id: AttrParse.cpp,v 1.7 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AttrParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -39,13 +39,13 @@ int main (int argc, char* argv[]) {
    std::cout << "Testing AttributeParse...\n";
    try {
       std::string file;
-      ANumeric    size;
-      ATimestamp  time;
+      YGP::ANumeric    size;
+      YGP::ATimestamp  time;
 
-      AttributeParse attrs;
+      YGP::AttributeParse attrs;
       ATTRIBUTE (attrs, std::string, file, "File");
-      ATTRIBUTE (attrs, ANumeric, size, "Size");
-      ATTRIBUTE (attrs, ATimestamp, time, "Time");
+      ATTRIBUTE (attrs, YGP::ANumeric, size, "Size");
+      ATTRIBUTE (attrs, YGP::ATimestamp, time, "Time");
 
       attrs.assignValues ("File=\"ADate.cpp\";Size=18180;Time=01012000 121005");
    }

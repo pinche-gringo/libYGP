@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.14 2003/11/14 00:22:57 markus Exp $
+// $Id: CRegExp.cpp,v 1.15 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -40,7 +40,7 @@
 
 unsigned int cErrors (0);
 std::string strRE, strVal;
-RegularExpression regexp ("");
+YGP::RegularExpression regexp ("");
 bool match;
 
 
@@ -49,7 +49,7 @@ int foundRegExp (const char* pRegExp, unsigned int) {
    TRACE1 ("Found regular expression: " << pRegExp);
    strRE = pRegExp;
    regexp = strRE.c_str ();
-   return ParseObject::PARSE_OK;
+   return YGP::ParseObject::PARSE_OK;
    }
 
 int foundValue (const char* pValue, unsigned int) {
@@ -58,7 +58,7 @@ int foundValue (const char* pValue, unsigned int) {
    TRACE1 ("Found value: " << pValue);
    strVal = pValue;
    match = regexp.matches (pValue);
-   return ParseObject::PARSE_OK;
+   return YGP::ParseObject::PARSE_OK;
 }
 
 int foundResult (const char* pResult, unsigned int) {
@@ -68,7 +68,7 @@ int foundResult (const char* pResult, unsigned int) {
       ERROROUT ("RegExp (\"" << strRE << "\").matches (\"" << strVal
                 << "\") == " << pResult);
 
-   return ParseObject::PARSE_OK;
+   return YGP::ParseObject::PARSE_OK;
 }
 
 
@@ -99,25 +99,25 @@ int main (int argc, char* argv[]) {
       std::cerr << e.c_str () << '\n';
    }
 
-   Xifstream frexexp;
+   YGP::Xifstream frexexp;
    try {
       frexexp.open (TESTFILE, std::ios::in);
       check (frexexp);
       if (frexexp) {
          frexexp.init ();
 
-         ParseObject*   _RegExpTest[3];
-         ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1U, 0);
-         ParseObject*   _RegExpHeader[4];
-         ParseSequence  RegExpHeader (_RegExpHeader, "Regexp-header", 1, 1);
-         ParseObject*   _values[4];
-         ParseSequence  values (_values, "Values", 1, 1);
-         CBParseTextEsc RegExp ("]", "Regular expression", &foundRegExp, 512, 1, '\\', false);
-         CBParseTextEsc value ("=\n\r", "Value", &foundValue, 512, 1, false);
-         CBParseAttomic result ("\\9", "Result", &foundResult, 1, 1);
-         ParseExact RegExpBegin ("[", "Begin of regexp ([)", false);
-         ParseExact RegExpEnd ("]", "End of regexp (])");
-         ParseExact equals ("=", "Equal-sign (=)", false);
+         YGP::ParseObject*   _RegExpTest[3];
+         YGP::ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1U, 0);
+         YGP::ParseObject*   _RegExpHeader[4];
+         YGP::ParseSequence  RegExpHeader (_RegExpHeader, "Regexp-header", 1, 1);
+         YGP::ParseObject*   _values[4];
+         YGP::ParseSequence  values (_values, "Values", 1, 1);
+         YGP::CBParseTextEsc RegExp ("]", "Regular expression", &foundRegExp, 512, 1, '\\', false);
+         YGP::CBParseTextEsc value ("=\n\r", "Value", &foundValue, 512, 1, false);
+         YGP::CBParseAttomic result ("\\9", "Result", &foundResult, 1, 1);
+         YGP::ParseExact RegExpBegin ("[", "Begin of regexp ([)", false);
+         YGP::ParseExact RegExpEnd ("]", "End of regexp (])");
+         YGP::ParseExact equals ("=", "Equal-sign (=)", false);
 
          _RegExpTest[0] = &RegExpHeader; _RegExpTest[1] = &values;
          _RegExpTest[2] = NULL;
@@ -126,13 +126,13 @@ int main (int argc, char* argv[]) {
          _values[0] = &value; _values[1] = &equals; _values[2] = &result;
 	 _values[3] = NULL;
 
-         RegExpTest.parse ((Xistream&)frexexp);
+         RegExpTest.parse ((YGP::Xistream&)frexexp);
       } // endif
    } // end-try
    catch (std::string& e) {
       std::cerr << "Error parsing '" << TESTFILE << ": " << e.c_str () << "\nActual position: "
-                << ANumeric (frexexp.getLine ()).toString () << '/'
-                << ANumeric (frexexp.getColumn ()).toString () << '\n';
+                << YGP::ANumeric (frexexp.getLine ()).toString () << '/'
+                << YGP::ANumeric (frexexp.getColumn ()).toString () << '\n';
    }
 
    if (cErrors)

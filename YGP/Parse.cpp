@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.44 2003/11/14 00:22:57 markus Exp $
+//$Id: Parse.cpp,v 1.45 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -42,6 +42,9 @@
 #include "YGP/XStream.h"
 #include "YGP/Internal.h"
 
+
+namespace YGP {
+
 #define BUFFER  (buffers[Thread::currentID ()])
 
 
@@ -49,10 +52,10 @@
 static std::map<unsigned long, std::string> buffers;
 
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 /// Frees the buffer internally used while parsing.
 /// \remarks Don't delete the buffer while parsing (inside a callback)! 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 void ParseObject::freeBuffer () {
    buffers.erase (Thread::currentID ());
 }
@@ -1433,4 +1436,6 @@ CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
 int CBParseSelection::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
    return pCallback (pFoundValue, len);
+}
+
 }

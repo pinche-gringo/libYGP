@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.22 2003/11/14 00:22:57 markus Exp $
+//$Id: INIFile.h,v 1.23 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,21 +36,24 @@
 #include <YGP/XStream.h>
 #include <YGP/Attribute.h>
 
+
+namespace YGP {
+
 class Entity;
 class INIFile;
 
 
 // Macros to define the INI-file-structure.
-#define INIFILE(file)        INIFile _inifile_ (file);
+#define INIFILE(file)        YGP::INIFile _inifile_ (file);
 #define INIOBJ(obj, section) _inifile_.addEntity ((obj), #section);
-#define INISECTION(section)  INISection section (#section); \
+#define INISECTION(section)  YGP::INISection section (#section); \
                              _inifile_.addSection (section);
-#define INIATTR(section, type, attr) Attribute<type> attr##_ (#attr, (attr)); \
+#define INIATTR(section, type, attr) YGP::Attribute<type> attr##_ (#attr, (attr)); \
                              (section).addAttribute (attr##_);
-#define INIATTR2(section, type, attr, name) Attribute<type> name##_ (#name, (attr)); \
+#define INIATTR2(section, type, attr, name) YGP::Attribute<type> name##_ (#name, (attr)); \
                              (section).addAttribute (name##_);
-#define INILIST(name, type)  INIList<type> name (#name, name); _inifile_.addSection (name);
-#define INILIST2(section, type, name) INIList<type> section (#section, name); \
+#define INILIST(name, type)  YGP::INIList<type> name (#name, name); _inifile_.addSection (name);
+#define INILIST2(section, type, name) YGP::INIList<type> section (#section, name); \
                              _inifile_.addSection (section);
 #define INIFILE_READ()       _inifile_.read ()
 
@@ -287,5 +290,7 @@ class INIFile {
    ParseSequence  SectionHeader;
    OMParseAttomic SectionName;
 };
+
+}
 
 #endif

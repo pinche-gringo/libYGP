@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.20 2003/11/14 00:22:56 markus Exp $
+//$Id: ATime.h,v 1.21 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@ namespace std {
    class invalid_argument;
 }
 
+
+namespace YGP {
 
 /**Class for time attributes. As every AttributValue is supports undefined
    values.
@@ -142,5 +144,7 @@ class ATime : public AttributValue {
    unsigned char min_;
    unsigned char sec;
 };
+
+}
 
 #endif

@@ -1,11 +1,11 @@
-// $Id: Tokenize.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
+// $Id: Tokenize.cpp,v 1.6 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -36,7 +36,7 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing Tokenize...\n";
-   Tokenize token ("/usr/include/std/");
+   YGP::Tokenize token ("/usr/include/std/");
    check (token.getActNode () == "/usr/include/std/");
    check (token.getNextNode ('/') == "usr");
    check (token.getNextNode ('/') == "include");

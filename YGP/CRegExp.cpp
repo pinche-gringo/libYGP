@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.35 2003/11/14 00:22:56 markus Exp $
+//$Id: CRegExp.cpp,v 1.36 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -40,6 +40,8 @@
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
 
+
+namespace YGP {
 
 // Various constants for special characters used by regular expressions.
 // Can't be in the header as fucked-up Visual C++ (in Version 6!) would consider
@@ -1066,3 +1068,6 @@ void RegularExpression::init (const char* pRegExp) throw (std::string) {
       throw (getError (rc, 0));
    }
 #endif
+
+}
+

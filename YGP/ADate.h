@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.28 2003/11/14 00:22:56 markus Exp $
+//$Id: ADate.h,v 1.29 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,8 +34,9 @@
 namespace std {
    class invalid_argument;
 }
-class istream;
 
+
+namespace YGP {
 
 /**Class for date attributes. As every AttributValue is supports undefined
    values.
@@ -164,5 +165,7 @@ class ADate : public AttributValue {
    unsigned char month;
    int           year;
 };
+
+}
 
 #endif

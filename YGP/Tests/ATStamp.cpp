@@ -1,11 +1,11 @@
-// $Id: ATStamp.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
+// $Id: ATStamp.cpp,v 1.6 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ATStamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -35,13 +35,13 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing ATimestamp...\n";
-   ATimestamp now;
+   YGP::ATimestamp now;
    check (!now.isDefined ());
-   ATimestamp early (false);
+   YGP::ATimestamp early (false);
    check (early.isDefined ());
    check (now < early);
 
-   now = ATimestamp::now ();
+   now = YGP::ATimestamp::now ();
    check (now.isDefined ());
    check (now > early);
 

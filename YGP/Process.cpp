@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.8 2003/11/14 00:22:57 markus Exp $
+//$Id: Process.cpp,v 1.9 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -65,6 +65,8 @@
 
 #include "YGP/Process_.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Executes a program, either in the back- or foreground. If either the file
@@ -199,4 +201,6 @@ std::string Process::readChildOutput (int file) {
    err.replace (err.find ("%2"), 2, output);
    TRACE8 ("Process::readChildOutput (const char*, const char*) - Prg-error: " << err);
    return err;
+}
+
 }

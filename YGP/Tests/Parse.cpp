@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.10 2003/11/14 00:22:57 markus Exp $
+// $Id: Parse.cpp,v 1.11 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -47,10 +47,10 @@
 static unsigned int cErrors (0);
 
 
-class Application : public IVIOApplication {
+class Application : public YGP::IVIOApplication {
  public:
    Application (const int argc, const char* argv[])
-      : IVIOApplication (argc, argv, lo) { }
+      : YGP::IVIOApplication (argc, argv, lo) { }
   ~Application () { }
 
  protected:
@@ -74,24 +74,24 @@ class Application : public IVIOApplication {
 
    static int foundNumber (const char* pNumber, unsigned int) {
       TRACE1 ("Found number: " << pNumber);
-      return ParseObject::PARSE_OK;
+      return YGP::ParseObject::PARSE_OK;
    }
 
    static int foundQuotedText (const char* pText, unsigned int) {
       TRACE1 ("Found quoted text: " << pText);
       check (!strcmp (pText, "ab<cd>ef"));
-      return ParseObject::PARSE_OK;
+      return YGP::ParseObject::PARSE_OK;
    }
 
    int foundAlpha (const char* pAlpha, unsigned int) {
       TRACE1 ("Found alpha: " << pAlpha);
       check (!strcmp (pAlpha, "5678"));
-      return ParseObject::PARSE_OK;
+      return YGP::ParseObject::PARSE_OK;
    }
 
 };
 
-const IVIOApplication::longOptions Application::lo[] = {
+const YGP::IVIOApplication::longOptions Application::lo[] = {
    { "help", 'h' },
    { NULL, '\0' } };
 
@@ -105,39 +105,39 @@ void Application::showHelp () const {
 
 int Application::perform (int argc, const char* argv[]) {
    std::cout << "Testing Parser...\n";
-   CBParseAttomic nr ("\\9", "Number", foundNumber, 4, 2);
-   OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this,
+   YGP::CBParseAttomic nr ("\\9", "Number", foundNumber, 4, 2);
+   YGP::OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this,
                                       &Application::foundAlpha, 4, 2);
-   ParseExact exact ("234", "234");
-   ParseUpperExact upper ("9A42", "9A42");
-   ParseObject* lstSeq[] = { &nr, &exact, NULL };
-   ParseObject* lstSel[] = { &exact, &upper, NULL };
-   ParseSequence seqANum (lstSeq, "Sequence-test");
-   ParseSelection selANum (lstSel, "Selection-test");
-   ParseText text ("2", "Text", 10);
-   ParseTextEsc text2 ("34", "TextEsc", 10, 1, '2');
-   ParseSkip skip (2);
-   ParseQuoted qText ('"', "Quoted", 10, 1);
-   CBParseQuotedEsc qEText ('<', "QuotedEsc", foundQuotedText, 10, 1);
+   YGP::ParseExact exact ("234", "234");
+   YGP::ParseUpperExact upper ("9A42", "9A42");
+   YGP::ParseObject* lstSeq[] = { &nr, &exact, NULL };
+   YGP::ParseObject* lstSel[] = { &exact, &upper, NULL };
+   YGP::ParseSequence seqANum (lstSeq, "Sequence-test");
+   YGP::ParseSelection selANum (lstSel, "Selection-test");
+   YGP::ParseText text ("2", "Text", 10);
+   YGP::ParseTextEsc text2 ("34", "TextEsc", 10, 1, '2');
+   YGP::ParseSkip skip (2);
+   YGP::ParseQuoted qText ('"', "Quoted", 10, 1);
+   YGP::CBParseQuotedEsc qEText ('<', "QuotedEsc", foundQuotedText, 10, 1);
 
-   Xifstream xstr;
+   YGP::Xifstream xstr;
    xstr.open (PATH "Parser.test", std::ios::in);
    check (xstr);
    if (xstr) {
       xstr.init ();
 
       try {
-         check (!(nr.parse ((Xistream&)xstr)));
-         check (!(alpha.parse ((Xistream&)xstr)));
-         check (!seqANum.parse ((Xistream&)xstr));
-         check (!selANum.parse ((Xistream&)xstr));
-         check (!text.parse ((Xistream&)xstr));
-         check (!text2.parse ((Xistream&)xstr));
+         check (!(nr.parse ((YGP::Xistream&)xstr)));
+         check (!(alpha.parse ((YGP::Xistream&)xstr)));
+         check (!seqANum.parse ((YGP::Xistream&)xstr));
+         check (!selANum.parse ((YGP::Xistream&)xstr));
+         check (!text.parse ((YGP::Xistream&)xstr));
+         check (!text2.parse ((YGP::Xistream&)xstr));
          check (xstr.getLine () == 3);
          check (xstr.getColumn () == 8);
-         check (!skip.parse ((Xistream&)xstr));
-         check (!qText.parse ((Xistream&)xstr));
-         check (!qEText.parse ((Xistream&)xstr));
+         check (!skip.parse ((YGP::Xistream&)xstr));
+         check (!qText.parse ((YGP::Xistream&)xstr));
+         check (!qEText.parse ((YGP::Xistream&)xstr));
          check (xstr.getColumn () == 0);
 	 // Don't check line number, is undefined after skipping
       } // end-try

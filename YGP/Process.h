@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.7 2003/10/02 22:59:38 markus Rel $
+//$Id: Process.h,v 1.8 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@ typedef int pid_t;
 
 #include <string>
 
+
+namespace YGP {
 
 /**Class to execute a program either synchronlously or asynchronlously.
 
@@ -97,5 +99,7 @@ class Process {
 
    static std::string readChildOutput (int file);
 };
+
+}
 
 #endif

@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.9 2003/11/14 00:22:57 markus Exp $
+// $Id: AssParse.cpp,v 1.10 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -61,7 +61,7 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing AssignmentParse ...\n";
-   AssignmentParse attrs (A1 ";" A2 ";" A3 ";" A4);
+   YGP::AssignmentParse attrs (A1 ";" A2 ";" A3 ";" A4);
    try {
       std::string node (attrs.getNextNode ());
       check (attrs.getActNode () == A1);

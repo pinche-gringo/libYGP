@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
+// $Id: INIFile.cpp,v 1.8 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -49,16 +49,16 @@ int main (int argc, char* argv[]) {
    std::cout << "Testing INI-file parser...\n";
    int Attr1;
    std::string Attr2;
-   ANumeric Attr3;
-   ADate Attr4;
-   ATime Attr5;
-   ATimestamp Attr6;
+   YGP::ANumeric Attr3;
+   YGP::ADate Attr4;
+   YGP::ATime Attr5;
+   YGP::ATimestamp Attr6;
    try {
-      INISection global ("Global");
-      Attribute<int> attr1 ("Attr1", Attr1);
-      Attribute<std::string> attr2 ("Attr2", Attr2);
-      Attribute<ANumeric> attr3 ("Attr3", Attr3);
-      Attribute<ADate> attr4 ("Attr4", Attr4);
+      YGP::INISection global ("Global");
+      YGP::Attribute<int> attr1 ("Attr1", Attr1);
+      YGP::Attribute<std::string> attr2 ("Attr2", Attr2);
+      YGP::Attribute<YGP::ANumeric> attr3 ("Attr3", Attr3);
+      YGP::Attribute<YGP::ADate> attr4 ("Attr4", Attr4);
       global.addAttribute (attr1);
       global.addAttribute (attr2);
       global.addAttribute (attr3);
@@ -66,25 +66,25 @@ int main (int argc, char* argv[]) {
 
       INIFILE (PATH "INIFile.test");
       INISECTION (Special);
-      INIATTR (Special, ATime, Attr5);
-      INIATTR (Special, ATimestamp, Attr6);
+      INIATTR (Special, YGP::ATime, Attr5);
+      INIATTR (Special, YGP::ATimestamp, Attr6);
 
       INISECTION (Local);
       INIATTR (Local, int, Attr1);
       std::string attr2_;
       INIATTR2 (Local, std::string, attr2_, Attr2);
-      INIATTR (Local, ANumeric, Attr3);
-      INIATTR (Local, ADate, Attr4);
+      INIATTR (Local, YGP::ANumeric, Attr3);
+      INIATTR (Local, YGP::ADate, Attr4);
 
       try {
-         int rc = global.readFromStream ((Xistream&)_inifile_.getFile ());
+         int rc = global.readFromStream ((YGP::Xistream&)_inifile_.getFile ());
          check (!rc);
       } // end-try
       catch (std::string& e) {
          throw (std::string ("Error parsing INIFile.test in line ")
-                + ANumeric (_inifile_.getFile ().getLine ()).toString ()
+                + YGP::ANumeric (_inifile_.getFile ().getLine ()).toString ()
                 + std::string (" (")
-                + ANumeric (_inifile_.getFile ().getColumn ()).toString ()
+                + YGP::ANumeric (_inifile_.getFile ().getColumn ()).toString ()
                 + std::string ("): ") + e);
       } // end-catch
 

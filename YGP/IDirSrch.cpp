@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.10 2003/11/14 00:22:57 markus Exp $
+//$Id: IDirSrch.cpp,v 1.11 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -74,9 +74,13 @@ static const int FILE_NORMAL_    = ~FILE_ATTRIBUTE_DIRECTORY;
 static const int FILE_READONLY_  = FILE_ATTRIBUTE_READONLY;
 static const int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY;
 static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN;
+
 #else
 #  error Not implemented yet!
 #endif
+
+
+namespace YGP {
 
 #define ADDSYSATTRIB(result, sample, flag) if (sample & IDirectorySearch::flag)\
                                               result |= flag##_;
@@ -146,4 +150,6 @@ unsigned long IDirectorySearch::convertFromSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertFromSysAttribs (unsigned long) - "
            << std::hex << attr);
    return attr;
+}
+
 }

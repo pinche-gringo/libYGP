@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
+//$Id: ConnMgr.cpp,v 1.6 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -31,6 +31,8 @@
 
 #include "YGP/ConnMgr.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
@@ -142,4 +144,6 @@ Socket* ConnectionMgr::addConnection (int socket) {
               << e.what ());
       return NULL;
    }
+}
+
 }

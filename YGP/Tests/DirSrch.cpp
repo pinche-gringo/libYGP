@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.13 2003/11/14 00:22:57 markus Exp $
+// $Id: DirSrch.cpp,v 1.14 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -47,9 +47,9 @@
 
 
 int dirSearchRecursive (const char* pFile) {
-   DirectorySearch ds (pFile ? PATH "T*" : PATH "D*");
+   YGP::DirectorySearch ds (pFile ? PATH "T*" : PATH "D*");
 
-   if (!ds.find (DirectorySearch::FILE_NORMAL))
+   if (!ds.find (YGP::DirectorySearch::FILE_NORMAL))
       return 1;
 
    return pFile ? dirSearchRecursive (NULL) : 0;
@@ -60,11 +60,11 @@ int main (int argc, char* argv[]) {
 
    std::cout << "Testing File...\n";
    try {
-      File test (PATH NAME);
+      YGP::File test (PATH NAME);
       check (!strcmp (test.name (), NAME));
       check (*test.path () == '.');
 #if SYSTEM == UNIX
-      check (test.path ()[1] == File::DIRSEPARATOR);
+      check (test.path ()[1] == YGP::File::DIRSEPARATOR);
       check (test.path ()[2] == '\0');
 #endif
 
@@ -77,21 +77,21 @@ int main (int argc, char* argv[]) {
    }
 
    std::cout << "Testing DirectorySearch...\n";
-   DirectorySearch ds;
-   check (ds.find (PATH "T*", IDirectorySearch::FILE_NORMAL
-                              | IDirectorySearch::FILE_READONLY));
+   YGP::DirectorySearch ds;
+   check (ds.find (PATH "T*", YGP::IDirectorySearch::FILE_NORMAL
+                              | YGP::IDirectorySearch::FILE_READONLY));
    check (ds.next ());
 
-   check (ds.find (PATH ".*", IDirectorySearch::FILE_DIRECTORY
-                              | DirectorySearch::FILE_HIDDEN));
+   check (ds.find (PATH ".*", YGP::IDirectorySearch::FILE_DIRECTORY
+                              | YGP::IDirectorySearch::FILE_HIDDEN));
    check (ds.next ());                 // Don't perform test for no more files!
 
-   check (ds.find (".", DirectorySearch::FILE_DIRECTORY
-                        | IDirectorySearch::FILE_HIDDEN));
+   check (ds.find (".", YGP::IDirectorySearch::FILE_DIRECTORY
+                        | YGP::IDirectorySearch::FILE_HIDDEN));
    std::string temp (PATH "..");
-   temp += File::DIRSEPARATOR;
+   temp += YGP::File::DIRSEPARATOR;
    temp += "Tests";
-   check (ds.find (temp.c_str (), IDirectorySearch::FILE_DIRECTORY));
+   check (ds.find (temp.c_str (), YGP::IDirectorySearch::FILE_DIRECTORY));
    check (!ds.next ());
 
    check (!dirSearchRecursive (NULL));

@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.12 2003/11/14 00:22:57 markus Exp $
+//$Id: Log.h,v 1.13 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,14 +32,16 @@
 #include <YGP/Check.h>
 
 
-#define LOGEMERGENCY(text) Syslog::write (Syslog::EMERGENCY, text);
-#define LOGALERT(text)     Syslog::write (Syslog::ALERT, text);
-#define LOGCRITICAL(text)  Syslog::write (Syslog::CRITICAL, text);
-#define LOGERROR(text)     Syslog::write (Syslog::ERR, text);
-#define LOGWARNING(text)   Syslog::write (Syslog::WARNING, text);
-#define LOGNOTICE(text)    Syslog::write (Syslog::NOTICE, text);
-#define LOGINFO(text)      Syslog::write (Syslog::INFO, text);
-#define LOGDEBUG(text)     Syslog::write (Syslog::DEBUGGING, text);
+namespace YGP {
+
+#define LOGEMERGENCY(text) YGP::Syslog::write (YGP::Syslog::EMERGENCY, text);
+#define LOGALERT(text)     YGP::Syslog::write (YGP::Syslog::ALERT, text);
+#define LOGCRITICAL(text)  YGP::Syslog::write (YGP::Syslog::CRITICAL, text);
+#define LOGERROR(text)     YGP::Syslog::write (YGP::Syslog::ERR, text);
+#define LOGWARNING(text)   YGP::Syslog::write (YGP::Syslog::WARNING, text);
+#define LOGNOTICE(text)    YGP::Syslog::write (YGP::Syslog::NOTICE, text);
+#define LOGINFO(text)      YGP::Syslog::write (YGP::Syslog::INFO, text);
+#define LOGDEBUG(text)     YGP::Syslog::write (YGP::Syslog::DEBUGGING, text);
 
 
 /**Class to perform some logging to either a log-file (if available) or to
@@ -104,5 +106,7 @@ class Syslog {
    static std::map <unsigned int, char*> apAppl;
 #endif // WINDOWS
 };
+
+}
 
 #endif

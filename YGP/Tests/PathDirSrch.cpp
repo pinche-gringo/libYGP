@@ -1,11 +1,11 @@
-// $Id: PathDirSrch.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
+// $Id: PathDirSrch.cpp,v 1.8 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -38,12 +38,12 @@ int main (int argc, char* argv[]) {
 
    std::cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX
-   PathDirectorySearch pds (".:../../XGP", "Makefile.*");
+   YGP::PathDirectorySearch pds (".:../../XGP", "Makefile.*");
 #else
-   PathDirectorySearch pds ("..\\YGP;..\\XGP", "Makefile.*");
+   YGP::PathDirectorySearch pds ("..\\YGP;..\\XGP", "Makefile.*");
 #endif
-   check (pds.find (DirectorySearch::FILE_NORMAL
-                    | DirectorySearch::FILE_READONLY));
+   check (pds.find (YGP::IDirectorySearch::FILE_NORMAL
+                    | YGP::IDirectorySearch::FILE_READONLY));
    check (pds.next ());
    check (pds.next ());
    check (pds.next ());

@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
+//$Id: Entity.cpp,v 1.7 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Anticopyright (A) 2002, 2003
@@ -27,6 +27,8 @@
 
 #include "YGP/Entity.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Destructor
@@ -64,4 +66,6 @@ const IAttribute* Entity::findAttribute (const std::string& name) const {
          return *i;
    
    return NULL;
+}
+
 }

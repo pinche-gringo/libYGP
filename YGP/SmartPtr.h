@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.8 2003/07/03 04:22:26 markus Rel $
+// $Id: SmartPtr.h,v 1.9 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+namespace YGP {
 
 /**Smart-pointer-class; its referenced object is freed when the smart
    pointer-object is released.
@@ -71,7 +73,9 @@ template <class T> class SmartPtr {
    T* pData;
 };
 
-#define definePtr(class)      typedef SmartPtr<class> P##class
-#define defineConstPtr(class) typedef SmartPtr<const class> PC##class
+#define definePtr(class)      typedef YGP::SmartPtr<class> P##class
+#define defineConstPtr(class) typedef YGP::SmartPtr<const class> PC##class
+
+}
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.10 2003/11/14 00:22:57 markus Exp $
+//$Id: RegExp.h,v 1.11 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <YGP/Check.h>
+
+namespace YGP {
 
 /**Base-class for any regular expression. Provides interface for other
    regular-expression-like classes.
@@ -58,5 +60,7 @@ class IRegularExpression {
 
    const char* pRegExp;
 };
+
+}
 
 #endif

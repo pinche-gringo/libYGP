@@ -1,7 +1,7 @@
 #ifndef CONNMGR_H
 #define CONNMGR_H
 
-//$Id: ConnMgr.h,v 1.3 2003/07/27 03:44:42 markus Rel $
+//$Id: ConnMgr.h,v 1.4 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@
 
 #include <string>
 #include <vector>
+
+
+namespace YGP {
 
 // Forward declarations
 class Socket;
@@ -82,5 +85,7 @@ class ConnectionMgr {
    ConnectionMgr (const ConnectionMgr& other);
    const ConnectionMgr& operator= (const ConnectionMgr& other);
 };
+
+}
 
 #endif

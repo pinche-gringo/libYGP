@@ -1,11 +1,11 @@
-// $Id: ADate.cpp,v 1.7 2003/11/14 00:22:57 markus Exp $
+// $Id: ADate.cpp,v 1.8 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -35,22 +35,22 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing ADate...\n";
-   ADate today;
+   YGP::ADate today;
    check (!today.isDefined ());
-   ADate past (false);
+   YGP::ADate past (false);
    check (past.isDefined ());
    check (today < past);
 
-   today = ADate::today ();
+   today = YGP::ADate::today ();
    check (today.isDefined ());
    check (today > past);
 
    today.sub (0, 1);
-   check (today < ADate::today ());
+   check (today < YGP::ADate::today ());
    today.add (0, 1);
-   check (today.getMonth () == ADate::today ().getMonth ());
+   check (today.getMonth () == YGP::ADate::today ().getMonth ());
    today.sub (0, 1);
-   today -= ADate::today ();                 // Results in 0.11.-1 => 31.10.-1
+   today -= YGP::ADate::today ();            // Results in 0.11.-1 => 31.10.-1
 
    today.setDay (25);
    today.setMonth (1);

@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.23 2003/11/14 00:22:57 markus Exp $
+//$Id: RDirSrch.cpp,v 1.24 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -40,6 +40,8 @@
 
 #include "YGP/RDirSrch.h"
 
+
+namespace YGP {
 
 const char RemoteDirSearch::SEPARATOR = ':';
 
@@ -365,4 +367,6 @@ bool RemoteDirSearch::isValid (const std::string& dir) throw (std::domain_error)
            << OK.data ());
 
    return isOK (OK);
+}
+
 }

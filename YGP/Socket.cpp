@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.19 2003/11/14 00:22:57 markus Exp $
+//$Id: Socket.cpp,v 1.20 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -60,6 +60,8 @@ typedef int socklen_t;
 #endif
 
 
+
+namespace YGP {
 
 //----------------------------------------------------------------------------
 /// Defaultconstructor; creates an socket but without any connection.
@@ -364,3 +366,6 @@ void Socket::throwError (const std::string& error, int errNum) throw (std::domai
    std::domain_error e (str);
    throw (e);
 }
+
+}
+

@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.16 2003/11/14 00:22:57 markus Exp $
+//$Id: Thread.cpp,v 1.17 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -56,6 +56,9 @@ static std::map<unsigned long, Mutex> mutexes;
 static std::map<unsigned long, void*> rcs;
 
 #endif
+
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Defaultconstructor; create the object but no actual thread
@@ -230,3 +233,5 @@ void Thread::threadFunction (void* params) {
    mutexes[pThread->id].unlock ();
 }
 #endif
+
+}

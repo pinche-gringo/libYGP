@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.16 2003/11/14 00:22:57 markus Exp $
+//$Id: IDirSrch.h,v 1.17 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #include <YGP/File.h>
 
+
+namespace YGP {
 
 /**Abstract baseclass providing an interface for classes to search in
    directory-structures.
@@ -100,5 +102,7 @@ class IDirectorySearch {
    IDirectorySearch (const IDirectorySearch&);
    IDirectorySearch& operator= (const IDirectorySearch&);
 };
+
+}
 
 #endif

@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.12 2003/11/14 18:22:38 markus Exp $
+// $Id: Version.cpp,v 1.13 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -49,6 +49,8 @@
    and the usual stuff like smart pointers, communication over a network,
    executing other processes or threads and handle/format diverse attributes.
 */
+
+namespace YGP {
 
 static const char* Version = "\n!@$%" PACKAGE " V" VERSION
                              " Compiled on " __DATE__ "%$@!\n";
@@ -94,3 +96,5 @@ int WINAPI dllEntry (HANDLE, DWORD, LPVOID) {
 } // end extern "C"
 
 #endif
+
+}

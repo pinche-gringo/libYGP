@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.31 2003/11/14 00:22:57 markus Exp $
+//$Id: CRegExp.h,v 1.32 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@
 #include <vector>
 
 #include <YGP/RegExp.h>
+
+namespace YGP {
 
 /**Class to compare text with (UNIX-style) regular expressions. This is just
    a little intruduction into the supported constructs; see regex(7) or the
@@ -181,5 +183,7 @@ class RegularExpression : public IRegularExpression {
    unsigned int cGroups;
 #endif
 };
+
+}
 
 #endif

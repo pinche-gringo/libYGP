@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.8 2003/11/14 00:22:57 markus Exp $
+// $Id: Handle.h,v 1.9 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include <YGP/AttrVal.h>
 #include <YGP/SmartPtr.h>
 
+
+namespace YGP {
 
 /**Smart-pointer-class with reference-counting; base-class for type-safe
    handles (defined with a template at end of file)
@@ -154,6 +156,8 @@ template <class T> class Handle : public IHandle {
    RefCount<T>* pData;
 };
 
-#define defineHndl(class)         typedef Handle<class> H##class
+#define defineHndl(class)         typedef YGP::Handle<class> H##class
+
+}
 
 #endif

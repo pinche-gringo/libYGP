@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.9 2003/11/14 00:22:57 markus Exp $
+//$Id: PathSrch.cpp,v 1.10 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -37,6 +37,9 @@
 
 #include "YGP/File.h"
 #include "YGP/PathSrch.h"
+
+
+namespace YGP {
 
 #if SYSTEM == UNIX
 const char PathSearch::PATHSEPARATOR = ':';
@@ -112,4 +115,6 @@ std::string PathSearch::expandNode (const std::string& input) {
    TRACE1 ("PathSearch::expandNode (const std::string&) - Expanded user "
            << ret);
    return ret;
+}
+
 }

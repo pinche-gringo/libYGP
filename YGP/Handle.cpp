@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.8 2003/11/14 00:22:57 markus Exp $
+// $Id: Handle.cpp,v 1.9 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -27,6 +27,8 @@
 
 #include "YGP/Handle.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Destructor
@@ -86,4 +88,6 @@ void IHandle::undefine () {
 void IHandle::define () {
    setDefined ();
    create (NULL);
+}
+
 }

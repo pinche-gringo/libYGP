@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.17 2003/11/14 00:22:57 markus Exp $
+//$Id: RDirSrch.h,v 1.18 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,8 @@
 
 #include <YGP/IDirSrch.h>
 
+
+namespace YGP {
 
 /**Class to search for files in a directory over a
    network-connection. This search can be restricted to files matching
@@ -109,5 +111,7 @@ class RemoteDirSearch : public IDirectorySearch {
    unsigned long attr;
    unsigned long size;
 };
+
+}
 
 #endif // RDIRSRCH_H

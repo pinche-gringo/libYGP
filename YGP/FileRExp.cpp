@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.24 2003/11/14 00:22:57 markus Exp $
+//$Id: FileRExp.cpp,v 1.25 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -45,6 +45,8 @@
 #include "YGP/ANumeric.h"
 #include "YGP/FileRExp.h"
 
+
+namespace YGP {
 
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))
 
@@ -254,4 +256,6 @@ std::string FileRegularExpr::getError (const char* error, unsigned int pos) cons
    err.replace (err.find ("%2"), 2, ANumeric::toString ((unsigned long)pos));
    err.replace (err.find ("%3"), 2, _(error));
    return err;
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.5 2003/11/14 00:22:57 markus Exp $
+// $Id: RemoteFile.h,v 1.6 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@
 
 #include <YGP/File.h>
 #include <YGP/Socket.h>
+
+
+namespace YGP {
 
 class AttributeParse;
 
@@ -61,5 +64,7 @@ typedef struct RemoteFile : public File {
    void handleServerError (const char*) const throw (std::string);
    bool isOK (const std::string& answer) const;
 } RemoteFile;
+
+}
 
 #endif

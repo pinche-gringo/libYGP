@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.13 2003/07/10 21:24:58 markus Rel $
+//$Id: Tokenize.h,v 1.14 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include <string>
 
+namespace YGP {
 
 /**Class to split a string into sub-nodes
 
@@ -79,5 +80,7 @@ class Tokenize {
    unsigned int len;                         ///< Length of the actual sub-node
    std::string  _string;                                 ///< String to process
 };
+
+}
 
 #endif

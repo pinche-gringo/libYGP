@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.27 2003/11/14 00:22:56 markus Exp $
+//$Id: ATime.cpp,v 1.28 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -42,6 +42,8 @@
 
 #include "YGP/ATime.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; depending on the parameter the time is either set to
@@ -501,4 +503,6 @@ struct tm ATime::toStructTM () const {
       result.tm_sec = sec;
    }
    return result;
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.23 2003/11/14 00:22:56 markus Exp $
+//$Id: Attribute.h,v 1.24 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@
 #include <YGP/AssParse.h>
 
 #include <gzo-cfg.h>
+
+namespace YGP {
 
 /**Baseclass for attributes. Derive from it for every type of attribute.
 
@@ -484,6 +486,8 @@ template <> inline bool AttributeList<std::string>::assign (unsigned int offset,
    Check3 (value);
    list_[offset].assign (value, length);
    return true;
+}
+
 }
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.31 2003/11/14 00:22:56 markus Exp $
+//$Id: ANumeric.h,v 1.32 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@ namespace std {
    class invalid_argument;
 }
 
+
+namespace YGP {
 
 /**Class for numeric attributes. As every AttributValue is supports undefined
    values.
@@ -241,5 +243,7 @@ class ANumeric : public AttributValue {
  private:
    numType value;
 };
+
+}
 
 #endif

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.24 2003/11/14 00:22:57 markus Exp $
+//$Id: INIFile.cpp,v 1.25 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -40,6 +40,8 @@
 #pragma warning(disable:4355) // disable warning about this in init-list
 #endif
 
+
+namespace YGP {
 
 // Define constant values; don't skip white-spaces after parsing
 static ParseExact SectionBegin ("[", _("Start of section ([)"), false);
@@ -394,4 +396,6 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
       stream << (*i)->getName () << '=' << (*i)->getValue () << '\n';
    }
    stream << '\n';
+}
+
 }

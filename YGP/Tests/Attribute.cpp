@@ -1,11 +1,11 @@
-// $Id: Attribute.cpp,v 1.6 2003/11/14 00:22:57 markus Exp $
+// $Id: Attribute.cpp,v 1.7 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Attribute
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -37,13 +37,13 @@ int main (int argc, char* argv[]) {
 
    std::cout << "Testing Attribute...\n";
    long lattr;
-   Attribute<long> lAttr ("lAttr", lattr);
+   YGP::Attribute<long> lAttr ("lAttr", lattr);
    check (lAttr.assignFromString ("1234"));
    check (lattr == 1234);
    check (!lAttr.assignFromString ("abcde"));
    check (!lAttr.assignFromString ("123z"));
-   ATime time;
-   Attribute<ATime> timeAttr ("timeAttr", time);
+   YGP::ATime time;
+   YGP::Attribute<YGP::ATime> timeAttr ("timeAttr", time);
    check (timeAttr.assignFromString ("121005"));
 #ifndef __CYGWIN__
    // Cygwin (at least in my version B20) seems to have problems with exceptions

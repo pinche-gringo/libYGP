@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.17 2003/11/14 00:22:57 markus Exp $
+// $Id: XStream.h,v 1.18 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@
 
 #include <YGP/XStrBuf.h>
 
+
+namespace YGP {
 
 /** Extended stream, designed to parse text.
 
@@ -80,5 +82,7 @@ template <class T> struct extStream : private extStreambuf, public T {
 
 typedef extStream<std::istream> Xistream;
 typedef extStream<std::ifstream> Xifstream;
+
+}
 
 #endif

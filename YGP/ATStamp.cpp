@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.19 2003/11/14 00:22:56 markus Exp $
+//$Id: ATStamp.cpp,v 1.20 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -35,6 +35,9 @@
 #include "YGP/Trace_.h"
 
 #include "YGP/ATStamp.h"
+
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Defaultconstructor; the timestamp is not defined
@@ -373,4 +376,6 @@ time_t ATimestamp::toGMTTime () const {
    _tzset ();
    return utcTime;
 #endif
+}
+
 }

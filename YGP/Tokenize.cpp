@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.10 2003/11/14 00:22:57 markus Exp $
+//$Id: Tokenize.cpp,v 1.11 2003/11/14 20:27:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,6 +28,8 @@
 #include "YGP/Check.h"
 #include "YGP/Tokenize.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Returns a sub-string consisting of the string from the end of the last
@@ -67,5 +69,7 @@ int Tokenize::checkIntegrity () const {
    Check1 (actPos < _string.length ());
    Check1 ((actPos + len) < _string.length ());
    return 0;
+}
+
 }
 

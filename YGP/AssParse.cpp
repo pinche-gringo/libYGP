@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.15 2003/11/14 00:22:56 markus Exp $
+//$Id: AssParse.cpp,v 1.16 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -31,6 +31,9 @@
 #include "YGP/Attribute.h"
 
 #include "YGP/AssParse.h"
+
+
+namespace YGP {
 
 const char AssignmentParse::SEPARATOR = ';';
 const char AssignmentParse::EQUALSIGN = '=';
@@ -196,4 +199,6 @@ std::string AssignmentParse::makeAssignment (const char* key, const std::string&
    ret += QUOTE;
    ret += SEPARATOR;
    return ret;
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-//$Id: Mutex.h,v 1.6 2003/09/05 02:38:04 markus Rel $
+//$Id: Mutex.h,v 1.7 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,8 @@
 #  error Not yet implemented!
 #endif
 
+
+namespace YGP {
 
 /**Class for mutual exclusive devices.
 
@@ -77,5 +79,7 @@ class Mutex {
    HANDLE hMutex;
 #endif
 };
+
+}
 
 #endif

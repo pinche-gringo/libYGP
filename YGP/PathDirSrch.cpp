@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.25 2003/11/14 00:22:57 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.26 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <errno.h>
+#include <cerrno>
 
 #include "YGP/Internal.h"
 
@@ -33,6 +33,8 @@
 #include "YGP/Trace_.h"
 #include "YGP/PathDirSrch.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Destructor
@@ -111,4 +113,6 @@ const File* PathDirectorySearch::next () {
 int PathDirectorySearch::checkIntegrity () const {
    return (((const std::string&)searchPath).empty ()
             ? NO_PATH : DirectorySearch::checkIntegrity ());
+}
+
 }

@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.38 2003/11/14 00:22:56 markus Exp $
+//$Id: ANumeric.cpp,v 1.39 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -51,6 +51,8 @@
 
 #include "YGP/ANumeric.h"
 
+
+namespace YGP {
 
 
 // Static (global) variables
@@ -425,4 +427,6 @@ ANumeric operator/ (const ANumeric& lhs, const ANumeric& rhs) {
    ANumeric result (lhs);
    result /= rhs;
    return result;
+}
+
 }

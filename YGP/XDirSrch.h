@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.8 2003/10/02 22:59:38 markus Rel $
+//$Id: XDirSrch.h,v 1.9 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@
 
 bool _XDSfileIsValid (const std::string&, const char*);
 void _XDSaddNode (std::string& list, char prefix, const std::string& node);
+
+
+namespace YGP {
 
 class DirectorySearch;
 class RemoteDirSearch;
@@ -107,5 +110,6 @@ typedef XDirectorySearch<DirectorySearch>     ExtDirectorySearch;
 typedef XDirectorySearch<RemoteDirSearch>     ExtRemoteDirSearch;
 typedef XDirectorySearch<PathDirectorySearch> ExtPathDirectorySearch;
 
+}
 
 #endif

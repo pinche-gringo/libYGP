@@ -1,11 +1,11 @@
-// $Id: PathSrch.cpp,v 1.5 2003/11/14 00:22:57 markus Exp $
+// $Id: PathSrch.cpp,v 1.6 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -39,7 +39,7 @@ int main (int argc, char* argv[]) {
 
    std::cout << "Testing PathSearch...\n";
 #if SYSTEM == UNIX
-   PathSearch ps (".:..:/::/usr/:/usr");
+   YGP::PathSearch ps (".:..:/::/usr/:/usr");
    check (ps.getActNode () == ".:..:/::/usr/:/usr");
    check (ps.getNextNode () == ".");
    check (ps.getNextNode () == "..");
@@ -47,7 +47,7 @@ int main (int argc, char* argv[]) {
    check (ps.getNextNode () == "/usr/");
    check (ps.getNextNode () == "/usr");
 #else
-   PathSearch ps (".;..;\\;;\\usr\\;\\usr");
+   YGP::PathSearch ps (".;..;\\;;\\usr\\;\\usr");
    check (ps.getActNode () == ".;..;\\;;\\usr\\;\\usr");
    check (ps.getNextNode () == ".");
    check (ps.getNextNode () == "..");

@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.7 2003/11/14 00:22:57 markus Exp $
+//$Id: Entity.h,v 1.8 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,7 +33,9 @@
 #include <YGP/Attribute.h>
 
 
-/** Baseclass for classes holding (a list of) attributes
+namespace YGP {
+
+/**Baseclass for classes holding (a list of) attributes
 
    The descrutor frees all managed attributes, so make sure to create
    them on the heap.
@@ -81,5 +83,7 @@ class Entity {
 #ifndef NO_HANDLE
 defineHndl (Entity);
 #endif
+
+}
 
 #endif

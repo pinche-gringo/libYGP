@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.21 2003/11/14 00:22:57 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.22 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -46,6 +46,8 @@
 #include "YGP/AttrParse.h"
 #include "YGP/RDirSrchSrv.h"
 
+
+namespace YGP {
 
 static const unsigned int CMD_NEXT  = 0;
 static const unsigned int CMD_FIND  = 1;
@@ -340,4 +342,6 @@ void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
    write += attr.toUnformattedString ();
 
    socket.write (write);
+}
+
 }

@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.16 2003/11/14 00:22:57 markus Exp $
+// $Id: RemoteFile.cpp,v 1.17 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -40,6 +40,8 @@
 #include "YGP/AttrParse.h"
 #include "YGP/RemoteFile.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Destructor
@@ -297,4 +299,6 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
    else
       handleServerError (text.data ());
    return 0;
+}
+
 }

@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.45 2003/11/14 00:22:57 markus Exp $
+//$Id: DirSrch.cpp,v 1.46 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -42,6 +42,8 @@
 #include "YGP/DirSrch.h"
 #include "YGP/FileRExp.h"
 
+
+namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Defaultconstructor
@@ -325,4 +327,6 @@ bool DirectorySearch::isValid (const std::string& dir) {
 //-----------------------------------------------------------------------------
 bool DirectorySearch::isValid () const {
    return isValid (searchDir);
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.13 2003/11/14 00:22:57 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.14 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,9 @@
 
 #include <YGP/File.h>
 #include <YGP/Socket.h>
+
+
+namespace YGP {
 
 /**Class for a server to enable remote directory searching.
    This is the server for the RemoteDirSearch-class.
@@ -73,5 +76,7 @@ class RemoteDirSearchSrv {
 
    void handleArgError (Socket& sock, const std::string& error) const;
 };
+
+}
 
 #endif // RDIRSRCHSRV

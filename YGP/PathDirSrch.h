@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.13 2003/11/14 00:22:57 markus Exp $
+//$Id: PathDirSrch.h,v 1.14 2003/11/14 20:27:55 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@
 
 #include <YGP/DirSrch.h>
 #include <YGP/PathSrch.h>
+
+
+namespace YGP {
 
 /**Class to search for files in directories listed in a path. This
    search can be restricted to files matching certain name-criterias
@@ -85,5 +88,7 @@ class PathDirectorySearch : public DirectorySearch {
    std::string srch;
    PathSearch  searchPath;
 };
+
+}
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.9 2003/06/13 18:46:45 markus Rel $
+//$Id: Socket.h,v 1.10 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,9 @@
 
 #include <string>
 #include <stdexcept>
+
+
+namespace YGP {
 
 /** A socket is a generalized interprocess communication channel, which
    supports communication between unrelated processes, and even between
@@ -92,5 +95,7 @@ class Socket {
 
    int sock;
 };
+
+}
 
 #endif

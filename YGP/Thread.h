@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.15 2003/10/19 15:39:10 markus Rel $
+//$Id: Thread.h,v 1.16 2003/11/14 20:27:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,9 @@
 #endif
 
 #include <string>
+
+
+namespace YGP {
 
 /**Class to execute a certain function in a thread
 
@@ -173,5 +176,7 @@ template <class T> class OThread : public Thread {
    T* object;
    THREAD_OBJMEMBER callback;
 };
+
+}
 
 #endif

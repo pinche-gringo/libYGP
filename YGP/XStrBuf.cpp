@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.29 2003/11/14 00:22:57 markus Exp $
+// $Id: XStrBuf.cpp,v 1.30 2003/11/14 20:27:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -35,6 +35,9 @@
 #include "YGP/Trace_.h"
 
 #include "YGP/XStrBuf.h"
+
+
+namespace YGP {
 
 static unsigned int lenBuffer = 512;
 
@@ -227,4 +230,6 @@ std::streampos extStreambuf::seekpos (std::streampos pos,
 //-----------------------------------------------------------------------------
 int extStreambuf::checkIntegrity () const {
    return pBuffer ? pSource ? 0 : 1 : 2;
+}
+
 }
