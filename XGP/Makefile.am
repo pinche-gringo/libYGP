@@ -3,6 +3,8 @@
 SUBDIRS=Icons
 DIST_SUBDIRS=$(SUBDIRS) Samples
 
+LIBS = @LTLIBINTL@ @LIBS@ @GTKMM_LIBS@
+
 lib_LTLIBRARIES=libXAppl.la
 
 include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
@@ -14,14 +16,18 @@ libXAppl_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 		    XPrintDlg.cpp BrowserDlg.cpp \
 		    $(include_HEADERS) 
 
-libXAppl_la_LDFLAGS=@GTKMM_LIBS@ -lAttr \
-                    -version-info $(LIBVERSION) -release $(LIBRELEASE) \
+libXAppl_la_LDFLAGS=$(LIBS) -version-info $(LIBVERSION) -release $(LIBRELEASE) \
                     -no-undefined
 
 INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(pkgdatadir)\" \
-           @GTKMM_CFLAGS@ -I$(top_srcdir)/intl
+           @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wall
 
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
-LIBS = @INTLLIBS@ @LIBS@
+
+EXTRA__DIST=XAppl.pc.in
+
+pkgconfigdir=$(libdir)/pkgconfig
+pkgconfig_DATA=XAppl.pc
+

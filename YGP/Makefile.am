@@ -6,9 +6,9 @@ lib_LTLIBRARIES=libAttr.la
 
 # Settings for gettext
 localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -Wall
 INCLUDES = -I $(top_srcdir) -I . -I $(top_srcdir)/intl @GTK_CFLAGS@
-LIBS = @INTLLIBS@ @LIBS@ @GTK_LIBS@
+LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@
 
 libAttr_la_LDFLAGS=-version-info $(LIBVERSION) -release $(LIBRELEASE) \
                    -no-undefined
@@ -29,3 +29,8 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		RDirSrch.h IDirSrch.h File.h RDirSrchSrv.h AssParse.h \
 		Attribute.h AttrParse.h RemoteFile.h Entity.h Internal.h \
 		Thread.h Mutex.h INIFile.h XDirSrch.h Check.h Process_.h
+
+EXTRA_DIST=Attr.pc.in
+
+pkgconfigdir =$(libdir)/pkgconfig
+pkgconfig_DATA=Attr.pc
