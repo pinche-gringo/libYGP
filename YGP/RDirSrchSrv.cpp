@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.1 2001/08/12 15:19:09 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.2 2001/08/22 01:32:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -27,7 +27,7 @@
 
 #include <gzo-cfg.h>
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "Socket.h"
 #include "ATStamp.h"
@@ -84,39 +84,47 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 
       switch (i) {                                    // Perform passed command
       case 0:                                                      // Find next
+         TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find next");
          i = dirSrch.find ();
          if (i)
-            writeError (sock, i);
+            return writeError (sock, i);
          else
             writeResult (sock, result);
          break;
 
       case 1: {                                                   // Find first
-         std::string search ("*");
+         std::string search ("./*");
          ANumeric    attribs (IDirectorySearch::FILE_NORMAL);
+         TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find " << search.c_str ());
+
          i = dirSrch.find (search, result, attribs);
          if (i)
-            writeError (sock, i);
+            return writeError (sock, i);
          else
             writeResult (sock, result);
          }
          break;
 
       case 2: {                                            // Check passed data
+	 data[data.length () - 1] = '\0';
          std::string argument (data.data () + lengths[i]);
-         argument.replace (argument.length () - 1, 1, 0, '\0');
          TRACE9 ("RemoteDirSearchSrv::performCommands (int) - Checking "
                  << argument.c_str ());
-         sock.write (dirSrch.isValid (argument) ? "RC=1" : "RC=0");
+         sock.write (dirSrch.isValid (argument) ? "RC=0" : "RC=1");
          }
          break;
 
       default:
+	 data += '\0';
+	 TRACE ("RemoteDirSearchSrv::performCommands (int) - Invalid command "
+                << data.data ());
+
+	 sock.write ("RC=99;Invalid command");
          // Invalid command
          break;
       } // end-switch
    }
-   while (data.length () > 1);
+   while (data.length ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -127,24 +135,31 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 void RemoteDirSearchSrv::writeResult (Socket& socket, const dirEntry& result) const
    throw (domain_error) {
    AByteArray write ("RC=0;File=\"");
-   write += result.path ();
    write += result.name ();
    write += '"';
 
    write += ";Size=";
-   ANumeric size (result.size ());
-   write += size.toString ();
+   ANumeric number (result.size ());
+   write += number.toUnformatedString ();
 
+   write += ";Time=";
    ATimestamp time (result.time ());
-   write += time.toString ();
+   write += time.toUnformatedString ();
+
    socket.write (write);
 }
 
-void RemoteDirSearchSrv::writeError (Socket& socket, int error) const
+/*--------------------------------------------------------------------------*/
+//Purpose   : Sends information about the occured error to the client
+//Parameters: socket: Socket for communication
+//            error: Errornumber
+/*--------------------------------------------------------------------------*/
+int RemoteDirSearchSrv::writeError (Socket& socket, int error) const
    throw (domain_error) {
    AByteArray write ("RC=");
    ANumeric err (error);
 
    write += err.toString ();
    socket.write (write);
+   return error;
 }
