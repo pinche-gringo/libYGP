@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.1 2001/03/27 18:43:57 markus Exp $
+//$Id: Socket.h,v 1.2 2001/04/02 21:03:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,14 +32,19 @@
 class Socket {
  public:
    Socket () throw (domain_error);
+   Socket (int other) : sock (other) { }
    Socket (const Socket& other) : sock (other.sock) { }
    Socket& operator= (const Socket&) throw (domain_error);
+   Socket& operator= (int socket);
 
    Socket (unsigned int port) throw (domain_error);
    Socket (const char* host, unsigned int port) throw (domain_error);
+   Socket (const std::string& host, unsigned int port) throw (domain_error);
    virtual ~Socket ();
 
    void listenAt (unsigned int port) throw (domain_error);
+   int waitForInput () const throw (domain_error);
+
    int  read (AByteArray& input) throw (domain_error);
    int  read (char* pBuffer, int lenBuffer) throw (domain_error);
 
@@ -57,8 +62,6 @@ class Socket {
 
  protected:
    static void throwError (const std::string& error, int errNum) throw (domain_error);
-
-   int  waitForInput () const throw (domain_error);
 
  private:
    // Prohibited manager-functions
