@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.8 $)\n"
-"POT-Creation-Date: 2002-07-07 22:46-0500\n"
+"Project-Id-Version: General 0.6.01 ($Revision: 1.9 $)\n"
+"POT-Creation-Date: 2002-10-10 00:56-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -13,27 +13,27 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:195 Common/ATime.cpp:194
+#: Common/ADate.cpp:191 Common/ATime.cpp:190
 #, c-format, ycp-format
 msgid "Position %1"
 msgstr "Posición %1"
 
-#: Common/ANumeric.cpp:245
+#: Common/ANumeric.cpp:241
 msgid "No number"
 msgstr "No numero"
 
-#: Common/AssParse.cpp:63
+#: Common/AssParse.cpp:65
 #, ycp-format
 msgid "Not a valid assignment: '%1'"
 msgstr "No asignación valida: '%1'"
 
-#: Common/AssParse.cpp:76
+#: Common/AssParse.cpp:78
 #, ycp-format
 msgid "Invalid value for attribute: '%1'"
 msgstr "Valor invalido por attributo: '%1'"
 
-#: Common/AssParse.cpp:90
-#, fuzzy, ycp-format
+#: Common/AssParse.cpp:92
+#, ycp-format
 msgid "Quoted value not followed by separator: '%1'"
 msgstr "Valor no está seguido de un seperator: '%1'"
 
@@ -139,7 +139,7 @@ msgstr "Termino de sección (])"
 msgid "Equal-sign (=)"
 msgstr "Signo de igualidad (=)"
 
-#: Common/INIFile.cpp:53 Common/INIFile.cpp:195
+#: Common/INIFile.cpp:53 Common/INIFile.cpp:191
 msgid "Section-header"
 msgstr "Cabeza de sección"
 
@@ -147,7 +147,7 @@ msgstr "Cabeza de sección"
 msgid "Attribute"
 msgstr "Atributo"
 
-#: Common/INIFile.cpp:55 Common/INIFile.cpp:196
+#: Common/INIFile.cpp:55 Common/INIFile.cpp:192
 msgid "Name of section"
 msgstr "Nombre de sección"
 
@@ -159,7 +159,7 @@ msgstr "Identificación (llave)"
 msgid "Value"
 msgstr "Valor"
 
-#: Common/INIFile.cpp:206
+#: Common/INIFile.cpp:203
 #, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puedo abrir el fichero de inicialisción '%1'! Causa: %2"
@@ -283,7 +283,8 @@ msgstr "No orden para imprimir especificado"
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
-msgstr "No puedo ejecutar el orden '%1'\n"
+msgstr ""
+"No puedo ejecutar el orden '%1'\n"
 "Causa: %2"
 
 #: X-windows/XMessageBox.cpp:40
@@ -312,7 +313,7 @@ msgstr "Repitir"
 
 #: X-windows/XMessageBox.cpp:42
 msgid "Yes"
-msgstr "Si"
+msgstr "Sí"
 
 #: X-windows/XMessageBox.cpp:42
 msgid "No"

@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.8 $)\n"
-"POT-Creation-Date: 2002-07-07 22:46-0500\n"
+"Project-Id-Version: General 0.6.01 ($Revision: 1.9 $)\n"
+"POT-Creation-Date: 2002-10-10 00:56-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -13,26 +13,26 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:195 Common/ATime.cpp:194
+#: Common/ADate.cpp:191 Common/ATime.cpp:190
 #, c-format, ycp-format
 msgid "Position %1"
 msgstr ""
 
-#: Common/ANumeric.cpp:245
+#: Common/ANumeric.cpp:241
 msgid "No number"
 msgstr ""
 
-#: Common/AssParse.cpp:63
+#: Common/AssParse.cpp:65
 #, ycp-format
 msgid "Not a valid assignment: '%1'"
 msgstr ""
 
-#: Common/AssParse.cpp:76
+#: Common/AssParse.cpp:78
 #, ycp-format
 msgid "Invalid value for attribute: '%1'"
 msgstr ""
 
-#: Common/AssParse.cpp:90
+#: Common/AssParse.cpp:92
 #, ycp-format
 msgid "Quoted value not followed by separator: '%1'"
 msgstr ""
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Equal-sign (=)"
 msgstr ""
 
-#: Common/INIFile.cpp:53 Common/INIFile.cpp:195
+#: Common/INIFile.cpp:53 Common/INIFile.cpp:191
 msgid "Section-header"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Attribute"
 msgstr ""
 
-#: Common/INIFile.cpp:55 Common/INIFile.cpp:196
+#: Common/INIFile.cpp:55 Common/INIFile.cpp:192
 msgid "Name of section"
 msgstr ""
 
@@ -159,7 +159,7 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: Common/INIFile.cpp:206
+#: Common/INIFile.cpp:203
 #, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr ""
@@ -221,7 +221,7 @@ msgstr "Can't create socket (for communication)"
 
 #: Common/Socket.cpp:163
 msgid "Can't bind socket"
-msgstr "Can't bind socket"
+msgstr ""
 
 #: Common/Socket.cpp:166
 msgid "Can't listen on socket"
@@ -231,15 +231,14 @@ msgstr "Can't listen on socket (for communication)"
 #, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
-"Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 
 #: Common/Socket.cpp:219 Common/Socket.cpp:247 Common/Socket.cpp:265
 msgid "Error reading data"
-msgstr "Error reading data"
+msgstr ""
 
 #: Common/Socket.cpp:283
 msgid "Error accepting connection"
-msgstr "Error accepting connection"
+msgstr ""
 
 #: Common/Socket.cpp:304
 #, ycp-format
@@ -249,11 +248,11 @@ msgstr ""
 #: Common/Socket.cpp:312
 #, ycp-format
 msgid "Can't connect to server '%1'"
-msgstr "Can't connect to server '%1'"
+msgstr ""
 
 #: Common/Socket.cpp:329
 msgid "Error sending data"
-msgstr "Error sending data"
+msgstr ""
 
 #: X-windows/XDate.cpp:52 X-windows/XMessageBox.cpp:42
 #: X-windows/XPrintDlg.cpp:53
