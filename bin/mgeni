@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.9 2003/11/15 04:01:23 markus Exp $
+# $Id: mgeni,v 1.10 2003/11/17 15:12:34 markus Rel $
 
 # Script to generate metainfo for attributes to classes
 
@@ -22,7 +22,7 @@ offset=0
 
 usage () {
     echo "Generates metainfo for (certain marked) attributes in a class"
-    echo "This attributes must have an entry like"
+    echo "These attributes must have an entry like"
     echo
     echo "  %attrib%; <Name>; <Defaultvalue>"
     echo
@@ -48,14 +48,14 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.9 $'
+            rev='$Revision: 1.10 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
-            echo "$0 V0.1.00; $rev"
+            echo "$0 V0.1.01; $rev"
             echo "Author: Markus Schwab; email: g17m0@lycos.com"
             echo
-            echo "Anticopyright (A) 2002"
+            echo "Anticopyright (A) 2002, 2003"
             echo "Distributed under the terms of the GNU General Public License"
             exit;;
 
