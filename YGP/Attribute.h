@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.13 2003/02/13 06:46:05 markus Exp $
+//$Id: Attribute.h,v 1.14 2003/02/18 02:48:51 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,8 +70,22 @@ class IAttribute {
 };
 
 
-// Class representing an attribute. This class is a template to handle differing
-// types of attributes.
+// Template representing an attribute of a specific type.
+//
+// This class is designed to be used by AttributeValues (and derived types),
+// but there exists specializations for:
+//   - char
+//   - char*
+//   - char* const
+//   - short
+//   - unsigned short
+//   - int
+//   - unsigned int
+//   - long
+//   - unsigned long
+//   - double
+//   - std::string
+//   - AByteArray
 template <class T> class Attribute : public IAttribute {
  public:
    Attribute (const char* name, T& attr) : IAttribute (name), attr_ (attr) { }
@@ -256,13 +270,27 @@ template <> bool Attribute<AByteArray>::assign (const char* value, unsigned int 
 }
 
 
-// Class representing a list of attributes. This class is a template to handle differing
-// types of attributes.
+// Template for s list of attributes of a specific type.
+//
+// This class is designed to be used by AttributeValues (and derived types),
+// but there exists specializations for:
+//   - char
+//   - char*
+//   - char* const
+//   - short
+//   - unsigned short
+//   - int
+//   - unsigned int
+//   - long
+//   - unsigned long
+//   - double
+//   - std::string
+//   - AByteArray
 template <class T> class AttributeList : public IAttribute {
  public:
    AttributeList (const char* name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
    AttributeList (const std::string& name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
-   ~AttributeList () {  }
+   ~AttributeList () { }
 
    virtual bool assignFromString (const char* value) const {
       AssignmentParse parse (value);

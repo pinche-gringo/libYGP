@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.17 2003/02/13 06:55:40 markus Exp $
+//$Id: INIFile.cpp,v 1.18 2003/02/18 02:49:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -379,7 +379,8 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Writes an entity to the INI-file
+//Purpose   : Writes an entity to the INI-file. Every attribute of the object
+//            is written as "name=value".
 //Parameters: stream: File to write to
 //            section: Name of the section for all attributes in the object
 //            obj: Object to write
