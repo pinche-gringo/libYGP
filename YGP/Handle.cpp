@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.11 2004/11/04 16:31:18 markus Exp $
+// $Id: Handle.cpp,v 1.12 2004/11/28 01:02:43 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <YGP/Trace.h>
 #include "YGP/Handle.h"
 
 
@@ -43,12 +44,15 @@ IHandle::~IHandle () {
 /// \param other: Object to assign
 //-----------------------------------------------------------------------------
 IHandle& IHandle::operator= (const IHandle& other) {
+   TRACE5 ("IHandle::operator= (const IHandle&) - " << other.getValue ());
    if (getValue () != other.getValue ()) {
+      TRACE9 ("IHandle::operator= (const IHandle&) - 1: " << (isDefined () ? "Defined" : "Undefined"));
       if (isDefined ())
          unlink ();
 
       AttributValue::operator= (other);
       assignValue (other.getValue ());
+      TRACE9 ("IHandle::operator= (const IHandle&) - 2: " << (isDefined () ? "Defined" : "Undefined"));
       if (isDefined ())
          link ();
    }
