@@ -1,11 +1,11 @@
-// $Id: Local.cpp,v 1.3 2002/07/15 20:59:44 markus Rel $
+// $Id: Local.cpp,v 1.4 2003/11/14 17:25:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Local
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -24,16 +24,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
-
 #include <iostream>
 
 #include <CORBA.h>
 
-#include <Internal.h>
-#include <Trace_.h>
+#include <YGP/Internal.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include <CIDirSrch.h>
+#include <CGP/CIDirSrch.h>
 
 
 int main (int argc, char* argv[]) {
@@ -43,13 +42,13 @@ int main (int argc, char* argv[]) {
 
    CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
 
-   CIDirectorySearch* srchSrv = new CIDirectorySearch (); assert (srchSrv);
+   CIDirectorySearch* srchSrv = new CIDirectorySearch (); Check3 (srchSrv);
    CORBA::String_var id = orb->object_to_string (srchSrv);
 
    TRACE2 ("Local: ID of created object: " << id);
 
    CDirectorySearch_var srchClt (CDirectorySearch::_narrow (orb->string_to_object (id)));
-   assert (srchClt);
+   Check3 (srchClt);
    srchClt->setSearchValue ("Loc*");
 
    unsigned int files (0);
