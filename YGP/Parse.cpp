@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.20 2000/05/23 22:57:38 Markus Exp $
+//$Id: Parse.cpp,v 1.21 2000/06/02 22:42:35 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -621,8 +621,9 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
    unsigned int i (0);
    int rc (PARSE_OK);
 
+   ParseObject** ppAct = NULL;
    while (i++ < maxCard) {
-      ParseObject** ppAct = ppList; assert (ppAct); assert (*ppAct);
+      ppAct = ppList; assert (ppAct); assert (*ppAct);
 
       while (*ppAct) {                          // While list contains objects
          if ((rc = (**ppAct).doParse (stream,  // Parse (putback first always)
@@ -649,7 +650,9 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
       rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
-      throw (std::string ("Error in sequence ") + std::string (getDescription ()));
+      throw (std::string ("Error in sequence ") + std::string (getDescription ())
+             + (ppAct ? (std::string ("; Expected: ") + std::string ((*ppAct)->getDescription ()))
+        	: std::string ("")));
 
    return rc;
 }
