@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h,v 1.1 2002/08/06 03:25:46 markus Exp $
+//$Id: ygp-cfg.h,v 1.2 2002/10/09 19:11:19 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -281,6 +281,8 @@
 
 #define HAVE_BEGINTHREAD
 
+#ifndef TRACELEVEL
 #define TRACELEVEL 0
+#endif
 
 #endif
