@@ -1,3 +1,11 @@
+Overview of Changes in version 0.6.01:
+
+  - configure got flags --enable-debug and --enable-checks
+  - IVIOAppl provides method for I18n
+  - Class for mutual exclusive devices added
+  - Thread class (a bit) improved
+  - Adapted for VC++ (this thing is industry-standard? Fucking hell!)
+
 Overview of Changes in version 0.6.00:
 
   - Class for logging added
