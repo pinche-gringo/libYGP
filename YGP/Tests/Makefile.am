@@ -5,7 +5,7 @@ INCLUDES=-I.. -I$(top_srcdir)
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
-LIBS = @LIBS@ @GTK_LIBS@
+LIBS = @LIBS@
 
 TESTS=IVIOAppl ANumeric ADate ATime ATStamp AByteArray XStrBuf XStream Parse \
       FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
@@ -32,19 +32,17 @@ AByteArray_SOURCES=AByteArray.cpp
 AByteArray_LDADD=../AByteArray.o
 
 XStrBuf_SOURCES=XStrBuf.cpp
-XStrBuf_LDADD=../XStrBuf.o ../Check.o
+XStrBuf_LDADD=../XStrBuf.o
 
 XStream_SOURCES=XStream.cpp
-XStream_LDADD=../XStrBuf.o ../Check.o
+XStream_LDADD=../XStrBuf.o
 
 Parse_SOURCES=Parse.cpp
 Parse_LDADD=../Parse.o ../IVIOAppl.o ../XStrBuf.o ../StackTrc.o ../File.o\
-	    ../PathSrch.o ../Check.o
+	    ../PathSrch.o
 
 CRegExp_SOURCES=CRegExp.cpp
-CRegExp_LDADD=../CRegExp.o ../Parse.o ../ANumeric.o ../XStrBuf.o ../StackTrc.o\
-	      ../Check.o
-
+CRegExp_LDADD=../CRegExp.o ../Parse.o ../ANumeric.o ../XStrBuf.o ../StackTrc.o
 FileRExp_SOURCES=FileRExp.cpp
 FileRExp_LDADD=../FileRExp.o ../ANumeric.o
 
@@ -74,7 +72,7 @@ AttrParse_LDADD=../AttrParse.o ../Tokenize.o ../AssParse.o ../ANumeric.o \
 
 INIFile_SOURCES=INIFile.cpp
 INIFile_LDADD=../INIFile.o ../XStrBuf.o ../Parse.o ../ANumeric.o ../ADate.o \
-               ../ATime.o ../ATStamp.o ../Check.o
+               ../ATime.o ../ATStamp.o
 
 Handle_SOURCES=Handle.cpp
 Handle_LDADD=../Handle.o
