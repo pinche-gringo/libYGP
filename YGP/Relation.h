@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.1 2004/10/23 06:43:09 markus Exp $
+//$Id: Relation.h,v 1.2 2004/10/23 18:53:19 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include <map>
 #include <vector>
+#include <stdexcept>
 
 #include <YGP/Check.h>
 #include <YGP/Handle.h>
@@ -52,6 +53,15 @@ class RelationManager {
    static void remove (const IRelation* relation);
 
    static std::vector<IRelation*> relations;
+};
+
+
+/**Functor for comparing handles (which actually compares the pointers the
+   handle refers to).
+ */
+template <class _Tp>
+struct lessDereferenced : public std::binary_function<_Tp, _Tp, bool> {
+   bool operator() (const _Tp& __x, const _Tp& __y) const {return *__x < *__y; }
 };
 
 
@@ -88,33 +98,44 @@ class Relation1_1 : public IRelation {
       objects[source] = target;
    }
 
-   bool isRelated (S source, T target) {
-      return ((objects.find (source) != objects.end ())
-	      ? (objects[source] == target) : false);
+   bool isRelated (const S& owner, const T& object) {
+      typename std::map<S, T >::iterator i (objects.find (owner));
+      return ((i != objects.end ()) ? (*i == object) : false);
+   }
+
+   T& getObject (const S& owner) const {
+      Check1 (objects.find (owner));
+      return objects[owner];
+   }
+   S& getParent (const T& object) const {
+      for (typename std::map<S, T >::iterator i (objects.begin ());
+	   i != objects.end (); ++i)
+	 if (i->second == object)
+	    return i->first;
+      Check1 (0);
    }
 
  private:
    Relation1_1 (const Relation1_1& other);
    const Relation1_1& operator= (const Relation1_1& other);
 
-   std::map<S, T> objects;
+   std::map<S, T, lessDereferenced<S> > objects;
 };
 
 
-/**1-to-N relation.
+/**1-to-N relation without a limit for N.
 
-   Each object can be connected to various others
+   Each object can be connected to various others.
  */
 template <class S, class T>
 class Relation1_N : public IRelation {
  public:
    /// Creates an 1-to-n relation.
    /// \param maxRelated: The number of elements which can be related to the object
-   Relation1_N (unsigned int maxRelated) : cRelated (maxRelated){ }
+   Relation1_N () { }
    virtual ~Relation1_N () { }                                  ///< Destructor
 
    void relate (S source, T target) {
-      Check1 (objects.find (source) == objects.end ());
 #if defined (CHECK) && (CHECK > 0)
       for (typename std::map<S, std::vector<T> >::iterator i (objects.begin ());
 	   i != objects.end (); ++i)
@@ -124,19 +145,66 @@ class Relation1_N : public IRelation {
       objects[source].push_back (target);
    }
 
-   bool isRelated (S source, T target) {
-      return ((objects.find (source) != objects.end ())
-	      ? (find (objects[source].begin (), objects[source].end (), target)
-		 != objects[source].end ())
+   bool isRelated (const S& owner, const T& object) {
+      typename std::map<S, std::vector<T> >::iterator i (objects.find (owner));
+      return ((i != objects.end ())
+	      ? (find (i->second.begin (), i->second.end (), object)
+		 != i->second.end ())
 	      : false);
    }
+
+   std::vector<T>& getObjects (const S& owner) {
+      Check1 (objects.find (owner) != objects.end ());
+      return objects[owner];
+   }
+   S getParent (const T& object) const {
+      for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
+	   i != objects.end (); ++i) {
+	 typename std::vector<T>::const_iterator o (find (i->second.begin (),
+							  i->second.end (), object));
+	 if (o != i->second.end ())
+	    return i->first;
+      }
+      Check1 (0);
+   }
+
+ protected:
+   std::map<S, std::vector<T>, lessDereferenced<S> > objects;
 
  private:
    Relation1_N (const Relation1_N& other);
    const Relation1_N& operator= (const Relation1_N& other);
+};
 
-   std::map<S, std::vector<T> > objects;
-   unsigned int                 cRelated;
+
+/**1-to-N relation with a limited N.
+
+   Each object can be connected to various others.
+ */
+template <class S, class T>
+class Relation1_X : public Relation1_N<S, T> {
+ public:
+   /// Creates an 1-to-n relation.
+   /// \param maxRelated: The number of elements which can be related to the object
+   Relation1_X (unsigned int maxRelated) : cRelated (maxRelated){ }
+   virtual ~Relation1_X () { }                                  ///< Destructor
+
+   void relate (S source, T target) throw (std::overflow_error) {
+      typename std::map<S, std::vector<T> >::iterator i
+	 (Relation1_N<S, T>::objects.find (source));
+      if (i != Relation1_N<S, T>::objects.end ()) {
+	 std::cout << "Adding to " << i->second.size () << " objects\n";
+	 if ((cRelated != -1U) && (i->second.size () >= cRelated))
+	    throw std::overflow_error ("");
+      }
+      Relation1_N<S, T>::relate (source, target);
+   }
+
+ private:
+   Relation1_X (const Relation1_X& other);
+   const Relation1_X& operator= (const Relation1_X& other);
+
+   unsigned int cRelated;
 };
 
 
