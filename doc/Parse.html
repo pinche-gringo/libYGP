@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.6 2000/04/03 23:51:49 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.7 2000/04/04 18:11:48 Markus Exp $ -->
 
 <html>
   <head>
@@ -342,7 +342,7 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="OFParseEOF1">OFParseEOF (T&amp; objToNotify, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <pre><a name="OFParseEOF1">OFParseEOF (T&amp; objToNotify, <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback)</a></pre>
     <dl>
       <dd>Constructor setting the object to notify and its callback-method.</dd>
     </dl>
@@ -656,7 +656,7 @@
       <tr valign="top"><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
       <tr valign="top"><td>virtual int</td>
-	<td><a href="Parse.html#CBAttfound">found</a></td>
+	<td><a href="Parse.html#OFAttfound">found</a></td>
 	<td>(const char* pFoundValue)</td></tr>
     </table>
 
@@ -665,7 +665,7 @@
 
     <h4>Management functions</h4>
     <pre><a name="OFParseAttomic1">OFParseAttomic (const char* value, const char* description, T&amp; objToNotify,
-                <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback, unsigned int max = 1,
+                <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
                 unsigned int min = 1, bool skipWhitespace = true)</a></pre>
     <dl>
       <dd>Constructor setting the object to notify and its callback-method.</dd>
@@ -675,7 +675,7 @@
     <pre><a name="OFAttoperator=">OFParseAttomic&amp; operator= (const OFParseAttomic&amp; other)</a></pre>
 
     <h4>Parsing</h4>
-    <pre><a name="CBAttfound">virtual int found (const char* pFoundValue)</a></pre>
+    <pre><a name="OFAttfound">virtual int found (const char* pFoundValue)</a></pre>
     <dl>
       <dd>Calls the defined callback of the specified object with the passed
 	parameter and returns its result.</i></dd>
@@ -1560,8 +1560,9 @@
     <table border="0">
       <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
       <tr valign="top"><td></td><td><a href="Parse.html#ParseSequence1">ParseSequence</a></td>
-	<td>(ParseObject* apObjectList[], const char* description, unsigned int max = 1,
-	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+	<td>(<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[],
+	  const char* description, unsigned int max = 1, unsigned int min = 1,
+	  bool skipWhitespace = true)</td></tr>
       <tr valign="top"><td></td><td><a href="Parse.html#ParseSequence2">ParseSequence</a></td>
 	<td>(const <a href="Parse.html#ParseSequence">ParseSequence</a>&amp; other)</td></tr>
       <tr valign="top"><td>virtual</td>
@@ -1599,8 +1600,9 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="ParseSequence1">ParseSequence (const char* value, const char* description, unsigned int max = 1,
-               unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <pre><a name="ParseSequence1">ParseSequence (<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description,
+               unsigned int max = 1, unsigned int min = 1,
+               bool skipWhitespace = true)</a></pre>
     <dl>
       <dd><p>Constructor; sets the neccessary data of this object.</p>
 	<p>The parameter <i>apObjectList</i> specifies the list of ParseObject
@@ -1657,6 +1659,138 @@
 	<td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
+    <h1 align="center"><a name="CBParseSequence">Class CBParseSequence</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseSequence">ParseSequence</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse series of ParseObjects with a callback to report matching
+      input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseSequence">ParseSequence</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseSequence1">CBParseSequence</a></td>
+	<td>(<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseSequence2">CBParseSequence</a></td>
+	<td>(const <a href="Parse.html#CBParseSequence">CBParseSequence</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseSequence">~CBParseSequence</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseSequence">CBParseSequence</a>&amp;</td>
+	<td><a href="Parse.html#CBSeqoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseSequence">CBParseSequence</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBSeqsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBSeqfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseSequence1">CBParseSequence (<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description,
+                 <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback, unsigned int max = 1,
+                 unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseSequence2">CBParseSequence (const CBParseSequence&amp; other)</a></pre>
+    <pre><a name="~CBParseSequence">virtual ~CBParseSequence ()</a></pre>
+    <pre><a name="CBSeqoperator=">CBParseSequence&amp; operator= (const CBParseSequence&amp; other)</a></pre>
+
+    <pre><a name="CBSeqsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBSeqfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseSequence">Class OFParseSequence&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseSequence">ParseSequence</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse series of ParseObjects with a callback to report matching
+      input.</p>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseSequence1">OFParseSequence</a></td>
+	<td>(<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[],
+	  const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseSequence2">OFParseSequence</a></td>
+	<td>(const <a href="Parse.html#OMParseSequence">OFParseSequence</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseSequence">~OFParseSequence</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseSequence">OFParseSequence</a>&amp;</td>
+	<td><a href="Parse.html#OFSeqoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseSequence">OFParseSequence</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#OFSeqfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseSequence1">OFParseSequence (<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description,
+                 T&amp; objToNotify, <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
+                 unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
+    </dl>
+    <pre><a name="OFParseSequence2">OFParseSequence (const OFParseSequence&amp; other)</a></pre>
+    <pre><a name="~OFParseSequence">virtual ~OFParseSequence ()</a></pre>
+    <pre><a name="OFSeqoperator=">OFParseSequence&amp; operator= (const OFParseSequence&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="OFSeqfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
     <h1 align="center"><a name="ParseSelection">Class ParseSelection</a></h1>
     <p>Derived from: <a href="Parse.html#ParseSequence">ParseSequence</a></p>
 
@@ -1665,6 +1799,8 @@
     <hr noshade="noshade">
     <h2>Description</h2>
     <p>Class to parse a selection of one ParseObjects out of a list.</p>
+    <p>If an object is found matching the parsed intput, the sequence is
+      considered as parsed successfully</p>
 
     <hr noshade="noshade">
     <table border="0">
@@ -1718,6 +1854,139 @@
 	<p>If an object of the selection returns a hard error (&lt; 0) while
 	  or any error occured for a selection which is not optional, an
 	  exception is thrown.</p></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="CBParseSelection">Class CBParseSelection</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseSelection">ParseSelection</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse a selection of one ParseObjects out of a list  with a
+      callback to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseSelection">ParseSelection</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseSelection1">CBParseSelection</a></td>
+	<td>(<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseSelection2">CBParseSelection</a></td>
+	<td>(const <a href="Parse.html#CBParseSelection">CBParseSelection</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseSelection">~CBParseSelection</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseSelection">CBParseSelection</a>&amp;</td>
+	<td><a href="Parse.html#CBSeloperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseSelection">CBParseSelection</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBSelsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBSelfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseSelection1">CBParseSelection (<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description,
+                  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback, unsigned int max = 1,
+                  unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseSelection2">CBParseSelection (const CBParseSelection&amp; other)</a></pre>
+    <pre><a name="~CBParseSelection">virtual ~CBParseSelection ()</a></pre>
+    <pre><a name="CBSeloperator=">CBParseSelection&amp; operator= (const CBParseSelection&amp; other)</a></pre>
+
+    <pre><a name="CBSelsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBSelfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseSelection">Class OFParseSelection&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseSelection">ParseSelection</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse a selection of one ParseObjects out of a list  with a
+      callback to report matching input.</p>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseSelection1">OFParseSelection</a></td>
+	<td>(<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[],
+	  const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseSelection2">OFParseSelection</a></td>
+	<td>(const <a href="Parse.html#OMParseSelection">OFParseSelection</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseSelection">~OFParseSelection</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseSelection">OFParseSelection</a>&amp;</td>
+	<td><a href="Parse.html#OFSeloperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseSelection">OFParseSelection</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#OFSelfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseSelection1">OFParseSelection (<a href="Parse.html#ParseObject">ParseObject</a>* apObjectList[], const char* description,
+                 T&amp; objToNotify, <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
+                 unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
+    </dl>
+    <pre><a name="OFParseSelection2">OFParseSelection (const OFParseSelection&amp; other)</a></pre>
+    <pre><a name="~OFParseSelection">virtual ~OFParseSelection ()</a></pre>
+    <pre><a name="OFSeloperator=">OFParseSelection&amp; operator= (const OFParseSelection&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="OFSelfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
     </dl>
   </body>
 </html>
