@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.28 2005/01/25 05:47:12 markus Exp $
+//$Id: X-Appl.cpp,v 1.29 2005/01/31 04:57:24 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -203,9 +203,9 @@ XAppl::XAppl ()
    grpAction->add (Gtk::Action::create ("File", "_File"));
    grpAction->add (Gtk::Action::create ("FOpen", Gtk::Stock::OPEN),
 		   mem_fun (*this, &XAppl::open));
-   grpAction->add (Gtk::Action::create ("FSave", Gtk::Stock::SAVE),
+   grpAction->add (apMenus[SAVE] = Gtk::Action::create ("FSave", Gtk::Stock::SAVE),
 		   mem_fun (*this, &XAppl::save));
-   grpAction->add (Gtk::Action::create ("FPrint", Gtk::Stock::PRINT),
+   grpAction->add (apMenus[PRINT] = Gtk::Action::create ("FPrint", Gtk::Stock::PRINT),
 		   mem_fun (*this, &XAppl::print));
    grpAction->add (Gtk::Action::create ("FQuit", Gtk::Stock::QUIT),
 		   mem_fun (*this, &XAppl::hide));
@@ -240,9 +240,6 @@ XAppl::XAppl ()
    mgrUI->add_ui_from_string (ui);
 
    getClient ()->pack_start (*mgrUI->get_widget("/Menu"), Gtk::PACK_SHRINK);
-
-   apMenus[SAVE]  = mgrUI->get_widget("/Menu/File/FSave"); Check3 (apMenus[SAVE]);
-   apMenus[PRINT] = mgrUI->get_widget("/Menu/File/FPrint"); Check3 (apMenus[PRINT]);
 
    // Disable menus according to state of program
    TRACE7 ("XAppl::XAppl () -> Initialize menus");

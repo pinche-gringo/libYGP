@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.16 2005/01/25 01:17:14 markus Exp $
+//$Id: X-Appl.h,v 1.17 2005/01/31 04:57:25 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ class XAppl : public XGP::XApplication {
    static const char* xpmXAppl[];
 
    enum { SAVE = 0, PRINT, LAST };
-   Gtk::Widget* apMenus[LAST];
+   Glib::RefPtr<Gtk::Action> apMenus[LAST];
 };
 
 #endif
