@@ -1,7 +1,7 @@
 #ifndef DIRENTRY_H
 #define DIRENTRY_H
 
-//$Id: File.h,v 1.4 2001/08/28 20:17:32 markus Exp $
+//$Id: File.h,v 1.5 2001/09/25 21:18:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,11 @@
 
 
 #include <time.h>
+
+#ifdef TM_IN_SYS_TIME
+#include <sys/time.h>
+#endif
+
 #include <assert.h>
 
 #include <gzo-cfg.h>
@@ -76,7 +81,7 @@ typedef struct dirEntry {
    dirEntry (const dirEntry& o);
    ~dirEntry () { }
 
-   const dirEntry& operator= (const dirEntry& o);
+   dirEntry& operator= (const dirEntry& o);
 
    //@Section query of data
    const char*         path () const { return path_.c_str (); }
@@ -91,10 +96,10 @@ typedef struct dirEntry {
 
    //@Section compare filename
    int compare (const char* pszName) const { return strcmp (name (), pszName); }
-   int compare (const std::string& Name) const { return strcmp (name (), Name.c_str ()); }
+   int compare (const std::string& Name) const { return name () == Name; }
    int compare (const dirEntry& other) const { return strcmp (name (), other.name ()); }
    int compare (const dirEntry* other) const { assert (other);
-      return strcmp (name (), other->name ()); }
+      return compare (*other); }
 
    //@Section file-type
    bool isHidden () const { return *entry.d_name == '.'; }
@@ -129,7 +134,7 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    dirEntry (const dirEntry& o);
    ~dirEntry () { }
 
-   const dirEntry& operator= (const dirEntry& o);
+   dirEntry& operator= (const dirEntry& o);
 
    //@Section query of data
    const char*         path () const { return path_.c_str (); }
@@ -143,10 +148,10 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
 
    //@Section compare filename
    int compare (const char* pszName) const { return stricmp (name (), pszName); }
-   int compare (const std::string& Name) const { return strcmp (name (), Name.c_str ()); }
-   int compare (const dirEntry& other) const { return stricmp (name (), other.name ()); }
+   int compare (const std::string& Name) const { return compare (Name.c_str ()); }
+   int compare (const dirEntry& other) const { return compare (other.name ()); }
    int compare (const dirEntry* other) const { assert (other);
-      return stricmp (name (), other->name ()); }
+      return compare (*other); }
 
    //@Section file-type
    bool isHidden () const { return (dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)!= 0; }

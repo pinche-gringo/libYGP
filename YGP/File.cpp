@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.2 2001/08/24 20:57:24 markus Exp $
+//$Id: File.cpp,v 1.3 2001/09/25 21:18:18 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -52,7 +52,7 @@ dirEntry::dirEntry (const dirEntry& o) : path_ (o.path_)
 //Purpose   : Assignmentoperator
 //Parameter : o: Object to copy
 /*--------------------------------------------------------------------------*/
-const dirEntry& dirEntry::operator= (const dirEntry& o) {
+dirEntry& dirEntry::operator= (const dirEntry& o) {
    if (this != &o) {
       path_ = o.path_;
 #if SYSTEM == UNIX
