@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.3 2000/03/23 19:29:20 Markus Rel $
+// $Id: Handle.cpp,v 1.4 2002/03/23 20:43:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -59,7 +59,7 @@ void IHandle::setValue (void* pValue) {
    if (isDefined ())
       unlink ();
    else
-      AttributValue::define ();
+      setDefined ();
 
    create (pValue);
 }
@@ -79,6 +79,6 @@ void IHandle::undefine () {
 //Purpose     : Defines the object
 /*--------------------------------------------------------------------------*/
 void IHandle::define () {
-   AttributValue::define ();
+   setDefined ();
    create (NULL);
 }

@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.19 2001/10/03 23:55:40 markus Exp $
+//$Id: ANumeric.cpp,v 1.20 2002/03/23 20:43:35 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -94,7 +94,7 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (invalid_argument) {
 #endif
       undefine ();
    else
-      AttributValue::define ();
+      setDefined ();
 
    return *this;
 }
@@ -121,7 +121,7 @@ ANumeric& ANumeric::operator= (const ANumeric& other) {
 //Remarks   : If not already done: Initialize locale-definition
 /*--------------------------------------------------------------------------*/
 void ANumeric::define () {
-   AttributValue::define ();
+   setDefined ();
 #ifdef HAVE_LIBGMP
    mpz_set_si (value, 0);
 #else
@@ -221,7 +221,7 @@ void ANumeric::readFromStream (istream& in) throw (invalid_argument) {
 #ifdef HAVE_LIBGMP
             help += ch;
 #else
-            AttributValue::define ();
+            setDefined ();
             value *= 10;
             value += ch - '0';
 #endif
@@ -239,7 +239,7 @@ void ANumeric::readFromStream (istream& in) throw (invalid_argument) {
 #ifdef HAVE_LIBGMP
    if (!help.empty ()) {
       mpz_set_str (value, help.c_str (), 10);
-      AttributValue::define ();
+      setDefined ();
    }
 #endif
 
@@ -261,7 +261,7 @@ ANumeric& ANumeric::operator+= (const ANumeric& rhs) {
 #else
       value += rhs.value;
 #endif
-      AttributValue::define ();
+      setDefined ();
    }
    return *this;
 }
@@ -279,7 +279,7 @@ ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
 #else
       value -= rhs.value;
 #endif
-      AttributValue::define ();
+      setDefined ();
    }
    return *this;
 }

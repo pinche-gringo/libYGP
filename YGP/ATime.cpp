@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.9 2001/08/24 20:56:57 markus Exp $
+//$Id: ATime.cpp,v 1.10 2002/03/23 20:43:36 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -73,7 +73,7 @@ ATime::ATime (char Hour, char minute, char second) : AttributValue (),
              << checkIntegrity ());
    }
    else
-      AttributValue::define ();
+      setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -200,7 +200,7 @@ void ATime::readFromStream (istream& in) throw (invalid_argument) {
    }
    else {
       TRACE9 ("ATime::readFromStream (istream&): Define");
-      AttributValue::define ();
+      setDefined ();
    }
 }
 
@@ -430,7 +430,7 @@ void ATime::setHour (char Hour) {
       undefine ();
    }
    else
-      AttributValue::define ();
+      setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -446,7 +446,7 @@ void ATime::setMinute (char minute) {
       undefine ();
    }
    else
-      AttributValue::define ();
+      setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -462,7 +462,7 @@ void ATime::setSecond (char second) {
       undefine ();
    }
    else
-      AttributValue::define ();
+      setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/

@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.4 2001/09/16 21:22:36 markus Exp $
+// $Id: AByteArray.cpp,v 1.5 2002/03/23 20:43:35 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -140,7 +140,7 @@ AByteArray& AByteArray::assign (const char* pSource, unsigned int length) {
    TRACE5 ("AByteArray::assign (const char*, unsigned int)");
 
    assert (pSource);
-   AttributValue::define ();
+   setDefined ();
 
    len = length;
    if (allocated < len) {
@@ -177,7 +177,7 @@ void AByteArray::define () {
    delete [] pValue;
    pValue = new char [len = allocated = 1];
    *pValue = '\0';
-   AttributValue::define ();
+   setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -229,7 +229,7 @@ AByteArray& AByteArray::append (const char* pSource, unsigned int length) {
 
       memcpy (pValue + len, pSource, length);
       len += length;
-      AttributValue::define ();
+      setDefined ();
       assert (!checkIntegrity ());
    }
    return *this;

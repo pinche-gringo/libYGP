@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.17 2001/08/17 13:19:22 markus Exp $
+//$Id: ADate.cpp,v 1.18 2002/03/23 20:43:35 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -200,7 +200,7 @@ void ADate::readFromStream (istream& in) throw (invalid_argument) {
    }
    else {
       TRACE9 ("ADate::readFromStream (istream&): Define");
-      AttributValue::define ();
+      setDefined ();
    }
 }
 
@@ -246,7 +246,7 @@ ADate& ADate::operator-= (const ADate& rhs) {
          year -= rhs.year;
       }
       else {
-         AttributValue::define ();
+         setDefined ();
          day = -rhs.day;
          month = -rhs.month;
          year = -rhs.year;
@@ -504,7 +504,7 @@ void ADate::setDay (char Day) {
       undefine ();
    }
    else
-      AttributValue::define ();
+      setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -520,7 +520,7 @@ void ADate::setMonth (char Month) {
       undefine ();
    }
    else
-      AttributValue::define ();
+      setDefined ();
 }
 
 /*--------------------------------------------------------------------------*/

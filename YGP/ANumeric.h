@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.20 2001/09/25 21:16:08 markus Exp $
+//$Id: ANumeric.h,v 1.21 2002/03/23 20:43:35 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,28 +66,28 @@ class ANumeric : public AttributValue {
 #else
       value = (long)val;
 #endif
-      AttributValue::define (); }
+      setDefined (); }
    ANumeric (const unsigned long val) : AttributValue () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_ui (value, val);
 #else
       value = val;
 #endif
-      AttributValue::define (); }
+      setDefined (); }
    ANumeric (const int val) : AttributValue () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, (long)val);
 #else
       value = (long)val;
 #endif
-      AttributValue::define (); }
+      setDefined (); }
    ANumeric (const long val) : AttributValue () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, val);
 #else
       value = val;
 #endif
-      AttributValue::define (); }
+      setDefined (); }
    ANumeric (const char* pValue) throw (invalid_argument) : AttributValue () {
       operator= (pValue); }
    ANumeric (const std::string& value) throw (invalid_argument)
@@ -97,7 +97,7 @@ class ANumeric : public AttributValue {
    ANumeric& operator= (const ANumeric& other);
    ANumeric& operator= (const int val) { return operator= ((const long)val); }
    ANumeric& operator= (const unsigned int val) { return operator= ((const unsigned long)val); }
-   ANumeric& operator= (const unsigned long val) { AttributValue::define (); 
+   ANumeric& operator= (const unsigned long val) { setDefined (); 
 #ifdef HAVE_LIBGMP
       mpz_set_ui (value, val);
 #else
@@ -105,7 +105,7 @@ class ANumeric : public AttributValue {
 #endif
       return *this;
    }
-   ANumeric& operator= (const long val) { AttributValue::define (); 
+   ANumeric& operator= (const long val) { setDefined (); 
 #ifdef HAVE_LIBGMP
       mpz_set_si (value, val);
 #else
