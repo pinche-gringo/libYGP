@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.14 2003/02/05 03:13:51 markus Exp $
+//$Id: XMessageBox.cpp,v 1.15 2003/02/18 03:00:50 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -24,6 +24,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#define XK_MISCELLANY
+#include <X11/keysymdef.h>
 
 #include <gtk--/box.h>
 #include <gtk--/main.h>
@@ -456,22 +459,30 @@ XMessageBox::XMessageBox (const string& text, const string& title,
       flags |= OK;
 
    // Check which buttons should be set
-   for (unsigned int i (0); i < sizeof (labels) / sizeof (labels[0]); ++i)
-      if (flags & (1 << (i + TYPEBITS))) {
+   for (unsigned int i (0); i < sizeof (labels) / sizeof (labels[0]); ++i) {
+      unsigned int val (1 << (i + TYPEBITS));
+      if (flags & val) {
          TRACE5 ("XMessageBox::XMessageBox (const string&, const string&,"
                  " int, unsigned int)\n - Add Button " << labels[i]);
 
          Gtk::Button* temp (new Gtk::Button (_(labels[i])));  // Create button
 
-	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform),
-                                      1 << (i + TYPEBITS)));
+	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform), val));
 
          get_action_area ()->pack_start (*temp, false, false, 5);   // and add
          buttons.push_back (temp);
 
          temp->set_flags (GTK_CAN_DEFAULT);
          temp->set_usize (90, 35);
+
+         // Create ESC as accelerator for the Cancel button
+         if (val == CANCEL) {
+            assert (get_accel_group ());
+            temp->add_accelerator ("clicked", *get_accel_group (), XK_Escape, 0,
+                                   static_cast<GtkAccelFlags> (0));
+         }
       } // endif button to set
+   } // end-for
 
    txt->set_justify (GTK_JUSTIFY_FILL);
    txt->set_line_wrap (true);
@@ -508,7 +519,7 @@ void XMessageBox::perform (int action) {
    TRACE9 ("XMessageBox::perform (int) - Action = " << action);
 
    ret = action;
-   Gtk::Main::quit();
+   Gtk::Main::quit ();
 }
 
 /*--------------------------------------------------------------------------*/
