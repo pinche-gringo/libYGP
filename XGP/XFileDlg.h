@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.4 2000/02/24 22:16:36 Markus Exp $
+//$Id: XFileDlg.h,v 1.5 2000/03/02 12:43:53 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ class string
 
 #include <gtk--/fileselection.h>
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1, 0)
 using namespace Gtk;
 
 #else
@@ -59,7 +59,7 @@ class XFileDialog : public FileSelection {
    void command (commandID id);
 
    void init () {
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1, 0)
       get_ok_button ()->clicked.connect (bind (slot (this, &command), OK));
       get_cancel_button ()->clicked.connect (bind (slot (this, &command), CANCEL));
 #else

@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.3 2000/02/24 22:16:36 Markus Exp $
+//$Id: XApplication.h,v 1.4 2000/03/02 12:43:53 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 
 // Forward declarations
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
 namespace Gtk {
    class Main;
    class HBox;
@@ -68,7 +68,7 @@ class XApplication : public Window {
 
    // Events
    gint delete_event_impl (_GdkEventAny*) {
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
       Main::quit ();
 #else
       Main::instance()->quit ();
@@ -90,7 +90,7 @@ class XApplication : public Window {
    virtual void command (int menu) = 0;
 
    // Protected data
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
    MenuBar* pMenu;
 #else
    ItemFactory_MenuBar* pMenu;
@@ -104,7 +104,7 @@ class XApplication : public Window {
 
    PAccelGroup accels;
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
    Menu* pLastMenu;
 #endif
 };

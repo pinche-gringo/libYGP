@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.2 2000/02/24 22:16:36 Markus Exp $
+//$Id: XPrintDlg.h,v 1.3 2000/03/02 12:43:53 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class string
 
 class ofstream;
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1, 0)
 namespace Gtk {
    class HBox;
    class Label;

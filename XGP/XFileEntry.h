@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.3 2000/02/24 22:16:36 Markus Exp $
+//$Id: XFileEntry.h,v 1.4 2000/03/02 12:43:53 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <gtk--/entry.h>
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1, 0)
 using namespace Gtk;
 
 #else

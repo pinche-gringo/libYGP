@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.3 2000/02/24 22:16:35 Markus Exp $
+//$Id: XApplication.cpp,v 1.4 2000/03/02 12:43:53 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -52,7 +52,7 @@
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
    : vboxClient (new VBox ())
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
    , accels (AccelGroup::create ()), pLastMenu (NULL)
 #else
   , accels (new AccelGroup)
@@ -68,7 +68,7 @@ XApplication::XApplication (const char* pTitle)
    vboxClient->show ();
    add (*vboxClient);
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
    pMenu = new MenuBar (); Check3 (pMenu);
 
    pMenu->show ();
@@ -102,7 +102,7 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
    TRACE1 ("XApplication::addMenu: " << menuEntry.path);
    Check3 (pMenu);
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+#if GTK_VERSION_GT (1,0)
    Check3 (accels);
    using namespace Menu_Helpers;
 
