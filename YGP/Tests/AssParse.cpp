@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.5 2003/07/09 00:05:02 markus Rel $
+// $Id: AssParse.cpp,v 1.6 2003/07/16 07:01:41 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -41,19 +41,23 @@
 #define A2     K2 "=\042" KV2 "\042"
 #endif
 #define K3     "key3"
+#define K4     "key4"
 #ifndef _MSC_VER
 #define KV3    "abcd\\\"def\""
+#define KV4    "\"\\\"v4\\\"\""
 #else
 #define KV3    "abcd\\\042def\042"
+#define KV4    "\042\\\042v4\\\042\042"
 #endif
 #define A3     K3 "=" KV3
+#define A4     K4 "=" KV4
 
 
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing AssignmentParse ...\n";
-   AssignmentParse attrs (A1 ";" A2 ";" A3);
+   AssignmentParse attrs (A1 ";" A2 ";" A3 ";" A4);
    try {
       std::string node (attrs.getNextNode ());
       check (attrs.getActNode () == A1);
@@ -69,6 +73,11 @@ int main (int argc, char* argv[]) {
       check (attrs.getActNode () == A3);
       check (attrs.getActKey () == K3);
       check (attrs.getActValue () == KV3);
+
+      node = attrs.getNextNode ();
+      check (attrs.getActNode () == K4 "=\"\"v4\"\"");
+      check (attrs.getActKey () == K4);
+      check (attrs.getActValue () == "\"v4\"");
 
       check (attrs.getNextNode ().empty ());
    }
