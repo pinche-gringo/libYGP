@@ -1,7 +1,7 @@
 #ifndef INTERNAL_H
 #define INTERNAL_H
 
-//$Id: Internal.h,v 1.6 2003/11/16 19:25:55 markus Rel $
+//$Id: Internal.h,v 1.7 2003/12/10 02:34:19 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,11 +20,6 @@
 
 #include <ygp-cfg.h>
 
-#undef _
-#undef N_
-#undef textdomain
-#undef binddomain
-#undef bindtextdomain
 
 #if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
 #  include <libintl.h>
