@@ -7,9 +7,9 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ @GTKMM_CFLAGS@
 LIBS = -L.. -lYGP @LTLIBINTL@ @LIBS@
 
-TESTS=IVIOAppl ANumeric ADate ATime ATStamp XStrBuf XStream Parse FileRExp \
-      CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute AssParse \
-      AttrParse INIFile Handle Thread Relation Process
+TESTS=IVIOAppl ANumeric AYear ADate ATime ATStamp XStrBuf XStream Parse \
+      FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
+      AssParse AttrParse INIFile Handle Thread Relation Process
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -20,6 +20,8 @@ ANumeric_SOURCES=ANumeric.cpp
 ADate_SOURCES=ADate.cpp
 
 ATime_SOURCES=ATime.cpp
+
+AYear_SOURCES=AYear.cpp
 
 ATStamp_SOURCES=ATStamp.cpp
 
