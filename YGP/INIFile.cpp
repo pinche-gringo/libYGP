@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.13 2002/11/10 23:07:47 markus Exp $
+//$Id: INIFile.cpp,v 1.14 2002/11/18 04:38:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -262,10 +262,10 @@ int INIFile::read () throw (std::string) {
   TRACE9 ("INIFile::read");
 
    // Parse the section-header; terminate on error
-   SectionHeader.skipWS ((Xistream&)file);
    int rc = 0;
 
    do {
+      SectionHeader.skipWS ((Xistream&)file);
       pSection = NULL;
       rc = SectionHeader.parse ((Xistream&)file);
       if (rc || file.eof ())
