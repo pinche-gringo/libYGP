@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.8 2002/07/08 04:04:47 markus Exp $
+//$Id: AssParse.cpp,v 1.9 2002/08/20 05:19:55 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -51,6 +51,8 @@ AssignmentParse::~AssignmentParse () {
 //              All escaped quotes are changed back (-> (\") is changed to ("))
 //Returns     : Next node (empty string at end)
 //Requires    : split != '\0' (operates on strings)
+//Throws      : std::string: describing error if node doesn't contain valid
+//                           assignment
 /*--------------------------------------------------------------------------*/
 std::string AssignmentParse::getNextNode () throw (std::string) {
    std::string key (Tokenize::getNextNode (EQUALSIGN));
@@ -89,7 +91,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
       if ((pos < _string.length ()) && (_string[pos] != SEPERATOR)) {
          key = _("Quoted value not followed by separator: '%1'");
          key.replace (key.find ("%1"), 2, _string.substr (pos - 10, 20));
-	 throw key;
+         throw key;
       }
    }
    else {
