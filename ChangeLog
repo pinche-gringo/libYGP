@@ -1,4 +1,286 @@
+2003-07-22  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog: Changes of V0.6.20 commented
+
+	* bin/Makefile.am: Removed mdocu.pl
+
+	* gzo-cfg.h.in: Removed HAVE_GTKMM
+
+2003-07-21  Markus Schwab  <g17m0@lycos.com>
+
+	* po/en.po: Line numbers actualized
+
+	* po/de.po, po/es.po: Messages actualized
+
+	* X-windows/XFileDlg.h:
+	  Fixed comments (name of param in docu and function differed)
+
+	* Common/RDirSrchSrv.h: Fixed comments
+
+	* Common/DirSrch.h, Common/IDirSrch.h:
+	  Fixed (doxygens) \return statements
+
+	* configure.in:
+	  Version to 0.6.20; Don't add -lgthread to GTKMM_LIBS; Added doxygen files
+
+	* README: Minor fixes
+
+	* NEWS: Changes of V0.6.20 commented
+
+	* doc/AByteArray.html, doc/ADate.html, doc/ANumeric.html, doc/ATStamp.html, doc/ATime.html, doc/AssParse.html, doc/AttrParse.html, doc/AttrVal.html, doc/Attribute.html, doc/BrowserDlg.html, doc/CRegExp.html, doc/DirSrch.html, doc/Entity.html, doc/File.html, doc/FileRExp.html, doc/Handle.html, doc/IDirSrch.html, doc/INIFile.html, doc/IVIOAppl.html, doc/Log.html, doc/Mutex.html, doc/Parse.html, doc/PathDirSrch.html, doc/PathSrch.html, doc/Process.html, doc/RDirSrch.html, doc/RDirSrchSrv.html, doc/RegExp.html, doc/RemoteFile.html, doc/SmartPtr.html, doc/Socket.html, doc/Thread.html, doc/Tokenize.html, doc/XAbout.html, doc/XApplication.html, doc/XAttrEntry.html, doc/XAttrLabel.html, doc/XDate.html, doc/XDialog.html, doc/XDirSrch.html, doc/XFileDlg.html, doc/XFileEntry.html, doc/XFileList.html, doc/XGP.doxy.in, doc/XPrintDlg.html, doc/XStrBuf.html, doc/XStream.html, doc/cross_index.html, doc/mdocu.html:
+	  Deleted
+
+	* doc/index.html: Rewritten
+
+2003-07-20  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/Icons/Makefile.in: Installing data in /XGP
+
+	* X-windows/XPrintDlg.h: Removed backward compatibility typedef
+
+	* X-windows/XFileDlg.h, X-windows/XFileList.cpp, X-windows/XFileList.h, X-windows/XFileDlg.cpp:
+	  Doxygenified
+
+	* X-windows/Folder.h: Fixed typo in comments
+
+	* X-windows/Folder.cpp:
+	  Objects are added with 5 pixels distance to the others
+
+	* X-windows/XAttrEntry.h, X-windows/XFileEntry.cpp, X-windows/XFileEntry.h:
+	  Doxygenified comments
+
+	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	  Doxygenified comments; Separated in Dialog & template with callback
+
+	* X-windows/Version.cpp: Moved start of intro in own line)
+
+	* X-windows/BrowserDlg.cpp, X-windows/BrowserDlg.h:
+	  Doxygenified comments; Added entry for GTKHTML (if installed)
+
+	* X-windows/XDate.cpp, X-windows/XDate.h, X-windows/XDialog.cpp, X-windows/XDialog.h, X-windows/XAttrLabel.h:
+	  Doxygenified comments
+
+2003-07-19  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XApplication.cpp:
+	  Doxygenified comments; Started to support gtkhtml (not finished yet)
+
+	* X-windows/XApplication.h: Doxygenified comments
+
+	* X-windows/Version.cpp: Documentation for the XGP library added
+
+	* doc/Makefile.am: Added dependencies for doc; added documenting of XGP
+
+	* X-windows/XAbout.cpp, X-windows/XAbout.h: Doxygenified
+
+	* doc/footer.txt: New file.
+
+	* doc/YGP.doxy.in: Settings changed
+
+2003-07-16  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/AssParse.cpp: Actualized copyright
+
+	* Common/AssParse.cpp:
+	  Fixed bug handling escaped quotes inside a quoted value
+
+	* Common/Tests/AssParse.cpp: Added test if escaped quotes are removed
+
+	* Common/File.h: Moved define for MAX_PATH (UNIX)
+
+	* Common/Version.cpp: Copyright actualized
+
+	* Common/RegExp.h: Doxygenified
+
+	* Common/AssParse.h: Typo corrected
+
+	* Common/IVIOAppl.h: Actualized copyright
+
+	* Common/AssParse.cpp: Fixed bug with strings holding escaped quotes
+
+2003-07-10  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/XStrBuf.cpp: Fixed bug in docu
+
+	* Common/Version.cpp: Comments for main page of help added
+
+	* Common/AssParse.cpp, Common/AssParse.h, Common/PathSrch.cpp, Common/PathSrch.h, Common/Thread.h, Common/Tokenize.cpp, Common/Tokenize.h Common/Log.h, Common/Thread.cpp, Common/Thread.h, Common/XStream.h, Common/XStrBuf.h, Common/XStrBuf.cpp:
+	  Doxygenified
+
+2003-07-09  Markus Schwab  <g17m0@lycos.com>
+
+	* gzo-cfg.h.in: Removed PACKAGE and VERSION defines
+
+	* X-windows/XGP.pc.in: Fixed typo
+
+	* Common/Attribute.h: Moved Glib::ustring parts to XAttribute.h
+
+	* Common/YGP.pc.in: Fixed typo in lib-name
+
+	* CORBA/Makefile.in, Common/Makefile.am, Common/YGP.pc.in, README, X-windows/Makefile.am, X-windows/Samples/Makefile.am, X-windows/XGP.pc.in, configure.in:
+	  Renamed to lib[CXY]GP
+
+	* ChangeLog: Changes of V0.6.12 commented
+
+	* Common/ANumeric.cpp: Fixed bug formatting negative numbers
+
+	* X-windows/Samples/Makefile.am: Linking against lib[XY]GP
+
+	* CORBA/Makefile.in, Common/Makefile.am, Common/YGP.pc.in, X-windows/Makefile.am, X-windows/XGP.pc.in, configure.in, gzo-cfg.h.in:
+	  Renamed to libYGP, libXGP and libXCPG
+
+	* NEWS: Changed of V0.6.12 commented
+
+	* po/de.po, po/en.po, po/es.po: Line numbers actualized
+
+	* Common/Tests/ADate.cpp, Common/Tests/ANumeric.cpp, Common/Tests/ATStamp.cpp, Common/Tests/ATime.cpp, Common/Tests/AssParse.cpp, Common/Tests/AttrParse.cpp, Common/Tests/Attribute.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/INIFile.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	  Copyright actualized
+
+	* Common/Tests/XStrBuf.cpp: Workaround for MVC-bug
+
+2003-07-08  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XAttribute.h: New file.
+
+2003-07-05  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Attribute.h: Attribute handles Glib::ustring
+
+	* Common/Makefile.am, Common/Tests/Makefile.am: Adding GTKMM_CFLAGS
+
+	* gzo-cfg.h.in:
+	  Added defines for GTK and GTKMM; removed define for REGEXP_H
+
+	* configure.in: Defining HAVE_GTKMM, if gtkmm is installed
+
+	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	  Constructor casting from GtkDialog removed; Title is UTF-8 converted
+
+	* X-windows/XAttrEntry.h, X-windows/XAttrLabel.h:
+	  Using C++ standard headers
+
+	* X-windows/Samples/Dialog.cpp: Setting title directly
+
+	* X-windows/XDate.cpp, X-windows/XDate.h:
+	  Passing title directly to XDialog; title is UTF-8 string
+
+	* X-windows/XDialog.cpp, X-windows/XDialog.h:
+	  Added constructors according to Gtk::Dialog ctrs
+
+	* X-windows/Makefile.am: Folder added
+
+	* X-windows/Folder.cpp, X-windows/Folder.h: New file.
+
+2003-07-03  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/XDirSrch.cpp: Commented in doxygen style
+
+	* Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	  Using C++ standard headers (instead C standard headers)
+
+	* Common/Tests/ANumeric.cpp: Output can be tested (if defined)
+
+	* Common/ANumeric.cpp: Fixed printing negative numbers
+
+	* Common/XDirSrch.h: Comments improved
+
+	* Common/XDirSrch.h, Common/SmartPtr.h: 
+	  Comments changed to doxygen style
+
+	* Common/ADate.cpp, Common/ANumeric.cpp, Common/ATStamp.cpp, Common/ATime.cpp, Common/CRegExp.cpp, Common/File.cpp, Common/FileRExp.cpp, Common/INIFile.cpp, Common/Parse.cpp, Common/RemoteFile.cpp, Common/Socket.cpp:
+	  Removed formatting in description of exception type (is made by doxygen)
+
+	* Common/RDirSrchSrv.cpp:
+	  Comments changed to doxygen style; AByteArray replaced with std::string
+
+	* Common/RDirSrchSrv.h, Common/Process.cpp, Common/Process_.h:
+	  Comments changed to doxygen style
+
+	* Common/Parse.cpp: Including C++ standard headers (and not C std hdrs)
+
+	* Common/CRegExp.h: Wee fixes in the docu
+
+	* Common/Parse.cpp, Common/Parse.h: Changed comments to doxygen style
+
+2003-07-01  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Mutex.h: Changed comments to a doxygen format
+
+	* Common/IVIOAppl.cpp: Changed comments to a doxygen-format
+
+	* Common/IVIOAppl.cpp:
+	  Using std-namespace explicitely; Removed warnings from -Wall
+
+	* Common/IVIOAppl.h: Changed comments to a doxygen-format
+
+	* Common/FileRExp.cpp, Common/FileRExp.h: Doxigenified the comments
+
+2003-06-30  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XAbout.cpp, X-windows/XAbout.h: Converting input to UTF-8
+
+2003-06-29  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XAttrEntry.h: Converting error message to UTF-8
+
+	* X-windows/XFileList.cpp:
+	  Remove of entry really removes the line (was TODO before)
+
+	* X-windows/XFileEntry.cpp: Replaced asserts with Check
+
+	* X-windows/BrowserDlg.cpp: Converting title to UTF-8
+
+	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	  Converting menu-entries to UTF-8; setIconProgramm added
+
+	* X-windows/XApplication.cpp: Converting menu-entries to UTF-8
+
+	* X-windows/BrowserDlg.cpp: Converting dialog title to UTF-8
+
+2003-06-24  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.11 commented
+
+	* configure.in: Version to 0.6.11
+
+2003-06-23  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Attribute.h:
+	  Implemented AttributeList::getValue with Attribute<T> to not need specialization
+
+	* Common/Attribute.h: Changed itoa with sprintf
+
+2003-06-22  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/ANumeric.cpp: Fixed a bug in formatting negative numbers
+
+2003-06-19  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/RDirSrch.h: Grouped search methods for doxygen
+
+	* Common/DirSrch.cpp, Common/IDirSrch.cpp, Common/RDirSrch.cpp:
+	  Fixed comments
+
+	* Common/PathDirSrch.cpp, Common/PathDirSrch.h, Common/DirSrch.cpp, Common/DirSrch.h, Common/IDirSrch.cpp, Common/IDirSrch.h, Common/INIFile.h, Common/INIFile.cpp:
+	  Changed comments to doxygen style
+
+	* Common/Attribute.h: Fixed bugs introdcued while changing comments
+
+	* Common/Attribute.h:
+	  Implemted AttributeList::getValue; Removed support for AByteArray; Doxygen-style
+
+	* doc/Parse.html: Fixed a bug in referencing ParseQuoted from ParseText
+
+	* Common/Parse.cpp:
+	  Resetting status of ParseQuoted after object was parsed for next parse
+
 2003-06-11  Markus Schwab  <g17m0@lycos.com>
+
+	* INSTALL: Build-info (from CVS) corrected
+
+	* Common/YMP.pc.in, X-windows/XMP.pc.in: Renamed libs
+
+	* gzo-cfg.h.in: Removed PACKAGE and VERSION macros
 
 	* ChangeLog, NEWS: Changes of V0.6.10 actualized
 
