@@ -1,12 +1,10 @@
 SUBDIRS=.
 
-INCLUDES=-I.. -I$(top_srcdir)
-INCLUDES = -I$(top_srcdir) -I.. -I../../Common @GTKMM_CFLAGS@ -I$(top_srcdir)/intl
+INCLUDES = -I$(top_srcdir) -I.. -I../../Common @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wall
 
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
-CXXFLAGS = @CXXFLAGS@ -Wall
 
 LIBS = ../libXAppl.la ../../Common/libAttr.la @LIBS@ @GTKMM_LIBS@
 
