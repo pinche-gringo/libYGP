@@ -1,4 +1,4 @@
-<!-- $$ -->
+<!-- $Id: PathDirSrch.html,v 1.6 2001/09/27 22:05:48 markus Exp $ -->
 
 <html>
   <head>
@@ -11,19 +11,23 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
-    <h1 align="center">Class PathDirectorySearch </h1>
-    <p>Derived from: <a href="DirSrch.html">DirectorySearch</a></p>
+    <h1 align="center">Class PathDirectorySearch</h1>
+    <p>Derived from
+      <a href="DirSrch.html">DirectorySearch</a>
+      <br>
+      Derived by: <i>none</i></p>
 
-    <p>Header-file: PathDirSrch.h</p>
+    <p>#include &lt;PathDirSrch.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
-    <p>Class to search for files in directory listed in a path. This search
+    <p>Class to search for files in directories listed in a path. This search
       can be restricted to files matching certain name-criterias or by
       attributes.</p>
 
@@ -31,58 +35,56 @@
       are the asterisk (*) for any number of any characters, the question-mark
       for any single character and a set of characters in brackets (([) and
       (])). This set can contain a list of characters (like [abcde]) or a
-      region (like [a-e]). To invert this set use a leading caret (^), like
-      ([^a-e]).</p>
+      region (like [a-e]). To invert this set use a leading caret (^) or a
+      leading exclamation mark (!), like ([^a-e]).</p>
 
     <p>The found (and matching) files are retrieved by objects of type
-      <a href="DirSrch.html#dirEntry">dirEntry</a>.</p>
+      <a href="DirEntry.html"><b>dirEntry</b></a>.</p>
 
     <p><b>Note</b>: The class does <b>not</b> do any word expansion for the
       search-path (like expanding the tilde (~) to the home-directory)!</p>
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="PathDirSrch.html#PathDirectorySearch">PathDirectorySearch</a></td>
-        <td>()</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="PathDirSrch.html#PathDirectorySearch2">PathDirectorySearch</a></td>
-        <td>(const std::string&amp; path)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="PathDirSrch.html#PathDirectorySearch3">PathDirectorySearch</a></td>
-        <td>(const std::string&amp; path, const std::string&amp; search)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="PathDirSrch.html#~PathDirectorySearch">~PathDirectorySearch</a></td>
-        <td>()</td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="PathDirSrch.html#PathDirectorySearch"><b><b>PathDirectorySearch</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="PathDirSrch.html#PathDirectorySearch2"><b><b>PathDirectorySearch</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="PathDirSrch.html#PathDirectorySearch3"><b><b>PathDirectorySearch</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td>void</td>
-        <td><a href="PathDirSrch.html#setPath">setPath</a></td>
-        <td>(const std::string&amp; path)</td></tr>
-      <tr valign="top"><td>static void</td>
-        <td><a href="PathDirSrch.html#checkPath">checkPath</a></td>
-        <td>(const std::string&amp; path) throw (std::string)</td></tr>
+      <tr valign="top"><td><tt>static <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#checkPath"><b><b>checkPath</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>) throw (<font color="navy">std::string</font>)</tt>;</td></tr>
 
-      <tr valign="top"><td>int</td>
-        <td><a href="PathDirSrch.html#find">find</a></td>
-        <td>(const std::string&amp; path, const std::string&amp; search,
-          <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
-          unsigned long attribs = FILE_NORMAL) throw (std::string)</td></tr>
-      <tr valign="top"><td>int</td>
-        <td><a href="PathDirSrch.html#find2">find</a></td>
-        <td>(const std::string&amp; search, <a href="DirSrch.html#dirEntry">
-            dirEntry</a>&amp; result, unsigned long
-          attribs = FILE_NORMAL) throw (std::string)</td></tr>
-      <tr valign="top"><td>virtual int</td><td><a href="PathDirSrch.html#find3">find</a></td>
-        <td>(<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
-          unsigned long attribs = FILE_NORMAL) throw (std::string)</td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="PathDirSrch.html#find4">find</a></td><td>()</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#find"><b><b>find</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>, <tt><font color="navy">dirEntry</font></tt>&amp; <tt><font color="blue">result</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font></tt> = FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#find2"><b><b>find</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">search</font></tt>, <tt><font color="navy">dirEntry</font></tt>&amp; <tt><font color="blue">result</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font></tt> = FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#find3"><b><b>find</b></a></td>
+        <td><tt>(<tt><font color="navy">dirEntry</font></tt>&amp; <tt><font color="blue">result</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">long</font></tt> <tt><font color="blue">attribs</font></tt> = FILE_NORMAL)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#find4"><b><b>find</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#setPath"><b><b>setPath</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">path</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="PathDirSrch.html#~PathDirectorySearch"><b><b>~PathDirectorySearch</b></a></td>
 
       <tr><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td>virtual int</td>
-        <td><a href="PathDirSrch.html#checkIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="PathDirSrch.html#checkIntegrity"><b><b>checkIntegrity</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -115,14 +117,14 @@
         path-nodes, seperated with the character to split those nodes
         (double-point (:) in UNIX, the semi-colon in DOS/WINDOZE).</dd>
     </dl>
-    <pre><a name="checkPath"></a>void checkPath (const std::string&amp; path) throw (std::string)</pre>
+    <pre><a name="checkPath"></a>static void checkPath (const std::string&amp; path) throw (std::string)</pre>
     <dl>
       <dd>Checks if the passed path is valid. If not, an (describing) exception
         is thrown.</dd>
     </dl>
 
     <h4>Find functions</h4>
-    <pre><a name="find">int find</a> (const std::string&amp; path, const std::string&amp; search,<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+    <pre><a name="find">int find</a> (const std::string&amp; path, const std::string&amp; search,<a href="DirEntry.html"><b>dirEntry</b></a>&amp; result,
           unsigned long attribs = FILE_NORMAL) throw (std::string)</pre>
     <dl>
       <dd><p>Searches for files specified by <i>search</i> in the passed
@@ -140,7 +142,7 @@
         <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find2">int find</a> (const std::string&amp; search, <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result,
+    <pre><a name="find2">int find</a> (const std::string&amp; search, <a href="DirEntry.html"><b>dirEntry</b></a>&amp; result,
           unsigned long attribs = FILE_NORMAL) throw (std::string)</pre>
     <dl>
       <dd><p>Searches for files specified by <i>search</i> in the paths which must
@@ -158,11 +160,11 @@
         <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
 
-    <pre><a name="find3">virtual int find</a> (<a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result, unsigned long attribs = FILE_NORMAL)
+    <pre><a name="find3">virtual int find</a> (<a href="DirEntry.html"><b>dirEntry</b></a>&amp; result, unsigned long attribs = FILE_NORMAL)
             throw (std::string)</pre>
     <dl>
       <dd><p>Searches for first file matching the input specified by the
-          contstructor(s) or the set-methods; if at least one file is found, the
+          constructor(s) or the set-methods; if at least one file is found, the
           result is placed into <i>result</i>.</p>
         <p>This call returns 0, if a file was found, errno otherwise.</p></dd>
     </dl>
@@ -170,7 +172,7 @@
     <pre><a name="find4"></a>virtual int find ()</pre>
     <dl>
       <dd>Returns the next matching file according to parameters specified in
-        early find-calls. If a file was found 0 is returned, errno otherwise.</dd>
+        earlier find-calls. If a file was found 0 is returned, errno otherwise.</dd>
     </dl>
 
     <h4>Utility functions</h4>
