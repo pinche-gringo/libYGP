@@ -43,7 +43,7 @@ acb=0
 
 [\[\[:alpha:\]\]*]
 ab=1
-xyz=1 	
+xyz=1
 aaaaab=1
 a1b=0
 
@@ -68,8 +68,23 @@ cd=0
 cd=1
 acd=0
 
+[ab?.?\\<cd]
+ab cd=1
+abcd=0
+a cd=1
+
 [ab\\b.\\bcd]
 ab.cd=1
+acd=0
+
+[ab\\Bcd]
+abcd=1
+abfcd=0
+ab cd=0
+
+[ab\\w.\\Wcd]
+abxyzcd=0
+abxy/cd=1
 acd=0
 
 [ab\\Bcd]
@@ -138,3 +153,9 @@ aaab=1
 aaaab=1
 aaaaab=1
 aaaaaab=1
+
+[a(bc|de)\\1z]
+abcbcz=1
+adedez=1
+abcz=0
+abc\\1z=0
