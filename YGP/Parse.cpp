@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.29 2002/10/24 06:37:57 markus Exp $
+//$Id: Parse.cpp,v 1.30 2002/11/04 01:06:20 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -43,8 +43,6 @@
 #include "Internal.h"
 
 #define BUFFER  (buffers[Thread::currentID ()])
-#define BUFLEN  (buffers[Thread::currentID ()]).size ()
-#define BUFDATA (buffers[Thread::currentID ()]).data ()
 
 
 // Parse-buffers; one per thread
@@ -209,9 +207,10 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
    TRACE1 ("ParseAttomic::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
-   int   ch (0);
+   int ch (0);
+   std::string& buffer = BUFFER;
 
-   while (BUFLEN < maxCard) {                // While not max. card is reached
+   while (buffer.size () < maxCard) {        // While not max. card is reached
       ch = stream.get ();
       TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> " << (char)ch);
 
@@ -223,39 +222,40 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          break;
       }
 
-      BUFFER += (char)ch;                                      // Store, if OK
+      buffer += (char)ch;                                      // Store, if OK
    } // end-while !maximal cardinality
    TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
-           << BUFFER << '\'');
+           << buffer << '\'');
 
    int rc (PARSE_OK);
-   if (BUFLEN >= minCard) {                               // Cardinalities OK?
+   if (buffer.size () >= minCard) {                       // Cardinalities OK?
       ch = 0;
       TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
-              << BUFFER << '\'');
-      rc = found (BUFFER.c_str (), BUFLEN);          // Report object as found
+              << buffer << '\'');
+      rc = found (buffer.c_str (), buffer.size ());  // Report object as found
    } // endif value OK
    else
       rc = PARSE_ERROR;
 
    if (rc) {
       if (optional || (rc > 0)) {
-      	 unsigned int len (BUFLEN);
+      	 unsigned int len (buffer.size ());
          while (len--)
-            stream.putback (BUFFER[len]);
+            stream.putback (buffer[len]);
 	}
       else {
          std::string error (_("Expected %1, found: '%2'"));
          error.replace (error.find ("%1"), 2, getDescription ());
-         error.replace (error.find ("%2"), 2, BUFFER, 0,
-                        minCard > 10 ? (minCard > BUFLEN ? BUFLEN : minCard) : 10);
+         error.replace (error.find ("%2"), 2, buffer, 0,
+                        minCard > 10 ? (minCard > buffer.size ()
+			                ? buffer.size () : minCard) : 10);
 	 throw (error);
       } // end-if mandatory value not found
    } // endif error
    else
       skipWS (stream);
 
-   BUFFER = "";
+   buffer = "";
    return rc;
 }
 
