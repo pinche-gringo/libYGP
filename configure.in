@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.66 2004/01/21 20:05:03 markus Rel $
+dnl $Id: configure.in,v 1.67 2004/09/06 00:28:20 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_REVISION($Revision: 1.66 $)
-AC_INIT(libYGP, 0.6.46, [g17m0@lycos.com], libYGP)
+AC_REVISION($Revision: 1.67 $)
+AC_INIT(libYGP, 0.6.50, [g17m0@lycos.com], libYGP)
 
 RELEASE=${PACKAGE_VERSION%.*}
 VERSION=AC_PACKAGE_VERSION
@@ -13,8 +13,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
 
-dnl LIBRELEASE=$VERSION
-LIBRELEASE=0.6.45
+dnl LIBRELEASE=0.6.50
+LIBRELEASE=$VERSION
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
@@ -79,7 +79,7 @@ fi
 dnl Check gtkmm version
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])])
-PKG_CHECK_MODULES(GTKMM, gtkmm-2.0 >= 2.0.0,
+PKG_CHECK_MODULES(GTKMM, gtkmm-2.4 >= 2.4.0,
                   [[MYSUBDIRS="$MYSUBDIRS XGP"]],
                   [AC_MSG_WARN([Subdir XGP will not be made])])
 PKG_CHECK_MODULES(GTKHTML, libgtkhtml-2.0 >= 2.0.0,
