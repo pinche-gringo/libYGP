@@ -72,4 +72,4 @@ INIFile_LDADD=../INIFile.o ../XStrBuf.o ../Parse.o ../ANumeric.o ../ADate.o \
 Handle_SOURCES=Handle.cpp
 Handle_LDADD=../Handle.o
 
-EXTRA_DIST=Parsertest.dat INIFile.test CRegExp.test
+EXTRA_DIST=Parsertest.dat INIFile.test CRegExp.test Test.h
