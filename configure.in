@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.28 $)
+AC_REVISION($Revision: 1.29 $)
 
 AC_INIT()
 
@@ -14,7 +14,17 @@ AC_DEFINE_UNQUOTED(SYSTEM, UNIX)
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
 
+LIBVERSION=0:1:0
+LIBRELEASE=0:1:0
+AC_SUBST(LIBVERSION)
+AC_SUBST(LIBRELEASE)
+
 SUBDIRS="Common"
+
+GTKMM_NEEDED_MAYOR=1
+GTKMM_NEEDED_MINOR=2
+GTKMM_NEEDED_MICRO=7
+GTKMM_MINVERSION=$GTKMM_NEEDED_MAYOR.$GTKMM_NEEDED_MINOR.$GTKMM_NEEDED_MICRO
 
 dnl AC_CANONICAL_SYSTEM
 
@@ -26,6 +36,8 @@ AC_LANG_CPLUSPLUS
 
 AC_C_BIGENDIAN
 
+ALL_LINGUAS="de en es"
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
@@ -33,6 +45,8 @@ AC_PROG_RANLIB
 AM_PROG_LIBTOOL
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
+
+AM_GNU_GETTEXT
 
 dnl Checks for libraries.
 AC_CHECK_LIB(stdc++, main)
@@ -62,32 +76,35 @@ if test "$ac_cv_header_regex_h" != "yes"; then
    AC_CHECK_HEADERS(regexp.h)
 fi
 
-AC_MSG_CHECKING(Checking for header CORBA.h)
-AC_CACHE_VAL(ac_cv_header_CORBA_h, ac_cv_header_CORBA_h=$ac_cv_header_CORBA_h)
-if test -z $ac_cv_header_CORBA_h; then
-AC_TRY_COMPILE([#include <CORBA.h>], [],
-   [ ac_cv_header_CORBA_h=yes],
-   [ ac_cv_header_CORBA_h=no])
-fi
-AC_MSG_RESULT([$ac_cv_header_CORBA_h])
-if test "$ac_cv_header_CORBA_h" == "yes"; then
-   SUBDIRS="$SUBDIRS CORBA"
-else
-   AC_WARN(CORBA is not installed; subdir CORBA will not be made)
-fi
+dnl AC_MSG_CHECKING(Checking for header CORBA.h)
+dnl AC_CACHE_VAL(ac_cv_header_CORBA_h, ac_cv_header_CORBA_h=$ac_cv_header_CORBA_h)
+dnl if test -z $ac_cv_header_CORBA_h; then
+dnl AC_TRY_COMPILE([#include <CORBA.h>], [],
+dnl    [ ac_cv_header_CORBA_h=yes],
+dnl    [ ac_cv_header_CORBA_h=no])
+dnl fi
+dnl AC_MSG_RESULT([$ac_cv_header_CORBA_h])
+dnl if test "$ac_cv_header_CORBA_h" == "yes"; then
+dnl    SUBDIRS="$SUBDIRS CORBA"
+dnl else
+dnl    AC_WARN(CORBA is not installed; subdir CORBA will not be made)
+dnl fi
 
-AC_MSG_CHECKING(Checking for header gtk--.h)
-AC_CACHE_VAL(ac_cv_header_gtk___h, ac_cv_header_gtk___h=$ac_cv_header_gtk___h)
-if test -z $ac_cv_header_gtk___h; then
-AC_TRY_COMPILE([#include <gtk--.h>], [],
-   [ ac_cv_header_gtk___h=yes],
-   [ ac_cv_header_gtk___h=no])
-fi
-AC_MSG_RESULT([$ac_cv_header_gtk___h])
-if test "$ac_cv_header_gtk___h" == "yes"; then
-   SUBDIRS="$SUBDIRS X-windows"
+AC_MSG_CHECKING(Checking for Gtk-- - version)
+ver=`gtkmm-config --version`
+mayor=${ver%%.*}
+minor=${ver#*.}
+minor=${minor%.*}
+micro=${ver##*.}
+AC_MSG_RESULT($ver)
+if test $mayor -lt $GTKMM_NEEDED_MAYOR -o $mayor -eq $GTKMM_NEEDED_MAYOR \
+     -a $minor -lt $GTKMM_NEEDED_MINOR -o $minor -eq $GTKMM_NEEDED_MINOR \
+     -a $micro -lt $GTKMM_NEEDED_MICRO; then
+   AC_WARN(An old version of GTK-- ($mayor.$minor.$micro) was found.\n \
+           You need at least version $GTKMM_MINVERSION.\n Subdir X-windows \
+           will not be made)
 else
-  AC_WARN(GTK-- is not installed; subdir X-windows will not be made)
+   SUBDIRS="$SUBDIRS X-windows"
 fi
 
 AC_SUBST(SUBDIRS)
@@ -99,8 +116,8 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_FUNC_FNMATCH
 AC_FUNC_CLOSEDIR_VOID
-AC_FUNC_STRFTIME
 
 AC_CHECK_FUNCS(strfmon)
 
-AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile CORBA/Makefile])
+AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile \
+           CORBA/Makefile intl/Makefile po/Makefile.in])
