@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.21 $)\n"
-"POT-Creation-Date: 2003-11-28 17:56-0500\n"
-"PO-Revision-Date: 2003-11-28 17:59-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.22 $)\n"
+"POT-Creation-Date: 2003-12-11 18:18-0500\n"
+"PO-Revision-Date: 2003-12-11 18:24-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Position %1"
 msgstr "Posición %1"
 
-#: YGP/ANumeric.cpp:94 YGP/ANumeric.cpp:257
+#: YGP/ANumeric.cpp:95 YGP/ANumeric.cpp:258
 msgid "No number"
 msgstr "No número"
 
@@ -113,39 +113,39 @@ msgstr "Enumeración vacía"
 msgid "Empty region"
 msgstr "Región vacía"
 
-#: YGP/INIFile.cpp:47
+#: YGP/INIFile.cpp:45
 msgid "Start of section ([)"
 msgstr "Comienzo de sección ([)"
 
-#: YGP/INIFile.cpp:48
+#: YGP/INIFile.cpp:46
 msgid "End of section (])"
 msgstr "Fin de sección (])"
 
-#: YGP/INIFile.cpp:49
+#: YGP/INIFile.cpp:47
 msgid "Equal-sign (=)"
 msgstr "Signo de igualidad (=)"
 
-#: YGP/INIFile.cpp:63 YGP/INIFile.cpp:239
+#: YGP/INIFile.cpp:64 YGP/INIFile.cpp:240
 msgid "Section-header"
 msgstr "Cabeza de sección"
 
-#: YGP/INIFile.cpp:64
+#: YGP/INIFile.cpp:65
 msgid "Attribute"
 msgstr "Atributo"
 
-#: YGP/INIFile.cpp:65 YGP/INIFile.cpp:240
+#: YGP/INIFile.cpp:66 YGP/INIFile.cpp:241
 msgid "Name of section"
 msgstr "Nombre de sección"
 
-#: YGP/INIFile.cpp:66
+#: YGP/INIFile.cpp:67
 msgid "Identifier (key)"
 msgstr "Identificación (llave)"
 
-#: YGP/INIFile.cpp:67
+#: YGP/INIFile.cpp:68
 msgid "Value"
 msgstr "Valor"
 
-#: YGP/INIFile.cpp:251
+#: YGP/INIFile.cpp:252
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
@@ -157,19 +157,19 @@ msgstr "-error: Opción '%1' es ambigua"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
-#: YGP/Parse.cpp:296
+#: YGP/Parse.cpp:294
 msgid "Expected %1, found: '%2'"
 msgstr "Expectó %1, encontré '%2'"
 
-#: YGP/Parse.cpp:923
+#: YGP/Parse.cpp:921
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Error en la seria %1; Expecté: %2"
 
-#: YGP/Parse.cpp:923
+#: YGP/Parse.cpp:921
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: YGP/Parse.cpp:1041
+#: YGP/Parse.cpp:1039
 msgid "Expected selection %1"
 msgstr "Expectó selección %1"
 
@@ -177,15 +177,15 @@ msgstr "Expectó selección %1"
 msgid "Server returned an error: "
 msgstr "El servidor retornó un error: "
 
-#: YGP/RDirSrchSrv.cpp:253
+#: YGP/RDirSrchSrv.cpp:255
 msgid "Not yet implemented"
 msgstr "Ya no implementado"
 
-#: YGP/RDirSrchSrv.cpp:279
+#: YGP/RDirSrchSrv.cpp:281
 msgid "Invalid command"
 msgstr "Comando invalido"
 
-#: YGP/RDirSrchSrv.cpp:315
+#: YGP/RDirSrchSrv.cpp:317
 msgid "Invalid arguments: "
 msgstr "Argumentos invalidos: "
 
@@ -194,12 +194,12 @@ msgid "Can't create socket"
 msgstr "No puedo generar el socket (para la comunicación)"
 
 #: YGP/Socket.cpp:178
-msgid "Can't bind socket"
-msgstr "No puedo atar al socket"
+msgid "Can't bind to port"
+msgstr "No puedo atar al puerto"
 
 #: YGP/Socket.cpp:181
-msgid "Can't listen on socket"
-msgstr "No puedo escuchar al socket"
+msgid "Can't listen on port"
+msgstr "No puedo escuchar al puerto"
 
 #: YGP/Socket.cpp:205
 msgid ""
@@ -290,39 +290,39 @@ msgstr "Eleminar"
 msgid "Environment variable `TERM' not defined!"
 msgstr "¡Variable de etorno 'TERM' no es definida!"
 
-#: XGP/XFileList.h:178
+#: XGP/XFileList.h:188
 msgid "File"
 msgstr "Archivo"
 
-#: XGP/XAttrEntry.h:87
+#: XGP/XAttrEntry.h:91
 msgid "Invalid value!"
 msgstr "¡Valor invalido!"
 
-#: XGP/BrowserDlg.cpp:41
+#: XGP/BrowserDlg.cpp:42
 msgid "GTKHTML"
 msgstr ""
 
-#: XGP/BrowserDlg.cpp:43
+#: XGP/BrowserDlg.cpp:44
 msgid "galeon"
 msgstr "Galeon"
 
-#: XGP/BrowserDlg.cpp:43
+#: XGP/BrowserDlg.cpp:44
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: XGP/BrowserDlg.cpp:43
+#: XGP/BrowserDlg.cpp:44
 msgid "netscape"
 msgstr "Netscape"
 
-#: XGP/BrowserDlg.cpp:43
+#: XGP/BrowserDlg.cpp:44
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: XGP/BrowserDlg.cpp:51
+#: XGP/BrowserDlg.cpp:52
 msgid "Select a browser"
 msgstr "Selecta un explorador"
 
-#: XGP/BrowserDlg.cpp:63
+#: XGP/BrowserDlg.cpp:64
 msgid "Other: "
 msgstr "Otro"
 
@@ -359,10 +359,66 @@ msgstr "Distribuido bajo los condiciones de la GNU Licensia General Público"
 msgid "Error loading file '%s': %s"
 msgstr "Error abriendo el fichero '%s'! %s"
 
-#: XGP/MessageDlg.cpp:89
+#: XGP/MessageDlg.cpp:91
 msgid "Hide _details"
 msgstr "_Corto"
 
-#: XGP/MessageDlg.cpp:89
+#: XGP/MessageDlg.cpp:91
 msgid "Show _details"
 msgstr "_Detalles"
+
+#: XGP/ConnectDlg.cpp:57
+msgid "Connect to"
+msgstr "Conectar a"
+
+#: XGP/ConnectDlg.cpp:60
+msgid "_Wait for connections"
+msgstr "_Espera por conección"
+
+#: XGP/ConnectDlg.cpp:61
+msgid "Connec_t"
+msgstr "Conectar"
+
+#: XGP/ConnectDlg.cpp:64
+msgid ""
+"Click on \"Wait for connections\" to wait for connections from other "
+"computers.\n"
+"\n"
+"If you want to connect to a server, enter its address (name or IP number) in "
+"the entry field and click on \"Connect\"."
+msgstr ""
+"Haz clic en \"Espera por conección\" para eserpar a una conección de una otra máquina.\n"
+"\n"
+"Si quieres conectarte a un servidor, entra su dirección (nombre or número IP) en las entradas y haz clic en \"Conectar\"."
+
+#: XGP/ConnectDlg.cpp:71
+msgid "_Server:"
+msgstr "Servidor:"
+
+#: XGP/ConnectDlg.cpp:72
+msgid "_Port:"
+msgstr "_Puerto:"
+
+#: XGP/ConnectDlg.cpp:164
+msgid ""
+"Can't connect to server!\n"
+"\n"
+"Reason: %1"
+msgstr ""
+"No puedo conectar al servidor '%1'!\n"
+"\n"
+"Causa: %1"
+
+#: XGP/ConnectDlg.cpp:167 XGP/ConnectDlg.cpp:188
+msgid "Connect error"
+msgstr "Error conectando"
+
+#: XGP/ConnectDlg.cpp:185
+msgid ""
+"Can't bind to port!\n"
+"\n"
+"Reason: %1"
+msgstr ""
+"No puedo atar al puerto!\n"
+"\n"
+"Causa: %1"
