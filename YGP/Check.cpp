@@ -1,14 +1,14 @@
-//$Id: Check.cpp,v 1.17 2004/11/04 16:31:18 markus Rel $
+//$Id: Check.cpp,v 1.18 2005/03/09 03:55:08 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,9 @@
 
 #include <ygp-cfg.h>
 
-#include <stdio.h>
+#include <cstdio>
+
+#include <dlfcn.h>
 
 #include <iostream>
 
@@ -36,36 +38,54 @@ extern "C" {
 
 #if SYSTEM == UNIX
 #  ifdef HAVE_GTK
-#     include <gtk/gtkmain.h>
-#     include <gtk/gtkmessagedialog.h>
+#    include <gtk/gtkmessagedialog.h>
 
-      typedef int (*PFNCMSGBOX)(const char*, const char*, int, unsigned int);
+   typedef gboolean (*PFNINIT)(int *argc, char ***argv);
+   typedef GtkWidget* (*PFNNEWMSGDLG)(GtkWindow *parent, GtkDialogFlags flags,
+				      GtkMessageType type, GtkButtonsType buttons,
+				      const gchar *message_format, ...);
+   typedef void (*PFNSETTITLE)(GtkWindow *window, const gchar *title);
+   typedef void (*PFNSETSIZE)(GtkWindow *window, gint width, gint height);
+   typedef int (*PFNRUNDLG)(GtkDialog*);
+   typedef void (*PFNDESTROY)(GtkWidget*);
 
-      inline bool show (const char* expr, const char* title) {
-         static bool toInit (true);
-         static bool gtkOK (false);
+   inline bool show (const char* expr, const char* title) {
+#    if defined (HAVE_DLFCN_H) && defined (HAVE_LIBDL)
+      static void* hDLL = NULL;
+      static bool gtkOK (false);
 
-         if (toInit) {
-            gtkOK = gtk_init_check (NULL, NULL);
-            toInit = false;
-         }
+      if (!hDLL)
+	 hDLL = dlopen ("libgtk-x11-2.0.so", 0x00001);
 
-         if (gtkOK) {
-            GtkWidget* mbox (gtk_message_dialog_new (NULL,
-                                                     GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                     GTK_MESSAGE_ERROR,
-                                                     GTK_BUTTONS_OK_CANCEL,
-                                                     expr));
-            gtk_window_set_title (GTK_WINDOW (mbox), title);
-            gtk_window_set_default_size (GTK_WINDOW (mbox), 300, -1);
-            gint rc (gtk_dialog_run (GTK_DIALOG (mbox)));
-            gtk_widget_destroy (mbox);
-            return rc != GTK_RESPONSE_OK;
-         }
+      if (hDLL && !gtkOK) {
+	 PFNINIT pfnInit ((PFNINIT)dlsym (hDLL, "gtk_init_check"));
+         if (pfnInit)
+	    gtkOK = pfnInit (NULL, NULL);
+      }
+
+      if (gtkOK) {
+	 PFNNEWMSGDLG pfnNewDlg ((PFNNEWMSGDLG)dlsym (hDLL, "gtk_message_dialog_new"));
+	 PFNSETTITLE pfnSetTitle ((PFNSETTITLE)dlsym (hDLL, "gtk_window_set_title"));
+	 PFNSETSIZE pfnSetSize ((PFNSETSIZE)dlsym (hDLL, "gtk_window_set_default_size"));
+	 PFNRUNDLG pfnRunDlg ((PFNRUNDLG)dlsym (hDLL, "gtk_dialog_run"));
+	 PFNDESTROY pfnDestroy ((PFNDESTROY)dlsym (hDLL, "gtk_widget_destroy"));
+
+	 if (pfnNewDlg && pfnSetTitle && pfnSetSize && pfnRunDlg && pfnDestroy) {
+	    GtkWidget* mbox (pfnNewDlg (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_ERROR, GTK_BUTTONS_OK_CANCEL,
+					expr));
+	    pfnSetTitle ((GtkWindow*)mbox, title);
+	    pfnSetSize ((GtkWindow*)mbox, 300, -1);
+	    gint rc (pfnRunDlg ((GtkDialog*)mbox));
+	    pfnDestroy (mbox);
+	    return rc != GTK_RESPONSE_OK;
+	 }
+      }
+#    endif
 #  else
       inline bool show (const char* expr, const char*) {
 #  endif
-         std::cerr << "Assertion failed! Continue y/n? ";
+         std::cerr << "Check failed! Continue y/n? ";
          char ch;
          std::cin >> ch;
          return (ch != 'y') && (ch != 'Y'); }
