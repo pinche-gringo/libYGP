@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.8 2003/07/05 05:11:32 markus Rel $
+//$Id: XDialog.cpp,v 1.9 2003/07/20 02:20:00 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -42,7 +42,7 @@
 
 
 //-----------------------------------------------------------------------------
-/// (Default-)Constructor; creates the dialog with the specified buttons
+/// Constructor; creates the dialog with the specified buttons
 /// \param buttons: Bitfield for buttons to display
 /// \param modal: Flag, if the dialog is modal
 /// \param use_separator: Flag, if the dialog should display a separator line
@@ -54,7 +54,7 @@ XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
 }
 
 //-----------------------------------------------------------------------------
-/// (Default-)Constructor; creates the dialog with the specified buttons
+/// Constructor; creates the dialog with the specified buttons
 /// \param buttons: Bitfield for buttons to display
 /// \param title: Title to display
 /// \param modal: Flag, if the dialog is modal
@@ -93,7 +93,7 @@ XDialog::~XDialog () {
 
 
 //-----------------------------------------------------------------------------
-/// Initializes the dialog
+/// Adds the specified buttons to the dialog
 /// \param buttons: Bitfield for buttons to display
 //-----------------------------------------------------------------------------
 void XDialog::init (unsigned int buttons) {

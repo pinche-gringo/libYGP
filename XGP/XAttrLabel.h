@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.10 2003/07/05 05:13:15 markus Rel $
+//$Id: XAttrLabel.h,v 1.11 2003/07/20 02:19:59 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,21 +23,37 @@
 #include <gtkmm/label.h>
 
 
-// Class to display an attribute in a formated style while preservering its
-// other abilities.
+/**Class to display an attribute in a formated style while preservering its
+   other abilities.
+
+   An "attribute" is any of the standard C++ data types (except of strings, as
+   they don't have a defined formattation) and the types of the YGP library
+   (such as ADate, ANumeric, ...).
+
+   This class only stores a reference to the attribute (which means it must
+   not be deleted before this widget).
+*/
 template <class T> class XAttributeLabel : public Gtk::Label {
  public:
-   XAttributeLabel (const T& attr, bool mnemonic = false)
-      : Gtk::Label ("", mnemonic), attr_ (attr) { update (); }
-   XAttributeLabel (const T& attr, gfloat x, gfloat y, bool mnemonic = false)
-      : Gtk::Label ("", x, y, mnemonic), attr_ (attr) { update (); }
+   /// Constructor; pass the attribute to manage
+   XAttributeLabel (const T& attr)
+      : Gtk::Label ("", false), attr_ (attr) { update (); }
+   /// Constructor; pass the attribute to manage. It is aligned according to
+   /// the values.
+   XAttributeLabel (const T& attr, gfloat x, gfloat y)
+      : Gtk::Label ("", x, y, false), attr_ (attr) { update (); }
+   /// Constructor; pass the attribute to manage. It is aligned according to
+   /// the values.
    XAttributeLabel (const T& attr, Gtk::AlignmentEnum xalign,
-                    Gtk::AlignmentEnum yalign = ALIGN_CENTER, bool mnemonic = false)
-      : Gtk::Label ("", xalign, yalign, mnemonic), attr_ (attr) {
+                    Gtk::AlignmentEnum yalign = ALIGN_CENTER)
+      : Gtk::Label ("", xalign, yalign, false), attr_ (attr) {
       update (); }
+   /// Destructor
    ~XAttributeLabel () { }
 
+   /// Actualizes the displayed value with that of the attribute
    void update () { set_text (attr_.toString ()); }
+   /// Returns a reference to the handled attribute
    T& getAttribute () { return const_cast<T&> (attr_); }
 
  private:
@@ -91,21 +107,40 @@ inline void XAttributeLabel<double>::update () {
 }
 
 
-// Class to display an attribute in a formated style while preservering its
-// other abilities. This class stores the attribute.
+/**Class to display an attribute in a formated style while preservering its
+   other abilities.
+
+   An "attribute" is any of the standard C++ data types (except of strings, as
+   they don't have a defined formattation) and the types of the YGP library
+   (such as ADate, ANumeric, ...).
+
+   This class only stores the attribute itself (meaning: the value of the
+   provided attribute is copied). Use this class (instead of XAttributeLabel)
+   if you only want to display something without storing the displayed value
+   by yourself.
+*/
 template <class T> class XAttributeLabel2 : public Gtk::Label {
  public:
-   XAttributeLabel2 (const T& attr, bool mnemonic = false)
-      : Gtk::Label ("", mnemonic), attr_ (attr) { update (); }
-   XAttributeLabel2 (const T& attr, gfloat x, gfloat y, bool mnemonic = false)
-      : Gtk::Label ("", x, y, mnemonic), attr_ (attr) { update (); }
+   /// Constructor; pass the attribute to manage. It is aligned according to
+   /// the values.
+   XAttributeLabel2 (const T& attr)
+      : Gtk::Label ("", false), attr_ (attr) { update (); }
+   /// Constructor; pass the attribute to manage. It is aligned according to
+   /// the values.
+   XAttributeLabel2 (const T& attr, gfloat x, gfloat y)
+      : Gtk::Label ("", x, y, false), attr_ (attr) { update (); }
+   /// Constructor; pass the attribute to manage. It is aligned according to
+   /// the values.
    XAttributeLabel2 (const T& attr, Gtk::AlignmentEnum xalign,
-                     Gtk::AlignmentEnum yalign = ALIGN_CENTER, bool mnemonic = false)
-      : Gtk::Label ("", xalign, yalign, mnemonic), attr_ (attr) {
+                     Gtk::AlignmentEnum yalign = ALIGN_CENTER)
+      : Gtk::Label ("", xalign, yalign, false), attr_ (attr) {
       update (); }
+   /// Destructor
    ~XAttributeLabel2 () { }
 
+   /// Actualizes the displayed value with that of the attribute
    void update () { set_text (attr_.toString ()); }
+   /// Returns a reference to the handled attribute
    T& getAttribute () { return const_cast<T&> (attr_); }
 
  private:

@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.17 2003/07/05 05:12:12 markus Rel $
+//$Id: XDate.cpp,v 1.18 2003/07/20 02:20:00 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -42,13 +42,13 @@
 #include "XDate.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; adds all controls to the dialog. Only the specified
-//            fields are shown.
-//Parameters: title: Text to display in the titlebar of the dialog
-//            date: Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
-//            showFields: Bitfield describing wich fields to show
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; adds all controls to the dialog. Only the specified fields
+/// are shown.
+/// \param title: Text to display in the titlebar of the dialog
+/// \param date: Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
+/// \param showFields: Bitfield describing wich fields to show
+//-----------------------------------------------------------------------------
 XDate::XDate (const Glib::ustring& title, ATimestamp& date, int showFields)
    : XDialog (title, OKCANCEL)
      , client (new Gtk::HBox)
@@ -115,17 +115,17 @@ XDate::XDate (const Glib::ustring& title, ATimestamp& date, int showFields)
    show ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 XDate::~XDate () {
    TRACE9 ("XDate::~XDate");
    hide ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Callback after pressing OK
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Callback after pressing OK
+//-----------------------------------------------------------------------------
 void XDate::okEvent () {
    TRACE9 ("XDate::okEvent ()");
 

@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.9 2003/07/05 05:12:12 markus Rel $
+//$Id: XDate.h,v 1.10 2003/07/20 02:20:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,26 +34,45 @@ namespace Gtk {
 }
 
 
-// Class to show a dialog to enter a date (year, month, day, hour, minute,
-// second or any combination of those).
-//
-// Which parts of the date should be displayed/entered is specified by one of:
-//   - SHOW_YEAR
-//   - SHOW_MONTH
-//   - SHOW_DAY
-//   - SHOW_HOUR
-//   - SHOW_MINUTE
-//   - SHOW_SECOND
-//   - SHOW_ALL
-// (which are hopefully self explainatory).
+/**Class to show a dialog to enter a date (year, month, day, hour, minute,
+   second or any combination of those).
+
+   Which parts of the date should be displayed/entered is specified by one of:
+     - SHOW_YEAR
+     - SHOW_MONTH
+     - SHOW_DAY
+     - SHOW_HOUR
+     - SHOW_MINUTE
+     - SHOW_SECOND
+     - SHOW_ALL
+
+   (which are hopefully self explainatory).
+*/
 class XDate : public XDialog {
  public:
+   /// Constructor
+   /// \param title: Title to display for the dialog
+   /// \param date: Date/time to preselect in the dialog
+   /// \param showFields: Which fields to display; a combination of the \c
+   ///     SHOW_* values.
    XDate (const Glib::ustring& title, ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
 
-   enum { SHOW_HOUR = 1, SHOW_MINUTE = 2, SHOW_SECOND = 4, SHOW_DAY = 8,
-          SHOW_MONTH = 16, SHOW_YEAR = 32, SHOW_ALL = -1 };
+   /// Possible values to show
+   enum { SHOW_HOUR = 1,                    ///< Add a field to change the hour
+          SHOW_MINUTE = 2,                ///< Add a field to change the minute
+          SHOW_SECOND = 4,                ///< Add a field to change the second
+          SHOW_DAY = 8,                             ///< Add a calendar control
+          SHOW_MONTH = 16, ///< Enables to change month (and year) in the calender control
+          SHOW_YEAR = 32, ///< Enables to change year (and month) in the calender control
+          SHOW_ALL = -1            ///< Show all fields the dialog has to offer
+   };
 
+   /// Method to display the dialog
+   /// \param title: Title to display for the dialog
+   /// \param date: Date/time to preselect in the dialog
+   /// \param showFields: Which fields to display; a combination of the \c
+   ///     SHOW_* values.
    static XDate* perform (const Glib::ustring& title, ATimestamp& date,
                           int showFields = SHOW_ALL) {
       return new XDate (title, date, showFields); }
