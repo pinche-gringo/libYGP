@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.5 2002/07/08 03:38:47 markus Rel $
+//$Id: XFileEntry.cpp,v 1.6 2002/12/24 17:48:26 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -33,7 +33,8 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Handling of pressed key; Try to enhance input to complete file
+//Purpose   : Handling of pressed key; Tries to complete the input to the
+//            first file matching the input.
 //Parameters: ev: Event, containing input-information
 /*--------------------------------------------------------------------------*/
 gint XFileEntry::key_press_event_impl (GdkEventKey* ev) {

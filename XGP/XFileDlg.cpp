@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.7 2002/07/08 03:38:47 markus Rel $
+//$Id: XFileDlg.cpp,v 1.8 2002/12/24 17:48:26 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -37,11 +37,11 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; connects the controls with methods
-//Parameters: title: Title of dialog
-//            pNotify: Object to notify of selected file
+//Purpose   : Constructor; Creates a (modeless) dialog to select a file
+//Parameters: title: Text to display in the title of the dialog
+//            pNotify: Object to notify of the selection
 //            callback: Method of pNotify to call after file is selected
-//            dlgOption: Checks to perform after OK-event
+//            dlgOption: Checks to perform after selecting OK
 /*--------------------------------------------------------------------------*/
 XFileDialog::XFileDialog (const string& title, Object* pNotify,
                           const PACTION callback, option dlgOption)
@@ -54,11 +54,11 @@ XFileDialog::XFileDialog (const string& title, Object* pNotify,
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; connects the controls with methods
-//Parameters: title: Title of dialog
-//            pNotify: Object to notify of selected file
+//Purpose   : Constructor; Creates a (modeless) dialog to select a file
+//Parameters: title: Text to display in the title of the dialog
+//            pNotify: Object to notify of the selection
 //            callback: Method of pNotify to call after file is selected
-//            dlgOption: Checks to perform after OK-event
+//            dlgOption: Checks to perform after selecting OK
 /*--------------------------------------------------------------------------*/
 XFileDialog::XFileDialog (GtkFileSelection* castitem, Object* pNotify,
                           const PACTION callback, option dlgOption)
@@ -82,8 +82,7 @@ XFileDialog::~XFileDialog () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Performs the action of the selected button
 //Parameters: action: ID of pressed button
-//Remarks   : Depending on the option, the file must either exist or it is
-//            checked if it should be overwritten
+//Remarks   : - Depending on the option, the file must either exist or it is checked if it should be overwritten
 /*--------------------------------------------------------------------------*/
 void XFileDialog::command (commandID id) {
    TRACE9 ("XFileDialog::command: " << id);

@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.8 2002/04/11 18:33:46 markus Rel $
+//$Id: XFileDlg.h,v 1.9 2002/12/24 17:48:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,8 +27,23 @@ class string
 using namespace Gtk;
 
 
-// Class to select file(s) to in- or exclude; files can either entered or
-// selected
+// This class can be be used to retrieve file or directory names
+// from the user. It will create a new dialog window containing a
+// directory list, and a file list corresponding to the current
+// working directory. The filesystem can be navigated using the
+// directory list or the drop-down history menu. Alternatively, the
+// TAB key can be used to navigate using filename completion - common
+// in text based editors such as emacs and jed.
+//
+// The caller is informed via the passed callback about the selection.
+//
+// There are some flags to perform some checks if the OK button is selected:
+//   - ASK_OVERWRITE: Displays a dialog asking if the file should be overwritten
+//                    in case if the file exists.
+//   - MUST_EXIST: Displays an error message indicating that the file does not
+//                 exists for non-existing files.
+//
+// See also the description of the parent for further options!
 class XFileDialog : public FileSelection {
  public:
    typedef void (Object::*PACTION)(const string&);
