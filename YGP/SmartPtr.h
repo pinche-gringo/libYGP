@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.1 1999/08/29 20:53:00 Markus Exp $
+// $Id: SmartPtr.h,v 1.2 1999/09/04 18:47:15 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,9 +36,13 @@ template <class T> class SmartPtr {
    T* operator*  () const { return pData; }
    operator T*   () const { return pData; }
 
+   // Changing the value
+   const SmartPtr& operator= (T* pValue) { delete pData; pData = pValue; }
+
  private:
    // Prohibited manager functions
    SmartPtr (const SmartPtr& other);
+   // Two smart-pointers pointing to the same object causes chaos -> prohibit
    const SmartPtr& operator= (const SmartPtr& other);
 
    T* pData;
