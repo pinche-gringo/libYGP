@@ -1,7 +1,7 @@
 #ifndef METAENUM_H
 #define METAENUM_H
 
-//$Id: MetaEnum.h,v 1.1 2004/12/06 23:05:08 markus Rel $
+//$Id: MetaEnum.h,v 1.2 2005/01/20 05:27:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 namespace YGP {
 
 /**Class to handle enumerations; in counterpart to C-style enums those values
- * can be accessed by numer and name.
+ * can be accessed by number and name.
  */
 class MetaEnum : public std::map<int, std::string> {
  public:
