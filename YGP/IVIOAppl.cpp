@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.6 1999/08/11 21:45:26 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.7 1999/08/11 21:52:00 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -144,7 +144,10 @@ char* IVIOApplication::getOptionValue () {
    if (pOptionParam && *pOptionParam)
       pHelp = pOptionParam;
    else {
-      pHelp = ppArgs[++startOpt];
+      if (++startOpt == args)
+	 return NULL;
+
+      pHelp = ppArgs[startOpt];
       ++startArg;
       moveOption (startOpt);
    }
