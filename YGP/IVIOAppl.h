@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.19 2002/12/09 00:12:01 markus Rel $
+//$Id: IVIOAppl.h,v 1.20 2003/01/15 19:12:13 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,6 +107,9 @@ class IVIOApplication {
    virtual bool shallShowInfo () const { return true; }
    virtual void showHelp () const = 0;
 
+    unsigned int args;
+    const char** ppArgs;
+
  private:
     // Prohobited manager functions
     IVIOApplication ();
@@ -116,9 +119,6 @@ class IVIOApplication {
     char getOption ();
     void moveOption () const { moveOption (startOpt); }
     void moveOption (unsigned int numOpt) const;
-
-    unsigned int args;
-    const char** ppArgs;
 
     unsigned int startArg;
     unsigned int startOpt;
