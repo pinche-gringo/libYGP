@@ -1,0 +1,83 @@
+<!-- $Id: RDirSrchSrv.html,v 1.1 2001/09/29 17:05:11 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: RemoteDirSearchSrv</title>
+    <meta name="description" content="Documentation of RemoteDirSearchSrv-class">
+    <meta name="keywords" content="Documentation, Docu, RemoteDirSearchSrv, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2001-09-28">
+    <meta name="DC.Rights" content="Anticopyright (A) 2001, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class RemoteDirSearchSrv</h1>
+    <p>Derived from
+      <i>none</i>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;RDirSrchSrv.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to search for files in a certain directory. This is the
+      server for the RemoteDirSearch-class.</p>
+
+    <p>Supported commands are:</p>
+    <ul>
+      <li>Check="&lt;<i>file</i>&gt;"</li>
+      <li>Find="&lt;<i>file</i>&gt;";Attr=&lt;<i>attr</i>&gt;</li>
+      <li>Next</li>
+      <li>End</li>
+    </ul>
+
+    <p>Possible answers to those commands are:</p>
+
+    <ul>
+      <li>RC=&lt;<i>status</i>&gt;[;E=&lt;<i>errortext</i>&gt;]</li>
+      <li>RC=0;File="&lt;<i>file</i>&gt;";Size=&lt;<i>size</i>&gt;;Time=&lt;<i>timestamp</i>&gt;;Attr=&lt;<i>attributes</i>&gt;
+    </ul>
+
+    <p>RC=0 always means, that the commands completed
+      successfully. This is also true for the "Check"-command; RC=0
+      means in that case, that the file has been found!</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="RDirSrchSrv.html#RemoteDirSearchSrv"><b>RemoteDirSearchSrv</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt>int</tt> </td>
+        <td><a href="RDirSrchSrv.html#performCommands"><b>performCommands</b></a></td>
+        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">socket</font></tt>) throw (<font color="navy">domain_error</font>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="RDirSrchSrv.html#~RemoteDirSearchSrv"><b>~RemoteDirSearchSrv</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="RemoteDirSearchSrv"></a>RemoteDirSearchSrv ();</pre>
+    <dl>
+      <dd>Defaultconstructor</dd>
+    </dl>
+    <pre><a name="~RemoteDirSearchSrv"></a>virtual ~RemoteDirSearchSrv ();</pre>
+
+    <pre><a name="performCommand"></a>int performCommands (int socket) throw (domain_error);</pre>
+    <dl>
+      <dd>Handles the commands send from the client; the respectative action is performed
+        and data is returned accordingly.</dd>
+    </dl>
+
+  </body>
+</html>

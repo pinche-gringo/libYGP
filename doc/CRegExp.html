@@ -1,0 +1,201 @@
+<!-- $Id: CRegExp.html,v 1.1 2001/09/29 17:05:11 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: RegularExpression</title>
+    <meta name="description" content="Documentation of RegularExpression-class">
+    <meta name="keywords" content="Documentation, Docu, RegularExpression, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2001-09-29">
+    <meta name="DC.Rights" content="Anticopyright (A) 2001, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class RegularExpression</h1>
+    <p>Derived from
+      <a href="RegExp.html">IRegularExpression</a>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;CRegExp.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+
+    <p>Class to compare text with regular expressions. Here is a
+      little intruduction into the supported constructs; see regex(7) or
+      the GNU regexp manual for a better description.</p>
+
+    <dl compact>
+      <dt><b>*</b></dt>
+      <dd>Is not a construct by itself; it is a suffix which repeats the (smallest
+        possible) preceding regular expression as many times as possible.</dd>
+      <dt><b>+</b></dt>
+      <dd>is a suffix character similar to '<b>*</b>', except that it
+        requires that the preceeding regular expression is matched at
+        least once.</dd>
+      <dt><b>?</b></dt>
+      <dd>is a suffix character similar to '<b>*</b>', except that it
+        requires that the preceeding regular expression is matched either
+        once or not at all.
+      <dt><b>.</b></dt>
+      <dd>matches any single character.</dd>
+      <dt><b>^</b></dt>
+      <dd>Matches an empty string in the beginning of the line.</dd>
+      <dt><b>$</b></dt>
+      <dd>Similar to the caret (') this matches the end of the line.</dd>
+      <dt><b>\</b></dt>
+      <dd>Quotes the following character (including the backlash (\) itself:
+        <dl compact>
+          <dt><b>\|</b></dt>
+          <dd>seperates two alternatives.</dd>
+          <dt><b>\(...\)</b></dt>
+          <dd>groups regular expressions and marks the matching
+            substring for future reference.</dd>
+          <dt><b>\DIGIT</b></dt>
+          <dd>to repeat the matched text of the DIGIT'th '<b>\(...\)</b>-construct.</dd>
+          <dt><b>\b</b></dt>
+          <dd>matches the empty string, provided its at the beginning or the
+            end of a word.</dd>
+          <dt><b>\B</b></dt>
+          <dd>matches the empty string, provided its not at the beginning or
+            the end of a word.</dd>
+          <dt><b>\&lt;</b></dt>
+          <dd>matches the empty string, provided its at the beginning of a word.</dd>
+          <dt><b>\&gt;</b></dt>
+          <dd>matches the empty string, provided its at the end of a word.</dd>
+          <dt><b>\w</b></dt>
+          <dd>matches any word-constituent character.</dd>
+          <dt><b>\W</b></dt>
+          <dd>matches any character that is not word-constituent.</dd>
+        </dl>
+      </dd>
+
+      <dt><b>[&lt;match&gt;]</b></dt>
+      <dd>matches the characters specified in match.</dd>
+      <dt><b>[^&lt;match&gt;]</b></dt>
+      <dd>matches the characters not specified in match.</dd>
+      <dt><b>[!&lt;match&gt;]</b></dt>
+      <dd>matches the characters not specified in match.
+
+      <p>&lt;<i>match</i>&gt; ::= &lt;<i>char</i>&gt;&lt;<i>match</i>&gt; |
+        &lt;<i>range</i>&gt;&lt;<i>match</i>&gt; |  
+        &lt;<i>character-class</i>&gt;&lt;<i>match</i>&gt; | {}<br>
+        &lt;<i>range</i>&gt; ::= &lt;<i>low</i>&gt;-&lt;<i>high</i>&gt;<br>
+        &lt;<i>character-class</i>&gt; ::= [:&lt;<i>class</i>&gt;:]<br>
+        &lt;<i>class</i>&gt; ::= alnum | alpha | cntrl | digit | space | graph
+                                 | lower | print | punct | space | upper
+
+      <p><b>Note</b>: To include the character square bracket ([) in the match, it
+        must be the first character; similar to the caret (^), wich must
+        <b>not</b> be the first character to get included.</p></dd>
+
+      <dt><b>{i}, {i,}, {i,j}</b></dt>
+      <dd>the previous regular expression must be repeated either
+        exactly <i>i</i> times; <i>i</i> times or more; <i>i</i> through <i>j</i>
+        (inclusive) times.</dd>
+    </dl>
+
+    <p><b>Note</b>: The pExpression-parameter is stored as is (and not
+      copied); so take care it is valid during the life-time of the
+      object.</p>
+
+    <p>Use the <a href="RegExp#matches"><b>matches</b></a>-method of
+      the parent (RegularExpression) to check if the object matches some
+      data.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="CRegExp.html#RegularExpression"><b>RegularExpression</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRegExp</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
+        <td><a href="CRegExp.html#checkIntegrity"><b>checkIntegrity</b></a></td>
+        <td><tt>() <tt>const throw (<font color="purple">std::string</font>)</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="CRegExp.html#RegularExpression"><b>RegularExpression</b></a>&</tt> </td>
+        <td><a href="CRegExp.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRegExp</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="CRegExp.html#~RegularExpression"><b>~RegularExpression</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#compChar"><b>compChar</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">ch</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#compEscChar"><b>compEscChar</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">ch</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#compGroup"><b>compGroup</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">group</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#compRegion"><b>compRegion</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">region</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#compare"><b>compare</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+
+    <h4>Management functions</h4>
+    <pre><a name="RegularExpression"></a>RegularExpression (const char* pRegExp)</pre>
+    <dl>
+      <dd>Constructor, specifies the regular expression to match. This data is
+        <b>not</b> copied, so it must be valid during the lifetime of the
+        regular expression.</dd>
+    </dl>
+
+    <pre><a name="~RegularExpression"></a>~RegularExpression ()</pre>
+
+    <pre><a name="operator="></a>FileRegularExpr&amp; operator= (const char* pRegExp)</pre>
+    <dl>
+      <dd>Sets the passed value as regular expression to match.</dd>
+    </dl>
+
+    <h4>Matching</h4>
+    <pre><a name="compare"></a>bool compare (const char* pAktRegExp, const char* pCompare)</pre>
+    <dl>
+      <dd><p>Checks if the passed text matches the passed regular expression. This
+          method returns true, if yes and false if not.</p>
+        <p>Both passed parameter must not be NULL-pointers and the regular expression
+          must be in a valid syntax (this can be checked with the
+          <a href="CRegExp.html#checkIntegrity">checkIntegrity</a>-method).</p></dd>
+    </dl>
+
+    <h4>Utility functions</h4>
+    <pre><a name="compChar"></a>bool compChar (const char&amp; pAktPos, const std::string&amp; ch)</pre>
+    <dl>
+      <dd>Checks if the passed string matches the passed single character.</dd>
+    </dl>
+    <pre><a name="compEscChar"></a>bool compEscChar (const char&amp; pAktPos, const std::string&amp; ch)</pre>
+    <dl>
+      <dd>Checks if the passed string matches the passed single character (which might
+        have a special meaning because of the previous escape-character backslash (\).</dd>
+    </dl>
+    <pre><a name="compGroup"></a>bool compGroup (const char&amp; pAktPos, const std::string&amp; group)</pre>
+    <dl>
+      <dd>Checks if the passed string matches the passed group.</dd>
+    </dl>
+    <pre><a name="compRegion"></a>bool compRegion (const char&amp; pAktPos, const std::string&amp; region)</pre>
+    <dl>
+      <dd>Checks if the passed string matches the passed region/range.</dd>
+    </dl>
+
+    <pre><a name="checkIntegrity"></a>int checkIntegrity () const throw (std::string)</pre>
+    <dl>
+      <dd>Checks the syntax of the regular expression. If everything is OK, 0
+        is returned; 1 if there is no regular expression at all. In case of any other
+        error an exception is thrown.</dd>
+    </dl>
+  </body>
+</html>
