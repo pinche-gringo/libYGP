@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.11 2003/11/16 19:25:55 markus Rel $
+//$Id: Socket.h,v 1.12 2004/09/06 00:29:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,10 +23,7 @@
 
 // Headers for communication
 #if SYSTEM == UNIX
-#  include <sys/select.h>
 #  include <sys/socket.h>
-#  include <netinet/in.h>
-#  include <netdb.h>
 #else
 #  if SYSTEM == WINDOWS
 #     include "winsock2.h"

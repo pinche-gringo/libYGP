@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.24 2004/01/15 06:26:30 markus Rel $
+//$Id: Socket.cpp,v 1.25 2004/09/06 00:29:11 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -37,6 +37,10 @@
 
 
 #if SYSTEM == UNIX
+#  include <sys/select.h>
+#  include <netinet/in.h>
+#  include <netdb.h>
+
 #  include <unistd.h>
 #else
 #  if SYSTEM == WINDOWS
