@@ -1,4 +1,4 @@
-# $Id: POTFILES.in,v 1.4 2003/05/22 21:40:07 markus Rel $
+# $Id: POTFILES.in,v 1.5 2003/10/19 04:43:39 markus Rel $
 #
 # List of source files containing translatable strings.
 #     
@@ -28,3 +28,4 @@ X-windows/XAttrEntry.h
 X-windows/BrowserDlg.cpp
 X-windows/XApplication.cpp
 X-windows/XAbout.cpp
+X-windows/GTKViewer.c
