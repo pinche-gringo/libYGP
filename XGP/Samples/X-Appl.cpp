@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.23 2004/10/16 19:17:27 markus Exp $
+//$Id: X-Appl.cpp,v 1.24 2004/12/05 03:34:55 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -245,7 +245,8 @@ void XAppl::command (int menu) {
       XGP::TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Add file...")),
                                        *this, &XAppl::addFile,
                                        Gtk::FILE_CHOOSER_ACTION_OPEN,
-                                       XGP::IFileDialog::MUST_EXIST);
+                                       XGP::IFileDialog::MUST_EXIST
+				       | XGP::IFileDialog::MULTIPLE);
       break;
 
    case SAVE:
