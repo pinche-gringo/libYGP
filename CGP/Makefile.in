@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.5 2001/02/18 23:24:17 Markus Exp $
+# $Id: Makefile.in,v 1.6 2001/03/06 23:06:31 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -67,7 +67,7 @@ endif
 
 IDL_FILES=CDirSrch.idl
 DIST_HEADERS=CIDirSrch.h
-HEADERS=CDirSrch.h $(DIST_HEADERS) $(IDL_FILES)
+HEADERS=CDirSrch.h $(IDL_FILES)
 OBJECTS=CDirSrch.lo CIDirSrch.lo Version.lo
 SOURCES=$(IDL_FILES) CIDirSrch.cpp Version.cpp
 
