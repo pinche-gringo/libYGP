@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.40 2003/03/06 04:16:02 markus Rel $
+//$Id: Parse.cpp,v 1.40.2.1 2003/06/19 00:51:00 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.40.2.1 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -603,6 +603,7 @@ int ParseQuoted::checkValue (char ch) {
       break;
 
    case -1:
+      pos = 0;
       break;
 
    default:
