@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.2 2001/08/17 13:23:35 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.3 2001/08/28 20:21:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,13 +31,13 @@ class AByteArray;
 // This is the server for the RemoteDirSearch-class
 //
 // Supported commands are:
-//   - Check:"<file>"
-//   - Find:"<file>;Attr=<attr>
+//   - Check="<file>"
+//   - Find="<file>;Attr=<attr>
 //   - Next
 //
 // Possible answers to those commands are
-//    - RC=<status>[;<errortext>]
-//    - RC=0;File="<file>";Size=<size>;Time=<timestamp>
+//    - RC=<status>[;E=<errortext>]
+//    - RC=0;File="<file>";Size=<size>;Time=<timestamp>;Attr=<attributes>
 //
 // RC=0 always means, that the commands completed successfully. This is also
 // true for the "Check"-command; RC=0 means in that case, that the file has
