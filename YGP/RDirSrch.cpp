@@ -1,14 +1,14 @@
-//$Id: RDirSrch.cpp,v 1.12 2001/10/09 17:20:05 markus Exp $
+//$Id: RDirSrch.cpp,v 1.13 2002/04/09 20:02:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
-
+#include "Internal.h"
 #include "ANumeric.h"
 #include "AttrParse.h"
 #include "AByteArray.h"
@@ -178,9 +178,9 @@ const File* RemoteDirSearch::find (unsigned long attribs) throw (std::string) {
       sock.read (buffer);
    }
    catch (domain_error& error) {
-      std::string err (error.what ());
-      throw err;
+      throw std::string (error.what ());
    }
+
    buffer += '\0';
    TRACE8 ("RemoteDirSearch::find (unsigned long) - Read:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
@@ -202,15 +202,15 @@ const File* RemoteDirSearch::next () throw (std::string) {
    AByteArray buffer ("Next");
 
    TRACE8 ("RemoteDirSearch::next () - Sending:\n\t"
-           << buffer.length () << " bytes: " << buffer.data ());
+          << buffer.length () << " bytes: " << buffer.data ());
    try {
       sock.write (buffer);
       sock.read (buffer);
    }
    catch (domain_error& error) {
-      std::string err (error.what ());
-      throw err;
+      throw std::string (error.what ());
    }
+
    buffer += '\0';
    TRACE8 ("RemoteDirSearch::next () - Read:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
@@ -242,7 +242,7 @@ void RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string
    attrs.assignValues (pAnswer);
 
    if (!error.empty ()) {
-      error = "Server returned an error: " + error;
+      error = _("Server returned an error: ") + error;
       throw (error);
    }
 }

@@ -1,14 +1,14 @@
-//$Id: File.cpp,v 1.6 2001/10/08 14:28:22 markus Exp $
+//$Id: File.cpp,v 1.7 2002/04/09 20:02:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 
 #include <errno.h>
 
-#include <gzo-cfg.h>
+#include "Internal.h"
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -174,11 +174,9 @@ void* File::open  (const char* mode) const throw (std::string) {
    assert (mode);
 
    FILE* pFile (fopen (file.c_str (), mode));
-   if (pFile == NULL) {
-      std::string error ("Error opening file ");
-      appendErrorText (error);
-      throw (error);
-   }
+   if (pFile == NULL)
+      throwErrorText (N_("Error opening file `%1'! Reason: %2"));
+
    return pFile;
 }
 
@@ -190,11 +188,8 @@ void File::close (void* file) const throw (std::string) {
    TRACE5 ("File::close  () const - " << path () << name ());
    assert (file);
 
-   if (fclose (static_cast <FILE*> (file))) {
-      std::string error ("Error closing file ");
-      appendErrorText (error);
-      throw (error);
-   } // endif close OK
+   if (fclose (static_cast <FILE*> (file)))
+      throwErrorText (N_("Error closing file `%1! Reason: %2'"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -211,11 +206,9 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
    assert (length);
 
    int rc (fread (buffer, 1, length, static_cast <FILE*> (file)));
-   if (!rc) {                      // Exception only if *no* char has been read
-      std::string error ("Error reading from file ");
-      appendErrorText (error);
-      throw (error);
-   }
+   if (!rc)                        // Exception only if *no* char has been read
+      throwErrorText (N_("Error reading from file `%1'! Reason: %2"));
+
    return rc;
 }
 
@@ -232,11 +225,9 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
    assert (length);
 
    int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
-   if (rc < length) {
-      std::string error ("Error writing to file ");
-      appendErrorText (error);
-      throw (error);
-   }
+   if (rc < length)
+      throwErrorText (N_("Error writing to file `%1! Reason: %2'"));
+
    return rc;
 }
 
@@ -251,11 +242,15 @@ bool File::isEOF (void* file) const throw (std::string) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Appends a description of the last error the the passed string
-//Parameters: error: String where error-description should be appended
+//Parameters: error: ASCIIZ-String describing error-message
+//Requires  : error != NULL, an ASCIIZ-string with the placeholders %1, %2
 /*--------------------------------------------------------------------------*/
-void File::appendErrorText (std::string& error) const {
-   error += path ();
-   error += name ();
-   error += " -> ";
-   error += strerror (errno);
+void File::throwErrorText (const char* error) const throw (std::string) {
+   assert (error);
+   std::string file (path ());
+   file += name ();
+   std::string err (_(error));
+   err.replace (err.find ("%1"), 2, file);
+   err.replace (err.find ("%2"), 2, strerror (errno));
+   throw (err);
 }

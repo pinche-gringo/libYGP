@@ -1,14 +1,14 @@
-//$Id: RDirSrchSrv.cpp,v 1.10 2001/10/12 23:06:31 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.11 2002/04/09 20:02:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 #include <errno.h>
 
-#include <gzo-cfg.h>
+#include "Internal.h"
 
 #define DEBUG 0
 #include "File.h"
@@ -233,8 +233,11 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          }
          break;
 
-      case CMD_WRITE:
-         sock.write ("RC=99;E=Not yet implemented");
+      case CMD_WRITE: {
+         std::string err ("RC=99;E=");
+         err += _("Not yet implemented");
+         sock.write (err);
+         }
          break;
 
       case CMD_ISEOF:
@@ -253,11 +256,14 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          sock.write (feof (pFile) ? "RC=0" : "RC=1");
          break;
 
-      default:
+      default: {
 	 TRACE ("RemoteDirSearchSrv::performCommands (int) - Invalid command "
                 << data.data ());
 
-	 sock.write ("RC=99;E=Invalid command");
+         std::string error ("RC=99;E=");
+         error += _("Invalid command");
+	 sock.write (error);
+         }
       } // end-switch
    }
    while (data.length ());
@@ -316,7 +322,8 @@ int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
 //            error: Description of error in input
 /*--------------------------------------------------------------------------*/
 void RemoteDirSearchSrv::handleArgError (Socket& sock, const std::string& error) const {
-   std::string errText ("RC=99;E=Invalid arguments: ");
+   std::string errText ("RC=99;E=");
+   errText += _("Invalid arguments: ");
    errText += error;
    sock.write (errText.c_str (), errText.length ());
 }

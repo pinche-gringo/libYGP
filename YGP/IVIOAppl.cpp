@@ -1,14 +1,14 @@
-///$Id: IVIOAppl.cpp,v 1.21 2002/04/05 07:20:54 markus Exp $
+///$Id: IVIOAppl.cpp,v 1.22 2002/04/09 20:02:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001,2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,9 +30,11 @@
 
 #include <signal.h>
 
-#include <iostream.h>
+#include <string>
+#include <iostream>
 
 #include "File.h"
+#include "Internal.h"
 #include "StackTrc.h"
 #include "IVIOAppl.h"
 
@@ -229,16 +231,18 @@ char IVIOApplication::getOption () {
                         if (found == (unsigned int)-1)
                            found = i;
                         else {
-                           cerr << name () << "-error: Option `" << ppArgs[startOpt]
-                                << "' is ambiguous\n";
+                           std::string error (_("-error: Option `%1' is ambiguous"));
+                           error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
+                           cerr << name () << error << '\n';
                            return '?';
                         } // end-else option ambigous
                      } // endif option matches
                   } // end-while
 
                   if (found == (unsigned int)-1) {     // No long-option found
-                     cerr << name () << "-error: Unrecognized option '"
-                          << ppArgs[startOpt] << "'\n";
+                     std::string error (_("-error: Unrecognized option `%1'"));
+                     error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
+                     cerr << name () << error << '\n';
                      return '?';
                    } // endif no longopt found
                   else {

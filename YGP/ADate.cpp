@@ -1,14 +1,14 @@
-//$Id: ADate.cpp,v 1.18 2002/03/23 20:43:35 markus Exp $
+//$Id: ADate.cpp,v 1.19 2002/04/09 20:02:50 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,6 +43,8 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+#include "Internal.h"
+
 #include "ADate.h"
 
 /*--------------------------------------------------------------------------*/
@@ -170,7 +172,7 @@ std::string ADate::toString (const char* format) const {
 //TODO      : Parsing according to locale
 /*--------------------------------------------------------------------------*/
 void ADate::readFromStream (istream& in) throw (invalid_argument) {
-   static unsigned char ADate::* const targets[] = { &ADate::day, &ADate::month };
+   static unsigned char ADate::*const targets[] = { &ADate::day, &ADate::month };
 
    day = month = 0;
 
@@ -194,9 +196,11 @@ void ADate::readFromStream (istream& in) throw (invalid_argument) {
 
    if ((i < 4) || checkIntegrity ()) {
       undefine ();
-      if (i)
-         throw invalid_argument (std::string ("Position " )
-                                 + std::string (char (i + '0'), 1));
+      if (i) {
+         std::string error (_("Position %1"));
+         error.replace (error.find ("%1"), 2, char (i + '0'));
+         throw invalid_argument (error);
+      }
    }
    else {
       TRACE9 ("ADate::readFromStream (istream&): Define");

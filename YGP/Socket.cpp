@@ -1,14 +1,14 @@
-//$Id: Socket.cpp,v 1.9 2002/04/09 07:16:48 markus Exp $
+//$Id: Socket.cpp,v 1.10 2002/04/09 20:02:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -178,8 +178,7 @@ unsigned int Socket::getPortOfService (const char* service) throw (domain_error)
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Reads from a socket
-//Parameters: port: Port to listen at
-//            input: AByteArray receiving the input
+//Parameters: input: AByteArray receiving the input
 //Returns   : int: Number of bytes actually read
 /*--------------------------------------------------------------------------*/
 int Socket::read (AByteArray& input) const throw (domain_error) {
@@ -203,6 +202,34 @@ int Socket::read (AByteArray& input) const throw (domain_error) {
    }
 
    TRACE5 ("Socket::read (AByteArray&) - read: " << input.data ());
+   return input.length ();
+}
+/*--------------------------------------------------------------------------*/
+//Purpose   : Reads from a socket
+//Parameters: input: string receiving the input
+//Returns   : int: Number of bytes actually read
+/*--------------------------------------------------------------------------*/
+int Socket::read (std::string& input) const throw (domain_error) {
+   TRACE9 ("Socket::read (std::string&)" << " (" << sock << ')');
+
+   char buffer[80] = "";
+   ssize_t cRead;
+   input = "";
+
+   // Read from socket til either error or buffer not completely filled
+   while ((cRead = ::read (sock, buffer, sizeof (buffer))) >= 0) {
+      input.append (buffer, cRead);
+      if (cRead < sizeof (buffer))
+         break;
+   }
+
+   if (cRead < 0) {
+      TRACE9 ("Socket::read (std::string&) - error=" << errno << "; Bytes="
+              << cRead);
+      throwError (_("Error reading data"), errno);
+   }
+
+   TRACE5 ("Socket::read (std::string&) - read: " << input.data ());
    return input.length ();
 }
 

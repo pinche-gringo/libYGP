@@ -1,14 +1,14 @@
-//$Id: INIFile.cpp,v 1.8 2002/03/23 20:45:45 markus Exp $
+//$Id: INIFile.cpp,v 1.9 2002/04/09 20:02:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Anticopyright (A) 2000
+//COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,12 +31,13 @@
 #define DEBUG 0
 #include "Trace_.h"
 #include "INIFile.h"
+#include "Internal.h"
 
 
 // Define constant values; don't skip white-spaces after parsing
-static ParseExact SectionBegin ("[", "Start of section ([)", false);
-static ParseExact SectionEnd ("]", "End of section (])", false);
-static ParseExact equals ("=", "Equal-sign (=)", false);
+static ParseExact SectionBegin ("[", _("Start of section ([)"), false);
+static ParseExact SectionEnd ("]", _("End of section (])"), false);
+static ParseExact equals ("=", _("Equal-sign (=)"), false);
 
 static unsigned int LEN_SECTIONNAME = 32;
 static unsigned int LEN_KEY = 32;
@@ -50,11 +51,11 @@ static unsigned int LEN_VALUE = 256;
 /*--------------------------------------------------------------------------*/
 INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
    , Section (_Section, "INI-File", 1, 1)
-   , SectionHeader (_SectionHeader, "Section-header", 1, 1)
-   , Attributes (_Attributes, "Attribute", -1, 0)
-   , SectionName ("\\X\\9_.", "Name of section", *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
-   , Identifier ("\\X\\9_.", "Identifier (key)", *this, &INISection::foundKey, LEN_KEY, 1, false)
-   , Value ("\n", "Value", *this, &INISection::foundValue, LEN_VALUE, 0) {
+   , SectionHeader (_SectionHeader, _("Section-header"), 1, 1)
+   , Attributes (_Attributes, _("Attribute"), -1, 0)
+   , SectionName ("\\X\\9_.", _("Name of section"), *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
+   , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
+   , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
   assert (pName);
 
    _Section[0] = &SectionHeader; _Section[1] = &Attributes; _Section[2] = NULL;
@@ -192,8 +193,8 @@ int INISection::foundValue (const char* value) {
 //Remarks   : name must be an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
-   , SectionHeader (_SectionHeader, "Section-header", 1, 0)
-   , SectionName ("\\X\\9_.", "Name of section", *this, &INIFile::foundSection, LEN_SECTIONNAME, 1) {
+   , SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
+   , SectionName ("\\X\\9_.", _("Name of section"), *this, &INIFile::foundSection, LEN_SECTIONNAME, 1) {
    assert (filename);
 
    TRACE9 ("INIFile::INIFile: Read from " << filename);
@@ -202,9 +203,11 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
    _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
 
    file.open (filename, ios::in | ios::nocreate);
-   if (!file)
-     throw (std::string ("Could not open INI-file '") + std::string (filename)
-            + std::string ("': Reason: ") + std::string (strerror (errno)));
+   if (!file) {
+      std::string error (_("Could not open INI-file '%1': Reason: %2"));
+      error.replace (error.find ("%1"), 2, filename);
+      error.replace (error.find ("%2"), 2, strerror (errno));
+   }
    file.init ();
 }
 

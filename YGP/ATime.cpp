@@ -1,14 +1,14 @@
-//$Id: ATime.cpp,v 1.10 2002/03/23 20:43:36 markus Exp $
+//$Id: ATime.cpp,v 1.11 2002/04/09 20:02:50 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+#include "Internal.h"
 
 #include "ATime.h"
 
@@ -194,9 +195,11 @@ void ATime::readFromStream (istream& in) throw (invalid_argument) {
 
    if ((i < 6) || checkIntegrity ()) {
       undefine ();
-      if (i)
-         throw invalid_argument (std::string ("Position " )
-                                 + std::string (char (i + '0'), 1));
+      if (i) {
+         std::string error (_("Position %1"));
+         error.replace (error.find ("%1"), 2, char (i + '0'));
+         throw invalid_argument (error);
+      }
    }
    else {
       TRACE9 ("ATime::readFromStream (istream&): Define");

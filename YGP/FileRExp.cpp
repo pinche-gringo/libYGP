@@ -1,14 +1,14 @@
-//$Id: FileRExp.cpp,v 1.16 2001/09/27 22:03:09 markus Exp $
+//$Id: FileRExp.cpp,v 1.17 2002/04/09 20:02:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include <gzo-cfg.h>
+#include "Internal.h"
 
 #ifdef HAVE_FNMATCH
 #  include <fnmatch.h>
@@ -202,7 +202,7 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
    while (*pRegExp) {
       if (*pRegExp == REGIONBEGIN) {
          if (!*++pRegExp)
-            throw (getError ("Open region", pRegExp - getExpression ()));
+            throw (getError (N_("Open region"), pRegExp - getExpression ()));
 
          // Skip leading range-inversion
          if ((*pRegExp == NEGREGION1) || (*pRegExp == NEGREGION2))
@@ -215,11 +215,11 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
             switch (*pRegExp) {
             case RANGE:
                if (!pRegExp[1] || (pRegExp[1] == REGIONEND))
-                  throw (getError ("Empty range", pRegExp - getExpression ()));
+                  throw (getError (N_("Empty range"), pRegExp - getExpression ()));
                break;
 
             case '\0':
-               throw (getError ("Empty region", pRegExp - getExpression ()));
+               throw (getError (N_("Empty region"), pRegExp - getExpression ()));
             } // endif
 
             ++pRegExp;
@@ -239,7 +239,9 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
 /*--------------------------------------------------------------------------*/
 std::string FileRegularExpr::getError (const char* error, unsigned int pos) const {
    assert (error);
-   return (std::string (getExpression ()) + std::string (", position ")
-           + ANumeric::toString ((unsigned long)pos) + std::string (": ")
-           + std::string (error));
+   std::string err (_("`%1', position %2: %3"));
+   err.replace (err.find ("%1"), 2, getExpression ());
+   err.replace (err.find ("%2"), 2, ANumeric::toString ((unsigned long)pos));
+   err.replace (err.find ("%3"), 2, _(error));
+   return err;
 }

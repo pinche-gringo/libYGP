@@ -1,14 +1,14 @@
-//$Id: AssParse.cpp,v 1.5 2001/10/18 01:21:24 markus Exp $
+//$Id: AssParse.cpp,v 1.6 2002/04/09 20:02:50 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+#include "Internal.h"
 #include "Attribute.h"
 
 #include "AssParse.h"
@@ -55,8 +56,9 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
 
    TRACE8 ("AssignmentParse::getNextNode () - Pos = " << actPos << "; Len = " << len);
    if (_string[actPos + len - 1] != EQUALSIGN) {
-      key = "Not a valid assignment: " + key;
-      throw (key);
+      std::string error (_("Not a valid assignment: '%1'"));
+      error.replace (error.find ("%1"), 2, key);
+      throw (error);
    }
 
    posValue = actPos + len;
@@ -67,7 +69,8 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
          pos = _string.find (QUOTE, pos + 1);
 
          if (pos == std::string::npos) {
-            key = "Invalid value for attribute: " + _string.substr (actPos + 1);
+            key = _("Invalid value for attribute: '%1'");
+            key.replace (key.find ("%1"), 2, _string.substr (actPos + 1));
             throw key;
          }
 
@@ -80,8 +83,8 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
       ++pos;
 
       if ((pos < _string.length ()) && (_string[pos] != SEPERATOR)) {
-	 key = "Quoted value not followed by seperator: "
-            + _string.substr (pos - 10, 20);
+         key = _("Quoted value not followed by seperator: '%1'");
+         key.replace (key.find ("%1"), 2, _string.substr (pos - 10, 20));
 	 throw key;
       }
    }

@@ -1,14 +1,14 @@
-//$Id: AttrParse.cpp,v 1.3 2001/10/12 23:05:40 markus Exp $
+//$Id: AttrParse.cpp,v 1.4 2002/04/09 20:02:50 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
-
+#include "Internal.h"
 #include "AssParse.h"
 
 #include "AttrParse.h"
@@ -54,9 +54,11 @@ void AttributeParse::addAttribute (IAttribute& attribute) throw (std::string) {
            << attribute.getName ());
 
 #ifndef NDEBUG
-   if (findAttribute (attribute.getName ()))
-      throw (std::string ("Attribute '") + std::string (attribute.getName ())
-             + std::string ("' already exists"));
+   if (findAttribute (attribute.getName ())) {
+      std::string error (_("Attribute '%1' already exists"));
+      error.replace (error.find ("%1"), 2, attribute.getName ());
+      throw (error);
+   }
 #endif
 
    apAttrs.push_back (&attribute);
@@ -112,13 +114,15 @@ int AttributeParse::assignValues (const std::string& values) const throw (std::s
          TRACE5 ("AttributeParse::assignValues (const std::string&) - Assigning "
                  << value << " (" << value.length () << ')');
          if (!attr->assign (value.c_str (), value.length ())) {
-            std::string error ("Error assigning '" + value
-                               + "' to " + ass.getActKey ());
+            std::string error (_("Error assigning '%1' to %2"));
+            error.replace (error.find ("%1"), 2, value);
+            error.replace (error.find ("%2"), 2, ass.getActKey ());
             throw (error);
          }
       } // endif
       else {
-         std::string error ("Key '" + ass.getActKey () + "' not found");
+         std::string error (_("Key '%1' not found"));
+         error.replace (error.find ("%1"), 2, ass.getActKey ());
          throw (error);
       }
    } // end-while

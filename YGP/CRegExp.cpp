@@ -1,14 +1,14 @@
-//$Id: CRegExp.cpp,v 1.13 2001/03/25 09:54:39 markus Exp $
+//$Id: CRegExp.cpp,v 1.14 2002/04/09 20:02:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
-//COPYRIGHT   : Anticopyright (A) 2000
+//COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@
 
 #define DEBUG 0
 #include "Trace_.h"
-
 #include "CRegExp.h"
+#include "Internal.h"
 #include "ANumeric.h"
 
 #include <gzo-cfg.h>
@@ -180,7 +180,8 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare
          if (pAktRegExp[1] == GROUPBEGIN) {
             pEnd = findEndOfGroup (pAktRegExp + 2);
 
-            lastExpr.assign (pAktRegExp + 2, pEnd - pAktRegExp + 1);
+            // Analyze group without group-characters
+            lastExpr.assign (pAktRegExp + 2, pEnd - pAktRegExp - 3);
             TRACE4 ("Found group: " << lastExpr.c_str ());
             fnCompare = &RegularExpression::compGroup;
             } // endif GROUPBEGIN
@@ -495,8 +496,9 @@ const char* RegularExpression::findEndOfGroup (const char* pRegExp) const {
       else
 	 if (pRegExp[1] == GROUPBEGIN)
 	    ++cGroups;
-   } while (!cGroups); // end-do 
+   } while (cGroups); // end-do 
 
+   TRACE9 ("RegularExpression::findEndOfGroup (const char*) const - End: " << pRegExp + 1);
    return ++pRegExp;
 }
 
@@ -648,20 +650,21 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
    const char* error = NULL;
 
    switch (rc) {
-   case REGION_OPEN: error = "Unmatched [ or [^"; break;
-   case GROUP_OPEN: error = "Unmatched \\( or \\)"; break;
-   case RANGE_OPEN: error = "Invalid range end"; break;
-   case BOUND_OPEN: error = "Bound does not end with (})"; break;
-   case NO_PREV_EXP: error = "Repeating suffix without previous expression"; break;
-   case INV_DIGIT: error = "Invalid group-number"; break;
-   case INV_RANGE: error = "Invalid range (lower border larger than upper border)"; break;
-   case INV_BOUND: error = "Invalid bound (lower border larger than upper border)"; break;
-   case ENDING_BACKSLASH: error = "Regular expression ends with escape-character (\\)"; break;
-   default: error = "Unknown error"; break;
+   case REGION_OPEN: error = N_("Unmatched [ or [^"); break;
+   case GROUP_OPEN: error = N_("Unmatched \\( or \\)"); break;
+   case RANGE_OPEN: error = N_("Invalid range end"); break;
+   case BOUND_OPEN: error = N_("Bound does not end with (})"); break;
+   case NO_PREV_EXP: error = N_("Repeating suffix without previous expression"); break;
+   case INV_DIGIT: error = N_("Invalid group-number"); break;
+   case INV_RANGE: error = N_("Invalid range (lower border larger than upper border)"); break;
+   case INV_BOUND: error = N_("Invalid bound (lower border larger than upper border)"); break;
+   case ENDING_BACKSLASH: error = N_("Regular expression ends with escape-character (\\)"); break;
+   default: error = N_("Unknown error"); break;
    } // end-switch
 #endif
 
-   return (std::string (getExpression ()) + std::string (", position ")
-           + ANumeric::toString ((unsigned long)pos + 1) + std::string (": ")
-           + std::string (error));
+   std::string err (getExpression ());
+   err += _(", position ");
+   err += ANumeric::toString ((unsigned long)pos + 1);
+   err += _(error);
 }

@@ -1,14 +1,14 @@
-//$Id: ANumeric.cpp,v 1.20 2002/03/23 20:43:35 markus Exp $
+//$Id: ANumeric.cpp,v 1.21 2002/04/09 20:02:50 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+#include "Internal.h"
 
 #include "ANumeric.h"
 
@@ -244,7 +245,7 @@ void ANumeric::readFromStream (istream& in) throw (invalid_argument) {
 #endif
 
    if (!in.eof ())
-      throw invalid_argument ("No number");
+      throw invalid_argument (_("No number"));
 }
 
 

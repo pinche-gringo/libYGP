@@ -1,14 +1,14 @@
-//$Id: PathDirSrch.cpp,v 1.17 2001/10/03 23:58:57 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.18 2002/04/09 20:02:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 
 #include <errno.h>
 
-#include <gzo-cfg.h>
+#include "Internal.h"
 
 #if SYSTEM == UNIX
 #  include <wordexp.h>
@@ -152,7 +152,7 @@ void PathDirectorySearch::checkPath (const std::string& path) throw (std::string
 #if SYSTEM == UNIX
    PathSearch ps (path);
    std::string node (ps.getNextNode ());
-   std::string temp;
+   std::string error;
 
    wordexp_t result = { 0, NULL, 0 };
    int       rc;
@@ -164,18 +164,22 @@ void PathDirectorySearch::checkPath (const std::string& path) throw (std::string
       case 0:
          if (result.we_wordc != 1) {
             rc = 1;
-            node += " expands to more than one files";
+            error = _("'%1' expands to more than one file");
           }
           break;
 
-      case WRDE_NOSPACE: node = "Out of memory"; break;
-      case WRDE_BADCHAR: node += " contains unquoted invalid character such as `|'"; break;
-      case WRDE_SYNTAX: node = "Syntax error in " + node + " (unmatched quoting character?)"; break;
-      default: node = "Unknown error in " + node;
+      case WRDE_NOSPACE: error = _("Out of memory"); break;
+      case WRDE_BADCHAR: error = _("'%1' contains unquoted invalid character such as `|'"); break;
+      case WRDE_SYNTAX: error = _("Syntax error in '%1' (unmatched quoting character?)"); break;
+      default: node = _("Unknown error in '%1'");
       } // end-switch wordexp-error
       wordfree (&result);
+
       if (rc) {
-         throw std::string (node);
+         int pos (error.find ("%1"));
+         if (pos != std::string::npos)
+             error.replace (pos, 2, node);
+         throw std::string (error);
          return;
       }
 

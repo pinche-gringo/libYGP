@@ -1,14 +1,14 @@
-// $Id: RemoteFile.cpp,v 1.4 2001/10/12 23:07:14 markus Exp $
+// $Id: RemoteFile.cpp,v 1.5 2002/04/09 20:06:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+#include "Internal.h"
 #include "ANumeric.h"
 #include "AttrParse.h"
 #include "AByteArray.h"
@@ -253,7 +254,7 @@ void RemoteFile::handleServerError (const char* pAnswer) const throw (std::strin
    handleServerMsg (attrs, pAnswer);
 
    if (!error.empty ()) {
-      error = "Server returned an error: " + error;
+      error = _("Server returned an error: ") + error;
       throw (error);
    }
 }
@@ -267,15 +268,11 @@ void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnsw
    const throw (std::string) {
    assert (pAnswer);
 
-#if DEBUG > 0
    try {
-#endif
       attrs.assignValues (pAnswer);
-#if DEBUG > 0
    }
    catch (std::string& error) {
       TRACE ("RemoteFile::handleServerMsg (const AttributeParse&, const char*) const"
              "\n - Error parsing attributes: " << error);
    }
-#endif
 }

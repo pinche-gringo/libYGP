@@ -1,14 +1,14 @@
-//$Id: Parse.cpp,v 1.22 2000/06/06 22:22:45 Markus Exp $
+//$Id: Parse.cpp,v 1.23 2002/04/09 20:02:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #include "Trace_.h"
 #include "Parse.h"
 #include "XStream.h"
+#include "Internal.h"
 
 
 // Structure for global values: Contains the (growing-if-neccessary buffer for
@@ -258,14 +259,12 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          while (pAkt > global.buffer)
             stream.putback (*--pAkt);
       else {
-         global.buffer[10] = '\0';
-         std::string error ("Expected ");
-         error += getDescription ();
-         error += "; found: '";
-         error += global.buffer;
-	 if (ch)
-            error += (char)ch;
-         error += '\'';
+         global.buffer[minCard > 10 ? (minCard > global.buflen ? global.buflen : minCard)
+                                    : 10] = '\0';
+
+         std::string error (_("Expected %1, found: '%2'"));
+         error.replace (error.find ("%1"), 2, getDescription ());
+         error.replace (error.find ("%2"), 2, global.buffer);
 	 throw (error);
       } // end-if mandatory value not found
    } // endif error
@@ -648,10 +647,15 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
    if (!rc)               // Report found of object  with sequence-description
       rc = found (getDescription ());
 
-   if ((rc < 0) || (rc && !optional))
-      throw (std::string ("Error in sequence ") + std::string (getDescription ())
-             + (ppAct ? (std::string ("; Expected: ") + std::string ((*ppAct)->getDescription ()))
-        	: std::string ("")));
+   if ((rc < 0) || (rc && !optional)) {
+      std::string error;
+      error = _(ppAct ? "Error in sequence %1; Expected: %2" : "Error in sequence %1");
+      error.replace (error.find ("%1"), 2, getDescription ());
+      if (*ppAct)
+         error.replace (error.find ("%2"), 2, (*ppAct)->getDescription ());
+
+      throw (error);
+   }
 
    return rc;
 }
@@ -759,8 +763,12 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
       else
          rc = found (getDescription ());
 
-   if ((rc < 0) || (rc && !optional))
-      throw (std::string ("Expected: ") + std::string (getDescription ()));
+   if ((rc < 0) || (rc && !optional)) {
+      std::string error;
+      error = _("Expected selection %1");
+      error.replace (error.find ("%1"), 2, getDescription ());
+      throw (error);
+   }
 
    return rc;
 }
