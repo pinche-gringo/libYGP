@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.1 2003/02/01 19:44:05 markus Exp $
+//$Id: X-Appl.h,v 1.2 2003/02/02 02:23:46 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include <gtk--/statusbar.h>
 #include <gtk--/scrolledwindow.h>
 
+#include <ATStamp.h>
+
 #include <XFileList.h>
 #include <XApplication.h>
 
@@ -34,7 +36,7 @@ class XAppl : public XApplication {
    ~XAppl () { }
 
  protected:
-   enum { OPEN = LAST, EXIT, SAVE, PRINT };
+   enum { OPEN = LAST, EXIT, SAVE, PRINT, MSGBOX, DIALOG, DATE };
 
  private:
    // Protected manager functions
@@ -44,15 +46,19 @@ class XAppl : public XApplication {
    // Event-handling
    virtual void command (int menu);
 
+   void addFile (string& file);
    void saveToFile (string& file);
    void writeToStream (ofstream& file);
 
-   void showAboutbox ();
+   virtual const char* getHelpfile () { return "index.html"; }
+   virtual void showAboutbox ();
 
    Table     tblInput;
    XFileList listFiles;
    Statusbar status;
    ScrolledWindow scroll;
+
+   ATimestamp time;
 
    static XApplication::MenuEntry XAppl::menuItems[];
    static const char* pTitles[];

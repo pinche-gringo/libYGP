@@ -1,11 +1,11 @@
- //$Id: X-Appl.cpp,v 1.1 2003/02/01 19:44:05 markus Exp $
+ //$Id: X-Appl.cpp,v 1.2 2003/02/02 02:23:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -33,8 +33,10 @@
 #include <Check.h>
 #include <Trace_.h>
 
-#include <ATStamp.h>
+#include <File.h>
+#include <ANumeric.h>
 
+#include <XDate.h>
 #include <XAbout.h>
 #include "XFileDlg.h"
 #include "XPrintDlg.h"
@@ -163,16 +165,29 @@ XApplication::MenuEntry XAppl::menuItems[] = {
     { "_Open",                  "<ctl>O",      OPEN,    ITEM },
     { "_Save",                  "<ctl>s",      SAVE,    ITEM },
     { "_Print",                 "<ctl>p",      PRINT,   ITEM },
-    { "",                       "",               0,       SEPARATOR },
+    { "",                       "",            0,       SEPARATOR },
     { "E_xit",                  "<ctl>q",      EXIT,    ITEM },
-    { "_Dialogs",               "<alt>d",      0,       BRANCH } };
+    { "_Dialogs",               "<alt>d",      0,       BRANCH },
+    { "_MessageBox",            "<ctl>m",      MSGBOX,  ITEM },
+    { "_Dialog",                "<ctl>d",      DIALOG,  ITEM },
+    { "Da_te",                  "<ctl>t",      DATE,  ITEM },
+    { "_Menus",                 "<alt>m",      0,       BRANCH },
+    { "_Radiobuttons",          "<alt>r",      0,       SUBMENU },
+    {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
+    {    "Button _2",           "<ctl>2",      0,       RADIOITEM },
+    {    "Button _3",           "<ctl>3",      0,       LASTRADIOITEM },
+    {  "",                      "",            0,       SUBMENUEND },
+    { "_Checkbuttons",          "<alt>c",      0,       SUBMENU },
+    {    "Button _1",           "<alt>1",      0,       CHECKITEM },
+    {    "Button _2",           "<alt>2",      0,       CHECKITEM },
+    {    "Button _3",           "<alt>3",      0,       CHECKITEM } };
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Defaultconstructor; all widget are created
 /*--------------------------------------------------------------------------*/
 XAppl::XAppl ()
-   : XApplication ("X" PACKAGE " V" VERSION)
+   : XApplication ("X" PACKAGE " V" LIB_RELEASE)
      , tblInput (2, 2)
      , listFiles (sizeof (pTitles) / sizeof (pTitles[0]), pTitles)
      , status (), scroll () {
@@ -203,6 +218,7 @@ XAppl::XAppl ()
    listFiles.set_column_justification (2, GTK_JUSTIFY_RIGHT);
    listFiles.set_column_justification (3, GTK_JUSTIFY_CENTER);
    listFiles.column (0).set_width (15);
+   listFiles.column (1).set_width (375);
    listFiles.column (2).set_width (60);
    listFiles.column (3).set_width (105);
    listFiles.set_selection_mode (GTK_SELECTION_EXTENDED);
@@ -226,12 +242,16 @@ XAppl::XAppl ()
 void XAppl::command (int menu) {
    switch (menu) {
    case OPEN:
+      XFileDialog::perform (string ("Add file..."), this,
+                            (XFileDialog::PACTION)&XAppl::addFile,
+                            XFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
       XFileDialog::perform (string ("Save search result to..."), this,
                             (XFileDialog::PACTION)&XAppl::saveToFile,
                             XFileDialog::ASK_OVERWRITE);
+      break;
       break;
 
    case PRINT:
@@ -240,6 +260,17 @@ void XAppl::command (int menu) {
 
    case EXIT:
       Main::quit ();
+      break;
+
+   case DATE:
+      XDate::perform ("Enter date", time);
+      break;
+
+   case DIALOG:
+      break;
+
+   case MSGBOX:
+      XMessageBox::Show ("Text", "Title", XMessageBox::YESNO);
       break;
 
    default:
@@ -257,6 +288,39 @@ void XAppl::showAboutbox () {
                               "X" PACKAGE " V" VERSION));
    about->setIconProgram (xpmXAppl);
    about->setIconAuthor (xpmAuthor);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Add the selected file to the list
+//Parameters: file: Name of file to add
+/*--------------------------------------------------------------------------*/
+void XAppl::addFile (string& file) {
+   TRACE9 ("XAppl::addFile (string&): " << file);
+
+   try {
+      File objFile (file.c_str ());
+      ATimestamp t (objFile.time (), false );
+      string time (t.toString ().c_str ());
+      string size (ANumeric::toString (objFile.size ()));
+      string name (objFile.path ());
+      name += objFile.name ();
+
+      Check3 (listFiles.columns ().size () == 4);
+      const char* columns[4];
+      columns[0] = "";
+      columns[1] = name.c_str ();
+      columns[2] = size.c_str ();
+      columns[3] = time.c_str ();
+
+      listFiles.append (&objFile, columns);
+
+      // Enable menus
+      apMenus[SAVE]->set_sensitive (true);
+      apMenus[PRINT]->set_sensitive (true);
+   }
+   catch (const char* e) {
+      XMessageBox::Show (e, XMessageBox::ERROR);
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -292,7 +356,7 @@ void XAppl::writeToStream (ofstream& file) {
       string filename (listFiles.get_text (i, 1));
       TRACE8 ("XAppl::writeToStream (ofstream&): " << filename);
 
-      file << filename << setw (79 - filename.length () - lenTime)
+      file << filename << setw (78 - filename.length () - lenTime) << ' ' 
            << listFiles.get_text (i, 2).c_str () << ' '
            << listFiles.get_text (i, 3).c_str () << '\n';
    } // end-for all text-columns
@@ -306,6 +370,8 @@ void XAppl::writeToStream (ofstream& file) {
 //Returns   : int: Status
 /*--------------------------------------------------------------------------*/
 int main (int argc, char* argv[]) {
+   XAppl::initI18n ();
+
    Main appl (argc, argv);
    XAppl win;
    appl.run ();
