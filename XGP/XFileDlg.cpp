@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.18 2003/07/27 03:44:42 markus Rel $
+//$Id: XFileDlg.cpp,v 1.19 2003/10/19 00:03:22 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -167,7 +167,7 @@ std::string IFileDialog::execModal () {
 //----------------------------------------------------------------------------
 IFileDialog* IFileDialog::create (const Glib::ustring& title, option dlgOption) {
     IFileDialog* dlg (new IFileDialog (title, dlgOption));
-    dlg->signal_delete_event ().connect (slot (*dlg, &IFileDialog::free));
+    dlg->signal_response ().connect (slot (*dlg, &IFileDialog::free));
     return dlg;
 }
 
@@ -175,7 +175,6 @@ IFileDialog* IFileDialog::create (const Glib::ustring& title, option dlgOption) 
 /// Frees the dialog.
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
-bool IFileDialog::free (GdkEventAny*) {
+void IFileDialog::free (int) {
    delete this;
-   return false;
 }

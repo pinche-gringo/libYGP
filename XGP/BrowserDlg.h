@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.6 2003/07/25 00:24:09 markus Rel $
+//$Id: BrowserDlg.h,v 1.7 2003/10/19 00:03:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

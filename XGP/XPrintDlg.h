@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.15 2003/10/02 23:03:26 markus Rel $
+//$Id: XPrintDlg.h,v 1.16 2003/10/19 00:03:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ class TPrintDialog : public IPrintDialog {
    /// \remark
    static TPrintDialog* create (T& parent, PCALLBACK callback) {
       TPrintDialog<T>* dlg (new TPrintDialog<T> (parent, callback));
-      dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+      dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
       dlg->get_window ()->set_transient_for (parent.get_window ());
       return dlg;
    }

@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.18 2003/10/02 23:03:26 markus Rel $
+//$Id: XFileDlg.h,v 1.19 2003/10/19 00:03:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ class IFileDialog : public Gtk::FileSelection {
    /// @param file: Name of selected file
    virtual void fileSelected (std::string& file) { }
 
-   bool free (GdkEventAny*);
+   void free (int);
 
  private:
    // Prohibited manager-functions
@@ -107,7 +107,7 @@ class TFileDialog : public IFileDialog {
 				const PCALLBACK callback, option dlgOption = NONE) {
       TFileDialog<T>* dlg (new TFileDialog<T> (title, parent, callback, dlgOption));
       dlg->get_window ()->set_transient_for (parent.get_window ());
-      dlg->signal_delete_event ().connect (slot (*dlg, &IFileDialog::free));
+      dlg->signal_response ().connect (slot (*dlg, &IFileDialog::free));
       return dlg;
    }
 

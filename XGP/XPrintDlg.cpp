@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.16 2003/07/25 00:24:24 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.17 2003/10/19 00:03:22 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -125,6 +125,6 @@ void IPrintDialog::okEvent () {
 //----------------------------------------------------------------------------
 IPrintDialog* IPrintDialog::create () {
     IPrintDialog* dlg (new IPrintDialog ());
-    dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+    dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
     return dlg;
 }

@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.12 2003/10/02 23:03:26 markus Rel $
+//$Id: XDate.h,v 1.13 2003/10/19 00:03:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -76,16 +76,8 @@ class XDate : public XDialog {
    static XDate* create (const Glib::ustring& title, ATimestamp& date,
                          int showFields = SHOW_ALL) {
       XDate* dlg (new XDate (title, date, showFields));
-      dlg->signal_delete_event ().connect (slot (*dlg, &XDate::free));
+      dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
       return dlg;
-   }
-
- protected:
-   /// Frees the dialog.
-   /// \remarks Call only if the dialog was created with new
-   bool free (GdkEventAny*) {
-      delete this;
-      return false;
    }
 
  private:
