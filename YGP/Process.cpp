@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.5 2003/02/18 02:51:32 markus Rel $
+//$Id: Process.cpp,v 1.6 2003/07/03 03:23:57 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -27,9 +27,9 @@
 
 #include "Internal.h"
 
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+#include <cstdio>
+#include <cerrno>
+#include <cstring>
 
 #if SYSTEM == UNIX
 #  include <unistd.h>
@@ -46,11 +46,10 @@
 #  ifdef _MSC_VER
 #     define dup      _dup
 #     define dup2     _dup2
-#     define execvp   _execvp
 #  endif
-#  define pipe(p)  _pipe(p, 256, O_TEXT | O_NOINHERIT)
+#  define pipe(p)  _pipe((p), 256, O_TEXT | O_NOINHERIT)
 #  define read     _read
-#  define sleep(s) Sleep (s * 1000)
+#  define sleep(s) Sleep ((s) * 1000)
 #  define write    _write
 
 typedef int pid_t;
@@ -64,19 +63,19 @@ typedef int pid_t;
 #include "Process_.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Executes a program, either in the back- or foreground. If either
-//            the file can not be found or produces an error while
-//            executing/initializing (in the more or less 1st second) an describing
-//            text (at least if the program produces an helpful output) is thrown.
-//Parameters: file: Name of file to execute
-//            arguments: Array with arguments for the file (as understood by execv)
-//            wait: Flag, if to wait til the program terminates
-//Requires  : file is a valid ASCIIZ-string
-//Remarks   : The called file must follow some convention:
-//              - Return 0 if OK and !0 if an error occured
-//              - In case of an error the output should contain a describing message
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Executes a program, either in the back- or foreground. If either the file
+/// can not be found or produces an error while executing/initializing (in the
+/// more or less 1st second) an describing text (at least if the program
+/// produces an helpful output) is thrown.
+/// \param file: Name of file to execute
+/// \param arguments: Array with arguments for the file (as understood by execv)
+/// \param wait: Flag, if to wait til the program terminates
+/// \pre \c file is a valid ASCIIZ-string
+/// \remarks The called file must follow some convention:
+///    - Return 0 if OK and !0 if an error occured
+///    - In case of an error the output should contain a describing message
+//-----------------------------------------------------------------------------
 void Process::start (const char* file, const char* const arguments[], bool wait)
    throw (std::string)
 {
@@ -177,12 +176,12 @@ void Process::start (const char* file, const char* const arguments[], bool wait)
    }
  }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads the data for the passed descriptor and returns it with a
-//            description.
-//Parameters: file: Descriptor of stream to read from
-//Returns   : String with error-message
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Reads the data for the passed descriptor and returns it with a
+/// description.
+/// \param file: Descriptor of stream to read from
+/// \returns \c String with error-message
+//-----------------------------------------------------------------------------
 std::string Process::readChildOutput (int file) {
    std::string err (_("The command `%1' returned an error!\n\nOutput: %2"));
    std::string output;
