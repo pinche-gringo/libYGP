@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.10 2002/04/14 23:17:31 markus Exp $
+//$Id: CRegExp.h,v 1.11 2002/04/16 20:23:17 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +19,10 @@
 
 #include <gzo-cfg.h>
 
+#undef HAVE_REGEX_H
+#undef HAVE_REGEXP_H
+
 #ifdef HAVE_REGEX_H
-//#  undef HAVE_REGEX_H
 #  include <sys/types.h>
 #  include <regex.h>
 #else
@@ -46,12 +48,12 @@
 // '?' is a suffix character similar to '*', except that it requires that the
 //     preceeding regular expression is matched either once or not at all.
 // '.' matches any single character.
+// {i}, {i,}, {i,j} the previous regular expression must be repeated either
+//                  exactly i times; i times or more; i through j (inclusive)
+//                  times.
 // '^' Matches an empty string in the beginning of the line.
 // '$' Similar to the caret (^) this matches the end of the line.
 // '\' - Quotes the following character (including the backlash (\) itself:
-//     - '\|' seperates two alternatives.
-//     - '\(...\)' groups regular expressions and marks the matching substring
-//                 for future reference.
 //     - '\DIGIT' to repeat the matched text of the DIGIT'th '\(...\)-construct.
 //     - '\b' matches the empty string, provided its at the beginning or the
 //            end of a word.
@@ -71,9 +73,9 @@
 //     Note: To include the character square bracket ([) in the match, it
 //           must be the first character; similar to the caret (^), wich must
 //           *not* be the first character to get included.
-// {i}, {i,}, {i,j} the previous regular expression must be repeated either
-//                  exactly i times; i times or more; i through j (inclusive)
-//                  times.
+// '|' seperates two alternatives.
+// '(...)' groups regular expressions and marks the matching substring
+//         for future reference.
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
 //       care it is valid during the life-time of the object.
@@ -82,7 +84,7 @@
 // object matches some data.
 class RegularExpression : public IRegularExpression {
  public:
-   RegularExpression (const char* pRegExp);
+   RegularExpression (const char* pRegExp) throw (std::string);
    virtual ~RegularExpression ();
 
    virtual int checkIntegrity () const throw (std::string);
@@ -142,23 +144,15 @@ class RegularExpression : public IRegularExpression {
 #ifdef HAVE_REGEX_H
    regex_t regexp;
 
-   void init (const char* pRegExp) {
-      assert (pRegExp);
-      std::string temp ("^");
-      temp += pRegExp;
-      temp += '$';
-
-      int rc = regcomp (&regexp, temp.c_str (), REG_EXTENDED);
-      if (rc)
-         throw (getError (rc, 0));
-   }
+   void init (const char* pRegExp) throw (std::string);
 #else
    bool doCompare (const char* pAktRegExp, const char*& pCompare);
+   bool compareParts (const char* pAktRegExp, const char*& pCompare, bool inGroup = false);
    const char* findEndOfAlternative (const char* pRegExp) const;
    const char* findEndOfRegion (const char* pRegExp) const;
    const char* findEndOfGroup (const char* pRegExp) const;
 
-   const char* pStartCompare;   
+   const char* pStartCompare;
 #endif
 };
 
