@@ -1,11 +1,11 @@
-// $Id: Local.cpp,v 1.4 2003/11/14 17:25:28 markus Exp $
+// $Id: Local.cpp,v 1.5 2003/11/17 15:07:57 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Local
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -30,7 +30,7 @@
 
 #include <YGP/Internal.h>
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 
 #include <CGP/CIDirSrch.h>
 

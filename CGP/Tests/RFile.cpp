@@ -1,11 +1,11 @@
-// $Id: RFile.cpp,v 1.6 2003/11/14 20:28:34 markus Exp $
+// $Id: RFile.cpp,v 1.7 2003/11/17 15:07:58 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/RFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -34,7 +34,7 @@
 
 #include <YGP/Internal.h>
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 
 #include <CGP/CIDirSrch.h>
 

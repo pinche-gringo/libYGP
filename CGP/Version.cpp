@@ -1,11 +1,11 @@
-//$Id: Version.cpp,v 1.1 2002/07/05 04:04:19 markus Rel $
+//$Id: Version.cpp,v 1.2 2003/11/17 15:07:57 markus Rel $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gzo-cfg.h>
+#include <ygp-cfg.h>
 
 extern "C" {
 

@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.9 2003/11/14 20:28:34 markus Exp $
+//$Id: CIDirSrch.cpp,v 1.10 2003/11/17 15:07:57 markus Rel $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -26,7 +26,7 @@
 
 
 #include <YGP/Check.h>
-#include <YGP/Trace_.h>
+#include <YGP/Trace.h>
 #include <YGP/ATStamp.h>
 
 #include <CGP/CIDirSrch.h>
