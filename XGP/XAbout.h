@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.2 2000/01/23 23:06:37 Markus Rel $
+//$Id: XAbout.h,v 1.3 2000/02/22 18:45:52 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,27 +28,34 @@
 class string
 #endif
 
-class Gtk_HBox;
-class Gtk_Label;
-class Gtk_Button;
-class Gtk_Pixmap;
+// Forward declarations
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+using namespace Gtk;
 
-definePtr (Gtk_HBox);
-definePtr (Gtk_Label);
-definePtr (Gtk_Button);
-definePtr (Gtk_Pixmap);
+#else 
+typedef Gtk_HBox    HBox;
+typedef Gtk_Label   Label;
+typedef Gtk_Button  Button;
+typedef Gtk_Pixmap  Pixmap;
+typedef Gtk_Dialog  Dialog;
+#endif
+
+typedef SmartPtr<HBox>    PHBox;
+typedef SmartPtr<Label>   PLabel;
+typedef SmartPtr<Button>  PButton;
+typedef SmartPtr<Pixmap>  PPixmap;
 
 
 // Class to show a dialog with about-information for a program. It is assumed,
 // that the program is distributed under the GNU public license.
 // It is possible to specify icons for programmer and application.
-class XAbout : public Gtk_Dialog {
+class XAbout : public Dialog {
  public:
    XAbout (const string& author, const string& program);
    ~XAbout ();
 
-   void setIconProgram (Gtk_Pixmap& icon);
-   void setIconAuthor  (Gtk_Pixmap& icon);
+   void setIconProgram (Pixmap& icon);
+   void setIconAuthor  (Pixmap& icon);
 
  private:
    // Prohibited manager-functions
@@ -60,13 +67,13 @@ class XAbout : public Gtk_Dialog {
       delete this;
    }
 
-   PGtk_Button ok;
-   PGtk_Label  appl;
-   PGtk_Label  writer;
-   PGtk_Label  gpl;
-   PGtk_HBox   client;
-   PGtk_Pixmap iconPrg;
-   PGtk_Pixmap iconAuthor;
+   PButton ok;
+   PLabel  appl;
+   PLabel  writer;
+   PLabel  gpl;
+   PHBox   client;
+   PPixmap iconPrg;
+   PPixmap iconAuthor;
 };
 
 #endif

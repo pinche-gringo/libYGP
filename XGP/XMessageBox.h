@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.1 1999/11/13 01:18:07 Markus Rel $
+//$Id: XMessageBox.h,v 1.2 2000/02/22 18:45:52 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,20 +26,29 @@
 
 
 // Forward declarations
-class Gtk_HBox;
-class Gtk_Label;
-class Gtk_Button;
-class Gtk_Pixmap;
+#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
+using namespace Gtk;
 
-definePtr (Gtk_Label);
-definePtr (Gtk_HBox);
-definePtr (Gtk_Pixmap);
+class Pixmap;
+class Button;
+
+#else 
+typedef Gtk_HBox        HBox;
+typedef Gtk_Label       Label;
+typedef Gtk_Button      Button;
+typedef Gtk_Pixmap      Pixmap;
+typedef Gtk_Dialog      Dialog;
+#endif
+
+typedef SmartPtr<Label>  PLabel;
+typedef SmartPtr<HBox>   PHBox;
+typedef SmartPtr<Pixmap> PPixmap;
 
 
 // Class to display simple messages in a dialog-window. This window contains
 // action-buttons and a title (if not a specific one is passed) according to
 // the passed flag.
-class XMessageBox : public Gtk_Dialog {
+class XMessageBox : public Dialog {
  public:
    enum options { INFO, QUESTION, WARNING, ERROR, CRITICAL, TYPEMASK = 0xf,
                   OK = 16, RETRY = 32, YES = 64, NO = 128, CANCEL = 256,
@@ -61,8 +70,6 @@ class XMessageBox : public Gtk_Dialog {
    virtual void perform (int action);
 
  private:
-   typedef Gtk_Dialog parent;
-
    // Prohibited manager-functions
    XMessageBox ();
    XMessageBox (const XMessageBox&);
@@ -71,10 +78,10 @@ class XMessageBox : public Gtk_Dialog {
 
    int ret;
 
-   vector<Gtk_Button*> buttons;
-   PGtk_Label txt;
-   PGtk_HBox  client;
-   PGtk_Pixmap icon;
+   vector<Button*> buttons;
+   PLabel txt;
+   PHBox  client;
+   PPixmap icon;
 };
 
 #endif

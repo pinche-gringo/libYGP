@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.2 2000/01/23 23:06:37 Markus Rel $
+//$Id: XAbout.cpp,v 1.3 2000/02/22 18:45:52 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -31,7 +31,7 @@
 #include <gtk--/pixmap.h>
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 #include "Check.h"
 
 #include "XAbout.h"
@@ -43,9 +43,9 @@
 //            program: Description of the program-version
 /*--------------------------------------------------------------------------*/
 XAbout::XAbout (const string& author, const string& program)
-   : Gtk_Dialog (), writer (new Gtk_Label (author)), client (new Gtk_HBox ())
-   , gpl (new Gtk_Label ("Distributed under the terms of the GNU General Public License"))
-   , ok (new Gtk_Button ("OK")) {
+   : Dialog (), writer (new Label (author)), client (new HBox ())
+   , gpl (new Label ("Distributed under the terms of the GNU General Public License"))
+   , ok (new Button ("OK")) {
    Check3 (gpl); Check3 (writer); Check3 (client);
 
    TRACE9 ("XAbout::XAbout - Show: " << text);
@@ -88,7 +88,7 @@ XAbout::~XAbout () {
 //Purpose   : Sets pixmap for the program
 //Parameters: picProgram: Pixmap for program
 /*--------------------------------------------------------------------------*/
-void XAbout::setIconProgram (Gtk_Pixmap& picProgram) {
+void XAbout::setIconProgram (Pixmap& picProgram) {
    Check3 (client);
 
    picProgram.show ();
@@ -99,7 +99,7 @@ void XAbout::setIconProgram (Gtk_Pixmap& picProgram) {
 //Purpose   : Sets pixmap for the programmer
 //Parameters: picAuthor: Pixmap for programmer
 /*--------------------------------------------------------------------------*/
-void XAbout::setIconAuthor (Gtk_Pixmap& picAuthor) {
+void XAbout::setIconAuthor (Pixmap& picAuthor) {
    Check3 (client); Check3 (vboxPrgInfo);
 
    picAuthor.show ();
