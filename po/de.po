@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.00\n"
+"Project-Id-Version: General 0.6.00 ($Revision: 1.4 $)\n"
 "POT-Creation-Date: 2002-04-14 17:19-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
@@ -14,7 +14,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: Common/ADate.cpp:200 Common/ATime.cpp:199
-#, c-format, ycp-format
 msgid "Position %1"
 msgstr "Position %1"
 
@@ -23,32 +22,26 @@ msgid "No number"
 msgstr "Keine Nummer"
 
 #: Common/AssParse.cpp:59
-#, ycp-format
 msgid "Not a valid assignment: '%1'"
 msgstr "Keine gültige Zuweisung: '%1'"
 
 #: Common/AssParse.cpp:72
-#, ycp-format
 msgid "Invalid value for attribute: '%1'"
 msgstr "Ungültiger Wert für das Attribut: '%1'"
 
 #: Common/AssParse.cpp:86
-#, ycp-format
 msgid "Quoted value not followed by seperator: '%1'"
 msgstr "Dem Wert (in Anführungszeichen) folgt kein Trennzeichen: '%1'"
 
 #: Common/AttrParse.cpp:58
-#, ycp-format
 msgid "Attribute '%1' already exists"
 msgstr "Das Attribut '%1' existiert bereits"
 
 #: Common/AttrParse.cpp:117
-#, ycp-format
 msgid "Error assigning '%1' to %2"
 msgstr "Fehler beim Zuweisen von '%1' zu %2"
 
 #: Common/AttrParse.cpp:124
-#, ycp-format
 msgid "Key '%1' not found"
 msgstr "Schlüssel '%1' nicht gefunden"
 
@@ -82,35 +75,30 @@ msgstr "Ungültige Wiederholfaktoren (unterer Faktor ist größer als der obere)"
 
 #: Common/CRegExp.cpp:629
 msgid "Regular expression ends with escape-character (\\)"
-msgstr "Ungültiger Verbund (untere Grenze ist größer als die obere)"
+msgstr "Regulärer Ausdruck endet mit dem Quotenzeichen (\\)"
 
 #: Common/CRegExp.cpp:630
 msgid "Unknown error"
 msgstr "Allgemeiner Fehler"
 
 #: Common/CRegExp.cpp:635 Common/FileRExp.cpp:242
-#, ycp-format
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
 
 #: Common/File.cpp:178
-#, ycp-format
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
 #: Common/File.cpp:192
-#, ycp-format
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
 #. Exception only if *no* char has been read
 #: Common/File.cpp:210
-#, ycp-format
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Fehler beim Lesen von Datei '%1'! Ursache: %2"
 
 #: Common/File.cpp:229
-#, ycp-format
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Fehler beim Schreiben in Datei '%1'! Ursache: %2"
 
@@ -160,46 +148,35 @@ msgid "Value"
 msgstr "Wert"
 
 #: Common/INIFile.cpp:207
-#, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "Konnte INI-Datein '%1' nicht öffnen! Ursache: %2"
 
 #: Common/IVIOAppl.cpp:234
-#, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-Fehler: Die Option '%' ist nicht eindeutig"
 
-#. end-else option ambigous
-#. endif option matches
-#. end-while
 #. No long-option found
 #: Common/IVIOAppl.cpp:243
-#, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
 #: Common/Parse.cpp:265
-#, ycp-format
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
 #: Common/Parse.cpp:652
-#, ycp-format
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
 #: Common/Parse.cpp:652
-#, c-format, ycp-format
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
 #: Common/Parse.cpp:768
-#, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
 
 #: Common/PathDirSrch.cpp:167
-#, ycp-format
 msgid "'%1' expands to more than one file"
 msgstr "'%1' spezifiziert mehr als eine Datei"
 
@@ -208,17 +185,14 @@ msgid "Out of memory"
 msgstr "Kein freier Speicher vorhanden"
 
 #: Common/PathDirSrch.cpp:172
-#, ycp-format
 msgid "'%1' contains unquoted invalid character such as `|'"
 msgstr "'%1' enthält ungültige Sonderzeichen (wie z.B.: '|')"
 
 #: Common/PathDirSrch.cpp:173
-#, ycp-format
 msgid "Syntax error in '%1' (unmatched quoting character?)"
 msgstr "Syntaxfehler in '%1' (ungleiches Sonderzeichen-Paar?)"
 
 #: Common/PathDirSrch.cpp:174
-#, ycp-format
 msgid "Unknown error in '%1'"
 msgstr "Unbekannter Fehler in '%1'"
 
@@ -252,7 +226,6 @@ msgid "Can't listen on socket"
 msgstr "Fehler beim Warten auf Daten von Socket"
 
 #: Common/Socket.cpp:169
-#, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
@@ -267,12 +240,10 @@ msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
 #: Common/Socket.cpp:286
-#, ycp-format
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
 #: Common/Socket.cpp:294
-#, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr "Kann nicht zum Server '%1' verbinden"
 
