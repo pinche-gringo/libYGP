@@ -1,6 +1,7 @@
+dnl $Id: configure.in,v 1.37 2002/07/08 03:35:57 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.36 $)
+AC_REVISION($Revision: 1.37 $)
 
 AC_INIT()
 
@@ -9,7 +10,6 @@ MINOR_VERSION=6
 MICRO_VERSION=01
 VERSION=$MAJOR_VERSION.$MINOR_VERSION.$MICRO_VERSION
 RELEASE=$MAJOR_VERSION.$MINOR_VERSION
-AC_DEFINE_UNQUOTED(MICRO_VERSION, "$MICRO_VERSION")
 AC_DEFINE_UNQUOTED(SYSTEM, UNIX)
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
@@ -28,7 +28,7 @@ GTKMM_MINVERSION=$GTKMM_NEEDED_MAYOR.$GTKMM_NEEDED_MINOR.$GTKMM_NEEDED_MICRO
 
 dnl AC_CANONICAL_SYSTEM
 
-AM_INIT_AUTOMAKE(General, $RELEASE)
+AM_INIT_AUTOMAKE(General, $VERSION)
 AM_CONFIG_HEADER(gzo-cfg.h)
 
 AC_LANG_C
@@ -76,18 +76,20 @@ if test "$ac_cv_header_regex_h" != "yes"; then
    AC_CHECK_HEADERS(regexp.h)
 fi
 
-AC_MSG_CHECKING(Checking for header CORBA.h)
-AC_CACHE_VAL(ac_cv_header_CORBA_h, ac_cv_header_CORBA_h=$ac_cv_header_CORBA_h)
-if test -z $ac_cv_header_CORBA_h; then
-AC_TRY_COMPILE([#include <CORBA.h>], [],
-   [ ac_cv_header_CORBA_h=yes],
-   [ ac_cv_header_CORBA_h=no])
-fi
-AC_MSG_RESULT([$ac_cv_header_CORBA_h])
-if test "$ac_cv_header_CORBA_h" == "yes"; then
-   SUBDIRS="$SUBDIRS CORBA"
-else
-   AC_MSG_WARN(CORBA is not installed; subdir CORBA will not be made)
+if test "$enable_corba" != "no"; then
+   AC_MSG_CHECKING(Checking for header CORBA.h)
+   AC_CACHE_VAL(ac_cv_header_CORBA_h, ac_cv_header_CORBA_h=$ac_cv_header_CORBA_h)
+   if test -z $ac_cv_header_CORBA_h; then
+   AC_TRY_COMPILE([#include <CORBA.h>], [],
+      [ ac_cv_header_CORBA_h=yes],
+      [ ac_cv_header_CORBA_h=no])
+   fi
+   AC_MSG_RESULT([$ac_cv_header_CORBA_h])
+   if test "$ac_cv_header_CORBA_h" == "yes"; then
+      SUBDIRS="$SUBDIRS CORBA"
+   else
+      AC_MSG_WARN(CORBA is not installed; subdir CORBA will not be made)
+   fi
 fi
 
 AC_PATH_PROG(GTKMM_CONFIG, gtkmm-config, no)
@@ -98,10 +100,9 @@ if test "$GTKMM_CONFIG" == "no"; then
    AC_MSG_CHECKING(Checking for gtkmm - version)
    ver=`gtk-config --version`
    AC_MSG_RESULT($ver)
-   mayor=${ver%%.*}
-   minor=${ver#*.}
-   minor=${minor%.*}
-   micro=${ver##*.}
+   mayor=`echo $ver|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+   minor=`echo $ver|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+   micro=`echo $ver|sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
    if test $mayor -lt $GTKMM_NEEDED_MAYOR -o $mayor -eq $GTKMM_NEEDED_MAYOR \
      -a $minor -lt $GTKMM_NEEDED_MINOR -o $minor -eq $GTKMM_NEEDED_MINOR \
      -a $micro -lt $GTKMM_NEEDED_MICRO; then
@@ -127,7 +128,7 @@ AC_CHECK_FUNCS(timegm strfmon)
 
 AC_MSG_CHECKING(if signal.h defines a SIGBUS)
 AC_CACHE_VAL(ac_cv_HAVE_SIGBUS, ac_cv_HAVE_SIGBUS=$ac_HAVE_SIGBUS)
-AC_TRY_COMPILE([#include <signal.h>],[signal (SIGBUS, SIG_DFL);],
+AC_TRY_COMPILE([#include <signal.h>], [signal (SIGBUS, SIG_DFL);],
                [AC_DEFINE(HAVE_SIGBUS) HAVE_SIGBUS=yes])
 AC_MSG_RESULT($HAVE_SIGBUS)
 
@@ -149,6 +150,9 @@ AC_ARG_ENABLE(checks,
                   CXXFLAGS="$CXXFLAGS -DCHECK=$enableval";
               else
                   CXXFLAGS="$CXXFLAGS -DNDEBUG -UCHECK"; fi)
+AC_ARG_ENABLE(corba,
+              AC_HELP_STRING([--enable-corba],
+                             [Enables the check for an CORBA-implementation]))
 
 AC_OUTPUT([Makefile Common/Makefile Common/Tests/Makefile X-windows/Makefile \
            X-windows/Icons/Makefile CORBA/Makefile intl/Makefile po/Makefile.in \
