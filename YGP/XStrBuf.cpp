@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.27 2003/07/10 20:14:56 markus Exp $
+// $Id: XStrBuf.cpp,v 1.28 2003/07/10 21:24:50 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -186,7 +186,7 @@ int extStreambuf::pbackfail (int c) {
 //-----------------------------------------------------------------------------
 /// Positionates the read pointer to the passed offset (either starting from
 /// the beginning or the end of the stream or from the current position).
-/// \param pos: Offset to change in the stream
+/// \param off: Offset to change in the stream
 /// \param dir: Direction to change offset to
 /// \param mode: Which pointer to move (get, put)
 /// \returns \c New position in the stream
