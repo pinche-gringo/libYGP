@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: XDialog.html,v 1.1 2003/02/16 22:41:58 markus Exp $ -->
+<!-- $Id: XDialog.html,v 1.2 2003/03/27 00:34:57 markus Rel $ -->
 
 <html>
   <head>
@@ -24,6 +24,7 @@
       <br>
       Derived by:
       <a href="BrowserDlg.html">BrowserDlg</a>
+      <a href="XAbout.html">XAbout</a>
       <a href="XDate.html">XDate</a>
       <a href="XPrintDialog.html">XPrintDialog</a></p>
 
@@ -35,9 +36,6 @@
       a command handler for them. Pressing OK is reported with the okEvent-
       method; cancel with the cancelEvent-method. The baseclase closes the
       dialog in both cases.</p>
-
-      <p>Note that the OK button is added at the beginning and CANCEL at the end
-        of the action area.</p>
 
       <p>Pressing ESC is equal to selecting the CANCEL button.</p>
 
@@ -58,6 +56,9 @@
       <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
         <td><a href="XDialog.html#addButton"><b>addButton</b></a></td>
         <td><tt>(<tt><span style="color:navy;">Gtk::Button</span></tt>&amp; <tt><span style="color:blue;">button</span></tt>, <tt><span style="color:purple;">bool</span></tt> <tt><span style="color:blue;">start</span></tt> = true)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XDialog.html#command"><b>command</b></a></td>
+        <td><tt>(<tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">action</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple;">void</span></tt></tt> </td>
         <td><a href="XDialog.html#cancelEvent"><b>cancelEvent</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -103,6 +104,12 @@
     <pre><a name="cancelEvent"></a>void <b>cancelEvent</b> ()</pre>
     <dl>
       <dd><p>Callback after pressing the Cancel button</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="command"></a>void <b>command</b> (int action)</pre>
+    <dl>
+      <dd><p>Callback after any other button (installed by derived objects with the
+        add_button-method) is pressed.</p></dd>
     </dl>
   </body>
 </html>
