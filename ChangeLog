@@ -1,3 +1,24 @@
+2004-01-15  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.44
+
+	* README:
+	  Changed copyright; including 2004; Updated directory structure
+
+	* po/de.po, po/en.po, po/es.po, bin/mgeni, doc/index.html, CGP/CDirSrch.idl, CGP/CIDirSrch.cpp, CGP/Tests/Local.cpp, CGP/Tests/RFile.cpp, CGP/Tests/Remote.cpp, CGP/Version.cpp, XGP/AutoContainer.cpp, XGP/BrowserDlg.cpp, XGP/ConnectDlg.cpp, XGP/Folder.cpp, XGP/GTKViewer.c, XGP/HTMLViewer.cpp, XGP/MessageDlg.cpp, XGP/Samples/Dialog.cpp, XGP/Samples/X-Appl.cpp, XGP/Version.cpp, XGP/XAbout.cpp, XGP/XApplication.cpp, XGP/XDate.cpp, XGP/XDialog.cpp, XGP/XFileDlg.cpp, XGP/XFileEntry.cpp, XGP/XFileList.cpp, XGP/XPrintDlg.cpp, YGP/ATStamp.cpp, YGP/ATime.cpp, YGP/AssParse.cpp, YGP/AttrParse.cpp, YGP/CRegExp.cpp, YGP/Check.cpp, YGP/ConnMgr.cpp, YGP/DirSrch.cpp, YGP/Entity.cpp, YGP/File.cpp, YGP/FileRExp.cpp, YGP/Handle.cpp, YGP/IDirSrch.cpp, YGP/INIFile.cpp, YGP/IVIOAppl.cpp, YGP/Parse.cpp, YGP/PathDirSrch.cpp, YGP/PathSrch.cpp, YGP/Process.cpp, YGP/RDirSrch.cpp, YGP/RDirSrchSrv.cpp, YGP/RemoteFile.cpp, YGP/Socket.cpp, YGP/StackTrc.cpp, YGP/StatusObj.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Thread.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Thread.cpp, YGP/Tokenize.cpp, YGP/Version.cpp, YGP/XDirSrch.cpp, YGP/XStrBuf.cpp, YGP/ADate.cpp, YGP/ANumeric.cpp:
+	  Changed copyright; including 2004
+
+	* configure.in: Version to 0.6.44
+
+	* YGP/IVIOAppl.cpp: Catching exceptions in run ()
+
+	* po/de.po, po/en.po, po/es.po: Warnings for unhandled exceptions added
+
+2004-01-14  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  Moved namespace-closing-bracket inside #ifdef GTKHTML
+
 2004-01-05  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.43
