@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.37 2000/05/18 23:48:02 Markus Exp $
+// $Id: Test.cpp,v 1.38 2000/05/21 18:43:37 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -297,6 +297,40 @@ int Application::perform (int argc, const char* argv[]) {
       check (regexp.matches ("b"));
       check (!regexp.matches ("aab"));
       check (!regexp.matches ("acb"));
+
+      regexp = "[[:alpha:]]*";
+      check (regexp.matches ("ab"));
+      check (regexp.matches ("aaaaab"));
+      check (!regexp.matches ("a1b"));
+
+      regexp = "ab\\>.*\\<cd";
+      check (regexp.matches ("ab cd"));
+      check (regexp.matches ("ab ff cd"));
+      check (!regexp.matches ("abcd"));
+      check (!regexp.matches ("cd ab"));
+      check (!regexp.matches ("abcd"));
+
+      regexp = "\\>cd";
+      check (!regexp.matches ("cd"));
+
+      regexp = "ab\\<";
+      check (!regexp.matches ("ab"));
+
+      regexp = "ab\\>.*";
+      check (regexp.matches ("ab cd"));
+      check (!regexp.matches ("cd"));
+
+      regexp = "\\<cd";
+      check (regexp.matches ("cd"));
+      check (!regexp.matches ("acd"));
+
+      regexp = "ab\\b.\\bcd";
+      check (regexp.matches ("ab.cd"));
+      check (!regexp.matches ("acd"));
+
+      regexp = "ab\\Bcd";
+      check (regexp.matches ("abcd"));
+      check (!regexp.matches ("ab cd"));
    }
    catch (std::string& e) {
       cerr << e.c_str () << '\n';
