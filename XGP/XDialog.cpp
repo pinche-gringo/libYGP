@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.9 2003/07/20 02:20:00 markus Rel $
+//$Id: XDialog.cpp,v 1.10 2003/07/23 07:02:03 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -143,15 +143,15 @@ void XDialog::on_response (int cmd) {
 //-----------------------------------------------------------------------------
 void XDialog::okEvent () {
    TRACE9 ("XDialog::okEvent ()");
-   delete this;
+   destroy_ ();
 }
 
 //-----------------------------------------------------------------------------
 /// Callback after pressing the Cancel button
 //-----------------------------------------------------------------------------
 void XDialog::cancelEvent () {
-   TRACE9 ("XDialog::okEvent ()");
-   delete this;
+   TRACE9 ("XDialog::cancelEvent ()");
+   destroy_ ();
 }
 
 //-----------------------------------------------------------------------------
