@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.1 2002/07/11 07:05:44 markus Exp $
+# $Id: Makefile.in,v 1.2 2002/07/12 00:09:30 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -60,8 +60,8 @@ LTCORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLA
 
 PROGRAMS=Local Remote
 
-LOCAL_OBJS=Local.o ../CDirSrch.o ../CIDirSrch.o
-REMOTE_OBJS=Remote.o ../CDirSrch.o ../CIDirSrch.o
+LOCAL_OBJS=Local.o
+REMOTE_OBJS=Remote.o
 
 DISFILES=Local.cpp Remote.cpp
 
@@ -130,10 +130,10 @@ Local.o: Local.cpp
 Remote.o: Remote.cpp
 
 Local: $(LOCAL_OBJS)
-	$(CORBALINK) $(LOCAL_OBJS)
+	$(CORBALINK) $(LOCAL_OBJS) ../CDirSrch.o ../CIDirSrch.o
 
 Remote: $(REMOTE_OBJS)
-	$(CORBALINK) $(REMOTE_OBJS)
+	$(CORBALINK) $(REMOTE_OBJS) ../CDirSrch.o ../CIDirSrch.o
 
 Makefile: Makefile.in $(top_builddir)/config.status
 	cd $(top_builddir) \
