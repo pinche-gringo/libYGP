@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.6 2003/07/19 08:36:40 markus Exp $
+// $Id: Version.cpp,v 1.7 2003/07/20 02:21:20 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,9 +28,9 @@
 
 /**\mainpage Overview of the XGP library
 
-   \section intro Introduction XGP stands for yet another X-windows General
-   Purpose library (matching its counterpart YGP) and provides some classes
-   using the X windows system.
+   \section intro Introduction
+   XGP stands for yet another X-windows General Purpose library (matching its
+   counterpart YGP) and provides some classes using the X windows system.
 
    This classes base on the GTKMM toolkit (which itself bases on GTK).
 
