@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.6 2004/09/06 00:27:38 markus Exp $
+//$Id: MessageDlg.cpp,v 1.7 2004/09/07 05:57:30 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -81,7 +81,7 @@ Gtk::MessageType MessageDlg::getButtonType (YGP::StatusObject::type tp) {
 
 //----------------------------------------------------------------------------
 /// Shows or hides the details box and adapts the show button accordingly
-/// \param show: Flag, if details should be shown 
+/// \param show: Flag, if details should be shown
 /// \remarks If the object does not have any details, the show-details button
 ///       is disabled
 //----------------------------------------------------------------------------
@@ -90,9 +90,20 @@ void MessageDlg::showDetails (bool show) {
                           (show ? _("Hide _details") : _("Show _details")));
    show ? detail->show () : detail->hide ();
 
+   Glib::signal_idle ().connect
+       (bind (mem_fun (*this, &MessageDlg::doRegister), !show));
+}
+
+//----------------------------------------------------------------------------
+/// Re-registers the action of the show button
+/// \param show: Flag, if details should be shown
+/// \returns bool: Always false
+//----------------------------------------------------------------------------
+bool MessageDlg::doRegister (bool show) {
    cb.disconnect ();
    cb = showDetail->signal_clicked ().connect
-       (bind (mem_fun (*this, &MessageDlg::showDetails), !show));
+       (bind (mem_fun (*this, &MessageDlg::showDetails), show));
+   return false;
 }
 
 //----------------------------------------------------------------------------
