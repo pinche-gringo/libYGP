@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.38 2002/05/24 06:52:49 markus Exp $
+//$Id: DirSrch.cpp,v 1.39 2002/08/20 05:17:25 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -132,7 +132,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
 
-   // Attribut-handling: Files having attrs not specified here are not ret.
+   // Attribut-handling: Files having attrs not specified here are not returned
    unsigned long attr_ = ~convertToSysAttribs (attr | FILE_ATTRIBUTE_ARCHIVE);
 
    return ((pEntry->attributes () & attr_)
@@ -192,8 +192,8 @@ const File* DirectorySearch::next () {
    return NULL;
 #else
 #  if SYSTEM == WINDOWS
-   // Attribut-handling: Files having attrs not specified here are not ret.
-   unsigned long attr_ = ~(attr | FILE_ATTRIBUTE_ARCHIVE);
+   // Attribut-handling: Files having attrs not specified here are not returned
+   unsigned long attr_ = ~convertToSysAttribs (attr | FILE_ATTRIBUTE_ARCHIVE);
 
    while (FindNextFile (hSearch, pEntry))
       if (!(pEntry->attributes () & attr_)
