@@ -1,4 +1,4 @@
-<!-- $Id: AttrVal.html,v 1.6 2001/03/25 10:01:02 markus Exp $ -->
+<!-- $Id: AttrVal.html,v 1.7 2001/09/17 14:50:20 markus Exp $ -->
 
 <html>
   <head>
@@ -11,15 +11,24 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
-    <table align="center" border="0" cellspacing="10">
-      <tr><td><a href="index.html">Class Index</a></td></tr>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
     <h1 align="center">Class AttributValue </h1>
-    <p>Derived from: <i>None</i></p>
+    <p>Derived from:
+      <i>none</i>
+      <br>
+      Derived by:
+      <a href="AByteArray.html">AByteArray</a>
+      <a href="ADate.html">ADate</a>
+      <a href="ANumeric.html">ANumeric</a>
+      <a href="ATime.html">ATime</a>
+      <a href="IHandle.html">IHandle</a></p>
 
-    <p>Header-file: AttrVal.h</p>
+    <p>#include &lt;AttrVal.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
@@ -33,41 +42,56 @@
 
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td>bool</td>
-        <td><a href="AttrVal.html#isDefined">isDefined</a></td><td>() const</td></tr>
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="AttrVal.html#undefine">undefine</a></td><td>()</td></tr>
+      <tr valign="top"><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="AttrVal.html#isDefined"><b>isDefined</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="AttrVal.html#undefine"><b>undefine</b></a></td>
+        <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td>&nbsp;</td></tr>
-      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="AttrVal.html#AttributValue">AttributValue</a></td><td>()</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="AttrVal.html#AttributValue2">AttributValue</a></td>
-        <td>(const <a href="AttrVal.html">AttributValue</a>&amp; other)</td></tr>
-      <tr valign="top"><td></td>
-        <td><a href="AttrVal.html#AttributValue3">AttributValue</a></td><td>(bool define)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="AttrVal.html#~AttributValue">~AttributValue</a></td><td>()</td></tr>
-      <tr valign="top"><td><a href="AttrVal.html">AttributValue</a>&amp;</td>
-        <td><a href="AttrVal.html#operator=">operator=</a></td>
-        <td>(const <a href="AttrVal.html">AttributValue</a>&amp; other)</td></tr>
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="AttrVal.html#define">define</a></td><td>() = 0</td></tr>
-      <tr valign="top"><td>virtual std::string</td>
-        <td><a href="AttrVal.html#toString">toString</a></td><td>() const</td></tr>
-      <tr valign="top"><td>void</td>
-        <td><a href="AttrVal.html#toString2">toString</a></td>
-        <td>(std::string&amp; result)</td></tr>
-      <tr valign="top"><td>virtual void</td>
-        <td><a href="AttrVal.html#readFromStream">readFromStream</a></td>
-        <td>(istream&amp;)</td></tr>
-      <tr valign="top"><td>friend istream&amp;</td>
-        <td><a href="AttrVal.html#operatorrshift">operator&gt;&gt;</a></td>
-        <td>(istream&amp; in, <a href="AttrVal.html">AttributValue&amp;</a> inValue)</td></tr>
-      <tr valign="top"><td>friend ostream&amp;</td>
-        <td><a href="AttrVal.html#operatorlshift">operator&lt;&lt;</a></td>
-        <td>(ostream&amp; out, const <a href="AttrVal.html">AttributValue&amp;</a> outValue)</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="AttrVal.html#AttributValue"><b>AttributValue</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="AttrVal.html#AttributValue3"><b>AttributValue</b></a></td>
+        <td><tt>(<tt><font color="purple">bool</font></tt> <tt><font color="blue">define</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="AttrVal.html#AttributValue2"><b>AttributValue</b></a></td>
+        <td><tt>(<tt>const</tt> <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="AttrVal.html#define"><b>define</b></a></td>
+        <td><tt>() = 0</tt>;</td></tr>
+      <tr valign="top"><td><tt><a href="AttrVal.html"><b>AttributValue</b></a>&amp;</tt> </td>
+        <td><a href="AttrVal.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <tt><font color="blue">other</font></tt>)</tt>;</td></tr>
+
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="AttrVal.html#readFromStream"><b>readFromStream</b></a></td>
+        <td><tt>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">result</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td>friend <tt><font color="purple">istream</font></tt>&amp;</td>
+        <td><a href="AttrVal.html#operatorrshift"><tt><font color="black"><b>operator</b></font></tt>&gt;&gt;</tt></a></td>
+        <td>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">in</font></tt>, <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <tt><font color="blue">inValue</font></tt>)</td></tr>
+      <tr valign="top"><td>friend <tt><font color="purple">ostream</font></tt>&amp;</td>
+        <td><a href="AttrVal.html#operatorlshift"><tt><font color="black"><b>operator</b></font>&lt;&lt;</tt></a></td>
+        <td>(<tt><font color="purple">ostream</font></tt>&amp; <tt><font color="blue">out</font></tt>, <tt>const</tt> <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <tt><font color="blue">outValue</font></tt>)</td></tr>
+
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="navy">std::string</font></tt></tt> </td>
+        <td><a href="AttrVal.html#toString"><b>toString</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="AttrVal.html#toString2"><b>toString</b></a></td>
+        <td><tt>(<tt><font color="navy">std::string</font></tt>&amp; <tt><font color="blue">result</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="navy">std::string</font></tt></tt> </td>
+        <td><a href="AttrVal.html#toUnformatedString"><b>toUnformatedString</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="AttrVal.html#toUnformatedString2"><b>toUnformatedString</b></a></td>
+        <td><tt>(<tt><font color="navy">std::string</font></tt>&amp; <tt><font color="blue">result</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
+        <td><a href="AttrVal.html#~AttributValue"><b>~AttributValue</b></a></td>
+        <td><tt>()</tt>;</td></tr>
     </table>
 
     <hr noshade>
@@ -92,30 +116,39 @@
     <pre><a name="operatorrshift"></a>friend istream&amp; operator&gt;&gt; (istream&amp; in, AttributValue&amp; inValue)</pre>
     <dl>
       <dd>Reads the object from the passed stream using the virtual method
-        <a href="AttrVal.html#readFromStream">readFromStream</a>.</dd>
+        <a href="AttrVal.html#readFromStream"><b>readFromStream</b></a>.</dd>
     </dl>
 
     <pre><a name="operatorlshift"></a>friend ostream&amp; operator&gt;&gt; (ostream&amp; out, const AttributValue&amp; outValue)</pre>
     <dl>
       <dd>Writes the object to the stream using the virtual method
-        <a href="AttrVal.html#toString">toString</a>.</dd>
+        <a href="AttrVal.html#toUnformatedString"><b>toUnformatedString</b></a>.</dd>
     </dl>
 
     <pre><a name="toString"></a>virtual std::string toString () const</pre>
     <dl>
-      <dd>Converts the attribute into a string.</dd>
+      <dd>Converts the attribute into a (formated) string. The default implementation is
+        to return the unformated value.</dd>
     </dl>
 
     <pre><a name="toString2"></a>void toString (std::string&amp; result) const</pre>
     <dl>
-      <dd>Converts the attribute into a string.</dd>
+      <dd>Converts the attribute into a (formated) string.</dd>
     </dl>
 
     <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp;)</pre>
     <dl>
-      <dd>Reads data from a stream into the attribute.</dd>
+      <dd>Converts the attribute into an unformated string.</dd>
     </dl>
 
+    <pre><a name="toUnformatedString"></a>virtual std::string toUnformatedString () const</pre>
+    <dl>
+      <dd>Converts the attribute into an unformated string.</dd>
+    </dl>
+    <pre><a name="toUnformatedString2"></a>void toUnformatedString (std::string&amp; result) const</pre>
+    <dl>
+      <dd>Converts the attribute into an unformated string.</dd>
+    </dl>
 
     <h4>Handling of the state</h4>
     <pre><a name="isDefined"></a>bool isDefined () const</pre>
