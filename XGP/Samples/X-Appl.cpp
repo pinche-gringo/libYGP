@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.9 2003/03/27 00:52:05 markus Exp $
+//$Id: X-Appl.cpp,v 1.10 2003/06/02 01:33:37 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -192,12 +192,11 @@ XApplication::MenuEntry XAppl::menuItems[] = {
 /*--------------------------------------------------------------------------*/
 XAppl::XAppl ()
    : XApplication ("X" PACKAGE " V" LIB_RELEASE)
-     , listFiles (), files (XFileListStore::create (cols)), status (), scroll () {
+     , files (XFileListStore::create (cols)), listFiles (files)
+     , status (), scroll () {
    TRACE3 ("XAppl::XAppl ()");
 
-   listFiles.set_model (files);
-
-   set_size_request (620, 400);
+   set_default_size (620, 400);
 
    TRACE5 ("XAppl::XAppl () -> Create menus");
    addMenus (menuItems, sizeof (menuItems) / sizeof (menuItems[0]));
