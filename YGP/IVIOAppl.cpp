@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.3 1999/08/11 16:19:54 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.4 1999/08/11 17:22:23 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -46,18 +46,21 @@ inline bool isOptionChar (const char ch) {
 }
 
 
-//static const char* const Version = "@§$%" PACKAGE " V" VERSION "." MICRO_VERSION "\n"
-//                                   __FILE__ " $Revision: 1.3 $@§$%";
-
-
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
+//Parameters: argc: Number of arguments
+//            argv: Array of pointers to argumetns
+//            pOpt: Pointer to long-option-table
 /*--------------------------------------------------------------------------*/
-IVIOApplication::IVIOApplication (int argc, char* argv[]) : args (argc)
-   , ppArgs (argv), startArg (1), pOptionParam (NULL), longOpt (NULL)
+IVIOApplication::IVIOApplication (int argc, char* argv[],
+				  const longOptions* pOpt = NULL)
+   : args (argc), ppArgs (argv), startArg (1), pOptionParam (NULL)
+   ,  longOpt (NULL)
    , numLongOpt (0) {
    assert (args > 0);
    assert (ppArgs);
+   if (pOpt)
+      setLongOptions (pOpt);
 }
 
 
@@ -138,10 +141,9 @@ char* IVIOApplication::getOptionValue () {
    if (pOptionParam && *pOptionParam) {
       pHelp = pOptionParam;
       pOptionParam = NULL;
+      ++startArg;
    } else
-      pHelp = ppArgs[startArg];
-
-   ++startArg;
+      pHelp = ppArgs[++startArg];
    return pHelp;
 }
 
