@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.5 1999/10/14 22:23:32 Markus Exp $
+//$Id: ADate.cpp,v 1.6 1999/10/15 21:34:26 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -46,22 +46,10 @@
 //                 should be set
 /*--------------------------------------------------------------------------*/
 ADate::ADate (bool now) : AttributValue () {
-   if (now) {
-      time_t curtime (time (NULL));
-      struct tm* locTime (localtime (&curtime)); assert (locTime);
-      day = locTime->tm_mday;
-      month = locTime->tm_mon + 1;                   // tm_mon is from 0 to 11
-      year = locTime->tm_year + 1900;
-   }
-   else {
-      day = month = 1;
-      year = 1900;
-   }
-
-   if (checkIntegrity ())
-      TRACE ("ADate::ADate -> checkIntegrity failed with " << checkIntegrity ())
+   if (now)
+      operator= (time (NULL));
    else
-      AttributValue::define ();
+      define ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -105,10 +93,6 @@ ADate& ADate::operator= (const ADate& other) {
       month = other.month;
       year = other.year;
       AttributValue::operator= ((const AttributValue&) other);
-
-      if (checkIntegrity ())
-         TRACE ("ADate::operator= -> checkIntegrity failed with "
-                << checkIntegrity ());
    }
    return *this;
 }
@@ -378,7 +362,7 @@ bool ADate::isLeapYear (unsigned int year) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible underflow
 /*--------------------------------------------------------------------------*/
-void ADate::minAdapt () {
+bool ADate::minAdapt () {
    if ((day < 1) || (day > maxDayOf ()))            // Adapt date if underflow
       --month;
 
@@ -390,13 +374,13 @@ void ADate::minAdapt () {
    if ((day < 1) || (day > maxDayOf ()))                    // Finish adaption
       day += maxDayOf ();
 
-   assert (!checkIntegrity ());
+   return !checkIntegrity ();
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adapt value after recalculation with possible overflow
 /*--------------------------------------------------------------------------*/
-void ADate::maxAdapt () {
+bool ADate::maxAdapt () {
    int maxDay (maxDayOf ());                         // Adapt date if overflow
    if (day > maxDay) {
       day -= maxDay;
@@ -407,7 +391,7 @@ void ADate::maxAdapt () {
       month -= 12;              // Assuming calculation was with correct month
       ++year;
    }
-   assert (!checkIntegrity ());
+   return !checkIntegrity ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -419,6 +403,7 @@ void ADate::setDay (char Day) {
 
    if (checkIntegrity ()) {
       TRACE ("ADate::setDay -> checkIntegrity failed with " << checkIntegrity ());
+      day = 1;
       undefine ();
    }
    else
@@ -426,14 +411,15 @@ void ADate::setDay (char Day) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Sets the day-part of this
-//Parameters: Day: Day to set
+//Purpose   : Sets the month-part of this
+//Parameters: month: Month to set
 /*--------------------------------------------------------------------------*/
 void ADate::setMonth (char Month) {
    month = Month;
 
    if (checkIntegrity ()) {
       TRACE ("ADate::setMonth -> checkIntegrity failed with " << checkIntegrity ());
+      month = 1;
       undefine ();
    }
    else
