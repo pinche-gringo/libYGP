@@ -1,11 +1,11 @@
-// $Id: Entity.cpp,v 1.1 2005/01/08 22:08:27 markus Exp $
+// $Id: Entity.cpp,v 1.2 2005/01/12 22:33:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.1.2005
 //COPYRIGHT   : Copyright (C) 2005
@@ -58,8 +58,7 @@ int main (int argc, char* argv[]) {
    std::cout << "Testing Entity...\n";
    std::string tmp (tmpnam (NULL)); check (tmp.size ());
    std::ofstream tmpFile (tmp.c_str ());
-   std::ifstream input (tmp.c_str ());
-   check (tmpFile); check (input);
+   check (tmpFile);
    test obj1;
    obj1.text ="TEXT";
    obj1.year = 2005;
@@ -68,6 +67,7 @@ int main (int argc, char* argv[]) {
    tmpFile << obj1;
    tmpFile.close ();
 
+   std::ifstream input (tmp.c_str ()); check (input);
    test obj2;
    input >> obj2;
    check (obj1.text == obj2.text);
