@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.32 2003/07/03 04:10:53 markus Rel $
+//$Id: ADate.cpp,v 1.33 2003/10/11 06:39:28 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -163,10 +163,10 @@ std::string ADate::toString (const char* format) const {
 
    if (isDefined ()) {
       struct tm tm (toStructTM ());
-#if defined (_MSC_VER) || defined (__BORLANDC__)
-      char aBuffer[80];      // VC doesn't return the buffersize it would need
-#else
+#ifdef STRFTIME_RETURNS_LENGTH
       char aBuffer[strftime (NULL, 200, format, &tm) + 1];
+#else
+      char aBuffer[80];
 #endif
       strftime (aBuffer, sizeof (aBuffer), format, &tm);
       result = aBuffer;
