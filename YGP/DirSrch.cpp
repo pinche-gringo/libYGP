@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.36 2002/04/09 20:05:09 markus Exp $
+//$Id: DirSrch.cpp,v 1.37 2002/05/09 08:12:00 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -47,6 +47,7 @@
 //Purpose   : Constructor
 /*--------------------------------------------------------------------------*/
 DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
+                                      , offStrip (0)
 #if SYSTEM == UNIX
      , pDir (NULL)
 #else
@@ -97,7 +98,11 @@ const File* DirectorySearch::find (unsigned long attribs) {
 	   << searchFile.c_str ());
 
    pEntry = new File;
-   pEntry->path_ = searchDir;
+   // Set path-information; but cut path in case of special cases
+   pEntry->path_ = offStrip
+      ? searchDir.substr ((offStrip > 0) ? offStrip : ((offStrip < 0) ? -offStrip : 0))
+      : searchDir;
+   TRACE8 ("DirectorySearch::find (result, attribs) - Search in dir " << pEntry->path_);
    assert (!checkIntegrity ());
 
 #if SYSTEM == UNIX
@@ -163,7 +168,8 @@ const File* DirectorySearch::next () {
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
       TRACE8 ("DirectorySearch::next () - found " << pDirEnt->d_name);
 
-      if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
+      if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.')
+          && searchFile[0] != '.')
          continue;
 
       if (regExp.matches (pDirEnt->d_name)) {
@@ -214,7 +220,7 @@ int DirectorySearch::checkIntegrity () const {
 
    return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
                                         pEntry ? 
-                                        pEntry->path_.empty () : NO_ENTRY;
+                                        (pEntry->path_.empty () && !offStrip): NO_ENTRY;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -227,9 +233,8 @@ void DirectorySearch::setSearchValue (const std::string& search) {
    assert (!search.empty ());
 
    pEntry = NULL;          // New search-value means new search with new result
+   offStrip = 0;
 
-   searchDir = '.';
-   searchDir += File::DIRSEPERATOR;
    searchFile = search;
 
    unsigned int len (search.length () - 1);
@@ -244,6 +249,18 @@ void DirectorySearch::setSearchValue (const std::string& search) {
       TRACE9 ("DirectorySearch::setSearchValue - 2: " << searchDir);
       searchFile.replace (0, len + 1, 0, '\0');
       TRACE9 ("DirectorySearch::setSearchValue - 3: " << searchFile);
+   }
+   else {
+      if (searchFile.empty ()) {
+         searchDir = File::DIRSEPERATOR;
+         searchFile = '.';
+         offStrip = 1;
+      }
+      else {
+         offStrip = 2;
+         searchDir = '.';
+         searchDir += File::DIRSEPERATOR;
+      }
    }
    TRACE9 ("DirectorySearch::setSearchValue - checkIntegrity () = " << checkIntegrity ());
    assert (checkIntegrity () <= NO_ENTRY);
