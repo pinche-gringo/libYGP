@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.3 2002/04/24 03:05:51 markus Rel $
+// $Id: Version.cpp,v 1.4 2002/07/08 03:30:25 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,6 +32,6 @@ static const int _init () {
 }
 
 
-static const char* Version = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
+static const char* Version = "\n!@$%" PACKAGE " V" VERSION
                              " Compiled on " __DATE__ "%$@!\n";
 static const int init = _init ();
