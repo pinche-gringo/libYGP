@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.1 2000/05/15 00:14:44 Markus Exp $
+//$Id: CRegExp.h,v 1.2 2000/05/18 23:47:34 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 
 #ifdef HAVE_REGEX_H
-//#  undef HAVE_REGEX_H
+#  undef HAVE_REGEX_H
 #  include <sys/types.h>
 #  include <regex.h>
 #else
@@ -87,10 +87,16 @@ class RegularExpression : public IRegularExpression {
 
    enum { MULTIMATCHOPT = '*', MULTIMATCHMAND = '+', MULTIMATCH1 = '?',
           SINGLEMATCH = '.', LINEBEGIN = '^', LINEEND = '$', QUOTE = '\\',
-          REGIONBEGIN = '[', REGIONEND = ']', RANGE = '-', NEGREGION = '^' };
+          REGIONBEGIN = '[', REGIONEND = ']', RANGE = '-', NEGREGION = '^',
+          GROUPBEGIN = '(', GROUPEND = ')' };
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare) const;
+#ifndef HAVE_REGEX_H
+   virtual bool compRegion (const char*& pAktPos, const std::string& region) const;
+   virtual bool compGroup (const char*& pAktPos, const std::string& group) const;
+   virtual bool compChar (const char*& pAktPos, const std::string& ch) const;
+#endif
 
  private:
    // Prohibited manager functions
@@ -100,12 +106,12 @@ class RegularExpression : public IRegularExpression {
 
    std::string getError (int rc, unsigned int pos) const;
 
-   enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN };
+   enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
+          INV_RANGE };
 
 #ifdef HAVE_REGEX_H
    regex_t regexp;
 #endif
-
 };
 
 #endif
