@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.9 2002/07/11 07:14:12 markus Exp $
+# $Id: Makefile.in,v 1.10 2002/07/12 16:40:51 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -78,7 +78,6 @@ EXTRA_DIST=
 DIST_COMMON = Makefile.in
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(DIST_HEADERS) $(TEXINFOS) $(EXTRA_DIST)
-
 
 all: Makefile $(LIB_TARGETS) all-recursive
 
@@ -187,21 +186,32 @@ clean: clean-recursive
 	   rm -f $${i%.*}.cc $${i%.*}.h; \
 	done
 
-distdir: $(DISTFILES) dist-recursive
+distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+	for subdir in $(SUBDIRS); do \
+	  echo "Checking subdir: " $$subdir; \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    chmod 777 $(distdir)/$$subdir; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
+	  fi; \
+	done
 
 check: all check-recursive
 
-all-recursive check-recursive dist-recursive clean-recursive:
+all-recursive check-recursive clean-recursive:
 	@set fnord $(MAKEFLAGS); amf=$$2; \
 	dot_seen=no; \
 	target=`echo $@ | sed s/-recursive//`; \

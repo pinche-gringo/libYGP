@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.2 2002/07/12 00:09:30 markus Exp $
+# $Id: Makefile.in,v 1.3 2002/07/12 16:42:02 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -63,7 +63,7 @@ PROGRAMS=Local Remote
 LOCAL_OBJS=Local.o
 REMOTE_OBJS=Remote.o
 
-DISFILES=Local.cpp Remote.cpp
+DISTFILES=Local.cpp Remote.cpp Makefile.in
 
 all: Makefile $(PROGRAMS)
 
@@ -148,10 +148,11 @@ clean:
 	rm -f *.o *.lo core *.core;
 
 distdir: $(DISTFILES)
+	@test -d $(distdir) || mkdir $(distdir) || exit 1;
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$/$$file $(distdir)/$$file; \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
