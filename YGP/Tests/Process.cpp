@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.3 2005/01/12 22:11:57 markus Rel $
+// $Id: Process.cpp,v 1.4 2005/03/17 20:38:04 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -46,7 +46,7 @@ const char* argIOConnected ("--io");
 
 
 int main (int argc, char* argv[]) {
-   char buffer[40] = "";
+   char buffer[8] = "";
 
    if (argc == 1)
       std::cout << "Testing processes ...\n";
@@ -64,7 +64,8 @@ int main (int argc, char* argv[]) {
 	    return 2;
 	 }
 	 else {
-	    std::cout << "OK";
+	    std::cout << "O"; std::cout.flush ();
+	    std::cerr << "K"; std::cerr.flush ();
 	    return 3;
 	 }
       }
@@ -90,15 +91,20 @@ int main (int argc, char* argv[]) {
       check (!rc);
 
       arguments[1] = argIOConnected;
-      YGP::Process::execIOConnected (argv[0], arguments, pipes);
+      pid_t pid (YGP::Process::execIOConnected (argv[0], arguments, pipes));
 
       check (write (pipes[1], argIOConnected, strlen (argIOConnected)) != -1);
       check (close (pipes[1]) != -1);
       check (!*buffer);
-      check (read (pipes[0], buffer, sizeof (buffer)) != -1);
+      check (read (pipes[0], buffer, sizeof (buffer)) == 1);
+      check (*buffer == 'O');
+      check (read (pipes[0], buffer, sizeof (buffer)) == 1);
+      check (*buffer == 'K');
+
       close (pipes[0]);
       close (pipes[1]);
-      check (!strcmp (buffer, "OK"));
+
+      YGP::Process::waitForProcess (pid);
    }
    catch (std::string& err) {
       std::cerr << err << '\n';
