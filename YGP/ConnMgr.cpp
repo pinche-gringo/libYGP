@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.3 2003/07/27 03:44:42 markus Rel $
+//$Id: ConnMgr.cpp,v 1.4 2003/09/05 02:38:44 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -45,6 +45,7 @@ ConnectionMgr::ConnectionMgr () : mode (NONE), server (NULL) {
 ConnectionMgr::~ConnectionMgr () {
    TRACE9 ("ConnectionMgr::~ConnectionMgr ()");
    clearConnections ();
+   delete server;
 }
 
 
@@ -67,9 +68,12 @@ void ConnectionMgr::changeMode (modeConnect newMode) {
     if (mode != newMode) {
        TRACE3 ("ConnectionMgr::changeMode (modeConnect) - " << (int)newMode);
        clearConnections ();
+
+       if (mode == SERVER) {
+          delete server;
+          server = NULL;
+       }
        mode = newMode;
-       delete server;
-       server = NULL;
     }
 }
 
@@ -83,8 +87,8 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port)
     throw (std::domain_error) {
    TRACE1 ("ConnectionMgr::connectTo (const char*, unsinged int) - "
            << target << ':' << port);
-   changeMode (CLIENT);
    server = new Socket (target, port);
+   changeMode (CLIENT);
 }
 
 //----------------------------------------------------------------------------
@@ -94,8 +98,8 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port)
 //----------------------------------------------------------------------------
 void ConnectionMgr::listenAt (unsigned int port) throw (std::domain_error) {
    TRACE1 ("ConnectionMgr::listenAt (unsinged int) - " << port);
-   changeMode (SERVER);
    server = new Socket (port);
+   changeMode (SERVER);
 }
 
 //----------------------------------------------------------------------------
