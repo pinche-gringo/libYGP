@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.21 2003/07/25 00:24:52 markus Rel $
+//$Id: XApplication.h,v 1.22 2003/10/02 23:03:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ namespace Gtk {
    consists of the following entries:
 
      - \b name: Name of the menu as it should be displayed.
-     - \b accel: Accelerator in a format understood by Gtk (like <alt>a).
+     - \b accel: Accelerator in a format understood by Gtk (like \<alt\>a).
      - \b id: Identifier for the menu. Menus causing actions must have an
            unique ID. Entries having an ID other than 0 are stored in the
            protected member \c apMenus for later usage.
@@ -136,8 +136,8 @@ class XApplication : public Gtk::Window {
        menuTypes    type;    ///< Type of the menu (separator, radio item, ...)
    } MenuEntry;
 
-   typedef SmartPtr<Gtk::VBox>    PVBox;
-   typedef SmartPtr<Gtk::MenuBar> PMenuBar;
+   typedef SmartPtr<Gtk::VBox>    PVBox;          ///< Smart pointer for a vbox
+   typedef SmartPtr<Gtk::MenuBar> PMenuBar;   ///< Smart pointer for a menu bar
 
    Gtk::Widget& addMenu (const MenuEntry& menuEntry);
    void         addMenus (const MenuEntry menuEntryies[], int cMenus);
@@ -145,11 +145,12 @@ class XApplication : public Gtk::Window {
 
    virtual void setIconProgram (const char* const* iconData);
 
+   /// Returns the client window
    Gtk::VBox* getClient () const { return vboxClient; }
 
    // Protected data
-   PMenuBar pMenu;
-   PVBox    vboxClient;
+   PMenuBar pMenu;                             ///< Menu bar of the application
+   PVBox    vboxClient;                   ///< Client window of the application
 
    /// Map holding the menus having and ID != 0; to enable manipulation of
    /// them.
@@ -166,7 +167,7 @@ class XApplication : public Gtk::Window {
    virtual void showAboutbox () { }
    //@}
 
-   Glib::ustring helpBrowser;
+   Glib::ustring helpBrowser;       ///< Name of the browser to show the help.
 
  private:
    // Protected manager functions
@@ -193,14 +194,14 @@ class XInfoApplication : public XApplication {
    virtual void setIconProgram (const char* const* iconData);
    void setIconAuthor (const char* const* iconData);
 
-   typedef SmartPtr<Gtk::HBox>  PHBox;
-   typedef SmartPtr<Gtk::Label> PLabel;
-   typedef SmartPtr<Gtk::Image> PImage;
-
  private:
    // Protected manager functions
    XInfoApplication (const XInfoApplication&);
    const XInfoApplication& operator= (const XInfoApplication&);
+
+   typedef SmartPtr<Gtk::HBox>  PHBox;
+   typedef SmartPtr<Gtk::Label> PLabel;
+   typedef SmartPtr<Gtk::Image> PImage;
 
    PHBox  hboxTitle;
    PVBox  vboxPrgInfo;

@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.17 2003/07/25 00:24:09 markus Rel $
+//$Id: XFileDlg.h,v 1.18 2003/10/02 23:03:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,8 +58,11 @@ class IFileDialog : public Gtk::FileSelection {
    static IFileDialog* create (const Glib::ustring& title, option dlgOption = NONE);
 
  protected:
+   /// IDs for the possible commands (OK, CANCEL)
    typedef enum { OK = 1, CANCEL } commandID;
 
+   /// Callback after selecting a file
+   /// @param file: Name of selected file
    virtual void fileSelected (std::string& file) { }
 
    bool free (GdkEventAny*);
@@ -83,6 +86,7 @@ class IFileDialog : public Gtk::FileSelection {
 template <class T>
 class TFileDialog : public IFileDialog {
  public:
+   /// Declaration of the type of the callback for the user action
    typedef void (T::*PCALLBACK)(const std::string&);
 
    /// Constructor; creates a (modeless) dialog to select a file

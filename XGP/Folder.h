@@ -1,7 +1,7 @@
 #ifndef FOLDER_H
 #define FOLDER_H
 
-//$Id: Folder.h,v 1.2 2003/07/20 08:07:46 markus Rel $
+//$Id: Folder.h,v 1.3 2003/10/02 23:03:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,12 +40,15 @@ class Folder : public Gtk::ScrolledWindow {
  protected:
    void on_size_allocate (GtkAllocation* size);
 
+   /// The view used to display the icons2
    Gtk::Table view;
 
  private:
    // Prohibited manager functions
    Folder (const Folder& other);
    const Folder& operator= (const Folder& other);
+
+   void init ();
 
    unsigned int rows;
    unsigned int cols;

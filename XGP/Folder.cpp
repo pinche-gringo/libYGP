@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.2 2003/07/20 08:07:30 markus Rel $
+//$Id: Folder.cpp,v 1.3 2003/10/02 23:03:26 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -37,11 +37,18 @@
 Folder::Folder ()
     : Gtk::ScrolledWindow (), view (1, 1), rows (0), cols (0)
       , actCol (0), width (-1) {
-   set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-   set_shadow_type (Gtk::SHADOW_IN);
-   Gtk::ScrolledWindow::add (view);
-   view.set_spacings (5);
-   view.show ();
+   init ();
+}
+
+//-----------------------------------------------------------------------------
+/// Constructor; with two adjustment bars for the scrolled window
+/// @param hadjustment: Horizontal adjustment bar
+/// @param vadjustment: Vertical adjustment bar
+//-----------------------------------------------------------------------------
+Folder::Folder (Gtk::Adjustment& hadjustment, Gtk::Adjustment& vadjustment)
+    : Gtk::ScrolledWindow (), view (1, 1), rows (0), cols (0)
+      , actCol (0), width (-1) {
+   init ();
 }
 
 //-----------------------------------------------------------------------------
@@ -53,7 +60,7 @@ Folder::~Folder () {
 
 //-----------------------------------------------------------------------------
 /// Adding a child the the container
-/// \param: child: Child widget to add
+/// \param child: Child widget to add
 //-----------------------------------------------------------------------------
 void Folder::add (Gtk::Widget& child) {
    TRACE9 ("Folder::add (Gtk::Widget&) - Act. pos: " << cols << '/' << rows);
@@ -124,4 +131,15 @@ void Folder::on_size_allocate (GtkAllocation* size) {
          add (**i);
       }
    }
+}
+
+//-----------------------------------------------------------------------------
+/// Initializes the controls and member variables
+//-----------------------------------------------------------------------------
+void Folder::init () {
+   set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+   set_shadow_type (Gtk::SHADOW_IN);
+   Gtk::ScrolledWindow::add (view);
+   view.set_spacings (5);
+   view.show ();
 }

@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.21 2003/07/23 05:03:08 markus Rel $
+//$Id: XFileList.h,v 1.22 2003/10/02 23:03:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,6 +72,7 @@ class IFileStore {
  protected:
    IFileStore (const FileColumns& columns);
 
+   /// Columns of the file listbox
    const FileColumns& cols;
 
  private:
@@ -189,11 +190,14 @@ class XFileList : public Gtk::TreeView {
 
    bool execProgram (const char* file, const char* const args[], bool sync);
 
+   /// Method to add menus to the popup menu activated with the right mouse
+   /// button (button 3)
    virtual void addMenus (Gtk::Menu& menu, unsigned int line) { };
 
    void move (unsigned int line);
    void remove (unsigned int line);
 
+   /// Popup menu after pressing button 3
    Gtk::Menu* pMenuPopAction;
 
  private:

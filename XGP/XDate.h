@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.11 2003/07/25 00:24:09 markus Rel $
+//$Id: XDate.h,v 1.12 2003/10/02 23:03:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,11 +80,6 @@ class XDate : public XDialog {
       return dlg;
    }
 
-   typedef SmartPtr<Gtk::HBox>        PHBox;
-   typedef SmartPtr<Gtk::Calendar>    PCalendar;
-   typedef SmartPtr<Gtk::SpinButton>  PSpinButton;
-   typedef SmartPtr<Gtk::Adjustment>  PAdjustment;
-
  protected:
    /// Frees the dialog.
    /// \remarks Call only if the dialog was created with new
@@ -100,10 +95,13 @@ class XDate : public XDialog {
 
    virtual void okEvent ();
 
+   typedef SmartPtr<Gtk::HBox>        PHBox;
+   typedef SmartPtr<Gtk::Calendar>    PCalendar;
+   typedef SmartPtr<Gtk::SpinButton>  PSpinButton;
+   typedef SmartPtr<Gtk::Adjustment>  PAdjustment;
+
    PHBox       client;
-
    PCalendar   cal;
-
    PAdjustment adjHour;
    PSpinButton spinHour;
    PAdjustment adjMinute;

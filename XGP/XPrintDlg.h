@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.14 2003/07/25 00:24:24 markus Rel $
+//$Id: XPrintDlg.h,v 1.15 2003/10/02 23:03:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,11 +42,6 @@ class IPrintDialog : public XDialog {
 
    static IPrintDialog* create ();
 
-   typedef SmartPtr<Gtk::HBox>   PHBox;
-   typedef SmartPtr<Gtk::Label>  PLabel;
-   typedef SmartPtr<Gtk::Entry>  PEntry;
-   typedef SmartPtr<Gtk::Button> PButton;
-
  private:
    // Prohibited manager-functions
    IPrintDialog (const IPrintDialog&);
@@ -58,6 +53,10 @@ class IPrintDialog : public XDialog {
    virtual void printToStream (std::ostream& stream) { }
 
    void init ();
+
+   typedef SmartPtr<Gtk::HBox>   PHBox;
+   typedef SmartPtr<Gtk::Label>  PLabel;
+   typedef SmartPtr<Gtk::Entry>  PEntry;
 
    PLabel  lblCommand;
    PEntry  txtCommand;
@@ -71,6 +70,7 @@ class IPrintDialog : public XDialog {
 template <class T>
 class TPrintDialog : public IPrintDialog {
  public:
+   /// Declaration of the type of the callback for the user action
    typedef void (T::*PCALLBACK)(std::ostream&);
 
    /// Constructor
