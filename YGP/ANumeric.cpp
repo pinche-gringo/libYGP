@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.47 2004/11/05 15:37:36 markus Exp $
+//$Id: ANumeric.cpp,v 1.48 2004/11/14 21:18:52 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.47 $
+//REVISION    : $Revision: 1.48 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -180,7 +180,7 @@ std::string ANumeric::toUnformattedString () const {
       ostr << value << '\0';
       const char* pString = ostr.str ().c_str ();
 #endif
-      TRACE1 ("ANumeric::toUnformatedString -> value = " << pString);
+      TRACE1 ("ANumeric::toUnformattedString -> value = " << pString);
 
       str = pString;                 // Copy unformatted string to return-value
 #ifdef HAVE_LIBGMP
@@ -200,8 +200,9 @@ std::string ANumeric::toUnformattedString () const {
 std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const");
 #if defined HAVE_STRFMON && !defined HAVE_LIBGMP
-   char str[40];
-   strfmon (str, sizeof (str), "%!.0i", (double)value);
+   char str[40] = "";
+   if (isDefined ())
+      strfmon (str, sizeof (str), "%!.0i", (double)value);
 #else
    std::string str;
 
@@ -363,8 +364,9 @@ ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
 
 //-----------------------------------------------------------------------------
 /// Returns -1 if this is less then other, 0 if they are equal or 1 if this is
-/// larger. Undefined values are considered as between 0 and -1 for this
-/// comparison; if both values are undefined they are considered as equal.
+/// larger. Undefined values are considered as larger than any number for this
+/// comparison (so that defined values are sorted before undefined ones); if
+/// both values are undefined they are considered as equal.
 /// \param other: Object to compare
 /// \returns 1 if this > other; 0 if this == other; -1 else
 //-----------------------------------------------------------------------------
@@ -376,20 +378,7 @@ int ANumeric::compare (const ANumeric& other) {
       return (value > other.value) ? 1 : (value < other.value) ? -1 : 0;
 #endif
 
-   if (isDefined ())                            // this defined: Compare with 0
-#ifdef HAVE_LIBGMP
-      return (mpz_cmp_ui (value, 0) < 0) ? -1 : 1;
-#else
-      return (value < 0) ? -1 : 1;
-#endif
-   else if (other.isDefined ())                      // Both not defined: Equal
-      return 0;
-   else
-#ifdef HAVE_LIBGMP
-      return (mpz_cmp_ui (other.value, 0) < 0) ? 1 : -1;
-#else
-      return (value < 0) ? 1 : -1;
-#endif
+   return isDefined () ? -1 : other.isDefined () ? 1 : 0;
 }
 
 
