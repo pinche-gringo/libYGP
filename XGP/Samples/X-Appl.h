@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.11 2004/09/07 05:58:15 markus Rel $
+//$Id: X-Appl.h,v 1.12 2004/10/16 06:25:15 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,8 @@ class XAppl : public XGP::XApplication {
    ~XAppl () { }
 
  protected:
-   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE, CONNECT, MSGDLG };
+   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE, CONNECT, MSGDLG,
+	  LOGINDLG };
 
  private:
    // Protected manager functions
@@ -53,6 +54,7 @@ class XAppl : public XGP::XApplication {
    void addFile (const std::string& file);
    void saveToFile (const std::string& file);
    void writeToStream (std::ostream& file);
+   void loginEvent (const Glib::ustring& user, const Glib::ustring& password);
 
    virtual const char* getHelpfile () { return "index.html"; }
    virtual void showAboutbox ();

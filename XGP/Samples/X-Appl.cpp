@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.21 2004/09/07 05:58:15 markus Rel $
+//$Id: X-Appl.cpp,v 1.22 2004/10/16 06:25:15 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -43,6 +43,7 @@
 
 #include <XGP/XDate.h>
 #include <XGP/XAbout.h>
+#include <XGP/LoginDlg.h>
 #include <XGP/XFileDlg.h>
 #include <XGP/XPrintDlg.h>
 #include <XGP/ConnectDlg.h>
@@ -179,6 +180,7 @@ XGP::XApplication::MenuEntry XAppl::menuItems[] = {
     { "Da_te ...",              "<ctl>T",      DATE,    ITEM },
     { "_Connection ...",        "<ctl>C",      CONNECT, ITEM },
     { "_Messagedialog ...",     "<ctl>M",      MSGDLG,  ITEM },
+    { "_Logindialog ...",       "<ctl>L",      LOGINDLG,ITEM },
     { "_Menus",                 "<alt>M",      0,       BRANCH },
     { "_Radiobuttons",          "<alt>R",      0,       SUBMENU },
     {    "Button _1",           "<ctl>1",      0,       RADIOITEM },
@@ -282,6 +284,10 @@ void XAppl::command (int menu) {
       XGP::MessageDlg::create (obj);
       break; }
 
+   case LOGINDLG:
+      XGP::TLoginDialog<XAppl>::create (*this, &XAppl::loginEvent);
+      break;
+
    default:
       XGP::XApplication::command (menu);
    } // end-switch
@@ -376,6 +382,21 @@ void XAppl::writeToStream (std::ostream& file) {
            << (*i)[cols.size] << ' ' << date << '\n';
       ++i;
    } // end-for all text-columns
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Callback for login-dialog
+//Parameters: user: Input for the user
+//            password: Input for the password
+/*--------------------------------------------------------------------------*/
+void XAppl::loginEvent (const Glib::ustring& user,
+			const Glib::ustring& password) {
+   status.pop ();
+   Glib::ustring txt ("User: ");
+   txt += user;
+   txt += "; Password: ";
+   txt += password;
+   status.push (txt);
 }
 
 
