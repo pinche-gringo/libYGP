@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.21 2002/11/04 00:53:53 markus Rel $
+//$Id: CRegExp.h,v 1.22 2002/12/08 22:43:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,8 +41,6 @@
 #ifndef HAVE_REGEX_H
 #  include <ctype.h>
 #endif
-
-#include <assert.h>
 
 #include <string>
 #include <vector>
@@ -152,7 +150,25 @@ class RegularExpression : public IRegularExpression {
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
-#ifndef HAVE_REGEX_H
+
+ private:
+   // Prohibited manager functions
+   RegularExpression ();
+   RegularExpression (const RegularExpression&);
+   RegularExpression& operator= (const RegularExpression&);
+
+   std::string getError (int rc, unsigned int pos) const;
+
+   enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
+          INV_RANGE, ENDING_BACKSLASH, INV_BOUND };
+
+#ifdef HAVE_REGEX_H
+   regex_t regexp;
+
+   void init (const char* pRegExp) throw (std::string);
+#else
+   bool doCompare (const char*& pAktRegExp, const char*& pCompare);
+
    bool doCompGroup (const char*& pAktRegExp, const char* pEnd,
                      const char*& pCompare, int min, int max);
    bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
@@ -174,25 +190,6 @@ class RegularExpression : public IRegularExpression {
    bool compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
                        const char* pEndRE, const char*& pCompare);
 
-   bool doCompare (const char*& pAktRegExp, const char*& pCompare);
-#endif
-
- private:
-   // Prohibited manager functions
-   RegularExpression ();
-   RegularExpression (const RegularExpression&);
-   RegularExpression& operator= (const RegularExpression&);
-
-   std::string getError (int rc, unsigned int pos) const;
-
-   enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
-          INV_RANGE, ENDING_BACKSLASH, INV_BOUND };
-
-#ifdef HAVE_REGEX_H
-   regex_t regexp;
-
-   void init (const char* pRegExp) throw (std::string);
-#else
    bool compareParts (const char*& pAktRegExp, const char*& pCompare,
                       bool inGroup = false);
    const char* findEndOfAlternative (const char* pRegExp, bool inGroup = false) const;
