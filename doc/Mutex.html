@@ -1,0 +1,89 @@
+<!-- -*-HTML-*- -->
+
+<!-- $Id: Mutex.html,v 1.1 2002/11/09 06:46:51 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: Mutex</title>
+    <meta name="description" content="Documentation of Mutex-class">
+    <meta name="keywords" content="Documentation, Docu, Mutex, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2002-11-08">
+    <meta name="DC.Rights" content="Anticopyright (A) 2002, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class Mutex</h1>
+    <p>Derived from
+      <i>none</i>
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;Mutex.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to hold mutual exclusive devices. Mutexes are useful for
+      protecting shared data structures from concurrent modifications,
+      and implementing critical sections and monitors.</p>
+
+    <p>A mutex has two possible states: unlocked (not owned by any
+      thread), and locked (owned by one thread). A mutex can never be
+      owned by two different threads simultaneously. A thread attempting
+      to lock a mutex that is already locked by another thread is
+      suspended until the owning thread unlocks the mutex first.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Mutex.html#Mutex"><b>Mutex</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Mutex.html#lock"><b>lock</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="Mutex.html#trylock"><b>trylock</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+        <td><a href="Mutex.html#unlock"><b>unlock</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="Mutex.html#~Mutex"><b>~Mutex</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="Mutex"></a>Mutex ()</pre>
+    <dl>
+      <dd>Defaultconstructor; the mutex is created, but owned by no one.</dd>
+    </dl>
+    <pre><a name="~Mutex"></a>virtual ~Mutex ()</pre>
+
+    <pre><a name="lock"></a>void lock ()</pre>
+    <dl>
+      <dd>The mutex is "locked"; any other thread trying to lock the mutex is
+         blocked, until this lock is removed.</dd>
+    </dl>
+    <pre><a name="trylock"></a>bool trylock ()</pre>
+    <dl>
+      <dd><p>Tries to lock the mutex without waiting for another lock to be
+          released.</p>
+        <p>It locking fails (because an other thread already owns the mutex,
+          false is returned; else (if locking succeeds) true.</p></dd>
+    </dl>
+    <pre><a name="unlock"></a>void unlock ()</pre>
+    <dl>
+      <dd>The mutex is "freed"; other threads can lock the mutex.</dd>
+  </body>
+</html>
