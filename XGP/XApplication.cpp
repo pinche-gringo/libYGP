@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.22 2003/03/03 05:53:42 markus Exp $
+//$Id: XApplication.cpp,v 1.23 2003/03/06 03:11:47 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -69,17 +69,14 @@ XApplication::XApplication (const char* pTitle)
    : vboxClient (new Gtk::VBox ()), aLastMenus (5), pMenu (new Gtk::MenuBar ())
      , helpBrowser (BrowserDlg::getDefaultBrowser ())
 {
-   TRACE9 ("XApplication::XApplication ()");
-
+   TRACE9 ("XApplication::XApplication (const char*) - " << pTitle);
    signal (SIGSEGV, handleSignal);
    signal (SIGBUS, handleSignal);
-
-   //Check3 (accels);
-   Check3 (vboxClient);
 
    Check3 (pTitle);
    set_title (pTitle);
 
+   Check3 (vboxClient);
    vboxClient->show ();
    add (*vboxClient);
 

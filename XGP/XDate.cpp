@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.12 2003/03/03 05:53:42 markus Exp $
+//$Id: XDate.cpp,v 1.13 2003/03/06 03:11:47 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -60,10 +60,9 @@ XDate::XDate (const std::string& title, ATimestamp& date, int showFields)
      , adjSecond (new Gtk::Adjustment (0, 0, 59, 1, 10, 10))
      , spinSecond (new Gtk::SpinButton (*adjSecond, 1, 0))
      , result (date) {
-   Check3 (client); Check3 (spinDay);
+   Check3 (client); Check3 (showFields);
    Check3 (cal); Check3 (spinHour); Check3 (adjHour); Check3 (spinMinute);
    Check3 (adjMinute); Check3 (spinSecond); Check3 (adjSecond);
-   Check3 (showFields);
 
    TRACE9 ("XDate::XDate: Title '" << title << "', startvalue: " << date);
 

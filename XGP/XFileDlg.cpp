@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.13 2003/03/03 05:53:42 markus Exp $
+//$Id: XFileDlg.cpp,v 1.14 2003/03/06 03:11:47 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -49,8 +49,6 @@
 IFileDialog::IFileDialog (const std::string& title, option dlgOption)
    : Gtk::FileSelection (title), opt (dlgOption) {
    TRACE9 ("IFileDialog::IFileDialog (title)");
-   Check3 (pCaller); Check3 (callerMethod);
-
    init ();
 }
 
@@ -62,8 +60,6 @@ IFileDialog::IFileDialog (const std::string& title, option dlgOption)
 IFileDialog::IFileDialog (GtkFileSelection* castitem, option dlgOption)
    : FileSelection (castitem), opt (dlgOption) {
    TRACE9 ("IFileDialog::IFileDialog (castitem)");
-   Check3 (pCaller); Check3 (callerMethod);
-
    init ();
 }
 
@@ -102,8 +98,6 @@ void IFileDialog::command (commandID id) {
 
    switch (id) {
    case OK: {
-      Check3 (pCaller); Check3 (callerMethod);
-      
       std::string filename (get_filename ());
 
       if (opt != NONE) {
