@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: acconfig.h,v 1.7 2002/08/01 03:56:04 markus Rel $
+//$Id: acconfig.h,v 1.8 2002/12/15 22:24:54 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,6 +68,9 @@
 
 /* Define for defined SIGBUS */
 #undef HAVE_SIGBUS
+
+/* Define if GTKMM is installed (in a fitting version) */
+#undef HAVE_GTKMM
 
 
 /* Leave that blank line there!!  Autoheader needs it.
