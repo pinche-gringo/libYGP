@@ -3,11 +3,11 @@ Prerequisites
 
 Parts of this libraries need
 
-  - Gtkmm (which itself needs GTK+); configure test for version 2.2.0, but the
+  - Gtkmm (which itself needs GTK+); configure tests for version 2.2.0, but the
     2.0 series might also work. Get if from http://www.gtkmm.org.
   - libgtkhtml (http://???)
   - A CORBA implementation (tested with MICO 2.3.9 (http://www.mico.org))
-  - doxygen to generate the documentation
+  - doxygen to generate the documentation (available from www.doxygen.org)
 
 The package will compile without them, but you don't get the whole
 functionality (not surprisingly the CORBA- and/or the X-windows library are
