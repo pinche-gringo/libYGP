@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.21 2003/02/05 15:06:47 markus Exp $
+//$Id: XFileList.cpp,v 1.22 2003/02/06 19:56:34 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -183,6 +183,7 @@ gint XFileList::append (const File* file, const Gtk::SArray& text) {
    rows ().push_back (text);
    if (file)
       setIcon (rows ().size () - 1, *file);
+   return rows ().size () - 1;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -194,6 +195,7 @@ gint XFileList::prepend (const File* file, const Gtk::SArray& text) {
    rows ().push_front (text);
    if (file)
       setIcon (0, *file);
+   return 0;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -206,6 +208,7 @@ gint XFileList::insert (const File* file, gint row, const Gtk::SArray& text) {
    rows ().insert (CList::row (row), text);
    if (file)
       setIcon (row, *file);
+   return row;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -218,7 +221,7 @@ gint XFileList::insert (const File* file, gint row, const Gtk::SArray& text) {
 //               - Remove the first part (til the next dot (.)) of the name and
 //                 repeat the previous step.
 //               - If no name-part is left use a special default-icon.
-//Parameters: path: Path where to search for the icons
+//Parameters: row: Path where to search for the icons
 //            files: Files to use as icon-files
 /*--------------------------------------------------------------------------*/
 void XFileList::setIcon (int row, const File& file) {
@@ -248,7 +251,7 @@ void XFileList::setIcon (int row, const File& file) {
    Check3 (actIcon);
 
    Gdk_Bitmap bmp;
-   set_pixmap (row, 0, *actIcon, bmp);
+   cell (row, 0).set_pixmap (*actIcon, bmp);
 }
 
 
@@ -318,8 +321,7 @@ gint XFileList::listSelected (GdkEvent* event) {
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (_("Delete"),
-                 bind (slot (this, &XFileList::executeProgram),
-                       "rm", entry)));
+                 bind (slot (this, &XFileList::remove), entry)));
             pMenuPopAction->popup (bev->button, bev->time);
          }
          return true;
@@ -336,7 +338,7 @@ gint XFileList::listSelected (GdkEvent* event) {
 void XFileList::startInTerm (const char* file, unsigned int line) {
    const char* term (getenv ("TERM"));
    if (term) {
-      string entry (get_text (line, 1));
+      string entry (getFilename (line));
       const char* args[] = { term, "-e", file, entry.c_str (), NULL };
       execProgram (term, args, false);
    }
@@ -351,7 +353,7 @@ void XFileList::startInTerm (const char* file, unsigned int line) {
 //            line: Line in list of file to pass as argument
 /*--------------------------------------------------------------------------*/
 void XFileList::startProgram (const char* file, unsigned int line) {
-   string entry (get_text (line, 1));
+   string entry (getFilename (line));
    const char* args[] = { file, entry.c_str (), NULL };
    execProgram (args[0], args, false);
 }
@@ -362,7 +364,7 @@ void XFileList::startProgram (const char* file, unsigned int line) {
 //            line: Line in list of file to pass as argument
 /*--------------------------------------------------------------------------*/
 void XFileList::executeProgram (const char* file, unsigned int line) {
-   string entry (get_text (line, 1));
+   string entry (getFilename (line));
    const char* args[] = { file, entry.c_str (), NULL };
    execProgram (args[0], args, true);
 }
@@ -372,17 +374,20 @@ void XFileList::executeProgram (const char* file, unsigned int line) {
 //Parameters: file: File to execute
 //            args: Arguments for the program
 //            sync: Flag, if file should be executed synchron or not
+//Returns   : Status; false, if exeuctions failed
 /*--------------------------------------------------------------------------*/
-void XFileList::execProgram (const char* file, const char* const args[], bool sync) {
+bool XFileList::execProgram (const char* file, const char* const args[], bool sync) {
    try {
       if (sync)
          Process::execute (file, args);
       else
          Process::execAsync (file, args);
+      return true;
    }
    catch (string& error) {
       XMessageBox::Show  (error, XMessageBox::ERROR | XMessageBox::OK);
    }
+   return false;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -394,8 +399,39 @@ void XFileList::move (unsigned int line) {
                                       IFileDialog::ASK_OVERWRITE)->execModal ());
 
    if (file.length ()) {
-      string input (get_text (line, 1));
-      const char* args[] = { "mv", input.c_str (), file.c_str (), NULL };
-      execProgram (args[0], args, true);
+      string entry (getFilename (line));
+      const char* args[] = { "mv", "-f", entry.c_str (), file.c_str (), NULL };
+      if (execProgram (args[0], args, true)) {
+         try {
+            File objFile (file.c_str ());
+            setIcon (line, objFile);
+            cell (line, 1).set_text (file.c_str ());
+         }
+         catch (const char* error) {
+            XMessageBox::Show  (error, XMessageBox::ERROR | XMessageBox::OK);
+         }
+      }
    }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Removes the passed file; both from the system and from the list
+//Parameters: line: Line in list of file to pass as argument
+/*--------------------------------------------------------------------------*/
+void XFileList::remove (unsigned int line) {
+   string entry (getFilename (line));
+   const char* args[] = { "rm", "-f", entry.c_str (), NULL };
+   if (execProgram (args[0], args, true)) {
+      rows ().remove (row (line));
+   }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Retrieves the file name of the passed line; which is considered
+//            to be stored in the column 1
+//Parameters: line: Line in list to get the filename from
+//Returns   : Filename
+/*--------------------------------------------------------------------------*/
+string XFileList::getFilename (unsigned int line) const {
+   return get_text (line, 1);
 }
