@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.8 2003/05/23 17:53:45 markus Rel $
+//$Id: XAttrEntry.h,v 1.9 2003/06/29 02:00:41 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ template <class T> class XAttributeEntry : public Gtk::Entry {
       catch (std::invalid_argument& e) {
          inError = true;
          Gtk::MessageDialog msg (e.what (), Gtk::MESSAGE_ERROR);
-         msg.set_title (_("Invalid value!"));
+         msg.set_title (Glib::locale_to_utf8 (_("Invalid value!")));
          msg.run ();
          Glib::signal_timeout ().connect (slot (*this, &XAttributeEntry::takeFocus), 10);
          return true;
