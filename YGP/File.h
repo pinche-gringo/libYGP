@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.12 2002/08/20 05:18:02 markus Rel $
+//$Id: File.h,v 1.13 2002/12/07 23:33:26 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,8 +33,6 @@
 #ifdef TM_IN_SYS_TIME
 #  include <sys/time.h>
 #endif
-
-#include <assert.h>
 
 #include <gzo-cfg.h>
 
@@ -73,6 +71,8 @@
 
 #include <string>
 
+#include <Check.h>
+
 class DirectorySearch;
 
 // Class to handle result of DirectorySearch
@@ -80,36 +80,35 @@ class DirectorySearch;
 
 #define MAX_PATH            MAXNAMLEN
 
-
-typedef struct File {
+struct File {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
    File () : userExec (false)
       { *entry.d_name = '\0'; }
-   File (const File& o);
+   File (const File& other);
    virtual ~File ();
 
-   File& operator= (const File& o);
+   File& operator= (const File& other);
 
    virtual File* clone () const;
 
    //@Section query of data
-   const char*         path () const { return path_.c_str (); }
-   const char*         name () const { return entry.d_name; }
-   const unsigned long size () const { return status.st_size; }
-   const time_t        time () const { return status.st_mtime; }
-   void                time (struct tm& time) const
+   const char*   path () const { return path_.c_str (); }
+   const char*   name () const { return entry.d_name; }
+   unsigned long size () const { return status.st_size; }
+   time_t        time () const { return status.st_mtime; }
+   void          time (struct tm& time) const
      { time = *gmtime (&status.st_mtime); }
-   void                localtime (struct tm& time) const
+   void          localtime (struct tm& time) const
      { time = *::localtime (&status.st_mtime); }
-   const unsigned long attributes () const { return status.st_mode; }
+   unsigned long attributes () const { return status.st_mode; }
 
    //@Section compare filename
    int compare (const char* pszName) const { return strcmp (name (), pszName); }
    int compare (const std::string& Name) const { return name () == Name; }
    int compare (const File& other) const { return strcmp (name (), other.name ()); }
-   int compare (const File* other) const { assert (other);
+   int compare (const File* other) const { Check1 (other);
       return compare (*other); }
 
    //@Section file-type
@@ -139,40 +138,43 @@ typedef struct File {
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
    void name (const char* name) { strcpy (entry.d_name, name); }
-   void name (const std::string& name) { strcpy (entry.d_name, name.c_str ()); }
+   void name (const std::string& name) {
+      memcpy (entry.d_name, name.data (), name.length ());
+      entry.d_name[name.length ()] = '\0'; }
    void size (unsigned long size) { status.st_size = size; }
    void time (time_t time) { status.st_mtime = time; }
    void attributes (unsigned long attr) { status.st_mode = attr; }
-} File;
+};
+
 #elif SYSTEM == WINDOWS
 
-typedef struct File : protected WIN32_FIND_DATA {
+struct File : protected WIN32_FIND_DATA {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
    File () { }
-   File (const File& o);
+   File (const File& other);
    virtual ~File ();
 
-   File& operator= (const File& o);
+   File& operator= (const File& other);
 
    virtual File* clone () const;
 
    //@Section query of data
-   const char*         path () const { return path_.c_str (); }
-   const char*         name () const { return cFileName; }
-   const unsigned long size () const { return nFileSizeLow; }
-   const time_t        time () const;
-   void                time (struct tm& time) const {
+   const char*   path () const { return path_.c_str (); }
+   const char*   name () const { return cFileName; }
+   unsigned long size () const { return nFileSizeLow; }
+   time_t        time () const;
+   void          time (struct tm& time) const {
       setTime (ftLastWriteTime, time); }
    void                localtime (struct tm& time) const;
-   const unsigned long attributes () const { return dwFileAttributes; }
+   unsigned long attributes () const { return dwFileAttributes; }
 
    //@Section compare filename
    int compare (const char* pszName) const { return stricmp (name (), pszName); }
    int compare (const std::string& Name) const { return compare (Name.c_str ()); }
    int compare (const File& other) const { return compare (other.name ()); }
-   int compare (const File* other) const { assert (other);
+   int compare (const File* other) const { Check1 (other);
       return compare (*other); }
 
    //@Section file-type
@@ -198,16 +200,21 @@ typedef struct File : protected WIN32_FIND_DATA {
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
    void name (const char* name) { if (name) strcpy (cFileName, name); }
-   void name (const std::string& name) { strcpy (cFileName, name.c_str ()); }
+   void name (const std::string& name) {
+      memcpy (cFileName, name.data (), name.length ());
+      cFileName[name.length ()] = '\0'; }
    void size (unsigned long size) { nFileSizeLow = size; }
-   void time (time_t) { assert (0); }
+   void time (time_t) { Check (0); }
    void attributes (unsigned long attr) { dwFileAttributes = attr; }
 
+ private:
    static void setTime (const FILETIME& time, struct tm& result);
-} File;
+};
 
 #else
 #  error Not implemented yet!
 #endif
+
+typedef struct File File;
 
 #endif
