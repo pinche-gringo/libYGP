@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.19 2000/03/07 20:46:05 Markus Exp $
+//$Id: DirSrch.cpp,v 1.20 2000/03/23 19:29:59 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -46,10 +46,9 @@
 //Purpose   : Copyconstructor
 //Parameter : o: Object to copy
 /*--------------------------------------------------------------------------*/
-dirEntry::dirEntry (const dirEntry& o) : pPath (new char [MAX_PATH])
+dirEntry::dirEntry (const dirEntry& o) : path_ (o.path_)
 #ifdef UNIX
    , entry (o.entry), status (o.status), userExec (o.userExec)
-   , pEndPath (pPath + (o.pEndPath - o.pEndPath))
 #else
 #  ifdef WINDOWS
    , WIN32_FIND_DATA (o)
@@ -58,8 +57,6 @@ dirEntry::dirEntry (const dirEntry& o) : pPath (new char [MAX_PATH])
 #  endif
 #endif
 {
-   assert (pPath);
-   strcpy (pPath, o.pPath);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -76,12 +73,10 @@ DirectorySearch::~DirectorySearch () {
 /*--------------------------------------------------------------------------*/
 const dirEntry& dirEntry::operator= (const dirEntry& o) {
    if (this != &o) {
-      pPath = new char [MAX_PATH]; assert (pPath);
-      strcpy (pPath, o.pPath);
+      path_ = o.path_;
 #ifdef UNIX
       entry = o.entry;
       status = o.status;
-      pEndPath = pPath + (o.pEndPath - o.pEndPath);
       userExec = o.userExec;
 #endif
    } // endif
@@ -96,8 +91,10 @@ const dirEntry& dirEntry::operator= (const dirEntry& o) {
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    cleanup ();
-   pEntry = &result;
+   pEntry = &result; assert (pEntry);
    attr = attribs;
+   pEntry->path_ = searchDir;
+
    assert (!checkIntegrity ());
 
    TRACE5 ("DirectorySearch::find " << searchDir.c_str () << searchFile.c_str ());
@@ -117,10 +114,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 #  endif
 #endif
 
-   strcpy (pEntry->pPath, searchDir.c_str ());
-
 #ifdef UNIX
-   pEntry->pEndPath = pEntry->pPath + searchDir.length ();
    return find ();
 #else
 #  ifdef WINDOWS
@@ -154,6 +148,7 @@ int DirectorySearch::find () {
 #ifdef UNIX
    assert (pDir);
 
+   std::string workfile (pEntry->path_);
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
       TRACE8 ("DirectorySearch::find - found " << pDirEnt->d_name);
@@ -162,10 +157,9 @@ int DirectorySearch::find () {
          continue;
 
       if (regExp.matches (pDirEnt->d_name)) {
-         strcpy (pEntry->pEndPath, pDirEnt->d_name);
-         stat (pEntry->pPath, &pEntry->status);
-         pEntry->userExec = !access (pEntry->pPath, X_OK);
-         *pEntry->pEndPath = '\0';
+	 workfile += pDirEnt->d_name;
+         stat (workfile.c_str (), &pEntry->status);
+         pEntry->userExec = !access (workfile.c_str (), X_OK);
 
          // Do attributes match?
          TRACE9 ("DirectorySearch::find: " << pDirEnt->d_name << " (" << hex
@@ -202,12 +196,9 @@ int DirectorySearch::find () {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::checkIntegrity () const {
-      return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
-	                                  pEntry ?
-#ifdef UNIX
-                                          !pEntry->pEndPath ? NO_ENTRY_ENDPATH :
-#endif
-                                          !pEntry->pPath : NO_ENTRY_PATH;
+  return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
+	                               pEntry ? 
+                                       pEntry->path_.empty () : NO_ENTRY;
 }
 
 /*--------------------------------------------------------------------------*/

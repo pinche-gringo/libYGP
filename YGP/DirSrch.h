@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.13 2000/03/08 20:39:53 Markus Exp $
+//$Id: DirSrch.h,v 1.14 2000/03/23 19:29:59 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,29 +68,25 @@ class DirectorySearch;
 typedef struct dirEntry {
    friend class DirectorySearch;
 
-   char*         pPath;
-   struct dirent entry;
-   struct stat   status;
-
-   dirEntry () : pPath (new char [MAXNAMLEN]), pEndPath (pPath)
-       , userExec (false)
-     { assert (pPath); *entry.d_name = '\0'; }
+   dirEntry () : userExec (false)
+     { *entry.d_name = '\0'; }
    dirEntry (const dirEntry& o);
-   virtual ~dirEntry () { delete [] pPath; }
+   ~dirEntry () { }
 
    const dirEntry& operator= (const dirEntry& o);
 
    //@Section query of data
-   const char*         path () const { assert (pPath); return pPath; }
+   const char*         path () const { return path_.c_str (); }
    const char*         name () const { return entry.d_name; }
    const unsigned long size () const { return status.st_size; }
    const time_t        time () const { return status.st_mtime; }
    void                time (struct tm& time) const
      { time = *localtime (&status.st_mtime); }
-   const unsigned long attributs () const { return status.st_mode; }
+   const unsigned long attributes () const { return status.st_mode; }
 
    //@Section compare filename
    int compare (const char* pszName) const { return strcmp (name (), pszName); }
+   int compare (const std::string& Name) const { return strcmp (name (), Name.c_str ()); }
    int compare (const dirEntry& other) const { return strcmp (name (), other.name ()); }
    int compare (const dirEntry* other) const { assert (other);
       return strcmp (name (), other->name ()); }
@@ -101,31 +97,33 @@ typedef struct dirEntry {
    bool isUserExec () const { return userExec; }
 
  private:
-   char* pEndPath;
+   std::string   path_;
+   struct dirent entry;
+   struct stat   status;
+
    bool  userExec;
 } dirEntry;
 #else
 #  ifdef WINDOWS
 
 typedef struct dirEntry : public WIN32_FIND_DATA {
-   char* pPath;
-
-   dirEntry () : pPath (new char [MAX_PATH]) { assert (pPath); }
+  dirEntry () { }
    dirEntry (const dirEntry& o);
-   virtual ~dirEntry () { delete [] pPath; }
+   ~dirEntry () { }
 
    const dirEntry& operator= (const dirEntry& o);
 
    //@Section query of data
-   const char*         path () const { assert (pPath); return pPath; }
+   const char*         path () const { return path_.c_str (); }
    const char*         name () const { return cFileName; }
    const unsigned long size () const { return nFileSizeLow; }
    const time_t        time () const;
    void                time (struct tm& time) const;
-   const unsigned long attributs () const { return dwFileAttributes; }
+   const unsigned long attributes () const { return dwFileAttributes; }
 
    //@Section compare filename
    int compare (const char* pszName) const { return stricmp (name (), pszName); }
+   int compare (const std::string& Name) const { return strcmp (name (), Name.c_str ()); }
    int compare (const dirEntry& other) const { return stricmp (name (), other.name ()); }
    int compare (const dirEntry* other) const { assert (other);
       return stricmp (name (), other->name ()); }
@@ -134,6 +132,9 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    bool isDirectory () const { return (dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0; }
    bool isExecuteable () const;
    bool isUserExec () const { return isExecuteable (); }
+
+ private:
+   std::string path_;
 } dirEntry;
 
 #  else
@@ -179,11 +180,11 @@ class DirectorySearch {
 
    //@Section searching
    inline int find (const std::string& search, dirEntry& result,
-		    unsigned long attribs = 0);
+		    unsigned long attribs = FILE_NORMAL);
    inline int find (const std::string& search) {
       setFile (search); assert (!checkIntegrity ());
       return find (*pEntry, attr); }
-   virtual int find (dirEntry& result, unsigned long attribs = 0);
+   virtual int find (dirEntry& result, unsigned long attribs = FILE_NORMAL);
    virtual int find ();
 
 #ifdef UNIX
@@ -212,10 +213,12 @@ class DirectorySearch {
 
    void cleanup ();
 
-   enum { DIRSRCH_OK = 0, NO_ENTRY_PATH, NO_ENTRY_ENDPATH, NO_ENTRY,
-          NO_DIR, NO_FILE, LAST};
+   enum { DIRSRCH_OK = 0, NO_ENTRY_PATH, NO_ENTRY, NO_DIR, NO_FILE, LAST};
 
  private:
+   //@Section prohibited manager functions
+   DirectorySearch (const DirectorySearch&);
+   DirectorySearch& operator= (const DirectorySearch&);
 
    std::string searchDir;
    std::string searchFile;
