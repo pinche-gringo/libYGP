@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.9 2003/06/11 18:31:15 markus Rel $
+// $Id: StackTrc.cpp,v 1.10 2003/09/11 04:17:20 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -23,6 +23,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#ifdef _MSC_VER
+#pragma warning(disable:4786)   // disable warning about truncating debug info
+#endif
+
 
 #include <stdio.h>
 #include <malloc.h>
