@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.3 2001/01/19 14:41:33 Markus Exp $
+# $Id: Makefile.in,v 1.4 2001/01/24 16:25:29 Markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -17,6 +17,7 @@ exec_prefix = @exec_prefix@
 
 top_srcdir =  @top_srcdir@
 top_builddir = ..
+srcdir = @srcdir@
 
 subdir=CORBA
 
@@ -29,6 +30,8 @@ AS = @AS@
 CC = @CC@
 CPP = @CPP@
 CXX = @CXX@
+
+CXXLD = $(CXX)
 
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
@@ -48,12 +51,32 @@ CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS
 
 LIBS=-lmico -lAttr
 
-CORBACOMPILE = mico-shc++
-CORBALINK = mico-shld
+LIBTOOL = @LIBTOOL@
 
-HEADER_TARGETS=CDirSrch.h
-LIB_TARGETS=@CORBA_TARGETS@
-OBJECTS=CDirSrch.o CIDirSrch.o
+# CORBACOMPILE = mico-shc++
+# CORBALINK = mico-shld
+CORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+
+
+ifeq (@HAVE_CORBA@,1)
+   LIB_TARGETS=libCAttr.la
+else
+   LIB_TARGETS=
+endif
+
+DIST_HEADERS=CIDirSrch.h
+HEADERS=CDirSrch.h $(DIST_HEADERS)
+OBJECTS=CDirSrch.lo CIDirSrch.lo Version.lo
+SOURCES=CDirSrch.idl CIDirSrch.cpp Version.cpp
+
+TEXINFO=
+EXTRA_DIST=
+
+DIST_COMMON = Makefile.in
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(DIST_HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
 
 .SUFFIXES: .cc .cpp .lo .o .idl
 
@@ -63,25 +86,43 @@ OBJECTS=CDirSrch.o CIDirSrch.o
 	$(CORBACOMPILE) -c $(INCLUDES) $<
 .cpp.o:
 	$(CORBACOMPILE) -c  $(INCLUDES) $<
+.cc.lo:
+	$(CORBACOMPILE) -c $(INCLUDES) $<
+.cpp.lo:
+	$(CORBACOMPILE) -c  $(INCLUDES) $<
 
 all: Makefile $(LIB_TARGETS)
 
-libCAttr.a: $(OBJECTS)
-	$(CORBALINK) $(LIBS) $(OBJECTS) -o libCAttr
+libCAttr.la: $(OBJECTS)
+	# $(CORBALINK) $(LIBS) $(OBJECTS) -o libCAttr
+	$(CORBALINK) -rpath $(libdir) $(LDFLAGS) $(OBJECTS) $(LIBADD) $(LIBS)
 
 Makefile: Makefile.in $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+uninstall:
+	@list='$(LIB_TARGETS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
+	  fi; \
+	done
+	$(mkinstalldirs) $(DESTDIR)$(includedir)
+	@list='$(HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  rm -f $(DESTDIR)$(includedir)/$$p; \
+	done
+
 install:
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
 	@list='$(LIB_TARGETS)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p; \
+	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p; \
 	  fi; \
 	done
 	$(mkinstalldirs) $(DESTDIR)$(includedir)
-	@list='$(HEADER_TARGETS)'; for p in $$list; do \
+	@list='$(HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
 	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(includedir)/$$p; \
 	done
@@ -96,4 +137,16 @@ clean:
 	@list=`ls *.idl`; \
 	for i in $$list; do \
 	   rm -f $${i%.*}.cc $${i%.*}.h; \
+	done
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
 	done
