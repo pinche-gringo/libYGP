@@ -11,7 +11,11 @@ Overview of Changes in version 0.6.01:
   - Check for gtkmm improved (and Gtk-- renamed to gtkmm)
   - CORBA-ability re-added (actualized according to code-changes)
   - Tests for CORBA-objects added
-  - Modal MessageBox added
+  - Modeless MessageBox added
+  - Parser passes length of found data to callbacks
+  - Class for extended directory search added (enables in/excluding of files)
+  - Buffer for Parser on a per-thread basis; removed old MULTIBUFFER-option
+  - Parser offers Parse*Ignore classes to save memory
 
 Overview of Changes in version 0.6.00:
 
