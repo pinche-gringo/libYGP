@@ -1,6 +1,6 @@
-#!/usr/bin/awk
+#!/usr/bin/awk -f
 
-# $Id: mdef.awk,v 1.1 2002/11/22 05:00:31 markus Exp $
+# $Id: mdef.awk,v 1.2 2002/12/17 06:35:47 markus Exp $
 
 # Script to generate a DEF-file out of the output of VC's dumpbin
 # Call without parameter; the utility it designed to run in a pipe
@@ -21,19 +21,65 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-BEGIN { OFS = ""; line = 0 }
-{ if ($5 == "()")
-     start = 8
-  else
-     start = 7
+BEGIN { OFS = ""; line = 0; entry = "§$%&" }
 
-  symbol = $start
-  fnc = ""
-  for (i = start + 1; i <= NF; ++i)
-     fnc = fnc " " $i
+/Dump of file/ {
+   # Convert filename to classname
+   pos = index ($4, ".obj")
+   $4 = substr ($4, 1, pos - 1);
 
-  if (fnc != "") {
-     line = line + 1
-     printf ("  " symbol "\t@" line " NONAME\t;" fnc "\x0d\n")
-  }
+   if ($4 == "AssParse")
+      file = "AssignmentParse"
+   else if ($4 == "ATStamp")
+      file = "ATimestamp"
+   else if ($4 == "AttrParse")
+      file = "AttriuteParse"
+   else if ($4 == "CRegExp")
+      file = "RegularExpression"
+   else if ($4 == "DirSrch")
+      file = "DirectorySearch"
+   else if ($4 == "FileRExp")
+      file = "FileRegularExpr"
+   else if ($4 == "Handle")
+      file = "IHandle"
+   else if ($4 == "IDirSrch")
+      file = "IDirectorySearch"
+   else if ($4 == "INIFile")
+      file = "INI.*"
+   else if ($4 == "IVIOAppl")
+      file = "IVIOApplication"
+   else if ($4 == "Parse")
+      file = "Parse.*"
+   else if ($4 == "PathDirSrch")
+      file = "PathDirectorySearch"
+   else if ($4 == "PathSrch")
+      file = "PathSearch"
+   else if ($4 == "RDirSrch")
+      file = "RemoteDirSearch"
+   else if ($4 == "RDirSrchSrv")
+      file = "RemoteDirSearchSrv"
+   else if ($4 == "Thread")
+      file = "IThread"
+   else if ($4 == "XStrBuf")
+      file = "extStreambuf"
+   else
+      file = $4
+   entry = "SECT.*External.*(public: .+" file "::[^ ]+(.+))"
 }
+
+$0 ~ entry {
+   if ($0 !~ "deleting destructor") {
+      start = ($5 == "()") ? 8 : 7
+
+      symbol = $start
+      fnc = ""
+      for (i = start + 1; i <= NF; ++i)
+         fnc = fnc " " $i
+
+      if (fnc != "") {
+         line = line + 1
+         printf "  " symbol "\t@" line " NONAME\t;" fnc "\x0d\n"
+      }
+   }
+}
+END { exit (line); }
