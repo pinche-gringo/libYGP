@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.5 2001/03/27 18:43:36 markus Exp $
+//$Id: RegExp.h,v 1.6 2001/09/29 17:10:45 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 // regular-expression-like classes.
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
-//       care it is valied during the life-time of the object.
+//       care it is valid during the life-time of the object.
 class IRegularExpression {
  public:
    bool matches (const char* pCompare) {
