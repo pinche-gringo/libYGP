@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.2 2001/10/09 17:18:29 markus Exp $
+//$Id: AttrParse.cpp,v 1.3 2001/10/12 23:05:40 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -95,7 +95,7 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 //Parameters: name: Name of attribute to find
 //Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
-int AttributeParse::assignValues (const std::string& values) throw (std::string) {
+int AttributeParse::assignValues (const std::string& values) const throw (std::string) {
    TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
    AssignmentParse ass (values);
 

@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.2 2001/09/25 21:16:58 markus Exp $
+//$Id: AttrParse.h,v 1.3 2001/10/12 23:05:41 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ class AttributeParse {
    AttributeParse () { }
    virtual ~AttributeParse ();
 
-   int assignValues (const std::string& values) throw (std::string);
+   int assignValues (const std::string& values) const throw (std::string);
 
    void addAttribute (IAttribute& attr) throw (std::string);
 
