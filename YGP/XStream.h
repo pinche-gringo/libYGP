@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.4 1999/09/15 23:58:13 Markus Rel $
+// $Id: XStream.h,v 1.5 2000/02/06 22:29:34 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,34 +37,30 @@
 //    Xifstream xin;
 //    xin.open ("Test.Dat");
 //    xin.init ();
-template <class T> struct extStream : public T  {
+template <class T> struct extStream : private extStreambuf, public T {
+ public:
    // Manager-functions
-   extStream () : pBuffer (NULL) { }
-   extStream (T& source) : pBuffer (NULL) { }
-   ~extStream () { delete pBuffer; }
+   extStream () : extStreambuf (), T () { }
+   extStream (T& source) : extStreambuf (), T (source) { }
+   ~extStream () { }
 
    void init () {
-      delete pBuffer;
-      pBuffer = new extStreambuf (*rdbuf ());
-#ifdef WINDOWS
-      ios::bp = pBuffer;
+      setSource (rdbuf ());
+#if defined (__BORLANDC__) || defined (_MSC_VER)
+      ios::bp = this;                // rdbuf (buffer) not defined in MSC, BCC
 #else
-      ios::rdbuf (pBuffer);
+      ios::rdbuf (this);                    // This function is defined in GCC
 #endif
    }
 
    // Accessing values
-   unsigned int getLine () const { assert (pBuffer); return pBuffer->getLine (); }
-   unsigned int getColumn () const { assert (pBuffer); return pBuffer->getColumn (); }
+   unsigned int getLine () const { return extStreambuf::getLine (); }
+   unsigned int getColumn () const { return extStreambuf::getColumn (); }
 
  private:
    // Prohibited manager functions
    extStream (const extStream&);
    const struct extStream& operator= (const extStream&);
-
-   int checkIntegrity () const { return !pBuffer; }
-
-   extStreambuf* pBuffer;
 };
 
 
