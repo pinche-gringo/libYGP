@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.5 2001/09/29 17:09:52 markus Exp $
+//$Id: Log.h,v 1.6 2001/10/09 17:19:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@
 
 #define LOGEMERGENCY(text) Syslog::write (Syslog::EMERGENCY, text);
 #define LOGALERT(text)     Syslog::write (Syslog::ALERT, text);
-#define LOGCRITICAL(text)  Syslog::write (Syslog::CRIT, text);
-#define LOGERROR(text)     Syslog::write (Syslog::ERR, text);
+#define LOGCRITICAL(text)  Syslog::write (Syslog::CRITICAL, text);
+#define LOGERROR(text)     Syslog::write (Syslog::ERROR, text);
 #define LOGWARNING(text)   Syslog::write (Syslog::WARNING, text);
 #define LOGNOTICE(text)    Syslog::write (Syslog::NOTICE, text);
 #define LOGINFO(text)      Syslog::write (Syslog::INFO, text);
