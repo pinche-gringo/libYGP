@@ -4,6 +4,8 @@ Version 0.6.00: - Class for logging added
 		- Class to handle character-values added
 		- Class for communication (using sockets) added
 		- Class to check real regular expressions added
+		- Class to parse assigment-statements added
+		- Class to assign assignment-statements to attributes added
 		- Classes for remote search of directories added
 		- Fixes in parser, ADate
 		- Adapted for Cygwin (GCC for DOS/Windoze)
