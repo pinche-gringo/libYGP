@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.5 2003/02/14 04:15:40 markus Exp $
+// $Id: Parse.cpp,v 1.6 2003/02/14 20:13:42 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -42,10 +42,14 @@
 #  define PATH "..\\Common\\Tests\\"
 #endif
 
+
+static unsigned int cErrors (0);
+
+
 class Application : public IVIOApplication {
  public:
    Application (const int argc, const char* argv[])
-      : IVIOApplication (argc, argv, lo), cErrors (0) { }
+      : IVIOApplication (argc, argv, lo) { }
   ~Application () { }
 
  protected:
@@ -65,8 +69,6 @@ class Application : public IVIOApplication {
    Application (const Application&);
    const Application& operator= (const Application&);
 
-   unsigned int cErrors;
-
    static const longOptions lo[];
 
    static int foundNumber (const char* pNumber, unsigned int) {
@@ -74,8 +76,15 @@ class Application : public IVIOApplication {
       return ParseObject::PARSE_OK;
    }
 
+   static int foundQuotedText (const char* pText, unsigned int) {
+      TRACE1 ("Found quoted text: " << pText);
+      check (!strcmp (pText, "ab<cd>ef"));
+      return ParseObject::PARSE_OK;
+   }
+
    int foundAlpha (const char* pAlpha, unsigned int) {
       TRACE1 ("Found alpha: " << pAlpha);
+      check (!strcmp (pAlpha, "5678"));
       return ParseObject::PARSE_OK;
    }
 
@@ -106,9 +115,12 @@ int Application::perform (int argc, const char* argv[]) {
    ParseSelection selANum (lstSel, "Selection-test");
    ParseText text ("2", "Text", 10);
    ParseTextEsc text2 ("34", "TextEsc", 10, 1, '2');
+   ParseSkip skip (2);
+   ParseQuoted qText ('"', "Quoted", 10, 1);
+   CBParseQuotedEsc qEText ('<', "QuotedEsc", foundQuotedText, 10, 1);
 
    Xifstream xstr;
-   xstr.open (PATH "Parsertest.dat", std::ios::in);
+   xstr.open (PATH "Parser.test", std::ios::in);
    check (xstr);
    if (xstr) {
       xstr.init ();
@@ -122,9 +134,14 @@ int Application::perform (int argc, const char* argv[]) {
          check (!text2.parse ((Xistream&)xstr));
          check (xstr.getLine () == 3);
          check (xstr.getColumn () == 8);
+         check (!skip.parse ((Xistream&)xstr));
+         check (!qText.parse ((Xistream&)xstr));
+         check (!qEText.parse ((Xistream&)xstr));
+         check (xstr.getLine () == 6);
+         check (xstr.getColumn () == 0);
       } // end-try
       catch (std::string e) {
-         std::cerr << "Error parsing Parsertest.dat in line " << xstr.getLine () << " ("
+         std::cerr << "Error parsing Parser.test in line " << xstr.getLine () << " ("
                    << xstr.getColumn () << "): " << e.c_str () << '\n';
       } // end-catch
    }
