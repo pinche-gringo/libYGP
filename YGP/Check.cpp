@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.11 2003/05/31 18:07:31 markus Exp $
+//$Id: Check.cpp,v 1.12 2003/06/02 01:28:48 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -36,7 +36,7 @@
 #if SYSTEM == UNIX
 #  ifdef HAVE_GTK
 #     include <gtk/gtkmain.h>
-#     include <gtk/gtk.h>
+#     include <gtk/gtkmessagedialog.h>
 
       typedef int (*PFNCMSGBOX)(const char*, const char*, int, unsigned int);
 
