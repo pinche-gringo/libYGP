@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.2 2003/01/14 22:40:29 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.3 2003/02/03 03:50:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -35,7 +35,7 @@
 
 
 const char* BrowserDlg::browserNames[4] = { N_("galeon"), N_("mozilla"),
-                                            N_("netscape"), N_("konquerer") };
+                                            N_("netscape"), N_("konqueror") };
 
 
 /*--------------------------------------------------------------------------*/
