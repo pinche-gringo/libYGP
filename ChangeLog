@@ -1,3 +1,67 @@
+2004-09-17  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.47
+
+	* README.windows: Minor changes
+
+	* configure.in: Version to 0.6.47
+
+	* po/de.po, po/en.po, po/es.po: Actualized line numbers
+
+	* YGP/XDirSrch.h: Changed to be compileable with GCC 3.4
+
+	* YGP/Parse.h: Fixed comments (for documentation)
+
+	* YGP/Log.h: Removed trailing semicolon (;) from LOG-macros
+
+2004-09-14  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Folder.cpp:
+	  Fixed to work with widgets which don't have a size-request set
+
+2004-09-07  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h:
+	  Added test of MessageDlg
+
+	* XGP/XGP.pc.in: Requiring GTKMM 2.4
+
+	* XGP/MessageDlg.cpp, XGP/MessageDlg.h:
+	  Delaying re-registering of show-button after clicking it
+
+2004-09-06  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Makefile.am: Fixed setting of data-dir
+
+	* YGP/Socket.cpp, YGP/Socket.h:
+	  Moved include of network-related headers from header into source
+
+	* configure.in: Requiring GTKMM 2.4
+
+	* XGP/AutoContainer.cpp, XGP/AutoContainer.h, XGP/BrowserDlg.cpp, XGP/ConnectDlg.cpp, XGP/Folder.cpp, XGP/Folder.h, XGP/GTKViewer.c, XGP/HTMLViewer.cpp, XGP/MessageDlg.cpp, XGP/Samples/Dialog.h, XGP/Samples/X-Appl.cpp, XGP/XAbout.cpp, XGP/XApplication.cpp, XGP/XAttrEntry.h, XGP/XAttrLabel.h, XGP/XDate.h, XGP/XDialog.h, XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
+	  Working with GCC 3.4 and GTK-2.4
+
+2004-09-04  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/XStream.h: Fixed compiler errors reported by GCC 3.4
+
+	* YGP/Parse.h: Fixed compiler errors reported with GCC 3.4.1
+
+	* YGP/INIFile.h:
+	  INIFile::writeSectionHeader() uses now (new) INISection::writeHeader()
+
+	* YGP/Attribute.h:
+	  Removed specialization for AttributeList::assignFromString for char* const
+
+2004-04-19  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/HTMLViewer.cpp: Disabled checks and traces
+
+2004-01-29  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Parse.cpp:
+	  Correctly displaying the last char of unreported ParseAttomic objects
+
 2004-01-24  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.46
