@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.9 2004/09/06 00:27:38 markus Exp $
+//$Id: Folder.cpp,v 1.10 2004/09/14 04:03:16 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -67,18 +67,18 @@ Folder::~Folder () {
 void Folder::add (Gtk::Widget& child) {
    TRACE9 ("Folder::add (Gtk::Widget&) - Act. pos: " << cols << '/' << rows);
 
-   int childHeight, childWidth;
-   child.get_size_request (childWidth, childHeight);
+   Gtk::Requisition req;
+   child.size_request (req);
 
    Check3 (actCol <= colWidths.size ());
    unsigned int lineWidth (0);
    for (unsigned int i (0); i < actCol; ++i)
       lineWidth += colWidths[i];
-   TRACE1 ("Folder::add (Gtk::Widget&) - Adding: " << childWidth << " to "
+   TRACE1 ("Folder::add (Gtk::Widget&) - Adding: " << req.width << " to "
            << lineWidth << " -> " << width);
    
-   if ((childWidth + lineWidth + 5) < static_cast<unsigned int> (width - 30)) {
-      lineWidth += childWidth + 5;
+   if ((req.width + lineWidth + 5) < static_cast<unsigned int> (width - 30)) {
+      lineWidth += req.width + 5;
       if (actCol >= cols) {
          view.resize (rows, ++cols);
          colWidths.push_back (0);
@@ -87,11 +87,11 @@ void Folder::add (Gtk::Widget& child) {
    else {
       view.resize (++rows, cols);
       actCol = 0;
-      lineWidth = childWidth + 5;
+      lineWidth = req.width + 5;
    }
    Check3 (actCol < colWidths.size ());
-   if (colWidths[actCol] < static_cast<unsigned int> (childWidth + 12))
-       colWidths[actCol] = childWidth + 5;
+   if (colWidths[actCol] < static_cast<unsigned int> (req.width + 12))
+       colWidths[actCol] = req.width + 5;
 
    // Add the control to the table
    ++actCol;
