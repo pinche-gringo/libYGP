@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.4 2001/10/09 17:17:17 markus Exp $
+//$Id: AssParse.cpp,v 1.5 2001/10/18 01:21:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -75,7 +75,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
             break;
 
          // Remove all escape-characters before quotes
-         _string.replace (pos++, 1, 0, '\0');
+         _string.replace (pos++ - 1, 1, 0, '\0');
       } while (true);
       ++pos;
 
