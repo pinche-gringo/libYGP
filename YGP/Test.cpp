@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.2 1999/07/31 00:32:37 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -126,6 +126,7 @@ int Application::perform (int argc, char* argv[]) {
    check (!ds.find ());
 
    check (!ds.find ("./*", &file, FILE_DIRECTORY));
+   check (!ds.find ());
    check (!ds.find ());
    check (!ds.find ());
    check (!ds.find ());
