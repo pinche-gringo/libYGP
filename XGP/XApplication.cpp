@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.12 2002/07/08 03:37:13 markus Exp $
+//$Id: XApplication.cpp,v 1.13 2002/09/12 03:00:29 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -34,10 +34,9 @@
 #include <gtk--/label.h>
 #include <gtk--/pixmap.h>
 #include <gtk--/accelgroup.h>
+#include <gtk--/radiomenuitem.h>
 
 #include <gtk--/menubar.h>
-#include <gtk--/menu.h>
-#include <gtk--/radiomenuitem.h>
 
 #include <Internal.h>
 
@@ -45,14 +44,15 @@
 
 #include "XApplication.h"
 
+using namespace Menu_Helpers;
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor for program without prg-info in client
 //Parameters: pTitle: Pointer to title
 /*--------------------------------------------------------------------------*/
 XApplication::XApplication (const char* pTitle)
-   : vboxClient (new VBox ())
-   /*, accels (AccelGroup::create ())*/, pMenu (new MenuBar ()), pLastMenu (NULL)
+   : vboxClient (new VBox ()), aLastMenus (5), pMenu (new MenuBar ())
 {
    TRACE9 ("XApplication::XApplication ()");
 
@@ -60,7 +60,7 @@ XApplication::XApplication (const char* pTitle)
    signal (SIGBUS, handleSignal);
 
    //Check3 (accels);
-   Check3 (vobxClient);
+   Check3 (vboxClient);
 
    Check3 (pTitle);
    set_title (pTitle);
@@ -96,12 +96,14 @@ XApplication::~XApplication () {
 //Parameters: menuEntry: Entry to add
 /*--------------------------------------------------------------------------*/
 Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
-   TRACE1 ("XApplication::addMenu:  (const MenuEntry&) - " << menuEntry.path);
+   TRACE1 ("XApplication::addMenu:  (const MenuEntry&) - " << menuEntry.name);
    Check3 (pMenu);
 
-   using namespace Menu_Helpers;
+   TRACE3 ("XApplication::addMenu -> Type (" << menuEntry.name << ") = "
+           << menuEntry.type);
 
-   TRACE3 ("XApplication::addMenu -> Type (" << menuEntry.name << ") = " << chType);
+   TRACE9 ("XApplication::addMenu - Levels: " << aLastMenus.size ());
+   Menu* pLastMenu (aLastMenus.size () ? aLastMenus.back () : NULL);
 
    switch (menuEntry.type) {
    case ITEM:
@@ -126,14 +128,28 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
 
    case BRANCH:
    case LASTBRANCH:
+      aLastMenus.clear ();
       pLastMenu = manage (new Menu ()); Check3 (pLastMenu);
-      Check3 (pMenu);
-      pMenu->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel, *pLastMenu));
+      aLastMenus.insert (aLastMenus.end (), pLastMenu);
 
+      pMenu->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel, *pLastMenu));
       if (menuEntry.type == LASTBRANCH)
          pMenu->items ().back ()->right_justify ();
 
       return pLastMenu;
+
+   case SUBMENU:
+      Check3 (pLastMenu);
+      pLastMenu = new Menu ();
+
+      aLastMenus.back ()->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel, *pLastMenu));
+      aLastMenus.push_back (pLastMenu);
+      break;
+
+   case SUBMENUEND:
+      Check3 (pLastMenu);
+      aLastMenus.pop_back ();
+      break;
 
    default:
       Check (0);
@@ -152,8 +168,26 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
    Check3 (menuEntries);
    Check3 (pMenu);
 
-   while (cMenus--)
-      addMenu (*menuEntries++);
+   while (cMenus) {
+      if ((menuEntries->type == RADIOITEM)
+          || (menuEntries->type == LASTRADIOITEM)) {
+         Check3 (aLastMenus.size ());
+         Menu* pLastMenu (aLastMenus.back ());
+         
+         Gtk::RadioMenuItem::Group radioGroup;
+         do {
+            cMenus--;
+            pLastMenu->items ().push_back (RadioMenuElem (radioGroup, menuEntries->name,
+                                                          menuEntries->accel,
+                                                          bind (slot (this, &XApplication::command),
+                                                                menuEntries->id)));
+         } while ((menuEntries++)->type != LASTRADIOITEM);
+      }
+      else {
+         cMenus--;
+         addMenu (*menuEntries++);
+      }
+   }
 }
 
 /*--------------------------------------------------------------------------*/

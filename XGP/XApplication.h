@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.10 2002/07/08 03:37:44 markus Exp $
+//$Id: XApplication.h,v 1.11 2002/09/12 03:00:29 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <vector>
 
 #include <gtk--/main.h>
 #include <gtk--/menu.h>
@@ -54,6 +55,11 @@ typedef SmartPtr<AccelGroup>     PAccelGroup;
 // start with one of the latter ;) Should you need a more flexible handling
 // (for dynamic menus, for example), save the pointer to the branch (which is
 // returned by addMenu))
+//
+// Note: Due to limitations in the Gtk-- toolkit (or my stupidity) you can NOT
+// add RadioMenuItems with the addMenu method; but must use the addMenus method
+// (as Gtk-- needs a unique group for them, which must be allocated on the
+// stack)
 class XApplication : public Window {
  public:
    // Manager functions
@@ -69,7 +75,8 @@ class XApplication : public Window {
    static void initI18n (const char* package, const char* dir);
 
  protected:
-   typedef enum { ITEM, CHECKITEM, SEPARATOR, BRANCH, LASTBRANCH } menuTypes;
+   typedef enum { ITEM, CHECKITEM, RADIOITEM, LASTRADIOITEM, SEPARATOR, BRANCH,
+                  SUBMENU, SUBMENUEND, LASTBRANCH } menuTypes;
 
    // Menu-handling (including callback for menu-events)
    typedef struct {
@@ -95,7 +102,7 @@ class XApplication : public Window {
    XApplication (const XApplication&);
    const XApplication& operator= (const XApplication&);
 
-   Menu* pLastMenu;
+   vector<Menu*> aLastMenus;
 };
 
 
