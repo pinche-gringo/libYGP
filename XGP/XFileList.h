@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.12 2003/02/03 03:50:33 markus Exp $
+//$Id: XFileList.h,v 1.13 2003/02/05 03:14:49 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,9 @@
 
 // Forward declarations
 struct File;
+namespace Gtk {
+   class Menu;
+}
 
 
 // Class for a (columned) list which holds files represented by an icon
@@ -44,8 +47,8 @@ struct File;
 class XFileList : public Gtk::CList {
  public:
    XFileList (int columns, const gchar *titles[] = 0)
-     : CList (columns, titles) { }
-   XFileList (GtkCList *castitem) : CList (castitem) { }
+      : CList (columns, titles), pMenuPopAction (NULL) { }
+   XFileList (GtkCList *castitem) : CList (castitem), pMenuPopAction (NULL) { }
    virtual ~XFileList ();
 
    unsigned int loadIcons (const char* path, const char* files,
@@ -60,6 +63,12 @@ class XFileList : public Gtk::CList {
 
  protected:
    virtual void realize_impl ();
+   virtual gint listSelected (GdkEvent* ev);
+
+   void startInTerm (const char* file, unsigned int line);
+   void startXProgram (const char* file, unsigned int line);
+
+   void execProgram (const char* file, const char* const args[]);
 
  private:
    // Prohibited manager-functions
@@ -75,6 +84,8 @@ class XFileList : public Gtk::CList {
    static Gdk_Pixmap iconExe;
 
    map<string, Gdk_Pixmap> icons;
+
+   Gtk::Menu* pMenuPopAction;
 };
 
 #endif

@@ -1,14 +1,14 @@
-//$Id: XFileList.cpp,v 1.19 2003/02/03 03:50:33 markus Exp $
+//$Id: XFileList.cpp,v 1.20 2003/02/05 03:14:49 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,14 +24,22 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include "Internal.h"
+
 #include <string.h>
 
+#include <gtk--/menu.h>
 #include <gtk--/pixmap.h>
+#include <gtk--/adjustment.h>
 
 #include <File.h>
 #include <Check.h>
 #include <Trace_.h>
+#include <Process.h>
 #include <PathDirSrch.h>
+
+#include "XMessageBox.h"
 
 #include <XFileList.h>
 
@@ -110,6 +118,7 @@ const char* XFileList::iconExecuteable[] = {
 Gdk_Pixmap XFileList::iconDir;
 Gdk_Pixmap XFileList::iconDef;
 Gdk_Pixmap XFileList::iconExe;
+
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
@@ -252,4 +261,105 @@ void XFileList::realize_impl () {
 #ifdef PKGDIR
    loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
 #endif
+
+   event.connect (slot (this, &XFileList::listSelected));
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Callback after clicking in list; if its by button 3: Display menu
+//Parameters: event: Datails about the event
+//Returns   : true: Event has been handled; false else
+/*--------------------------------------------------------------------------*/
+gint XFileList::listSelected (GdkEvent* event) {
+   TRACE2 ("XDirComp::listSelected (GdkEvent*) - " << event->type);
+
+   if (event->type == GDK_BUTTON_PRESS) {
+      GdkEventButton* bev ((GdkEventButton*)(event));
+      if (bev->button == 3) {
+         if (pMenuPopAction) {
+            delete pMenuPopAction;
+            pMenuPopAction = NULL;
+         }
+
+         TRACE9 ("XFileList::listSelected (GdkEvent*) - Y-offset: " << bev->y);
+         TRACE9 ("XFileList::listSelected (GdkEvent*) - Height of line: "
+                 << get_row_height ());
+         TRACE9 ("XFileList::listSelected (GdkEvent*) - VScroll "
+                 << (get_vadjustment () ? get_vadjustment ()->get_value () : -1));
+         float scrolled (get_vadjustment ()
+                         ? get_vadjustment ()->get_value () : 0);
+         unsigned int entry (static_cast<unsigned int>
+                             ((bev->y + scrolled)
+                              / (get_row_height () + 1)));
+         TRACE9 ("XFileList::listSelected (GdkEvent*) - Line " << entry
+                 << " = " << get_text (entry, 1));
+
+         if (entry < rows ().size ()) {
+            TRACE8 ("XFileList::listSelected (GdkEvent*) - Creating menu");
+            pMenuPopAction = new Gtk::Menu;
+
+            // Testing if $EDITOR exists and add that to list; else use VI
+            string editor (_("Show in %1"));
+            const char* ed;
+            if ((ed = getenv ("EDITOR")) == NULL)
+               ed = "vi";
+            editor.replace (editor.find ("%1"), 2, ed);
+
+            pMenuPopAction->items ().push_back
+               (Gtk::Menu_Helpers::MenuElem
+                (editor,
+                 bind (slot (this, &XFileList::startInTerm),
+                       ed, entry)));
+            pMenuPopAction->popup (bev->button, bev->time);
+
+            pMenuPopAction->items ().push_back
+               (Gtk::Menu_Helpers::MenuElem
+                ("Start in kate",
+                 bind (slot (this, &XFileList::startXProgram), "kate", entry)));
+            pMenuPopAction->popup (bev->button, bev->time);
+         }
+         return true;
+      }
+   }
+   return false;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Starts the passed program in a terminal with argument as argument
+//Parameters: file: File to execute
+//            line: Line in list of file to pass as argument
+/*--------------------------------------------------------------------------*/
+void XFileList::startInTerm (const char* file, unsigned int line) {
+   const char* term (getenv ("TERM"));
+   if (term) {
+      const char* args[] = { term, "-e", file, get_text (line, 1).c_str (), NULL };
+      execProgram (term, args);
+   }
+   else
+      XMessageBox::Show (_("Environment variable `TERM' not defined"),
+                         XMessageBox::ERROR | XMessageBox::OK);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Starts the passed program with argument as argument
+//Parameters: file: File to execute
+//            line: Line in list of file to pass as argument
+/*--------------------------------------------------------------------------*/
+void XFileList::startXProgram (const char* file, unsigned int line) {
+   const char* args[] = { file, get_text (line, 1).c_str (), NULL };
+   execProgram (file, args);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Starts the passed program with argument
+//Parameters: file: File to execute
+//            args: Arguments for the program
+/*--------------------------------------------------------------------------*/
+void XFileList::execProgram (const char* file, const char* const args[]) {
+   try {
+      Process::execAsync (file, args);
+   }
+   catch (string& error) {
+      XMessageBox::Show  (error, XMessageBox::ERROR | XMessageBox::OK);
+   }
 }
