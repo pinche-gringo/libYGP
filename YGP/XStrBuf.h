@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.7 2000/02/06 22:29:53 Markus Exp $
+// $Id: XStrBuf.h,v 1.8 2000/02/11 23:22:48 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ struct extStreambuf : public streambuf {
    // Manager-functions
    extStreambuf ();
    extStreambuf (streambuf& source);
+   extStreambuf (streambuf* source);
    virtual ~extStreambuf ();
 
    // Error-handling (buffer over/underflow and putback-failure)
