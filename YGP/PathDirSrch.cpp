@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.12 2001/08/08 01:42:39 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.13 2001/08/14 23:40:03 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -84,6 +84,8 @@ int PathDirectorySearch::find () {
 
    assert (!checkIntegrity ());
 
+   TRACE5 ("PathDirectorySearch::find (): searchPath::actNode (): "
+	   << searchPath.getActNode ().c_str ());
    if (searchPath.getActNode ().empty ())
       return ENOENT;
 
@@ -95,7 +97,7 @@ int PathDirectorySearch::find () {
       TRACE5 ("PathDirectorySearch::find (): searchPath::nextNode (): "
               << searchPath.getActNode ().c_str ());
 
-      rc = find (searchPath.getActNode () + getSearchValue (), *pEntry, attr);
+      rc = find (*pEntry, attr);
    }
    return rc;
 }
