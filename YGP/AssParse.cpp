@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.7 2002/05/24 06:52:49 markus Exp $
+//$Id: AssParse.cpp,v 1.8 2002/07/08 04:04:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -87,7 +87,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
       ++pos;
 
       if ((pos < _string.length ()) && (_string[pos] != SEPERATOR)) {
-         key = _("Quoted value not followed by seperator: '%1'");
+         key = _("Quoted value not followed by separator: '%1'");
          key.replace (key.find ("%1"), 2, _string.substr (pos - 10, 20));
 	 throw key;
       }
