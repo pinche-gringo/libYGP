@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.22 2001/10/12 23:06:05 markus Exp $
+//$Id: Parse.h,v 1.23 2001/10/19 12:14:14 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -122,6 +122,11 @@ class ParseEOF : public ParseObject {
 //       blank ( ) ... Any whitespace is valid
 //       * ... Any character is valid
 //
+// The members maxCard and minCard specify how many characters the object
+// can or must have. If there are elss matching characters parsed, the object
+// is considered as not found; after reaching the upper border, parsing is
+// stopped for this object.
+//
 // If this remind you at COBOL (at least a wee bit?), well, I've to admit
 // I was tortured with this bullshit when I was young and dynamic (centuries
 // ago). Who'd imagine that I could use that somehow?
@@ -172,9 +177,10 @@ class ParseAttomic : public ParseObject {
 };
 
 
-// Class to parse text til a certain abort-criteria. Parsing of this element
-// is stopped, if any of the characters in the abort-parameters is found (or
-// the maximal cardinality is reached).
+// Class to parse text until specified abot-characters are found.
+//
+// Parsing of this element is stopped, if any of the characters in the
+// abort-parameters is found (or the maximal cardinality is reached).
 class ParseText : public ParseAttomic {
  public:
    // Manager-functions
@@ -196,8 +202,18 @@ class ParseText : public ParseAttomic {
 };
 
 
-// Class to parse text til a certain abort-criteria (as in ParseText). This
-// abort-characters can be escaped
+// Class to parse text til a certain abort-criteria (as in
+// ParseText). However, parsing is continued if those characters are
+// preceeded by a escape-character (which "escapes" the special
+// meaning of that character).
+//
+// Parsing of this element is stopped, if any of the characters in the
+// abort-parameters is found (or the maximal cardinality is reached).
+//
+// This class enables parsing analogue to strings in C. A C-string is
+// terminated with a quote ("), except if the quote follows a
+// backslash (\).  The only difference is that both quote and
+// backslash can be specified and therefor be every charcter.
 class ParseTextEsc : public ParseText {
  public:
    // Manager-functions
@@ -222,11 +238,13 @@ class ParseTextEsc : public ParseText {
 
 
 // Class to parse exactly a certain text (case-sensitive!)
-// The min/max-parameters of the second constructor may seem a wee bit
-// useless, but with them its possible to parse for example an ID where just
-// the first min chars must match (PARAMETER or PARAM or ...). Well,  the main
-// reason for this behaviour is, that I don't want to re-consider the
-// class-hierarchy anymore!
+//
+// The min- and max-members are not totally wasted; they could be used
+// to define the minimal length of certain keywords which would be
+// valid even if just written in a short(er) form (although the main
+// reason for them is that I didn't want to re-consider the
+// class-hierarchy anymore).
+//
 // Note: This class uses strlen to get the length of value so don't use it to
 // check for text with a '\0' inside!
 class ParseExact : public ParseAttomic {
@@ -259,11 +277,13 @@ class ParseExact : public ParseAttomic {
 
 
 // Class to parse exactly a certain text (not case-sensitive!)
-// The min/max-parameters of the second constructor may seem a wee bit
-// useless, but with them its possible to parse for example an ID where just
-// the first min chars must match (PARAMETER or PARAM or ...). Well, I've to
-// admit, the main reason for this behaviour is, that I don't want to consider
-// the class-hierarchy anymore!
+//
+// The min- and max-members are not totally wasted; they could be used
+// to define the minimal length of certain keywords which would be
+// valid even if just written in a short(er) form (although the main
+// reason for them is that I didn't want to re-consider the
+// class-hierarchy anymore).
+//
 // Note: This class uses strlen to get the length of value so don't use it to
 // check for text with a '\0' inside!
 class ParseUpperExact : public ParseExact {
@@ -275,7 +295,7 @@ class ParseUpperExact : public ParseExact {
    ParseUpperExact (const char* value, const char* description,
                     unsigned int max, unsigned int min, bool skipWhitespace = true)
       : ParseExact (value, description, max, min, skipWhitespace) { }
-   ParseUpperExact (const ParseExact& other) : ParseExact (other) { }
+   ParseUpperExact (const ParseUpperExact& other) : ParseExact (other) { }
    virtual ~ParseUpperExact ();
 
    ParseUpperExact& operator= (const ParseUpperExact& other) {
@@ -294,8 +314,15 @@ class ParseUpperExact : public ParseExact {
 };
 
 
-// Class to parse sequences (series of ParseObjects). Every ParseObject
-// in this list must be found (in the same order).
+// Class to parse series of ParseObjects (sequences).
+//
+// A sequence is only considered parsed successfully, if all of its
+// elements are parsed successfully (in the order specified by the
+// sequence).
+//
+// Errors while parsing cause a soft error (meaning parsing can be
+// continued) only for the first element; errors for further elements
+// cause hard errors (which are not recoverable and parsing is ended).
 class ParseSequence : public ParseObject {
  public:
    ParseSequence (ParseObject* apObjectList[], const char* description,
@@ -333,8 +360,10 @@ private:
 };
 
 
-// Class to parse selections (list of ParseObjects where just one entry must
-// be valid).
+// Class to parse a selection of one ParseObject out of a list.
+//
+// If an object matching the parsed intput is found, the sequence is
+// considered as parsed successfully.
 class ParseSelection : public ParseSequence {
  public:
    ParseSelection (ParseObject* apObjectList[], const char* description,
