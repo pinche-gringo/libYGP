@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.3 1999/10/13 00:23:42 Markus Exp $
+//$Id: ADate.cpp,v 1.4 1999/10/13 21:43:51 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -430,3 +430,18 @@ void ADate::setMonth (char Month) {
    }
 }
 
+/*--------------------------------------------------------------------------*/
+//Purpose   : Converting to a struct tm
+//Returns   : struct tm: Date in struct tm-format; time-part is set to zeros
+//Remarks   : It is not checked if the date is in the right range for a
+//            struct tm (after 1900 and before 2039)
+/*--------------------------------------------------------------------------*/
+struct tm ADate::toStructTM () const {
+  struct tm result = { 0, 0, 0, 0, 0, 0 };
+  if (isDefined ()) {
+     result.tm_mday = day;
+     result.tm_mon = month - 1;
+     result.tm_year = year - 1900;
+  }
+  return result;
+}

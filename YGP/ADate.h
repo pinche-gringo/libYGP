@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.3 1999/10/13 00:23:03 Markus Exp $
+//$Id: ADate.h,v 1.4 1999/10/13 21:43:51 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ class ADate : public AttributValue {
    ADate (const time_t date) { operator= (date); }
    virtual ~ADate ();
 
+   // Set-functions
    ADate& operator= (const ADate& other);
    ADate& operator= (const char* pDate);
    ADate& operator= (const std::string& date) { return operator= (date.c_str ()); }
@@ -47,19 +48,25 @@ class ADate : public AttributValue {
       setMonth (tm.tm_mon + 1); setDay (tm.tm_mday); }
    ADate& operator= (const time_t date) { operator= (*localtime (&date)); }
 
+   virtual void define () { AttributValue::define (); day = month = 1; year = 1900; }
    void setDay (char Day);
    void setMonth (char Month);
    void setYear (unsigned int Year) { AttributValue::define (); year = Year; }
 
+   // Query-functions
    char getDay () { return day; }
    char getMonth () { return month; }
    unsigned int getYear () { return year; }
 
    static ADate ADate::today () { return ADate (true); }
 
-   virtual void define () { AttributValue::define (); day = month = 1; year = 1900; }
+   // Convertion
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
+
+   struct tm toStructTM () const;
+   time_t    toSysTime () const {
+      struct tm result (toStructTM ()); return mktime (&result); }
 
    // Calculation
    ADate& operator+= (const ADate& rhs);
@@ -80,6 +87,7 @@ class ADate : public AttributValue {
    bool operator>= (const ADate& other) { return compare (other) >= 0; }
    long compare (const ADate& other);
 
+   // Usefull utility-functions
    char maxDayOf () const { return maxDayOf (month, year); }
    static char maxDayOf (char month, unsigned int year);
    bool isLeapYear () const { return isLeapYear (year); }
