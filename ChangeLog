@@ -11,6 +11,8 @@ Version 0.6.00: - Class for logging added
 		- Adapted for Cygwin (GCC for DOS/Windoze)
 		- Using header for configuration
 		- AttrVals uses exceptions to signal errors
+		- Class to handle Entities added
+		- I8n added
 
 Version 0.5.21: - Fixes for Windoze-version
 		- Docu improved, fixed
