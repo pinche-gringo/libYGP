@@ -1,32 +1,32 @@
-// $Id: XStrBuf.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.2 1999/08/22 18:58:32 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
 
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-//
-// This library is distributed in the hope that it will be useful,
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free
-// Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
 #ifndef DEBUG
-#define DEBUG 9
+#define DEBUG 0
 #endif
 
 
@@ -34,66 +34,77 @@
 #include <assert.h>
 
 #if DEBUG > 0
+#include <iomanip.h>
 #include <iostream.h>
 #endif
 
 #include "XStrBuf.h"
 
 
-unsigned int extStreambuf::iLenPutback = 64;
+static int lenBuffer = 512;
 
 
-//Description: Default-constructur; Initializes object
-extStreambuf::extStreambuf ()
-   : line (1), column (1), puttedBack (false), pBuffer (NULL)
-   , pEndBuffer (pBuffer) {
-   assert (pSource);
-}
-
-//Description: Constructur; Initializes object
-//Parameters : source: Original streambuffer, which should be enhanced
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructur; Initializes object
+//Parameter : source: Original streambuffer, which should be enhanced
+/*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf& source)
-   : streambuf (source), line (1), column (1), puttedBack (false)
-   , pBuffer (NULL), pEndBuffer (pBuffer) {
-   assert (pSource);
+   : streambuf (source), line (0), pushbackOffset (-1), pSource (&source)
+   , pBuffer (new char[lenBuffer]) {
+   setb (pBuffer, pBuffer + lenBuffer, 1);
 }
 
-//Description: Destructor
+/*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
    delete [] pBuffer;
 }
 
 
-//Description: Underflow of buffer; load new data into buffer
-//Returns    : int: EOF in case of error
-//Requires   : Readpointer equal or behind end-of-readbuffer
-//Returns    : Status; 0 OK
+/*--------------------------------------------------------------------------*/
+//Purpose   : Underflow of buffer; load new data into buffer
+//Returns   : int: EOF in case of error
+//Requires  : Readpointer equal or behind end-of-readbuffer
+/*--------------------------------------------------------------------------*/
 int extStreambuf::underflow () {
 #if DEBUG > 2
    cout << "Underflow!\n";
 #endif
 
-   assert (gptr () >= egptr ());
-   assert (pEndBuffer <= pBuffer + iLenPutback);
+   //   assert (!checkIntegrity ());
 
-   if (puttedBack) {     // Chars putted back -> Use this buffer as new input
-#if DEBUG > 5
-      cout << "Underflow! -> Use putback\n";
-#endif
-      exchangeBuffer ();
-      pEndBuffer = pBuffer;
-      puttedBack = false;
-   }
-   else
-      return parent::underflow ();
-   return 0;
+   char *pTemp (pBuffer);
+   int ch;
+
+   ++line;
+   pushbackOffset = -1;
+   while ((ch = pSource->sbumpc ()) != EOF) {
+      --pushbackOffset;
+      if (pTemp == pBuffer + lenBuffer) {                 // Buffer to small?
+         pBuffer = new char[lenBuffer << 1];           // Double its size and
+         memcpy (pBuffer, base(), lenBuffer);            // copy old contents
+         pTemp = pBuffer + lenBuffer;
+         setb (pBuffer, pBuffer + lenBuffer, 1);
+         lenBuffer <<= 1;
+      }
+      *pTemp++ = ch;
+
+      if (ch == '\n')
+	 break;
+   } // end-while !EOF
+
+   setg (pBuffer, pBuffer, pTemp);
+   return ch;
 }
 
-//Description: Pushback of last read character failed. In this case the char
-//             is stored in a special pusback-buffer for further reading. If
-//             the putback-buffer is also overflown it is enhanced
-//Parameters : c: Character to put back (not EOF)
-//Returns    : Status; 0 OK
+/*--------------------------------------------------------------------------*/
+//Purpose   : Pushback of last read character failed (because the beginning
+//            of the actual block was reached) -> Repositionate the file-ptr
+//            one char before the last one.
+//Parameter : c: Character to put back (not EOF)
+//Returns   : Character putted back (EOF if error)
+/*--------------------------------------------------------------------------*/
 int extStreambuf::pbackfail (int c) {
 #if DEBUG > 2
    cout << "Failed pushback!\n";
@@ -102,44 +113,43 @@ int extStreambuf::pbackfail (int c) {
    assert (!checkIntegrity ());
    assert (c != EOF);
 
-   puttedBack = true;
+   if (gptr () > Gbase ())        // gptr () > Gbase -> pushback of wrong char
+      return EOF;
 
-   if (!pBuffer) 
-      pBuffer = pEndBuffer = new char [iLenPutback];
-   else {
-     if (pEndBuffer >= pBuffer + iLenPutback) {
-       char* pHelp (new char [iLenPutback << 1]);
-       memcpy (pHelp, pBuffer, iLenPutback);
-       delete [] pBuffer;
-       pBuffer = pHelp;
-       pEndBuffer = pBuffer + iLenPutback;
-       iLenPutback <<= 1;
-     }
+#if DEBUG > 5
+   cout << "Failed pushback: Buffer underrun\n";
+#endif
 
-   }
-   *pEndBuffer++ = (char)c;
-   exchangeBuffer ();
+   int rc (pSource->seekoff (pushbackOffset, ios::cur));
+   pushbackOffset = -1;
+   if (rc == EOF)
+      return EOF;
+
+#if DEBUG > 8
+   cout << "Pushback: Next = " << pSource->sbumpc () << endl;
+   pSource->seekoff (-1, ios::cur);
+#endif
+
+   setg (NULL, NULL, NULL);
+   assert (line != 0);
+   if (c == '\n')
+      --line;
+   return c;
 }
 
-//Description: Sets the readbuffer to the passed values and returns the
-//             old buffer-values
-void extStreambuf::exchangeBuffer () {
-   assert (!checkIntegrity ());
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks the integrity of the object
+//Returns   : Status: 0 OK
+/*--------------------------------------------------------------------------*/
+int extStreambuf::checkIntegrity () const {
+   if (!pBuffer)
+      return 1;
 
-   char* pTemp (Gbase ()); assert (pTemp);
-   char* pTempEnd (eGptr ()); assert (pTempEnd);
+   if (gptr () > egptr ())
+      return 2;
 
-   setg (pBuffer, pBuffer, pEndBuffer);
-   pBuffer = pTemp;
-   pEndBuffer = pTempEnd;
-}
+   if (!pSource)
+      return 3;
 
-//Description: Checks the integrity of the object
-//Returns    : Status: 0 OK
-bool extStreambuf::checkIntegrity () const {
-   assert (pEndBuffer >= pBuffer);
-   assert (pEndBuffer <= pBuffer + iLenPutback);
-   assert ((puttedBack && pBuffer && pEndBuffer)
-	   || !(puttedBack || pBuffer || pEndBuffer));
    return 0;
 }
