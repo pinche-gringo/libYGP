@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.8 2002/07/09 01:48:47 markus Exp $
+//$Id: Thread.cpp,v 1.9 2002/10/20 23:12:27 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -142,7 +142,7 @@ void Thread::cancel () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Waits for the passed thread to terminate
 //Parameters: id: Thread to wait for
-//Returns   : void* 
+//Returns   : void*
 /*--------------------------------------------------------------------------*/
 void* Thread::waitForThread (const Thread& id) {
    TRACE3 ("Thread::waitForThread (const Thread&) - " << (int)id.id);
@@ -183,7 +183,7 @@ void Thread::isToCancel () const {
 void Thread::threadFunction (void* params) {
    Thread* pThread = reinterpret_cast<Thread*> (params);
    assert (pThread);
-   pThread->rc = pThread->callback (pThread->paArgs_);
+   pThread->rc = pThread->callback (pThread);
    pThread->waitThread.unlock ();
 }
 #endif
