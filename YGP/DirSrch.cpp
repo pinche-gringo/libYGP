@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.8 1999/09/07 22:40:39 Markus Rel $
+//$Id: DirSrch.cpp,v 1.9 1999/09/11 19:32:56 Markus Rel $
 
 //PROJECT     : General
-//SUBSYSTEM   : Tokenize
+//SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
