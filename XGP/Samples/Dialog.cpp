@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.2 2003/03/03 05:53:43 markus Exp $
+//$Id: Dialog.cpp,v 1.3 2003/03/03 23:33:01 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -28,6 +28,9 @@
 #include <gtkmm/label.h>
 #include <gtkmm/table.h>
 
+#include <Check.h>
+#include <Trace_.h>
+
 #include <ANumeric.h>
 #include <XFileEntry.h>
 
@@ -46,10 +49,13 @@ Dialog::Dialog (ANumeric& numEntry, std::string& file)
      , lblFileEntry (new Gtk::Label ("FileEntry"))
      , lblNum (new XAttributeLabel<ANumeric> (numEntry))
      , entryNum (new XAttributeEntry<ANumeric> (numEntry))
-     , entryFile (new XFileEntry (MAX_PATH))
+     , entryFile (new XFileEntry ())
      , file_ (file) {
+   TRACE9 ("Dialog::Dialog (ANumeric&, std::string&) - Num: " << numEntry
+           << "; String: " << file);
    set_title ("Dialog");
 
+   TRACE5 ("Dialog::Dialog (ANumeric&, std::string&) - Creating labels");
    lblLabel->set_justify (Gtk::JUSTIFY_LEFT);
    lblEntry->set_justify (Gtk::JUSTIFY_LEFT);
    lblFileEntry->set_justify (Gtk::JUSTIFY_LEFT);
@@ -57,12 +63,14 @@ Dialog::Dialog (ANumeric& numEntry, std::string& file)
    lblEntry->show ();
    lblFileEntry->show ();
 
+   TRACE5 ("Dialog::Dialog (ANumeric&, std::string&) - Showing fields");
    lblNum->show ();
    entryNum->show ();
    entryFile->show ();
 
    entryFile->set_text (file);
 
+   TRACE5 ("Dialog::Dialog (ANumeric&, std::string&) - Attaching controls");
    pClient->attach (*lblLabel, 0, 1, 0, 1, Gtk::FILL, Gtk::FILL, 5, 2);
    pClient->attach (*lblNum,   1, 2, 0, 1, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
