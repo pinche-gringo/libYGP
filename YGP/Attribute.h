@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.2 2001/08/26 14:37:54 markus Exp $
+//$Id: Attribute.h,v 1.3 2001/09/25 21:17:27 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,11 +36,12 @@ class IAttribute {
    bool matches (const std::string& compare) const {
       return name == compare; }
 
-   virtual bool assignFromString (const char* value) = 0;
+   virtual bool assignFromString (const char* value) const = 0;
 
    const std::string& getName () const { return name; }
 
  protected:
+   IAttribute (const char* pName) : name (pName) { assert (pName); }
    IAttribute (const std::string& name_) : name (name_) { }
 
  private:
@@ -56,9 +57,10 @@ class IAttribute {
 template <class T> class Attribute : public IAttribute {
  public:
    Attribute (const char* name, T& attr) : IAttribute (name), attr_ (attr) { }
+   Attribute (const std::string& name, T& attr) : IAttribute (name), attr_ (attr) { }
    ~Attribute () {  }
 
-   virtual bool assignFromString (const char* value) {
+   virtual bool assignFromString (const char* value) const {
       try {
          attr_ = value;
          return true;
@@ -76,13 +78,13 @@ template <class T> class Attribute : public IAttribute {
 };
 
 // Specialization of Attribute for ints
-bool Attribute<char>::assignFromString (const char* value) {
+bool Attribute<char>::assignFromString (const char* value) const {
    assert (value);
    attr_ = *value;
    return *value && !value[1];
 }
 
-bool Attribute<char*>::assignFromString (const char* value) {
+bool Attribute<char*>::assignFromString (const char* value) const {
    assert (value);
    delete [] attr_;
    attr_ = new char[strlen (value) + 1];
@@ -92,7 +94,7 @@ bool Attribute<char*>::assignFromString (const char* value) {
    return true;
 }
 
-bool Attribute<short>::assignFromString (const char* value) {
+bool Attribute<short>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -100,7 +102,7 @@ bool Attribute<short>::assignFromString (const char* value) {
    return !(errno || *pTail);
 }
 
-bool Attribute<unsigned short>::assignFromString (const char* value) {
+bool Attribute<unsigned short>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -108,7 +110,7 @@ bool Attribute<unsigned short>::assignFromString (const char* value) {
    return !(errno || *pTail);
 }
 
-bool Attribute<int>::assignFromString (const char* value) {
+bool Attribute<int>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -116,7 +118,7 @@ bool Attribute<int>::assignFromString (const char* value) {
    return !(errno || *pTail);
 }
 
-bool Attribute<unsigned int>::assignFromString (const char* value) {
+bool Attribute<unsigned int>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -124,7 +126,7 @@ bool Attribute<unsigned int>::assignFromString (const char* value) {
    return !(errno || *pTail);
 }
 
-bool Attribute<long>::assignFromString (const char* value) {
+bool Attribute<long>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -132,7 +134,7 @@ bool Attribute<long>::assignFromString (const char* value) {
    return !(errno || *pTail);
 }
 
-bool Attribute<unsigned long>::assignFromString (const char* value) {
+bool Attribute<unsigned long>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -140,7 +142,7 @@ bool Attribute<unsigned long>::assignFromString (const char* value) {
    return !(errno || *pTail);
 }
 
-bool Attribute<double>::assignFromString (const char* value) {
+bool Attribute<double>::assignFromString (const char* value) const {
    assert (value);
    char* pTail = NULL;
    errno = 0;
@@ -149,7 +151,7 @@ bool Attribute<double>::assignFromString (const char* value) {
 }
 
 // Specialization of Attribute for strings
-bool Attribute<std::string>::assignFromString (const char* value) {
+bool Attribute<std::string>::assignFromString (const char* value) const {
    assert (value);
    attr_ = value;
    return true;
