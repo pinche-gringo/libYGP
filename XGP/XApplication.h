@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.18 2003/03/06 03:11:23 markus Rel $
+//$Id: XApplication.h,v 1.18.2.1 2003/06/12 23:22:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -130,6 +130,8 @@ class XApplication : public Gtk::Window {
    void         addMenus (const MenuEntry menuEntryies[], int cMenus);
    virtual void command (int menu);
 
+   virtual void setIconProgram (const char* const* iconData);
+
    Gtk::VBox* getClient () const { return vboxClient; }
 
    // Protected data
@@ -168,7 +170,7 @@ class XInfoApplication : public XApplication {
 
  protected:
    // Add information
-   void setIconProgram (const char* const* iconData);
+   virtual void setIconProgram (const char* const* iconData);
    void setIconAuthor (const char* const* iconData);
 
    typedef SmartPtr<Gtk::HBox>  PHBox;
