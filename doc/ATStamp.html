@@ -1,4 +1,4 @@
-<!-- $Id: ATStamp.html,v 1.6 2001/10/02 23:01:32 markus Exp $ -->
+<!-- $Id: ATStamp.html,v 1.7 2001/10/17 16:01:24 markus Exp $ -->
 
 <html>
   <head>
@@ -129,12 +129,16 @@
         <td><a href="ATStamp.html#readFromStream"><b>readFromStream</b></a></td>
         <td><tt>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">in</font></tt>) <tt>throw (<tt><font color="navy">invalid_argument</font></tt>)</tt>;</td></tr>
 
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
-        <td><a href="ATStamp.html#setGMT"><b>setGMT</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">time_t</font></tt>&amp; <tt><font color="blue">time</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="ATimestamp.html#153"><b>ATimestamp</b></a>&amp;</tt> </td>
         <td><a href="ATStamp.html#sub"><b>sub</b></a></td>
         <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">Day</font></tt>, <tt><font color="purple">char</font></tt> <tt><font color="blue">month</font></tt> = 0, <tt><font color="purple">int</font></tt> <tt><font color="blue">Year</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">Hour</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">minute</font></tt> = 0, <tt><font color="purple">char</font></tt> <tt><font color="blue">second</font></tt> = 0)</tt>;</td></tr>
+
+      <tr valign="top"><td><tt><tt><font color="purple">time_t</font></tt></tt> </td>
+        <td><a href="ATStamp.html#toGMTTime"><b>toGMTTime</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">time_t</font></tt></tt> </td>
+        <td><a href="ATStamp.html#toLocalTime"><b>toLocalTime</b></a></td>
+        <td><tt>() <tt>const</tt></tt>;</td></tr>
 
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">std::string</font></tt></tt> </td>
         <td><a href="ATStamp.html#toString"><b>toString</b></a></td>
@@ -267,12 +271,6 @@
       <dd>Sets the time to the 1st of January, 1900 0:00:00.</dd>
     </dl>
 
-    <pre><a name="setGMT"></a>void setGMT (const time_t&amp; time)</pre>
-    <dl>
-      <dd>sets the time to the value represented by the parameter (which is considered
-        to specify a time in GMT).</dd>
-    </dl>
-
     <h4>In- &amp; output, conversion</h4>
     <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in) throw (invalid_argument)</pre>
     <dl>
@@ -303,9 +301,20 @@
       <dd>Converts the object to a struct tm.</dd>
     </dl>
 
+    <pre><a name="toGMTTime"></a>time_t toGMTTime () const</pre>
+    <dl>
+      <dd>Converts the object to a system-timestructure (where the time is returned
+        GMT-format).</dd>
+    </dl>
+    <pre><a name="toLocalTime"></a>time_t toLocalTime () const</pre>
+    <dl>
+      <dd>Converts the object to a system-timestructure (where the time is returned
+        in the local time).</dd>
+    </dl>
     <pre><a name="toSysTime"></a>time_t toSysTime () const</pre>
     <dl>
-      <dd>Converts the object to a system-timestructure.</dd>
+      <dd>Converts the object to a system-timestructure (where the time is returned
+        in the local time).</dd>
     </dl>
 
     <h4>Calculation</h4>
