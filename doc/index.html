@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: index.html,v 1.10 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: index.html,v 1.11 2002/12/15 22:13:28 markus Exp $ -->
 
 <html>
   <head>
@@ -20,30 +19,31 @@
     </table>
 
     <h1 align="center">Classes</h1>
-    <ul type="disc">
+    <ul style="list-style-type:disc;">
       <li><b><a href="AttrVal.html">AttributValue</a></b>
-	<ul type="disc">
+	<ul style="list-style-type:disc;">
 	  <li><b><a href="AByteArray.html">AByteArray</a></b> - AttributValue</li>
 	  <li><b><a href="ADate.html">ADate</a></b> - AttributValue</li>
 	  <li><b><a href="ANumeric.html">ANumeric</a></b> - AttributValue</li>
 	  <li><b><a href="ATime.html">ATime</a></b> - AttributValue
-	    <ul type="disc">
+	    <ul style="list-style-type:disc;">
 	      <li><b><a href="ATStamp.html">ATimestamp</a></b> - ADate, ATime</li>
 	    </ul></li>
 	  <li><b><a href="Handle.html">IHandle</a></b> - AttributValue
-	    <ul type="disc">
+	    <ul style="list-style-type:disc;">
 	      <li><b><a href="Handle.html#Handle">Handle&lt;T&gt;</a></b> - IHandle</li>
 	    </ul></li>
 	</ul></li>
 
+      <li><b><a href="AttrParse.html">AttributeParse</a></b></li>
       <li><b><a href="Attribute.html">IAttribute</a></b></li>
-	<ul type="disc">
+	<ul style="list-style-type:disc;">
 	  <li><b><a href="Attribute.html#Attribute">Attribute&lt;T&gt;</a></b> - IAttribute</li>
 	</ul></li>
-      <li><b><a href="AttrParse.html">AttributeParse</a></b></li>
       <li><b><a href="INIFile.html">INIFile</a></b></li>
       <li><b><a href="INIFile.html#INISection">INISection</a></b></li>
 
+      <li><b><a href="Entity.html">Entity</a></b>
       <li><b><a href="File.html">File</a></b>
 	<ul type=disc>
           <li><b><a href="RemoteFile.html">RemoteFile</a></b>
@@ -52,11 +52,19 @@
 	<ul type=disc>
 	  <li><b><a href="DirSrch.html">DirectorySearch</a></b> - IDirectorySearch
 	  <ul type=disc>
+	    <li><b><a href="XDirSrch.html#XDirectorySearch">XDirectorySearch</a></b> - DirectorySearch</li>
 	    <li><b><a href="PathDirSrch.html">PathDirectorySearch</a></b> - DirectorySearch</li>
+              <ul type=disc>
+	        <li><b><a href="XDirSrch.html#XPathDirectorySearch">XPathDirectorySearch</a></b> - PathDirectorySearch</li>
+	      </ul></li>
 	  </ul></li>
 	  <li><b><a href="RDirSrch.html">RemoteDirSearch</a></b> - IDirectorySearch</li>
+            <ul type=disc>
+	      <li><b><a href="XDirSrch.html#XRemoteDirSearch">XRemoteDirSearch</a></b> - RemoteDirSearch</li>
+	    </ul></li>
 	</ul></li>
       <li><b><a href="RDirSrchSrv.html">RemoteDirSearchSrv</a></b></li>
+      <li><b><a href="XDirSrch.html">XDirectorySearch&lt;T&gt;</a></b></li>
 
       <li><b><a href="RegExp.html">IRegularExpression</a></b>
         <ul type=disc>
@@ -65,62 +73,72 @@
         </ul></li>
 
       <li><b><a href="IVIOAppl.html">IVIOApplication</a></b></li>
-      <li><b><a href="Log.html">Syslog</a></b></li>
+      <li><b><a href="Mutex.html">Mutex</a></b></li>
       <li><b><a href="Parse.html#ParseObject">ParseObject</a></b>
-	<ul type="disc">
+	<ul style="list-style-type:disc;">
 	  <li><b><a href="Parse.html#ParseEOF">ParseEOF</a></b> - ParseObject
-	    <ul type="disc">
-        <li><a href="Parse.html#CBParseEOF">CBParseEOF</a> - ParseEOF</li>
-        <li><a href="Parse.html#OMParseEOF">OFParseEOF&lt;T&gt;</a> - ParseEOF</li>
+	    <ul style="list-style-type:disc;">
+              <li><a href="Parse.html#CBParseEOF">CBParseEOF</a> - ParseEOF</li>
+              <li><a href="Parse.html#OMParseEOF">OFParseEOF&lt;T&gt;</a> - ParseEOF</li>
+	    </ul></li>
+	  <li><b><a href="Parse.html#ParseSkip">ParseSkip</a></b> - ParseObject
+	    <ul style="list-style-type:disc;">
+              <li><a href="Parse.html#CBParseSkip">CBParseSkip</a> - ParseSkip</li>
+              <li><a href="Parse.html#OMParseSkip">OFParseSkip&lt;T&gt;</a> - ParseSkip</li>
 	    </ul></li>
 	  <li><b><a href="Parse.html#ParseAttomic">ParseAttomic</a></b> - ParseObject
-	    <ul type="disc">
+	    <ul style="list-style-type:disc;">
 	      <li><a href="Parse.html#CBParseAttomic">CBParseAttomic</a> - ParseAttomic</li>
 	      <li><a href="Parse.html#OMParseAttomic">OFParseAttomic&lt;T&gt;</a> - ParseAttomic</li>
 	      <li><b><a href="Parse.html#ParseText">ParseText</a></b> - ParseAttomic
-                <ul type="disc">
+                <ul style="list-style-type:disc;">
                   <li><a href="Parse.html#CBParseText">CBParseText</a> - ParseText</li>
                   <li><a href="Parse.html#OMParseText">OFParseText&lt;T&gt;</a> - ParseText</li>
                   <li><b><a href="Parse.html#ParseTextEsc">ParseTextEsc</a></b> - ParseText
-                    <ul type="disc">
+                    <ul style="list-style-type:disc;">
                       <li><a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a> - ParseTextEsc</li>
                       <li><a href="Parse.html#OMParseTextEsc">OFParseTextEsc&lt;T&gt;</a> - ParseTextEsc</li>
 		    </ul></li>
 		</ul></li>
 	      <li><b><a href="Parse.html#ParseExact">ParseExact</a></b> - ParseAttomic
-		<ul type="disc">
+		<ul style="list-style-type:disc;">
 		  <li><a href="Parse.html#CBParseExact">CBParseExact</a> - ParseExact</li>
 		  <li><a href="Parse.html#OMParseExact">OFParseExact&lt;T&gt;</a> - ParseExact</li>
 		  <li><b><a href="Parse.html#ParseUpperExact">ParseUpperExact</a></b> - ParseExact
-		    <ul type="disc">
+		    <ul style="list-style-type:disc;">
 		      <li><a href="Parse.html#CBParseUpperExact">CBParseUpperExact</a> - ParseUpperExact</li>
 		      <li><a href="Parse.html#OMParseUpperExact">OFParseUpperExact&lt;T&gt;</a> - ParseUpperExact</li>
 		    </ul></li>
 		</ul></li>
 	    </ul></li>
 	  <li><b><a href="Parse.html#ParseSequence">ParseSequence</a></b> - ParseObject
-	    <ul type="disc">
+	    <ul style="list-style-type:disc;">
 	      <li><a href="Parse.html#CBParseSequence">CBParseSequence</a> - ParseSequence</li>
 	      <li><a href="Parse.html#OMParseSequence">OFParseSequence&lt;T&gt;</a> - ParseSequence</li>
 	      <li><b><a href="Parse.html#ParseSelection">ParseSelection</a></b> - ParseSequence
-		<ul type="disc">
+		<ul style="list-style-type:disc;">
 		  <li><a href="Parse.html#CBParseSelection">CBParseSelection</a> - ParseSelection</li>
 		  <li><a href="Parse.html#OMParseSelection">OFParseSelection&lt;T&gt;</a> - Parse</li>
 		</ul></li>
 	    </ul></li>
 	</ul></li>
-      <li><b><a href="Socket.html">Socket</a></b></li>
       <li><b><a href="Handle.html#RefCount">RefCount&lt;T&gt;</a></b></li>
       <li><b><a href="SmartPtr.html">SmartPtr&lt;T&gt;</a></b></li>
+      <li><b><a href="Socket.html">Socket</a></b></li>
+      <li><b><a href="Log.html">Syslog</a></b></li>
+      <li><b><a href="Thread.html">Thread</a></b>
+	<ul style="list-style-type:disc;">
+          <li><b><a href="Thread.html#OThread">OThread&lt;T&gt;</a></b> - Thread</li>
+	</ul></li>
       <li><b><a href="Tokenize.html">Tokenize</a></b>
-	<ul type="disc">
+	<ul style="list-style-type:disc;">
           <li><b><a href="AssParse.html">AssignmentParse</a></b> - Tokenize</li>
 	  <li><b><a href="PathSrch.html">PathSearch</a></b> - Tokenize</li>
 	</ul></li>
       <li><b><a href="XStrBuf.html">extStreambuf</a></b> - streambuf
-	<ul type="disc">
+	<ul style="list-style-type:disc;">
 	  <li><b><a href="XStream.html">extStream&lt;T&gt;</a></b> - [extStreambuf], T
-	    <ul type="disc">
+	    <ul style="list-style-type:disc;">
 	      <li><b><a href="XStream.html#Xistream">Xistream</a></b> - typedef extStream&lt;istream&gt;</li>
 	      <li><b><a href="XStream.html#Xifstream">Xifstream</a></b> - typedef extStream&lt;ifstream&gt;</li>
 	    </ul></li>
