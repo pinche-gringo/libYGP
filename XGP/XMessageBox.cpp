@@ -1,11 +1,11 @@
-//$Id: XMessageBox.cpp,v 1.1 1999/11/13 01:18:07 Markus Exp $
+//$Id: XMessageBox.cpp,v 1.2 1999/11/15 00:16:36 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -439,7 +439,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
    icon->show (); assert (icon->is_visible ());
    client->pack_start (*icon, false, false, 5);
 
-   static const char* labels[] = { "OK", "Yes", "No", "Retry", "Cancel"};
+   static const char* labels[] = { "OK", "Retry", "Yes", "No", "Cancel"};
 
    if (!(flags & ~TYPEMASK))       // Assure, that there's at least one button
       flags |= OK;
@@ -482,7 +482,7 @@ XMessageBox::~XMessageBox () {
       delete *i;
    parent::hide ();
 
-   TRACE9 ("XMessageBox::~XMessageBox - returning " << ret);
+   TRACE5 ("XMessageBox::~XMessageBox - returning " << ret);
 }
 
 /*--------------------------------------------------------------------------*/
