@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.1 2000/05/14 17:47:18 Markus Exp $
+//$Id: RegExp.h,v 1.2 2000/05/15 00:12:28 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,28 +23,28 @@
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
 //       care it is valied during the life-time of the object.
-class RegularExpression {
+class IRegularExpression {
  public:
    bool matches (const char* pCompare) const {
       assert (pCompare); assert (pRegExp); assert (!checkIntegrity ());
       return compare (pRegExp, pCompare); }
 
-   virtual int  checkIntegrity () const { return !pRegExp; }
-   RegularExpression& operator= (const char* pExpr) { pRegExp = pExpr; return *this; }
+   virtual int  checkIntegrity () const { }
 
  protected:
-   RegularExpression (const char* pExpression) : pRegExp (pExpression) { assert (pRegExp); }
-   virtual ~RegularExpression () { }
+   IRegularExpression (const char* pExpression) : pRegExp (pExpression) { assert (pRegExp); }
+   virtual ~IRegularExpression () { }
 
+   IRegularExpression& operator= (const char* pExpr) { pRegExp = pExpr; return *this; }
    const char* getExpression () const { return pRegExp; }
 
    virtual bool compare (const char* pAktRegExp, const char* pCompare) const = 0;
 
  private:
    // Prohibited manager functions
-   RegularExpression ();
-   RegularExpression (const RegularExpression&);
-   const RegularExpression& operator= (const RegularExpression&);
+   IRegularExpression ();
+   IRegularExpression (const IRegularExpression&);
+   const IRegularExpression& operator= (const IRegularExpression&);
 
    const char* pRegExp;
 };
