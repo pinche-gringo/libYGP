@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.17 2000/02/21 23:07:00 Markus Exp $
+//$Id: DirSrch.cpp,v 1.18 2000/02/24 23:46:14 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -124,7 +124,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    return find ();
 #else
 #  ifdef WINDOWS
-   TRACE9 ("DirectorySearch::find - found " << pEntry->name ());
+   TRACE8 ("DirectorySearch::find - found " << pEntry->name ());
 
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
@@ -156,7 +156,7 @@ int DirectorySearch::find () {
 
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
-      TRACE9 ("DirectorySearch::find - found " << pDirEnt->d_name);
+      TRACE8 ("DirectorySearch::find - found " << pDirEnt->d_name);
 
       if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
          continue;
@@ -168,11 +168,11 @@ int DirectorySearch::find () {
          *pEntry->pEndPath = '\0';
 
          // Do attributes match?
-         unsigned short access (pEntry->status.st_mode & FILE_NORMAL);
-         unsigned short type (pEntry->status.st_mode & ~FILE_NORMAL);
-         if (((access & attr) == access) || (type & attr)) {
+         TRACE9 ("DirectorySearch::find: " << pDirEnt->d_name << " (" << hex
+                 << attr << ") -> Mode: " << hex << pEntry->status.st_mode);
+	 if ((attr & pEntry->status.st_mode) == pEntry->status.st_mode) {
             pEntry->entry = *pDirEnt;
-            TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
+            TRACE1 ("DirectorySearch::find - match " << pEntry->name ());
             return 0;
          } // endif attributs OK
       } // endif filename OK
@@ -187,7 +187,7 @@ int DirectorySearch::find () {
    while (FindNextFile (hSearch, pEntry))
       if (!(pEntry->dwFileAttributes & attr_)
           && regExp.matches (pEntry->name ())) {
-         TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
+         TRACE1 ("DirectorySearch::find - match " << pEntry->name ());
          return 0;
       }
    return GetLastError ();

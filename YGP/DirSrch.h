@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.11 2000/02/15 21:18:00 Markus Exp $
+//$Id: DirSrch.h,v 1.12 2000/02/24 23:46:14 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -174,19 +174,20 @@ class DirectorySearch {
    virtual int find ();
 
 #ifdef UNIX
-   enum { FILE_NORMAL = (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
-                         | S_IRWXU | S_IRWXG | S_IRWXO),
-          FILE_READONLY = (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
-                           | S_IRUSR | S_IRGRP | S_IROTH \
-                           | S_IXUSR | S_IXGRP | S_IXOTH),
-          FILE_DIRECTORY = (S_IFDIR),
-	  FILE_HIDDEN = 0x80000000 };
+   enum { FILE_NORMAL    = (S_IFREG | S_IFLNK | S_ISUID | S_ISGID | S_ISVTX
+                            | S_IRWXU | S_IRWXG | S_IRWXO),
+          FILE_READONLY  = (S_IFREG | S_IFLNK | S_ISUID | S_ISGID | S_ISVTX
+                            | S_IRUSR | S_IRGRP | S_IROTH \
+                            | S_IXUSR | S_IXGRP | S_IXOTH),
+          FILE_DIRECTORY = (S_IFDIR | S_ISUID | S_ISGID | S_ISVTX
+                            | S_IRWXU | S_IRWXG | S_IRWXO),
+	  FILE_HIDDEN    = (1 << (sizeof (long) * 8 - 1)) };
 #else
 #  ifdef WINDOWS
-   enum { FILE_NORMAL = (~FILE_ATTRIBUTE_DIRECTORY),
-          FILE_READONLY = FILE_ATTRIBUTE_READONLY,
+   enum { FILE_NORMAL    = (~FILE_ATTRIBUTE_DIRECTORY),
+          FILE_READONLY  = FILE_ATTRIBUTE_READONLY,
           FILE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY,
-          FILE_HIDDEN = (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN) };
+          FILE_HIDDEN    = (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN) };
 #  else
 #    error Not implemented yet!
 #  endif
