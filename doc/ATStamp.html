@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: ATStamp.html,v 1.12 2002/12/25 04:29:13 markus Rel $ -->
+<!-- $Id: ATStamp.html,v 1.13 2003/03/06 03:04:47 markus Rel $ -->
 
 <html>
   <head>
@@ -132,6 +132,12 @@
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ATStamp.html#readFromStream"><b>readFromStream</b></a></td>
         <td><tt>(<tt><span style="color:purple">istream</span></tt>&amp; <tt><span style="color:blue">in</span></tt>) <tt>throw (<tt><span style="color:navy">invalid_argument</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td>friend <tt><span style="color:purple">istream</span></tt>&amp;</td>
+        <td><a href="ATStamp.html#operatorrshift"><tt><span style="color:black"><b>operator</b></span></tt>&gt;&gt;</tt></a></td>
+        <td><tt>(<span style="color:purple">istream</span>&amp; <span style="color:blue">in</span>, <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <span style="color:blue">inValue</span>)</tt></td></tr>
+      <tr valign="top"><td>friend <tt><span style="color:purple">ostream</span></tt>&amp;</td>
+        <td><a href="ATStamp.html#operatorlshift"><tt><span style="color:black"><b>operator</b></span>&lt;&lt;</tt></a></td>
+        <td><tt>(<span style="color:purple">ostream</span>&amp; <span style="color:blue">out</span>, <a href="ATStamp.html"><b>ATimestamp</b></a>&amp; <span style="color:blue">outValue</span>)</tt></td></tr>
 
       <tr valign="top"><td><tt><a href="ATimestamp.html#153"><b>ATimestamp</b></a>&amp;</tt> </td>
         <td><a href="ATStamp.html#sub"><b>sub</b></a></td>
@@ -154,7 +160,7 @@
         <td><a href="ATStamp.html#toSysTime"><b>toSysTime</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">std::string</span></tt></tt> </td>
-        <td><a href="ATStamp.html#toUnformatedString"><b>toUnformatedString</b></a></td>
+        <td><a href="ATStamp.html#toUnformattedString"><b>toUnformattedString</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="ATStamp.html#undefine"><b>undefine</b></a></td>
@@ -375,6 +381,30 @@
     </dl>
 
     <h3><span style="color:navy">In- &amp; output, conversion</span></h3>
+    <pre><a name="operatorrshift"></a>friend istream&amp; <b>operator&gt;&gt;</b> (istream&amp; in, ATimestamp&amp; inValue)</pre>
+    <dl>
+      <dd><p>Reads the object from the passed stream using the virtual method
+        <a href="ATStamp.html#readFromStream"><b>readFromStream</b></a>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>in</code>: Stream to print read from </dd>
+            <dd><code>inValue</code>: Object to read</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>Reference to <code>in</code></dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="operatorlshift"></a>friend ostream&amp; </b>operator&lt;&lt;</b> (ostream&amp; out, const ATimestamp&amp; outValue)</pre>
+    <dl>
+      <dd><p>Writes the object to the stream using the virtual method
+        <a href="ATStamp.html#toUnformattedString"><b>toUnformattedString</b></a>.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>out</code>: Stream to write to </dd>
+            <dd><code>outValue</code>: Object to write</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>Reference to <code>out</code></dd></dl></dd>
+    </dl>
+    <hr>
+
     <pre><a name="readFromStream"></a>void <b>readFromStream</b> (std::istream& in) throw (std::invalid_argument) </pre>
     <dl>
       <dd><p>Reads the timestamp in the format DDMMY[Y...] hhmmss (with leading zeros)
@@ -414,7 +444,7 @@
 </dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="toUnformatedString"></a>std::string <b>toUnformatedString</b> () const </pre>
+    <pre><a name="toUnformattedString"></a>std::string <b>toUnformattedString</b> () const </pre>
     <dl>
       <dd><p>Converts the object into a string, in the format DDMMYYYY[...] hhmmss.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
