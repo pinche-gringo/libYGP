@@ -1,7 +1,7 @@
 #ifndef CIDIRCOMP_H
 #define CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.7 2003/11/14 17:26:55 markus Exp $
+//$Id: CIDirSrch.h,v 1.8 2003/11/14 20:28:34 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,9 +24,10 @@
 #include <YGP/DirSrch.h>
 #include <CGP/CDirSrch.h>
 
+
 class CIFile : public CFile_skel {
  public:
-   CIFile (const File& other);
+   CIFile (const YGP::File& other);
 
    char*        path ();
    char*        name ();
@@ -44,14 +45,14 @@ class CIFile : public CFile_skel {
    virtual void exit ();
 
  private:
-   const File* pFile;
+   const YGP::File* pFile;
 };
 
 
 class CIDirectorySearch : public CDirectorySearch_skel {
  public:
-   CIDirectorySearch () : srch (*new DirectorySearch) { }
-   CIDirectorySearch (IDirectorySearch* srchobj) : srch (*srchobj ) { }
+   CIDirectorySearch () : srch (*new YGP::DirectorySearch) { }
+   CIDirectorySearch (YGP::IDirectorySearch* srchobj) : srch (*srchobj ) { }
    ~CIDirectorySearch () { delete &srch; }
 
    void setSearchValue (const char* file);
@@ -67,11 +68,10 @@ class CIDirectorySearch : public CDirectorySearch_skel {
 
    virtual void exit ();
 
-   static CORBA::Char getSplitChar () { return File::DIRSEPARATOR; }
+   static CORBA::Char getSplitChar () { return YGP::File::DIRSEPARATOR; }
 
  private:
-   IDirectorySearch& srch;
+   YGP::IDirectorySearch& srch;
 };
-
 
 #endif // CIDIRCOMP

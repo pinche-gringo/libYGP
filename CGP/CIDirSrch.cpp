@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.8 2003/11/14 17:27:35 markus Exp $
+//$Id: CIDirSrch.cpp,v 1.9 2003/11/14 20:28:34 markus Exp $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -32,7 +32,7 @@
 #include <CGP/CIDirSrch.h>
 
 
-CIFile::CIFile (const File& other) : pFile (&other) {
+CIFile::CIFile (const YGP::File& other) : pFile (&other) {
 }
 
 char* CIFile::path () {
@@ -52,13 +52,13 @@ CORBA::ULong CIFile::size () {
 
 char* CIFile::time () {
    Check3 (pFile);
-   ATimestamp time (pFile->time ());
+   YGP::ATimestamp time (pFile->time ());
    return CORBA::string_dup (time.toString ().c_str ());
 }
 
 CORBA::ULong CIFile::attributes () {
    Check3 (pFile);
-   return IDirectorySearch::convertFromSysAttribs (pFile->attributes ());
+   return YGP::IDirectorySearch::convertFromSysAttribs (pFile->attributes ());
 }
 
 CORBA::Boolean CIFile::isDirectory () {
@@ -100,12 +100,12 @@ void CIDirectorySearch::setSearchValue (const char* file) {
 }
 
 CFile_ptr CIDirectorySearch::find (CORBA::ULong attr) {
-   const File* pEntry (srch.find (attr));
+   const YGP::File* pEntry (srch.find (attr));
    return pEntry ? CFile::_duplicate (new CIFile (*pEntry)) : NULL;
 }
 
 CFile_ptr CIDirectorySearch::next () {
-   const File* pEntry (srch.next ());
+   const YGP::File* pEntry (srch.next ());
    return pEntry ? CFile::_duplicate (new CIFile (*pEntry)) : NULL;
 }
 

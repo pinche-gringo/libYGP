@@ -1,11 +1,11 @@
-// $Id: RFile.cpp,v 1.5 2003/11/14 17:24:49 markus Exp $
+// $Id: RFile.cpp,v 1.6 2003/11/14 20:28:34 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/RFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -83,8 +83,8 @@ int main (int argc, char* argv[]) {
 
       CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
 
-      DirectorySearch ds;
-      const File* pFile (ds.find ("Makefile.in")); Check3 (pFile);
+      YGP::DirectorySearch ds;
+      const YGP::File* pFile (new YGP::File ("Makefile.in")); Check3 (pFile);
       CIFile* file = new CIFile (*pFile); Check3 (file);
       CORBA::String_var id = orb->object_to_string (file);
 
