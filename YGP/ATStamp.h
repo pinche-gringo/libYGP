@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.4 1999/11/09 22:01:41 Markus Rel $
+//$Id: ATStamp.h,v 1.5 2000/02/02 22:09:13 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,14 +43,14 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    virtual ~ATimestamp ();
 
    bool         isDefined () const {
-#ifdef __BORLANDC__
+#if defined (__BORLANDC__) || defined (_MSC_VER)
       return ADate::isDefined ();
 #else
       return AttributValue::isDefined ();
 #endif
    }
    virtual void undefine () {
-#ifdef __BORLANDC__
+#if defined (__BORLANDC__) || defined (_MSC_VER)
       ADate::undefine ();
       ATime::undefine ();
 #else
@@ -65,7 +65,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp& operator= (const char* pStamp);
    ATimestamp& operator= (const std::string& stamp) { return operator= (stamp.c_str ()); }
    ATimestamp& operator= (const struct tm& tm);
-   ATimestamp& operator= (const time_t date) { operator= (*localtime (&date)); }
+   ATimestamp& operator= (const time_t date) { return operator= (*localtime (&date)); }
 
    virtual void readFromStream (istream& in);
 
@@ -93,7 +93,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
 
    // Comparison
    bool operator== (const ATimestamp& other) { return !compare (other); }
-   bool operator!= (const ATimestamp& other) { return compare (other); }
+   bool operator!= (const ATimestamp& other) { return compare (other) != 0; }
    bool operator<  (const ATimestamp& other) { return compare (other) < 0; }
    bool operator>  (const ATimestamp& other) { return compare (other) > 0; }
    bool operator<= (const ATimestamp& other) { return compare (other) <= 0; }

@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.8 2000/01/21 23:38:40 Markus Rel $
+//$Id: ADate.h,v 1.9 2000/02/02 22:09:13 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,9 +49,12 @@ class ADate : public AttributValue {
    ADate& operator= (const char* pDate);
    ADate& operator= (istream& stream);
    ADate& operator= (const std::string& date) { return operator= (date.c_str ()); }
-   ADate& operator= (const struct tm& tm) { year = tm.tm_year + 1900;
-      month = (unsigned char)(tm.tm_mon + 1); setDay ((unsigned char)tm.tm_mday); }
-   ADate& operator= (const time_t date) { operator= (*localtime (&date)); }
+   ADate& operator= (const struct tm& tm) {
+      year = tm.tm_year + 1900;
+      month = (unsigned char)(tm.tm_mon + 1);
+      setDay ((unsigned char)tm.tm_mday);
+      return *this; }
+   ADate& operator= (const time_t date) { return operator= (*localtime (&date)); }
 
    virtual void readFromStream (istream& in);
 
@@ -87,7 +90,7 @@ class ADate : public AttributValue {
 
    // Comparison
    bool operator== (const ADate& other) { return !compare (other); }
-   bool operator!= (const ADate& other) { return compare (other); }
+   bool operator!= (const ADate& other) { return compare (other) != 0; }
    bool operator<  (const ADate& other) { return compare (other) < 0; }
    bool operator>  (const ADate& other) { return compare (other) > 0; }
    bool operator<= (const ADate& other) { return compare (other) <= 0; }

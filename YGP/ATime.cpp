@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.1 1999/10/15 21:33:16 Markus Rel $
+//$Id: ATime.cpp,v 1.2 2000/02/02 22:09:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,17 +25,21 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <assert.h>
-#include <values.h>
 #include <locale.h>
 
 #ifdef UNIX
-#include <strstream.h>
+#  include <values.h>
+#  include <strstream.h>
 #else
-#include <strstrea.h>
+#  ifdef WINDOWS
+#     include <windows.h>
+#     include <winnt.h>
+#  endif
+#  include <strstrea.h>
 #endif
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "ATime.h"
 
@@ -59,7 +63,7 @@ ATime::ATime (bool now) : AttributValue () {
 //            second: Second to set
 /*--------------------------------------------------------------------------*/
 ATime::ATime (char Hour, char minute, char second) : AttributValue (), 
-   hour (hour), min (minute), sec (second) {
+   hour (Hour), min_ (minute), sec (second) {
    if (checkIntegrity ()) {
       TRACE ("ATime::ATime (Hour, minute, second) -> checkIntegrity failed with "
              << checkIntegrity ());
@@ -87,7 +91,7 @@ ATime& ATime::operator= (const ATime& other) {
       TRACE5 ("ATime::operator=: " << other);
 
       hour = other.hour;
-      min = other.min;
+      min_ = other.min_;
       sec = other.sec;
       AttributValue::operator= ((const AttributValue&) other);
    }
@@ -105,7 +109,11 @@ ATime& ATime::operator= (const char* pDate) {
 
    TRACE5 ("ATime::operator= (const char*): " << pDate);
 
+#if defined (__BORLANDC__) || defined (_MSC_VER)
+   istrstream help (const_cast <char*> (pDate));
+#else
    istrstream help (pDate);
+#endif
    readFromStream (help);
    return *this;
 }
@@ -136,7 +144,7 @@ std::string ATime::toString (const char* format) const {
 
    if (checkIntegrity ())
       TRACE ("ATime::toString: Invalid ATime " << (int)hour << '.'
-             << (int)min << '.' << (char)sec);
+             << (int)min_ << '.' << (char)sec);
    return szBuffer;
 }
 
@@ -154,7 +162,7 @@ void ATime::readFromStream (istream& in) {
           << split << third);
    
    hour = (char)first;
-   min = (char)second;
+   min_ = (char)second;
    sec = (char)third;
 
    TRACE9 ("ATime::readFromStream: result = " << toString ());
@@ -179,7 +187,7 @@ ATime& ATime::operator+= (const ATime& rhs) {
    if (rhs.isDefined ()) {
       if (isDefined ()) {
          hour += rhs.hour;
-         min += rhs.min;
+         min_ += rhs.min_;
          sec += rhs.sec;
       
          maxAdapt ();
@@ -206,7 +214,7 @@ ATime& ATime::operator-= (const ATime& rhs) {
          *this = now ();
 
       hour -= rhs.hour;
-      min -= rhs.min;
+      min_ -= rhs.min_;
       sec -= rhs.sec;
 
       minAdapt ();
@@ -219,7 +227,7 @@ ATime& ATime::operator-= (const ATime& rhs) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Adds a value to this
 //Parameters: Hour: Hour to add
-//            min: Minute to add
+//            minute: Minute to add
 //            sec: Second to add
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
@@ -228,7 +236,7 @@ ATime& ATime::add (char Hour, char minute, char second) {
 
    if (isDefined ()) {
       hour += Hour;
-      min += minute;
+      min_ += minute;
       sec += second;
       maxAdapt ();
 
@@ -249,12 +257,14 @@ ATime& ATime::sub (char Hour, char minute, char second) {
 
    if (isDefined ()) {
       hour -= Hour;
-      min -= minute;
+      min_ -= minute;
       sec -= second;
       minAdapt ();
 
       assert (!checkIntegrity ());
    }
+
+   return *this;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -272,10 +282,10 @@ long ATime::compare (const ATime& other) {
    // Both sides are defined -> return (approximated) difference
    if (isDefined () && other.isDefined ()) {
      TRACE5 ("ATime::compare -> " << (((hour - other.hour) * 24
-                                       + (min - other.min) * 60)
+                                       + (min_ - other.min_) * 60)
                                       + (sec - other.sec)));
 
-      return ((hour - other.hour) * 24 + (min - other.min) * 60)
+      return ((hour - other.hour) * 24 + (min_ - other.min_) * 60)
               + (sec - other.sec);
    }
 
@@ -322,7 +332,7 @@ ATime operator- (const ATime& lhs, const ATime& rhs) {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int ATime::checkIntegrity () const {
-   return (hour > 23) ? 3 : (min > 59) ? 2 : (sec > 61);
+   return (hour > 23) ? 3 : (min_ > 59) ? 2 : (sec > 61);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -331,12 +341,12 @@ int ATime::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 bool ATime::minAdapt () {
    if (sec > 61) {                                  // Adapt time if underflow
-      --min;
+      --min_;
       sec += 59;
    }
 
-   if (min > 59) {                                 // Adapt month if underflow
-      min += 59;                // Assuming calculation was with correct month
+   if (min_ > 59) {                                 // Adapt month if underflow
+      min_ += 59;                // Assuming calculation was with correct month
       --hour;
    }
 
@@ -355,11 +365,11 @@ bool ATime::minAdapt () {
 bool ATime::maxAdapt () {
    if (sec > 59) {                                   // Adapt time if overflow
       sec -= 59;
-      ++min;
+      ++min_;
    }
 
-   if (min > 59) {                                 // Adapt minute if overflow
-      min -= 59;               // Assuming calculation was with correct minute
+   if (min_ > 59) {                                 // Adapt minute if overflow
+      min_ -= 59;               // Assuming calculation was with correct minute
       ++hour;
    }
 
@@ -392,7 +402,7 @@ void ATime::setHour (char Hour) {
 //Parameters: minute: Minute to set
 /*--------------------------------------------------------------------------*/
 void ATime::setMinute (char minute) {
-   min = minute;
+   min_ = minute;
 
    if (checkIntegrity ()) {
       TRACE ("ATime::setMinute -> checkIntegrity failed with " << checkIntegrity ());
@@ -429,7 +439,7 @@ struct tm ATime::toStructTM () const {
    struct tm result = { 0, 0, 0, 0, 0, 0 };
    if (isDefined ()) {
       result.tm_hour = hour;
-      result.tm_min = min;
+      result.tm_min = min_;
       result.tm_sec = sec;
    }
    return result;

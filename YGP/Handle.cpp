@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.1 1999/08/29 20:53:13 Markus Rel $
+// $Id: Handle.cpp,v 1.2 2000/02/02 22:09:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,13 +27,6 @@
 
 #include "Handle.h"
 
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
-/*--------------------------------------------------------------------------*/
-IHandle::IHandle (void* pValue) : AttributValue () {
-   AttributValue::define ();
-}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor

@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.8 2000/01/21 23:38:40 Markus Rel $
+//$Id: ADate.cpp,v 1.9 2000/02/02 22:09:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,17 +25,21 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <assert.h>
-#include <values.h>
 #include <locale.h>
 
 #ifdef UNIX
-#include <strstream.h>
+#  include <values.h>
+#  include <strstream.h>
 #else
-#include <strstrea.h>
+#  ifdef WINDOWS
+#     include <windows.h>
+#     include <winnt.h>
+#  endif
+#  include <strstrea.h>
 #endif
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "ADate.h"
 
@@ -108,7 +112,7 @@ ADate& ADate::operator= (const char* pDate) {
 
    TRACE5 ("ADate::operator= (const char*): " << pDate);
 
-#ifdef __BORLANDC__
+#if defined (__BORLANDC__) || defined (_MSC_VER)
    istrstream help (const_cast <char*> (pDate));
 #else
    istrstream help (pDate);

@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.6 1999/10/14 22:23:32 Markus Rel $
+//$Id: AttrVal.h,v 1.7 2000/02/02 22:09:42 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <iostream.h>
+
 #include <string>
 
 
 // Forward declarations
-class istream;
-class ostream;
 
 // Base-class for all attribut-values
 class AttributValue {
@@ -37,19 +37,19 @@ class AttributValue {
    virtual ~AttributValue () { }
 
    AttributValue& operator= (const AttributValue& other) {
-      defined = other.defined; }
+      defined = other.defined; return *this; }
 
    virtual void define () = 0;
    virtual std::string toString () const { return ""; }
-   virtual void readFromStream (istream& in) { }
+   virtual void readFromStream (istream&) { }
 
-   void toString (std::string& value) { value = toString (); }
+   void toString (std::string& value) const { value = toString (); }
 
    friend ostream& operator>> (istream& in, AttributValue& inValue) {
       inValue.readFromStream (in); }
    friend ostream& operator<< (ostream& out, const AttributValue& outValue) {
       if (outValue.isDefined ())
-         out << outValue.toString ();
+         out.operator << (outValue.toString ().c_str ());
       return out; }
 
  private:

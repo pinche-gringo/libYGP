@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.1 1999/08/29 20:53:13 Markus Rel $
+// $Id: Handle.h,v 1.2 2000/02/02 22:09:13 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,8 +31,7 @@ class IHandle : public AttributValue {
  public:
    // Manager functions
    IHandle () : AttributValue () { }
-   IHandle (void* pValue);
-   IHandle (const IHandle& other) : AttributValue () { }
+   IHandle (const IHandle& other) : AttributValue (other) { }
    virtual ~IHandle ();
 
    const IHandle& operator= (const IHandle& other);
@@ -45,12 +44,11 @@ class IHandle : public AttributValue {
    virtual void link () = 0;
    virtual void unlink () = 0;
    virtual void* getValue () const = 0;
+   void          setValue (void* pValue);
    virtual void assignValue (void* pValue) = 0;
 
    // Interface of AttributValue
    virtual void define ();
-
-   void  setValue (void* pValue);
 };
 
 
@@ -81,7 +79,7 @@ template <class T> class Handle : public IHandle {
  public:
    // Manager functions
    Handle () : IHandle (), pData (NULL) { }
-   Handle (T* pValue) : IHandle (pValue), pData (new RefCount<T> (pValue)) { }
+   Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { define (); }
    Handle (const Handle& other) : IHandle (other) { }
    ~Handle () { if (isDefined ()) unlink (); }
 

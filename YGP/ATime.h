@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.2 1999/11/09 22:01:41 Markus Rel $
+//$Id: ATime.h,v 1.3 2000/02/02 22:09:13 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,10 +33,10 @@ class istream;
 // values.
 class ATime : public AttributValue {
  public:
-   ATime () : AttributValue (), hour (0), min (0), sec (0) { }
+   ATime () : AttributValue (), hour (0), min_ (0), sec (0) { }
    ATime (bool now);
    ATime (const ATime& other) : AttributValue ((const AttributValue&)other)
-      , hour (other.hour), sec (other.sec), min (other.min) { }
+      , hour (other.hour), sec (other.sec), min_ (other.min_) { }
    ATime (char Hour, char minute, char second);
    ATime (const char* pTime) { operator= (pTime); }
    ATime (const std::string& time) { operator= (time); }
@@ -50,19 +50,19 @@ class ATime : public AttributValue {
    ATime& operator= (istream& stream);
    ATime& operator= (const std::string& time) { return operator= (time.c_str ()); }
    ATime& operator= (const struct tm& tm) { hour = (unsigned char)tm.tm_hour;
-      min = (unsigned char)tm.tm_min; setSecond ((unsigned char)tm.tm_sec); }
-   ATime& operator= (const time_t time) { operator= (*localtime (&time)); }
+      min_ = (unsigned char)tm.tm_min; setSecond ((unsigned char)tm.tm_sec); return *this; }
+   ATime& operator= (const time_t time) { return operator= (*localtime (&time)); }
 
    virtual void readFromStream (istream& in);
 
-   virtual void define () { AttributValue::define (); hour = min = sec = 0; }
+   virtual void define () { AttributValue::define (); hour = min_ = sec = 0; }
    void setHour (char Hour);
    void setMinute (char minute);
    void setSecond (char second);
 
    // Query-functions
    char getHour () const { return hour; }
-   char getMinute () const { return min; }
+   char getMinute () const { return min_; }
    char getSecond () const { return sec; }
 
    static ATime now () { return ATime (true); }
@@ -87,7 +87,7 @@ class ATime : public AttributValue {
 
    // Comparison
    bool operator== (const ATime& other) { return !compare (other); }
-   bool operator!= (const ATime& other) { return compare (other); }
+   bool operator!= (const ATime& other) { return compare (other) != 0; }
    bool operator<  (const ATime& other) { return compare (other) < 0; }
    bool operator>  (const ATime& other) { return compare (other) > 0; }
    bool operator<= (const ATime& other) { return compare (other) <= 0; }
@@ -103,7 +103,7 @@ class ATime : public AttributValue {
 
  private:
    unsigned char hour;
-   unsigned char min;
+   unsigned char min_;
    unsigned char sec;
 };
 

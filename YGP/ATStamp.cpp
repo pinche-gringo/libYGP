@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.3 1999/11/09 22:01:41 Markus Rel $
+//$Id: ATStamp.cpp,v 1.4 2000/02/02 22:09:13 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -33,7 +33,7 @@
 #endif
 
 #define DEBUG 0
-#include "Trace.h"
+#include "Trace_.h"
 
 #include "ATStamp.h"
 
@@ -103,7 +103,7 @@ ATimestamp& ATimestamp::operator= (const char* pStamp) {
 
    TRACE5 ("ATimestamp::operator= (const char*): " << pDate);
 
-#ifdef __BORLANDC__
+#if defined (__BORLANDC__) || defined (_MSC_VER)
    istrstream help (const_cast <char*> (pStamp));
 #else
    istrstream help (pStamp);

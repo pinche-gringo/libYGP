@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.13 2000/01/24 22:51:57 Markus Rel $
+///$Id: IVIOAppl.cpp,v 1.14 2000/02/02 22:10:24 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,6 +25,7 @@
 
 
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 
 #include <iostream.h>
@@ -37,7 +38,7 @@
 //Parameters: ch: Character to check
 //Returns   : bool: Result (true: char starts option)
 /*--------------------------------------------------------------------------*/
-inline bool isOptionChar (const char ch) {
+static inline bool isOptionChar (const char ch) {
 #ifdef UNIX
    return ch == '-';
 #else
@@ -195,25 +196,27 @@ char IVIOApplication::getOption () {
             continue;
          } // endif actual option finished
 
-         if (isOptionChar (option) && longOpt) {    // Specialhandling of "--"
+         if (isOptionChar (option)) {               // Specialhandling of "--"
             if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
-               unsigned int i (numLongOpt);
+               if (longOpt) {                    // Are long-options specified
+                  unsigned int i (numLongOpt);
 
-               while (--i) {
-                  assert (longOpt); assert (longOpt->longVal);
-                  if (!strcmp (longOpt[i].longVal, pOptionParam))
-                     break;
-               } // end-while
+                  while (--i) {
+                     assert (longOpt); assert (longOpt->longVal);
+                     if (!strcmp (longOpt[i].longVal, pOptionParam))
+                        break;
+                  } // end-while
 
-               if (i == (unsigned int)-1) {
-        	  option = '?';
-        	  cerr << name () << "-Error: Unrecognized option '"
-                       << pOptionParam << "'\n";
-               } // endif no longopt found
-               else {
-        	  option = longOpt[i].shortVal;
-        	  pOptionParam += strlen (pOptionParam);
-               } // endif
+                  if (i == (unsigned int)-1) {         // No long-option found
+                     option = '?';
+                     cerr << name () << "-Error: Unrecognized option '"
+                          << pOptionParam << "'\n";
+                   } // endif no longopt found
+                  else {
+        	     option = longOpt[i].shortVal;
+        	     pOptionParam += strlen (pOptionParam);
+                  } // end-else long-option found
+               } // endif no long-options defined
             }
             else {                           // Option --? Means end of option
                moveOption ();
@@ -241,7 +244,7 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
 
    assert (numOpt > startArg); assert (numOpt < args);
 
-   const char* pHelp (ppArgs[numOpt]);
+   const char* pHelp = ppArgs[numOpt];
 
    while (numOpt > startArg) {
       assert (ppArgs[numOpt - 1]); assert (ppArgs[numOpt]);
