@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.1 2001/08/28 20:16:08 markus Exp $
+//$Id: AttrParse.h,v 1.2 2001/09/25 21:16:58 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,12 +24,31 @@
 #include <Attribute.h>
 
 
-// Macros to set the attributes of the request
-#define ATTRIBUTE(req, type, var, name)  req.addAttribute (*new Attribute<type> (name, var));
+// Macros to set the attribute-values to parse into the attribute-parser
+#define ATTRIBUTE(APobj, type, var, name)  APobj.addAttribute (*new Attribute<type> (name, var));
 
 
 // Class to parse attribute-assignments from a string and sets its values
-// into attributes
+// into attribute-values.
+//
+// Use this class like the following:
+//
+//   std::string file;
+//    ANumeric    size;
+//    ATimestamp  time;
+//
+//    AttributeParse attrs;
+//    ATTRIBUTE (attrs, std::string, file, "File");
+//    ATTRIBUTE (attrs, ANumeric, size, "Size");
+//    ATTRIBUTE (attrs, ATimestamp, time, "Time");
+//    attrs.assignValues ("File=\"ADate.cpp\";Time=01012000 121005;Size=18180");
+//
+// This example would assign the values "ADate.cpp" to file>, "18180" to size
+// and the 1st of January 2000, 12:10:05 to time.
+//
+// Note that the order of the attributes while declaration and during parsing
+// does not need to be the same!
+
 class AttributeParse {
  public:
    //Section manager-functions
@@ -42,10 +61,6 @@ class AttributeParse {
 
    const IAttribute* findAttribute (const std::string& name) const;
    const IAttribute* findAttribute (const char* name) const;
-
-
- protected:
-   const IAttribute* findAttribute () const;
 
  private:
    AttributeParse (const AttributeParse&);
