@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.5 2001/03/25 09:51:44 markus Exp $
+//$Id: INIFile.h,v 1.6 2001/08/17 13:21:38 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
 
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #include <Parse.h>
 #include <XStream.h>
@@ -88,8 +89,14 @@ template <class T> class INIAttribute : public IINIAttribute {
    ~INIAttribute () {  }
 
    virtual bool assignFromString (const char* value) {
-      attr_ = value;
-      return attr_.isDefined (); }
+      try {
+         attr_ = value;
+         return true;
+      }
+      catch (invalid_argument& e) {
+         return false;
+      }
+   }
 
  private:
    INIAttribute (const INIAttribute&);
