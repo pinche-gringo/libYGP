@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.7 2000/04/11 22:42:45 Markus Exp $
+//$Id: PathDirSrch.cpp,v 1.8 2000/04/14 19:38:19 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -121,7 +121,7 @@ bool PathDirectorySearch::makePath (std::string& path, const std::string& file) 
 #ifdef UNIX
    wordexp_t result;
    int       rc (wordexp (path.c_str (), &result, 0));
-   
+
    if (result.we_wordc == 1)
       path = result.we_wordv[0];
    else {
@@ -145,10 +145,7 @@ bool PathDirectorySearch::makePath (std::string& path, const std::string& file) 
 //            course only if one node is wrong)
 /*--------------------------------------------------------------------------*/
 void PathDirectorySearch::checkPath (const std::string& path) throw (std::string) {
-#ifndef UNIX
-   return;
-#endif
-
+#ifdef UNIX
    PathSearch ps (path);
    std::string node (ps.getNextNode ());
    std::string temp;
@@ -174,10 +171,11 @@ void PathDirectorySearch::checkPath (const std::string& path) throw (std::string
       } // end-switch wordexp-error
       wordfree (&result);
       if (rc) {
-	 throw std::string (node);
-	 return;
+         throw std::string (node);
+         return;
       }
 
       node = ps.getNextNode ();
    } // end-while nodes available
+#endif
 }

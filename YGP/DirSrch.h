@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.14 2000/03/23 19:29:59 Markus Exp $
+//$Id: DirSrch.h,v 1.15 2000/04/14 19:38:19 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,7 +107,9 @@ typedef struct dirEntry {
 #  ifdef WINDOWS
 
 typedef struct dirEntry : public WIN32_FIND_DATA {
-  dirEntry () { }
+   friend class DirectorySearch;
+
+   dirEntry () { }
    dirEntry (const dirEntry& o);
    ~dirEntry () { }
 
