@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.2 2004/11/28 01:01:30 markus Exp $
+//$Id: TableWriter.h,v 1.3 2004/12/29 18:22:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -77,6 +77,8 @@ class TableWriter {
  */
 class HTMLWriter : public TableWriter {
  public:
+   /// Constructor
+   /// \param format: Format how to display entries
    HTMLWriter (const std::string& format)
       : TableWriter (format) { }
    virtual ~HTMLWriter ();
@@ -84,6 +86,8 @@ class HTMLWriter : public TableWriter {
    virtual void printStart (std::ostream& out, const std::string& title) const;
    virtual void printEnd (std::ostream& out) const;
 
+   /// Creates an HTML writer
+   /// \param format: Format how to display entries
    static HTMLWriter* create (const std::string& format) {
       return new HTMLWriter (format); }
 
@@ -98,12 +102,16 @@ class HTMLWriter : public TableWriter {
  */
 class XMLWriter : public HTMLWriter {
  public:
+   /// Constructor
+   /// \param format: Format how to display entries
    XMLWriter (const std::string& format) : HTMLWriter (format) { }
    virtual ~XMLWriter ();
 
    virtual void printStart (std::ostream& out, const std::string& title) const;
    virtual void printEnd (std::ostream& out) const;
 
+   /// Creates an XML writer
+   /// \param format: Format how to display entries
    static XMLWriter* create (const std::string& format) {
       return new XMLWriter (format); }
 };
@@ -115,11 +123,15 @@ class XMLWriter : public HTMLWriter {
  */
 class TextWriter : public TableWriter {
  public:
+   /// Constructor
+   /// \param format: Format how to display entries
    TextWriter (const std::string& format) : TableWriter (format) { }
    virtual ~TextWriter ();
 
    virtual void printStart (std::ostream& out, const std::string& title) const;
 
+   /// Creates a text writer
+   /// \param format: Format how to display entries
    static TextWriter* create (const std::string& format) {
       return new TextWriter (format); }
 };
@@ -132,12 +144,16 @@ class TextWriter : public TableWriter {
  */
 class LaTeXWriter : public TableWriter {
  public:
+   /// Constructor
+   /// \param format: Format how to display entries
    LaTeXWriter (const std::string& format) : TableWriter (format) { }
    virtual ~LaTeXWriter ();
 
    virtual void printStart (std::ostream& out, const std::string& title) const;
    virtual void printEnd (std::ostream& out) const;
 
+   /// Creates a LaTeX writer
+   /// \param format: Format how to display entries
    static LaTeXWriter* create (const std::string& format) {
       return new LaTeXWriter (format); }
 

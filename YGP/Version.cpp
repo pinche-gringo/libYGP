@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.18 2004/11/04 16:31:19 markus Exp $
+// $Id: Version.cpp,v 1.19 2004/12/29 18:22:49 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -45,7 +45,7 @@
 
      - A general parser (parsing objects)
      - A regular expression class
-     - A class to relate objects
+     - Classes to relate objects
 
    and the usual stuff like smart pointers, communication over a network,
    executing other processes or threads and handle/format diverse attributes.

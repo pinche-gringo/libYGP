@@ -1,11 +1,11 @@
-//$Id: StatusObj.cpp,v 1.5 2004/11/04 16:31:19 markus Exp $
+//$Id: StatusObj.cpp,v 1.6 2004/12/29 18:22:49 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP/StatusObject
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -80,13 +80,13 @@ StatusObject& StatusObject::operator= (const StatusObject& other) {
 /// \param t: Type of the object
 /// \param message: Message of the object
 /// \remarks - The message is appended to existing ones
-///     - If the passed type is more important than the old one, it is changed 
+///     - If the passed type is more important than the old one, it is changed
 //----------------------------------------------------------------------------
 void StatusObject::setMessage (type t, const std::string& message) {
    msg += message;
    if (t > tp)
       tp = t;
-}    
+}
 
 //----------------------------------------------------------------------------
 /// Sets a new status message (old messages are preserved as "details")

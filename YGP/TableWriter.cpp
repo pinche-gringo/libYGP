@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.2 2004/11/28 01:01:30 markus Exp $
+//$Id: TableWriter.cpp,v 1.3 2004/12/29 18:22:49 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004
@@ -41,7 +41,7 @@
 namespace YGP {
 
 //-----------------------------------------------------------------------------
-/// Konstructor
+/// Constructor
 /// \param format: Format how to display entries
 //-----------------------------------------------------------------------------
 TableWriter::TableWriter (const std::string& format)
