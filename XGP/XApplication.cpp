@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.6 2000/03/11 15:06:12 Markus Exp $
+//$Id: XApplication.cpp,v 1.7 2000/04/07 22:44:40 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -224,7 +224,7 @@ void XInfoApplication::setIconProgram (const char* const* iconData) {
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    iconPrg = new Pixmap (iconData);
 #else
-   iconPrg = new Pixmap (hboxTitle, iconData);
+   iconPrg = new Pixmap (*hboxTitle, iconData);
 #endif
    Check3 (iconPrg);
 
@@ -246,7 +246,7 @@ void XInfoApplication::setIconAuthor (const char* const* iconData) {
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    iconAuthor = new Pixmap (iconData);
 #else
-   iconAuthor = new Pixmap (hboxTitle, iconData);
+   iconAuthor = new Pixmap (*hboxTitle, iconData);
 #endif
    Check3 (iconAuthor);
 

@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.5 2000/03/11 15:06:12 Markus Exp $
+//$Id: XAbout.cpp,v 1.6 2000/04/07 22:44:40 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -94,7 +94,7 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    pIconProgramm = new Pixmap (pIconData);
 #else
-   pIconProgramm = new Pixmap (client, pIconData);
+   pIconProgramm = new Pixmap (*client, pIconData);
 #endif
 
    pIconProgramm->show ();
@@ -111,7 +111,7 @@ void XAbout::setIconAuthor (const char* const* pIconData) {
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    pIconAuthor = new Pixmap (pIconData);
 #else
-   pIconAuthor = new Pixmap (client, pIconData);
+   pIconAuthor = new Pixmap (*client, pIconData);
 #endif
 
    pIconAuthor->show ();

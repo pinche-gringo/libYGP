@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.6 2000/03/11 15:06:12 Markus Exp $
+//$Id: XApplication.h,v 1.7 2000/04/07 22:44:40 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@ class Gtk_Widget;
 class Gtk_Pixmap;
 class Gtk_MenuBar;
 class Gtk_AccelGroup;
+class Gtk_ItemFactory_MenuBar;
 
 typedef Gtk_Main                Main;
 typedef Gtk_VBox                VBox;
