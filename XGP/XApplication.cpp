@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.38 2004/09/06 00:27:38 markus Rel $
+//$Id: XApplication.cpp,v 1.39 2004/10/24 00:22:27 markus Exp $
 
-//PROJECT     : XGeneral
+//PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -71,7 +71,9 @@ XApplication::XApplication (const char* pTitle)
      , helpBrowser (BrowserDlg::getDefaultBrowser ()), aLastMenus (5) {
    TRACE9 ("XApplication::XApplication (const char*) - " << pTitle);
    signal (SIGSEGV, handleSignal);
+#ifdef HAVE_SIGBUS
    signal (SIGBUS, handleSignal);
+#endif
 
    Check3 (pTitle);
    set_title (pTitle);
@@ -92,7 +94,9 @@ XApplication::~XApplication () {
    TRACE9 ("XApplication::~XApplication () - start");
 
    signal (SIGSEGV, SIG_DFL);
+#ifdef HAVE_SIGBUS
    signal (SIGBUS, SIG_DFL);
+#endif
 }
 
 
@@ -143,6 +147,11 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
       if (menuEntry.type == LASTBRANCH)
          pMenu->items ().back ().set_right_justified ();
 
+      if (menuEntry.id) {
+	 Check (apMenus.find (menuEntry.id) == apMenus.end ());
+	 TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menu " << menuEntry.id);
+	 apMenus[menuEntry.id] = pLastMenu;
+      }
       return *pLastMenu;
 
    case SUBMENU:
@@ -164,7 +173,7 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
 
    if (menuEntry.id) {
       Check (apMenus.find (menuEntry.id) == apMenus.end ());
-      TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menu: " << menuEntry.id);
+      TRACE9 ("XApplication::addMenu (const MenuEntry&) Adding menuitem " << menuEntry.id);
       apMenus[menuEntry.id] = &pLastMenu->items ().back ();
    }
       
@@ -279,7 +288,11 @@ void XApplication::command (int menu) {
          // If so: Check which language to use; either using the LANGUAGE
          // environment variable or the locale settings
          const char* pLang (getenv ("LANGUAGE"));
+#ifdef HAVE_LC_MESSAGES
          YGP::Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
+#else
+         YGP::Tokenize ext (pLang ? pLang : getenv ("LANG")));
+#endif
 
          // Check every language-entry (while removing trailing specifiers)
          std::string extension;
