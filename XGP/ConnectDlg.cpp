@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.5 2003/08/03 21:23:39 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.6 2003/09/05 02:39:49 markus Rel $
 
-//PROJECT     : Cardgames
-//SUBSYSTEM   : Common
+//PROJECT     : General
+//SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -194,7 +194,17 @@ void ConnectDlg::command (int action) {
 }
 
 //----------------------------------------------------------------------------
-/// Callback if the CANCEL buttons has been pressed
+/// Callback if the OK button has been pressed
+//----------------------------------------------------------------------------
+void ConnectDlg::okEvent () {
+   TRACE8 ("ConnectDlg::okEvent () - " << (pThread ? "Waiting" : "Finish"));
+   if (pThread) {
+      pThread->cancel ();
+      pThread = NULL;
+   }
+}
+//----------------------------------------------------------------------------
+/// Callback if the CANCEL button has been pressed
 //----------------------------------------------------------------------------
 void ConnectDlg::cancelEvent () {
    TRACE8 ("ConnectDlg::cancelEvent () - " << (pThread ? "Waiting" : "Finish"));
@@ -216,8 +226,9 @@ void ConnectDlg::valueChanged () const {
 
 //----------------------------------------------------------------------------
 /// Waits for connections
+/// \throw domain_error: In case of an connection error
 //----------------------------------------------------------------------------
-void* ConnectDlg::waitForConnections (void* pVoid) {
+void* ConnectDlg::waitForConnections (void* pVoid) throw (std::domain_error){
    while (true) {
        int socket (cmgr.getNewConnection ());
        ((Thread*)pVoid)->isToCancel ();
@@ -238,8 +249,9 @@ Socket* ConnectDlg::addClient (int socket) {
 /// Connects the client with the passed target
 /// \param target: Name or IP address of target
 /// \param port: Port the target is listening at
+/// \throw domain_error: In case of an connection error
 //----------------------------------------------------------------------------
-void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) {
+void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) throw (std::domain_error) {
    TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"
            << target << ':' << port);
    cmgr.connectTo (target, port);
