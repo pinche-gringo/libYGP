@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.7 ($Revision: 1.17 $)\n"
-"POT-Creation-Date: 2003-10-02 18:03-0500\n"
+"Project-Id-Version: General 0.7 ($Revision: 1.18 $)\n"
+"POT-Creation-Date: 2003-10-18 23:39-0500\n"
 "PO-Revision-Date: 2003-06-01 20:36-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:212 Common/ATime.cpp:205
+#: Common/ADate.cpp:212 Common/ATime.cpp:204
 msgid "Position %1"
 msgstr ""
 
@@ -315,48 +315,35 @@ msgstr ""
 msgid "Other: "
 msgstr ""
 
-#: X-windows/XApplication.cpp:108
-msgid "Help window"
-msgstr ""
-
-#: X-windows/XApplication.cpp:127 X-windows/XApplication.cpp:158
-msgid ""
-"Can't display the HTML control!\n"
-"\n"
-"Reason: %1"
-msgstr ""
-
-#: X-windows/XApplication.cpp:166
-msgid ""
-"Can't display the HTML document!\n"
-"\n"
-"Reason: %1"
-msgstr ""
-
-#: X-windows/XApplication.cpp:357
+#: X-windows/XApplication.cpp:242
 msgid "_Help"
 msgstr ""
 
-#: X-windows/XApplication.cpp:357
+#: X-windows/XApplication.cpp:242
 msgid "<alt>H"
 msgstr ""
 
-#: X-windows/XApplication.cpp:358
+#: X-windows/XApplication.cpp:243
 msgid "_Content..."
 msgstr ""
 
-#: X-windows/XApplication.cpp:358
+#: X-windows/XApplication.cpp:243
 msgid "F1"
 msgstr ""
 
-#: X-windows/XApplication.cpp:359
+#: X-windows/XApplication.cpp:244
 msgid "Configure _browser ..."
 msgstr ""
 
-#: X-windows/XApplication.cpp:361
+#: X-windows/XApplication.cpp:246
 msgid "_About..."
 msgstr ""
 
 #: X-windows/XAbout.cpp:49
 msgid "Distributed under the terms of the GNU General Public License"
+msgstr ""
+
+#: X-windows/GTKViewer.c:157
+#, c-format
+msgid "Error loading file '%s': %s"
 msgstr ""
