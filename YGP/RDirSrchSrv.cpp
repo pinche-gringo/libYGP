@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.12 2002/05/24 06:52:49 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.13 2002/12/08 18:21:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -30,6 +30,7 @@
 #include "Internal.h"
 
 #include "File.h"
+#include "Check.h"
 #include "Trace_.h"
 #include "Socket.h"
 #include "ATStamp.h"
@@ -65,12 +66,12 @@ static const struct {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor
+//Purpose   : Defaultconstructor
 /*--------------------------------------------------------------------------*/
 RemoteDirSearchSrv::RemoteDirSearchSrv () {
-#ifndef NDEBUG
+#if CHECK > 2
    for (int i (0); i < (sizeof (commands) / sizeof (commands[0])); ++i)
-      assert (strlen (commands[i].cmd) == commands[i].len);
+      Check (strlen (commands[i].cmd) == commands[i].len);
 #endif
 }
 
@@ -82,9 +83,11 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Reads and executes commands send by a client 
+//Purpose   : Handles the commands send from the client; the respectative
+//            action is performed and data is returned accordingly.
 //Parameters: socket: Socket for communication
-//Returns   : Status (error) of last command
+//Returns   : int: 0 in case of end-of-communication; 99 after END-command
+//Throws    : std::domain_error: In case of a communication problem
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
    AByteArray data;
@@ -209,7 +212,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
             sock.write (send.data (), send.length ());
          }
          else {
-            assert (errno);
+            Check3 (errno);
             writeError (sock, errno);
          }
 		 delete [] contents;
