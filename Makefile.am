@@ -11,9 +11,9 @@ lib_LTLIBRARIES=libAttr.la libXAppl.la
 noinst_PROGRAMS=Test
 EXTRA_DIST=Test.Dat
 
-libAttr_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
-	           ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp Version.cpp \
-		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp ATime.cpp
+libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
+                   FileRExp.cpp Parse.cpp Handle.cpp Version.cpp ATime.cpp \
+		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp
 
 libXAppl_la_LIBADD=-lAttr -lgtkmm -lgdkmm -lgtk
 libXAppl_la_SOURCES=Check.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
