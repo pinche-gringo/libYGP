@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.19 2004/10/24 00:24:53 markus Exp $
+//$Id: XDialog.cpp,v 1.20 2004/10/27 20:27:07 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -119,7 +119,8 @@ void XDialog::on_response (int cmd) {
    TRACE9 ("XDialog::on_response (int) " << cmd);
    switch (cmd) {
    case Gtk::RESPONSE_OK:
-      okEvent ();
+      if (isDataOK ())
+	 okEvent ();
       break;
 
    case Gtk::RESPONSE_CANCEL:
@@ -143,6 +144,15 @@ void XDialog::okEvent () {
 //-----------------------------------------------------------------------------
 void XDialog::cancelEvent () {
    TRACE9 ("XDialog::cancelEvent ()");
+}
+
+//-----------------------------------------------------------------------------
+/// Checks if the data entered in the dialog is OK
+/// \returns bool: True, if dialog can be left by selecting OK
+//-----------------------------------------------------------------------------
+bool XDialog::isDataOK () {
+   TRACE9 ("XDialog::isDataOK ()");
+   return true;
 }
 
 //-----------------------------------------------------------------------------
