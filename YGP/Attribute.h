@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.12 2003/01/16 16:46:22 markus Exp $
+//$Id: Attribute.h,v 1.13 2003/02/13 06:46:05 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ template <class T> class Attribute : public IAttribute {
       return true;
    }
 
-   virtual bool assign (const char* value, unsigned int length) const {
+   virtual bool assign (const char* value, unsigned int) const {
       return assignFromString (value); }
 
    T& getAttribute () const { return attr_; }
