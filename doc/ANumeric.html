@@ -1,4 +1,4 @@
-<!-- $Id: ANumeric.html,v 1.2 2000/04/02 16:15:21 Markus Exp $ -->
+<!-- $Id: ANumeric.html,v 1.3 2000/04/07 22:47:10 Markus Exp $ -->
 
 <html>
   <head>
@@ -37,12 +37,18 @@
 	<td>(const int val)</td></tr>
       <tr valign="top"><td></td>
 	<td><a href="ANumeric.html#ANumeric4">ANumeric</a></td>
-	<td>(const long val)</td></tr>
+	<td>(const unsigned int val)</td></tr>
       <tr valign="top"><td></td>
 	<td><a href="ANumeric.html#ANumeric5">ANumeric</a></td>
-	<td>(const char* pValue)</td></tr>
+	<td>(const long val)</td></tr>
       <tr valign="top"><td></td>
 	<td><a href="ANumeric.html#ANumeric6">ANumeric</a></td>
+	<td>(const unsigned long val)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric7">ANumeric</a></td>
+	<td>(const char* pValue)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric8">ANumeric</a></td>
 	<td>(const std::string&amp; value)</td></tr>
       <tr valign="top"><td>virtual</td>
 	<td><a href="ANumeric.html#~ANumeric">~ANumeric</a></td><td>()</td></tr>
@@ -55,12 +61,18 @@
 	<td>(const int val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
 	<td><a href="ANumeric.html#operator=3">operator=</a></td>
-	<td>(const long val)</td></tr>
+	<td>(const unsigned int val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
 	<td><a href="ANumeric.html#operator=4">operator=</a></td>
-	<td>(const char* pValue)</td></tr>
+	<td>(const long val)</td></tr>
       <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
 	<td><a href="ANumeric.html#operator=5">operator=</a></td>
+	<td>(const unsigned long val)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=6">operator=</a></td>
+	<td>(const char* pValue)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=7">operator=</a></td>
 	<td>(const std::string&amp; value)</td></tr>
 
       <tr valign="top"><td>virtual void</td>
@@ -137,13 +149,21 @@
     <pre><a name="ANumeric2">ANumeric (const ANumeric&amp; other)</a></pre>
     <pre><a name="ANumeric3">ANumeric (const int val)</a></pre>
     <dl>
-      <dd>Constructor; the numeric value is set to val and to object is defined.</dd>
+      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric4">ANumeric (const long val)</a></pre>
+    <pre><a name="ANumeric4">ANumeric (const unsigned int val)</a></pre>
     <dl>
-      <dd>Constructor; the numeric value is set to val and to object is defined.</dd>
+      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
     </dl>
-    <pre><a name="ANumeric5">ANumeric (const char* pValue)</a></pre>
+    <pre><a name="ANumeric5">ANumeric (const long val)</a></pre>
+    <dl>
+      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
+    </dl>
+    <pre><a name="ANumeric6">ANumeric (const unsigned long val)</a></pre>
+    <dl>
+      <dd>Constructor; the numeric value is set to val and the object is defined.</dd>
+    </dl>
+    <pre><a name="ANumeric7">ANumeric (const char* pValue)</a></pre>
     <dl>
       <dd>Constructor; tries to extract an integer-value from pValue.
 	<p>pValue must not be a NULL-pointer, may have leading white-spaces
@@ -151,7 +171,7 @@
 	  characters and a zero-characer (\0).</p>
 	<p>If pValue has a different format the object is undefined.</p></dd>
     </dl>
-    <pre><a name="ANumeric6">ANumeric (const std::string&amp value)</a></pre>
+    <pre><a name="ANumeric8">ANumeric (const std::string&amp value)</a></pre>
     <dl>
       <dd>Constructor; tries to extract an integer-value from value.
 	<p>Value may have leading white-spaces which may follow a sign (plus
@@ -167,11 +187,20 @@
       <dd>Assignmentoperator; the numeric value is set to val and to object is
 	defined.</dd>
     </dl>
-    <pre><a name="operator=3">ANumeric&amp; operator= (const long val)</a></pre>
+    <pre><a name="operator=3">ANumeric&amp; operator= (const unsigned int val)</a></pre>
+    <dl>
+      <dd>Assignmentoperator; the numeric value is set to val and to object is
+	defined.</dd>
+    </dl>
+    <pre><a name="operator=4">ANumeric&amp; operator= (const long val)</a></pre>
     <dl>
       <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
     </dl>
-    <pre><a name="operator=4">ANumeric&amp; operator= (const char* pValue)</a></pre>
+    <pre><a name="operator=5">ANumeric&amp; operator= (const unsigned long val)</a></pre>
+    <dl>
+      <dd>AssignmentoperatorConstructor; the numeric value is set to val and to object is defined.</dd>
+    </dl>
+    <pre><a name="operator=6">ANumeric&amp; operator= (const char* pValue)</a></pre>
     <dl>
       <dd>Assignmentoperator; tries to extract an integer-value from pValue.
 	<p>pValue must not be a NULL-pointer, may have leading white-spaces
@@ -179,7 +208,7 @@
 	  characters and a zero-characer (\0).</p>
 	<p>If pValue has a different format the object is undefined.</p></dd>
     </dl>
-    <pre><a name="operator=5">ANumeric&amp; operator= (const std::string&amp value)</a></pre>
+    <pre><a name="operator=7">ANumeric&amp; operator= (const std::string&amp value)</a></pre>
     <dl>
       <dd>Assignmentoperator; tries to extract an integer-value from value.
 	<p>Value may have leading white-spaces which may follow a sign (plus
