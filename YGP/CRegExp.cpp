@@ -1,11 +1,13 @@
-//$Id: CRegExp.cpp,v 1.23 2002/04/19 07:07:48 markus Exp $
+//$Id: CRegExp.cpp,v 1.24 2002/04/19 09:25:34 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.23 $
+//TODO        : Maybe "compile" when constructing? Like an array of
+//              compare-objects (with repeat-factor). Maybe check, how
+//              regexp is doing its compile.
+//BUGS        : Probably (regular expressions are quite complex); YOU tell me
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -25,7 +27,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gzo-cfg.h>
+#include "Internal.h"
 
 
 #define DEBUG 0
@@ -256,7 +258,7 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
 
    // Compares the actual file-char with the region
    bool fNeg (false);
-   if (*pActRE == NEGREGION) {                            // Values to invert?
+   if ((*pActRE == NEGREGION1) || (*pActRE == NEGREGION2)) { // Invert values?
       ++pActRE;
       fNeg = true;
    } // endif
@@ -375,27 +377,32 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
 
    assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
 
-   TRACE8 ("RegularExpression::compGroup (const char*&, const char*&) - "
+   TRACE8 ("RegularExpression::doCompGroup (const char*&, const char*&) - "
            "Checking for " << (min ? "mandatory" : "optional") << " (max. "
            << (min ? min : max) << ')');
 
    const char* pSaveComp (pCompare);
    const char* pSaveRE (pActRegExp);
+   const char* pStartRE (pActRegExp);
    if (!min) {
+      const char* pTempEnd (pEnd);
       // Check if part after group is matching
-      if (compareParts (pEnd, pCompare, true)) {
-         pActRegExp = pEnd;
+      if (compareParts (pTempEnd, pCompare, true)) {
+         pActRegExp = pTempEnd;
          return true;
       }
    }
-      
-   do {                                  // For every alternative in the group
+
+   while (*pActRegExp                          // While alternatives available
+          && static_cast <unsigned int> (max) >=1) {
+      pSaveRE = pActRegExp;
+
       pCompare = pSaveComp;
       if (doCompare (pActRegExp, pCompare)) {         // Compare it; if found:
          TRACE1 ("RegularExpression::doCompGroup (const char*&, const char*&)"
                  " - Found; Remaining: '" << pCompare << '\'');
 
-         pActRegExp = pSaveRE;                 // Check if matches til minimum
+         pActRegExp = pStartRE;                // Check if matches til minimum
          if (doCompGroup (pActRegExp, pEnd, pCompare,
                           min ? min - 1 : 0, max > 0 ? max - 1 : max))
             return true;
@@ -404,11 +411,12 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
       pCompare = pSaveComp;
 
       // Else: Last alternative didn't match -> Try with next one
-      if (!(pActRegExp = findEndOfAlternative (pActRegExp, true)))
+      if (!(pActRegExp = findEndOfAlternative (pSaveRE, true)))
          break;
-   } while (*pActRegExp++); // end-do while alternatives available
+      ++pActRegExp;
+   }
 
-   pActRegExp = pSaveRE;
+   pActRegExp = pStartRE;
    return false;
 }
 
@@ -549,8 +557,13 @@ bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd
 const char* RegularExpression::findEndOfRegion (const char* pRegExp) const {
    assert (pRegExp); assert (pRegExp[-1] == REGIONBEGIN);
 
-   if (*pRegExp == NEGREGION)           // Skip leading "special" characters
+   switch (*pRegExp) {                    // Skip leading "special" characters
+   case NEGREGION1:
+   case NEGREGION2:
+   case REGIONEND:
       ++pRegExp;
+   } // end-switch
+
    if (*pRegExp == REGIONEND)
       ++pRegExp;
 
@@ -721,7 +734,7 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, int& min, int& 
    TRACE3 ("RegularExpression::getRepeatFactor (const char*, int&, int&) const - Checking: "
            << pRE);
 
-   const char* pEnd (pRE);
+   char* pEnd (const_cast <char*> (pRE));
 
    switch (*pRE) {
    case MULTIMATCHOPT:
@@ -743,12 +756,16 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, int& min, int& 
       break;
 
    case BOUNDBEG:
-      min = isdigit (*pRE) ? strtoul (pRE + 1, &const_cast <char*> (pEnd), 10) : 1;
-      max = min;
-      if ((*pEnd == ',') && isdigit (pEnd--[1]))
-         max = strtoul (pRE + 1, &const_cast <char*> (pEnd), 10);
-      assert (*++pEnd == BOUNDEND);
-      ++pEnd;
+      if (isdigit (pRE[1])) {
+         min = static_cast <int> (strtoul (pRE + 1, &pEnd, 10));
+         max = min;
+         if (*pEnd == ',')
+            max = isdigit (*++pEnd)
+               ? static_cast <int> (strtoul (pEnd, &pEnd, 10)) : -1;
+         ++pEnd;
+      }
+      else
+         min = max = 1;
       break;
 
    default:
@@ -781,10 +798,11 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
          if (!*++pRegExp)
             throw (getError (RANGE_OPEN, pRegExp - getExpression ()));
 
-         if (*pRegExp == NEGREGION)             // Skip leading range-inversion
+         // Skip leading range-inversion
+         if ((*pRegExp == NEGREGION1) || (*pRegExp == NEGREGION2))
             ++pRegExp;
 
-         if (*pRegExp)        // Skip leading (or second) end-of-range charcter
+         if (*pRegExp == REGIONEND)      // Skip leading end-of-range charcter
             ++pRegExp;
 
          while (*pRegExp != REGIONEND) {
@@ -833,22 +851,24 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
          break;
 
       case BOUNDBEG:
-         if (isdigit (pRegExp[1])
-             || (pRegExp[1] == ',')) {      // Check if bound or just '{' found
-            if (pPrevExpr) 
+         if (isdigit (pRegExp[1])) {        // Check if bound or just '{' found
+            if (!pPrevExpr) 
                throw (getError (NO_PREV_EXP, pRegExp - getExpression ()));
 
 	    char* pEnd;
             unsigned long min (strtoul (pRegExp + 1, &pEnd, 10));
-            unsigned long max ((unsigned long)-1);
-            if ((*pEnd == ',') && isdigit (pEnd[1]))
-               max = strtoul (pRegExp + 1, &pEnd, 10);
+            unsigned long max (min);
+            if (*pEnd == ',')
+               max = isdigit (*++pEnd) ? strtoul (pEnd, &pEnd, 10)
+                                       : static_cast <unsigned long> (-1);
 
+            TRACE7 ("RegularExpression::checkIntegrity () const - Bound: " << min
+                    << '/' << max);
             if (min > max)
                throw (getError (INV_BOUND, pRegExp - getExpression () + 1));
 
             pRegExp = pEnd;
-	    if (*++pRegExp != BOUNDEND)
+	    if (*pRegExp != BOUNDEND)
                throw (getError (INV_BOUND, pRegExp - getExpression ()));
          } // endif bound found
          break;
@@ -888,16 +908,19 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
    case NO_PREV_EXP: error = N_("Repeating suffix without previous expression"); break;
    case INV_DIGIT: error = N_("Invalid group-number"); break;
    case INV_RANGE: error = N_("Invalid range (lower border larger than upper border)"); break;
-   case INV_BOUND: error = N_("Invalid bound (lower border larger than upper border)"); break;
+   case INV_BOUND: error = N_("Invalid bound"); break;
    case ENDING_BACKSLASH: error = N_("Regular expression ends with escape-character (\\)"); break;
    default: error = N_("Unknown error"); break;
    } // end-switch
 #endif
 
-   std::string err (getExpression ());
-   err += _("`%1', position %2: %3");
-   err += ANumeric::toString ((unsigned long)pos + 1);
-   err += _(error);
+   std::string err (_("`%1', position %2: %3"));
+   err.replace (err.find ("%1"), 2, getExpression ());
+   err.replace (err.find ("%2"), 2, ANumeric::toString ((unsigned long)pos + 1));
+   err.replace (err.find ("%3"), 2, error);
+
+   TRACE1 ("RegularExpression::getError (int, unsinged int): " << err);
+   return err;
 }
 
 
