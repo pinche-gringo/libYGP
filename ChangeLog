@@ -1,6 +1,7 @@
 Version 0.5.11: - Minor fixes (DirSrch, ADate, ATime); adapted to Visual C++
 		- ANumeric uses long if GMP is not available
 		- Adapted to Gtk-- 1.1.x (using namespaces)
+		- Added Windoze-parts to distribution
 
 Version 0.5.10: - Fileselection- and print-dialog added
 		- Bugfix in XMessageBox, ADate
