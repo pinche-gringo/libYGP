@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.2 2002/07/15 21:08:59 markus Rel $
+//$Id: Entity.cpp,v 1.3 2002/11/10 23:05:25 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -25,8 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "Attribute.h"
-
 #include "Entity.h"
 
 
@@ -34,6 +32,9 @@
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 Entity::~Entity () {
+   std::vector<const IAttribute*>::const_iterator i;
+   for (i = attributes.begin (); i != attributes.end (); ++i)
+      delete *i;
 }
 
 
