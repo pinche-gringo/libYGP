@@ -1,7 +1,7 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-//$Id: Mutex.h,v 1.8 2003/11/16 19:25:55 markus Rel $
+//$Id: Mutex.h,v 1.9 2004/10/14 04:00:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 #ifdef HAVE_LIBPTHREAD
 #  include <pthread.h>
-#elif SYSTEM == WINDOWS
+#elif HAVE_WINDOWS_H
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 #else
@@ -58,8 +58,8 @@ class Mutex {
    void lock () { pthread_mutex_lock (&id); }
    /// Unlock a previously locked mutex
    void unlock () { pthread_mutex_unlock (&id); }
-#elif SYSTEM == WINDOWS
-   /// Constructor; creates an (unlicked) mutex
+#elif HAVE_WINDOWS_H
+   /// Constructor; creates an (unlocked) mutex
    Mutex () : hMutex (CreateMutex (NULL, false, NULL)) { }
    /// Destructor; the mutex is destroyed
    ~Mutex () { ReleaseMutex (hMutex); }
@@ -75,7 +75,7 @@ class Mutex {
  private:
 #ifdef HAVE_LIBPTHREAD
    pthread_mutex_t id;
-#elif SYSTEM == WINDOWS
+#elif HAVE_WINDOWS_H
    HANDLE hMutex;
 #endif
 };
