@@ -1,11 +1,11 @@
-// $Id: Thread.cpp,v 1.1 2003/10/19 15:36:36 markus Exp $
+// $Id: Thread.cpp,v 1.2 2003/10/23 03:32:01 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -25,8 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <Internal.h>
-
 #include <unistd.h>
 
 #include <Mutex.h>
@@ -43,7 +41,6 @@ const unsigned int COUNT (1000);
 void* sum (void*) {
    waitParent.lock ();
    waitThread.lock ();
-   std::cout << "In Thread\n";
    for (unsigned int i (0); i < COUNT; ++i)
        ++count;
    waitParent.unlock ();
