@@ -1,7 +1,7 @@
 #ifndef XDIALOG_H
 #define XDIALOG_H
 
-//$Id: XDialog.h,v 1.3 2003/03/03 05:53:42 markus Exp $
+//$Id: XDialog.h,v 1.4 2003/03/03 17:07:08 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,8 +48,6 @@ class XDialog : public Gtk::Dialog {
    virtual void okEvent ();
    virtual void cancelEvent ();
 
-   void addButton (Gtk::Button& button, bool start = true);
-
    Gtk::Button* ok;
    Gtk::Button* cancel;
 
@@ -57,8 +55,9 @@ class XDialog : public Gtk::Dialog {
    XDialog (const XDialog& other);
    const XDialog& operator= (const XDialog& other);
 
-   void basicCommand (buttons cmd);
-   void addButtons (unsigned int buttons);
+   void on_response (int cmd);
+
+   void init ();
 };
 
 #endif

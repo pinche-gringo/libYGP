@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.4 2003/03/03 05:53:42 markus Exp $
+//$Id: XDialog.cpp,v 1.5 2003/03/03 17:07:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,10 +30,14 @@
 #define XK_MISCELLANY
 #include <X11/keysymdef.h>
 
+#include <gtkmm/stock.h>
 #include <gtkmm/button.h>
 #include <gtkmm/accelgroup.h>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include <Check.h>
+#include <Trace_.h>
 
 #include "XDialog.h"
 
@@ -44,9 +48,12 @@
 /*--------------------------------------------------------------------------*/
 XDialog::XDialog (unsigned int buttons)
    : Gtk::Dialog ()
-     , ok ((buttons & OK) ? new Gtk::Button (_("OK")) : NULL)
-     , cancel ((buttons & CANCEL) ? new Gtk::Button (_("Cancel")) : NULL) {
-   addButtons (buttons);
+     , ok ((buttons & OK) ? add_button (Gtk::Stock::OK,
+                                        Gtk::RESPONSE_OK) : NULL)
+     , cancel ((buttons & CANCEL) ? add_button (Gtk::Stock::CANCEL,
+                                                Gtk::RESPONSE_CANCEL) : NULL) {
+   TRACE9 ("XDialog::XDialog (unsigned int) - " << buttons);
+   init ();
 }
 
 /*--------------------------------------------------------------------------*/
@@ -56,75 +63,62 @@ XDialog::XDialog (unsigned int buttons)
 /*--------------------------------------------------------------------------*/
 XDialog::XDialog (GtkDialog* dialog, unsigned int buttons)
    : Gtk::Dialog (dialog)
-     , ok ((buttons & OK) ? new Gtk::Button (_("OK")) : NULL)
-     , cancel ((buttons & CANCEL) ? new Gtk::Button (_("Cancel")) : NULL) {
-   addButtons (buttons);
+     , ok ((buttons & OK) ? add_button (Gtk::Stock::OK,
+                                        Gtk::RESPONSE_OK) : NULL)
+     , cancel ((buttons & CANCEL) ? add_button (Gtk::Stock::CANCEL,
+                                                Gtk::RESPONSE_CANCEL) : NULL) {
+   TRACE9 ("XDialog::XDialog (GtkDialog*, unsigned int) - " << buttons);
+   init ();
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 XDialog::~XDialog () {
+   TRACE9 ("XDialog::~XDialog ()");
    delete ok;
    delete cancel;
 }
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Adds the specified buttons to the dialog
+//Purpose   : Initializes the dialog
 //Parameters: buttons: Bitfield for buttons to display
 /*--------------------------------------------------------------------------*/
-void XDialog::addButtons (unsigned int buttons) {
+void XDialog::init () {
+   TRACE9 ("XDialog::init ()");
    get_action_area ()->set_homogeneous (false);
-   if (buttons & OK) {
-      Check3 (ok);
-      addButton (*ok);
-      ok->signal_clicked ().connect (bind (slot (*this, &XDialog::basicCommand), OK));
-      ok->grab_default ();
-   }
 
-   if (buttons & CANCEL) {
-      Check3 (cancel);
-      addButton (*cancel, false);
-      cancel->signal_clicked ().connect (bind (slot (*this, &XDialog::basicCommand), CANCEL));
-      if (!(buttons & OK))
-         cancel->grab_default ();
+   if (cancel) {
+      cancel->set_flags (Gtk::CAN_DEFAULT);
+      cancel->grab_default ();
       Check3 (get_accel_group ());
       cancel->add_accelerator ("clicked", get_accel_group (), XK_Escape,
                                Gdk::ModifierType (0), Gtk::ACCEL_VISIBLE);
    }
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds the passed button to the action area of the dialog
-//Parameters: button: Button to add
-//            start: Flag, if button should be added at the beginning 
-/*--------------------------------------------------------------------------*/
-void XDialog::addButton (Gtk::Button& button, bool start) {
-   button.set_size_request (90, -1);
-   button.show ();
-   start ? get_action_area ()->pack_start (button, false, false, 5)
-      : get_action_area ()->pack_end (button, false, false, 5);
-   button.set_flags (Gtk::CAN_DEFAULT);
+   if (ok) {
+      ok->set_flags (Gtk::CAN_DEFAULT);
+      ok->grab_default ();
+   }
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Callback after button-events
 //Parameters: cmd: ID of pressed button
 /*--------------------------------------------------------------------------*/
-void XDialog::basicCommand (buttons cmd) {
-   if (cmd == OK)
+void XDialog::on_response (int cmd) {
+   TRACE9 ("XDialog::on_response (int)" << cmd);
+   if (cmd == Gtk::RESPONSE_OK)
       okEvent ();
-   else if (cmd == CANCEL)
+   else if (cmd == Gtk::RESPONSE_CANCEL)
       cancelEvent ();
-   else
-      Check (0);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Callback after pressing the OK button
 /*--------------------------------------------------------------------------*/
 void XDialog::okEvent () {
+   TRACE9 ("XDialog::okEvent ()");
    delete this;
 }
 
@@ -132,5 +126,6 @@ void XDialog::okEvent () {
 //Purpose   : Callback after pressing the Cancel button
 /*--------------------------------------------------------------------------*/
 void XDialog::cancelEvent () {
+   TRACE9 ("XDialog::okEvent ()");
    delete this;
 }
