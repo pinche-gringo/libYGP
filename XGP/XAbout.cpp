@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.14 2003/03/03 05:53:42 markus Exp $
+//$Id: XAbout.cpp,v 1.15 2003/03/06 01:19:36 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -48,7 +48,7 @@ XAbout::XAbout (const std::string& author, const std::string& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author)), client (new Gtk::HBox ())
      , gpl (new Gtk::Label (_("Distributed under the terms of the GNU General"
                          " Public License"))) {
-   Check3 (gpl); Check3 (writer); Check3 (client);
+   Check1 (gpl); Check1 (writer); Check1 (client);
 
    TRACE9 ("XAbout::XAbout - Show: " << author);
    TRACE9 ("XAbout::XAbout - Title: " << program);
@@ -79,7 +79,7 @@ XAbout::~XAbout () {
 //Parameters: picProgram: Image representing program
 /*--------------------------------------------------------------------------*/
 void XAbout::setIconProgram (const char* const* pIconData) {
-   Check3 (client);
+   Check1 (client); Check1 (pIconData);
 
    pIconProgramm = new Gtk::Image
       (Gdk::Pixbuf::create_from_xpm_data (pIconData));
@@ -93,7 +93,7 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 //Parameters: pIconData: Pointer to xpm-data for pixmap representing the programmer
 /*--------------------------------------------------------------------------*/
 void XAbout::setIconAuthor (const char* const* pIconData) {
-   Check3 (client); Check3 (vboxPrgInfo);
+   Check1 (client); Check1 (pIconData);
    
    pIconAuthor = new Gtk::Image
       (Gdk::Pixbuf::create_from_xpm_data (pIconData));
