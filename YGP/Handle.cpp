@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.10 2004/01/15 06:26:30 markus Rel $
+// $Id: Handle.cpp,v 1.11 2004/11/04 16:31:18 markus Exp $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

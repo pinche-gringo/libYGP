@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.43 2004/01/15 06:26:29 markus Rel $
+//$Id: ANumeric.cpp,v 1.44 2004/11/04 16:31:18 markus Exp $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -138,16 +138,16 @@ std::string ANumeric::toUnformattedString () const {
 #ifdef HAVE_LIBGMP
       char* pString (mpz_get_str (NULL, 10, value)); Check3 (pString);
 #else
-      char* pString = new char [40];
       std::ostringstream ostr;
       ostr << value << '\0';
-      Check3 (value.str ().length () < 40);
-      strcpy (pString, ostr.str ().c_str ());
+      const char* pString = ostr.str ().c_str ();
 #endif
       TRACE1 ("ANumeric::toUnformatedString -> value = " << pString);
 
       str = pString;                 // Copy unformatted string to return-value
+#ifdef HAVE_LIBGMP
       free (pString);
+#endif
    }
 
    return str;

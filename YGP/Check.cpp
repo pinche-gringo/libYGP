@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.16 2004/01/15 06:26:30 markus Rel $
+//$Id: Check.cpp,v 1.17 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

@@ -1,11 +1,11 @@
-//$Id: IVIOAppl.cpp,v 1.38 2004/01/16 04:34:07 markus Rel $
+//$Id: IVIOAppl.cpp,v 1.39 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

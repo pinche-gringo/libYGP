@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.23 2004/01/15 06:26:30 markus Rel $
+//$Id: ATStamp.cpp,v 1.24 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

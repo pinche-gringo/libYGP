@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.12 2004/01/15 06:26:30 markus Rel $
+//$Id: Tokenize.cpp,v 1.13 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

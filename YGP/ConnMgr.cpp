@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.8 2004/01/15 06:26:30 markus Rel $
+//$Id: ConnMgr.cpp,v 1.9 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : Cardgames
-//SUBSYSTEM   : <FILLIN>
+//PROJECT     : libYGP
+//SUBSYSTEM   : YGP/ConnectionManager
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

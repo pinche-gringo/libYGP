@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.9 2003/11/14 20:27:55 markus Rel $
+// $Id: Handle.h,v 1.10 2004/11/04 16:31:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ template <class T> class RefCount {
    // Manager-functions
    /// Default constructor; creates a reference counting object pointing
    /// the passed object. The count is set to 1.
-   RefCount (T* pData = NULL) : count (1), pValue (pData) { }
+   RefCount (T* pData = NULL) : pValue (pData), count (1) { }
    ~RefCount () { }                                             ///< Destructor
 
    // Connecting other references
@@ -137,9 +137,26 @@ template <class T> class Handle : public IHandle {
 
    /// \name Accessing the object
    //@{
+   /// Casting to a <tt>T*</tt>
+   /// \returns T*: Pointer to the object
+   T* ptr        () const { return pData ? (T*)pData->pValue : NULL; }
    T* operator-> () const { return pData->pValue; }  ///< Dereferencing the pointer
-   T* operator*  () const { return pData->pValue; }  ///< Dereferencing the pointer
-   operator T*   () const { return pData->pValue; }  ///< Casting to a <tt>T*</tt>
+   T& operator*  () const { return *pData->pValue; } ///< Dereferencing the pointer
+   operator T*   () const { return ptr (); }         ///< Casting to a <tt>T*</tt>
+   //@}
+
+   /// \name Comparison
+   //@{
+   /// Comparison-operator; Checks if two handles are equal
+   /// \param other: Handle to compare with
+   /// \returns bool: True if objects are equal
+   bool operator== (const Handle& other) const {
+      return pData->pValue == other.pData->pValue; }
+   /// Comparison-operator; Checks if two handles are equal
+   /// \param other: Handle to compare with
+   /// \returns bool: True if objects are equal
+   bool operator!= (const Handle& other) const {
+      return pData->pValue != other.pData->pValue; }
    //@}
 
  protected:
@@ -151,7 +168,7 @@ template <class T> class Handle : public IHandle {
    virtual void* getValue () const { return pData; }
    virtual void assignValue (void* pValue) { pData = (RefCount<T>*)pValue; }
    //@}
-  
+
  private:
    RefCount<T>* pData;
 };

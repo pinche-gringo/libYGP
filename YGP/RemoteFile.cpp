@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.20 2004/01/15 06:26:30 markus Rel $
+// $Id: RemoteFile.cpp,v 1.21 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004

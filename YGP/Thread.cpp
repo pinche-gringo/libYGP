@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.22 2004/10/14 04:02:37 markus Exp $
+//$Id: Thread.cpp,v 1.23 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004

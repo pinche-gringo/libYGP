@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.14 2004/10/14 04:01:29 markus Exp $
+//$Id: PathSrch.cpp,v 1.15 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004

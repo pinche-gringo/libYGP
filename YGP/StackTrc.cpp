@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.14 2004/10/13 03:55:46 markus Exp $
+// $Id: StackTrc.cpp,v 1.15 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004

@@ -1,11 +1,11 @@
-//$Id: StatusObj.cpp,v 1.4 2004/01/15 06:26:30 markus Rel $
+//$Id: StatusObj.cpp,v 1.5 2004/11/04 16:31:19 markus Exp $
 
-//PROJECT     : Cardgames
-//SUBSYSTEM   : <FILLIN>
+//PROJECT     : libYGP
+//SUBSYSTEM   : YGP/StatusObject
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004

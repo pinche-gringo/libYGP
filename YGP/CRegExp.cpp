@@ -1,13 +1,13 @@
-//$Id: CRegExp.cpp,v 1.38 2004/01/15 06:26:30 markus Rel $
+//$Id: CRegExp.cpp,v 1.39 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        : Maybe "compile" when constructing? Like an array of
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004

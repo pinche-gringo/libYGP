@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.34 2004/01/15 06:26:30 markus Rel $
+// $Id: XStrBuf.cpp,v 1.35 2004/11/04 16:31:20 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

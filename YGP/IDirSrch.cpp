@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.15 2004/10/14 04:00:06 markus Exp $
+//$Id: IDirSrch.cpp,v 1.16 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004

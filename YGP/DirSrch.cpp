@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.50 2004/01/15 06:26:30 markus Rel $
+//$Id: DirSrch.cpp,v 1.51 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.50 $
+//REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

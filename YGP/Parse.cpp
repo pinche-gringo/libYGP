@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.51 2004/01/29 01:28:00 markus Rel $
+//$Id: Parse.cpp,v 1.52 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.51 $
+//REVISION    : $Revision: 1.52 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004

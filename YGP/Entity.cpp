@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.8 2004/01/15 06:26:30 markus Rel $
+//$Id: Entity.cpp,v 1.9 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004

@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.27 2004/01/15 06:26:30 markus Rel $
+//$Id: File.cpp,v 1.28 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Copyright (C) 2000 - 2005

@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.25 2004/01/15 06:26:30 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.26 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004

@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.18 2004/01/15 06:26:30 markus Rel $
+//$Id: AssParse.cpp,v 1.19 2004/11/04 16:31:18 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004

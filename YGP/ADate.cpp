@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.39 2004/01/15 06:26:29 markus Rel $
+//$Id: ADate.cpp,v 1.40 2004/11/04 16:31:18 markus Exp $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005

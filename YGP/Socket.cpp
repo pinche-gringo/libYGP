@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.26 2004/10/14 04:02:16 markus Exp $
+//$Id: Socket.cpp,v 1.27 2004/11/04 16:31:19 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004

@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.31 2004/01/15 06:26:30 markus Rel $
+//$Id: ATime.cpp,v 1.32 2004/11/04 16:31:18 markus Exp $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
