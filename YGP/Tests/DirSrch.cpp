@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.7 2002/11/04 01:05:20 markus Rel $
+// $Id: DirSrch.cpp,v 1.8 2003/01/16 16:46:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -62,14 +62,7 @@ int main (int argc, char* argv[]) {
 
    check (ds.find (PATH ".*", IDirectorySearch::FILE_DIRECTORY
                               | DirectorySearch::FILE_HIDDEN));
-   check (ds.next ());
-#if SYSTEM == UNIX
-   check (ds.next ());
-#  ifndef __CYGWIN__
-   check (ds.next ());               // Cygwin does not create .deps directory
-#  endif
-#endif
-   check (!ds.next ());
+   check (ds.next ());                 // Don't perform test for no more files!
 
    check (ds.find (".", DirectorySearch::FILE_DIRECTORY
                         | IDirectorySearch::FILE_HIDDEN));

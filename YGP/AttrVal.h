@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.17 2002/12/15 22:16:53 markus Rel $
+//$Id: AttrVal.h,v 1.18 2003/01/16 16:46:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,9 @@ class AttributValue {
    bool         isDefined () const { return defined; }
    virtual void undefine () { defined = false; }
 
+   virtual std::string toUnformatedString () const { return ""; }
+   virtual std::string toString () const { return toUnformatedString (); }
+
  protected:
    AttributValue () : defined (false) { }
    AttributValue (bool define) : defined (define) { }
@@ -42,9 +45,7 @@ class AttributValue {
    virtual void define () = 0;
    void setDefined () { defined = true; }
 
-   virtual std::string toString () const { return toUnformatedString (); }
    void toString (std::string& result) const { result = toString (); }
-   virtual std::string toUnformatedString () const { return ""; }
    void toUnformatedString (std::string& result) const {
       result = toUnformatedString (); }
 

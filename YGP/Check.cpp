@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.7 2002/11/26 04:21:31 markus Rel $
+//$Id: Check.cpp,v 1.8 2003/01/16 16:46:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -43,7 +43,6 @@
 
       inline bool show (const char* expr, const char* title) {
          if (!Main::instance ()) {
-            g_thread_init (NULL);
             // Don't delete this instance, as else a second Check couldn't
             // display a message box
             new Main (0, NULL);
@@ -53,11 +52,9 @@
          if (hDLL) {
             PFNCMSGBOX pFnc ((PFNCMSGBOX)dlsym (hDLL, "showMessageBox"));
             if (pFnc) {
-               gdk_threads_enter ();
                bool rc (pFnc (expr, title,
                               XMessageBox::CRITICAL | XMessageBox::OKCANCEL, 0)
                         != XMessageBox::OK);
-               gdk_threads_leave ();
                dlclose (hDLL);
                return rc;
             }
@@ -82,7 +79,7 @@
 
 
 int check (const char* expr, const char* file, unsigned int line) {
-#ifdef _MSC_VER
+#if defined (__BORLANDC__) || defined (_MSC_VER)
    // Arrays with dynamic lengths don't exist in some parts of the world
    char title[MAX_PATH + 40];
 #else

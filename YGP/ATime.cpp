@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.17 2002/12/17 20:45:06 markus Rel $
+//$Id: ATime.cpp,v 1.18 2003/01/16 16:46:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -25,7 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <stdio.h>
-#include <locale.h>
 
 #include <gzo-cfg.h>
 
@@ -133,7 +132,7 @@ std::string ATime::toUnformatedString () const {
    char buffer[8];
 
    sprintf (buffer, "%02d%02d%02d", (unsigned)hour, (unsigned)min_, (unsigned)sec);
-   return buffer;
+   return std::string (buffer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -163,7 +162,7 @@ std::string ATime::toString (const char* format) const {
 
    if (isDefined ()) {
       struct tm tm (toStructTM ());
-#ifdef _MSC_VER
+#if defined (__BORLANDC__) || defined (_MSC_VER)
       char aBuffer[80];      // VC doesn't return the buffersize it would need
 #else
       char aBuffer[strftime (NULL, 200, format, &tm) + 1];

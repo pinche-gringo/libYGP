@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.16 2003/01/15 19:11:19 markus Exp $
+//$Id: INIFile.h,v 1.17 2003/01/16 16:46:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@
 // data-structure to parse an INI-file easier. They must be used in
 // that (top-down) order.
 //
-// INIFILE (file) 
+// INIFILE (file)
 //      Defines an object of type INIFile named _inifile_;
-//        
+//
 //INISECTION (name) Defines an object of type INISection. Both the
 //      defined variable and the section-name in the INI-file are called
 //      name.
@@ -49,11 +49,11 @@
 //INIATTR (section, type, name)
 //      Defines an attribute for section section having the key (in the INI-file)
 //      of name. The value of this key is assigned to a variable of type type and
-//      (also) name name. 
+//      (also) name name.
 //
 //      Note: This macro defines a variable (of type INIAttribute<type>) called name_.
 //
-//INIATTR2 (section, type, attr, name) 
+//INIATTR2 (section, type, attr, name)
 //      Defines an attribute for section section having the key (in
 //      the INI-file) of name. The value of this key is assigned to a
 //      variable of type type and name attr.
@@ -80,6 +80,12 @@
 //    INIATTR2 (Section1, std::string, attr2, Key2);
 //    INISECTION (Section2);
 //    INIATTR (Section2, ADate, Key3);
+
+
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
+
 
 #include <errno.h>
 #include <stdlib.h>
@@ -111,7 +117,7 @@ class INIFile;
 #define INILIST2(section, type, name) INIList<type> section (#section, name); \
                              _inifile_.addSection (section);
 #define INIFILE_READ()       _inifile_.read ()
-                            
+
 
 // Class to handle the information stored in a section of an INI-file.
 // Usually this class is just used to bundle the attributes of a

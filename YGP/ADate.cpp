@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.26 2002/12/17 20:45:06 markus Rel $
+//$Id: ADate.cpp,v 1.27 2003/01/16 16:46:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -25,7 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <stdio.h>
-#include <locale.h>
 
 #include <gzo-cfg.h>
 
@@ -132,7 +131,7 @@ std::string ADate::toUnformatedString () const {
    char buffer[12];
 
    sprintf (buffer, "%02d%02d%04d", (unsigned)day, (unsigned)month, year);
-   return buffer;
+   return std::string (buffer);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -160,7 +159,7 @@ std::string ADate::toString (const char* format) const {
 
    if (isDefined ()) {
       struct tm tm (toStructTM ());
-#ifdef _MSC_VER
+#if defined (_MSC_VER) || defined (__BORLANDC__)
       char aBuffer[80];      // VC doesn't return the buffersize it would need
 #else
       char aBuffer[strftime (NULL, 200, format, &tm) + 1];
