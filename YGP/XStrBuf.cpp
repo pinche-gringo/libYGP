@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.4 1999/08/23 20:27:47 Markus Rel $
+// $Id: XStrBuf.cpp,v 1.5 1999/08/26 21:01:25 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -25,18 +25,11 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
-
 #include <stdio.h>
 #include <assert.h>
 
-#if DEBUG > 0
-#include <iomanip.h>
-#include <iostream.h>
-#endif
+#define DEBUG 0
+#include "Trace.h"
 
 #include "XStrBuf.h"
 
@@ -68,14 +61,12 @@ extStreambuf::~extStreambuf () {
 //Requires  : Readpointer equal or behind end-of-readbuffer
 /*--------------------------------------------------------------------------*/
 int extStreambuf::underflow () {
-#if DEBUG > 2
-   cout << "Underflow!\n";
-#endif
+   TRACE2  ("Underflow!");
 
    assert (!checkIntegrity ());
 
-   char *pTemp (pBuffer);
-   int ch;
+   char* pTemp (pBuffer);
+   int   ch;
 
    ++line;
    while ((ch = pSource->sbumpc ()) != EOF) {
@@ -87,6 +78,7 @@ int extStreambuf::underflow () {
          lenBuffer <<= 1;
       }
       *pTemp++ = ch;
+      TRACE9 ("New char: " << ch);
 
       if (ch == '\n')
 	 break;
@@ -105,9 +97,7 @@ int extStreambuf::underflow () {
 //Returns   : Character putted back (EOF if error)
 /*--------------------------------------------------------------------------*/
 int extStreambuf::pbackfail (int c) {
-#if DEBUG > 2
-   cout << "Failed pushback!\n";
-#endif
+   TRACE2 ("Failed pushback!");
 
    assert (!checkIntegrity ());
    assert (c != EOF);
@@ -115,9 +105,7 @@ int extStreambuf::pbackfail (int c) {
    if (gptr () > Gbase ())        // gptr () > Gbase -> pushback of wrong char
       return EOF;
 
-#if DEBUG > 5
-   cout << "Failed pushback: Buffer underrun\n";
-#endif
+   TRACE5 ("Failed pushback: Buffer underrun");
 
    int rc (pSource->seekoff (pushbackOffset, ios::cur));
    pushbackOffset = -1;
@@ -125,7 +113,7 @@ int extStreambuf::pbackfail (int c) {
       return EOF;
 
 #if DEBUG > 8
-   cout << "Pushback: Next = " << (rc = pSource->sbumpc ()) << endl;
+   TRACE ("Pushback: Next = " << (rc = pSource->sbumpc ()) << '\n');
    assert (rc = c);
    pSource->seekoff (-1, ios::cur);
 #endif
