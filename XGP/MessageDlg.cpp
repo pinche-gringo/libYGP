@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.1 2003/11/19 22:21:31 markus Exp $
+//$Id: MessageDlg.cpp,v 1.2 2003/11/28 23:11:52 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -52,6 +52,8 @@ MessageDlg::MessageDlg (const YGP::StatusObject& obj)
       detail->set_text (Glib::locale_to_utf8 (o.getDetails ()));
       get_vbox ()->pack_end (*detail, Gtk::PACK_EXPAND_WIDGET, 5);
       get_action_area ()->pack_end (*showDetail, Gtk::PACK_SHRINK, 5);
+
+      showDetail->set_use_underline ();
       showDetail->show ();
    }
    show ();
@@ -84,7 +86,7 @@ Gtk::MessageType MessageDlg::getButtonType (YGP::StatusObject::type tp) {
 //----------------------------------------------------------------------------
 void MessageDlg::showDetails (bool show) {
    showDetail->set_label (Glib::locale_to_utf8
-                          (show ? _("Hide details") : _("Show details")));
+                          (show ? _("Hide _details") : _("Show _details")));
    show ? detail->show () : detail->hide ();
 
    cb.disconnect ();
