@@ -1,14 +1,14 @@
-//$Id: ATStamp.cpp,v 1.22 2003/11/17 15:07:05 markus Rel $
+//$Id: ATStamp.cpp,v 1.23 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
-//COPYRIGHT   : Anticopyright (A) 1999 - 2003
+//COPYRIGHT   : Copyright (C) 1999 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

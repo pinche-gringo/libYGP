@@ -1,14 +1,14 @@
-//$Id: Entity.cpp,v 1.7 2003/11/14 20:27:55 markus Rel $
+//$Id: Entity.cpp,v 1.8 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
-//COPYRIGHT   : Anticopyright (A) 2002, 2003
+//COPYRIGHT   : Copyright (C) 2002 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-// $Id: PathSrch.cpp,v 1.7 2003/11/16 19:25:55 markus Rel $
+// $Id: PathSrch.cpp,v 1.8 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001 - 2003
+//COPYRIGHT   : Copyright (C) 2001 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

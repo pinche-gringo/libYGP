@@ -1,14 +1,14 @@
-//$Id: ConnectDlg.cpp,v 1.10 2003/12/12 22:10:48 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.11 2004/01/15 06:26:35 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
-//COPYRIGHT   : Anticopyright (A) 2003
+//COPYRIGHT   : Copyright (C) 2003, 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

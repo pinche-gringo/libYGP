@@ -1,14 +1,14 @@
-//$Id: StatusObj.cpp,v 1.3 2003/12/05 19:49:22 markus Rel $
+//$Id: StatusObj.cpp,v 1.4 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Anticopyright (A) 2003
+//COPYRIGHT   : Copyright (C) 2003, 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

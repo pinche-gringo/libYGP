@@ -1,14 +1,14 @@
-//$Id: Thread.cpp,v 1.20 2003/12/10 00:19:37 markus Rel $
+//$Id: Thread.cpp,v 1.21 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
-//COPYRIGHT   : Anticopyright (A) 2002
+//COPYRIGHT   : Copyright (C) 2002 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

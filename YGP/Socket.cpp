@@ -1,14 +1,14 @@
-//$Id: Socket.cpp,v 1.23 2003/12/12 18:18:22 markus Rel $
+//$Id: Socket.cpp,v 1.24 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
+//COPYRIGHT   : Copyright (C) 2001 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

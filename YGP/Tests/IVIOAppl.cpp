@@ -1,14 +1,14 @@
-// $Id: IVIOAppl.cpp,v 1.9 2003/11/17 15:07:05 markus Rel $
+// $Id: IVIOAppl.cpp,v 1.10 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/IVIOAppl
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001 - 2003
+//COPYRIGHT   : Copyright (C) 2001 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

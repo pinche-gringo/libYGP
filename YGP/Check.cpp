@@ -1,14 +1,14 @@
-//$Id: Check.cpp,v 1.15 2004/01/05 07:42:02 markus Rel $
+//$Id: Check.cpp,v 1.16 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Copyright (C) 1999 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

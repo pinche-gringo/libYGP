@@ -1,14 +1,14 @@
-//$Id: ATime.cpp,v 1.30 2003/11/17 15:07:05 markus Rel $
+//$Id: ATime.cpp,v 1.31 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
-//COPYRIGHT   : Anticopyright (A) 1999 - 2003
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-//$Id: ADate.cpp,v 1.38 2003/12/10 00:19:36 markus Rel $
+//$Id: ADate.cpp,v 1.39 2004/01/15 06:26:29 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
-//COPYRIGHT   : Anticopyright (A) 1999 - 2003
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-//$Id: DirSrch.cpp,v 1.49 2003/12/12 18:16:42 markus Rel $
+//$Id: DirSrch.cpp,v 1.50 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.49 $
+//REVISION    : $Revision: 1.50 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Anticopyright (A) 1999 - 2003
+//COPYRIGHT   : Copyright (C) 1999 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

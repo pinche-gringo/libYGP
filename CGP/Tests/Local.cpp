@@ -1,14 +1,14 @@
-// $Id: Local.cpp,v 1.5 2003/11/17 15:07:57 markus Rel $
+// $Id: Local.cpp,v 1.6 2004/01/15 06:26:40 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Local
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
-//COPYRIGHT   : Anticopyright (A) 2002
+//COPYRIGHT   : Copyright (C) 2002 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

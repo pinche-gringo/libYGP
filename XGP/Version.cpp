@@ -1,14 +1,14 @@
-// $Id: Version.cpp,v 1.11 2003/11/14 20:28:08 markus Rel $
+// $Id: Version.cpp,v 1.12 2004/01/15 06:26:35 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Copyright (C) 1999 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

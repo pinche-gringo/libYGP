@@ -1,14 +1,14 @@
-//$Id: GTKViewer.c,v 1.10 2004/01/05 07:41:05 markus Rel $
+//$Id: GTKViewer.c,v 1.11 2004/01/15 06:26:35 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Anticopyright (A) 2003
+//COPYRIGHT   : Copyright (C) 2003, 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

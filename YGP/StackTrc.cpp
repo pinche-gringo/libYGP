@@ -1,14 +1,14 @@
-// $Id: StackTrc.cpp,v 1.12 2003/11/14 20:27:55 markus Rel $
+// $Id: StackTrc.cpp,v 1.13 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
-//COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
+//COPYRIGHT   : Copyright (C) 2000 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

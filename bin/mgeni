@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.10 2003/11/17 15:12:34 markus Rel $
+# $Id: mgeni,v 1.11 2004/01/15 06:26:48 markus Rel $
 
 # Script to generate metainfo for attributes to classes
 
@@ -48,14 +48,14 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.10 $'
+            rev='$Revision: 1.11 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
             echo "$0 V0.1.01; $rev"
             echo "Author: Markus Schwab; email: g17m0@lycos.com"
             echo
-            echo "Anticopyright (A) 2002, 2003"
+            echo "Copyright (A) 2002 - 2004"
             echo "Distributed under the terms of the GNU General Public License"
             exit;;
 

@@ -1,14 +1,14 @@
-//$Id: INIFile.cpp,v 1.27 2003/12/05 19:49:22 markus Rel $
+//$Id: INIFile.cpp,v 1.28 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Anticopyright (A) 2000 - 2003
+//COPYRIGHT   : Copyright (C) 2000 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

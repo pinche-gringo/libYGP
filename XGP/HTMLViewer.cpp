@@ -1,14 +1,14 @@
-//$Id: HTMLViewer.cpp,v 1.9 2004/01/14 19:19:19 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.10 2004/01/15 06:26:35 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Anticopyright (A) 2003
+//COPYRIGHT   : Copyright (C) 2003, 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-//$Id: X-Appl.cpp,v 1.18 2003/12/22 04:39:10 markus Rel $
+//$Id: X-Appl.cpp,v 1.19 2004/01/15 06:26:35 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
-//COPYRIGHT   : Anticopyright (A) 2003
+//COPYRIGHT   : Copyright (C) 2003, 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -280,7 +280,7 @@ void XAppl::command (int menu) {
 /*--------------------------------------------------------------------------*/
 void XAppl::showAboutbox () {
    XGP::XAbout* about (XGP::XAbout::create
-                       ("Anticopyright (A) 2003 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+                       ("Copyright (C) 2003, 2004 Markus Schwab\ne-mail: g17m0@lycos.com\n"
                         "\nCompiled on " __DATE__ " at " __TIME__,
                         "X" PACKAGE " V" VERSION));
    about->setIconProgram (xpmXAppl);

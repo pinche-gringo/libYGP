@@ -1,14 +1,14 @@
-//$Id: RDirSrchSrv.cpp,v 1.24 2003/12/05 19:49:22 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.25 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
+//COPYRIGHT   : Copyright (C) 2001 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-//$Id: CIDirSrch.cpp,v 1.10 2003/11/17 15:07:57 markus Rel $
+//$Id: CIDirSrch.cpp,v 1.11 2004/01/15 06:26:40 markus Rel $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Copyright (C) 2001 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

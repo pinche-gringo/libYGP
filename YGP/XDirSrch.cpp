@@ -1,14 +1,14 @@
-//$Id: XDirSrch.cpp,v 1.10 2003/12/12 18:18:57 markus Rel $
+//$Id: XDirSrch.cpp,v 1.11 2004/01/15 06:26:30 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
-//COPYRIGHT   : Anticopyright (A) 2002
+//COPYRIGHT   : Copyright (C) 2002 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
