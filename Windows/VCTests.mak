@@ -275,7 +275,8 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\Parse.obj" "$(LIBOBJDIR)\XStrB
 <<
 
 FILE=IVIOAppl
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj"
+DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj" \
+          "$(LIBOBJDIR)\PathSrch.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
@@ -287,7 +288,7 @@ DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\Fi
 
 FILE=Parse
 DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\IVIOAppl.obj" "$(LIBOBJDIR)\XStrBuf.obj" \
-         "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj"
+         "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj" "$(LIBOBJDIR)\PathSrch.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\Common\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\Common\Tests\$(FILE).cpp
