@@ -1,7 +1,7 @@
-#ifndef GZO_CFG_H
-#define GZO_CFG_H
+#ifndef YGP_CFG_H
+#define YGP_CFG_H
 
-//$Id: ygp-cfg.h,v 1.5 2003/02/14 04:23:24 markus Rel $
+//$Id: ygp-cfg.h,v 1.6 2003/12/10 00:20:35 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,20 +31,20 @@
 #endif /* _WIN32 */
 
 /* Define the name of the package */
+#define LIBYGP_NAME "libYGP"
 #ifndef PACKAGE
-#define PACKAGE "General"
+#define PACKAGE "libYGP"
 #endif
 
 /* Define the version number */
 #ifndef VERSION
-#define VERSION "0.6"
+#define VERSION "0.6.42"
 #endif
 
 /* Define the micro-version */
-#ifndef MICRO_VERSION
-#define MICRO_VERSION "10"
+#ifndef LIB_RELEASE
+#define LIB_RELEASE "0.6"
 #endif
-
 
 
 /* acconfig.h
@@ -118,6 +118,7 @@
 
 /* Define if you have the `getcwd' function. */
 #define HAVE_GETCWD 1
+
 
 /* Define if you have the `getpagesize' function. */
 /* #undef HAVE_GETPAGESIZE */
