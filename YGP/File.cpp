@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.4 2001/10/02 22:58:13 markus Exp $
+//$Id: File.cpp,v 1.5 2001/10/03 23:57:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,8 +24,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <errno.h>
 
 #include <gzo-cfg.h>
+
+#define DEBUG 0
+#include "Trace_.h"
 
 #include "File.h"
 
@@ -51,6 +55,7 @@ File::File (const File& o) : path_ (o.path_)
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 File::~File () {
+   close ();
 }
 
 
@@ -58,6 +63,7 @@ File::~File () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Assignmentoperator
 //Parameter : o: Object to copy
+//Returns   : File&: Reference to this
 /*--------------------------------------------------------------------------*/
 File& File::operator= (const File& o) {
    if (this != &o) {
@@ -69,6 +75,14 @@ File& File::operator= (const File& o) {
 #endif
    } // endif
    return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Copy-method
+//Returns   : File*: Pointer to newly created clone
+/*--------------------------------------------------------------------------*/
+File* File::clone () const {
+   return new File (*this);
 }
 
 #if SYSTEM == WINDOWS
@@ -149,3 +163,87 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 }
 
 #endif
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Opens this for further read/write access
+//Parameters: mode: Mode for open the file (analogue to libc's fopen)
+//Returns   : FILE*: Pointer to a handle to the opened file.
+/*--------------------------------------------------------------------------*/
+void File::open  (const char* mode) throw (std::string) {
+   std::string file (path ()); file += name ();
+   TRACE5 ("File::open  (const char*) - " << file);
+   assert (mode);
+
+   if ((pFile = fopen (file.c_str (), mode)) == NULL) {
+      std::string error ("Error closing file ");
+      appendErrorText (error);
+      throw (error);
+   }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Closes the (previously opened file
+/*--------------------------------------------------------------------------*/
+void File::close () throw (std::string) {
+   if (pFile) {
+      if (fclose (pFile)) {
+         std::string error ("Error closing file ");
+         appendErrorText (error);
+         throw (error);
+      }
+   }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Reads (the next) length bytes from the (previously opened) file
+//Parameters: buffer: Buffer for data
+//            length: Maximal length of buffer
+/*--------------------------------------------------------------------------*/
+int File::read (char* buffer, unsigned int length) throw (std::string) {
+   assert (buffer);
+   assert (length);
+
+   int rc (fread (buffer, 1, length, pFile));
+   if (!rc) {                      // Exception only if *no* char has been read
+      std::string error ("Error writing to file ");
+      appendErrorText (error);
+      throw (error);
+   }
+   return rc;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Writes length bytes to the (previously opened) file
+//Parameters: buffer: Buffer of data
+//            length: Length of buffer (= bytes to write)
+/*--------------------------------------------------------------------------*/
+int File::write (const char* buffer, unsigned int length) throw (std::string) {
+   assert (buffer);
+   assert (length);
+
+   int rc (fwrite (buffer, 1, length, pFile));
+   if (rc < length) {
+      std::string error ("Error writing to file ");
+      appendErrorText (error);
+      throw (error);
+   }
+   return rc;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if further data is available
+/*--------------------------------------------------------------------------*/
+bool File::isEOF () throw (std::string) {
+   return feof (pFile);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Appends a description of the last error the the passed string
+//Parameters: error: String where error-description should be appended
+/*--------------------------------------------------------------------------*/
+void File::appendErrorText (std::string& error) const {
+   error += path ();
+   error += name ();
+   error += " -> ";
+   error += strerror (errno);
+}

@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.6 2001/10/02 22:58:14 markus Exp $
+//$Id: File.h,v 1.7 2001/10/03 23:57:06 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,11 +17,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <stdio.h>
 
 #include <time.h>
 
 #ifdef TM_IN_SYS_TIME
-#include <sys/time.h>
+#  include <sys/time.h>
 #endif
 
 #include <assert.h>
@@ -65,7 +66,6 @@
 
 class DirectorySearch;
 
-
 // Class to handle result of DirectorySearch
 #if SYSTEM == UNIX
 
@@ -76,12 +76,14 @@ typedef struct File {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   File () : userExec (false)
+   File () : userExec (false), pFile (NULL)
       { *entry.d_name = '\0'; }
    File (const File& o);
    virtual ~File ();
 
    File& operator= (const File& o);
+
+   virtual File* clone () const;
 
    //@Section query of data
    const char*         path () const { return path_.c_str (); }
@@ -107,14 +109,24 @@ typedef struct File {
    bool isExecuteable () const { return status.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH); }
    bool isUserExec () const { return userExec; }
 
+   //@Section file-access
+   virtual bool isEOF () throw (std::string);
+   virtual void open  (const char* mode) throw (std::string);
+   virtual void close () throw (std::string);
+   virtual int  read  (char* buffer, unsigned int length)  throw (std::string);
+   virtual int  write (const char* buffer, unsigned int length)  throw (std::string);
+
    static const char DIRSEPERATOR = '/';
 
- private:
+ protected:
+   FILE* pFile;
    std::string   path_;
    struct dirent entry;
    struct stat   status;
 
    bool  userExec;
+
+   void appendErrorText (std::string& error) const;
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
@@ -130,7 +142,7 @@ typedef struct File : protected WIN32_FIND_DATA {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   File () { }
+   File () : pFile (NULL) { }
    File (const File& o);
    virtual ~File ();
 
@@ -159,10 +171,20 @@ typedef struct File : protected WIN32_FIND_DATA {
    bool isExecuteable () const;
    bool isUserExec () const { return isExecuteable (); }
 
+   //@Section file-access
+   virtual bool isEOF () throw (std::string);
+   virtual void open  (const char* mode) throw (std::string);
+   virtual void close () throw (std::string);
+   virtual int  read  (char* buffer, unsigned int length) throw (std::string);
+   virtual int  write (const char* buffer, unsigned int length) throw (std::string);
+
    static const char DIRSEPERATOR = '\\';
 
- private:
+ protected:
+   FILE* pFile;
    std::string path_;
+
+   void appendErrorText (std::string& error) const;
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
@@ -178,6 +200,5 @@ typedef struct File : protected WIN32_FIND_DATA {
 #else
 #  error Not implemented yet!
 #endif
-
 
 #endif
