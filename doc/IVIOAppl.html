@@ -1,4 +1,4 @@
-<!-- $Id: IVIOAppl.html,v 1.7 2000/04/24 14:28:35 Markus Rel $ -->
+<!-- $Id: IVIOAppl.html,v 1.8 2001/01/19 14:42:25 Markus Exp $ -->
 
 <html>
   <head>
@@ -48,6 +48,9 @@
       long option name, separated by an equal-sign (=), or as the next argument
       (ie. separated by whitespace on the command line). Long options may be
       abbreviated, as long as the abbreviation is not ambiguous.</p>
+
+    <p><b>Note</b>: If long options are supported, they are checked in reverse
+      order (last first).</p>
 
     <p>Every parameter which is not an option or an argument to an option or
       after a '--'-parameter is a non-option parameter and are passed to the
