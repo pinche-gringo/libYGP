@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.20 2002/05/24 06:52:49 markus Rel $
+//$Id: PathDirSrch.cpp,v 1.21 2002/12/07 23:27:36 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -28,6 +28,8 @@
 
 #include "Internal.h"
 
+#include "File.h"
+#include "Check.h"
 #include "Trace_.h"
 #include "PathDirSrch.h"
 
@@ -36,21 +38,24 @@
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 PathDirectorySearch::~PathDirectorySearch () {
-   cleanup ();
 }
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the first file which matches the search-criteria
-//Parameters: pResult: Buffer where to place the result
+//Purpose   : Searches for first file matching the input specified by the
+//            constructor(s) or the set-methods.
+//
+//            If a search within a node of the path returns an error, continue
+//            with the next node.
+//Parameters: attribs: Attributes the file must contain
 //Returns   : const File*: Pointer to found file-object
-//Requires  : pResult != NULL; searchDir already set
+//Requires  : The values to search for must have been set before!
+//Remarks   : Every node of the path is tilde-expanded (UNIX-like to the home directory).
 /*--------------------------------------------------------------------------*/
 const File* PathDirectorySearch::find (unsigned long attribs) {
-   assert (checkIntegrity () <= DirectorySearch::LAST);
-
-   TRACE9 ("PathDirectorySearch::find (unsigned long) - Full:  "
-           << searchPath.data () << " -> " << srch);
+   TRACE9 ("PathDirectorySearch::find (unsigned long) - "
+           << searchPath << " -> " << srch);
+   Check1 (checkIntegrity () <= DirectorySearch::LAST);
 
    const File* rc = NULL;
    do {
@@ -61,25 +66,29 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
          return NULL;
       }
 
-      if (makePath (node, srch)) {
-         TRACE5 ("PathDirectorySearch::find (unsigned long) - Node: "
-                 << node);
-         setSearchValue (node);
-         rc = DirectorySearch::find (attribs);
-      } // endif
+      if (node[node.length () - 1] != File::DIRSEPARATOR)
+         node += File::DIRSEPARATOR;
+      node += srch;
+      TRACE5 ("PathDirectorySearch::find (unsigned long) - Search for: " << node);
+      setSearchValue (node);
+      rc = DirectorySearch::find (attribs);
    } while (!rc);
    return rc;
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Retrieves the next file which matches the search-criteria
-//Returns   : const File*: Pointer to found file-object
-//Requires  : pResult != NULL; searchDir already set
+//Purpose   : Returns the next matching file according to parameters specified
+//            in earlier find-calls.
+//
+//            If a search within a node of the path returns an error, continue
+//            with the next node.
+//Returns   : const File*: Pointer to found file-object or NULL
+//Requires  : The search must have already been started by a find!
+//Remarks   : Every node of the path is tilde-expanded (UNIX-like to the home directory).
 /*--------------------------------------------------------------------------*/
 const File* PathDirectorySearch::next () {
    TRACE9 ("PathDirectorySearch::next (): " << searchPath.data ()  << " -> " << srch);
-
-   assert (!checkIntegrity ());
+   Check1 (!checkIntegrity ());
 
    TRACE5 ("PathDirectorySearch::next () - searchPath::actNode ()="
 	   << searchPath.getActNode ());
@@ -97,27 +106,11 @@ const File* PathDirectorySearch::next () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks the status of the object
-//Returns   : Status; 0: OK
+//Purpose   : Checks if this object is integer. If yes 0 is returned, else a
+//            number describing the error.
+//Returns   : int: Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int PathDirectorySearch::checkIntegrity () const {
    return (((const std::string&)searchPath).empty ()
             ? NO_PATH : DirectorySearch::checkIntegrity ());
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Creates the filename to search (inclusive (expanded) path-info
-//Parameters: path: On input it must contain the path where to search the
-//                  file; on output it is replaced with the (expanded) file
-//                  (inclusive path) to search
-//            file: Name of the file to find (only if return = false)
-//Returns   : bool: false in case of an error; true otherwise
-//Remarks   : If the variable path contains wildcards, they are expanded (only
-//            UNIX).
-/*--------------------------------------------------------------------------*/
-bool PathDirectorySearch::makePath (std::string& path, const std::string& file) {
-   if (path[path.length () - 1] != File::DIRSEPARATOR)
-      path += File::DIRSEPARATOR;
-   path += file;
-   return true;
 }
