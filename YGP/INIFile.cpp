@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.18 2003/02/18 02:49:50 markus Exp $
+//$Id: INIFile.cpp,v 1.19 2003/03/03 05:57:44 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -59,7 +59,7 @@ static unsigned int LEN_VALUE = 256;
 INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
    , Section (_Section, "INI-File", 1, 1)
    , SectionHeader (_SectionHeader, _("Section-header"), 1, 1)
-   , Attributes (_Attributes, _("Attribute"), -1, 0)
+   , Attributes (_Attributes, _("Attribute"), -1U, 0)
    , SectionName ("\\X\\9_.", _("Name of section"), *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
    , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
    , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
