@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.11 2001/10/09 17:16:29 markus Exp $
+//$Id: ATStamp.h,v 1.12 2002/04/12 01:20:04 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp (const std::string& stamp) throw (invalid_argument) { operator= (stamp); }
    ATimestamp (const struct tm& tm) { operator= (tm); }
    ATimestamp (const time_t& stamp, bool local = true) {
-      local ? operator= (stamp) : operator= (*::localtime (&stamp)); }
+      local ? operator= (stamp) : assignGMT (stamp); }
    virtual ~ATimestamp ();
 
    bool         isDefined () const { return ATime::isDefined ();
@@ -67,6 +67,8 @@ class ATimestamp : virtual public ADate, virtual public ATime {
       return operator= (stamp.c_str ()); }
    ATimestamp& operator= (const struct tm& tm);
    ATimestamp& operator= (const time_t& stamp) { return operator= (*gmtime (&stamp)); }
+
+   ATimestamp& assignGMT (const time_t& stamp) { return operator= (*::localtime (&stamp)); }
 
    virtual void readFromStream (istream& in) throw (invalid_argument);
 
