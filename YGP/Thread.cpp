@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.7 2002/05/23 04:56:58 markus Exp $
+//$Id: Thread.cpp,v 1.8 2002/07/09 01:48:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -85,11 +85,17 @@ Thread::~Thread () {
 void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
 #ifdef HAVE_LIBPTHREAD
    if (pthread_create (&id, NULL, fnc, pArgs) != 0) {
+#elif  defined (HAVE_BEGINTHREAD)
+   callback = fnc;
+   waitThread.lock ();
+   if ((id = _beginthread (threadFunction, 0, this)) == -1) {
+#endif
+
+#if defined (HAVE_LIBPTHREAD) || defined (HAVE_BEGINTHREAD)
       std::string err (_("Can't create thread!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
       throw (err);
    }
-   TRACE9 ("Thread::init (THREAD_FUNCTION) -id = " << (int)id);
 #else
    canceled = false;
    id = fork ();
@@ -102,9 +108,10 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
       std::string err (_("Can't create background-process!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
       throw (err);
-   }
+      }
    } // end-switch
 #endif
+   TRACE9 ("Thread::init (THREAD_FUNCTION) -id = " << (int)id);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -113,6 +120,8 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
 void Thread::ret (void* rc) const {
 #ifdef HAVE_LIBPTHREAD
    pthread_exit (rc);
+#elif defined (HAVE_BEGINTHREAD)
+
 #else
    _exit (rc ? *static_cast<int*> (rc) : -1);
 #endif
@@ -132,32 +141,25 @@ void Thread::cancel () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Waits for the passed thread to terminate
-//Parameters: id: Thread-ID to wait for
-//Returns   : void* 
-/*--------------------------------------------------------------------------*/
-void* Thread::waitForThread (unsigned long id) {
-   TRACE3 ("Thread::waitForThread (unsigned) - " << (int)id);
-
-#ifdef HAVE_LIBPTHREAD
-   void* rc;
-   pthread_join (id, &rc);
-   return rc;
-#else
-   int rc;
-   wait (id, &rc, 0);
-   return (void*)rc;
-#endif
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Waits for the passed thread to terminate
 //Parameters: id: Thread to wait for
 //Returns   : void* 
 /*--------------------------------------------------------------------------*/
 void* Thread::waitForThread (const Thread& id) {
    TRACE3 ("Thread::waitForThread (const Thread&) - " << (int)id.id);
 
-   return waitForThread (id.id);
+#ifdef HAVE_LIBPTHREAD
+   void* rc;
+   pthread_join (id.id, &rc);
+   return rc;
+#elif defined HAVE_BEGINTHREAD
+   const_cast<Thread&> (id).waitThread.lock ();
+   const_cast<Thread&> (id).waitThread.unlock ();
+   return id.rc;
+#else
+   int rc;
+   wait (id.id, &rc, 0);
+   return (void*)rc;
+#endif
 }
 
 /*--------------------------------------------------------------------------*/
@@ -171,3 +173,17 @@ void Thread::isToCancel () const {
       _exit (-1);
 #endif
 }
+
+#ifdef HAVE_BEGINTHREAD
+/*--------------------------------------------------------------------------*/
+//Purpose   : Dummy thread-routine, because (of course) VC++6 has a differnt
+//            signature for a thread-function and can't (of course) not cast it
+//Parameters: params: Pointer to thread
+/*--------------------------------------------------------------------------*/
+void Thread::threadFunction (void* params) {
+   Thread* pThread = reinterpret_cast<Thread*> (params);
+   assert (pThread);
+   pThread->rc = pThread->callback (pThread->paArgs_);
+   pThread->waitThread.unlock ();
+}
+#endif

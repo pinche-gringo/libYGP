@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.5 2002/05/23 04:56:58 markus Exp $
+//$Id: Thread.h,v 1.6 2002/07/09 01:48:47 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,12 @@
 
 #include <gzo-cfg.h>
 
+#if SYSTEM==WINDOWS
+#  include "Mutex.h"
+#  include <process.h>
+   typedef void* (WINTHREAD_FUNCTION) (void*);
+#endif
+
 #include <string>
 
 // Class to execute a certain function in a thread
@@ -36,7 +42,7 @@ class Thread {
    static Thread* create (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
       return new Thread (fnc, paArgs); }
    static Thread* create2 (THREAD_FUNCTION fnc, void* paArgs) throw (std::string) {
-      Thread* t (new Thread);
+      Thread* t = new Thread;
       t->paArgs_ = paArgs;
       t->init (fnc, t);
       return t; }
@@ -46,7 +52,6 @@ class Thread {
    void ret (void* rc) const;
    void cancel ();
    static void* waitForThread (const Thread& id);
-   static void* waitForThread (unsigned long id);
    void isToCancel () const;
 
    unsigned long getID () const { return id; }
@@ -63,8 +68,17 @@ class Thread {
 #ifdef HAVE_LIBPTHREAD
    pthread_t id;
 #else
-   pid_t id;
    bool  canceled;
+
+#  if defined (HAVE_BEGINTHREAD)
+   THREAD_FUNCTION callback;
+   static void threadFunction (void* thread);
+   unsigned long id;
+   Mutex waitThread;
+   void* rc;
+#  else
+   pid_t id;
+#  endif
 #endif
 };
 
