@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.8 2003/12/22 20:13:09 markus Exp $
+//$Id: GTKViewer.c,v 1.9 2003/12/22 22:03:15 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -40,6 +40,7 @@
 
 #include <libgtkhtml/gtkhtml.h>
 
+#define TRACELEVEL 1
 #undef TRACE
 #undef TRACE2
 #if TRACELEVEL > 0
@@ -71,7 +72,10 @@ typedef void (*PFNCLOSEDOCUMENT) (HtmlDocument*);
 typedef void (*PFNJUMP2ANCHOR) (HtmlView *view, const gchar *anchor);
 typedef void (*PFNWRITESTREAM) (HtmlStream *stream, const gchar *buffer, guint size);
 typedef void (*PFNCLOSESTREAM) (HtmlStream *stream);
+typedef void (*PFNCLEARDOCU) (HtmlDocument *document);
+typedef GtkWidget* (*PFNNEWHTMLVIEW)(void);
 
+static PFNNEWHTMLVIEW pfnNewView = NULL;
 static PFNNEWDOCUMENT pfnNewDoc = NULL;
 static PFNDOCUMENTOPEN pfnOpenDoc = NULL;
 static PFNSETDOCUMENT pfnSetDoc = NULL;
@@ -80,10 +84,11 @@ static PFNCLOSEDOCUMENT pfnCloseDoc = NULL;
 static PFNJUMP2ANCHOR pfnJump2Anchor = NULL;
 static PFNWRITESTREAM pfnWriteStream = NULL;
 static PFNCLOSESTREAM pfnCloseStream = NULL;
+static PFNCLEARDOCU pfnClearDocument = NULL;
 
-typedef GtkWidget* (*PFNNEWHTMLVIEW)(void);
 typedef struct {
    GtkWidget*  ctrl;
+   HtmlDocument* document;
    char* path; } GTKHTMLDATA;
 
 static void gtkhtmlLinkClicked (HtmlDocument *doc, const gchar *url, GTKHTMLDATA* ctrl);
@@ -101,12 +106,8 @@ void* gtkhtmlInitialize () {
    TRACE ("Initializing gtkhtml viewer\n");
    hDLL = dlopen ("libgtkhtml-2.so", 0x00001);
    if (hDLL) {
-      PFNNEWHTMLVIEW pFnc = (PFNNEWHTMLVIEW)dlsym (hDLL, "html_view_new");
-      if (pFnc) {
-         GTKHTMLDATA* data = (GTKHTMLDATA*)malloc (sizeof (GTKHTMLDATA));
-         data->ctrl = pFnc ();
-         data->path = NULL;
-
+      if (!pfnNewView) {
+         pfnNewView = (PFNNEWHTMLVIEW)dlsym (hDLL, "html_view_new");
          pfnNewDoc = (PFNNEWDOCUMENT)dlsym (hDLL, "html_document_new");
          pfnOpenDoc = (PFNDOCUMENTOPEN)dlsym (hDLL, "html_document_open_stream");
          pfnSetDoc = (PFNSETDOCUMENT)dlsym (hDLL, "html_view_set_document");
@@ -115,11 +116,22 @@ void* gtkhtmlInitialize () {
          pfnJump2Anchor = (PFNJUMP2ANCHOR)dlsym (hDLL, "html_view_jump_to_anchor");
          pfnWriteStream = (PFNWRITESTREAM)dlsym (hDLL, "html_stream_write");
          pfnCloseStream = (PFNCLOSESTREAM)dlsym (hDLL, "html_stream_close");
+         pfnClearDocument = (PFNCLEARDOCU)dlsym (hDLL, "html_document_clear");
 
-         if (!(pfnNewDoc && pfnOpenDoc && pfnSetDoc && pfnWriteDoc && pfnCloseDoc
-               && pfnJump2Anchor && pfnCloseStream && pfnWriteStream))
+         if (!(pfnNewView && pfnNewDoc && pfnOpenDoc && pfnSetDoc
+               && pfnWriteDoc && pfnCloseDoc && pfnJump2Anchor
+               && pfnCloseStream && pfnWriteStream))
             return NULL;
 
+         GTKHTMLDATA* data = (GTKHTMLDATA*)malloc (sizeof (GTKHTMLDATA));
+         data->ctrl = pfnNewView ();
+         data->path = NULL;
+         data->document = pfnNewDoc ();
+
+         g_signal_connect (G_OBJECT (data->document), "link_clicked",
+                           G_CALLBACK (gtkhtmlLinkClicked), data);
+         g_signal_connect (G_OBJECT (data->document), "request_url",
+                           G_CALLBACK (gtkhtmlLoadURL), data);
          return data;
       }
    }
@@ -134,6 +146,10 @@ void gtkhtmlFree (void* data) {
     if (data) {
        if (((GTKHTMLDATA*)data)->path)
           free (((GTKHTMLDATA*)data)->path);
+
+       pfnSetDoc ((HtmlView*)(((GTKHTMLDATA*)data)->ctrl), NULL);
+       if (((GTKHTMLDATA*)data)->document)
+          pfnClearDocument (((GTKHTMLDATA*)data)->document);
        free (data);
    }
 }
@@ -153,17 +169,18 @@ GtkWidget* gtkhtmlGetWidget (void* gtkData) {
 //----------------------------------------------------------------------------
 int gtkhtmlDisplayFile (void* data, const char* file) {
    TRACE ("Creating document\n");
-   HtmlDocument* doc = pfnNewDoc ();
    GtkWidget* ctrl = ((GTKHTMLDATA*)data)->ctrl;
+   HtmlDocument* document = ((GTKHTMLDATA*)data)->document;
    const char* anchor = NULL;
 
-   g_signal_connect (G_OBJECT (doc), "link_clicked",
-                     G_CALLBACK (gtkhtmlLinkClicked), data);
-   g_signal_connect (G_OBJECT (doc), "request_url",
-                     G_CALLBACK (gtkhtmlLoadURL), data);
+   TRACE ("Removing old document\n");
+   pfnSetDoc ((HtmlView*)ctrl, NULL);
+   pfnClearDocument (((GTKHTMLDATA*)data)->document);
+   TRACE ("Setting document\n");
+   pfnSetDoc ((HtmlView*)ctrl, ((GTKHTMLDATA*)data)->document);
 
    TRACE ("Opening the document\n");
-   if (pfnOpenDoc (doc, "text/html")) {
+   if (pfnOpenDoc (document, "text/html")) {
       // Store the path of the file
       if (!strncmp (file, "file://", 7))
          file += 7;
@@ -223,17 +240,14 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
       char buffer[4096];
       int  i;
       while ((i = fread (buffer, 1, sizeof (buffer), pFile)) > 0)
-         pfnWriteDoc (doc, buffer, i);
-      pfnCloseDoc (doc);
+         pfnWriteDoc (((GTKHTMLDATA*)data)->document, buffer, i);
+      pfnCloseDoc (((GTKHTMLDATA*)data)->document);
    }
    else
       return -2;
 
-   TRACE ("Setting document\n");
-   pfnSetDoc ((HtmlView*)ctrl, NULL);
-   pfnSetDoc ((HtmlView*)ctrl, doc);
    if (anchor && *anchor) {
-      TRACE2 ("Jumping to anchor - %s\n", anchor);
+      TRACE2 ("Preparing to jump to anchor - %s\n", anchor);
       JumpContext* context = g_new (JumpContext, 1);
       context->view = ctrl;
       context->anchor = anchor;
@@ -248,6 +262,7 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
 // \return gboolean: FALSE (stop idle function)
 //----------------------------------------------------------------------------
 static gboolean gtkhtmlJump2Anchor  (JumpContext* context) {
+   TRACE2 ("Jumping to anchor - %s\n", context->anchor);
    pfnJump2Anchor ((HtmlView*)context->view, context->anchor);
    g_free (context);
    return FALSE;
