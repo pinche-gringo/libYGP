@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.9 2003/06/02 01:32:17 markus Rel $
+//$Id: XFileEntry.cpp,v 1.10 2003/06/29 01:54:02 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -24,8 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
-
 #include "Trace_.h"
 
 #include <File.h>
@@ -39,7 +37,7 @@
 //Parameters: ev: Event, containing input-information
 /*--------------------------------------------------------------------------*/
 bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
-   assert (ev);
+   Check1 (ev);
    bool rc (Entry::on_key_press_event (ev));
 
    TRACE5 ("XFileEntry::key_press_event_impl: Input: " << ev->keyval);
@@ -64,7 +62,7 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
             input += File::DIRSEPARATOR;
          set_text (input);
      
-         assert (len);
+         Check3 (len);
          set_position (len);
          select_region (len, get_text_length ());
          return true;
