@@ -1,14 +1,14 @@
-//$Id: Entity.cpp,v 1.9 2004/11/04 16:31:18 markus Rel $
+//$Id: Entity.cpp,v 1.10 2005/01/08 22:14:22 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
-//COPYRIGHT   : Copyright (C) 2002 - 2004
+//COPYRIGHT   : Copyright (C) 2002 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include "YGP/Entity.h"
+#include "Trace.h"
+#include "AttrParse.h"
+
+#include "Entity.h"
 
 
 namespace YGP {
@@ -34,9 +37,11 @@ namespace YGP {
 /// Destructor
 //-----------------------------------------------------------------------------
 Entity::~Entity () {
-   std::vector<const IAttribute*>::const_iterator i;
-   for (i = attributes.begin (); i != attributes.end (); ++i)
+   std::vector<IAttribute*>::iterator i;
+   for (i = attributes.begin (); i != attributes.end (); ++i) {
+      TRACE9 ("Entity::~Entity () - " << (*i)->getName ().c_str ());
       delete *i;
+   }
 }
 
 
@@ -45,27 +50,69 @@ Entity::~Entity () {
 /// \param name: Name of attribute to find
 /// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
-const IAttribute* Entity::findAttribute (const char* name) const {
-   std::vector<const IAttribute*>::const_iterator i;
+IAttribute* Entity::findAttribute (const char* name) const {
+   std::vector<IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
          return *i;
-   
+
    return NULL;
 }
-   
+
 //-----------------------------------------------------------------------------
 /// Tries to find an attribute with the specified name.
 /// \param name: Name of attribute to find
 /// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
-const IAttribute* Entity::findAttribute (const std::string& name) const {
-   std::vector<const IAttribute*>::const_iterator i;
+IAttribute* Entity::findAttribute (const std::string& name) const {
+   std::vector<IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
          return *i;
-   
+
    return NULL;
+}
+
+//-----------------------------------------------------------------------------
+/// Writes the attributes to a stream.
+/// \param out: Stream to write to
+/// \param obj: Object to write
+/// \returns std::ostream&: The stream
+/// \throws Anything that operator<< of the attributes might throw
+//-----------------------------------------------------------------------------
+std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
+   std::vector<IAttribute*>::const_iterator i;
+   std::string output;
+   for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i)
+      output += AssignmentParse::makeAssignment ((*i)->getName ().c_str (),
+						 (*i)->getValue ());
+   out << output;
+   return out;
+}
+
+//-----------------------------------------------------------------------------
+/// Reads the attributes from a stream
+/// \param in: Stream to read from
+/// \param obj: Object to read
+/// \returns std::ostream&: The stream
+/// \throws Anything that operator>> of the attributes might throw
+//-----------------------------------------------------------------------------
+std::istream& operator>> (std::istream& in, Entity& obj) throw () {
+   AttributeParse attrs;
+   for (std::vector<IAttribute*>::iterator i (obj.attributes.begin ());
+	i != obj.attributes.end (); ++i)
+      attrs.addAttribute (*(*i)->clone ());
+
+   char buffer[200];
+   std::string input;
+   do {
+      in.getline (buffer, sizeof (buffer));
+      if (in.gcount ())
+	 input.append (buffer, in.gcount () - 1);
+   } while (in); // end-do
+
+   attrs.assignValues (input.c_str ());
+   return in;
 }
 
 }

@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.9 2003/12/05 19:49:22 markus Rel $
+//$Id: Entity.h,v 1.10 2005/01/08 22:14:23 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 #include <algorithm>
 
 #ifndef NO_HANDLE
@@ -51,15 +52,19 @@ class Entity {
    Entity () { };
    virtual ~Entity ();
 
-   const IAttribute* findAttribute (const char* name) const;
-   const IAttribute* findAttribute (const std::string& name) const;
+   IAttribute* findAttribute (const char* name) const;
+   IAttribute* findAttribute (const std::string& name) const;
 
    /// Adds a new attribute to the entity.
-   void addAttribute (const IAttribute& newAttr) {
+   void addAttribute (IAttribute& newAttr) {
       Check3 (std::find (attributes.begin (), attributes.end (), &newAttr)
               == attributes.end ());
       attributes.push_back (&newAttr);
    }
+
+   friend std::ostream& operator<< (std::ostream& out, const Entity& obj) throw ();
+   friend std::istream& operator>> (std::istream& in, Entity& obj) throw ();
+
 
 #ifdef __STL_MEMBER_TEMPLATES
    /// Add a copy of an attribute with a specific type to the entity.
@@ -76,7 +81,7 @@ class Entity {
 #endif
 
  private:
-   std::vector <const IAttribute*> attributes;
+   std::vector <IAttribute*> attributes;
 };
 
 
