@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.31 2003/03/06 04:16:02 markus Exp $
+//$Id: CRegExp.cpp,v 1.32 2003/05/23 17:50:41 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -152,7 +152,8 @@ bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
            "Subexpr.: " << match[0].rm_so << " - " << match[0].rm_eo);
 
    return ret ? false
-              : (match[0].rm_so == 0) && (match[0].rm_eo == strlen (pCompare));
+              : ((match[0].rm_so == 0)
+                 && (static_cast<unsigned int> (match[0].rm_eo) == strlen (pCompare)));
 #else
    pStartCompare = pCompare;
    bool rc (compareParts (pActRegExp, pCompare));
