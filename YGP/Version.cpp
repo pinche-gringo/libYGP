@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.1 1999/09/11 01:27:16 Markus Rel $
+// $Id: Version.cpp,v 1.2 2000/05/09 23:34:49 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -26,3 +26,29 @@
 
 const char* libraryVersion_General = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
                                      " Compiled on " __DATE__ "%$@!\n";
+
+#ifdef WINDOWS
+
+#ifdef __GNUG__
+// This is needed to terminate the list for inport stuff
+   asm (".section .idata$3\n" ".long 0,0,0,0, 0,0,0,0,0");
+#endif
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+extern "C" {
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : DLL-entry point
+//Parameters: HANDLE hDLL: Handle to DLL
+//            DWORD reason: Reason for calling (attach/detach to/from process/thread
+//            LPVOID reserved
+/*--------------------------------------------------------------------------*/
+int WINAPI dllEntry (HANDLE, DWORD, LPVOID) {
+   return true;
+}
+
+} // end extern "C"
+
+#endif
