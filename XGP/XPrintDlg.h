@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.12 2003/07/20 04:15:38 markus Exp $
+//$Id: XPrintDlg.h,v 1.13 2003/07/20 08:17:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -103,8 +103,5 @@ class TPrintDialog : public IPrintDialog {
    PCALLBACK callerMethod;
 };
 
-
-// Typedef for backward compatibility
-typedef TPrintDialog<Gtk::Object> XPrintDialog;
 
 #endif
