@@ -28,8 +28,8 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 	SmartPtr.h Handle.h PathDirSrch.h AYear.h ADate.h ATStamp.h ATime.h \
 	CRegExp.h RegExp.h Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h \
 	File.h RDirSrchSrv.h AssParse.h Attribute.h AttrParse.h RemoteFile.h \
-	Entity.h Thread.h Mutex.h INIFile.h XDirSrch.h ConnMgr.h \
-	Process.h StatusObj.h Relation.h TableWriter.h MetaEnum.h
+	Entity.h Thread.h Mutex.h INIFile.h XDirSrch.h ConnMgr.h Process.h \
+	StatusObj.h Relation.h TableWriter.h MetaEnum.h SortDirSrch.h
 
 pkgconfigdir =$(libdir)/pkgconfig
 pkgconfig_DATA=YGP.pc
