@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.12 2004/12/29 18:21:57 markus Rel $
+// $Id: Handle.h,v 1.13 2005/01/10 02:16:31 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,6 +45,11 @@ class IHandle : public AttributValue {
    IHandle& operator= (const IHandle& other);
 
    virtual void undefine ();
+
+   /// Reads a value from the passed stream. Must not be called!
+   virtual void readFromStream (std::istream&) throw (std::invalid_argument) {
+      Check (0);
+   }
 
  protected:
    // Interface to RefCount
