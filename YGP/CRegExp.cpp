@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.2 2000/05/15 21:58:05 Markus Exp $
+//$Id: CRegExp.cpp,v 1.3 2000/05/16 22:01:25 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 
 #include "CRegExp.h"
@@ -84,58 +84,104 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) {
 bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) const {
    assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
 
+   TRACE1 ("RegularExpression::compare -> " << pAktRegExp << " <-> " << pCompare);
+
 #ifdef HAVE_REGEX_H
    // Use system-regular expressions if available
    return !regexec (&regexp, pCompare, 0, NULL, 0);
 #else
    std::string lastExpr;
 
-   char ch = *pAktRegExp;
+   char ch;
    const char* pEnd = NULL;
+
+   // Functionpointer for differing comparisons; those methods must take care
+   // for increasing position-pointers!
    bool (RegularExpression::*fnCompare) (const char*&, const std::string&) const = NULL;
 
-   switch (ch) {                                     // Get current expression
-   case REGIONBEGIN:
-      pEnd = strchr (pAktRegExp + 2, REGIONEND); assert (pEnd);
-      lastExpr.assign (pAktRegExp, pEnd - pAktRegExp - 1);
-      TRACE7 ("Found region: " << lastExpr.c_str ());
-      fnCompare = &RegularExpression::compRegion;
-      break;
 
-   case QUOTE:
-      if (pAktRegExp[1] == GROUPBEGIN) {
-         int cGroups = 1;
-         pEnd = pAktRegExp + 1;
-         do {
-            pEnd = strchr (pEnd + 1, QUOTE);
-            if (pEnd[1] == GROUPEND)
-               --cGroups;
-	    else
-               if (pEnd[1] == GROUPBEGIN)
-                  ++cGroups;
-	 } while (!cGroups); // end-do 
-         ++pEnd;
-
+   while ((ch = *pAktRegExp)) {
+      switch (ch) {                                   // Get current expression
+      case REGIONBEGIN:
+         pEnd = strchr (pAktRegExp + 2, REGIONEND); assert (pEnd);
          lastExpr.assign (pAktRegExp, pEnd - pAktRegExp - 1);
-         TRACE7 ("Found group: " << lastExpr.c_str ());
-         fnCompare = &RegularExpression::compGroup;
-      } // endif 
-      break;
+         TRACE5 ("Found region: " << lastExpr.c_str ());
+         fnCompare = &RegularExpression::compRegion;
+         break;
 
+      case QUOTE:
+         if (pAktRegExp[1] == GROUPBEGIN) {
+            int cGroups = 1;
+            pEnd = pAktRegExp + 1;
+            do {
+               pEnd = strchr (pEnd + 1, QUOTE);
+               if (pEnd[1] == GROUPEND)
+                  --cGroups;
+	       else
+                  if (pEnd[1] == GROUPBEGIN)
+                     ++cGroups;
+            } while (!cGroups); // end-do 
+            ++pEnd;
 
-   default:
-      assert (ch != MULTIMATCH1); assert (ch != MULTIMATCHOPT);
-      assert (ch != MULTIMATCHMAND); assert (ch != SINGLEMATCH);
+            lastExpr.assign (pAktRegExp, pEnd - pAktRegExp - 1);
+            TRACE5 ("Found group: " << lastExpr.c_str ());
+            fnCompare = &RegularExpression::compGroup;
+         } // endif 
+         break;
 
-      fnCompare = &RegularExpression::compChar;
-      lastExpr = ch;
-   } // end-switch 
+      default:
+         assert (ch != MULTIMATCH1); assert (ch != MULTIMATCHOPT);
+         assert (ch != MULTIMATCHMAND); assert (ch != SINGLEMATCH);
+         assert (ch);
 
-   TRACE1 ("Actual expressions: " << lastExpr.c_str ());
-   assert (fnCompare);
+         fnCompare = &RegularExpression::compChar;
+         lastExpr = ch;
+         pEnd = pAktRegExp;
+      } // end-switch 
 
-   return (this->*fnCompare) (pCompare, lastExpr);
+      TRACE1 ("Actual expressions: " << lastExpr.c_str ());
+      assert (fnCompare); assert (pEnd);
 
+      switch (pEnd[1]) {
+      case MULTIMATCH1:
+         TRACE7 ("Possible count = 0, 1");
+         (this->*fnCompare) (pCompare, lastExpr);
+         break;
+
+      case MULTIMATCHMAND:
+         TRACE7 ("Possible count = 1, -1");
+         if (!(this->*fnCompare) (pCompare, lastExpr))  // Must be min. 1 match
+            return false;
+
+      case MULTIMATCHOPT: {
+         TRACE7 ("Possible count = 0, -1");
+
+          // Hm, what's faster? To find the last position of the last (small)
+         // expression and the search back for the last position matching the
+         // whole regexp or search for the whole stuff til it doesn't match
+         // anymore? Let's implement the first and care about the speed later.
+         const char* pAktPos = pCompare;
+         while ((this->*fnCompare) (pAktPos, lastExpr)) ; // Find maximal match
+
+         while (pAktPos >= pCompare) {   // Try to find next smaller max. match
+            if (compare (pEnd + 2, pAktPos))
+	       return true;
+            --pAktPos;
+         } // end-while
+         pEnd = pAktPos + 1;
+         }
+         break;
+
+      default:
+         TRACE7 ("Possible count = 1");
+         if (!(this->*fnCompare) (pCompare, lastExpr))
+            return false;
+      } // end-switch
+
+      pAktRegExp = pEnd + 1;
+   } // end-while
+
+   return true;          // Match OK, even if string to compare is not finished
 #endif
 }
 
@@ -150,6 +196,43 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
 bool RegularExpression::compRegion (const char*& pAktPos,
                                     const std::string& region) const {
    assert (pAktPos); assert (!region.empty ());
+   TRACE3 ("RegularExpression::compRegion -> " << *pAktPos << " in ["
+           << region.c_str () << ']');
+
+   const char* pRegion = region.c_str ();
+
+   // Compares the actual file-char with the region
+   bool fNeg (false);
+   if (*pRegion == NEGREGION) {                            // Values to invert?
+      ++pRegion;
+      fNeg = true;
+   } // endif
+
+   char ch = *pRegion;
+
+   do {
+      if (pRegion[1] == RANGE) {
+         char chUpper (pRegion[2]);
+         assert ((chUpper != '\0') && (chUpper != REGIONEND));
+
+         TRACE9 ("Check " << *pAktPos << " in [" << ch << '-' << chUpper << ']');
+         if ((*pAktPos >= ch) && (*pAktPos <= chUpper))
+            break;
+         pRegion += 2;
+      }
+      else {
+         TRACE9 ("Check " << *pAktPos << " == " << ch);
+         if (ch == *pAktPos)
+            break;
+      } // endif
+
+      ch = *++pRegion;
+   } while (ch != REGIONEND); // end-do
+
+   if ((ch != REGIONEND) == fNeg)
+      return false;
+
+   ++pAktPos;
    return true;
 }
 
@@ -163,6 +246,9 @@ bool RegularExpression::compRegion (const char*& pAktPos,
 bool RegularExpression::compGroup (const char*& pAktPos,
                                    const std::string& group) const {
    assert (pAktPos); assert (!group.empty ());
+   TRACE3 ("RegularExpression::compGroup -> " << pAktPos << " in \\("
+           << group.c_str () << "\\)");
+
    return true;
 }
 
@@ -176,7 +262,14 @@ bool RegularExpression::compGroup (const char*& pAktPos,
 bool RegularExpression::compChar (const char*& pAktPos,
                                   const std::string& ch) const {
    assert (pAktPos); assert (ch.length () == 1);
-   return true;
+   TRACE3 ("RegularExpression::compChar -> " << *pAktPos << " == " << ch[0]);
+
+   if ((ch[0] == SINGLEMATCH) || (ch[0] == *pAktPos)) {
+      ++pAktPos;
+      return true;
+   } // endif
+
+   return false;
 }
 
 #endif
@@ -202,7 +295,7 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
       case  REGIONBEGIN:
          if (!*++pRegExp)
             throw (getError (RANGE_OPEN, pRegExp - getExpression ()));
-         if (*pRegExp)     // End-of-range-char at beginning doesn't end range
+         if (*pRegExp)      // End-of-range-char at beginning doesn't end range
             ++pRegExp;
 
          while (*++pRegExp != REGIONEND) {
