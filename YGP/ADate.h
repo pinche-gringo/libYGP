@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.2 1999/10/12 21:39:14 Markus Exp $
+//$Id: ADate.h,v 1.3 1999/10/13 00:23:03 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 
 
 #include <time.h>
-#include <assert.h>
 
 #include <string>
 
@@ -30,20 +29,26 @@
 // values.
 class ADate : public AttributValue {
  public:
-   ADate () : AttributValue () { }
+   ADate () : AttributValue (), day (1), month (1), year (1900) { }
    ADate (bool now);
    ADate (const ADate& other) : AttributValue ((const AttributValue&)other)
       , day (other.day), month (other.month), year (other.year) { }
    ADate (char Day, char Month, unsigned int Year);
+   ADate (const char* pDate) { operator= (pDate); }
+   ADate (const std::string& date) { operator= (date); }
+   ADate (const struct tm& tm) { operator= (tm); }
+   ADate (const time_t date) { operator= (date); }
    virtual ~ADate ();
 
    ADate& operator= (const ADate& other);
    ADate& operator= (const char* pDate);
+   ADate& operator= (const std::string& date) { return operator= (date.c_str ()); }
+   ADate& operator= (const struct tm& tm) { year = tm.tm_year + 1900;
+      setMonth (tm.tm_mon + 1); setDay (tm.tm_mday); }
+   ADate& operator= (const time_t date) { operator= (*localtime (&date)); }
 
-   void setDay (char Day) { assert ((Day > 0) && (Day <= maxDayOf ()));
-      AttributValue::define (); day = Day; }
-   void setMonth (char Month) { assert ((Month > 0) && (Month < 12));
-      AttributValue::define (); month = Month; }
+   void setDay (char Day);
+   void setMonth (char Month);
    void setYear (unsigned int Year) { AttributValue::define (); year = Year; }
 
    char getDay () { return day; }
