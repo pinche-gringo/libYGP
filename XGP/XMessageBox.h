@@ -1,7 +1,7 @@
 #ifndef XMESSAGEBOX_H
 #define XMESSAGEBOX_H
 
-//$Id: XMessageBox.h,v 1.7 2002/04/09 04:09:50 markus Rel $
+//$Id: XMessageBox.h,v 1.8 2002/08/01 03:51:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -53,9 +53,9 @@ class XMessageBox : public Dialog {
                     int flags = OK | INFO, unsigned int defButton = 0);
    static int Show (const string& text, int flags = OK | INFO,
                     unsigned int defButton = 0) {
-      Show (text, "", flags, defButton); }
+      return Show (text, "", flags, defButton); }
 
-   ~XMessageBox ();
+   virtual ~XMessageBox ();
 
  protected:
    XMessageBox (const string& text, const string& title = "",
@@ -90,6 +90,39 @@ class XMessageBox : public Dialog {
    static const char* const titles[];
    static const char* const labels[];
    static const char* const * const icons[];
+};
+
+
+template <class T> class XMessageDialog : public XMessageBox {
+ public:
+   virtual ~XMessageDialog () { }
+
+   typedef void (T::*PCALLBACK) (unsigned int);
+
+   static XMessageBox* Show (T& object, const PCALLBACK callback,
+                             const string& text, const string& title = "",
+                             int flags = OK | INFO, unsigned int defButton = 0) {
+      return new XMessageDialog<T> (object, callback, text, title, flags, defButton); }
+
+   static XMessageBox* Show (T& object, const PCALLBACK callback,
+                             const string& text, int flags = OK | INFO,
+                             unsigned int defButton = 0) {
+      return Show (object, callback, text, "", flags, defButton); }
+
+ protected:
+   XMessageDialog (T& object, const PCALLBACK callback,
+                   const string& text, const string& title = "",
+                   int flags = OK | INFO, unsigned int defButton = 0)
+      : obj (object), pCallback (callback)
+      , XMessageBox (text, title, flags, defButton) { }
+
+   virtual void perform (int action) {
+      (obj.*pCallback) (action);
+      delete this; }
+
+ private:
+   T& obj;
+   PCALLBACK pCallback;
 };
 
 #endif
