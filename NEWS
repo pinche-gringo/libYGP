@@ -1,3 +1,31 @@
+Overview of Changes in version 0.7.00:
+
+  - Fixed compiling with included libintl
+  - Can be compiled with MinGW/MSys (only with static library)
+  - Dropped support for Visual C++
+  - Added a dialog to enter information for a login
+  - Added a relation class
+  - XApplication also (potentially) stores menus (besides menu items)
+  - Handle got comparison operators; fixed operator*
+  - Handle can be casted
+  - BrowserDlg only provides browsers actually installed
+  - XDialog checks if dialog can be closed by selecting OK
+  - XAttrEntry can (potentially) work with any widget allowing input
+  - Fixes within XAttrEntry
+  - Fixed removing an entry in XFileList
+  - mgeni is now a Perl script and can generate get/set-methods for attributes
+  - configure tests for existence of awk
+  - Added XGP/XValues to be able to use AttributValues in Gtk::TreeViews
+  - Fixing showing help with firefox/mozilla
+  - Improved converting strings to AttributeValues
+  - Changed semantic of comparison of ANumeric (undefined values are bigger)
+  - Added AYear; a class to handle years
+  - Added TableWriter; classes to write HTML/XML/LaTeX/Text tables
+  - XFileDialog can return multiple files
+  - Added MetaEnum; a class to handle enums by number and name
+  - Tokenize provides a method to return the consumed characters
+  - Added a dialog to enter search information
+
 Overview of Changes in version 0.6.48:
 
   - Changed to work with automake 1.7.9
@@ -62,7 +90,7 @@ Overview of Changes in version 0.6.40:
   - Class AutoContainer added to display objects horizontally aligned
   - Class StatusObject added to collect info/warning/error messages
   - Class MessageDlg added to display StatusObjects
-  - Taking care, that Folder children don't get deleted while resorting
+  - Taking care that Folder children don't get deleted while resorting
   - CORBA tests wait for their children to die before exiting
   - Removed some compiler warnings
   - mgeni adds namespace to the output
@@ -96,7 +124,7 @@ Overview of Changes in version 0.6.23:
   - Fixed problem linking the tests with external libintl
   - Testing for strftime returning the needed buffersize during configuring
   - Test of file regular expressions don't fail when fnmatch lacks features
-  
+
 Overview of Changes in version 0.6.22:
 
   - Process got a getPID method
@@ -141,7 +169,7 @@ Overview of Changes in version 0.6.10:
   - Tokenize got copy constructor and assignment operator
   - Added toString-methods for ints and shorts to ANumeric
   - Added conversion functions for ints and shorts to ANumeric
-  - Renamed toUnformatedString of Attributes to toUnformattedString 
+  - Renamed toUnformatedString of Attributes to toUnformattedString
   - Class XAttributeLabel[2] to display formatted Attributes added
   - Class XAttributeEntry to edit formatted Attributes added
   - Class XDialog (base class for dialogs) added
@@ -331,4 +359,3 @@ Overview of Version 0.1.00:
   - Baseclass for VIO applications
   - Class to separate strings
   - Class handling a streambuffer with enhanced putback and position-information
-
