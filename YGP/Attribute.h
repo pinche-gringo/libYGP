@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.17 2003/06/19 18:44:49 markus Exp $
+//$Id: Attribute.h,v 1.18 2003/06/19 22:34:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -299,7 +299,7 @@ template <class T> class AttributeList : public IAttribute {
    /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
    AttributeList (const char* name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
    /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
-   AttributeList (const std::string& name, std::vector<& list) : IAttribute (name), list_ (list) { }
+   AttributeList (const std::string& name, std::vector<T>& list) : IAttribute (name), list_ (list) { }
    /// Destructor
    ~AttributeList () { }
 
@@ -359,9 +359,8 @@ template <class T> class AttributeList : public IAttribute {
    /// [offset]=[value];</tt> entries.
    std::string getValue ()  const {
       std::string help;
-      for (std::vector<T>::const_iterator i (list_.begin ());
-           i != list_.end (); ++i) {
-         help += itoa (i - list_.begin ());
+      for (unsigned int i (0); i < list_.size (); ++i) {
+         help += itoa (i);
          help += '=';
          help += i->toUnformattedString ();
          help += ';';
