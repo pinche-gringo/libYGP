@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.13 2003/03/03 05:53:43 markus Exp $
+//$Id: XFileDlg.h,v 1.14 2003/03/06 03:09:25 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -76,19 +76,19 @@ class TFileDialog : public IFileDialog {
  public:
    typedef void (T::*PACTION)(const std::string&);
 
-   TFileDialog (const std::string& title, T* pNotify,
+   TFileDialog (const std::string& title, T& notify,
                 const PACTION callback, option dlgOption = NONE)
-      : IFileDialog (title, dlgOption), pCaller (pNotify)
+      : IFileDialog (title, dlgOption), caller (notify)
       , callerMethod (callback) { }
-   TFileDialog (GtkFileSelection* castitem, T* pNotify,
+   TFileDialog (GtkFileSelection* castitem, T& notify,
                 const PACTION callback, option dlgOption = NONE)
-      : IFileDialog (castitem, dlgOption), pCaller (pNotify)
+      : IFileDialog (castitem, dlgOption), caller (notify)
       , callerMethod (callback) { }
    ~TFileDialog () { }
 
-   static TFileDialog* perform (const std::string& title, T* pNotify,
+   static TFileDialog* perform (const std::string& title, T& notify,
 				const PACTION callback, option dlgOption = NONE) {
-      return new TFileDialog (title, pNotify, callback, dlgOption); }
+      return new TFileDialog (title, notify, callback, dlgOption); }
 
  private:
    typedef enum { OK = 1, CANCEL } commandID;
@@ -97,9 +97,9 @@ class TFileDialog : public IFileDialog {
    TFileDialog (const TFileDialog&);
    const TFileDialog& operator= (const TFileDialog&);
 
-   virtual void fileSelected (std::string& file) { (pCaller->*callerMethod) (file); }
+   virtual void fileSelected (std::string& file) { (caller.*callerMethod) (file); }
 
-   T*            pCaller;
+   T&            caller;
    const PACTION callerMethod;
 };
 
