@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.10 2003/02/14 04:15:15 markus Exp $
+// $Id: DirSrch.cpp,v 1.11 2003/02/18 03:02:24 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -72,7 +72,7 @@ int main (int argc, char* argv[]) {
       check (!strcmp (test.name (), NAME));
       check (!strcmp (test.path (), PATHBACK));
    }
-   catch (const char* err) {
+   catch (std::string& err) {
       std::cerr << err << '\n';
    }
 
