@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.29 2003/08/03 20:54:25 markus Rel $
+//$Id: XApplication.cpp,v 1.30 2003/10/17 06:33:07 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -50,127 +50,12 @@
 
 #include <Tokenize.h>
 
+#include "HTMLViewer.h"
 #include "BrowserDlg.h"
 
 #include "XApplication.h"
 
 using namespace Gtk::Menu_Helpers;
-
-
-#undef HAVE_GTKHTML
-#ifdef HAVE_GTKHTML
-#  include <dlfcn.h>
-
-extern "C" {
-#  include <libgtkhtml/gtkhtml.h>
-}
-
-#  include <XDialog.h>
-
-
-// Helper class to display a HTML document in a dialog
-class HTMLViewer : public XDialog {
- public:
-    static void perform (const std::string& file) throw (std::string);
-
- private:
-    HTMLViewer (const std::string& file) throw (std::string);
-    ~HTMLViewer ();
-
-    void display (const std::string& file) throw (std::string);
-
-    static HTMLViewer* instance;
-    GtkWidget* htmlCtrl;
-    void* hDLL;
-};
-
-
-//----------------------------------------------------------------------------
-/// Creates (or updates) a dialog displaying a HTML-document
-/// \param file: File containing the HTML-document to display
-/// \throw std::string in case of error
-//----------------------------------------------------------------------------
-void HTMLViewer::perform (const std::string& file) throw (std::string) {
-   Check1 (file.size ());
-   if (instance)
-      instance->display (file);
-   else
-      instance = new HTMLViewer (file);
-}
-
-
-//----------------------------------------------------------------------------
-/// Creates a dialog displaying a HTML-document
-/// \param file: File containing the HTML-document to display
-/// \throw \c std::string in case of error
-//----------------------------------------------------------------------------
-HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
-    : XDialog (_("Help window"), XDialog::OK), htmlCtrl (NULL) {
-   Check1 (file.size ());
-   typedef GtkWidget* (*PFNNEWHTMLVIEW)(void);
-
-   hDLL = dlopen ("libgtkhtml-2.so", 0x00001);
-   if (hDLL) {
-      PFNNEWHTMLVIEW pFnc ((PFNNEWHTMLVIEW)dlsym (hDLL, "html_view_new"));
-      if (pFnc) {
-         htmlCtrl = pFnc ();
-         gtk_widget_show (htmlCtrl);
-         get_vbox ()->pack_start (*Glib::wrap (htmlCtrl, false));
-
-         display (file);
-         show ();
-      }
-      dlclose (hDLL);
-      return;
-   }
-
-   std::string err (_("Can't display the HTML control!\n\nReason: %1"));
-   err.replace (err.find ("%1"), 2, dlerror ());
-   throw (err);
-}
-
-//----------------------------------------------------------------------------
-/// Destructor
-//----------------------------------------------------------------------------
-HTMLViewer::~HTMLViewer () {
-   delete htmlCtrl;
-}
-
-
-//----------------------------------------------------------------------------
-/// Sets the HTML-document to display in the dialog
-/// \param file: File containing the HTML-document to display
-/// \throw std::string in case of error
-//----------------------------------------------------------------------------
-void HTMLViewer::display (const std::string& file) throw (std::string) {
-   Check1 (hDLL);
-   Check1 (file.size ());
-
-   typedef HtmlDocument* (*PFNNEWDOCUMENT)();
-   typedef gboolean (*PFNDOCUMENTOPEN)(HtmlDocument*, const gchar);
-   typedef void (*PFNSETDOCUMENT)(HtmlView*, HtmlDocument*);
-
-   PFNNEWDOCUMENT pfnNewDoc ((PFNNEWDOCUMENT)dlsym (hDLL, "html_document_new"));
-   PFNDOCUMENTOPEN pfnOpenDoc ((PFNDOCUMENTOPEN)dlsym (hDLL, "html_document_open_stream"));
-   PFNSETDOCUMENT pfnSetDoc ((PFNSETDOCUMENT)dlsym (hDLL, "html_view_set_document"));
-
-   if (!(pfnNewDoc && pfnOpenDoc && pfnSetDoc)) {
-      std::string err (_("Can't display the HTML control!\n\nReason: %1"));
-      err.replace (err.find ("%1"), 2, dlerror ());
-      throw (err);
-      return;
-   }
-
-   HtmlDocument* doc (pfnNewDoc ());
-   if (!pfnOpenDoc (doc, file.c_str ())) {
-      std::string err (_("Can't display the HTML document!\n\nReason: %1"));
-      err.replace (err.find ("%1"), 2, dlerror ());
-      throw (err);
-   }
-   else
-      pfnSetDoc (htmlCtrl, doc);
-}
-#endif
 
 
 //-----------------------------------------------------------------------------
@@ -429,14 +314,14 @@ void XApplication::command (int menu) {
       TRACE5 ("XApplication::command (int) - Starting browser with " << file);
 
       try {
-#ifdef HAVE_GTKHTML
+#ifdef HAVE_VIEWER
          if (helpBrowser == "GTKHTML")
-            HTMLDialog::perform (file);
+            HTMLViewer::create (file);
          else {
 #endif
             const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
             Process::execAsync (helpBrowser.c_str (), args);
-#ifdef HAVE_GTKHTML
+#ifdef HAVE_VIEWER
          }
 #endif
       }
