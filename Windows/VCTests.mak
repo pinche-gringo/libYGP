@@ -26,7 +26,7 @@ NULL=nul
 !ENDIF
 
 CPP=cl.exe
-RSC=rc.exe
+LINK32=link.exe
 
 EXTRAINCLUDES=/I "." /I ".." /I "..\YGP\Tests"
 LIBOBJDIR=$(CFG)
@@ -39,22 +39,18 @@ INTDIR=.\Release\Tests
 # End Custom Macros
 
 CPP_PROJ=/nologo /ML /W3 /GX /O2 $(EXTRAINCLUDES) /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
-LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /machine:I386 /NODEFAULTLIB:LIBCMTD
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /machine:I386 /NODEFAULTLIB:libcmt
 
 !ELSEIF  "$(CFG)" == "Debug"
 
+LIBDIR=.\Debug
 OUTDIR=.\Debug\Tests
 INTDIR=.\Debug\Tests
 # Begin Custom Macros
 # End Custom Macros
 
 CPP_PROJ=/nologo /MLd /W3 /Gm /GX /ZI /Od $(EXTRAINCLUDES) /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /GZ /c
-BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\VCTests.bsc"
-BSC32_SBRS= \
 
-LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /debug /machine:I386 /pdbtype:sept  /NODEFAULTLIB:LIBCMTD
 
 !ENDIF
@@ -126,223 +122,193 @@ CLEAN : cleancommon
 
 !IF "$(CFG)" == "Release" || "$(CFG)" == "Debug"
 FILE=ADate
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=ANumeric
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=AssParse
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\Tokenize.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=ATime
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=ATStamp
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\ATime.obj" "$(LIBOBJDIR)\ADate.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=Attribute
-DEP_OBJS="$(LIBOBJDIR)\ATime.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=AttrParse
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ATime.obj $(LIBOBJDIR)\ATStamp.obj \
-	 $(LIBOBJDIR)\ANumeric.obj $(LIBOBJDIR)\ADate.obj $(LIBOBJDIR)\AssParse.obj \
-	 $(LIBOBJDIR)\Tokenize.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=CRegExp
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ANumeric.obj $(LIBOBJDIR)\Parse.obj \
-	 $(LIBOBJDIR)\XStrBuf.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=DirSrch
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\File.obj $(LIBOBJDIR)\IDirSrch.obj \
-	 $(LIBOBJDIR)\FileRExp.obj $(LIBOBJDIR)\ANumeric.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=FileRExp
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\ANumeric.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=Handle
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=INIFile
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\Parse.obj" "$(LIBOBJDIR)\XStrBuf.obj" \
-	 "$(LIBOBJDIR)\ANumeric.obj" "$(LIBOBJDIR)\ATStamp.obj" "$(LIBOBJDIR)\ADate.obj" \
-	 "$(LIBOBJDIR)\ATime.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=IVIOAppl
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj" \
-          "$(LIBOBJDIR)\PathSrch.obj" "$(LIBOBJDIR)\Version.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=Parse
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" "$(LIBOBJDIR)\IVIOAppl.obj" "$(LIBOBJDIR)\XStrBuf.obj" \
-         "$(LIBOBJDIR)\StackTrc.obj" "$(LIBOBJDIR)\File.obj" "$(LIBOBJDIR)\PathSrch.obj" \
-         "$(LIBOBJDIR)\Version.obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=XStrBuf
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=PathDirSrch
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\File.obj $(LIBOBJDIR)\IDirSrch.obj \
-	 $(LIBOBJDIR)\FileRExp.obj $(LIBOBJDIR)\ANumeric.obj $(LIBOBJDIR)\DirSrch.obj \
-	 $(LIBOBJDIR)\PathSrch.obj $(LIBOBJDIR)\Tokenize.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=PathSrch
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj" $(LIBOBJDIR)\Tokenize.obj $(LIBOBJDIR)\File.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=Tokenize
-DEP_OBJS="$(LIBOBJDIR)\$(FILE).obj"
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 FILE=XStream
-DEP_OBJS=$(LIBOBJDIR)\XStrBuf.obj
 
 "$(INTDIR)\$(FILE).obj" : ..\YGP\Tests\$(FILE).cpp "$(INTDIR)"
         $(CPP) $(CPP_PROJ) ..\YGP\Tests\$(FILE).cpp
 
-"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(DEP_OBJS)
+"$(OUTDIR)\$(FILE).exe" : "$(OUTDIR)\$(FILE).obj" $(DEF_FILE) $(LIBOBJDIR)\VCGenerals.lib
     $(LINK32) @<<
-  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(DEP_OBJS) /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
+  $(LINK32_FLAGS) $(INTDIR)\$(FILE).obj $(LIBOBJDIR)\VCGenerals.lib /pdb:"$(OUTDIR)\$(FILE).pdb" /out:"$(OUTDIR)\$(FILE).exe"
 <<
 
 
