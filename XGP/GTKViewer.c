@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.9 2003/12/22 22:03:15 markus Exp $
+//$Id: GTKViewer.c,v 1.10 2004/01/05 07:41:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -25,7 +25,16 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <ygp-cfg.h>
 #include <YGP/Internal.h>
+
+#if SYSTEM == UNIX
+const char DIR_SEPARATOR = '/';
+#elif SYSTEM == WINDOWS
+const char DIR_SEPARATOR = '\\';
+#else
+#  error Not implemented yet!
+#endif
 
 #ifdef HAVE_GTKHTML
 
@@ -36,11 +45,12 @@
 
 #include <dlfcn.h>
 
+#include <YGP/Check.h>
+
 #include "GTKViewer.h"
 
 #include <libgtkhtml/gtkhtml.h>
 
-#define TRACELEVEL 1
 #undef TRACE
 #undef TRACE2
 #if TRACELEVEL > 0
@@ -104,7 +114,10 @@ static gboolean gtkhtmlJump2Anchor  (JumpContext* context);
 //----------------------------------------------------------------------------
 void* gtkhtmlInitialize () {
    TRACE ("Initializing gtkhtml viewer\n");
-   hDLL = dlopen ("libgtkhtml-2.so", 0x00001);
+
+   if (!hDLL)
+      hDLL = dlopen ("libgtkhtml-2.so", 0x00001);
+
    if (hDLL) {
       if (!pfnNewView) {
          pfnNewView = (PFNNEWHTMLVIEW)dlsym (hDLL, "html_view_new");
@@ -122,18 +135,18 @@ void* gtkhtmlInitialize () {
                && pfnWriteDoc && pfnCloseDoc && pfnJump2Anchor
                && pfnCloseStream && pfnWriteStream))
             return NULL;
-
-         GTKHTMLDATA* data = (GTKHTMLDATA*)malloc (sizeof (GTKHTMLDATA));
-         data->ctrl = pfnNewView ();
-         data->path = NULL;
-         data->document = pfnNewDoc ();
-
-         g_signal_connect (G_OBJECT (data->document), "link_clicked",
-                           G_CALLBACK (gtkhtmlLinkClicked), data);
-         g_signal_connect (G_OBJECT (data->document), "request_url",
-                           G_CALLBACK (gtkhtmlLoadURL), data);
-         return data;
       }
+
+      GTKHTMLDATA* data = (GTKHTMLDATA*)malloc (sizeof (GTKHTMLDATA)); Check3 (data);
+      data->ctrl = pfnNewView ();
+      data->path = NULL;
+      data->document = pfnNewDoc ();
+
+      g_signal_connect (G_OBJECT (data->document), "link_clicked",
+                        G_CALLBACK (gtkhtmlLinkClicked), data);
+      g_signal_connect (G_OBJECT (data->document), "request_url",
+                        G_CALLBACK (gtkhtmlLoadURL), data);
+      return data;
    }
    return NULL;
 }
@@ -143,14 +156,15 @@ void* gtkhtmlInitialize () {
 // \param gtkData: Data of the call to gkthtmlIntialize
 //----------------------------------------------------------------------------
 void gtkhtmlFree (void* data) {
-    if (data) {
-       if (((GTKHTMLDATA*)data)->path)
-          free (((GTKHTMLDATA*)data)->path);
+   TRACE2 ("Freeing GTKHTML-data: %p\n", data);
+   if (data) {
+      if (((GTKHTMLDATA*)data)->path)
+         free (((GTKHTMLDATA*)data)->path);
 
-       pfnSetDoc ((HtmlView*)(((GTKHTMLDATA*)data)->ctrl), NULL);
-       if (((GTKHTMLDATA*)data)->document)
-          pfnClearDocument (((GTKHTMLDATA*)data)->document);
-       free (data);
+      pfnSetDoc ((HtmlView*)(((GTKHTMLDATA*)data)->ctrl), NULL);
+      if (((GTKHTMLDATA*)data)->document)
+         pfnClearDocument (((GTKHTMLDATA*)data)->document);
+      free (data);
    }
 }
 
@@ -168,83 +182,77 @@ GtkWidget* gtkhtmlGetWidget (void* gtkData) {
 // Displays a file in the GTKHTML control
 //----------------------------------------------------------------------------
 int gtkhtmlDisplayFile (void* data, const char* file) {
-   TRACE ("Creating document\n");
-   GtkWidget* ctrl = ((GTKHTMLDATA*)data)->ctrl;
-   HtmlDocument* document = ((GTKHTMLDATA*)data)->document;
+   Check2 (data);
+   Check2 (file);
+   GtkWidget* ctrl = ((GTKHTMLDATA*)data)->ctrl; Check3 (ctrl);
+   HtmlDocument* document = ((GTKHTMLDATA*)data)->document; Check3 (document);
    const char* anchor = NULL;
 
-   TRACE ("Removing old document\n");
-   pfnSetDoc ((HtmlView*)ctrl, NULL);
-   pfnClearDocument (((GTKHTMLDATA*)data)->document);
-   TRACE ("Setting document\n");
-   pfnSetDoc ((HtmlView*)ctrl, ((GTKHTMLDATA*)data)->document);
+   if (*file != '#') {
+      pfnSetDoc ((HtmlView*)ctrl, NULL);
+      pfnClearDocument (((GTKHTMLDATA*)data)->document);
+      pfnSetDoc ((HtmlView*)ctrl, ((GTKHTMLDATA*)data)->document);
 
-   TRACE ("Opening the document\n");
-   if (pfnOpenDoc (document, "text/html")) {
-      // Store the path of the file
-      if (!strncmp (file, "file://", 7))
-         file += 7;
+      if (pfnOpenDoc (document, "text/html")) {
+         // Store the path of the file
+         if (!strncmp (file, "file://", 7))
+            file += 7;
 
-      gsize bytes = 0;
-      GError* error = NULL;
-      unsigned int nlen = strlen (file);
-      file = g_filename_from_utf8 (file, nlen, 0, &bytes, &error);
+         gsize nlen = 0;
+         file = g_filename_from_utf8 (file, -1, 0, &nlen, NULL);
 
-      char tmp[4] = "";
-      char* oldpath = ((GTKHTMLDATA*)data)->path ? ((GTKHTMLDATA*)data)->path : tmp;
-      TRACE2 ("Oldpath = '%s'\n", oldpath);
-      if (*file == '/')
-         *oldpath = '\0';
-      unsigned int olen = strlen (oldpath);
-      char* newpath = (char*)malloc (nlen + olen  + 2);
-      if (olen) {
-         memcpy (newpath, oldpath, olen);
-         if (newpath[olen - 1] != '/')
-            newpath[olen++] = '/';
+         char tmp[4] = "";
+         char* oldpath = ((GTKHTMLDATA*)data)->path ? ((GTKHTMLDATA*)data)->path : tmp;
+         unsigned int olen = (*file == DIR_SEPARATOR) ? 0 : strlen (oldpath);
+         char* newpath = (char*)malloc (nlen + olen  + 2);
+         if (olen) {
+            memcpy (newpath, oldpath, olen);
+            if (newpath[olen - 1] != DIR_SEPARATOR)
+               newpath[olen++] = DIR_SEPARATOR;
+         }
+         memcpy (newpath + olen, file, nlen + 1);
+         oldpath = strrchr (newpath + olen, '#');
+
+         if (oldpath) {
+            *oldpath = '\0';
+            anchor = oldpath + 1; 
+         }
+
+         TRACE2 ("Reading: `%s'\n", newpath);
+         FILE* pFile = fopen (newpath, "r");
+         if (!pFile) {
+            int err = errno;
+            const char* const msg = _("Error loading file '%s': %s");
+            char* const strError = g_locale_to_utf8 (msg, -1, 0,
+                                                     &nlen, NULL);
+            GtkWidget* dlg = gtk_message_dialog_new
+               (GTK_WINDOW (gtk_widget_get_ancestor (ctrl, GTK_TYPE_WINDOW)),
+                GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
+                GTK_BUTTONS_OK, strError, newpath, g_strerror (err));
+            gtk_dialog_run (GTK_DIALOG (dlg));
+            gtk_widget_destroy (dlg);
+            free (newpath);
+            return 1;
+         }
+
+         if (((GTKHTMLDATA*)data)->path)
+            free (((GTKHTMLDATA*)data)->path);
+         ((GTKHTMLDATA*)data)->path = newpath;
+         newpath = strrchr (newpath, DIR_SEPARATOR);
+         (newpath ? *newpath : *((GTKHTMLDATA*)data)->path) = '\0';
+
+         // Stream in the file
+         char buffer[4096];
+         int  i;
+         while ((i = fread (buffer, 1, sizeof (buffer), pFile)) > 0)
+            pfnWriteDoc (((GTKHTMLDATA*)data)->document, buffer, i);
+         pfnCloseDoc (((GTKHTMLDATA*)data)->document);
       }
-      memcpy (newpath + olen, file, nlen + 1);
-      oldpath = strrchr (newpath + olen, '#');
-      
-      if (oldpath) {
-         *oldpath = '\0';
-         anchor = oldpath + 1; 
-      }
-
-      TRACE2 ("Reading: `%s'\n", newpath);
-      FILE* pFile = fopen (newpath, "r");
-      if (!pFile) {
-         int err = errno;
-         const char* const msg = _("Error loading file '%s': %s");
-         char* const strError = g_locale_to_utf8 (msg, strlen (msg), 0,
-                                                  &bytes, &error);
-         GtkWidget* dlg = gtk_message_dialog_new
-             (GTK_WINDOW (gtk_widget_get_ancestor (ctrl, GTK_TYPE_WINDOW)),
-              GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR,
-              GTK_BUTTONS_OK, strError, newpath, g_strerror (err));
-         gtk_dialog_run (GTK_DIALOG (dlg));
-         gtk_widget_destroy (dlg);
-         free (newpath);
-         return 1;
-      }
-
-      if (((GTKHTMLDATA*)data)->path)
-         free (((GTKHTMLDATA*)data)->path);
-      ((GTKHTMLDATA*)data)->path = newpath;
-      newpath = strrchr (newpath, '/');
-      if (newpath)
-         *++newpath = '\0';
       else
-         *((GTKHTMLDATA*)data)->path = '\0';
-
-      // Stream in the file
-      char buffer[4096];
-      int  i;
-      while ((i = fread (buffer, 1, sizeof (buffer), pFile)) > 0)
-         pfnWriteDoc (((GTKHTMLDATA*)data)->document, buffer, i);
-      pfnCloseDoc (((GTKHTMLDATA*)data)->document);
+         return -2;
    }
    else
-      return -2;
+      anchor = file + 1;
 
    if (anchor && *anchor) {
       TRACE2 ("Preparing to jump to anchor - %s\n", anchor);
@@ -310,8 +318,8 @@ static gboolean gtkhtmlLoadURL (HtmlDocument *doc, const gchar *url,
       unsigned int nlen = strlen (url);
       newpath = (char*)malloc (nlen + olen  + 2);
       memcpy (newpath, oldpath, olen);
-      if (newpath[olen - 1] != '/')
-         newpath[olen++] = '/';
+      if (newpath[olen - 1] != DIR_SEPARATOR)
+         newpath[olen++] = DIR_SEPARATOR;
       memcpy (newpath + olen, url, nlen + 1);
    }
 
