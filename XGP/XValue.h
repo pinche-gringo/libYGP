@@ -1,7 +1,7 @@
 #ifndef XVALUE_H
 #define XVALUE_H
 
-//$Id: XValue.h,v 1.1 2004/11/02 20:30:41 markus Exp $
+//$Id: XValue.h,v 1.2 2004/11/14 21:21:16 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include <glibmm/value.h>
 
+#include <YGP/AYear.h>
 #include <YGP/ADate.h>
 #include <YGP/ATime.h>
 #include <YGP/ATStamp.h>
@@ -45,7 +46,7 @@ class ValueBase_Attribute : public ValueBase {
 
    /// Sets from another AttributValue
    /// \param data: Value to set
-   void set(const YGP::AttributValue& data) {
+   void set (const YGP::AttributValue& data) {
       g_value_set_string (&gobject_, data.toString ().c_str ()); }
 
  protected:
@@ -65,11 +66,19 @@ class ValueBase_Attribute : public ValueBase {
 
 
 template <>
+class Value<YGP::AYear> : public ValueBase_Attribute {
+ public:
+   typedef YGP::AttributValue CppType;
+
+   YGP::AYear get () const { return YGP::AYear (get_cstring()); }
+};
+
+template <>
 class Value<YGP::ADate> : public ValueBase_Attribute {
  public:
    typedef YGP::AttributValue CppType;
 
-   YGP::ADate get() const { return YGP::ADate (get_cstring()); }
+   YGP::ADate get () const { return YGP::ADate (get_cstring()); }
 };
 
 template <>
@@ -77,7 +86,7 @@ class Value<YGP::ATime> : public ValueBase_Attribute {
  public:
    typedef YGP::AttributValue CppType;
 
-   YGP::ATime get() const { return YGP::ATime (get_cstring()); }
+   YGP::ATime get () const { return YGP::ATime (get_cstring()); }
 };
 
 template <>
@@ -85,7 +94,9 @@ class Value<YGP::ATimestamp> : public ValueBase_Attribute {
  public:
    typedef YGP::AttributValue CppType;
 
-   YGP::ATimestamp get() const { return YGP::ATimestamp (get_cstring()); }
+   YGP::ATimestamp get () const { return YGP::ATimestamp (get_cstring()); }
+   void set (const YGP::ATimestamp& data) {
+      set_cstring (data.toString ().c_str ()); }
 };
 
 template <>
@@ -93,7 +104,7 @@ class Value<YGP::ANumeric> : public ValueBase_Attribute {
  public:
    typedef YGP::AttributValue CppType;
 
-   YGP::ANumeric get() const { return YGP::ANumeric (get_cstring()); }
+   YGP::ANumeric get () const { return YGP::ANumeric (get_cstring()); }
 };
 
 }
