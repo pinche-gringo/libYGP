@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.3 2002/05/25 07:08:14 markus Exp $
+//$Id: PathSrch.cpp,v 1.4 2002/08/20 05:19:17 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <gzo-cfg.h>
 
 #if SYSTEM == UNIX
 #include <pwd.h>
