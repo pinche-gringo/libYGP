@@ -1,14 +1,14 @@
-//$Id: ATime.cpp,v 1.22 2003/05/23 17:49:42 markus Rel $
+//$Id: ATime.cpp,v 1.23 2003/06/15 05:19:12 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <gzo-cfg.h>
 
@@ -43,11 +43,11 @@
 #include "ATime.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; depending on the parameter the time is either set
-//            to "0:00:00" (now = false), or to the current time (now = true).
-//Parameters: now: Flag if current time or default start-time (1.1.1900) should be set
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; depending on the parameter the time is either set to
+/// "0:00:00" (now = false), or to the current time (now = true).
+/// \param now: Flag if current time or default start-time (1.1.1900) should be set
+//-----------------------------------------------------------------------------
 ATime::ATime (bool now) : AttributValue () {
    if (now)
       operator= (time (NULL));
@@ -55,14 +55,14 @@ ATime::ATime (bool now) : AttributValue () {
       define ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; sets the passed time. The object is undefined, if
-//            the passed parameters represent no valid time (e.g. Hour > 23,
-//            minute > 59 or second > 61)
-//Parameters: Hour: Hour for this ATime
-//            minute: Minute to set
-//            second: Second to set
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; sets the passed time. The object is undefined, if the passed
+/// parameters represent no valid time (e.g. Hour > 23, minute > 59 or second
+/// > 61)
+/// \param Hour: Hour for this ATime
+/// \param minute: Minute to set
+/// \param second: Second to set
+//-----------------------------------------------------------------------------
 ATime::ATime (char Hour, char minute, char second) throw (std::invalid_argument)
    : AttributValue (true), hour (Hour), min_ (minute), sec (second)  {
    int status (checkIntegrity ());
@@ -71,18 +71,18 @@ ATime::ATime (char Hour, char minute, char second) throw (std::invalid_argument)
                                     : status == 2 ? "Minute" : "Second"));
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 ATime::~ATime () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment-operator from another ATime object
-//Parameters: other: Object to assign
-//Returns   : Reference to self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignment-operator from another ATime object
+/// \param other: Object to assign
+/// \returns Reference to self
+//-----------------------------------------------------------------------------
 ATime& ATime::operator= (const ATime& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
 
@@ -97,15 +97,15 @@ ATime& ATime::operator= (const ATime& other) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment-operator from an const char-pointer. The time must be
-//            passed as HHMMSS. If the buffer does not represent a valid time
-//            an excpetion is thrown. A NULL-pointer as parameter is not
-//            permitted!
-//Parameters: pTime: Character array specifying time to assign
-//Returns   : Reference to self
-//Throws    : std::invalid_argument if the parameter does not represent a valid time
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignment-operator from an const char-pointer. The time must be passed as
+/// HHMMSS. If the buffer does not represent a valid time an excpetion is
+/// thrown. A NULL-pointer as parameter is not permitted!
+/// \param pTime: Character array specifying time to assign
+/// \returns Reference to self
+/// \throw \c std::invalid_argument if the parameter does not represent a
+///     valid time
+//-----------------------------------------------------------------------------
 ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
    Check3 (pTime);
    Check3 (!checkIntegrity ());
@@ -117,11 +117,11 @@ ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the time into a string, in format hhmmss (each part with
-//            leading zeros).
-//Returns   : String-representation of ATime
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the time into a string, in format hhmmss (each part with leading
+/// zeros).
+/// \returns String-representation of ATime
+//-----------------------------------------------------------------------------
 std::string ATime::toUnformattedString () const {
    char buffer[8];
 
@@ -129,25 +129,24 @@ std::string ATime::toUnformattedString () const {
    return std::string (buffer);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the time into a string, in a format specified by the
-//            current locale.
-//Returns   : String-representation of ATime
-//Remarks   : Only dates valid for struct tm can be printed (e.g. dates after
-//            1900)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the time into a string, in a format specified by the current
+/// locale.
+/// \returns String-representation of ATime
+/// \remarks Only dates valid for struct tm can be printed (e.g. dates after
+///     1900)
+//-----------------------------------------------------------------------------
 std::string ATime::toString () const {
    return toString ("%X");
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the time into a string, in the specified format. The
-//            parameter format can be any value accepted by the strftime
-//            library-routine.
-//Returns   : String-representation of ATime
-//Remarks   : Only dates valid for struct tm can be printed (e.g. dates after
-//            1900)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the time into a string, in the specified format. The parameter
+/// format can be any value accepted by the strftime library-routine.
+/// \returns String-representation of ATime
+/// \remarks Only dates valid for struct tm can be printed (e.g. dates after
+///     1900)
+//-----------------------------------------------------------------------------
 std::string ATime::toString (const char* format) const {
    TRACE9 ("ATime::toString (const char*) const - " << format);
    Check3 (format);
@@ -168,11 +167,11 @@ std::string ATime::toString (const char* format) const {
    return result;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads the time in format hhmmss (with leading zeros) from a stream.
-//Parameters: in: Stream to parse
-//Throws    : invalid_argument in case of an format error
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Reads the time in format hhmmss (with leading zeros) from a stream.
+/// \param in: Stream to parse
+/// \throw \c invalid_argument in case of an format error
+//-----------------------------------------------------------------------------
 void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
    if (in.eof ()) {
       undefine ();
@@ -214,15 +213,14 @@ void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds another time-value to the object. An undefined time is
-//            treated as "0:00:00"; if both objects are undefined, the result
-//            is undefined. Overflows of seconds or minutes are corrected,
-//            overflows of the hour undefines the object.
-//Parameters: lhs: Value to add
-//Returns   : Self
-//Note      : If lhs is not defined this is not changed
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds another time-value to the object. An undefined time is treated as
+/// "0:00:00"; if both objects are undefined, the result is undefined.
+/// Overflows of seconds or minutes are corrected, overflows of the hour
+/// undefines the object.
+/// \param lhs: Value to add
+/// \returns Self Note : If lhs is not defined this is not changed
+//-----------------------------------------------------------------------------
 ATime& ATime::operator+= (const ATime& rhs) {
    Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
 
@@ -243,14 +241,14 @@ ATime& ATime::operator+= (const ATime& rhs) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Substracts another time-value from the object. An undefined
-//            time is treated as "0:00:00"; the result is undefined if both
-//            objects are undefined. Underflows (of day or month) are
-//            corrected; underflows of of the hour undefines the object.
-//Parameters: lhs: Value to substract
-//Returns   : Self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Substracts another time-value from the object. An undefined time is
+/// treated as "0:00:00"; the result is undefined if both objects are
+/// undefined. Underflows (of day or month) are corrected; underflows of of
+/// the hour undefines the object.
+/// \param lhs: Value to substract
+/// \returns Self
+//-----------------------------------------------------------------------------
 ATime& ATime::operator-= (const ATime& rhs) {
    Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
 
@@ -270,15 +268,15 @@ ATime& ATime::operator-= (const ATime& rhs) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : If this is not undefined, the passed values are added.
-//            Overflows of seconds or minutes are corrected, overflows of the
-//            hour undefines the object. The result is returned.
-//Parameters: Hour: Hour to add
-//            minute: Minute to add
-//            second: Second to add
-//Returns   : Self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// If this is not undefined, the passed values are added. Overflows of
+/// seconds or minutes are corrected, overflows of the hour undefines the
+/// object. The result is returned.
+/// \param Hour: Hour to add
+/// \param minute: Minute to add
+/// \param second: Second to add
+/// \returns Self
+//-----------------------------------------------------------------------------
 ATime& ATime::add (char Hour, char minute, char second) {
    Check3 (!checkIntegrity ());
 
@@ -294,15 +292,15 @@ ATime& ATime::add (char Hour, char minute, char second) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : If this is not undefined, the passed values are substracted.
-//            Overflows of seconds or minutes are corrected, overflows of the
-//            hour undefines the object. The result is returned.
-//Parameters: Hour: Hour to substract
-//            minute: Minute to substract
-//            second: Second to substract
-//Returns   : Self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// If this is not undefined, the passed values are substracted. Overflows of
+/// seconds or minutes are corrected, overflows of the hour undefines the
+/// object. The result is returned.
+/// \param Hour: Hour to substract
+/// \param minute: Minute to substract
+/// \param second: Second to substract
+/// \returns Self
+//-----------------------------------------------------------------------------
 ATime& ATime::sub (char Hour, char minute, char second) {
    Check3 (!checkIntegrity ());
 
@@ -319,19 +317,17 @@ ATime& ATime::sub (char Hour, char minute, char second) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the (approximated) difference in seconds between two
-//            times. If both times are undefined, those difference is "0", if
-//            only this is undefined the result is MINLONG, if only other is
-//            undefined MAXLONG is returned (-> undefined times are considered
-//            as (very) old).
-//Parameters: other: Object to compare
-//Returns   : >0 if this  other; 0 if this == other; <0 else
-//Note      : Undefined values are considered as (incredible) old
-//            "Younger dates" (closer to the past) are considered bigger
-//            than "older dates" (further in the past; that means the numeric
-//            value of the date is compared.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the (approximated) difference in seconds between two times. If
+/// both times are undefined, those difference is "0", if only this is
+/// undefined the result is MINLONG, if only other is undefined MAXLONG is
+/// returned (-> undefined times are considered as (very) old).
+/// \param other: Object to compare
+/// \returns >0 if this other; 0 if this == other; <0 else Note : Undefined
+///     values are considered as (incredible) old "Younger dates" (closer to
+///     the past) are considered bigger than "older dates" (further in the
+///     past; that means the numeric value of the date is compared.
+//-----------------------------------------------------------------------------
 long ATime::compare (const ATime& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
 
@@ -352,15 +348,15 @@ long ATime::compare (const ATime& other) {
       return other.isDefined () ? -1 : 0;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the addition of two time-values. An undefined time is
-//            treated as "0:00:00"; if both objects are undefined, the result
-//            is undefined. Overflows of seconds or minutes are corrected,
-//            overflows of the hour undefines the object.
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
-//Returns   : ATime: Result of additon
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the addition of two time-values. An undefined time is treated as
+/// "0:00:00"; if both objects are undefined, the result is undefined.
+/// Overflows of seconds or minutes are corrected, overflows of the hour
+/// undefines the object.
+/// \param lhs: Left-hand-side of addition
+/// \param rhs: Right-hand-side of addition
+/// \returns ATime: Result of additon
+//-----------------------------------------------------------------------------
 ATime operator+ (const ATime& lhs, const ATime& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
 
@@ -369,15 +365,15 @@ ATime operator+ (const ATime& lhs, const ATime& rhs) {
    return result;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the substraction of two time-values. An undefined time
-//            is treated as "0:00:00"; if both objects are undefined, the
-//            result is undefined. Underflows of seconds or minutes are
-//            corrected, underflows of the hour undefines the object.
-//Parameters: lhs: Left-hand-side of substraction
-//            rhs: Right-hand-side of substraction
-//Returns   : ATime: Result of substraction
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns the substraction of two time-values. An undefined time is treated
+/// as "0:00:00"; if both objects are undefined, the result is undefined.
+/// Underflows of seconds or minutes are corrected, underflows of the hour
+/// undefines the object.
+/// \param lhs: Left-hand-side of substraction
+/// \param rhs: Right-hand-side of substraction
+/// \returns ATime: Result of substraction
+//-----------------------------------------------------------------------------
 ATime operator- (const ATime& lhs, const ATime& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
 
@@ -386,11 +382,11 @@ ATime operator- (const ATime& lhs, const ATime& rhs) {
    return result;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks if this object represents a valid time. Note: Even
-//            undefined times must have valid values!
-//Returns   : Status; 0: OK
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Checks if this object represents a valid time. Note: Even undefined times
+/// must have valid values!
+/// \returns Status; 0: OK
+//-----------------------------------------------------------------------------
 int ATime::checkIntegrity () const {
    TRACE9 ("ATime::checkIntegrity () const - " << (int)hour << ':'
            << (int)min_ << ':' << (int)sec);
@@ -398,11 +394,11 @@ int ATime::checkIntegrity () const {
    return (hour > 23) ? 3 : (min_ > 59) ? 2 : (sec > 61);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Corrects the object after an (possible) underflows. If the hour
-//            has an underflow. true is returned, else false.
-//Returns   : bool: True, if there큦 a underflow of hour
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Corrects the object after an (possible) underflows. If the hour has an
+/// underflow. true is returned, else false.
+/// \returns bool: True, if there큦 a underflow of hour
+//-----------------------------------------------------------------------------
 bool ATime::minAdapt () {
    if (sec > 61) {                                  // Adapt time if underflow
       --min_;
@@ -422,11 +418,11 @@ bool ATime::minAdapt () {
    return false;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Corrects the object after an (possible) overflows. If the hour
-//            has an overflow true is returned, else false.
-//Returns   : bool: True, if there큦 a overflow of the hour
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Corrects the object after an (possible) overflows. If the hour has an
+/// overflow true is returned, else false.
+/// \returns bool: True, if there큦 a overflow of the hour
+//-----------------------------------------------------------------------------
 bool ATime::maxAdapt () {
    if (sec > 59) {                                   // Adapt time if overflow
       sec -= 59;
@@ -446,11 +442,11 @@ bool ATime::maxAdapt () {
    return false;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the hour of the passed valued
-//Parameters: Hour: Hour to set
-//Throws    : std::invalid_argument if the parameter is bigger than 23
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets the hour of the passed valued
+/// \param Hour: Hour to set
+/// \throw \c std::invalid_argument if the parameter is bigger than 23
+//-----------------------------------------------------------------------------
 void ATime::setHour (char Hour) throw (std::invalid_argument) {
    if (hour > 23) {
       TRACE0 ("ATime::setHour -> Invalid parameter: " << Hour);
@@ -460,11 +456,11 @@ void ATime::setHour (char Hour) throw (std::invalid_argument) {
    setDefined ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the minute to the passed value
-//Parameters: minute: Minute to set
-//Throws    : std::invalid_argument if the parameter is bigger than 59
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets the minute to the passed value
+/// \param minute: Minute to set
+/// \throw \c std::invalid_argument if the parameter is bigger than 59
+//-----------------------------------------------------------------------------
 void ATime::setMinute (char minute) throw (std::invalid_argument) {
    if (minute > 59) {
       TRACE0 ("ATime::setMinute -> Invalid parameter: " << minute);
@@ -474,11 +470,11 @@ void ATime::setMinute (char minute) throw (std::invalid_argument) {
    setDefined ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the second to the passed value.
-//Parameters: second: Second to set
-//Throws    : std::invalid_argument if the parameter is bigger than 61
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets the second to the passed value.
+/// \param second: Second to set
+/// \throw \c std::invalid_argument if the parameter is bigger than 61
+//-----------------------------------------------------------------------------
 void ATime::setSecond (char second) throw (std::invalid_argument) {
    if (second > 61) {
       TRACE0 ("ATime::setSecond -> Invalid parameter: " << second);
@@ -488,12 +484,13 @@ void ATime::setSecond (char second) throw (std::invalid_argument) {
    setDefined ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the time to a struct tm
-//Returns   : struct tm: Time in struct tm-format; the date-part is set to zeros
-//Remarks   : It is not checked if the date is in the right range for a
-//            struct tm (after 1900 and before 2039)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the time to a struct tm
+/// \returns struct tm: Time in struct tm-format; the date-part is set to
+///     zeros
+/// \remarks It is not checked if the date is in the right range for a struct
+///     tm (after 1900 and before 2039)
+//-----------------------------------------------------------------------------
 struct tm ATime::toStructTM () const {
    struct tm result;
 
