@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.2 2000/12/07 21:16:59 Markus Exp $
+// $Id: StackTrc.cpp,v 1.3 2001/01/11 20:19:09 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -26,7 +26,7 @@
 
 
 #include <stdio.h>
-#include <alloc.h>
+#include <malloc.h>
 #include <assert.h>
 
 #include <signal.h>
@@ -65,13 +65,13 @@ void handleSignal (int signal) {
 //            down to the stack for the caller.
 /*--------------------------------------------------------------------------*/
 void dumpStack () {
-   char* pBuffer ((char*)malloc (64));
+   char* pBuffer = (char*)malloc (64);
 
    sprintf (pBuffer, "dumpStack @ %p", dumpStack);
    PRINT (pBuffer);
 
    // Let pStack point to base-pointer
-   int* pStack (((int*)(&pBuffer)) + 1);
+   int* pStack = ((int*)(&pBuffer)) + 1;
 
    while (*pStack) {
       // Check if the stack is aligned
@@ -81,7 +81,7 @@ void dumpStack () {
       // The address of the caller is next (behind) the basepointer
       sprintf (pBuffer, "Called by ?? @ %p", pStack[1]);
       PRINT (pBuffer);
-      
+
       pStack = (int*)*pStack;
    }
 
