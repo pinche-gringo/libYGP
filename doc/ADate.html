@@ -1,4 +1,4 @@
-<!-- $Id: ADate.html,v 1.8 2000/04/17 23:34:18 Markus Rel $ -->
+<!-- $Id: ADate.html,v 1.9 2001/01/19 14:42:08 Markus Exp $ -->
 
 <html>
   <head>
@@ -25,6 +25,11 @@
     <h2>Description</h2>
     <p>Class for date attributes. As every AttributValue is supports undefined
       values.</p>
+
+    <p>Note that it's possible to calculate with ADate-objects. But beware,
+      that the results are not always intuitive (e.g. what's today - today?
+      Mathematically it's the 0.0.0, which is not a valid date and therefore
+      changed to the 31.12.-1; a result which might not be expected).</p>
 
     <hr noshade>
     <table border="0">
