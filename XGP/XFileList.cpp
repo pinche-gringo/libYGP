@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.9 2000/04/07 22:46:10 Markus Exp $
+//$Id: XFileList.cpp,v 1.10 2000/04/12 16:20:02 Markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -144,9 +144,9 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
       iconDef.create_from_xpm_d (NULL, bitmap, color, iconDefault);
       iconExe.create_from_xpm_d (NULL, bitmap, color, iconExecuteable);
 #else
-      iconDir.create_from_xpm_d (&iconDir, bitmap, color, iconDirectory);
-      iconDef.create_from_xpm_d (&iconDef, bitmap, color, iconDefault);
-      iconExe.create_from_xpm_d (&iconExe, bitmap, color, iconExecuteable);
+      iconDir.create_from_xpm_d (iconDir, bitmap, color, iconDirectory);
+      iconDef.create_from_xpm_d (iconDef, bitmap, color, iconDefault);
+      iconExe.create_from_xpm_d (iconExe, bitmap, color, iconExecuteable);
 #endif
    } // endif first call to loadIcons: Create default-icons
 
@@ -168,7 +168,8 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       icons[file.name () + namePrefix].create_from_xpm (NULL, color, filename);
 #else
-      icons[file.name () + namePrefix].create_from_xpm (*this, color, filename);
+      icons[file.name () + namePrefix].create_from_xpm
+	(icons[file.name () + namePrefix], color, filename);
 #endif
       rc = ds.find ();
    } // end-while icon-files found
@@ -183,7 +184,7 @@ gint XFileList::append (const dirEntry* file, const gchar* text[]) {
    CList::append (text);
    if (file)
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-      setIcon (get_rows () - 1, file);
+      setIcon (rows ().size () - 1, file);
 #else
       setIcon (rows () - 1, file);
 #endif
@@ -198,7 +199,7 @@ gint XFileList::append (const dirEntry* file, const vector<string> text) {
    CList::append (text);
    if (file)
 #if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-      setIcon (get_rows () - 1, file);
+      setIcon (rows ().size () - 1, file);
 #else
       setIcon (rows () - 1, file);
 #endif
