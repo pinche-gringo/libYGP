@@ -1,7 +1,7 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-//$Id: Check.h,v 1.5 2003/03/06 04:16:02 markus Rel $
+//$Id: Check.h,v 1.6 2004/01/05 07:42:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,7 +37,14 @@
 #define Check(expr)
 #define CheckMsg(expr, msg)
 #else
-int check (const char* expr, const char* file, unsigned int line);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+   int check (const char* expr, const char* file, unsigned int line);
+#ifdef __cplusplus
+}
+#endif
 
 #define Check(expr)        ((expr) ? 0 : check (__STRING(expr), __FILE__, __LINE__))
 #define CheckMsg(expr,msg) ((expr) ? 0 : check (msg, __FILE__, __LINE__))

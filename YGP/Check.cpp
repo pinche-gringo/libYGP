@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.14 2003/11/16 19:25:55 markus Rel $
+//$Id: Check.cpp,v 1.15 2004/01/05 07:42:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -32,6 +32,7 @@
 
 #include "YGP/Check.h"
 
+extern "C" {
 
 #if SYSTEM == UNIX
 #  ifdef HAVE_GTK
@@ -94,4 +95,6 @@ int check (const char* expr, const char* file, unsigned int line) {
    }
    std::cerr << "\t-> Continue\n";
    return 0;
+}
+
 }
