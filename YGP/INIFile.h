@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.8 2001/08/26 14:38:26 markus Exp $
+//$Id: INIFile.h,v 1.9 2001/09/25 21:19:02 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,14 +25,53 @@
 //
 // [Section1]
 // Key1=Value1
-// Key2=Value2
+// Key2=2
 //
 // [Section2]
-// Key3=Value3
+// Key3=03012000
 //
 // Every key must be inside a section (which means after a section-entry). A
 // section is ended with the begin of a new section.
-
+//
+// There are some predefined macros to make the generation of the
+// data-structure to parse an INI-file easier. They must be used in
+// that (top-down) order.
+//
+// INIFILE (file) 
+//      Defines an object of type INIFile named _inifile_;
+//        
+//INISECTION (name) Defines an object of type INISection. Both the
+//      defined variable and the section-name in the INI-file are called
+//      name.
+//
+//      Note: This macro defines a variable (of type INISection) called name.
+//
+//INIATTR (section, type, name)
+//      Defines an attribute for section section having the key (in the INI-file)
+//      of name. The value of this key is assigned to a variable of type type and
+//      (also) name name. 
+//
+//      Note: This macro defines a variable (of type INIAttribute<type>) called name_.
+//
+//INIATTR2 (section, type, attr, name) 
+//      Defines an attribute for section section having the key (in
+//      the INI-file) of name. The value of this key is assigned to a
+//      variable of type type and name attr.
+//
+//      Note: This macro defines a variable (of type INIAttribute<type>) called name_.
+//
+// To parse the INI-file above use the following commands:
+//
+//    int Key1;
+//    std::string attr2;
+//    ADate Key3;
+//
+//    INIFILE ("Test.ini");
+//    INISECTION (Section1);
+//    INIATTR (Local, int, Key1);
+//    INIATTR2 (Local, std::string, attr2, Key2);
+//    INISECTION (Section2);
+//    INIATTR (Local, ADate, Key3);
 
 #include <stdlib.h>
 #include <assert.h>
@@ -57,7 +96,12 @@
 #define INIFILE_READ()       _inifile_.read ();
                             
 
-// Class to bundle attributes of an INI-file together (into a section)
+// Class to handle the information stored in a section of an INI-file.
+// Usually this class is just used to bundle the attributes of a
+// section together; none of their members is called directly. The
+// only exception is for INI-files without any section, only with
+// attributes. In that case the readAttributes-member can be used to
+// parse those values (regardless of any header-information).
 class INISection {
  public:
    INISection (const char* name);
@@ -65,7 +109,7 @@ class INISection {
 
    const IAttribute* findAttribute (const std::string& name) const;
    const IAttribute* findAttribute (const char* name) const;
-   void addAttribute (IAttribute& attribute) throw (std::string);
+   void addAttribute (const IAttribute& attribute) throw (std::string);
 
    int readFromStream (Xistream& stream) throw (std::string);
    int readAttributes (Xistream& stream) throw (std::string);
@@ -83,7 +127,7 @@ class INISection {
 
  private:
    const char* pName;
-   std::vector<IAttribute*> attributes;
+   std::vector<const IAttribute*> attributes;
 
    INISection (const INISection&);
    INISection& operator= (const INISection&);
@@ -91,7 +135,7 @@ class INISection {
    typedef OFParseAttomic<INISection> OMParseAttomic;
    typedef OFParseText<INISection>    OMParseText;
 
-   IAttribute* pFoundAttr;
+   const IAttribute* pFoundAttr;
 
    // Parser-Objects
    ParseObject*   _Section[3];
