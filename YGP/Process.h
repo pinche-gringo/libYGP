@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.1 2003/02/05 02:03:00 markus Exp $
+//$Id: Process.h,v 1.2 2003/02/05 15:06:05 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,9 +21,19 @@
 #include <string>
 
 
+// Class to execute a program while capturing its output.
+// Includes also error-handling
 class Process {
  public:
    static void execAsync (const char* file, const char* const arguments[])
+      throw (std::string) {
+      start (file, arguments, false); }
+   static void execute (const char* file, const char* const arguments[])
+      throw (std::string) {
+      start (file, arguments, true); }
+
+ protected:
+   static void start (const char* file, const char* const arguments[], bool wait)
       throw (std::string);
 
  private:
