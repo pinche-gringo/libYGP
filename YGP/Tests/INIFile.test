@@ -1,15 +1,18 @@
+; Global section ; parsed by INISection
 [Global]
 Attr1=1
 Attr2=value2
 Attr3=1999
 Attr4=29022000
 
+; Further sections ; parse by INISection
 [Special]
 Attr5=
 Attr6=28021900 113015
 
 [Local]
 Attr1=2
+; Just An attribute
 Attr2=value1
 Attr3=2000
 Attr4=28021999
