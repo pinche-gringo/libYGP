@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.4 2002/05/01 00:42:57 markus Rel $
+// $Id: DirSrch.cpp,v 1.5 2002/05/24 06:59:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -67,7 +67,7 @@ int main (int argc, char* argv[]) {
    check (ds.find (".", DirectorySearch::FILE_DIRECTORY
                         | IDirectorySearch::FILE_HIDDEN));
    std::string temp ("..");
-   temp += File::DIRSEPERATOR;
+   temp += File::DIRSEPARATOR;
    temp += "Tests";
    check (ds.find (temp.c_str (), IDirectorySearch::FILE_DIRECTORY));
    check (!ds.next ());
@@ -76,7 +76,7 @@ int main (int argc, char* argv[]) {
 
    check (!ds.find ("CVS", IDirectorySearch::FILE_NORMAL));
 
-   check (ds.find (std::string (1, File::DIRSEPERATOR),
+   check (ds.find (std::string (1, File::DIRSEPARATOR),
                    IDirectorySearch::FILE_DIRECTORY));
 
    if (cErrors)
