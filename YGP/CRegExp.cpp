@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.6 2000/05/21 13:58:29 Markus Exp $
+//$Id: CRegExp.cpp,v 1.7 2000/05/21 18:46:56 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 0
+#define DEBUG 3
 #include "Trace_.h"
 
 #include "CRegExp.h"
@@ -33,7 +33,7 @@
 
 #ifndef HAVE_REGEX_H
 #  include <ctype.h>
-#  define isclass(type, str, ch) (!strncmp ((str), #type, sizeof (#type) - 1) && is##type (ch))
+#  define isclass(type,str,ch) (strncmp ((str), #type, sizeof (#type) - 1) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
 
 
@@ -115,9 +115,23 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
          if (*pEnd == REGIONEND)
             ++pEnd;
 
-         pEnd = strchr (pEnd, REGIONEND); assert (pEnd);
+         // Search for end-of-region, with regard of region-classes ([:xxx:])
+         for (int cClass = 0; *pEnd != REGIONEND; ++pEnd) {
+            TRACE9 ("Search for region-end: " << *pEnd);
+
+            if (*pEnd == REGIONCLASS) {
+               if (pEnd[-1] == REGIONBEGIN)
+                  ++cClass;
+               else
+                  if (pEnd[1] == REGIONEND)
+                     if (!cClass--)          // If no class left -> Exit anyway
+                        break;
+                     ++pEnd;
+            } // endif region-class found
+         } // end-for region-end found
+
          lastExpr.assign (pAktRegExp + 1, pEnd - pAktRegExp - 1);
-         TRACE5 ("Found region: " << lastExpr.c_str ());
+         TRACE4 ("Found region: " << lastExpr.c_str ());
          fnCompare = &RegularExpression::compRegion;
          break;
 
@@ -138,7 +152,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
             // TODO: ALTERNATIVE
 
             lastExpr.assign (pAktRegExp, pEnd - pAktRegExp);
-            TRACE5 ("Found group: " << lastExpr.c_str ());
+            TRACE4 ("Found group: " << lastExpr.c_str ());
             fnCompare = &RegularExpression::compGroup;
          } // end GROUPBEGIN
          else {
@@ -162,18 +176,18 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
 
       switch (pEnd[1]) {
       case MULTIMATCH1:
-         TRACE7 ("Possible count = 0, 1");
+         TRACE6 ("Possible count = 0, 1");
          (this->*fnCompare) (pCompare, lastExpr);
          ++pEnd;
          break;
 
       case MULTIMATCHMAND:
-         TRACE7 ("Possible count = 1, -1");
+         TRACE6 ("Possible count = 1, -1");
          if (!(this->*fnCompare) (pCompare, lastExpr))  // Must be min. 1 match
             return false;
 
       case MULTIMATCHOPT: {
-         TRACE7 ("Possible count = 0, -1");
+         TRACE6 ("Possible count = 0, -1");
 
           // Hm, what's faster? To find the last position of the last (small)
          // expression and the search back for the last position matching the
@@ -192,7 +206,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
          break;
 
       default:
-         TRACE7 ("Possible count = 1");
+         TRACE6 ("Possible count = 1");
          if (!(*pCompare && (this->*fnCompare) (pCompare, lastExpr)))
             return false;
       } // end-switch
@@ -228,63 +242,62 @@ bool RegularExpression::compRegion (const char*& pAktPos,
    } // endif
 
    char ch (*pRegion);
-   bool found (false);
 
    do {
-      switch (pRegion[1]) {
-      case RANGE: {
+      if (pRegion[1] == RANGE) {
          char chUpper (pRegion[2]);
          assert (chUpper != '\0');  assert (chUpper != REGIONEND);
 
-         TRACE9 ("Check " << *pAktPos << " in [" << ch << '-' << chUpper << ']');
+         TRACE7 ("Check " << *pAktPos << " in [" << ch << '-' << chUpper << ']');
          if ((*pAktPos >= ch) && (*pAktPos <= chUpper))
-            found = true;
-         else
-            pRegion += 2;
-         break;
-         }
-         break;
+            break;
 
-      case REGIONBEGIN:
-         if (pRegion[1] == REGIONCLASS) {
-            char* pEndClass = strchr (pRegion + 2, REGIONCLASS);
-            if (pEndClass && (pEndClass[1] == REGIONEND)) {
-               TRACE9 ("Check " << ch << " against region-classes");
+         pRegion += 2;
+      } // endif range found
+      else {
+         // Check for class of characters or ordinary char
+         char* pEndClass = NULL;
 
-               if (isclass (alnum, pRegion + 2, *pAktPos)
-                   || isclass (alpha, pRegion + 2, *pAktPos)
-                   || isclass (cntrl, pRegion + 2, *pAktPos)
-                   || isclass (digit, pRegion + 2, *pAktPos)
-                   || isclass (graph, pRegion + 2, *pAktPos)
-                   || isclass (lower, pRegion + 2, *pAktPos)
-                   || isclass (print, pRegion + 2, *pAktPos)
-                   || isclass (punct, pRegion + 2, *pAktPos)
-                   || isclass (space, pRegion + 2, *pAktPos)
-                   || isclass (upper, pRegion + 2, *pAktPos)
-                   || isclass (xdigit, pRegion + 2, *pAktPos)) {
-                 TRACE9 ("Check " << ch << " matches region-classes"
-                         << setw (pRegion + 2 - pEndClass) << pRegion + 2);
+         if ((ch == REGIONBEGIN) && (pRegion[1] == REGIONCLASS)
+              && ((pEndClass = strchr (pRegion + 2, REGIONCLASS)) != NULL)
+              && (pEndClass[1] == REGIONEND)) {
+	    TRACE7 ("Check " << *pAktPos << " against region-class " << pRegion + 2);
 
-                 pRegion = pEndClass + 1;
-                 found = true;
-                 break;
-               } // endif 
-            } // endif 
-         } // endif 
+            int temp (0);
+            int val ((temp = isclass (alnum, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (alpha, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (digit, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (space, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (cntrl, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (graph, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (print, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (punct, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (upper, pRegion + 2, *pAktPos)) ? temp :
+		     (temp = isclass (lower, pRegion + 2, *pAktPos)) ? temp :
+		     (isclass (xdigit, pRegion + 2, *pAktPos)));
+            if (val == 2) {
+               TRACE8 ("Check " << *pAktPos << " matches region-classes"
+                        << setw (pRegion + 2 - pEndClass) << pRegion + 2);
+               break;
+            } // endif class and input matches
+            else {
+               TRACE8 ("Check " << *pAktPos << " doesn't match region-class "
+                       << setw (pRegion + 2 - pEndClass) << pRegion);
+               if (val)
+                  pRegion = pEndClass + 1;
+            } // end-else class found, but input doesn't match
+         } // endif
+         else {
+            TRACE7 ("Check " << *pAktPos << " == " << ch);
+            if (ch == *pAktPos)
+               break;
+         } // end-else ordinary character
+      } // end-else non-range
 
-	 // Not a class -> Check for ordinary character
-      default:
-         TRACE9 ("Check " << *pAktPos << " == " << ch);
-         if (ch == *pAktPos)
-            found = true;
-      } // end-switch
-
-      if (found)
-	 break;
       ch = *++pRegion;
    } while (ch != '\0'); // end-do
 
-   if (found == fNeg)
+   if ((ch != '\0') == fNeg)
       return false;
 
    ++pAktPos;
@@ -370,29 +383,21 @@ bool RegularExpression::compEscChar (const char*& pAktPos,
 
    case WORDBORDER:
       assert (pAktPos >= getExpression ());
-      if (pAktPos == getExpression ()
-          || !(isalnum (pAktPos[-1]) || isalnum (pAktPos[1])))
-         break;
-      return false;
+      return (pAktPos == getExpression () || !isalnum (*pAktPos));
 
    case NOTWORDBORDER:
       assert (pAktPos >= getExpression ());
-      if (pAktPos == getExpression ()
-          || (isalnum (pAktPos[-1]) || isalnum (pAktPos[1])))
-         break;
-      return false;
+      return isalnum (*pAktPos);
 
    case WORDBEGIN:
       assert (pAktPos >= getExpression ());
-      if (pAktPos == getExpression () || !isalnum (pAktPos[-1]))
-         break;
-      return false;
+      return (pAktPos == getExpression ()
+              || (!isalnum (*pAktPos)) && isalpha (pAktPos[1]));
 
    case WORDEND:
       assert (pAktPos >= getExpression ());
-      if (pAktPos == getExpression () || isalnum (pAktPos[-1]))
-         break;
-      return false;
+      return (pAktPos != getExpression ()
+              && isalnum (*pAktPos) && !isalnum (pAktPos[-1]));
 
    default:
       return compChar (pAktPos, ch);
