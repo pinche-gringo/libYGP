@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.46 2001/03/25 09:55:28 markus Exp $
+// $Id: Test.cpp,v 1.47 2001/04/02 21:05:39 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -464,12 +464,12 @@ int Application::perform (int argc, const char* argv[]) {
    check (!ds.find (".", file, DirectorySearch::FILE_DIRECTORY
                                | DirectorySearch::FILE_HIDDEN));
    std::string temp ("..");
-   temp += DirectorySearch::getSplitChar ();
+   temp += dirEntry::DIRSEPERATOR;
    temp += "Common";
-   temp += DirectorySearch::getSplitChar ();
+   temp += dirEntry::DIRSEPERATOR;
    check (!ds.find (temp.c_str (), file, DirectorySearch::FILE_DIRECTORY));
    temp = "..";
-   temp += DirectorySearch::getSplitChar ();
+   temp += dirEntry::DIRSEPERATOR;
    temp += "X-windows";
    check (!ds.find (temp.c_str (), file, DirectorySearch::FILE_DIRECTORY));
    check (ds.find ());
