@@ -1,14 +1,14 @@
-//$Id: XAbout.cpp,v 1.8 2002/04/11 18:33:46 markus Exp $
+//$Id: XAbout.cpp,v 1.9 2002/04/22 21:07:32 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #define DEBUG 0
 #include "Trace_.h"
 #include "Check.h"
+#include "Internal.h"
 
 #include "XAbout.h"
 
@@ -44,7 +45,7 @@
 /*--------------------------------------------------------------------------*/
 XAbout::XAbout (const string& author, const string& program)
    : Dialog (), writer (new Label (author)), client (new HBox ())
-   , gpl (new Label ("Distributed under the terms of the GNU General Public License"))
+     , gpl (new Label (_("Distributed under the terms of the GNU General Public License")))
    , ok (new Button ("OK")) {
    Check3 (gpl); Check3 (writer); Check3 (client);
 

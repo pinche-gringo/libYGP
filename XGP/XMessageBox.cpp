@@ -1,14 +1,14 @@
-//$Id: XMessageBox.cpp,v 1.8 2002/04/09 04:09:05 markus Exp $
+//$Id: XMessageBox.cpp,v 1.9 2002/04/22 21:09:00 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XMessageBox
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,12 +34,14 @@
 #define DEBUG 0
 #include "Trace_.h"
 
+#include "Internal.h"
 #include "XMessageBox.h"
 
 
-const char* const XMessageBox::titles[] = { "Info", "Question", "Warning", "Error",
-                                            "Critical" };
-const char* const XMessageBox::labels[] = { "OK", "Retry", "Yes", "No", "Cancel"};
+const char* const XMessageBox::titles[] = { N_("Info"), N_("Question"), N_("Warning"),
+                                            N_("Error"), N_("Critical") };
+const char* const XMessageBox::labels[] = { N_("OK"), N_("Retry"), N_("Yes"), N_("No"),
+                                            N_("Cancel") };
 const char* const * const XMessageBox::icons[] = { iconInfo, iconQuestion, iconWarning,
                                                    iconError, iconCritical };
 
@@ -433,7 +435,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
       assert ((flags & TYPEMASK) < (sizeof (titles) / sizeof (titles[0])));
       TRACE8 ("XMessageBox::XMessageBox (const string&, const string&,"
               " int, unsigned int)\n - Defaulttitle: " << titles[flags & TYPEMASK]);
-      set_title (titles[flags & TYPEMASK]);
+      set_title (_(titles[flags & TYPEMASK]));
    }
    else
       set_title (title);
@@ -453,7 +455,7 @@ XMessageBox::XMessageBox (const string& text, const string& title,
          TRACE5 ("XMessageBox::XMessageBox (const string&, const string&,"
                  " int, unsigned int)\n - Add Button " << labels[i]);
 
-         Button* temp (new Button (labels[i]));       // Create button
+         Button* temp (new Button (_(labels[i])));            // Create button
 
 	 temp->clicked.connect (bind (slot (this, &XMessageBox::perform),
                                       1 << (i + TYPEBITS)));

@@ -1,14 +1,14 @@
-//$Id: XFileDlg.cpp,v 1.5 2000/04/21 13:07:40 Markus Rel $
+//$Id: XFileDlg.cpp,v 1.6 2002/04/22 21:07:32 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
 #define DEBUG 0
 #include "Trace_.h"
 #include "Check.h"
+#include "Internal.h"
 
 #include "XFileDlg.h"
 #include "XMessageBox.h"
@@ -101,20 +102,21 @@ void XFileDialog::command (commandID id) {
          switch (opt) {
 	 case MUST_EXIST:
             if (rc) {                // File does not exist: Show msg and exit
-               XMessageBox::Show (string ("File '") + filename
-                                  + string ("' does not exist!"),
-                                  XMessageBox::ERROR);
+               std::string error (_("File `%1' does not exist!"));
+               error.replace (error.find ("%1"), 2, filename);
+               XMessageBox::Show (error, XMessageBox::ERROR);
                return;
             }
             break;
 
          case ASK_OVERWRITE:
-            if (!rc)
-               if ((rc = XMessageBox::Show (string ("File '") + filename
-                                      + string ("' exists! Overwrite?"),
-                                     XMessageBox::QUESTION | XMessageBox::YESNO))
+            if (!rc) {
+               std::string msg (_("File `%1' exists! Overwrite?"));
+               msg.replace (msg.find ("%1"), 2, filename);
+               if ((rc = XMessageBox::Show (msg, XMessageBox::QUESTION | XMessageBox::YESNO))
                    != XMessageBox::YES)
                   return;
+            }
             break;
 	 } // end-switch option
       } // endif option set 

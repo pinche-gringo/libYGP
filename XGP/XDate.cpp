@@ -1,14 +1,14 @@
-//$Id: XDate.cpp,v 1.6 2002/04/11 18:33:46 markus Exp $
+//$Id: XDate.cpp,v 1.7 2002/04/22 21:07:32 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Anticopyright (A) 1999
+//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,9 +35,10 @@
 #define DEBUG 0
 #include <Check.h>
 #include <Trace_.h>
+#include <Internal.h>
 
-#include <ATStamp.h>
-#include <XMessageBox.h>
+#include "ATStamp.h"
+#include "XMessageBox.h"
 
 #include "XDate.h"
 
@@ -49,8 +50,8 @@
 //            showFields: Bitfield describing wich fields to show
 /*--------------------------------------------------------------------------*/
 XDate::XDate (const string& title, ATimestamp& date, int showFields)
-   : Dialog (), ok (new Button ("OK"))
-   , cancel (new Button ("Cancel")), client (new HBox)
+   : Dialog (), ok (new Button (_("OK")))
+   , cancel (new Button (_("Cancel"))), client (new HBox)
    , adjDay (new Adjustment (1, 1, 31, 1, 10, 10))
    , spinDay (new SpinButton (*adjDay, 1, 0))
    , adjMonth (new Adjustment (1, 1, 12, 1, 4, 4))
@@ -155,8 +156,9 @@ void XDate::command (commands id) {
       help.setDay (spinDay->get_value_as_int ());
 
       if (help.checkIntegrity ()) {
-         XMessageBox::Show (string ("Date '") + help.toString () + "' is not valid!",
-                            XMessageBox::CANCEL | XMessageBox::ERROR);
+         std::string error (_("Date `%1' is not valid!"));
+         error.replace (error.find ("%1"), 2, help.toString ());
+         XMessageBox::Show (error, XMessageBox::CANCEL | XMessageBox::ERROR);
          return;
       }
       else {
