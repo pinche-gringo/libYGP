@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.11 2002/05/09 08:10:33 markus Rel $
+//$Id: ygp-cfg.h.in,v 1.12 2002/05/24 02:06:45 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -64,9 +64,11 @@
 /* Define for working regex.h */
 #undef HAVE_REGEX_H
 
-
 /* Define for working regexp.h */
 #undef HAVE_REGEXP_H
+
+/* Define for defined SIGBUS */
+#undef HAVE_SIGBUS
 
 
 /* Leave that blank line there!!  Autoheader needs it.
@@ -231,6 +233,9 @@
 
 /* Define if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
+
+/* Define if you have the `timegm' function. */
+#undef HAVE_TIMEGM
 
 /* Define if you have the `tsearch' function. */
 #undef HAVE_TSEARCH
