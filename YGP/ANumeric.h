@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.28 2003/03/06 04:16:02 markus Exp $
+//$Id: ANumeric.h,v 1.29 2003/03/06 04:56:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -134,6 +134,41 @@ class ANumeric : public AttributValue {
       return mpz_get_si (value);
 #else
       return value;
+#endif
+   }
+   operator unsigned long int () const {
+#ifdef HAVE_LIBGMP
+      return mpz_get_si (value);
+#else
+      return static_cast<unsigned long int> (value);
+#endif
+   }
+   operator int () const {
+#ifdef HAVE_LIBGMP
+      return static_cast<int> (mpz_get_si (value));
+#else
+      return static_cast<int> (value);
+#endif
+   }
+   operator unsigned int () const {
+#ifdef HAVE_LIBGMP
+      return static_cast<unsigned int> (mpz_get_si (value));
+#else
+      return static_cast<unsigned int> (value);
+#endif
+   }
+   operator short int () const {
+#ifdef HAVE_LIBGMP
+      return static_cast<short int> (mpz_get_si (value));
+#else
+      return static_cast<short int> (value);
+#endif
+   }
+   operator unsigned short int () const {
+#ifdef HAVE_LIBGMP
+      return static_cast<unsigned short int> (mpz_get_si (value));
+#else
+      return static_cast<unsigned short int> (value);
 #endif
    }
 
