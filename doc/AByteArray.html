@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: AByteArray.html,v 1.6 2002/11/09 06:25:03 markus Exp $ -->
+<!-- $Id: AByteArray.html,v 1.7 2002/11/19 21:51:21 markus Exp $ -->
 
 <html>
   <head>
@@ -33,7 +33,7 @@
       values.</p>
 
     <p>In counterpart to the std::string-class this class distinguishes between an
-      empty value and not defined (as every AttributValue.</p>
+      empty value and not defined (as every AttributValue).</p>
 
     <hr noshade>
     <table border="0">
@@ -90,7 +90,7 @@
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pValue</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="AByteArray.html"><b>AByteArray</b></a>&amp;</tt> </td>
         <td><a href="AByteArray.html#assign3"><b>assign</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pValue</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">len</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pValue</font></tt>, <tt><font color="navy">unsigned</font></tt> <tt><font color="purple">int</font></tt> <tt><font color="blue">length</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="AByteArray.html"><b>AByteArray</b></a>&amp;</tt> </td>
         <td><a href="AByteArray.html#assign5"><b>assign</b></a></td>
         <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">ch</font></tt>)</tt>;</td></tr>
@@ -391,467 +391,1079 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="AByteArray"></a>AByteArray ()</pre>
+    <h3><font color="navy">Management functions</font></h3>
+    <pre><a name="AByteArray"></a><b>AByteArray</b> ()</pre>
     <dl>
-      <dd>Defaultconstructor; the value is not defined</dd>
+      <dd><p>Defaultconstructor; the value is not defined</p></dd>
     </dl>
-    <pre><a name="AByteArray2"></a>AByteArray (const AByteArray&amp; other)</pre>
-    <pre><a name="AByteArray3"></a>AByteArray (unsigned int length)</pre>
+    <hr>
+    <pre><a name="AByteArray2"></a><b>AByteArray</b> (const AByteArray&amp; other)</pre>
+    <dl>
+      <dd><p>Copyconstructor</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Object to copy</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="AByteArray3"></a><b>AByteArray</b> (unsigned int length)</pre>
     <dl>
       <dd><p>Constructor; the object is created with reserved memory of &lt;length&gt;
         bytes (to minimize further re-allocation of memory in case of appending).</p>
-	<p>Although the object contains no value it is still set to be defined.</p></dd>
+	<p>Although the object contains no value it is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>length</code> - Number of bytes to reserve</dd></dl></dd>
     </dl>
-    <pre><a name="AByteArray4"></a>AByteArray (int length)</pre>
+    <hr>
+    <pre><a name="AByteArray4"></a><b>AByteArray</b> (int length)</pre>
     <dl>
       <dd><p>Constructor; the object is created with reserved memory of &lt;length&gt;
         bytes (to minimize further re-allocation of memory in case of appending).</p>
-	<p>Although the object contains no value it is still set to be defined.</p></dd>
+	<p>Although the object contains no value it is defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>length</code> - Number of bytes to reserve</dd></dl></dd>
     </dl>
-    <pre><a name="AByteArray5"></a>AByteArray (char ch)</pre>
+    <hr>
+    <pre><a name="AByteArray5"></a><b>AByteArray</b> (char ch)</pre>
     <dl>
-      <dd>Constructor; the character is set in the object.</dd>
+      <dd><p>Constructor; the character is set in the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>ch</code> - Value to set in the object</dd></dl></dd>
     </dl>
-    <pre><a name="AByteArray6"></a>AByteArray (const char* pSource)</pre>
+    <hr>
+    <pre><a name="AByteArray6"></a><b>AByteArray</b> (const char* pSource)</pre>
     <dl>
-      <dd><p>Constructor; the input is copied into the object</p>
-        <p><b>Note:</b>The pSource-pointer must be valid and not NULL!</p></dd>
+      <dd><p>Constructor; the input is copied into the object</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pSource</code> - Pointer to the initial value</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pSource</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="AByteArray7"></a>AByteArray (const char* pSource, unsigned int length)</pre>
+    <hr>
+    <pre><a name="AByteArray7"></a><b>AByteArray</b> (const char* pSource, unsigned int length)</pre>
     <dl>
       <dd><p>Constructor; exactly length bytes (including zero-bytes) from
-             the input are copied into the object.</p>
-        <p><b>Note:</b>The pSource-pointer must be valid and not NULL!</p></dd>
+             the input are copied into the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pSource</code> - Pointer to the initial value</dd>
+                  <dd><code>length</code> - Number of the character array to copy</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pSource</code> must be a valid pointer to a character array
+              of at least <code>length</code> bytes</dd></dl></dd>
     </dl>
-    <pre><a name="AByteArray8"></a>AByteArray (const std::string&amp; str)</pre>
+    <hr>
+    <pre><a name="AByteArray8"></a><b>AByteArray</b> (const std::string&amp; str)</pre>
     <dl>
-      <dd>Constructor; the string is copied into the object.</dd>
+      <dd><p>Constructor; the string is copied into the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>str</code> - String to use as initial value</dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="~AByteArray"></a>virtual <b>~AByteArray</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd></dl>
+    <hr>
+    <pre><a name="operator="></a>AByteArray&amp; <b>operator=</b> (const AByteArray&amp; other)</pre>
+    <dl>
+      <dd><p>Assignment operator; if the other object specifies a differnt object,
+         its content is copied.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Object to duplicate</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=2"></a>AByteArray&amp; <b>operator=</b> (const char* pValue)</pre>
+    <dl>
+      <dd><p>Assigns the passed value to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pValue</code> - Pointer to the initial value</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pValue</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=3"></a>AByteArray&amp; <b>operator=</b> (const std::string&amp; str)</pre>
+    <dl>
+      <dd><p>Assigns the passed string to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>str</code> - String to use as initial value</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=4"></a>AByteArray&amp; <b>operator=</b> (char ch)</pre>
+    <dl>
+      <dd><p>Assigns the character to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>ch</code> - Value to set in the object</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="assign"></a>AByteArray&amp; <b>assign</b> (const AByteArray&amp; other)</pre>
+    <dl>
+      <dd><p>If the other object specifies a differnt object, its content is copied.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Object to duplicate</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="assign2"></a>AByteArray&amp; <b>assign</b> (const char* pValue)</pre>
+    <dl>
+      <dd><p>Assigns the passed value to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pValue</code> - Pointer to the initial value</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pValue</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="assign3"></a>AByteArray&amp; <b>assign</b> (const char* pValue, unsigned int length)</pre>
+    <dl>
+      <dd><p>Assigns len bytes of the passed value to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pValue</code> - Pointer to the initial value</dd>
+                  <dd><code>length</code> - Number of the character array to copy</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pValue</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="assign4"></a>AByteArray&amp; <b>assign</b> (const std::string&amp; str)</pre>
+    <dl>
+      <dd><p>Assigns the passed string to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>str</code> - String to use as initial value</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="assign5"></a>AByteArray&amp; <b>assign</b> (char ch)</pre>
+    <dl>
+      <dd><p>Assigns the character to the object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>ch</code> - Value to set in the object</dd></dl></dd>
     </dl>
 
-    <pre><a name="~AByteArray"></a>virtual ~AByteArray ()</pre>
-    <pre><a name="operator="></a>AByteArray&amp; operator= (const AByteArray&amp; other)</pre>
-    <pre><a name="operator=2"></a>AByteArray&amp; operator= (const char* pValue)</pre>
+    <hr>
+    <pre><a name="define"></a>void <b>define</b> ()</pre>
     <dl>
-      <dd><p>Copies the input into the object.</p>
-        <p><b>Note:</b>The pValue-pointer must be valid and not NULL!</p></dd>
-    </dl>
-    <pre><a name="operator=3"></a>AByteArray&amp; operator= (const std::string&amp; str)</pre>
-    <dl>
-      <dd>Copies the string into the object.</dd>
-    </dl>
-    <pre><a name="operator=4"></a>AByteArray&amp; operator= (char ch)</pre>
-    <dl>
-      <dd>Assigns the character to the object.</dd>
+      <dd><p>Defines the object and sets the value to empty.</p></dd>
     </dl>
 
-    <pre><a name="assign"></a>AByteArray&amp; assign (const AByteArray&amp; other)</pre>
-    <pre><a name="assign2"></a>AByteArray&amp; assign (const char* pValue)</pre>
+    <hr>
+    <pre><a name="undefine"></a>void <b>undefine</b> ()</pre>
     <dl>
-      <dd><p>Copies the input into the object</p>
-        <p><b>Note:</b>The pValue-pointer must be valid and not NULL!</p></dd>
-    </dl>
-    <pre><a name="assign3"></a>AByteArray&amp; assign (const char* pValue, unsigned int len)</pre>
-    <dl>
-      <dd><p>Copies exactly len bytes of the input into the object</p>
-        <p><b>Note:</b>The pValue-pointer must be valid and not NULL!</p></dd>
-    </dl>
-    <pre><a name="assign4"></a>AByteArray&amp; assign (const std::string&amp; str)</pre>
-    <dl>
-      <dd>Copies the string into the object.</dd>
-    </dl>
-    <pre><a name="assign5"></a>AByteArray&amp; assign (char ch)</pre>
-    <dl>
-      <dd>Sets the character as text of the object.</dd>
+      <dd><p>Undefines the object and deletes its contents.</p></dd>
     </dl>
 
-    <pre><a name="define"></a>void define ()</pre>
+    <h3><font color="navy">Query of data</font></h3>
+    <pre><a name="operator[]"></a>char <b>operator[]</b> (unsigned int pos) const throw (out_of_range)</pre>
     <dl>
-      <dd>Defines the object and sets the value to 0.</dd>
+      <dd><p>Retrieves the byte at the specified position.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pos</code> - Position to return</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The character at the specified position</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+            <dd><code>out_of_range</code> if the position is bigger
+               than the number of stored characters</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator[]2"></a>const char&amp; <b>operator[]</b> (unsigned int pos) throw (out_of_range)</pre>
+    <dl>
+      <dd><p>Retrieves a reference to the byte at the specified position.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pos</code> - Position to return</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to the character at the specified position</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+            <dd><code>out_of_range</code> if the position is bigger
+               than the number of stored characters</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="at"></a>const char&amp; <b>at</b> (unsigned int pos) const throw (out_of_range)</pre>
+    <dl>
+      <dd><p>Retrieves a reference to the byte at the specified position.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pos</code> - Position to return</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to the character at the specified position</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+            <dd><code>out_of_range</code> if the position is bigger
+               than the number of stored characters</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="at2"></a>char&amp; <b>at</b> (unsigned int pos) throw (out_of_range)</pre>
+    <dl>
+      <dd><p>Retrieves a reference to the byte at the specified position.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pos</code> - Position to return</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to the character at the specified position</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+            <dd><code>out_of_range</code> if the position is bigger
+               than the number of stored characters</dd></dl></dd>
     </dl>
 
-    <pre><a name="undefine"></a>void undefine ()</pre>
+    <hr>
+    <pre><a name="length"></a>int <b>length</b> () const</pre>
     <dl>
-      <dd>Undefines the object and clears its information.</dd>
+      <dd><p>Returns the number of characters stored in the object.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The number of characters stored in the object</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="data"></a>const char* <b>data</b> () const</pre>
+    <dl>
+      <dd><p>Returns a pointer to the stored data.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A pointer to the stored data. If the object is undefined a
+                NULL-pointer is returned.</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="empty"></a>bool <b>empty</b> () const</pre>
+    <dl>
+      <dd><p>Returns if the object has data stored.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True, if the object is defined and has a length of at least 1
+                character; else false</dd></dl></dd>
     </dl>
 
-    <pre><a name="define"></a>void define ()</pre>
+    <h3><font color="navy">Conversion</font></h3>
+    <pre><a name="toString"></a>virtual std::string <b>toString</b> () const</pre>
     <dl>
-      <dd>Defines the object with an empty contents.</dd>
+      <dd><p>Converts the object into a string.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A string representing the object. If the object is not defined, the
+                returned string is empty.</dd></dl></dd>
     </dl>
 
-    <h4>Query of data</h4>
-    <pre><a name="operator[]"></a>char operator[] (unsigned int pos) const throw (out_of_range)</pre>
+    <h3><font color="navy">Concatinating</font></h3>
+    <pre><a name="operator+="></a>AByteArray&amp; <b>operator+=</b> (const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Retrieves the byte at the specified position. If the position is bigger
-        than the number of stored characters an exception is thrown.</dd>
+      <dd><p>Appends the contents of rhs to the object. The object is afterwards
+             defined if either of the two AByteArrays have been defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>rhs</code> - Object to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
     </dl>
-    <pre><a name="operator[]2"></a>const char&amp; operator[] (unsigned int pos) throw (out_of_range)</pre>
+    <hr>
+    <pre><a name="operator+=2"></a>AByteArray&amp; <b>operator+=</b> (const char* rhs)</pre>
     <dl>
-      <dd>Retrieves a reference to the byte at the specified position. If the
-	position is bigger than the number of stored characters an exception is
-	thrown.</dd>
+      <dd><p>Appends the characters rhs is pointing to to the object. If rhs is at
+          least one character long, the object is set to be defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>rhs</code> - Character array to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="at"></a>const char&amp; at (unsigned int pos) const throw (out_of_range)</pre>
+    <hr>
+    <pre><a name="operator+=3"></a>AByteArray&amp; <b>operator+=</b> (const char rhs)</pre>
     <dl>
-      <dd>Retrieves a constant reference to the byte at the specified position. If the
-	position is bigger than the number of stored characters an exception is
-	thrown.</dd>
+      <dd><p>Appends the passed character to the object. The object is set to be
+             defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>rhs</code> - Character to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
     </dl>
-    <pre><a name="at2"></a>char&amp; at (unsigned int pos) throw (out_of_range)</pre>
+    <hr>
+    <pre><a name="operator+=4"></a>AByteArray&amp; <b>operator+=</b> (const std::string&amp; rhs)</pre>
     <dl>
-      <dd>Retrieves a reference to the byte at the specified position. If the
-	position is bigger than the number of stored characters an exception is
-	thrown.</dd>
-    </dl>
-
-    <pre><a name="length"></a>int length () const</pre>
-    <dl>
-      <dd>Returns the number of characters stored in the object.</dd>
-    </dl>
-    <pre><a name="data"></a>const char* data () const</pre>
-    <dl>
-      <dd>Returns a pointer to the stored data. If the object is undefined a
-        NULL-pointer is returned.</dd>
-    </dl>
-    <pre><a name="empty"></a>bool empty () const</pre>
-    <dl>
-      <dd>Returns if the object has data stored.</dd>
-    </dl>
-
-    <h4>Conversion</h4>
-    <pre><a name="toString"></a>virtual std::string toString () const</pre>
-    <dl>
-      <dd><p>Converts the object into a string.</p>
-	<p><b>Note:</b>If the object contains zero-bytes inside its data, the
-          string ends at that position!</p></dd>
+      <dd><p>Appends the data of the string to the object. If the string is not
+             empty, the object is set to be defined</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>rhs</code> - String to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
     </dl>
 
-    <h4>Concatinating</h4>
-    <pre><a name="operator+="></a>AByteArray&amp; operator+= (const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="append"></a>AByteArray&amp; <b>append</b> (const AByteArray&amp; o)</pre>
     <dl>
-      <dd>Appends characters to the object.</dd>
+      <dd><p>Appends the contents of rhs to the object. The object is afterwards
+             defined if either of the two AByteArrays have been defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>o</code> - Object to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
     </dl>
-    <pre><a name="operator+=2"></a>AByteArray&amp; operator+= (const char* rhs)</pre>
+    <hr>
+    <pre><a name="append2"></a>AByteArray&amp; <b>append</b> (const char* pSource)</pre>
     <dl>
-      <dd>Appends the characters rhs is pointing to to the object.</dd>
+      <dd><p>Appends the characters pSource is pointing to to the object. If pSource
+          is at least one character long, the object is set to be defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pSource</code> - Character array to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pSource</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="operator+=3"></a>AByteArray&amp; operator+= (const char rhs)</pre>
+    <hr>
+    <pre><a name="append3"></a>AByteArray&amp; <b>append</b> (const char* pSource, unsigned int length)</pre>
     <dl>
-      <dd>Appends the passed character to the object.</dd>
+      <dd><p>Appends length characters of the array pSource is pointing to to
+          the object. If length is at least one, the object is set to be defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>pSource</code> - Character array to append</dd>
+            <dd><code>length</code> - Number of characters to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>pSource</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="operator+=4"></a>AByteArray&amp; operator+= (const std::string&amp; rhs)</pre>
+    <hr>
+    <pre><a name="append4"></a>AByteArray&amp; <b>append</b> (const char ch)</pre>
     <dl>
-      <dd>Appends the data of the string to the object.</dd>
+      <dd><p>Appends the passed character to the object. The object is set to be
+             defined.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>rhs</code> - Character to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
     </dl>
-
-    <pre><a name="append"></a>AByteArray&amp; append (const AByteArray&amp; o)</pre>
+    <hr>
+    <pre><a name="append5"></a>AByteArray&amp; <b>append</b> (const std::string&amp; str)</pre>
     <dl>
-      <dd>Appends characters to the object.</dd>
-    </dl>
-    <pre><a name="append2"></a>AByteArray&amp; append (const char* pSource)</pre>
-    <dl>
-      <dd>Appends the characters rhs is pointing to to the object.</dd>
-    </dl>
-    <pre><a name="append3"></a>AByteArray&amp; append (const char* pSource, unsigned int length)</pre>
-    <dl>
-      <dd>Appends length characters where rhs is pointing to to the object.</dd>
-    </dl>
-    <pre><a name="append4"></a>AByteArray&amp; append (const char ch)</pre>
-    <dl>
-      <dd>Appends the passed character to the object.</dd>
-    </dl>
-    <pre><a name="append5"></a>AByteArray&amp; append (const std::string&amp; str)</pre>
-    <dl>
-      <dd>Appends the data of the string to the object.</dd>
-    </dl>
-
-    <pre><a name="operator+"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
-    </dl>
-    <pre><a name="operator+2"></a>AByteArray&amp; operator+ (const char* lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
-    </dl>
-    <pre><a name="operator+3"></a>AByteArray&amp; operator+ (const char lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
-    </dl>
-    <pre><a name="operator+4"></a>AByteArray&amp; operator+ (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
-    </dl>
-    <pre><a name="operator+5"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const char* rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
-    </dl>
-    <pre><a name="operator+6"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const char rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
-    </dl>
-    <pre><a name="operator+7"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
-    <dl>
-      <dd>Appends rhs to lhs and returns the result.</dd>
+      <dd><p>Appends the data of the string to the object. If the string is not
+             empty, the object is set to be defined</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>rhs</code> - String to append</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>A reference to this</dd></dl></dd>
     </dl>
 
-    <h4>Comparison</h4>
-    <pre><a name="compare"></a>int compare (const AByteArray&amp; other)</pre>
+    <hr>
+    <pre><a name="operator+"></a>AByteArray&amp; <b>operator+</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
-          this is larger.</p>
-        <p>Undefined values are considered to be smaller than every value in this
-          comparison; if both values are undefined they are considered as
-          equal.</p></dd>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
     </dl>
-    <pre><a name="compare2"></a>int compare (const std::string&amp; other)</pre>
+    <hr>
+    <pre><a name="operator+2"></a>AByteArray&amp; <b>operator+</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
-          this is larger.</p>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator+3"></a>AByteArray&amp; <b>operator+</b> (const char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator+4"></a>AByteArray&amp; <b>operator+</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator+5"></a>AByteArray&amp; <b>operator+</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator+6"></a>AByteArray&amp; <b>operator+</b> (const AByteArray&amp; lhs, const char rhs)</pre>
+    <dl>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator+7"></a>AByteArray&amp; <b>operator+</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>The concatinated byte array</dd></dl></dd>
+    </dl>
+
+    <h3><font color="navy">Comparison</font></h3>
+    <pre><a name="compare"></a>int <b>compare</b> (const AByteArray&amp; other)</pre>
+    <dl>
+      <dd><p>Compares the values of two byte arrays.</p>
+        <p>Undefined values are considered to be smaller than every value;
+          if both values are undefined, they are considered as equal.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Object to compare</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="compare2"></a>int <b>compare</b> (const std::string&amp; other)</pre>
+    <dl>
+      <dd><p>Compares the byte array with a string.</p>
         <p>Undefined values are considered to be smaller than any string.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - String to compare</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
     </dl>
-    <pre><a name="compare3"></a>int compare (const char* other)</pre>
+    <hr>
+    <pre><a name="compare3"></a>int <b>compare</b> (const char* other)</pre>
     <dl>
-      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
-          this is larger.</p>
-        <p>Undefined values compares equal (only) to NULL-pointers.</p></dd>
+      <dd><p>Compares the byte array with a character array.</p>
+        <p>Undefined values equals the NULL pointer, but are considered to be smaller
+          than any other character array.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Character array to compare</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>other</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="compare4"></a>int compare (const char* other, unsigned int length)</pre>
+    <hr>
+    <pre><a name="compare4"></a>int <b>compare</b> (const char* other, unsigned int length)</pre>
     <dl>
-      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
-          this is larger.</p>
-        <p>Undefined values compares equal (only) to NULL-pointers.</p></dd>
+      <dd><p>Compares the byte array with length bytes of the passed character array.</p>
+        <p>Undefined values equals the NULL pointer, but are considered to be smaller
+          than any other character array.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Character array to compare</dd>
+            <dd><code>length</code> - Length of data to compare</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>other</code> must be a valid pointer to a
+              character array with at least length elements</dd></dl></dd>
     </dl>
-    <pre><a name="compare5"></a>int compare (char other)</pre>
+    <hr>
+    <pre><a name="compare5"></a>int <b>compare</b> (char other)</pre>
     <dl>
-      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
-          this is larger.</p>
-        <p>Undefined values are considered to be smaller than every character.</p></dd>
-    </dl>
-
-    <pre><a name="operator=="></a>friend bool operator== (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value (equal characters and length or both undefined).</dd>
-    </dl>
-    <pre><a name="operator==2"></a>friend bool operator== (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value (equal characters and length).</dd>
-    </dl>
-    <pre><a name="operator==3"></a>friend bool operator== (const AByteArray&amp; lhs, const char* rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value (equal characters and length). The NULL-pointer equals an
-	undefined object.</dd>
-    </dl>
-    <pre><a name="operator==4"></a>friend bool operator== (const AByteArray&amp; lhs, char rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value. The object must contain exactly 1 character.</dd>
-    </dl>
-    <pre><a name="operator==5"></a>friend bool operator== (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value (equal characters and length).</dd>
-    </dl>
-    <pre><a name="operator==6"></a>friend bool operator== (const char* lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value (equal characters and length). The NULL-pointer equals an
-	undefined object.</dd>
-    </dl>
-    <pre><a name="operator==7"></a>friend bool operator== (char lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if they have the
-        same value. The object must contain exactly 1 character.</dd>
+      <dd><p>Compares the byte array with a single character.</p>
+        <p>Undefined values are considered to be smaller than any character.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>other</code> - Character to compare</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
     </dl>
 
-    <pre><a name="operator!="></a>friend bool operator!= (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator=="></a>friend bool <b>operator==</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if they have a
-        different value (characters or length).</dd>
+      <dd><p>Compares the values of two byte arrays for equalness (equal
+          characters and length or both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
-    <pre><a name="operator!=2"></a>friend bool operator!= (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator==2"></a>friend bool <b>operator==</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if they have a
-        different value (characters or length).</dd>
+      <dd><p>Compares the values of two objects for equalness (equal
+          characters and length).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
-    <pre><a name="operator!=3"></a>friend bool operator!= (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <hr>
+    <pre><a name="operator==3"></a>friend bool <b>operator==</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if they have a
-        different value (characters or length). An undefined objects is different to
-	everything excpet a NULL-pointer.</dd>
+      <dd><p>Compares the values of two objects for equalness (equal
+          characters and length). The NULL pointer equals an undefined object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="operator!=4"></a>friend bool operator!= (const AByteArray&amp; lhs, char rhs)</pre>
+    <hr>
+    <pre><a name="operator==4"></a>friend bool <b>operator==</b> (const AByteArray&amp; lhs, char rhs)</pre>
     <dl>
+      <dd><p>Compares the values of two objects for equalness (equal
+          character and <code>lhs</code> only one character long).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator==5"></a>friend bool <b>operator==</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two objects for equalness (equal
+          characters and length).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator==6"></a>friend bool <b>operator==</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two objects for equalness (equal
+          characters and length). The NULL pointer equals an undefined object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator==7"></a>friend bool <b>operator==</b> (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two objects for equalness (equal
+          character and <code>rhs</code> only one character long).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+    </dl>
+
+    <hr>
+    <pre><a name="operator!="></a>friend bool <b>operator!=</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two byte arrays for unequalness (unequal
+          characters and/or length or only one defined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>False if the objects are equal; true else</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator!=2"></a>friend bool <b>operator!=</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two objects for unequalness (unequal
+          characters and/or length).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>False if the objects are equal; true else</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator!=3"></a>friend bool <b>operator!=</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two objects for unequalness (unequal
+          characters and/or length).  An undefined objects is different to
+          everything excpet a NULL-pointer.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator!=4"></a>friend bool <b>operator!=</b> (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd><p>Compares the values of two objects for unequalness (unequal
+          character or <code>lhs</code> not exactly one character long).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
       <dd>Compares the two sides of the equation and returns true if they have a
         different value.</dd>
     </dl>
-    <pre><a name="operator!=5"></a>friend bool operator!= (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator!=5"></a>friend bool <b>operator!=</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if they have a
-        different value (characters or length).</dd>
+      <dd><p>Compares the values of two objects for unequalness (unequal
+          characters and/or length).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>False if the objects are equal; true else</dd></dl></dd>
     </dl>
-    <pre><a name="operator!=6"></a>friend bool operator!= (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator!=6"></a>friend bool <b>operator!=</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if they have a
-        different value (characters or length). An undefined objects is different to
-	everything excpet a NULL-pointer.</dd>
+      <dd><p>Compares the values of two objects for unequalness (unequal
+          characters and/or length).  An undefined objects is different to
+          everything excpet a NULL-pointer.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
     </dl>
-    <pre><a name="operator!=7"></a>friend bool operator!= (char lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator!=7"></a>friend bool <b>operator!=</b> (char lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if they have a
-        different value.</dd>
-    </dl>
-
-    <pre><a name="operatorlt"></a>friend bool operator&lt; (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt2"></a>friend bool operator&lt; (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt3"></a>friend bool operator&lt; (const AByteArray&amp; lhs, const char* rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt4"></a>friend bool operator&lt; (const AByteArray&amp; lhs, char rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt5"></a>friend bool operator&lt; (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt6"></a>friend bool operator&lt; (const char* lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt7"></a>friend bool operator&lt; (char lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller than the right-hand-side.</dd>
+      <dd><p>Compares the values of two objects for unequalness (unequal
+          character or <code>lhs</code> not exactly one character long).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
 
-    <pre><a name="operatorgt"></a>friend bool operator&gt; (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt"></a>friend bool <b>operator&lt;</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd></dd>
     </dl>
-    <pre><a name="operatorgt2"></a>friend bool operator&gt; (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt2"></a>friend bool <b>operator&lt;</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd></dd>
     </dl>
-    <pre><a name="operatorgt3"></a>friend bool operator&gt; (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt3"></a>friend bool <b>operator&lt;</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
     </dl>
-    <pre><a name="operatorgt4"></a>friend bool operator&gt; (const AByteArray&amp; lhs, char rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt4"></a>friend bool <b>operator&lt;</b> (const AByteArray&amp; lhs, char rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd></dd>
     </dl>
-    <pre><a name="operatorgt5"></a>friend bool operator&gt; (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt5"></a>friend bool <b>operator&lt;</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd></dd>
     </dl>
-    <pre><a name="operatorgt6"></a>friend bool operator&gt; (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt6"></a>friend bool <b>operator&lt;</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
     </dl>
-    <pre><a name="operatorgt7"></a>friend bool operator&gt; (char lhs, const AByteArray&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operatorlt7"></a>friend bool <b>operator&lt;</b> (char lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger than the right-hand-side.</dd>
-    </dl>
-
-    <pre><a name="operatorlt="></a>friend bool operator&lt;= (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt=2"></a>friend bool operator&lt;= (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt=3"></a>friend bool operator&lt;= (const AByteArray&amp; lhs, const char* rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt=4"></a>friend bool operator&lt;= (const AByteArray&amp; lhs, char rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt=5"></a>friend bool operator&lt;= (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt=6"></a>friend bool operator&lt;= (const char* lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorlt=7"></a>friend bool operator&lt;= (char lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is smaller or equal than the right-hand-side.</dd>
-    </dl>
-
-    <pre><a name="operatorgt="></a>friend bool operator&gt;= (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorgt=2"></a>friend bool operator&gt;= (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorgt=3"></a>friend bool operator&gt;= (const AByteArray&amp; lhs, const char* rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorgt=4"></a>friend bool operator&gt;= (const AByteArray&amp; lhs, char rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorgt=5"></a>friend bool operator&gt;= (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorgt=6"></a>friend bool operator&gt;= (const char* lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
-    </dl>
-    <pre><a name="operatorgt=7"></a>friend bool operator&gt;= (char lhs, const AByteArray&amp; rhs)</pre>
-    <dl>
-      <dd>Compares the two sides of the equation and returns true if the left-hand-side
-        is larger or equal than the right-hand-side.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) precedes the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
+      <dd></dd>
     </dl>
 
-    <pre><a name="checkIntegrity"></a>int checkIntegrity () const</pre>
+    <hr>
+    <pre><a name="operatorgt"></a>friend bool <b>operator&gt;</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
     <dl>
-      <dd>Checks the internal state of the object for integrity.</dd>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt2"></a>friend bool <b>operator&gt;</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt3"></a>friend bool <b>operator&gt;</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt4"></a>friend bool <b>operator&gt;</b> (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt5"></a>friend bool <b>operator&gt;</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt6"></a>friend bool <b>operator&gt;</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt7"></a>friend bool <b>operator&gt;</b> (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        (lexicographically) follows the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+
+    <hr>
+    <pre><a name="operatorlt="></a>friend bool <b>operator&lt;=</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlt=2"></a>friend bool <b>operator&lt;=</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlt=3"></a>friend bool <b>operator&lt;=</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>rhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlt=4"></a>friend bool <b>operator&lt;=</b> (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlt=5"></a>friend bool <b>operator&lt;=</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlt=6"></a>friend bool <b>operator&lt;=</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorlt=7"></a>friend bool <b>operator&lt;=</b> (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) follow the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+
+    <hr>
+    <pre><a name="operatorgt="></a>friend bool <b>operator&gt;=</b> (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt=2"></a>friend bool <b>operator&gt;=</b> (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt=3"></a>friend bool <b>operator&gt;=</b> (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt=4"></a>friend bool <b>operator&gt;=</b> (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt=5"></a>friend bool <b>operator&gt;=</b> (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt=6"></a>friend bool <b>operator&gt;=</b> (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd><dl><dt><b>Requires</b></dt>
+            <dd><code>lhs</code> must be a valid pointer to a zero-terminated
+              character array</dd></dl></dd>
+      <dd></dd>
+    </dl>
+    <hr>
+    <pre><a name="operatorgt=7"></a>friend bool <b>operator&gt;=</b> (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd><p>Compares the two sides of the equation and returns true if the left-hand-side
+        does <b>not</b> (lexicographically) precede the right-hand-side.</p>
+        <p>An undefined byte array is smaller than any value!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
+            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
+      <dd></dd>
+    </dl>
+
+    <hr>
+    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
+    <dl>
+      <dd><p>Checks the internal state of the object for integrity.</p>
+        <p>The class has the following invariants:</p>
+        <p><ul>
+          <li>The length of the data is not larger than the allocated area</li>
+          <li>If the length is not 0, a value must be allocated</li></ul></p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+            <dd>1 if the data is larger than the allocated memory,<br>
+                2 if the length of the data is not 0, but no memory is reserved,<br>
+                0 if the object is integer</dd></dl></dd>
     </dl>
   </body>
 </html>
