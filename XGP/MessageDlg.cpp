@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.9 2004/12/29 18:16:50 markus Rel $
+//$Id: MessageDlg.cpp,v 1.10 2005/02/19 05:32:12 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : MessageDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -44,17 +44,15 @@ namespace XGP {
 /// \param obj: StatusObject to display
 //-----------------------------------------------------------------------------
 MessageDlg::MessageDlg (const YGP::StatusObject& obj)
-    : Gtk::MessageDialog (Glib::locale_to_utf8 (obj.getMessage ()),
-                          getButtonType (obj.getType ()))
-      , detail (new Gtk::Label)
-      , showDetail (new Gtk::Button) {
+   : Gtk::MessageDialog (obj.getMessage (), getButtonType (obj.getType ()))
+     , detail (new Gtk::Label) , showDetail (new Gtk::Button) {
    get_vbox ()->pack_end (*detail, Gtk::PACK_EXPAND_WIDGET, 5);
    get_action_area ()->pack_end (*showDetail, Gtk::PACK_SHRINK, 5);
    showDetail->set_use_underline ();
 
    if (obj.hasDetails ()) {
       showDetails (false);
-      detail->set_text (Glib::locale_to_utf8 (obj.getDetails ()));
+      detail->set_text (obj.getDetails ());
       showDetail->show ();
    }
    show ();
@@ -131,9 +129,9 @@ void MessageDlg::free (int) {
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
 void MessageDlg::update (const YGP::StatusObject& obj) {
-   set_message (Glib::locale_to_utf8 (obj.getMessage ()), false);
+   set_message (obj.getMessage (), false);
    if (obj.hasDetails ()) {
-      detail->set_text (Glib::locale_to_utf8 (obj.getDetails ()));
+      detail->set_text (obj.getDetails ());
       showDetail->show ();
    }
    else {
