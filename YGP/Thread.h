@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.6 2002/07/09 01:48:47 markus Exp $
+//$Id: Thread.h,v 1.7 2002/10/20 23:19:43 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <gzo-cfg.h>
 
-#if SYSTEM==WINDOWS
+#if SYSTEM == WINDOWS
 #  include "Mutex.h"
 #  include <process.h>
    typedef void* (WINTHREAD_FUNCTION) (void*);
@@ -93,17 +93,17 @@ template <class T> class OThread : public Thread {
 
    ~OThread () { }
 
-   static OThread<T>* create (T& obj, THREAD_OBJMEMBER fnc, void* paArgs)
+   static OThread<T>* create (T* obj, THREAD_OBJMEMBER fnc, void* paArgs)
                               throw (std::string) {
       return new OThread<T> (obj, fnc, paArgs); }
-   static OThread<T>* create2 (T& obj, THREAD_OBJMEMBER fnc, void* paArgs)
+   static OThread<T>* create2 (T* obj, THREAD_OBJMEMBER fnc, void* paArgs)
                               throw (std::string) {
       return new OThread<T> (obj, fnc, paArgs, true); }
 
 
  protected:
-   OThread (T& obj, THREAD_OBJMEMBER fnc, void* paArgs, bool threadAsArg = false)
-      throw (std::string) 
+   OThread (T* obj, THREAD_OBJMEMBER fnc, void* paArgs, bool threadAsArg = false)
+      throw (std::string)
       : Thread (), object (obj), callback (fnc), indirect (threadAsArg) {
       // Don't create Thread directly with data, because the thread might start
       // without object and callback beeing initialized!!
@@ -112,14 +112,14 @@ template <class T> class OThread : public Thread {
 
  private:
    static void* proxy (void* pArgs) {
-      OThread<T>* thread (static_cast <OThread<T>*> (pArgs));
-      void* rc = ((thread->object).*(thread->callback))
+      OThread<T>* thread = static_cast <OThread<T>*> (pArgs);
+      void* rc = ((thread->object)->*(thread->callback))
          (thread->indirect ? thread : thread->getArgs ());
       delete thread;
       return rc; }
 
    bool indirect;
-   T& object;
+   T* object;
    THREAD_OBJMEMBER callback;
 };
 
