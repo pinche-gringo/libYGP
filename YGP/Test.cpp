@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.21 1999/10/15 21:33:43 Markus Exp $
+// $Id: Test.cpp,v 1.22 1999/10/19 22:47:15 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -27,6 +27,8 @@
 
 #include <ctype.h>
 #include <assert.h>
+
+#include <locale.h>
 
 #include <fstream.h>
 #include <iostream.h>
@@ -384,6 +386,8 @@ int Application::dirSearchRecursive (const char* pFile) const {
 
 
 int main (int argc, char* argv[]) {
+   setlocale (LC_ALL, "");                         // Activate current locale
+
    Application appl (argc, argv);
    return appl.run ();
 }
