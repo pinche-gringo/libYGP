@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.24 2002/05/24 06:47:29 markus Exp $
+//$Id: Parse.cpp,v 1.25 2002/10/10 05:49:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -114,7 +114,7 @@ void ParseObject::skipWS (Xistream& stream) const {
 
    TRACE8 ("Skipping WS after " << pDescription);
    char c ('\0');
-   stream >> c; assert (!isspace (c));
+   stream >> c;
    stream.putback (c);
 }
 
@@ -248,7 +248,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
       ch = 0;
       TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
               << global.buffer << '\'');
-      rc = found (global.buffer);                    // Report found of object
+      rc = found (global.buffer);                    // Report object as found 
    } // endif value OK
    else
       rc = PARSE_ERROR;
