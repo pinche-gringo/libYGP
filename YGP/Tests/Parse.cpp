@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.14 2003/12/10 00:19:37 markus Rel $
+// $Id: Parse.cpp,v 1.15 2004/01/05 07:45:51 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -138,8 +138,8 @@ int Application::perform (int argc, const char* argv[]) {
          check (!skip.parse ((YGP::Xistream&)xstr));
          check (!qText.parse ((YGP::Xistream&)xstr));
          check (!qEText.parse ((YGP::Xistream&)xstr));
+	 // Don't check line number anymore, its undefined after skipping
          check (xstr.getColumn () == 0);
-	 // Don't check line number, is undefined after skipping
       } // end-try
       catch (std::string e) {
          std::cerr << "Error parsing Parser.test in line " << xstr.getLine () << " ("
