@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.6 2002/12/15 22:21:46 markus Rel $
+//$Id: Tokenize.cpp,v 1.7 2003/03/06 03:08:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -40,9 +40,8 @@
 //Remarks     : Two following separators are ignored; the method always returns some data (if available)
 /*--------------------------------------------------------------------------*/
 std::string Tokenize::getNextNode (const char split) {
-   Check3 ((actPos + len) <= string.length ());
    if ((actPos + len) >= _string.length ()) {
-      actPos =  _string.length ();
+      actPos = _string.length ();
       len = 0;
       return "";
    }

@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.6 2002/12/01 08:37:42 markus Rel $
+//$Id: AttrParse.cpp,v 1.7 2003/03/06 03:08:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -56,7 +56,7 @@ void AttributeParse::addAttribute (IAttribute& attribute) {
    if (findAttribute (attribute.getName ())) {
       std::string error (_("Attribute '%1' already exists"));
       error.replace (error.find ("%1"), 2, attribute.getName ());
-      CheckMsg (0, error);
+      CheckMsg (0, error.c_str ());
    }
 #endif
 

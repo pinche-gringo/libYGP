@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.38 2003/02/21 19:20:11 markus Exp $
+//$Id: Parse.cpp,v 1.39 2003/03/06 03:08:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -476,7 +476,7 @@ ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
 int ParseTextEsc::checkValue (char ch) {
    TRACE8 ("ParseTextEsc::checkValue (char) - " << getDescription () << ' '
            << ch << " - " << last);
-   Check1 (!other.checkIntegrity ());
+   Check1 (!checkIntegrity ());
 
    const char* pHelp = pValue; Check3 (pHelp);
    while (*pHelp) {
@@ -542,7 +542,7 @@ ParseQuoted::~ParseQuoted () {
 //Returns     : Reference to this
 /*--------------------------------------------------------------------------*/
 ParseQuoted& ParseQuoted::operator= (const ParseQuoted& other) {
-   TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << pDescription);
+   TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
    if (&other != this) {
@@ -668,7 +668,7 @@ ParseQuotedEsc::~ParseQuotedEsc () {
 //Returns     : Reference to this
 /*--------------------------------------------------------------------------*/
 ParseQuotedEsc& ParseQuotedEsc::operator= (const ParseQuotedEsc& other) {
-   TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << pDescription);
+   TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
    if (&other != this) {

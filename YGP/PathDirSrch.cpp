@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.22 2003/02/13 06:56:47 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.23 2003/03/06 03:08:05 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -54,7 +54,7 @@ PathDirectorySearch::~PathDirectorySearch () {
 /*--------------------------------------------------------------------------*/
 const File* PathDirectorySearch::find (unsigned long attribs) {
    TRACE9 ("PathDirectorySearch::find (unsigned long) - "
-           << searchPath << " -> " << srch);
+           << (std::string)searchPath << " -> " << srch);
    Check1 (checkIntegrity () <= DirectorySearch::LAST);
 
    const File* rc;

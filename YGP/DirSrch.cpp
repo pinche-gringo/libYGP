@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.40 2002/12/07 22:09:25 markus Rel $
+//$Id: DirSrch.cpp,v 1.41 2003/03/06 03:08:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -181,8 +181,8 @@ const File* DirectorySearch::next () {
 
 	 if (!stat (temp.c_str (), &pEntry->status)) {
             // Do attributes match?
-            TRACE9 ("DirectorySearch::next (): " << pDirEnt->d_name << " (" << hex
-                    << attr_ << ") -> Mode: " << hex << pEntry->status.st_mode);
+            TRACE9 ("DirectorySearch::next (): " << pDirEnt->d_name << " (" << std::hex
+                    << attr_ << ") -> Mode: " << pEntry->status.st_mode << std::dec);
             if ((attr_ & pEntry->status.st_mode) == pEntry->status.st_mode) {
                pEntry->entry = *pDirEnt;
                pEntry->userExec = !access (temp.c_str (), X_OK);
