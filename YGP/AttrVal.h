@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.8 2000/03/08 20:40:26 Markus Exp $
+//$Id: AttrVal.h,v 1.9 2000/03/12 12:38:52 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <iostream>
+#include <iostream.h>
 
 #include <string>
 
