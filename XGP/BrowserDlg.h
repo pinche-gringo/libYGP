@@ -1,7 +1,7 @@
 #ifndef BROWSERDLG_H
 #define BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.10 2004/10/24 00:19:04 markus Exp $
+//$Id: BrowserDlg.h,v 1.11 2004/12/29 18:15:53 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,6 +55,7 @@ class BrowserDlg : public XDialog {
 
  private:
    //Prohibited manager functions
+   BrowserDlg ();
    BrowserDlg (const BrowserDlg& other);
    const BrowserDlg& operator= (const BrowserDlg& other);
 
