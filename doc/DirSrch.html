@@ -1,4 +1,4 @@
-<!-- $Id: DirSrch.html,v 1.4 2000/04/02 18:03:41 Markus Exp $ -->
+<!-- $Id: DirSrch.html,v 1.5 2000/04/11 23:05:11 Markus Exp $ -->
 
 <html>
   <head>
@@ -20,8 +20,18 @@
     <p>Class to search for files in a directory. This search can be restricted
       to files matching certain name-criterias or by attributes.</p>
 
+    <p>The name-part of the files to search supports UNIX-like wildcards; that
+      are the asterisk (*) for any number of any characters, the question-mark
+      for any single character and a set of characters in brackets (([) and
+      (])). This set can contain a list of characters (like [abcde]) or a
+      region (like [a-e]). To invert this set use a leading caret (^), like
+      ([^a-e]).</p>
+
     <p>The found (and matching) files are retrieved by objects of type
       <a href="DirSrch.html#dirEntry">dirEntry</a>.</p>
+
+    <p><b>Note</b>: The class does <b>not</b> do any word expansion for the
+      search-path (like expanding the tilde (~) to the home-directory)!</p>
 
     <hr noshade="noshade">
     <table border="0">
