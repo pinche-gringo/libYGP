@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.22 2003/10/02 23:03:26 markus Rel $
+//$Id: XFileList.h,v 1.23 2003/11/03 04:45:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -169,7 +169,8 @@ class XFileList : public Gtk::TreeView {
    /// Sets the model to display. Note that both the icon and the name of the
    /// file are displayed in one column
    template <class T> void set_model (const Glib::RefPtr<XFileStore<T> >& model) {
-      Gtk::TreeView::Column* pColumn = Gtk::manage (new Gtk::TreeView::Column (_("File")));
+      Gtk::TreeView::Column* pColumn = Gtk::manage (new Gtk::TreeView::Column
+                                                    (Glib::locale_to_utf8 (_("File"))));
 
       pColumn->pack_start (model->getColumns ().icon, false);
       pColumn->pack_start (model->getColumns ().name);
