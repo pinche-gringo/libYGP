@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.19 2002/10/23 05:45:25 markus Rel $
+//$Id: ADate.h,v 1.20 2002/11/27 04:56:29 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 
 
 #include <time.h>
-#include <assert.h>
 
 #ifdef TM_IN_SYS_TIME
 #include <sys/time.h>
@@ -27,6 +26,7 @@
 
 #include <string>
 
+#include <Check.h>
 #include <AttrVal.h>
 
 
@@ -59,7 +59,7 @@ class ADate : public AttributValue {
       setDefined ();
       year = date.tm_year + 1900;
       month = (unsigned char)(date.tm_mon + 1);
-      setDay ((unsigned char)date.tm_mday); assert (!checkIntegrity ());
+      setDay ((unsigned char)date.tm_mday); Check3 (!checkIntegrity ());
       return *this; }
    ADate& operator= (const time_t& date) { return operator= (*gmtime (&date)); }
 
