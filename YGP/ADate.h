@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.23 2003/03/03 06:18:36 markus Rel $
+//$Id: ADate.h,v 1.24 2003/06/14 20:13:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,58 +37,79 @@ namespace std {
 class istream;
 
 
-// Class for date attributes. As every AttributValue is supports undefined
-// values.
+/**Class for date attributes. As every AttributValue is supports undefined
+   values.
+
+   \note It's possible to calculate with ADate objects. But beware, that the
+      results are not always intuitive (e.g. what's today - today?
+      Mathematically it's the 0.0.0, which is not a valid date and therefore
+      changed to the 31.12.-1; a result which might not be expected).
+
+   \invariant Objects hold always a valid date; even if they are not defined.
+*/
 class ADate : public AttributValue {
  public:
-   ADate () : AttributValue (), day (1), month (1), year (1900) { }
+   ADate ()                /// Default constructor; creates an undefined object
+       : AttributValue (), day (1), month (1), year (1900) { }
    ADate (bool now);
-   ADate (const ADate& other) : AttributValue ((const AttributValue&)other)
-      , day (other.day), month (other.month), year (other.year) { }
+   ADate (const ADate& other)     /// Copy constructor from another date object
+       : AttributValue ((const AttributValue&)other)
+       , day (other.day), month (other.month), year (other.year) { }
    ADate (char Day, char Month, int Year) throw (std::invalid_argument);
-   ADate (const char* pDate) throw (std::invalid_argument) { operator= (pDate); }
-   ADate (const std::string& date) throw (std::invalid_argument) { operator= (date); }
-   ADate (const struct tm& tm) { operator= (tm); }
-   ADate (const time_t& date) { operator= (date); }
+   ADate (const char* pDate) throw (std::invalid_argument) {
+       operator= (pDate); }          ///< Constructor from a text (unformatted)
+   ADate (const std::string& date) throw (std::invalid_argument) {
+       operator= (date); }           ///< Constructor from a text (unformatted)
+   ADate (const struct tm& tm) {
+       operator= (tm); }                 ///< Constructor from broken down time
+   ADate (const time_t& date) {
+       operator= (date); }                      ///< Construct from system time
    virtual ~ADate ();
 
-   // Set-functions
-   ADate& operator= (const ADate& other);
-   ADate& operator= (const char* pDate) throw (std::invalid_argument);
+   /// \name Assignment methods
+   //@{
+   /// Assignment operator from an (unformatted) text
    ADate& operator= (const std::string& date) throw (std::invalid_argument) {
       return operator= (date.c_str ()); }
-   ADate& operator= (const struct tm& date) {
-      setDefined ();
-      year = date.tm_year + 1900;
-      month = (unsigned char)(date.tm_mon + 1);
-      setDay ((unsigned char)date.tm_mday); Check3 (!checkIntegrity ());
-      return *this; }
-   ADate& operator= (const time_t& date) { return operator= (*gmtime (&date)); }
+   ADate& operator= (const struct tm& date);
+   ADate& operator= (const time_t& date) {  /// Assignment operator from system time
+      return operator= (*gmtime (&date)); }
+   ADate& operator= (const ADate& other);
+   ADate& operator= (const char* pValue) throw (std::invalid_argument);
 
    virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+   //@}
 
-   virtual void define () { setDefined (); day = month = (unsigned char)1; year = 1900; }
+   /// Defining the object; setting it to a default value (of <tt>1/1/1900</tt>)
+   virtual void define () {
+      setDefined (); day = month = (unsigned char)1; year = 1900; }
    void setDay (char Day) throw (std::invalid_argument);
    void setMonth (char Month) throw (std::invalid_argument);
    void setYear (int Year) { setDefined (); year = Year; }
 
-   // Query-functions
-   char getDay () const { return day; }
-   char getMonth () const { return month; }
-   int getYear () const { return year; }
+   /// \name Query methods
+   //@{
+   char getDay () const { return day; }             ///< Returns the actual day
+   char getMonth () const { return month; }       ///< Returns the actual month
+   int getYear () const { return year; }           ///< Returns the actual year
+   //@}
 
-   static ADate today () { return ADate (true); }
+   static ADate today () { return ADate (true); }  ///< Returns the current day
 
-   // Conversion
+   /// \name Conversion
+   //@{
    virtual std::string toUnformattedString () const;
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 
-   virtual struct tm toStructTM () const;
+   /// Converting into a system time
    time_t toSysTime () const {
       struct tm result (toStructTM ()); return mktime (&result); }
+   virtual struct tm toStructTM () const;
+   //@}
 
-   // Calculation
+   /// \name Calculation
+   //@{
    ADate& operator+= (const ADate& rhs);
    ADate& operator-= (const ADate& rhs);
 
@@ -97,27 +118,42 @@ class ADate : public AttributValue {
 
    ADate& add (signed char Day, signed char Month = 0, int Year = 0);
    ADate& sub (signed char Day, signed char month = 0, int Year = 0);
+   //@}
 
-   // Comparison
-   bool operator== (const ADate& other) { return !compare (other); }
-   bool operator!= (const ADate& other) { return compare (other) != 0; }
+   /// \name Comparison
+   //@{
+   bool operator== (const ADate& other) { /// Compares two objects for equalnesss
+      return !compare (other); }
+   bool operator!= (const ADate& other) { /// Compares if two objects are not equal
+      return compare (other) != 0; }
+   /// Checks if one object is "younger" than the other. See compare() for details
    bool operator<  (const ADate& other) { return compare (other) < 0; }
+   /// Checks if one object is "older" than the other. See compare() for details
    bool operator>  (const ADate& other) { return compare (other) > 0; }
-   bool operator<= (const ADate& other) { return compare (other) <= 0; }
-   bool operator>= (const ADate& other) { return compare (other) >= 0; }
+   /// Checks if one object is "younger"  than or equal to the other. See compare() for details
+   bool operator<= (const ADate& other) {
+      return compare (other) <= 0; }
+   /// Checks if one object is "older" than or equal to the other. See compare() for details
+   bool operator>= (const ADate& other) {
+      return compare (other) >= 0; }
    long compare (const ADate& other);
+   //@}
 
-   // Usefull utility-functions
+   /// \name Usefull utility-functions
+   //@{
+   /// Returns the maximal day of the specified \c month (in the passed \c year)
    char maxDayOf () const { return maxDayOf (month, year); }
    static char maxDayOf (char month, int year);
-   bool isLeapYear () const { return isLeapYear (year); }
    static bool isLeapYear (int year);
+   bool isLeapYear () const {      /// Tests, if the actual year is a leap year
+      return isLeapYear (year); }
 
    virtual int checkIntegrity () const;
+   //@}
 
  protected:
-   void incDay () { ++day; }
-   void decDay () { --day; }
+   void incDay () { ++day; }                             ///< Increases the day
+   void decDay () { --day; }                             ///< Decreases the day
 
    virtual bool minAdapt ();
    virtual bool maxAdapt ();
