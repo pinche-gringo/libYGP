@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.25 2001/04/02 21:00:44 markus Exp $
+//$Id: DirSrch.cpp,v 1.26 2001/04/09 15:04:30 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -42,6 +42,58 @@
 #include "FileRExp.h"
 
 
+#if SYSTEM == UNIX
+static const int FILE_NORMAL_    = (S_IFREG   | S_IFLNK | S_ISUID | S_ISGID
+                                    | S_ISVTX | S_IRWXU | S_IRWXG | S_IRWXO);
+static const int FILE_READONLY_  = (S_IFREG   | S_IFLNK | S_ISUID | S_ISGID
+                                    | S_ISVTX | S_IRUSR | S_IRGRP | S_IROTH
+                                    | S_IXUSR | S_IXGRP | S_IXOTH);
+static const int FILE_DIRECTORY_ = (S_IFDIR | S_ISUID | S_ISGID | S_ISVTX
+                                    | S_IRWXU | S_IRWXG | S_IRWXO);
+static const int FILE_HIDDEN_    = (1 << (sizeof (long) * 8 - 1));
+
+#elif SYSTEM == WINDOWS
+static const int FILE_NORMAL_    = ~FILE_ATTRIBUTE_DIRECTORY;
+static const int FILE_READONLY_  = FILE_ATTRIBUTE_READONLY;
+static const int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY,
+static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN;
+#else
+#  error Not implemented yet!
+#endif
+
+#define ADDATTRIB(result, sample, flag) if (sample & IDirectorySearch::flag)\
+                                           result |= flag##_;
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor
+/*--------------------------------------------------------------------------*/
+DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
+#if SYSTEM == UNIX
+     , pDir (NULL)
+#else
+     , hSearch (INVALID_HANDLE_VALUE)
+#endif
+{
+   searchDir += dirEntry::DIRSEPERATOR;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor
+//Parameters: search: Path (and files) to search
+/*--------------------------------------------------------------------------*/
+DirectorySearch::DirectorySearch (const std::string& search)
+   : IDirectorySearch (), searchDir (1, '.')
+#if SYSTEM == UNIX
+      , pDir (NULL)
+#else
+      , hSearch (INVALID_HANDLE_VALUE)
+#endif
+{
+   searchDir += dirEntry::DIRSEPERATOR;
+   setFile (search);
+}
+
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
@@ -59,12 +111,13 @@ DirectorySearch::~DirectorySearch () {
 int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    cleanup ();
    pEntry = &result; assert (pEntry);
-   attr = attribs;
+   convertAttributes (attribs);
    pEntry->path_ = searchDir;
 
    assert (!checkIntegrity ());
 
-   TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str () << searchFile.c_str ());
+   TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str ()
+	   << searchFile.c_str ());
 
 #if SYSTEM == UNIX
    pDir = opendir (searchDir.c_str ());
@@ -180,25 +233,19 @@ void DirectorySearch::setFile (const std::string& search) {
 
    searchFile = search;
 
-   unsigned int len (search.length ());
-   if (searchFile[len - 1] == dirEntry::DIRSEPERATOR)
-      searchFile.replace (--len, 1, 0, '\0');
+   unsigned int len (search.length () - 1);
+   if (searchFile[len] == dirEntry::DIRSEPERATOR)
+      searchFile.replace (len, 1, 0, '\0');
 
-   while (len--) {
-      if (search[len] == dirEntry::DIRSEPERATOR) {
-         searchDir = search;
-         searchDir.replace (len + 1, searchDir.length (), 0, '\0');
-         searchFile.replace (0, len + 1, 0, '\0');
-         assert (checkIntegrity () <= NO_ENTRY);
-         return;
-      } // endif
-   } // end-while
-
-#if SYSTEM == UNIX
-   searchDir = "./";
-#else
-   searchDir = ".\\";
-#endif
+   len = searchFile.rfind (dirEntry::DIRSEPERATOR);
+   if (len != std::string::npos) {
+      searchDir = searchFile;
+TRACE1 ("Search - 1: " << searchDir);
+      searchDir.replace (len + 1, searchDir.length (), 0, '\0');
+TRACE1 ("Search - 2: " << searchDir);
+      searchFile.replace (0, len + 1, 0, '\0');
+TRACE1 ("Search - 3: " << searchFile);
+   }
    assert (checkIntegrity () <= NO_ENTRY);
 }
 
@@ -221,4 +268,44 @@ void DirectorySearch::cleanup () {
 #else
 #  error Not implemented yet!
 #endif
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the searchDir is really a direcory
+//Parameters: dir: Directory whose validity should be checked
+//Returns   : bool: True if the directory exists
+/*--------------------------------------------------------------------------*/
+bool DirectorySearch::isValid (const std::string& dir) const {
+   struct stat file;
+
+#if SYSTEM == WINDOWS
+   std::string temp (dir);
+   if (temp[temp.length () - 1] == dirEntry::DIRSEPERATOR)
+      temp.replace (temp.length () - 1, 1, 0, '\0');
+   return (!stat (temp.c_str (), &file) && (file.st_mode & S_IFDIR));
+#endif
+   return (!stat (dir.c_str (), &file) && (file.st_mode & S_IFDIR));
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the searchDir is really a direcory
+//Parameters: dir: Directory whose validity should be checked
+//Returns   : bool: True if the directory exists
+/*--------------------------------------------------------------------------*/
+bool DirectorySearch::isValid () const {
+   return checkIntegrity () ? false : isValid (searchDir);
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the searchDir is really a direcory
+//Parameters: dir: Directory whose validity should be checked
+//Returns   : bool: True if the directory exists
+/*--------------------------------------------------------------------------*/
+void DirectorySearch::convertAttributes (unsigned long attributes) {
+   attr = 0;
+   ADDATTRIB (attr, attributes, FILE_NORMAL);
+   ADDATTRIB (attr, attributes, FILE_READONLY);
+   ADDATTRIB (attr, attributes, FILE_DIRECTORY);
+   ADDATTRIB (attr, attributes, FILE_HIDDEN);
 }

@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.18 2001/04/02 21:00:43 markus Exp $
+//$Id: DirSrch.h,v 1.19 2001/04/09 15:04:31 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,52 +47,26 @@ class DirectorySearch;
 class DirectorySearch : public IDirectorySearch {
  public:
    //@Section manager-functions
-   DirectorySearch () : IDirectorySearch ()
-#if SYSTEM == UNIX
-     , pDir (NULL)
-#else
-     , hSearch (INVALID_HANDLE_VALUE)
-#endif
-     { }
-   DirectorySearch (const std::string& search) : IDirectorySearch ()
-#if SYSTEM == UNIX
-      , pDir (NULL)
-#else
-      , hSearch (INVALID_HANDLE_VALUE)
-#endif
-      { setFile (search); }
+   DirectorySearch ();
+   DirectorySearch (const std::string& search);
    virtual ~DirectorySearch ();
 
+   void setDirectory (const std::string& dir) { searchDir = dir; }
    void setFile (const std::string& search);
    std::string getFile () const { return searchDir + searchFile; }
 
+   virtual bool isValid () const;
+   virtual bool isValid (const std::string& dir) const;
+
    //@Section searching
    inline int find (const std::string& search, dirEntry& result,
-		    unsigned long attribs = FILE_NORMAL);
+		    unsigned long attribs = DirectorySearch::FILE_NORMAL);
    inline int find (const std::string& search) {
       setFile (search); assert (!checkIntegrity ());
       return find (*pEntry, attr); }
-   virtual int find (dirEntry& result, unsigned long attribs = FILE_NORMAL);
+   virtual int find (dirEntry& result,
+                     unsigned long attribs = IDirectorySearch::FILE_NORMAL);
    virtual int find ();
-
-#if SYSTEM == UNIX
-   enum { FILE_NORMAL    = (S_IFREG | S_IFLNK | S_ISUID | S_ISGID | S_ISVTX
-                            | S_IRWXU | S_IRWXG | S_IRWXO),
-          FILE_READONLY  = (S_IFREG | S_IFLNK | S_ISUID | S_ISGID | S_ISVTX
-                            | S_IRUSR | S_IRGRP | S_IROTH \
-                            | S_IXUSR | S_IXGRP | S_IXOTH),
-          FILE_DIRECTORY = (S_IFDIR | S_ISUID | S_ISGID | S_ISVTX
-                            | S_IRWXU | S_IRWXG | S_IRWXO),
-	  FILE_HIDDEN    = (1 << (sizeof (long) * 8 - 1)) };
-#elif SYSTEM == WINDOWS
-   enum { FILE_NORMAL    = (~FILE_ATTRIBUTE_DIRECTORY),
-          FILE_READONLY  = FILE_ATTRIBUTE_READONLY,
-          FILE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY,
-          FILE_HIDDEN    = (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN) };
-#else
-#  error Not implemented yet!
-#endif
-
 
  protected:
    virtual int checkIntegrity () const;
@@ -108,6 +82,8 @@ class DirectorySearch : public IDirectorySearch {
    //@Section prohibited manager functions
    DirectorySearch (const DirectorySearch&);
    DirectorySearch& operator= (const DirectorySearch&);
+
+   void convertAttributes (unsigned long attributes);
 
    std::string searchDir;
    std::string searchFile;
