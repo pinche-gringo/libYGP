@@ -1,7 +1,7 @@
 #ifndef CIDIRCOMP_H
 #define CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.6 2002/07/15 21:03:01 markus Rel $
+//$Id: CIDirSrch.h,v 1.7 2003/11/14 17:26:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
 
 #include <CORBA.h>
 
-#include <File.h>
+#include <YGP/File.h>
 
-#include <DirSrch.h>
-#include <CDirSrch.h>
+#include <YGP/DirSrch.h>
+#include <CGP/CDirSrch.h>
 
 class CIFile : public CFile_skel {
  public:

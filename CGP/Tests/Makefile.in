@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.5 2003/06/11 18:30:39 markus Rel $
+# $Id: Makefile.in,v 1.6 2003/11/14 17:25:37 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -19,7 +19,7 @@ top_srcdir =  @top_srcdir@
 top_builddir = ../..
 srcdir = @srcdir@
 
-subdir=CORBA/Tests
+subdir=CGP/Tests
 
 DESTDIR=
 
@@ -40,13 +40,13 @@ VERSION = @VERSION@
 
 SUBDIRS = .
 
-INCLUDES =  -I. -I.. -I$(top_srcdir) -I$(top_srcdir)/Common
+INCLUDES =  -I. -I.. -I$(top_srcdir) -I$(top_srcdir)/YGP
 DEFS =  -DLOCALEDIR=\"$(localedir)\" @DEFS@
 CXXFLAGS = @CXXFLAGS@
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 
 LDFLAGS = @LDFLAGS@
-LIBS=-ldl -lmico -L../../Common -L../../Common/.libs -lYMP
+LIBS=-ldl -lmico -L../../YGP -L../../YGP/.libs -lYGP
 
 LIBTOOL = @LIBTOOL@
 
