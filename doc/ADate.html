@@ -1,0 +1,155 @@
+<!-- $Id: ADate.html,v 1.1 2000/03/19 14:31:29 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: ADate</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class ADate </h1>
+    <p>Derived from: <a href="AttrVal.html">AttributValue</a></p>
+
+    <p>Header-file: ADate.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class for date attributes. As every AttributValue is supports undefined
+      values.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate">ADate</a></td><td>()</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate2">ADate</a></td>
+	<td>(bool now)</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate3">ADate</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate4">ADate</a></td>
+	<td>(char Day, char Month, unsigned int Year)</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate5">ADate</a></td>
+	<td>(const char* pDate)</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate6">ADate</a></td>
+	<td>(const std::string&amp; date)</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate7">ADate</a></td>
+	<td>(const struct tm&amp; tm)</td></tr>
+      <tr valign="top"><td></td><td><a href="ADate.html#ADate8">ADate</a></td>
+	<td>(const time_t date)</td></tr>
+      <tr valign="top"><td>virtual</td><td><a href="ADate.html#~ADate">~ADate</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="ADate.html">ADate&amp;</a></td>
+	<td><a href="ADate.html#operator=">operator=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&amp;</td>
+	<td><a href="ADate.html#operator=2">operator=</a></td>
+	<td>(const char* pDate)</td></tr>
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&amp;</td>
+	<td><a href="ADate.html#operator=3">operator=</a></td>
+	<td>(const std::string&amp; date)</td></tr>
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&amp;</td>
+	<td><a href="ADate.html#operator=4">operator=</a></td>
+	<td>(const struct tm&amp; tm)</td></tr>
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&amp;</td>
+	<td><a href="ADate.html#operator=5">operator=</a></td>
+	<td>(const time_t date)</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="ADate.html#readFromStream">readFromStream</a></td>
+	<td>(istream&amp; in)</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="ADate.html#define">define</a></td><td>()</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="ADate.html#setDay">setDay</a></td><td>(char Day)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="ADate.html#setMonth">setMonth</a></td><td>(char Month)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="ADate.html#setYear">setYear</a></td><td>(unsigned int Year)</td></tr>
+
+      <tr valign="top"><td>static <a href="ADate.html">ADate</a></td>
+	<td><a href="ADate.html#today">today</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>char</td><td><a href="ADate.html#today">getDay</a>
+	</td><td>() const</td></tr>
+      <tr valign="top"><td>char</td>
+	<td><a href="ADate.html#getMonth">getMonth</a></td><td>() const</td></tr>
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="ADate.html#getYear">getYear</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td>virtual std::string</td>
+	<td><a href="ADate.html#toString">toString</a></td><td>() const</td></tr>
+      <tr valign="top"><td>virtual std::string</td>
+	<td><a href="ADate.html#toString2">toString</a></td>
+	<td>(const char* format) const</td></tr>
+
+      <tr valign="top"><td>virtual struct tm</td>
+	<td><a href="ADate.html#toStructTM">toStructTM</a></td><td>() const</td></tr>
+      <tr valign="top"><td>time_t</td>
+	<td><a href="ADate.html#toSysTime">toSysTime</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&</td>
+	<td><a href="ADate.html#operator+=">operator+=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&</td>
+	<td><a href="ADate.html#operator-=">operator-=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend <a href="ADate.html">ADate</a></td>
+	<td><a href="ADate.html#operator+">operator+</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; lhs,
+	  const <a href="ADate.html">ADate</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="ADate.html">ADate</a></td>
+	<td><a href="ADate.html#operator-">operator-</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; lhs,
+	  const <a href="ADate.html">ADate</a>&amp; rhs);</td></tr>
+
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&amp;</td>
+	<td><a href="ADate.html#add">add</a></td>
+	<td>(char Day, char Month = 0, unsigned int Year = 0)</td></tr>
+      <tr valign="top"><td><a href="ADate.html">ADate</a>&amp;</td>
+	<td><a href="ADate.html#sub">sub</a></td>
+	<td>(char Day, char Month = 0, unsigned int Year = 0)</td></tr>
+
+      <tr valign="top"><td>bool</td>
+	<td><a href="ADate.html#operator==">operator==</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ADate.html#operator!=">operator!=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ADate.html#operatorl=">operator&lt;=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ADate.html#operatorg=">operator&gt;=</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+      <tr valign="top"><td>long</td>
+	<td><a href="ADate.html#compare">compare</a></td>
+	<td>(const <a href="ADate.html">ADate</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>char</td>
+	<td><a href="ADate.html#maxDayOf">maxDayOf</a></td><td>() const</td></tr>
+      <tr valign="top"><td>static char</td>
+	<td><a href="ADate.html#maxDayOf2">maxDayOf</a></td>
+	<td>(char month, unsigned int year)</td></tr>
+      <tr valign="top"><td>static bool</td>
+	<td><a href="ADate.html#isLeapYear2">isLeapYear</a></td>
+	<td>(unsigned int year)</td></tr>
+
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="ADate.html#">checkIntegrity</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="ADate.html#incDay">incDay</a></td><td>()</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="ADate.html#decDay">decDay</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="ADate.html#minAdapt">minAdapt</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual bool</td>
+	<td><a href="ADate.html#maxAdapt">maxAdapt</a></td><td>()</td></tr>
+    </table>
+  </body>
+</html>
