@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: DirSrch.h,v 1.2 1999/07/31 18:04:00 Markus Exp $
 
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Library General Public
@@ -43,9 +43,13 @@ class DirectorySearch;
 
 // Class to handle result of DirectorySearch
 #ifdef UNIX
-#define FILE_NORMAL         (S_IRWXU | S_IRWXG | S_IRWXO)
-#define FILE_READONLY       (S_IRUSR | S_IRGRP | S_IROTH)
+#define FILE_NORMAL         (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
+                             | S_IRWXU | S_IRWXG | S_IRWXO)
+#define FILE_READONLY       (S_IFREG | S_ISUID | S_ISGID | S_ISVTX \
+                             | S_IRUSR | S_IRGRP | S_IROTH \
+                             | S_IXUSR | S_IXGRP | S_IXOTH)
 #define FILE_DIRECTORY      (S_IFDIR)
+#define FILE_HIDDEN         0x80000000
 
 typedef struct dirEntry {
    friend class DirectorySearch;
@@ -64,7 +68,8 @@ typedef struct dirEntry {
    const char*         name () const { return entry.d_name; }
    const unsigned long size () const { return status.st_size; }
    const time_t        time () const { return status.st_mtime; }
-   void                time (struct tm& time) const { time = *localtime (&status.st_mtime); }
+   void                time (struct tm& time) const
+     { time = *localtime (&status.st_mtime); }
    const unsigned long attributs () const { return status.st_mode; }
 
    //@Section file-type
@@ -81,6 +86,7 @@ typedef struct dirEntry {
 #define FILE_NORMAL         FILE_ATTRIBUTE_ARCHIVE
 #define FILE_READONLY       FILE_ATTRIBUTE_READONLY
 #define FILE_DIRECTORY      FILE_ATTRIBUTE_DIRECTORY
+#define FILE_HIDDEN         (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN)
 
 typedef struct dirEntry : public WIN32_FIND_DATA {
    char* pPath;

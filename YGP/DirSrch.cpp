@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.1 1999/07/31 00:15:08 Markus Exp $
+//$Id: DirSrch.cpp,v 1.2 1999/07/31 18:04:00 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -65,7 +65,9 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
    assert (!checkIntegrity ());
 
 #ifdef UNIX
-   attr = attribs ? attribs : (unsigned long)-1;
+   attr = attribs;
+   if (!(attr & FILE_NORMAL))
+      attr |= FILE_NORMAL;
 
    pDir = opendir (searchDir.c_str ());
    if (!pDir)
@@ -104,8 +106,6 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
 #endif
 }
 
-#include <iostream.h>
-
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the next file which matches the search-criteria
 //Returns   : Status; 0: OK
@@ -121,13 +121,17 @@ int DirectorySearch::find () {
 
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
+     if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
+        continue;
+
      if (regExp.matches (pDirEnt->d_name)) {
          strcpy (pEntry->pEndPath, pDirEnt->d_name);
          stat (pEntry->pPath, &pEntry->status);
          pEntry->userExec = !access (pEntry->pPath, X_OK);
          *pEntry->pEndPath = '\0';
 
-         if (pEntry->status.st_mode & attr) {          // Do attributes match?
+         // Do attributes match?
+         if (!(pEntry->status.st_mode & ~attr)) {
             pEntry->entry = *pDirEnt;
             return 0;
          } // endif attributs OK
