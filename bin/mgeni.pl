@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mgeni.pl,v 1.3 2005/01/10 23:21:37 markus Exp $
+# $Id: mgeni.pl,v 1.4 2005/01/31 15:43:03 markus Rel $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ pod2usage (1) if ($help);
 
 if ($version) {
     $0 =~ s!.*/(.*)!$1!;
-    my $rev = '$Revision: 1.3 $';
+    my $rev = '$Revision: 1.4 $';
     $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
     print "$0 - V0.1.00     ($rev)\n";
     print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
@@ -176,6 +176,8 @@ line: while (<>) {
 	$attr = $type;
 	$attr =~ s/.*[[:blank:]]//;
 	$type =~ s/[[:blank:]]+[^[:blank:]]*$//;
+
+	$type =~ s/>/> /;
 
 	if ($value ne '') {
 	    print '   ', (($firstVal == 1) ? ':' : ','), ' ', $attr, ' (',
