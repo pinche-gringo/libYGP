@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.31 2003/05/23 17:48:51 markus Rel $
+//$Id: ANumeric.cpp,v 1.31.2.1 2003/06/22 23:31:19 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.31.2.1 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -172,6 +172,9 @@ std::string ANumeric::toString () const {
    TRACE5 ("ANumeric::toString () const - " << str);
 
    int len (str.length ());
+   if (str[0] == '-')
+      --len;
+
    int index (0);
    char group (loc->grouping[index]);
    char* pSep = loc->thousands_sep;
