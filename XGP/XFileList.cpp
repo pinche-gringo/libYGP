@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.13 2002/04/09 04:10:35 markus Exp $
+//$Id: XFileList.cpp,v 1.14 2002/04/11 07:48:06 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -126,7 +126,6 @@ XFileList::~XFileList () {
 //            namePrefix: Prefix of icons-files, which should be removed
 //            before comparing with actual filename
 //Requires  : namePrefix < strlen (files)
-//Remarks   : Call *after* the window (and the parent) is shown!!
 /*--------------------------------------------------------------------------*/
 unsigned int XFileList::loadIcons (const char* path, const char* files,
                         	   unsigned int namePrefix) {
@@ -149,14 +148,18 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
    PathDirectorySearch ds (path, files);
 
    const File* file = ds.find (DirectorySearch::FILE_NORMAL);
+   std::string type;
    while (file) {
       // Read icon-file and store it
       string filename (file->path ()); filename += file->name ();
       TRACE5 ("XFileList::loadIcons: Read icon " << filename);
 
+      const char* pTypepart (file->name () + namePrefix);
       TRACE9 ("XFileList::loadIcons: Store icon "
-	      << (file->name () + namePrefix));
-      icons[file->name () + namePrefix].create_from_xpm (parentWin, color, filename);
+              << std::string (pTypepart, strrchr (pTypepart, '.') - pTypepart));
+      type.assign (pTypepart,
+                   strrchr (pTypepart, '.') - pTypepart);
+      icons[type].create_from_xpm (parentWin, color, filename);
       file = ds.next ();
    } // end-while icon-files found
 }
@@ -185,7 +188,7 @@ gint XFileList::append (const File* file, const vector<string> text) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Prepends an entry to the list
-//Parameters: file: File; used to query icon; NULL: Don´t show icon
+//Parameters: file: File; used to query icon; NULL: Don´t show
 //            text: Text for list
 /*--------------------------------------------------------------------------*/
 gint XFileList::prepend (const File* file, const gchar *text[]) {
@@ -236,25 +239,23 @@ gint XFileList::insert_row (const File* file, gint row, const vector<string> &te
 //            files: Files to use as icon-files
 //Remarks   : The icon for the file is calculated according the following
 //            algorithm:
-//               - Use special one for directories or executeables
+//               - Use special ones for directories or executeables
 //               - Check if the name of file is stored in the icon-map
 //               - Remove the first part (til the next dot (.) of the name and
 //                 repeat the previous step
-//               - If no name-part left use a special default-icon
+//               - If no name-part is left use a special default-icon
 /*--------------------------------------------------------------------------*/
 void XFileList::setIcon (int row, const File* pFile) {
    TRACE7 ("XFileList::setIcon");
    Check3 (pFile);
 
-   Gdk_Pixmap* actIcon (NULL);
+   Gdk_Pixmap* actIcon (&iconDef);
 
    if (pFile->isDirectory ())
       actIcon = &iconDir;
    else if (pFile->isExecuteable ())
       actIcon = &iconExe;
    else {
-      actIcon = &iconDef;
-
       const char* pName (pFile->name () - 1);
 
       std::map<string, Gdk_Pixmap>::iterator i;
@@ -281,6 +282,6 @@ void XFileList::realize_impl () {
 
    CList::realize_impl ();
 #ifdef PKGDIR
-   loadIcons (PKGDIR, "Icon.*", sizeof ("Icon"));
+   loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
 #endif
 }
