@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.9 2003/03/03 05:53:43 markus Rel $
+//$Id: XFileEntry.h,v 1.10 2003/07/20 04:33:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,18 +22,23 @@
 #include "DirSrch.h"
 
 
-// Enhances the ordinary entry field with completing the input to the first file
-// matching it (if the entered part is a valid file); analogue to modern web
-// browsers.
-//
-// During construction the type of files to complete can be specified. See the
-// documentation of IDirectorySearch for details.
+/**Enhances the ordinary entry field with completing the input to the first
+   file matching it. Of course, only if the entered part is a valid file; a
+   behaviour analogue to the web browsers.
+
+   During construction the type of files to complete can be specified. See the
+   documentation of <a
+   href="../YGP/classIDirectorySearch.html">IDirectorySearch</a> for
+   details.
+*/
 class XFileEntry : public Gtk::Entry {
  public:
+   /// Constructor
+   /// \param fileAttrs: Attributes the files to display must have (default:
+   /// Normal files, no directories)
    XFileEntry (int fileAttrs = DirectorySearch::FILE_NORMAL) : Entry ()
       , attrs (fileAttrs) { }
-   XFileEntry (GtkEntry *castitem, int fileAttrs = DirectorySearch::FILE_NORMAL)
-      : Entry (castitem), attrs (fileAttrs) { }
+   /// Destructor
    ~XFileEntry () { }
 
  protected:

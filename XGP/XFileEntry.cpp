@@ -1,11 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.10 2003/06/29 01:54:02 markus Rel $
+//$Id: XFileEntry.cpp,v 1.11 2003/07/20 04:33:40 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -31,11 +31,11 @@
 #include "XFileEntry.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Handling of pressed key; Tries to complete the input to the
-//            first file matching the input.
-//Parameters: ev: Event, containing input-information
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Handling of the pressed key; Tries to complete the input to the first file
+/// matching the input.
+/// \param ev: Event, containing input-information
+//-----------------------------------------------------------------------------
 bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
    Check1 (ev);
    bool rc (Entry::on_key_press_event (ev));
