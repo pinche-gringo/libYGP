@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.2 2003/01/09 04:03:43 markus Exp $
+//$Id: XDialog.cpp,v 1.3 2003/02/24 17:31:36 markus Exp $
 
-//PROJECT     : Cardgames
-//SUBSYSTEM   : <FILLIN>
+//PROJECT     : General
+//SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -38,8 +38,8 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : (Default-)Constructor
-//Parameters: buttons: Buttons to display
+//Purpose   : (Default-)Constructor; creates the dialog with the specified buttons
+//Parameters: buttons: Bitfield for buttons to display
 /*--------------------------------------------------------------------------*/
 XDialog::XDialog (unsigned int buttons)
    : Gtk::Dialog ()
@@ -51,7 +51,7 @@ XDialog::XDialog (unsigned int buttons)
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor from an GTK+-object
 //Parameters: dialog: GTK+ object to use
-//            buttons: Buttons to display
+//            buttons: Bitfield for buttons to display
 /*--------------------------------------------------------------------------*/
 XDialog::XDialog (GtkDialog* dialog, unsigned int buttons)
    : Gtk::Dialog (dialog)
@@ -61,8 +61,17 @@ XDialog::XDialog (GtkDialog* dialog, unsigned int buttons)
 }
 
 /*--------------------------------------------------------------------------*/
+//Purpose   : Destructor
+/*--------------------------------------------------------------------------*/
+XDialog::~XDialog () {
+   delete ok;
+   delete cancel;
+}
+
+
+/*--------------------------------------------------------------------------*/
 //Purpose   : Adds the specified buttons to the dialog
-//Parameters: buttons: Buttons to display
+//Parameters: buttons: Bitfield for buttons to display
 /*--------------------------------------------------------------------------*/
 void XDialog::addButtons (unsigned int buttons) {
    get_action_area ()->set_homogeneous (false);
@@ -86,16 +95,7 @@ void XDialog::addButtons (unsigned int buttons) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
-XDialog::~XDialog () {
-   delete ok;
-   delete cancel;
-}
-
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds a button to the action area of the dialog
+//Purpose   : Adds the passed button to the action area of the dialog
 //Parameters: button: Button to add
 //            start: Flag, if button should be added at the beginning 
 /*--------------------------------------------------------------------------*/
