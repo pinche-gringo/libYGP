@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.5 2002/10/17 07:06:47 markus Rel $
+# $Id: Makefile.in,v 1.6 2003/05/23 17:55:34 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -119,3 +119,5 @@ distdir: $(DISTFILES)
 	done
 
 check:
+
+distclean: clean
