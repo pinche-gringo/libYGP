@@ -1,4 +1,4 @@
-<!-- $Id: IVIOAppl.html,v 1.6 2000/04/17 23:34:18 Markus Rel $ -->
+<!-- $Id: IVIOAppl.html,v 1.7 2000/04/24 14:28:35 Markus Rel $ -->
 
 <html>
   <head>
@@ -25,24 +25,44 @@
     <h2>Description</h2>
     <p>Class to handle the startup of a program.</p>
 
-    <p>The main purpose/advantage of this class is its parameter-handling.
-      Parameters starting with a minus (-) or (only in Windoze) with a slash
-      (/) are treated as options and reported via the
-      <a href="IVIOAppl.html#handleOption">handleOption</a>-method. Every
-      option can also represented in a verbose way starting with two
-      minus-characters (--).</p>
+    <p>The main purpose/advantage of this class is its (UNIX-like)
+      parameter-handling (which has additionally the advantage of being very
+      good documented; so the following part is the - slightly changed -
+      man-page of the getopt-command).</p>
 
-    <p>Options can be passed before or after the other parameters and are
-      handled before the "real" program starts to run. To end further
-      option-handling two minus-characters (--) without following text can be
-      used.</p>
+    <p>The parameters are parsed from left to right. Each parameter is
+      classified as a short option, a long option (both reported via the
+      <a href="IVIOAppl.html#handleOption">handleOption</a>-method), an
+      argument to an option, or a non-option parameter.</p>
 
-    <p>Two ore more options can be put together after a single option-character.
-      e.g.: "-d -v" is equal to "-dv" (and also to "--debug --verbose" if those
-      long-values are associated with the options).</p>
+    <p>A simple short option is a minus (-) or (only in Windoze) a slash (/)
+      followed by a short option character. If the option has an argument, it
+      may be  written directly after the option character or as the next
+      parameter (ie. separated by whitespace on the command ine).</p>
+
+    <p>It is possible to specify several short options after one minus (-), as
+      long as all (except possibly the last) do not have arguments.</p>
+
+    <p>A long option normally begins with `--'  followed by the long option
+      name. If the option has an argument, it may be written directly after the
+      long option name, separated by an equal-sign (=), or as the next argument
+      (ie. separated by whitespace on the command line). Long options may be
+      abbreviated, as long as the abbreviation is not ambiguous.</p>
+
+    <p>Every parameter which is not an option or an argument to an option or
+      after a '--'-parameter is a non-option parameter and are passed to the
+      <a href="IVIOAppl.html#perform">perform</a>-method.</p>
 
     <p><b>Note</b>: The option "-h" is always used to display the help of the
       application.</p>
+
+    <h4>Programmers information</h4>
+    <p>Unlike the UNIX getopt-function, optional paramters need not to be
+      marked in a special way. Instead use the
+      <a href="IVIOAppl.html#checkOptionValue">checkOptionValue</a>-method to retrieve
+      the value of the possible argument, analyze it (like for having no
+      leading minus (-)) and retrieve commit it with the
+      <a href="IVIOAppl.html#getOptionValue">getOptionValue</a>-method if OK.</p>
 
     <hr noshade>
     <table border="0">

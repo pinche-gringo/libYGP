@@ -1,6 +1,8 @@
 Version 0.5.21: - Fixes for Windoze-version
 		- Docu improved, fixed
 		- Adapted for Gtk-- 1.2.0
+		- Fixes in extStreambuf
+		- IVIOApplication handles long-options like getopt
 
 Version 0.5.20: - Documentation added
 		- Fixes and minor changes in many classes
