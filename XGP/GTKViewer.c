@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.15 2005/03/08 17:20:25 markus Exp $
+//$Id: GTKViewer.c,v 1.16 2005/03/21 17:24:33 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -96,7 +96,7 @@ GtkWidget* gtkhtmlInitialize () {
    TRACE ("Initializing gtkhtml viewer\n");
 
    if (!hDLL)
-      hDLL = dlopen ("libgtkhtml-3.1.so", 0x00001);
+      hDLL = dlopen ("libgtkhtml-" HAVE_GTKHTML ".so", 0x00001);
 
    if (hDLL) {
       if (!pfnNew) {
