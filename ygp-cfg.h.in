@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.13 2002/07/08 03:36:16 markus Exp $
+//$Id: ygp-cfg.h.in,v 1.14 2002/10/10 05:45:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@
 #endif
 
 /* Define the micro-version */
-#ifndef RELEASE
-#undef RELEASE
+#ifndef LIB_RELEASE
+#undef LIB_RELEASE
 #endif
 
 
