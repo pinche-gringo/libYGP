@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.5 2003/03/03 17:07:08 markus Exp $
+//$Id: XDialog.cpp,v 1.6 2003/03/06 03:10:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -108,10 +108,18 @@ void XDialog::init () {
 /*--------------------------------------------------------------------------*/
 void XDialog::on_response (int cmd) {
    TRACE9 ("XDialog::on_response (int)" << cmd);
-   if (cmd == Gtk::RESPONSE_OK)
+   switch (cmd) {
+   case Gtk::RESPONSE_OK:
       okEvent ();
-   else if (cmd == Gtk::RESPONSE_CANCEL)
+      break;
+
+   case Gtk::RESPONSE_CANCEL:
       cancelEvent ();
+      break;
+
+   default:
+      command (cmd);
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -128,4 +136,13 @@ void XDialog::okEvent () {
 void XDialog::cancelEvent () {
    TRACE9 ("XDialog::okEvent ()");
    delete this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Command handler of the dialog
+//Parameters: action: Selected action
+//Remarks   : Must not be called
+/*--------------------------------------------------------------------------*/
+void XDialog::command (int action) {
+   Check (0);
 }
