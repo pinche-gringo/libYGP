@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.18 2003/02/14 04:12:44 markus Exp $
+//$Id: File.cpp,v 1.19 2003/02/21 19:35:31 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -65,10 +65,10 @@ File::File (const File& other) : path_ (other.path_)
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor; create from a name
-//Parameter : name: Name of file
-//Throws    : Pointer to character-array describing the error
+//Parameter : name: Pointer to character-array holding name of file to create
+//Throws    : String describing the error
 /*--------------------------------------------------------------------------*/
-File::File (const char* name) throw (const char*)
+File::File (const char* name) throw (std::string)
 #if SYSTEM == UNIX
    : userExec (false)
 #endif
@@ -107,9 +107,9 @@ File& File::operator= (const File& other) {
 //Purpose   : Assignment operator; create from a name
 //Parameter : name: Name of file
 //Returns   : Reference to self
-//Throws    : Pointer to character-array describing the error
+//Throws    : String describing the error
 /*--------------------------------------------------------------------------*/
-File& File::operator= (const char* name) throw (const char*) {
+File& File::operator= (const char* name) throw (std::string) {
 #if SYSTEM == UNIX
    // If file exists, fill data-fields
    if (!stat (name, &status)) {
@@ -153,7 +153,7 @@ File& File::operator= (const char* name) throw (const char*) {
       CloseHandle (hFile);
    }
    else {
-      static char buffer[80];
+      char buffer[80];
       FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError (),
                      0, buffer, sizeof (buffer), NULL);
       throw (buffer);
