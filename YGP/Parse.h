@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.7 1999/09/21 23:40:55 Markus Rel $
+//$Id: Parse.h,v 1.8 1999/10/11 21:11:36 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ class ParseObject {
    int  parse (Xistream& stream) {
       assert (!checkIntegrity ());
       return doParse (stream, false); }
+   virtual int doParse (Xistream& stream, bool optional) = 0;
 
    enum { PARSE_OK = 0, PARSE_ERROR = 1, PARSE_CB_ERROR = 2,
           PARSE_CB_ABORT = -1 };
@@ -69,17 +70,8 @@ class ParseObject {
    // Possible errors of checkIntegrity
    enum { OK = 0, NO_DESCRIPTION, LAST };
 
-#ifdef UNIX
-   // Should be protected; but EGCS don't accept it
-   virtual int doParse (Xistream& stream, bool optional) {};
-#endif
 
  protected:
-#ifndef UNIX
-   // Should be protected everywhere; but EGCS don't accept it
-   virtual int doParse (Xistream& stream, bool optional) {};
-#endif
-
    virtual int checkIntegrity () const;
 
    PARSECALLBACK pCallback;     // Protected to enable sub-classes easy access
