@@ -1,7 +1,7 @@
 #ifndef AUTOCONTAINER_H
 #define AUTOCONTAINER_H
 
-//$Id: AutoContainer.h,v 1.3 2003/11/14 20:28:08 markus Rel $
+//$Id: AutoContainer.h,v 1.4 2003/12/01 18:11:34 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ class AutoContainer : public Gtk::ScrolledWindow {
    AutoContainer (Gtk::Adjustment& hadjustment, Gtk::Adjustment& vadjustment);
    virtual ~AutoContainer ();
 
+   void insert (Gtk::Widget& widget, unsigned int pos);
    virtual void add (Gtk::Widget& widget);
    void remove (Gtk::Widget& widget);
 
