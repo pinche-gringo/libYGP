@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.2 2000/12/07 20:43:43 Markus Exp $
+//$Id: Log.h,v 1.3 2001/01/09 02:19:47 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 
 #ifdef UNIX
 
+#include <syslog.h>
+
 #define LOGALERT(text)     syslog (Syslog::ALERT, "%s", text);
 #define LOGCRITICAL(text)  syslog (Syslog::CRIT, "%s", text);
 #define LOGERROR(text)     syslog (Syslog::ERR, "%s", text);
@@ -30,23 +32,67 @@
 #define LOGINFO(text)      syslog (Syslog::INFO, "%s", text);
 #define LOGDEBUG(text)     syslog (Syslog::DEBUGGING, "%s", text);
 
-#define LOG                syslog
+#else  // UNIX
 
-#include <syslog.h>
+#ifdef WINDOWS
+
+#include <iostream.h>
+
+#define LOGALERT(text)     Syslog::write (Syslog::ALERT, text);
+#define LOGCRITICAL(text)  Syslog::write (Syslog::CRIT, text);
+#define LOGERROR(text)     Syslog::write (Syslog::ERR, text);
+#define LOGWARNING(text)   Syslog::write (Syslog::WARNING, text);
+#define LOGNOTICE(text)    Syslog::write (Syslog::NOTICE, text);
+#define LOGINFO(text)      Syslog::write (Syslog::INFO, text);
+#define LOGDEBUG(text)     Syslog::write (Syslog::DEBUGGING, text);
+
+#endif // WINDOWS
+
+#endif // UNIX
 
 class Syslog {
  public:
    Syslog (const char* appl) { assert (appl);
-      openlog (appl, LOG_PID | LOG_CONS, LOG_USER); }
-   Syslog (const char* appl, int facility) { assert (appl);
-      openlog (appl, LOG_PID | LOG_CONS, facility); }
-   ~Syslog () { closelog (); }
+#ifdef UNIX
+      openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
+#endif // UNIX
+   }
 
+   Syslog (const char* appl, int facility) { assert (appl);
+#ifdef UNIX
+      openlog (appl, LOG_PID | LOG_CONS, facility);
+#endif // UNIX
+   }
+   ~Syslog () {
+#ifdef UNIX
+      closelog ();
+#endif
+   }
+
+   static void write (int level, const char* text) {
+      assert (text);
+#ifdef UNIX
+      syslog (level, "%s", text);
+#else
+// Use printf to log under Windoze (although NT does have some logging-thing)
+#ifdef WINDOWS
+      static char* levels[] = { "Alert", "Critical", "Error", "Warning",
+                                "Notice", "Information", "Debug" };
+      assert (level < (sizeof (levels) / sizeof (levels[0])));
+      cerr << levels[level] << ": " << text << '\n';
+#endif // WINDOWS
+#endif // UNIX
+   }
+
+#ifdef UNIX
    enum { ALERT = LOG_ALERT, CRITICAL = LOG_CRIT, ERROR = LOG_ERR,
           WARNING = LOG_WARNING, NOTICE = LOG_NOTICE, INFO = LOG_INFO,
           DEBUGGING = LOG_DEBUG };
-};
-
+#else
+#ifdef WINDOWS
+   enum { ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUGGING };
+#endif
 #endif // UNIX
+};
 
 #endif
