@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.1 2003/10/17 06:33:20 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.2 2003/10/19 00:02:46 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -29,6 +29,9 @@
 
 #ifdef HAVE_GTKHTML
 
+#include <gtkmm/scrolledwindow.h>
+
+
 #define CHECK 9
 #define TRACELEVEL 9
 #include <Check.h>
@@ -38,22 +41,19 @@
 #include "HTMLViewer.h"
 
 
-HTMLViewer* HTMLViewer::instance (NULL);
-
-
 //----------------------------------------------------------------------------
 /// Creates (or updates) a dialog displaying a HTML-document
 /// \param file: File containing the HTML-document to display
+/// \returns HTMLViewer* : Pointer to the created dialog
 /// \throw std::string in case of error
 //----------------------------------------------------------------------------
-void HTMLViewer::create (const std::string& file) throw (std::string) {
+HTMLViewer* HTMLViewer::create (const std::string& file) throw (std::string) {
    TRACE9 ("HTMLViewer::create (const std::string&) - " << file);
    Check1 (file.size ());
 
-   if (instance)
-      instance->display (file);
-   else
-      instance = new HTMLViewer (file);
+   HTMLViewer* dlg (new HTMLViewer (file));
+   dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+   return dlg;
 }
 
 
@@ -63,16 +63,22 @@ void HTMLViewer::create (const std::string& file) throw (std::string) {
 /// \throw \c std::string in case of error
 //----------------------------------------------------------------------------
 HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
-    : XDialog (_("Help window"), XDialog::OK), htmlCtrl (NULL) {
+    : XDialog (_("Help window"), XDialog::OK), htmlCtrl (gtkhtmlInitialize ())
+      , scrl (manage (new Gtk::ScrolledWindow)) {
    TRACE9 ("HTMLViewer::HTMLViewer (const std::string&) - " << file);
    Check1 (file.size ());
 
-   htmlCtrl = gtkhtmlGetWidget ();
    if (htmlCtrl) {
-      gtk_widget_show (htmlCtrl);
-      get_vbox ()->pack_start (*Glib::wrap (htmlCtrl, false));
+      resize (640, 400);
+      GtkWidget* ctrl (gtkhtmlGetWidget (htmlCtrl));
+      gtk_widget_show (ctrl);
+      get_vbox ()->pack_start (*scrl);
+
+      scrl->add (*Glib::wrap (ctrl, false));
+      scrl->set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
       display (file.c_str ());
+      show_all_children ();
       show ();
    }
    else {
@@ -86,7 +92,7 @@ HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
 /// Destructor
 //----------------------------------------------------------------------------
 HTMLViewer::~HTMLViewer () {
-   gtkhtmlDeleteWidget (htmlCtrl);
+   TRACE9 ("HTMLViewer::~HTMLViewer ()");
 }
 
 

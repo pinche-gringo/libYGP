@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.1 2003/10/17 06:33:20 markus Exp $
+//$Id: HTMLViewer.h,v 1.2 2003/10/19 00:02:46 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@
 #ifdef HAVE_GTKHTML
 #define HAVE_VIEWER
 
+namespace Gtk {
+    class ScrolledWindow;
+}
 
 #include <XDialog.h>
 
@@ -31,16 +34,17 @@
  */
 class HTMLViewer : public XDialog {
  public:
-    static void create (const std::string& file) throw (std::string);
+    static HTMLViewer* create (const std::string& file) throw (std::string);
 
  private:
     HTMLViewer (const std::string& file) throw (std::string);
     ~HTMLViewer ();
 
     void display (const std::string& file) throw (std::string);
+    void x (int);
 
-    GtkWidget*         htmlCtrl;
-    static HTMLViewer* instance;
+    void*                htmlCtrl;
+    Gtk::ScrolledWindow* scrl;
 };
 
 #endif // HAVE_GTKHTML
