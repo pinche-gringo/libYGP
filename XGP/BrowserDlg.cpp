@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.14 2003/11/17 15:08:24 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.15 2003/12/09 04:15:01 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -30,6 +30,7 @@
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
+#include <YGP/Internal.h>
 
 #include "XGP/BrowserDlg.h"
 
