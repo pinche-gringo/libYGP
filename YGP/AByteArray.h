@@ -1,7 +1,7 @@
 #ifndef ABYTEARRAY_H
 #define ABYTEARRAY_H
 
-// $Id: AByteArray.h,v 1.3 2002/05/24 01:01:58 markus Rel $
+// $Id: AByteArray.h,v 1.4 2002/11/19 21:50:56 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,13 @@
 
 #include <AttrVal.h>
 
+// Class for raw character-values. As every AttributValue is supports
+// undefined values.
+//
+// In counterpart to the std::string-class this class distinguishes between
+// an empty value and not defined (as every AttributValue).
 class AByteArray : public AttributValue {
+   // See the hedaer of the check integrity method for its invariants
  public:
    AByteArray () : AttributValue (), pValue (NULL), len (0), allocated (0) { }
    AByteArray (int length): AttributValue (true)
