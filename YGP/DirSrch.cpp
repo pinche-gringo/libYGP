@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.13 2000/02/02 22:11:21 Markus Exp $
+//$Id: DirSrch.cpp,v 1.14 2000/02/06 22:11:35 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -152,12 +152,12 @@ int DirectorySearch::find () {
 
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
-     TRACE9 ("DirectorySearch::find - found " << pDirEnt->d_name);
+      TRACE9 ("DirectorySearch::find - found " << pDirEnt->d_name);
 
-     if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
-        continue;
+      if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
+         continue;
 
-     if (regExp.matches (pDirEnt->d_name)) {
+      if (regExp.matches (pDirEnt->d_name)) {
          strcpy (pEntry->pEndPath, pDirEnt->d_name);
          stat (pEntry->pPath, &pEntry->status);
          pEntry->userExec = !access (pEntry->pPath, X_OK);
@@ -168,10 +168,10 @@ int DirectorySearch::find () {
          unsigned short type (pEntry->status.st_mode & ~FILE_NORMAL);
          if (((access & attr) == access) || (type & attr)) {
             pEntry->entry = *pDirEnt;
-	    TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
+            TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
             return 0;
          } // endif attributs OK
-   } // endif filename OK
+      } // endif filename OK
    } // end-while files available
 
    return ENOENT;
