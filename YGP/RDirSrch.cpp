@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.4 2001/08/14 23:42:06 markus Exp $
+//$Id: RDirSrch.cpp,v 1.5 2001/08/21 23:50:20 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "ATStamp.h"
 #include "ANumeric.h"
@@ -108,26 +108,24 @@ void RemoteDirSearch::setFiledata (const char* pAnswer) {
 
    *pEnd = '\0';
    pEntry->name (pPathEnd + 1);
-   TRACE5 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
            << pEntry->path () << pEntry->name ());
 
    // Set filesize
    pAnswer = pEnd + 7;
    pEnd = strstr (pAnswer, ";Time="); assert (pEnd);
    *pEnd = '\0';
-   TRACE8 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size="
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size="
 	   << pAnswer);
    ANumeric size (pAnswer); assert (size.isDefined ());
    pEntry->size (size);
-   TRACE5 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
-           << size.toString ());
 
    // Set filetime
    pAnswer = pEnd + 6;
-   ATimestamp time (pAnswer); assert (time.isDefined ());
+   ATimestamp time (pAnswer);
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Time="
+	   << time.toString ());
    pEntry->time (time.toSysTime ());
-   TRACE5 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
-           << time.toString ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -150,11 +148,15 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_e
    buffer += attrs.toString ();
    buffer += '\0';
 
-   TRACE8 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Sending:\n\t"
+   TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Sending:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
    sock.write (buffer);
 
    sock.read (buffer);
+   buffer += '\0';
+   TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Read:\n\t"
+           << buffer.length () << " bytes: " << buffer.data ());
+
    if (isOK (buffer)) {
       setFiledata (buffer.data ());
       return 0;
@@ -175,8 +177,13 @@ int RemoteDirSearch::find () throw (domain_error) {
    TRACE8 ("RemoteDirSearch::find () - Sending:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
    sock.write (buffer);
+   TRACE9 ("RemoteDirSearch::find () - Sended");
 
    sock.read (buffer);
+   buffer += '\0';
+   TRACE8 ("RemoteDirSearch::find () - Read:\n\t"
+           << buffer.length () << " bytes: " << buffer.data ());
+
    if (isOK (buffer)) {
       setFiledata (buffer.data ());
       return 0;
