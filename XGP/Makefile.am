@@ -14,12 +14,12 @@ libXAppl_la_SOURCES=XAbout.cpp XApplication.cpp XFileEntry.cpp \
 		    XFileDlg.cpp XPrintDlg.cpp XDialog.cpp BrowserDlg.cpp \
 		    $(include_HEADERS) 
 
-libXAppl_la_LDFLAGS=-lsigc `gtkmm-config --libs` -lAttr \
+libXAppl_la_LDFLAGS=-lsigc @GTKMM_LIBS@ -lAttr \
                     -version-info $(LIBVERSION) -release $(LIBRELEASE) \
                     -no-undefined
 
 INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(pkgdatadir)\" \
-           `gtkmm-config --cflags` -I$(top_srcdir)/intl
+           @GTKMM_CFLAGS@ -I$(top_srcdir)/intl
 
 # Settings for gettext
 localedir = $(datadir)/locale
