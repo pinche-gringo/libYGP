@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.13 2003/07/10 20:43:11 markus Rel $
+//$Id: Thread.cpp,v 1.14 2003/07/25 05:43:54 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -147,18 +147,27 @@ void Thread::ret (void* rc) const {
 //-----------------------------------------------------------------------------
 /// Terminates the thread
 /// \remarks Note that not all plattforms (e.g. Windows) support to cancel a
-///     thread; in such a case the thread must itself check, if it should be
+///     thread; in such a case the thread must check itself, if it should be
 ///     canceled.
 //-----------------------------------------------------------------------------
 void Thread::cancel () {
 #ifdef HAVE_LIBPTHREAD
-#  if CHECK >= 3
-   int rc =
-#  endif
-   pthread_cancel (id);
+   int rc (pthread_cancel (id));
    Check3 (!rc);
 #else
    canceled = true;
+#endif
+}
+
+//-----------------------------------------------------------------------------
+/// Terminates the thread
+/// \remarks Note that not all plattforms (e.g. Windows) support to cancel a
+///     thread; in such a case the thread must check itself, if it should be
+///     canceled.
+//-----------------------------------------------------------------------------
+void Thread::allowCancelation (bool allow) {
+#ifdef HAVE_LIBPTHREAD
+   pthread_setcancelstate (allow ? PTHREAD_CANCEL_ENABLE : PTHREAD_CANCEL_DISABLE, NULL);
 #endif
 }
 

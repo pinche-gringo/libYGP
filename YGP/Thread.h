@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.12 2003/07/10 21:24:58 markus Rel $
+//$Id: Thread.h,v 1.13 2003/07/25 05:43:54 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ class Thread {
 
    /// \name Termination of the thread
    //@{
+   void allowCancelation (bool allow = true);
    void cancel ();
    static void* waitForThread (const Thread& id);
    static void* waitForThread (unsigned long threadID);
@@ -148,7 +149,7 @@ template <class T> class OThread : public Thread {
    /// \param threadAsArg: Flag, if the thread expects its argument directly
    OThread (T* obj, THREAD_OBJMEMBER fnc, void* pArgs, bool threadAsArg = false)
       throw (std::string)
-      : Thread (), object (obj), callback (fnc), indirect (threadAsArg) {
+      : Thread (), indirect (threadAsArg), object (obj), callback (fnc) {
       // Don't create Thread directly with data, because the thread might start
       // without object and callback being initialized!!
       pArgs_ = pArgs;
