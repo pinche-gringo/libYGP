@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.3 2003/02/18 02:56:32 markus Exp $
+//$Id: XAttrLabel.h,v 1.4 2003/02/24 17:30:56 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -83,5 +83,68 @@ void XAttributeLabel<double>::update () {
    sprintf (buffer, "%lf", attr_);
    set_text (buffer);
 }
+
+
+// Class to display an attribute in a formated style while preservering its
+// other abilities. This class stores the attribute.
+template <class T> class XAttributeLabel2 : public Gtk::Label {
+ public:
+   XAttributeLabel2 (const T& attr, gfloat x = 0.5, gfloat y = 0.5)
+      : Gtk::Label (NULL, x, y), attr_ (attr) { update (); }
+   ~XAttributeLabel2 () { }
+
+   void update () { set_text (attr_.toString ()); }
+   T& getAttribute () { return const_cast<T&> (attr_); }
+
+ private:
+   XAttributeLabel2 (const XAttributeLabel2&);
+   const XAttributeLabel2& operator= (const XAttributeLabel2&);
+
+   const T attr_;
+};
+
+// Specialization of XAttributeLabel2 for C++'s number types
+void XAttributeLabel2<short>::update () {
+   char buffer[20];
+   sprintf (buffer, "%d", attr_);
+   set_text (buffer);
+}
+
+void XAttributeLabel2<unsigned short>::update () {
+   char buffer[20];
+   sprintf (buffer, "%u", attr_);
+   set_text (buffer);
+}
+
+void XAttributeLabel2<int>::update () {
+   char buffer[20];
+   sprintf (buffer, "%d", attr_);
+   set_text (buffer);
+}
+
+void XAttributeLabel2<unsigned int>::update () {
+   char buffer[20];
+   sprintf (buffer, "%u", attr_);
+   set_text (buffer);
+}
+
+void XAttributeLabel2<long>::update () {
+   char buffer[20];
+   sprintf (buffer, "%ld", attr_);
+   set_text (buffer);
+}
+
+void XAttributeLabel2<unsigned long>::update () {
+   char buffer[20];
+   sprintf (buffer, "%lu", attr_);
+   set_text (buffer);
+}
+
+void XAttributeLabel2<double>::update () {
+   char buffer[20];
+   sprintf (buffer, "%lf", attr_);
+   set_text (buffer);
+}
+
 
 #endif
