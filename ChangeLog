@@ -1,3 +1,28 @@
+2004-01-19  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.45
+
+	* configure.in: Version to 0.6.45
+
+	* YGP/Thread.h: Improved comments
+
+2004-01-17  Markus Schwab  <g17m0@lycos.com>
+
+	* CGP/Makefile.in: Moved parameter of -release to option
+
+	* YGP/File.h: Commented friend classes (for doxygen)
+
+	* XGP/XFileList.cpp: Moved static data structures out of namespaces
+
+	* XGP/Version.cpp:
+	  Added namespace description (for doxygen); Moved functions out of namespace
+
+	* XGP/MessageDlg.cpp, XGP/MessageDlg.h: Added a update method
+
+2004-01-16  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/IVIOAppl.cpp: Returning error -2 if an exception is caught in run
+
 2004-01-15  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.44

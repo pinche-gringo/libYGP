@@ -1,3 +1,9 @@
+Overview of Changes in version 0.6.45:
+
+  - Returning an error, if IVIOApplication::run catches an exception
+  - Commenting XGP-namespace (for doxygen)
+  - MessageDlg can update its contents
+
 Overview of Changes in version 0.6.44:
 
   - IVIOApplication reports uncaught exceptions
