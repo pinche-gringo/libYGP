@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.10 2002/07/12 16:40:51 markus Rel $
+# $Id: Makefile.in,v 1.11 2003/05/23 17:48:09 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -48,7 +48,7 @@ SUBDIRS = . Tests
 
 INCLUDES =  -I. -I$(top_srcdir) -I$(top_srcdir)/Common
 DEFS = @DEFS@
-CXXFLAGS = @CXXFLAGS@
+CXXFLAGS = @CXXFLAGS@ -Wall
 CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 
 LDFLAGS = @LDFLAGS@
