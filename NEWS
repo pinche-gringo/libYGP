@@ -1,3 +1,15 @@
+Overview of Changes in version 0.6.10:
+
+  -! Supporting Borland C++
+  - Added toString-methods for ints and shorts to ANumeric
+  - XAttributeLabel class to display formated Attributes added
+  - XAttributeEntry class to edit formated Attributes added
+  - XDialog class (base class for dialogs) added
+  - AttributeLists added
+  - INIFile can parse AttributeLists (as own section)
+  -! Tests for X-windows classes added
+  - Fixes
+
 Overview of Changes in version 0.6.02:
 
   - Directory bin (for scripts, ...) added
@@ -13,6 +25,7 @@ Overview of Changes in version 0.6.02:
   - Changed Make.bat to DOS format
   - Fixes
   - ATime throws now rather exception than just undefining the object
+  - Parse*Ignore classes removed; instead ParseAttomic got flag to store input
   - Classes use rather Checks than asserts
 
 Overview of Changes in version 0.6.01:
@@ -22,7 +35,7 @@ Overview of Changes in version 0.6.01:
   - IVIOAppl provides method for I18n
   - Class for mutual exclusive devices added
   - Thread class (a bit) improved
-  - Adapted for VC++ (this thing is industry-standard? Fucking hell!)
+  - Adapted to VC++ (this thing is industry-standard? Fucking hell!)
   - Bugfixes
   - README and INSTALL contains usefull information
   - Check for gtkmm improved (and Gtk-- renamed to gtkmm)
@@ -61,7 +74,7 @@ Overview of changes in version 0.5.21:
 
   - Fixes for Windoze-version
   - Docu improved, fixed
-  - Adapted for Gtk-- 1.2.0
+  - Adapted to Gtk-- 1.2.0
   - Fixes in extStreambuf
   - IVIOApplication handles long-options like getopt
 
@@ -90,4 +103,4 @@ Overview of changes in version 0.5.01:
   - Bugfix in XFileEntry (Cursor-key-handling corrected)
   - public constants replaced with functions (Path/DirSrch)
   - Ported to Windoze (Borland-C++)
-  - Seperated in subdirs (Common; X-related -> X-windows)
+  - Separated in subdirs (Common; X-related -> X-windows)
