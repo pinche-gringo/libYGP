@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.7 2002/07/15 21:02:40 markus Rel $
+//$Id: CIDirSrch.cpp,v 1.8 2003/11/14 17:27:35 markus Exp $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -25,65 +25,64 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <assert.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
+#include <YGP/ATStamp.h>
 
-#include <Trace_.h>
-#include <ATStamp.h>
-
-#include "CIDirSrch.h"
+#include <CGP/CIDirSrch.h>
 
 
 CIFile::CIFile (const File& other) : pFile (&other) {
 }
 
 char* CIFile::path () {
-   assert (pFile);
+   Check3 (pFile);
    return CORBA::string_dup (pFile->path ());
 }
 
 char* CIFile::name () {
-   assert (pFile);
+   Check3 (pFile);
    return CORBA::string_dup (pFile->name ());
 }
 
 CORBA::ULong CIFile::size () {
-   assert (pFile);
+   Check3 (pFile);
    return pFile->size ();
 }
 
 char* CIFile::time () {
-   assert (pFile);
+   Check3 (pFile);
    ATimestamp time (pFile->time ());
    return CORBA::string_dup (time.toString ().c_str ());
 }
 
 CORBA::ULong CIFile::attributes () {
-   assert (pFile);
+   Check3 (pFile);
    return IDirectorySearch::convertFromSysAttribs (pFile->attributes ());
 }
 
 CORBA::Boolean CIFile::isDirectory () {
-   assert (pFile);
+   Check3 (pFile);
    return pFile->isDirectory ();
 }
 
 CORBA::Boolean CIFile::isExecuteable () {
-   assert (pFile);
+   Check3 (pFile);
    return pFile->isExecuteable ();
 }
 
 CORBA::Boolean CIFile::isUserExec () {
-   assert (pFile);
+   Check3 (pFile);
    return pFile->isUserExec ();
 }
 
 CORBA::Short CIFile::compare (const char* file) {
-   assert (pFile);
+   Check3 (pFile);
    return pFile->compare (file);
 }
 
 CORBA::Short CIFile::compareObject (CFile_ptr other) {
-   assert (pFile);
+   Check3 (pFile);
    return pFile->compare (other->name ());
 }
 
