@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.32 2000/04/21 00:56:16 Markus Exp $
+// $Id: Test.cpp,v 1.33 2000/04/24 14:24:40 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -139,6 +139,10 @@ bool Application::handleOption (const char option) {
       assert (pValue == getOptionValue ());
       if (option == 'A')
          check (pValue);
+
+#ifdef VERBOSE
+      cout << "Option param: " << pValue << '\n';
+#endif
    } // endif special option
    return true;
 }
