@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.22 1999/10/19 22:47:15 Markus Exp $
+// $Id: Test.cpp,v 1.23 1999/10/25 17:59:55 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -143,8 +143,8 @@ int Application::perform (int argc, char* argv[]) {
    check (!argv[argc]);
 
    cout << "Testing Parser...\n";
-   ParseAttomic  nr ("\\9", "Number", NULL, 4, 2);
-   ParseAttomic  alpha ("\\X", "Alphanum", NULL, 4, 2);
+   ParseAttomic  nr ("\\9", "Number", 4, 2);
+   ParseAttomic  alpha ("\\X", "Alphanum", 4, 2);
    ParseExact exact ("234", "234");
    ParseUpperExact upper ("9A42", "9A42");
    ParseObject* lstSeq[] = { &nr, &exact, NULL };
