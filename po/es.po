@@ -1,13 +1,13 @@
-# English translation of messages for general library
-# Copyright (C) 2002-2004 Markus Schwab
+# Spanisch translation of messages for general library
+# Copyright (C) 2002 - 2005 Markus Schwab
 # Markus Schwab <g17m0@lycos.com>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.29 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.30 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2004-12-29 14:30-0400\n"
-"PO-Revision-Date: 2004-12-29 14:37-0400\n"
+"POT-Creation-Date: 2005-01-07 00:45-0400\n"
+"PO-Revision-Date: 2005-01-07 00:49-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -461,3 +461,19 @@ msgstr "Buscear"
 #: XGP/SearchDlg.cpp:49
 msgid "_Find:"
 msgstr "_Busca:"
+
+#: XGP/LoginDlg.cpp:46
+msgid "Enter login information"
+msgstr "Información del usario"
+
+#: XGP/LoginDlg.cpp:54
+msgid "_Userid:"
+msgstr "_Nombre de usario:"
+
+#: XGP/LoginDlg.cpp:58
+msgid "_Password:"
+msgstr "_Contraseña:"
+
+#: XGP/LoginDlg.cpp:70
+msgid "_Login"
+msgstr "C_onectar"
