@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.7 2002/05/24 06:52:49 markus Rel $
+//$Id: Socket.h,v 1.8 2002/12/15 22:19:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
