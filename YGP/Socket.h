@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.8 2002/12/15 22:19:51 markus Rel $
+//$Id: Socket.h,v 1.9 2003/06/13 18:46:45 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,24 +38,22 @@
 #include <string>
 #include <stdexcept>
 
-#include <AByteArray.h>
-
-// A socket is a generalized interprocess communication channel, which
-// support communication between unrelated processes, and even between
-// processes running on different machines that communicate over a
-// network. This class provides methods to connect to, read from and
-// write to another socket.
-//
-// At the moment the communications are always handled using streamed
-// connections in the Internet namespace.
+/** A socket is a generalized interprocess communication channel, which
+   supports communication between unrelated processes, and even between
+   processes running on different machines that communicate over a
+   network. This class provides methods to connect to, read from and
+   write to another socket.
+  
+   At the moment the communications are always handled using streamed
+   connections in the Internet namespace.*/
 class Socket {
  public:
    Socket () throw (std::domain_error);
-   Socket (int socket) : sock (socket) { }
+   Socket (int socket) : sock (socket) { }  ///< Constructor from system socket
    Socket (unsigned int port) throw (std::domain_error);
    Socket (const char* server, unsigned int port) throw (std::domain_error);
    Socket (const std::string& server, unsigned int port) throw (std::domain_error);
-   Socket (const Socket& other) : sock (other.sock) { }
+   Socket (const Socket& other) : sock (other.sock) { }   ///< Copy constructor
    virtual ~Socket ();
 
    Socket& operator= (const Socket& other) throw (std::domain_error);
@@ -64,24 +62,26 @@ class Socket {
    void listenAt (unsigned int port) const throw (std::domain_error);
    int waitForInput () const throw (std::domain_error);
 
-   int  read (AByteArray& input) const throw (std::domain_error);
    int  read (std::string& input) const throw (std::domain_error);
    int  read (char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
 
-   void writeTo (const char* server, unsigned int port) const throw (std::domain_error);
+   /// Specifies the \c server and \c port to write to (for outgoing connections).
    void writeTo (const std::string& server, unsigned int port) const throw (std::domain_error) {
       writeTo (server.c_str (), port); }
-   void write (const char* pBuffer) const throw (std::domain_error);
-   void write (const char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
+   void writeTo (const char* server, unsigned int port) const throw (std::domain_error);
+
+   /// Writes the content of \c output to the socket (which must have been connected to an address).
    void write (const std::string& output) const throw (std::domain_error) {
       write (output.data (), output.length ()); }
-   void write (const AByteArray& output) const throw (std::domain_error) {
-      write (output.data (), output.length ()); }
+   void write (const char* pBuffer) const throw (std::domain_error);
+   void write (const char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
 
    // General helper-functions
    static unsigned int getPortOfService (const char* service) throw (std::domain_error);
 
+   /// Convertion from a Socket to a system socket (represented by an integer).
    int number () const { return sock; }
+   /// Convertion from a Socket to a system socket (represented by an integer).
    operator int () const { return sock; }
 
  protected:
