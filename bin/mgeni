@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.8 2003/06/02 01:38:01 markus Rel $
+# $Id: mgeni,v 1.9 2003/11/15 04:01:23 markus Exp $
 
 # Script to generate metainfo for attributes to classes
 
@@ -48,7 +48,7 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.8 $'
+            rev='$Revision: 1.9 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
@@ -149,7 +149,7 @@ awk 'BEGIN { inComment = 0; foundClass = 0; OFS = ""; ORS = ""; firstVal = 1; }
              firstVal = 0;
           }
           if (attr != "")
-             following = following "   addAttribute (*new Attribute<" type "> (\"" name "\", " attr "));\n"
+             following = following "   addAttribute (*new YGP::Attribute<" type "> (\"" name "\", " attr "));\n"
        }
      }
      END { if (foundClass == 1) {
