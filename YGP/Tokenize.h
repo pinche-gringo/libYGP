@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.14 2003/11/14 20:27:55 markus Rel $
+//$Id: Tokenize.h,v 1.15 2004/12/29 18:23:03 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@ class Tokenize {
    /// if splitting has not started yet.
    std::string getActNode () const { return _string.substr ((int)actPos, len - 1); }
    std::string getNextNode (const char split);
+   unsigned int getEndPosition () const { return actPos + len; }
 
    /// Resets the internal data; so next separting will start at the beginning
    void reset () { actPos = len = 0; }
