@@ -30,7 +30,5 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		Thread.h Mutex.h INIFile.h XDirSrch.h Check.h Process_.h \
 		ConnMgr.h
 
-EXTRA_DIST=YGP.pc.in
-
 pkgconfigdir =$(libdir)/pkgconfig
-pkgconfig_DATA=YGP.pc
+dist_pkgconfig_DATA=YGP.pc
