@@ -1,0 +1,93 @@
+#!/bin/sh
+
+# $Id: mgeni,v 1.1 2002/11/05 23:14:59 markus Exp $
+
+# Script to generate metainfo for attributes to classes
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+offset=0
+
+usage () {
+    echo "Generates metainfo for (certain marked) attributes in a class"
+    echo
+    echo "Usage:"
+    echo "    ${0##*/} [<Option>] <inputfile> [<outputfile>]"
+    echo
+    echo "  -v, --version ... Display version info and exit"
+    echo "  -h, --help ...... Display this info and exit"
+    echo
+    echo "Note that the (short) options can't be combined together!"
+
+    exit -1
+}
+
+addFile () {
+   files[offset]="$1"
+    offset=$(($offset+1))
+}
+
+until test -z "$1"; do
+    case $1 in
+        -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
+            rev='$Revision: 1.1 $'
+            rev=${rev%$}
+            rev=${rev% }
+            rev=${rev#$}
+            echo "$0 V0.0.01; Revision $rev"
+            echo "Author: Markus Schwab; email: g17m0@lycos.com"
+            echo
+            echo "Anticopyright (A) 2002"
+            echo "Distributed under the terms of the GNU General Public License"
+            exit;;
+
+        -h|-\?|--help|--hel|--he|--h)
+            usage;;
+
+        --) break;;
+
+        -*) echo "Ignoring invalid option $1";;
+
+        *) addFile "$1"
+    esac
+    shift
+done
+
+until test -z "$1"; do
+    addFile "$1"
+    shift
+done
+
+if test ${#files[@]} -lt 1 -o ${#files[@]} -gt 2 ; then
+    usage
+fi
+
+if test -z "${files[1]}"; then
+    files[1]="/dev/stdout"
+fi
+
+ 
+# Processes the passed files
+
+awk 'BEGIN { FS=";"; OFS=""; }
+     $2 ~ /(\/\/|\/*)[[:blank:]]*%attrib%/ \
+        { type=$1; attr=$1; name=$3
+          sub(/.*[[:blank:]]/, "", attr)
+          sub(/[[:blank:]]+[^[:blank:]]*$/, "", type)
+          if (name=="")
+             name=attr;
+          if ((name!="") && (type!="") && (attr!=""))
+             print "   addAttribute (*new Attribute<", type, "> (\"", name, "\", ", attr, "));"
+    } ' ${files[0]} # > ${files[1]}
