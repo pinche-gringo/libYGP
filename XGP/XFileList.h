@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.4 2000/02/24 22:16:36 Markus Exp $
+//$Id: XFileList.h,v 1.5 2000/03/04 18:12:27 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,26 +24,21 @@
 #include <vector.h>
 
 #include <gtk--/clist.h>
+#include <gdk--/pixmap.h>
 
 #include "SmartPtr.h"
 
 
 // Forward declarations
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-namespace Gtk {
-   class Pixmap;
-}
+#if GTK_VERSION_GT (1, 0)
 
 using namespace Gtk;
 
 #else 
-typedef Gtk_Pixmap      Pixmap;
 typedef Gtk_CList       CList;
 #endif
 
 class dirEntry;
-
-typedef SmartPtr<Pixmap> PPixmap;
 
 
 // Class for a (columned) list which holds files represented by an icon
@@ -58,7 +53,8 @@ class XFileList : public CList {
    XFileList (GtkCList *castitem) : CList (castitem) { }
    virtual ~XFileList ();
 
-   unsigned int loadIcons (const char* path, const char* files);
+   unsigned int loadIcons (const char* path, const char* files,
+                           unsigned int namePrefix = 0);
 
    // Insert data
    gint append (const dirEntry* file, const gchar* text[]);
@@ -72,6 +68,9 @@ class XFileList : public CList {
    virtual void realize_impl ();
 
  private:
+   typedef SmartPtr<Gdk_Pixmap> PPixmap;
+
+   // Prohibited manager-functions
    XFileList ();
    XFileList& operator= (const XFileList&);
 
@@ -85,7 +84,7 @@ class XFileList : public CList {
    static PPixmap iconDef;
    static PPixmap iconExe;
 
-   map<string, Pixmap*> icons;
+   map<string, Gdk_Pixmap*> icons;
 };
 
 #endif

@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.5 2000/02/24 22:16:35 Markus Exp $
+//$Id: XFileList.cpp,v 1.6 2000/03/04 18:12:27 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,6 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <string.h>
 
 #include <gtk--/pixmap.h>
 
@@ -34,7 +35,6 @@
 #include "PathDirSrch.h"
 
 #include "XFileList.h"
-#include "XMessageBox.h"
 
 
 const char* XFileList::iconDirectory[] = {
@@ -108,9 +108,9 @@ const char* XFileList::iconExecuteable[] = {
    "                ",
    "                " };
 
-PPixmap XFileList::iconDir (NULL);
-PPixmap XFileList::iconDef (NULL);
-PPixmap XFileList::iconExe (NULL);
+XFileList::PPixmap XFileList::iconDir (NULL);
+XFileList::PPixmap XFileList::iconDef (NULL);
+XFileList::PPixmap XFileList::iconExe (NULL);
 
 
 /*--------------------------------------------------------------------------*/
@@ -118,7 +118,7 @@ PPixmap XFileList::iconExe (NULL);
 /*--------------------------------------------------------------------------*/
 XFileList::~XFileList () {
    // Delete all loaded icons
-   std::map<string, Pixmap*>::iterator i;
+   std::map<string, Gdk_Pixmap*>::iterator i;
    for (i = icons.begin (); i != icons.end (); ++i)
       delete (*i).second;
 }
@@ -128,26 +128,40 @@ XFileList::~XFileList () {
 //Purpose   : Pre-loads the icons which should be used for the list-entires
 //Parameters: path: Path where to search for the icons
 //            files: Files to use as icon-files
+//            namePrefix: Prefix of icons-files, which should be removed
+//            before comparing with actual filename
+//Requires  : namePrefix < strlen (files)
 //Remarks   : Call *after* the window (and the parent) is shown!!
 /*--------------------------------------------------------------------------*/
-unsigned int XFileList::loadIcons (const char* path, const char* files) {
+unsigned int XFileList::loadIcons (const char* path, const char* files,
+                        	   unsigned int namePrefix) {
    Check3 (path); Check3 (files);
+   Check3 (namePrefix < strlen (files));
    TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
+
+#if GTK_VERSION_GT (1, 0)
+   Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
+#endif
 
    if (iconDir == NULL) {
       TRACE5 ("XFileList::loadIcons -> Create default icons");
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-      iconDir = new Pixmap (iconDirectory);
-      iconDef = new Pixmap (iconDefault);
-      iconExe = new Pixmap (iconExecuteable);
+#if GTK_VERSION_GT (1, 0)
+      Gdk_Bitmap bitmap;
+
+      iconDir = new Gdk_Pixmap;
+      iconDir->create_from_xpm_d (NULL, bitmap, color, iconDirectory);
+      iconDef = new Gdk_Pixmap;
+      iconDef->create_from_xpm_d (NULL, bitmap, color, iconDefault);
+      iconExe = new Gdk_Pixmap;
+      iconExe->create_from_xpm_d (NULL, bitmap, color, iconExecuteable);
 #else
-      iconDir = new Pixmap (*this, iconDirectory);
-      iconDef = new Pixmap (*this, iconDefault);
-      iconExe = new Pixmap (*this, iconExecuteable);
-#endif
+      iconDir = new Gdk_Pixmap (*this, iconDirectory);
+      iconDef = new Gdk_Pixmap (*this, iconDefault);
+      iconExe = new Gdk_Pixmap (*this, iconExecuteable);
       iconDir->realize ();
       iconDef->realize ();
       iconExe->realize ();
+#endif
    } // endif do first initialize
 
    Check3 (iconDir); Check3 (iconDef); Check3 (iconExe);
@@ -156,7 +170,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files) {
    PathDirectorySearch ds (path, files);
    dirEntry file;
 
-   Pixmap* temp;
+   Gdk_Pixmap* temp;
 
    int rc (ds.find (file, DirectorySearch::FILE_NORMAL));
    while (!rc) {
@@ -164,16 +178,16 @@ unsigned int XFileList::loadIcons (const char* path, const char* files) {
       string filename (file.path ()); filename += file.name ();
       TRACE5 ("XFileList::loadIcons: Read icon " << file.path () << file.name ());
 
-#if GTKMM_MAJOR_VERSION >= 1 && GTKMM_MINOR_VERSION > 0
-      temp = new Pixmap (filename);
+#if GTK_VERSION_GT (1, 0)
+      temp = new Gdk_Pixmap (NULL, color, filename);
 #else
       temp = new Pixmap (*this, filename);
-#endif
       temp->realize ();
+#endif
       Check3 (temp);
       TRACE9 ("XCompDirs::loadIcons: Store icon "
-	      << (file.name () + sizeof ("Icon")));
-      icons[file.name () + sizeof ("Icon")] = temp;
+	      << (file.name () + namePrefix));
+      icons[file.name () + namePrefix] = temp;
       rc = ds.find ();
    } // end-while icon-files found
 }
@@ -263,7 +277,7 @@ void XFileList::setIcon (int row, const dirEntry* pFile) {
    TRACE7 ("XFileList::setIcon");
    Check3 (pFile);
 
-   Pixmap* actIcon (NULL);
+   Gdk_Pixmap* actIcon (NULL);
 
    if (pFile->isDirectory ())
       actIcon = iconDir;
@@ -274,12 +288,12 @@ void XFileList::setIcon (int row, const dirEntry* pFile) {
 
       const char* pName (pFile->name () - 1);
 
-      std::map<string, Pixmap*>::iterator i;
+      std::map<string, Gdk_Pixmap*>::iterator i;
       do {
          // Try to find an icon for the file in the preloaded list; 
          // use every dot (.)-seperated part of the filename
          if ((i = icons.find (++pName)) != icons.end ()) {
-            TRACE9 ("XFileList::setIcon - Use icon Icon."
+            TRACE9 ("XFileList::setIcon - Use icon "
                     << pName << " for file " << pFile->name ());
             actIcon = (*i).second;
             break;
@@ -289,9 +303,7 @@ void XFileList::setIcon (int row, const dirEntry* pFile) {
    Check3 (actIcon);
 
    Gdk_Bitmap bmp;
-   Gdk_Pixmap pixmap;
-   actIcon->get (pixmap, bmp);
-   set_pixmap (row, 0, pixmap, bmp);
+   set_pixmap (row, 0, *actIcon, bmp);
 }
 
 
@@ -300,6 +312,6 @@ void XFileList::realize_impl () {
 
    CList::realize_impl ();
 #ifdef PKGDIR
-   loadIcons (PKGDIR, "Icon.*");
+   loadIcons (PKGDIR, "Icon.*", sizeof ("Icon"));
 #endif
 }
