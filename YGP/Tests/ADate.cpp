@@ -1,11 +1,11 @@
-// $Id: ADate.cpp,v 1.3 2002/08/21 20:21:28 markus Exp $
+// $Id: ADate.cpp,v 1.4 2002/11/04 01:04:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -48,16 +48,17 @@ int main (int argc, char* argv[]) {
    today.sub (0, 1);
    check (today < ADate::today ());
    today.add (0, 1);
-   check (today == ADate::today ());
+   check (today.getMonth () == ADate::today ().getMonth ());
    today.sub (0, 1);
    today -= ADate::today ();                 // Results in 0.11.-1 => 31.10.-1
 
+   today.setDay (25);
    today.setMonth (1);
    today.sub (0, 2);
-   check (today.getMonth () == 10);
+   check (today.getMonth () == 11);
 
    today.add (0, 3);
-   check (today.getMonth () == 1);
+   check (today.getMonth () == 2);
 
    today.setYear (2000);
    check (today.isLeapYear ());
