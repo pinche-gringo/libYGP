@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.1 1999/10/12 00:22:04 Markus Rel $
+//$Id: ADate.cpp,v 1.2 1999/10/12 21:39:14 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,8 +28,6 @@
 #include <values.h>
 #include <locale.h>
 
-#include <iomanip>
-#include <iostream.h>
 #ifdef UNIX
 #include <strstream.h>
 #else
@@ -60,7 +58,9 @@ ADate::ADate (bool now) : AttributValue () {
       day = month = 1;
       year = 1900;
    }
-   assert (!checkIntegrity ());
+
+   if (checkIntegrity ())
+      TRACE ("ADate::ADate -> checkIntegrity failed with " << checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -72,33 +72,73 @@ ADate::ADate (bool now) : AttributValue () {
 ADate::ADate (char Day, char Month, unsigned int Year) : AttributValue () {
    day = Day;
    month = Month;
-   year = Year; assert (checkIntegrity ());
+   year = Year;
 
    maxAdapt ();
+
+   if (checkIntegrity ())
+      TRACE ("ADate::ADate (Day, Month, Year) -> checkIntegrity failed with "
+             << checkIntegrity ());
+
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 ADate::~ADate () {
+   assert (!checkIntegrity ());
 }
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Assignment-operator
-//Parameters: other: Object to copy
+//Parameters: other: Object to assign
 //Returns   : Reference to self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator= (const ADate& other) {
+   assert (!checkIntegrity ()); assert (!other.checkIntegrity ());
+
    if (this != &other) {
       TRACE5 ("ADate::operator=: " << other);
 
       day = other.day;
       month = other.month;
-      year = other.year; assert (!checkIntegrity ());
+      year = other.year;
       AttributValue::operator= ((const AttributValue&) other);
 
-      assert (!checkIntegrity ());
+      if (checkIntegrity ())
+         TRACE ("ADate::operator= -> checkIntegrity failed with "
+                << checkIntegrity ());
+   }
+   return *this;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Assignment-operator
+//Parameters: pDate: Object to assign as char-string
+//Returns   : Reference to self
+//TODO      : Parsing according to locale
+/*--------------------------------------------------------------------------*/
+ADate& ADate::operator= (const char* pDate) {
+   assert (pDate);
+   assert (!checkIntegrity ());
+
+   TRACE5 ("ADate::operator= (const char*): " << pDate);
+
+   unsigned int first (0), second (0);
+   char split;
+   
+   istrstream help (pDate);
+   help >> first >> split >> second >> year;
+   
+   day = (char)first;
+   month = (char)second;
+   define ();
+   
+   if (checkIntegrity ()) {
+      TRACE ("ADate::operator= (const char* -> checkIntegrity failed with "
+             << checkIntegrity ());
+      maxAdapt ();
    }
    return *this;
 }
@@ -108,6 +148,7 @@ ADate& ADate::operator= (const ADate& other) {
 //Returns   : String-representation of ADate
 /*--------------------------------------------------------------------------*/
 std::string ADate::toString () const {
+   assert (!checkIntegrity ());
    return toString ("%x");
 }
 
@@ -116,6 +157,7 @@ std::string ADate::toString () const {
 //Returns   : String-representation of ADate
 /*--------------------------------------------------------------------------*/
 std::string ADate::toString (const char* format) const {
+   assert (!checkIntegrity ());
    assert (format);
 
    char szBuffer[20] = "";
@@ -135,6 +177,8 @@ std::string ADate::toString (const char* format) const {
 //Note      : If lhs is not defined this is not changed
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator+= (const ADate& rhs) {
+   assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
+
    if (rhs.isDefined ()) {
       day += rhs.day;
       month += rhs.month;
@@ -142,6 +186,8 @@ ADate& ADate::operator+= (const ADate& rhs) {
       
       maxAdapt ();
       AttributValue::define ();
+
+      assert (!checkIntegrity ());
    }
    return *this;
 }
@@ -153,6 +199,8 @@ ADate& ADate::operator+= (const ADate& rhs) {
 //Note      : If lhs is not defined this is not changed
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator-= (const ADate& rhs) {
+   assert (!checkIntegrity ()); assert (!rhs.checkIntegrity ());
+
    if (rhs.isDefined ()) {
       day -= rhs.day;
       month -= rhs.month;
@@ -160,6 +208,8 @@ ADate& ADate::operator-= (const ADate& rhs) {
 
       minAdapt ();
       AttributValue::define ();
+
+      assert (!checkIntegrity ());
    }
    return *this;
 }
@@ -172,10 +222,14 @@ ADate& ADate::operator-= (const ADate& rhs) {
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::add (char Day, char Month, unsigned int Year) {
+   assert (!checkIntegrity ());
+
    day += Day;
    month += Month;
    year += Year;
    maxAdapt ();
+
+   assert (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -186,10 +240,14 @@ ADate& ADate::add (char Day, char Month, unsigned int Year) {
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::sub (char Day, char Month, unsigned int Year) {
+   assert (!checkIntegrity ());
+
    day -= Day;
    month -= Month;
    year -= Year;
    minAdapt ();
+
+   assert (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -230,6 +288,8 @@ long ADate::compare (const ADate& other) {
 //Note      : Undefined values are ignored
 /*--------------------------------------------------------------------------*/
 ADate operator+ (const ADate& lhs, const ADate& rhs) {
+   assert (!lhs.checkIntegrity ()); assert (!rhs.checkIntegrity ());
+
    ADate result (lhs);
    result += rhs;
    return result;
@@ -243,6 +303,8 @@ ADate operator+ (const ADate& lhs, const ADate& rhs) {
 //Note      : Undefined values are ignored
 /*--------------------------------------------------------------------------*/
 ADate operator- (const ADate& lhs, const ADate& rhs) {
+   assert (!lhs.checkIntegrity ()); assert (!rhs.checkIntegrity ());
+
    ADate result (lhs);
    result -= rhs;
    return result;
@@ -263,12 +325,14 @@ int ADate::checkIntegrity () const {
 //Returns   : int: Max. day
 /*--------------------------------------------------------------------------*/
 char  ADate::maxDayOf (char month, unsigned int year) {
-  if (month == 2)                              // Special-handling of february
-     return isLeapYear (year) ? 29 : 28;
+   assert ((month > 0) && (month < 12));
 
-  if (month > 7)              // Adapt month after july for easier calculation
-     --month;
-  return month & 1 ? 31 : 30;
+   if (month == 2)                             // Special-handling of february
+      return isLeapYear (year) ? 29 : 28;
+
+   if (month > 7)             // Adapt month after july for easier calculation
+      --month;
+   return month & 1 ? 31 : 30;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -278,7 +342,7 @@ char  ADate::maxDayOf (char month, unsigned int year) {
 //Returns   : bool: True, if leap-year
 /*--------------------------------------------------------------------------*/
 bool ADate::isLeapYear (unsigned int year) {
-   TRACE9 ("ADate::isLeapYear: " << year << " %4 = " << (year & 3) << " %100 = "
+  TRACE9 ("ADate::isLeapYear: " << year << " %4 = " << (year & 3) << " %100 = "
            << (year % 100) << " %400 = " << (year % 400));
    return (year & 3) ? false : (year % 100) ? true : !(year % 400);
 }

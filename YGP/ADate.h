@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.1 1999/10/12 00:22:04 Markus Rel $
+//$Id: ADate.h,v 1.2 1999/10/12 21:39:14 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,14 +38,17 @@ class ADate : public AttributValue {
    virtual ~ADate ();
 
    ADate& operator= (const ADate& other);
+   ADate& operator= (const char* pDate);
 
-   void setDay (char Day) { assert ((Day > 0) && (Day <= maxDayOf ())); day = Day; }
-   void setMonth (char Month) { assert ((Month > 0) && (Month < 12)); month = Month; }
-   void setYear (unsigned int Year) { year = Year; }
+   void setDay (char Day) { assert ((Day > 0) && (Day <= maxDayOf ()));
+      AttributValue::define (); day = Day; }
+   void setMonth (char Month) { assert ((Month > 0) && (Month < 12));
+      AttributValue::define (); month = Month; }
+   void setYear (unsigned int Year) { AttributValue::define (); year = Year; }
 
-   char setDay () { return day; }
-   char setMonth () { return month; }
-   unsigned int setYear () { return year; }
+   char getDay () { return day; }
+   char getMonth () { return month; }
+   unsigned int getYear () { return year; }
 
    static ADate ADate::today () { return ADate (true); }
 
