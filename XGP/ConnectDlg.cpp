@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.2 2003/07/25 05:45:41 markus Exp $
+//$Id: ConnectDlg.cpp,v 1.3 2003/07/27 03:35:45 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : Common
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -57,6 +57,7 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
       , pPort (manage (new Gtk::Entry ()))
       , pWait (manage (new Gtk::Button (_("_Wait for connections"), true)))
       , pConnect (manage (new Gtk::Button (_("Connec_t"), true)))
+      , pClient (manage (new Gtk::Table (3, 3)))
       , cmgr (connMgr)
       , pExplain (manage (new Gtk::Label (_("Click on \"Wait for connections\" "
                                             "to wait for connections from "
@@ -67,7 +68,6 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
                                             "\"Connect\"."), 0, 0)))
       , pLblServer (manage (new Gtk::Label (_("_Server:"), 0.0, 0.5, true)))
       , pLblPort (manage (new Gtk::Label (_("_Port:"), 0.0, 0.5, true)))
-      , pClient (manage (new Gtk::Table (3, 3)))
       , port (defPort), pThread (NULL) {
    TRACE8 ("ConnectDlg::ConnectDlg (unsigned int, const Glib::ustring&, ConnectionMgr&) - "
            << cMaxConnections << "; Port: " << defPort);

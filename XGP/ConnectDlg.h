@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.2 2003/07/25 05:45:41 markus Exp $
+//$Id: ConnectDlg.h,v 1.3 2003/07/27 03:35:45 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -65,6 +65,7 @@ class ConnectDlg : public XDialog {
    Gtk::Entry*  pPort;
    Gtk::Button* pWait;
    Gtk::Button* pConnect;
+   Gtk::Table*  pClient;
 
    ConnectionMgr& cmgr;
 
@@ -72,7 +73,6 @@ class ConnectDlg : public XDialog {
    Gtk::Label*  pExplain;
    Gtk::Label*  pLblServer;
    Gtk::Label*  pLblPort;
-   Gtk::Table*  pClient;
 
    Glib::ustring port;
 
