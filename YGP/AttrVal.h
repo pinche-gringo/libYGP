@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.18 2003/01/16 16:46:22 markus Exp $
+//$Id: AttrVal.h,v 1.19 2003/01/16 16:48:03 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,8 +31,20 @@ class AttributValue {
    bool         isDefined () const { return defined; }
    virtual void undefine () { defined = false; }
 
+   virtual void readFromStream (std::istream&) throw (std::invalid_argument) { }
+   
    virtual std::string toUnformatedString () const { return ""; }
    virtual std::string toString () const { return toUnformatedString (); }
+   void toString (std::string& result) const { result = toString (); }
+   void toUnformatedString (std::string& result) const {
+      result = toUnformatedString (); }
+
+   friend std::istream& operator>> (std::istream& in, AttributValue& inValue) {
+      inValue.readFromStream (in); return in; }
+   friend std::ostream& operator<< (std::ostream& out, const AttributValue& outValue) {
+      if (outValue.isDefined ())
+         out << outValue.toUnformatedString ();
+      return out; }
 
  protected:
    AttributValue () : defined (false) { }
@@ -44,19 +56,6 @@ class AttributValue {
       defined = other.defined; return *this; }
    virtual void define () = 0;
    void setDefined () { defined = true; }
-
-   void toString (std::string& result) const { result = toString (); }
-   void toUnformatedString (std::string& result) const {
-      result = toUnformatedString (); }
-
-   virtual void readFromStream (std::istream&) throw (std::invalid_argument) { }
-
-   friend std::istream& operator>> (std::istream& in, AttributValue& inValue) {
-      inValue.readFromStream (in); return in; }
-   friend std::ostream& operator<< (std::ostream& out, const AttributValue& outValue) {
-      if (outValue.isDefined ())
-         out << outValue.toUnformatedString ();
-      return out; }
 
  private:
    bool defined;
