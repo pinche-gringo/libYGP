@@ -1,14 +1,14 @@
-// $Id: Handle.cpp,v 1.6 2002/11/30 05:59:31 markus Rel $
+// $Id: Handle.cpp,v 1.7 2003/06/15 23:53:23 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.8.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,18 +28,18 @@
 #include "Handle.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 IHandle::~IHandle () {
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment operator; both handles points to the same object and
-//            the reference-counter is increased. The count of the object
-//            referenced before is decreased.
-//Parameters: other: Object to clone
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignment operator; both handles points to the same object and the
+/// reference-counter is increased. The count of the object referenced before
+/// is decreased.
+/// \param other: Object to assign
+//-----------------------------------------------------------------------------
 IHandle& IHandle::operator= (const IHandle& other) {
    if (getValue () != other.getValue ()) {
       if (isDefined ())
@@ -53,12 +53,11 @@ IHandle& IHandle::operator= (const IHandle& other) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Method to set the object pointed to by the handle. This method
-//            cares about the reference count (and unlinks the old and links
-//            the new object).
-//Parameters: pValue: New value the handle shall manage
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Method to set the object pointed to by the handle. This method cares about
+/// the reference count (and unlinks the old and links the new object).
+/// \param pValue: New value the handle shall manage
+//-----------------------------------------------------------------------------
 void IHandle::setValue (void* pValue) {
    if (isDefined ())
       unlink ();
@@ -68,10 +67,10 @@ void IHandle::setValue (void* pValue) {
    create (pValue);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Undefines the handle; the referenced object is unlinked, if no
-//            more handles point to this object, it is freed.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Undefines the handle; the referenced object is unlinked; if no more
+/// handles point to this object, it is also freed.
+//-----------------------------------------------------------------------------
 void IHandle::undefine () {
    if (isDefined ()) {
       unlink ();
@@ -80,10 +79,10 @@ void IHandle::undefine () {
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Defines the handle and creates a new object pointed to (with
-//            reference-count 1).
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Defines the handle and creates a new object pointed to (with
+/// reference-count 1).
+//-----------------------------------------------------------------------------
 void IHandle::define () {
    setDefined ();
    create (NULL);
