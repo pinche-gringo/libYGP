@@ -1,7 +1,7 @@
 #ifndef LOGINDLG_H
 #define LOGINDLG_H
 
-//$Id: LoginDlg.h,v 1.3 2004/10/24 00:20:17 markus Exp $
+//$Id: LoginDlg.h,v 1.4 2004/12/29 18:16:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -78,6 +78,10 @@ class TLoginDialog : public ILoginDialog {
    typedef bool (T::*PCALLBACK)(const Glib::ustring& user,
 				const Glib::ustring& password);
 
+   /// Constructor
+   /// \param title: Title to display for dialog
+   /// \param parent: Parent of the created dialog
+   /// \param callback: Method of parent to call when selecting OK
    TLoginDialog (const Glib::ustring& title, T& parent,
 		 const PCALLBACK callback)
       : ILoginDialog (title), parent (parent), callback (callback) { }
@@ -86,7 +90,7 @@ class TLoginDialog : public ILoginDialog {
    /// Creates the dialog (and set it as child of the parent)
    /// \param title: Title of the dialog
    /// \param parent: Object which should be informed about the selection
-   /// \param callback: Method of parent to handle information about selection 
+   /// \param callback: Method of parent to handle login
    /// \remarks Cares also about freeing the dialog
    static TLoginDialog* create (const Glib::ustring& title, T& parent,
                                const PCALLBACK callback) {

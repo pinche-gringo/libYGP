@@ -1,11 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.5 2004/12/24 02:51:09 markus Exp $
+//$Id: LoginDlg.cpp,v 1.6 2004/12/29 18:16:32 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -38,7 +38,7 @@
 namespace XGP {
 
 //-----------------------------------------------------------------------------
-/// (Default-)Constructor
+/// Constructor
 /// \param title: Title to display for dialog
 //-----------------------------------------------------------------------------
 ILoginDialog::ILoginDialog (const Glib::ustring& title)
@@ -99,7 +99,6 @@ void ILoginDialog::inputChanged () {
 
 //-----------------------------------------------------------------------------
 /// Sets the current passed user in the dialog
-/// \param user: User to set in the dialog
 //-----------------------------------------------------------------------------
 void ILoginDialog::setCurrentUser () {
 #ifdef HAVE_GETLOGIN
