@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.15 2000/03/04 18:57:04 Markus Exp $
+//$Id: Parse.cpp,v 1.16 2000/04/02 01:24:24 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -36,7 +36,7 @@
 // Structure for global values: Contains the (growing-if-neccessary buffer for
 // parsing (In case you wonder why I didn't use std::string and care about
 // growing and clean-up by myself? Well, for some reason I got a segmentation
-// fault during prg-cleanup. Don't ask me why)
+// faults during prg-cleanup. Don't ask me why)
 typedef struct globVars {
    unsigned int buflen;
    char*        buffer;
@@ -53,9 +53,6 @@ void ParseAttomic::freeBuffer () {
    delete [] global.buffer; global.buffer = NULL; global.buflen = 0;
 }
 #endif
-
-ParseObject::ostream_withassign& ParseObject::error = cerr;
-
 
 static char ESCAPE = '\\';
 
@@ -95,7 +92,7 @@ ParseObject::~ParseObject () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const ParseObject& ParseObject::operator= (const ParseObject& other) {
+ParseObject& ParseObject::operator= (const ParseObject& other) {
    TRACE8 ("ParseObject::operator=: " << pDescription);
    if (&other != this) {
       pDescription = other.pDescription;
@@ -188,7 +185,7 @@ ParseAttomic::~ParseAttomic () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
+ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
    TRACE8 ("ParseAttomic::operator=: " << getDescription ());
 
    if (&other != this) {
@@ -261,8 +258,13 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
             stream.putback (*--pAkt);
       if (!optional || (rc < 0)) {
          global.buffer[10] = '\0';
-         error << "Expected '" << getDescription ()
-               << "'; found: " << global.buffer << (char)ch << '\n';
+         std::string error ("Expected '");
+         error += getDescription ();
+         error += "'; found: '";
+         error += global.buffer;
+         error += (char)ch;
+         error += '\'';
+	 throw (error);
       } // end-if mandatory value not found
    } // endif error
    else
@@ -278,6 +280,11 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
 //                - 9: ch is valid if it is a digit
 //                - A: ch is valid if it is alphabetic
 //                - X: ch is valid if it is alphanumeric
+//                - ' ' (blank): ch is valid if it is a white-space
+//                - 0: ch is valid if it is the zero-character (\0)
+//                - \: ch is valid if it is the back-slash (\)
+//                - r: ch is valid if it is carriage-return (\r)
+//                - n: ch is valid if it is line-feed (\n)
 //                - *: ch is valid.
 //                - Else: ch is valid if it equal to this char
 //Parameters  : ch: Char to check
@@ -302,6 +309,15 @@ bool ParseAttomic::checkValue (char ch) {
             break;
 
          case '*': return true;
+
+         case 'n': if (ch == '\n') return true;
+            break;
+
+         case 'r': if (ch == '\r') return true;
+            break;
+
+         case '0': if (ch == '\0') return true;
+            break;
 
          default:
             if (ch == *pHelp)
@@ -394,7 +410,7 @@ ParseTextEsc::~ParseTextEsc () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
+ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
    TRACE8 ("ParseTextExact::operator=: " << getDescription ());
 
    if (&other != this) {
@@ -462,7 +478,7 @@ ParseExact::~ParseExact () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const ParseExact& ParseExact::operator= (const ParseExact& other) {
+ParseExact& ParseExact::operator= (const ParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
 
    if (&other != this) {
@@ -574,7 +590,7 @@ ParseSequence::~ParseSequence () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
+ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
    TRACE8 ("ParseSequence::operator=: " << getDescription ());
 
    if (&other != this) {
@@ -626,7 +642,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) {
       rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
-      writeError (stream);
+      throw (std::string ("Expected: ") + std::string (getDescription ()));
 
    return rc;
 }
@@ -681,7 +697,7 @@ ParseSelection::~ParseSelection () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
+ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
    TRACE8 ("ParseSelection::operator=: " << getDescription ());
 
    if (&other != this)
@@ -731,7 +747,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) {
       rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
-      writeError (stream);
+      throw (std::string ("Expected: ") + std::string (getDescription ()));
 
    return rc;
 }
@@ -767,7 +783,7 @@ CBParseAttomic::~CBParseAttomic () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
+CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
    TRACE8 ("ParseAttomic::operator=: " << getDescription ());
 
    if (this != &other) {
@@ -800,7 +816,7 @@ CBParseText::~CBParseText () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseText& CBParseText::operator= (const CBParseText& other) {
+CBParseText& CBParseText::operator= (const CBParseText& other) {
    TRACE8 ("ParseText::operator=: " << getDescription ());
 
    if (this != &other) {
@@ -833,7 +849,7 @@ CBParseTextEsc::~CBParseTextEsc () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
+CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
    TRACE8 ("ParseTextEsc::operator=: " << getDescription ());
 
    if (this != &other) {
@@ -866,7 +882,7 @@ CBParseExact::~CBParseExact () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
+CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
 
    if (this != &other) {
@@ -899,7 +915,7 @@ CBParseUpperExact::~CBParseUpperExact () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other) {
+CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other) {
    TRACE8 ("ParseUpperExact::operator=: " << getDescription ());
 
    if (this != &other) {
@@ -932,7 +948,7 @@ CBParseSequence::~CBParseSequence () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
+CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
    TRACE8 ("ParseSequence::operator=: " << getDescription ());
 
    if (this != &other) {
@@ -965,7 +981,7 @@ CBParseSelection::~CBParseSelection () {
 //Parameters  : other: Object to clone
 //Returns     : Reference of this
 /*--------------------------------------------------------------------------*/
-const CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
+CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
    TRACE8 ("CBParseSelection::operator=: " << getDescription ());
 
    if (this != &other) {
