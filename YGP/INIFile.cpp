@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.6 2001/09/25 21:18:54 markus Exp $
+//$Id: INIFile.cpp,v 1.7 2001/10/08 14:28:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -23,6 +23,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#include <errno.h>
 
 #include <string.h>
 
