@@ -1,5 +1,5 @@
-                     General Purpose Classes
-                     =======================
+                     Yet another General Purpose library
+                     ===================================
 
 
 Some generally usefull classes; ; separated in a common part (subdir Common),
@@ -20,8 +20,8 @@ Up to 3 libraries are created:
 
 The whole thing is:
  
-Anti-Copyright (A) 1999 - 2003  Markus Schwab <g17m0@lycos.com>
----------------------------------------------------------------
+Copyright (C) 1999 - 2004  Markus Schwab <g17m0@lycos.com>
+----------------------------------------------------------
 
 Basically this means, the package is distributed under the GNU General Public
 License; in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
@@ -59,13 +59,14 @@ The X-windows subdirectory has a Samples directory with a sample application.
 Structure
 ---------
 
-   - Common:    Contains common classes of general interest.
-   - CORBA:     Classes and other stuff related to CORBA.
-   - Windows:   Classes and other stuff related to M$ Windoze.
-   - X-windows: Classes and other stuff related to X-windows.
-   - doc:       Documentation
-   - intl:      Library for I18n
-   - po:        Translations of the messages
+   - YGP:     Contains common classes of general interest.
+   - CGP:     Classes and other stuff related to CORBA.
+   - Windows: Classes and other stuff related to M$ Windoze.
+   - XGP:     Classes and other stuff related to X-windows.
+   - doc:     Documentation
+   - intl:    Library for I18n
+   - po:      Translations of the messages
+   - bin:     Utilities; Helper scripts
 
 
 How to report bugs and/or send patches
