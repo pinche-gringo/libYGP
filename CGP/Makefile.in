@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.6 2001/03/06 23:06:31 markus Exp $
+# $Id: Makefile.in,v 1.7 2001/08/22 01:39:26 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -59,15 +59,11 @@ CORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAG
 CORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 
 
-ifeq (@HAVE_CORBA@,1)
-   LIB_TARGETS=libCAttr.la
-else
-   LIB_TARGETS=
-endif
+LIB_TARGETS=libCAttr.la
 
 IDL_FILES=CDirSrch.idl
 DIST_HEADERS=CIDirSrch.h
-HEADERS=CDirSrch.h $(IDL_FILES)
+HEADERS=CIDirSrch.h $(IDL_FILES) $(DIST_HEADERS)
 OBJECTS=CDirSrch.lo CIDirSrch.lo Version.lo
 SOURCES=$(IDL_FILES) CIDirSrch.cpp Version.cpp
 
@@ -93,6 +89,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(DIST_HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 	$(CORBACOMPILE) -c  $(INCLUDES) $<
 
 all: Makefile $(LIB_TARGETS)
+
+libCAttr: libCAttr.a libCAttr.la
 
 libCAttr.la: $(OBJECTS)
 	# $(CORBALINK) $(LIBS) $(OBJECTS) -o libCAttr
@@ -134,7 +132,7 @@ clean:
 	     rm -f $$p; \
 	  fi; \
 	done
-	rm -f *.o core *.core;
+	rm -f *.o *.lo core *.core;
 	@list=$(IDL_FILES); \
 	for i in $$list; do \
 	   rm -f $${i%.*}.cc $${i%.*}.h; \
