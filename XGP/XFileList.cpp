@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.7 2000/03/10 21:09:05 Markus Exp $
+//$Id: XFileList.cpp,v 1.8 2000/03/10 21:35:24 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -35,9 +35,6 @@
 #include "PathDirSrch.h"
 
 #include "XFileList.h"
-
-
-typedef Gtk_CList       CList;
 
 
 const char* XFileList::iconDirectory[] = {
@@ -142,25 +139,23 @@ unsigned int XFileList::loadIcons (const char* path, const char* files,
    Check3 (namePrefix < strlen (files));
    TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
-   Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
-#endif
    Gdk_Color color (&Widget::gtkobj ()->style->bg[GTK_STATE_NORMAL]);
    Gdk_Bitmap bitmap;
 
    if (iconDir == NULL) {
       TRACE5 ("XFileList::loadIcons -> Create default icons");
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
       iconDir = new Gdk_Pixmap;
-      iconDir->create_from_xpm_d (NULL, bitmap, color, iconDirectory);
       iconDef = new Gdk_Pixmap;
-      iconDef->create_from_xpm_d (NULL, bitmap, color, iconDefault);
       iconExe = new Gdk_Pixmap;
+
+#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
+      iconDir->create_from_xpm_d (NULL, bitmap, color, iconDirectory);
+      iconDef->create_from_xpm_d (NULL, bitmap, color, iconDefault);
       iconExe->create_from_xpm_d (NULL, bitmap, color, iconExecuteable);
 #else
-      iconDir = new Gdk_Pixmap; iconDir->create_from_xpm_d (*iconDir, bitmap, color, iconDirectory);
-      iconDef = new Gdk_Pixmap; iconDef->create_from_xpm_d (*iconDef, bitmap, color, iconDefault);
-      iconExe = new Gdk_Pixmap; iconExe->create_from_xpm_d (*iconExe, bitmap, color, iconExecuteable);
+      iconDir->create_from_xpm_d (*iconDir, bitmap, color, iconDirectory);
+      iconDef->create_from_xpm_d (*iconDef, bitmap, color, iconDefault);
+      iconExe->create_from_xpm_d (*iconExe, bitmap, color, iconExecuteable);
 #endif
    } // endif do first initialize
 
