@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.14 2002/10/10 05:45:18 markus Exp $
+//$Id: ygp-cfg.h.in,v 1.15 2002/11/04 00:45:27 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -188,6 +188,12 @@
 
 /* Define if you have the `setlocale' function. */
 #undef HAVE_SETLOCALE
+
+/* Define if the system has the type `socklen_t'. */
+#undef HAVE_SOCKLEN_T
+
+/* Define if the system has the type `ssize_t'. */
+#undef HAVE_SSIZE_T
 
 /* Define if you have the <stddef.h> header file. */
 #undef HAVE_STDDEF_H
