@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.18 2003/03/04 05:00:55 markus Exp $
+//$Id: XFileList.h,v 1.19 2003/06/02 01:32:59 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ namespace Gtk {
 class XFileList;
 
 
-// Class representing the (inimal) columns in the view
+// Class representing the (minimal) columns in the view
 class FileColumns : public Gtk::TreeModel::ColumnRecord {
  public:
    Gtk::TreeModelColumn <Glib::RefPtr<Gdk::Pixbuf> > icon;
@@ -81,7 +81,7 @@ class IFileStore {
 //
 // Note: Only the name is used to determine the icon; not the path!
 //
-// Template, to be used with any Gtk::TreeStore
+// Template, to be used with any Gtk::TreeModel
 template <class Parent>
 class XFileStore : public Parent, public IFileStore {
    friend class XFileList;
@@ -147,8 +147,8 @@ class XFileList : public Gtk::TreeView {
       fileModel = const_cast<IFileStore*> (model->getBaseAddress ());
       Gtk::TreeView::set_model (model); }
 
-   std::string getFilename (unsigned int line) const;
-   void setFilename (unsigned int line, const std::string& file);
+   virtual std::string getFilename (unsigned int line) const;
+   virtual void setFilename (unsigned int line, const std::string& file);
 
  protected:
    virtual bool on_event (GdkEvent* event);
