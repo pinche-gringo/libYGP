@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.1 1999/11/13 01:18:07 Markus Rel $
+// $Id: Version.cpp,v 1.2 2001/08/22 01:40:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -23,6 +23,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#include <gzo-cfg.h>
 
 const char* libraryVersion_General = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
                                      " Compiled on " __DATE__ "%$@!\n";
