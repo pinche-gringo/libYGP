@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.3 2000/05/16 22:01:25 Markus Exp $
+//$Id: CRegExp.cpp,v 1.4 2000/05/18 17:44:44 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -99,12 +99,17 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
    // for increasing position-pointers!
    bool (RegularExpression::*fnCompare) (const char*&, const std::string&) const = NULL;
 
-
    while ((ch = *pAktRegExp)) {
       switch (ch) {                                   // Get current expression
       case REGIONBEGIN:
-         pEnd = strchr (pAktRegExp + 2, REGIONEND); assert (pEnd);
-         lastExpr.assign (pAktRegExp, pEnd - pAktRegExp - 1);
+         pEnd = pAktRegExp + 1;
+         if (*pEnd == NEGREGION)           // Skip leading "special" characters
+            ++pEnd;
+         if (*pEnd == REGIONEND)
+            ++pEnd;
+
+         pEnd = strchr (pEnd, REGIONEND); assert (pEnd);
+         lastExpr.assign (pAktRegExp + 1, pEnd - pAktRegExp - 1);
          TRACE5 ("Found region: " << lastExpr.c_str ());
          fnCompare = &RegularExpression::compRegion;
          break;
@@ -123,7 +128,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) c
             } while (!cGroups); // end-do 
             ++pEnd;
 
-            lastExpr.assign (pAktRegExp, pEnd - pAktRegExp - 1);
+            lastExpr.assign (pAktRegExp, pEnd - pAktRegExp);
             TRACE5 ("Found group: " << lastExpr.c_str ());
             fnCompare = &RegularExpression::compGroup;
          } // endif 
@@ -213,7 +218,7 @@ bool RegularExpression::compRegion (const char*& pAktPos,
    do {
       if (pRegion[1] == RANGE) {
          char chUpper (pRegion[2]);
-         assert ((chUpper != '\0') && (chUpper != REGIONEND));
+         assert (chUpper != '\0');  assert (chUpper != REGIONEND);
 
          TRACE9 ("Check " << *pAktPos << " in [" << ch << '-' << chUpper << ']');
          if ((*pAktPos >= ch) && (*pAktPos <= chUpper))
@@ -227,9 +232,9 @@ bool RegularExpression::compRegion (const char*& pAktPos,
       } // endif
 
       ch = *++pRegion;
-   } while (ch != REGIONEND); // end-do
+   } while (ch != '\0'); // end-do
 
-   if ((ch != REGIONEND) == fNeg)
+   if ((ch != '\0') == fNeg)
       return false;
 
    ++pAktPos;
@@ -295,20 +300,31 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
       case  REGIONBEGIN:
          if (!*++pRegExp)
             throw (getError (RANGE_OPEN, pRegExp - getExpression ()));
-         if (*pRegExp)      // End-of-range-char at beginning doesn't end range
+
+         if (*pRegExp == NEGREGION)             // Skip leading range-inversion
+            ++pRegExp;
+	 
+         if (*pRegExp)        // Skip leading (or second) end-of-range charcter
             ++pRegExp;
 
-         while (*++pRegExp != REGIONEND) {
+         while (*pRegExp != REGIONEND) {
             switch (*pRegExp) {
             case RANGE:
                if (!pRegExp[1] || (pRegExp[1] == REGIONEND))
                   throw (getError (REGION_OPEN, pRegExp - getExpression ()));
+
+	       if (pRegExp[-1] > pRegExp[1])
+                  throw (getError (INV_RANGE, pRegExp - getExpression ()));
                break;
 
             case '\0':
                throw (getError (REGION_OPEN, pRegExp - getExpression ()));
             } // endif
+
+	    ++pRegExp;
          } // end-while
+	 pPrevExpr = pRegExp;
+	 break;
 
       case QUOTE:
          switch (pRegExp[1]) {
@@ -369,6 +385,7 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
    case RANGE_OPEN: error = "Invalid range end"; break;
    case NO_PREV_EXP: error = "Suffix without previous expression"; break;
    case INV_DIGIT: error = "Invalid group-number"; break;
+   case INV_RANGE: error = "Invalid range (lower border larger than upper border"; break;
    default: error = "Unknown error"; break;
    } // end-switch
 #endif
