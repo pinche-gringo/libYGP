@@ -5,19 +5,17 @@ DIST_SUBDIRS=$(SUBDIRS) Samples
 
 LIBS = @LTLIBINTL@ @LIBS@ @GTKMM_LIBS@
 
-lib_LTLIBRARIES=libXAppl.la
+lib_LTLIBRARIES=libXMP.la
 
 include_HEADERS=XAbout.h XApplication.h XFileEntry.h BrowserDlg.h \
 		XFileList.h XDate.h XFileDlg.h XPrintDlg.h XAttrLabel.h \
 		XDialog.h XAttrEntry.h
 
-libXAppl_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
-		    Version.cpp XFileList.cpp XDate.cpp XFileDlg.cpp \
-		    XPrintDlg.cpp BrowserDlg.cpp \
-		    $(include_HEADERS) 
+libXMP_la_SOURCES=XDialog.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
+		  Version.cpp XFileList.cpp XDate.cpp XFileDlg.cpp \
+		  XPrintDlg.cpp BrowserDlg.cpp $(include_HEADERS) 
 
-libXAppl_la_LDFLAGS=$(LIBS) -version-info $(LIBVERSION) -release $(LIBRELEASE) \
-                    -no-undefined
+libXMP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
 INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(pkgdatadir)\" \
            @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wall
@@ -26,8 +24,8 @@ INCLUDES = -I $(top_srcdir) -I . -I../Common -DPKGDIR=\"$(pkgdatadir)\" \
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
-EXTRA__DIST=XAppl.pc.in
+EXTRA__DIST=XMP.pc.in
 
 pkgconfigdir=$(libdir)/pkgconfig
-pkgconfig_DATA=XAppl.pc
+pkgconfig_DATA=XMP.pc
 
