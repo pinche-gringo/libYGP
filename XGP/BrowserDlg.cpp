@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.17 2004/09/06 00:27:38 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.18 2004/10/24 00:19:04 markus Exp $
 
-//PROJECT     : General
-//SUBSYSTEM   : X-windows
+//PROJECT     : libXGP
+//SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -28,6 +28,8 @@
 #include <gtkmm/box.h>
 #include <gtkmm/radiobutton.h>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/Internal.h>
@@ -37,11 +39,32 @@
 
 namespace XGP {
 
-const char* BrowserDlg::browserNames[BROWSERS] = {
-#ifdef HAVE_GTKHTML
+const char* BrowserDlg::browserNames[] = {
+#if HAVE_GTKHTML > 0
     N_("GTKHTML"),
 #endif
-    N_("galeon"), N_("mozilla"), N_("netscape"), N_("konqueror")
+#if HAVE_FIREFOX > 0
+    N_("firefox"),
+#endif
+#if HAVE_GALEON > 0
+    N_("galeon"),
+#endif
+#if HAVE_MOZILLA > 0
+    N_("mozilla"),
+#endif
+#if HAVE_NETSCAPE > 0
+    N_("netscape"),
+#endif
+#if HAVE_KONQUEROR > 0
+    N_("konqueror"),
+#endif
+#if HAVE_OPERA > 0
+    N_("opera"),
+#endif
+#if HAVE_IEXPLORER > 0
+    N_("iexplore"),
+#endif
+    N_("Other:"),
 };
 
 
@@ -59,25 +82,22 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
       cmd = browserNames[0];
 
    Gtk::RadioButtonGroup group;
+   Gtk::RadioButton* rb;
 
-   // Create Other radio button
-   aBrowsers[BROWSERS] = new Gtk::RadioButton (group, _("Other: "), 0);
-   aBrowsers[BROWSERS]->set_active (true);
-   pboxOther->pack_start (*aBrowsers[BROWSERS], false, false);
-   aBrowsers[BROWSERS]->show ();
-   aBrowsers[BROWSERS]->signal_clicked ().connect
-      (bind (mem_fun (*this, &BrowserDlg::control), BROWSERS));
+   for (unsigned int i (0);
+	i < (sizeof (browserNames) / sizeof (*browserNames)); ++i) {
+      rb = manage (new Gtk::RadioButton (group, _(browserNames[i]), 0));
+      rb->signal_clicked ().connect (bind (mem_fun (*this, &BrowserDlg::control), i));
+      aBrowsers.push_back (rb);
 
-   // Create radio button for other browsers and set them if specified by cmd
-   for (unsigned int i (0); i < (BROWSERS);
-        ++i) {
-      aBrowsers[i] = new Gtk::RadioButton (group, _(browserNames[i]), 0);
-      aBrowsers[i]->signal_clicked ().connect (bind (mem_fun (*this, &BrowserDlg::control), i));
-      get_vbox ()->pack_start (*aBrowsers[i], false, false);
-      aBrowsers[i]->show ();
+      (i == ((sizeof (browserNames) / sizeof (*browserNames)) - 1))
+	 ? pboxOther->pack_start (*rb, false, false, 5)
+	 : get_vbox ()->pack_start (*rb, false, false);
+      rb->show ();
       if (cmd == browserNames[i]) {
-         aBrowsers[i]->set_active (true);
+         rb->set_active (true);
          TRACE4 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Using browser " << cmd);
+	 control (i);
       }
    }
 
@@ -92,8 +112,6 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 /// Destructor
 //-----------------------------------------------------------------------------
 BrowserDlg::~BrowserDlg () {
-   for (unsigned int i (0); i < (sizeof (aBrowsers) / sizeof (aBrowsers[0])); ++i)
-      delete aBrowsers[i];
 }
 
 //-----------------------------------------------------------------------------
@@ -109,14 +127,14 @@ void BrowserDlg::okEvent () {
 //-----------------------------------------------------------------------------
 void BrowserDlg::control (unsigned int cmd) {
    TRACE9 ("BrowserDlg::control (unsigned int) - " << cmd);
-   Check1 (cmd < sizeof (aBrowsers) / sizeof (aBrowsers[0]));
+   Check1 (cmd < aBrowsers.size ());
    
    if (aBrowsers[cmd]->get_active ()) {
-      path.set_sensitive (cmd == ((sizeof (aBrowsers) / sizeof (aBrowsers[0])) - 1));
+      path.set_sensitive (cmd == (aBrowsers.size () - 1));
       if (path.is_sensitive ())
          path.grab_focus ();
       else {
-         Check1 (cmd < BROWSERS);
+         Check1 (cmd < aBrowsers.size ());
          path.setText (browserNames[cmd]);
       }
    }
