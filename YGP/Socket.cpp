@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.22 2003/11/17 15:07:05 markus Rel $
+//$Id: Socket.cpp,v 1.23 2003/12/12 18:18:22 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -175,10 +175,10 @@ void Socket::listenAt (unsigned int port) const throw (std::domain_error) {
    addr.sin_addr.s_addr = htonl (INADDR_ANY);
 
    if (::bind (sock, (struct sockaddr*)&addr, sizeof (addr)) < 0)
-      throwError (_("Can't bind socket"), errno);
+      throwError (_("Can't bind to port"), errno);
 
    if (::listen (sock, 1) < 0)
-      throwError (_("Can't listen on socket"), 0);
+      throwError (_("Can't listen on port"), 0);
 }
 
 //----------------------------------------------------------------------------
