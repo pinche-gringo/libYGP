@@ -1,11 +1,11 @@
-//$Id: StatusObj.cpp,v 1.1 2003/11/19 20:35:48 markus Exp $
+//$Id: StatusObj.cpp,v 1.2 2003/11/28 23:12:27 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -33,7 +33,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-StatusObject::StatusObject () : tp (INFO) {
+StatusObject::StatusObject () : tp (UNDEFINED) {
 }
 
 //-----------------------------------------------------------------------------
