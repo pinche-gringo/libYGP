@@ -1,11 +1,11 @@
-///$Id: IVIOAppl.cpp,v 1.5 1999/08/11 21:38:15 Markus Exp $
+///$Id: IVIOAppl.cpp,v 1.6 1999/08/11 21:45:26 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -235,7 +235,6 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
    if (numOpt == startArg)
       return;
 
-cout << "Moving " << ppArgs[numOpt] << " from " << numOpt << " to " << startArg << endl;
    assert (numOpt > startArg); assert (numOpt < args);
 
    char* pHelp (ppArgs[numOpt]);
