@@ -2,7 +2,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: ygp-cfg.h.in,v 1.1 2001/02/18 23:19:33 Markus Exp $
+//$Id: ygp-cfg.h.in,v 1.2 2001/03/25 10:00:10 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,14 +61,14 @@
 /* Define the micro-version */
 #undef MICRO_VERSION
 
+/* Define for working regex.h */
+#undef HAVE_REGEX_H
+
 /* Define if you have the <dirent.h> header file.  */
 #undef HAVE_DIRENT_H
 
 /* Define if you have the <ndir.h> header file.  */
 #undef HAVE_NDIR_H
-
-/* Define if you have the <regex.h> header file.  */
-#undef HAVE_REGEX_H
 
 /* Define if you have the <regexp.h> header file.  */
 #undef HAVE_REGEXP_H
@@ -81,9 +81,6 @@
 
 /* Define if you have the gmp library (-lgmp).  */
 #undef HAVE_LIBGMP
-
-/* Define if you have the gtk-- library (-lgtk--).  */
-#undef HAVE_LIBGTK__
 
 /* Define if you have the stdc++ library (-lstdc++).  */
 #undef HAVE_LIBSTDC__
