@@ -3,8 +3,8 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: Attr
+Name: YMP
 Description: Portable general classes
 Version: @VERSION@
-Libs: -L${libdir} -lAttr @LIB_GMP@
+Libs: -L${libdir} -lYMP @LIB_GMP@
 Cflags: -I${includedir}

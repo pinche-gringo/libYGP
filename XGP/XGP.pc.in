@@ -3,10 +3,10 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: XAppl
+Name: XMP
 Description: General classes for X-Applications (using GTKmm)
 Requires: gtkmm-2.0
 Version: @VERSION@
-Libs: -L${libdir} -lXAppl
+Libs: -L${libdir} -lXMP
 Cflags: -I${includedir}
 
