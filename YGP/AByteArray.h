@@ -1,7 +1,7 @@
 #ifndef ABYTEARRAY_H
 #define ABYTEARRAY_H
 
-// $Id: AByteArray.h,v 1.1 2001/03/25 09:49:57 markus Exp $
+// $Id: AByteArray.h,v 1.2 2001/09/16 21:22:18 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,8 +26,11 @@
 class AByteArray : public AttributValue {
  public:
    AByteArray () : AttributValue (), pValue (NULL), len (0), allocated (0) { }
+   AByteArray (int length): AttributValue (true)
+      , pValue (new char[length]), len (0), allocated (length) { }
    AByteArray (unsigned int length): AttributValue (true)
       , pValue (new char[length]), len (0), allocated (length) { }
+   AByteArray (char ch);
    AByteArray (const char* pSource);
    AByteArray (const char* pSource, unsigned int length);
    AByteArray (const std::string& str);
@@ -41,9 +44,11 @@ class AByteArray : public AttributValue {
    AByteArray& operator= (const AByteArray& rhs) { assign (rhs); }
    AByteArray& operator= (const std::string& str) { assign (str); }
    AByteArray& operator= (const char* pValue) { assign (pValue); }
+   AByteArray& operator= (char ch) { assign (ch); }
 
    AByteArray& assign (const AByteArray& rhs);
    AByteArray& assign (const std::string& str) { assign (str.data (), str.length ()); }
+   AByteArray& assign (char ch) { assign (&ch, 1); }
    AByteArray& assign (const char* pValue);
    AByteArray& assign (const char* pValue, unsigned int len);
 
@@ -77,6 +82,10 @@ class AByteArray : public AttributValue {
    bool empty () const { return !len; }
 
    int compare (const AByteArray& other) const;
+   int compare (const char* other) const;
+   int compare (const char* other, unsigned int length) const;
+   int compare (const char other) const;
+   int compare (const std::string& other) const { return compare (other.data (), other.length ()); }
 
    friend bool operator< (const AByteArray& lhs, const AByteArray& rhs) {
       return lhs.compare (rhs) < 0; }
@@ -87,11 +96,11 @@ class AByteArray : public AttributValue {
    friend bool operator< (const AByteArray& lhs, char rhs) {
       return lhs.compare (rhs) < 0; }
    friend bool operator< (const std::string& lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) < 0; }
+      return rhs.compare (lhs) >= 0; }
    friend bool operator< (const char* lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) < 0; }
+      return rhs.compare (lhs) >= 0; }
    friend bool operator< (char lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) < 0; }
+      return rhs.compare (lhs) >= 0; }
 
    friend bool operator> (const AByteArray& lhs, const AByteArray& rhs) {
       return lhs.compare (rhs) > 0; }
@@ -102,11 +111,11 @@ class AByteArray : public AttributValue {
    friend bool operator> (const AByteArray& lhs, char rhs) {
       return lhs.compare (rhs) > 0; }
    friend bool operator> (const std::string& lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) > 0; }
+      return rhs.compare (lhs) <= 0; }
    friend bool operator> (const char* lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) > 0; }
+      return rhs.compare (lhs) <= 0; }
    friend bool operator> (char lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) > 0; }
+      return rhs.compare (lhs) <= 0; }
 
    friend bool operator<= (const AByteArray& lhs, const AByteArray& rhs) {
       return lhs.compare (rhs) <= 0; }
@@ -117,11 +126,11 @@ class AByteArray : public AttributValue {
    friend bool operator<= (const AByteArray& lhs, char rhs) {
       return lhs.compare (rhs) <= 0; }
    friend bool operator<= (const std::string& lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) <= 0; }
+      return rhs.compare (lhs) > 0; }
    friend bool operator<= (const char* lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) <= 0; }
+      return rhs.compare (lhs) > 0; }
    friend bool operator<= (char lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) <= 0; }
+      return rhs.compare (lhs) > 0; }
 
    friend bool operator>= (const AByteArray& lhs, const AByteArray& rhs) {
       return lhs.compare (rhs) >= 0; }
@@ -132,14 +141,14 @@ class AByteArray : public AttributValue {
    friend bool operator>= (const AByteArray& lhs, char rhs) {
       return lhs.compare (rhs) >= 0; }
    friend bool operator>= (const std::string& lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) >= 0; }
+      return rhs.compare (lhs) < 0; }
    friend bool operator>= (const char* lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) >= 0; }
+      return rhs.compare (lhs) < 0; }
    friend bool operator>= (char lhs, const AByteArray& rhs) {
-      return rhs.compare (lhs) >= 0; }
+      return rhs.compare (lhs) < 0; }
 
    friend bool operator== (const AByteArray& lhs, const AByteArray& rhs) {
-      return lhs.compare (rhs) > 0; }
+      return lhs.compare (rhs) == 0; }
    friend bool operator== (const AByteArray& lhs, const std::string& rhs) {
       return lhs.compare (rhs) == 0; }
    friend bool operator== (const AByteArray& lhs, const char* rhs) {
@@ -152,6 +161,23 @@ class AByteArray : public AttributValue {
       return rhs.compare (lhs) == 0; }
    friend bool operator== (char lhs, const AByteArray& rhs) {
       return rhs.compare (lhs) == 0; }
+
+   friend bool operator!= (const AByteArray& lhs, const AByteArray& rhs) {
+      return lhs.compare (rhs) != 0; }
+   friend bool operator!= (const AByteArray& lhs, const std::string& rhs) {
+      return lhs.compare (rhs) != 0; }
+   friend bool operator!= (const AByteArray& lhs, const char* rhs) {
+      return lhs.compare (rhs) != 0; }
+   friend bool operator!= (const AByteArray& lhs, char rhs) {
+      return lhs.compare (rhs) != 0; }
+   friend bool operator!= (const std::string& lhs, const AByteArray& rhs) {
+      return rhs.compare (lhs) != 0; }
+   friend bool operator!= (const char* lhs, const AByteArray& rhs) {
+      return rhs.compare (lhs) != 0; }
+   friend bool operator!= (char lhs, const AByteArray& rhs) {
+      return rhs.compare (lhs) != 0; }
+
+   virtual std::string toString () const;
 
  protected:
    int checkIntegrity () const;
