@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.30 2003/07/20 08:16:41 markus Rel $
+//$Id: XFileList.cpp,v 1.31 2003/07/25 00:24:52 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -394,8 +394,8 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::move (unsigned int line) {
-   std::string file (IFileDialog::perform (std::string ("Move file to ..."),
-                                           IFileDialog::ASK_OVERWRITE)->execModal ());
+   std::string file (IFileDialog::create (std::string ("Move file to ..."),
+                                          IFileDialog::ASK_OVERWRITE)->execModal ());
 
    if (file.length ()) {
       std::string entry (getFilename (line));

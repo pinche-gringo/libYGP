@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.20 2003/07/19 21:06:09 markus Rel $
+//$Id: XApplication.h,v 1.21 2003/07/25 00:24:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -166,7 +166,7 @@ class XApplication : public Gtk::Window {
    virtual void showAboutbox () { }
    //@}
 
-   std::string helpBrowser;
+   Glib::ustring helpBrowser;
 
  private:
    // Protected manager functions

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.27 2003/07/19 21:07:09 markus Rel $
+//$Id: XApplication.cpp,v 1.28 2003/07/25 00:24:52 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -448,7 +448,7 @@ void XApplication::command (int menu) {
 
    case CONFIGUREBROWSER:
       Check3 (getHelpfile ());
-      BrowserDlg::perform (helpBrowser);
+      BrowserDlg::create (helpBrowser);
       break;
 
    default:
