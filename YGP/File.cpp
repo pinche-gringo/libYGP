@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.16 2003/02/01 23:51:13 markus Exp $
+//$Id: File.cpp,v 1.17 2003/02/13 06:49:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -23,6 +23,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#include <gzo-cfg.h>
 
 #include <stdio.h>
 #include <errno.h>
@@ -69,8 +71,6 @@ File::File (const File& other) : path_ (other.path_)
 File::File (const char* name) throw (const char*)
 #if SYSTEM == UNIX
    : userExec (false)
-#elif SYSTEM == WINDOWS
-   , WIN32_FIND_DATA (other)
 #endif
 {
    operator= (name);
@@ -97,7 +97,7 @@ File& File::operator= (const File& other) {
       status = other.status;
       userExec = other.userExec;
 #elif SYSTEM == WINDOWS
-      WIN32_FIND_DATA::operator= (other);
+      (*(WIN32_FIND_DATA*)this) = other;
 #endif
    } // endif
    return *this;
@@ -121,14 +121,43 @@ File& File::operator= (const char* name) throw (const char*) {
          posName = name;
       }
       strcpy (entry.d_name, posName);
-      
+
       userExec = !access (name, X_OK);
    }
    else
       throw (strerror (errno));
 
 #elif SYSTEM == WINDOWS
-#  error TODO
+   HANDLE hFile;
+   BY_HANDLE_FILE_INFORMATION fileInfo;
+   if (((hFile = CreateFile (name, 0,
+                    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+                    NULL, OPEN_EXISTING, 0, NULL))
+        != INVALID_HANDLE_VALUE)
+       && GetFileInformationByHandle (hFile, &fileInfo)) {
+      const char* posName = strrchr (name, DIRSEPARATOR);
+      if (posName)
+         path_.assign (name, ++posName - name);
+      else {
+         path_ = "./";
+         posName = name;
+      }
+      strcpy (cFileName, posName);
+      dwFileAttributes = fileInfo.dwFileAttributes;
+      ftCreationTime = fileInfo.ftCreationTime;
+      ftLastAccessTime = fileInfo.ftLastAccessTime;
+      ftLastWriteTime = fileInfo.ftLastWriteTime;
+      nFileSizeHigh = fileInfo.nFileSizeHigh;
+      nFileSizeLow = fileInfo.nFileSizeLow;
+
+      CloseHandle (hFile);
+   }
+   else {
+      static char buffer[80];
+      FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError (),
+                     0, buffer, sizeof (buffer), NULL);
+      throw (buffer);
+   }
 #endif
 
    return *this;
@@ -218,7 +247,7 @@ void File::setTime (const FILETIME& time, struct tm& result) {
    result.tm_mon = sysTime.wMonth - 1;
    Check3 ((result.tm_mon >= 0) && (result.tm_mon <= 11));
    result.tm_year = sysTime.wYear - 1900; Check3 (result.tm_year >= 0);
-   result.tm_yday = 0;                                                // TODO?
+   result.tm_yday = 0;
    result.tm_isdst = 1;
 }
 
@@ -300,7 +329,7 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
    Check1 (length);
 
    int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
-   if (rc < length)
+   if ((unsigned int)rc < length)
       throwErrorText (N_("Error writing to file `%1!' Reason: %2"));
 
    return rc;
