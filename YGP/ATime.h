@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.5 2000/03/21 23:28:33 Markus Rel $
+//$Id: ATime.h,v 1.6 2001/03/25 09:51:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 #include <string>
 
-#include "AttrVal.h"
+#include <AttrVal.h>
 
 
 // Forward declarations

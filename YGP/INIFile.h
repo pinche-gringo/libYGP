@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.4 2000/05/11 22:00:28 Markus Exp $
+//$Id: INIFile.h,v 1.5 2001/03/25 09:51:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@
 #include <string>
 #include <vector>
 
-#include "Parse.h"
-#include "XStream.h"
+#include <Parse.h>
+#include <XStream.h>
 
 
 // Macros to define the INI-file-structure.

@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.6 2000/03/23 19:28:45 Markus Rel $
+//$Id: ATStamp.h,v 1.7 2001/03/25 09:51:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 
 #include <string>
 
-#include "ADate.h"
-#include "ATime.h"
+#include <ADate.h>
+#include <ATime.h>
 
 
 // Class for timestamp attributes. As every AttributValue is supports

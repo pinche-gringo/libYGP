@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.15 2001/01/19 14:38:46 Markus Exp $
+//$Id: ANumeric.h,v 1.16 2001/03/25 09:53:06 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #ifdef HAVE_LIBGMP
 #  include "gmp.h"
 #endif
-#include "AttrVal.h"
+#include <AttrVal.h>
 
 
 // Class for numeric attributes. As every AttributValue is supports undefined

@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.6 2001/03/06 23:08:36 markus Exp $
+//$Id: FileRExp.h,v 1.7 2001/03/25 09:51:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <string>
 
-#include "RegExp.h"
+#include <RegExp.h>
 
 // Class to compare text with (UNIX-file-style) regular expressions
 // '*' matches any number of any characters

@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.7 2001/01/19 14:38:47 Markus Exp $
+//$Id: CRegExp.h,v 1.8 2001/03/25 09:51:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 
 #include <string>
 
-#include "RegExp.h"
+#include <RegExp.h>
 
 // Class to compare text with regular expressions. Here is a little
 // intruduction into the supported constructs; see regex(7) or the GNU regexp
@@ -85,18 +85,36 @@ class RegularExpression : public IRegularExpression {
    virtual int checkIntegrity () const throw (std::string);
    RegularExpression& operator= (const char* pRegExp);
 
-   enum { // Contstants for repeating
-          MULTIMATCHOPT = '*', MULTIMATCHMAND = '+', MULTIMATCH1 = '?',
-          BOUNDBEG = '{', BOUNDEND = '}',
-          // Special single characters
-          SINGLEMATCH = '.', LINEBEGIN = '^', LINEEND = '$', ESCAPE = '\\',
-          // Contants related to regions
-          REGIONBEGIN = '[', REGIONEND = ']', RANGE = '-', NEGREGION = '^',
-          REGIONCLASS = ':',
-          // Escaped special characters (after a quoting backslash (\))
-          GROUPBEGIN = '(', GROUPEND = ')', ALTERNATIVE = '|', WORD = 'w',
-          NOTWORD = 'W', WORDBORDER = 'b', NOTWORDBORDER = 'B',
-          WORDBEGIN = '<', WORDEND = '>' };
+   // Contstants for repeating
+   static const char MULTIMATCHOPT;
+   static const char MULTIMATCHMAND;
+   static const char MULTIMATCH1;
+   static const char BOUNDBEG;
+   static const char BOUNDEND;
+
+   // Special single characters
+   static const char SINGLEMATCH;
+   static const char LINEBEGIN;
+   static const char LINEEND;
+   static const char ESCAPE;
+
+   // Contants related to regions
+   static const char REGIONBEGIN;
+   static const char REGIONEND;
+   static const char RANGE;
+   static const char NEGREGION;
+   static const char REGIONCLASS;
+
+   // Escaped special characters (after a quoting backslash (\))
+   static const char GROUPBEGIN;
+   static const char GROUPEND;
+   static const char ALTERNATIVE;
+   static const char WORD;
+   static const char NOTWORD;
+   static const char WORDBORDER;
+   static const char NOTWORDBORDER;
+   static const char WORDBEGIN;
+   static const char WORDEND;
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
