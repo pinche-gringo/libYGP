@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.26 2005/01/24 17:12:18 markus Exp $
+//$Id: X-Appl.cpp,v 1.27 2005/01/25 01:17:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -242,10 +242,13 @@ XAppl::XAppl ()
 
    getClient ()->pack_start (*mgrUI->get_widget("/Menu"), Gtk::PACK_SHRINK);
 
+   apMenus[SAVE]  = mgrUI->get_widget("/Menu/File/FSave"); Check3 (apMenus[SAVE]);
+   apMenus[PRINT] = mgrUI->get_widget("/Menu/File/FPrint"); Check3 (apMenus[PRINT]);
+
    // Disable menus according to state of program
    TRACE7 ("XAppl::XAppl () -> Initialize menus");
-   // TODO apMenus[SAVE]->set_sensitive (false);
-   // TODO apMenus[PRINT]->set_sensitive (false);
+   apMenus[SAVE]->set_sensitive (false);
+    apMenus[PRINT]->set_sensitive (false);
 
    TRACE5 ("XAppl::XAppl () -> Create scrollwindow");
    scroll.set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -385,8 +388,8 @@ void XAppl::addFile (const std::string& file) {
       row[cols.date] = t.toString ().c_str ();
 
       // Enable menus
-      // TODO apMenus[SAVE]->set_sensitive (true);
-      // TODO apMenus[PRINT]->set_sensitive (true);
+      apMenus[SAVE]->set_sensitive (true);
+      apMenus[PRINT]->set_sensitive (true);
    }
    catch (std::string& e) {
       Gtk::MessageDialog dlg (e, Gtk::MESSAGE_ERROR);

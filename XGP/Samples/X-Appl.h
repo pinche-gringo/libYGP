@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.15 2005/01/24 17:12:18 markus Exp $
+//$Id: X-Appl.h,v 1.16 2005/01/25 01:17:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,10 +37,6 @@ class XAppl : public XGP::XApplication {
    // Manager functions
    XAppl ();
    ~XAppl () { }
-
- protected:
-   enum { OPEN = LAST, EXIT, SAVE, PRINT, DIALOG, DATE, CONNECT, MSGDLG,
-	  LOGINDLG, SEARCHDLG };
 
  private:
    // Protected manager functions
@@ -91,6 +87,9 @@ class XAppl : public XGP::XApplication {
 
    static const char* xpmAuthor[];
    static const char* xpmXAppl[];
+
+   enum { SAVE = 0, PRINT, LAST };
+   Gtk::Widget* apMenus[LAST];
 };
 
 #endif
