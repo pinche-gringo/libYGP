@@ -3,7 +3,7 @@
 SUBDIRS = intl @SUBDIRS@ po
 DIST_SUBDIRS = intl Common CORBA X-windows po doc
 
-include_HEADERS=gzo-cfg.h
+include_HEADERS=gzo-cfg.h config.h
 
 EXTRA_DIST=README.windows
 
