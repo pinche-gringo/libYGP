@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.5 1999/08/27 22:15:03 Markus Rel $
+//$Id: Parse.h,v 1.6 1999/09/11 00:58:14 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Notes: If this module is compiled with MULTIBUFFER defined, all instances
-//        of ParseAttomic uses just one buffer for parsing; else every
-//        instance creates a buffer for parsing
+// Note: If this module is compiled with MULTIBUFFER defined, every instance
+//       of ParseAttomic uses its own buffer for parsing; else all instances
+//       shares the same buffer.
 
 #include <assert.h>
 
@@ -66,7 +66,7 @@ class ParseObject {
    enum { PARSE_OK = 0, PARSE_ERROR = 1, PARSE_CB_ERROR = 2,
           PARSE_CB_ABORT = -1 };
 
-   // TODO: Should be protected; but EGCS has a different optinion?!
+   // TODO: Should be protected; but EGCS has a different opinion?!
    virtual int doParse (Xistream& stream, bool optional) = 0;
 
    // Possible errors of checkIntegrity
@@ -293,8 +293,7 @@ class ParseSequence : public ParseObject {
    virtual int checkIntegrity () const;
 
    void writeError (Xistream& stream) const {
-      error << "Parse-error in line " << stream.getLine () << " column "
-            << stream.getColumn () << ":\nExpected: " << getDescription () << '\n';
+      error << "Expected '" << getDescription () << "'\n";
    }
 
    // Parsing

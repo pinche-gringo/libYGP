@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.5 1999/08/27 22:15:03 Markus Rel $
+//$Id: Parse.cpp,v 1.6 1999/09/11 00:58:14 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -247,9 +247,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
             stream.putback (*--pAkt);
       if (!optional || (rc < 0)) {
          global.buffer[10] = '\0';
-         error << "Parse-error in line " << stream.getLine () << " column "
-               << stream.getColumn () << ":\nExpected: " << getDescription ()
-               << " found: " << global.buffer << '\n';
+         error << "Expected '" << getDescription ()
+               << "'; found: " << global.buffer << (char)ch << '\n';
       } // end-if mandatory value not found
    } // endif error
    else
