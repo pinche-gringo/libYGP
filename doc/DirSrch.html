@@ -1,8 +1,8 @@
-<!-- $Id: DirSrch.html,v 1.1 2000/03/23 19:28:02 Markus Exp $ -->
+<!-- $Id: DirSrch.html,v 1.2 2000/03/23 21:12:25 Markus Exp $ -->
 
 <html>
   <head>
-    <title>General Reference: AttributValue</title>
+    <title>General Reference: DirectorySearch</title>
   </head>
 
   <body>
@@ -31,7 +31,7 @@
 	<td>()</td></tr>
       <tr valign="top"><td></td>
 	<td><a href="DirSrch.html#DirectorySearch2">DirectorySearch</a></td>
-	<td>(const std::string& search)</td></tr>
+	<td>(const std::string&amp; search)</td></tr>
       <tr valign="top"><td>virtual</td>
 	<td><a href="DirSrch.html#~DirectorySearch">~DirectorySearch</a></td>
 	<td>()</td></tr>
@@ -84,10 +84,10 @@
     <p><a name="getFile"><i>std::string getFile ()</i> -
 	Retrieves path and files to search for.</a></p>
 
-    <h4>Management functions</h4>
-    <p><a name="find"><i>int find (const std::string&amp; search,</i></a>
+    <h4>Find functions</h4>
+    <p><a name="find"><i>int find (const std::string&amp; search,
       <a href="DirSrch.html#dirEntry">dirEntry</a>&amp; result, unsigned long
-      attribs = FILE_NORMAL)</i> - Searches for files specified by search; if
+      attribs = FILE_NORMAL)</i></a> - Searches for files specified by search; if
       at least one is found, the result is placed into result. The parameter
       attribs specify which kind of files to find. Possible values are
       FILE_NORMAL for "ordinary" files, FILE_READONLY for files which can not
@@ -98,7 +98,7 @@
 
     <p>This call returns 0, if a file was found, errno otherwise.</p>
 
-    <p><a name="find"><i>int find (const std::string&amp; search)</i> -
+    <p><a name="find2"><i>int find (const std::string&amp; search)</i> -
 	Searches for files specified by search; the purpose is to change the
 	files to search for during/after a previous search, so this call is
 	only valid, if a previous find has already defined a place for the
@@ -107,7 +107,7 @@
 
     <p>This call returns 0, if a file was found, errno otherwise.</p>
 
-    <p><a name="find"><i>virtual int find (</i></a><a href="DirSrch.html#dirEntry">dirEntry</a>&amp;
+    <p><a name="find3"><i>virtual int find (<a href="DirSrch.html#dirEntry">dirEntry</a>&amp;
       result, unsigned long attribs = FILE_NORMAL)</i> - Searches for the
       first file matching the input specified by the constructor or the
       setFile-method. The first found file is placed into  result, the parameter
@@ -120,7 +120,7 @@
 
     <p>This call returns 0, if a file was found, errno otherwise.</p>
 
-    <p><a name="find"><i>virtual int find ()</i> - Returns the next matching
+    <p><a name="find4"><i>virtual int find ()</i> - Returns the next matching
 	file according to parameters specified in early find-calls. If a file
 	was found 0 is returned, errno otherwise.</a></p>
 
