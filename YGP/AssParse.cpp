@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.2 2001/08/26 14:37:27 markus Exp $
+//$Id: AssParse.cpp,v 1.3 2001/10/08 23:33:41 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -29,8 +29,9 @@
 
 #define DEBUG 0
 #include "Trace_.h"
-#include "AssParse.h"
 #include "Attribute.h"
+
+#include "AssParse.h"
 
 
 /*--------------------------------------------------------------------------*/
@@ -125,5 +126,59 @@ std::string AssignmentParse::getActValue () const {
       ret = _string.substr (posValue, len - posValue + actPos - 1);
 
    TRACE3 ("AssignmentParse::getActValue () - " << ret.c_str ());
+   return ret;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Escapes all quote-characters inside a string
+//Parameters  : value: String to check (and change)
+/*--------------------------------------------------------------------------*/
+void AssignmentParse::escapeQuotes (std::string& value) {
+   int pos (-1);
+
+   while ((pos = value.find (QUOTE, pos + 1)) == std::string::npos) {
+      value.replace (pos++, 0, 1, ESCAPE);
+   } // endwhile
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Builds an assignment out of key and value
+//Parameters  : key: Name of key
+//              value: Value of key
+//Returns     : std::string: Created assignment
+//Requires    : key is an ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+std::string AssignmentParse::makeAssignment (const char* key, const char* value) {
+   assert (key);
+   assert (value);
+
+   std::string temp (value);
+   escapeQuotes (temp);
+   
+   std::string ret (key);
+   ret += EQUALSIGN;
+   ret += QUOTE;
+   ret += temp;
+   ret += QUOTE;
+   ret += SEPERATOR;
+   return ret;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Builds an assignment out of key and value
+//Parameters  : key: Name of key
+//              value: Value of key
+//Returns     : std::string: Created assignment
+//Requires    : key is an ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+std::string AssignmentParse::makeAssignment (const char* key, const std::string& value) {
+   assert (key);
+
+   std::string ret (value);
+   escapeQuotes (ret);
+
+   ret = std::string (key) + std::string (EQUALSIGN, 1) + std::string (QUOTE, 1) + ret;
+   ret += QUOTE;
+   ret += SEPERATOR;
    return ret;
 }
