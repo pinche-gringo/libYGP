@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: ATStamp.html,v 1.9 2002/04/12 01:23:39 markus Rel $ -->
+<!-- $Id: ATStamp.html,v 1.10 2002/11/30 05:03:12 markus Exp $ -->
 
 <html>
   <head>
@@ -177,275 +177,494 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="ATimestamp"></a>ATimestamp ()</pre>
+    <h3><font color="navy">Management functions</font></h3>
+    <pre><a name="ATimestamp"></a><b>ATimestamp</b> ()</pre>
     <dl>
-      <dd>Defaultconstructor; the timestamp is not defined</dd>
+      <dd><p>Defaultconstructor; the timestamp is not defined</p></dd>
     </dl>
-
-    <pre><a name="ATimestamp3"></a>ATimestamp (const ATimestamp&amp; other)</pre>
-    <pre><a name="ATimestamp2"></a>ATimestamp (bool now)</pre>
+    <hr>
+    <pre><a name="ATimestamp3"></a><b>ATimestamp</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Constructor; depending on the parameter the timestamp is either set
+      <dd><p>Constructor; copies the values of the passed object</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to copy<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="ATimestamp2"></a><b>ATimestamp</b> (bool now)</pre>
+    <dl>
+      <dd><p>Constructor; depending on the parameter the timestamp is either set
         to the 1st of January, 1900 0:00:00 (now = false), or to the current
-        time (now = true).</dd>
+        time (now = true).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>now</code>: Flag if current time or default time (1.1.1900) should be set<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="ATimestamp4"></a>ATimestamp (char Day, char Month, int Year, char Hour, char minute, char second)</pre>
+    <hr>
+    <pre><a name="ATimestamp4"></a><b>ATimestamp</b> (char Day, char Month, int Year, char Hour, char minute, char second)</pre>
     <dl>
-      <dd>Constructor; sets the passed time. The object is undefined, if the
+      <dd><p>Constructor; sets the passed time. The object is undefined, if the
         passed parameters represent no valid date/time-combination (e.g. Hour
-        &gt; 23, minute &gt; 59, second &gt; 61 or day &gt; 31).</dd>
+        &gt; 23, minute &gt; 59, second &gt; 61 or day &gt; 31).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>day</code>: Day for this ATimestamp<dd>
+          <dd><code>month</code>: Month for the object<dd>
+          <dd><code>year</code>: Year for the object<dd>
+          <dd><code>hour</code>: Hour to assign<dd>
+          <dd><code>minute</code>: Minute for the object<dd>
+          <dd><code>second</code>: Second to assign<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="ATimestamp5"></a>ATimestamp (const char* pTime) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="ATimestamp5"></a><b>ATimestamp</b> (const char* pTime) throw (invalid_argument)</pre>
     <dl>
-      <dd>Constructor; sets the passed time, which must be represented as
-        <i>Day.month.year hour:minute:second</i>. If the buffer does not
-        represent a valid time, the object is set to undefined. A NULL-pointer
-        as parameter is not permitted!</dd>
+      <dd><p>Constructor; sets the passed time, which must be represented as
+        DDMMY[Y...] hhmmss. If the buffer does not
+        represent a valid time, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pStamp</code>: Character array specifying timestamp to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>A NULL-pointer as parameter is not permitted!
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>std::invalid_argument</code> if the parameters has a wrong format
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="ATimestamp6"></a>virtual ATimestamp (std::string&amp; time) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="ATimestamp6"></a><b>ATimestamp</b> (std::string&amp; time) throw (invalid_argument)</pre>
     <dl>
-      <dd>Constructor; sets the passed time, which must be represented as
-        <i>Day.month.year hour:minute:second</i>. If the string does not
-        represent a valid timestamp, the object is set to undefined.</dd>
+      <dd><p>Constructor; sets the passed time, which must be represented as
+        DDMMY[Y...] hhmmss. If the string does not
+        represent a valid timestamp, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>time</code>: String specifying timestamp to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>std::invalid_argument</code> if the parameters has a wrong format
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="ATimestamp7"></a>ATimestamp (const struct tm&amp; tm)</pre>
+    <hr>
+    <pre><a name="ATimestamp7"></a><b>ATimestamp</b> (const struct tm&amp; tm)</pre>
     <dl>
-      <dd>Constructor; assigns the values from the passed struct tm to the
-        object.</dd>
+      <dd><p>Constructor; assigns the values from the passed struct tm to the
+        object.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>time</code>: struct tm specifying time to assign<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="ATimestamp8"></a>ATimestamp (const time_t&amp; stamp)</pre>
+    <hr>
+    <pre><a name="ATimestamp8"></a><b>ATimestamp</b> (const time_t&amp; stamp)</pre>
     <dl>
-      <dd>Constructor; sets date &amp; time to the value represented by the
-        parameter.</dd>
+      <dd><p>Constructor; sets date &amp; time to the value represented by the
+        parameter.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>time</code>: System time to assign<dd>
+      </dl><dd>
     </dl>
-
-    <pre><a name="~ATimestamp"></a>virtual ~ATimestamp ()</pre>
-
-    <pre><a name="operator="></a>ATimestamp&amp; operator= (const ATimestamp&amp; other)</pre>
-
-    <pre><a name="operator=2"></a>ATimestamp&amp; operator= (const char* pStamp) throw (invalid_argument)</pre>
+    <hr>
+    <pre><a name="~ATimestamp"></a><b>~ATimestamp</b> () </pre>
     <dl>
-      <dd>Assignment-operator from an const char-pointer. The timestamp must be
-        passed as <i>Day.month.year hour:minute:second</i>. If the buffer does
-        not represent a valid timestamp, the object is set to undefined. A
-        NULL-pointer as parameter is not permitted!</dd>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator="></a>ATimestamp& <b>operator=</b> (const ATimestamp& other) </pre>
+    <dl>
+      <dd><p>Assignment-operator from another timestamp object</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=2"></a>ATimestamp& <b>operator=</b> (const char* pStamp) throw (std::invalid_argument) </pre>
+    <dl>
+      <dd><p>Assignment-operator from an const char-pointer. The timestamp must be
+        passed as DDMMY[Y...] hhmmss. If the buffer does
+        not represent a valid timestamp, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pStamp</code>: Character array specifying timestamp to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>A NULL-pointer as parameter is not permitted!
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>std::invalid_argument</code> if the parameters has a wrong format
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=3"></a>ATimestamp&amp; <b>operator=</b> (const std::string&amp; time) throw (invalid_argument)</pre>
+    <dl>
+      <dd><p>Assignment-operator from a const string. The timestamp must be passed
+        as DDMMY[Y...] hhmmss. If the string does not
+        represent a valid timestamp, an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>time</code>: String specifying timestamp to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd><code>std::invalid_argument</code> if the parameters has a wrong format
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=4"></a>ATimestamp& <b>operator=</b> (const struct tm& tm) </pre>
+    <dl>
+      <dd><p>Assignment-operator; assigns the values from the passed struct tm.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>tm</code>: struct tm to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator=5"></a>ATimestamp&amp; <b>operator=</b> (const time_t&amp; stamp)</pre>
+    <dl>
+      <dd><p>Assignment-operator; sets the time to the value represented by the
+        parameter, which is considered to specify the time according the local time.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>tm</code>: System time to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="assignGMT"></a>ATimestamp&amp; <b>assignGMT</b> (const time_t&amp; stamp)</pre>
+    <dl>
+      <dd><p>Assignment-operator; sets the time to the value represented by the
+        parameter, which is considered to specify the time according GMT.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>tm</code>: System time (in GMT) to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Reference to self
+</dd></dl></dd>
+    </dl>
+    <hr>
+
+    <pre><a name="now"></a>static ATimestamp <b>now</b> ()</pre>
+    <dl>
+      <dd><p>Returns a timestamp-object representing the current time.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Timestamp object representing the current time</dd></dl></dd>
     </dl>
 
-    <pre><a name="operator=3"></a>ATimestamp&amp; operator= (const std::string&amp; time) throw (invalid_argument)</pre>
+    <h3><font color="navy">Handling of the state</font></h3>
+    <pre><a name="isDefined"></a>bool <b>isDefined</b> () const</pre>
     <dl>
-      <dd>Assignment-operator from a const string. The timestamp must be passed
-        as <i>Day.month.year hour:minute:second</i>. If the string does not
-        represent a valid timestamp, the object is set to undefined.</dd>
+      <dd><p>Returns if the object is already defined.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if the object is defined</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="undefine"></a>void <b>undefine</b> ()</pre>
+    <dl>
+      <dd><p>Undefines the object.</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="define"></a>void <b>define</b> ()</pre>
+    <dl>
+      <dd><p>Sets the time to the 1st of January, 1900 0:00:00.</p></dd>
     </dl>
 
-    <pre><a name="operator=4"></a>ATimestamp&amp; operator= (const struct tm&amp; time)</pre>
+    <h3><font color="navy">In- &amp; output, conversion</font></h3>
+    <pre><a name="readFromStream"></a>void <b>readFromStream</b> (std::istream& in) throw (std::invalid_argument) </pre>
     <dl>
-      <dd>Assignment-operator; assigns the values from the passed struct tm.</dd>
+      <dd><p>Reads the timestamp in the format DDMMY[Y...] hhmmss (with leading zeros)
+          from a stream. If the input is not a valid timestamp an exception is thrown.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>in</code>: Stream to parse<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::invalid_argument in case of a format error
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator=5"></a>ATimestamp&amp; operator= (const time_t&amp; stamp)</pre>
+    <hr>
+    <pre><a name="toString"></a>std::string <b>toString</b> () const </pre>
     <dl>
-      <dd>Assignment-operator; sets the time to the value represented by the
-        parameter, which is considered to specify the time according the local time.</dd>
+      <dd><p>>Converts the object into a string, in a format specified by the
+	current locale.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>String-representation of ATimestamp
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Only dates valid for struct tm can be printed (e.g. dates after
+ 1900)
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="assignGMT"></a>ATimestamp&amp; assignGMT (const time_t&amp; stamp)</pre>
-    <dl>
-      <dd>Assignment-operator; sets the time to the value represented by the
-        parameter, which is considered to specify the time according the GMT-time.</dd>
-    </dl>
-
-    <pre><a name="now"></a>static ATimestamp now ()</pre>
-    <dl>
-      <dd>Returns a timestamp-object representing the current time.</dd>
-    </dl>
-
-    <h4>Handling of the state</h4>
-    <pre><a name="isDefined"></a>bool isDefined () const</pre>
-    <dl>
-      <dd>Returns true if the object is already defined.</dd>
-    </dl>
-
-    <pre><a name="undefine"></a>virtual void undefine ()</pre>
-    <dl>
-      <dd>Undefines the	object.</dd>
-    </dl>
-
-    <pre><a name="define"></a>void define ()</pre>
-    <dl>
-      <dd>Sets the time to the 1st of January, 1900 0:00:00.</dd>
-    </dl>
-
-    <h4>In- &amp; output, conversion</h4>
-    <pre><a name="readFromStream"></a>virtual void readFromStream (istream&amp; in) throw (invalid_argument)</pre>
-    <dl>
-      <dd>Reads the timestamp in the format <i>DDMMY[Y...] hhmmss</i> (with leading zeros)
-          from a stream. If the input is not a valid timestamp an exception is thrown.</dd>
-    </dl>
-
-    <pre><a name="toString"></a>virtual std::string toString () const</pre>
-    <dl>
-      <dd>Converts the object into a string, in a format specified by the
-	current locale.</dd>
-    </dl>
-    <pre><a name="toString2"></a>virtual std::string toString (const char* format) const</pre>
+    <hr>
+    <pre><a name="toString2"></a>std::string <b>toString</b> (const char* format) const </pre>
     <dl>
       <dd><p>Converts the object into a string, in the specified format. The
-          parameter format can be any value accepted by the <i>strftime</i>
-          library-routine.</p>
-        <p><b>Note</b>: The maximal length of the resulting string is 80
-          characters!</p></dd>
+          parameter format can be any value accepted by the strftime
+          library-routine.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>String-representation of ATimestamp
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Only dates valid for struct tm can be printed (e.g. dates after
+ 1900)
+</dd></dl></dd>
     </dl>
-    <pre><a name="toUnformatedString"></a>virtual std::string toUnformatedString () const</pre>
+    <hr>
+    <pre><a name="toUnformatedString"></a>std::string <b>toUnformatedString</b> () const </pre>
     <dl>
-      <dd>Converts the object into a string, in the format <i>DDMMYYYY[...] hhmmss</i>.</dd>
+      <dd><p>Converts the object into a string, in the format DDMMYYYY[...] hhmmss.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>String-representation of ATimestamp
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="tm"></a>struct tm <b>toStructTM</b> () const </pre>
+    <dl>
+      <dd><p>Converts the object to a struct tm.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>struct tm: Timestamp in struct tm-format
+</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>It is not checked if the date is in the right range for a
+ struct tm (after 1900 and before 2039)
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toGMTTime"></a>time_t <b>toGMTTime</b> () const </pre>
+    <dl>
+      <dd><p>Converts the object to a system-timestructure (as GMT).</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>time_t: Converted time
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toLocalTime"></a>time_t <b>toLocalTime</b> () const</pre>
+    <dl>
+      <dd><p>Converts the object to a system-timestructure (where the time is returned
+        in the local time).</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>time_t: Converted time
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="toSysTime"></a>time_t <b>toSysTime</b> () const</pre>
+    <dl>
+      <dd><p>Converts the object to a system-timestructure (where the time is returned
+        in the local time).</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>time_t: Converted time
+</dd></dl></dd>
     </dl>
 
-    <pre><a name="toStructTM"></a>virtual struct tm toStructTM () const</pre>
+    <h3><font color="navy">Calculation</font></h3>
+    <pre><a name="operator+="></a>ATimestamp& <b>operator+=</b> (const ATimestamp& rhs) </pre>
     <dl>
-      <dd>Converts the object to a struct tm.</dd>
-    </dl>
-
-    <pre><a name="toGMTTime"></a>time_t toGMTTime () const</pre>
-    <dl>
-      <dd>Converts the object to a system-timestructure (where the time is returned
-        GMT-format).</dd>
-    </dl>
-    <pre><a name="toLocalTime"></a>time_t toLocalTime () const</pre>
-    <dl>
-      <dd>Converts the object to a system-timestructure (where the time is returned
-        in the local time).</dd>
-    </dl>
-    <pre><a name="toSysTime"></a>time_t toSysTime () const</pre>
-    <dl>
-      <dd>Converts the object to a system-timestructure (where the time is returned
-        in the local time).</dd>
-    </dl>
-
-    <h4>Calculation</h4>
-    <pre><a name="operator+="></a>ATimestamp&amp; operator+= (const ATimestamp&amp; rhs)</pre>
-    <dl>
-      <dd>Adds another timestamp-value to the object. An undefined timestamp is
+      <dd><p>Adds another timestamp-value to the object. An undefined timestamp is
         treated as "0.0.0 0:00:00"; if both objects are undefined, the
-        result is undefined. Overflows are corrected.</dd>
+        result is undefined. Overflows are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to add<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+ Note      : If <code>rhs</code> is not defined this is not changed
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator-="></a>ATimestamp&amp; operator-= (const ATimestamp&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator-="></a>ATimestamp& <b>operator-=</b> (const ATimestamp& rhs) </pre>
     <dl>
-      <dd>Substracts another timestamp-value to the object. An undefined timestamp
+      <dd><p>Substracts another timestamp-value to the object. An undefined timestamp
         is treated as "0.0.0 0:00:00"; if both objects are undefined, the
-        result is undefined. Underflows are corrected.</dd>
+        result is undefined. Underflows are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>rhs</code>: Value to substract<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+ Note      : If <code>rhs</code> is not defined this is not changed
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator+"></a>ATimestamp&amp; operator+ (const ATimestamp&amp; lhs, const ATimestamp&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator+"></a>ATimestamp <b>operator+</b> (const ATimestamp& lhs, const ATimestamp& rhs) </pre>
     <dl>
-      <dd>Returns the addition of two timestamp-values. An undefined time is
+      <dd><p>Returns the addition of two timestamp-values. An undefined time is
         treated as "0.0.0 0:00:00"; if both objects are undefined, the
-        result is undefined. Overflows are corrected.</dd>
+        result is undefined. Overflows are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of addition<dd>
+          <dd><code>rhs</code>: Right-hand-side of addition<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ATimestamp: Result of additon
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator-"></a>ATimestamp&amp; operator- (const ATimestamp&amp; lhs, const ATimestamp&amp; rhs)</pre>
+    <hr>
+    <pre><a name="operator-"></a>ATimestamp <b>operator-</b> (const ATimestamp& lhs, const ATimestamp& rhs) </pre>
     <dl>
-      <dd>Returns the substraction of two timestamp-values. An undefined time
+      <dd><p>Returns the substraction of two timestamp-values. An undefined time
         is treated as "0.0.0 0:00:00"; if both objects are undefined, the
-        result is undefined. Underflows are corrected.</dd>
+        result is undefined. Underflows are corrected.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>lhs</code>: Left-hand-side of substraction<dd>
+          <dd><code>rhs</code>: Right-hand-side of substraction<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ATimestamp: Result of substraction
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="add"></a>ATimestamp&amp; add (char Day, char Month = 0, int Year = 0,
-                 char Hour = 0, char minute = 0,char second = 0)</pre>
+    <hr>
+    <pre><a name="add"></a>ATimestamp& <b>add</b> (char Day, char Month, int Year, char Hour, char minute ,char second) </pre>
     <dl>
       <dd><p>If this is not undefined, the passed values are added. Overflows are
           corrected. The result is returned.</p>
-        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-          this method does <b>not</b> change the object if it is undefined!</p></dd>
+        <p>In counterpart to the mathematic operators (+ and -)
+          this method does not change the object if it is undefined!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>day</code>: Day to add<dd>
+          <dd><code>month</code>: Month to add<dd>
+          <dd><code>year</code>: Year to add<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="sub"></a>ATimestamp&amp; sub (char Day, char Month = 0, int Year = 0,
-                 char Hour = 0, char minute = 0,char second = 0)</pre>
+    <hr>
+    <pre><a name="sub"></a>ATimestamp& <b>sub</b> (char Day, char Month, int Year, char Hour, char minute ,char second) </pre>
     <dl>
       <dd><p>If this is not undefined, the passed values are substracted.
           Underflows are corrected. The result is returned.</p>
-        <p><b>Note</b>: In counterpart to the mathematic operators (+ and -)
-          this method does <b>not</b> change the object if it is undefined!</p></dd>
+        <p>In counterpart to the mathematic operators (+ and -)
+          this method does not change the object if it is undefined!</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>day</code>: Day to substract<dd>
+          <dd><code>month</code>: Month to substract<dd>
+          <dd><code>year</code>: Year to substract<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Self
+</dd></dl></dd>
     </dl>
 
-    <h4>Comparison</h4>
-    <pre><a name="operator=="></a>bool operator== (const ATimestamp&amp; other)</pre>
+    <h3><font color="navy">Comparison</font></h3>
+    <pre><a name="operator=="></a>bool <b>operator==</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Compares two timestamp-objects and returns true, if they are equal
-        (either the same date/time or both undefined).</dd>
+      <dd><p>Compares two timestamp-objects and returns true, if they are equal
+        (either the same date/time or both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if the objects are equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator!="></a>bool operator!= (const ATimestamp&amp; other)</pre>
+    <hr>
+    <pre><a name="operator!="></a>bool <b>operator!=</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Compares two timestamp-objects and returns true, if they are not equal
-        (different date/times and not both undefined).</dd>
+      <dd><p>Compares two timestamp-objects and returns true, if they are not equal
+        (different date/times and not both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if the objects are not equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorl"></a>bool operator&lt; (const ATimestamp&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorl"></a>bool <b>operator&lt;</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Compares two timestamp-objects and returns true, if this is "older"
+      <dd><p>Compares two timestamp-objects and returns true, if this is "older"
         (further in the past) than other (e.g. "1.1.1900 01:01:01" &lt;
         "1.1.1900 02:02:02" == true). Undefined values are considered as older
-        than any other time.</dd>
+        than any other time.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if this is further in the past than other</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorg"></a>bool operator&gt; (const ATimestamp&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorg"></a>bool <b>operator&gt;</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Compares two timestamp-objects and returns true, if this is "younger"
+      <dd><p>Compares two timestamp-objects and returns true, if this is "younger"
         (later on a time-line) than other (e.g. "1.1.1900 01:01:01" &lt;
         "1.1.1900 02:02:02" == true). Undefined values are considered as older
-        than any other time.</dd>
+        than any other time.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if other is further in the past than this</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorl="></a>bool operator&lt;= (const ATimestamp&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorl="></a>bool <b>operator&lt;=</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Compares two timestamp-objects and returns true, if this is "older"
+      <dd><p>Compares two timestamp-objects and returns true, if this is "older"
         (further in the past) than other or equal to it (e.g. "1.1.1900
         01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
-        considered as older than any other time.</dd>
+        considered as older than any other time.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if this is further in the past than other or equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorg="></a>bool operator&gt;=(const ATimestamp&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorg="></a>bool <b>operator&gt;=</b> (const ATimestamp&amp; other)</pre>
     <dl>
-      <dd>Compares two timestamp-objects and returns true, if this is "younger"
+      <dd><p>Compares two timestamp-objects and returns true, if this is "younger"
         (later on a time-line) than other or equal to it (e.g. "1.1.1900
         01:01:01" &lt; "1.1.1900 02:02:02" == true). Undefined values are
-        considered as older than any other time.</dd>
+        considered as older than any other time.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if other is further in the past than this or equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="compare"></a>long compare (const ATimestamp&amp; other)</pre>
+    <hr>
+    <pre><a name="compare"></a>long <b>compare</b> (const ATimestamp& other) </pre>
     <dl>
-      <dd>Returns the (approximated) difference in days, or - if the day is equal
+      <dd><p>Returns the (approximated) difference in days, or - if the day is equal
         - in seconds between two timestamps. If both objects are undefined,
         those difference is "0", if only this is undefined the result is
-        MINLONG, if only other is undefined MAXLONG is returned (-&gt;
-        undefined times are considered as (incredible) old).</dd>
+        MINLONG, if only other is undefined MAXLONG is returned (->
+        undefined times are considered to be very old).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>>0 if this is closer to the past than other; 0 if this == <code>other</code>; <0 else
+</dd></dl></dd>
     </dl>
-
-    <h4>Utility-functions</h4>
-    <pre><a name="minAdapt"></a>virtual bool minAdapt ()</pre>
+    <h3><font color="navy">Utility-functions</font></h3>
+    <pre><a name="minAdapt"></a>bool <b>minAdapt</b> () </pre>
     <dl>
-      <dd>Corrects the object after underflows. If the the object is integer
-        after the operation, true is returned (else false).</dd>
+      <dd><p>Corrects the object after underflows. If the the object is integer
+        after the operation, true is returned (else false).</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if object is integer after the operation
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="maxAdapt"></a>virtual bool maxAdapt ()</pre>
+    <hr>
+    <pre><a name="maxAdapt"></a>bool <b>maxAdapt</b> () </pre>
     <dl>
-      <dd>Corrects the object after overflows. If the the object is integer
-        after the operation, true is returned (else false).</dd>
+      <dd><p>Corrects the object after overflows. If the the object is integer
+        after the operation, true is returned (else false).</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: True, if object is integer after the operation
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="checkIntegrity"></a>virtual int checkIntegrity () const</pre>
+    <hr>
+    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const </pre>
     <dl>
-      <dd>Checks if this object represents a valid timestamp. Note: Even
-        undefined times have valid values!</dd>
+      <dd><p>Checks if this object represents a valid timestamp. Note: Even
+        undefined times must have valid values!</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Status; 0: OK
+</dd></dl></dd>
     </dl>
   </body>
 </html>
