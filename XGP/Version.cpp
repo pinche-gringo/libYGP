@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.2 2001/08/22 01:40:14 markus Exp $
+// $Id: Version.cpp,v 1.3 2002/04/24 03:05:51 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -24,7 +24,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <gzo-cfg.h>
+#include <Internal.h>
 
-const char* libraryVersion_General = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
-                                     " Compiled on " __DATE__ "%$@!\n";
+// Function to initialize various global data
+static const int _init () {
+   bindtextdomain (PACKAGE, LOCALEDIR);
+}
+
+
+static const char* Version = "\n!@$%" PACKAGE " V" VERSION "." MICRO_VERSION
+                             " Compiled on " __DATE__ "%$@!\n";
+static const int init = _init ();
