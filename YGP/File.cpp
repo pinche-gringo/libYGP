@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.7 2002/04/09 20:02:50 markus Exp $
+//$Id: File.cpp,v 1.8 2002/04/14 23:16:42 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -189,7 +189,7 @@ void File::close (void* file) const throw (std::string) {
    assert (file);
 
    if (fclose (static_cast <FILE*> (file)))
-      throwErrorText (N_("Error closing file `%1! Reason: %2'"));
+      throwErrorText (N_("Error closing file `%1'! Reason: %2"));
 }
 
 /*--------------------------------------------------------------------------*/
@@ -226,7 +226,7 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 
    int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
    if (rc < length)
-      throwErrorText (N_("Error writing to file `%1! Reason: %2'"));
+      throwErrorText (N_("Error writing to file `%1!' Reason: %2"));
 
    return rc;
 }
