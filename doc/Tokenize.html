@@ -1,6 +1,5 @@
 <!-- -*-HTML-*- -->
-
-<!-- $Id: Tokenize.html,v 1.10 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: Tokenize.html,v 1.11 2002/12/15 18:31:15 markus Exp $ -->
 
 <html>
   <head>
@@ -47,23 +46,23 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="Tokenize.html#Tokenize"><b>Tokenize</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">string</font></tt>)</tt>;</td></tr>
-      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp;</tt> </td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">string</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp;</tt> </td>
         <td><a href="Tokenize.html#data"><b>data</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">std::string</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="Tokenize.html#getActNode"><b>getActNode</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">std::string</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">std::string</span></tt></tt> </td>
         <td><a href="Tokenize.html#getNextNode"><b>getNextNode</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt> <tt><font color="blue">split</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">char</span></tt> <tt><span style="color:blue">split</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><a href="Tokenize.html#Tokenize"><b>Tokenize</b></a>&amp;</tt> </td>
-        <td><a href="Tokenize.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">string</font></tt>)</tt>;</td></tr>
+        <td><a href="Tokenize.html#operator="><tt><span style="color:black"><b>operator</b></span></tt><tt>=</tt></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple">std::string</span></tt>&amp; <tt><span style="color:blue">string</span></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
-        <td><a href="Tokenize.html#operatorcstring"><tt><font color="black"><b>operator</b></font> const std::string&amp;</tt></a></td>
+        <td><a href="Tokenize.html#operatorcstring"><tt><span style="color:black"><b>operator</b></span> const std::string&amp;</tt></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">void</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">void</span></tt></tt> </td>
         <td><a href="Tokenize.html#reset"><b>reset</b></a></td>
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt></tt> </td>
@@ -71,7 +70,7 @@
         <td><tt>()</tt>;</td></tr>
       <tr><td>&nbsp;</td></tr>
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
-      <tr valign="top"><td><tt><tt><font color="purple">int</font></tt></tt> </td>
+      <tr valign="top"><td><tt><tt><span style="color:purple">int</span></tt></tt> </td>
         <td><a href="Tokenize.html#checkIntegrity"><b>checkIntegrity</b></a></td>
         <td><tt>() <tt>const</tt></tt>;</td></tr>
     </table>
@@ -79,55 +78,83 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="Tokenize"></a>Tokenize (const std::string&amp; string)</pre>
+    <h3 style="color:navy">Management functions</h3>
+    <pre><a name="Tokenize"></a><b>Tokenize</b> (const std::string&amp; string)</pre>
     <dl>
-      <dd>Defaultconstructor; specifies the string to handle.</dd>
+      <dd><p>Defaultconstructor; getting the string to handle.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>string</code>: String to split<dd>
+      </dl><dd>
     </dl>
-    <pre><a name="~Tokenize"></a>~Tokenize ()</pre>
-
-    <pre><a name="operator="></a>Tokenize&amp; operator= (const std::string&amp; string)</pre>
+    <hr>
+    <pre><a name="~Tokenize"></a><b>~Tokenize</b> ()</pre>
     <dl>
-      <dd>Assignmentoperator; sets a new string to handle. No matter
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="operator="></a>Tokenize&amp; <b>operator=</b> (const std::string&amp; string)</pre>
+    <dl>
+      <dd><p>Assignmentoperator; sets a new string to handle. No matter
         of previous seperation, the next query starts from the beginning
-        of the new string.</dd>
+        of the new string.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>string</code>: New string to split<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Tokenize&amp;: Reference to this</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="checkIntegrity"></a>int <b>checkIntegrity</b> () const</pre>
+    <dl>
+      <dd><p>Checks the status of the object</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>Status; 0: OK</dd></dl></dd>
     </dl>
 
-    <pre><a name="checkIntegrity"></a>int checkIntegrity ()</pre>
+    <h3 style="color:navy">Accessing the object</h3>
+    <pre><a name="operatorcstring"></a><b>operator const std::string&amp;</b> () const</pre>
     <dl>
-      <dd>Checks the integrity of the obect; any non-zero value means an error.</dd>
+      <dd><p>Conversion from a tokenize-object to a std::string. Returns the
+        string to handle.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string&: Handled string</dd></dl></dd>
     </dl>
-
-    <h4>Accessing the object</h4>
-    <pre><a name="operatorcstring"></a>operator const std::string&amp; () const</pre>
+    <hr>
+    <pre><a name="data"></a>const std::string&amp; <b>data</b> () const</pre>
     <dl>
-      <dd>Conversion from a tokenize-object to a std::string. Returns the
-        string to handle.</dd>
+      <dd><p>Returns the string to handle.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string&: Handled string</dd></dl></dd>
     </dl>
-    <pre><a name="data"></a>const std::string&amp; () const</pre>
+    <hr>
+    <pre><a name="getActNode"></a>std::string <b>getActNode</b> () const</pre>
     <dl>
-      <dd>Conversion from a tokenize-object to a constant std::string-refernce.
-        Returns the string to handle.</dd>
+      <dd><p>Returns the result of the last seperation (or the whole string if no
+        node was previously extracted).</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string&: Current sub-node of the separation</dd></dl></dd>
     </dl>
-
-    <pre><a name="getActNode"></a>std::string getActNode () const</pre>
+    <hr>
+    <pre><a name="getNextNode"></a>std::string <b>getNextNode</b> (const char split)</pre>
     <dl>
-      <dd>Returns the result of the last seperation (or the whole string if no
-        node was previously extracted).</dd>
+      <dd><p>Returns a sub-string consisting of the string from the end of the
+        last separation (skipping of all characters equal to split) or the
+        beginning of the string for the first search to the next occurence of
+        split (or the end of the string). The separating characters are not
+        included.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>split</code>: Character separating the parts<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Next node (empty string at end)</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>Two following separators are ignored; the method always returns some data (if available)</dd></dl></dd>
     </dl>
-
-    <pre><a name="getNextNode"></a>std::string getNextNode (const char split) const</pre>
+    <hr>
+    <pre><a name="reset"></a>void <b>reset</b> ()</pre>
     <dl>
-      <dd>Returns a sub-string consisting of the string from the end of the
-        last seperation (or the beginning of the string for the first search)
-        to the next occurence of split (or the end of the string). The
-        seperating characters are not returned.</dd>
-    </dl>
-
-    <pre><a name="reset"></a>void reset ()</pre>
-    <dl>
-      <dd>Resets the object; the next seperation starts again from the
-        beginning of the string.</dd>
+      <dd><p>Resets the object; the next seperation starts again from the
+        beginning of the string.</p></dd>
     </dl>
   </body>
 </html>
