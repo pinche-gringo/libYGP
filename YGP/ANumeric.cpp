@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.27 2003/02/03 03:52:39 markus Exp $
+//$Id: ANumeric.cpp,v 1.28 2003/03/03 05:56:48 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -40,9 +40,8 @@
 #  endif
 #endif
 
-#include <strstream>
-
 #include <string>
+#include <sstream>
 #include <stdexcept>
 
 #include "Check.h"
