@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.22 2004/10/16 06:25:15 markus Exp $
+//$Id: X-Appl.cpp,v 1.23 2004/10/16 19:17:27 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -285,7 +285,7 @@ void XAppl::command (int menu) {
       break; }
 
    case LOGINDLG:
-      XGP::TLoginDialog<XAppl>::create (*this, &XAppl::loginEvent);
+      XGP::TLoginDialog<XAppl>::create ("", *this, &XAppl::loginEvent);
       break;
 
    default:
@@ -388,8 +388,9 @@ void XAppl::writeToStream (std::ostream& file) {
 //Purpose   : Callback for login-dialog
 //Parameters: user: Input for the user
 //            password: Input for the password
+//Returns   : true
 /*--------------------------------------------------------------------------*/
-void XAppl::loginEvent (const Glib::ustring& user,
+bool XAppl::loginEvent (const Glib::ustring& user,
 			const Glib::ustring& password) {
    status.pop ();
    Glib::ustring txt ("User: ");
@@ -397,6 +398,7 @@ void XAppl::loginEvent (const Glib::ustring& user,
    txt += "; Password: ";
    txt += password;
    status.push (txt);
+   return true;
 }
 
 
