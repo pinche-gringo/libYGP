@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.1 1999/11/13 01:18:07 Markus Rel $
+//$Id: XFileEntry.h,v 1.2 2000/02/02 20:57:55 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
 // Class which enhances an entry-field with completion of the input to filenames
 class XFileEntry : public Gtk_Entry {
  public:
-   XFileEntry (int fileAttrs = FILE_NORMAL) : Gtk_Entry ()
+   XFileEntry (int fileAttrs = DirectorySearch::FILE_NORMAL) : Gtk_Entry ()
       , attrs (fileAttrs) { }
-   XFileEntry (guint max, int fileAttrs = FILE_NORMAL)
+   XFileEntry (guint max, int fileAttrs = DirectorySearch::FILE_NORMAL)
       : Gtk_Entry (max), attrs (fileAttrs) { }
-   XFileEntry (GtkEntry *castitem, int fileAttrs = FILE_NORMAL)
+   XFileEntry (GtkEntry *castitem, int fileAttrs = DirectorySearch::FILE_NORMAL)
       : Gtk_Entry (castitem), attrs (fileAttrs) { }
    ~XFileEntry () { }
 
