@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.32 2001/09/06 19:30:13 markus Exp $
+//$Id: DirSrch.cpp,v 1.33 2001/09/08 12:50:57 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -203,10 +203,10 @@ int DirectorySearch::find () {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::checkIntegrity () const {
-   TRACE9 ("DirectorySearch::checkIntegrity ()");
+   TRACE9 ("DirectorySearch::checkIntegrity () const");
 
    return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
-	                                pEntry ? 
+                                        pEntry ? 
                                         pEntry->path_.empty () : NO_ENTRY;
 }
 
@@ -218,6 +218,8 @@ int DirectorySearch::checkIntegrity () const {
 void DirectorySearch::setSearchValue (const std::string& search) {
    TRACE8 ("DirectorySearch::setSearchValue (const std::string&) - " << search);
    assert (!search.empty ());
+
+   pEntry = NULL;          // New search-value means new search with new result
 
    searchDir = '.';
    searchDir += dirEntry::DIRSEPERATOR;
