@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.1 2001/10/08 14:30:16 markus Exp $
+// $Id: RemoteFile.h,v 1.2 2001/10/12 23:07:14 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include <Socket.h>
 
 class AByteArray;
+class AttributeParse;
 
 
 typedef struct RemoteFile : public File {
@@ -44,6 +45,8 @@ typedef struct RemoteFile : public File {
  private:
    Socket& sock;
 
+   void handleServerMsg (const AttributeParse& attr, const char* pValue)
+        const throw (std::string);
    void handleServerError (const char*) const throw (std::string);
    bool isOK (const AByteArray& answer) const;
 } RemoteFile;

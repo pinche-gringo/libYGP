@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.3 2001/10/09 17:22:19 markus Exp $
+// $Id: RemoteFile.cpp,v 1.4 2001/10/12 23:07:14 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -80,7 +80,7 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
       AttributeParse attrs;
       ATTRIBUTE (attrs, int, id, "ID");
 
-      attrs.assignValues (buffer.data () + 5);
+      handleServerMsg (attrs, buffer.data () + 5);
       return (void*)id;
    }
    else
@@ -148,9 +148,10 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
    if (isOK (text)) {
       AttributeParse attrs;
       ATTRIBUTE (attrs, char* const, buffer, "Data");
+      ATTRIBUTE (attrs, unsigned int, length, "Length");
 
-      attrs.assignValues (text.data () + 5);
-      return length;   //TODO
+      handleServerMsg (attrs, text.data () + 5);
+      return length;
    }
    else
       handleServerError (text.data ());
@@ -240,7 +241,6 @@ bool RemoteFile::isOK (const AByteArray& answer) const {
 //            explaining string this is thrown to inform the client
 //            name and directory to analyze
 //Parameters: pAnswer: Response from the server
-//Returns   : True if the remote directory does exist
 /*--------------------------------------------------------------------------*/
 void RemoteFile::handleServerError (const char* pAnswer) const throw (std::string) {
    int rc;
@@ -250,10 +250,32 @@ void RemoteFile::handleServerError (const char* pAnswer) const throw (std::strin
    ATTRIBUTE (attrs, int, rc, "RC");
    ATTRIBUTE (attrs, std::string, error, "E");
 
-   attrs.assignValues (pAnswer);
+   handleServerMsg (attrs, pAnswer);
 
    if (!error.empty ()) {
       error = "Server returned an error: " + error;
       throw (error);
    }
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Assigns the values from the server-response to (local) variables
+//Parameters: attrs: Attributes to manipulate
+//            pAnswer: Data send from server
+/*--------------------------------------------------------------------------*/
+void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnswer)
+   const throw (std::string) {
+   assert (pAnswer);
+
+#if DEBUG > 0
+   try {
+#endif
+      attrs.assignValues (pAnswer);
+#if DEBUG > 0
+   }
+   catch (std::string& error) {
+      TRACE ("RemoteFile::handleServerMsg (const AttributeParse&, const char*) const"
+             "\n - Error parsing attributes: " << error);
+   }
+#endif
 }
