@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.12 2005/03/31 23:55:15 markus Exp $
+//$Id: Process.h,v 1.13 2005/04/01 06:33:47 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,7 +49,8 @@ namespace YGP {
 */
 class Process {
  public:
-   enum { NO_WAIT = 0, WAIT = 1, CONNECT_STDOUT = 2, CONNECT_STDERR = 4 };
+   enum { NO_WAIT = 0, WAIT = 1, CONNECT_STDOUT = 2, CONNECT_STDERR = 4,
+	  CONNECT_STDOUT_AND_ERR = 8 };
 
    /// Executes a program asynchronously to the execution of the
    /// current process. If either the file can not be found or
@@ -88,16 +89,16 @@ class Process {
    /// output) is thrown.
    /// \param file: Name of file to execute
    /// \param arguments: Array with arguments for the file (as understood by execv)
-   /// \param pipes: Pipes for communication;
+   /// \param fd: Pipes for communication
    /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
    static pid_t execIOConnected (const char* file, const char* const arguments[],
-				 int pipes[2], unsigned int flags = CONNECT_STDOUT | CONNECT_STDERR)
+				 int* fd, unsigned int flags = CONNECT_STDOUT_AND_ERR)
       throw (std::string) {
-      return start (file, arguments, NO_WAIT | flags, pipes); }
+      return start (file, arguments, NO_WAIT | flags, fd); }
 
    /// Returns the process ID of the actual process
    /// \return pid_t: Process ID of running process
@@ -113,7 +114,7 @@ class Process {
 
  protected:
    static pid_t start (const char* file, const char* const arguments[],
-		       int flags, int pipes[2] = NULL)
+		       int flags, int* fd = NULL)
       throw (std::string);
 
  private:

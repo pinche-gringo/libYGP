@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.16 2005/03/31 23:56:50 markus Exp $
+//$Id: Process.cpp,v 1.17 2005/04/01 06:33:47 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -92,8 +92,15 @@ namespace YGP {
 /// \param file: Name of file to execute
 /// \param arguments: Array with arguments for the file (as understood by execv)
 /// \param flags: Flags; e.g. if to wait til the program terminates
-/// \param io: Filedescriptors for communication with the child; io[0] contains
-///     the filedescriptor the child should read its data from; io[1] will be
+/// \param fd: Filedescriptors for communication with the child.
+///     - fd[0] contains the filedescriptor the child should read its data from;
+///             will be overwritten with the descriptor the output from the
+///             child can be read from (if flags & CONNECT_STDOUT or
+///             flags & CONNECT_STDOUT_AND_ERR)
+///     - fd[1] is expected to contain the matching file descriptor for the
+///             pipe for the communication (which the child can close)
+///     - fd[2] will be filled with the descriptor from which the errors of the
+///             child can be read from (if flags & CONNECT_STDERR)
 ///     filled with the filedescriptor for the output
 /// \pre \c file is a valid ASCIIZ-string
 /// \returns pid_t: PID of created process
@@ -102,41 +109,51 @@ namespace YGP {
 ///    - In case of an error the output should contain a describing message
 //-----------------------------------------------------------------------------
 pid_t Process::start (const char* file, const char* const arguments[],
-		      int flags, int io[2])
-   throw (std::string)
+		      int flags, int* fd) throw (std::string)
 {
+   TRACE9 ("Process::start (const char*, const char*, int, int*) - " << file);
+   Check1 (file);
+   Check1 ((flags & CONNECT_STDOUT_AND_ERR) ? (!(flags & (CONNECT_STDOUT | CONNECT_STDERR))) : 1);
+
    errno = 0;
    std::string err;
    pid_t pid (0);
    int pipes[2];
+   int errPipes[2];
 
 #if defined HAVE_SPAWNVP && HAVE_WINDOWS_H
-   if (pipe (pipes) != -1) {
+   if ((pipe (pipes) != -1)
+       && ((flags & CONNECT_STDOUT_AND_ERR) && pipe (errPipes) != -1)) {
       // Save original output-handles
       int sin;
-      if (io) {
+      if (fd) {
 	 sin = dup (0);
-	 dup2 (io[0], 0);
-	 close (io[1]);
-	 dup2 (dup (pipes[1]), io[1]);
+	 dup2 (fd[0], 0);
+	 dup2 (dup (pipes[1]), fd[0]);
       }
 
       int sout (dup (1));
       int serr (dup (2));
 
-     if ((sout != -1) && (serr != -1)) {
+      if ((sout != -1) && (serr != -1)) {
          // Duplicate write end of pipe to stdout/err and close it
          dup2 (pipes[0], 0);
-	 if (flags & CONNECT_STDOUT)
+	 if (flags & CONNECT_STDOUT_AND_ERR) {
 	    dup2 (dup (pipes[1]), 1);
-	 if (flags & CONNECT_STDERR)
-	    dup2 (pipes[1], 2);
+	    dup2 (errPipes[1], 2);
+	 }
+	 else {
+	    if (flags & CONNECT_STDOUT)
+	       dup2 (dup (pipes[1]), 1);
+	    if (flags & CONNECT_STDERR)
+	       dup2 (pipes[1], 2);
+	 }
 
          pid = spawnvp ((flags & WAIT) ? P_WAIT : P_NOWAIT, file,
                         const_cast<char* const*> (arguments));
 
          // Restore stdout/err
-	 if (io) {
+	 if (fd) {
 	    dup2 (sin, 0);
 	    close (sin);
 	 }
@@ -163,21 +180,30 @@ pid_t Process::start (const char* file, const char* const arguments[],
       }
    }
 #elif defined HAVE_FORK
-   pid = (pipe (pipes) ? - 1 : fork ());
+   pid = (pipe (pipes) ? - 1 : ((flags & CONNECT_STDERR) && pipe (errPipes)), fork ());
+   TRACE9 ("Errpipes: " << errPipes[0] << '/' << errPipes[1]);
    switch (pid) {
    case 0: {                                            // Child: Start program
       // Close input pipe and set output to the write pipe
       close (pipes[0]);
-      if (io) {
-	 close (io[1]);
-	 dup2 (io[0], STDIN_FILENO);
-	 close (io[0]);
+      if (fd) {
+	 close (fd[1]);
+	 dup2 (fd[0], STDIN_FILENO);
+	 close (fd[0]);
       }
 
-      if (flags & CONNECT_STDOUT)
+      if (flags & CONNECT_STDOUT_AND_ERR) {
 	 dup2 (pipes[1], STDOUT_FILENO);
-      if (flags & CONNECT_STDERR)
 	 dup2 (pipes[1], STDERR_FILENO);
+      }
+      else {
+	 if (flags & CONNECT_STDOUT)
+	    dup2 (pipes[1], STDOUT_FILENO);
+	 if (flags & CONNECT_STDERR) {
+	    dup2 (errPipes[1], STDERR_FILENO);
+	    close (errPipes[1]);
+	 }
+      }
       close (pipes[1]);
 
       errno = 0;
@@ -194,11 +220,20 @@ pid_t Process::start (const char* file, const char* const arguments[],
 
    default: {
       TRACE9 ("Process::start (const char*, const char*) - Fork OK - " << pid);
-      if (io)
-	 dup2 (pipes[0], io[0]);
+      if (fd) {
+	 Check3 (!errno);
+	 dup2 (pipes[0], fd[0]);
+	 Check3 (!errno);
+	 if (flags & CONNECT_STDERR) {
+	    fd[2] = errPipes[0];
+	    Check3 (!errno);
+	    close (errPipes[1]);
+	    Check3 (!errno);
+	 }
+      }
       close (pipes[1]);
 
-      if (!((flags & WAIT) || io))
+      if (!((flags & WAIT) || fd))
          sleep (1);
 
       int rc (0), rcwait (0);
@@ -213,7 +248,7 @@ pid_t Process::start (const char* file, const char* const arguments[],
 #else
 #  error Not yet implemented!
 #endif
-   if (!io)
+   if (!fd)
       close (pipes[0]);
 
    if (errno && err.empty ()) {

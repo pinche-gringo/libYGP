@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.5 2005/03/31 23:55:41 markus Exp $
+// $Id: Process.cpp,v 1.6 2005/04/01 06:33:47 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -86,9 +86,8 @@ int main (int argc, char* argv[]) {
       check (ch == TESTCHAR);
       unlink (argFile);
 
-      int pipes[2];
-      int rc (pipe (pipes));
-      check (!rc);
+      int pipes[3];
+      check (!pipe (pipes));
 
       arguments[1] = argIOConnected;
       pid_t pid (YGP::Process::execIOConnected (argv[0], arguments, pipes));
@@ -102,6 +101,22 @@ int main (int argc, char* argv[]) {
       if (r == 1)
 	 check ((r = read (pipes[0], buffer + 1, sizeof (buffer) - 1)) == 1);
       check (buffer[1] == 'K');
+
+      YGP::Process::waitForProcess (pid);
+      close (pipes[0]);
+      close (pipes[1]);
+
+      check (!pipe (pipes));
+      pid = YGP::Process::execIOConnected (argv[0], arguments, pipes,
+					   YGP::Process::CONNECT_STDOUT
+					   | YGP::Process::CONNECT_STDERR);
+
+      check (write (pipes[1], argIOConnected, strlen (argIOConnected)) != -1);
+      check (close (pipes[1]) != -1);
+      check (read (pipes[0], buffer + 2, sizeof (buffer) - 2) == 1);
+      check (buffer[2] == 'O');
+      check (read (pipes[2], buffer + 3, sizeof (buffer) - 3) == 1);
+      check (buffer[3] == 'K');
 
       YGP::Process::waitForProcess (pid);
       close (pipes[0]);
