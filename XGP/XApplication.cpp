@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.26 2003/06/29 01:53:10 markus Rel $
+//$Id: XApplication.cpp,v 1.27 2003/07/19 21:07:09 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -25,9 +25,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <stdlib.h>
-#include <signal.h>
-#include <locale.h>
+#include <cstdlib>
+#include <csignal>
+#include <clocale>
 
 #include <sys/stat.h>
 
@@ -57,14 +57,128 @@
 using namespace Gtk::Menu_Helpers;
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; creates a program-window showing only an empty menu
-//            and an area (a GTK::VBox) for the client.
-//
-//            Furthermore SIGSEGV and SIGBUS signals are trapped to produce
-//            a stackdump in the log file.
-//Parameters: pTitle: Pointer to title of the application
-/*--------------------------------------------------------------------------*/
+#undef HAVE_GTKHTML
+#ifdef HAVE_GTKHTML
+#  include <dlfcn.h>
+
+extern "C" {
+#  include <libgtkhtml/gtkhtml.h>
+}
+
+#  include <XDialog.h>
+
+
+// Helper class to display a HTML document in a dialog
+class HTMLViewer : public XDialog {
+ public:
+    static void perform (const std::string& file) throw (std::string);
+
+ private:
+    HTMLViewer (const std::string& file) throw (std::string);
+    ~HTMLViewer ();
+
+    void display (const std::string& file) throw (std::string);
+
+    static HTMLViewer* instance;
+    GtkWidget* htmlCtrl;
+    void* hDLL;
+};
+
+
+//----------------------------------------------------------------------------
+/// Creates (or updates) a dialog displaying a HTML-document
+/// \param file: File containing the HTML-document to display
+/// \throw std::string in case of error
+//----------------------------------------------------------------------------
+void HTMLViewer::perform (const std::string& file) throw (std::string) {
+   Check1 (file.size ());
+   if (instance)
+      instance->display (file);
+   else
+      instance = new HTMLViewer (file);
+}
+
+
+//----------------------------------------------------------------------------
+/// Creates a dialog displaying a HTML-document
+/// \param file: File containing the HTML-document to display
+/// \throw \c std::string in case of error
+//----------------------------------------------------------------------------
+HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
+    : XDialog (_("Help window"), XDialog::OK), htmlCtrl (NULL) {
+   Check1 (file.size ());
+   typedef GtkWidget* (*PFNNEWHTMLVIEW)(void);
+
+   hDLL = dlopen ("libgtkhtml-2.so", 0x00001);
+   if (hDLL) {
+      PFNNEWHTMLVIEW pFnc ((PFNNEWHTMLVIEW)dlsym (hDLL, "html_view_new"));
+      if (pFnc) {
+         htmlCtrl = pFnc ();
+         gtk_widget_show (htmlCtrl);
+         get_vbox ()->pack_start (*Glib::wrap (htmlCtrl, false));
+
+         display (file);
+         show ();
+      }
+      dlclose (hDLL);
+      return;
+   }
+
+   std::string err (_("Can't display the HTML control!\n\nReason: %1"));
+   err.replace (err.find ("%1"), 2, dlerror ());
+   throw (err);
+}
+
+//----------------------------------------------------------------------------
+/// Destructor
+//----------------------------------------------------------------------------
+HTMLViewer::~HTMLViewer () {
+   delete htmlCtrl;
+}
+
+
+//----------------------------------------------------------------------------
+/// Sets the HTML-document to display in the dialog
+/// \param file: File containing the HTML-document to display
+/// \throw std::string in case of error
+//----------------------------------------------------------------------------
+void HTMLViewer::display (const std::string& file) throw (std::string) {
+   Check1 (hDLL);
+   Check1 (file.size ());
+
+   typedef HtmlDocument* (*PFNNEWDOCUMENT)();
+   typedef gboolean (*PFNDOCUMENTOPEN)(HtmlDocument*, const gchar);
+   typedef void (*PFNSETDOCUMENT)(HtmlView*, HtmlDocument*);
+
+   PFNNEWDOCUMENT pfnNewDoc ((PFNNEWDOCUMENT)dlsym (hDLL, "html_document_new"));
+   PFNDOCUMENTOPEN pfnOpenDoc ((PFNDOCUMENTOPEN)dlsym (hDLL, "html_document_open_stream"));
+   PFNSETDOCUMENT pfnSetDoc ((PFNSETDOCUMENT)dlsym (hDLL, "html_view_set_document"));
+
+   if (!(pfnNewDoc && pfnOpenDoc && pfnSetDoc)) {
+      std::string err (_("Can't display the HTML control!\n\nReason: %1"));
+      err.replace (err.find ("%1"), 2, dlerror ());
+      throw (err);
+      return;
+   }
+
+   HtmlDocument* doc (pfnNewDoc ());
+   if (!pfnOpenDoc (doc, file.c_str ())) {
+      std::string err (_("Can't display the HTML document!\n\nReason: %1"));
+      err.replace (err.find ("%1"), 2, dlerror ());
+      throw (err);
+   }
+   else
+      pfnSetDoc (htmlCtrl, doc);
+}
+#endif
+
+
+//-----------------------------------------------------------------------------
+/// Constructor; creates a program-window showing only an empty menu and an
+/// area (a GTK::VBox) for the client. Furthermore \c SIGSEGV and \c SIGBUS
+/// signals are trapped to produce a stackdump in the log file.
+/// \param pTitle: Pointer to title of the application
+//-----------------------------------------------------------------------------
 XApplication::XApplication (const char* pTitle)
    : pMenu (new Gtk::MenuBar ()), vboxClient (new Gtk::VBox ())
      , helpBrowser (BrowserDlg::getDefaultBrowser ()), aLastMenus (5) {
@@ -84,9 +198,9 @@ XApplication::XApplication (const char* pTitle)
    vboxClient->pack_start (*pMenu, Gtk::PACK_SHRINK);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 XApplication::~XApplication () {
    TRACE9 ("XApplication::~XApplication () - start");
 
@@ -95,13 +209,13 @@ XApplication::~XApplication () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds a single menuentry to the menu. Items and submenus are
-//            added to the last defined menu; menus are added to the menubar.
-//Parameters: menuEntry: Menuentry to add
-//Returns   : Widget*: Pointer to the newly added menu or menuitem
-//Remarks   : Radioitems can't be added with that method!
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds a single menuentry to the menu. Items and submenus are added to the
+/// last defined menu; menus are added to the menubar.
+/// \param menuEntry: Menuentry to add
+/// \returns \c Widget*: Pointer to the newly added menu or menuitem
+/// \remarks Radioitems can't be added with that method!
+//-----------------------------------------------------------------------------
 Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
    TRACE1 ("XApplication::addMenu (const MenuEntry&) - " << menuEntry.name);
    Check3 (pMenu);
@@ -170,14 +284,13 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
    return pLastMenu->items ().back ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds a whole bunch of menuentries to the menu. Items and
-//            submenus are added to the last defined menu; menus are added to
-//            the menubar.
-//Parameters: menuEntries: Pointer to array of MenuEntries
-//            cMenus: Number of elements in the array
-//Requires  : menuEntries not NULL
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds a whole bunch of menuentries to the menu. Items and submenus are
+/// added to the last defined menu; menus are added to the menubar.
+/// \param menuEntries: Pointer to array of MenuEntries
+/// \param cMenus: Number of elements in the array
+/// \pre \c menuEntries not NULL
+//-----------------------------------------------------------------------------
 void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
    TRACE9 ("XApplication::addMenus (const MenuEntry[], int) - " << cMenus);
 
@@ -212,12 +325,12 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
    }
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the program for internationalization by setting the
-//            locale and loading the messagefile.
-//Parameters: package: Name of the message-catalog
-//            dir: Root-directory for message-catalogs
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Initializes the program for internationalization by setting the locale and
+/// loading the messagefile.
+/// \param package: Name of the message-catalog
+/// \param dir: Root-directory for message-catalogs
+//-----------------------------------------------------------------------------
 void XApplication::initI18n (const char* package, const char* dir) {
    Check1 (package); Check1 (dir);
 
@@ -226,20 +339,19 @@ void XApplication::initI18n (const char* package, const char* dir) {
    textdomain (package);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the program for localization by setting the
-//            locale and loading the messagefile.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Initializes the program for localization by setting the locale and loading
+/// the messagefile.
+//-----------------------------------------------------------------------------
 void XApplication::initI18n () {
    setlocale (LC_ALL, "");                         // Activate current locale
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds a help-menu at the end of the menu. This menu consists of
-//            an "About"-entry and - if the method getHelpfile does return a
-//            value - entries to display a help-file and to configure the help
-//            browser.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds a help-menu at the end of the menu. This menu consists of an
+/// "About"-entry and - if the method getHelpfile() does return a value -
+/// entries to display a help-file and to configure the help browser.
+//-----------------------------------------------------------------------------
 void XApplication::showHelpMenu () {
    MenuEntry menuItems[] = {
       { Glib::locale_to_utf8 (_("_Help")),                  _("<alt>H"), 0,                LASTBRANCH },
@@ -255,10 +367,10 @@ void XApplication::showHelpMenu () {
       addMenu (menuItems[4]);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Command-handler
-//Parameters: menu: ID of command (menu)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Command-handler; handles the help menu entries.
+/// \param menu: ID of command (menu)
+//-----------------------------------------------------------------------------
 void XApplication::command (int menu) {
    switch (menu) {
    case ABOUT:
@@ -317,8 +429,16 @@ void XApplication::command (int menu) {
       TRACE5 ("XApplication::command (int) - Starting browser with " << file);
 
       try {
-         const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
-         Process::execAsync (helpBrowser.c_str (), args);
+#ifdef HAVE_GTKHTML
+         if (helpBrowser == "GTKHTML")
+            HTMLDialog::perform (file);
+         else {
+#endif
+            const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
+            Process::execAsync (helpBrowser.c_str (), args);
+#ifdef HAVE_GTKHTML
+         }
+#endif
       }
       catch (std::string& error) {
          Gtk::MessageDialog msg (error, Gtk::MESSAGE_ERROR);
@@ -339,27 +459,25 @@ void XApplication::command (int menu) {
 //----------------------------------------------------------------------------
 /// Sets the program icon which is used by some window managers when minimizing
 /// the program.
-///\b Parameters:
-///     - \c iconData: Array of character pointers describing the icon (xpm-format)
-///
-///\b Requires: \c iconData must be a valid pointer to xpm-data<Br>
-///\b Remarks: Some window managers might also display the icon on other occassions.
+/// \param pIconData Array of character pointers describing the icon (xpm-format)
+/// \pre pIconData must be a valid pointer to xpm-data
+/// \remarks: Some window managers might also display the icon on other occassions.
 //----------------------------------------------------------------------------
-void XApplication::setIconProgram (const char* const* iconData) {
+void XApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XApplication::setIconProgram");
-   Check1 (iconData);
+   Check1 (pIconData);
    Check3 (hboxTitle);
 
-   set_icon (Gdk::Pixbuf::create_from_xpm_data (iconData));
+   set_icon (Gdk::Pixbuf::create_from_xpm_data (pIconData));
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor for program with prg-info in client
-//Parameters: pTitle: Pointer to title
-//            pPrgInfo: Pointer to text describing the application
-//            pCopyright: Pointer to copyright-information
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor for programs with program information in the client.
+/// \param pTitle: Pointer to title
+/// \param pPrgInfo: Pointer to text describing the application
+/// \param pCopyright: Pointer to copyright-information
+//-----------------------------------------------------------------------------
 XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
                                     const char* pCopyright)
    : XApplication (pTitle), hboxTitle (new Gtk::HBox)
@@ -382,9 +500,9 @@ XInfoApplication::XInfoApplication (const char* pTitle, const char* pPrgInfo,
    vboxPrgInfo->pack_start (*txtCopyright);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 XInfoApplication::~XInfoApplication () {
    TRACE9 ("XInfoApplication::~XInfoApplication ()");
 
@@ -395,36 +513,36 @@ XInfoApplication::~XInfoApplication () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets an icon for the program
-//Parameters: pIconData: Pointer to xpm-data for pixmap
-/*--------------------------------------------------------------------------*/
-void XInfoApplication::setIconProgram (const char* const* iconData) {
+//-----------------------------------------------------------------------------
+/// Sets an icon for the program
+/// \param pIconData: Pointer to xpm-data for pixmap
+//-----------------------------------------------------------------------------
+void XInfoApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XInfoApplication::setIconProgram");
-   Check1 (iconData);
+   Check1 (pIconData);
    Check3 (hboxTitle);
 
    iconPrg = new Gtk::Image
-      (Gdk::Pixbuf::create_from_xpm_data (iconData));
+      (Gdk::Pixbuf::create_from_xpm_data (pIconData));
    Check3 (iconPrg);
 
    iconPrg->show ();
    hboxTitle->pack_start (*iconPrg, false, false, 5);
 
-   XApplication::setIconProgram (iconData);
+   XApplication::setIconProgram (pIconData);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets pixmap for the programmer
-//Parameters: pIconData: Pointer to xpm-data for pixmap
-/*--------------------------------------------------------------------------*/
-void XInfoApplication::setIconAuthor (const char* const* iconData) {
+//-----------------------------------------------------------------------------
+/// Sets pixmap for the programmer
+/// \param pIconData: Pointer to xpm-data for pixmap
+//-----------------------------------------------------------------------------
+void XInfoApplication::setIconAuthor (const char* const* pIconData) {
    TRACE9 ("XInfoApplication::setIconAuthor");
-   Check1 (iconData);
+   Check1 (pIconData);
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
    iconAuthor = new Gtk::Image
-      (Gdk::Pixbuf::create_from_xpm_data (iconData));
+      (Gdk::Pixbuf::create_from_xpm_data (pIconData));
    Check3 (iconAuthor);
 
    iconAuthor->show ();
