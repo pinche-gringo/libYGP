@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.8 2001/03/25 09:51:44 markus Exp $
+//$Id: CRegExp.h,v 1.9 2001/09/29 17:08:04 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,24 +47,27 @@
 //     preceeding regular expression is matched either once or not at all.
 // '.' matches any single character.
 // '^' Matches an empty string in the beginning of the line.
-// '$' Similar to the caret (') this matches the end of the line.
-// '\' - Quotes the following character (including the backlash (\) itself
-//     - '\|' seperates two alternatives
+// '$' Similar to the caret (^) this matches the end of the line.
+// '\' - Quotes the following character (including the backlash (\) itself:
+//     - '\|' seperates two alternatives.
 //     - '\(...\)' groups regular expressions and marks the matching substring
-//                 for future reference
-//     - '\DIGIT' to repeat the matched text of the DIGIT'th '\(...\)-construt.
+//                 for future reference.
+//     - '\DIGIT' to repeat the matched text of the DIGIT'th '\(...\)-construct.
 //     - '\b' matches the empty string, provided its at the beginning or the
-//            end of a word
+//            end of a word.
 //     - '\B' matches the empty string, provided its not at the beginning or
-//            the end of a word
-//     - '\<' matches the empty string, provided its at the beginning of a word
-//     - '\>' matches the empty string, provided its at the end of a word
+//            the end of a word.
+//     - '\<' matches the empty string, provided its at the beginning of a word.
+//     - '\>' matches the empty string, provided its at the end of a word.
 //     - '\w' matches any word-constituent character.
 //     - '\W' matches any character that is not word-constituent.
-// '[<region>] matches the characters specified in match
-// '[^<region>] matches the characters not specified in match
-//     <region> ::= | <char><region> | <range><region> | {}
+// '[<match>] matches the characters specified in match.
+// '[^<match>] or [!<match>] matches the characters not specified in match.
+//     <match> ::= | <char><match> | <range><match> | <character-class><match> | {}
 //     <range> ::= <low>-<high>
+//     <character-class> ::= [:<class>:]
+//     <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
+//                 | print | punct | space | upper
 //     Note: To include the character square bracket ([) in the match, it
 //           must be the first character; similar to the caret (^), wich must
 //           *not* be the first character to get included.

@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.13 2001/02/18 23:20:31 Markus Exp $
+//$Id: IVIOAppl.h,v 1.14 2001/09/29 17:09:21 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,16 +26,36 @@
 // option can also represented in a verbose way starting with two
 // minus-characters (--).
 //
-// Options can be passed before or after the other parameters and are
-// handled before the "real" program starts to run. To end further
-// option-handling two minus-characters (--) without following text can be
-// used.
+// The parameters are parsed from left to right. Each parameter is
+// classified as a short option, a long option (both reported via the
+// handleOption-method), an argument to an option, or a non-option
+// parameter.
 //
-// Two ore more options can be put together after a single option-character.
-// e.g.: "-d -v" is equal to "-dv" (and also to "--debug --verbose" if those
-// long-values are associated with the options).
+// >A simple short option is a minus (-) or (only in Windoze) a slash
+// (/) followed by a short option character. If the option has an
+// argument, it may be written directly after the option character or
+// as the next parameter (ie. separated by whitespace on the command
+// line).
 //
-// Note: The option "-h" causes the call of the showHelp-method!
+// It is possible to specify several short options after one minus
+// (-), as long as all (except possibly the last) do not have
+// arguments.
+//
+// A long option normally begins with `--' followed by the long option
+// name. If the option has an argument, it may be written directly
+// after the long option name, separated by an equal-sign (=), or as
+// the next argument (ie. separated by whitespace on the command
+// line). Long options may be abbreviated, as long as the abbreviation
+// is not ambiguous.
+//
+// Note: If long options are supported, they are checked in reverse
+//       order (last first).
+//
+// Every parameter which is not an option or an argument to an option
+// or after a '--'-parameter is a non-option parameter and are passed
+// to the perform-method. Options are inspected before that method is called!
+//
+// Note: The options "-h" and "-?" causes the call of the showHelp-method!
 
 
 #define IVIOAPPL_HELP_OPTION    "help", 'h'

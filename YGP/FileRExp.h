@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.8 2001/09/27 22:03:09 markus Exp $
+//$Id: FileRExp.h,v 1.9 2001/09/29 17:08:04 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,12 +22,21 @@
 #include <RegExp.h>
 
 // Class to compare text with (UNIX-file-style) regular expressions
+//
+// Note: Depending on the operating system this comparison is either
+//       case-sensitive (*X) or just case-preserving ((WIN)DOS(E))!
+//
+// The following characters have a special meaning:
+//
 // '*' matches any number of any characters
 // '?' matches any single character
-// '[<region>]' matches the characters specified in match
-// '[^<region>]' or '[!<region>]'  matches the characters not specified in match
-//     <region> ::= | <char><region> | <range><region> | {}
+// '[<match>]' matches the characters specified in match.
+// '[^<match>]' or '[!<match>]'  matches the characters not specified in match
+//     <match> ::= | <char><match> | <range><match> | <character-class><match> | {}
 //     <range> ::= <low>-<high>
+//     <character-class> ::= [:<class>:]
+//     <class> ::= alnum | alpha | cntrl | digit | space | graph | lower
+//                 | print | punct | space | upper
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
 //       care it is valied during the life-time of the object.
