@@ -1,7 +1,7 @@
 #ifndef GZO_CFG_H
 #define GZO_CFG_H
 
-//$Id: acconfig.h,v 1.1 2001/02/18 23:18:59 Markus Exp $
+//$Id: acconfig.h,v 1.2 2001/03/06 23:02:41 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,6 +58,14 @@
 
 /* Define the micro-version */
 #undef MICRO_VERSION
+
+/* Define for working regex.h */
+#undef HAVE_REGEX_H
+
+
+/* Define for working regexp.h */
+#undef HAVE_REGEXP_H
+
 
 ^L
 /* Leave that blank line there!!  Autoheader needs it.
