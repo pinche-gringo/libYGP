@@ -3,24 +3,23 @@
 
 This package can be compiled in 2 ways for Windows:
 
-  - Using the Cygwin package (prefered)
+  - Using the Cygwin package
   - Using Visual C++ (tested with VC++ 6.0)
 
 
 The first way is the traditional UNIX-way; with running ./configure followed
-by make (see INSTALL for details) and is recommended as - well, actually not
-because it has loads of advantages, but because VC really sucks.
+by make (see INSTALL for details).
 
 If you insist on the second way, please note that although there exists a
-project file for the library, it is (again) not recommended to use it as
-the package also contains tests which can't be obtained that way (as
-the IDE don't support to run the tests simultanously and would need every
-test to be in a seperate project).
+project file for the library, it is not recommended to use it as the package
+also contains tests which can't be obtained that way (as the IDE don't support
+to run the tests simultanously and would need every test to be in a seperate
+project).
 
-What should be done instead is:
-
-  - Run VCVars32 to initialize the environment
-  - Run either Make.bat or nmake /f VCGeneral.mak [check]
+Instead you should just run Make.bat [check] in the root directory of the
+project (or nmake /f VCGeneral.mak [check] in the Windows directory (both
+after setting the environment for VC). If you add a "CFG=Release" to either
+command a release version (without internal checks and the like) is created.
 
 
 In both cases you must copy the created DLL into a directory in your path and
