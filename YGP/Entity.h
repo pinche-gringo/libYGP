@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.8 2003/11/14 20:27:55 markus Rel $
+//$Id: Entity.h,v 1.9 2003/12/05 19:49:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -81,6 +81,7 @@ class Entity {
 
 
 #ifndef NO_HANDLE
+/// Defines a handle (smart pointer with reference counting) to an Entity
 defineHndl (Entity);
 #endif
 

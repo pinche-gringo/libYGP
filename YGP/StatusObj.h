@@ -1,7 +1,7 @@
 #ifndef STATUSOBJ_H
 #define STATUSOBJ_H
 
-//$Id: StatusObj.h,v 1.1 2003/11/19 20:35:48 markus Rel $
+//$Id: StatusObj.h,v 1.2 2003/12/05 19:49:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ namespace YGP {
 
 /**Object holding status information.
 
-   This information can be extended by setting more information or abstracted
+   This information can be extended by setting more information or gerneralized
    (setting a more general error text, while preserving the original
    information as sort of details).
 */
@@ -37,7 +37,8 @@ class StatusObject {
    typedef enum { UNDEFINED,               ///< The object contains no message
                   INFO,      ///< The object contains an informational message
                   WARNING,          ///< The object contains a warning message
-                  ERROR } type;              ///< The object contains an error
+                  ERROR                      ///< The object contains an error
+   } type;
 
    StatusObject ();
    StatusObject (type t, const std::string& message);
@@ -55,15 +56,14 @@ class StatusObject {
    /// Returns the details of the message (after the object has been abstracted)
    std::string getDetails () const { return child ? child->msg : ""; }
 
-
    /// Returns if the message has details
    bool hasDetails () const { return child; }
 
    /// Cleans the object (sets it again to undefined)
    void clean () { tp = UNDEFINED; msg.clear (); child = NULL; }
 
+   void generalize (const std::string& message);
    void setMessage (type t, const std::string& message);
-   void abstract (const std::string& message);
 
  private:
    type        tp;

@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.26 2003/11/17 15:07:05 markus Rel $
+//$Id: INIFile.cpp,v 1.27 2003/12/05 19:49:22 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000 - 2003
@@ -41,16 +41,17 @@
 #endif
 
 
-namespace YGP {
-
 // Define constant values; don't skip white-spaces after parsing
-static ParseExact SectionBegin ("[", _("Start of section ([)"), false);
-static ParseExact SectionEnd ("]", _("End of section (])"), false);
-static ParseExact equals ("=", _("Equal-sign (=)"), false);
+static YGP::ParseExact SectionBegin ("[", _("Start of section ([)"), false);
+static YGP::ParseExact SectionEnd ("]", _("End of section (])"), false);
+static YGP::ParseExact equals ("=", _("Equal-sign (=)"), false);
 
 static unsigned int LEN_SECTIONNAME = 32;
 static unsigned int LEN_KEY = 32;
 static unsigned int LEN_VALUE = 256;
+
+
+namespace YGP {
 
 
 //-----------------------------------------------------------------------------

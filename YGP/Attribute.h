@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.25 2003/11/16 19:25:55 markus Rel $
+//$Id: Attribute.h,v 1.26 2003/12/05 19:49:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -267,17 +267,23 @@ template <> inline std::string Attribute<double>::getValue () const {
 template <> inline std::string Attribute<double>::getFormattedValue () const { return getValue (); }
 
 // Specialization of Attribute for strings
+/// Assigns the passed text to the std::string
+/// \returns \c true on success; \c false otherwise
 template <> inline bool Attribute<std::string>::assignFromString (const char* value) const {
    Check3 (value);
    attr_ = value;
    return true;
 }
+/// Assigns the passed text with known length to the std::string
+/// \returns \c true on success; \c false otherwise
 template <> inline bool Attribute<std::string>::assign (const char* value, unsigned int length) const {
    Check3 (value);
    attr_.assign (value, length);
    return true;
 }
+/// Returns the value of the attribute (value)
 template <> inline std::string Attribute<std::string>::getValue () const { return attr_; }
+/// Returns the value of the attribute (value) as formatted string
 template <> inline std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
 
 
@@ -476,12 +482,16 @@ template <> inline bool AttributeList<double>::assignFromString (unsigned int of
 }
 
 // Specialization of AttributeList for strings
+/// Assigns the passed text to the list of std::strings
+/// \returns \c true on success; \c false otherwise
 template <> inline bool AttributeList<std::string>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    list_[offset] = value;
    return true;
 }
 
+/// Assigns the passed text with known length to the list of std::strings
+/// \returns \c true on success; \c false otherwise
 template <> inline bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    list_[offset].assign (value, length);

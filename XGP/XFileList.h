@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.24 2003/11/14 20:28:08 markus Rel $
+//$Id: XFileList.h,v 1.25 2003/12/05 19:49:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -137,6 +137,7 @@ class XFileStore : public Parent, public IFileStore {
    virtual void setFilename (unsigned int line, const std::string& file) {
       children ()[line][cols.name] = Glib::locale_to_utf8 (file); }
 
+   /// Returns the adress of the IFileStore-parent
    const IFileStore* getBaseAddress () const {
       return static_cast<const IFileStore*> (this); }
 
@@ -151,8 +152,10 @@ class XFileStore : public Parent, public IFileStore {
    XFileStore& operator= (const XFileStore&);
 };
 
-typedef XGP::XFileStore<Gtk::ListStore> XGP::XFileListStore;
-typedef XGP::XFileStore<Gtk::TreeStore> XGP::XFileTreeStore;
+/// Type definition of an XFileStore for a List
+typedef XFileStore<Gtk::ListStore> XFileListStore;
+/// Type definition of an XFileStore for a Tree
+typedef XFileStore<Gtk::TreeStore> XFileTreeStore;
 
 
 

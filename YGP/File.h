@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.22 2003/11/16 19:25:55 markus Rel $
+//$Id: File.h,v 1.23 2003/12/05 19:49:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -271,6 +271,7 @@ struct File : protected WIN32_FIND_DATA {
 #  error Not implemented yet!
 #endif
 
+/// Declare also a File, to not have to use <tt>struct File</tt>
 typedef struct File File;
 
 }

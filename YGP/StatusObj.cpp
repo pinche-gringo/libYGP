@@ -1,11 +1,11 @@
-//$Id: StatusObj.cpp,v 1.2 2003/11/28 23:12:27 markus Rel $
+//$Id: StatusObj.cpp,v 1.3 2003/12/05 19:49:22 markus Rel $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -94,7 +94,7 @@ void StatusObject::setMessage (type t, const std::string& message) {
 /// \remarks - The message replaces existing ones
 ///     - The old messages are accessable as "details"
 //----------------------------------------------------------------------------
-void StatusObject::abstract (const std::string& message) {
+void StatusObject::generalize (const std::string& message) {
     if (child)
        child->msg += msg;
     else

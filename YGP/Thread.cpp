@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.18 2003/11/17 15:07:05 markus Rel $
+//$Id: Thread.cpp,v 1.19 2003/12/05 19:49:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -105,6 +105,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
    callback = fnc;
    mutexes[id = _beginthread (threadFunction, 0, this)].lock ();
    if (id == -1) {
+      mutexes[-1].unlock ();
 #endif
 
 #if defined (HAVE_LIBPTHREAD) || defined (HAVE_BEGINTHREAD)

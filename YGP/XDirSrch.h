@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.10 2003/11/16 19:25:34 markus Rel $
+//$Id: XDirSrch.h,v 1.11 2003/12/05 19:49:22 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -105,9 +105,11 @@ class XDirectorySearch : public Parent {
    std::string nodes;
 };
 
-
+/// Declare ExtDirectorySearch as shortcut
 typedef XDirectorySearch<DirectorySearch>     ExtDirectorySearch;
+/// Declare ExtRemoteDirSearch as shortcut
 typedef XDirectorySearch<RemoteDirSearch>     ExtRemoteDirSearch;
+/// Declare ExtPathDirectorySearch as shortcut
 typedef XDirectorySearch<PathDirectorySearch> ExtPathDirectorySearch;
 
 }

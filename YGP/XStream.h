@@ -1,7 +1,7 @@
 #ifndef XSTREAM_H
 #define XSTREAM_H
 
-// $Id: XStream.h,v 1.18 2003/11/14 20:27:55 markus Rel $
+// $Id: XStream.h,v 1.19 2003/12/05 19:49:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,9 @@ template <class T> struct extStream : private extStreambuf, public T {
    typedef std::ios sios;
 };
 
+/// Declare Xistream as shortcut
 typedef extStream<std::istream> Xistream;
+/// Declare Xifstream as shortcut
 typedef extStream<std::ifstream> Xifstream;
 
 }

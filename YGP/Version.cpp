@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.13 2003/11/14 20:27:55 markus Rel $
+// $Id: Version.cpp,v 1.14 2003/12/05 19:49:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -27,10 +27,10 @@
 #include "YGP/Internal.h"
 
 
-/**\mainpage Overview of the YGP library
+/**\mainpage Overview of the %YGP library
 
    \section intro Introduction
-   YGP stands for Yet another General Purpose library and that is what it is
+   %YGP stands for Yet another General Purpose library and that is what it is
    (and also says alot about my creativity finding "cool" names).
 
    Those clases are designed to be portable (and maybe even usefull).
@@ -50,7 +50,10 @@
    executing other processes or threads and handle/format diverse attributes.
 */
 
-namespace YGP {
+/**\namespace YGP
+
+   This namespace holds plattform independend classes of common use.
+ */
 
 static const char* Version = "\n!@$%" PACKAGE " V" VERSION
                              " Compiled on " __DATE__ "%$@!\n";
@@ -96,5 +99,3 @@ int WINAPI dllEntry (HANDLE, DWORD, LPVOID) {
 } // end extern "C"
 
 #endif
-
-}

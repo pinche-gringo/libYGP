@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.46 2003/11/17 15:07:05 markus Rel $
+//$Id: Parse.cpp,v 1.47 2003/12/05 19:49:22 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -43,13 +43,14 @@
 #include "YGP/Internal.h"
 
 
-namespace YGP {
-
 #define BUFFER  (buffers[Thread::currentID ()])
 
 
-// Parse-buffers; one per thread
+/// Parse-buffers; one per thread
 static std::map<unsigned long, std::string> buffers;
+static char ESCAPE = '\\';            ///< Escape character for ParseAttomic()
+
+namespace YGP {
 
 
 //-----------------------------------------------------------------------------
@@ -59,9 +60,6 @@ static std::map<unsigned long, std::string> buffers;
 void ParseObject::freeBuffer () {
    buffers.erase (Thread::currentID ());
 }
-
-static char ESCAPE = '\\';
-
 
 //-----------------------------------------------------------------------------
 /// Constructor The description must be valid during the LIFETIME (OR AT LEAST

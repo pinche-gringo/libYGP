@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.23 2003/11/17 15:07:05 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.24 2003/12/05 19:49:22 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002, 2003
@@ -47,8 +47,6 @@
 #include "YGP/RDirSrchSrv.h"
 
 
-namespace YGP {
-
 static const unsigned int CMD_NEXT  = 0;
 static const unsigned int CMD_FIND  = 1;
 static const unsigned int CMD_CHECK = 2;
@@ -64,12 +62,16 @@ static const unsigned int CMD_ISEOF = 8;
 // Actually also the members of this struct should be const (const char* const
 // & const unsigned int), but Visual C++ wouldn't compile that. I really wonder
 // if they invented C# because they couldn't implement a working C++ compiler?
+/// Commands understood by the server
 static const struct { 
    char* cmd;
    unsigned int len;
 } commands[] = { { "Next", 4 },   { "Find=\"", 6 },  { "Check=\"", 7 },
                  { "End", 3 },    { "Open=\"", 6 },  { "Close=", 6 },
                  { "Read=", 5 },  { "Write=", 6 },   { "EOF=", 4 } };
+
+
+namespace YGP {
 
 
 //-----------------------------------------------------------------------------

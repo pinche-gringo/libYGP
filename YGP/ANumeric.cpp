@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.41 2003/11/17 15:07:05 markus Rel $
+//$Id: ANumeric.cpp,v 1.42 2003/12/05 19:49:22 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -52,11 +52,12 @@
 #include "YGP/ANumeric.h"
 
 
-namespace YGP {
-
-
 // Static (global) variables
+/// Pointer to current locale
 static struct lconv* loc = NULL;
+
+
+namespace YGP {
 
 
 //-----------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.7 2003/12/01 18:19:15 markus Exp $
+//$Id: AutoContainer.cpp,v 1.8 2003/12/05 19:49:22 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -91,6 +91,7 @@ void AutoContainer::add (Gtk::Widget& child) {
 //-----------------------------------------------------------------------------
 /// Resize-request: Resize a line
 /// \param size: New size of the container
+/// \param line: Line to resize
 //-----------------------------------------------------------------------------
 void AutoContainer::line_size_allocate (GtkAllocation* size, Gtk::HBox* line) {
    Check1 (size); Check1 (size->width >= -1); Check1 (size->height >= -1);

@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.37 2003/11/14 20:27:55 markus Rel $
+//$Id: Parse.h,v 1.38 2003/12/05 19:49:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -268,7 +268,7 @@ class ParseAttomic : public ParseObject {
    void setMinCard (unsigned int val) { minCard = val; }
    /// Sets the minimal cardinality for this object
    void setValue (const char* value) {Check1 (value); pValue = value; }
-   //@]
+   //@}
 
  protected:
    const char*  pValue;                       ///< Pointer to the valid values
@@ -276,8 +276,10 @@ class ParseAttomic : public ParseObject {
    unsigned int maxCard;                ///< Maximal cardinality of the object
    unsigned int minCard;                ///< Minimal cardinality of the object
 
-   // Possible errors of checkIntegrity
-   enum { MAX_MIN_ERROR = ParseObject::LAST, NO_VALUE, LAST };
+   /// Possible errors of checkIntegrity
+   enum { MAX_MIN_ERROR = ParseObject::LAST,     ///< Maximal cardinality is below minimal one
+          NO_VALUE,                              ///< Object contains no valid values
+          LAST };                                ///< Last used error number
 
    virtual int  checkIntegrity () const;
    virtual int checkValue (char ch);
