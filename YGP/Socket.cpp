@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.5 2001/08/22 01:30:57 markus Exp $
+//$Id: Socket.cpp,v 1.6 2001/09/06 19:30:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -242,7 +242,7 @@ int Socket::waitForInput () const throw (domain_error) {
 //            port: Portnumber to connect to
 /*--------------------------------------------------------------------------*/
 void Socket::writeTo (const char* host, unsigned int port) throw (domain_error) {
-   TRACE9 ("Socket::writeTo (const char*, unsigned int)");
+   TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << host << ':' << port);
    assert (host);
 
    struct sockaddr_in name;
