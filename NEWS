@@ -1,3 +1,13 @@
+Overview of Changes in version 0.6.43:
+
+  - Actualized index-file of documentation
+  - GTKHTML-viewer can load files referenced from a HTML doc (images, CSS, ...)
+  - GTKHTML-viewer jumps to anchors (doesn't work always)
+  - Converting error message of starting help-browser to UTF-8
+  - Changing skipWS of ParseObject to static
+  - ParseAttomic can have a negative list of values
+  - Checks can be used within C sources
+
 Overview of Changes in version 0.6.42:
 
   - Fixed translating messages being in headers

@@ -1,6 +1,54 @@
-2003-12-12  Markus Schwab  <g17m0@lycos.com>
+2004-01-05  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.6.43
+
+	* po/de.po, po/en.po, po/es.po: Actualized line numbers
+
+	* YGP/Tests/Parse.cpp: Moved a comment
+
+	* configure.in: Version to 0.6.43
+
+	* YGP/Check.cpp, YGP/Check.h: Can be used from C programs
+
+	* XGP/HTMLViewer.cpp: Destroying GTKHTML control in destructor
+
+	* XGP/GTKViewer.c:
+	  Minor optimization; Checks/Traces added; Can be potentially used under Windows
+
+	* XGP/XDialog.cpp: Traces added; command callback accepts delete-event
+
+2003-12-28  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Parse.h, YGP/Parse.cpp:
+	  ParseAttomic value can be inverted (so following values must no be parsed)
+
+2003-12-25  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/XApplication.cpp:
+	  Converting error message of starting help-browser to UTF-8
+
+2003-12-22  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/GTKViewer.c: Create document only once
+
+	* YGP/ATStamp.h:
+	  Changed description of class so that it does not confuse doxygen
+
+	* doc/index.html: Actualized to new directory structure
+
+	* XGP/GTKViewer.c:
+	  Jumping to anchor after loading all documents; Closing used file
+
+	* XGP/GTKViewer.c:
+	  Reading inline documents also; trying to jump to anchor
+
+	* XGP/Samples/X-Appl.cpp: Including Internal instead of ygp-cfg.h
+
+2003-12-16  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.6.42
+
+2003-12-12  Markus Schwab  <g17m0@lycos.com>
 
 	* XGP/ConnectDlg.cpp: Fixed binding-to-port error message
 
