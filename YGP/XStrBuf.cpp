@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.21 2002/11/18 07:29:39 markus Exp $
+// $Id: XStrBuf.cpp,v 1.22 2002/12/15 22:23:15 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -45,7 +45,10 @@ static unsigned int lenBuffer = 512;
 #endif
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : (Default-)Constructur; Initializes object
+//Purpose   : Defaultconstructor; Although reading from this object should work
+//            and should also return some "random" data, to provide a "real"
+//            data-sink is highly recommended. This method might be declared
+//            private (or at least protected) in the future.
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf ()
    : line (0), pushbackOffset (-1), pSource (NULL)
@@ -54,8 +57,9 @@ extStreambuf::extStreambuf ()
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructur; Initializes object
-//Parameter : source: Original streambuffer, which should be enhanced
+//Purpose   : Constructur; creates an extended streambuf which takes its input
+//            from the provided source.
+//Parameters: source: Actual datasink to use
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf& source)
    : line (0), pushbackOffset (-1), pSource (&source)
@@ -64,8 +68,9 @@ extStreambuf::extStreambuf (streambuf& source)
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructur; Initializes object
-//Parameter : source: Original streambuffer, which should be enhanced
+//Purpose   : Constructur; creates an extended streambuf which takes its input
+//            from the provided source.
+//Parameters: source: Actual datasink to use
 /*--------------------------------------------------------------------------*/
 extStreambuf::extStreambuf (streambuf* source)
    : line (0), pushbackOffset (-1), pSource (source)
@@ -75,18 +80,17 @@ extStreambuf::extStreambuf (streambuf* source)
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
-
 /*--------------------------------------------------------------------------*/
 extStreambuf::~extStreambuf () {
-   free (pBuffer);
+   free (pBuffer);  //  TODO!!     Might be done by streambuf (?) Check sources
 }
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Overflow of buffer
+//Purpose   : Called if output would cause the streambuf to overrun. Because
+//            this class is designed for input, this method shouldn't be called.
 //Parameters: ch: Char to write, causing the overflow
 //Returns   : int: EOF in case of error
-//Requires  : Readpointer equal or behind end-of-readbuffer
 /*--------------------------------------------------------------------------*/
 int extStreambuf::overflow (int ch) {
    Check (0);
@@ -94,8 +98,15 @@ int extStreambuf::overflow (int ch) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Underflow of buffer; load new data into buffer
-//Returns   : int: EOF in case of error
+//Purpose   : Called if the object doesn't contain data in the input-buffer.
+//
+//            It then copies characters from its data-sink (the streambuf passed
+//            while constructing or defined with setSource) til the next line-feed
+//            character (10, 0x0a, '\n') and sets this data as its input.
+//
+//            This method is called automatically and should NOT be used. It
+//            also might be declared protected in the future.
+//Returns   : int: EOF in case of an error, else 0
 //Requires  : Readpointer equal or behind end-of-readbuffer
 /*--------------------------------------------------------------------------*/
 int extStreambuf::underflow () {
@@ -104,7 +115,7 @@ int extStreambuf::underflow () {
    if (gptr () < egptr ()) // Sanity-check; VC uses underflow to get curr char
       return *gptr ();
 
-   Check3 (!checkIntegrity ());
+   Check1 (!checkIntegrity ());
 
    char* pTemp = pBuffer;
    int   ch;
@@ -134,17 +145,26 @@ int extStreambuf::underflow () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Pushback of last read character failed (because the beginning
-//            of the actual block was reached) -> Repositionate the file-ptr
-//            one char before the last one.
-//Parameter : c: Character to put back (not EOF)
-//Returns   : Character putted back (EOF if error)
+//Purpose   : Manages the failure of a pushback of a character into the stream.
+//
+//            There are two reasons why this method could be called while
+//            pushing back characters:
+//              - A character is pushed back which doesn't fit the read character.
+//                This is propably due to a programming failure and the pushback
+//                is not performed. For the sake of performance this the class
+//                ignores that case.
+//              - A buffer underrun; caused by pushing characters back into the
+//                previous line (and - depending on the implementation of
+//                streambuf - maybe a few characters more). In this read-position
+//                of the data-sink is changed to the end of the previous line.
+//Parameters: c: Character to put back (not EOF)
+//Returns   : Character putted back (EOF if an error occured)
+//Remarks   : For the sake of performance the check if the character pushed back matches the character in the stream is NOT done (but the next read-operation returns the "right" character)!
 /*--------------------------------------------------------------------------*/
 int extStreambuf::pbackfail (int c) {
    TRACE2 ("extStreambuf::pbackfail (int)");
-
-   Check3 (!checkIntegrity ());
-   Check3 (c != EOF);
+   Check1 (!checkIntegrity ());
+   Check1 (c != EOF);
 
 #if SYSTEM == WINDOWS
    if (gptr () > eback ())        // gptr () > eback -> pushback of wrong char
@@ -174,17 +194,22 @@ int extStreambuf::pbackfail (int c) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks the integrity of the object
-//Returns   : Status: 0 OK; 1 pSource == NULL; 2 pBuffer == NULL
+//Purpose   : Positionates the read pointer to the passed offset (either
+//            starting from the beginning or the end of the stream or from the
+//            current position).
+//Parameters: pos: Offset to change in the stream
+//            dir: Direction to change offset to
+//            mode: Which pointer to move (get, put)
+//Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
 streampos extStreambuf::seekoff (streamoff off, _seek_dir dir, int mode) {
    TRACE8 ("extStreambuf::seekoff (streamoff, _seek_dir, mode) - " << off
            << "; " << dir << '/' << mode);
-   Check3 (pSource);
+   Check1 (pSource);
 
    // Correct offset, if positionate relative to current position as
    // pSource is already further (at end of line)
-   if (dir == ios::cur)
+   if (dir == cur)
       off -= (egptr () - gptr ());
    streampos pos (pSource->pubseekoff (off, dir, mode));
    setg (pBuffer, pBuffer + lenBuffer, pBuffer + lenBuffer);
@@ -192,12 +217,14 @@ streampos extStreambuf::seekoff (streamoff off, _seek_dir dir, int mode) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks the integrity of the object
-//Returns   : Status: 0 OK; 1 pSource == NULL; 2 pBuffer == NULL
+//Purpose   : Positionates the read pointer to the passed position.
+//Parameters: pos: New position in the stream
+//            mode: Which pointer to move (get, put)
+//Returns   : New position in the stream
 /*--------------------------------------------------------------------------*/
 streampos extStreambuf::seekpos (streampos pos, int mode) {
    TRACE8 ("extStreambuf::seekpos (streampos, mode)");
-   Check3 (pSource);
+   Check1 (pSource);
    setg (pBuffer, pBuffer, pBuffer);
    return pSource->pubseekpos (pos, mode);
 }

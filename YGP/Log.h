@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.7 2002/09/13 04:43:00 markus Rel $
+//$Id: Log.h,v 1.8 2002/12/15 22:18:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,8 +18,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <assert.h>
-
 #include <gzo-cfg.h>
 
 #if SYSTEM == UNIX
@@ -32,6 +30,9 @@
 
 #endif
 
+#include <Check.h>
+
+
 #define LOGEMERGENCY(text) Syslog::write (Syslog::EMERGENCY, text);
 #define LOGALERT(text)     Syslog::write (Syslog::ALERT, text);
 #define LOGCRITICAL(text)  Syslog::write (Syslog::CRITICAL, text);
@@ -42,16 +43,19 @@
 #define LOGDEBUG(text)     Syslog::write (Syslog::DEBUGGING, text);
 
 
-// Class to perform some logging into either log-file (if available) or to console.
+// Class to perform some logging into either a log-file (if available) or to
+// the console.
+//
+// Every entry can be classified (according to its serverity).
 class Syslog {
  public:
-   Syslog (const char* appl) { assert (appl);
+   Syslog (const char* appl) { Check1 (appl);
 #if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
 #endif // UNIX
    }
 
-   Syslog (const char* appl, int facility) { assert (appl);
+   Syslog (const char* appl, int facility) { Check1 (appl);
 #if SYSTEM == UNIX
       openlog (appl, LOG_PID | LOG_CONS, facility);
 #endif // UNIX
@@ -63,14 +67,14 @@ class Syslog {
    }
 
    static void write (int level, const char* text) {
-      assert (text);
+      Check1 (text);
 #if SYSTEM == UNIX
       syslog (level, "%s", text);
 #elif SYSTEM == WINDOWS
 // Use printf to log under Windoze (although NT does have some logging-thing)
       static char* levels[] = { "Alert", "Critical", "Error", "Warning",
                                 "Notice", "Information", "Debug" };
-      assert (level < (sizeof (levels) / sizeof (levels[0])));
+      Check1 (level < (sizeof (levels) / sizeof (levels[0])));
       std::cerr << levels[level] << ": " << text << '\n';
 #endif // UNIX
    }

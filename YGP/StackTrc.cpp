@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.7 2002/05/24 06:52:49 markus Rel $
+// $Id: StackTrc.cpp,v 1.8 2002/12/15 22:20:13 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -26,11 +26,11 @@
 
 #include <stdio.h>
 #include <malloc.h>
-#include <assert.h>
 
 #include <signal.h>
 
 #include "Log.h"
+#include "Check.h"
 #include "StackTrc.h"
 
 // Define for logging (printf for testing; LOGINFO for real)
@@ -81,7 +81,7 @@ void dumpStack () {
 
    while (*pStack) {
       // Check if the stack is aligned
-      assert ((unsigned int)pStack
+      Check3 ((unsigned int)pStack
               == ((unsigned int)pStack & ~(sizeof (int) - 1)));
 
       // The address of the caller is next (behind) the basepointer

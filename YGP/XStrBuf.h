@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.16 2002/11/18 04:39:40 markus Exp $
+// $Id: XStrBuf.h,v 1.17 2002/12/15 22:23:15 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,8 +20,6 @@
 
 #include <gzo-cfg.h>
 
-#include <assert.h>
-
 #if SYSTEM == UNIX || defined __GNUG__
 #  include <streambuf.h>
 #elif SYSTEM == WINDOWS
@@ -32,6 +30,9 @@
       typedef std::ios_base::seekdir _seek_dir;
 #  endif
 #endif
+
+#include <Check.h>
+
 
 using namespace std;
 
@@ -70,7 +71,7 @@ class extStreambuf : public streambuf {
    virtual streampos seekpos(streampos pos, int mode = ios::in|ios::out);
 
    // Setting of data-sink
-   void setSource (streambuf* source) { assert (source); pSource = source; }
+   void setSource (streambuf* source) { Check1 (source); pSource = source; }
    void setSource (streambuf& source) { pSource = &source; }
 
    // Accessing values

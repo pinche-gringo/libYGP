@@ -1,11 +1,11 @@
-//$Id: Tokenize.cpp,v 1.5 2002/04/09 20:05:09 markus Rel $
+//$Id: Tokenize.cpp,v 1.6 2002/12/15 22:21:46 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 3.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -25,30 +25,34 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <assert.h>
-
+#include "Check.h"
 #include "Tokenize.h"
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Retrieves the next (= first, at first call) node of the string.
+//Purpose     : Returns a sub-string consisting of the string from the end of
+//              the last separation (skipping of all characters equal to split)
+//              or the beginning of the string for the first search to the next
+//              occurence of split (or the end of the string). The separating
+//              characters are not included.
+//Parameters  : split: Character separating the parts
 //Returns     : Next node (empty string at end)
-//Requires    : split != '\0' (operates on strings)
+//Remarks     : Two following separators are ignored; the method always returns some data (if available)
 /*--------------------------------------------------------------------------*/
 std::string Tokenize::getNextNode (const char split) {
-   assert (split != '\0');
+   Check3 ((actPos + len) <= string.length ());
    if ((actPos + len) >= _string.length ()) {
       actPos =  _string.length ();
       len = 0;
       return "";
    }
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    actPos += len - 1;
    do {
       len = _string.find (split, ++actPos);
-      assert (len >= actPos);
+      Check3 (len >= actPos);
    } while (len == actPos);
    if (len++ == -1)
       len = _string.length () + 1;
@@ -61,8 +65,8 @@ std::string Tokenize::getNextNode (const char split) {
 //Returns     : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int Tokenize::checkIntegrity () const {
-   assert (actPos < _string.length ());
-   assert ((actPos + len) < _string.length ());
+   Check1 (actPos < _string.length ());
+   Check1 ((actPos + len) < _string.length ());
    return 0;
 }
 
