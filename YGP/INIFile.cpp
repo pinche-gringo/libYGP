@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.19 2003/03/03 05:57:44 markus Exp $
+//$Id: INIFile.cpp,v 1.20 2003/03/06 03:07:11 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -63,7 +63,8 @@ INISection::INISection (const char* name) : pName (name), pFoundAttr (NULL)
    , SectionName ("\\X\\9_.", _("Name of section"), *this, &INISection::foundSection, LEN_SECTIONNAME, 1)
    , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
    , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
-  Check3 (pName);
+   TRACE9 ("INISection::INISection (const char*) - Create: " << pName);
+   Check1 (pName);
 
    _Section[0] = &SectionHeader; _Section[1] = &Attributes; _Section[2] = NULL;
    _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
@@ -97,7 +98,8 @@ void INISection::addAttribute (const IAttribute& attribute) {
 //Remarks   : name must not be a NULL pointer
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const char* name) const {
-   Check3 (name);
+   TRACE9 ("INISection::findAttribute (const char*) - " << name);
+   Check1 (name);
    std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
@@ -113,6 +115,7 @@ const IAttribute* INISection::findAttribute (const char* name) const {
 //Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const std::string& name) const {
+   TRACE9 ("INISection::findAttribute (const std::string&) - " << name);
    std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
@@ -145,6 +148,7 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 //                         occurs
 /*--------------------------------------------------------------------------*/
 int INISection::readFromStream (Xistream& stream) throw (std::string) {
+   TRACE9 ("INISection::readFromStream (Xistream&)");
    Section.skipWS (stream);
    int rc (Section.parse (stream));
    return rc ? rc : readAttributes (stream);
@@ -169,8 +173,9 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
 //Throws    : std::string: Text describing error if an unrecoverable error occurs
 /*--------------------------------------------------------------------------*/
 int INISection::readAttributes (Xistream& stream) throw (std::string) {
-  Attributes.skipWS (stream);
-  return Attributes.parse (stream);
+   TRACE9 ("INISection::readAttributes (Xistream&)");
+   Attributes.skipWS (stream);
+   return Attributes.parse (stream);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -179,8 +184,8 @@ int INISection::readAttributes (Xistream& stream) throw (std::string) {
 //Returns   : int: PARSE_OK, if name of section is OK
 /*--------------------------------------------------------------------------*/
 int INISection::foundSection (const char* section, unsigned int) {
-   Check3 (section); Check3 (pName);
    TRACE5 ("INISection::foundSection (const char*, unsigned int): '" << section << '\'');
+   Check1 (section); Check3 (pName);
 
    return strcmp (pName, section) ?
       ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK;
@@ -194,8 +199,8 @@ int INISection::foundSection (const char* section, unsigned int) {
 //Returns   : int: PARSE_OK, if key is found; else ParseObject::PARSE_CB_ABORT.
 /*--------------------------------------------------------------------------*/
 int INISection::foundKey (const char* key, unsigned int) {
-   Check3 (key);
    TRACE5 ("INISection::foundKey (const char*, unsigned int): '" << key << '\'');
+   Check1 (key);
 
    // Search for attribute
    std::vector<const IAttribute*>::iterator i;
@@ -256,7 +261,6 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL)
 /*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
-
 INIFile::~INIFile () {
    std::vector<INISection*>::iterator i;
    for (i = sectionsToFree.begin (); i != sectionsToFree.end (); ++i)
@@ -310,7 +314,7 @@ INISection* INIFile::addSection (const char* section) {
 //Throws    : string: Message describing error in case of an invalid value
 /*--------------------------------------------------------------------------*/
 int INIFile::read () throw (std::string) {
-  TRACE9 ("INIFile::read");
+  TRACE9 ("INIFile::read ()");
 
    // Parse the section-header; terminate on error
    int rc = 0;
@@ -387,6 +391,8 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
 //Remarks   : There is no error-handling; failures are silently ignored!
 /*--------------------------------------------------------------------------*/
 void INIFile::write (std::ostream& stream, const char* section, const Entity& obj) {
+   TRACE9 ("INIFile::write (std::ostream&, const char*, const Entity&) - Section:"
+           << section);
    Check1 (section); Check1 (stream);
 
    writeSectionHeader (stream, section);
