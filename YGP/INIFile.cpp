@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.5 2001/08/26 14:38:26 markus Exp $
+//$Id: INIFile.cpp,v 1.6 2001/09/25 21:18:54 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -75,7 +75,7 @@ INISection::~INISection () {
 //Throws    : In the debug-versions an exception is thrown, it the attribute
 //            already exists
 /*--------------------------------------------------------------------------*/
-void INISection::addAttribute (IAttribute& attribute) throw (std::string) {
+void INISection::addAttribute (const IAttribute& attribute) throw (std::string) {
 #ifndef NDEBUG
    if (findAttribute (attribute.getName ()))
       throw (std::string ("Attribute '") + std::string (attribute.getName ())
@@ -92,7 +92,7 @@ void INISection::addAttribute (IAttribute& attribute) throw (std::string) {
 //Returns   : Section*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const char* name) const {
-   std::vector<IAttribute*>::const_iterator i;
+   std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
          return *i;
@@ -107,7 +107,7 @@ const IAttribute* INISection::findAttribute (const char* name) const {
 //Returns   : Section*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
 const IAttribute* INISection::findAttribute (const std::string& name) const {
-   std::vector<IAttribute*>::const_iterator i;
+   std::vector<const IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
          return *i;
@@ -162,7 +162,7 @@ int INISection::foundKey (const char* key) {
    TRACE5 ("Found key: '" << key << '\'');
 
    // Search for attribute
-   std::vector<IAttribute*>::iterator i;
+   std::vector<const IAttribute*>::iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i) {
       if ((*i)->matches (key)) {      // If attribute matches: Store for value
 	 pFoundAttr = *i;
