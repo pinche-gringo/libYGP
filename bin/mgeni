@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# $Id: mgeni,v 1.7 2003/02/21 19:51:30 markus Exp $
+# $Id: mgeni,v 1.8 2003/06/02 01:38:01 markus Rel $
 
 # Script to generate metainfo for attributes to classes
 
@@ -48,7 +48,7 @@ addFile () {
 until test -z "$1"; do
     case $1 in
         -V|--version|--versio|--versi|--vers|--ver|--ve|--v)
-            rev='$Revision: 1.7 $'
+            rev='$Revision: 1.8 $'
             rev=${rev%$}
             rev=${rev% }
             rev=${rev#$}
@@ -154,6 +154,6 @@ awk 'BEGIN { inComment = 0; foundClass = 0; OFS = ""; ORS = ""; firstVal = 1; }
      }
      END { if (foundClass == 1) {
               print ("{\n", following, "}\n")
-              print (className, "::~", className, " () {\n}")
+              print (className, "::~", className, " () {\n}\n")
            } }
  ' ${files[0]} > ${files[1]}
