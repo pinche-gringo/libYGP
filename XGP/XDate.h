@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.3 2000/03/10 21:09:05 Markus Rel $
+//$Id: XDate.h,v 1.4 2002/04/11 18:33:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@ class string;
 // Forward declarations
 class ATimestamp;
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class HBox;
    class Button;
@@ -38,19 +37,6 @@ namespace Gtk {
    class SpinButton;
 }
 using namespace Gtk;
-
-#else
-class Gtk_HBox;
-class Gtk_Button;
-class Gtk_Adjustment;
-class Gtk_SpinButton;
-
-typedef Gtk_HBox              HBox;
-typedef Gtk_Button            Button;
-typedef Gtk_Dialog            Dialog;
-typedef Gtk_Adjustment        Adjustment;
-typedef Gtk_SpinButton        SpinButton;
-#endif
 
 typedef SmartPtr<HBox>        PHBox;
 typedef SmartPtr<Button>      PButton;

@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.7 2000/04/21 13:07:40 Markus Rel $
+//$Id: XAbout.cpp,v 1.8 2002/04/11 18:33:46 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -55,11 +55,7 @@ XAbout::XAbout (const string& author, const string& program)
 
    ok->set_usize (90, 30);
    ok->show ();
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    ok->clicked.connect (bind (slot (this, &XAbout::command), 0));
-#else
-   connect_to_method (ok->clicked, this, &XAbout::command, 0);
-#endif
 
    get_action_area ()->pack_start (*ok, false, false, 5);
    ok->set_flags (GTK_CAN_DEFAULT);
@@ -91,11 +87,7 @@ XAbout::~XAbout () {
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check3 (client);
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    pIconProgramm = new Pixmap (pIconData);
-#else
-   pIconProgramm = new Pixmap (*client, pIconData);
-#endif
 
    pIconProgramm->show ();
    client->pack_start (*pIconProgramm, false, false, 5);
@@ -108,11 +100,7 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check3 (client); Check3 (vboxPrgInfo);
    
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    pIconAuthor = new Pixmap (pIconData);
-#else
-   pIconAuthor = new Pixmap (*client, pIconData);
-#endif
 
    pIconAuthor->show ();
    client->pack_end (*pIconAuthor, false, false, 5);

@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.5 2000/04/21 13:07:40 Markus Rel $
+//$Id: XDate.cpp,v 1.6 2002/04/11 18:33:46 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -77,22 +77,14 @@ XDate::XDate (const string& title, ATimestamp& date, int showFields)
 
    ok->set_usize (90, 30);
    ok->show ();
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    ok->clicked.connect (bind (slot (this, &XDate::command), OK));
-#else
-   connect_to_method (ok->clicked, this, &XDate::command, OK);
-#endif
    get_action_area ()->pack_start (*ok, false, false, 5);
    ok->set_flags (GTK_CAN_DEFAULT);
    ok->grab_default ();
 
    cancel->set_usize (90, 30);
    cancel->show ();
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    cancel->clicked.connect (bind (slot (this, &XDate::command), CANCEL));
-#else
-   connect_to_method (cancel->clicked, this, &XDate::command, CANCEL);
-#endif
    get_action_area ()->pack_start (*cancel, false, false, 5);
    cancel->set_flags (GTK_CAN_DEFAULT);
 

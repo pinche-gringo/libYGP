@@ -1,7 +1,7 @@
 #ifndef XFILEENTRY_H
 #define XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.5 2000/03/10 21:09:05 Markus Rel $
+//$Id: XFileEntry.h,v 1.6 2002/04/11 18:33:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,12 +19,7 @@
 
 #include <gtk--/entry.h>
 
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 using namespace Gtk;
-
-#else
-typedef Gtk_Entry         Entry;
-#endif
 
 #include "DirSrch.h"
 

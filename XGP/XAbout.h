@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.6 2000/03/11 15:06:12 Markus Rel $
+//$Id: XAbout.h,v 1.7 2002/04/11 18:33:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@ class string
 #endif
 
 // Forward declarations
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
 namespace Gtk {
    class HBox;
    class Label;
@@ -38,21 +37,6 @@ namespace Gtk {
 }
 
 using namespace Gtk;
-
-#else
-class Gtk_HBox;
-class Gtk_Label;
-class Gtk_Widget;
-class Gtk_Button;
-class Gtk_Pixmap;
-
-typedef Gtk_HBox    HBox;
-typedef Gtk_Label   Label;
-typedef Gtk_Widget  Widget;
-typedef Gtk_Button  Button;
-typedef Gtk_Pixmap  Pixmap;
-typedef Gtk_Dialog  Dialog;
-#endif
 
 
 // Class to show a dialog with about-information for a program. It is assumed,

@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.6 2000/04/21 13:07:40 Markus Rel $
+//$Id: XPrintDlg.cpp,v 1.7 2002/04/11 18:33:46 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -96,11 +96,7 @@ void XPrintDialog::init () {
 
    // Create buttons: OK
    ok->set_usize (90, 35); ok->show ();
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    ok->clicked.connect (bind (slot (this, &XPrintDialog::command), OK));
-#else
-   connect_to_method (ok->clicked, this, &XPrintDialog::command, OK);
-#endif
    get_action_area ()->pack_start (*ok, false, false, 0);
 
    ok->set_flags (GTK_CAN_DEFAULT);
@@ -108,11 +104,7 @@ void XPrintDialog::init () {
    // - CANCEL
    cancel->set_flags (GTK_CAN_DEFAULT);
    cancel->set_usize (90, 35); cancel->show ();
-#if (GTKMM_MAJOR_VERSION > 1) || ((GTKMM_MAJOR_VERSION == 1) && GTKMM_MINOR_VERSION > 0)
    cancel->clicked.connect (bind (slot (this, &XPrintDialog::command), CANCEL));
-#else
-   connect_to_method (cancel->clicked, this, &XPrintDialog::command, CANCEL);
-#endif
    get_action_area ()->pack_start (*cancel, false, false, 0);
 
    // Command-box
