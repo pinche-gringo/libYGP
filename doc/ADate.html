@@ -1,4 +1,4 @@
-<!-- $Id: ADate.html,v 1.5 2000/04/02 14:25:40 Markus Exp $ -->
+<!-- $Id: ADate.html,v 1.6 2000/04/02 16:14:54 Markus Exp $ -->
 
 <html>
   <head>
@@ -357,73 +357,104 @@
     </dl>
 
     <h4>Comparison</h4>
-    <pre><a name="operator==">bool operator== (const ADate&amp; other)</a></pre><dl><dd>
-	Compares two date-objects and returns true, if they are equal (either
-	the same day or both undefined).</dd></dl>
+    <pre><a name="operator==">bool operator== (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Compares two date-objects and returns true, if they are equal (either
+	the same day or both undefined).</dd>
+    </dl>
 
-    <pre><a name="operator!=">bool operator!= (const ADate&amp; other)</a></pre><dl><dd>
-	Compares two date-objects and returns true, if they are not equal
-	(different days and not both undefined).</dd></dl>
+    <pre><a name="operator!=">bool operator!= (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Compares two date-objects and returns true, if they are not equal
+	(different days and not both undefined).</dd>
+    </dl>
 
-    <pre><a name="operatorl">bool operator&lt; (const ADate&amp; other)</a></pre><dl><dd>
-	Compares two date-objects and returns true, if this is "older" (further
+    <pre><a name="operatorl">bool operator&lt; (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Compares two date-objects and returns true, if this is "older" (further
 	in the past) than other (e.g. "yesterday" &lt; "today" == true).
-	Undefined values are considered as older than any other date.</dd></dl>
+	Undefined values are considered as older than any other date.</dd>
+    </dl>
 
-    <pre><a name="operatorg">bool operator&gt; (const ADate&amp; other)</a></pre><dl><dd>
-	Compares two date-objects and returns true, if this is "younger" (later
+    <pre><a name="operatorg">bool operator&gt; (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Compares two date-objects and returns true, if this is "younger" (later
 	on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).
-	Undefined values are considered as older than any other date.</dd></dl>
+	Undefined values are considered as older than any other date.</dd>
+    </dl>
 
-    <pre><a name="operatorl=">bool operator&lt;= (const ADate&amp; other)</a></pre><dl><dd>
-	Compares two date-objects and returns true, if this is "older" (further
+    <pre><a name="operatorl=">bool operator&lt;= (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Compares two date-objects and returns true, if this is "older" (further
 	in the past) than other or equal to it (e.g. "yesterday" &lt;= "today"
 	== true; two undefined values are also considered as equal).
-	Undefined values are considered as older than any other date.</dd></dl>
+	Undefined values are considered as older than any other date.</dd>
+    </dl>
 
-    <pre><a name="operatorg=">bool operator&gt;= (const ADate&amp; other)</a></pre><dl><dd>
-	Compares two date-objects and returns true, if this is "younger" (later
+    <pre><a name="operatorg=">bool operator&gt;= (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Compares two date-objects and returns true, if this is "younger" (later
 	on a time-line) than other or equal to it (e.g. "tomorrow" &gt;= "today"
 	== true; two undefined values are also considered as equal).
-	Undefined values are considered as older than any other date.</dd></dl>
+	Undefined values are considered as older than any other date.</dd>
+    </dl>
 
-    <pre><a name="compare">long compare (const ADate&amp; other)</a></pre><dl><dd>
-	Returns the (approximated) difference in days between two dates. If
+    <pre><a name="compare">long compare (const ADate&amp; other)</a></pre>
+    <dl>
+      <dd>Returns the (approximated) difference in days between two dates. If
 	both dates are undefined, those difference is "0", if only this is
 	undefined the result is MINLONG; if other is undefined MAXLONG is
 	returned (-&gt; undefined dates are considered as (incredible)
-	old).</dd></dl>
+	old).</dd>
+    </dl>
 
     <h4>Utility-functions</h4>
-    <pre><a name="maxDayOf">char maxDayOf () const</a></pre><dl><dd>Returns the maximal
-	day the month/year-combination of the current object could have.</dd></dl>
+    <pre><a name="maxDayOf">char maxDayOf () const</a></pre>
+    <dl>
+      <dd>Returns the maximal day the month/year-combination of the current
+	object could have.</dd>
+    </dl>
 
-    <pre><a name="maxDayOf2">static char maxDayOf (char month, int year)</a></pre><dl><dd>
-	Returns the maximal day the specified month could have.</dd></dl>
+    <pre><a name="maxDayOf2">static char maxDayOf (char month, int year)</a></pre>
+    <dl>
+      <dd>Returns the maximal day the specified month could have.</dd>
+    </dl>
 
-    <pre><a name="isLeapYear">bool isLeapYear () const</a></pre><dl><dd>Returns true, if
-	the current object is a leap-year.</dd></dl>
+    <pre><a name="isLeapYear">bool isLeapYear () const</a></pre>
+    <dl>
+      <dd>Returns true, if the current object is a leap-year.</dd>
+    </dl>
 
-    <pre><a name="isLeapYear2">static bool isLeapYear (int year)</a></pre><dl><dd>Returns
-	true, if the specified year is a leap-year.</dd></dl>
+    <pre><a name="isLeapYear2">static bool isLeapYear (int year)</a></pre>
+    <dl>
+      <dd>Returns true, if the specified year is a leap-year.</dd>
+    </dl>
 
-    <pre><a name="incDay">void incDay ()</a></pre><dl><dd>Increments the day of the
-	current object with regard of overflows.</dd></dl>
+    <pre><a name="incDay">void incDay ()</a></pre><dl>
+      <dd>Increments the day of the current object with regard of overflows.</dd>
+    </dl>
 
-    <pre><a name="decDay">void decDay ()</a></pre><dl><dd>Decrements the day of the
-	current object with regard of underflows.</dd></dl>
+    <pre><a name="decDay">void decDay ()</a></pre>
+    <dl>
+      <dd>Decrements the day of the current object with regard of underflows.</dd>
+    </dl>
 
-    <pre><a name="minAdapt">virtual bool minAdapt ()</a></pre><dl><dd>Corrects the object
-	after underflows. If the object is integer after this operation, true 
-	is returned.</dd></dl>
+    <pre><a name="minAdapt">virtual bool minAdapt ()</a></pre>
+    <dl>
+      <dd>Corrects the object after underflows. If the object is integer after
+	this operation, true is returned.</dd>
+    </dl>
 
-    <pre><a name="maxAdapt">virtual bool maxAdapt ()</a></pre><dl><dd>Corrects the object
-	after overflows. If the object is integer after this operation, true 
-	is returned.</dd></dl>
+    <pre><a name="maxAdapt">virtual bool maxAdapt ()</a></pre>
+    <dl>
+      <dd>Corrects the object after overflows. If the object is integer after
+	this operation, true is returned.</dd>
+    </dl>
 
     <pre><a name="checkIntegrity">virtual int checkIntegrity () const</a></pre>
-			      <dd><dl>
-	Checks if this object represents a valid date. Note: Even undefined
-	dates have valid values!</dl></dd></dl>
+    <dl>
+      <dd>Checks if this object represents a valid date. <b>Note</b>: Even
+	undefined dates have valid values!</dd>
+    </dl>
   </body>
 </html>
