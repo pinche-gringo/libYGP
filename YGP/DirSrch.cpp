@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.4 1999/08/01 18:08:19 Markus Exp $
+//$Id: DirSrch.cpp,v 1.5 1999/08/01 23:08:50 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Tokenize
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -217,13 +217,13 @@ void DirectorySearch::setFile (const std::string& search) {
       searchFile.replace (--len, 1, 0, '\0');
 
    while (len--) {
-     if (search[len] == DIR_SPLIT) {
-        searchDir = search;
-        searchDir.replace (len + 1, searchDir.length (), 0, '\0');
-        searchFile.replace (0, len + 1, 0, '\0');
-	assert (!checkIntegrity ());
-        return;
-     } // endif
+      if (search[len] == DIR_SPLIT) {
+         searchDir = search;
+         searchDir.replace (len + 1, searchDir.length (), 0, '\0');
+         searchFile.replace (0, len + 1, 0, '\0');
+	 assert (!checkIntegrity ());
+         return;
+      } // endif
    } // end-while
 
    searchDir = "./";
@@ -245,10 +245,10 @@ bool dirEntry::isExecuteable () const {
       // enough (MAX_PATH) and the trailing \0 is in the compare
       switch (toupper (*pEnd++) + (toupper (*pEnd++) << 8)
               + (toupper (*pEnd++) << 16) + (toupper (*pEnd) << 24)) {
-         case 'EXE\0' :
-         case 'COM\0' :
-         case 'BAT\0' :
-            return true;
+      case 'EXE\0' :
+      case 'COM\0' :
+      case 'BAT\0' :
+	 return true;
       } // end-switch
    return false;
 }
