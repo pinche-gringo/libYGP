@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.4 2002/12/15 22:17:17 markus Rel $
+//$Id: Entity.h,v 1.5 2003/02/14 03:35:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#ifdef _MSC_VER
+#pragma warning(disable:4786) // disable warning about truncating debug info
+#endif
 
 #include <string>
 #include <vector>
@@ -59,7 +63,7 @@ class Entity {
       void addAttribute (const char* name, AttrType& attr) {
       Check1 (name);
       addAttribute (new Attribute<AttrType> (name, attr));  }
-   template<class AttrType> 
+   template<class AttrType>
       void addAttribute (const std::string& name, AttrType& attr) {
       addAttribute (new Attribute<AttrType> (name, attr));  }
 #endif
