@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.7 2001/09/08 12:52:20 markus Exp $
+//$Id: Tokenize.h,v 1.8 2001/10/18 01:22:17 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class Tokenize {
    Tokenize (const std::string& string) : _string (string), actPos (0), len (0) { }
    ~Tokenize () { }
 
-   const Tokenize& operator= (const std::string& string) {
+   Tokenize& operator= (const std::string& string) {
       _string = string;
       reset ();
       return *this; }
