@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.27 2002/10/23 05:48:09 markus Rel $
+//$Id: Parse.h,v 1.28 2002/12/14 22:46:14 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,21 +18,40 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-// Note: If this module is compiled with MULTIBUFFER defined, every instance
-//       of ParseAttomic uses its own buffer for parsing; else all instances
-//       shares the same buffer.
-
-#include <assert.h>
-
 #include <string>
 #include <iostream>
 
+#include <Check.h>
 #include <XStream.h>
 
 
 // Classes to parse objects and sequences of objects from a stream. If an
-// object is found it is possible to start an action for this event.
-// These classes exists in 3 variants:
+// object is found it is possible to perform an action for this event.
+//
+// There are 3 kind of parsing objects: Attomic ones, which enables the
+// parsing of some kind of data; special ones, to perform special tasks
+// and sequences to "glue" together a set of objects.
+//
+// The following attomic objects exists:
+//   - ParseAttomic: Parses a specified number of specified characters.
+//   - ParseText: Parses a specified number of characters until one of
+//        specified characters is found
+//   - ParseTextEsc: As ParseText, but this terminating characters can be
+//        escaped
+//   - ParseExact: Parses (a part) of the specified characters in that sequence
+//   - ParseUpperExact: As ParseExact, but ignores the case
+// 
+// The following special objects exists:
+//   - ParseEOF: "Parses" or matches the end of the file
+//   - ParseSkip: Skips the specified number of characters (from the current
+//        position).
+//
+// The following sequences exists:
+//   - ParseSequence: All of its children must be found in that order.
+//   - ParseSelection: One of its children must be found; stopps parsing if
+//        one matches.
+//
+// All of these classes exists in 2 variants:
 //   - The first variant reports matching objects with a virtual function
 //     called "found". These classes have the prefix Parse.
 //   - The second calls a C-style function if an object was found and has
@@ -42,11 +61,11 @@
 //     pointer to a memberfunction as parameter of the constructor(s). These
 //     classes starts with OFParse.
 //
-// Any of this functions must return the following values (which  specifies
+// Any of this functions must return the following values (which specifies
 // how the parsing should be continued):
 // 0 ..... Parsing (actually callback) OK
-// > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
-// < 1 ... Error while parsing; abort parsing (unrecoverable error)
+// > 0 ... Error in callback; parsing can be continued (in sequences, ...)
+// < 1 ... Error in callback; abort parsing (unrecoverable error)
 // If possible use the error-values in the error-enum
 
 // First part: Classes reporting their found-status with a virtual function
@@ -66,13 +85,13 @@ class ParseObject {
    // Accessing values
    const char* getDescription () const { return pDescription; }
 
-   void setDescription (const char* desc) { assert (desc); pDescription = desc; }
+   void setDescription (const char* desc) { Check1 (desc); pDescription = desc; }
    void setSkipWS (bool skipWhitespace) { skip = skipWhitespace; }
 
    // Parsing
    void skipWS (Xistream& stream) const;
    int  parse (Xistream& stream) throw (std::string) {
-      assert (!checkIntegrity ());
+      Check1 (!checkIntegrity ());
       return doParse (stream, false); }
    virtual int doParse (Xistream& stream, bool optional) = 0;
    virtual int found (const char* pFoundValue, unsigned int);
@@ -83,19 +102,22 @@ class ParseObject {
    // Possible errors of checkIntegrity
    enum { OK = 0, NO_DESCRIPTION, LAST };
 
+   static void freeBuffer ();
+
  protected:
    virtual int checkIntegrity () const;
+
+   bool        skip;
 
  private:
    // Prohibited manager functions
    ParseObject ();
 
    const char* pDescription;
-   bool        skip;
 };
 
 
-// Class to check if EOF is parsed
+// Class to parse the end of a file (EOF)
 class ParseEOF : public ParseObject {
  public:
    ParseEOF () : ParseObject ("EOF", false) { }
@@ -106,6 +128,30 @@ class ParseEOF : public ParseObject {
  private:
    ParseEOF (const ParseEOF&);                 // Not very usefull -> prohibit
    ParseEOF& operator= (const ParseEOF&);
+};
+
+
+// Class to skip some characters (from the current position in the stream).
+class ParseSkip : public ParseObject {
+ public:
+   ParseSkip (unsigned int bytes) : ParseObject ("Skip", false), offset (bytes) { }
+   ParseSkip (const ParseSkip& other) : ParseObject (other), offset (other.offset) { }
+   virtual ~ParseSkip ();
+
+   ParseSkip& operator= (const ParseSkip& other) {
+      if (this != &other)
+         offset = other.offset;
+      return *this; }
+
+   virtual int doParse (Xistream& stream, bool) {
+      stream.seekg (offset, ios::cur);
+      return PARSE_OK; }
+
+   void setOffset (unsigned int val) { offset = val; }
+   unsigned int getOffset () const { return offset; }
+
+ private:
+   unsigned int offset;
 };
 
 
@@ -122,20 +168,27 @@ class ParseEOF : public ParseObject {
 //       blank ( ) ... Any whitespace is valid
 //       * ... Any character is valid
 //
+// If this remind you at COBOL (at least a wee bit) - well, I've to admit
+// I was tortured with this crap when I was young and dynamic (centuries
+// ago). Who'd imagine that I could use that somehow?
+//
 // The members maxCard and minCard specify how many characters the object
 // can or must have. If there are less matching characters parsed, the object
 // is considered as not found; after reaching the upper border, parsing is
 // stopped for this object.
 //
-// If this remind you at COBOL (at least a wee bit?), well, I've to admit
-// I was tortured with this bullshit when I was young and dynamic (centuries
-// ago). Who'd imagine that I could use that somehow?
+// skipWhitespace does exactly that, after an object was parsed successfully.
+//
+// The parameter reportData specifies, if the parsed data should be stored and
+// passed via the found-method. Setting to false disables also putting back
+// previously parsed data, so only do that, if parsing always succeeds and you
+// don't care about the parsed contents!
 class ParseAttomic : public ParseObject {
  public:
    // Manager-functions
    ParseAttomic (const char* value, const char* description,
                  unsigned int max = 1, unsigned int min = 1,
-                 bool skipWhitespace = true);
+                 bool skipWhitespace = true, bool reportData = true);
    ParseAttomic (const ParseAttomic& other);
    virtual ~ParseAttomic ();
 
@@ -148,9 +201,7 @@ class ParseAttomic : public ParseObject {
 
    void setMaxCard (unsigned int val) { maxCard = val; }
    void setMinCard (unsigned int val) { minCard = val; }
-   void setValue (const char* value) {assert (value); pValue = value; }
-
-   static void freeBuffer ();
+   void setValue (const char* value) {Check1 (value); pValue = value; }
 
    // Possible errors of checkIntegrity
    enum { MAX_MIN_ERROR = ParseObject::LAST, NO_VALUE, LAST };
@@ -162,7 +213,7 @@ class ParseAttomic : public ParseObject {
    unsigned int minCard;
 
    virtual int  checkIntegrity () const;
-   virtual bool checkValue (char ch);
+   virtual int checkValue (char ch);
 
    // Parsing
    virtual int doParse (Xistream& stream, bool optional) throw (std::string);
@@ -170,6 +221,8 @@ class ParseAttomic : public ParseObject {
  private:
    // Prohibited manager functions
    ParseAttomic ();
+
+   bool report;
 };
 
 
@@ -181,8 +234,9 @@ class ParseText : public ParseAttomic {
  public:
    // Manager-functions
    ParseText (const char* abort, const char* description,
-              unsigned int max, unsigned int min = 1, bool skipWhitespace = true)
-      : ParseAttomic (abort, description, max, min, skipWhitespace) { }
+              unsigned int max, unsigned int min = 1,
+              bool skipWhitespace = true, bool reportData = true)
+      : ParseAttomic (abort, description, max, min, skipWhitespace, reportData) { }
    ParseText (const ParseText& other) : ParseAttomic (other) { }
    virtual ~ParseText ();
 
@@ -190,7 +244,7 @@ class ParseText : public ParseAttomic {
       return (ParseText&)ParseAttomic::operator= (other); }
 
  protected:
-   virtual bool checkValue (char ch);
+   virtual int checkValue (char ch);
 
  private:
    // Prohibited manager functions
@@ -207,7 +261,7 @@ class ParseText : public ParseAttomic {
 // abort-parameters is found (or the maximal cardinality is reached).
 //
 // This class enables parsing analogue to strings in C. A C-string is
-// terminated with a quote ("), except if the quote follows a
+// terminated with a quote ("), except if the quote follows a single
 // backslash (\).  The only difference is that both quote and
 // backslash can be specified and therefor be every charcter.
 class ParseTextEsc : public ParseText {
@@ -215,17 +269,18 @@ class ParseTextEsc : public ParseText {
    // Manager-functions
    ParseTextEsc (const char* abort, const char* description,
                  unsigned int max, unsigned int min = 1, char escape = '\\',
-                 bool skipWhitespace = true);
+                 bool skipWhitespace = true, bool reportData = true);
    ParseTextEsc (const ParseTextEsc& other);
    virtual ~ParseTextEsc ();
 
    ParseTextEsc& operator= (const ParseTextEsc& other);
 
  protected:
-   virtual bool checkValue (char ch);
+   virtual int checkValue (char ch);
 
    char esc;
    char last;
+   char prelast;
 
  private:
    // Prohibited manager functions
@@ -237,20 +292,21 @@ class ParseTextEsc : public ParseText {
 //
 // The min- and max-members are not totally wasted; they could be used
 // to define the minimal length of certain keywords which would be
-// valid even if just written in a short(er) form (although the main
-// reason for them is that I didn't want to re-consider the
-// class-hierarchy anymore).
+// valid even if just written in a short(er) form and/or to include values with
+// a zero ('\0') character (although the main reason for them is that I didn't
+// want  re-consider the class-hierarchy anymore).
 //
-// Note: This class uses strlen to get the length of value so don't use it to
-// check for text with a '\0' inside!
+// Note: This class uses strlen to get the length of its value so don't use its
+// first constructor to check for text with a '\0' inside!
 class ParseExact : public ParseAttomic {
  public:
    // Manager-functions
    ParseExact (const char* value, const char* description,
-               bool skipWhitespace = true);
+               bool skipWhitespace = true, bool reportData = true);
    ParseExact (const char* value, const char* description,
-               unsigned int max, unsigned int min, bool skipWhitespace = true)
-      : ParseAttomic (value, description, max, min, skipWhitespace)
+               unsigned int max, unsigned int min, bool skipWhitespace = true,
+               bool reportData = true)
+      : ParseAttomic (value, description, max, min, skipWhitespace, reportData)
       , pos (0) { }
    ParseExact (const ParseExact& other) : ParseAttomic (other), pos (0) { }
    virtual ~ParseExact ();
@@ -262,7 +318,7 @@ class ParseExact : public ParseAttomic {
 
  protected:
    virtual int  checkIntegrity () const;
-   virtual bool checkValue (char ch);
+   virtual int checkValue (char ch);
 
  private:
    unsigned int pos;
@@ -276,21 +332,22 @@ class ParseExact : public ParseAttomic {
 //
 // The min- and max-members are not totally wasted; they could be used
 // to define the minimal length of certain keywords which would be
-// valid even if just written in a short(er) form (although the main
-// reason for them is that I didn't want to re-consider the
-// class-hierarchy anymore).
+// valid even if just written in a short(er) form and/or to include values with
+// a zero ('\0') character (although the main reason for them is that I didn't
+// want  re-consider the class-hierarchy anymore).
 //
-// Note: This class uses strlen to get the length of value so don't use it to
-// check for text with a '\0' inside!
+// Note: This class uses strlen to get the length of its value so don't use its
+// first constructor to check for text with a '\0' inside!
 class ParseUpperExact : public ParseExact {
  public:
    // Manager-functions
    ParseUpperExact (const char* value, const char* description,
-                    bool skipWhitespace = true)
-      : ParseExact (value, description, skipWhitespace) { }
+                    bool skipWhitespace = true, bool reportData = true)
+      : ParseExact (value, description, skipWhitespace, reportData) { }
    ParseUpperExact (const char* value, const char* description,
-                    unsigned int max, unsigned int min, bool skipWhitespace = true)
-      : ParseExact (value, description, max, min, skipWhitespace) { }
+                    unsigned int max, unsigned int min,
+                    bool skipWhitespace = true, bool reportData = true)
+      : ParseExact (value, description, max, min, skipWhitespace, reportData) { }
    ParseUpperExact (const ParseUpperExact& other) : ParseExact (other) { }
    virtual ~ParseUpperExact ();
 
@@ -301,103 +358,12 @@ class ParseUpperExact : public ParseExact {
    // Possible errors of checkIntegrity
    enum { VALUE_NOT_UPPERCASE = ParseExact::LAST, LAST };
 
-   virtual bool checkValue (char ch);
+   virtual int checkValue (char ch);
    virtual int  checkIntegrity () const;
 
  private:
    // Prohibited manager functions
    ParseUpperExact ();
-};
-
-
-// Class to parse text which is definitely not used in a callback
-//
-// Actually a not very usefull thing; but if you use multiple parse buffers
-// and parse in threads you might run out of space with the design of
-//  ParseAttomic (as this stores the input).
-class ParseIgnore : public ParseAttomic {
- public:
-   // Manager-functions
-   ParseIgnore (const char* value, const char* description,
-                unsigned int max = 1, bool zeroLength = false,
-                bool skipWhitespace = true)
-      : ParseAttomic (value, description, max, zeroLength ? 0 : 1, skipWhitespace) { }
-   ParseIgnore (const ParseIgnore& other) : ParseAttomic (other) { }
-   virtual ~ParseIgnore ();
-
-   ParseIgnore& operator= (const ParseIgnore& other) {
-      return (ParseIgnore&)ParseAttomic::operator= (other); }
-
-   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
-
- private:
-   // Prohibited manager functions
-   ParseIgnore ();
-};
-
-
-// Class to parse text until specified abot-characters are found.
-//
-// Parsing of this element is stopped, if any of the characters in the
-// abort-parameters is found (or the maximal cardinality is reached).
-//
-// As with ParseIgnore, there is no callback if the text was found.
-class ParseTextIgnore : public ParseIgnore {
- public:
-   // Manager-functions
-   ParseTextIgnore (const char* abort, const char* description,
-                    unsigned int max, bool zeroLength = false,
-                    bool skipWhitespace = true)
-      : ParseIgnore (abort, description, max, zeroLength, skipWhitespace) { }
-   ParseTextIgnore (const ParseTextIgnore& other) : ParseIgnore (other) { }
-   virtual ~ParseTextIgnore ();
-
-   ParseTextIgnore& operator= (const ParseTextIgnore& other) {
-      return (ParseTextIgnore&)ParseIgnore::operator= (other); }
-
- protected:
-   virtual bool checkValue (char ch);
-
- private:
-   // Prohibited manager functions
-   ParseTextIgnore ();
-};
-
-
-// Class to parse text til a certain abort-criteria (as in
-// ParseText). However, parsing is continued if those characters are
-// preceeded by a escape-character (which "escapes" the special
-// meaning of that character).
-//
-// Parsing of this element is stopped, if any of the characters in the
-// abort-parameters is found (or the maximal cardinality is reached).
-//
-// This class enables parsing analogue to strings in C. A C-string is
-// terminated with a quote ("), except if the quote follows a
-// backslash (\).  The only difference is that both quote and
-// backslash can be specified and therefor be every charcter.
-//
-// As with ParseIgnore, there is no callback if the text was found.
-class ParseTextEscIgnore : public ParseTextIgnore {
- public:
-   // Manager-functions
-   ParseTextEscIgnore (const char* abort, const char* description,
-                       unsigned int max, bool zeroLength = false,
-                       char escape = '\\', bool skipWhitespace = true);
-   ParseTextEscIgnore (const ParseTextEscIgnore& other);
-   virtual ~ParseTextEscIgnore ();
-
-   ParseTextEscIgnore& operator= (const ParseTextEscIgnore& other);
-
- protected:
-   virtual bool checkValue (char ch);
-
-   char esc;
-   char last;
-
- private:
-   // Prohibited manager functions
-   ParseTextEscIgnore ();
 };
 
 
@@ -485,10 +451,10 @@ typedef int (*PARSECALLBACK)(const char*, unsigned int);
 class CBParseEOF : public ParseEOF {
  public:
    CBParseEOF (PARSECALLBACK callback) : ParseEOF (), pCallback (callback) {
-      assert (pCallback); }
+      Check1 (pCallback); }
    virtual ~CBParseEOF ();
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -501,6 +467,27 @@ class CBParseEOF : public ParseEOF {
 };
 
 
+// Class to skip some characters (from the current position in the stream).
+class CBParseSkip : public ParseSkip {
+ public:
+   CBParseSkip (unsigned int bytes, PARSECALLBACK callback) : ParseSkip (bytes)
+      , pCallback (callback) { Check1 (pCallback); }
+   CBParseSkip (const CBParseSkip& other) :  ParseSkip (other)
+      , pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~CBParseSkip ();
+
+   CBParseSkip& operator= (const CBParseSkip&);
+
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len);
+
+ private:
+   PARSECALLBACK pCallback;
+};
+
+
 // Class to parse a attomic value with callback-function if object found
 class CBParseAttomic : public ParseAttomic {
  public:
@@ -508,15 +495,15 @@ class CBParseAttomic : public ParseAttomic {
    CBParseAttomic (const char* value, const char* description,
                    PARSECALLBACK callback, unsigned int max = 1,
                    unsigned int min = 1, bool skipWhitespace = true)
-      : ParseAttomic (value, description, max, min, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseAttomic (value, description, max, min, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseAttomic (const CBParseAttomic& other) :  ParseAttomic (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseAttomic ();
 
    CBParseAttomic& operator= (const CBParseAttomic& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -536,15 +523,15 @@ class CBParseText : public ParseText {
    // Manager-functions
    CBParseText (const char* abort, const char* description, PARSECALLBACK callback,
                 unsigned int max, unsigned int min = 1, bool skipWhitespace = true)
-      : ParseText (abort, description, max, min, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseText (abort, description, max, min, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseText (const CBParseText& other) : ParseText (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseText ();
 
    CBParseText& operator= (const CBParseText& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -565,15 +552,15 @@ class CBParseTextEsc : public ParseTextEsc {
    CBParseTextEsc (const char* abort, const char* description, PARSECALLBACK callback,
                    unsigned int max, unsigned int min = 1, char escape = '\\',
                    bool skipWhitespace = true)
-      : ParseTextEsc (abort, description, max, min, escape, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseTextEsc (abort, description, max, min, escape, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseTextEsc (const CBParseTextEsc& other) : ParseTextEsc (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseTextEsc ();
 
    CBParseTextEsc& operator= (const CBParseTextEsc& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -593,19 +580,19 @@ class CBParseExact : public ParseExact {
    // Manager-functions
    CBParseExact (const char* value, const char* description, PARSECALLBACK callback,
                  bool skipWhitespace = true)
-      : ParseExact (value, description, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseExact (value, description, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseExact (const char* value, const char* description, PARSECALLBACK callback,
                  unsigned int max, unsigned int min, bool skipWhitespace = true)
-      : ParseExact (value, description, max, min, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseExact (value, description, max, min, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseExact (const CBParseExact& other) : ParseExact (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseExact ();
 
    CBParseExact& operator= (const CBParseExact& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -625,20 +612,20 @@ class CBParseUpperExact : public ParseUpperExact {
    // Manager-functions
    CBParseUpperExact (const char* value, const char* description,
                       PARSECALLBACK callback, bool skipWhitespace = true)
-      : ParseUpperExact (value, description, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseUpperExact (value, description, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseUpperExact (const char* value, const char* description,
                       PARSECALLBACK callback, unsigned int max, unsigned int min,
                       bool skipWhitespace = true)
-      : ParseUpperExact (value, description, max, min, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      : ParseUpperExact (value, description, max, min, skipWhitespace, true)
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseUpperExact (const CBParseUpperExact& other) : ParseUpperExact (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseUpperExact ();
 
    CBParseUpperExact& operator= (const CBParseUpperExact& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -659,14 +646,14 @@ class CBParseSequence : public ParseSequence {
                     PARSECALLBACK callback, unsigned int max = 1,
                     unsigned int min = 1, bool skipWhitespace = true)
       : ParseSequence (apObjectList, description, max, min, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseSequence (const CBParseSequence& other) : ParseSequence (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseSequence ();
 
    CBParseSequence& operator= (const CBParseSequence& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -687,14 +674,14 @@ class CBParseSelection : public ParseSelection {
                      PARSECALLBACK callback, unsigned int max = 1,
                      unsigned int min = 1, bool skipWhitespace = true)
       : ParseSelection (apObjectList, description, max, min, skipWhitespace)
-      , pCallback (callback) { assert (pCallback); }
+      , pCallback (callback) { Check1 (pCallback); }
    CBParseSelection (const CBParseSelection& other) : ParseSelection (other)
-      , pCallback (other.pCallback) { assert (pCallback); }
+      , pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~CBParseSelection ();
 
    CBParseSelection& operator= (const CBParseSelection& other);
 
-   void setCallback (PARSECALLBACK callback) { pCallback = callback; assert (pCallback); }
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len);
@@ -722,18 +709,48 @@ template <class T> class OFParseEOF : public ParseEOF {
 
  public:
    OFParseEOF (T& objToNotify, PTCALLBACK callback) : ParseEOF ()
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    virtual ~OFParseEOF () { }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
    OFParseEOF (const OFParseEOF&);             // Not very usefull -> prohibit
    OFParseEOF& operator= (const OFParseEOF&);
 
+   T&         object;
+   PTCALLBACK pCallback;
+};
+
+
+// Class to skip some characters (from the current position in the stream)
+template <class T> class OFParseSkip : public ParseSkip {
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+
+ public:
+   OFParseSkip (unsigned int bytes, T& objToNotify, PTCALLBACK callback)
+      : ParseSkip (), object (objToNotify), pCallback (callback) {
+      Check1 (pCallback); }
+   OFParseSkip (const OFParseSkip&) : ParseSkip (other), object (other.object)
+      , pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~OFParseSkip () { }
+
+   OFParseSkip& operator= (const OFParseSkip&) {
+      if (this != &other) {
+         pCallback = other.pCallback; Check1 (pCallback);
+	 ParseSkip::operator= (other);
+      }
+      return *this; }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len) {
+      Check1 (pCallback); Check1 (pFoundValue);
+      return (object.*pCallback) (pFoundValue, len); }
+
+ private:
    T&         object;
    PTCALLBACK pCallback;
 };
@@ -748,22 +765,22 @@ template <class T> class OFParseAttomic : public ParseAttomic {
    OFParseAttomic (const char* value, const char* description, T& objToNotify,
                    PTCALLBACK callback, unsigned int max = 1,
                    unsigned int min = 1, bool skipWhitespace = true)
-      : ParseAttomic (value, description, max, min, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseAttomic (value, description, max, min, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseAttomic (const OFParseAttomic& other) :  ParseAttomic (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseAttomic () { }
 
    OFParseAttomic& operator= (const OFParseAttomic& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseAttomic::operator= (other);
       }
       return *this; }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
@@ -785,22 +802,22 @@ template <class T> class OFParseText : public ParseText {
    OFParseText (const char* abort, const char* description,
 		T& objToNotify, PTCALLBACK callback, unsigned int max,
                 unsigned int min = 1, bool skipWhitespace = true)
-      : ParseText (abort, description, max, min, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseText (abort, description, max, min, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseText (const OFParseText& other) : ParseText (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseText () { }
 
    OFParseText& operator= (const OFParseText& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseText::operator= (other);
       }
       return *this; }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
@@ -823,22 +840,22 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
                    T& objToNotify, PTCALLBACK callback,
                    unsigned int max, unsigned int min = 1, char escape = '\\',
                    bool skipWhitespace = true)
-      : ParseTextEsc (abort, description, max, min, escape, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseTextEsc (abort, description, max, min, escape, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseTextEsc (const OFParseTextEsc& other) : ParseTextEsc (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseTextEsc () { }
 
    OFParseTextEsc& operator= (const OFParseTextEsc& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseText::operator= (other);
       }
       return *this; }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
@@ -859,27 +876,27 @@ template <class T> class OFParseExact : public ParseExact {
    // Manager-functions
    OFParseExact (const char* value, const char* description, T& objToNotify,
                  PTCALLBACK callback, bool skipWhitespace = true)
-      : ParseExact (value, description, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseExact (value, description, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseExact (const char* value, const char* description, T& objToNotify,
                  PTCALLBACK callback, unsigned int max, unsigned int min,
                  bool skipWhitespace = true)
-      : ParseExact (value, description, max, min, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseExact (value, description, max, min, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseExact (const OFParseExact& other) : ParseExact (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseExact () { }
 
    OFParseExact& operator= (const OFParseExact& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseText::operator= (other);
       }
       return *this; }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
@@ -901,27 +918,27 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
    OFParseUpperExact (const char* value, const char* description,
                       T& objToNotify, PTCALLBACK callback,
                       bool skipWhitespace = true)
-      : ParseUpperExact (value, description, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseUpperExact (value, description, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseUpperExact (const char* value, const char* description,
                       T& objToNotify, PTCALLBACK callback, unsigned int max,
                       unsigned int min, bool skipWhitespace = true)
-      : ParseUpperExact (value, description, max, min, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseUpperExact (value, description, max, min, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseUpperExact (const OFParseUpperExact& other) : ParseUpperExact (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseUpperExact () { }
 
    OFParseUpperExact& operator= (const OFParseUpperExact& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseText::operator= (other);
       }
       return *this; }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
@@ -943,21 +960,21 @@ template <class T> class OFParseSequence : public ParseSequence {
                     T& objToNotify, PTCALLBACK callback, unsigned int max = 1,
                     unsigned int min = 1, bool skipWhitespace = true)
       : ParseSequence (apObjectList, description, max, min, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseSequence (const OFParseSequence& other) : ParseSequence (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseSequence () { }
 
    OFParseSequence& operator= (const OFParseSequence& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseText::operator= (other);
       }
       return *this; }
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
@@ -978,15 +995,15 @@ template <class T> class OFParseSelection : public ParseSelection {
    OFParseSelection (ParseObject* apObjectList[], const char* description,
                      T& objToNotify, PTCALLBACK callback, unsigned int max = 1,
                      unsigned int min = 1, bool skipWhitespace = true)
-      : ParseSelection (apObjectList, description, max, min, skipWhitespace)
-      , object (objToNotify), pCallback (callback) { assert (pCallback); }
+      : ParseSelection (apObjectList, description, max, min, skipWhitespace, true)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
    OFParseSelection (const OFParseSelection& other) : ParseSelection (other)
-      , object (other.object), pCallback (other.pCallback) { assert (pCallback); }
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
    virtual ~OFParseSelection () { }
 
    OFParseSelection& operator= (const OFParseSelection& other) {
       if (this != &other) {
-         pCallback = other.pCallback; assert (pCallback);
+         pCallback = other.pCallback; Check1 (pCallback);
 	 ParseText::operator= (other);
       }
       return *this; }
@@ -994,7 +1011,7 @@ template <class T> class OFParseSelection : public ParseSelection {
 
  protected:
    virtual int found (const char* pFoundValue, unsigned int len) {
-      assert (pCallback); assert (pFoundValue);
+      Check1 (pCallback); Check1 (pFoundValue);
       return (object.*pCallback) (pFoundValue, len); }
 
  private:
