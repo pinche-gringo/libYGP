@@ -1,0 +1,109 @@
+// $Id: Relation.cpp,v 1.1 2004/10/25 02:54:05 markus Exp $
+
+//PROJECT     : libYGP
+//SUBSYSTEM   : Test/Relation
+//REFERENCES  :
+//TODO        :
+//BUGS        :
+//REVISION    : $Revision: 1.1 $
+//AUTHOR      : Markus Schwab
+//CREATED     : 22.10.2004
+//COPYRIGHT   : Copyright (C) 2004
+
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+#include <YGP/Handle.h>
+#include <YGP/Relation.h>
+
+#include "Test.h"
+
+#ifdef VERBOSE
+#  define COUT(x) std::cout << x << '\n';
+#else
+#  define COUT(x)
+#endif
+
+
+typedef struct Server {
+   const char* name;
+
+   Server () {COUT ("Creating server"); }
+   ~Server () {COUT ("Deleting server " << name); }
+} Server;
+defineHndl (Server);
+
+typedef struct Client {
+   const char* name;
+
+   Client () {COUT ("Creating client"); }
+   ~Client () {COUT ("Deleting client " << name); }
+} Client;
+defineHndl (Client);
+
+
+int main (int argc, char* argv[]) {
+   unsigned int cErrors (0);
+
+   YGP::Relation1_X<HServer, HClient> ServerClient ("ServerClient", 4);
+   HServer hServer;
+   HClient hClient1, hClient2, hClient3, hClient4, hClient5;
+
+   hServer.define ();
+   hServer->name = "Server";
+
+   hClient1.define ();
+   hClient1->name = "Client1";
+   ServerClient.relate (hServer, hClient1);
+   check (ServerClient.isRelated (hServer, hClient1));
+
+   hClient2.define ();
+   hClient2->name = "Client2";
+   ServerClient.relate (hServer, hClient2);
+   check (ServerClient.isRelated (hServer, hClient2));
+
+   hClient3.define ();
+   hClient3->name = "Client3";
+   ServerClient.relate (hServer, hClient3);
+   check (ServerClient.isRelated (hServer, hClient3));
+
+   hClient4.define ();
+   hClient4->name = "Client4";
+   ServerClient.relate (hServer, hClient4);
+   check (ServerClient.isRelated (hServer, hClient4));
+
+   hClient5.define ();
+   hClient5->name = "Client5";
+   try {
+      ServerClient.relate (hServer, hClient5);
+      check (!"Overflow caught");
+   }
+   catch (std::overflow_error& e) {
+      check ("Overflow caught");
+   }
+
+   check (ServerClient.getParent (hClient1) == hServer);
+   check (ServerClient.getParent (hClient2) == hServer);
+   check (ServerClient.getParent (hClient3) == hServer);
+   check (ServerClient.getParent (hClient4) == hServer);
+
+   check (*ServerClient.getObjects (hServer).begin () == hClient1);
+   check (*ServerClient.getObjects (hServer).begin () != hClient2);
+   check (*ServerClient.getObjects (hServer).rbegin () == hClient4);
+
+   if (cErrors)
+      std::cout << "Failures: " << cErrors << '\n';
+   return cErrors ? 1 : 0;
+}
