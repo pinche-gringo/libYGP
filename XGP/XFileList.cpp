@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.26 2003/03/04 05:00:55 markus Exp $
+//$Id: XFileList.cpp,v 1.27 2003/06/02 01:32:39 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -36,8 +36,6 @@
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <File.h>
 #include <Check.h>
 #include <Trace_.h>

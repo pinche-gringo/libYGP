@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.6 2003/03/06 03:10:50 markus Exp $
+//$Id: XDialog.cpp,v 1.7 2003/06/02 01:31:49 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -34,8 +34,6 @@
 #include <gtkmm/button.h>
 #include <gtkmm/accelgroup.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <Check.h>
 #include <Trace_.h>
 

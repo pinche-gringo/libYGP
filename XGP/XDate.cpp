@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.15 2003/03/27 00:26:12 markus Exp $
+//$Id: XDate.cpp,v 1.16 2003/06/02 01:31:20 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -33,7 +33,6 @@
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
-#define TRACELEVEL 9
 #include <Check.h>
 #include <Trace_.h>
 #include <Internal.h>
