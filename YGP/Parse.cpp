@@ -1,14 +1,14 @@
-//$Id: Parse.cpp,v 1.52 2004/11/04 16:31:19 markus Rel $
+//$Id: Parse.cpp,v 1.53 2005/03/21 17:23:25 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.52 $
+//REVISION    : $Revision: 1.53 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,6 @@
 #include <string>
 
 #include "YGP/Trace.h"
-
 #include "YGP/Thread.h"
 #include "YGP/XStream.h"
 #include "YGP/Internal.h"
@@ -55,7 +54,7 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Frees the buffer internally used while parsing.
-/// \remarks Don't delete the buffer while parsing (inside a callback)! 
+/// \remarks Don't delete the buffer while parsing (inside a callback)!
 //-----------------------------------------------------------------------------
 void ParseObject::freeBuffer () {
    buffers.erase (Thread::currentID ());
