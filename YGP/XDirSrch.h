@@ -1,7 +1,7 @@
 #ifndef XDIRSRCH_H
 #define XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.2 2002/12/08 08:06:29 markus Exp $
+//$Id: XDirSrch.h,v 1.3 2002/12/15 22:22:27 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@
 
 bool _fileIsValid (const std::string&, const char*);
 void _addNode (string& list, char prefix, const string& node);
+
+class DirectorySearch;
+class RemoteDirSearch;
+class PathDirectorySearch;
 
 
 // Template to add file in- and exlusion to the *DirectorySearch classes.
@@ -67,8 +71,8 @@ class XDirectorySearch : public Parent {
 };
 
 
-typedef XDirectorySearch<DirectorySearch>     XDirectorySearch;
-typedef XDirectorySearch<RemoteDirSearch>     XRemoteDirSearch;
-typedef XDirectorySearch<PathDirectorySearch> XPathDirectorySearch;
+typedef XDirectorySearch<DirectorySearch>     ExtDirectorySearch;
+typedef XDirectorySearch<RemoteDirSearch>     ExtRemoteDirSearch;
+typedef XDirectorySearch<PathDirectorySearch> ExtPathDirectorySearch;
 
 #endif
