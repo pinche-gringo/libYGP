@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.19 2002/04/18 07:19:35 markus Exp $
+//$Id: CRegExp.cpp,v 1.20 2002/04/18 08:02:31 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000, 2001, 2002
@@ -28,7 +28,7 @@
 #include <gzo-cfg.h>
 
 
-#define DEBUG 9
+#define DEBUG 0
 #include "Trace_.h"
 #include "CRegExp.h"
 #include "Internal.h"
@@ -252,70 +252,73 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
    assert (pActRegExp); assert (*pActRegExp); assert (pCompare);
    assert (pEnd); assert (pEnd > pActRegExp);
 
-#if DEBUG > 0
-   while (*pEnd-- != REGIONEND) ;
+   const char* pActRE (pActRegExp);
+   while (*pEnd-- != REGIONEND) 
+      assert (pEnd > pActRegExp); ;
+
+#if DEBUG > 2
    TRACE3 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) -> "
-           << *pCompare << " in [" << std::string (pActRegExp, pEnd - pActRegExp + 1) << ']');
+           << *pCompare << " in [" << std::string (pActRE, pEnd - pActRE + 1) << ']');
 #endif
 
    // Compares the actual file-char with the region
    bool fNeg (false);
-   if (*pActRegExp == NEGREGION) {                            // Values to invert?
-      ++pActRegExp;
+   if (*pActRE == NEGREGION) {                            // Values to invert?
+      ++pActRE;
       fNeg = true;
    } // endif
 
-   char ch (*pActRegExp);
+   char ch (*pActRE);
 
    do {
-      if (pActRegExp[1] == RANGE) {
-         char chUpper (pActRegExp[2]);
+      if (pActRE[1] == RANGE) {
+         char chUpper (pActRE[2]);
          assert (chUpper != '\0');  assert (chUpper != REGIONEND);
 
          TRACE7 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - Check "
                  << *pCompare << " in [" << ch << '-' << chUpper << ']');
-         if ((*pActRegExp >= ch) && (*pCompare <= chUpper))
+         if ((*pActRE >= ch) && (*pCompare <= chUpper))
             break;
 
-         pActRegExp += 2;
+         pActRE += 2;
       } // endif range found
       else {
          // Check for class of characters or ordinary char
          char* pEndClass = NULL;
 
-         if ((ch == REGIONBEGIN) && (pActRegExp[1] == REGIONCLASS)
-             && ((pEndClass = strchr (pActRegExp + 2, REGIONCLASS)) != NULL)
+         if ((ch == REGIONBEGIN) && (pActRE[1] == REGIONCLASS)
+             && ((pEndClass = strchr (pActRE + 2, REGIONCLASS)) != NULL)
              && (pEndClass[1] == REGIONEND)) {
 	    TRACE7 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - Check "
                     << *pCompare << " against region-class "
-                    << std::string (pActRegExp + 2, pEndClass - pActRegExp - 2));
+                    << std::string (pActRE + 2, pEndClass - pActRE - 2));
 
-            int temp (0), len (pEndClass - pActRegExp - 2);
-            int val ((temp = isclass (alnum, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (alpha, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (digit, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (space, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (cntrl, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (graph, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (print, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (punct, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (upper, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (temp = isclass (lower, pActRegExp + 2, len, *pCompare)) ? temp :
-		     (isclass (xdigit, pActRegExp + 2, len, *pCompare)));
+            int temp (0), len (pEndClass - pActRE - 2);
+            int val ((temp = isclass (alnum, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (alpha, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (digit, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (space, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (cntrl, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (graph, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (print, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (punct, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (upper, pActRE + 2, len, *pCompare)) ? temp :
+		     (temp = isclass (lower, pActRE + 2, len, *pCompare)) ? temp :
+		     (isclass (xdigit, pActRE + 2, len, *pCompare)));
             if (val == 2) {
                TRACE8 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - "
                        << *pCompare << " matches region-class "
-                       << std::string (pActRegExp + 2, pEndClass - pActRegExp - 2));
+                       << std::string (pActRE + 2, pEndClass - pActRE - 2));
 
                break;
             } // endif class and input matches
             else {
                TRACE8 ("RegularExpression::doCompRegion (cont char*&, const char*, const char*&) - " 
                        << *pCompare << " doesn't match region-class "
-                       << std::string (pActRegExp + 2, pEndClass - pActRegExp - 2));
+                       << std::string (pActRE + 2, pEndClass - pActRE - 2));
 
                if (val)
-                  pActRegExp = pEndClass + 1;
+                  pActRE = pEndClass + 1;
             } // end-else class found, but input doesn't match
          } // endif
          else {
@@ -326,10 +329,10 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
          } // end-else ordinary character
       } // end-else non-range
 
-      ch = *++pActRegExp;
-   } while (pActRegExp <= pEnd); // end-do
+      ch = *++pActRE;
+   } while (pActRE <= pEnd); // end-do
 
-   if ((ch != '\0') == fNeg)
+   if ((pActRE <= pEnd) == fNeg)
       return false;
 
    ++pCompare;
