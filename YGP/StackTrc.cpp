@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.3 2001/01/11 20:19:09 Markus Exp $
+// $Id: StackTrc.cpp,v 1.4 2001/09/04 22:57:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -43,12 +43,15 @@ extern "C" {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Signalhandler; dumps stack when signal is caught
-//Parameters: signal: Number of signal caught
+//Parameters: sig: Number of signal caught
 //Remarks   : A stacktrace might be useful (only?) after a segmentation fault
 /*--------------------------------------------------------------------------*/
-void handleSignal (int signal) {
-   assert (signal == SIGSEGV);       // Check if segmentation-fault (Usefull?)
+void handleSignal (int sig) {
    dumpStack ();
+
+   signal (SIGSEGV, SIG_DFL);       // Restore signal-handlers and reraise the
+   signal (SIGBUS, SIG_DFL);            // signal (to abort program correctly)
+   raise (sig);
 }
 
 /*--------------------------------------------------------------------------*/
