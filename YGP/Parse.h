@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.19 2000/04/02 01:24:24 Markus Exp $
+//$Id: Parse.h,v 1.20 2000/04/04 18:14:33 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@
 //     classes starts with CBParse.
 //   - The third calls a C++-style function and has therefore an object and a
 //     pointer to a memberfunction as parameter of the constructor(s). These
-//     classes starts with OMParse.
+//     classes starts with OFParse.
 //
 // Every of this functions must return the following values (which  specifies
 // how the parsing should be continued):
@@ -164,7 +164,7 @@ class ParseAttomic : public ParseObject {
    virtual bool checkValue (char ch);
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional);
+   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
 
  private:
    // Prohibited manager functions
@@ -173,8 +173,8 @@ class ParseAttomic : public ParseObject {
 
 
 // Class to parse text til a certain abort-criteria. Parsing of this element
-// is stopped, if any of the characters in the abort-parameters is reached
-// (or the maximal cardinality is reached).
+// is stopped, if any of the characters in the abort-parameters is found (or
+// the maximal cardinality is reached).
 class ParseText : public ParseAttomic {
  public:
    // Manager-functions
@@ -320,7 +320,7 @@ class ParseSequence : public ParseObject {
    virtual int checkIntegrity () const;
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional);
+   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
 
    ParseObject** ppList;
 
@@ -334,7 +334,7 @@ private:
 
 
 // Class to parse selections (list of ParseObjects where just one entry must
-// be valid). Every ParseObject).
+// be valid).
 class ParseSelection : public ParseSequence {
  public:
    ParseSelection (ParseObject* apObjectList[], const char* description,
@@ -347,7 +347,7 @@ class ParseSelection : public ParseSequence {
 
  protected:
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional);
+   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
 
  private:
    // Prohibited manager functions

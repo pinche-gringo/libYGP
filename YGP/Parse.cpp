@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.16 2000/04/02 01:24:24 Markus Exp $
+//$Id: Parse.cpp,v 1.17 2000/04/04 18:14:33 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -204,7 +204,7 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 //Parameters  : stream: Source from which to read
 //              optional: Flag, if node must be found
 /*--------------------------------------------------------------------------*/
-int ParseAttomic::doParse (Xistream& stream, bool optional) {
+int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE8 ("ParseAttomic::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
@@ -253,10 +253,10 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) {
       rc = PARSE_ERROR;
 
    if (rc) {
-      if (optional || (rc < 0))
+      if (optional || (rc > 0))
          while (pAkt > global.buffer)
             stream.putback (*--pAkt);
-      if (!optional || (rc < 0)) {
+      else {
          global.buffer[10] = '\0';
          std::string error ("Expected '");
          error += getDescription ();
@@ -608,8 +608,11 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 //Purpose     : Tries to parse the object from the stream
 //Parameters  : stream: Source from which to read
 //              optional: Flag, if node must be found
+//Returns     : PARSE_OK if selection found; PARSE_ERROR if not
+//Note        : If a hard error occured or any error for not-optional
+//              sequences, an exception is thrown
 /*--------------------------------------------------------------------------*/
-int ParseSequence::doParse (Xistream& stream, bool optional) {
+int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE8 ("ParseSequence::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
@@ -711,8 +714,11 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 //Purpose     : Tries to parse the object from the stream
 //Parameters  : stream: Source from which to read
 //              optional: Flag, if node must be found
+//Returns     : PARSE_OK if selection found; PARSE_ERROR if not
+//Note        : If a hard error occured or any error for not-optional
+//              sequences, an exception is thrown
 /*--------------------------------------------------------------------------*/
-int ParseSelection::doParse (Xistream& stream, bool optional) {
+int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE8 ("ParseSelection::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
