@@ -73,6 +73,9 @@
 /* Define to 1 if you have the `asprintf' function. */
 #undef HAVE_ASPRINTF
 
+/* Define to 1 if you have the `backtrace' function. */
+#undef HAVE_BACKTRACE
+
 /* Define to 1 if you have the `beginthread' function. */
 #undef HAVE_BEGINTHREAD
 
