@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.10 2000/01/26 22:14:07 Markus Rel $
+//$Id: IVIOAppl.h,v 1.11 2000/03/27 22:37:41 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,6 +19,23 @@
 
 
 // Class to handle the startup of a program
+//
+// The main purpose/advantage of this class is its parameter-handling.
+// Parameters starting with a minus (-) or (only in Windoze) with a slash
+// (/) are treated as options and reported via the handleOption-method. Every
+// option can also represented in a verbose way starting with two
+// minus-characters (--).
+//
+// Options can be passed before or after the other parameters and are
+// handled before the "real" program starts to run. To end further
+// option-handling two minus-characters (--) without following text can be
+// used.
+//
+// Two ore more options can be put together after a single option-character.
+// e.g.: "-d -v" is equal to "-dv" (and also to "--debug --verbose" if those
+// long-values are associated with the options).
+//
+// Note: The option "-h" causes the call of the showHelp-method!
 class IVIOApplication {
  public:
    // Helper-structure to store long-options
