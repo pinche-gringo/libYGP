@@ -1,14 +1,14 @@
-// $Id: ANumeric.cpp,v 1.10 2004/11/28 01:03:40 markus Rel $
+// $Id: ANumeric.cpp,v 1.11 2005/01/08 22:09:04 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

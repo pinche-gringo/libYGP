@@ -1,14 +1,14 @@
-// $Id: Process.cpp,v 1.1 2004/10/25 02:54:05 markus Rel $
+// $Id: Process.cpp,v 1.2 2005/01/08 22:09:05 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
-//COPYRIGHT   : Copyright (C) 2003 - 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

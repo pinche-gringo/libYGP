@@ -1,14 +1,14 @@
-// $Id: Thread.cpp,v 1.6 2004/10/24 00:25:56 markus Rel $
+// $Id: Thread.cpp,v 1.7 2005/01/08 22:09:05 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

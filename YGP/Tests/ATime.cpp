@@ -1,14 +1,14 @@
-// $Id: ATime.cpp,v 1.8 2004/11/05 04:16:39 markus Rel $
+// $Id: ATime.cpp,v 1.9 2005/01/08 22:09:04 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Test/ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

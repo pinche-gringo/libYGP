@@ -1,14 +1,14 @@
-// $Id: MetaEnum.cpp,v 1.1 2004/12/06 23:05:08 markus Rel $
+// $Id: MetaEnum.cpp,v 1.2 2005/01/08 22:09:05 markus Rel $
 
-//PROJECT     : General
-//SUBSYSTEM   : Test/Handle
+//PROJECT     : libYGP
+//SUBSYSTEM   : Test/MetaEnum
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
-//CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//CREATED     : 6.12.2004
+//COPYRIGHT   : Copyright (C) 2004, 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

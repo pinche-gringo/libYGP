@@ -1,14 +1,14 @@
-// $Id: AYear.cpp,v 1.1 2004/11/07 22:03:46 markus Rel $
+// $Id: AYear.cpp,v 1.2 2005/01/08 22:09:04 markus Rel $
 
-//PROJECT     : General
+//PROJECT     : libYGP
 //SUBSYSTEM   : Test/AYear
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
-//COPYRIGHT   : Copyright (C) 2004
+//COPYRIGHT   : Copyright (C) 2004, 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
