@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.8 2002/11/04 00:51:48 markus Rel $
+//$Id: Attribute.h,v 1.9 2002/12/01 08:38:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,24 +19,28 @@
 
 
 #include <errno.h>
-#include <assert.h>
 
 #include <string>
 #include <stdexcept>
 
+#include <Check.h>
 #include <AByteArray.h>
 
 
 // Baseclass for attributes. Derive from it for every type of attribute.
+//
+// An attribute is defined to be the connection between a name and an
+// attribute-value (which is not stored inside the attribute but only
+// refereneced).
 class IAttribute {
  public:
    virtual ~IAttribute () { }
 
    bool matches (const char* pName) const {
-      assert (pName);
+      Check3 (pName);
       return name == pName; }
-   bool matches (const std::string& compare) const {
-      return name == compare; }
+   bool matches (const std::string& name_) const {
+      return name == name_; }
 
    virtual bool assignFromString (const char* value) const = 0;
    virtual bool assign (const char* value, unsigned int length) const {
@@ -45,7 +49,7 @@ class IAttribute {
    const std::string& getName () const { return name; }
 
  protected:
-   IAttribute (const char* pName) : name (pName) { assert (pName); }
+   IAttribute (const char* pName) : name (pName) { Check3 (pName); }
    IAttribute (const std::string& name_) : name (name_) { }
 
  private:
@@ -86,13 +90,13 @@ template <class T> class Attribute : public IAttribute {
 
 // Specialization of Attribute for ints
 bool Attribute<char>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    attr_ = *value;
    return *value && !value[1];
 }
 
 bool Attribute<char*>::assign (const char* value, unsigned int length) const {
-   assert (value);
+   Check3 (value);
    delete [] attr_;
    attr_ = new char[length + 1];
    if (!attr_)
@@ -103,93 +107,93 @@ bool Attribute<char*>::assign (const char* value, unsigned int length) const {
 }
 
 bool Attribute<char*>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    return assign (value, strlen (value));
 }
 
 bool Attribute<char* const>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    strcpy (attr_, value);
    return true;
 }
 
 bool Attribute<char* const>::assign (const char* value, unsigned int length) const {
-   assert (value);
+   Check3 (value);
    memcpy (attr_, value, length);
    return true;
 }
 
 bool Attribute<short>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtol (value, &pTail, 10); assert (pTail);
+   attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 bool Attribute<unsigned short>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtoul (value, &pTail, 10); assert (pTail);
+   attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 bool Attribute<int>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtol (value, &pTail, 10); assert (pTail);
+   attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 bool Attribute<unsigned int>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtoul (value, &pTail, 10); assert (pTail);
+   attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 bool Attribute<long>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtol (value, &pTail, 10); assert (pTail);
+   attr_ = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 bool Attribute<unsigned long>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtoul (value, &pTail, 10); assert (pTail);
+   attr_ = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 bool Attribute<double>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   attr_ = strtod (value, &pTail); assert (pTail);
+   attr_ = strtod (value, &pTail); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 // Specialization of Attribute for strings
 bool Attribute<std::string>::assignFromString (const char* value) const {
-   assert (value);
+   Check3 (value);
    attr_ = value;
    return true;
 }
 
 bool Attribute<std::string>::assign (const char* value, unsigned int length) const {
-   assert (value);
+   Check3 (value);
    attr_.assign (value, length);
    return true;
 }
 
 bool Attribute<AByteArray>::assign (const char* value, unsigned int length) const {
-   assert (value);
+   Check3 (value);
    attr_.assign (value, length);
    return true;
 }
