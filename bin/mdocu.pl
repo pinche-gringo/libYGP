@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.5 2002/11/30 06:02:52 markus Exp $
+# $Id: mdocu.pl,v 1.6 2002/12/08 03:00:25 markus Exp $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,16 +59,16 @@ my $version=0;
 
 Getopt::Long::Configure ("bundling", "gnu_getopt", "no_ignore_case");
 Getopt::Long::Configure ("prefix_pattern=(--|-)");
-GetOptions ('version' => \$version, 'verbose|V+' => \$verbose,
+GetOptions ('verbose|v+' => \$verbose, 'version|V' => \$version,
             'help|h|?' => \$help) or pod2usage(2);
 
 pod2usage (1) if ($help);
 
 if ($version) {
   $0 =~ s!.*/(.*)!$1!;
-  my $rev = '$Revision: 1.5 $ ';
-  $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/g;
-  print "$0 - V0.1.00     ($rev)\n";
+  my $rev = '$Revision: 1.6 $ ';
+  $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
+  print "$0 - V0.2.00     ($rev)\n";
   print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
          "Distributed under the terms of the GNU General Public License\n" if ($verbose);
   exit (1);
@@ -101,6 +101,7 @@ while (<>) {
             s#^//[^:]*:\s*(.*)#$1#;
             $$lastVar .= $_;
         }
+        $$lastVar =~ s/(.*)\s*/$1/;
 
         # Now skip over the trailing comment line (if available) and start
         # start parsing with what should be the function name
@@ -114,21 +115,34 @@ while (<>) {
         # Replace whitespaces with a single space and strip the part after
         # the brace or the colon
         $fnc =~ s/\s+/ /g;
-        $fnc =~ s/(.*)\{.*/$1/g;
-        $fnc =~ s/(.*)[^:]:[^:].*/$1/g;
+        $fnc =~ s/(.*?)\s*\{.*/$1/;
+        $fnc =~ s/(.*?)\s*[^:]:[^:].*/$1/;
+
+        # Make some conversions for HTML
+        $fnc =~ s/&/&amp;/g;
+        $fnc =~ s/</&lt;/g;
+        $fnc =~ s/>/&gt;/g;
 
         # Now separate the function in its subparts
-        $fnc =~ /([^\s]*\s+|^)(\w+::)*([^\s\(]+)(.*)/;
+        # type [class::]name rest
+        my $type;
+        my $name;
+        my $rest;
+        if ($fnc =~ /([\w\d_]+::)/) {
+           ($type, $name, $rest) = ($fnc =~ /(.*?)\s*[_\w\d]+\s*::\s*([\w\d_~]+)\s*(.*)/); }
+        else {
+           ($type, $name, $rest) = ($fnc =~ /(.+?)\s+([\w\d_]+|operator[-+*\/])\s*(\(.*)/); }
+        # $fnc =~ /([^\s]*\s+|^)(\w+::)?([^\s\(]+)(.*)/;
 
         # Print purpose and parameters
-        print ("    <pre><a name=\"$3\"></a>$1<b>$3</b>$4</pre>\n");
+        print ("    <pre><a name=\"$name\"></a>$type <b>$name</b> $rest</pre>\n");
         print ("    <dl>\n");
         print ("      <dd><p>$purpose</p></dd>\n");
         my @params;
         if ($values{'Parameters'}) {
             print ("      <dd><dl><dt><b>Parameters</b></dt>\n");
             foreach (split /\n+/, $values{'Parameters'}) {
-                /(\w+)(.*)/g;
+                /(\w+)(.*)/;
                 print ("          <dd><code>$1</code>$2<dd>\n");
                 $params[++$#params] = $1;
             }
@@ -140,7 +154,7 @@ while (<>) {
             if ($values{$i}) {
                 print ("      <dd><dl><dt><b>$i</b></dt>\n");
                 foreach (@params) {
-                    $values{$i} =~ s/(.*)(\b$_\b)(.*)/$1<code>$2<\/code>$3/g; }
+                    $values{$i} =~ s/(.*)(\b$_\b)(.*)/$1<code>$2<\/code>$3/; }
                 print ("          <dd>$values{$i}</dd></dl></dd>\n");
             }
         }
