@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.15 2001/03/06 23:08:36 markus Exp $
+//$Id: FileRExp.cpp,v 1.16 2001/09/27 22:03:09 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -50,16 +50,6 @@
 
 
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))
-
-
-const char FileRegularExpr::MULTIMATCH = '*';
-const char FileRegularExpr::SINGLEMATCH = '?';
-const char FileRegularExpr::REGIONBEGIN = '[';
-const char FileRegularExpr::REGIONEND = ']';
-const char FileRegularExpr::RANGE = '-';
-const char FileRegularExpr::NEGREGION1 = '^';
-const char FileRegularExpr::NEGREGION2 = '!';
-const char FileRegularExpr::REGIONCLASS = ':';
 
 
 

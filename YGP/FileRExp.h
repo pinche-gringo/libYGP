@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.7 2001/03/25 09:51:44 markus Exp $
+//$Id: FileRExp.h,v 1.8 2001/09/27 22:03:09 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 // Class to compare text with (UNIX-file-style) regular expressions
 // '*' matches any number of any characters
 // '?' matches any single character
-// '[<region>] matches the characters specified in match
-// '[^<region>] matches the characters not specified in match
+// '[<region>]' matches the characters specified in match
+// '[^<region>]' or '[!<region>]'  matches the characters not specified in match
 //     <region> ::= | <char><region> | <range><region> | {}
 //     <range> ::= <low>-<high>
 //
@@ -43,14 +43,14 @@ class FileRegularExpr : public IRegularExpression {
    FileRegularExpr& operator= (const char* pRegExp) {
       return (FileRegularExpr&)IRegularExpression::operator= (pRegExp); }
 
-   static const char MULTIMATCH;
-   static const char SINGLEMATCH;
-   static const char REGIONBEGIN;
-   static const char REGIONEND;
-   static const char RANGE;
-   static const char NEGREGION1;
-   static const char NEGREGION2;
-   static const char REGIONCLASS;
+   static const char MULTIMATCH = '*';
+   static const char SINGLEMATCH = '?';
+   static const char REGIONBEGIN = '[';
+   static const char REGIONEND = ']';
+   static const char RANGE = '-';
+   static const char NEGREGION1 = '^';
+   static const char NEGREGION2 = '!';
+   static const char REGIONCLASS = ':';
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
