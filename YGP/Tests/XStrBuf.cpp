@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.5 2002/12/15 22:31:53 markus Rel $
+// $Id: XStrBuf.cpp,v 1.6 2003/02/01 23:53:10 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -30,7 +30,6 @@
 #include <iostream>
 
 #include <gzo-cfg.h>
-#include <Check.h>
 #include <XStrBuf.h>
 
 #include "Test.h"
@@ -64,14 +63,14 @@ int main (int argc, char* argv[]) {
          if (isalpha (c)) {
             check (str.getLine () == 3);
             check (str.getColumn () == 2);
-            Check3 ((pAct + 4) >= buffer);
+            check ((pAct + 4) >= buffer);
             in.putback (c);
             in.putback (*--pAct);
             in.putback (*--pAct);
             in.putback (*--pAct);
             break;
          } // endif alpha found
-         Check3 (buffer + sizeof (buffer) > pAct);
+         check (buffer + sizeof (buffer) > pAct);
          *pAct++ = c;
          ++forAlpha;
       } // end-while
