@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.8 2003/03/06 03:09:58 markus Exp $
+//$Id: X-Appl.cpp,v 1.9 2003/03/27 00:52:05 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -192,8 +192,7 @@ XApplication::MenuEntry XAppl::menuItems[] = {
 /*--------------------------------------------------------------------------*/
 XAppl::XAppl ()
    : XApplication ("X" PACKAGE " V" LIB_RELEASE)
-     , listFiles (), status (), scroll ()
-     , files (XFileListStore::create (cols)) {
+     , listFiles (), files (XFileListStore::create (cols)), status (), scroll () {
    TRACE3 ("XAppl::XAppl ()");
 
    listFiles.set_model (files);
@@ -287,7 +286,7 @@ void XAppl::showAboutbox () {
 //Purpose   : Add the value of file to the list
 /*--------------------------------------------------------------------------*/
 void XAppl::addActFile () {
-   for (unsigned int i (0); i < num; ++i)
+   for (unsigned int i (0); i < (unsigned int)num; ++i)
       addFile (file);
 }
 
