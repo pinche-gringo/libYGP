@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.58 2003/11/14 18:21:43 markus Exp $
+dnl $Id: configure.in,v 1.59 2003/11/15 04:02:36 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_REVISION($Revision: 1.58 $)
-AC_INIT(libYGP, 0.6.40, [g17m0@lycos.com])
+AC_REVISION($Revision: 1.59 $)
+AC_INIT(libYGP, 0.6.40, [g17m0@lycos.com], libYGP)
 
 RELEASE=${PACKAGE_VERSION%.*}
 VERSION=AC_PACKAGE_VERSION
