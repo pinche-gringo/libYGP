@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.9 2003/05/23 17:53:45 markus Rel $
+//$Id: XAttrLabel.h,v 1.10 2003/07/05 05:13:15 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <gtkmm/label.h>
 

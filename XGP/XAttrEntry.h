@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.9 2003/06/29 02:00:41 markus Exp $
+//$Id: XAttrEntry.h,v 1.10 2003/07/05 05:13:41 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include <Internal.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <stdexcept>
 
 #include <gtkmm/main.h>
