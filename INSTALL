@@ -38,7 +38,7 @@ Inside the directory containing the source code type
 
   gettextize --intl --no-changelog
   mv Makefile.am~ Makefile.am
-  mv configure.in~ configure.in		      # Undo changes made bz gettextize
+  mv configure.in~ configure.in		      # Undo changes made by gettextize
   libtoolize
   aclocal -I m4 && automake -a && autoconf    # Create configure.in
   ./configure [configure-options]
