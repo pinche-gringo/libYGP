@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.17 2003/03/03 06:18:36 markus Exp $
+//$Id: ATStamp.h,v 1.18 2003/03/06 03:06:34 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,6 +70,13 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
 
    virtual void define () { ADate::define (); ATime::define (); }
+
+   friend std::istream& operator>> (std::istream& in, ATimestamp& inValue) {
+      inValue.readFromStream (in); return in; }
+   friend std::ostream& operator<< (std::ostream& out, const ATimestamp& outValue) {
+      if (outValue.isDefined ())
+         out << outValue.toUnformattedString ();
+      return out; }
 
    // Convertion
    virtual std::string toUnformattedString () const;
