@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: ADate.html,v 1.14 2002/11/26 08:30:09 markus Exp $ -->
+<!-- $Id: ADate.html,v 1.15 2002/11/26 19:56:05 markus Exp $ -->
 
 <html>
   <head>
@@ -19,7 +19,6 @@
       <td><a href="cross_index.html">Cross Index</a></td></tr>
     </table>
 
-    <p>Header-file: ADate.h</p>
     <h1 align="center">Class ADate</h1>
     <p>Derived from:
       <a href="AttrVal.html">AttributValue</a>
@@ -327,7 +326,7 @@
 </dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="operator=3"></a>ADate&amp; operator= (const std::string&amp; date) throw (invalid_argument)</pre>
+    <pre><a name="operator=3"></a>ADate&amp; <b>operator=</b> (const std::string&amp; date) throw (invalid_argument)</pre>
     <dl>
       <dd><p>Assignment-operator from a const string. The date must be
         passed as DDMMY[Y...]. If the string does not represent a
@@ -343,21 +342,31 @@
 </dd></dl></dd>
     </dl>
     <hr>
-
-    <pre><a name="operator=4"></a>ADate&amp; operator= (const struct tm&amp; date)</pre>
+    <pre><a name="operator=4"></a>ADate&amp; <b>operator=</b> (const struct tm&amp; date)</pre>
     <dl>
-      <dd>Assignment-operator; assigns the values from the passed struct tm.</dd>
+      <dd><p>Assignment-operator from a struct tm.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>date</code>: Struct tm holding date to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate&: Reference to self
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator=5"></a>ADate&amp; operator= (const time_t date)</pre>
+    <hr>
+    <pre><a name="operator=5"></a>ADate&amp; <b>operator=</b> (const time_t date)</pre>
     <dl>
-      <dd>Assignment-operator; sets the date to the value represented by the
-        parameter.</dd>
+      <dd><p>Assignment-operator from a a system time.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>date</code>: System time holding date to assign<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate&: Reference to self
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="define"></a>void define ()</pre>
+    <hr>
+    <pre><a name="define"></a>void <b>define</b> ()</pre>
     <dl>
-      <dd>Sets the date to the 1st of January, 1900.</dd>
+      <dd><p>Sets the date to the 1st of January, 1900.</p></dd>
     </dl>
 
     <pre><a name="setDay"></a>void <b>setDay</b> (char Day) </pre>
@@ -408,11 +417,6 @@
  1900)</dd></dl></dd>
     </dl>
     <hr>
-    <pre><a name="toString"></a>virtual std::string toString () const</pre>
-    <dl>
-      <dd>Converts the date into a string, in the format specified by the
-        current locale.</dd>
-    </dl>
     <pre><a name="toString2"></a>std::string <b>toString</b> (const char* format) const </pre>
     <dl>
       <dd><p>Converts the date into a string, in the specified format. The
@@ -449,30 +453,45 @@
     </dl>
     <hr>
 
-    <pre><a name="toSysTime"></a>time_t toSysTime () const</pre>
+    <pre><a name="toSysTime"></a>time_t <b>toSysTime</b> () const</pre>
     <dl>
-      <dd>Converts the date to a system-timestructure.</dd>
+      <dd><p>Converts the date to a system-timestructure.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>time_t: Date in system format
+</dd></dl></dd>
     </dl>
 
     <h3><font color="navy">Query</font></h4>
-    <pre><a name="getDay"></a>char getDay () const</pre>
+    <pre><a name="getDay"></a>char <b>getDay</b> () const</pre>
     <dl>
-      <dd>Retrieves the day stored in the object.</dd>
+      <dd><p>Retrieves the day stored in the object.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>char: Day part of the object
+</dd></dl></dd>
     </dl>
 
-    <pre><a name="getMonth"></a>char getMonth () const</pre>
+    <pre><a name="getMonth"></a>char <b>getMonth</b> () const</pre>
     <dl>
-      <dd>Retrieves the month.</dd>
+      <dd><p>Retrieves the month.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>char: Month part of the object
+</dd></dl></dd>
     </dl>
 
-    <pre><a name="getYear"></a>int getYear () const</pre>
+    <pre><a name="getYear"></a>int <b>getYear</b> () const</pre>
     <dl>
-      <dd>Retrieves the  year.</dd>
+      <dd><p>Retrieves the  year.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>char: Day part of the object
+</dd></dl></dd>
     </dl>
 
-    <pre><a name="today"></a>ADate today ()</pre>
+    <pre><a name="today"></a>ADate <b>today</b> ()</pre>
     <dl>
-      <dd>Returns a date-object	representing the current day.</dd>
+      <dd></p>Returns a date-object	representing the current day.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>ADate&amp;: Current day
+</dd></dl></dd>
     </dl>
 
     <h3><font color="navy">Calculation</font></h4>
@@ -545,7 +564,6 @@
 </dd></dl></dd>
     </dl>
     <hr>
-
     <pre><a name="sub"></a>ADate& <b>sub</b> (signed char Day, signed char Month, int Year) </pre>
     <dl>
       <dd><p>If this is defined, the passed values are substracted (with
@@ -564,48 +582,78 @@
     </dl>
 
     <h3><font color="navy">Comparison</font></h4>
-    <pre><a name="operator=="></a>bool operator== (const ADate&amp; other)</pre>
+    <pre><a name="operator=="></a>bool <b>operator==</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Compares two date-objects and returns true, if they are equal (either
-        the same day or both undefined).</dd>
+      <dd><p>Compares two date-objects and returns true, if they are equal (either
+        the same day or both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if the objects are equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="operator!="></a>bool operator!= (const ADate&amp; other)</pre>
+    <hr>
+    <pre><a name="operator!="></a>bool <b>operator!=</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Compares two date-objects and returns true, if they are not equal
-        (different days and not both undefined).</dd>
+      <dd><p>Compares two date-objects and returns true, if they are not equal
+        (different days and not both undefined).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if the objects are not equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorl"></a>bool operator&lt; (const ADate&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorl"></a>bool <b>operator&lt;</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Compares two date-objects and returns true, if this is "older" (further
+      <dd><p>Compares two date-objects and returns true, if this is "older" (further
         in the past) than other (e.g. "yesterday" &lt; "today" == true).
-        Undefined values are considered as older than any other date.</dd>
+        Undefined values are considered as older than any other date.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if this further in the past than other</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorg"></a>bool operator&gt; (const ADate&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorg"></a>bool <b>operator&gt;</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Compares two date-objects and returns true, if this is "younger" (later
+      <dd><p>Compares two date-objects and returns true, if this is "younger" (later
         on a time-line) than other (e.g. "tomorrow" &gt; "today" == true).
-        Undefined values are considered as older than any other date.</dd>
+        Undefined values are considered as older than any other date.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if other further in the past than this</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorl="></a>bool operator&lt;= (const ADate&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorl="></a>bool <b>operator&lt;=</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Compares two date-objects and returns true, if this is "older" (further
+      <dd><p>Compares two date-objects and returns true, if this is "older" (further
         in the past) than other or equal to it (e.g. "yesterday" &lt;= "today"
         == true; two undefined values are also considered as equal).
-        Undefined values are considered as older than any other date.</dd>
+        Undefined values are considered as older than any other date.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if this further in the past than other or equal</dd></dl></dd>
     </dl>
-
-    <pre><a name="operatorg="></a>bool operator&gt;= (const ADate&amp; other)</pre>
+    <hr>
+    <pre><a name="operatorg="></a>bool <b>operator&gt;=</b> (const ADate&amp; other)</pre>
     <dl>
-      <dd>Compares two date-objects and returns true, if this is "younger" (later
+      <dd><p>Compares two date-objects and returns true, if this is "younger" (later
         on a time-line) than other or equal to it (e.g. "tomorrow" &gt;= "today"
         == true; two undefined values are also considered as equal).
-        Undefined values are considered as older than any other date.</dd>
+        Undefined values are considered as older than any other date.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>other</code>: Object to compare<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>true, if other further in the past than this or equal</dd></dl></dd>
     </dl>
-
+    <hr>
     <pre><a name="compare"></a>long <b>compare</b> (const ADate& other) </pre>
     <dl>
       <dd><p>Returns the (approximated) difference in days between two dates. "Younger dates" (closer to the past) are considered bigger than "older dates" (further in the past; that means the numeric value of the date is compared.<p> If both dates are undefined, those difference is "0", if only this is undefined the result is MINLONG; if other is undefined MAXLONG is returned (-> undefined dates are considered as (very) old).</p></dd>
@@ -616,7 +664,6 @@
           <dd>>0 if this "younger" other; 0 if this == <code>other</code>; <0 else</dd></dl></dd>
     </dl>
     <hr>
-
     <h3><font color="navy">Utility-functions</font></h4>
     <pre><a name="maxDayOf"></a>char <b>maxDayOf</b> () const</pre>
     <dl>
@@ -655,13 +702,13 @@
     </dl>
     <hr>
 
-    <pre><a name="incDay"></a>void incDay ()</pre><dl>
-      <dd>Increments the day of the current object with regard of overflows.</dd>
+    <pre><a name="incDay"></a>void <b>incDay</b> ()</pre><dl>
+      <dd><p>Increments the day of the current object with regard of overflows.</p></dd>
     </dl>
 
-    <pre><a name="decDay"></a>void decDay ()</pre>
+    <pre><a name="decDay"></a>void <b>decDay</b> ()</pre>
     <dl>
-      <dd>Decrements the day of the current object with regard of underflows.</dd>
+      <dd><p>Decrements the day of the current object with regard of underflows.</p></dd>
     </dl>
 
     <pre><a name="minAdapt"></a>bool <b>minAdapt</b> () </pre>
