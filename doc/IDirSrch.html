@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: IDirSrch.html,v 1.5 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: IDirSrch.html,v 1.6 2002/12/05 02:13:34 markus Exp $ -->
 
 <html>
   <head>
@@ -96,78 +96,116 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="IDirectorySearch"></a>IDirectorySearch ()</pre>
+    <pre><a name="IDirectorySearch"></a><b>IDirectorySearch</b> ()</pre>
     <dl>
-      <dd>Defaultconstructor.</dd>
+      <dd><p>Defaultconstructor.</p></dd>
     </dl>
-    <pre><a name="~IDirectorySearch"></a>virtual ~IDirectorySearch ()</pre>
+    <hr>
+    <pre><a name="~IDirectorySearch"></a><b>~IDirectorySearch</b> () </pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="setSearchValue"></a>void <b>setSearchValue</b> (const std::string&amp; search)</pre>
+    <dl>
+      <dd><p>Intented to set the name of the files to find. To be implemented by derived
+        classes.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>search</code>: String containing the names of the files to search for<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="getSearchValue"></a>std::string <b>getSearchValue</b> ()</pre>
+    <dl>
+      <dd><p>Intented to retrieve the name of the files to find. To be implemented by derived
+        classes.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Name (including path) of the files to find</dd></dl></dd>
+    </dl>
+    </dl>
+    <hr>
+    <pre><a name="getDirectory"></a>std::string <b>getDirectory</b> ()</pre>
+    <dl>
+      <dd><p>Intented to retrieve the directory (path) of the files to find. To be implemented by
+        derived classes.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Path of the files to find</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="getFileSpec"></a>std::string <b>getFileSpec</b> ()</pre>
+    <dl>
+      <dd><p>Intented to retrieve the name of the files to find (without path). To be
+        implemented by derived classes.</P></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>std::string: Name (without path) of the files to find</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="isValid"></a>bool <b>isValid</b> () const</pre>
+    <dl>
+      <dd><p>Intented to check if the directory part of the (previously set) file is
+        a valid directory. To be implemented by derived classes.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>bool: Flag if the object refers to a valid directory.</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="convertToSysAttribs"></a>unsigned long <b>convertToSysAttribs</b> (unsigned long attribs) </pre>
+    <dl>
+      <dd><p>Converts attributes according to IDirectorySearch (as defined at
+          the top) into values used by the system.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>attribs</code>: Attributes to convert<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned long: Systemattributes
+</dd></dl></dd>
+    </dl>
+    <hr>
+    <pre><a name="convertFromSysAttribs"></a>unsigned long <b>convertFromSysAttribs</b> (unsigned long attribs) </pre>
+    <dl>
+      <dd><p>Converts the attributes as used by the system into attributes 
+         used by IDirectorySearch (as defined at the top).</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>attribs</code>: Attributes to convert<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>unsigned long: Attributes according to IDirectorySearch
+</dd></dl></dd>
+    </dl>
+    <hr>
 
-    <pre><a name="setSearchValue"></a>virtual void setSearchValue (const std::string&amp; search) = 0</pre>
+    <pre><a name="clearEntry"></a>void <b>clearEntry</b> ()</pre>
     <dl>
-      <dd>Intented to set the name of the files to find. To be implemented by derived
-        classes.</dd>
-    </dl>
-    <pre><a name="getSearchValue"></a>virtual std::string getSearchValue ()</pre>
-    <dl>
-      <dd>Intented to retrieve the name of the files to find. To be implemented by derived
-        classes.</dd>
-    </dl>
-
-    <pre><a name="getDirectory"></a>virtual std::string getDirectory () = 0</pre>
-    <dl>
-      <dd>Intented to retrieve the directory of the files to find. To be implemented by
-        derived classes.</dd>
-    </dl>
-    <pre><a name="getFileSpec"></a>virtual std::string getFileSpec () = 0</pre>
-    <dl>
-      <dd>Intented to retrieve the name of the files to find (without prefix). To be
-        implemented by derived classes.</dd>
-    </dl>
-
-    <pre><a name="isValid"></a>virtual bool isValid () const = 0</pre>
-    <dl>
-      <dd>Intented to check the validity of the (previously set) file. To be implemented
-        by derived classes.</dd>
-    </dl>
-
-    <pre><a name="convertToSysAttribs"></a>static unsigned long convertToSysAttribs (unsigned long attributes)</pre>
-    <dl>
-       <dd>Converts the attributes as defined <a href="IDirSrch.html#Attributes"><b>here</b></a>
-         into attributes as used by the (respective) system.</dd>
-    </dl>
-    <pre><a name="convertFromSysAttribs"></a>static unsigned long convertFromSysAttribs (unsigned long attributes)</pre>
-    <dl>
-       <dd>Converts the attributes as used by the system into attributes 
-         used by IDirectorySearch (as defined
-         <a href="IDirSrch.html#Attributes"><b>here</b></a>).</dd>
-    </dl>
-
-    <pre><a name="clearEntry"></a>void clearEntry ()</pre>
-    <dl>
-      <dd>Clears the (temporarily) created File-entry; mainly used in case of an error.</dd>
+      <dd><p>Clears the (temporarily) created File-entry; mainly used in case of an error.</p></dd>
     </dl>
 
     <h4>Search functions</h4>
-    <pre><a name="find"></a>virtual const <a href="File.html"><b>File</b></a>* find (unsigned long attribs = FILE_NORMAL) = 0</pre>
+    <pre><a name="find"></a>const <a href="File.html"><b>File</b></a>* <b>find</b> (unsigned long attribs = FILE_NORMAL)</pre>
     <dl>
       <dd><p>Intented to start a new (or next) search for the previously specified files
-          which match the passed attributes. The first found file is returned into
-          <i>result</i>. This parameter is only valid if find returns 0.</p>
+          which matches the passed attributes.</p>
 
-        <p>Possible values for <i>attribs</i> are described
+        <p>Possible values for <code>attribs</code> are described
           <a href="IDirSrch.html#Attributes"><b>here</b></a>.</p>
 
         <p>To be implemented by derived classes.</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>attribs</code>: Attributes the file must contain<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const <a href="File.html"><b>File</b></a>*: Pointer to the first found file or NULL
+</dd></dl></dd>
     </dl>
-
-    <pre><a name="next"></a>virtual const <a href="File.html"><b>File</b></a>* next () = 0</pre>
+    <hr>
+    <pre><a name="next"></a>const <a href="File.html"><b>File</b></a>* next () = 0</pre>
     <dl>
       <dd><p>Finds the next file matching the (previously specified) search-criteria.</p>
 
-        <p>As with the first find-version the found file is returned in <i>result</i>.
-          A return value other then zero specifies an error.</p>
+        <p>This call is only valid after calling the <a href="File.html#find">find</a> method.</p>
 
         <p>To be implemented by derived classes.</p></dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>const <a href="File.html"><b>File</b></a>*: Pointer to the next found file or NULL
+</dd></dl></dd>
     </dl>
   </body>
 </html>
