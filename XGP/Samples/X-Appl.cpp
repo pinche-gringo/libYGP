@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.27 2005/01/25 01:17:14 markus Exp $
+//$Id: X-Appl.cpp,v 1.28 2005/01/25 05:47:12 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -230,9 +230,8 @@ XAppl::XAppl ()
 					"Tests the login dialog"),
 		   Gtk::AccelKey ("<ctl>L"),
 		   mem_fun (*this, &XAppl::showLoginDialog));
-   grpAction->add (Gtk::Action::create ("DSearch", "_Searchdialog ...",
+   grpAction->add (Gtk::Action::create ("DSearch", Gtk::Stock::FIND, "_Searchdialog ...",
 					"Tests the search dialog"),
-		   Gtk::AccelKey ("<ctl>F"),
 		   mem_fun (*this, &XAppl::showSearchDialog));
    addHelpMenu (ui);
    ui += "</menubar></ui>";
