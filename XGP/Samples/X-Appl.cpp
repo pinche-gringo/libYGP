@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.12 2003/06/19 03:34:55 markus Rel $
+//$Id: X-Appl.cpp,v 1.13 2003/07/23 06:07:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -236,20 +236,20 @@ XAppl::XAppl ()
 void XAppl::command (int menu) {
    switch (menu) {
    case OPEN:
-      XFileDialog::perform (_("Add file..."), *this,
-                            (XFileDialog::PACTION)&XAppl::addFile,
-                            XFileDialog::MUST_EXIST);
+      TFileDialog<XAppl>::perform (Glib::locale_to_utf8 (_("Add file...")),
+                                   *this, &XAppl::addFile,
+                                   IFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
-      XFileDialog::perform (_("Save search result to ..."), *this,
-                            (XFileDialog::PACTION)&XAppl::saveToFile,
-                            XFileDialog::ASK_OVERWRITE);
+      TFileDialog<XAppl>::perform (Glib::locale_to_utf8 (_("Save search result to ...")),
+                                   *this, &XAppl::saveToFile,
+                                   IFileDialog::ASK_OVERWRITE);
       break;
       break;
 
    case PRINT:
-      XPrintDialog::perform (this, (XPrintDialog::PACTION)&XAppl::writeToStream);
+      TPrintDialog<XAppl>::perform (*this, &XAppl::writeToStream);
       break;
 
    case EXIT:
@@ -322,7 +322,7 @@ void XAppl::addFile (const std::string& file) {
 //Purpose   : Save result of comparison into a file
 //Parameters: file: Name of file to create
 /*--------------------------------------------------------------------------*/
-void XAppl::saveToFile (std::string& file) {
+void XAppl::saveToFile (const std::string& file) {
    TRACE9 ("XAppl::saveToFile (string&): " << file);
 
    std::ofstream output (file.c_str ());
@@ -341,7 +341,7 @@ void XAppl::saveToFile (std::string& file) {
 //Purpose   : Save result of comparison into a file
 //Parameters: file: Stream to fill
 /*--------------------------------------------------------------------------*/
-void XAppl::writeToStream (std::ofstream& file) {
+void XAppl::writeToStream (std::ostream& file) {
    TRACE9 ("XAppl::writeToStream (ofstream&)");
    Check (file);
 

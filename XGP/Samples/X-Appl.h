@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.6 2003/06/02 01:34:46 markus Rel $
+//$Id: X-Appl.h,v 1.7 2003/07/23 06:07:47 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,8 +51,8 @@ class XAppl : public XApplication {
 
    void addActFile ();
    void addFile (const std::string& file);
-   void saveToFile (std::string& file);
-   void writeToStream (std::ofstream& file);
+   void saveToFile (const std::string& file);
+   void writeToStream (std::ostream& file);
 
    virtual const char* getHelpfile () { return "index.html"; }
    virtual void showAboutbox ();
