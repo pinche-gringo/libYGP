@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.1 1999/08/24 00:07:43 Markus Exp $
+//$Id: Parse.h,v 1.2 1999/08/24 23:45:10 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,7 +72,6 @@ class ParseObject {
 
    const char* pDescription;
    bool        skip;
-
 };
 
 
@@ -112,9 +111,9 @@ class ParseAttomic : public ParseObject {
    void setMinCard (unsigned int val) { minCard = val; }
   
 #ifdef MULTIBUFFER
-   static freeBuffer () { }
+   static void freeBuffer () { }
 #else
-   static freeBuffer () { buffer = ""; }
+   static void freeBuffer ();
 #endif
 
 
@@ -125,10 +124,6 @@ class ParseAttomic : public ParseObject {
 
    virtual int  checkIntegrity () const;
    virtual bool checkValue (char ch) const;
-
-#ifndef MULTIBUFFER
-   static std::string buffer;
-#endif
 
  private:
    // Prohibited manager functions
