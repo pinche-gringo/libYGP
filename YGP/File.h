@@ -1,7 +1,7 @@
 #ifndef DIRENTRY_H
 #define DIRENTRY_H
 
-//$Id: File.h,v 1.1 2001/04/02 20:57:29 markus Exp $
+//$Id: File.h,v 1.2 2001/08/14 23:42:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ class DirectorySearch;
 
 typedef struct dirEntry {
    friend class DirectorySearch;
+   friend class RemoteDirSearch;
 
    dirEntry () : userExec (false)
       { *entry.d_name = '\0'; }
@@ -106,11 +107,19 @@ typedef struct dirEntry {
    struct stat   status;
 
    bool  userExec;
+
+   void path (const char* path) { path_ = path; }
+   void path (const std::string& path) { path_ = path; }
+   void name (const char* name) { strcpy (entry.d_name, name); }
+   void name (const std::string& name) { strcpy (entry.d_name, name.c_str ()); }
+   void size (unsigned long size) { status.st_size = size; }
+   void time (time_t time) { status.st_mtime = time; }
 } dirEntry;
 #elif SYSTEM == WINDOWS
 
 typedef struct dirEntry : public WIN32_FIND_DATA {
    friend class DirectorySearch;
+   friend class RemoteDirSearch;
 
    dirEntry () { }
    dirEntry (const dirEntry& o);
@@ -142,6 +151,13 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
 
  private:
    std::string path_;
+
+   void path (const char* path) { path_ = path; }
+   void path (const std::string& path) { path_ = path; }
+   void name (const char* name) {
+   void name (const std::string& name) { strcpy (cFileName, name.c_str ()); }
+   void size (unsigned long size) { nFileSizeLow = size; }
+   void time (time_t) { assert (0); }
 } dirEntry;
 
 #else
