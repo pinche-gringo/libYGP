@@ -1,4 +1,4 @@
-<!-- $Id: SmartPtr.html,v 1.2 2000/04/15 02:05:25 Markus Rel $ -->
+<!-- $Id: SmartPtr.html,v 1.3 2001/10/20 00:25:58 markus Exp $ -->
 
 <html>
   <head>
@@ -11,42 +11,51 @@
     <meta name="DC.Rights" content="Anticopyright (A) 2000, distributed under the GNU General Public License">
   </head>
 
-  <body>
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td></tr>
     </table>
 
     <h1 align="center">Class SmartPtr&lt;T&gt;</h1>
-    <p>Derived from: <i>None</i></p>
+    <p>Derived from:
+      <i>none</i>
+      <br>
+      Derived by:
+      <i>none</i></p>
 
-    <p>Header-file: SmartPtr.h</p>
+    <p>#include &lt;SmartPtr.h&gt;</p>
 
     <hr noshade>
     <h2>Description</h2>
     <p>Smart-pointer-class; its referenced object is freed when the smart
       pointer-object is released.</p>
+
     <p>In counterpart to auto_ptr there is <b>no</b> ownership handling (and
       therefor no copy-constructor nor an assignment-operator).</p>
+
     <p><b>Note</b>: This class is (intented to be) simple. Consider this when
       using it!</p>
     <hr noshade>
     <table border="0">
-      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
-      <tr valign="top"><td></td><td><a href="SmartPtr.html#SmartPtr">SmartPtr</a></td>
-        <td>(T* pValue = NULL)</td></tr>
-      <tr valign="top"><td>virtual</td>
-        <td><a href="SmartPtr.html#~SmartPtr">~SmartPtr</a></td><td>()</td></tr>
-
-      <tr valign="top"><td><a href="SmartPtr.html">SmartPtr</a>&amp;</td>
-        <td><a href="SmartPtr.html#operator=">operator=</a></td>
-        <td>(T* pValue)</td></tr>
-
-      <tr valign="top"><td>T*</td>
-        <td><a href="SmartPtr.html#operator-g">operator-&gt;</a></td><td>() const</td></tr>
-      <tr valign="top"><td>T&amp;</td>
-        <td><a href="SmartPtr.html#operator*">operator*</a></td><td>() const</td></tr>
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td></td>
-        <td><a href="SmartPtr.html#operatorT*">operator T*</a></td><td>() const</td></tr>
+        <td><a href="SmartPtr.html#SmartPtr"><b>SmartPtr</b></a></td>
+        <td><tt>(<font color="navy">T</font>* <font color="blue">pValue</font> = NULL)</tt>;</td></tr>
+
+      <tr valign="top"><td><a href="SmartPtr.html"><b>SmartPtr</b></a>&amp;</td>
+        <td><a href="SmartPtr.html#operator="><tt><font color="black"><b>operator</b></font>=</a></td>
+        <td>(<font color="navy">T</font>* <font color="blue">pValue</font>)</td></tr>
+
+      <tr valign="top"><td><tt><font color="navy">T</font>*</tt></td>
+        <td><a href="SmartPtr.html#operator-g"><tt><font color="black"><b>operator</b></font>-&gt;</tt></a></td>
+        <td>() const</td></tr>
+      <tr valign="top"><td><tt><font color="navy">T</font>&amp;</tt></td>
+        <td><a href="SmartPtr.html#operator*"><tt><font color="black"><b>operator</b></font>*</a></td><td>() const</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="SmartPtr.html#operatorT*"><tt><font color="black"><b>operator</b></font> T*</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td>virtual</td>
+        <td><a href="SmartPtr.html#~SmartPtr"><b>~SmartPtr</b></a></td><td>()</td></tr>
     </table>
 
     <hr noshade>
