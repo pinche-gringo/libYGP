@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: RDirSrchSrv.html,v 1.4 2002/04/11 19:05:48 markus Rel $ -->
+<!-- $Id: RDirSrchSrv.html,v 1.5 2002/12/08 18:21:12 markus Exp $ -->
 
 <html>
   <head>
@@ -34,41 +34,41 @@
 
     <p>Supported commands are (following the answers in case of success):</p>
     <ul break>
-      <li><b>-&gt;</b>: <font color="blue">Check</font>="&lt;<i>file</i>&gt;"<br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
-      <li><b>-&gt;</b>: <font color="blue">Find</font>="&lt;<i>file</i>&gt;";<font color="purple">Attr=&lt;</font><i>attr</i>&gt;</br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0;File</font>="&lt;<i>file</i>&gt;";<font color="purple">Size</font>=&lt;<i>size</i>&gt;;<font color="purple">Time</font>=&lt;<i>timestamp</i>&gt;;<font color="purple">Attr</font>=&lt;<i>attributes</i>&gt;</li>
-      <li><b>-&gt;</b>: <font color="blue">Next</font></br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0;File</font>="&lt;<i>file</i>&gt;";<font color="purple">Size</font>=&lt;<i>size</i>&gt;;<font color="purple">Time</font>=&lt;<i>timestamp</i>&gt;;<font color="purple">Attr</font>=&lt;<i>attributes</i>&gt;</li>
-      <li><b>-&gt;</b>: <font color="blue">End</font><br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
-      <li><b>-&gt;</b>: <font color="blue">Open</font>="&lt;file&gt;";<font color="purple">Mode</font>=&lt;mode&gt;<br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0;<font color="purple">ID</font></font>=&lt;ID&gt;</li>
-      <li><b>-&gt;</b>: <font color="blue">Read</font>=&lt;ID&gt;;<font color="purple">Length</font>=&lt;length&gt;<br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0;<font color="purple">Length</font>=&lt;length&gt;;<font color="purple">Data</font>=&lt;data&gt;</li>
-      <li><b>-&gt;</b>: <font color="blue">Write</font>=&lt;ID&gt;;<font color="purple">Length</font>=&lt;length&gt;;<font color="purple">Data</font>=&lt;data&gt;<br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
-      <li><b>-&gt;</b>: <font color="blue">EOF</font>=&lt;ID&gt;<br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
-      <li><b>-&gt;</b>: <font color="blue">Close</font>=&lt;ID&gt;<br>
-          <b>&lt;-</b>: <font color="purple">RC</font>=0</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Check</span>="&lt;<i>file</i>&gt;"<br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Find</span>="&lt;<i>file</i>&gt;";<span style="color:purple;">Attr=&lt;</span><i>attr</i>&gt;</br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0;File</span>="&lt;<i>file</i>&gt;";<span style="color:purple;">Size</span>=&lt;<i>size</i>&gt;;<span style="color:purple;">Time</span>=&lt;<i>timestamp</i>&gt;;<span style="color:purple;">Attr</span>=&lt;<i>attributes</i>&gt;</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Next</span></br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0;File</span>="&lt;<i>file</i>&gt;";<span style="color:purple;">Size</span>=&lt;<i>size</i>&gt;;<span style="color:purple;">Time</span>=&lt;<i>timestamp</i>&gt;;<span style="color:purple;">Attr</span>=&lt;<i>attributes</i>&gt;</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">End</span><br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Open</span>="&lt;file&gt;";<span style="color:purple;">Mode</span>=&lt;mode&gt;<br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0;<span style="color:purple;">ID</span></span>=&lt;ID&gt;</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Read</span>=&lt;ID&gt;;<span style="color:purple;">Length</span>=&lt;length&gt;<br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0;<span style="color:purple;">Length</span>=&lt;length&gt;;<span style="color:purple;">Data</span>=&lt;data&gt;</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Write</span>=&lt;ID&gt;;<span style="color:purple;">Length</span>=&lt;length&gt;;<span style="color:purple;">Data</span>=&lt;data&gt;<br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">EOF</span>=&lt;ID&gt;<br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0</li>
+      <li><b>-&gt;</b>: <span style="color:blue;">Close</span>=&lt;ID&gt;<br>
+          <b>&lt;-</b>: <span style="color:purple;">RC</span>=0</li>
     </ul>
 
     <p>Errors are reported in the following format:</p>
 
     <ul>
-      <li><b>&lt;-</b>: RC=&lt;<i>status</i>&gt;[;E=&lt;<i>errortext</i>&gt;]</li>
+      <li><b>&lt;-</b>: <span style="color:purple;">RC</span>=&lt;<i>status</i>&gt;[;<span style="color:purple;">E</span>=&lt;<i>errortext</i>&gt;]</li>
     </ul>
 
     <p>RC=0 always means, that the commands completed
-      successfully. This is also true for the <font color="blue">Check</font>-
-      or the <font color="blue">EOF</font>- command; RC=0 means in that case,
+      successfully. This is also true for the <span style="color:blue;">Check</span>-
+      or the <span style="color:blue;">EOF</span>- command; RC=0 means in that case,
       that the file has been found (respectively is at EOF)!</p>
 
     <p>If in case of an error there is a following description the error is an
       unexpected one (in counterpart to errors which might happen, like for the
-      the <font color="blue">Check</font>-command in case the filename is not
-      valid or for the the <font color="blue">Next</font>-command when there is
+      the <span style="color:blue;">Check</span>-command in case the filename is not
+      valid or for the the <span style="color:blue;">Next</span>-command when there is
       no more matching file.</p>
 
     <hr noshade>
@@ -79,7 +79,7 @@
         <td><tt>()</tt>;</td></tr>
       <tr valign="top"><td><tt>int</tt> </td>
         <td><a href="RDirSrchSrv.html#performCommands"><b>performCommands</b></a></td>
-        <td><tt>(<tt><font color="purple">int</font></tt> <tt><font color="blue">socket</font></tt>) throw (<font color="navy">domain_error</font>)</tt>;</td></tr>
+        <td><tt>(<tt><span style="color:purple;">int</span></tt> <tt><span style="color:blue;">socket</span></tt>) throw (<span style="color:navy;">std::domain_error</span>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="RDirSrchSrv.html#~RemoteDirSearchSrv"><b>~RemoteDirSearchSrv</b></a></td>
         <td><tt>()</tt>;</td></tr>
@@ -88,18 +88,28 @@
     <hr noshade>
     <h2>Member descriptions</h2>
 
-    <h4>Management functions</h4>
-    <pre><a name="RemoteDirSearchSrv"></a>RemoteDirSearchSrv ();</pre>
+    <h3 style="color:navy;">Management functions</h3>
+    <pre><a name="RemoteDirSearchSrv"></a> <b>RemoteDirSearchSrv</b> ()</pre>
     <dl>
-      <dd>Defaultconstructor</dd>
+      <dd><p>Defaultconstructor</p></dd>
     </dl>
-    <pre><a name="~RemoteDirSearchSrv"></a>virtual ~RemoteDirSearchSrv ();</pre>
-
-    <pre><a name="performCommand"></a>int performCommands (int socket) throw (domain_error);</pre>
+    <hr>
+    <pre><a name="~RemoteDirSearchSrv"></a> <b>~RemoteDirSearchSrv</b> ()</pre>
     <dl>
-      <dd>Handles the commands send from the client; the respectative action is performed
-        and data is returned accordingly.</dd>
+      <dd><p>Destructor</p></dd>
     </dl>
-
+    <hr>
+    <pre><a name="performCommands"></a>int <b>performCommands</b> (int socket) throw (std::domain_error)</pre>
+    <dl>
+      <dd><p>Handles the commands send from the client; the respectative action is performed
+        and data is returned accordingly.Reads and executes commands send by a client </p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>socket</code>: Socket for communication<dd>
+      </dl><dd>
+      <dd><dl><dt><b>Returns</b></dt>
+          <dd>int: 0 in case of end-of-communication; 99 after END-command</dd></dl></dd>
+      <dd><dl><dt><b>Throws</b></dt>
+          <dd>std::domain_error: In case of a communication problem</dd></dl></dd>
+    </dl>
   </body>
 </html>
