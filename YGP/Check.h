@@ -1,7 +1,7 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-//$Id: Check.h,v 1.1 1999/11/13 01:18:07 Markus Rel $
+//$Id: Check.h,v 1.2 2002/07/08 03:29:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,66 +30,64 @@
 #undef Check8
 #undef Check9
 
-// NDEBUG defined means no checks at all
-#ifdef NDEBUG
+// CHECK undefined means no checks at all
+#if !defined CHECK || defined (NDEBUG)
 #define Check(expr)   0
-#undef DEBUG
-#define DEUBG         0
 #else
 int check (const char* expr, const char* file, unsigned int line);
 
 #define Check(expr)   ((expr) ? 0 : check (__STRING(expr), __FILE__, __LINE__))
 #endif
 
-#if DEBUG > 0
+#if CHECK > 0
 #define Check1(expr)  Check(expr)
 #else
 #define Check1(expr)  0
 #endif
 
-#if DEBUG > 1
+#if CHECK > 1
 #define Check2(expr)  Check(expr)
 #else
 #define Check2(expr)  0
 #endif
 
-#if DEBUG > 2
+#if CHECK > 2
 #define Check3(expr)  Check(expr)
 #else
 #define Check3(expr)  0
 #endif
 
-#if DEBUG > 3
+#if CHECK > 3
 #define Check4(expr)  Check(expr)
 #else
 #define Check4(expr)  0
 #endif
 
-#if DEBUG > 4
+#if CHECK > 4
 #define Check5(expr)  Check(expr)
 #else
 #define Check5(expr)  0
 #endif
 
-#if DEBUG > 5
+#if CHECK > 5
 #define Check6(expr)  Check(expr)
 #else
 #define Check6(expr)  0
 #endif
 
-#if DEBUG > 6
+#if CHECK > 6
 #define Check7(expr)  Check(expr)
 #else
 #define Check7(expr)  0
 #endif
 
-#if DEBUG > 7
+#if CHECK > 7
 #define Check8(expr)  Check(expr)
 #else
 #define Check8(expr)  0
 #endif
 
-#if DEBUG > 8
+#if CHECK > 8
 #define Check9(expr)  Check(expr)
 #else
 #define Check9(expr)  0
