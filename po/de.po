@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.11 $)\n"
-"POT-Creation-Date: 2002-10-10 00:56-0500\n"
+"Project-Id-Version: General 0.6.01 ($Revision: 1.12 $)\n"
+"POT-Creation-Date: 2002-11-03 20:22-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -93,23 +93,23 @@ msgstr "Allgemeiner Fehler"
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
 
-#: Common/File.cpp:183
+#: Common/File.cpp:185
 #, ycp-format
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
-#: Common/File.cpp:197
+#: Common/File.cpp:199
 #, ycp-format
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
 #. Exception only if *no* char has been read
-#: Common/File.cpp:215
+#: Common/File.cpp:217
 #, ycp-format
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Fehler beim Lesen von Datei '%1'! Ursache: %2"
 
-#: Common/File.cpp:234
+#: Common/File.cpp:236
 #, ycp-format
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Fehler beim Schreiben in Datei '%1'! Ursache: %2"
@@ -127,44 +127,44 @@ msgid "Empty region"
 msgstr "Leere Aufzählung"
 
 #. Define constant values; don't skip white-spaces after parsing
-#: Common/INIFile.cpp:37
+#: Common/INIFile.cpp:42
 msgid "Start of section ([)"
 msgstr "Beginn einer Sektion ([)"
 
-#: Common/INIFile.cpp:38
+#: Common/INIFile.cpp:43
 msgid "End of section (])"
 msgstr "Ende einer Sektion (])"
 
-#: Common/INIFile.cpp:39
+#: Common/INIFile.cpp:44
 msgid "Equal-sign (=)"
 msgstr "Gleichheitszeichen (=)"
 
-#: Common/INIFile.cpp:53 Common/INIFile.cpp:191
+#: Common/INIFile.cpp:58 Common/INIFile.cpp:197
 msgid "Section-header"
 msgstr "Sektionskopf"
 
-#: Common/INIFile.cpp:54
+#: Common/INIFile.cpp:59
 msgid "Attribute"
 msgstr "Attribut"
 
-#: Common/INIFile.cpp:55 Common/INIFile.cpp:192
+#: Common/INIFile.cpp:60 Common/INIFile.cpp:198
 msgid "Name of section"
 msgstr "Name einer Sektion"
 
-#: Common/INIFile.cpp:56
+#: Common/INIFile.cpp:61
 msgid "Identifier (key)"
 msgstr "Kennung (Schlüssel)"
 
-#: Common/INIFile.cpp:57
+#: Common/INIFile.cpp:62
 msgid "Value"
 msgstr "Wert"
 
-#: Common/INIFile.cpp:203
+#: Common/INIFile.cpp:209
 #, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "Konnte INI-Datein '%1' nicht öffnen! Ursache: %2"
 
-#: Common/IVIOAppl.cpp:242
+#: Common/IVIOAppl.cpp:256
 #, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-Fehler: Die Option '%' ist nicht eindeutig"
@@ -173,27 +173,27 @@ msgstr "-Fehler: Die Option '%' ist nicht eindeutig"
 #. endif option matches
 #. end-while
 #. No long-option found
-#: Common/IVIOAppl.cpp:251
+#: Common/IVIOAppl.cpp:265
 #, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
-#: Common/Parse.cpp:264
+#: Common/Parse.cpp:247
 #, ycp-format
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
-#: Common/Parse.cpp:651
+#: Common/Parse.cpp:781
 #, ycp-format
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
-#: Common/Parse.cpp:651
+#: Common/Parse.cpp:781
 #, c-format, ycp-format
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
-#: Common/Parse.cpp:767
+#: Common/Parse.cpp:896
 #, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
@@ -214,45 +214,45 @@ msgstr "Ungültiger Befehl"
 msgid "Invalid arguments: "
 msgstr "Ungültige Argumente: "
 
-#: Common/Socket.cpp:68 Common/Socket.cpp:80 Common/Socket.cpp:110
-#: Common/Socket.cpp:134
+#: Common/Socket.cpp:74 Common/Socket.cpp:86 Common/Socket.cpp:116
+#: Common/Socket.cpp:140
 msgid "Can't create socket"
 msgstr "Kann keinen Socket (für die Kommunikation) erzeugen"
 
-#: Common/Socket.cpp:163
+#: Common/Socket.cpp:169
 msgid "Can't bind socket"
 msgstr "Fehler beim Verbinden zu Socket"
 
-#: Common/Socket.cpp:166
+#: Common/Socket.cpp:172
 msgid "Can't listen on socket"
 msgstr "Fehler beim Warten auf Daten von Socket"
 
-#: Common/Socket.cpp:187
+#: Common/Socket.cpp:193
 #, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
 "Service-name"
 
-#: Common/Socket.cpp:219 Common/Socket.cpp:247 Common/Socket.cpp:265
+#: Common/Socket.cpp:225 Common/Socket.cpp:253 Common/Socket.cpp:271
 msgid "Error reading data"
 msgstr "Fehler beim Lesen von Daten"
 
-#: Common/Socket.cpp:283
+#: Common/Socket.cpp:289
 msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
-#: Common/Socket.cpp:304
+#: Common/Socket.cpp:310
 #, ycp-format
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
-#: Common/Socket.cpp:312
+#: Common/Socket.cpp:318
 #, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr "Kann nicht zum Server '%1' verbinden"
 
-#: Common/Socket.cpp:329
+#: Common/Socket.cpp:335
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
 

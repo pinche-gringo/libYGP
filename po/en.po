@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.9 $)\n"
-"POT-Creation-Date: 2002-10-10 00:56-0500\n"
+"Project-Id-Version: General 0.6.01 ($Revision: 1.10 $)\n"
+"POT-Creation-Date: 2002-11-03 20:22-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -93,23 +93,23 @@ msgstr ""
 msgid "`%1', position %2: %3"
 msgstr ""
 
-#: Common/File.cpp:183
+#: Common/File.cpp:185
 #, ycp-format
 msgid "Error opening file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:197
+#: Common/File.cpp:199
 #, ycp-format
 msgid "Error closing file `%1'! Reason: %2"
 msgstr ""
 
 #. Exception only if *no* char has been read
-#: Common/File.cpp:215
+#: Common/File.cpp:217
 #, ycp-format
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:234
+#: Common/File.cpp:236
 #, ycp-format
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr ""
@@ -127,44 +127,44 @@ msgid "Empty region"
 msgstr ""
 
 #. Define constant values; don't skip white-spaces after parsing
-#: Common/INIFile.cpp:37
+#: Common/INIFile.cpp:42
 msgid "Start of section ([)"
 msgstr ""
 
-#: Common/INIFile.cpp:38
+#: Common/INIFile.cpp:43
 msgid "End of section (])"
 msgstr ""
 
-#: Common/INIFile.cpp:39
+#: Common/INIFile.cpp:44
 msgid "Equal-sign (=)"
 msgstr ""
 
-#: Common/INIFile.cpp:53 Common/INIFile.cpp:191
+#: Common/INIFile.cpp:58 Common/INIFile.cpp:197
 msgid "Section-header"
 msgstr ""
 
-#: Common/INIFile.cpp:54
+#: Common/INIFile.cpp:59
 msgid "Attribute"
 msgstr ""
 
-#: Common/INIFile.cpp:55 Common/INIFile.cpp:192
+#: Common/INIFile.cpp:60 Common/INIFile.cpp:198
 msgid "Name of section"
 msgstr ""
 
-#: Common/INIFile.cpp:56
+#: Common/INIFile.cpp:61
 msgid "Identifier (key)"
 msgstr ""
 
-#: Common/INIFile.cpp:57
+#: Common/INIFile.cpp:62
 msgid "Value"
 msgstr ""
 
-#: Common/INIFile.cpp:203
+#: Common/INIFile.cpp:209
 #, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr ""
 
-#: Common/IVIOAppl.cpp:242
+#: Common/IVIOAppl.cpp:256
 #, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr ""
@@ -173,27 +173,27 @@ msgstr ""
 #. endif option matches
 #. end-while
 #. No long-option found
-#: Common/IVIOAppl.cpp:251
+#: Common/IVIOAppl.cpp:265
 #, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr ""
 
-#: Common/Parse.cpp:264
+#: Common/Parse.cpp:247
 #, ycp-format
 msgid "Expected %1, found: '%2'"
 msgstr ""
 
-#: Common/Parse.cpp:651
+#: Common/Parse.cpp:781
 #, ycp-format
 msgid "Error in sequence %1; Expected: %2"
 msgstr ""
 
-#: Common/Parse.cpp:651
+#: Common/Parse.cpp:781
 #, c-format, ycp-format
 msgid "Error in sequence %1"
 msgstr ""
 
-#: Common/Parse.cpp:767
+#: Common/Parse.cpp:896
 #, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr ""
@@ -214,43 +214,43 @@ msgstr ""
 msgid "Invalid arguments: "
 msgstr ""
 
-#: Common/Socket.cpp:68 Common/Socket.cpp:80 Common/Socket.cpp:110
-#: Common/Socket.cpp:134
+#: Common/Socket.cpp:74 Common/Socket.cpp:86 Common/Socket.cpp:116
+#: Common/Socket.cpp:140
 msgid "Can't create socket"
 msgstr "Can't create socket (for communication)"
 
-#: Common/Socket.cpp:163
+#: Common/Socket.cpp:169
 msgid "Can't bind socket"
 msgstr ""
 
-#: Common/Socket.cpp:166
+#: Common/Socket.cpp:172
 msgid "Can't listen on socket"
 msgstr "Can't listen on socket (for communication)"
 
-#: Common/Socket.cpp:187
+#: Common/Socket.cpp:193
 #, ycp-format
 msgid "Port '%1' neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 
-#: Common/Socket.cpp:219 Common/Socket.cpp:247 Common/Socket.cpp:265
+#: Common/Socket.cpp:225 Common/Socket.cpp:253 Common/Socket.cpp:271
 msgid "Error reading data"
 msgstr ""
 
-#: Common/Socket.cpp:283
+#: Common/Socket.cpp:289
 msgid "Error accepting connection"
 msgstr ""
 
-#: Common/Socket.cpp:304
+#: Common/Socket.cpp:310
 #, ycp-format
 msgid "Can't resolve name '%1'"
 msgstr ""
 
-#: Common/Socket.cpp:312
+#: Common/Socket.cpp:318
 #, ycp-format
 msgid "Can't connect to server '%1'"
 msgstr ""
 
-#: Common/Socket.cpp:329
+#: Common/Socket.cpp:335
 msgid "Error sending data"
 msgstr ""
 
