@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.11 2002/04/16 20:23:17 markus Exp $
+//$Id: CRegExp.h,v 1.12 2002/04/18 03:53:30 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -124,10 +124,21 @@ class RegularExpression : public IRegularExpression {
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
 #ifndef HAVE_REGEX_H
-   bool compRegion (const char*& pAktPos, const std::string& region) const;
-   bool compGroup (const char*& pAktPos, const std::string& group);
-   bool compChar (const char*& pAktPos, const std::string& ch) const;
-   bool compEscChar (const char*& pAktPos, const std::string& ch) const;
+   bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
+   bool doCompGroup (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+   bool doCompChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
+   bool doCompEscChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare) const;
+   bool compRegion (const char*& pAktRegExp, const char*& pCompare);
+   bool compGroup (const char*& pAktRegExp, const char*& pCompare);
+   bool compChar (const char*& pAktRegExp, const char*& pCompare);
+   bool compEscChar (const char*& pAktRegExp, const char*& pCompare);
+
+   typedef bool (RegularExpression::*MFCOMPARE) (const char*&, const char*,
+                                                 const char*&) const;
+
+   const char* getRepeatFactor (const char* pRE, int& min, int& max) const;
+   bool compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
+                       const char* pEndRE, const char*& pCompare);
 #endif
 
  private:
