@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.3 2002/11/10 23:06:43 markus Exp $
+//$Id: Entity.h,v 1.4 2002/12/15 22:17:17 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,12 @@
 
 
 // Baseclass for classes holding (a list of) attributes
+//
+// The descrutor frees all managed attributes, so make sure to create
+// hem on the heap.
+//
+// Note that you can automatically manage the handled attributes with the
+// utility mgeni (in the bin subdirectory).
 class Entity {
    friend class INIFile;
 
@@ -51,7 +57,7 @@ class Entity {
    // Note that this is not portable!
    template<class AttrType>
       void addAttribute (const char* name, AttrType& attr) {
-      assert (name);
+      Check1 (name);
       addAttribute (new Attribute<AttrType> (name, attr));  }
    template<class AttrType> 
       void addAttribute (const std::string& name, AttrType& attr) {

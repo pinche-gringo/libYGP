@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.9 2002/03/23 20:47:29 markus Rel $
+//$Id: Tokenize.h,v 1.10 2002/12/15 22:22:01 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,14 @@
 
 
 // Class to split a string into sub-nodes
+//
+// This sub-strings are extracted from the beginning of the string (or the
+// character behind the last found sub-string) to a passed seperator (or to the
+// end of string). The seperator-character is not included in the result.
+//
+// If no further sub-string is available an empty string is returned. That also
+// means that two seperators behind each other are silently skipped and the
+// next following sub-string (if any) is returned.
 class Tokenize {
  public:
    //Section manager-functions

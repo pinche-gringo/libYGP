@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.3 2002/11/10 23:05:25 markus Exp $
+//$Id: Entity.cpp,v 1.4 2002/12/15 22:17:17 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -39,8 +39,7 @@ Entity::~Entity () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find an attribute with the specified name in the
-//            entity
+//Purpose   : Tries to find an attribute with the specified name.
 //Parameters: name: Name of attribute to find
 //Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/
@@ -54,8 +53,7 @@ const IAttribute* Entity::findAttribute (const char* name) const {
 }
    
 /*--------------------------------------------------------------------------*/
-//Purpose   : Tries to find an attribute with the specified name in the
-//            section
+//Purpose   : Tries to find an attribute with the specified name.
 //Parameters: name: Name of attribute to find
 //Returns   : IAttribute*: Pointer to attribute or NULL (if not found)
 /*--------------------------------------------------------------------------*/

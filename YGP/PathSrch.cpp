@@ -1,11 +1,11 @@
-//$Id: PathSrch.cpp,v 1.5 2002/11/04 00:55:12 markus Rel $
+//$Id: PathSrch.cpp,v 1.6 2002/12/15 22:18:28 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 9.5.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -46,12 +46,14 @@ const char PathSearch::PATHSEPARATOR = ';';
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Performs tilde-expansion on the input
-//            The expansion is only done under the following conditions
+//Purpose   : Performs tilde-expansion on the input.
+//
+//            The expansion is only done under the following conditions:
 //              - The string starts with a tilde
 //              - None of the characters up to the next whitespace or slash (/)
 //                is quoted
 //              - The following characters (if any) specify a user-name
+//
 //            If those conditions apply, a single tilde is replaced with the
 //            contents of the HOME-environment variable (UNIX) or the combination
 //            of HOMEDRIVE and HOMEPATH (Windows). A tilde with following name
