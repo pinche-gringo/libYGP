@@ -1,0 +1,83 @@
+<!-- -*-HTML-*- -->
+<!-- $Id: XAbout.html,v 1.1 2002/12/19 04:01:32 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: XAbout</title>
+    <meta name="description" content="Documentation of XAbout-class">
+    <meta name="keywords" content="Documentation, Docu, XAbout, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2002-12-18">
+    <meta name="DC.Rights" content="Anticopyright (A) 2002, distributed under the GNU General Public License">
+  </head>
+
+  <body bgcolor="#F0F0F0" text="#000000" link="#0000FF" vlink="#000077" alink="#FF0000">
+    <table align=center border=0 cellspacing=10>
+      <tr><td><a href="index.html">Class Index</a></td>
+      <td><a href="cross_index.html">Cross Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class XAbout</h1>
+    <p>Derived from
+      Dialog
+      <br>
+      Derived by: <i>none</i></p>
+
+    <p>#include &lt;XAbout.h&gt;</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class to show a dialog with about-information for a program. It is assumed,
+      that the program is distributed under the GNU public license.</p>
+    <p>Furthermore it is possible to specify icons for programmer and application.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr><td colspan="3"><h3>public function member index</h3></td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XAbout.html#XAbout"><b>XAbout</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:navy;">string</span></tt>& <tt><span style="color:blue;">author</span></tt>, <tt>const</tt> <tt><span style="color:navy;">string</span></tt>& <tt><span style="color:blue;">program</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XAbout.html#setIconAuthor"><b>setIconAuthor</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt>const</tt>* <tt><span style="color:blue;">iconData</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><span style="color:purple;">void</span></tt></tt> </td>
+        <td><a href="XAbout.html#setIconProgram"><b>setIconProgram</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><span style="color:purple;">char</span></tt>* <tt>const</tt>* <tt><span style="color:blue;">iconData</span></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt></tt> </td>
+        <td><a href="XAbout.html#~XAbout"><b>~XAbout</b></a></td>
+        <td><tt>()</tt>;</td></tr>
+    </table>
+    <hr noshade>
+    <h2>Member descriptions</h2>
+    <pre><a name="XAbout"></a> <b>XAbout</b> (const string&amp; author, const string&amp; program)</pre>
+    <dl>
+      <dd><p>Constructor; adds all controls to the dialog and shows it</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>author</code>: Author, copyright, ... of the program displayed in the client<dd>
+          <dd><code>program</code>: Name and version of the program; displaced in the title<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="~XAbout"></a> <b>~XAbout</b> ()</pre>
+    <dl>
+      <dd><p>Destructor</p></dd>
+    </dl>
+    <hr>
+    <pre><a name="setIconProgram"></a>void <b>setIconProgram</b> (const char* const* pIconData)</pre>
+    <dl>
+      <dd><p>Sets the icon for the program (in xpm-format)</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>picProgram</code>: Pixmap representing program<dd>
+      </dl><dd>
+    </dl>
+    <hr>
+    <pre><a name="setIconAuthor"></a>void <b>setIconAuthor</b> (const char* const* pIconData)</pre>
+    <dl>
+      <dd><p>Sets the icon for the programmer (in xpm-format)</p></dd>
+      <dd><dl><dt><b>Parameters</b></dt>
+          <dd><code>pIconData</code>: Pointer to xpm-data for pixmap representing the programmer<dd>
+      </dl><dd>
+    </dl>
+  </body>
+</html>
