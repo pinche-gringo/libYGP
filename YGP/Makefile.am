@@ -19,7 +19,7 @@ libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
 		   Socket.cpp RDirSrch.cpp File.cpp \
 		   RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp IDirSrch.cpp \
 		   RemoteFile.cpp Entity.cpp Thread.cpp PathSrch.cpp\
-		   XDirSrch.cpp Check.cpp Process.cpp
+		   XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h \
@@ -27,7 +27,8 @@ include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		CRegExp.h RegExp.h Log.h StackTrc.h Socket.h \
 		RDirSrch.h IDirSrch.h File.h RDirSrchSrv.h AssParse.h \
 		Attribute.h AttrParse.h RemoteFile.h Entity.h Internal.h \
-		Thread.h Mutex.h INIFile.h XDirSrch.h Check.h Process_.h
+		Thread.h Mutex.h INIFile.h XDirSrch.h Check.h Process_.h \
+		ConnMgr.h
 
 EXTRA_DIST=YGP.pc.in
 
