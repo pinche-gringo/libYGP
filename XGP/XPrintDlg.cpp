@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.9 2002/07/08 03:38:47 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.10 2002/12/25 05:11:32 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XPrintDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -44,9 +44,9 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; connects the controls with methods
-//Parameters: pNotify: Object to notify of selected file
-//            callback: Method of pNotify to call after file is selected
+//Purpose   : Constructor; creates a small dialog to enter the print command.
+//Parameters: pNotify: Object to notify of the print command
+//            callback: Method of pNotify to call for printing
 /*--------------------------------------------------------------------------*/
 XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
    : Dialog (), pCaller (pNotify), callerMethod (callback)
@@ -61,10 +61,10 @@ XPrintDialog::XPrintDialog (Object* pNotify, const PACTION callback)
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; connects the controls with methods
-//Parameters: title: Title of dialog
-//            pNotify: Object to notify of selected file
-//            callback: Method of pNotify to call after file is selected
+//Purpose   : Constructor; creates a small dialog to enter the print command.
+//Parameters: castitem: GTK+ dialog to use
+//            pNotify: Object to notify of the print command
+//            callback: Method of pNotify to call for printing
 /*--------------------------------------------------------------------------*/
 XPrintDialog::XPrintDialog (GtkDialog* castitem, Object* pNotify,
                             const PACTION callback)
@@ -126,7 +126,7 @@ void XPrintDialog::init () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Performs the action of the selected button
-//Parameters: action: ID of pressed button
+//Parameters: action: Id of pressed button
 /*--------------------------------------------------------------------------*/
 void XPrintDialog::command (commandID id) {
    TRACE9 ("XPrintDialog::command: " << id);

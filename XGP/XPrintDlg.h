@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.5 2002/04/11 18:33:46 markus Rel $
+//$Id: XPrintDlg.h,v 1.6 2002/12/25 05:11:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,8 +44,9 @@ typedef SmartPtr<Entry>  PEntry;
 typedef SmartPtr<Button> PButton;
 
 
-// Class to select file(s) to in- or exclude; files can either entered or
-// selected
+// Class to display a dialog to enter the command to print some text.
+//
+// This is a very basic interface; only supporting the line printer.
 class XPrintDialog : public Dialog {
  public:
    typedef void (Object::*PACTION)(ofstream&);
