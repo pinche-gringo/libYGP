@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.39 2000/05/23 22:58:33 Markus Exp $
+// $Id: Test.cpp,v 1.40 2000/05/30 21:22:16 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -39,6 +39,21 @@
 #  include <strstrea.h>
 #endif
 
+
+#define CHECK(x) { if (!(x)) cout << "    -> Failed (" #x "; line " << __LINE__ << ")\n"; }
+
+#define VERBOSE
+#undef VERBOSE
+
+#ifdef VERBOSE
+#  define DEBUG 1
+#  define check(x) { cout << "Checking: " #x "\n"; CHECK(x) }
+#else
+#  define DEBUG 0
+#  define check(x) CHECK(x)
+#endif
+
+
 #include "Parse.h"
 #include "Trace_.h"
 #include "CRegExp.h"
@@ -56,28 +71,14 @@
 #include "PathDirSrch.h"
 
 
-#define CHECK(x) { if (!(x)) cout << "    -> Failed (" #x "; line " << __LINE__ << ")\n"; }
-
-#define VERBOSE
-#undef VERBOSE
-#ifdef VERBOSE
-#  define check(x) { cout << "Checking: " #x "\n"; CHECK(x) }
-#else
-#  define check(x) CHECK(x)
-#endif
-
 class test {
  public:
    const char* n;
    test (const char* name = "???") : n (name) {
-#ifdef VERBOSE
-      cout << "Construct " << n << '\n';
-#endif
+      TRACE1 ("Construct " << n);
    }
    ~test () {
-#ifdef VERBOSE
-      cout << "Destruct " << n << '\n';
-#endif
+      TRACE1 ("Destruct " << n);
    }
 };
 
@@ -114,15 +115,21 @@ class Application : public IVIOApplication {
    static const longOptions lo[];
 
    static int foundNumber (const char* pNumber) {
-#ifdef VERBOSE
-      cout << "Found number: " << pNumber << '\n';
-#endif
+      TRACE1 ("Found number: " << pNumber);
       return ParseObject::PARSE_OK;
+   }
+
+   void removeEscapeChar (std::string& str, char esc = '\\') {
+      int pos (0);
+      while ((pos = str.find (esc, pos)) != -1)
+	str.replace (pos++, 1, 0, '\0');
    }
 
    int foundRegExp (const char* pRegExp) {
       assert (pRegExp);
+      TRACE1 ("Found regular expression: " << pRegExp);
       strRE = pRegExp;
+      removeEscapeChar (strRE);
       regexp = strRE.c_str ();
       return ParseObject::PARSE_OK;
    }
@@ -130,7 +137,9 @@ class Application : public IVIOApplication {
    int foundValue (const char* pValue) {
       assert (pValue);
       check (!strRE.empty ());
+      TRACE1 ("Found value: " << pValue);
       strVal = pValue;
+      removeEscapeChar (strVal);
       match = regexp.matches (pValue);
       return ParseObject::PARSE_OK;
   }
@@ -146,9 +155,7 @@ class Application : public IVIOApplication {
   }
 
    int foundAlpha (const char* pAlpha) {
-#ifdef VERBOSE
-      cout << "Found alpha: " << pAlpha << '\n';
-#endif
+      TRACE1 ("Found alpha: " << pAlpha);
       return ParseObject::PARSE_OK;
    }
 
@@ -172,9 +179,7 @@ bool Application::handleOption (const char option) {
       if (option == 'A')
          check (pValue);
 
-#ifdef VERBOSE
-      cout << "Option param: " << pValue << '\n';
-#endif
+      TRACE1 ("Option param: " << pValue);
    } // endif special option
    return true;
 }
@@ -335,6 +340,11 @@ int Application::perform (int argc, const char* argv[]) {
 
    regExp = "a[^xa-dy]b";
    check (!regExp.checkIntegrity () && regExp.matches ("afb") && !regExp.matches ("axb"));
+
+   regExp = "[[:alpha:]]";
+   check (!regExp.checkIntegrity ());
+   check (regExp.matches ("x"));
+   check (!regExp.matches (":"));
 
    cout << "Testing ADate...\n";
    ADate today;
