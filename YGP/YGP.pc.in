@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: Attr
+Description: Portable general classes
+Version: @VERSION@
+Libs: -L${libdir} -lAttr @LIB_GMP@
+Cflags: -I${includedir}
