@@ -1,14 +1,14 @@
-// $Id: CRegExp.cpp,v 1.12 2003/03/03 06:01:15 markus Rel $
+// $Id: CRegExp.cpp,v 1.13 2003/07/09 00:05:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 2001 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

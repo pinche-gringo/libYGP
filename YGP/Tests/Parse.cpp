@@ -1,14 +1,14 @@
-// $Id: Parse.cpp,v 1.8 2003/07/03 18:05:06 markus Exp $
+// $Id: Parse.cpp,v 1.9 2003/07/09 00:05:02 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Anticopyright (A) 2001
+//COPYRIGHT   : Anticopyright (A) 2001 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
