@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.2 2000/05/09 23:13:25 Markus Exp $
+//$Id: INIFile.h,v 1.3 2000/05/10 22:39:36 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,13 +45,21 @@
 #include "XStream.h"
 
 
+// Macros to define the INI-file-structure.
+#define INIFILE(file)       INIFile _inifile_ (file);
+#define INISECTION(section) INISection section (#section); \
+                            _inifile_.addSection (section);
+#define INIATTR(section, type, attr) INIAttribute<type> attr##_ (#attr, attr); \
+                             section.addAttribute (attr##_);
+#define INIATTR2(section, type, attr, name) INIAttribute<type> name##_ (#name, attr); \
+                             section.addAttribute (name##_);
+#define INIFILE_READ()       _inifile_.read ();
+                            
+
 // Baseclass for attributes inside an INI-file. Derive from it for every type
 // of attribute inside an INI-file.
 class IINIAttribute {
  public:
-   IINIAttribute (const char* name);
-   ~IINIAttribute ();
-
    bool matches (const char* name) const {
       assert (name);
       return !strcmp (name, pName); }
@@ -59,6 +67,10 @@ class IINIAttribute {
    virtual bool assignFromString (const char* value) = 0;
 
    const char* getName () const { return pName; }
+
+ protected:
+   IINIAttribute (const char* name);
+   ~IINIAttribute ();
 
  private:
    IINIAttribute (const IINIAttribute&);
