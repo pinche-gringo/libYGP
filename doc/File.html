@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: File.html,v 1.6 2002/12/15 00:22:12 markus Exp $ -->
+<!-- $Id: File.html,v 1.7 2002/12/17 20:35:18 markus Exp $ -->
 
 <html>
   <head>
@@ -268,27 +268,29 @@
     <h3><span style="color:navy">Query of data</span></h3>
     <pre><a name="path"></a>const char* <b>path</b> () const</pre>
     <dl>
-      <dd><p>Retrieves the path of the file. The call is only valid after a
-        successfull find; then the returned value is never NULL nor empty.</p></dd>
+      <dd><p>Retrieves the path of the file.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const char*: Pointer to (zero-terminated) path of the file</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.
     </dl>
     <hr>
     <pre><a name="name"></a>const char* <b>name</b> () const</pre>
     <dl>
-      <dd><p>Retrieves the name of the file. The call is only valid after a
-        successfull find; then the returned value  is without any
-        path-information, but never NULL nor empty.</p></dd>
+      <dd><p>Retrieves the name of the file.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>const char*: Pointer to (zero-terminated) name of the file</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.
     </dl>
     <hr>
     <pre><a name="size"></a>unsigned long <b>size</b> () const</pre>
     <dl>
-      <dd><p>Retrieves the size of the file. The call is only valid after a
-        successfull find.</p></dd>
+      <dd><p>Retrieves the size of the file.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>unsigned long: Size of the file</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.
     </dl>
     <hr>
     <pre><a name="localtime"></a>void <b>localtime</b> (struct tm&amp; time) const </pre>
@@ -313,19 +315,21 @@
     <hr>
     <pre><a name="time2"></a>void <b>time</b> (struct tm time&amp;) const</pre>
     <dl>
-      <dd><p>Retrieves the modification time of the file in a broken-down format.
-        The call is only valid after a successfull find.</p></dd>
+      <dd><p>Retrieves the modification time of the file in a broken-down format.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
           <dd><code>time</code>: Modification time in broken down time structure<dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.
       </dl><dd>
     </dl>
     <hr>
     <pre><a name="attributes"></a>unsigned long <b>attributes</b> () const</pre>
     <dl>
-      <dd><p>Returns the (system dependend) attributes of the files. The call is only
-        valid after a successfull find.</p></dd>
+      <dd><p>Returns the (system dependend) attributes of the files.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>unsigned long: Attributes of the files (system dependend)</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.
     </dl>
     <hr>
     <pre><a name="throwErrorText"></a>void <b>throwErrorText</b> (const char* error) const throw (std::string)</pre>
@@ -343,10 +347,11 @@
 
     <h3><span style="color:navy">Query of file-type</span></h3>
     <pre><a name="isDirectory"></a>bool <b>isDirecotory</b> () const</pre>
-    <dl><dd><p>Returns true, if the file is a directory.  The call is only valid
-        after a successfull find.</p></dd>
+    <dl><dd><p>Returns true, if the file is a directory.</p></dd>
       <dd><dl><dt><b>Returns</b></dt>
           <dd>bool: True, if the file is executeable</dd></dl></dd>
+      <dd><dl><dt><b>Remarks</b></dt>
+          <dd>The call is only valid after a successfull find.
     </dl>
     <hr>
     <pre><a name="isExecuteable"></a>bool <b>isExecuteable</b> () const</pre>
