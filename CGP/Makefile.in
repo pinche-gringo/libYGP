@@ -1,0 +1,70 @@
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+SHELL = @SHELL@
+
+AS = @AS@
+CC = @CC@
+CPP = @CPP@
+CXX = @CXX@
+
+MAKEINFO = @MAKEINFO@
+PACKAGE = @PACKAGE@
+RELEASE = @RELEASE@
+VERSION = @VERSION@
+
+DEFS = @DEFS@ -I. -I$(srcdir)
+CXXFLAGS = @CXXFLAGS@
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+
+LIBS=-lmico
+
+CORBACOMPILE = mico-shc++
+CORBALINK = mico-shld
+
+top_srcdir =  @top_srcdir@
+top_builddir = ..
+
+subdir=CORBA
+
+OBJECTS=CDirSrch.o CIDirSrch.o
+#ifeq (@ac_cv_header_regexp_h@,1)
+#    OBJECTS=CDirSrch.o CIDirSrch.o
+#else
+#    OBJECTS=
+#endif
+
+.SUFFIXES: .cc .cpp .lo .o .idl
+
+.idl.cc:
+	idl $<
+.cc.o:
+	$(CORBACOMPILE) -c $<
+.cpp.o:
+	$(CXXCOMPILE) -c $<
+
+all: Makefile libCAttr.la
+
+libCAttr.la: $(OBJECTS)
+	$(CORBALINK) $(LIBS) $(OBJECTS) -o libCAttr.la
+
+Makefile: Makefile.in $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+install:
+
+clean:
+	test -z "$(libCAttr.la)" || rm -f $(libCAttr.la)
+	rm -f *.o core *.core
+	for idl in *.idl; do
+	   rm -f ${idl%.*}.cc ${idl%.*}.h
+	done
+
