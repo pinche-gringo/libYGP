@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.8 2001/10/08 23:36:17 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.9 2001/10/09 17:21:04 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -93,6 +93,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
 
    do {
       sock.read (data);
+      data += '\0';
       TRACE5 ("RemoteDirSearchSrv::performCommands (int) - Read: " << data.data ());
 
       unsigned int i (0);
@@ -101,7 +102,6 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             break;
       }
 
-      data += '\0';
       switch (i) {                                    // Perform passed command
       case CMD_NEXT: {                                            // Find next
          TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find next");
@@ -200,7 +200,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          char contents[length];
          if (length = fread (contents, 1, length, pFile)) {
             std::string send ("RC=0;");
-            send += AssignmentParse::makeAssignment ("Data", contents);
+            send += AssignmentParse::makeAssignment ("Data", contents, length);
             sock.write (send.data (), send.length ());
          }
          else {
