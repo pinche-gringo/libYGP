@@ -2,6 +2,8 @@
 
 SUBDIRS = Common X-windows CORBA
 
+include_HEADERS=gzo-cfg.h
+
 dist-hook:
 	mkdir $(distdir)/Windows
 	cp -p $(srcdir)/Windows/*.ds? $(srcdir)/Windows/*.mak \
