@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: CRegExp.html,v 1.3 2002/04/11 19:05:48 markus Exp $ -->
+<!-- $Id: CRegExp.html,v 1.4 2002/04/19 23:54:19 markus Rel $ -->
 
 <html>
   <head>
@@ -52,14 +52,16 @@
       <dd>Matches an empty string in the beginning of the line.</dd>
       <dt><b>$</b></dt>
       <dd>Similar to the caret (') this matches the end of the line.</dd>
+
+      <dt><b>|</b></dt>
+      <dd>seperates two alternatives.</dd>
+      <dt><b>(...)</b></dt>
+      <dd>groups regular expressions and marks the matching
+         substring for future reference.</dd>
+
       <dt><b>\</b></dt>
-      <dd>Quotes the following character (including the backlash (\) itself:
+      <dd>Quotes the following characters (including the backlash (\) itself:
         <dl compact>
-          <dt><b>\|</b></dt>
-          <dd>seperates two alternatives.</dd>
-          <dt><b>\(...\)</b></dt>
-          <dd>groups regular expressions and marks the matching
-            substring for future reference.</dd>
           <dt><b>\DIGIT</b></dt>
           <dd>to repeat the matched text of the DIGIT'th '<b>\(...\)</b>-construct.</dd>
           <dt><b>\b</b></dt>
@@ -92,7 +94,7 @@
         &lt;<i>range</i>&gt; ::= &lt;<i>low</i>&gt;-&lt;<i>high</i>&gt;<br>
         &lt;<i>character-class</i>&gt; ::= [:&lt;<i>class</i>&gt;:]<br>
         &lt;<i>class</i>&gt; ::= alnum | alpha | cntrl | digit | space | graph
-                                 | lower | print | punct | space | upper
+                                 | lower | print | punct | upper
 
       <p><b>Note</b>: To include the character square bracket ([) in the match, it
         must be the first character; similar to the caret (^), wich must
@@ -117,40 +119,76 @@
       <tr><td colspan="3"><h3>public function member index</h3></td></tr>
       <tr valign="top"><td><tt></tt> </td>
         <td><a href="CRegExp.html#RegularExpression"><b>RegularExpression</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRegExp</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRegExp</font></tt>) <tt>throw (<font color="purple">std::string</font>)</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">int</font></tt></tt> </td>
         <td><a href="CRegExp.html#checkIntegrity"><b>checkIntegrity</b></a></td>
         <td><tt>() <tt>const throw (<font color="purple">std::string</font>)</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><a href="CRegExp.html#RegularExpression"><b>RegularExpression</b></a>&</tt> </td>
         <td><a href="CRegExp.html#operator="><tt><font color="black"><b>operator</b></font></tt><tt>=</tt></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRegExp</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRegExp</font></tt>)  throw (<font color="purple">std::string</font>)</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> </tt> </td>
         <td><a href="CRegExp.html#~RegularExpression"><b>~RegularExpression</b></a></td>
         <td><tt>()</tt>;</td></tr>
       <tr><td>&nbsp;</td></tr>
       <tr><td colspan="3"><h3>protected function member index</h3></td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#compActREPart"><b>compActREPart</b></a></td>
+        <td><tt>(<tt><font color="navy">MFCOMPARE</font></tt> <tt><font color="blue">fnCompare</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*& <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pEndRE</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*& <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
         <td><a href="CRegExp.html#compChar"><b>compChar</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">ch</font></tt>) <tt>const</tt></tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
         <td><a href="CRegExp.html#compEscChar"><b>compEscChar</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">ch</font></tt>) <tt>const</tt></tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt></tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
         <td><a href="CRegExp.html#compGroup"><b>compGroup</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">group</font></tt>)</tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
         <td><a href="CRegExp.html#compRegion"><b>compRegion</b></a></td>
-        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktPos</font></tt>, <tt>const</tt> <tt><font color="purple">std::string</font></tt>&amp; <tt><font color="blue">region</font></tt>) <tt>const</tt></tt>;</td></tr>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="purple">bool</font></tt></tt> </td>
         <td><a href="CRegExp.html#compare"><b>compare</b></a></td>
         <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#doCompChar"><b>doCompChar</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pEnd</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#doCompEscChar"><b>doCompEscChar</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pEnd</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#doCompGroup"><b>doCompGroup</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pEnd</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>, <tt><font color="purple">int</font></tt> <tt><font color="blue">min</font></tt>, <tt><font color="purple">int</font></tt> <tt><font color="blue">max</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#doCompRegion"><b>doCompRegion</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pEnd</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*&amp; <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#doCompare"><b>doCompare</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>*& <tt><font color="blue">pAktRegExp</font></tt>, <tt>const</tt> <tt><font color="purple">char</font></tt>*& <tt><font color="blue">pCompare</font></tt>)</tt>;</td></tr>
+      <tr valign="top"><td><tt><tt>const</tt> <tt><font color="purple">char</font></tt>*</tt> </td>
+        <td><a href="CRegExp.html#getRepeatFactor"><b>getRepeatFactor</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pRE</font></tt>, <tt><font color="purple">int</font></tt>& <tt><font color="blue">min</font></tt>, <tt><font color="purple">int</font></tt>& <tt><font color="blue">max</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#isWordBeginn"><b>isWordBeginn</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#isWordBorder"><b>isWordBorder</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#isWordConstituent"><b>isWordConstituent</b></a></td>
+        <td><tt>(<tt><font color="purple">char</font></tt> <tt><font color="blue">ch</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr valign="top"><td><tt><tt><font color="purple">bool</font></tt></tt> </td>
+        <td><a href="CRegExp.html#isWord"><b>isWordEnd</b></a></td>
+        <td><tt>(<tt>const</tt> <tt><font color="purple">char</font></tt>* <tt><font color="blue">pCompare</font></tt>) <tt>const</tt></tt>;</td></tr>
+      <tr><td>&nbsp;</td></tr>
     </table>
     <hr noshade>
     <h2>Member descriptions</h2>
 
 
     <h4>Management functions</h4>
-    <pre><a name="RegularExpression"></a>RegularExpression (const char* pRegExp)</pre>
+    <pre><a name="RegularExpression"></a>RegularExpression (const char* pRegExp) throw (std::string)</pre>
     <dl>
       <dd>Constructor, specifies the regular expression to match. This data is
         <b>not</b> copied, so it must be valid during the lifetime of the
@@ -159,7 +197,7 @@
 
     <pre><a name="~RegularExpression"></a>~RegularExpression ()</pre>
 
-    <pre><a name="operator="></a>FileRegularExpr&amp; operator= (const char* pRegExp)</pre>
+    <pre><a name="operator="></a>FileRegularExpr&amp; operator= (const char* pRegExp) throw (std::string)</pre>
     <dl>
       <dd>Sets the passed value as regular expression to match.</dd>
     </dl>
@@ -175,22 +213,87 @@
     </dl>
 
     <h4>Utility functions</h4>
-    <pre><a name="compChar"></a>bool compChar (const char&amp; pAktPos, const std::string&amp; ch)</pre>
+    <pre><a name="compChar"></a>bool compChar (const char&amp; pAktRegExp, const char*&amp; pCompare)</pre>
+    <dl>
+      <dd>Checks if the passed string matches the passed single character, including
+         handling of the repeat factor (which might follow).</dd>
+    </dl>
+    <pre><a name="compEscChar"></a>bool compEscChar (const char&amp; pAktRegExp, const char*&amp; pCompare)</pre>
+    <dl>
+      <dd><p>Checks if the passed string matches the single character (which might
+        have a special meaning because of the previous escape-character backslash (\).</p>
+
+       <p>This function cares also about the repeat factor which might follow.</p></dd>
+    </dl>
+    <pre><a name="compGroup"></a>bool compGroup (const char&amp; pAktRegExp, const char*&amp; pCompare)</pre>
+    <dl>
+      <dd>Calculates the repeat factor out of the characters following the group and
+          checks if the passed string matches the group</dd>
+    </dl>
+
+    <pre><a name="compRegion"></a>bool compRegion (const char&amp; pAktRegExp, const char* &amp; pCompare)</pre>
+    <dl>
+      <dd>Checks if the passed string matches the region/range. Handles also the
+          repeat factor.</dd>
+    </dl>
+
+    <pre><a name="doCompare"></a>bool doCompare (const char&amp; pAktRegExp, const char* pEnd, const char*&amp; pCompare)</pre>
+    <dl>
+      <dd>Checks the actual position of the regular expression for its type and calls
+        a proper check-function.</dd>
+    </dl>
+
+    <pre><a name="doCompChar"></a>bool doCompChar (const char&amp; pAktRegExp, const char* pEnd, const char*&amp; pCompare)</pre>
     <dl>
       <dd>Checks if the passed string matches the passed single character.</dd>
     </dl>
-    <pre><a name="compEscChar"></a>bool compEscChar (const char&amp; pAktPos, const std::string&amp; ch)</pre>
+    <pre><a name="doCompEscChar"></a>bool doCompEscChar (const char&amp; pAktRegExp, const char* pEnd, const char*&amp; pCompare)</pre>
     <dl>
       <dd>Checks if the passed string matches the passed single character (which might
         have a special meaning because of the previous escape-character backslash (\).</dd>
     </dl>
-    <pre><a name="compGroup"></a>bool compGroup (const char&amp; pAktPos, const std::string&amp; group)</pre>
+    <pre><a name="doCompGroup"></a>bool doCompGroup (const char&amp; pAktPos, const char* pEnd,
+                  const char*&amp; pCompare, int min, int max)</pre>
     <dl>
-      <dd>Checks if the passed string matches the passed group.</dd>
+      <dd>Checks if the passed string matches the group (and also the ollowing charactes).</dd>
     </dl>
-    <pre><a name="compRegion"></a>bool compRegion (const char&amp; pAktPos, const std::string&amp; region)</pre>
+    <pre><a name="doCompRegion"></a>bool doCompRegion (const char&amp; pAktPos, const char* pEnd, const char*&amp; pCompare)</pre>
     <dl>
-      <dd>Checks if the passed string matches the passed region/range.</dd>
+      <dd>Checks if the passed string matches the region/range.</dd>
+    </dl>
+
+    <pre><a name="compActREPart"></a>bool compActREPart (MFCOMPARE fnCompare, const char*&amp; pAktRegExp,
+                    const char* pEndRE, const char*&amp; pCompare)</pre>
+    <dl>
+      <dd>Retrieves, how often the actual part of the regular expression has to be
+        repeated and does so.</dd>
+    </dl>
+
+    <pre><a name="getRepeatFactor"></a>const char* getRepeatFactor (const char* pRE, int&amp; min, int&amp; max) const</pre>
+    <dl>
+      <dd>Retrieves, how often the actual part of the regular expression has to be
+        repeated and returns that in the min/max-parameters.</dd>
+    </dl>
+
+    <pre><a name="isWordConstituent"></a>bool isWordBorder (char ch) const</pre>
+    <dl>
+      <dd>Checks, if the passed charcter is a word character (alphanumeric or the
+        underscore (_).</dd>
+    </dl>
+
+    <pre><a name="isWordBorder"></a>bool isWordBorder (const char* pCompare) const</pre>
+    <dl>
+      <dd>Checks, if the actual position in the string is at the border of a word.</dd>
+    </dl>
+
+    <pre><a name="isWordBeginn"></a>bool isWordBeginn (const char* pCompare) const</pre>
+    <dl>
+      <dd>Checks, if the actual position in the string is the beginning of a word.</dd>
+    </dl>
+
+    <pre><a name="isWordEnd"></a>bool isWordEnd (const char* pCompare) const</pre>
+    <dl>
+      <dd>Checks, if the actual position in the string is the end of a word.</dd>
     </dl>
 
     <pre><a name="checkIntegrity"></a>int checkIntegrity () const throw (std::string)</pre>
