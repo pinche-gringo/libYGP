@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.3 2002/04/27 19:05:32 markus Rel $
+// $Id: AssParse.cpp,v 1.4 2002/08/21 20:21:28 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,46 +24,59 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <iostream.h>
+#include <iostream>
 
 #include <AssParse.h>
 
-#include <Internal.h>
 #include "Test.h"
+
+#define K1     "key1"
+#define KV1    "12342"
+#define A1     K1 "=" KV1
+#define K2     "key2"
+#define KV2    "a;b;"
+#ifndef _MSC_VER
+#define A2     K2 "=\"" KV2 "\""
+#else
+#define A2     K2 "=\042" KV2 "\042"
+#endif
+#define K3     "key3"
+#ifndef _MSC_VER
+#define KV3    "abcd\\\"def\""
+#else
+#define KV3    "abcd\\\042def\042"
+#endif
+#define A3     K3 "=" KV3
 
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing AssignmentParse ...\n";
-   AssignmentParse attrs ("key1=1234;key2=\";;;\";key3=\"abcd\\\"def\"");
+   std::cout << "Testing AssignmentParse ...\n";
+   AssignmentParse attrs (A1 ";" A2 ";" A3);
    try {
       std::string node (attrs.getNextNode ());
-      check (attrs.getActNode () == "key1=1234");
-      check (attrs.getActKey () == "key1");
-      check (attrs.getActValue ()== "1234");
+      check (attrs.getActNode () == A1);
+      check (attrs.getActKey () == K1);
+      check (attrs.getActValue ()== KV1);
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == "key2=\";;;\"");
-      check (attrs.getActKey () == "key2");
-      check (attrs.getActValue () == ";;;");
+      check (attrs.getActNode () == A2);
+      check (attrs.getActKey () == K2);
+      check (attrs.getActValue () == KV2);
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == "key3=\"abcd\"def\"");
-      check (attrs.getActKey () == "key3");
-      check (attrs.getActValue () == "abcd\"def");
+      check (attrs.getActNode () == A3);
+      check (attrs.getActKey () == K3);
+      check (attrs.getActValue () == KV3);
 
       check (attrs.getNextNode ().empty ());
    }
    catch (std::string& e) {
-      cerr << "Test: Error: " << e << '\n';
+      std::cerr << "Test: Error: " << e << '\n';
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

@@ -1,11 +1,11 @@
-// $Id: ADate.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: ADate.cpp,v 1.3 2002/08/21 20:21:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,22 +24,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <iostream.h>
+#include <iostream>
 
 #include <ADate.h>
 
-#include <Internal.h>
 #include "Test.h"
 
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing ADate...\n";
+   std::cout << "Testing ADate...\n";
    ADate today;
    check (!today.isDefined ());
    ADate past (false);
@@ -74,6 +69,6 @@ int main (int argc, char* argv[]) {
    check (past.isLeapYear ());
    
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

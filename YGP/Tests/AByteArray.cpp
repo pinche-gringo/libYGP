@@ -1,11 +1,11 @@
-// $Id: AByteArray.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: AByteArray.cpp,v 1.3 2002/08/21 20:21:28 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AByteArray
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,22 +24,17 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <iostream.h>
+#include <iostream>
 
 #include <AByteArray.h>
 
-#include <Internal.h>
 #include "Test.h"
 
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing AByteArray...\n";
+   std::cout << "Testing AByteArray...\n";
    try {
       AByteArray a1; check (!a1.isDefined ());
       AByteArray a2 (""); check (a2.isDefined ());
@@ -56,11 +51,11 @@ int main (int argc, char* argv[]) {
       check (a1 < a4);
       check (a3 >= a2);
    }
-   catch (logic_error& e) {
-      cerr << "Exception in AByteArray: " << e.what () << '\n';
+   catch (std::logic_error& e) {
+      std::cerr << "Exception in AByteArray: " << e.what () << '\n';
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

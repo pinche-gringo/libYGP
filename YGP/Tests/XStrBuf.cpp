@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: XStrBuf.cpp,v 1.3 2002/08/21 20:21:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -37,10 +37,6 @@
 
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
 #if SYSTEM != WINDOWS

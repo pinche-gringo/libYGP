@@ -1,11 +1,11 @@
-// $Id: AttrParse.cpp,v 1.2 2002/04/27 19:05:32 markus Rel $
+// $Id: AttrParse.cpp,v 1.3 2002/08/21 20:21:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/AttrParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,24 +24,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <iostream.h>
+#include <iostream>
 
 #include <ATStamp.h>
 #include <ANumeric.h>
 #include <AttrParse.h>
 
-#include <Internal.h>
 #include "Test.h"
 
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
-
    unsigned int cErrors (0);
 
-   cout << "Testing AttributeParse...\n";
+   std::cout << "Testing AttributeParse...\n";
    try {
       std::string file;
       ANumeric    size;
@@ -55,10 +50,10 @@ int main (int argc, char* argv[]) {
       attrs.assignValues ("File=\"ADate.cpp\";Size=18180;Time=01012000 121005");
    }
    catch (std::string& err) {
-      cerr << "Test: Error " << err << '\n';
+      std::cerr << "Test: Error " << err << '\n';
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }

@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.6 2002/04/27 19:05:32 markus Rel $
+// $Id: CRegExp.cpp,v 1.7 2002/08/21 20:21:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -26,7 +26,6 @@
 
 #include <assert.h>
 
-#include <Internal.h>
 #include "Test.h"
 #include <Trace_.h>
 
@@ -78,16 +77,15 @@ int foundResult (const char* pResult) {
 }
 
 
+#if SYSTEM == WINDOWS
+static const char* TESTFILE = "..\\Common\\Tests\\CRegExp.test";
+#else
 static const char* TESTFILE = "CRegExp.test";
+#endif
 
 int main (int argc, char* argv[]) {
-   setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
+   std::cout << "Testing RegularExpression...\n";
 
-   cout << "Testing RegularExpression...\n";
-
-   Xifstream frexexp;
    try {
       if (argc > 1) { // If a parameter is passed, treat it as regexp to check
          regexp = argv[1];
@@ -101,7 +99,13 @@ int main (int argc, char* argv[]) {
                       << pMatch << "\") == " << result);
          return !rc;
       }
+   }
+   catch (std::string& e) {
+      cerr << e.c_str () << '\n';
+   }
 
+   Xifstream frexexp;
+   try {
       frexexp.open (TESTFILE, ios::in | ios::nocreate);
       check (frexexp);
       if (frexexp) {
@@ -131,12 +135,12 @@ int main (int argc, char* argv[]) {
       } // endif
    } // end-try
    catch (std::string& e) {
-      cerr << "Error parsing '" << TESTFILE << ": " << e.c_str () << "\nActual position: "
-           << ANumeric (frexexp.getLine ()).toString () << '/'
-           << ANumeric (frexexp.getColumn ()).toString () << '\n';
+      std::cerr << "Error parsing '" << TESTFILE << ": " << e.c_str () << "\nActual position: "
+                << ANumeric (frexexp.getLine ()).toString () << '/'
+                << ANumeric (frexexp.getColumn ()).toString () << '\n';
    }
 
    if (cErrors)
-      cout << "Failures: " << cErrors << '\n';
+      std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
 }
