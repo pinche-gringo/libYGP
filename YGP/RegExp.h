@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.3 2000/05/30 20:25:08 Markus Exp $
+//$Id: RegExp.h,v 1.4 2000/06/04 17:54:03 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class IRegularExpression {
       assert (pCompare); assert (pRegExp); assert (!checkIntegrity ());
       return compare (pRegExp, pCompare); }
 
-   virtual int checkIntegrity () const { }
+   virtual int checkIntegrity () const { return 0; }
 
  protected:
    IRegularExpression (const char* pExpression) : pRegExp (pExpression) { assert (pRegExp); }
