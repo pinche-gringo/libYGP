@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.5 2003/03/03 23:33:23 markus Exp $
+//$Id: X-Appl.h,v 1.6 2003/06/02 01:34:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,8 +66,8 @@ class XAppl : public XApplication {
    };
 
    FileCols                      cols;
-   XFileList                     listFiles;
    Glib::RefPtr <XFileListStore> files;
+   XFileList                     listFiles;
    
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
