@@ -1,4 +1,4 @@
-<!-- $Id: AttrVal.html,v 1.7 2001/09/17 14:50:20 markus Exp $ -->
+<!-- $Id: AttrVal.html,v 1.8 2001/09/27 21:58:46 markus Exp $ -->
 
 <html>
   <head>
@@ -26,7 +26,7 @@
       <a href="ADate.html">ADate</a>
       <a href="ANumeric.html">ANumeric</a>
       <a href="ATime.html">ATime</a>
-      <a href="IHandle.html">IHandle</a></p>
+      <a href="Handle.html">IHandle</a></p>
 
     <p>#include &lt;AttrVal.h&gt;</p>
 
@@ -72,10 +72,10 @@
         <td><tt>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">result</font></tt>) <tt>const</tt></tt>;</td></tr>
       <tr valign="top"><td>friend <tt><font color="purple">istream</font></tt>&amp;</td>
         <td><a href="AttrVal.html#operatorrshift"><tt><font color="black"><b>operator</b></font></tt>&gt;&gt;</tt></a></td>
-        <td>(<tt><font color="purple">istream</font></tt>&amp; <tt><font color="blue">in</font></tt>, <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <tt><font color="blue">inValue</font></tt>)</td></tr>
+        <td><tt>(<font color="purple">istream</font>&amp; <font color="blue">in</font>, <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <font color="blue">inValue</font>)</tt></td></tr>
       <tr valign="top"><td>friend <tt><font color="purple">ostream</font></tt>&amp;</td>
         <td><a href="AttrVal.html#operatorlshift"><tt><font color="black"><b>operator</b></font>&lt;&lt;</tt></a></td>
-        <td>(<tt><font color="purple">ostream</font></tt>&amp; <tt><font color="blue">out</font></tt>, <tt>const</tt> <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <tt><font color="blue">outValue</font></tt>)</td></tr>
+        <td><tt>(<font color="purple">ostream</font>&amp; <font color="blue">out</font>, <a href="AttrVal.html"><b>AttributValue</b></a>&amp; <font color="blue">outValue</font>)</tt></td></tr>
 
       <tr valign="top"><td><tt><tt>virtual</tt> <tt><font color="navy">std::string</font></tt></tt> </td>
         <td><a href="AttrVal.html#toString"><b>toString</b></a></td>
