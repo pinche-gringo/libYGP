@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.6 1999/09/07 22:41:01 Markus Rel $
+//$Id: DirSrch.h,v 1.7 1999/09/26 01:52:51 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -167,24 +167,31 @@ class DirectorySearch {
    virtual ~DirectorySearch ();
 
    void setFile (const std::string& search);
+   std::string getFile () const { return searchDir + searchFile; }
 
    //@Section searching
-   inline int find (const std::string& search, dirEntry* pResult,
+   inline int find (const std::string& search, dirEntry& result,
 		    unsigned long attribs = 0);
-   int find (dirEntry* pResult, unsigned long attribs = 0);
-   int find ();
+   inline int find (const std::string& search) {
+      setFile (search); assert (!checkIntegrity ());
+      return find (*pEntry, attr); }
+   virtual int find (dirEntry& result, unsigned long attribs = 0);
+   virtual int find ();
+
+ protected:
+   virtual int checkIntegrity () const;
+
+   void cleanup ();
+
+   enum { DIRSRCH_OK = 0, NO_ENTRY_PATH, NO_ENTRY_ENDPATH, NO_ENTRY,
+          NO_DIR, NO_FILE, LAST};
 
  private:
-   int checkIntegrity () const;
-
-   inline void cleanup ();
 
    std::string searchDir;
    std::string searchFile;
 
-#if defined (UNIX) || defined (WINDOWS)
    unsigned long attr;
-#endif
 #ifdef UNIX
    DIR* pDir;
 #else
@@ -197,30 +204,11 @@ class DirectorySearch {
 
 
 // Implementation of inline-functions
-inline int DirectorySearch::find (const std::string& search, dirEntry* pResult,
+inline int DirectorySearch::find (const std::string& search, dirEntry& result,
                                   unsigned long attribs) {
    assert (!search.empty ());
    setFile (search);
-   return find (pResult, attribs);
-}
-
-
-inline void DirectorySearch::cleanup () {
-#ifdef UNIX
-# ifdef CLOSEDIR_VOID
-   int rc (closedir (pDir)); assert (!rc);   
-#else
-   closedir (pDir);
-#endif
-   pDir = NULL;
-#else
-#ifdef WINDOWS
-   FindClose (hSearch);
-   hSearch = INVALID_HANDLE_VALUE;
-#else
-#error Not implemented yet!
-#endif
-#endif
+   return find (result, attribs);
 }
 
 #endif

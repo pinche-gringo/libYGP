@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.9 1999/09/11 19:32:56 Markus Rel $
+//$Id: DirSrch.cpp,v 1.10 1999/09/26 01:52:51 Markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -88,22 +88,22 @@ const dirEntry& dirEntry::operator= (const dirEntry& o) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
-//Parameters: pResult: Buffer where to place the result
+//Parameters: result: Buffer where to place the result
 //Returns   : Status; 0: OK
 //Requires  : pResult != NULL; searchDir already set
 /*--------------------------------------------------------------------------*/
-int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
-   assert (pResult);
-
-   TRACE5 ("dirEntry::find " << searchDir << searchFile);
-
+int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    cleanup ();
-   pEntry = pResult;
+   pEntry = &result;
    assert (!checkIntegrity ());
 
-#ifdef UNIX
-   attr = attribs;
+   TRACE5 ("DirectorySearch::find " << searchDir << searchFile);
 
+#ifndef WINDOWS
+   attr = attribs;
+#endif
+
+#ifdef UNIX
    pDir = opendir (searchDir.c_str ());
    if (!pDir)
       return errno;
@@ -130,7 +130,7 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
    return find ();
 #else
 #  ifdef WINDOWS
-   TRACE9 ("dirEntry::find - found " << pEntry->name ());
+   TRACE9 ("DirectorySearch::find - found " << pEntry->name ());
 
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
@@ -146,7 +146,7 @@ int DirectorySearch::find (dirEntry* pResult, unsigned long attribs) {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the next file which matches the search-criteria
 //Returns   : Status; 0: OK
-//Requires  : pResult != NULL; searchDir already set
+//Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::find () {
    assert (!checkIntegrity ());
@@ -158,7 +158,7 @@ int DirectorySearch::find () {
 
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
-     TRACE9 ("dirEntry::find - found " << pDirEnt->d_name);
+     TRACE9 ("DirectorySearch::find - found " << pDirEnt->d_name);
 
      if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
         continue;
@@ -174,7 +174,7 @@ int DirectorySearch::find () {
          unsigned short type (pEntry->status.st_mode & ~FILE_NORMAL);
          if (((access & attr) == access) || (type & attr)) {
             pEntry->entry = *pDirEnt;
-	    TRACE5 ("dirEntry::find - match " << pEntry->name ());
+	    TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
             return 0;
          } // endif attributs OK
    } // endif filename OK
@@ -185,13 +185,13 @@ int DirectorySearch::find () {
 #  ifdef WINDOWS
    while (FindNextFile (hSearch, pEntry))
       if (!(pEntry->dwFileAttributes & attr) && regExp.matches (pEntry->name ())) {
-	 TRACE5 ("dirEntry::find - match " << pEntry->name ());
+	 TRACE5 ("DirectorySearch::find - match " << pEntry->name ());
          return 0;
       }
    return GetLastError ();
-   #else
-      #error Not implemented yet!
-   #endif
+#  else
+#      error Not implemented yet!
+#   endif
 #endif
 }
 
@@ -200,20 +200,17 @@ int DirectorySearch::find () {
 //Returns   : Status; 0: OK
 /*--------------------------------------------------------------------------*/
 int DirectorySearch::checkIntegrity () const {
-   assert (!searchDir.empty ());
-   if (pEntry) {
-      assert (pEntry->pPath);
+      return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
+	                                  pEntry ?
 #ifdef UNIX
-      assert (pEntry->pEndPath);
+                                          !pEntry->pEndPath ? NO_ENTRY_ENDPATH :
 #endif
-   }
-
-   assert (!searchFile.empty ());
-   return 0;
+                                          !pEntry->pPath : NO_ENTRY_PATH;
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Splits the search-string in its directory- and its filepart
+//Purpose   : Splits the search-string in its directory- and its filepart; it
+//            prepares the internal data also for a new search
 //Parameters: search: Files to find
 /*--------------------------------------------------------------------------*/
 void DirectorySearch::setFile (const std::string& search) {
@@ -230,14 +227,36 @@ void DirectorySearch::setFile (const std::string& search) {
          searchDir = search;
          searchDir.replace (len + 1, searchDir.length (), 0, '\0');
          searchFile.replace (0, len + 1, 0, '\0');
-	 assert (!checkIntegrity ());
+	 assert (checkIntegrity () <= NO_ENTRY);
          return;
       } // endif
    } // end-while
 
    searchDir = "./";
-   assert (!checkIntegrity ());
+   assert (checkIntegrity () <= NO_ENTRY);
 }
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Cleanup of data
+/*--------------------------------------------------------------------------*/
+void DirectorySearch::cleanup () {
+#ifdef UNIX
+#  ifdef CLOSEDIR_VOID
+   int rc (closedir (pDir)); assert (!rc);
+#  else
+   closedir (pDir);
+#  endif
+   pDir = NULL;
+#else
+#  ifdef WINDOWS
+   FindClose (hSearch);
+   hSearch = INVALID_HANDLE_VALUE;
+#  else
+#     error Not implemented yet!
+#  endif
+#endif
+}
+
 
 #ifdef WINDOWS
 /*--------------------------------------------------------------------------*/
