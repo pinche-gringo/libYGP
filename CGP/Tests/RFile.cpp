@@ -1,11 +1,11 @@
-// $Id: RFile.cpp,v 1.3 2003/03/04 05:14:33 markus Rel $
+// $Id: RFile.cpp,v 1.4 2003/11/14 00:42:56 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/RFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -24,19 +24,18 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
 
 #include <iostream>
 
 #include <CORBA.h>
 
-#include <Internal.h>
+#include <YGP/Internal.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include <Trace_.h>
-
-#include <CIDirSrch.h>
+#include <CGP/CIDirSrch.h>
 
 
 int main (int argc, char* argv[]) {
@@ -65,7 +64,7 @@ int main (int argc, char* argv[]) {
 
       CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
       CFile_var file (CFile::_narrow (orb->string_to_object (id)));
-      assert (file);
+      Check3 (file);
 
       TRACE1 ("Found: " << file->path () << file->name ());
       file->exit ();
@@ -82,8 +81,8 @@ int main (int argc, char* argv[]) {
       CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
 
       DirectorySearch ds;
-      const File* pFile (ds.find ("RFile.cpp")); assert (pFile);
-      CIFile* file = new CIFile (*pFile); assert (file);
+      const File* pFile (ds.find ("Makefile.in")); Check3 (pFile);
+      CIFile* file = new CIFile (*pFile); Check3 (file);
       CORBA::String_var id = orb->object_to_string (file);
 
       TRACE2 ("RFile (parent): ID of created object: '" << id << '\'');
