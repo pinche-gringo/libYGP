@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.01 ($Revision: 1.11 $)\n"
-"POT-Creation-Date: 2002-12-25 00:12-0500\n"
+"Project-Id-Version: General 0.6 ($Revision: 1.12 $)\n"
+"POT-Creation-Date: 2003-03-27 13:09-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -13,12 +13,12 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: Common/ADate.cpp:205 Common/ATime.cpp:209
+#: Common/ADate.cpp:202 Common/ATime.cpp:206
 #, c-format, ycp-format
 msgid "Position %1"
 msgstr ""
 
-#: Common/ANumeric.cpp:98 Common/ANumeric.cpp:257
+#: Common/ANumeric.cpp:96 Common/ANumeric.cpp:255
 msgid "No number"
 msgstr ""
 
@@ -52,64 +52,63 @@ msgstr ""
 msgid "Key '%1' not found"
 msgstr ""
 
-#: Common/CRegExp.cpp:1017
+#: Common/CRegExp.cpp:1019
 msgid "Unmatched [ or [^"
 msgstr ""
 
-#: Common/CRegExp.cpp:1018
+#: Common/CRegExp.cpp:1020
 msgid "Unmatched ( or )"
 msgstr ""
 
-#: Common/CRegExp.cpp:1019
+#: Common/CRegExp.cpp:1021
 msgid "Invalid range end"
 msgstr ""
 
-#: Common/CRegExp.cpp:1020
+#: Common/CRegExp.cpp:1022
 msgid "Repeating suffix without previous expression"
 msgstr ""
 
-#: Common/CRegExp.cpp:1021
+#: Common/CRegExp.cpp:1023
 msgid "Invalid group-number"
 msgstr ""
 
-#: Common/CRegExp.cpp:1022
+#: Common/CRegExp.cpp:1024
 msgid "Invalid range (lower border larger than upper border)"
 msgstr ""
 
-#: Common/CRegExp.cpp:1023
+#: Common/CRegExp.cpp:1025
 msgid "Invalid bound"
 msgstr "Invalid bound"
 
-#: Common/CRegExp.cpp:1024
+#: Common/CRegExp.cpp:1026
 msgid "Regular expression ends with escape-character (\\)"
 msgstr ""
 
-#: Common/CRegExp.cpp:1025
+#: Common/CRegExp.cpp:1027
 msgid "Unknown error"
 msgstr ""
 
-#: Common/CRegExp.cpp:1029 Common/FileRExp.cpp:254
+#: Common/CRegExp.cpp:1031 Common/FileRExp.cpp:254
 #, ycp-format
 msgid "`%1', position %2: %3"
 msgstr ""
 
-#: Common/File.cpp:190
+#: Common/File.cpp:270
 #, ycp-format
 msgid "Error opening file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:205
+#: Common/File.cpp:285
 #, ycp-format
 msgid "Error closing file `%1'! Reason: %2"
 msgstr ""
 
-#. Exception only if *no* char has been read
-#: Common/File.cpp:229
+#: Common/File.cpp:310
 #, ycp-format
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr ""
 
-#: Common/File.cpp:253
+#: Common/File.cpp:333
 #, ycp-format
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr ""
@@ -127,44 +126,44 @@ msgid "Empty region"
 msgstr ""
 
 #. Define constant values; don't skip white-spaces after parsing
-#: Common/INIFile.cpp:43
+#: Common/INIFile.cpp:45
 msgid "Start of section ([)"
 msgstr ""
 
-#: Common/INIFile.cpp:44
+#: Common/INIFile.cpp:46
 msgid "End of section (])"
 msgstr ""
 
-#: Common/INIFile.cpp:45
+#: Common/INIFile.cpp:47
 msgid "Equal-sign (=)"
 msgstr ""
 
-#: Common/INIFile.cpp:59 Common/INIFile.cpp:234
+#: Common/INIFile.cpp:61 Common/INIFile.cpp:241
 msgid "Section-header"
 msgstr ""
 
-#: Common/INIFile.cpp:60
+#: Common/INIFile.cpp:62
 msgid "Attribute"
 msgstr ""
 
-#: Common/INIFile.cpp:61 Common/INIFile.cpp:235
+#: Common/INIFile.cpp:63 Common/INIFile.cpp:242
 msgid "Name of section"
 msgstr ""
 
-#: Common/INIFile.cpp:62
+#: Common/INIFile.cpp:64
 msgid "Identifier (key)"
 msgstr ""
 
-#: Common/INIFile.cpp:63
+#: Common/INIFile.cpp:65
 msgid "Value"
 msgstr ""
 
-#: Common/INIFile.cpp:246
+#: Common/INIFile.cpp:253
 #, ycp-format
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr ""
 
-#: Common/IVIOAppl.cpp:275
+#: Common/IVIOAppl.cpp:272
 #, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr ""
@@ -173,44 +172,44 @@ msgstr ""
 #. endif option matches
 #. end-while
 #. No long-option found
-#: Common/IVIOAppl.cpp:284
+#: Common/IVIOAppl.cpp:281
 #, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr ""
 
-#: Common/Parse.cpp:293
+#: Common/Parse.cpp:294
 #, ycp-format
 msgid "Expected %1, found: '%2'"
 msgstr ""
 
-#: Common/Parse.cpp:706
+#: Common/Parse.cpp:930
 #, ycp-format
 msgid "Error in sequence %1; Expected: %2"
 msgstr ""
 
-#: Common/Parse.cpp:706
+#: Common/Parse.cpp:930
 #, c-format, ycp-format
 msgid "Error in sequence %1"
 msgstr ""
 
-#: Common/Parse.cpp:828
+#: Common/Parse.cpp:1052
 #, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr ""
 
-#: Common/RDirSrch.cpp:254 Common/RemoteFile.cpp:275
+#: Common/RDirSrch.cpp:258 Common/RemoteFile.cpp:284
 msgid "Server returned an error: "
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:245
+#: Common/RDirSrchSrv.cpp:251
 msgid "Not yet implemented"
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:271
+#: Common/RDirSrchSrv.cpp:277
 msgid "Invalid command"
 msgstr ""
 
-#: Common/RDirSrchSrv.cpp:334
+#: Common/RDirSrchSrv.cpp:340
 msgid "Invalid arguments: "
 msgstr ""
 
@@ -254,84 +253,123 @@ msgstr ""
 msgid "Error sending data"
 msgstr ""
 
-#: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:42
-#: X-windows/XPrintDlg.cpp:53
-msgid "OK"
+#: Common/Process.cpp:164
+#, ycp-format
+msgid ""
+"Error executing program `%1'!\n"
+"\n"
+"Reason: %2"
 msgstr ""
 
-#: X-windows/XDate.cpp:54 X-windows/XMessageBox.cpp:43
-#: X-windows/XPrintDlg.cpp:53
-msgid "Cancel"
+#: Common/Process.cpp:187
+#, ycp-format
+msgid ""
+"The command `%1' returned an error!\n"
+"\n"
+"Output: %2"
 msgstr ""
 
-#: X-windows/XPrintDlg.cpp:54
+#: X-windows/XPrintDlg.cpp:53
 msgid "Print command: "
 msgstr ""
 
-#: X-windows/XPrintDlg.cpp:59
+#: X-windows/XPrintDlg.cpp:58
 msgid "Print"
 msgstr ""
 
 #. No input?
-#: X-windows/XPrintDlg.cpp:139
+#: X-windows/XPrintDlg.cpp:119
 msgid "No print-command specified"
 msgstr ""
 
-#: X-windows/XPrintDlg.cpp:148
+#: X-windows/XPrintDlg.cpp:127
 #, ycp-format
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
 msgstr ""
 
-#: X-windows/XMessageBox.cpp:40
-msgid "Info"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:40
-msgid "Question"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:40
-msgid "Warning"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:41
-msgid "Error"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:41
-msgid "Critical"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:42
-msgid "Retry"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:42
-msgid "Yes"
-msgstr ""
-
-#: X-windows/XMessageBox.cpp:42
-msgid "No"
-msgstr ""
-
 #. File does not exist: Show msg and exit
-#: X-windows/XFileDlg.cpp:103
+#: X-windows/XFileDlg.cpp:110
 #, ycp-format
 msgid "File `%1' does not exist!"
 msgstr ""
 
-#: X-windows/XFileDlg.cpp:112
+#: X-windows/XFileDlg.cpp:120
 #, ycp-format
 msgid "File `%1' exists! Overwrite?"
 msgstr ""
 
-#: X-windows/XDate.cpp:158
+#. Testing if $EDITOR exists and add that to list; else use VI
+#: X-windows/XFileList.cpp:301
 #, ycp-format
-msgid "Date `%1' is not valid!"
+msgid "Open in %1 ..."
 msgstr ""
 
-#: X-windows/XAbout.cpp:47
+#: X-windows/XFileList.cpp:314
+msgid "Rename/Move ..."
+msgstr ""
+
+#: X-windows/XFileList.cpp:318
+msgid "Delete"
+msgstr ""
+
+#: X-windows/XFileList.cpp:343
+msgid "Environment variable `TERM' not defined!"
+msgstr ""
+
+#: X-windows/XAttrEntry.h:71
+msgid "Invalid value!"
+msgstr ""
+
+#: X-windows/BrowserDlg.cpp:37
+msgid "galeon"
+msgstr "Galeon"
+
+#: X-windows/BrowserDlg.cpp:37
+msgid "mozilla"
+msgstr "Mozilla"
+
+#: X-windows/BrowserDlg.cpp:38
+msgid "netscape"
+msgstr "Netscape"
+
+#: X-windows/BrowserDlg.cpp:38
+msgid "konqueror"
+msgstr "Konqueror"
+
+#: X-windows/BrowserDlg.cpp:48
+msgid "Select a browser"
+msgstr ""
+
+#: X-windows/BrowserDlg.cpp:59
+msgid "Other: "
+msgstr ""
+
+#: X-windows/XApplication.cpp:245
+msgid "_Help"
+msgstr ""
+
+#: X-windows/XApplication.cpp:245
+msgid "<alt>H"
+msgstr ""
+
+#: X-windows/XApplication.cpp:246
+msgid "_Content..."
+msgstr ""
+
+#: X-windows/XApplication.cpp:246
+msgid "F1"
+msgstr ""
+
+#: X-windows/XApplication.cpp:247
+msgid "Configure _browser ..."
+msgstr ""
+
+#: X-windows/XApplication.cpp:249
+msgid "_About..."
+msgstr ""
+
+#: X-windows/XAbout.cpp:49
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr ""
