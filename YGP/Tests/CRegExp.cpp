@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.3 2002/04/19 07:09:50 markus Exp $
+// $Id: CRegExp.cpp,v 1.4 2002/04/19 09:28:02 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -127,7 +127,7 @@ int main (int argc, char* argv[]) {
       } // endif
    } // end-try
    catch (std::string& e) {
-      cerr << e.c_str () << "\nActual position: " << TESTFILE << " - "
+      cerr << "Error parsing '" << TESTFILE << ": " << e.c_str () << "\nActual position: "
            << ANumeric (frexexp.getLine ()).toString () << '/'
            << ANumeric (frexexp.getColumn ()).toString () << '\n';
    }
