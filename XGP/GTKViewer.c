@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.14 2005/03/08 17:10:28 markus Exp $
+//$Id: GTKViewer.c,v 1.15 2005/03/08 17:20:25 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -202,6 +202,12 @@ static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *st
 
    const char* anchor = NULL;
    if (*url != '#') {
+      char* anch = strrchr (url + 1, '#');
+      if (anch) {
+	 *anch = '\0';
+	 anchor = anch + 1;
+      }
+
       TRACE2 ("Reading file `%s'\n", url);
       FILE* pFile = fopen (url, "r");
 
