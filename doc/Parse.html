@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.4 2000/04/02 19:27:14 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.5 2000/04/02 23:17:29 Markus Exp $ -->
 
 <html>
   <head>
@@ -27,7 +27,7 @@
 	functions with a const char*-paramter returning an integer.</li>
       <li>The third calls a C++-style function if an object was found and has
 	therefore an object and a pointer to a memberfunction as parameter of
-	he constructor(s). These classes starts with <i>OMParse</i>. The object
+	he constructor(s). These classes starts with <i>OFParse</i>. The object
 	can be of any type; the callback a <a name="PTCALLBACK"><i>T::*PTCALLBACK</i></a>
 	which is a object-member expecting an const char*-paramter and returning
 	an integer.</li>
@@ -126,9 +126,9 @@
     <h4>Management functions</h4>
     <pre><a name="ParseObject1">ParseObject (const char* description, bool skipWhitespace = true)</a></pre>
     <dl>
-      <dd>Constructor; the parameter <i>description</i> must contain a
-	description of the object, <i>skipWhitespace</i> defines if white-spaces
-	should be skipped <b>after</b> sucessful parsing this object.
+      <dd><p>Constructor; the parameter <i>description</i> must contain a
+	  description of the object, <i>skipWhitespace</i> defines if white-spaces
+	  should be skipped <b>after</b> sucessful parsing this object.</p>
 	<p><b>Note</b>: The description must be valid during the lifetime (or
 	  at least the usage) of the object!</p></dd>
     </dl>
@@ -153,12 +153,12 @@
     </dl>
 
     <h4>Parsing</h4>
-    <pre><a>void skipWS (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream) const</a></pre>
+    <pre><a>void skipWS (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) const</a></pre>
     <dl>
       <dd>Skips all whitespace characters (blank, tabulator, carriage return
 	and line feed) from the current position in the passed stream.</dd>
     </dl>
-    <pre><a name="POparse">int parse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</a></pre>
+    <pre><a name="POparse">int parse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</a></pre>
     <dl>
       <dd>Tries to parse data matching the information stored with this
 	parse-object from the passed stream. If this parsing is successful (the
@@ -170,11 +170,15 @@
       <dt>&nbsp;&nbsp;&nbsp;&nbsp;Throws:</dt><dd>std::string with a description of
 	the expected and the found data</dd>
     </dl>
-    <pre><a name="POdoParse">virtual int doParse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream)</a></pre>
+    <pre><a name="POdoParse">virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream, bool optional)</a></pre>
     <dl>
-      <dd>Pure virtual method defining the interface for the actual
-	parse-method for the different parse-objects; to be implemented by the
-	derived classes.
+      <dd><p>Pure virtual method defining the interface for the actual
+	  parse-method for the different parse-objects; to be implemented by the
+	  derived classes.</p>
+
+	<p>The parameter <i>optional</i> specifies if the object has to be
+	  found or is optional (like in
+	  <a href="Parse.html#ParseSelection">selections</a>).</p>
 
 	<p>If this parsing is successful (the parsed data matches) this
 	  function must return <i>PARSE_OK</i>; else a non-zero value. Errors
@@ -227,7 +231,7 @@
       <tr valign="top"><td>virtual int</td>
 	<td><a href="Parse.html#POEOFdoParse">doParse</a></td>
 	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
-	  bool optional) = 0</td></tr>
+	  bool optional)</td></tr>
     </table>
 
     <hr noshade="noshade">
@@ -238,7 +242,7 @@
     <pre><a name="~ParseEOF">virtual ~ParseEOF ()</a></pre>
 
     <h4>Parsing</h4>
-    <pre><a name="POEOFdoParse">virtual int doParse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream)</a></pre>
+    <pre><a name="POEOFdoParse">virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream, bool)</a></pre>
     <dl>
       <dd>Returns <i>PARSE_OK</i>; if the end of the stream has been
 	reached; <i>PARSE_ERROR</i> if not.</dd>
@@ -284,13 +288,13 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="CBParseEOF1">CBParseEOF (</a><a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <pre><a name="CBParseEOF1">CBParseEOF (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
     <dl>
       <dd>Constructor setting the callback.</dd>
     </dl>
     <pre><a name="~CBParseEOF">virtual ~CBParseEOF ()</a></pre>
 
-    <pre><a name="CBEOFsetCallback">void setCallback (</a><a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <pre><a name="CBEOFsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
     <dl>
       <dd>Changes the callback to the passed parameter.</dd>
     </dl>
@@ -300,6 +304,55 @@
     <dl>
       <dd>Calls the defined callback with the passed parameter and returns its
 	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseEOF">Class OFParseEOF&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseEOF">ParseEOF</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse the end of a file (EOF) with a callback to report
+      matching input.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseEOF1">OFParseEOF</a></td>
+	<td>(T&amp; objToNotify, <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseEOF">~OFParseEOF</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBEOFfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseEOF1">OFParseEOF (T&amp; objToNotify, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback.</dd>
+    </dl>
+    <pre><a name="~OFParseEOF">virtual ~OFParseEOF ()</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBEOFfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
     </dl>
 
     <hr noshade="noshade">
@@ -386,7 +439,7 @@
       <tr valign="top"><td>virtual int</td>
 	<td><a href="Parse.html#POAttdoParse">doParse</a></td>
 	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
-	  bool optional) = 0</td></tr>
+	  bool optional) throw (std::string)</td></tr>
     </table>
 
     <hr noshade="noshade">
@@ -396,7 +449,7 @@
     <pre><a name="ParseAttomic1">ParseAttomic (const char* value, const char* description, unsigned int max = 1,
               unsigned int min = 1, bool skipWhitespace = true)</a></pre>
     <dl>
-      <dd>Constructor; sets the neccessary data of this object.
+      <dd><p>Constructor; sets the neccessary data of this object.</p>
 	<p>The parameter <i>value</i> specifies the valid characters for the
 	  object, which can either be listed or specified by a type behind a
 	  backslash (\) with the following characters:</p>
@@ -428,9 +481,9 @@
 
     <pre><a name="POAttfreeBuffer">static void freeBuffer</a></pre>
     <dl>
-      <dd>Frees the buffer which is used to store the parsed data. Use with
-	care (only at the end of parsing and not during parsing a single
-	object).
+      <dd><p>Frees the buffer which is used to store the parsed data. Use with
+	  care (only at the end of parsing and not during parsing a single
+	  object).</p>
 
       <p>By default the parse-buffer is freed during the cleanup at the
 	  termination of the program or (if compiled with the macro
@@ -453,7 +506,7 @@
       <dd>Returns the maximal number of characters this object may match while
 	parsing.</dd>
     </dl>
-    <pre><a name="POAttsetMaxCard">setMaxCard (unsigned int val)</a></pre>
+    <pre><a name="POAttsetMaxCard">void setMaxCard (unsigned int val)</a></pre>
     <dl>
       <dd>Changes the maximal number of characters this object may match while
 	parsing.</dd>
@@ -463,17 +516,25 @@
       <dd>Returns the minimal number of characters this object must match while
 	parsing.</dd>
     </dl>
-    <pre><a name="POAttsetMinCard">setMinCard (unsigned int val)</a></pre>
+    <pre><a name="POAttsetMinCard">void setMinCard (unsigned int val)</a></pre>
     <dl>
       <dd>Changes the minimal number of characters this object must match while
 	parsing.</dd>
     </dl>
 
     <h4>Parsing</h4>
-    <pre><a name="POAttdoParse">virtual int doParse (</a><a href="XStream.html#Xistream">Xistream</a>&amp; stream)</a></pre>
+    <pre><a name="POAttdoParse">virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream, bool optional) throw (std::string)</a></pre>
     <dl>
-      <dd>Returns <i>PARSE_OK</i>; if the end of the stream has been reached;
-	<i>PARSE_ERROR</i> if not.</dd>
+      <dd><p>Returns <i>PARSE_OK</i> if data matching the object is found (and
+	  the callback does not report something different).</p>
+	<p>It is a soft error (<i>PARSE_ERROR</i>) if the minimal cardinality is
+	  not fullfilled.</p>
+	<p>If parsing is optional or the error is recoverable (&gt; 0), the
+	  parsed data is pushed back into the stream and <i>PARSE_ERROR</i> is
+	  returned.</p>
+	<p>If parsing is not optional and the error is not recoverable (&lt; 0),
+	  an exception (std::string) is thrown.</p>
+	<p></dd>
     </dl>
     <pre><a name="POAttcheckValue">virtual bool checkValue (char ch) const</a></pre>
     <dl>
@@ -487,6 +548,124 @@
     <pre><a name="POAttcheckIntegrity">virtual int checkIntegrity () const</a></pre>
     <dl>
       <dd>Checks if this object is in a valid state.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="CBParseAttomic">Class CBParseAttomic</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseAttomic">ParseAttomic</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse attomic values with a callback to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseAttomic1">CBParseAttomic</a></td>
+	<td>(const char* value, const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseAttomic2">CBParseAttomic</a></td>
+	<td>(const <a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseAttomic">~CBParseAttomic</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBAttsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBAttfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseAttomic1">CBParseAttomic (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseAttomic2">CBParseAttomic (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <pre><a name="~CBParseAttomic">virtual ~CBParseAttomic ()</a></pre>
+
+    <pre><a name="CBAttsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBAttfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseAttomic">Class OFParseAttomic&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseAttomic">ParseAttomic</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse the end of a file (EOF) with a callback to report
+      matching input.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseAttomic1">OFParseAttomic</a></td>
+	<td>(const char* value, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseAttomic2">OFParseAttomic</a></td>
+	<td>(const <a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseAttomic">~OFParseAttomic</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBAttfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseAttomic1">OFParseAttomic (T&amp; objToNotify, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback.</dd>
+    </dl>
+    <pre><a name="OFParseAttomic2">OFParseAttomic (const OFParseAttomic&amp; other)</a></pre>
+    <pre><a name="~OFParseAttomic">virtual ~OFParseAttomic ()</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBAttfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
     </dl>
 
     <hr noshade="noshade">
@@ -536,7 +715,7 @@
     <pre><a name="ParseText1">ParseText (const char* abort, const char* description, unsigned int max = 1,
            unsigned int min = 1, bool skipWhitespace = true)</a></pre>
     <dl>
-      <dd>Constructor; sets the neccessary data of this object.
+      <dd><p>Constructor; sets the neccessary data of this object.</p>
 	<p>The parameter <i>abort</i> specifies the characters which ends the
 	  parsing for this object.</p></dd>
     </dl>
@@ -605,7 +784,7 @@
     <pre><a name="ParseTextEsc1">ParseTextEsc (const char* abort, const char* description, unsigned int max = 1,
               unsigned int min = 1, char escape = '\\', bool skipWhitespace = true)</a></pre>
     <dl>
-      <dd>Constructor; sets the neccessary data of this object.
+      <dd><p>Constructor; sets the neccessary data of this object.</p>
 	<p>The parameter <i>abort</i> specifies the characters which ends the
 	  parsing for this object (if it is not succeeded by the character
 	  defined with the parameter <i>escape</i>).</p></dd>
@@ -677,7 +856,7 @@
       <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
 	minimal length of a keyword. This word would be valid if at least min
 	characters would be parsed, but other (longer) versions of the word
-	would also be valid.
+	would also be valid.</dd>
     </dl>
 
     <pre><a name="ParseExact3">ParseExact (const ParseExact&amp; other)</a></pre>
@@ -747,7 +926,7 @@
       <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
 	minimal length of a keyword. This word would be valid if at least min
 	characters would be parsed, but other (longer) versions of the word
-	would also be valid.
+	would also be valid.</dd>
     </dl>
 
     <pre><a name="ParseUpperExact3">ParseUpperExact (const ParseUpperExact&amp; other)</a></pre>
@@ -764,6 +943,191 @@
     <pre><a name="POUExcheckIntegrity">virtual int checkIntegrity () const</a></pre>
     <dl>
       <dd>Checks if this object is in a valid state.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseSequence">Class ParseSequence</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseObject">ParseObject</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse series of ParseObjects (sequences).</p>
+    <p>A sequence is only considered parsed successfully, if all of its
+      elements are parsed successfully.</p>
+    <p>Errors while parsing causes a <i>soft error</i> only for the first
+      element; errors for further elements causes <i>hard errors</i> (which
+      are not recoverable).</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseSequence1">ParseSequence</a></td>
+	<td>(ParseObject* apObjectList[], const char* description, unsigned int max = 1,
+	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseSequence2">ParseSequence</a></td>
+	<td>(const <a href="Parse.html#ParseSequence">ParseSequence</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseSequence">~ParseSequence</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseSequence">ParseSequence</a>&amp;</td>
+	<td><a href="Parse.html#POSeqoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseSequence">ParseSequence</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="Parse.html#POSeqgetMaxCard">getMaxCard</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>unsigned int</td>
+	<td><a href="Parse.html#POSeqgetMinCard">getMinCard</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POSeqsetMaxCard">setMaxCard</a></td>
+	<td>(unsigned int val)</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#POSeqsetMinCard">setMinCard</a></td>
+	<td>(unsigned int val)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POSeqcheckIntegrity">checkIntegrity</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POSeqdoParse">doParse</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
+	  bool optional) throw (std::string)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="ParseSequence1">ParseSequence (const char* value, const char* description, unsigned int max = 1,
+               unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data of this object.</p>
+	<p>The parameter <i>apObjectList</i> specifies the list of ParseObject
+	  which must be found in serie to fullfill the sequence.</p>
+	<p>The parameters <i>max</i> and <i>min</i> specify the maximal and
+	  minimal number how often the sequence must or may be repeated.</p></dd>
+    </dl>
+    <pre><a name="ParseSequence2">ParseSequence (const ParseSequence&amp; other)</a></pre>
+    <pre><a name="~ParseSequence">virtual ~ParseSequence ()</a></pre>
+
+    <pre><a name="POSeqoperator=">ParseSequence&amp; operator= (const ParseSequence&amp; other)</a></pre>
+
+    <h4>Accessing values</h4>
+    <pre><a name="POSeqgetMaxCard">unsigned int getMaxCard () const</a></pre>
+    <dl>
+      <dd>Returns the maximal number how often the sequence may be repeated.</dd>
+    </dl>
+    <pre><a name="POSeqsetMaxCard">void setMaxCard (unsigned int val)</a></pre>
+    <dl>
+      <dd>Changes the maximal number how often the sequence may be repeated.</dd>
+    </dl>
+    <pre><a name="POSeqgetMinCard">unsigned int getMinCard () const</a></pre>
+    <dl>
+      <dd>Returns the minimal number how often the sequence must be repeated.</dd>
+    </dl>
+    <pre><a name="POSeqsetMinCard">void setMinCard (unsigned int val)</a></pre>
+    <dl>
+      <dd>Changes the minimal number how often the sequence must be repeated.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="POSeqdoParse">virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</a></pre>
+    <dl>
+      <dd><p>Returns <i>PARSE_OK</i> if the the sequence has been parsed
+	successfully (all objects found and the minimal cardinality of the
+	sequence is fullfilled (this is also true, if a soft error (&gt; 0)
+	occurs while parsing the first element of the sequence).</p>
+	<p>If there is a soft error parsing the first element of the sequence
+	  before the mininmal cardinality is fullfilled or with any other
+	  element of the sequence, <i>PARSE_ERROR</i> is returned; hard errors
+	  causes an exception to be thrown.</p></dd>
+    </dl>
+
+    <h4>Status-handling</h4>
+    <pre><a name="POSeqcheckIntegrity">virtual int checkIntegrity () const</a></pre>
+    <dl>
+      <dd>Checks if this object is in a valid state.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="ParseSelection">Class ParseSelection</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseSequence">ParseSequence</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse a selection of one ParseObjects out of a list.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseSelection1">ParseSelection</a></td>
+	<td>(ParseObject* apObjectList[], const char* description, unsigned int max = 1,
+	  unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#ParseSelection2">ParseSelection</a></td>
+	<td>(const <a href="Parse.html#ParseSelection">ParseSelection</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~ParseSelection">~ParseSelection</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Parse.html#ParseSelection">ParseSelection</a>&amp;</td>
+	<td><a href="Parse.html#POSeloperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#ParseSelection">ParseSelection</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#POSeldoParse">doParse</a></td>
+	<td>(<a href="XStream.html#Xistream">Xistream</a>&amp; stream,
+	  bool optional) throw (std::string)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="ParseSelection1">ParseSelection (const char* value, const char* description, unsigned int max = 1,
+                unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd><p>Constructor; sets the neccessary data of this object.</p>
+	<p>The parameter <i>apObjectList</i> specifies the list of ParseObject
+	  where one must be found to fullfill the selection.</p>
+	<p>The parameters <i>max</i> and <i>min</i> specify the maximal and
+	  minimal number how often the selection must or may be repeated.</p></dd>
+    </dl>
+    <pre><a name="ParseSelection2">ParseSelection (const ParseSelection&amp; other)</a></pre>
+    <pre><a name="~ParseSelection">virtual ~ParseSelection ()</a></pre>
+
+    <pre><a name="POSeloperator=">ParseSelection&amp; operator= (const ParseSelection&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="POSeldoParse">virtual int doParse (<a href="XStream.html#Xistream">Xistream</a>&amp; stream) throw (std::string)</a></pre>
+    <dl>
+      <dd><p>Returns <i>PARSE_OK</i> if the the selection has been parsed
+	successfully (one objects found and the minimal cardinality of the
+	selection is fullfilled.</p>
+	<p>If no element of the sequence matches the parsed input or the minimal
+	  cardinality is not fullfilled, <i>PARSE_ERROR</i> is returned.</p>
+	<p>If an object of the selection returns a hard error (&lt; 0) while
+	  or any error occured for a selection which is not optional, an
+	  exception is thrown.</p></dd>
     </dl>
   </body>
 </html>
