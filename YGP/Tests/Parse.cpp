@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.3 2002/10/10 05:53:33 markus Exp $
+// $Id: Parse.cpp,v 1.4 2002/10/20 07:17:46 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -69,12 +69,12 @@ class Application : public IVIOApplication {
 
    static const longOptions lo[];
 
-   static int foundNumber (const char* pNumber) {
+   static int foundNumber (const char* pNumber, unsigned int) {
       TRACE1 ("Found number: " << pNumber);
       return ParseObject::PARSE_OK;
    }
 
-   int foundAlpha (const char* pAlpha) {
+   int foundAlpha (const char* pAlpha, unsigned int) {
       TRACE1 ("Found alpha: " << pAlpha);
       return ParseObject::PARSE_OK;
    }
