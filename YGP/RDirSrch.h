@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.3 2001/08/08 01:43:49 markus Exp $
+//$Id: RDirSrch.h,v 1.4 2001/08/14 23:42:06 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
 
 
 #include <time.h>
@@ -36,6 +35,7 @@ class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
    RemoteDirSearch () : IDirectorySearch (), sock (-1) { }
+   RemoteDirSearch (const std::string& host) throw (domain_error);
    RemoteDirSearch (const std::string& host, unsigned int port)
       throw (domain_error);
    virtual ~RemoteDirSearch ();
@@ -65,7 +65,10 @@ class RemoteDirSearch : public IDirectorySearch {
    RemoteDirSearch (const RemoteDirSearch&);
    RemoteDirSearch& operator= (const RemoteDirSearch&);
 
-   bool containsSeperator (const std::string& dir) const;
+   int posSeperator (const std::string& dir) const;
+
+   bool isOK (const AByteArray& answer) const;
+   void setFiledata (const char* pAnswer);
 
    Socket      sock;
    std::string host;

@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.3 2001/08/08 01:44:06 markus Exp $
+//$Id: RDirSrch.cpp,v 1.4 2001/08/14 23:42:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -27,15 +27,51 @@
 
 #define DEBUG 9
 #include "Trace_.h"
+#include "ATStamp.h"
+#include "ANumeric.h"
+#include "AByteArray.h"
+
 #include "DirEntry.h"
 #include "RDirSrch.h"
 
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
+//Parameters: srch: String identifying host, directory to search and port
+//                  The string must be in the format:
+//                      <host>:<path>:<port>
 /*--------------------------------------------------------------------------*/
-RemoteDirSearch::RemoteDirSearch (const std::string& host, unsigned int port)
-   throw (domain_error) : IDirectorySearch (), sock (host, port) {
+RemoteDirSearch::RemoteDirSearch (const std::string& srch) throw (domain_error)
+   : IDirectorySearch (), sock () {
+   TRACE9 ("RemoteDirSearch::RemoteDirSearch (const std::string&) - "
+           << srch.c_str () << ':');
+
+   int posPort (srch.rfind (':'));
+   std::string sPort (srch);
+   sPort.replace (0, posPort, 0, '\0');
+
+   host = srch;
+   host.replace (posPort, host.length (), 0, '\0');
+   setSearchValue (host);
+
+   ANumeric port (sPort);
+   sock.writeTo (host, (unsigned int)port.operator long ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Constructor
+//Parameters: host: String identifying host, directory to search and port
+//                  The string must be in the format:
+//                      <host>:<path>
+//            port: Portnumber the host is listening at
+/*--------------------------------------------------------------------------*/
+RemoteDirSearch::RemoteDirSearch (const std::string& srch, unsigned int port)
+   throw (domain_error) : IDirectorySearch (), sock () {
+   TRACE9 ("RemoteDirSearch::RemoteDirSearch (const std::string&, unsigned int) - "
+           << srch.c_str () << ':' << port);
+
+   setSearchValue (srch);
+   sock.writeTo (host, port);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -47,27 +83,85 @@ RemoteDirSearch::~RemoteDirSearch () {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
+//Parameters: pAnswer: Character-buffer holding reponse from server
+//Requires  : pAnswer valid ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+void RemoteDirSearch::setFiledata (const char* pAnswer) {
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*)");
+   assert (pAnswer);
+   assert (pEntry);
+
+   // Set filename
+   pAnswer += 11;
+   char* pEnd (strstr (pAnswer + 1, "\";Size=")); assert (pEnd);
+   char* pPathEnd (strrchr (pEnd, dirEntry::DIRSEPERATOR));
+   if (pPathEnd) {
+      char ch (pPathEnd[1]);
+      pPathEnd[1] = '\0';
+      pEntry->path (pAnswer);
+      pPathEnd[1] = ch;
+   }
+   else {
+      pEntry->path ("");
+      pPathEnd = (char*)pAnswer - 1;
+   }
+
+   *pEnd = '\0';
+   pEntry->name (pPathEnd + 1);
+   TRACE5 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+           << pEntry->path () << pEntry->name ());
+
+   // Set filesize
+   pAnswer = pEnd + 7;
+   pEnd = strstr (pAnswer, ";Time="); assert (pEnd);
+   *pEnd = '\0';
+   TRACE8 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size="
+	   << pAnswer);
+   ANumeric size (pAnswer); assert (size.isDefined ());
+   pEntry->size (size);
+   TRACE5 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+           << size.toString ());
+
+   // Set filetime
+   pAnswer = pEnd + 6;
+   ATimestamp time (pAnswer); assert (time.isDefined ());
+   pEntry->time (time.toSysTime ());
+   TRACE5 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+           << time.toString ());
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Retrieves the first file which matches the search-criteria
 //Parameters: res: Buffer where to place the result
 //            attribs: Attributes of files to find
 //Returns   : Status; 0: OK
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_error) {
-   TRACE3 ("RemoteDirSearch::find (dirEntry&, unsigned long)");
+   TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long)");
 
    pEntry = &res;
 
-   std::string send ("Find:\"");
-   send += host;
-   send += files;
-   send += "\";Attr=";
-   send += "TODO";
-   send += ';';
+   AByteArray buffer ("Find:\"");
+   buffer += files;
+   buffer += "\";Attr=";
+   
+   ANumeric attrs (attribs);
+   buffer += attrs.toString ();
+   buffer += '\0';
 
    TRACE8 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Sending:\n\t"
-           << send.length () << " bytes: " << send.data ());
-   sock.write (send.data (), send.length ());
-   return 0;
+           << buffer.length () << " bytes: " << buffer.data ());
+   sock.write (buffer);
+
+   sock.read (buffer);
+   if (isOK (buffer)) {
+      setFiledata (buffer.data ());
+      return 0;
+   }
+   else {
+      return 1;
+   }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -76,19 +170,29 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_e
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
 int RemoteDirSearch::find () throw (domain_error) {
-   std::string send ("Next");
+   AByteArray buffer ("Next");
 
    TRACE8 ("RemoteDirSearch::find () - Sending:\n\t"
-           << send.length () << " bytes: " << send.data ());
-   sock.write (send.data (), send.length ());
+           << buffer.length () << " bytes: " << buffer.data ());
+   sock.write (buffer);
+
+   sock.read (buffer);
+   if (isOK (buffer)) {
+      setFiledata (buffer.data ());
+      return 0;
+   }
+   else {
+      return 1;
+   }
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Checks if the passed parameter contains a host-seperator-char
+//Purpose   : Returns the position of the seperator-character between host-
+//            name and directory to analyze
 //Parameters: dir: Directory whose validity should be checked
 //Returns   : True if the remote directory does exis
 /*--------------------------------------------------------------------------*/
-bool RemoteDirSearch::containsSeperator (const std::string& dir) const {
+int RemoteDirSearch::posSeperator (const std::string& dir) const {
 #if SYSTEM == UNIX
    int pos (dir.find (HOSTSEPERATOR));
 #else
@@ -98,26 +202,31 @@ bool RemoteDirSearch::containsSeperator (const std::string& dir) const {
 	       ? std::string::npos : dir.find (dirEntry::DIRSEPERATOR, pos)));
 #endif
 
-   return pos != std::string::npos;
+   return pos;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the searchDir is really a direcory
-//Parameters: dir: Directory whose validity should be checked
+//Parameters: dir: Directory (without host-part) whose validity should be checked
 //Returns   : bool: True if the directory exists
 /*--------------------------------------------------------------------------*/
 bool RemoteDirSearch::isValid (const std::string& dir) const {
-   if (containsSeperator (dir)) {
-      std::string write ("Check:\"");
-      write += dir;
-      write += '"';
+   TRACE5 ("RemoteDirSearch::isValid (const std::string&) - " << dir.c_str ());
 
-      sock.write (write.data (), write.length ());
-      char OK;
-      sock.read (&OK, 1);
-      return OK == '1';
-   }
-   return false;
+   std::string write ("Check:\"");
+   write.append (dir, 0, dir.rfind (dirEntry::DIRSEPERATOR));
+   write += '"';
+   TRACE8 ("RemoteDirSearch::isValid (const std::string&) - Cmd = "
+           << write.c_str ());
+
+   sock.write (write.data (), write.length ());
+
+   AByteArray OK (10);
+   sock.read (OK);
+   TRACE9 ("RemoteDirSearch::isValid (const std::string&) - Answer: "
+           << OK.data ());
+
+   return isOK (OK);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -125,7 +234,16 @@ bool RemoteDirSearch::isValid (const std::string& dir) const {
 //Returns   : True if the remote directory does exis
 /*--------------------------------------------------------------------------*/
 bool RemoteDirSearch::isValid () const {
-   return isValid (host);
+   return isValid (files);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the remote directory does exist
+//Returns   : True if the remote directory does exis
+/*--------------------------------------------------------------------------*/
+bool RemoteDirSearch::isOK (const AByteArray& answer) const {
+   assert (answer.length () > 3);
+   return !strncmp (answer.data (), "RC=", 3) && (answer[3] == '0');
 }
 
 /*--------------------------------------------------------------------------*/
@@ -134,13 +252,16 @@ bool RemoteDirSearch::isValid () const {
 //Parameters: search: Files to find
 /*--------------------------------------------------------------------------*/
 void RemoteDirSearch::setSearchValue (const std::string& search) {
-   assert (isValid (search));
+   TRACE9 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
+           << search.c_str ());
 
-   int len (search.rfind (dirEntry::DIRSEPERATOR));
+   int len (search.find (HOSTSEPERATOR));
    host = search;
-   host.replace (len + 1, host.length (), 0, '\0');
+   host.replace (len, host.length (), 0, '\0');
    files = search;
    files.replace (0, len + 1, 0, '\0');
+   TRACE8 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
+           << "Host = " << host.c_str () << "; Files = " << files.c_str ());
 }
 
 /*--------------------------------------------------------------------------*/
