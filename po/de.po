@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6 ($Revision: 1.27 $)\n"
-"POT-Creation-Date: 2004-01-14 21:54-0500\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.28 $)\n"
+"POT-Creation-Date: 2004-01-19 01:55-0500\n"
 "PO-Revision-Date: 2004-01-14 21:55-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -161,11 +161,11 @@ msgstr "-Warnung: Nichtbearbeitete Ausnahme (std::string): "
 msgid "-warning: Unhandled exception!"
 msgstr "-Warnung: Nichtbearbeitete Ausnahme!"
 
-#: YGP/IVIOAppl.cpp:284
+#: YGP/IVIOAppl.cpp:285
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-Fehler: Die Option '%1' ist nicht eindeutig"
 
-#: YGP/IVIOAppl.cpp:293
+#: YGP/IVIOAppl.cpp:294
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
@@ -372,11 +372,11 @@ msgstr "Vertrieben unter den Bedingungen der GNU General Public License"
 msgid "Error loading file '%s': %s"
 msgstr "Fehler beim Öffnen von Datei '%s': %s"
 
-#: XGP/MessageDlg.cpp:91
+#: XGP/MessageDlg.cpp:90
 msgid "Hide _details"
 msgstr "Über_blick"
 
-#: XGP/MessageDlg.cpp:91
+#: XGP/MessageDlg.cpp:90
 msgid "Show _details"
 msgstr "_Details"
 
