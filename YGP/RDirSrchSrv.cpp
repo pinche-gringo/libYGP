@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.5 2001/10/02 23:04:41 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.6 2001/10/03 23:58:08 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <errno.h>
 
 #include <gzo-cfg.h>
 
@@ -88,7 +90,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
          if (file)
             writeResult (sock, *file);
          else
-            writeError (sock, i);
+            writeError (sock, errno ? errno : ENOENT);
          }
          break;
 
@@ -107,20 +109,24 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (domain_error){
             attrparse.assignValues (argument);
 	 }
 	 catch (std::string& error) {
-            sock.write ("RC=99;E=Invalid arguments");
+            std::string errText ("RC=99;E=Invalid arguments: ");
+            errText += error;
+            sock.write (errText.c_str (), errText.length ());
 	    break;
 	 }
 
          TRACE9  ("RemoteDirSearchSrv::performCommands (int) - Find " << files.c_str ());
 
-	 if (files.empty ())
+	 if (files.empty ()) {
 	    sock.write ("RC=99;E=No file specified");
+            break;
+         }
 
          const File* file = dirSrch.find (files, attribs);
          if (file)
             writeResult (sock, *file);
          else
-            writeError (sock, i);
+            writeError (sock, errno ? errno : ENOENT);
          }
          break;
 
