@@ -1,0 +1,808 @@
+<!-- $Id: AByteArray.html,v 1.1 2001/09/16 19:44:54 markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: AByteArray</title>
+    <meta name="description" content="Documentation of AByteArray-class">
+    <meta name="keywords" content="Documentation, Docu, AByteArray, class">
+
+    <meta name="DC.Creator" content="Markus Schwab">
+    <meta name="DC.Date" content="2001-09-15">
+    <meta name="DC.Rights" content="Anticopyright (A) 2001, distributed under the GNU General Public License">
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+      <td><a href="cross_index.html">Cross Index</a></td>
+    </table>
+
+    <h1 align="center">Class AByteArray</h1>
+    <p>Derived from: <a href="AttrVal.html">AttributValue</a></p>
+
+    <p>Header-file: AByteArray.h</p>
+
+    <hr noshade>
+    <h2>Description</h2>
+    <p>Class for raw character-values. As every AttributValue is supports undefined
+      values.</p>
+
+    <p>In counterpart to the std::string-class this class can handle zero-bytes
+      in the input.</p>
+
+    <hr noshade>
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray">AByteArray</a></td><td>()</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray2">AByteArray</a></td><td>
+          (const <a href="AByteArray.html">AByteArray</a>&amp; other)</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray3">AByteArray</a></td>
+        <td>(unsigned int length)</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray4">AByteArray</a></td>
+        <td>(int length)</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray5">AByteArray</a></td>
+        <td>(char ch)</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray6">AByteArray</a></td>
+        <td>(const char* pSource)</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray7">AByteArray</a></td>
+        <td>(const char* pSource, unsigned int length)</td></tr>
+      <tr valign="top"><td></td>
+        <td><a href="AByteArray.html#AByteArray8">AByteArray</a></td>
+        <td>(const std::string&)</td></tr>
+      <tr valign="top"><td>virtual</td>
+        <td><a href="AByteArray.html#~AByteArray">~AByteArray</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#operator=">operator=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; other)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#operator=2">operator=</a></td>
+        <td>(const char* pValue)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#operator=3">operator=</a></td>
+        <td>(const std::string&amp; str)</td></tr>
+
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#assign">assign</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; other)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#assign2">assign</a></td>
+        <td>(const char* pValue)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#assign3">assign</a></td>
+        <td>(const char* pValue, unsigned int len)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray&amp;</a></td>
+        <td><a href="AByteArray.html#assign4">assign</a></td>
+        <td>(const std::string&amp; str)</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+        <td><a href="AByteArray.html#define">define</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual void</td>
+        <td><a href="AByteArray.html#undefine">undefine</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>virtual std::string</td>
+        <td><a href="AByteArray.html#toString">toString</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#operator+=">operator+=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#operator+=2">operator+=</a></td>
+        <td>(const char* rhs)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#operator+=3">operator+=</a></td>
+        <td>(const char rhs)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#operator+=4">operator+=</a></td>
+        <td>(const std::string&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+">operator+</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+          const <a href="AByteArray.html">AByteArray</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+2">operator+</a></td>
+        <td>(const char* lhs,
+          const <a href="AByteArray.html">AByteArray</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+3">operator+</a></td>
+        <td>(const char lhs,
+          const <a href="AByteArray.html">AByteArray</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+4">operator+</a></td>
+        <td>(const std::string&amp; lhs,
+          const <a href="AByteArray.html">AByteArray</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+5">operator+</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+          const char* rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+6">operator+</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+          const char rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="AByteArray.html">AByteArray</a></td>
+        <td><a href="AByteArray.html#operator+7">operator+</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+          const std::string&amp; rhs);</td></tr>
+
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#append">append</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#append2">append</a></td>
+        <td>(const char* rhs)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#append3">append</a></td>
+        <td>(const char* rhs, unsigned int length)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#append4">append</a></td>
+        <td>(const char rhs)</td></tr>
+      <tr valign="top"><td><a href="AByteArray.html">AByteArray</a>&amp;</td>
+        <td><a href="AByteArray.html#append5">append</a></td>
+        <td>(const std::string&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>char</td>
+        <td><a href="AByteArray.html#operator[]">operator[]</a></td>
+        <td>(unsigned int pos) const throw (out_of_range)</td></tr>
+      <tr valign="top"><td>const char&amp;</td>
+        <td><a href="AByteArray.html#operator[]2">operator[]</a></td>
+        <td>(unsigned int pos) throw (out_of_range)</td></tr>
+      <tr valign="top"><td>const char&amp;</td>
+        <td><a href="AByteArray.html#at">at</a></td>
+        <td>(unsigned int pos) const throw (out_of_range)</td></tr>
+      <tr valign="top"><td>char</td><td><a href="AByteArray.html#at2">at</a></td>
+        <td>(unsigned int pos) throw (out_of_range)</td></tr>
+
+      <tr valign="top"><td>int</td><td><a href="AByteArray.html#length">length</a></td>
+        <td>() const</td></tr>
+      <tr valign="top"><td>const char*</td>
+	<td><a href="AByteArray.html#data">data</a></td><td>() const</td></tr>
+      <tr valign="top"><td>bool</td><td><a href="AByteArray.html#empty">empty</a></td>
+        <td>() const</td></tr>
+
+      <tr valign="top"><td>long</td>
+        <td><a href="AByteArray.html#compare">compare</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; other)</td></tr>
+      <tr valign="top"><td>long</td>
+        <td><a href="AByteArray.html#compare2">compare</a></td>
+        <td>(const std::string&amp; other)</td></tr>
+      <tr valign="top"><td>long</td>
+        <td><a href="AByteArray.html#compare3">compare</a></td>
+        <td>(const char* other)</td></tr>
+      <tr valign="top"><td>long</td>
+        <td><a href="AByteArray.html#compare4">compare</a></td>
+        <td>(const char* other, unsigned int length)</td></tr>
+      <tr valign="top"><td>long</td>
+        <td><a href="AByteArray.html#compare5">compare</a></td>
+        <td>(char other)</td></tr>
+
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==">operator==</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==2">operator==</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const std::string&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==3">operator==</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char* rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==4">operator==</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==5">operator==</a></td>
+        <td>(const std::string&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==6">operator==</a></td>
+        <td>(const char* lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator==7">operator==</a></td>
+        <td>(char lhs, const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=">operator!=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=2">operator!=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const std::string&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=3">operator!=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char* rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=4">operator!=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=5">operator!=</a></td>
+        <td>(const std::string&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=6">operator!=</a></td>
+        <td>(const char* lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operator!=7">operator!=</a></td>
+        <td>(char lhs, const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt">operator&lt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt2">operator&lt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const std::string&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt3">operator&lt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char* rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt4">operator&lt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt5">operator&lt;</a></td>
+        <td>(const std::string&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt6">operator&lt;</a></td>
+        <td>(const char* lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt7">operator&lt;</a></td>
+        <td>(char lhs, const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt">operator&gt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt2">operator&gt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const std::string&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt3">operator&gt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char* rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt4">operator&gt;</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt5">operator&gt;</a></td>
+        <td>(const std::string&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt6">operator&gt;</a></td>
+        <td>(const char* lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt7">operator&gt;</a></td>
+        <td>(char lhs, const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=">operator&lt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=2">operator&lt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const std::string&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=3">operator&lt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char* rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=4">operator&lt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=5">operator&lt;=</a></td>
+        <td>(const std::string&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=6">operator&lt;=</a></td>
+        <td>(const char* lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorlt=7">operator&lt;=</a></td>
+        <td>(char lhs, const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=">operator&gt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=2">operator&gt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const std::string&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=3">operator&gt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char* rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=4">operator&gt;=</a></td>
+        <td>(const <a href="AByteArray.html">AByteArray</a>&amp; lhs,
+	     const char rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=5">operator&gt;=</a></td>
+        <td>(const std::string&amp; lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=6">operator&gt;=</a></td>
+        <td>(const char* lhs,
+	     const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td>friend bool</td>
+        <td><a href="AByteArray.html#operatorgt=7">operator&gt;=</a></td>
+        <td>(char lhs, const <a href="AByteArray.html">AByteArray</a>&amp; rhs)</td></tr>
+    </table>
+
+    <hr noshade>
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="AByteArray"></a>AByteArray ()</pre>
+    <dl>
+      <dd>Defaultconstructor; the value is not defined</dd>
+    </dl>
+    <pre><a name="AByteArray2"></a>AByteArray (const AByteArray&amp; other)</pre>
+    <pre><a name="AByteArray3"></a>AByteArray (unsigned int length)</pre>
+    <dl>
+      <dd><p>Constructor; the object is created with reserved memory of &lt;length&gt;
+        bytes (to minimize further re-allocation of memory in case of appending).</p>
+	<p>Although the object contains no value it is still set to be defined.</p></dd>
+    </dl>
+    <pre><a name="AByteArray4"></a>AByteArray (int length)</pre>
+    <dl>
+      <dd><p>Constructor; the object is created with reserved memory of &lt;length&gt;
+        bytes (to minimize further re-allocation of memory in case of appending).</p>
+	<p>Although the object contains no value it is still set to be defined.</p></dd>
+    </dl>
+    <pre><a name="AByteArray5"></a>AByteArray (char ch)</pre>
+    <dl>
+      <dd>Constructor; the character is set in the object</dd>
+    </dl>
+    <pre><a name="AByteArray6"></a>AByteArray (const char* pSource)</pre>
+    <dl>
+      <dd><p>Constructor; the input is copied into the object</p>
+        <p><b>Note:</b>The pSource-pointer must be valid and not NULL!</p></dd>
+    </dl>
+    <pre><a name="AByteArray7"></a>AByteArray (const char* pSource, unsigned int length)</pre>
+    <dl>
+      <dd><p>Constructor; exactly length bytes (including zero-bytes) from
+             the input are copied into the object.</p>
+        <p><b>Note:</b>The pSource-pointer must be valid and not NULL!</p></dd>
+    </dl>
+    <pre><a name="AByteArray8"></a>AByteArray (const std::string&amp; str)</pre>
+    <dl>
+      <dd>Constructor; the string is copied into the object</dd>
+    </dl>
+
+    <pre><a name="~AByteArray"></a>virtual ~AByteArray ()</pre>
+    <pre><a name="operator="></a>AByteArray&amp; operator= (const AByteArray&amp; other)</pre>
+    <pre><a name="operator=2"></a>AByteArray&amp; operator= (const char* pValue)</pre>
+    <dl>
+      <dd><p>Copies the input into the object</p>
+        <p><b>Note:</b>The pValue-pointer must be valid and not NULL!</p></dd>
+    </dl>
+    <pre><a name="operator=3"></a>AByteArray&amp; operator= (const std::string&amp; str)</pre>
+    <dl>
+      <dd>Copies the string into the object</dd>
+    </dl>
+
+    <pre><a name="assign"></a>AByteArray&amp; assign (const AByteArray&amp; other)</pre>
+    <pre><a name="assign2"></a>AByteArray&amp; assign (const char* pValue)</pre>
+    <dl>
+      <dd><p>Copies the input into the object</p>
+        <p><b>Note:</b>The pValue-pointer must be valid and not NULL!</p></dd>
+    </dl>
+    <pre><a name="assign3"></a>AByteArray&amp; assign (const char* pValue, unsigned int len)</pre>
+    <dl>
+      <dd><p>Copies exactly len bytes of the input into the object</p>
+        <p><b>Note:</b>The pValue-pointer must be valid and not NULL!</p></dd>
+    </dl>
+    <pre><a name="assign4"></a>AByteArray&amp; assign (const std::string&amp; str)</pre>
+    <dl>
+      <dd>Copies the string into the object</dd>
+    </dl>
+
+    <pre><a name="define"></a>void define ()</pre>
+    <dl>
+      <dd>Defines the object and sets the value to 0.</dd>
+    </dl>
+
+    <pre><a name="undefine"></a>void undefine ()</pre>
+    <dl>
+      <dd>Undefines the object and clears its information.</dd>
+    </dl>
+
+    <pre><a name="define"></a>void define ()</pre>
+    <dl>
+      <dd>Defines the object with an empty contents.</dd>
+    </dl>
+
+    <h4>Query of data</h4>
+    <pre><a name="operator[]"></a>char operator[] (unsigned int pos) const throw (out_of_range)</pre>
+    <dl>
+      <dd>Retrieves the byte at the specified position. If the position is bigger
+        than the number of stored characters an exception is thrown.</dd>
+    </dl>
+    <pre><a name="operator[]2"></a>const char&amp; operator[] (unsigned int pos) throw (out_of_range)</pre>
+    <dl>
+      <dd>Retrieves a reference to the byte at the specified position. If the
+	position is bigger than the number of stored characters an exception is
+	thrown.</dd>
+    </dl>
+    <pre><a name="at"></a>const char&amp; at (unsigned int pos) const throw (out_of_range)</pre>
+    <dl>
+      <dd>Retrieves a constant reference to the byte at the specified position. If the
+	position is bigger than the number of stored characters an exception is
+	thrown.</dd>
+    </dl>
+    <pre><a name="at2"></a>char&amp; at (unsigned int pos) throw (out_of_range)</pre>
+    <dl>
+      <dd>Retrieves a reference to the byte at the specified position. If the
+	position is bigger than the number of stored characters an exception is
+	thrown.</dd>
+    </dl>
+
+    <pre><a name="length"></a>int length () const</pre>
+    <dl>
+      <dd>Returns the number of characters stored in the object.</dd>
+    </dl>
+    <pre><a name="data"></a>const char* data () const</pre>
+    <dl>
+      <dd>Returns a pointer to the stored data. If the object is undefined a
+        NULL-pointer is returned.</dd>
+    </dl>
+    <pre><a name="empty"></a>bool empty () const</pre>
+    <dl>
+      <dd>Returns if the object has data stored.</dd>
+    </dl>
+
+    <h4>Conversion</h4>
+    <pre><a name="toString"></a>virtual std::string toString () const</pre>
+    <dl>
+      <dd><p>Converts the object into a string.</p>
+	<p><b>Note:</b>If the object contains zero-bytes inside its data, the
+          string ends at that position!</p></dd>
+    </dl>
+
+    <h4>Concatinating</h4>
+    <pre><a name="operator+="></a>AByteArray&amp; operator+= (const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Appends characters to the object.</dd>
+    </dl>
+    <pre><a name="operator+=2"></a>AByteArray&amp; operator+= (const char* rhs)</pre>
+    <dl>
+      <dd>Appends the characters rhs is pointing to to the object.</dd>
+    </dl>
+    <pre><a name="operator+=3"></a>AByteArray&amp; operator+= (const char rhs)</pre>
+    <dl>
+      <dd>Appends the passed character to the object.</dd>
+    </dl>
+    <pre><a name="operator+=4"></a>AByteArray&amp; operator+= (const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Appends the data of the string to the object.</dd>
+    </dl>
+
+    <pre><a name="append"></a>AByteArray&amp; append (const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Appends characters to the object.</dd>
+    </dl>
+    <pre><a name="append2"></a>AByteArray&amp; append (const char* rhs)</pre>
+    <dl>
+      <dd>Appends the characters rhs is pointing to to the object.</dd>
+    </dl>
+    <pre><a name="append3"></a>AByteArray&amp; append (const char* rhs, unsigned int length)</pre>
+    <dl>
+      <dd>Appends length characters where rhs is pointing to to the object.</dd>
+    </dl>
+    <pre><a name="append4"></a>AByteArray&amp; append (const char rhs)</pre>
+    <dl>
+      <dd>Appends the passed character to the object.</dd>
+    </dl>
+    <pre><a name="append5"></a>AByteArray&amp; append (const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Appends the data of the string to the object.</dd>
+    </dl>
+
+    <pre><a name="operator+"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+    <pre><a name="operator+2"></a>AByteArray&amp; operator+ (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+    <pre><a name="operator+3"></a>AByteArray&amp; operator+ (const char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+    <pre><a name="operator+4"></a>AByteArray&amp; operator+ (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+    <pre><a name="operator+5"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+    <pre><a name="operator+6"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const char rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+    <pre><a name="operator+7"></a>AByteArray&amp; operator+ (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Appends rhs to lhs and returns the result.</dd>
+    </dl>
+
+    <h4>Comparison</h4>
+    <pre><a name="compare"></a>long compare (const AByteArray&amp; other)</pre>
+    <dl>
+      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
+          this is larger.</p>
+        <p>Undefined values are considered to be smaller than every value in this
+          comparison; if both values are undefined they are considered as
+          equal.</p></dd>
+    </dl>
+    <pre><a name="compare2"></a>long compare (const std::string&amp; other)</pre>
+    <dl>
+      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
+          this is larger.</p>
+        <p>Undefined values are considered to be smaller than any string.</p></dd>
+    </dl>
+    <pre><a name="compare3"></a>long compare (const char* other)</pre>
+    <dl>
+      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
+          this is larger.</p>
+        <p>Undefined values compares equal (only) to NULL-pointers.</p></dd>
+    </dl>
+    <pre><a name="compare4"></a>long compare (const char* other, unsigned int length)</pre>
+    <dl>
+      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
+          this is larger.</p>
+        <p>Undefined values compares equal (only) to NULL-pointers.</p></dd>
+    </dl>
+    <pre><a name="compare5"></a>long compare (char other)</pre>
+    <dl>
+      <dd><p>Returns -1 if this is less then other, 0 if they are equal or 1 if
+          this is larger.</p>
+        <p>Undefined values are considered to be smaller than every character.</p></dd>
+    </dl>
+
+    <pre><a name="operator=="></a>friend bool operator== (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value (equal characters and length or both undefined).</dd>
+    </dl>
+    <pre><a name="operator==2"></a>friend bool operator== (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value (equal characters and length).</dd>
+    </dl>
+    <pre><a name="operator==3"></a>friend bool operator== (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value (equal characters and length). The NULL-pointer equals an
+	undefined object.</dd>
+    </dl>
+    <pre><a name="operator==4"></a>friend bool operator== (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value. The object must contain exactly 1 character.</dd>
+    </dl>
+    <pre><a name="operator==5"></a>friend bool operator== (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value (equal characters and length).</dd>
+    </dl>
+    <pre><a name="operator==6"></a>friend bool operator== (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value (equal characters and length). The NULL-pointer equals an
+	undefined object.</dd>
+    </dl>
+    <pre><a name="operator==7"></a>friend bool operator== (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have the
+        same value. The object must contain exactly 1 character.</dd>
+    </dl>
+
+    <pre><a name="operator!="></a>friend bool operator!= (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value (characters or length).</dd>
+    </dl>
+    <pre><a name="operator!=2"></a>friend bool operator!= (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value (characters or length).</dd>
+    </dl>
+    <pre><a name="operator!=3"></a>friend bool operator!= (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value (characters or length). An undefined objects is different to
+	everything excpet a NULL-pointer.</dd>
+    </dl>
+    <pre><a name="operator!=4"></a>friend bool operator!= (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value.</dd>
+    </dl>
+    <pre><a name="operator!=5"></a>friend bool operator!= (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value (characters or length).</dd>
+    </dl>
+    <pre><a name="operator!=6"></a>friend bool operator!= (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value (characters or length). An undefined objects is different to
+	everything excpet a NULL-pointer.</dd>
+    </dl>
+    <pre><a name="operator!=7"></a>friend bool operator!= (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if they have a
+        different value.</dd>
+    </dl>
+
+    <pre><a name="operatorlt"></a>friend bool operator&lt; (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt2"></a>friend bool operator&lt; (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt3"></a>friend bool operator&lt; (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt4"></a>friend bool operator&lt; (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt5"></a>friend bool operator&lt; (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt6"></a>friend bool operator&lt; (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt7"></a>friend bool operator&lt; (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller than the right-hand-side.</dd>
+    </dl>
+
+    <pre><a name="operatorgt"></a>friend bool operator&gt; (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt2"></a>friend bool operator&gt; (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt3"></a>friend bool operator&gt; (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt4"></a>friend bool operator&gt; (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt5"></a>friend bool operator&gt; (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt6"></a>friend bool operator&gt; (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt7"></a>friend bool operator&gt; (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger than the right-hand-side.</dd>
+    </dl>
+
+    <pre><a name="operatorlt="></a>friend bool operator&lt;= (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt=2"></a>friend bool operator&lt;= (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt=3"></a>friend bool operator&lt;= (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt=4"></a>friend bool operator&lt;= (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt=5"></a>friend bool operator&lt;= (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt=6"></a>friend bool operator&lt;= (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorlt=7"></a>friend bool operator&lt;= (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is smaller or equal than the right-hand-side.</dd>
+    </dl>
+
+    <pre><a name="operatorgt="></a>friend bool operator&gt;= (const AByteArray&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt=2"></a>friend bool operator&gt;= (const AByteArray&amp; lhs, const std::string&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt=3"></a>friend bool operator&gt;= (const AByteArray&amp; lhs, const char* rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt=4"></a>friend bool operator&gt;= (const AByteArray&amp; lhs, char rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt=5"></a>friend bool operator&gt;= (const std::string&amp; lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt=6"></a>friend bool operator&gt;= (const char* lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+    <pre><a name="operatorgt=7"></a>friend bool operator&gt;= (char lhs, const AByteArray&amp; rhs)</pre>
+    <dl>
+      <dd>Compares the two sides of the equation and returns true if the left-hand-side
+        is larger or equal than the right-hand-side.</dd>
+    </dl>
+  </body>
+</html>
