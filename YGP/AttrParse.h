@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.7 2003/06/14 06:23:24 markus Rel $
+//$Id: AttrParse.h,v 1.8 2003/07/26 00:55:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@
     try {
        attrs.assignValues ("File=\"ADate.cpp\";Time=01012000 121005;Size=18180");
     }
-    catch (std::string% e) {
+    catch (std::string& e) {
        // Errorhandling
     }
 \endverbatim
