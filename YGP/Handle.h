@@ -1,7 +1,7 @@
 #ifndef HANDLE_H
 #define HANDLE_H
 
-// $Id: Handle.h,v 1.10 2004/11/04 16:31:18 markus Exp $
+// $Id: Handle.h,v 1.11 2004/11/28 01:02:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,6 +63,8 @@ class IHandle : public AttributValue {
 };
 
 
+template <class T> class Handle;
+
 /** Object-pointer with reference-counter.
 
    The class gives the opportunity to link and unlink to and from an
@@ -70,6 +72,8 @@ class IHandle : public AttributValue {
    referenced object.
 */
 template <class T> class RefCount {
+   friend class Handle<T>;
+
  public:
    // Manager-functions
    /// Default constructor; creates a reference counting object pointing
@@ -83,13 +87,12 @@ template <class T> class RefCount {
    /// is freed
    void unlink () { Check1 (count); if (!--count) delete this; }
 
-   SmartPtr<T> pValue;                       ///< Pointer to the handled object
-
  private:
    // Prohibited manager functions:
    RefCount (const RefCount& other);
    RefCount& operator= (const RefCount& other);
 
+   SmartPtr<T> pValue;                       ///< Pointer to the handled object
    unsigned int count;
 };
 
@@ -118,7 +121,7 @@ template <class T> class Handle : public IHandle {
    Handle (T* pValue) : IHandle (), pData (new RefCount<T> (pValue)) { setDefined (); }
    /// Copy constructor; let's this point to the same object than other.
    /// Increases the reference count of the object.
-   Handle (const Handle& other) : IHandle (other), pData (other.pData) { 
+   Handle (const Handle& other) : IHandle (other), pData (other.pData) {
       if (isDefined ()) link ();
       Check2 (isDefined () ? pData != NULL : pData == NULL); }
    ~Handle () { if (isDefined ()) unlink (); }  ///< Destructor; unlinks object
@@ -141,9 +144,28 @@ template <class T> class Handle : public IHandle {
    /// \returns T*: Pointer to the object
    T* ptr        () const { return pData ? (T*)pData->pValue : NULL; }
    T* operator-> () const { return pData->pValue; }  ///< Dereferencing the pointer
-   T& operator*  () const { return *pData->pValue; } ///< Dereferencing the pointer
-   operator T*   () const { return ptr (); }         ///< Casting to a <tt>T*</tt>
+   /// T& operator*  () const { return *pData->pValue; } ///< Dereferencing the pointer
+   operator T*   () const { return ptr (); }       ///< Casting to a <tt>T*</tt>
    //@}
+
+   /// Cast to derived class.
+   ///
+   /// The Handle can't be cast with the usual notation so instead you can use
+   /// @code
+   ///   ptr_derived = Handle<Derived>::cast (ptr_base);
+   /// @endcode
+   ///
+   template <class T_CastFrom>
+   static Handle<T> cast (const Handle<T_CastFrom>& src) {
+      Handle<T> h;
+      if (src.isDefined ()) {
+	 h.setDefined ();
+	 Check3 (src.pData);
+	 h.pData = (RefCount<T>*)(src.pData);
+	 h.pData->link ();
+      }
+      return h;
+   }
 
    /// \name Comparison
    //@{
@@ -169,7 +191,7 @@ template <class T> class Handle : public IHandle {
    virtual void assignValue (void* pValue) { pData = (RefCount<T>*)pValue; }
    //@}
 
- private:
+ public:
    RefCount<T>* pData;
 };
 
