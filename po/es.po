@@ -4,8 +4,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6.00 ($Revision: 1.6 $)\n"
-"POT-Creation-Date: 2002-04-22 15:55-0500\n"
+"Project-Id-Version: General 0.6.00 ($Revision: 1.7 $)\n"
+"POT-Creation-Date: 2002-05-11 02:07-0500\n"
 "PO-Revision-Date: 2002-04-04 00:45-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -57,9 +57,8 @@ msgid "Unmatched [ or [^"
 msgstr "[ ó ^[ desemparejado"
 
 #: Common/CRegExp.cpp:970
-#, fuzzy
 msgid "Unmatched ( or )"
-msgstr "( ó \\( desemparejados"
+msgstr "( ó ( desemparejados"
 
 #: Common/CRegExp.cpp:971
 msgid "Invalid range end"
@@ -165,7 +164,7 @@ msgstr "Valor"
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puede abrir el fichero de inicialisción '%1'! Causa: %2"
 
-#: Common/IVIOAppl.cpp:234
+#: Common/IVIOAppl.cpp:235
 #, ycp-format
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-error: Opción '%1' está ambigua"
@@ -174,7 +173,7 @@ msgstr "-error: Opción '%1' está ambigua"
 #. endif option matches
 #. end-while
 #. No long-option found
-#: Common/IVIOAppl.cpp:243
+#: Common/IVIOAppl.cpp:244
 #, ycp-format
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' está inválida"
@@ -198,30 +197,6 @@ msgstr "Error en la seria %1"
 #, c-format, ycp-format
 msgid "Expected selection %1"
 msgstr "Expectó selección %1"
-
-#: Common/PathDirSrch.cpp:167
-#, ycp-format
-msgid "'%1' expands to more than one file"
-msgstr "'%1' especifica más que un fichero"
-
-#: Common/PathDirSrch.cpp:171
-msgid "Out of memory"
-msgstr "Ya no hay memoria libre"
-
-#: Common/PathDirSrch.cpp:172
-#, ycp-format
-msgid "'%1' contains unquoted invalid character such as `|'"
-msgstr "'%1' contiene letras invalidas (como '|')"
-
-#: Common/PathDirSrch.cpp:173
-#, ycp-format
-msgid "Syntax error in '%1' (unmatched quoting character?)"
-msgstr "Error sintáctico en '%1' (¿Letras esepeciales de pareja desiguales?)"
-
-#: Common/PathDirSrch.cpp:174
-#, ycp-format
-msgid "Unknown error in '%1'"
-msgstr "Error inconoscido en '%1'"
 
 #: Common/RDirSrch.cpp:245 Common/RemoteFile.cpp:257
 msgid "Server returned an error: "
@@ -283,29 +258,28 @@ msgstr "Error enviar los datos"
 #: X-windows/XDate.cpp:53 X-windows/XMessageBox.cpp:43
 #: X-windows/XPrintDlg.cpp:54
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: X-windows/XDate.cpp:54 X-windows/XMessageBox.cpp:44
 #: X-windows/XPrintDlg.cpp:54
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: X-windows/XPrintDlg.cpp:55
-#, fuzzy
 msgid "Print command: "
-msgstr "Orden invalido"
+msgstr "Orden para imprimir: "
 
 #: X-windows/XPrintDlg.cpp:60
 msgid "Print"
-msgstr ""
+msgstr "Imprimir"
 
 #. No input?
 #: X-windows/XPrintDlg.cpp:140
 msgid "No print-command specified"
-msgstr ""
+msgstr "No orden para imprimir especificado"
 
 #: X-windows/XPrintDlg.cpp:149
-#, fuzzy, ycp-format
+#, ycp-format
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
