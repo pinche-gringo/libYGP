@@ -1,8 +1,476 @@
+2002-11-04  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog: Actualized for V0.6.01
+
+	* po/de.po, po/en.po, po/es.po: Only linenumbers have been changed
+
+	* Common/Thread.cpp, Common/Thread.h: waitForThread with Thread-ID added
+
+	* Common/Parse.cpp: Bufferhandling optimized
+
+	* Common/Tests/Makefile.am: Dependencies adapted
+
+	* Common/Tests/DirSrch.cpp, Common/Tests/Attribute.cpp: Test for Cygwin removed
+
+	* Common/Tests/ADate.cpp:
+	  Adapted to special cases (like 31.10 - 1m = 30.9 , ...)
+
+	* Common/Socket.cpp: Declaring ssize_t and socklen_t if not declared
+
+	* Common/XStrBuf.cpp:
+	  Reserved buffer is freed again (as before); Sanity check for buffersize
+
+	* Common/PathSrch.cpp:
+	  Fixed bug in Windows-version (Bracket for UNIX-version moved in UNIX-block)
+
+	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: Method to read from INI-file added
+
+	* Common/CRegExp.h: VC-warnings about truncationg debug-info suppressed
+
+	* Common/CRegExp.cpp: Converted to UNIX-format
+
+	* Common/Attribute.h: Trailing blanks removed
+
+	* Common/ATime.cpp: Trace in readFromStream beautified; compare optimized
+
+	* Common/ADate.cpp: Fixed minAdapt; optimized compare
+
+	* README.windows: Minor changes
+
+	* gzo-cfg.h.in: Templates for HAVE_SOCKLEN_T and HAVE_SSIZE_T added
+
+	* configure.in: Check for ssize_t added; Help-strings beautified
+
+	* Makefile.am: config.h to include_HEADERS added
+
+	* config.h: New file.
+
+	* Make.bat: Make for GCC removed (use UNIX-style)
+
+	* Windows/VCTests.mak: PathSrch-object added to IVIOApplication dependencies
+
+2002-10-25  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/IVIOAppl.cpp, Common/IVIOAppl.h:
+	  2 initI18n-methods: One for only locale; other for also message file
+
+2002-10-24  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Parse.cpp: Fixed putback of not found ParseAttribute
+
+2002-10-23  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Makefile.am: Documents re-renamed to *.html (from *.html.en)
+
+	* NEWS: Enhancements of Parser commented; XDirSearch added
+
+	* Common/Tests/INIFile.cpp: Caught exception increases error-count
+
+	* Common/XStream.h:
+	  Special handling for VC removed (as new iostreams behave like GCC)
+
+	* Common/XStrBuf.h: Assert while setting source corrected
+
+	* Common/XStrBuf.cpp:
+	  Freeing of used buffer is done by streambuf; Replace C++-style new with malloc
+
+	* Common/Thread.h: Method currentID (to get ID of current thread) added
+
+	* Common/Parse.cpp, Common/Parse.h:
+	  Replaced parsebuffer with per-thread std::string
+
+	* Common/Mutex.h: DOS-newlines removed (again)
+
+	* Common/INIFile.cpp:
+	  Adapted to new parser interface; Fixed bug adding attributes to sections
+
+	* Common/INIFile.h: Adapted to new parser interface
+
+	* Common/ADate.h: Unused static var MEMADD deleted
+
+2002-10-22  Markus Schwab  <g17m0@lycos.com>
+
+	* Makefile.am:
+	  Projectfiles and pre-defined headers for Windows-versions added to distribution
+
+	* Common/Parse.cpp, Common/Parse.h:
+	  Classes Parse*Ignore added (analogue to ParseAttomic without storing found data
+
+2002-10-20  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Mutex.h: DOS-newlines removed (introduced thanx to VC)
+
+	* Common/Thread.h: Changes for Windows; Object of OThread changed to pointer
+
+	* Common/Thread.cpp: Fixed windows-version
+
+	* Common/File.cpp: Fixed operator= in Windows-version
+
+	* Common/IDirSrch.h, Common/XDirSrch.cpp: Adapted to VC6.0
+
+	* Common/Tests/CRegExp.cpp, Common/Tests/Parse.cpp:
+	  Adapted to new Parse-interface
+
+	* Common/IVIOAppl.cpp: Fixed comparing of long option (first was not checked)
+
+	* Common/Parse.cpp, Common/Parse.h: Callbacks also pass length of passed data
+
+	* Common/Makefile.am: XDirSrch added
+
+	* Common/XDirSrch.cpp, Common/XDirSrch.h: New file.
+
+	* Common/IDirSrch.h: Method isSpecial added
+
+2002-10-17  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/Icons/Makefile.in: Label check added
+
+2002-10-16  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/VCGeneral.mak, Windows/VCGeneral.dsp:
+	  Include-paths corrected (for Release)
+
+2002-10-10  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/XStrBuf.cpp: Fixed bug when char xFF was directly behind a newline (0xa)
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* Windows/VCTests.mak: Outputdir changed and created if not existing
+
+	* Common/Tests/Test.h: Adapted to VC6.0
+
+	* Common/Tests/INIFile.cpp: Adapted to VC6.0; Fixed sequence of parsing
+
+	* Common/Tests/AttrParse.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	  Adapted to VC6.0 and/or Windows
+
+	* Common/XStream.h, Common/XStrBuf.cpp, Common/XStrBuf.h: Adapted to VC6.0
+
+	* Common/INIFile.h: Method getFile added
+
+	* Common/Trace_.h: Adapted to VC6.0 (added namespace to flush)
+
+	* Common/Parse.cpp: Removed assert of isspace in skipWS)
+
+	* Common/Internal.h:
+	  Defining textdomain to empty (if there's no gettext)
+
+	* Common/INIFile.cpp:
+	  INISection::readFromStream reads now also attributes; Changes for VC6.0
+
+	* Common/IDirSrch.cpp, Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp, Common/ANumeric.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.cpp, Common/ATime.h, Common/AttrVal.h:
+	  Adapted to VC6.0
+
+	* gzo-cfg.h.in:
+	  Renamed RELEASE to LIB_RELEASE (to prevent problems with GTK+/GTK--)
+
+	* README: Minor changes
+
+	* Makefile.am: Windows-files actualized (removed workspace-file, added gzo-cfg.h)
+
+	* Make.bat: Calling VCGeneral.mak (instead of Test.mak)
+
+2002-10-10  Markus Schwab  <g17m0@lycos.com>
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* Windows/VCTests.mak: Outputdir changed and created if not existing
+
+	* Common/Tests/Test.h: Adapted to VC6.0
+
+	* Common/Tests/INIFile.cpp:
+	  Adapted to VC6.0; Fixed sequence of parsing
+
+	* Common/Tests/AttrParse.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	  Adapted to VC6.0 and/or Windows
+
+	* Common/XStream.h, Common/XStrBuf.cpp, Common/XStrBuf.h: Adapted to VC6.0
+
+	* Common/INIFile.h: Method getFile added
+
+	* Common/Trace_.h: Adapted to VC6.0 (added namespace to flush)
+
+	* Common/Parse.cpp: Removed assert of isspace in skipWS)
+
+	* Common/Internal.h:
+	  Defining textdomain to empty (if there's no gettext)
+
+	* Common/INIFile.cpp:
+	  INISection::readFromStream reads now also attributes; Changes for VC6.0
+
+	* Common/IDirSrch.cpp, Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp, Common/ANumeric.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.cpp, Common/ATime.h, Common/AttrVal.h:
+	  Adapted to VC6.0
+
+	* gzo-cfg.h.in:
+	  Renamed RELEASE to LIB_RELEASE (to prevent problems with GTK+/GTK--)
+
+	* README: Minor changes
+
+	* Makefile.am:
+	  Windows-files actualized (removed workspace-file, added gzo-cfg.h)
+
+	* Make.bat: Calling VCGeneral.mak (instead of Test.mak)
+
+	* doc/cross_index.html: Title corrected
+
+	* Windows/VCGeneral.mak: Adapted for V0.6; Tests added
+
+	* Windows/VCTests.mak: Missing tests added
+
+2002-10-09  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/gzo-cfg.h: Define TRACELEVEL only if not previously defined
+
+2002-09-13  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Makefile.am: INIFile.h moved from sources to headers
+
+	* Common/Parse.h: Using new iostreams
+
+	* Common/ANumeric.cpp, Common/ANumeric.h, Common/AttrVal.h, Common/INIFile.h, Common/Log.h:
+	  Adapted for VC++
+
+2002-09-12  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/XMessageBox.cpp: Fixed setting default button
+
+	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	  Handling of radiomenu-items and submenus added
+
+2002-09-08  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/VCTests.dsp: Deleted
+
+2002-08-21  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Tests/AByteArray.cpp, Common/Tests/ADate.cpp, Common/Tests/ANumeric.cpp, Common/Tests/ATStamp.cpp, Common/Tests/ATime.cpp, Common/Tests/AssParse.cpp, Common/Tests/AttrParse.cpp, Common/Tests/Attribute.cpp, Common/Tests/CRegExp.cpp, Common/Tests/XStrBuf.cpp:
+	  Adapted for VC6
+
+2002-08-20  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/XStream.h: Note corrected
+
+	* Common/AssParse.cpp: Throw of getNetNode explained in function-comment
+
+	* Common/PathSrch.cpp: gzo-cfg.h included
+
+	* Common/RegExp.h: assert.h included
+
+	* Common/DirSrch.h, Common/File.h: Notes to class changed
+
+	* Common/DirSrch.cpp: Fixed next-method for Windows
+
+	* Common/Attribute.h: Namespace added to used exception
+
+2002-08-06  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/VCGeneral.dsp, Windows/VCGeneral.dsw: Adapted for V0.6
+
+	* Windows/VCTests.dsp, Windows/VCTests.mak, Windows/gzo-cfg.h, README.windows:
+	  Initial version
+
+2002-08-05  Markus Schwab  <g17m0@lycos.com>
+
+	* Windows/Test.mak: Deleted
+
+	* Windows/VCGeneral.mak: New classes added
+
+2002-08-01  Markus Schwab  <g17m0@lycos.com>
+
+	* X-windows/Icons/Makefile.in: Missing clean-label added
+
+	* NEWS: V0.6.01 commented; Hope there are no more changes
+
+	* INSTALL: Minor changes
+
+	* configure.in, acconfig.h: RELEASE renamed to LIB_RELEASE
+
+	* X-windows/XMessageBox.h: Modal messagebox (called XMessageDialog) added
+
+2002-07-15  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/IDirSrch.cpp, Common/Entity.cpp: Project info corected
+
+	* CORBA/CIDirSrch.h: Method exit to shutdown server added
+
+	* CORBA/CIDirSrch.cpp:
+	  Method exit to shutdown server added; Return values are duplicated
+
+	* CORBA/CDirSrch.idl: Method exit added (to terminate server)
+
+2002-07-12  Markus Schwab  <g17m0@lycos.com>
+
+	* CORBA/Makefile.in: Fixed making distribution of subdirs
+
+2002-07-11  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in:
+	  Using automake-macro to check for gtkmm; CORBA/Tests/Makefile gets generated
+
+	* CORBA/CIDirSrch.h:
+	  New methods of interface added; DirSrch-obj is member; Fixes
+
+	* CORBA/CIDirSrch.cpp:
+	  New methods added; find and findnext changed acc. to IDirSrch-interface; Fixes
+
+	* CORBA/Makefile.in: Subdir Tests added
+
+	* CORBA/CDirSrch.idl: Interface CDirectorySearch enhanced
+
+2002-07-09  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Trace_.h:
+	  New semantic: TRACE is always defined TRACE[0-9] only if TRACELEVEL set acc.
+
+	* Common/Thread.cpp, Common/Thread.h: Implemented for VC++ 6.0
+
+	* Common/Mutex.h: Implemnted for VC++ 6.0
+
+2002-07-08  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/AssParse.cpp: Error-msg corrected
+
+	* po/de.po, po/en.po: Line numbers (of sources) actualized
+
+	* po/es.po: Corrections
+
+	* X-windows/XAbout.cpp, X-windows/XDate.cpp, X-windows/XFileDlg.cpp, X-windows/XFileEntry.cpp, X-windows/XFileList.cpp, X-windows/XMessageBox.cpp, X-windows/XPrintDlg.cpp:
+	  Using configure-flags to enable trace/checks
+
+	* X-windows/XApplication.h, X-windows/XApplication.cpp: Method initI18n added
+
+	* gzo-cfg.h.in:
+	  Removed define of MICRO_VERSION; using RELEASE instead
+
+	* configure.in:
+	  Flag to disable CORBA; gtkmm-check improved; Use versions-nr to init automake
+
+	* NEWS: Changes of 0.6.01 added
+
+	* acconfig.h:
+	  Removed define of MICRO_VERSION; using RELEASE instead
+
+	* CORBA/CDirSrch.idl, CORBA/CIDirSrch.cpp, CORBA/CIDirSrch.h:
+	  Adapted to new File-interface
+
+	* X-windows/Version.cpp, Common/Version.cpp:
+	  Adapted to new syntax of VERSION-flag
+
+	* X-windows/Check.h: Define for checks renamed to CHECK
+
+	* X-windows/Check.cpp: Logging user response to check
+
+2002-07-05  Markus Schwab  <g17m0@lycos.com>
+
+	* CORBA/Version.cpp: New file.
+
+2002-07-02  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in: Test for gtkmm improved (and Gtk-- renamed to gtkmm)
+
+2002-06-29  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Mutex.h: New file.
+
+	* Common/Tests/Makefile.am: INCLUDE's corrected
+
+	* INSTALL: Prerequiste SW added; Fixed make from CVS
+
+2002-05-30  Markus Schwab  <g17m0@lycos.com>
+
+	* README: Removed INSTALL-part; put some flesh on it
+
+	* INSTALL: New file.
+
+2002-05-25  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/CRegExp.h, Common/DirSrch.h, Common/File.cpp, Common/File.h, Common/FileRExp.cpp, Common/IVIOAppl.cpp, Common/PathSrch.cpp, Common/Trace_.h:
+	  Adapted to VC98
+
+	* Common/ANumeric.cpp: Unused includes removed
+
+	* Common/ADate.cpp, Common/ATime.cpp: toString doesn't complain if this is invalid
+
+2002-05-24  Markus Schwab  <g17m0@lycos.com>
+
+	* NEWS: Changes of 0.6.01 (started to) document(ed)
+
+	* Makefile.am: Own Makefile[.*] for doc-subdir
+
+	* Common/Tests/Makefile.am: Added dependencies introduced by fucked-up VC98
+
+	* Common/Tests/Test.h: Macro CHECK renamed to TEST
+
+	* Common/Tests/DirSrch.cpp: SEPERATOR corrected to SEPARATOR
+
+	* Common/RemoteFile.cpp: Fixed compiler-warnings
+
+	* Common/ATime.cpp, Common/ADate.cpp, Common/ANumeric.cpp, Common/ATStamp.cpp, Common/ATStamp.h, Common/AssParse.cpp, Common/AssParse.h, Common/AttrParse.cpp, Common/AttrParse.h, Common/CRegExp.cpp, Common/CRegExp.h, Common/DirSrch.cpp, Common/Entity.h, Common/File.cpp, Common/File.h, Common/FileRExp.cpp, Common/FileRExp.h, Common/IDirSrch.cpp, Common/IDirSrch.h, Common/PathDirSrch.cpp, Common/PathSrch.cpp, Common/PathSrch.h, Common/RDirSrch.cpp, Common/RDirSrch.h, Common/RDirSrchSrv.cpp, Common/RDirSrchSrv.h, Common/RemoteFile.cpp, Common/Socket.cpp, Common/Socket.h, Common/StackTrc.cpp:
+	  Adapted to VC98
+
+	* Common/Trace_.h, Common/XStrBuf.cpp:
+	Traces (and checks) are controlled via --enable-flags
+
+	* Common/Version.cpp: _init-method returns value
+
+	* Common/Parse.cpp: Traces (and checks) are controlled via --enable-flags
+
+	* Common/Makefile.am: Mutex.h added
+
+	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: 
+	  Adapted to VC98; Method to init I18n added
+
+	* Common/INIFile.cpp: Traces (and checks) are controlled via --enable-flags
+
+	* Common/Attribute.h: Unused parameter un-named
+
+	* Common/ATime.h: operator= (struct tm) defines object
+
+	* gzo-cfg.h.in: Defines for SIGBUS and HAVE_TIMEGM added
+
+	* acconfig.h: Define for HAVE_SIGBUS added
+
+	* configure.in:
+	  Tests for timegm & SIGBUS added; doc-subdir got own Makefile; Defines of --enable* changed
+
+	* doc/Makefile.am: New file.
+
+	* doc/Socket.html.en: Minor clearification
+
+	* Common/AByteArray.cpp, Common/AByteArray.h: Adapted to VC++ (98)
+
+2002-05-23  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Thread.cpp, Common/Thread.h: waitForThread (unsigned long) added
+
+2002-05-20  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in:
+	  Version to 0.6.01; flags --enable-debug & --enable-checks added
+
+2002-05-19  Markus Schwab  <g17m0@lycos.com>
+
+	* Common/Thread.cpp, Common/Thread.h:
+	  2nd create-method: 1 gives thread as param; the other just the args
+
+	* Common/Thread.cpp: Removed the (unused) arg-parameter from init
+
+2002-05-13  Markus Schwab  <g17m0@lycos.com>
+
+	* po/es.po: Messages of print-dialog translated
+
+	* Common/Thread.h: getID added; Fixed creation of OThread<T>
+
+	* Common/Thread.cpp: Traces++; Minor fixes
+
 2002-05-11  Markus Schwab  <g17m0@lycos.com>
 
-	* ChangeLog, NEWS: Adapted to GNU coding styles
+	* po/en.po, po/de.po: Deleted PathDirSrch-msgs removed
 
 	* AUTHORS: e-mail-addr changed
+
+	* ChangeLog, NEWS: Adapted to GNU coding styles
 
 2002-05-09  Markus Schwab  <g17m0@lycos.com>
 
