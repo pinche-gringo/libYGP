@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.39 2003/12/28 00:34:01 markus Rel $
+//$Id: Parse.h,v 1.40 2004/09/04 04:09:16 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -1071,13 +1071,13 @@ template <class T> class OFParseSkip : public ParseSkip {
       : ParseSkip (), object (objToNotify), pCallback (callback) {
       Check1 (pCallback); }
    /// Copy constructor
-   OFParseSkip (const OFParseSkip&) : ParseSkip (other), object (other.object)
+   OFParseSkip (const OFParseSkip& other) : ParseSkip (other), object (other.object)
       , pCallback (other.pCallback) { Check1 (pCallback); }
    /// Destructor
    virtual ~OFParseSkip () { }
 
    /// Assignment operator
-   OFParseSkip& operator= (const OFParseSkip&) {
+   OFParseSkip& operator= (const OFParseSkip& other) {
       if (this != &other) {
          pCallback = other.pCallback; Check1 (pCallback);
 	 ParseSkip::operator= (other);
