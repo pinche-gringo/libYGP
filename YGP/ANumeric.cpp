@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.44 2004/11/04 16:31:18 markus Exp $
+//$Id: ANumeric.cpp,v 1.45 2004/11/04 23:17:32 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -52,11 +52,6 @@
 #include "YGP/ANumeric.h"
 
 
-// Static (global) variables
-/// Pointer to current locale
-static struct lconv* loc = NULL;
-
-
 namespace YGP {
 
 
@@ -74,8 +69,11 @@ ANumeric::~ANumeric () {
 /// Assignmentoperator; tries to extract an integer-value from the passed
 /// value. pValue must not be a NULL-pointer, may have leading white-spaces
 /// which may follow a sign (plus (+) or minus (-)) followed by numeric
-/// characters and a zero-characer (\\0). If pValue has a different format an
-/// excpetion is thrown.
+/// characters and a zero-characer (\\0).
+///
+/// Any locale-related separaters are stripped out.
+///
+/// If pValue has a different format an excpetion is thrown.
 /// \param  pValue: Pointer to ASCIIZ-string containing numeric value to assign
 /// \throw invalid_argument in case of an exception
 /// \pre \c pValue a valid ASCIIZ-string
@@ -84,15 +82,55 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
    if (!(pValue && *pValue))
       undefine ();
    else {
+      TRACE9 ("ANumeric::operator= (const char*) - Setting " << pValue);
+      std::string unformatted (pValue);
+
+      struct lconv* loc = localeconv ();             // Get locale-information
+      TRACE9 ("ANumeric::operator= (const char*) - Locale-info = "
+	      << loc->grouping << " - " << loc->thousands_sep);
+      Check3 (strlen (loc->grouping) >= strlen (loc->thousands_sep));
+
+      int len (unformatted.length () - 1);
+      int index (0);
+      while (loc->grouping[index])
+	 ++index;
+      char group (loc->grouping[--index]);
+      char* pSep = loc->thousands_sep;
+
+      if (!group)
+	 group = CHAR_MAX;
+
+   while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
+      TRACE9 ("ANumeric::operator= (const char*) - Len =  " << len
+	      << "; Group = " << (int)group << "; Index = " << index);
+      len -= group;
+      if (unformatted[len] == *pSep)
+         unformatted.replace (len--, 1, 0, '\0');
+      else
+	 break;
+      TRACE8 ("ANumeric::operator= (const char*) - Removed " << unformatted);
+
+      if (index) {                    // Decrement group-pointer if more groups
+	 group = loc->grouping[--index];
+         if (pSep[1])
+            ++pSep;
+      } // endif further grouping available
+   } // end-while grouping necessary
+
+
 #ifdef HAVE_LIBGMP
-      if (mpz_init_set_str (value, pValue, 0))
+      if (mpz_init_set_str (unformatted.c_str (), pValue, 0))
 #else
       char* pTail = NULL;
       errno = 0;
-      value = strtol (pValue, &pTail, 0);
+      value = strtol (unformatted.c_str (), &pTail, 0);
       if (errno || (pTail && *pTail))
 #endif
-         throw std::invalid_argument (_("No number"));
+	 {
+	    std::string e =  (_("No number: %1"));
+	    e.replace (e.find ("%1"), 2, pTail);
+	    throw std::invalid_argument (e.c_str ());
+	 }
       setDefined ();
    }
    return *this;
@@ -163,9 +201,7 @@ std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const");
    std::string str;
 
-   if (!loc)
-      loc = localeconv ();                 // Get locale-information if not set
-
+   struct lconv* loc = localeconv ();                // Get locale-information
    TRACE9 ("ANumeric::toString () const - Locale-info = " << loc->grouping
            << " - " << loc->thousands_sep);
 
@@ -209,18 +245,13 @@ std::string ANumeric::toString () const {
 void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
    undefine ();
 
-   if (!loc)
-      loc = localeconv ();                 // Get locale-information if not set
+   struct lconv* loc = localeconv ();                // Get locale-information
 
-#ifdef HAVE_LIBGMP
    std::string help;
-#else
-   value = 0;
-#endif
    char ch, chSep;
 
-   in >> ch; Check3 (!isspace (ch));               // Skip leading whitespaces
-   while (!in.eof ()) {
+   in >> ch;                                       // Skip leading whitespaces
+   while (!in.eof () && !isspace (ch)) {
       if (strchr (loc->thousands_sep, ch)) {      // Skip thousand-seperators,
          chSep = ch;
          in.get (ch);
@@ -228,34 +259,19 @@ void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
       else
          chSep = '0';
 
-      if (isdigit (ch)) {                // add only digits; else terminate
-#ifdef HAVE_LIBGMP
-            help += ch;
-#else
-            setDefined ();
-            value *= 10;
-            value += ch - '0';
-#endif
-         }
-         else {
-            if (chSep != '0')
-               in.putback (chSep);
-            break;
-         } // end-else non-digit found
+      if (isdigit (ch))                     // add only digits; else terminate
+	 help += ch;
+      else {
+	 if (chSep != '0')
+	    in.putback (chSep);
+	 break;
+      } // end-else non-digit found
 
       in.get (ch);
    } // end-while !eof
    in.putback (ch);
 
-#ifdef HAVE_LIBGMP
-   if (!help.empty ()) {
-      mpz_set_str (value, help.c_str (), 10);
-      setDefined ();
-   }
-#endif
-
-   if (!in.eof ())
-	   throw std::invalid_argument (_("No number"));
+   operator= (help);
 }
 
 
