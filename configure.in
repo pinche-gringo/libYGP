@@ -1,7 +1,7 @@
-dnl $Id: configure.in,v 1.42 2003/02/14 04:19:37 markus Exp $
+dnl $Id: configure.in,v 1.43 2003/03/03 06:22:09 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_REVISION($Revision: 1.42 $)
+AC_REVISION($Revision: 1.43 $)
 
 AC_INIT()
 
@@ -15,16 +15,16 @@ AC_DEFINE_UNQUOTED(SYSTEM, UNIX)
 AC_SUBST(VERSION)
 AC_SUBST(RELEASE)
 
-LIBVERSION=0:2:0
+LIBVERSION=1:0:0
 LIBRELEASE=0.6.10
 AC_SUBST(LIBVERSION)
 AC_SUBST(LIBRELEASE)
 
 SUBDIRS="Common"
 
-GTKMM_NEEDED_MAYOR=1
+GTKMM_NEEDED_MAYOR=2
 GTKMM_NEEDED_MINOR=2
-GTKMM_NEEDED_MICRO=7
+GTKMM_NEEDED_MICRO=0
 GTKMM_MINVERSION=$GTKMM_NEEDED_MAYOR.$GTKMM_NEEDED_MINOR.$GTKMM_NEEDED_MICRO
 
 dnl AC_CANONICAL_SYSTEM
@@ -90,12 +90,15 @@ if test "$enable_corba" == "yes"; then
 fi
 
 dnl Check gtkmm version
-AM_PATH_GTKMM($GTKMM_MINVERSION, [[SUBDIRS="$SUBDIRS X-windows"]
-				  AC_DEFINE(HAVE_GTKMM, 1)
-                                  [GTK_LIBS="$GTKMM_LIBS -lgthread"]],
-              [AC_MSG_WARN([Subdir X-windows will not be made])])
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
+                  [AC_DEFINE(HAVE_GTK, 1)])
+PKG_CHECK_MODULES(GTKMM, gtkmm-2.0 >= $GTKMM_MINVERSION,
+                  [[SUBDIRS="$SUBDIRS X-windows"]
+                    [GTKMM_LIBS="$GTKMM_LIBS -lgthread"]],
+                  [AC_MSG_WARN([Subdir X-windows will not be made])])
 AC_SUBST(SUBDIRS)
-AC_SUBST(GTK_LIBS)
+AC_SUBST(GTKMM_CFLAGS)
+AC_SUBST(GTKMM_LIBS)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STAT
