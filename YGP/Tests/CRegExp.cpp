@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.1 2001/08/27 15:24:29 markus Exp $
+// $Id: CRegExp.cpp,v 1.2 2002/04/16 07:25:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -78,15 +78,28 @@ int foundResult (const char* pResult) {
    return ParseObject::PARSE_OK;
 }
 
+
+static const char* TESTFILE = "CRegExp.test";
+
 int main (int argc, char* argv[]) {
    cout << "Testing RegularExpression...\n";
-   Xifstream frexexp;
-   frexexp.open ("CRegExp.test", ios::in | ios::nocreate);
-   check (frexexp);
-   if (frexexp) {
-      frexexp.init ();
 
-      try {
+   Xifstream frexexp;
+   try {
+      if (argc > 1) { // If a parameter is passed, treat it as regexp to check
+         regexp = argv[1];
+         int rc (regexp.matches ((argc > 2) ? argv[2] : ""));
+         if (rc != ((argc > 3) ? (*argv[3] - '0') : 1))
+            ERROROUT ("RegExp (\"" << argv[1] << "\").matches (\""
+                      << argv[2] << "\") = " << rc);
+         return !rc;
+      }
+
+      frexexp.open (TESTFILE, ios::in | ios::nocreate);
+      check (frexexp);
+      if (frexexp) {
+         frexexp.init ();
+
          ParseObject*   _RegExpTest[3];
          ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1, 0);
          ParseObject*   _RegExpHeader[4];
@@ -108,13 +121,13 @@ int main (int argc, char* argv[]) {
 	 _values[3] = NULL;
 
          RegExpTest.parse ((Xistream&)frexexp);
-      }
-      catch (std::string& e) {
-	 cerr << e.c_str () << "\nActual position: Test.rex - "
-              << ANumeric (frexexp.getLine ()).toString ().c_str () << '/'
-              << ANumeric (frexexp.getColumn ()).toString ().c_str () << '\n';
-      }
-   } // endif
+      } // endif
+   } // end-try
+   catch (std::string& e) {
+      cerr << e.c_str () << "\nActual position: " << TESTFILE << " - "
+           << ANumeric (frexexp.getLine ()).toString () << '/'
+           << ANumeric (frexexp.getColumn ()).toString () << '\n';
+   }
 
    if (cErrors)
       cout << "Failures: " << cErrors << '\n';
