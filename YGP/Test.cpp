@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.20 1999/10/14 22:23:32 Markus Exp $
+// $Id: Test.cpp,v 1.21 1999/10/15 21:33:43 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -37,7 +37,6 @@
 #  include <strstrea.h>
 #endif
 
-#include "ADate.h"
 #include "Parse.h"
 #include "Handle.h"
 #include "ATStamp.h"
@@ -259,6 +258,17 @@ int Application::perform (int argc, char* argv[]) {
    past.add (0, 0, 4);
    check (past.isLeapYear ());
    
+   cout << "Testing ATime...\n";
+   ATime act;
+   check (!act.isDefined ());
+   ATimestamp first (false);
+   check (first.isDefined ());
+   check (act < first);
+
+   act = ATimestamp::now ();
+   check (act.isDefined ());
+   check (act > first);
+ 
    cout << "Testing ATimestamp...\n";
    ATimestamp now;
    check (!now.isDefined ());
