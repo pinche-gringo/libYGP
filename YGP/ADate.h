@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.14 2001/08/17 13:19:23 markus Exp $
+//$Id: ADate.h,v 1.15 2001/08/24 20:56:38 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ class ADate : public AttributValue {
    ADate (const char* pDate) throw (invalid_argument) { operator= (pDate); }
    ADate (const std::string& date) throw (invalid_argument) { operator= (date); }
    ADate (const struct tm& tm) { operator= (tm); }
-   ADate (const time_t date) { operator= (date); }
+   ADate (const time_t& date) { operator= (date); }
    virtual ~ADate ();
 
    // Set-functions
@@ -57,7 +57,7 @@ class ADate : public AttributValue {
       month = (unsigned char)(date.tm_mon + 1);
       setDay ((unsigned char)date.tm_mday); assert (!checkIntegrity ());
       return *this; }
-   ADate& operator= (const time_t date) { return operator= (*localtime (&date)); }
+   ADate& operator= (const time_t& date) { return operator= (*gmtime (&date)); }
 
    virtual void readFromStream (istream& in) throw (invalid_argument);
 
