@@ -1,0 +1,21 @@
+# $Id: POTFILES.in,v 1.1 2002/04/11 19:16:29 markus Exp $
+#
+# List of source files containing translatable strings.
+#     
+# Package source files
+Common/ADate.cpp
+Common/ANumeric.cpp
+Common/ATime.cpp
+Common/AssParse.cpp
+Common/AttrParse.cpp
+Common/CRegExp.cpp
+Common/File.cpp
+Common/FileRExp.cpp
+Common/INIFile.cpp
+Common/IVIOAppl.cpp
+Common/Parse.cpp
+Common/PathDirSrch.cpp
+Common/RDirSrch.cpp
+Common/RDirSrchSrv.cpp
+Common/RemoteFile.cpp
+Common/Socket.cpp
