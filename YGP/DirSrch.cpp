@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.33 2001/09/08 12:50:57 markus Exp $
+//$Id: DirSrch.cpp,v 1.34 2001/10/02 23:03:51 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -37,6 +37,7 @@
 #include <errno.h>
 
 #define DEBUG 0
+#include "File.h"
 #include "Trace_.h"
 #include "DirSrch.h"
 #include "FileRExp.h"
@@ -53,7 +54,7 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
 #endif
 {
    TRACE9 ("DirectorySearch::DirectorySearch ()");
-   searchDir += dirEntry::DIRSEPERATOR;
+   searchDir += File::DIRSEPERATOR;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -83,33 +84,35 @@ DirectorySearch::~DirectorySearch () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
 //Parameters: result: Buffer where to place the result
-//Returns   : Status; 0: OK
-//Requires  : pResult != NULL; searchDir already set
+//Returns   : const File*: Pointer to created file-object
+//Requires  : searchDir already set
 /*--------------------------------------------------------------------------*/
-int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
+const File* DirectorySearch::find (unsigned long attribs) {
+   TRACE9 ("DirectorySearch::find (unsigned long)");
    cleanup ();
-   pEntry = &result;
-   attr = convertToSysAttribs (attribs);
-   pEntry->path_ = searchDir;
 
-   assert (!checkIntegrity ());
+   attr = convertToSysAttribs (attribs);
 
    TRACE5 ("DirectorySearch::find (result, attribs) " << searchDir.c_str ()
 	   << searchFile.c_str ());
 
+   pEntry = new File;
+   pEntry->path_ = searchDir;
+   assert (!checkIntegrity ());
+
 #if SYSTEM == UNIX
    pDir = opendir (searchDir.c_str ());
    if (!pDir) {
-      pEntry = NULL;
-      return errno;
+      clearEntry ();
+      return NULL;
    }
 #else
 #  if SYSTEM == WINDOWS
    std::string temp (searchDir + '*');
    hSearch = FindFirstFile (temp.c_str (), pEntry);
    if (hSearch == INVALID_HANDLE_VALUE) {
-      pEntry = NULL;
-      return GetLastError ();
+      clearEntry ();
+      return NULL;
    }
 #  else
 #     error Not implemented!
@@ -117,7 +120,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 #endif
 
 #if SYSTEM == UNIX
-   return find ();
+   return next ();
 #else
 #  if SYSTEM == WINDOWS
    TRACE8 ("DirectorySearch::find (result, attribs) - found " << pEntry->name ());
@@ -130,7 +133,7 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
    return ((pEntry->attributes () & attr_)
            || !regExp.matches (pEntry->name ()))
-          ? find () : 0;
+          ? next () : pEntry;
 #  else
 #     error Not implemented!
 #  endif
@@ -139,10 +142,12 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the next file which matches the search-criteria
-//Returns   : Status; 0: OK
+//Returns   : const File*: Pointer to created file-object
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
-int DirectorySearch::find () {
+const File* DirectorySearch::next () {
+   TRACE9 ("DirectorySearch::next ()");
+
    assert (!checkIntegrity ());
    FileRegularExpr regExp (searchFile.c_str ());
    assert (!regExp.checkIntegrity ());
@@ -154,7 +159,7 @@ int DirectorySearch::find () {
    std::string temp;
    struct dirent* pDirEnt;
    while ((pDirEnt = readdir (pDir)) != NULL) {            // Files available?
-      TRACE8 ("DirectorySearch::find () - found " << pDirEnt->d_name);
+      TRACE8 ("DirectorySearch::next () - found " << pDirEnt->d_name);
 
       if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.'))
          continue;
@@ -164,20 +169,20 @@ int DirectorySearch::find () {
 
 	 if (!stat (temp.c_str (), &pEntry->status)) {
             // Do attributes match?
-            TRACE9 ("DirectorySearch::find (): " << pDirEnt->d_name << " (" << hex
+            TRACE9 ("DirectorySearch::next (): " << pDirEnt->d_name << " (" << hex
                     << attr << ") -> Mode: " << hex << pEntry->status.st_mode);
             if ((attr & pEntry->status.st_mode) == pEntry->status.st_mode) {
                pEntry->entry = *pDirEnt;
                pEntry->userExec = !access (temp.c_str (), X_OK);
-               TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
-               return 0;
+               TRACE1 ("DirectorySearch::next () - match " << pEntry->name ());
+               return pEntry;
             } // endif attributs OK
 	 } // endif stat succeeded
       } // endif filename OK
    } // end-while files available
 
-   pEntry = NULL;
-   return ENOENT;
+   clearEntry ();
+   return NULL;
 #else
 #  if SYSTEM == WINDOWS
    // Attribut-handling: Files having attrs not specified here are not ret.
@@ -187,11 +192,11 @@ int DirectorySearch::find () {
       if (!(pEntry->attributes () & attr_)
           && regExp.matches (pEntry->name ())) {
          TRACE1 ("DirectorySearch::find () - match " << pEntry->name ());
-         return 0;
+         return pEntry;
       }
 
-   pEntry = NULL;
-   return GetLastError ();
+   clearEntry ();
+   return NULL;
 #  else
 #      error Not implemented yet!
 #   endif
@@ -222,14 +227,14 @@ void DirectorySearch::setSearchValue (const std::string& search) {
    pEntry = NULL;          // New search-value means new search with new result
 
    searchDir = '.';
-   searchDir += dirEntry::DIRSEPERATOR;
+   searchDir += File::DIRSEPERATOR;
    searchFile = search;
 
    unsigned int len (search.length () - 1);
-   if (searchFile[len] == dirEntry::DIRSEPERATOR)
+   if (searchFile[len] == File::DIRSEPERATOR)
       searchFile.replace (len, 1, 0, '\0');
 
-   len = searchFile.rfind (dirEntry::DIRSEPERATOR);
+   len = searchFile.rfind (File::DIRSEPERATOR);
    if (len != std::string::npos) {
       searchDir = searchFile;
       TRACE9 ("DirectorySearch::setSearchValue - 1: " << searchDir);
@@ -238,6 +243,7 @@ void DirectorySearch::setSearchValue (const std::string& search) {
       searchFile.replace (0, len + 1, 0, '\0');
       TRACE9 ("DirectorySearch::setSearchValue - 3: " << searchFile);
    }
+   TRACE9 ("DirectorySearch::setSearchValue - checkIntegrity () = " << checkIntegrity ());
    assert (checkIntegrity () <= NO_ENTRY);
 }
 
@@ -245,6 +251,9 @@ void DirectorySearch::setSearchValue (const std::string& search) {
 //Purpose   : Cleanup of data
 /*--------------------------------------------------------------------------*/
 void DirectorySearch::cleanup () {
+   TRACE9 ("DirectorySearch::cleanup ()");
+   clearEntry ();
+
 #if SYSTEM == UNIX
 #  ifdef CLOSEDIR_VOID
    closedir (pDir);
@@ -274,7 +283,7 @@ bool DirectorySearch::isValid (const std::string& dir) {
 
 #if SYSTEM == WINDOWS
    std::string temp (dir);
-   if (temp[temp.length () - 1] == dirEntry::DIRSEPERATOR)
+   if (temp[temp.length () - 1] == File::DIRSEPERATOR)
       temp.replace (temp.length () - 1, 1, 0, '\0');
    return (!stat (temp.c_str (), &file) && (file.st_mode & S_IFDIR));
 #endif

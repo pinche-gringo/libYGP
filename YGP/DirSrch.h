@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.23 2001/09/27 22:02:24 markus Exp $
+//$Id: DirSrch.h,v 1.24 2001/10/02 23:03:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@
 
 
 // TODO/FIXME?: Maybe the classes in this files should be changed to either
-// 1. dirEntry is protected derived from "local" base
+// 1. File is protected derived from "local" base
 //   or maybe even better
 // 2. Use an abstract implementation-class with concrete realizations for
-//    every OS (like abstract IdirEntry with concrete IdirEntryUNIX, which
-//    is (protected) used by dirEntry).
+//    every OS (like abstract IFile with concrete IFileUNIX, which
+//    is (protected) used by File).
 
 
 #include <time.h>
@@ -33,7 +33,7 @@
 
 #include <gzo-cfg.h>
 
-#include <DirEntry.h>
+#include <File.h>
 #include <IDirSrch.h>
 
 class DirectorySearch;
@@ -54,7 +54,7 @@ class DirectorySearch;
 // (like [abcde]) or a region (like [a-e]). To invert this set use a
 // leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
 //
-// The found (and matching) files are retrieved by objects of type dirEntry.
+// The found (and matching) files are retrieved by objects of type File.
 //
 // Note: The class does not do any word expansion for the search-path
 //       (like expanding the tilde (~) to the home-directory)!
@@ -73,22 +73,18 @@ class DirectorySearch : public IDirectorySearch {
    static bool isValid (const std::string& dir);
 
    //@Section searching
-   int find (const std::string& search, dirEntry& result,
-             unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
+   const File* find (const std::string& search,
+                     unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
       cleanup ();
       setSearchValue (search);
-      return find (result, attribs); }
-   virtual int find (dirEntry& result,
-                     unsigned long attribs = IDirectorySearch::FILE_NORMAL);
-   virtual int find ();
+      return find (attribs); }
+   virtual const File* find (unsigned long attribs = IDirectorySearch::FILE_NORMAL);
+   virtual const File* next ();
 
  protected:
    virtual int checkIntegrity () const;
 
    void cleanup ();
-
-   void result (dirEntry* pResult) { assert (pResult); pEntry = pResult; }
-   void result (dirEntry& result) { pEntry = &result; }
 
    std::string searchDir;
    std::string searchFile;

@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.9 2001/09/27 22:02:25 markus Exp $
+//$Id: RDirSrch.h,v 1.10 2001/10/02 23:03:52 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@
 // ([^a-e]).
 //
 // The found (and matching) files are retrieved by objects of type
-// dirEntry.
+// File.
 //
 // Note: The class does not do any word expansion for the search-path
 //       (like expanding the tilde (~) to the home-directory)!
@@ -68,9 +68,9 @@ class RemoteDirSearch : public IDirectorySearch {
    virtual std::string getFileSpec () const;
 
    //@Section searching
-   virtual int find (dirEntry& result, unsigned long attribs = FILE_NORMAL)
+   virtual const File* find (unsigned long attribs = FILE_NORMAL)
       throw (std::string);
-   virtual int find () throw (std::string);
+   virtual const File* next () throw (std::string);
 
    enum { FILE_NORMAL = 0, FILE_READONLY = 1, FILE_DIRECTORY = 2, FILE_HIDDEN = 4 };
 
@@ -93,8 +93,8 @@ class RemoteDirSearch : public IDirectorySearch {
    int posSeperator (const std::string& dir) const;
 
    bool isOK (const AByteArray& answer) const;
-   void setFiledata (const char* pAnswer) throw (std::string);
-   int handleServerError (const char* pAnswer) throw (std::string);
+   const File* setFiledata (const char* pAnswer) throw (std::string);
+   void handleServerError (const char* pAnswer) throw (std::string);
 
    std::string server;
    std::string files;

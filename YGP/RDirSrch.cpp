@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.9 2001/09/08 13:43:05 markus Exp $
+//$Id: RDirSrch.cpp,v 1.10 2001/10/02 23:03:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -33,8 +33,8 @@
 #include "ANumeric.h"
 #include "AttrParse.h"
 #include "AByteArray.h"
+#include "RemoteFile.h"
 
-#include "DirEntry.h"
 #include "RDirSrch.h"
 
 
@@ -78,6 +78,7 @@ RemoteDirSearch::RemoteDirSearch (const std::string& srch, unsigned int port)
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 RemoteDirSearch::~RemoteDirSearch () {
+   clearEntry ();
    sock.write ("End", 3);
 }
 
@@ -112,17 +113,19 @@ void RemoteDirSearch::init (const std::string& search, unsigned int port)
 //Parameters: pAnswer: Character-buffer holding reponse from server
 //Requires  : pAnswer valid ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-void RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+const File* RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
+   TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - "
            << pAnswer);
 
    assert (pAnswer);
-   assert (pEntry);
+   clearEntry ();
 
    attrs.assignValues (pAnswer);
 
+   pEntry = new RemoteFile;
+
    // Set filename
-   unsigned int posDirEnd (file.rfind (dirEntry::DIRSEPERATOR));
+   unsigned int posDirEnd (file.rfind (File::DIRSEPERATOR));
    if (posDirEnd != std::string::npos) {
       pEntry->path (file.substr (0, posDirEnd));
       pEntry->name (file.substr (posDirEnd + 1));
@@ -131,36 +134,35 @@ void RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
       pEntry->path ("");
       pEntry->name (file);
    }
+   file = "";
 
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+   TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - "
            << pEntry->path () << pEntry->name ());
 
    // Set size
    pEntry->size (size);
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size=" << size);
+   TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - Size=" << size);
 
    // Set filetime
    time.setGMT (time.toSysTime ());
    pEntry->time (time.toSysTime ());
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Time="
+   TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - Time="
 	   << time.toString ());
 
    // Set attributes
    pEntry->attributes (IDirectorySearch::convertToSysAttribs (attr));
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Attr=" << attr);
+   TRACE9 ("RemoteDirSearch::setFiledata (File&, const char*) - Attr=" << attr);
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
 //Parameters: res: Buffer where to place the result
 //            attribs: Attributes of files to find
-//Returns   : Status; 0: OK
+//Returns   : const File*: Pointer to found file-obect
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (std::string) {
-   TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long)");
-
-   pEntry = &res;
+const File* RemoteDirSearch::find (unsigned long attribs) throw (std::string) {
+   TRACE9 ("RemoteDirSearch::find (unsigned long)");
 
    AByteArray buffer ("Find=\"");
    buffer += files;
@@ -170,7 +172,7 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (std::str
    buffer += attrs.toString ();
    buffer += '\0';
 
-   TRACE8 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Sending:\n\t"
+   TRACE8 ("RemoteDirSearch::find (unsigned long) - Sending:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
    try {
       sock.write (buffer);
@@ -181,27 +183,26 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (std::str
       throw err;
    }
    buffer += '\0';
-   TRACE8 ("RemoteDirSearch::find (dirEntry&, unsigned long) - Read:\n\t"
+   TRACE8 ("RemoteDirSearch::find (unsigned long) - Read:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
 
-   if (isOK (buffer)) {
-      setFiledata (buffer.data () + 5);
-      return 0;
-   }
+   if (isOK (buffer))
+      return setFiledata (buffer.data () + 5);
    else
-      return handleServerError (buffer.data ());
+      handleServerError (buffer.data ());
+   return NULL;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the next file which matches the search-criteria
 //Returns   : Status; 0: OK
-//Requires  : searchDir, pEntry  already set
+//Returns   : const File*: Pointer to found file-obect
 //Notes     : In case of an (unexpected) error it is thrown for the caller
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::find () throw (std::string) {
+const File* RemoteDirSearch::next () throw (std::string) {
    AByteArray buffer ("Next");
 
-   TRACE8 ("RemoteDirSearch::find () - Sending:\n\t"
+   TRACE8 ("RemoteDirSearch::next () - Sending:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
    try {
       sock.write (buffer);
@@ -212,15 +213,14 @@ int RemoteDirSearch::find () throw (std::string) {
       throw err;
    }
    buffer += '\0';
-   TRACE8 ("RemoteDirSearch::find () - Read:\n\t"
+   TRACE8 ("RemoteDirSearch::next () - Read:\n\t"
            << buffer.length () << " bytes: " << buffer.data ());
 
-   if (isOK (buffer)) {
-      setFiledata (buffer.data () + 5);
-      return 0;
-   }
+   if (isOK (buffer))
+      return setFiledata (buffer.data () + 5);
    else
-      return handleServerError (buffer.data ());
+      handleServerError (buffer.data ());
+   return NULL;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -230,7 +230,7 @@ int RemoteDirSearch::find () throw (std::string) {
 //Parameters: pAnswer: Response from the server
 //Returns   : True if the remote directory does exist
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string) {
+void RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string) {
    int rc;
    std::string error;
 
@@ -244,7 +244,6 @@ int RemoteDirSearch::handleServerError (const char* pAnswer) throw (std::string)
       error = "Server returned an error: " + error;
       throw (error);
    }
-   return rc;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -260,7 +259,7 @@ int RemoteDirSearch::posSeperator (const std::string& dir) const {
    // Search after drive-letter-seperator in Windoze, ...
    int pos ((dir.length < 3) ? std::string::npos
 	    : (dir.find (SEPERATOR, 2) == std::string::npos
-	       ? std::string::npos : dir.find (dirEntry::DIRSEPERATOR, pos)));
+	       ? std::string::npos : dir.find (File::DIRSEPERATOR, pos)));
 #endif
 
    return pos;
@@ -276,7 +275,7 @@ bool RemoteDirSearch::isValid (const std::string& dir) throw (domain_error) {
    TRACE5 ("RemoteDirSearch::isValid (const std::string&) - " << dir);
 
    std::string write ("Check=\"");
-   write.append (dir, 0, dir.rfind (dirEntry::DIRSEPERATOR));
+   write.append (dir, 0, dir.rfind (File::DIRSEPERATOR));
    write += '"';
    TRACE8 ("RemoteDirSearch::isValid (const std::string&) - Cmd = "
            << write);
@@ -323,7 +322,7 @@ void RemoteDirSearch::setSearchValue (const std::string& search) {
    files.replace (0, len + 1, 0, '\0');
 
    len = files.length () - 1;
-   if (files[len] == dirEntry::DIRSEPERATOR)     // Remove trailing seperators
+   if (files[len] == File::DIRSEPERATOR)     // Remove trailing seperators
       files.replace (len, 1, 0, '\0');
 
    TRACE5 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
@@ -338,7 +337,7 @@ std::string RemoteDirSearch::getDirectory () const {
    std::string ret (server);
    ret += SEPERATOR;
 
-   int pos (files.rfind (dirEntry::DIRSEPERATOR));
+   int pos (files.rfind (File::DIRSEPERATOR));
    if (pos != std::string::npos)
       ret += files.substr (0, pos + 1);
 
@@ -350,5 +349,5 @@ std::string RemoteDirSearch::getDirectory () const {
 //Returns   : std::string: Files to find
 /*--------------------------------------------------------------------------*/
 std::string RemoteDirSearch::getFileSpec () const {
-   return files.substr (files.rfind (dirEntry::DIRSEPERATOR) + 1);
+   return files.substr (files.rfind (File::DIRSEPERATOR) + 1);
 }

@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.8 2001/09/27 22:02:25 markus Exp $
+//$Id: PathDirSrch.h,v 1.9 2001/10/02 23:03:52 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 // (like [abcde]) or a region (like [a-e]). To invert this set use a
 // leading caret (^) or a leading exclamation mark (!), like ([^a-e]).
 //
-// The found (and matching) files are retrieved by objects of type dirEntry.
+// The found (and matching) files are retrieved by objects of type File.
 //
 // Note: The class does not do any word expansion for the search-path
 //       (like expanding the tilde (~) to the home-directory)!
@@ -54,19 +54,19 @@ class PathDirectorySearch : public DirectorySearch {
    static void checkPath (const std::string& path) throw (std::string);
 
    //@Section searching
-   int find (const std::string& path, const std::string& search,
-	     dirEntry& result, unsigned long attribs = FILE_NORMAL) {
+   const File* find (const std::string& path, const std::string& search,
+	             unsigned long attribs = FILE_NORMAL) {
       setPath (path);
       srch = search;
-      return find (result, attribs); }
-   int find (const std::string& search, dirEntry& result,
-	     unsigned long attribs = FILE_NORMAL) {
+      return find (attribs); }
+   const File* find (const std::string& search,
+                     unsigned long attribs = FILE_NORMAL) {
       srch = search;
       searchPath.reset ();
-      return find (result, attribs); }
+      return find (attribs); }
 
-   virtual int find (dirEntry& result, unsigned long attribs = FILE_NORMAL);
-   virtual int find ();
+   virtual const File* find (unsigned long attribs = FILE_NORMAL);
+   virtual const File* next ();
 
  protected:
    virtual int checkIntegrity () const;

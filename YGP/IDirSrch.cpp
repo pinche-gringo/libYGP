@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.1 2001/08/28 20:18:47 markus Exp $
+//$Id: IDirSrch.cpp,v 1.2 2001/10/02 23:03:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -28,6 +28,7 @@
 #include <gzo-cfg.h>
 
 #define DEBUG 0
+#include "File.h"
 #include "Trace_.h"
 #include "IDirSrch.h"
 
@@ -86,6 +87,7 @@ static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 IDirectorySearch::~IDirectorySearch () {
+   delete pEntry;
 }
 
 

@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.15 2001/09/27 22:02:49 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.16 2001/10/02 23:03:53 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -48,59 +48,60 @@ PathDirectorySearch::~PathDirectorySearch () {
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
 //Parameters: pResult: Buffer where to place the result
-//Returns   : Status; 0: OK
+//Returns   : const File*: Pointer to found file-object
 //Requires  : pResult != NULL; searchDir already set
 /*--------------------------------------------------------------------------*/
-int PathDirectorySearch::find (dirEntry& result, unsigned long attribs) {
+const File* PathDirectorySearch::find (unsigned long attribs) {
    assert (checkIntegrity () <= DirectorySearch::LAST);
 
-   TRACE9 ("PathDirectorySearch::find (dirEntry&, unsigned long) - Full:  "
+   TRACE9 ("PathDirectorySearch::find (unsigned long) - Full:  "
            << searchPath.data () << " -> " << srch);
 
-   int rc = -1;
+   const File* rc (NULL);
    do {
       // Build filename with next (= first on first call) node of path
       std::string node (searchPath.getNextNode ());
       if (node.empty ()) {
-	 pEntry = NULL;
-         return ENOENT;
+	 clearEntry ();
+         return NULL;
       }
 
       if (makePath (node, srch)) {
-         TRACE5 ("PathDirectorySearch::find (dirEntry&, unsigned long) - Node: "
+         TRACE5 ("PathDirectorySearch::find (unsigned long) - Node: "
                  << node);
          setSearchValue (node);
-         rc = DirectorySearch::find (result, attribs);
+         rc = DirectorySearch::find (attribs);
       } // endif
-   } while (rc);
-   return 0;
+   } while (!rc);
+   return rc;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the next file which matches the search-criteria
-//Returns   : Status; 0: OK
+//Returns   : const File*: Pointer to found file-object
 //Requires  : pResult != NULL; searchDir already set
 /*--------------------------------------------------------------------------*/
-int PathDirectorySearch::find () {
-   TRACE9 ("PathDirectorySearch::find (): " << searchPath.data ()  << " -> " << srch);
+const File* PathDirectorySearch::next () {
+   TRACE9 ("PathDirectorySearch::next (): " << searchPath.data ()  << " -> " << srch);
 
    assert (!checkIntegrity ());
 
-   TRACE5 ("PathDirectorySearch::find () - searchPath::actNode ()="
+   TRACE5 ("PathDirectorySearch::next () - searchPath::actNode ()="
 	   << searchPath.getActNode ());
-   if (searchPath.getActNode ().empty ())
-      return ENOENT;
 
-   dirEntry* result = pEntry;
+   File* result = pEntry;
 
-   int rc (DirectorySearch::find ());
-   while (rc) {
-      if (searchPath.getActNode ().empty ())
-         return rc;
+   const File* tmp (DirectorySearch::next ());
+   while (!tmp) {
+      if (searchPath.getActNode ().empty ()) {
+         clearEntry ();
+         return NULL;
+      }
 
-      rc = find (*result, attr);
+      pEntry = result;
+      tmp = find (attr);
    }
-   return rc;
+   return tmp;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -138,8 +139,8 @@ bool PathDirectorySearch::makePath (std::string& path, const std::string& file) 
    wordfree (&result);
 #endif
 
-   if (path[path.length () - 1] != dirEntry::DIRSEPERATOR)
-      path += dirEntry::DIRSEPERATOR;
+   if (path[path.length () - 1] != File::DIRSEPERATOR)
+      path += File::DIRSEPERATOR;
    path += file;
    return true;
 }
