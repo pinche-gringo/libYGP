@@ -1,11 +1,11 @@
-// $Id: RFile.cpp,v 1.4 2003/11/14 00:42:56 markus Exp $
+// $Id: RFile.cpp,v 1.5 2003/11/14 17:24:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/RFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -26,6 +26,7 @@
 
 #include <cstdio>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #include <iostream>
 
@@ -52,7 +53,8 @@ int main (int argc, char* argv[]) {
       return -1;
    }
 
-   switch (fork ()) {
+   pid_t pid = fork ();
+   switch (pid) {
    case 0: {                                                     // Child-part
       close (aiPipe[1]);
 
@@ -68,6 +70,7 @@ int main (int argc, char* argv[]) {
 
       TRACE1 ("Found: " << file->path () << file->name ());
       file->exit ();
+      return 0;
       }
       break;
 
@@ -91,10 +94,15 @@ int main (int argc, char* argv[]) {
       fputs (id, stream);
       fclose (stream);
 
+      TRACE9 ("RFile (parent): Running ...");
       orb->run ();
+      TRACE9 ("RFile (parent): Releasing ...");
       CORBA::release (file);
+
+      TRACE9 ("RFile (parent): Waiting for child to die ...");
+      int rc;
+      waitpid (pid, &rc, 0);
+      return rc;
       }
    } // end-switch
-
-   return 0;
 }

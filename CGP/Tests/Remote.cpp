@@ -1,11 +1,11 @@
-// $Id: Remote.cpp,v 1.3 2003/03/04 05:14:33 markus Rel $
+// $Id: Remote.cpp,v 1.4 2003/11/14 17:24:49 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA/Test/Remote
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.7.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -24,19 +24,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <assert.h>
-#include <stdio.h>
+#include <cstdio>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #include <iostream>
 
 #include <CORBA.h>
 
-#include <Internal.h>
+#include <YGP/Internal.h>
+#include <YGP/Check.h>
+#include <YGP/Trace_.h>
 
-#include <Trace_.h>
-
-#include <CIDirSrch.h>
+#include <CGP/CIDirSrch.h>
 
 
 int main (int argc, char* argv[]) {
@@ -53,7 +53,8 @@ int main (int argc, char* argv[]) {
       return -1;
    }
 
-   switch (fork ()) {
+   pid_t pid = fork ();
+   switch (pid) {
    case 0: {                                                     // Child-part
       close (aiPipe[1]);
 
@@ -66,9 +67,9 @@ int main (int argc, char* argv[]) {
       CORBA::ORB_var orb = CORBA::ORB_init (argc, argv, "mico-local-orb" );
 
       CORBA::Object_var cltObj (orb->string_to_object (id));
-      assert (cltObj);
+      Check3 (cltObj);
       CDirectorySearch_var srchClt (CDirectorySearch::_narrow (cltObj));
-      assert (srchClt);
+      Check3 (srchClt);
       srchClt->setSearchValue ("Rem*");
 
       unsigned int files (0);
@@ -83,9 +84,9 @@ int main (int argc, char* argv[]) {
       }
 
       srchClt->exit ();
-      return files != 3;
+      TRACE9 ("Found files: " << files);
+      return (files != 3);
       }
-      break;
 
    case -1:
       std::cerr << "Remote: Can't create child process\n";
@@ -97,7 +98,7 @@ int main (int argc, char* argv[]) {
       CORBA::ORB_var orb (CORBA::ORB_init (argc, argv, "mico-local-orb" ));
       CORBA::BOA_var boa (orb->BOA_init (argc, argv, "mico-local-boa" ));
 
-      CIDirectorySearch* srchSrv = new CIDirectorySearch (); assert (srchSrv);
+      CIDirectorySearch* srchSrv = new CIDirectorySearch (); Check3 (srchSrv);
       boa->impl_is_ready (CORBA::ImplementationDef::_nil ());
 
       CORBA::String_var id = orb->object_to_string (srchSrv);
@@ -110,8 +111,10 @@ int main (int argc, char* argv[]) {
 
       orb->run ();
       CORBA::release (srchSrv);
+
+      int rc;
+      waitpid (pid, &rc, 0);
+      return rc;
       }
    } // end-switch
-
-   return 0;
 }
