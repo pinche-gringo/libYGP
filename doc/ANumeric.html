@@ -1,0 +1,139 @@
+<!-- $Id: ANumeric.html,v 1.1 2000/03/21 23:30:52 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: ANumeric</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class ANumeric </h1>
+    <p>Derived from: <a href="AttrVal.html">AttributValue</a></p>
+
+    <p>Header-file: ATNumeric.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class for numeric values. As every AttributValue is supports undefined
+      values.</p>
+
+    <p>Depending on the system and the available libraries the numeric value
+      are stored as longs or with the GNU Multi Precission library (where
+      numbers are ov infinite length).</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric">ANumeric</a></td><td>()</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric2">ANumeric</a></td><td>
+	  (const <a href="ANumeric.html">ANumeric</a>& other)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric3">ANumeric</a></td>
+	<td>(const int val)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric4">ANumeric</a></td>
+	<td>(const long val)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric5">ANumeric</a></td>
+	<td>(const char* pValue)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#ANumeric6">ANumeric</a></td>
+	<td>(const std::string&amp; value)</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="ANumeric.html#~ANumeric">~ANumeric</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=">operator=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=2">operator=</a></td>
+	<td>(int val)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=3">operator=</a></td>
+	<td>(long val)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=4">operator=</a></td>
+	<td>(const char* pValue)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric&amp;</a></td>
+	<td><a href="ANumeric.html#operator=4">operator=</a></td>
+	<td>(const std::string&amp; value)</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="ANumeric.html#define">define</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="ANumeric.html#readFromStream">readFromStream</a></td>
+	<td>(istream&amp; in)</td></tr>
+
+      <tr valign="top"><td>virtual std::string</td>
+	<td><a href="ANumeric.html#toString">toString</a></td><td>() const</td></tr>
+
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
+	<td><a href="ANumeric.html#operator+=">operator+=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
+	<td><a href="ANumeric.html#operator-=">operator-=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
+	<td><a href="ANumeric.html#operator*=">operator*=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+      <tr valign="top"><td><a href="ANumeric.html">ANumeric</a>&</td>
+	<td><a href="ANumeric.html#operator/-=">operator/-=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; rhs)</td></tr>
+
+      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
+	<td><a href="ANumeric.html#operator+">operator+</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+	  const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
+	<td><a href="ANumeric.html#operator-">operator-</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+	  const <a href="ANumeric.html">ANumeric/a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
+	<td><a href="ANumeric.html#operator*">operator*</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+	  const <a href="ANumeric.html">ANumeric</a>&amp; rhs);</td></tr>
+      <tr valign="top"><td>friend <a href="ANumeric.html">ANumeric</a></td>
+	<td><a href="ANumeric.html#operator/">operator/</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; lhs,
+	  const <a href="ANumeric.html">ANumeric/a>&amp; rhs);</td></tr>
+
+      <tr valign="top"><td>bool</td>
+	<td><a href="ANumeric.html#operator==">operator==</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ANumeric.html#operator!=">operator!=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ANumeric.html#operatorl">operator&lt;</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ANumeric.html#operatorg">operator&gt;</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ANumeric.html#operatorl=">operator&lt;=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td>bool</td>
+	<td><a href="ANumeric.html#operatorg=">operator&gt;=</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+      <tr valign="top"><td>long</td>
+	<td><a href="ANumeric.html#compare">compare</a></td>
+	<td>(const <a href="ANumeric.html">ANumeric</a>&amp; other)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Constructors & assignment</h4>
+    <p><a name="ANumeric"><i>ANumeric ()</i> -
+	Defaultconstructor; the numeric value is not defined</a></p>
+
+  </body>
+</html>
+
+
