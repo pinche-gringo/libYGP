@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.30 2002/11/04 01:06:20 markus Rel $
+//$Id: Parse.cpp,v 1.31 2002/11/26 04:26:58 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -75,7 +75,7 @@ ParseObject::ParseObject (const char* description, bool skipWhitespace)
 ParseObject::ParseObject (const ParseObject& other)
    : pDescription (other.pDescription), skip (other.skip) {
    TRACE9 ("Copying ParseObject " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -98,7 +98,7 @@ ParseObject& ParseObject::operator= (const ParseObject& other) {
       skip = other.skip;
    } // endif other object
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    return *this;
 }
 
@@ -111,7 +111,7 @@ void ParseObject::skipWS (Xistream& stream) const {
    if (!skip)
       return;
 
-   TRACE8 ("Skipping WS after " << pDescription);
+   TRACE8 ("ParseObject::skipWS (Xistream&) - " << pDescription);
    char c ('\0');
    stream >> c;
    stream.putback (c);
@@ -123,7 +123,7 @@ void ParseObject::skipWS (Xistream& stream) const {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int ParseObject::found (const char* pFoundValue, unsigned int) {
-   assert (pFoundValue);
+   Check3 (pFoundValue);
    return PARSE_OK;
 }
 
@@ -140,7 +140,15 @@ int ParseObject::checkIntegrity () const {
 //Purpose     : Destructor
 /*--------------------------------------------------------------------------*/
 ParseEOF::~ParseEOF () {
-   TRACE9 ("ParseEOF::~ParseEOF: " << getDescription ());
+   TRACE9 ("ParseEOF::~ParseEOF () - " << getDescription ());
+}
+
+
+/*--------------------------------------------------------------------------*/
+//Purpose     : Destructor
+/*--------------------------------------------------------------------------*/
+ParseSkip::~ParseSkip () {
+   TRACE9 ("ParseSkip::~ParseSkip () - " << getDescription ());
 }
 
 
@@ -151,15 +159,17 @@ ParseEOF::~ParseEOF () {
 //              max: Maximal cardinality
 //              min: Minimal cardinality
 //              skipWhitespace: Flag if TRAILING WS are skipped
-//Requires    : value != NULL && !ParseObject::checkIntegrity ()
+//              reportData: Flag if parsed data should be stored and reported
+//                          via the virtual found method
+//Requires    : !checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const char* value, const char* description,
                             unsigned int max, unsigned int min,
-                            bool skipWhitespace)
+                            bool skipWhitespace, bool reportData)
    : ParseObject (description, skipWhitespace)
-   , pValue (value), maxCard (max), minCard (min) {
+   , pValue (value), maxCard (max), minCard (min), report (reportData) {
    TRACE9 ("Creating ParseAttomic " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -167,9 +177,10 @@ ParseAttomic::ParseAttomic (const char* value, const char* description,
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 ParseAttomic::ParseAttomic (const ParseAttomic& other)
-   : ParseObject ((const ParseObject&)other), pValue (other.pValue) {
+   : ParseObject ((const ParseObject&)other), pValue (other.pValue)
+     , maxCard (other.maxCard), minCard (other.minCard), report (other.report) {
    TRACE9 ("Copying ParseAttomic " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -192,9 +203,10 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
       pValue = other.pValue;
       maxCard = other.maxCard;
       minCard = other.minCard;
+      report = other.report;
    } // endif other object
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    return *this;
 }
 
@@ -205,44 +217,60 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE1 ("ParseAttomic::doParse -> " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    int ch (0);
    std::string& buffer = BUFFER;
+   buffer = "";
+   unsigned int len (0);
 
    while (buffer.size () < maxCard) {        // While not max. card is reached
       ch = stream.get ();
-      TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> " << (char)ch);
+      TRACE6 ("ParseAttomic::doParse -> " << getDescription () << " -> "
+              << (char)ch << " = 0x" << hex << ch << dec);
 
       if (ch == EOF)
          break;
 
-      if (!checkValue ((char)ch)) {                // Read and check next char
+      int cmp = checkValue ((char)ch);
+      if (!cmp) {                                  // Read and check read char
          stream.putback ((char)ch);
          break;
       }
+      else
+         if (cmp == -1)
+            continue;
 
-      buffer += (char)ch;                                      // Store, if OK
+      if (report || !len)
+         buffer += (char)ch;                                   // Store, if OK
+      ++len;
    } // end-while !maximal cardinality
    TRACE6 ("ParseAttomic::doParse -> " << getDescription () << ": Final = '"
            << buffer << '\'');
 
    int rc (PARSE_OK);
-   if (buffer.size () >= minCard) {                       // Cardinalities OK?
+   if (len >= minCard) {                                  // Cardinalities OK?
       ch = 0;
+      if (report)
+         rc = found (buffer.c_str (), len);          // Report object as found
+      else {
+         buffer += "...";
+         buffer += ch;
+      }
       TRACE2 ("ParseAttomic::doParse -> " << getDescription () << ": Found '"
               << buffer << '\'');
-      rc = found (buffer.c_str (), buffer.size ());  // Report object as found
    } // endif value OK
    else
       rc = PARSE_ERROR;
 
    if (rc) {
-      if (optional || (rc > 0)) {
-      	 unsigned int len (buffer.size ());
-         while (len--)
-            stream.putback (buffer[len]);
-	}
+      if ((optional || (rc > 0))) {
+         if (report) {
+            unsigned int len (buffer.size ());
+            while (len--)
+               stream.putback (buffer[len]);
+         }
+      }
       else {
          std::string error (_("Expected %1, found: '%2'"));
          error.replace (error.find ("%1"), 2, getDescription ());
@@ -274,13 +302,13 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 //                - *: ch is valid.
 //                - Else: ch is valid if it equal to this char
 //Parameters  : ch: Char to check
-//Returns     : boolean: Result; true if valid
+//Returns     : int: Result; true if valid
 /*--------------------------------------------------------------------------*/
-bool ParseAttomic::checkValue (char ch) {
+int ParseAttomic::checkValue (char ch) {
    TRACE8 ("ParseAttomic::checkValue " << getDescription () << ' ' << ch);
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
-   const char* pHelp = pValue; assert (pHelp);
+   const char* pHelp = pValue; Check3 (pHelp);
    while (*pHelp) {
       if (*pHelp == ESCAPE) {
          switch (*++pHelp) {
@@ -344,10 +372,10 @@ ParseText::~ParseText () {
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
-bool ParseText::checkValue (char ch) {
+int ParseText::checkValue (char ch) {
    TRACE8 ("ParseText::checkValue " << getDescription () << ' ' << ch);
 
-   const char* pHelp = pValue; assert (pHelp);
+   const char* pHelp = pValue; Check3 (pHelp);
    while (*pHelp) {
       if (*pHelp++ == ch)
 	 return false;
@@ -365,13 +393,14 @@ bool ParseText::checkValue (char ch) {
 //              min: Minimal cardinality
 //              escape: Character which escapes chars in value
 //              skipWhitespace: Flag if TRAILING WS are skipped
+//              reportData: Flag if data should be stored and reported
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
                             unsigned int max, unsigned int min, char escape,
-                            bool skipWhitespace)
-   : ParseText (abort, description, max, min, skipWhitespace)
-   , esc (escape), last (!escape) {
+                            bool skipWhitespace, bool reportData)
+   : ParseText (abort, description, max, min, skipWhitespace, reportData)
+   , esc (escape), last (!escape), prelast (!escape) {
    TRACE9 ("Creating ParseTextEsc " << getDescription ());
 };
 
@@ -380,7 +409,7 @@ ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
 //Parameters  : other: Object to clone
 /*--------------------------------------------------------------------------*/
 ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
-   : ParseText (other), esc (other.esc), last (!other.esc) {
+   : ParseText (other), esc (other.esc), last (!other.esc), prelast (!other.esc) {
    TRACE9 ("Copying ParseTextEsc " << getDescription ());
 }
 
@@ -401,11 +430,11 @@ ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
 
    if (&other != this) {
       esc = other.esc;
-      last = !other.esc;
+      prelast = !other.esc;last = !other.esc;
       ParseText::operator= (other);
    } // endif other object
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    return *this;
 }
 
@@ -416,21 +445,23 @@ ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
-bool ParseTextEsc::checkValue (char ch) {
-   TRACE8 ("ParseTextEsc::checkValue " << getDescription () << ' ' << ch);
+int ParseTextEsc::checkValue (char ch) {
+   TRACE8 ("ParseTextEsc::checkValue (char) - " << getDescription () << ' '
+           << ch << " [" << last << '/' << prelast << ']');
 
-   const char* pHelp = pValue; assert (pHelp);
+   const char* pHelp = pValue; Check3 (pHelp);
    while (*pHelp) {
-      if ((*pHelp == ch) && (last != esc)) {
-         last = !esc;
+      if ((*pHelp == ch) && ((last != esc)
+                             || ((last == esc) && (prelast == esc)))) {
+         prelast = last = !esc;
 	 return false;
       } // endif
-
       ++pHelp;
-      last = ch;
    } // endwhile chars available
 
-   return true;
+   prelast = last;
+   last = ch;
+   return ((ch == esc) && (prelast != esc)) ? -1 : true;
 }
 
 
@@ -439,17 +470,18 @@ bool ParseTextEsc::checkValue (char ch) {
 //Parameters  : value: List of valid characters
 //              description: Description of object (what it parses)
 //              skipWhitespace: Flag if TRAILING WS are skipped
+//              reportData: Flag, if data should be stored and reported
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
 /*--------------------------------------------------------------------------*/
 ParseExact::ParseExact (const char* value, const char* description,
-                        bool skipWhitespace)
-   : ParseAttomic (value, description, 1, 1, skipWhitespace)
+                        bool skipWhitespace, bool reportData)
+   : ParseAttomic (value, description, 1, 1, skipWhitespace, reportData)
    , pos (0) {
    TRACE9 ("Creating ParseExact " << getDescription ());
    unsigned int len (strlen (value));      // value !NULL is checked by parent
    minCard = len;
    maxCard = len;
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -472,7 +504,7 @@ ParseExact& ParseExact::operator= (const ParseExact& other) {
       pos = 0;
    } // endif other object
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    return *this;
 }
 
@@ -482,7 +514,7 @@ ParseExact& ParseExact::operator= (const ParseExact& other) {
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
-bool ParseExact::checkValue (char ch) {
+int ParseExact::checkValue (char ch) {
    TRACE8 ("ParseExact::checkValue " << getDescription () << ' ' << ch);
    if (pValue[pos++] == ch) {   // Valid if ch == act-char; if wrong reset pos
       if (pos >= maxCard)           // Reset position after successfull serach
@@ -518,7 +550,7 @@ ParseUpperExact::~ParseUpperExact () {
 //Parameters  : ch: Char to check
 //Returns     : boolean: Result; true if valid
 /*--------------------------------------------------------------------------*/
-bool ParseUpperExact::checkValue (char ch) {
+int ParseUpperExact::checkValue (char ch) {
    TRACE8 ("ParseUpperExact::checkValue " << getDescription () << ' ' << ch);
    return ParseExact::checkValue ((char)toupper (ch));
 }
@@ -537,150 +569,6 @@ int ParseUpperExact::checkIntegrity () const {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Destructor
-/*--------------------------------------------------------------------------*/
-ParseIgnore::~ParseIgnore () {
-   TRACE9 ("ParseIgnore::~ParseIgnore (): " << getDescription ());
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Tries to parse the object from the stream
-//Parameters  : stream: Source from which to read
-//              optional: Flag, if node must be found
-/*--------------------------------------------------------------------------*/
-int ParseIgnore::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE1 ("ParseIgnore::doParse (Xistream&, bool) -> " << getDescription ());
-   assert (!checkIntegrity ());
-
-   int ch (0);
-   unsigned int i (0);
-   while (i < maxCard) {                     // While not max. card is reached
-      ch = stream.get ();
-      TRACE6 ("ParseIgnore::doParse (Xistream&, bool) -> "
-              << getDescription () << " -> " << (char)ch);
-
-      if (ch == EOF)
-         break;
-
-      if (!checkValue ((char)ch)) {                // Read and check next char
-         stream.putback ((char)ch);
-         break;
-      }
-      ++i;
-   } // end-while !maximal cardinality
-
-   TRACE2 ("ParseIgnore::doParse (Xistream&, bool) -> " << getDescription ()
-           << ": Found " << i << " character(s)");
-   skipWS (stream);
-   return minCard ? (i ? PARSE_OK : PARSE_ERROR) : PARSE_OK;
-}
-
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Destructor
-/*--------------------------------------------------------------------------*/
-ParseTextIgnore::~ParseTextIgnore () {
-   TRACE9 ("ParseTextIgnore::~ParseTextIgnore (): " << getDescription ());
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the passed character is valid acc. to pValue. This
-//              is true if ch doesn't match any character in the list.
-//Parameters  : ch: Char to check
-//Returns     : boolean: Result; true if valid
-/*--------------------------------------------------------------------------*/
-bool ParseTextIgnore::checkValue (char ch) {
-   TRACE8 ("ParseTextIgnore::checkValue (char) - " << getDescription () << ' ' << ch);
-
-   const char* pHelp = pValue; assert (pHelp);
-   while (*pHelp) {
-      if (*pHelp++ == ch)
-	 return false;
-   } // endwhile chars available
-
-   return true;
-}
-
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Constructor
-//Parameters  : abort: List of valid characters
-//              description: Description of object (what it parses)
-//              max: Maximal cardinality
-//              zeroLength: Flag, if 0 characters are valid
-//              escape: Character which escapes chars in value
-//              skipWhitespace: Flag if TRAILING WS are skipped
-//Requires    : value != NULL && !ParseObject::checkIntegrity ()
-/*--------------------------------------------------------------------------*/
-ParseTextEscIgnore::ParseTextEscIgnore (const char* abort, const char* description,
-                                        unsigned int max, bool zeroLength, char escape,
-                                        bool skipWhitespace)
-   : ParseTextIgnore (abort, description, max, zeroLength, skipWhitespace)
-   , esc (escape), last (!escape) {
-   TRACE9 ("Creating ParseTextEscIgnore " << getDescription ());
-};
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Copy-constructor
-//Parameters  : other: Object to clone
-/*--------------------------------------------------------------------------*/
-ParseTextEscIgnore::ParseTextEscIgnore (const ParseTextEscIgnore& other)
-   : ParseTextIgnore (other), esc (other.esc), last (!other.esc) {
-   TRACE9 ("Copying ParseTextEscIgnore " << getDescription ());
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Destructor
-/*--------------------------------------------------------------------------*/
-ParseTextEscIgnore::~ParseTextEscIgnore () {
-   TRACE9 ("ParseTextEscIgnore::~ParseTextEscIgnore: " << getDescription ());
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Assignment-operator
-//Parameters  : other: Object to clone
-//Returns     : Reference of this
-/*--------------------------------------------------------------------------*/
-ParseTextEscIgnore& ParseTextEscIgnore::operator= (const ParseTextEscIgnore& other) {
-   TRACE8 ("ParseTextExactIgnore::operator= (const ParseTextEscIgnore&) - "
-           << getDescription ());
-
-   if (&other != this) {
-      esc = other.esc;
-      last = !other.esc;
-      ParseTextIgnore::operator= (other);
-   } // endif other object
-
-   assert (!checkIntegrity ());
-   return *this;
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the passed character is valid acc. to pValue. This
-//              is true if ch doesn't match any character in the list (except
-//              if it is escaped by the passed escape-character
-//Parameters  : ch: Char to check
-//Returns     : boolean: Result; true if valid
-/*--------------------------------------------------------------------------*/
-bool ParseTextEscIgnore::checkValue (char ch) {
-   TRACE8 ("ParseTextEscIgnore::checkValue (char) - " << getDescription () << ' ' << ch);
-
-   const char* pHelp = pValue; assert (pHelp);
-   while (*pHelp) {
-      if ((*pHelp == ch) && (last != esc)) {
-         last = !esc;
-	 return false;
-      } // endif
-
-      ++pHelp;
-      last = ch;
-   } // endwhile chars available
-
-   return true;
-}
-
-
-/*--------------------------------------------------------------------------*/
 //Purpose     : Constructor
 //Parameters  : pObjectList: NULL-terminated array of objects to parse
 //              description: Description of object (what it parses)
@@ -695,7 +583,7 @@ ParseSequence::ParseSequence (ParseObject* apObjectList[],
    : ParseObject (description, skipWhitespace)
    , ppList (apObjectList), maxCard (max), minCard (min) {
    TRACE9 ("Creating ParseSequence " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -705,7 +593,7 @@ ParseSequence::ParseSequence (ParseObject* apObjectList[],
 ParseSequence::ParseSequence (const ParseSequence& other)
    : ParseObject ((const ParseObject&)other), ppList (other.ppList) {
    TRACE9 ("Copying ParseSequence " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -730,7 +618,7 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
       minCard = other.minCard;
    } // endif other object
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    return *this;
 }
 
@@ -744,14 +632,14 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 /*--------------------------------------------------------------------------*/
 int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE1 ("ParseSequence::doParse -> " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    unsigned int i (0);
    int rc (PARSE_OK);
 
    ParseObject** ppAct = NULL;
    while (i++ < maxCard) {
-      ppAct = ppList; assert (ppAct); assert (*ppAct);
+      ppAct = ppList; Check3 (ppAct); Check3 (*ppAct);
 
       while (*ppAct) {                          // While list contains objects
          if ((rc = (**ppAct).doParse (stream,    // Parse (putback only first)
@@ -813,7 +701,7 @@ ParseSelection::ParseSelection (ParseObject* apObjectList[],
                                 unsigned int min, bool skipWhitespace)
    : ParseSequence (apObjectList, description, max, min, skipWhitespace) {
    TRACE9 ("Creating ParseSelection " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -823,7 +711,7 @@ ParseSelection::ParseSelection (ParseObject* apObjectList[],
 ParseSelection::ParseSelection (const ParseSelection& other)
    : ParseSequence ((const ParseSequence&)other) {
    TRACE9 ("Copying ParseSelection " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -844,7 +732,7 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
    if (&other != this)
       ParseSequence::operator= ((const ParseSequence&)other);
 
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
    return *this;
 }
 
@@ -858,13 +746,13 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 /*--------------------------------------------------------------------------*/
 int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string) {
    TRACE1 ("ParseSelection::doParse -> " << getDescription ());
-   assert (!checkIntegrity ());
+   Check3 (!checkIntegrity ());
 
    unsigned int i (0);
    int rc (PARSE_OK);
 
    while (i++ < maxCard) {
-      ParseObject** ppAct = ppList; assert (ppAct); assert (*ppAct);
+      ParseObject** ppAct = ppList; Check3 (ppAct); Check3 (*ppAct);
 
       while (*ppAct) {                          // While list contains objects
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
@@ -916,7 +804,7 @@ CBParseEOF::~CBParseEOF () {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseEOF::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue); assert (!len);
+   Check3 (pCallback); Check3 (pFoundValue); Check3 (!len);
    return pCallback (pFoundValue, len);
 }
 
@@ -937,7 +825,7 @@ CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
    TRACE8 ("ParseAttomic::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseAttomic::operator= (other);
    }
    return *this;
@@ -950,7 +838,7 @@ CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseAttomic::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
 
@@ -971,7 +859,7 @@ CBParseText& CBParseText::operator= (const CBParseText& other) {
    TRACE8 ("ParseText::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseText::operator= (other);
    }
    return *this;
@@ -984,7 +872,7 @@ CBParseText& CBParseText::operator= (const CBParseText& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseText::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
 
@@ -1005,7 +893,7 @@ CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
    TRACE8 ("ParseTextEsc::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseTextEsc::operator= (other);
    }
    return *this;
@@ -1018,7 +906,7 @@ CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseTextEsc::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
 
@@ -1039,7 +927,7 @@ CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseExact::operator= (other);
    }
    return *this;
@@ -1052,7 +940,7 @@ CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseExact::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
 
@@ -1073,7 +961,7 @@ CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other)
    TRACE8 ("ParseUpperExact::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseUpperExact::operator= (other);
    }
    return *this;
@@ -1086,7 +974,7 @@ CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other)
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseUpperExact::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
 
@@ -1108,7 +996,7 @@ CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
    TRACE8 ("ParseSequence::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseSequence::operator= (other);
    }
    return *this;
@@ -1120,7 +1008,7 @@ CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseSequence::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
 
@@ -1141,7 +1029,7 @@ CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
    TRACE8 ("CBParseSelection::operator=: " << getDescription ());
 
    if (this != &other) {
-      pCallback = other.pCallback; assert (pCallback);
+      pCallback = other.pCallback; Check3 (pCallback);
       ParseSelection::operator= (other);
    }
    return *this;
@@ -1154,6 +1042,6 @@ CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
 //Returns     : int: Status; 0 OK
 /*--------------------------------------------------------------------------*/
 int CBParseSelection::found (const char* pFoundValue, unsigned int len) {
-   assert (pCallback); assert (pFoundValue);
+   Check3 (pCallback); Check3 (pFoundValue);
    return pCallback (pFoundValue, len);
 }
