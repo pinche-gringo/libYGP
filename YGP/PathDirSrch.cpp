@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.18 2002/04/09 20:02:49 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.19 2002/05/09 06:58:13 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -27,10 +27,6 @@
 #include <errno.h>
 
 #include "Internal.h"
-
-#if SYSTEM == UNIX
-#  include <wordexp.h>
-#endif
 
 #define DEBUG 0
 #include "Trace_.h"
@@ -60,7 +56,7 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
    const File* rc (NULL);
    do {
       // Build filename with next (= first on first call) node of path
-      std::string node (searchPath.getNextNode ());
+      std::string node (searchPath.getNextExpandedNode ());
       if (node.empty ()) {
 	 clearEntry ();
          return NULL;
@@ -118,72 +114,11 @@ int PathDirectorySearch::checkIntegrity () const {
 //            file: Name of the file to find (only if return = false)
 //Returns   : bool: false in case of an error; true otherwise
 //Remarks   : If the variable path contains wildcards, they are expanded (only
-//            UNIX). If this expansion results in more than one node, an
-//            excpetion is thrown.
+//            UNIX).
 /*--------------------------------------------------------------------------*/
 bool PathDirectorySearch::makePath (std::string& path, const std::string& file) {
-#if SYSTEM == UNIX
-   wordexp_t result;
-   int       rc (wordexp (path.c_str (), &result, 0));
-
-   if (result.we_wordc == 1)
-      path = result.we_wordv[0];
-   else {
-      wordfree (&result);
-      return false;
-   }
-
-   wordfree (&result);
-#endif
-
    if (path[path.length () - 1] != File::DIRSEPERATOR)
       path += File::DIRSEPERATOR;
    path += file;
    return true;
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Checks the previously defined path
-//Parameters: path: Path to check
-//Remarks   : Throws an exception describing the error-node of the path (of
-//            course only if one node is wrong)
-/*--------------------------------------------------------------------------*/
-void PathDirectorySearch::checkPath (const std::string& path) throw (std::string) {
-#if SYSTEM == UNIX
-   PathSearch ps (path);
-   std::string node (ps.getNextNode ());
-   std::string error;
-
-   wordexp_t result = { 0, NULL, 0 };
-   int       rc;
-
-   // Check all nodes if they are valid
-   while (!node.empty ()) {
-      rc = wordexp (node.c_str (), &result, WRDE_REUSE);
-      switch (rc) {
-      case 0:
-         if (result.we_wordc != 1) {
-            rc = 1;
-            error = _("'%1' expands to more than one file");
-          }
-          break;
-
-      case WRDE_NOSPACE: error = _("Out of memory"); break;
-      case WRDE_BADCHAR: error = _("'%1' contains unquoted invalid character such as `|'"); break;
-      case WRDE_SYNTAX: error = _("Syntax error in '%1' (unmatched quoting character?)"); break;
-      default: node = _("Unknown error in '%1'");
-      } // end-switch wordexp-error
-      wordfree (&result);
-
-      if (rc) {
-         int pos (error.find ("%1"));
-         if (pos != std::string::npos)
-             error.replace (pos, 2, node);
-         throw std::string (error);
-         return;
-      }
-
-      node = ps.getNextNode ();
-   } // end-while nodes available
-#endif
 }
