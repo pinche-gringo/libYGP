@@ -1,6 +1,6 @@
 #!/usr/bin/awk -f
 
-# $Id: mdef.awk,v 1.2 2002/12/17 06:35:47 markus Exp $
+# $Id: mdef.awk,v 1.3 2002/12/17 20:40:27 markus Rel $
 
 # Script to generate a DEF-file out of the output of VC's dumpbin
 # Call without parameter; the utility it designed to run in a pipe
@@ -25,8 +25,9 @@ BEGIN { OFS = ""; line = 0; entry = "§$%&" }
 
 /Dump of file/ {
    # Convert filename to classname
-   pos = index ($4, ".obj")
-   $4 = substr ($4, 1, pos - 1);
+   posName = (match ($4, /.*\\/)) + RLENGTH
+   posExt = index ($4, ".obj")
+   $4 = substr ($4, posName, posExt - posName);
 
    if ($4 == "AssParse")
       file = "AssignmentParse"
@@ -64,7 +65,7 @@ BEGIN { OFS = ""; line = 0; entry = "§$%&" }
       file = "extStreambuf"
    else
       file = $4
-   entry = "SECT.*External.*(public: .+" file "::[^ ]+(.+))"
+   entry = "SECT.*External.*(p.+: .+" file "::[^ ]+(.+))"
 }
 
 $0 ~ entry {
@@ -82,4 +83,3 @@ $0 ~ entry {
       }
    }
 }
-END { exit (line); }
