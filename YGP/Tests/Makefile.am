@@ -7,9 +7,9 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 LIBS = @LIBS@
 
-TESTS=IVIOAppl ANumeric ADate ATime ATStamp AByteArray XStrBuf XStream Parse \
-      FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
-      AssParse AttrParse INIFile Handle
+TESTS=IVIOAppl ANumeric ADate ATime ATStamp XStrBuf XStream Parse FileRExp \
+      CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute AssParse \
+      AttrParse INIFile Handle
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -27,9 +27,6 @@ ATime_LDADD=../ATime.o
 
 ATStamp_SOURCES=ATStamp.cpp
 ATStamp_LDADD=../ATStamp.o ../ATime.o ../ADate.o
-
-AByteArray_SOURCES=AByteArray.cpp
-AByteArray_LDADD=../AByteArray.o
 
 XStrBuf_SOURCES=XStrBuf.cpp
 XStrBuf_LDADD=../XStrBuf.o
