@@ -1,7 +1,7 @@
 #ifndef STATUSOBJ_H
 #define STATUSOBJ_H
 
-//$Id: StatusObj.h,v 1.2 2003/12/05 19:49:22 markus Rel $
+//$Id: StatusObj.h,v 1.3 2004/10/25 02:56:29 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,7 +37,8 @@ class StatusObject {
    typedef enum { UNDEFINED,               ///< The object contains no message
                   INFO,      ///< The object contains an informational message
                   WARNING,          ///< The object contains a warning message
-                  ERROR                      ///< The object contains an error
+                  ERROR,                     ///< The object contains an error
+                  ERR = ERROR                ///< The object contains an error
    } type;
 
    StatusObject ();
