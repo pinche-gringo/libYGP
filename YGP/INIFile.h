@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.23 2003/11/14 20:27:55 markus Rel $
+//$Id: INIFile.h,v 1.24 2004/09/04 04:08:20 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -87,6 +87,13 @@ class INISection {
       Check3 (name);
       return !strcmp (name, pName); }
 
+   /// Writes a header for the section to the passed stream.
+   void writeHeader (std::ostream& stream) {
+      writeHeader (stream, pName);  }
+   /// Writes the passed name as header of a section to the passed stream.
+   static void writeHeader (std::ostream& stream, const char* section) {
+      stream << '[' << section << "]\n"; }
+
  protected:
    virtual int foundSection (const char* section, unsigned int );
    virtual int foundKey (const char* key, unsigned int);
@@ -141,7 +148,7 @@ template <class T> class INIList : public INISection {
    /// Writes the contents of the passed values to the passed stream
    /// (in its own section named \c section).
    static void write (std::ostream& stream, const char* section, const std::vector<T>& values) {
-      INIFile::writeSectionHeader (stream, section);
+      writeHeader (stream, section);
       for (unsigned int i (0); i < values.size (); ++i)
          stream << i << '=' << values[i] << '\n';
       stream << '\n'; }
@@ -266,7 +273,7 @@ class INIFile {
 
    /// Writes a header for the section to the passed stream.
    static void writeSectionHeader (std::ostream& stream, const char* section) {
-      stream << '[' << section << "]\n"; }
+      INISection::writeHeader (stream, section); }
    static void write (std::ostream& stream, const char* section,
                       const Entity& obj);
 
