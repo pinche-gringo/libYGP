@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.3 1999/08/23 17:55:30 Markus Rel $
+// $Id: XStrBuf.h,v 1.4 1999/09/11 00:58:42 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,13 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <streambuf.h>
+// Only streambuf is needed, but BCC has no own streambuf.h-file; so use iostream.h
+// as general basis
+#ifdef WINDOWS
+#  include <iostream.h>
+#else
+#  include <streambuf.h>
+#endif
 
 
 // Extended streambuf, specialized to parse text. It enhanced features are
@@ -40,7 +46,13 @@ struct extStreambuf : public streambuf {
 
    // Accessing values
    unsigned int getLine () const { return line; }
-   unsigned int getColumn () const { return gptr () - base (); }
+   unsigned int getColumn () const {
+#ifdef WINDOWS
+      return gptr () - base () - 1;    // BCC's gptr () points to next position
+#else
+  return gptr () - base ();
+#endif
+   }
 
  private:
    // Prohibited manager functions
