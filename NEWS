@@ -2,12 +2,19 @@ Overview of Changes in version 0.6.10:
 
   -! Supporting Borland C++
   - Added toString-methods for ints and shorts to ANumeric
-  - XAttributeLabel class to display formated Attributes added
-  - XAttributeEntry class to edit formated Attributes added
-  - XDialog class (base class for dialogs) added
-  - AttributeLists added
-  - INIFile can parse AttributeLists (as own section)
-  -! Tests for X-windows classes added
+  - Class XAttributeLabel to display formated Attributes added
+  - Class XAttributeEntry to edit formated Attributes added
+  - Class XDialog (base class for dialogs) added
+  - Template AttributeLists added
+  - INIFile can parse AttributeLists (as own section) and write to a file
+  - XAppliation handles help-menu
+  - XAppliation's search for help files depends on locale information
+  - Attomic Parser classes show only beginning and end for long data in errors
+  - mgeni creates constructor setting (specified) defaultvalues
+  - Attributes provides methods to acces the attribute or its value
+  - Samples/Tests for X-windows classes added
+  - Class File got ctr from const char*
+  -! New Parser-classes ParseQuoted
   - Fixes
 
 Overview of Changes in version 0.6.02:
@@ -104,3 +111,77 @@ Overview of changes in version 0.5.01:
   - public constants replaced with functions (Path/DirSrch)
   - Ported to Windoze (Borland-C++)
   - Separated in subdirs (Common; X-related -> X-windows)
+
+Overview of changes in version 0.5.00:
+
+  - Class for X-Windows added: Baseclass for applications, one for an about-box,
+    one to handle files in a listbox and one to enter a date/time/timestamp
+  - Date/Time-classes got a toSysTime-method
+  - Fixes
+
+Overview of changes in version 0.4.20:
+
+  - Classes to manage a time and a timestamp added
+  - Attributes got a readFromStream-method
+  - Fixes
+
+Overview of changes in version 0.4.11:
+
+  - ADate improved and fixes
+
+Overview of changes in version 0.4.10:
+
+  - Class to manage a date added
+  - AttrVal got operator<<
+  - Changes for Borland-C++
+  - Minor fixes
+
+Overview of changes in version 0.4.00:
+
+  - Class to search for files in the directories specified by a path
+  - Fixed Tokenize, if input does not end with terminator-character
+
+Overview of changes in version 0.3.12:
+
+  - Changes for Borland-C++
+  - Fixes
+
+Overview of changes in version 0.3.11:
+
+  - Minor fixes
+
+Overview of changes in version 0.3.10:
+
+  - Added a file containing version info (which is putted into the DLL itself)
+  - Class to separate a path into its nodes added
+  - ANumeric got methods to compare and calculate and uses the GMP
+  - AttrVal got toString-methods
+  - Putted under GPL (was GLPL before)
+  - "Fixed" Parser (removed not working methods)
+
+Overview of changes in version 0.3.01:
+
+  - Traces added; putted DirSrch under GPL
+
+Overview of changes in version 0.3.00:
+
+  - General parser added
+  - Macros for tracing added
+  - ANumeric localized; conversion to string added
+  - Class to handle pointer (automatic freeing)
+  - Class to handle pointers (with reference counting)
+
+Overview of changes in version 0.1.01:
+
+  - Class to handle streams with an extendes streambuffer
+  - Fixes and improvements (const correctness, ...)
+
+Overview of Version 0.1.00:
+
+  - Baseclass for attributes
+  - Class to print numeric values in a formatted style
+  - Class to search for files in a directory (plattform independend)
+  - Class to handle regular expressions (shell style)
+  - Baseclass for VIO applications
+  - Class to separate strings
+  - Class handling a streambuffer with enhanced putback and position-information
