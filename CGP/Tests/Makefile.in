@@ -1,0 +1,189 @@
+# $Id: Makefile.in,v 1.1 2002/07/11 07:05:44 markus Exp $
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+SHELL = @SHELL@
+
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+top_srcdir =  @top_srcdir@
+top_builddir = ../..
+srcdir = @srcdir@
+
+subdir=CORBA/Tests
+
+DESTDIR=
+
+libdir = @libdir@
+includedir = @includedir@
+
+AS = @AS@
+CC = @CC@
+CPP = @CPP@
+CXX = @CXX@
+
+CXXLD = $(CXX)
+
+MAKEINFO = @MAKEINFO@
+PACKAGE = @PACKAGE@
+RELEASE = @RELEASE@
+VERSION = @VERSION@
+
+SUBDIRS = .
+
+INCLUDES =  -I. -I.. -I$(top_srcdir) -I$(top_srcdir)/Common
+DEFS =  -DLOCALEDIR=\"$(localedir)\" @DEFS@
+CXXFLAGS = @CXXFLAGS@
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+
+LDFLAGS = @LDFLAGS@
+LIBS=-ldl -lmico -lAttr
+
+LIBTOOL = @LIBTOOL@
+
+# CORBACOMPILE = mico-shc++
+# CORBALINK = mico-shld
+CORBACOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CORBALINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) $(LIBS) -o $@
+LTCORBACOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCORBALINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
+
+
+PROGRAMS=Local Remote
+
+LOCAL_OBJS=Local.o ../CDirSrch.o ../CIDirSrch.o
+REMOTE_OBJS=Remote.o ../CDirSrch.o ../CIDirSrch.o
+
+DISFILES=Local.cpp Remote.cpp
+
+all: Makefile $(PROGRAMS)
+
+
+
+# Settings for dependencies
+DEP_FILES =  .deps/Local.P .deps/Remote.P
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+
+-include $(DEP_FILES)
+
+
+.SUFFIXES: .cc .cpp .lo .o .idl
+
+.cpp.o:
+	$(CORBACOMPILE) -c $<
+
+.cc.o:
+	$(CORBACOMPILE) -c $<
+
+.cpp.lo:
+	$(LTCORBACOMPILE) -c $<
+
+.cc.lo:
+	$(LTCORBACOMPILE) -c $<
+
+%.o: %.cc
+	$(CXXCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.o: %.cpp
+	$(CORBACOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+%.lo: %.cpp
+	$(LTCORBACOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+
+%.lo: %.cc
+	$(LTCORBACOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
+	@-cp .deps/$(*F).pp .deps/$(*F).P; \
+	tr ' ' '\012' < .deps/$(*F).pp \
+	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
+	    >> .deps/$(*F).P; \
+	rm .deps/$(*F).pp
+
+
+Local.o: Local.cpp
+
+Remote.o: Remote.cpp
+
+Local: $(LOCAL_OBJS)
+	$(CORBALINK) $(LOCAL_OBJS)
+
+Remote: $(REMOTE_OBJS)
+	$(CORBALINK) $(REMOTE_OBJS)
+
+Makefile: Makefile.in $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+clean:
+	@list='$(PROGRAMS)'; for p in $$list; do \
+	  if test -f "$$p"; then \
+	     rm -f $$p; \
+	  fi; \
+	done
+	rm -f *.o *.lo core *.core;
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+
+check: $(PROGRAMS)
+	@failed=0; all=0; \
+	srcdir=$(srcdir); export srcdir; \
+	for tst in $(PROGRAMS); do \
+	  if test -f $$tst; then dir=.; \
+	  else dir="$(srcdir)"; fi; \
+	  if $(TESTS_ENVIRONMENT) $$dir/$$tst; then \
+	    all=`expr $$all + 1`; \
+	    echo "PASS: $$tst"; \
+	  elif test $$? -ne 77; then \
+	    all=`expr $$all + 1`; \
+	    failed=`expr $$failed + 1`; \
+	    echo "FAIL: $$tst"; \
+	  fi; \
+	done; \
+	if test "$$failed" -eq 0; then \
+	  banner="All $$all tests passed"; \
+	else \
+	  banner="$$failed of $$all tests failed"; \
+	fi; \
+	dashes=`echo "$$banner" | sed s/./=/g`; \
+	echo "$$dashes"; \
+	echo "$$banner"; \
+	echo "$$dashes"; \
+	test "$$failed" -eq 0
+
+distclean-depend:
+	-rm -rf .deps
