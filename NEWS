@@ -1,3 +1,11 @@
+Overview of Changes in version 0.6.41:
+
+  - AutoContainer can insert children into every position
+  - Fixed bug removing widgets from AutoContainer (does not delete last line)
+  - MessageDialog got a create-method
+  - Fixed/improved generating documentation (did break with V0.6.40)
+  - Renamed YGP::StatusObject's abstract method to generalize
+
 Overview of Changes in version 0.6.40:
 
   - Installing headers in {C,X,Y}GP subdirectory
