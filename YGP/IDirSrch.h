@@ -1,7 +1,7 @@
 #ifndef IDIRSRCH_H
 #define IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.1 2001/04/02 20:58:16 markus Exp $
+//$Id: IDirSrch.h,v 1.2 2001/04/09 15:05:30 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <string>
+
 class dirEntry;
 
 // Class to search for files in a certain directory over a network-connection
@@ -31,6 +33,14 @@ class IDirectorySearch {
    virtual int find (const std::string& search, dirEntry& result,
 		     unsigned long attribs) = 0;
    virtual int find () = 0;
+
+   virtual bool isValid () const = 0;
+   virtual bool isValid (const std::string& file) const = 0;
+
+   static const int FILE_NORMAL    = 1;
+   static const int FILE_READONLY  = FILE_NORMAL << 1;
+   static const int FILE_DIRECTORY = FILE_READONLY << 1;
+   static const int FILE_HIDDEN    = FILE_DIRECTORY << 1;
 
  protected:
    dirEntry* pEntry;
