@@ -1,7 +1,7 @@
 #ifndef INTERNAL_H
 #define INTERNAL_H
 
-//$Id: Internal.h,v 1.2 2002/04/09 20:05:30 markus Rel $
+//$Id: Internal.h,v 1.3 2002/10/10 05:48:59 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #else
 #  define _(String)                           (String)
 #  define N_(String)                          (String)
+#  define textdomain(domain)
 #  define binddomain(Domain)
 #  define bindtextdomain(Package, Directory)
 #endif
