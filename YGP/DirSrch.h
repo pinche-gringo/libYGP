@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.10 2000/02/02 22:11:21 Markus Exp $
+//$Id: DirSrch.h,v 1.11 2000/02/15 21:18:00 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -183,7 +183,7 @@ class DirectorySearch {
 	  FILE_HIDDEN = 0x80000000 };
 #else
 #  ifdef WINDOWS
-   enum { FILE_NORMAL = FILE_ATTRIBUTE_ARCHIVE,
+   enum { FILE_NORMAL = (~FILE_ATTRIBUTE_DIRECTORY),
           FILE_READONLY = FILE_ATTRIBUTE_READONLY,
           FILE_DIRECTORY = FILE_ATTRIBUTE_DIRECTORY,
           FILE_HIDDEN = (FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN) };

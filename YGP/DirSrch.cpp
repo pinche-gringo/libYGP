@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.14 2000/02/06 22:11:35 Markus Exp $
+//$Id: DirSrch.cpp,v 1.15 2000/02/15 21:18:00 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -93,10 +93,10 @@ int DirectorySearch::find (dirEntry& result, unsigned long attribs) {
    pEntry = &result;
    assert (!checkIntegrity ());
 
-   TRACE5 ("DirectorySearch::find " << searchDir << searchFile);
+   TRACE5 ("DirectorySearch::find " << searchDir.c_str () << searchFile.c_str ());
 
 #ifndef WINDOWS
-   attr = attribs;
+   attr = ~(attribs | FILE_ATTRIBUTE_ARCHIVE);
 #endif
 
 #ifdef UNIX
