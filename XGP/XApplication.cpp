@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.31 2003/10/19 04:55:18 markus Rel $
+//$Id: XApplication.cpp,v 1.32 2003/10/28 07:32:39 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -272,7 +272,7 @@ void XApplication::command (int menu) {
       if (((file[0] == '/') && (file[1] != '/'))
           || (file.substr (0, 7) == "file://")) {
          if (file[0] != '/')
-            file.replace (0, 6, 0, '\0');
+            file.replace (0, 7, 0, '\0');
 
          // If so: Check which language to use; either using the LANGUAGE
          // environment variable or the locale settings
@@ -286,8 +286,6 @@ void XApplication::command (int menu) {
             std::string search;
             do {
                search = file + std::string (1, '.') + extension;
-               if (search.substr (0, 7) == "file://")
-                  search.replace (0, 6, 0, '\0');
 
                TRACE9 ("XApplication::command (int) - Checking for help-file "
                        << search);
@@ -326,8 +324,10 @@ void XApplication::command (int menu) {
 #endif
       }
       catch (std::string& error) {
-         Gtk::MessageDialog msg (error, Gtk::MESSAGE_ERROR);
-         msg.run ();
+         if (error.size ()) {
+            Gtk::MessageDialog msg (error, Gtk::MESSAGE_ERROR);
+            msg.run ();
+         }
       }
       break; }
 
@@ -351,7 +351,6 @@ void XApplication::command (int menu) {
 void XApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XApplication::setIconProgram");
    Check1 (pIconData);
-   Check3 (hboxTitle);
 
    set_icon (Gdk::Pixbuf::create_from_xpm_data (pIconData));
 }
