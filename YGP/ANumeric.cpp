@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.17 2001/08/17 13:19:48 markus Exp $
+//$Id: ANumeric.cpp,v 1.18 2001/09/25 21:16:21 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -34,6 +34,10 @@
 #ifndef HAVE_LIBGMP
 #  include <ctype.h>
 #  include <stdlib.h>
+#else
+#  if HAVE_STRFMON
+#    include <monetary.h>
+#  endif
 #endif
 
 #include <iomanip>
@@ -132,13 +136,10 @@ std::string ANumeric::toUnformatedString () const {
    std::string str ("");
 
    if (isDefined ()) {
-      if (!loc)
-         loc = localeconv ();             // Get locale-information if not set
-
 #ifdef HAVE_LIBGMP
       char* pString (mpz_get_str (NULL, 10, value)); assert (pString);
 #else
-      char* pString = new char [16];
+      char* pString = new char [40];
       ostrstream ostr (pString, 16);
       ostr << value << '\0';
 #endif
@@ -156,30 +157,34 @@ std::string ANumeric::toUnformatedString () const {
 //Returns   : String-representation of ANumeric
 /*--------------------------------------------------------------------------*/
 std::string ANumeric::toString () const {
-   // TODO?: Does formatting the number with strfnum make sense, just for
-   // the rare case of a system with libc but without GMP?
-   // TODO: Check locale-functions for Cygwin & MSC
+   std::string str;
 
-   std::string str (toUnformatedString ());
+#if HAVE_STRFMON
+   char buffer[40];
+
+   strfmon (buffer, sizeof (buffer), "%n", value);
+   str = buffer;
+#else
+   if (!loc)
+      loc = localeconv ();                 // Get locale-information if not set
+
+   str = toUnformatedString ();
 
    register int len (str.length ());
-   if (len > 3) {
-      len = len % 3;                                // Get length of first part
-      if (!len)
-	 len = 3;
+   int index (0);
+   char group (loc->grouping[index]);
+   if (!group)
+      group = CHAR_MAX;
 
-      TRACE8 ("ANumeric::toString -> Length of first part = " << len);
+   while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
+      len -= group;
+      str.replace (len, 0, loc->thousands_sep[index], 1);
 
-      unsigned int lenSep (strlen (loc->thousands_sep));
-      while (len < str.length ()) {                // Copy til end-of-string
-	 assert (str[len + 1]); assert (str[len + 2]);
-	 str.replace (len, 0, loc->thousands_sep, lenSep);
-	 len += 3 + lenSep;
+      if (loc->grouping[index])      // Increment group-pointer if more groups
+	 group = loc->grouping[++index];
+   } // end-while grouping necessary
 
-	 TRACE6 ("ANumeric::toString -> New pos = " << len);
-	 TRACE7 ("ANumeric::toString -> next format = " << str);
-      } // end-while
-   } // endif larger than 3 chars -> format
+#endif
    return str;
 }
 
