@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.48 2001/04/09 15:08:07 markus Exp $
+// $Id: Test.cpp,v 1.49 2001/08/26 02:22:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -73,6 +73,7 @@
 #include "Tokenize.h"
 #include "FileRExp.h"
 #include "StackTrc.h"
+#include "AssParse.h"
 #include "AByteArray.h"
 #include "PathDirSrch.h"
 
@@ -129,7 +130,7 @@ class Application : public IVIOApplication {
 
    void removeEscapeChar (std::string& str, char esc = '\\') {
       int pos (0);
-      while ((pos = str.find (esc, pos)) != -1)
+      while ((pos = str.find (esc, pos)) != std::string::npos)
 	str.replace (pos++, 1, 0, '\0');
    }
 
@@ -509,27 +510,40 @@ int Application::perform (int argc, const char* argv[]) {
    check (ps.getNextNode () == "\\usr\\");
    check (ps.getNextNode () == "\\usr");
 #endif
-   // This test should be the last (to see result of cleanup close to result
-   // of create). If you dont want that put a block around this context.
-   cout << "Testing SmartPtr & Handle...\n";
-   definePtr (test);
-   Ptest pTest (new test ("SmartPtr"));
-   pTest->n = "222";
-   defineHndl (test);
-   Htest hHandle;
-   check (!hHandle.isDefined ());
 
-   hHandle.define ();
-   check (hHandle.isDefined ());
-   hHandle->n = "Handle";
-   check (hHandle.isDefined ());
-   hHandle.undefine ();
-   check (!hHandle.isDefined ());
+   cout << "Testing Attribute...\n";
+   long lattr;
+   Attribute<long> lAttr ("lAttr", lattr);
+   check (lAttr.assignFromString ("1234"));
+   check (lattr == 1234);
+   check (!lAttr.assignFromString ("abcde"));
+   check (!lAttr.assignFromString ("123z"));
+   ATime time;
+   Attribute<ATime> timeAttr ("timeAttr", time);
+   check (timeAttr.assignFromString ("121005"));
+   check (!timeAttr.assignFromString ("12"));
 
-   Htest hHandle2 (new test ("Handle2"));
-   check (hHandle2.isDefined ());
-   hHandle2 = hHandle;
-   check (!hHandle2.isDefined ());
+   cout << "Testing AssignmentParse ...\n";
+   AssignmentParse attrs ("key1=1234;key2=\";;;\";key3=\"abcd\\\"def\"");
+   try {
+      std::string node (attrs.getNextNode ());
+      check (attrs.getActNode () == "key1=1234");
+      check (attrs.getActKey () == "key1");
+      check (attrs.getActValue ()== "1234");
+
+      node = attrs.getNextNode ();
+      check (attrs.getActNode () == "key2=\";;;\"");
+      check (attrs.getActKey () == "key2");
+      check (attrs.getActValue () == ";;;");
+
+      node = attrs.getNextNode ();
+      check (attrs.getActNode () == "key3=\"abcd\\\"def\"");
+      check (attrs.getActKey () == "key3");
+      check (attrs.getActValue () == "abcd\"def");
+   }
+   catch (std::string& e) {
+      cerr << "Test: Error: " << e.c_str () << '\n';
+   }
 
    cout << "Testing INI-file parser...\n";
    int Attr1;
@@ -541,10 +555,10 @@ int Application::perform (int argc, const char* argv[]) {
    ATimestamp Attr6;
    try {
       INISection global ("Global");
-      INIAttribute<int> attr1 ("Attr1", Attr1);
-      INIAttribute<std::string> attr2 ("Attr2", Attr2);
-      INIAttribute<ANumeric> attr3 ("Attr3", Attr3);
-      INIAttribute<ADate> attr4 ("Attr4", Attr4);
+      Attribute<int> attr1 ("Attr1", Attr1);
+      Attribute<std::string> attr2 ("Attr2", Attr2);
+      Attribute<ANumeric> attr3 ("Attr3", Attr3);
+      Attribute<ADate> attr4 ("Attr4", Attr4);
       global.addAttribute (attr1);
       global.addAttribute (attr2);
       global.addAttribute (attr3);
@@ -599,6 +613,7 @@ int Application::perform (int argc, const char* argv[]) {
       a2 = "5678";
       a3.assign ("9012", 2);
       a4 += a1 + a2 + a3; check (a1.isDefined ());
+      check (a4[2] == '3');
       check (a4[5] == '6');
       check (a4.length () == 10);
       check (a1 < a4);
@@ -607,6 +622,30 @@ int Application::perform (int argc, const char* argv[]) {
    catch (logic_error& e) {
       cerr << "Exception in AByteArray: " << e.what () << '\n';
    }
+
+   // This test should be the last (to see result of cleanup close to result
+   // of create). If you dont want that put a block around this context.
+   cout << "Testing SmartPtr & Handle...\n";
+   definePtr (test);
+   Ptest pTest (new test ("SmartPtr"));
+   pTest->n = "222";
+   defineHndl (test);
+   Htest hHandle;
+   check (!hHandle.isDefined ());
+
+   hHandle.define ();
+   check (hHandle.isDefined ());
+   hHandle->n = "Handle";
+   check (hHandle.isDefined ());
+   hHandle.undefine ();
+   check (!hHandle.isDefined ());
+
+   Htest hHandle2 (new test ("Handle2"));
+   check (hHandle2.isDefined ());
+   hHandle2 = hHandle;
+   check (!hHandle2.isDefined ());
+   // This test (above) should be the last (to see result of cleanup close to
+   // result of create). If you dont want that put a block around this context.
 
    if (cErrors)
       cout << "Failures: " << cErrors << '\n';
