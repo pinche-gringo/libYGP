@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.1 1999/11/13 01:18:07 Markus Exp $
+//$Id: XFileList.h,v 1.2 1999/11/14 15:24:09 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,10 +35,13 @@ definePtr (Gdk_Pixmap);
 
 // Class for a (columned) list which holds files represented by an icon
 // and textual information.
+// The icons of the files are loaded by default from all Icon.*-files in the
+// package-data-directory; user-specified can be added to or overridden from
+// this list.
 class XFileList : public Gtk_CList {
  public:
    XFileList (int columns, const gchar *titles[] = 0)
-      : Gtk_CList (columns, titles) { }
+     : Gtk_CList (columns, titles) { }
    XFileList (GtkCList *castitem) : Gtk_CList (castitem) { }
    virtual ~XFileList ();
 
@@ -51,6 +54,9 @@ class XFileList : public Gtk_CList {
    gint prepend (const dirEntry* file, const vector<string> text);
    gint insert_row (const dirEntry* file, gint row, const gchar* text[]);
    gint insert_row (const dirEntry* file, gint row, const vector<string> &text);
+
+ protected:
+   virtual void realize_impl ();
 
  private:
    XFileList ();

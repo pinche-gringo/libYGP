@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.1 1999/11/13 01:18:07 Markus Exp $
+//$Id: XFileList.cpp,v 1.2 1999/11/14 15:23:57 Markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -143,6 +143,7 @@ unsigned int XFileList::loadIcons (const char* path, const char* files) {
    } // endif do first initialize
 
    Check3 (path); Check3 (files);
+   TRACE2 ("XFileList::loadIcons -> " << path << '/' << files);
 
    // Use Icon.*-files as icon for *-files
    PathDirectorySearch ds (path, files);
@@ -157,12 +158,12 @@ unsigned int XFileList::loadIcons (const char* path, const char* files) {
       // Read icon-file and store it
       temp = new Gdk_Pixmap (NULL); Check3 (temp);
       string filename (file.path ()); filename += file.name ();
-      TRACE9 ("XFileList::setIcons: Read icon " << file.path () << file.name ());
+      TRACE5 ("XFileList::loadIcons: Read icon " << file.path () << file.name ());
 
       temp->create_from_xpm (get_window (), bitmap, color, filename);
 
       if (temp->connected ()) {
-         TRACE9 ("XCompDirs::XCompDirs: Store icon "
+         TRACE9 ("XCompDirs::loadIcons: Store icon "
                  << (filename.c_str () + sizeof ("Icon")));
           icons[file.name () + sizeof ("Icon")] = temp;
       }
@@ -244,9 +245,16 @@ gint XFileList::insert_row (const dirEntry* file, gint row, const vector<string>
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Searches for 
+//Purpose   : Searches and sets an icon for the passed file
 //Parameters: path: Path where to search for the icons
 //            files: Files to use as icon-files
+//Remarks   : The icon for the file is calculated according the following
+//            algorithm:
+//               - Use special one for directories or executeables
+//               - Check if the name of file is stored in the icon-map
+//               - Remove the first part (til the next dot (.) of the name and
+//                 repeat the previous step
+//               - If no name-part left use a special default-icon
 /*--------------------------------------------------------------------------*/
 void XFileList::setIcon (const dirEntry* pFile) {
    Check3 (pFile);
@@ -278,5 +286,14 @@ void XFileList::setIcon (const dirEntry* pFile) {
 
    Gdk_Bitmap bmp;
    set_pixmap (rows () - 1, 0, *actIcon, bmp);
+}
 
+
+void XFileList::realize_impl () {
+   TRACE9 ("XFileList::realize_impl");
+
+   Gtk_CList::realize_impl ();
+#ifdef PKGDIR
+   loadIcons (PKGDIR, "Icon.*");
+#endif
 }
