@@ -1,11 +1,11 @@
-//$Id: RDirSrch.cpp,v 1.5 2001/08/21 23:50:20 markus Exp $
+//$Id: RDirSrch.cpp,v 1.6 2001/08/26 14:40:06 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -27,8 +27,10 @@
 
 #define DEBUG 0
 #include "Trace_.h"
+
 #include "ATStamp.h"
 #include "ANumeric.h"
+#include "AttrParse.h"
 #include "AByteArray.h"
 
 #include "DirEntry.h"
@@ -86,46 +88,48 @@ RemoteDirSearch::~RemoteDirSearch () {
 //Parameters: pAnswer: Character-buffer holding reponse from server
 //Requires  : pAnswer valid ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-void RemoteDirSearch::setFiledata (const char* pAnswer) {
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*)");
+void RemoteDirSearch::setFiledata (const char* pAnswer) throw (std::string) {
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
+           << pAnswer);
+
    assert (pAnswer);
    assert (pEntry);
 
+   std::string file;
+   ANumeric    size;
+   ATimestamp  time;
+
+   AttributeParse attrs;
+   ATTRIBUTE (attrs, std::string, file, "File");
+   ATTRIBUTE (attrs, ANumeric, size, "Size");
+   ATTRIBUTE (attrs, ATimestamp, time, "Time");
+
+   attrs.assignValues (pAnswer);
+
    // Set filename
-   pAnswer += 11;
-   char* pEnd (strstr (pAnswer + 1, "\";Size=")); assert (pEnd);
-   char* pPathEnd (strrchr (pEnd, dirEntry::DIRSEPERATOR));
-   if (pPathEnd) {
-      char ch (pPathEnd[1]);
-      pPathEnd[1] = '\0';
-      pEntry->path (pAnswer);
-      pPathEnd[1] = ch;
+   unsigned int posDirEnd (file.rfind (dirEntry::DIRSEPERATOR));
+   if (posDirEnd != std::string::npos) {
+      pEntry->path (file.substr (0, posDirEnd));
+      pEntry->name (file.substr (posDirEnd + 1));
    }
    else {
       pEntry->path ("");
-      pPathEnd = (char*)pAnswer - 1;
+      pEntry->name (file);
    }
 
-   *pEnd = '\0';
-   pEntry->name (pPathEnd + 1);
    TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - "
            << pEntry->path () << pEntry->name ());
 
-   // Set filesize
-   pAnswer = pEnd + 7;
-   pEnd = strstr (pAnswer, ";Time="); assert (pEnd);
-   *pEnd = '\0';
-   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size="
-	   << pAnswer);
-   ANumeric size (pAnswer); assert (size.isDefined ());
+   // Set size
    pEntry->size (size);
+   TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Size="
+	   << size.toString ());
 
    // Set filetime
-   pAnswer = pEnd + 6;
-   ATimestamp time (pAnswer);
+   time.setGMT (time.toSysTime ());
+   pEntry->time (time.toSysTime ());
    TRACE9 ("RemoteDirSearch::setFiledata (dirEntry&, const char*) - Time="
 	   << time.toString ());
-   pEntry->time (time.toSysTime ());
 }
 
 /*--------------------------------------------------------------------------*/
@@ -135,7 +139,8 @@ void RemoteDirSearch::setFiledata (const char* pAnswer) {
 //Returns   : Status; 0: OK
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_error) {
+int RemoteDirSearch::find (dirEntry& res, unsigned long attribs)
+   throw (domain_error, std::string) {
    TRACE9 ("RemoteDirSearch::find (dirEntry&, unsigned long)");
 
    pEntry = &res;
@@ -158,7 +163,7 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_e
            << buffer.length () << " bytes: " << buffer.data ());
 
    if (isOK (buffer)) {
-      setFiledata (buffer.data ());
+      setFiledata (buffer.data () + 5);
       return 0;
    }
    else {
@@ -171,7 +176,7 @@ int RemoteDirSearch::find (dirEntry& res, unsigned long attribs) throw (domain_e
 //Returns   : Status; 0: OK
 //Requires  : searchDir, pEntry  already set
 /*--------------------------------------------------------------------------*/
-int RemoteDirSearch::find () throw (domain_error) {
+int RemoteDirSearch::find () throw (domain_error, std::string) {
    AByteArray buffer ("Next");
 
    TRACE8 ("RemoteDirSearch::find () - Sending:\n\t"
@@ -185,7 +190,7 @@ int RemoteDirSearch::find () throw (domain_error) {
            << buffer.length () << " bytes: " << buffer.data ());
 
    if (isOK (buffer)) {
-      setFiledata (buffer.data ());
+      setFiledata (buffer.data () + 5);
       return 0;
    }
    else {
