@@ -1,11 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.2 2004/10/16 19:16:03 markus Exp $
+//$Id: LoginDlg.cpp,v 1.3 2004/10/24 00:19:39 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -64,8 +64,12 @@ ILoginDialog::ILoginDialog (const Glib::ustring& title)
 
    txtUser->signal_changed ().connect (mem_fun (*this, &ILoginDialog::inputChanged));
 
-   ok = add_button (_("Login"), LOGIN);
+   ok = new Gtk::Button (_("_Login"), true);
+   get_action_area ()->pack_start (*ok, false, false, 5);
+   ok->set_flags (Gtk::CAN_DEFAULT);
    ok->grab_default ();
+   ok->signal_clicked ().connect
+       (sigc::bind<int> (sigc::mem_fun (*this, &ILoginDialog::command), LOGIN));
 
    cancel = add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
@@ -95,8 +99,10 @@ void ILoginDialog::inputChanged () {
 /// \param user: User to set in the dialog
 //-----------------------------------------------------------------------------
 void ILoginDialog::setCurrentUser () {
+#ifdef HAVE_GETLOGIN
    Glib::ustring user;
    setUser (getlogin ());
+#endif
 }
 
 }
