@@ -1,0 +1,91 @@
+/* gzo-cfg.h.in.  Generated automatically from configure.in by autoheader.  */
+#ifndef GZO_CFG_H
+#define GZO_CFG_H
+
+//$Id: ygp-cfg.h.in,v 1.1 2001/02/18 23:19:33 Markus Exp $
+
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+// Detect common platforms
+#define WINDOWS 0
+#define UNIX    1
+#if defined(_WIN32)
+#  if defined(__CYGWIN__)
+#     define SYSTEM UNIX
+#  else
+#     define SYSTEM WINDOWS
+#  endif
+#else
+#  define SYSTEM UNIX
+#endif /* _WIN32 */
+
+/* Define the name of the package */
+#ifndef PACKAGE
+#undef PACKAGE
+#endif
+
+/* Define the version number */
+#ifndef VERSION
+#undef VERSION
+#endif
+
+
+/* Define if the closedir function returns void instead of int.  */
+#undef CLOSEDIR_VOID
+
+/* Define if your system has a working fnmatch function.  */
+#undef HAVE_FNMATCH
+
+/* Define if you have the strftime function.  */
+#undef HAVE_STRFTIME
+
+/* Define if the `S_IS*' macros in <sys/stat.h> do not work properly.  */
+#undef STAT_MACROS_BROKEN
+
+/* Define if your processor stores words with the most significant
+   byte first (like Motorola and SPARC, unlike Intel and VAX).  */
+#undef WORDS_BIGENDIAN
+
+/* Define the micro-version */
+#undef MICRO_VERSION
+
+/* Define if you have the <dirent.h> header file.  */
+#undef HAVE_DIRENT_H
+
+/* Define if you have the <ndir.h> header file.  */
+#undef HAVE_NDIR_H
+
+/* Define if you have the <regex.h> header file.  */
+#undef HAVE_REGEX_H
+
+/* Define if you have the <regexp.h> header file.  */
+#undef HAVE_REGEXP_H
+
+/* Define if you have the <sys/dir.h> header file.  */
+#undef HAVE_SYS_DIR_H
+
+/* Define if you have the <sys/ndir.h> header file.  */
+#undef HAVE_SYS_NDIR_H
+
+/* Define if you have the gmp library (-lgmp).  */
+#undef HAVE_LIBGMP
+
+/* Define if you have the gtk-- library (-lgtk--).  */
+#undef HAVE_LIBGTK__
+
+/* Define if you have the stdc++ library (-lstdc++).  */
+#undef HAVE_LIBSTDC__
+
+#endif
