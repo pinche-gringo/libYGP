@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.4 1999/10/13 21:43:51 Markus Rel $
+//$Id: ADate.h,v 1.5 1999/10/14 22:23:32 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,10 @@
 #include "AttrVal.h"
 
 
+// Forward declarations
+class istream;
+
+
 // Class for date attributes. As every AttributValue is supports undefined
 // values.
 class ADate : public AttributValue {
@@ -43,10 +47,13 @@ class ADate : public AttributValue {
    // Set-functions
    ADate& operator= (const ADate& other);
    ADate& operator= (const char* pDate);
+   ADate& operator= (istream& stream);
    ADate& operator= (const std::string& date) { return operator= (date.c_str ()); }
    ADate& operator= (const struct tm& tm) { year = tm.tm_year + 1900;
-      setMonth (tm.tm_mon + 1); setDay (tm.tm_mday); }
+      setMonth (tm.tm_mon + 1); setDay (tm.tm_mday); AttributValue::define (); }
    ADate& operator= (const time_t date) { operator= (*localtime (&date)); }
+
+   virtual void readFromStream (istream& in);
 
    virtual void define () { AttributValue::define (); day = month = 1; year = 1900; }
    void setDay (char Day);
@@ -54,18 +61,18 @@ class ADate : public AttributValue {
    void setYear (unsigned int Year) { AttributValue::define (); year = Year; }
 
    // Query-functions
-   char getDay () { return day; }
-   char getMonth () { return month; }
-   unsigned int getYear () { return year; }
+   char getDay () const { return day; }
+   char getMonth () const { return month; }
+   unsigned int getYear () const { return year; }
 
    static ADate ADate::today () { return ADate (true); }
 
-   // Convertion
+   // Conversion
    virtual std::string toString () const;
    virtual std::string toString (const char* format) const;
 
-   struct tm toStructTM () const;
-   time_t    toSysTime () const {
+   virtual struct tm toStructTM () const;
+   time_t toSysTime () const {
       struct tm result (toStructTM ()); return mktime (&result); }
 
    // Calculation
@@ -93,15 +100,19 @@ class ADate : public AttributValue {
    bool isLeapYear () const { return isLeapYear (year); }
    static bool isLeapYear (unsigned int year);
 
-   int checkIntegrity () const;
+   virtual int checkIntegrity () const;
 
- private: 
-   char day;
-   char month;
-   unsigned int year;
+ protected:
+   void incDay () { ++day; }
+   void decDay () { --day; }
 
    void minAdapt ();
    void maxAdapt ();
+
+ private:
+   unsigned char day;
+   unsigned char month;
+   unsigned int year;
 };
 
 #endif
