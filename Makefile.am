@@ -12,4 +12,4 @@ noinst_PROGRAMS=Test
 Test_SOURCES=XStrBuf.cpp Test.cpp PathSrch.cpp Tokenize.cpp IVIOAppl.cpp \
 	     DirSrch.cpp ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp
 libPort_la_SOURCES=PathSrch.cpp Tokenize.cpp IVIOAppl.cpp DirSrch.cpp \
-	           ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp
+	           ANumeric.cpp FileRExp.cpp Parse.cpp Handle.cpp Version.cpp
