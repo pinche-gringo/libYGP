@@ -4,6 +4,10 @@ CFG=Debug
 !MESSAGE Keine Konfiguration angegeben. VCGeneral - Win32 Debug wird als Standard verwendet.
 !ENDIF
 
+DEST_INCLUDE=..\..\Include
+DEST_LIB=..\..\Lib
+DEST_DLL=..\..\..\Programme\Utilities
+
 !IF "$(CFG)" != "Release" && "$(CFG)" != "Debug"
 !MESSAGE UngÅltige Konfiguration "$(CFG)" angegeben.
 !MESSAGE Sie kînnen beim AusfÅhren von NMAKE eine Konfiguration angeben
@@ -504,3 +508,9 @@ $(OUTDIR)\VCGeneral.def: $(LINK32_OBJS)
 
 check: ALL
 	nmake /f VCTests.mak check
+
+install: ALL
+        copy ..\Common\*.h $(DEST_INCLUDE)
+        copy *.h $(DEST_INCLUDE)
+        copy $(OUTDIR)\*.lib $(DEST_LIB)
+        copy $(OUTDIR)\*.dll $(DEST_DLL)
