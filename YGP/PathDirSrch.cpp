@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.13 2001/08/14 23:40:03 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.14 2001/09/08 12:51:53 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -54,18 +54,21 @@ PathDirectorySearch::~PathDirectorySearch () {
 int PathDirectorySearch::find (dirEntry& result, unsigned long attribs) {
    assert (checkIntegrity () <= DirectorySearch::LAST);
 
-   TRACE9 ("PathDirectorySearch::find (result, attribs): "
-           << ((const std::string&)searchPath).c_str () << " -> " << srch.c_str ());
+   TRACE9 ("PathDirectorySearch::find (dirEntry&, unsigned long) - Full:  "
+           << searchPath.data () << " -> " << srch);
 
    int rc = -1;
    do {
-      // Build filename with first node of path
+      // Build filename with next (= first on first call) node of path
       std::string node (searchPath.getNextNode ());
-      if (node.empty ())
+      if (node.empty ()) {
+	 pEntry = NULL;
          return ENOENT;
+      }
 
       if (makePath (node, srch)) {
-         TRACE5 ("PathDirectorySearch::find (result, attribs): " << node.c_str ());
+         TRACE5 ("PathDirectorySearch::find (dirEntry&, unsigned long) - Node: "
+                 << node);
          setSearchValue (node);
          rc = DirectorySearch::find (result, attribs);
       } // endif
@@ -79,25 +82,23 @@ int PathDirectorySearch::find (dirEntry& result, unsigned long attribs) {
 //Requires  : pResult != NULL; searchDir already set
 /*--------------------------------------------------------------------------*/
 int PathDirectorySearch::find () {
-   TRACE9 ("PathDirectorySearch::find (): " << ((const std::string&)searchPath).c_str ()
-           << " -> " << srch.c_str ());
+   TRACE9 ("PathDirectorySearch::find (): " << searchPath.data ()  << " -> " << srch);
 
    assert (!checkIntegrity ());
 
-   TRACE5 ("PathDirectorySearch::find (): searchPath::actNode (): "
-	   << searchPath.getActNode ().c_str ());
+   TRACE5 ("PathDirectorySearch::find () - searchPath::actNode ()="
+	   << searchPath.getActNode ());
    if (searchPath.getActNode ().empty ())
       return ENOENT;
+
+   dirEntry* result = pEntry;
 
    int rc (DirectorySearch::find ());
    while (rc) {
       if (searchPath.getActNode ().empty ())
          return rc;
 
-      TRACE5 ("PathDirectorySearch::find (): searchPath::nextNode (): "
-              << searchPath.getActNode ().c_str ());
-
-      rc = find (*pEntry, attr);
+      rc = find (*result, attr);
    }
    return rc;
 }
