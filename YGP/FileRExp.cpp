@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.8 2000/05/15 21:57:26 Markus Exp $
+//$Id: FileRExp.cpp,v 1.9 2000/05/18 17:46:59 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -127,7 +127,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) con
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks the consistency of the regular expression
-//Returns   : int: Status; 0: OK; 1: No regulare expression
+//Returns   : int: Status; 0: OK
 //Require   : pFileRegExp is a valid reg. exp.
 //Throws    : std::string: In case of error a describing text
 /*--------------------------------------------------------------------------*/
@@ -140,18 +140,25 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
       if (*pRegExp == REGIONBEGIN) {
          if (!*++pRegExp)
             throw (getError ("Open region", pRegExp - getExpression ()));
-         if (*pRegExp == REGIONEND)
-            throw (getError ("Empty region", pRegExp - getExpression ()));
 
-         while (*++pRegExp != REGIONEND) {
+         if (*pRegExp == NEGREGION)             // Skip leading range-inversion
+            ++pRegExp;
+
+         if (*pRegExp == REGIONEND)
+            ++pRegExp;
+
+         while (*pRegExp != REGIONEND) {
             switch (*pRegExp) {
             case RANGE:
                if (!pRegExp[1] || (pRegExp[1] == REGIONEND))
                   throw (getError ("Empty range", pRegExp - getExpression ()));
                break;
+
             case '\0':
-               return 1;
+               throw (getError ("Empty region", pRegExp - getExpression ()));
             } // endif
+
+	    ++pRegExp;
          } // end-while
       } // endif
       ++pRegExp;
