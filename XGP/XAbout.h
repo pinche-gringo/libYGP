@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.12 2003/06/30 02:20:22 markus Rel $
+//$Id: XAbout.h,v 1.13 2003/07/19 08:27:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,10 +34,11 @@ namespace Gtk {
 }
 
 
-// Class to show a dialog with about-information for a program. It is assumed,
-// that the program is distributed under the GNU public license.
-//
-// Furthermore it is possible to specify icons for programmer and application.
+/**Class to show a dialog with the about information for a program. It is
+   assumed, that the program is distributed under the GNU public license.
+
+   Furthermore it is possible to specify icons for programmer and application.
+*/
 class XAbout : public XDialog {
  public:
    XAbout (const Glib::ustring& author, const Glib::ustring& program);

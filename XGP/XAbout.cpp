@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.18 2003/06/30 02:20:22 markus Rel $
+//$Id: XAbout.cpp,v 1.19 2003/07/19 08:27:32 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -39,11 +39,11 @@
 #include "XAbout.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; adds all controls to the dialog and shows it.
-//Parameters: author: Author, copyright, ... of the program displayed in the client
-//            program: Name and version of the program; displaced in the title
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Constructor; adds all controls to the dialog and shows it.
+/// \param author: Author, copyright, ... of the program displayed in the client
+/// \param program: Name and version of the program; displaced in the title
+//-----------------------------------------------------------------------------
 XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author))
      , gpl (new Gtk::Label (Glib::locale_to_utf8 (_("Distributed under the terms of the GNU General"
@@ -70,18 +70,18 @@ XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
    show ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 XAbout::~XAbout () {
    TRACE9 ("XAbout::~XAbout");
    hide ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the icon for the program (in xpm-format)
-//Parameters: picProgram: Image representing program
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets the icon for the program (in xpm-format)
+/// \param pIconData: Image representing program
+//-----------------------------------------------------------------------------
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
 
@@ -92,10 +92,10 @@ void XAbout::setIconProgram (const char* const* pIconData) {
    client->pack_start (*pIconProgramm, false, false, 5);
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Sets the icon for the programmer (in xpm-format)
-//Parameters: pIconData: Pointer to xpm-data for pixmap representing the programmer
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Sets the icon for the programmer (in xpm-format)
+/// \param pIconData: Pointer to xpm-data for pixmap representing the programmer
+//-----------------------------------------------------------------------------
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
    
