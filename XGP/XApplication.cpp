@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.43 2005/01/31 15:40:55 markus Exp $
+//$Id: XApplication.cpp,v 1.44 2005/01/31 15:54:26 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -131,20 +131,21 @@ void XApplication::addHelpMenu (Glib::ustring& uiString) {
 
    uiString += "<menu action='Help'>";
 
-   grpAction->add (Gtk::Action::create ("Help", _("_Help")));
+   grpAction->add (Gtk::Action::create ("Help", Gtk::Stock::HELP));
    if (getHelpfile ()) {
-      grpAction->add (Gtk::Action::create ("HlpContent", Gtk::Stock::HELP),
+      grpAction->add (Gtk::Action::create ("HlpContent", Gtk::Stock::HELP,
+					   _("_Contents")),
 		      Gtk::AccelKey (_("F1")),
 		      mem_fun (*this, &XApplication::showHelp));
       grpAction->add (Gtk::Action::create ("HlpSetBrowser", Gtk::Stock::PROPERTIES,
-					   _("Set help-_browser"),
+					   _("Set help-_browser ..."),
 					   _("Enables selecting which browser to use")),
 		      mem_fun (*this, &XApplication::selectHelpBrowser));
 
       uiString += ("<menuitem action='HlpContent'/>"
 		   "<menuitem action='HlpSetBrowser'/><separator/>");
    }
-   grpAction->add (Gtk::Action::create ("HlpAbout", _("_About")),
+   grpAction->add (Gtk::Action::create ("HlpAbout", _("_About ...")),
 		   mem_fun (*this, &XApplication::showAboutbox));
 
    uiString += "<menuitem action='HlpAbout'/></menu>";
