@@ -1,7 +1,7 @@
 #ifndef TRACE_H
 #define TRACE_H
 
-//$Id: Trace.h,v 1.9 2002/10/10 05:50:32 markus Rel $
+//$Id: Trace.h,v 1.10 2003/03/03 05:59:58 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <iomanip>
-#include <iostream>
-
-// Semantic of that traces: TRACE is always defined; TRACE0 - TRACE9 only
-// if TRACELVEL is set to a value corresponding to TRACEx
-#define TRACE(x)            std::cout << x << '\n' << std::flush;
+// Semantic of that traces: TRACE is defined, when TRACELEVEL is defined;
+// TRACE0 - TRACE9 only if TRACELVEL is set to a value corresponding to TRACEx
 
 #ifdef TRACELEVEL
+#define TRACE(x)            std::cout << x << '\n' << std::flush;
+#include <iomanip>
+#include <iostream>
+#endif
+
+#if defined (TRACELEVEL) && (TRACELEVEL >= 0)
 #define TRACE0(x)           TRACE(x)
 #else
 #define TRACE0(x)
-#define TRACELEVEL 0
 #endif
 
 #if TRACELEVEL > 0
