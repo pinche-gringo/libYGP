@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.17 2003/03/03 05:53:42 markus Exp $
+//$Id: XApplication.h,v 1.18 2003/03/06 03:11:23 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -124,9 +124,6 @@ class XApplication : public Gtk::Window {
    } MenuEntry;
 
    typedef SmartPtr<Gtk::VBox>    PVBox;
-   typedef SmartPtr<Gtk::HBox>    PHBox;
-   typedef SmartPtr<Gtk::Label>   PLabel;
-   typedef SmartPtr<Gtk::Image>   PImage;
    typedef SmartPtr<Gtk::MenuBar> PMenuBar;
 
    Gtk::Widget& addMenu (const MenuEntry& menuEntry);
@@ -155,12 +152,6 @@ class XApplication : public Gtk::Window {
    XApplication (const XApplication&);
    const XApplication& operator= (const XApplication&);
 
-   // Events
-   gint delete_event_impl (_GdkEventAny*) {
-      Gtk::Main::quit ();
-      return 0;
-   }
-
    std::vector<Gtk::Menu*> aLastMenus;
 };
 
@@ -179,6 +170,10 @@ class XInfoApplication : public XApplication {
    // Add information
    void setIconProgram (const char* const* iconData);
    void setIconAuthor (const char* const* iconData);
+
+   typedef SmartPtr<Gtk::HBox>  PHBox;
+   typedef SmartPtr<Gtk::Label> PLabel;
+   typedef SmartPtr<Gtk::Image> PImage;
 
  private:
    // Protected manager functions
