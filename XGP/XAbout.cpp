@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.17 2003/06/02 01:30:19 markus Rel $
+//$Id: XAbout.cpp,v 1.18 2003/06/30 02:20:22 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -44,10 +44,10 @@
 //Parameters: author: Author, copyright, ... of the program displayed in the client
 //            program: Name and version of the program; displaced in the title
 /*--------------------------------------------------------------------------*/
-XAbout::XAbout (const std::string& author, const std::string& program)
+XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author))
-     , gpl (new Gtk::Label (_("Distributed under the terms of the GNU General"
-                              " Public License")))
+     , gpl (new Gtk::Label (Glib::locale_to_utf8 (_("Distributed under the terms of the GNU General"
+                                                    " Public License"))))
      , client (new Gtk::HBox ()) {
    Check1 (gpl); Check1 (writer); Check1 (client);
 

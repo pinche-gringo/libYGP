@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.11 2003/03/03 05:53:42 markus Rel $
+//$Id: XAbout.h,v 1.12 2003/06/30 02:20:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ namespace Gtk {
 // Furthermore it is possible to specify icons for programmer and application.
 class XAbout : public XDialog {
  public:
-   XAbout (const std::string& author, const std::string& program);
+   XAbout (const Glib::ustring& author, const Glib::ustring& program);
    ~XAbout ();
 
    void setIconProgram (const char* const* iconData);
