@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.9 2000/03/21 23:29:38 Markus Exp $
+//$Id: ANumeric.cpp,v 1.10 2000/04/02 16:14:32 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -170,35 +170,47 @@ std::string ANumeric::toString () const {
 //Parameters: in: Stream to parse
 /*--------------------------------------------------------------------------*/
 void ANumeric::readFromStream (istream& in) {
+   undefine ();
+
+#ifdef HAVE_LIBGMP
    std::string help;
-   char ch;
+#else
+   value = 0;
+#endif
+   char ch, chSep;
 
    in >> ch; assert (!isspace (ch));               // Skip leading whitespaces
    while (!in.eof ()) {
-      if (!strchr (loc->thousands_sep, ch)) {   // Ignore thousand-seperators,
-         if (isdigit (ch))                  // add only digits; else terminate
-            help += ch;
-         else
-            break;
+      if (strchr (loc->thousands_sep, ch)) {      // Skip thousand-seperators,
+         chSep = ch;
+         in.get (ch);
       } // endif
+      else
+         chSep = '0';
+
+      if (isdigit (ch)) {                // add only digits; else terminate
+#ifdef HAVE_LIBGMP
+            help += ch;
+#else
+            AttributValue::define ();
+            value *= 10;
+            value += ch - '0';
+#endif
+         }
+         else {
+            if (chSep != '0')
+               in.putback (chSep);
+            break;
+         } // end-else non-digit found
 
       in.get (ch);
    } // end-while !eof
    in.putback (ch);
 
-   if (help.empty ())
-      undefine ();
-   else {
 #ifdef HAVE_LIBGMP
+   if (!help.empty ()) {
       mpz_set_str (value, help.c_str (), 10);
       AttributValue::define ();
-#else
-      char* pEnd;
-      value = strtol (help.c_str (), &pEnd, 10);
-      if (!*pEnd || isspace (*pEnd))
-          AttributValue::define ();
-      else
-         undefine ();
 #endif
    }
 }
@@ -265,25 +277,26 @@ ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
 //Parameters: rhs: Value to divide with
 //Returns   : Self
 //Note      : If rhs is not defined this is not changed; if this is not defined
-//            it is set to rhs
+//            it is set to 1/rhs
 /*--------------------------------------------------------------------------*/
 ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
-   if (rhs.isDefined ())
-      if (isDefined ())
+   if (rhs.isDefined ()) {
+      if (!isDefined ())                   // If this is not defined, set to 1
+         operator= ((const int)1);
+
 #ifdef HAVE_LIBGMP
-         mpz_tdiv_q (value, value, rhs.value);
+      mpz_tdiv_q (value, value, rhs.value);
 #else
-         value /= rhs.value;
+      value /= rhs.value;
 #endif
-      else
-         operator= (rhs);
+   } // endif rhs defined
    return *this;
 }
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Compares two ANumeric-values
 //Parameters: other: Object to compare
-//Returns   : >0 if this > other; 0 if this == other; <0 else
+//Returns   : 1 if this > other; 0 if this == other; -1 else
 //Note      : Undefined values are considered as between 0 and -1
 /*--------------------------------------------------------------------------*/
 int ANumeric::compare (const ANumeric& other) {
@@ -297,19 +310,18 @@ int ANumeric::compare (const ANumeric& other) {
    int rc;
    if (isDefined ())                            // this defined: Compare with 0
 #ifdef HAVE_LIBGMP
-      rc = mpz_cmp_ui (value, 0);              // other defined: Compare with 0
+      return (mpz_cmp_ui (value, 0) < 0) ? -1 : 1;
 #else
-      rc = (value < 0) ? -1 : (value > 0) ? 1 : 0;
+      return (value < 0) ? -1 : 1;
 #endif
    else if (other.isDefined ())                      // Both not defined: Equal
       return 0;
    else
 #ifdef HAVE_LIBGMP
-      rc = -mpz_cmp_ui (other.value, 0);
+      return (mpz_cmp_ui (other.value, 0) < 0) ? 1 : -1;
 #else
-      rc = (value < 0) ? 1 : (value > 0) ? -1 : 0;
+      return (value < 0) ? 1 : -1;
 #endif
-   return rc ? rc : 1;                // If comp with 0 is equal: Return bigger
 }
 
 
