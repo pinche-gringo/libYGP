@@ -16,3 +16,7 @@ libXAppl_la_SOURCES=Check.cpp XAbout.cpp XApplication.cpp XFileEntry.cpp \
 		    XFileDlg.cpp XPrintDlg.cpp $(include_HEADERS)
 
 INCLUDES = -I../Common -DPKGDIR=\"$(pkgdatadir)\" `gtkmm-config --cflags`
+
+# Settings for gettext
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
