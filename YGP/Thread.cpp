@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.21 2004/01/15 06:26:30 markus Rel $
+//$Id: Thread.cpp,v 1.22 2004/10/14 04:02:37 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004
@@ -34,27 +34,24 @@
 #include <cerrno>
 #include <cstdlib>
 
-#if SYSTEM == UNIX
+#include "YGP/Check.h"
+#include "YGP/Trace.h"
+#include "YGP/Thread.h"
+
+#if HAVE_LIBPTHREAD
 #   include <unistd.h>
 #   include <sys/wait.h>
 #else
-#   include <stdio.h>
-#endif
+#  ifdef HAVE_BEGINTHREAD
+#     include <process.h>
+#     include <map>
+#     include "YGP/Mutex.h"
 
-#include "YGP/Check.h"
-#include <YGP/Trace.h>
-
-#include "YGP/Thread.h"
-
-
-#ifdef HAVE_BEGINTHREAD
-#  include <map>
-#  include "YGP/Mutex.h"
-
-// Map of wait-mutexes (1 per thread
-static std::map<unsigned long, YGP::Mutex> mutexes;
-static std::map<unsigned long, void*> rcs;
-
+      // Map of wait-mutexes (1 per thread
+      static std::map<unsigned long, YGP::Mutex> mutexes;
+      static std::map<unsigned long, void*> rcs;
+#  endif
+#  include <cstdio>
 #endif
 
 
@@ -104,8 +101,8 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
 #elif  defined (HAVE_BEGINTHREAD)
    callback = fnc;
    mutexes[id = _beginthread (threadFunction, 0, this)].lock ();
-   if (id == -1) {
-      mutexes[-1].unlock ();
+   if (id == -1U) {
+      mutexes[-1U].unlock ();
 #endif
 
 #if defined (HAVE_LIBPTHREAD) || defined (HAVE_BEGINTHREAD)
@@ -137,7 +134,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
 void Thread::ret (void* rc) const {
 #ifdef HAVE_LIBPTHREAD
    pthread_exit (rc);
-#elif defined (HAVE_BEGINTHREAD)
+#elif defined HAVE_BEGINTHREAD
    rcs[id] = rc;
 #else
    _exit (rc ? *static_cast<int*> (rc) : -1);
@@ -214,7 +211,7 @@ void Thread::isToCancel () const {
 #ifdef HAVE_LIBPTHREAD
    pthread_testcancel ();
 #elif defined HAVE_BEGINTHREAD
-   ExitThread (-1);
+   ExitThread (-1U);
 #else
    if (canceled)
       _exit (-1);

@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.18 2004/01/19 06:40:10 markus Rel $
+//$Id: Thread.h,v 1.19 2004/10/14 04:02:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,20 +20,23 @@
 
 #include <ygp-cfg.h>
 
-#if SYSTEM == WINDOWS
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
-#  include <process.h>
-   typedef void* (WINTHREAD_FUNCTION) (void*);
-#endif
-
 #ifdef HAVE_LIBPTHREAD
 #  include <pthread.h>
 #else
-#  if !defined (HAVE_BEGINTHREAD)
-#    include <unistd.h>
-#    include <sys/types.h>
+#  if !defined (HAVE_BEGINTHREAD) && defined (HAVE__BEGINTHREAD)
+#     define HAVE_BEGINTHREAD
+#     define beginthread    _beginthread
+#     define endthread      _endthread
 #  endif
+
+#  if HAVE_WINDOWS_H
+#     define WIN32_LEAN_AND_MEAN
+#     include <windows.h>
+      typedef void* (WINTHREAD_FUNCTION) (void*);
+#  elif !defined (HAVE_BEGINTHREAD)
+#      include <unistd.h>
+#      include <sys/types.h>
+#   endif
 #endif
 
 #include <string>
@@ -88,7 +91,12 @@ class Thread {
 #ifdef HAVE_LIBPTHREAD
       return (unsigned long)pthread_self ();
 #elif defined HAVE_BEGINTHREAD
+#  ifdef HAVE_WINDOWS_H
       return (unsigned long)GetCurrentThreadId ();
+#  else
+#     warning Method Thread::currentID () does not work!
+      return (unsigned long)-1;
+#  endif
 #else
       return (unsigned long)getpid ();
 #endif
