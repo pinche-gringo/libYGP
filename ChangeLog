@@ -1,3 +1,89 @@
+2005-03-21  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Commented the changes in V0.7.10
+
+	* CGP/Makefile.in: Adapted to/fixed for automake-1.9
+
+	* po/de.po, po/en.po, po/es.po: Added text for 0.7.10
+
+	* configure.in:
+	  Added defines HAVE_LIBDL, HAVE_GTKMM26; HAVE_GTKHTML is set to found version
+
+	* XGP/XApplication.cpp, XGP/XApplication.h: Improved XInfoApplication
+
+	* XGP/BrowserDlg.cpp:
+	  Adapted to new define of HAVE_GTKHTML (with version-number)
+
+	* XGP/GTKViewer.c: Don't hardcode version of GTKHTML-library to load
+
+	* YGP/Parse.cpp: Formatting changed
+
+	* YGP/ADate.cpp, YGP/ATime.cpp: Improved assigning from a string
+
+	* YGP/ANumeric.cpp:
+	  Don't complain if trailing characters are read from stream
+
+2005-03-17  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Process.cpp:
+	  Child writes to cout and cerr; Waiting for childs to die
+
+	* YGP/Process.h, YGP/Process.cpp:
+	  Added waitForProcess-method; Async process-methods return the PID
+
+2005-03-09  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Makefile.am: Removed dependency to GKT+
+
+	* configure.in:
+	  Version to 0.7.10; Checking for libdl; Needing libgtkhtml-3.1; Testing for Perl
+
+	* YGP/Check.cpp: Loading GTK+-functions dynamically
+
+	* YGP/Makefile.am: Removed dependency of GTK+
+
+2005-03-08  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/GTKViewer.c: Fixed anchor handling
+
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  Adapted to new interface of GTKViewer
+
+	* XGP/GTKViewer.c, XGP/GTKViewer.h:
+	  Added anchor-jump; works with links into subdirs; Fixes
+
+	* XGP/GTKViewer.c, XGP/GTKViewer.h, XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  First draft using gtkhtml-3.1
+
+	* YGP/Tests/INIFile.test: Added some comments
+
+	* YGP/INIFile.cpp, YGP/INIFile.h: Skipping over comments
+
+2005-03-07  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/INIFile.cpp, YGP/INIFile.h:
+	  Using SectionParser to parse the head of a section
+
+	* YGP/SortDirSrch.h: Cleanup; Added find (files, attribs)
+
+2005-03-06  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Makefile.am, YGP/Makefile.am: Added SortDirSrch
+
+	* YGP/File.h: Fixed compare (const std::string&)
+
+	* YGP/DirSrch.h: Improved comments
+
+	* YGP/DirSrch.cpp: Traces fixed
+
+	* YGP/SortDirSrch.h: New file.
+
+2005-02-19  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/MessageDlg.cpp: Don't convert messages to UTF-8
+
+	* XGP/HTMLViewer.cpp: Wee optimization
+
 2005-01-31  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.7.01

@@ -1,3 +1,14 @@
+Overview of Changes in version 0.7.10:
+
+  - Added SortDirSearch template to sort the results of the DirSrch-classes
+  - Dont't convert YGP::MessageDialog's messages to UTF-8
+  - Fixed trap, when GTKHTML-viewer can't convert filenames to UTF-8
+  - Fixed File::compare (const std::string&)
+  - Using gtkhtml-3.1 (or gtkhtml-3.6)  instead of libgtkhtml-2
+  - Removed dependency to GTK+ from libYGP
+  - Methods in Process which start process asynchronously returns process-id
+  - Attributes are more tolerant, when assigned from a string
+
 Overview of Changes in version 0.7.01:
 
   - YGP::Entity got operator<< and operator>>
@@ -25,7 +36,7 @@ Overview of Changes in version 0.7.00:
   - mgeni is now a Perl script and can generate get/set-methods for attributes
   - configure tests for existence of awk
   - Added XGP/XValues to be able to use AttributValues in Gtk::TreeViews
-  - Fixing showing help with firefox/mozilla
+  - Fixed showing help with firefox/mozilla
   - Improved converting strings to AttributeValues
   - Changed semantic of comparison of ANumeric (undefined values are bigger)
   - Added AYear; a class to handle years
