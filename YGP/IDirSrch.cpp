@@ -1,11 +1,11 @@
-//$Id: IDirSrch.cpp,v 1.6 2002/10/10 05:47:31 markus Rel $
+//$Id: IDirSrch.cpp,v 1.7 2002/12/07 23:32:16 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : IDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -98,8 +98,8 @@ IDirectorySearch::~IDirectorySearch () {
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Converts attributes (constants according to IDirectorySearch)
-//            into the values used by the system
+//Purpose   : Converts attributes according to IDirectorySearch (as defined at
+//            the top) into values used by the system.
 //Parameters: attribs: Attributes to convert
 //Returns   : unsigned long: Systemattributes
 /*--------------------------------------------------------------------------*/
@@ -119,10 +119,10 @@ unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Converts attributes (constants according to IDirectorySearch)
-//            into the values used by the system
+//Purpose   : Converts the attributes as used by the system into attributes 
+//            used by IDirectorySearch (as defined at the top).
 //Parameters: attribs: Attributes to convert
-//Returns   : unsigned long: Systemattributes
+//Returns   : unsigned long: Attributes according to IDirectorySearch
 /*--------------------------------------------------------------------------*/
 unsigned long IDirectorySearch::convertFromSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertFromSysAttribs (unsigned long) - "
