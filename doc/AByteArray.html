@@ -1,6 +1,6 @@
 <!-- -*-HTML-*- -->
 
-<!-- $Id: AByteArray.html,v 1.7 2002/11/19 21:51:21 markus Exp $ -->
+<!-- $Id: AByteArray.html,v 1.8 2002/11/30 05:57:17 markus Exp $ -->
 
 <html>
   <head>
@@ -401,7 +401,7 @@
     <dl>
       <dd><p>Copyconstructor</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Object to copy</dd></dl></dd>
+            <dd><code>other</code>: Object to copy</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="AByteArray3"></a><b>AByteArray</b> (unsigned int length)</pre>
@@ -410,7 +410,7 @@
         bytes (to minimize further re-allocation of memory in case of appending).</p>
 	<p>Although the object contains no value it is defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>length</code> - Number of bytes to reserve</dd></dl></dd>
+            <dd><code>length</code>: Number of bytes to reserve</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="AByteArray4"></a><b>AByteArray</b> (int length)</pre>
@@ -419,21 +419,21 @@
         bytes (to minimize further re-allocation of memory in case of appending).</p>
 	<p>Although the object contains no value it is defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>length</code> - Number of bytes to reserve</dd></dl></dd>
+            <dd><code>length</code>: Number of bytes to reserve</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="AByteArray5"></a><b>AByteArray</b> (char ch)</pre>
     <dl>
       <dd><p>Constructor; the character is set in the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>ch</code> - Value to set in the object</dd></dl></dd>
+            <dd><code>ch</code>: Value to set in the object</dd></dl></dd>
     </dl>
     <hr>
     <pre><a name="AByteArray6"></a><b>AByteArray</b> (const char* pSource)</pre>
     <dl>
       <dd><p>Constructor; the input is copied into the object</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pSource</code> - Pointer to the initial value</dd></dl></dd>
+            <dd><code>pSource</code>: Pointer to the initial value</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
             <dd><code>pSource</code> must be a valid pointer to a zero-terminated
               character array</dd></dl></dd>
@@ -444,8 +444,8 @@
       <dd><p>Constructor; exactly length bytes (including zero-bytes) from
              the input are copied into the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pSource</code> - Pointer to the initial value</dd>
-                  <dd><code>length</code> - Number of the character array to copy</dd></dl></dd>
+            <dd><code>pSource</code>: Pointer to the initial value</dd>
+                  <dd><code>length</code>: Number of the character array to copy</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
             <dd><code>pSource</code> must be a valid pointer to a character array
               of at least <code>length</code> bytes</dd></dl></dd>
@@ -455,7 +455,7 @@
     <dl>
       <dd><p>Constructor; the string is copied into the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>str</code> - String to use as initial value</dd></dl></dd>
+            <dd><code>str</code>: String to use as initial value</dd></dl></dd>
     </dl>
     <hr>
 
@@ -468,7 +468,7 @@
       <dd><p>Assignment operator; if the other object specifies a differnt object,
          its content is copied.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Object to duplicate</dd></dl></dd>
+            <dd><code>other</code>: Object to duplicate</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -477,7 +477,7 @@
     <dl>
       <dd><p>Assigns the passed value to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pValue</code> - Pointer to the initial value</dd></dl></dd>
+            <dd><code>pValue</code>: Pointer to the initial value</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -489,7 +489,7 @@
     <dl>
       <dd><p>Assigns the passed string to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>str</code> - String to use as initial value</dd></dl></dd>
+            <dd><code>str</code>: String to use as initial value</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -498,7 +498,7 @@
     <dl>
       <dd><p>Assigns the character to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>ch</code> - Value to set in the object</dd></dl></dd>
+            <dd><code>ch</code>: Value to set in the object</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -508,7 +508,7 @@
     <dl>
       <dd><p>If the other object specifies a differnt object, its content is copied.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Object to duplicate</dd></dl></dd>
+            <dd><code>other</code>: Object to duplicate</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -517,7 +517,7 @@
     <dl>
       <dd><p>Assigns the passed value to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pValue</code> - Pointer to the initial value</dd></dl></dd>
+            <dd><code>pValue</code>: Pointer to the initial value</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -529,8 +529,8 @@
     <dl>
       <dd><p>Assigns len bytes of the passed value to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pValue</code> - Pointer to the initial value</dd>
-                  <dd><code>length</code> - Number of the character array to copy</dd></dl></dd>
+            <dd><code>pValue</code>: Pointer to the initial value</dd>
+                  <dd><code>length</code>: Number of the character array to copy</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -542,7 +542,7 @@
     <dl>
       <dd><p>Assigns the passed string to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>str</code> - String to use as initial value</dd></dl></dd>
+            <dd><code>str</code>: String to use as initial value</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -551,7 +551,7 @@
     <dl>
       <dd><p>Assigns the character to the object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>ch</code> - Value to set in the object</dd></dl></dd>
+            <dd><code>ch</code>: Value to set in the object</dd></dl></dd>
     </dl>
 
     <hr>
@@ -571,7 +571,7 @@
     <dl>
       <dd><p>Retrieves the byte at the specified position.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pos</code> - Position to return</dd></dl></dd>
+            <dd><code>pos</code>: Position to return</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The character at the specified position</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -583,7 +583,7 @@
     <dl>
       <dd><p>Retrieves a reference to the byte at the specified position.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pos</code> - Position to return</dd></dl></dd>
+            <dd><code>pos</code>: Position to return</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to the character at the specified position</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -595,7 +595,7 @@
     <dl>
       <dd><p>Retrieves a reference to the byte at the specified position.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pos</code> - Position to return</dd></dl></dd>
+            <dd><code>pos</code>: Position to return</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to the character at the specified position</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -607,7 +607,7 @@
     <dl>
       <dd><p>Retrieves a reference to the byte at the specified position.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pos</code> - Position to return</dd></dl></dd>
+            <dd><code>pos</code>: Position to return</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to the character at the specified position</dd></dl></dd>
       <dd><dl><dt><b>Throws</b></dt>
@@ -654,7 +654,7 @@
       <dd><p>Appends the contents of rhs to the object. The object is afterwards
              defined if either of the two AByteArrays have been defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>rhs</code> - Object to append</dd></dl></dd>
+            <dd><code>rhs</code>: Object to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -664,7 +664,7 @@
       <dd><p>Appends the characters rhs is pointing to to the object. If rhs is at
           least one character long, the object is set to be defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>rhs</code> - Character array to append</dd></dl></dd>
+            <dd><code>rhs</code>: Character array to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -677,7 +677,7 @@
       <dd><p>Appends the passed character to the object. The object is set to be
              defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>rhs</code> - Character to append</dd></dl></dd>
+            <dd><code>rhs</code>: Character to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -687,7 +687,7 @@
       <dd><p>Appends the data of the string to the object. If the string is not
              empty, the object is set to be defined</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>rhs</code> - String to append</dd></dl></dd>
+            <dd><code>rhs</code>: String to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -698,7 +698,7 @@
       <dd><p>Appends the contents of rhs to the object. The object is afterwards
              defined if either of the two AByteArrays have been defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>o</code> - Object to append</dd></dl></dd>
+            <dd><code>o</code>: Object to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -708,7 +708,7 @@
       <dd><p>Appends the characters pSource is pointing to to the object. If pSource
           is at least one character long, the object is set to be defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pSource</code> - Character array to append</dd></dl></dd>
+            <dd><code>pSource</code>: Character array to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -721,8 +721,8 @@
       <dd><p>Appends length characters of the array pSource is pointing to to
           the object. If length is at least one, the object is set to be defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>pSource</code> - Character array to append</dd>
-            <dd><code>length</code> - Number of characters to append</dd></dl></dd>
+            <dd><code>pSource</code>: Character array to append</dd>
+            <dd><code>length</code>: Number of characters to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -735,7 +735,7 @@
       <dd><p>Appends the passed character to the object. The object is set to be
              defined.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>rhs</code> - Character to append</dd></dl></dd>
+            <dd><code>rhs</code>: Character to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -745,7 +745,7 @@
       <dd><p>Appends the data of the string to the object. If the string is not
              empty, the object is set to be defined</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>rhs</code> - String to append</dd></dl></dd>
+            <dd><code>rhs</code>: String to append</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>A reference to this</dd></dl></dd>
     </dl>
@@ -755,8 +755,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
     </dl>
@@ -765,8 +765,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -778,8 +778,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
     </dl>
@@ -788,8 +788,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
     </dl>
@@ -798,8 +798,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -811,8 +811,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
     </dl>
@@ -821,8 +821,8 @@
     <dl>
       <dd><p>Concatenates rhs to lhs and returns the result.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of concatenation</dd>
-            <dd><code>rhs</code> - Right-hand-side of concatenation</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of concatenation</dd>
+            <dd><code>rhs</code>: Right-hand-side of concatenation</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>The concatinated byte array</dd></dl></dd>
     </dl>
@@ -834,7 +834,7 @@
         <p>Undefined values are considered to be smaller than every value;
           if both values are undefined, they are considered as equal.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Object to compare</dd></dl></dd>
+            <dd><code>other</code>: Object to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
     </dl>
@@ -844,7 +844,7 @@
       <dd><p>Compares the byte array with a string.</p>
         <p>Undefined values are considered to be smaller than any string.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - String to compare</dd></dl></dd>
+            <dd><code>other</code>: String to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
     </dl>
@@ -855,7 +855,7 @@
         <p>Undefined values equals the NULL pointer, but are considered to be smaller
           than any other character array.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Character array to compare</dd></dl></dd>
+            <dd><code>other</code>: Character array to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -869,8 +869,8 @@
         <p>Undefined values equals the NULL pointer, but are considered to be smaller
           than any other character array.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Character array to compare</dd>
-            <dd><code>length</code> - Length of data to compare</dd></dl></dd>
+            <dd><code>other</code>: Character array to compare</dd>
+            <dd><code>length</code>: Length of data to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -883,7 +883,7 @@
       <dd><p>Compares the byte array with a single character.</p>
         <p>Undefined values are considered to be smaller than any character.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>other</code> - Character to compare</dd></dl></dd>
+            <dd><code>other</code>: Character to compare</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>&lt;0: this &lt; other; &gt;0: this > other; 0 else</dd></dl></dd>
     </dl>
@@ -894,8 +894,8 @@
       <dd><p>Compares the values of two byte arrays for equalness (equal
           characters and length or both undefined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
@@ -905,8 +905,8 @@
       <dd><p>Compares the values of two objects for equalness (equal
           characters and length).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
@@ -916,8 +916,8 @@
       <dd><p>Compares the values of two objects for equalness (equal
           characters and length). The NULL pointer equals an undefined object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -930,8 +930,8 @@
       <dd><p>Compares the values of two objects for equalness (equal
           character and <code>lhs</code> only one character long).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
@@ -941,8 +941,8 @@
       <dd><p>Compares the values of two objects for equalness (equal
           characters and length).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
@@ -952,8 +952,8 @@
       <dd><p>Compares the values of two objects for equalness (equal
           characters and length). The NULL pointer equals an undefined object.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -966,8 +966,8 @@
       <dd><p>Compares the values of two objects for equalness (equal
           character and <code>rhs</code> only one character long).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
@@ -978,8 +978,8 @@
       <dd><p>Compares the values of two byte arrays for unequalness (unequal
           characters and/or length or only one defined).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>False if the objects are equal; true else</dd></dl></dd>
     </dl>
@@ -989,8 +989,8 @@
       <dd><p>Compares the values of two objects for unequalness (unequal
           characters and/or length).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>False if the objects are equal; true else</dd></dl></dd>
     </dl>
@@ -1001,8 +1001,8 @@
           characters and/or length).  An undefined objects is different to
           everything excpet a NULL-pointer.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1015,8 +1015,8 @@
       <dd><p>Compares the values of two objects for unequalness (unequal
           character or <code>lhs</code> not exactly one character long).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
       <dd>Compares the two sides of the equation and returns true if they have a
@@ -1028,8 +1028,8 @@
       <dd><p>Compares the values of two objects for unequalness (unequal
           characters and/or length).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>False if the objects are equal; true else</dd></dl></dd>
     </dl>
@@ -1040,8 +1040,8 @@
           characters and/or length).  An undefined objects is different to
           everything excpet a NULL-pointer.</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1054,8 +1054,8 @@
       <dd><p>Compares the values of two objects for unequalness (unequal
           character or <code>lhs</code> not exactly one character long).</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if the objects are equal; false else</dd></dl></dd>
     </dl>
@@ -1067,8 +1067,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd></dd>
@@ -1080,8 +1080,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd></dd>
@@ -1093,8 +1093,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1109,8 +1109,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd></dd>
@@ -1122,8 +1122,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd></dd>
@@ -1135,8 +1135,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1151,8 +1151,8 @@
         (lexicographically) precedes the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller; false else</dd></dl></dd>
       <dd></dd>
@@ -1165,8 +1165,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd></dd>
@@ -1178,8 +1178,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd></dd>
@@ -1191,8 +1191,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1207,8 +1207,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd></dd>
@@ -1220,8 +1220,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd></dd>
@@ -1233,8 +1233,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1249,8 +1249,8 @@
         (lexicographically) follows the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger; false else</dd></dl></dd>
       <dd></dd>
@@ -1263,8 +1263,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1276,8 +1276,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1289,8 +1289,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1305,8 +1305,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1318,8 +1318,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1331,8 +1331,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1347,8 +1347,8 @@
         does <b>not</b> (lexicographically) follow the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically smaller or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1361,8 +1361,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1374,8 +1374,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1387,8 +1387,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1403,8 +1403,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1416,8 +1416,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd></dd>
@@ -1429,8 +1429,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value except the NULL pointer!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd><dl><dt><b>Requires</b></dt>
@@ -1445,8 +1445,8 @@
         does <b>not</b> (lexicographically) precede the right-hand-side.</p>
         <p>An undefined byte array is smaller than any value!</p></dd>
       <dd><dl><dt><b>Parameters</b></dt>
-            <dd><code>lhs</code> - Left-hand-side of comparison</dd>
-            <dd><code>rhs</code> - Right-hand-side of comparison</dd></dl></dd>
+            <dd><code>lhs</code>: Left-hand-side of comparison</dd>
+            <dd><code>rhs</code>: Right-hand-side of comparison</dd></dl></dd>
       <dd><dl><dt><b>Returns</b></dt>
             <dd>True if <code>lhs</code> is lexicographically bigger or equal; false else</dd></dl></dd>
       <dd></dd>
