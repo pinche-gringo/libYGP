@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.33 2004/11/05 04:17:04 markus Exp $
+//$Id: ATime.cpp,v 1.34 2004/11/07 22:02:58 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -109,45 +109,48 @@ ATime& ATime::operator= (const ATime& other) {
 //-----------------------------------------------------------------------------
 /// Assignment-operator from a const char-pointer. The time must be passed
 /// either in the local format or as HHMMSS. If the buffer does not represent a
-/// valid time an excpetion is / thrown.
+/// valid time an excpetion is thrown.
 /// \param pTime: Character array specifying time to assign
 /// \returns Reference to self
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid time
-/// \remarks:  A NULL-pointer as parameter is not permitted!
 //-----------------------------------------------------------------------------
 ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
-   Check3 (pTime);
    Check3 (!checkIntegrity ());
 
-   assign (pTime, strlen (pTime));
+   if (pTime)
+      assign (pTime, strlen (pTime));
+   else
+      undefine ();
    return *this;
 }
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator from a const char-pointer. The time must be passed
 /// either in the local format or as HHMMSS. If the buffer does not represent a
-/// valid time an excpetion is / thrown.
+/// valid time an excpetion is thrown.
 /// \param pTime: Character array specifying time to assign
 /// \returns Reference to self
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid time
-/// \remarks:  A NULL-pointer as parameter is not permitted!
 /// \remarks:  If the object is in MODE_HHMM or MODE_MMSS, the method also
 ///    accepts the input in format HHMM or MMSS.
 //-----------------------------------------------------------------------------
 void ATime::assign (const char* pTime, unsigned int len) {
-   Check3 (pTime);
-   Check3 (!checkIntegrity ());
-
    TRACE5 ("ATime::assign (const char*, unsigned int): " << pTime << " ("
 	   << len << ')');
+   Check3 (!checkIntegrity ());
+
+   if (!(len && pTime && *pTime)) {
+      undefine ();
+      return;
+   }
 
 #ifdef HAVE_STRFTIME
    struct tm result;
    memset (&result, '\0', sizeof (result));
 
-   char* fail (NULL);
+   const char* fail (NULL);
    switch (len) {
    case 8:
       fail = strptime (pTime, MODES[MODE_LOCALE], &result);
@@ -164,14 +167,14 @@ void ATime::assign (const char* pTime, unsigned int len) {
    default:
       fail = NULL;
    } // endswitch
-   if (!fail || *fail) {
+   operator= (result);
+   if (!fail || *fail || (fail = pTime, checkIntegrity ())) {
+      undefine ();
       TRACE9 ("ATime::assign (const char*, unsigned int) - Failed: " << fail);
       std::string error (_("Position %1"));
       error.replace (error.find ("%1"), 2, 1, char ((fail - pTime) + '0'));
       throw std::invalid_argument (error);
    }
-
-   operator= (result);
 #else
    hour = min_ = sec = 0;
 
@@ -211,10 +214,8 @@ void ATime::assign (const char* pTime, unsigned int len) {
       undefine ();
       throw std::invalid_argument (pTime);
    }
-   else {
-      TRACE9 ("ATime::readFromStream (istream&): Define");
+   else
       setDefined ();
-   }
 #endif
    return;
 }
@@ -284,7 +285,8 @@ void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
    while (!in.eof () && !isspace (*pb)
 	  && ((unsigned int)(pb - buffer) < (sizeof (buffer) - 1)))
       in.get (*++pb);
-   *++pb = '\0';
+   in.unget ();
+   *pb = '\0';
 
    operator= (buffer);
 }
@@ -396,8 +398,8 @@ ATime& ATime::sub (char Hour, char minute, char second) {
 //-----------------------------------------------------------------------------
 /// Returns the (approximated) difference in seconds between two times. If
 /// both times are undefined, those difference is "0", if only this is
-/// undefined the result is MINLONG, if only other is undefined MAXLONG is
-/// returned (-> undefined times are considered as (very) old).
+/// undefined the result is -1, if only other is undefined 1 is returned
+/// (-> undefined times are considered as (very) old).
 /// \param other: Object to compare
 /// \returns \c long: >0 if this other; 0 if this == other; <0 else
 ///     \note Undefined values are considered as (incredible) old "Younger
