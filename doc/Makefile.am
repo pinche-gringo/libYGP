@@ -10,4 +10,4 @@ EXTRA_DIST=AByteArray.html ADate.html ANumeric.html ATStamp.html ATime.html\
 	   RegExp.html RemoteFile.html SmartPtr.html Socket.html Tokenize.html\
 	   XStrBuf.html XStream.html cross_index.html index.html mdocu.html\
 	   XAbout.html XApplication.html XDate.html XFileDlg.html \
-	   XFileEntry.html
+	   XFileEntry.html XFileList.html XMessageBox.html XPrintDlg.html
