@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.3 1999/09/11 00:40:40 Markus Rel $
+//$Id: ANumeric.h,v 1.4 1999/09/11 19:32:41 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <gmp.h>
 
 #include <string>
 
+#include "gmp.h"
 #include "AttrVal.h"
 
 
@@ -30,7 +30,7 @@
 // library)
 class ANumeric : public AttributValue {
  public:
-   ANumeric () : AttributValue () { mpz_init_set_ui (value, 0); }
+   ANumeric () : AttributValue () { mpz_init_set_si (value, 0); }
    ANumeric (const ANumeric& other) : AttributValue ((const AttributValue&)other) {
      mpz_init_set (value, other.value); }
    ANumeric (const long val) : AttributValue () {
