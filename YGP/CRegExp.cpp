@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.10 2000/06/03 12:45:10 Markus Exp $
+//$Id: CRegExp.cpp,v 1.11 2000/06/03 20:09:14 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -25,7 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define DEBUG 0
+#define DEBUG 8
 #include "Trace_.h"
 
 #include "CRegExp.h"
@@ -91,12 +91,16 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    // Use system-regular expressions if available
    return !regexec (&regexp, pCompare, 0, NULL, 0);
 #else
+   pStartCompare = pCompare;
+
    bool rc (false);
    do {
       rc = doCompare (pAktRegExp, pCompare);
-      if (rc)
+      if (rc && !*pCompare)
          break;
 
+      rc = false;
+      pCompare = pStartCompare;
       pAktRegExp = findEndOfAlternative (pAktRegExp);
    } while (*pAktRegExp++); // end-do while alternatives available
 
@@ -110,11 +114,10 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
 //Returns   : bool: Result (true: match)
 //Requires  : pAktRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
-bool RegularExpression::doCompare (const char* pAktRegExp, const char* pCompare) {
+bool RegularExpression::doCompare (const char* pAktRegExp, const char*& pCompare) {
    assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
    TRACE1 ("RegularExpression::doCompare -> " << pAktRegExp << " <-> " << pCompare);
 
-   pStartCompare = pCompare;
    char ch;
    const char* pEnd = NULL;
    std::string lastExpr;
@@ -141,15 +144,15 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char* pCompare)
 
       case ESCAPE:
          if (pAktRegExp[1] == GROUPBEGIN) {
-            pEnd = findEndOfGroup (pAktRegExp + 1);
+            pEnd = findEndOfGroup (pAktRegExp + 2);
 
-            lastExpr.assign (pAktRegExp, pEnd - pAktRegExp);
+            lastExpr.assign (pAktRegExp + 2, pEnd - pAktRegExp + 1);
             TRACE4 ("Found group: " << lastExpr.c_str ());
             fnCompare = &RegularExpression::compGroup;
             } // endif GROUPBEGIN
          else {
             if (pAktRegExp[1] == ALTERNATIVE)       // Handling of alternative:
-               return !*pCompare;             // pCompare finished: Yes: Found!
+               return true;                   // OK til act. pos -> Return true
 
             fnCompare = &RegularExpression::compEscChar;
             pEnd = pAktRegExp + 1;
@@ -191,14 +194,13 @@ bool RegularExpression::doCompare (const char* pAktRegExp, const char* pCompare)
          const char* pAktPos = pCompare;
          while (*pAktPos && (this->*fnCompare) (pAktPos, lastExpr)) ;
 
+         const char* pHelp = pAktPos;          // Temporary store of start-ptr.
          while (pAktPos >= pCompare) {   // Try to find next smaller max. match
-            const char* pHelp = pStartCompare;   // Tempor. store of start-ptr.
 
             if (doCompare (pEnd + 2, pAktPos))
                return true;
 
-            pStartCompare = pHelp;                     // Restore start-pointer
-            --pAktPos;
+            pAktPos = --pHelp;                         // Restore start-pointer
          } // end-while
          ++pEnd;
          }
@@ -382,8 +384,8 @@ bool RegularExpression::compEscChar (const char*& pAktPos,
    case WORDBORDER:
       assert (pAktPos >= pStartCompare);
       return ((pAktPos == pStartCompare) || !pAktPos[1]
-              || ((isalnum (*pAktPos)) != isalpha (pAktPos[1]))
-              || ((isalnum (*pAktPos)) != isalpha (pAktPos[-1])));
+              || ((isalnum (*pAktPos)) != isalnum (pAktPos[1]))
+              || ((isalnum (*pAktPos)) != isalnum (pAktPos[-1])));
 
    case NOTWORDBORDER:
       assert (pAktPos >= pStartCompare);
@@ -393,7 +395,7 @@ bool RegularExpression::compEscChar (const char*& pAktPos,
    case WORDBEGIN:
       assert (pAktPos >= pStartCompare);
       return ((pAktPos == pStartCompare)
-              || ((isalnum (*pAktPos)) && !isalpha (pAktPos[1])));
+              || ((isalnum (*pAktPos)) && !isalnum (pAktPos[-1])));
 
    case WORDEND:
       assert (pAktPos >= pStartCompare);
