@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.19 2001/04/09 15:04:31 markus Exp $
+//$Id: DirSrch.h,v 1.20 2001/08/08 01:41:44 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,19 +51,19 @@ class DirectorySearch : public IDirectorySearch {
    DirectorySearch (const std::string& search);
    virtual ~DirectorySearch ();
 
-   void setDirectory (const std::string& dir) { searchDir = dir; }
-   void setFile (const std::string& search);
-   std::string getFile () const { return searchDir + searchFile; }
+   virtual void setSearchValue (const std::string& search);
+   virtual const std::string& getDirectory () const { return searchDir; }
+   virtual const std::string& getFileSpec () const { return searchFile; }
 
    virtual bool isValid () const;
    virtual bool isValid (const std::string& dir) const;
 
    //@Section searching
-   inline int find (const std::string& search, dirEntry& result,
-		    unsigned long attribs = DirectorySearch::FILE_NORMAL);
-   inline int find (const std::string& search) {
-      setFile (search); assert (!checkIntegrity ());
-      return find (*pEntry, attr); }
+   int find (const std::string& search, dirEntry& result,
+             unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
+      cleanup ();
+      setSearchValue (search);
+      return find (result, attribs); }
    virtual int find (dirEntry& result,
                      unsigned long attribs = IDirectorySearch::FILE_NORMAL);
    virtual int find ();
@@ -76,6 +76,10 @@ class DirectorySearch : public IDirectorySearch {
    void result (dirEntry* pResult) { assert (pResult); pEntry = pResult; }
    void result (dirEntry& result) { pEntry = &result; }
 
+   std::string searchDir;
+   std::string searchFile;
+
+   unsigned long attr;
    enum { DIRSRCH_OK = 0, NO_ENTRY_PATH, NO_ENTRY, NO_DIR, NO_FILE, LAST};
 
  private:
@@ -85,24 +89,11 @@ class DirectorySearch : public IDirectorySearch {
 
    void convertAttributes (unsigned long attributes);
 
-   std::string searchDir;
-   std::string searchFile;
-
-   unsigned long attr;
 #if SYSTEM == UNIX
    DIR* pDir;
 #elif SYSTEM == WINDOWS
    HANDLE hSearch;
 #endif
 };
-
-
-// Implementation of inline-functions
-inline int DirectorySearch::find (const std::string& search, dirEntry& result,
-                                  unsigned long attribs) {
-   assert (!search.empty ());
-   setFile (search);
-   return find (result, attribs);
-}
 
 #endif // DIRSRCH_H

@@ -1,11 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.11 2001/04/02 21:04:16 markus Exp $
+//$Id: PathDirSrch.cpp,v 1.12 2001/08/08 01:42:39 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : PathDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -66,7 +66,7 @@ int PathDirectorySearch::find (dirEntry& result, unsigned long attribs) {
 
       if (makePath (node, srch)) {
          TRACE5 ("PathDirectorySearch::find (result, attribs): " << node.c_str ());
-         setFile (node);
+         setSearchValue (node);
          rc = DirectorySearch::find (result, attribs);
       } // endif
    } while (rc);
@@ -94,7 +94,8 @@ int PathDirectorySearch::find () {
 
       TRACE5 ("PathDirectorySearch::find (): searchPath::nextNode (): "
               << searchPath.getActNode ().c_str ());
-      rc = DirectorySearch::find ("?");  // Dummy-value to initiate new search
+
+      rc = find (searchPath.getActNode () + getSearchValue (), *pEntry, attr);
    }
    return rc;
 }

@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.26 2001/04/09 15:04:30 markus Exp $
+//$Id: DirSrch.cpp,v 1.27 2001/08/08 01:41:43 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -83,15 +83,14 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
 //Parameters: search: Path (and files) to search
 /*--------------------------------------------------------------------------*/
 DirectorySearch::DirectorySearch (const std::string& search)
-   : IDirectorySearch (), searchDir (1, '.')
+   : IDirectorySearch ()
 #if SYSTEM == UNIX
       , pDir (NULL)
 #else
       , hSearch (INVALID_HANDLE_VALUE)
 #endif
 {
-   searchDir += dirEntry::DIRSEPERATOR;
-   setFile (search);
+   setSearchValue (search);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -224,13 +223,15 @@ int DirectorySearch::checkIntegrity () const {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Splits the search-string in its directory- and its filepart; it
+//Purpose   : Splits the search-string in its directory- and filepart; it
 //            prepares the internal data also for a new search
 //Parameters: search: Files to find
 /*--------------------------------------------------------------------------*/
-void DirectorySearch::setFile (const std::string& search) {
+void DirectorySearch::setSearchValue (const std::string& search) {
    assert (!search.empty ());
 
+   searchDir = '.';
+   searchDir += dirEntry::DIRSEPERATOR;
    searchFile = search;
 
    unsigned int len (search.length () - 1);
@@ -239,12 +240,9 @@ void DirectorySearch::setFile (const std::string& search) {
 
    len = searchFile.rfind (dirEntry::DIRSEPERATOR);
    if (len != std::string::npos) {
-      searchDir = searchFile;
-TRACE1 ("Search - 1: " << searchDir);
+      searchDir = searchFile; TRACE9 ("Search - 1: " << searchDir);
       searchDir.replace (len + 1, searchDir.length (), 0, '\0');
-TRACE1 ("Search - 2: " << searchDir);
-      searchFile.replace (0, len + 1, 0, '\0');
-TRACE1 ("Search - 3: " << searchFile);
+      searchFile.replace (0, len + 1, 0, '\0'); TRACE9 ("Search - 2: " << searchFile);
    }
    assert (checkIntegrity () <= NO_ENTRY);
 }
