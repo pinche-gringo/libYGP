@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.24 2002/11/27 04:56:29 markus Exp $
+//$Id: ADate.cpp,v 1.25 2002/12/07 23:31:33 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -87,7 +87,7 @@ ADate::~ADate () {
 //Returns   : ADate&: Reference to self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator= (const ADate& other) {
-   Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
+   Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
 
    if (this != &other) {
       TRACE5 ("ADate::operator=: " << other);
@@ -109,8 +109,8 @@ ADate& ADate::operator= (const ADate& other) {
 //Throws    : std::invalid_argument if the characters don't represent a valid date
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator= (const char* pDate) throw (std::invalid_argument) {
-   Check3 (pDate);
-   Check3 (!checkIntegrity ());
+   Check1 (pDate);
+   Check1 (!checkIntegrity ());
 
    TRACE5 ("ADate::operator= (const char*): " << pDate);
 
@@ -155,7 +155,7 @@ std::string ADate::toString () const {
 //            1900)
 /*--------------------------------------------------------------------------*/
 std::string ADate::toString (const char* format) const {
-   Check3 (format);
+   Check1 (format);
    std::string result;
 
    if (isDefined ()) {
@@ -219,10 +219,9 @@ void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
 //            corrected.
 //Parameters: rhs: Value to add
 //Returns   : Self
-//Note      : If rhs is not defined this is not changed
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator+= (const ADate& rhs) {
-   Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+   Check1 (!checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
 
    if (rhs.isDefined ()) {
       if (isDefined ()) {
@@ -249,7 +248,7 @@ ADate& ADate::operator+= (const ADate& rhs) {
 //Returns   : Self
 /*--------------------------------------------------------------------------*/
 ADate& ADate::operator-= (const ADate& rhs) {
-   Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+   Check1 (!checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
 
    if (rhs.isDefined ()) {
       if (isDefined ()) {
@@ -283,7 +282,7 @@ ADate& ADate::operator-= (const ADate& rhs) {
 ADate& ADate::add (signed char Day, signed char Month, int Year) {
    TRACE7 ("ADate::add: " << toString () << " + " << (int)Day << '.'
 	   << (int)Month << '.' << Year);
-   Check3 (!checkIntegrity ());
+   Check1 (!checkIntegrity ());
 
    if (isDefined ()) {
       Year += Month / 12;
@@ -319,8 +318,7 @@ ADate& ADate::add (signed char Day, signed char Month, int Year) {
 ADate& ADate::sub (signed char Day, signed char Month, int Year) {
    TRACE7 ("ADate::sub: " << toString () << " - " << (int)Day << '.'
 	   << (int)Month << '.' << Year);
-
-   Check3 (!checkIntegrity ());
+   Check1 (!checkIntegrity ());
 
    if (isDefined ()) {
       Year += Month / 12;                      // Correct month and year first
@@ -361,7 +359,7 @@ ADate& ADate::sub (signed char Day, signed char Month, int Year) {
 //Returns   : >0 if this "younger" other; 0 if this == other; <0 else
 /*--------------------------------------------------------------------------*/
 long ADate::compare (const ADate& other) {
-   Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
+   Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
 
    // Both sides are defined -> return (approximated) difference
    if (isDefined ()) {
@@ -389,7 +387,7 @@ long ADate::compare (const ADate& other) {
 //Returns   : ADate: Result of additon
 /*--------------------------------------------------------------------------*/
 ADate operator+ (const ADate& lhs, const ADate& rhs) {
-   Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+   Check1 (!lhs.checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
 
    ADate result (lhs);
    result += rhs;
@@ -406,7 +404,7 @@ ADate operator+ (const ADate& lhs, const ADate& rhs) {
 //Returns   : ADate: Result of substraction
 /*--------------------------------------------------------------------------*/
 ADate operator- (const ADate& lhs, const ADate& rhs) {
-   Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+   Check1 (!lhs.checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
 
    ADate result (lhs);
    result -= rhs;
@@ -431,7 +429,7 @@ int ADate::checkIntegrity () const {
 //Returns   : int: Maximal day for the passed parameters [28 - 31]
 /*--------------------------------------------------------------------------*/
 char ADate::maxDayOf (char month, int year) {
-   Check3 ((month > 0) && (month < 13));
+   Check1 ((month > 0) && (month < 13));
 
    if (month == (unsigned char)2)              // Special-handling of february
       return (unsigned char)(isLeapYear (year) ? 29 : 28);
