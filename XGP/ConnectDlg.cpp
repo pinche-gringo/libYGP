@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.9 2003/11/17 15:08:24 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.10 2003/12/12 22:10:48 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -182,7 +182,7 @@ void ConnectDlg::command (int action) {
             valueChanged ();
          }
          catch (std::domain_error& err) {
-            Glib::ustring msg (_("Can't connect to server!\n\nReason: %1"));
+            Glib::ustring msg (_("Can't bind to port!\n\nReason: %1"));
             msg.replace (msg.find ("%1"), 2, err.what ());
             Gtk::MessageDialog dlg (msg, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_CANCEL);
             dlg.set_title (_("Connect error"));
