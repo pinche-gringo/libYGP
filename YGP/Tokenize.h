@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.3 1999/09/26 01:54:46 Markus Rel $
+//$Id: Tokenize.h,v 1.4 2000/04/06 20:49:33 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ class Tokenize {
    Tokenize (const std::string& string) : _string (string), actPos (0), len (0) { }
    virtual ~Tokenize () { }
 
-   const Tokenize& operator= (std::string& string) {
+   const Tokenize& operator= (const std::string& string) {
       _string = string;
       reset ();
       return *this; }
@@ -37,12 +37,14 @@ class Tokenize {
    operator const std::string& () const { return _string; }
 
    //Section access to sub-nodes
-   std::string getActNode () { return _string.substr ((int)actPos, (int)len - 1); }
+   std::string getActNode () const { return _string.substr ((int)actPos, (int)len - 1); }
    std::string getNextNode (const char split);
 
    void reset () { actPos = len = 0; }
 
  private:
+   Tokenize (const Tokenize& other);
+   Tokenize& operator= (const Tokenize& other);
    int checkIntegrity () const;
 
    std::string  _string;
