@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.7 2003/03/03 23:36:15 markus Exp $
+//$Id: XAttrLabel.h,v 1.8 2003/03/06 21:22:24 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -95,8 +95,14 @@ void XAttributeLabel<double>::update () {
 // other abilities. This class stores the attribute.
 template <class T> class XAttributeLabel2 : public Gtk::Label {
  public:
-   XAttributeLabel2 (const T& attr, gfloat x = 0.5, gfloat y = 0.5)
-      : Gtk::Label (NULL, x, y), attr_ (attr) { update (); }
+   XAttributeLabel2 (const T& attr, bool mnemonic = false)
+      : Gtk::Label ("", mnemonic), attr_ (attr) { update (); }
+   XAttributeLabel2 (const T& attr, gfloat x, gfloat y, bool mnemonic = false)
+      : Gtk::Label ("", x, y, mnemonic), attr_ (attr) { update (); }
+   XAttributeLabel2 (const T& attr, Gtk::AlignmentEnum xalign,
+                     Gtk::AlignmentEnum yalign = ALIGN_CENTER, bool mnemonic = false)
+      : Gtk::Label ("", xalign, yalign, mnemonic), attr_ (attr) {
+      update (); }
    ~XAttributeLabel2 () { }
 
    void update () { set_text (attr_.toString ()); }
