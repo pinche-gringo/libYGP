@@ -1,14 +1,14 @@
-//$Id: ANumeric.cpp,v 1.31 2003/05/23 17:48:51 markus Rel $
+//$Id: ANumeric.cpp,v 1.32 2003/06/17 16:44:52 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
+//COPYRIGHT   : Anticopyright (A) 1999 - 2003
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <errno.h>
-#include <locale.h>
-#include <limits.h>
+#include <cerrno>
+#include <clocale>
+#include <climits>
 
 #include <gzo-cfg.h>
 
@@ -57,9 +57,9 @@
 static struct lconv* loc = NULL;
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
 ANumeric::~ANumeric () {
 #ifdef HAVE_LIBGMP
    mpz_clear (value);
@@ -67,20 +67,16 @@ ANumeric::~ANumeric () {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignmentoperator; tries to extract an integer-value from
-//            the passed value.
-//
-//            pValue must not be a NULL-pointer, may have leading white-spaces
-//            which may follow a sign (plus (+) or minus (-)) followed by
-//            numeric characters and a zero-characer (\0).
-//
-//            If pValue has a different format an excpetion is thrown.
-
-//Parameters: pValue: Pointer to ASCIIZ-string containing numeric value to assign
-//Requires  : pValue valid ASCIIZ-string
-//Throws    : invalid_argument in case of an exception
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignmentoperator; tries to extract an integer-value from the passed
+/// value. pValue must not be a NULL-pointer, may have leading white-spaces
+/// which may follow a sign (plus (+) or minus (-)) followed by numeric
+/// characters and a zero-characer (\0). If pValue has a different format an
+/// excpetion is thrown.
+/// \param  pValue: Pointer to ASCIIZ-string containing numeric value to assign
+/// \throw \c invalid_argument in case of an exception
+/// \pre \c pValue a valid ASCIIZ-string
+//-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument) {
    if (!(pValue && *pValue))
       undefine ();
@@ -99,11 +95,11 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignment-operator from another ANumeric object.
-//Parameters: other: Object to copy
-//Returns   : Reference to self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Assignment-operator from another ANumeric object.
+/// \param other: Object to copy
+/// \returns Reference to self
+//-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator= (const ANumeric& other) {
    if (this != &other) {
 #ifdef HAVE_LIBGMP
@@ -116,9 +112,9 @@ ANumeric& ANumeric::operator= (const ANumeric& other) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Defines the object and sets the value to 0.
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Defines the object and sets the value to 0.
+//-----------------------------------------------------------------------------
 void ANumeric::define () {
    setDefined ();
 #ifdef HAVE_LIBGMP
@@ -128,10 +124,10 @@ void ANumeric::define () {
 #endif
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the number into a string without any formatting.
-//Returns   : String-representation of ANumeric
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the number into a string without any formatting.
+/// \returns \c std::string: String-representation of ANumeric
+//-----------------------------------------------------------------------------
 std::string ANumeric::toUnformattedString () const {
    std::string str ("");
 
@@ -152,12 +148,12 @@ std::string ANumeric::toUnformattedString () const {
    return str;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Converts the number into a string, in the format specified by
-//            the current locale.
-//Returns   : String-representation of ANumeric
-//Remarks   : Initializes the locale-definition (if not already done)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Converts the number into a string, in the format specified by the current
+/// locale.
+/// \returns \c std::string: String-representation of ANumeric
+/// \remarks Initializes the locale-definition (if not already done)
+//-----------------------------------------------------------------------------
 std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const");
    std::string str;
@@ -195,14 +191,15 @@ std::string ANumeric::toString () const {
    return str;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Reads an unformatted numeric value from a stream. If the input
-//            is not valid, an excpetion is thrown.
-//Parameters: in: Stream to parse
-//Remarks   : - Leading whitespaces in the stream are skipped.
-//            - Parsing is stopped at EOF or at any non-digit.
-//            - Initializes the locale-definition (if not already done)
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Reads an unformatted numeric value from a stream. If the input is not
+/// valid, an excpetion is thrown.
+/// \param in: Stream to parse
+/// \remarks
+///     - Leading whitespaces in the stream are skipped.
+///     - Parsing is stopped at EOF or at any non-digit.
+///     - Initializes the locale-definition (if not already done)
+//-----------------------------------------------------------------------------
 void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
    undefine ();
 
@@ -256,13 +253,13 @@ void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds another number-object to this object. An undefined number
-//            is treated as "0"; so only if both objects are undefined, the
-//            result is (remains) undefined.
-//Parameters: rhs: Value to add
-//Returns   : Self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds another number-object to this object. An undefined number is treated
+/// as "0"; so only if both objects are undefined, the result is (remains)
+/// undefined.
+/// \param rhs: Value to add
+/// \returns Self
+//-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator+= (const ANumeric& rhs) {
    if (rhs.isDefined ()) {
 #ifdef HAVE_LIBGMP
@@ -275,13 +272,13 @@ ANumeric& ANumeric::operator+= (const ANumeric& rhs) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Substracts another number-object from this object. An undefined
-//            number is treated as "0"; so only if both objects are undefined,
-//            the result is (remains) undefined.
-//Parameters: rhs: Value to substract
-//Returns   : Self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Substracts another number-object from this object. An undefined number is
+/// treated as "0"; so only if both objects are undefined, the result is
+/// (remains) undefined.
+/// \param rhs: Value to substract
+/// \returns Self
+//-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
    if (rhs.isDefined ()) {
 #ifdef HAVE_LIBGMP
@@ -294,13 +291,13 @@ ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Multiplies another number-object to this object. An undefined
-//            number is treated as "1"; so only if both objects are undefined,
-//            the result is (remains) undefined.
-//Parameters: rhs: Value to multiply
-//Returns   : Self
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Multiplies another number-object to this object. An undefined number is
+/// treated as "1"; so only if both objects are undefined, the result is
+/// (remains) undefined.
+/// \param rhs: Value to multiply
+/// \returns Self
+//-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
    if (rhs.isDefined ())
       if (isDefined ())
@@ -314,15 +311,15 @@ ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Divides this by another number-object. An undefined number is
-//            treated as "1"; so only if both objects are undefined, the
-//            result is (remains) undefined.
-//Parameters: rhs: Value to divide with
-//Returns   : Self
-//Note      : If rhs is not defined this is not changed; if this is not defined
-//            it is set to 1/rhs
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Divides this by another number-object. An undefined number is treated as
+/// "1"; so only if both objects are undefined, the result is (remains)
+/// undefined.
+/// \param rhs: Value to divide with
+/// \returns Self
+/// \remarks If rhs is not defined this is not changed; if this is not defined,
+///     it is set to 1/rhs
+//-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
    if (rhs.isDefined ()) {
       if (!isDefined ())                   // If this is not defined, set to 1
@@ -337,16 +334,13 @@ ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
    return *this;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns -1 if this is less then other, 0 if they are equal or 1
-//            if this is larger.
-//
-//            Undefined values are considered as between 0 and -1 for this
-//            comparison; if both values are undefined they are considered as
-//            equal.
-//Parameters: other: Object to compare
-//Returns   : 1 if this > other; 0 if this == other; -1 else
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Returns -1 if this is less then other, 0 if they are equal or 1 if this is
+/// larger. Undefined values are considered as between 0 and -1 for this
+/// comparison; if both values are undefined they are considered as equal.
+/// \param other: Object to compare
+/// \returns 1 if this > other; 0 if this == other; -1 else
+//-----------------------------------------------------------------------------
 int ANumeric::compare (const ANumeric& other) {
    if (isDefined () && other.isDefined ())     // Both sides defined -> compare
 #ifdef HAVE_LIBGMP
@@ -372,58 +366,58 @@ int ANumeric::compare (const ANumeric& other) {
 }
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Adds lhs and rhs and returns the result. If one object is
-//            defined, the other object is treated as "0"; so only if both
-//            objects are undefined, the result is undefined.
-//Parameters: lhs: Left-hand-side of addition
-//            rhs: Right-hand-side of addition
-//Returns   : ANumeric: Result of additon
-//Note      : Undefined values are ignored
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Adds lhs and rhs and returns the result. If one object is defined, the
+/// other object is treated as "0"; so only if both objects are undefined, the
+/// result is undefined.
+/// \param lhs: Left-hand-side of addition
+/// \param rhs: Right-hand-side of addition
+/// \returns \c ANumeric: Result of additon Note : Undefined values are
+///     ignored
+//-----------------------------------------------------------------------------
 ANumeric operator+ (const ANumeric& lhs, const ANumeric& rhs) {
    ANumeric result (lhs);
    result += rhs;
    return result;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Substracts rhs from lhs and returns the result. If one object is
-//            defined, the other is is treated as "0"; so only if both objects
-//            are undefined, the result is undefined.
-//Parameters: lhs: Left-hand-side of substraction
-//            rhs: Right-hand-side of substraction
-//Returns   : ANumeric: Result of substraction
-//Note      : Undefined values are ignored
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Substracts rhs from lhs and returns the result. If one object is defined,
+/// the other is is treated as "0"; so only if both objects are undefined, the
+/// result is undefined.
+/// \param lhs: Left-hand-side of substraction
+/// \param rhs: Right-hand-side of substraction
+/// \returns \c ANumeric: Result of substraction Note : Undefined values are
+///     ignored
+//-----------------------------------------------------------------------------
 ANumeric operator- (const ANumeric& lhs, const ANumeric& rhs) {
    ANumeric result (lhs);
    result -= rhs;
    return result;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Multiplies rhs and lhs and returns the result. If one object is
-//            defined, the other is treated as "1"; so only if both objects are
-//            undefined, the result is undefined.
-//Parameters: lhs: Left-hand-side of mulitplication
-//            rhs: Right-hand-side of mulitplication
-//Returns   : ANumeric: Result of mulitplication
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Multiplies rhs and lhs and returns the result. If one object is defined,
+/// the other is treated as "1"; so only if both objects are undefined, the
+/// result is undefined.
+/// \param lhs: Left-hand-side of mulitplication
+/// \param rhs: Right-hand-side of mulitplication
+/// \returns \c ANumeric: Result of mulitplication
+//-----------------------------------------------------------------------------
 ANumeric operator* (const ANumeric& lhs, const ANumeric& rhs) {
    ANumeric result (lhs);
    result *= rhs;
    return result;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Divides this by another number-object. If only one object is
-//            defined, the other is treated as "1"; so only if both objects
-//            are undefined, the result is undefined.
-//Parameters: lhs: Left-hand-side of division
-//            rhs: Right-hand-side of division
-//Returns   : ANumeric: Result of division
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Divides this by another number-object. If only one object is defined, the
+/// other is treated as "1"; so only if both objects are undefined, the result
+/// is undefined.
+/// \param lhs: Left-hand-side of division
+/// \param rhs: Right-hand-side of division
+/// \returns \c ANumeric: Result of division
+//-----------------------------------------------------------------------------
 ANumeric operator/ (const ANumeric& lhs, const ANumeric& rhs) {
    ANumeric result (lhs);
    result /= rhs;
