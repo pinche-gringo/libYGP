@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.2 1999/08/22 18:58:32 Markus Exp $
+// $Id: XStrBuf.cpp,v 1.3 1999/08/23 17:55:30 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -72,7 +72,7 @@ int extStreambuf::underflow () {
    cout << "Underflow!\n";
 #endif
 
-   //   assert (!checkIntegrity ());
+   assert (!checkIntegrity ());
 
    char *pTemp (pBuffer);
    int ch;
@@ -126,7 +126,8 @@ int extStreambuf::pbackfail (int c) {
       return EOF;
 
 #if DEBUG > 8
-   cout << "Pushback: Next = " << pSource->sbumpc () << endl;
+   cout << "Pushback: Next = " << (rc = pSource->sbumpc ()) << endl;
+   assert (rc = c);
    pSource->seekoff (-1, ios::cur);
 #endif
 

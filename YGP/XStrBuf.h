@@ -1,7 +1,7 @@
 #ifndef XSTRBUF_H
 #define XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.2 1999/08/22 18:58:32 Markus Exp $
+// $Id: XStrBuf.h,v 1.3 1999/08/23 17:55:30 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,9 +21,6 @@
 #include <streambuf.h>
 
 
-class istream;
-
-
 // Extended streambuf, specialized to parse text. It enhanced features are
 // column- and line-information and a variable-sized putback-buffer (putback
 // beyond block-size possible)
@@ -35,7 +32,6 @@ struct extStreambuf : public streambuf {
 
    // Manager-functions
    extStreambuf (streambuf& source);
-   extStreambuf (istream& source);
    virtual ~extStreambuf ();
 
    // Error-handling (buffer over/underflow and putback-failure)
@@ -59,8 +55,6 @@ struct extStreambuf : public streambuf {
 
    streambuf* pSource;
    char*      pBuffer;
-   
-   static unsigned int iLenPutback;
 };
 
 
