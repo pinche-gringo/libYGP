@@ -1,0 +1,284 @@
+<!-- $Id: Handle.html,v 1.1 2000/03/22 22:03:28 Markus Exp $ -->
+
+<html>
+  <head>
+    <title>General Reference: IHandle</title>
+  </head>
+
+  <body>
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center">Class IHandle </h1>
+    <p>Derived from: <a href="AttrVal.html">AttributValue</a></p>
+
+    <p>Header-file: Handle.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Smart-pointer-class with reference-counting; base-class for type-safe
+      classes (defined with template class Handle&lt;T&gt;).</p>
+
+    <p>The object is freed if there is no more reference to it.</p>
+
+    <p>As every attribute, handles can be undefined (equivalent to
+      NULL-pointers.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#IHandle">IHandle</a></td><td>()</td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#IHandle2">IHandle</a></td>
+	<td>(const <a href="Handle.html">IHandle</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Handle.html#~IHandle">~IHandle</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Handle.html">IHandle</a>&amp;</td>
+	<td><a href="Handle.html#operator=">operator=</a></td>
+	<td>(const <a href="Handle.html">IHandle</a>&amp; other)</td></tr>
+      
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#undefine">undefine</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#create">create</a></td><td>(void* pValue)</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#link">link</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#unlink">unlink</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual void*</td>
+	<td><a href="Handle.html#getValue">getValue</a></td><td>() const = 0</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Handle.html#setValue">setValue</a></td><td>(void* pValue)</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#assignValue">assignValue</a></td><td>(void* pValue) = 0</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#define">define</a></td><td>() = 0</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Constructors &amp; assignment</h4>
+    <p><a name="IHandle"><i>IHandle ()</i> -
+	Defaultconstructor; the handle is not defined</a></p>
+    <p><a name="IHandle2"><i>IHandle (const IHandle&amp; other)</i>
+	- Copy-constructor</a></p>
+
+    <p><a name="~IHandle"><i>~IHandle ()</i> - Destructor</a></p>
+
+    <p><a name="operator="><i>IHandle&amp; operator= (const IHandle&amp; other)</i>
+	- Assignmentoperator; both handles points to the same object and the
+	reference-counter is increased. The count of the object referenced
+	before is decreased.</a></p>
+
+    <h4>Handling of the state</h4>
+    <p><a name="undefine"><i>virtual void undefine ()</i> - Undefines the
+	handle; the referenced object is unlinked, if no more handles point
+	to this object, it is freed.</a></p>
+
+    <p><a name="define"><i>virtual void define () = 0</i> - Defines the handle
+	and creates a new object pointed to (with reference-count 1).</a></p>
+
+    <h4>Object-handling</h4>
+    <p><a name="create"><i>virtual void create (void* pValue) = 0</i> - Pure
+	virtual method to create the object. Implement in derived classes.</a></p>
+
+    <p><a name="link"><i>virtual void link () = 0</i> - Pure virtual method to
+	link the handle to the object pointing to. Implement in derived
+	classes.</a></p>
+
+    <p><a name="unlink"><i>virtual void unlink () = 0</i> - Pure virtual
+	method to unlink the handle from the object pointing to. Implement in
+	derived classes.</a></p>
+
+    <p><a name="getValue"><i>virtual void* getValue () = 0</i> - Pure
+	virtual method to access the object pointed to by the handle.
+	Implement in derived classes.</a></p>
+
+    <p><a name="setValue"><i>void setValue (void* pValue)</i> - Method to
+	set the object pointed to by the handle. This method cares about the
+	reference count (and unlinks the old and links the new object).</a></p>
+
+    <p><a name="assignValue"><i>virtual void assignValue (void* pValue) = 0</i>
+	- Pure virtual method to set the object pointed to by the handle. This
+	method does <i>not</i> care about the reference count; use with care
+	(or don't use at all!).</a></p>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="Handle">Class Handle&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Handle.html">IHandle</a></p>
+
+    <p>Header-file: Handle.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Typesafe smart-pointer-class with reference-counting.</p>
+
+    <p>The object is freed if there is no more reference to it.</p>
+
+    <p>The macro defineHndl(class) can be used to create a type for
+      the handle (defined as typedef Handle&lt;class&gt; H##class; defineHndl
+      (string) would create a typedef Hstring).</p>
+
+    <p>As every attribute, handles can be undefined (equivalent to
+      NULL-pointers.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#Handle1">Handle</a></td><td>()</td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#Handle2">Handle</a></td>
+	<td>(T* pValue)</td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#Handle2">Handle</a></td>
+	<td>(const <a href="Handle.html#Handle">Handle</a>&amp;)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Handle.html#~Handle">~Handle</a></td><td>()</td></tr>
+
+      <tr valign="top"><td><a href="Handle.html#Handle">Handle</a>&amp;</td>
+	<td><a href="Handle.html#operator=">operator=</a></td>
+	<td>(const <a href="Handle.html#Handle">Handle</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#define">define</a></td><td>()</td></tr>
+
+      <tr valign="top"><td>T*</td>
+	<td><a href="Handle.html#operator-g">operator-&gt;</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td>T*</td>
+	<td><a href="Handle.html#operator*">operator*</a></td>
+	<td>() const</td></tr>
+      <tr valign="top"><td></td>
+	<td><a href="Handle.html#operatorT*">operator T*</a></td>
+	<td>() const</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#Hcreate">create</a></td><td>(void* pValue)</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#Hlink">link</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#Hunlink">unlink</a></td><td>()</td></tr>
+      <tr valign="top"><td>virtual void*</td>
+	<td><a href="Handle.html#HgetValue">getValue</a></td><td>() const</td></tr>
+      <tr valign="top"><td>void</td>
+	<td><a href="Handle.html#HsetValue">setValue</a></td><td>(void* pValue)</td></tr>
+      <tr valign="top"><td>virtual void</td>
+	<td><a href="Handle.html#HassignValue">assignValue</a></td><td>(void* pValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Constructors &amp; assignment</h4>
+    <p><a name="Handle1"><i>Handle ()</i> -
+	Defaultconstructor; the handle is not defined</a></p>
+    <p><a name="Handle2"><i>Handle (T* pValue)</i>
+	- Constructor which lets the handle point to the passed object. The
+	handle is defined and the reference-count is set to 1.</a></p>
+    <p><a name="Handle3"><i>Handle (const Handle&amp; other)</i>
+	- Copy-constructor; both handles points to the same object. The
+	reference-count of the object (if any) is increased.</a></p>
+
+    <p><a name="~Handle"><i>~Handle ()</i> - Destructor; decrements the
+	reference-count of the object pointed to (and frees it if 0).</a></p>
+
+    <p><a name="Hoperator="><i>Handle&amp; operator= (const Handle&amp; other)</i>
+	- Assignmentoperator; both handles points to the same object and the
+	reference-counter is increased. The count of the object referenced
+	before is decreased.</a></p>
+
+    <p><a name="Hdefine"><i>virtual void define () = 0</i> - Defines the handle
+	and creates a new object pointed to (with reference-count 1). If an
+	already defined handle is defined again, its old object is released
+	(and freed if the reference-count becomes 0) and a new object is
+	assigned.</a></p>
+
+    <h4>Accessing the object</h4>
+    <p><a name="operator-g"><i>T* operator-&gt; () const</i> - Returns a
+	pointer to the referenced object.</a></p>
+    <p><a name="operator*"><i>T* operator* () const</i> - Returns a
+	pointer to the referenced object.</a></p>
+    <p><a name="operatorT*"><i>T* operatorT* () const</i> - Returns a
+	pointer to the referenced object.</a></p>
+
+    <h4>Object-handling</h4>
+    <p><a name="Hcreate"><i>virtual void create (void* pValue)</i> - Method
+	to create a reference-couting object to the object specified by pValue.
+	The reference-count is set to 1.</a></p>
+
+    <p><a name="Hlink"><i>virtual void link ()</i> - Method to
+	link the handle to the object pointing to. The reference-count is
+	increased.</a></p>
+
+    <p><a name="Hunlink"><i>virtual void unlink ()</i> - Method to unlink
+	the handle from the object pointing to. The reference-count is
+	decreased.</a></p>
+
+    <p><a name="HgetValue"><i>virtual void* getValue ()</i> - Method to
+	access the object pointed to by the handle.</a></p>
+
+    <p><a name="HassignValue"><i>virtual void assignValue (void* pValue)</i>
+	- Method to set the object pointed to by the handle. This method does
+	<i>not</i> care about the reference count; use with care (or don't use
+	at all!).</a></p>
+
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="RefCount">Class RefCount&lt;T&gt;</a></h1>
+    <p>Derived from: <i>None</i></p>
+
+    <p>Header-file: Handle.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Object-pointer with reference-counter.</p>
+
+    <p>The class gives the opportunity to link and unlink to and from an
+      object. If no more object is linked, the object destroys itself and the
+      referenced object.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#RefCount">RefCount</a></td>
+	<td>(T* pData = NULL)</td></tr>
+      <tr valign="top"><td></td><td><a href="Handle.html#~RefCount">~RefCount</a></td>
+	<td>()</td></tr>
+
+      <tr valign="top"><td>void</td><td><a href="Handle.html#Rlink">link</a></td>
+	<td>()</td></tr>
+      <tr valign="top"><td>void</td><td><a href="Handle.html#Runlink">unlink</a></td>
+	<td>()</td></tr>
+    </table>
+
+    <h4>Constructors &amp; assignment</h4>
+    <p><a name="RefCount"><i>RefCount (T* pValue)</i> - Defaultconstructor;
+	creates a reference-couting object pointing to pValue and sets the
+	reference-count to 1.</a></p>
+
+    <p><a name="~RefCount"><i>~RefCount ()</i> - Destructor</a></p>
+
+    <h4>Object-handling</h4>
+    <p><a name="Rlink"><i>void link ()</i> - Increments reference-counter.</a></p>
+
+    <p><a name="Runlink"><i>void unlink ()</i> - Decrements reference-counter.
+	If the counter reaches zero, the reference-counter and its referenced
+	object are freed.</a></p>
+  </base></body>
+</html>
