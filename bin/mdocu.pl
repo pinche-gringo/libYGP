@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# $Id: mdocu.pl,v 1.7 2002/12/08 19:56:00 markus Exp $
+# $Id: mdocu.pl,v 1.8 2002/12/15 22:34:35 markus Exp $
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,8 @@ mdocu - Extracts the function comments out of a (C++) source
 
 =head1 OPTIONS
 
-  --verbose, -v .... Be verbose
+  --verbose, -v .... Be verbose (changes also output of --version)
+  --version, -V .... Print version and exit
   --help, -?, -h ... Show this help and exit
 
 =head1 ARGUMENTS
@@ -43,7 +44,12 @@ B<Purpose:> (no whitespaces in between the comment characters and the keyword).
 Then the next lines starting with the C++ comment characters are checked for
 the keywords B<Parameters>, B<Returns>, B<Requires> and/or B<Throws>.
 
-Their respective contents is printed out in a HTML format.
+Their respective contents is printed out in a HTML format. Note that uppercase
+words in the purpose and parameter section are replaced by their equivalent
+bold lowercase version.
+
+Furthermore every parameter needs to be described in one line, as must every
+requirement.
 
 =cut
 
@@ -63,6 +69,7 @@ sub convertToHTML ($) {
      $_[0] =~ s/&/&amp;/g;
      $_[0] =~ s/</&lt;/g;
      $_[0] =~ s/>/&gt;/g;
+     $_[0] =~ s/\"/&quot;/g;
    }
    return $_[0]
 }
@@ -76,7 +83,7 @@ pod2usage (1) if ($help);
 
 if ($version) {
   $0 =~ s!.*/(.*)!$1!;
-  my $rev = '$Revision: 1.7 $ ';
+  my $rev = '$Revision: 1.8 $ ';
   $rev =~ s/\$(\w+:\s+\d+\.\d+).*\$.*/$1/;
   print "$0 - V0.2.01     ($rev)\n";
   print "Author: Markus Schwab; e-mail: g17m0\@lycos.com\n\n",
@@ -104,7 +111,7 @@ while (<>) {
                 if (m!^//Requires *:!) {$lastVar = \$values{'Requires'}; last; }
                 if (m!^//Remarks *:!) {$lastVar = \$values{'Remarks'}; last; }
                 if (m!^//Throws *:!) {$lastVar = \$values{'Throws'}; last; }
-                if (m!^//\s*$!) { $$lastVar .= "<p>"; next READLINE; }
+                if (m!^//\s*$!) { $$lastVar .= "\n    <p>"; next READLINE; }
                 s#^//\s*(.*)#$1#;
                 $$lastVar .= " $_"; next READLINE;
             }
@@ -134,7 +141,7 @@ while (<>) {
         my $name;
         my $rest;
         if ($fnc =~ /([\w\d_]+::.+\()/) {
-           ($type, $name, $rest) = ($fnc =~ /(.*?)\s*[_\w\d]+\s*::\s*([\w\d_~]+)\s*(\(.*)/); }
+           ($type, $name, $rest) = ($fnc =~ /(.*?)\s*[_\w\d]+\s*::\s*([\w\d_~=\-\*\/\+]+)\s*(\(.*)/); }
         else {
            ($type, $name, $rest) = ($fnc =~ /(.+?)\s+([\w\d_]+|operator[-+*\/])\s*(\(.*)/); }
         # $fnc =~ /([^\s]*\s+|^)(\w+::)?([^\s\(]+)(.*)/;
@@ -144,6 +151,11 @@ while (<>) {
         convertToHTML ($rest);
 
         # Print purpose and parameters
+        convertToHTML ($purpose);
+
+        # Convert uppercase words in the description into <b>word</b>
+        $purpose =~ s/([[:upper:]][[:upper:]]+)/<b>\L$1\E<\/b>/g;
+
         print ("    <pre><a name=\"$name\"></a>$type <b>$name</b> $rest</pre>\n");
         print ("    <dl>\n");
         print ("      <dd><p>$purpose</p></dd>\n");
@@ -152,8 +164,15 @@ while (<>) {
             print ("      <dd><dl><dt><b>Parameters</b></dt>\n");
             foreach (split /\n+/, $values{'Parameters'}) {
                 convertToHTML ($_);
+
                 /(\w+)(.*)/;
-                print ("          <dd><code>$1</code>$2<dd>\n");
+                my $var = $1;
+                my $desc = $2;
+
+                # Convert uppercase words in the parameter description into <b>word</b>
+                $desc =~ s/ ([[:upper:]][[:upper:]]+) /<b>\L$1\E<\/b>/g;
+
+                print ("          <dd><code>$var</code>$desc<dd>\n");
                 $params[++$#params] = $1;
             }
             print ("      </dl><dd>\n");
