@@ -1,11 +1,11 @@
-//$Id: CRegExp.cpp,v 1.9 2000/05/30 21:23:03 Markus Exp $
+//$Id: CRegExp.cpp,v 1.10 2000/06/03 12:45:10 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RegularExpression
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Anticopyright (A) 2000
@@ -80,7 +80,7 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) {
 //Parameters: pAktRegExp: Pointer to regular expression
 //            pCompare: String to compare
 //Returns   : bool: Result (true: match)
-//Require   : pAktRegExp, pCompare: ASCIIZ-string
+//Requires  : pAktRegExp, pCompare: ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
@@ -91,19 +91,40 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    // Use system-regular expressions if available
    return !regexec (&regexp, pCompare, 0, NULL, 0);
 #else
+   bool rc (false);
+   do {
+      rc = doCompare (pAktRegExp, pCompare);
+      if (rc)
+         break;
+
+      pAktRegExp = findEndOfAlternative (pAktRegExp);
+   } while (*pAktRegExp++); // end-do while alternatives available
+
+   return rc;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Checks if the passed string matches the regular expression
+//Parameters: pAktRegExp: Pointer to regular expression
+//            pCompare: String to compare
+//Returns   : bool: Result (true: match)
+//Requires  : pAktRegExp, pCompare: ASCIIZ-string
+/*--------------------------------------------------------------------------*/
+bool RegularExpression::doCompare (const char* pAktRegExp, const char* pCompare) {
+   assert (pAktRegExp); assert (pCompare); assert (!checkIntegrity ());
+   TRACE1 ("RegularExpression::doCompare -> " << pAktRegExp << " <-> " << pCompare);
+
    pStartCompare = pCompare;
-
-   std::string lastExpr;
-
    char ch;
    const char* pEnd = NULL;
+   std::string lastExpr;
 
    // Functionpointer for differing comparisons; those methods must take care
    // for increasing position-pointers!
    bool (RegularExpression::*fnCompare) (const char*&, const std::string&) const = NULL;
 
    // Check actual rex-exp for special characters (at the current position)
-   // After this loop the the following conditions must be fullfilled:
+   // After this loop the the following conditions must be fulfilled:
    // - fnCompare points to the compare-function to use
    // - pEnd points to the end of the part of the reg-exp belonging to the
    //   current position (like end of group, ...)
@@ -111,26 +132,7 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    while ((ch = *pAktRegExp)) {
       switch (ch) {                                   // Get current expression
       case REGIONBEGIN:
-         pEnd = pAktRegExp + 1;
-         if (*pEnd == NEGREGION)           // Skip leading "special" characters
-            ++pEnd;
-         if (*pEnd == REGIONEND)
-            ++pEnd;
-
-         // Search for end-of-region, with regard of region-classes ([:xxx:])
-         for (int cClass = 0; *pEnd != REGIONEND; ++pEnd) {
-            TRACE9 ("Search for region-end: " << *pEnd);
-
-            if (*pEnd == REGIONCLASS) {
-               if (pEnd[-1] == REGIONBEGIN)
-                  ++cClass;
-               else
-                  if (pEnd[1] == REGIONEND)
-                     if (!cClass--)          // If no class left -> Exit anyway
-                        break;
-                     ++pEnd;
-            } // endif region-class found
-         } // end-for region-end found
+         pEnd = findEndOfRegion (pAktRegExp + 1);
 
          lastExpr.assign (pAktRegExp + 1, pEnd - pAktRegExp - 1);
          TRACE4 ("Found region: " << lastExpr.c_str ());
@@ -139,25 +141,16 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
 
       case ESCAPE:
          if (pAktRegExp[1] == GROUPBEGIN) {
-            int cGroups = 1;
-            pEnd = pAktRegExp + 1;
-            do {
-               pEnd = strchr (pEnd + 1, ESCAPE);
-               if (pEnd[1] == GROUPEND)
-                  --cGroups;
-               else
-                  if (pEnd[1] == GROUPBEGIN)
-                     ++cGroups;
-            } while (!cGroups); // end-do 
-            ++pEnd;
-
-            // TODO: ALTERNATIVE
+            pEnd = findEndOfGroup (pAktRegExp + 1);
 
             lastExpr.assign (pAktRegExp, pEnd - pAktRegExp);
             TRACE4 ("Found group: " << lastExpr.c_str ());
             fnCompare = &RegularExpression::compGroup;
-         } // end GROUPBEGIN
+            } // endif GROUPBEGIN
          else {
+            if (pAktRegExp[1] == ALTERNATIVE)       // Handling of alternative:
+               return !*pCompare;             // pCompare finished: Yes: Found!
+
             fnCompare = &RegularExpression::compEscChar;
             pEnd = pAktRegExp + 1;
             lastExpr = pAktRegExp[1];
@@ -199,8 +192,12 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
          while (*pAktPos && (this->*fnCompare) (pAktPos, lastExpr)) ;
 
          while (pAktPos >= pCompare) {   // Try to find next smaller max. match
-            if (compare (pEnd + 2, pAktPos))
+            const char* pHelp = pStartCompare;   // Tempor. store of start-ptr.
+
+            if (doCompare (pEnd + 2, pAktPos))
                return true;
+
+            pStartCompare = pHelp;                     // Restore start-pointer
             --pAktPos;
          } // end-while
          ++pEnd;
@@ -217,16 +214,14 @@ bool RegularExpression::compare (const char* pAktRegExp, const char* pCompare) {
    } // end-while
 
    return ch ? false : !*pCompare;       // Match OK, if regexp and match empty
-#endif
 }
 
-#ifndef HAVE_REGEX_H
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks if the passed string matches the region
 //Parameters: pAktPos: Reference to pointer to actual position in match
 //            region: Region to compare
 //Returns   : bool: Result (true: match)
-//Require   : pAktPos ASCIIZ-string; region not empty
+//Requires  : pAktPos ASCIIZ-string; region not empty
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compRegion (const char*& pAktPos,
                                     const std::string& region) const {
@@ -278,13 +273,11 @@ bool RegularExpression::compRegion (const char*& pAktPos,
 		     (temp = isclass (lower, pRegion + 2, len, *pAktPos)) ? temp :
 		     (isclass (xdigit, pRegion + 2, len, *pAktPos)));
             if (val == 2) {
-               TRACE8 ("Check " << *pAktPos << " matches region-classes"
-                        << setw (pRegion + 2 - pEndClass) << pRegion + 2);
+               TRACE8 ("Check " << *pAktPos << " matches region-class " << pRegion);
                break;
             } // endif class and input matches
             else {
-               TRACE8 ("Check " << *pAktPos << " doesn't match region-class "
-                       << setw (pRegion + 2 - pEndClass) << pRegion);
+               TRACE8 (*pAktPos << " doesn't match region-class " << pRegion);
                if (val)
                   pRegion = pEndClass + 1;
             } // end-else class found, but input doesn't match
@@ -311,7 +304,7 @@ bool RegularExpression::compRegion (const char*& pAktPos,
 //Parameters: pAktPos: Reference to pointer to actual position in match
 //            region: Group to compare
 //Returns   : bool: Result (true: match)
-//Require   : pAktPos ASCIIZ-string; group not empty
+//Requires  : pAktPos ASCIIZ-string; group not empty
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compGroup (const char*& pAktPos,
                                    const std::string& group) {
@@ -319,7 +312,10 @@ bool RegularExpression::compGroup (const char*& pAktPos,
    TRACE3 ("RegularExpression::compGroup -> " << pAktPos << " in \\("
            << group.c_str () << "\\)");
 
-   return compare (pAktPos, group.c_str ());
+   const char* pHelp = pStartCompare;
+   bool rc (compare (pAktPos, group.c_str ()));
+   pStartCompare = pHelp;
+   return rc;
 }
 
 /*--------------------------------------------------------------------------*/
@@ -327,7 +323,7 @@ bool RegularExpression::compGroup (const char*& pAktPos,
 //Parameters: pAktPos: Reference to pointer to actual position in match
 //            ch: Character to compare
 //Returns   : bool: Result (true: match)
-//Require   : pAktPos ASCIIZ-string; ch has length of 1
+//Requires  : pAktPos ASCIIZ-string; ch has length of 1
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compChar (const char*& pAktPos,
                                   const std::string& ch) const {
@@ -364,7 +360,7 @@ bool RegularExpression::compChar (const char*& pAktPos,
 //Parameters: pAktPos: Reference to pointer to actual position in match
 //            ch: Character to compare
 //Returns   : bool: Result (true: match)
-//Require   : pAktPos ASCIIZ-string; ch has length of 1
+//Requires  : pAktPos ASCIIZ-string; ch has length of 1
 /*--------------------------------------------------------------------------*/
 bool RegularExpression::compEscChar (const char*& pAktPos,
                                      const std::string& ch) const {
@@ -412,13 +408,88 @@ bool RegularExpression::compEscChar (const char*& pAktPos,
    return true;
 }
 
-#endif
+/*--------------------------------------------------------------------------*/
+//Purpose   : Finds the end of a region
+//Parameters: pRegExp: Pointer to the beginning of the region (*after* bracket)
+//Returns   : const char*: Pointer to end of region (points to closing bracket)
+//Requires  : pRegExp not NULL, pRegExp[-1] == REGIONBEGIN
+/*--------------------------------------------------------------------------*/
+const char* RegularExpression::findEndOfRegion (const char* pRegExp) const {
+   assert (pRegExp); assert (pRegExp[-1] == REGIONBEGIN);
 
+   if (*pRegExp == NEGREGION)           // Skip leading "special" characters
+      ++pRegExp;
+   if (*pRegExp == REGIONEND)
+      ++pRegExp;
+
+   // Search for end-of-region, with regard of region-classes ([:xxx:])
+   for (int cClass = 0; *pRegExp != REGIONEND; ++pRegExp) {
+      TRACE9 ("Search for region-end: " << *pRegExp);
+
+      if (*pRegExp == REGIONCLASS) {
+	 if (pRegExp[-1] == REGIONBEGIN)
+	    ++cClass;
+	 else
+	    if (pRegExp[1] == REGIONEND)
+	       if (!cClass--)          // If no class left -> Exit anyway
+		  break;
+	 ++pRegExp;
+      } // endif region-class found
+   } // end-for region-end found
+
+   return pRegExp;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Finds the end of a group
+//Parameters: pRegExp: Pointer to the beginning of the group (*after* parent.)
+//Returns   : const char*: Pointer to end of group (points to closing parent.)
+//Requires  : pRegExp not NULL, pRegExp[-1] == GROUPBEGIN
+/*--------------------------------------------------------------------------*/
+const char* RegularExpression::findEndOfGroup (const char* pRegExp) const {
+   assert (pRegExp); assert (pRegExp[-1] == GROUPBEGIN);
+
+   int cGroups = 1;
+   do {
+      pRegExp = strchr (pRegExp + 1, ESCAPE);
+      if (pRegExp[1] == GROUPEND)
+	 --cGroups;
+      else
+	 if (pRegExp[1] == GROUPBEGIN)
+	    ++cGroups;
+   } while (!cGroups); // end-do 
+
+   return ++pRegExp;
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Finds the end of an alternative
+//Parameters: pRegExp: Pointer to the beginning of the regexp
+//Returns   : const char*: Pointer to alternative-seperator
+//Requires  : pRegExp not NULL, pRegExp >= 1 char
+/*--------------------------------------------------------------------------*/
+const char* RegularExpression::findEndOfAlternative (const char* pRegExp) const {
+   assert (pRegExp); assert (*pRegExp);
+
+   // Search for alternative with attention of regions
+   while (*++pRegExp) {
+      TRACE9 ("Search for alternative: " << pRegExp);
+
+      if (*pRegExp == REGIONBEGIN)
+         pRegExp = findEndOfRegion (pRegExp + 1);
+      else
+ 	 if ((*pRegExp == ALTERNATIVE) && (pRegExp[-1] == ESCAPE))
+            break;
+   } // end-while regexp not empty
+
+   return pRegExp;
+}
+#endif
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Checks the consistency of the regular expression
 //Returns   : int: Status; 0: OK; 1: No regular expressions
-//Require   : pFileRegExp is a valid reg. exp.
+//Requires  : pFileRegExp is a valid reg. exp.
 //Throws    : std::string describing error
 /*--------------------------------------------------------------------------*/
 int RegularExpression::checkIntegrity () const throw (std::string) {
@@ -505,7 +576,7 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
 //Parameters: rc: Occured error
 //            pos: Position of the error inside the regular expression
 //Returns   : std::string: Text describing error in human-readable format
-//Require   : error is an ASCIIZ-string
+//Requires  : error is an ASCIIZ-string
 /*--------------------------------------------------------------------------*/
 std::string RegularExpression::getError (int rc, unsigned int pos) const {
 #ifdef HAVE_REGEX_H

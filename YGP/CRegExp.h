@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.5 2000/05/30 21:23:03 Markus Exp $
+//$Id: CRegExp.h,v 1.6 2000/06/03 12:45:10 Markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@
 //           *not* be the first character to get included.
 //
 // Note: The pExpression-parameter is stored as is (and not copied); so take
-//       care it is valied during the life-time of the object.
+//       care it is valid during the life-time of the object.
 //
 // Use the matches-method of the parent (RegularExpression) to check if the
 // object matches some data.
@@ -96,10 +96,10 @@ class RegularExpression : public IRegularExpression {
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
 #ifndef HAVE_REGEX_H
-    bool compRegion (const char*& pAktPos, const std::string& region) const;
-    bool compGroup (const char*& pAktPos, const std::string& group);
-    bool compChar (const char*& pAktPos, const std::string& ch) const;
-    bool compEscChar (const char*& pAktPos, const std::string& ch) const;
+   bool compRegion (const char*& pAktPos, const std::string& region) const;
+   bool compGroup (const char*& pAktPos, const std::string& group);
+   bool compChar (const char*& pAktPos, const std::string& ch) const;
+   bool compEscChar (const char*& pAktPos, const std::string& ch) const;
 #endif
 
  private:
@@ -127,6 +127,11 @@ class RegularExpression : public IRegularExpression {
          throw (getError (rc, 0));
    }
 #else
+   bool doCompare (const char* pAktRegExp, const char* pCompare);
+   const char* findEndOfAlternative (const char* pRegExp) const;
+   const char* findEndOfRegion (const char* pRegExp) const;
+   const char* findEndOfGroup (const char* pRegExp) const;
+
    const char* pStartCompare;   
 #endif
 };
