@@ -1,12 +1,12 @@
 # Deutsche Übersetzungen zum libAttr
-# Anti-Copyright (A) 2002 Markus Schwab
-# Markus Schwab <g17m0@lycos.com>, 2002.
+# Anti-Copyright (A) 2002-2004 Markus Schwab
+# Markus Schwab <g17m0@lycos.com>, 2002-2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: General 0.6 ($Revision: 1.25 $)\n"
-"POT-Creation-Date: 2004-01-05 02:46-0500\n"
-"PO-Revision-Date: 2003-12-11 18:18-0500\n"
+"Project-Id-Version: General 0.6 ($Revision: 1.26 $)\n"
+"POT-Creation-Date: 2004-01-14 21:54-0500\n"
+"PO-Revision-Date: 2004-01-14 21:55-0500\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -149,11 +149,23 @@ msgstr "Wert"
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "Konnte INI-Datein '%1' nicht öffnen! Ursache: %2"
 
-#: YGP/IVIOAppl.cpp:274
+#: YGP/IVIOAppl.cpp:191
+msgid "-warning: Unhandled exception (std::exception): "
+msgstr "-Warnung: Nichtbearbeitete Ausnahme (std::exception): "
+
+#: YGP/IVIOAppl.cpp:194
+msgid "-warning: Unhandled exception (std::string): "
+msgstr "-Warnung: Nichtbearbeitete Ausnahme (std::string): "
+
+#: YGP/IVIOAppl.cpp:197
+msgid "-warning: Unhandled exception!"
+msgstr "-Warnung: Nichtbearbeitete Ausnahme!"
+
+#: YGP/IVIOAppl.cpp:284
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-Fehler: Die Option '%1' ist nicht eindeutig"
 
-#: YGP/IVIOAppl.cpp:283
+#: YGP/IVIOAppl.cpp:293
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
