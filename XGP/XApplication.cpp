@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.10 2002/04/01 22:44:40 markus Exp $
+//$Id: XApplication.cpp,v 1.11 2002/04/28 00:19:16 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -99,40 +99,36 @@ Widget* XApplication::addMenu (const MenuEntry& menuEntry) {
 
    using namespace Menu_Helpers;
 
-   string menu (menuEntry.path.substr (menuEntry.path.find_last_of ('/') + 1));
-   char chType (menuEntry.type.empty () ? 'I' : menuEntry.type[1]);
-   TRACE3 ("XApplication::addMenu -> Type (" << menu << ") = " << chType);
+   TRACE3 ("XApplication::addMenu -> Type (" << menuEntry.name << ") = " << chType);
 
-   switch (chType) {
-   case 'I':
-   case 'C':
+   switch (menuEntry.type) {
+   case ITEM:
       Check3 (pLastMenu);
-      if (chType == 'I')
-	 pLastMenu->items ().push_back (
-                              MenuElem (menu, menuEntry.accel,
-                                        bind (slot (this, &XApplication::command),
-                                                    menuEntry.id)));
-      else {
-	 pLastMenu->items ().push_back (
-                             CheckMenuElem (menu, menuEntry.accel,
-                                            bind (slot (this, &XApplication::command),
-                                                  menuEntry.id)));
-	 static_cast<CheckMenuItem*> (pLastMenu->items ().back ())->set_show_toggle (true);
-      } // endif
+      pLastMenu->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel,
+                                               bind (slot (this, &XApplication::command),
+                                                     menuEntry.id)));
       break;
 
-   case 'S':
+   case CHECKITEM:
+      Check3 (pLastMenu);
+      pLastMenu->items ().push_back (CheckMenuElem (menuEntry.name, menuEntry.accel,
+                                                    bind (slot (this, &XApplication::command),
+                                                          menuEntry.id)));
+      static_cast<CheckMenuItem*> (pLastMenu->items ().back ())->set_show_toggle (true);
+      break;
+
+   case SEPARATOR:
       Check3 (pLastMenu);
       pLastMenu->items ().push_back (SeparatorElem ());
       break;
 
-   case 'B':
-   case 'L':
+   case BRANCH:
+   case LASTBRANCH:
       pLastMenu = manage (new Menu ()); Check3 (pLastMenu);
       Check3 (pMenu);
-      pMenu->items ().push_back (MenuElem (menu, menuEntry.accel, *pLastMenu));
+      pMenu->items ().push_back (MenuElem (menuEntry.name, menuEntry.accel, *pLastMenu));
 
-      if (chType == 'L')
+      if (menuEntry.type == LASTBRANCH)
          pMenu->items ().back ()->right_justify ();
 
       return pLastMenu;
