@@ -1,11 +1,11 @@
-// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.5 1999/08/11 16:20:34 Markus Exp $
+// $Header: /usr/local/Archives/General/YGP/Attic/Test.cpp,v 1.6 1999/08/11 17:23:22 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -46,11 +46,11 @@
 class Application : public IVIOApplication {
  public:
    Application (const int argc, char* argv[])
-     : IVIOApplication (argc, argv), cOptions (0) { }
+     : IVIOApplication (argc, argv, lo), cOptions (0) { }
   ~Application () { }
 
  protected:
-   virtual bool handleOption (const char option) { ++cOptions; return true; }
+   virtual bool handleOption (const char option);
 
    // Program-handling
    virtual int         perform (int argc, char* argv[]);
@@ -58,7 +58,7 @@ class Application : public IVIOApplication {
    virtual const char* description () const { return VERSION; }
 
    // Help-handling
-   virtual void showHelp () const { }
+   virtual void showHelp () const;
 
  private:
    // Prohobited manager functions
@@ -67,8 +67,35 @@ class Application : public IVIOApplication {
    const Application& operator= (const Application&);
 
    unsigned int cOptions;
+
+   static const longOptions lo[];
 };
 
+
+const IVIOApplication::longOptions Application::lo[] = {
+   { "help", 'h' },
+   { "all-opt", 'a' },
+   { "all-mand", 'A' },
+   { NULL, '\0' } };
+
+
+bool Application::handleOption (const char option) {
+   ++cOptions;
+
+   if ((option == 'a') || (option == 'A')) {
+      char* pValue (getOptionValue ());
+      if (option == 'A')
+	 check (pValue);
+   } // endif special option     
+   return true;
+}
+void Application::showHelp () const {
+  cout << "Usage: " << name () << " [<OPTION>] <ARGUMENT>\n\n"
+          "  ARGUMENT ......... Argument (not starting with minus (-)\n"
+          "  -a, --arg-opt .... Option with optional argument\n"
+          "  -A, --arg-mand ... Option with mandatory argument\n\n"
+          "The number of options and arguments are displayed\n";
+}
 
 int Application::perform (int argc, char* argv[]) {
    cout << "Testing IVIOApplication...\n";
