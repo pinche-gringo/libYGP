@@ -1,7 +1,7 @@
 #ifndef DIRENTRY_H
 #define DIRENTRY_H
 
-//$Id: File.h,v 1.2 2001/08/14 23:42:39 markus Exp $
+//$Id: File.h,v 1.3 2001/08/24 20:57:24 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -84,7 +84,9 @@ typedef struct dirEntry {
    const unsigned long size () const { return status.st_size; }
    const time_t        time () const { return status.st_mtime; }
    void                time (struct tm& time) const
-     { time = *localtime (&status.st_mtime); }
+     { time = *gmtime (&status.st_mtime); }
+   void                localtime (struct tm& time) const
+     { time = *::localtime (&status.st_mtime); }
    const unsigned long attributes () const { return status.st_mode; }
 
    //@Section compare filename
@@ -132,7 +134,9 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    const char*         name () const { return cFileName; }
    const unsigned long size () const { return nFileSizeLow; }
    const time_t        time () const;
-   void                time (struct tm& time) const;
+   void                time (struct tm& time) const {
+      setTime (&ftLastWriteTime, time); }
+   void                localtime (struct tm& time) const;
    const unsigned long attributes () const { return dwFileAttributes; }
 
    //@Section compare filename
@@ -158,6 +162,8 @@ typedef struct dirEntry : public WIN32_FIND_DATA {
    void name (const std::string& name) { strcpy (cFileName, name.c_str ()); }
    void size (unsigned long size) { nFileSizeLow = size; }
    void time (time_t) { assert (0); }
+
+   void setTime (const FILETIME& time, struct tm& result);
 } dirEntry;
 
 #else

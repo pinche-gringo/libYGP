@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.1 2001/04/02 20:57:29 markus Exp $
+//$Id: File.cpp,v 1.2 2001/08/24 20:57:24 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -110,24 +110,35 @@ const time_t dirEntry::time () const {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Returns the time of the file in a (C-)struct tm.
+//Purpose   : Returns the (local) time of the file in a (C-)struct tm.
 //Returns   : struct tm*: Pointer to time
 //Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
 /*--------------------------------------------------------------------------*/
-void dirEntry::time (struct tm& time) const {
+void dirEntry::localtime (struct tm& time) const {
    FILETIME fileTemp;
-   SYSTEMTIME sysTime;
    FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
-   FileTimeToSystemTime (&fileTemp, &sysTime);
-   time.tm_sec = sysTime.wSecond;
-   time.tm_min = sysTime.wMinute;
-   time.tm_hour = sysTime.wHour;
-   time.tm_mday = sysTime.wDay;
-   time.tm_wday = sysTime.wDayOfWeek;
-   time.tm_mon = sysTime.wMonth - 1; assert ((time.tm_mon >= 0) && (time.tm_mon <= 11));
-   time.tm_year = sysTime.wYear - 1900; assert (time.tm_year >= 0);
-   time.tm_yday = 0;                                                  // TODO?
-   time.tm_isdst = 1;
+   setTime (&fileTimp, time);
+}
+
+/*--------------------------------------------------------------------------*/
+//Purpose   : Returns the (local) time of the file in a (C-)struct tm.
+//Returns   : struct tm*: Pointer to time
+//Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
+/*--------------------------------------------------------------------------*/
+void dirEntry::setTime (const FILETIME& time, struct tm& result) {
+   SYSTEMTIME sysTime;
+   FileTimeToSystemTime (&time, &sysTime);
+
+   result.tm_sec = sysTime.wSecond;
+   result.tm_min = sysTime.wMinute;
+   result.tm_hour = sysTime.wHour;
+   result.tm_mday = sysTime.wDay;
+   result.tm_wday = sysTime.wDayOfWeek;
+   result.tm_mon = sysTime.wMonth - 1;
+   assert ((result.tm_mon >= 0) && (result.tm_mon <= 11));
+   result.tm_year = sysTime.wYear - 1900; assert (time.tm_year >= 0);
+   result.tm_yday = 0;                                                // TODO?
+   result.tm_isdst = 1;
 }
 
 #endif

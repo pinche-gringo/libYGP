@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.7 2001/08/17 13:19:23 markus Exp $
+//$Id: ATime.h,v 1.8 2001/08/24 20:56:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,7 +42,8 @@ class ATime : public AttributValue {
    ATime (const char* pTime) throw (invalid_argument) { operator= (pTime); }
    ATime (const std::string& time) throw (invalid_argument) { operator= (time); }
    ATime (const struct tm& tm) { operator= (tm); }
-   ATime (const time_t time) { operator= (time); }
+   ATime (const time_t& time, bool local = true) {
+      local ?  operator= (time) : operator= (*localtime (&time)); }
    virtual ~ATime ();
 
    // Set-functions
@@ -52,7 +53,7 @@ class ATime : public AttributValue {
       return operator= (time.c_str ()); }
    ATime& operator= (const struct tm& tm) { hour = (unsigned char)tm.tm_hour;
       min_ = (unsigned char)tm.tm_min; setSecond ((unsigned char)tm.tm_sec); return *this; }
-   ATime& operator= (const time_t time) { return operator= (*localtime (&time)); }
+   ATime& operator= (const time_t& time) { return operator= (*gmtime (&time)); }
 
    virtual void readFromStream (istream& in) throw (invalid_argument);
 
@@ -60,6 +61,8 @@ class ATime : public AttributValue {
    void setHour (char Hour);
    void setMinute (char minute);
    void setSecond (char second);
+
+   void setGMT (const time_t& time) { operator= (*localtime (&time)); }
 
    // Query-functions
    char getHour () const { return hour; }
