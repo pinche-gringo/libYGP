@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.49 2001/08/26 02:22:52 markus Exp $
+// $Id: Test.cpp,v 1.50 2001/08/26 14:40:47 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.49 $
+//REVISION    : $Revision: 1.50 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -74,6 +74,7 @@
 #include "FileRExp.h"
 #include "StackTrc.h"
 #include "AssParse.h"
+#include "AttrParse.h"
 #include "AByteArray.h"
 #include "PathDirSrch.h"
 
@@ -540,9 +541,28 @@ int Application::perform (int argc, const char* argv[]) {
       check (attrs.getActNode () == "key3=\"abcd\\\"def\"");
       check (attrs.getActKey () == "key3");
       check (attrs.getActValue () == "abcd\"def");
+
+      check (attrs.getNextNode ().empty ());
    }
    catch (std::string& e) {
-      cerr << "Test: Error: " << e.c_str () << '\n';
+      cerr << "Test: Error: " << e << '\n';
+   }
+
+   cout << "Testing AttributeParse...\n";
+   try {
+      std::string file;
+      ANumeric    size;
+      ATimestamp  time;
+
+      AttributeParse attrs;
+      ATTRIBUTE (attrs, std::string, file, "File");
+      ATTRIBUTE (attrs, ANumeric, size, "Size");
+      ATTRIBUTE (attrs, ATimestamp, time, "Time");
+
+      attrs.assignValues ("File=\"ADate.cpp\";Size=18180;Time=01012000 121005");
+   }
+   catch (std::string& err) {
+      cerr << "Test: Error " << err << '\n';
    }
 
    cout << "Testing INI-file parser...\n";
