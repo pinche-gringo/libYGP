@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.19 2000/05/07 19:29:05 Markus Exp $
+//$Id: Parse.cpp,v 1.20 2000/05/23 22:57:38 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -205,7 +205,7 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 //              optional: Flag, if node must be found
 /*--------------------------------------------------------------------------*/
 int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE8 ("ParseAttomic::doParse -> " << getDescription ());
+   TRACE1 ("ParseAttomic::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
 #ifdef MULTIBUFFER
@@ -615,7 +615,7 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 //              sequences, an exception is thrown
 /*--------------------------------------------------------------------------*/
 int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE8 ("ParseSequence::doParse -> " << getDescription ());
+   TRACE1 ("ParseSequence::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
    unsigned int i (0);
@@ -624,10 +624,12 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
    while (i++ < maxCard) {
       ParseObject** ppAct = ppList; assert (ppAct); assert (*ppAct);
 
-      while (*ppAct != NULL) {                  // While list contains objects
+      while (*ppAct) {                          // While list contains objects
          if ((rc = (**ppAct).doParse (stream,  // Parse (putback first always)
                                       ppAct == ppList ? true : optional)) != 0)
             break;
+
+         optional = false;
          ++ppAct;
       } // end-while list-entries
 
@@ -639,10 +641,6 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
          // first element (but only if mincard is fullfilled)
          if ((rc > 0) && (ppAct == ppList) && (i > minCard))
             rc = PARSE_OK;
-	 else
-	   throw (std::string ("Error in sequence ") + std::string (getDescription ())
-                  + std::string (": Expected: ")
-                  + std::string ((**ppAct).getDescription ()));
          break;
       } // endif error occured
    } // end-while i < maxCard
@@ -651,7 +649,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
       rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
-      throw (std::string ("Expected: ") + std::string (getDescription ()));
+      throw (std::string ("Error in sequence ") + std::string (getDescription ()));
 
    return rc;
 }
@@ -725,7 +723,7 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 //              sequences, an exception is thrown
 /*--------------------------------------------------------------------------*/
 int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE8 ("ParseSelection::doParse -> " << getDescription ());
+   TRACE1 ("ParseSelection::doParse -> " << getDescription ());
    assert (!checkIntegrity ());
 
    unsigned int i (0);
@@ -734,7 +732,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
    while (i++ < maxCard) {
       ParseObject** ppAct = ppList; assert (ppAct); assert (*ppAct);
 
-      while (*ppAct != NULL) {                  // While list contains objects
+      while (*ppAct) {                          // While list contains objects
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
                                       (ppAct + 1) == NULL ? optional : true))
              == 0) {                                   // Break if match found
@@ -743,20 +741,22 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
             break;
          } // endif
 
+	 optional = false;
          ++ppAct;
       } // end-while list-entries
 
-      if (*ppAct == NULL) {             // Does no entry of the selection fit?
-         rc = PARSE_ERROR;                              // Return error anyway
+      if (!*ppAct) {                                     // Does no entry fit?
+         if (i >= minCard)
+            rc = PARSE_OK;
          break;
-      } // endif no entry found
+      }
    } // end-while i < maxCard
 
-   if (!rc && (i < minCard))            // To less selections found: Set error
-      rc = PARSE_ERROR;
-
-   if (!rc)              // Report found of object  with selection-description
-      rc = found (getDescription ());
+   if (!rc)               // Report found of object with selection-description
+      if (i < minCard)
+         rc = PARSE_ERROR;
+      else
+         rc = found (getDescription ());
 
    if ((rc < 0) || (rc && !optional))
       throw (std::string ("Expected: ") + std::string (getDescription ()));
