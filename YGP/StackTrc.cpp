@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.13 2004/01/15 06:26:30 markus Rel $
+// $Id: StackTrc.cpp,v 1.14 2004/10/13 03:55:46 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004
@@ -86,7 +86,7 @@ void dumpStack () {
               == ((unsigned int)pStack & ~(sizeof (int) - 1)));
 
       // The address of the caller is next (behind) the basepointer
-      sprintf (pBuffer, "Called by ?? @ %p", pStack[1]);
+      sprintf (pBuffer, "Called by ?? @ %p", (void*)pStack[1]);
       PRINT (pBuffer);
 
       if (!levels--)
