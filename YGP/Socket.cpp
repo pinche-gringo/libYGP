@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.11 2002/05/24 06:52:49 markus Exp $
+//$Id: Socket.cpp,v 1.12 2002/11/04 00:56:54 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -47,16 +47,22 @@
       // thing from BSD)
 #     define close			closesocket
       inline int write (int socket, const char* buffer, int length) {
-		 return send (socket, buffer, length, 0); }
+         return send (socket, buffer, length, 0); }
       inline int read (int socket, char* buffer, int length) {
-		 return recv (socket, buffer, length, 0); }
-
-      typedef size_t		ssize_t;
-      typedef int	 	socklen_t;
+         return recv (socket, buffer, length, 0); }
 #  endif
 #endif
 
- 
+
+#ifndef HAVE_SSIZE_T
+typedef size_t  ssize_t;
+#endif
+#ifndef HAVE_SOCKLEN_T
+typedef int socklen_t;
+#endif
+
+
+
 /*--------------------------------------------------------------------------*/
 //Purpose   : Constructor
 /*--------------------------------------------------------------------------*/
@@ -298,7 +304,7 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (std::d
    struct sockaddr_in name;
    name.sin_family = AF_INET;
    name.sin_port = htons (port);
-   
+
    struct hostent* hostinfo = gethostbyname (server);
    if (!hostinfo) {
       std::string error (_("Can't resolve name '%1'"));
