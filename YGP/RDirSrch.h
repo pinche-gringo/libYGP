@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.12 2002/12/08 04:48:49 markus Rel $
+//$Id: RDirSrch.h,v 1.13 2003/02/14 04:14:17 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ class RemoteDirSearch : public IDirectorySearch {
 
  protected:
    // Variables for sending
-   Socket      sock;
+   Socket sock;
 
  private:
    //@Section prohibited manager functions
