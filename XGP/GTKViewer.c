@@ -1,11 +1,11 @@
-//$Id: GTKViewer.c,v 1.11 2004/01/15 06:26:35 markus Rel $
+//$Id: GTKViewer.c,v 1.12 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GTKViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -239,7 +239,10 @@ int gtkhtmlDisplayFile (void* data, const char* file) {
             free (((GTKHTMLDATA*)data)->path);
          ((GTKHTMLDATA*)data)->path = newpath;
          newpath = strrchr (newpath, DIR_SEPARATOR);
-         (newpath ? *newpath : *((GTKHTMLDATA*)data)->path) = '\0';
+         if (newpath)
+            *newpath = '\0';
+         else
+            *((GTKHTMLDATA*)data)->path = '\0';
 
          // Stream in the file
          char buffer[4096];

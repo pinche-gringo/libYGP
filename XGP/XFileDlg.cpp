@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.23 2004/01/15 06:26:35 markus Rel $
+//$Id: XFileDlg.cpp,v 1.24 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -32,6 +32,7 @@
 #include <X11/keysymdef.h>
 
 #include <gtkmm/main.h>
+#include <gtkmm/stock.h>
 #include <gtkmm/messagedialog.h>
 
 #include "YGP/Trace.h"
@@ -45,23 +46,21 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; Creates a (modeless) dialog to select a file
-/// \param dlgOption: Checks to perform after selecting OK
-//-----------------------------------------------------------------------------
-IFileDialog::IFileDialog (option dlgOption)
-   : Gtk::FileSelection (), opt (dlgOption) {
-   TRACE9 ("IFileDialog::IFileDialog (option)");
-   init ();
-}
-
-//-----------------------------------------------------------------------------
-/// Constructor; Creates a (modeless) dialog to select a file
 /// \param title: Text to display in the title of the dialog
+/// \param action: Action which is caused by clicking a file
 /// \param dlgOption: Checks to perform after selecting OK
 //-----------------------------------------------------------------------------
-IFileDialog::IFileDialog (const Glib::ustring& title, option dlgOption)
-   : Gtk::FileSelection (title), opt (dlgOption) {
-   TRACE9 ("IFileDialog::IFileDialog (const Glib::ustring&, option)");
-   init ();
+IFileDialog::IFileDialog (const Glib::ustring& title,
+                          Gtk::FileChooserAction action, option dlgOption)
+   : Gtk::FileChooserDialog (title, action), opt (dlgOption) {
+   TRACE9 ("IFileDialog::IFileDialog (const Glib::ustring&, Gtk::FileChooserAction, option)");
+
+   add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+   add_button ((action == Gtk::FILE_CHOOSER_ACTION_SAVE)
+               ? Gtk::Stock::SAVE : Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+
+   modal = false;
+   show ();
 }
 
 //-----------------------------------------------------------------------------
@@ -72,35 +71,19 @@ IFileDialog::~IFileDialog () {
    hide ();
 }
 
-
 //-----------------------------------------------------------------------------
-/// Constructor
-//-----------------------------------------------------------------------------
-void IFileDialog::init () {
-   Check3 (get_accel_group ());
-   get_ok_button ()->signal_clicked ().connect (bind (slot (*this, &IFileDialog::command),
-                                                      OK));
-   get_cancel_button ()->signal_clicked ().connect (bind (slot (*this,
-                                                                &IFileDialog::command),
-                                                          CANCEL));
-   get_cancel_button ()->add_accelerator ("clicked", get_accel_group (), XK_Escape,
-                                          Gdk::ModifierType (0), Gtk::ACCEL_VISIBLE);
-   modal = false;
-   show ();
-}
-
-//-----------------------------------------------------------------------------
-/// Performs the action of the selected button
-/// \param action: ID of pressed button
+/// Callback on user-action (file selected or dialog closed)
+/// \param action: ID of selected action
 /// \remarks - Depending on the option, the file must either exist or it is
 ///     checked if it should be overwritten
 //-----------------------------------------------------------------------------
-void IFileDialog::command (commandID id) {
-   TRACE9 ("IFileDialog::command: " << id);
+void IFileDialog::on_response (int cmd) {
+   TRACE9 ("IFileDialog::on_response (int) - " << cmd);
 
-   switch (id) {
-   case OK: {
+   switch (cmd) {
+   case Gtk::RESPONSE_OK: {
       std::string filename (get_filename ());
+      TRACE8 ("IFileDialog::on_response (int) - File selected: " << filename);
 
       if (opt != NONE) {
 	 struct stat fileInfo;
@@ -119,9 +102,10 @@ void IFileDialog::command (commandID id) {
 
          case ASK_OVERWRITE:
             if (!rc) {
-               std::string msg (_("File `%1' exists! Overwrite?"));
+               Glib::ustring msg (_("File `%1' exists! Overwrite?"));
                msg.replace (msg.find ("%1"), 2, filename);
-               Gtk::MessageDialog dlg (msg, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_YES_NO);
+               Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_QUESTION,
+                                       Gtk::BUTTONS_YES_NO);
                if (dlg.run () != Gtk::RESPONSE_YES)
                   return;
             }
@@ -135,16 +119,16 @@ void IFileDialog::command (commandID id) {
       fileSelected (filename);
    }
 
-   case CANCEL:
+   case Gtk::RESPONSE_CANCEL:
       if (modal) {
-         if (id == CANCEL)
-            modal = false;
+         modal = false;
          Gtk::Main::quit ();
       }
-      else
-         delete this;
       break;
    } // end-switch command-id
+
+   TRACE9 ("IFileDialog::on_response (int) - Default handler");
+   Gtk::FileChooserDialog::on_response (cmd);
 }
 
 //-----------------------------------------------------------------------------
@@ -164,13 +148,15 @@ std::string IFileDialog::execModal () {
 /// Creates a (modeless) dialog and registers a handler to free it after
 /// deleting.
 /// \param title: Title of the dialog
+/// \param action: Action which is caused by clicking a file
 /// \param dlgOption: Options for the dialog
 //  \returns IFileDialog*: Pointer to created dialog
 //----------------------------------------------------------------------------
-IFileDialog* IFileDialog::create (const Glib::ustring& title, option dlgOption) {
-    IFileDialog* dlg (new IFileDialog (title, dlgOption));
-    dlg->signal_response ().connect (slot (*dlg, &IFileDialog::free));
-    return dlg;
+IFileDialog* IFileDialog::create (const Glib::ustring& title,
+                                  Gtk::FileChooserAction action, option dlgOption) {
+   IFileDialog* dlg (new IFileDialog (title, action, dlgOption));
+   dlg->signal_response ().connect (mem_fun (*dlg, &IFileDialog::free));
+   return dlg;
 }
 
 //-----------------------------------------------------------------------------

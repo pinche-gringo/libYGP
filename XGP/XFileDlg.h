@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.20 2003/11/14 20:28:08 markus Rel $
+//$Id: XFileDlg.h,v 1.21 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,8 +20,7 @@
 
 #include <string>
 
-#include <gtkmm/fileselection.h>
-
+#include <gtkmm/filechooserdialog.h>
 
 namespace XGP {
 
@@ -42,7 +41,7 @@ namespace XGP {
 
      See also the description of the parent for further options!
 */
-class IFileDialog : public Gtk::FileSelection {
+class IFileDialog : public Gtk::FileChooserDialog {
  public:
    /// Options for the dialog
    typedef enum { NONE,       ///< Don't perform any checks on the entered file
@@ -50,14 +49,19 @@ class IFileDialog : public Gtk::FileSelection {
                   MUST_EXIST        ///< Only allow to select of existing files
    } option;
 
-   IFileDialog (option dlgOption = NONE);
-   IFileDialog (const Glib::ustring& title, option dlgOption = NONE);
+   IFileDialog (const Glib::ustring& title,
+                Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+                option dlgOption = NONE);
    ~IFileDialog ();
 
    std::string execModal ();
 
+   void on_response (int cmd);
+
    /// Creates the dialog
-   static IFileDialog* create (const Glib::ustring& title, option dlgOption = NONE);
+   static IFileDialog* create (const Glib::ustring& title,
+                               Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+                               option dlgOption = NONE);
 
  protected:
    /// IDs for the possible commands (OK, CANCEL)
@@ -73,9 +77,6 @@ class IFileDialog : public Gtk::FileSelection {
    // Prohibited manager-functions
    IFileDialog (const IFileDialog&);
    const IFileDialog& operator= (const IFileDialog&);
-
-   void init ();
-   void command (commandID id);
 
    option opt;
    bool   modal;
@@ -93,23 +94,32 @@ class TFileDialog : public IFileDialog {
 
    /// Constructor; creates a (modeless) dialog to select a file
    /// \param title: Title of the dialog
-   /// \param parent: Class to parent of file entered
-   /// \param callback: Method of 
+   /// \param parent: Object which should be informed about the selection
+   /// \param callback: Method of parent to handle information about selection 
+   /// \param action: Action which is caused by clicking a file
    /// \param dlgOption: Checks to perform after selecting OK
-   TFileDialog (const Glib::ustring& title, T& parent,
-                const PCALLBACK callback, option dlgOption = NONE)
-      : IFileDialog (title, dlgOption), caller (parent)
+   TFileDialog (const Glib::ustring& title, T& parent, const PCALLBACK callback,
+                Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+                option dlgOption = NONE)
+      : IFileDialog (title, action, dlgOption), caller (parent)
       , callerMethod (callback) { }
    /// Destructor
    ~TFileDialog () { }
 
    /// Creates the dialog (and set it as child of the parent)
+   /// \param title: Title of the dialog
+   /// \param parent: Object which should be informed about the selection
+   /// \param callback: Method of parent to handle information about selection 
+   /// \param action: Action which is caused by clicking a file
+   /// \param dlgOption: Checks to perform after selecting OK
    /// \remarks Cares also about freeing the dialog
    static TFileDialog* create (const Glib::ustring& title, T& parent,
-				const PCALLBACK callback, option dlgOption = NONE) {
-      TFileDialog<T>* dlg (new TFileDialog<T> (title, parent, callback, dlgOption));
+                               const PCALLBACK callback,
+                               Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+                               option dlgOption = NONE) {
+      TFileDialog<T>* dlg (new TFileDialog<T> (title, parent, callback, action, dlgOption));
       dlg->get_window ()->set_transient_for (parent.get_window ());
-      dlg->signal_response ().connect (slot (*dlg, &IFileDialog::free));
+      dlg->signal_response ().connect (mem_fun (*dlg, &TFileDialog<T>::free));
       return dlg;
    }
 

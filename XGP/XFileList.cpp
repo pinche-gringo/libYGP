@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.36 2004/01/17 04:03:36 markus Rel $
+//$Id: XFileList.cpp,v 1.37 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -132,6 +132,7 @@ namespace XGP {
 /// \param columns: Columns of the model
 //-----------------------------------------------------------------------------
 IFileStore::IFileStore (const FileColumns& columns) : cols (columns) {
+   TRACE9 ("IFileStore::IFileStore (const FileColumns&) - Using " PKGDIR);
 #ifdef PKGDIR
    loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
 #endif
@@ -307,16 +308,16 @@ bool XFileList::on_event (GdkEvent* event) {
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (editor,
-                 bind (slot (*this, &XFileList::startInTerm),
+                 bind (mem_fun (*this, &XFileList::startInTerm),
                        ed, entry)));
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (Glib::locale_to_utf8 (_("Rename/Move ...")),
-                 bind (slot (*this, &XFileList::move), entry)));
+                 bind (mem_fun (*this, &XFileList::move), entry)));
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (Glib::locale_to_utf8 (_("Delete")),
-                 bind (slot (*this, &XFileList::remove), entry)));
+                 bind (mem_fun (*this, &XFileList::remove), entry)));
 
             addMenus (*pMenuPopAction, entry);
             pMenuPopAction->popup (bev->button, bev->time);
@@ -397,6 +398,7 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
 //-----------------------------------------------------------------------------
 void XFileList::move (unsigned int line) {
    std::string file (IFileDialog::create (std::string ("Move file to ..."),
+                                          Gtk::FILE_CHOOSER_ACTION_OPEN,
                                           IFileDialog::ASK_OVERWRITE)->execModal ());
 
    if (file.length ()) {

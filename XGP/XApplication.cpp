@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.37 2004/01/15 06:26:35 markus Rel $
+//$Id: XApplication.cpp,v 1.38 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -116,15 +116,15 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
    switch (menuEntry.type) {
    case ITEM:
       Check3 (pLastMenu);
-      pLastMenu->items ().push_back (MenuElem (menuEntry.name, AccelKey (menuEntry.accel),
-                                               bind (slot (*this, &XApplication::command),
+      pLastMenu->items ().push_back (MenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel),
+                                               bind (mem_fun (*this, &XApplication::command),
                                                      menuEntry.id)));
       break;
 
    case CHECKITEM:
       Check3 (pLastMenu);
-      pLastMenu->items ().push_back (CheckMenuElem (menuEntry.name, AccelKey (menuEntry.accel),
-                                                    bind (slot (*this, &XApplication::command),
+      pLastMenu->items ().push_back (CheckMenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel),
+                                                    bind (mem_fun (*this, &XApplication::command),
                                                           menuEntry.id)));
       break;
 
@@ -139,7 +139,7 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
       pLastMenu = manage (new Gtk::Menu ()); Check3 (pLastMenu);
       aLastMenus.insert (aLastMenus.end (), pLastMenu);
 
-      pMenu->items ().push_back (MenuElem (menuEntry.name, AccelKey (menuEntry.accel), *pLastMenu));
+      pMenu->items ().push_back (MenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel), *pLastMenu));
       if (menuEntry.type == LASTBRANCH)
          pMenu->items ().back ().set_right_justified ();
 
@@ -149,7 +149,7 @@ Gtk::Widget& XApplication::addMenu (const MenuEntry& menuEntry) {
       Check3 (pLastMenu);
       pLastMenu = new Gtk::Menu ();
 
-      aLastMenus.back ()->items ().push_back (MenuElem (menuEntry.name, AccelKey (menuEntry.accel), *pLastMenu));
+      aLastMenus.back ()->items ().push_back (MenuElem (menuEntry.name, Gtk::AccelKey (menuEntry.accel), *pLastMenu));
       aLastMenus.push_back (pLastMenu);
       break;
 
@@ -194,8 +194,8 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
          do {
             cMenus--;
             pLastMenu->items ().push_back (RadioMenuElem (radioGroup, menuEntries->name,
-                                                          AccelKey (menuEntries->accel),
-                                                          bind (slot (*this, &XApplication::command),
+                                                          Gtk::AccelKey (menuEntries->accel),
+                                                          bind (mem_fun (*this, &XApplication::command),
                                                                 menuEntries->id)));
             if (menuEntries->id) {
                Check (apMenus.find (menuEntries->id) == apMenus.end ());

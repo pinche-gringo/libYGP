@@ -1,7 +1,7 @@
 #ifndef AUTOCONTAINER_H
 #define AUTOCONTAINER_H
 
-//$Id: AutoContainer.h,v 1.4 2003/12/01 18:11:34 markus Rel $
+//$Id: AutoContainer.h,v 1.5 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,8 +45,8 @@ class AutoContainer : public Gtk::ScrolledWindow {
    void remove (Gtk::Widget& widget);
 
  protected:
-   void on_size_allocate (GtkAllocation* size);
-   void line_size_allocate (GtkAllocation* size, Gtk::HBox* line);
+   void on_size_allocate (Gtk::Allocation& size);
+   void line_size_allocate (Gtk::Allocation& size, Gtk::HBox* line);
 
    /// The vertical box used to display the other widgets
    Gtk::VBox view;

@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.25 2004/01/15 06:26:35 markus Rel $
+//$Id: XAbout.cpp,v 1.26 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -118,7 +118,7 @@ void XAbout::setIconAuthor (const char* const* pIconData) {
 //----------------------------------------------------------------------------
 XAbout* XAbout::create (const Glib::ustring& author, const Glib::ustring& program) {
     XAbout* dlg (new XAbout (author, program));
-    dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+    dlg->signal_response ().connect (mem_fun (*dlg, &XAbout::free));
     return dlg;
 }
 

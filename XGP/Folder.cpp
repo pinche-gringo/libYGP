@@ -1,11 +1,11 @@
-//$Id: Folder.cpp,v 1.8 2004/01/15 06:26:35 markus Rel $
+//$Id: Folder.cpp,v 1.9 2004/09/06 00:27:38 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Folder
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -104,15 +104,15 @@ void Folder::add (Gtk::Widget& child) {
 //-----------------------------------------------------------------------------
 /// Resize-request: Resort the children
 //-----------------------------------------------------------------------------
-void Folder::on_size_allocate (GtkAllocation* size) {
-   Check1 (size); Check1 (size->width >= -1); Check1 (size->height >= -1);
+void Folder::on_size_allocate (Gtk::Allocation& size) {
+   Check1 (size.get_width () >= -1); Check1 (size.get_height () >= -1);
    TRACE9 ("Folder::on_size_allocate (GtkAllocation*) -> new size: "
-           << size->width << " * " << size->height);
+           << size.get_width () << " * " << size.get_height ());
 
    Gtk::ScrolledWindow::on_size_allocate (size);
 
-   if (width != size->width) {
-      width = size->width;
+   if (width != size.get_width ()) {
+      width = size.get_width ();
       std::vector<Gtk::Widget*> widgets;
       for (Gtk::Table::TableList::const_iterator i (view.children ().begin ());
            i != view.children ().end (); ++i) {

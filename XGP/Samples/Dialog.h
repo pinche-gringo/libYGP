@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.6 2003/11/14 20:28:08 markus Rel $
+//$Id: Dialog.h,v 1.7 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ class Dialog : public XGP::XDialog {
 
    static Dialog* create (YGP::ANumeric& numEntry, std::string& file) {
       Dialog* dlg (new Dialog (numEntry, file));
-      dlg->signal_response ().connect (slot (*dlg, &XGP::XDialog::free));
+      dlg->signal_response ().connect (mem_fun (*dlg, &Dialog::free));
       return dlg;
    }
 
@@ -84,7 +84,7 @@ class TDialog : Dialog {
    static Dialog* create (T& caller, const PCALLBACK callback,
                           YGP::ANumeric& numEntry, std::string& file) {
       Dialog* dlg (new TDialog (caller, callback, numEntry, file));
-      dlg->signal_response ().connect (slot (*dlg, &XGP::XDialog::free));
+      dlg->signal_response ().connect (mem_fun (*dlg, &TDialog<T>::free));
       return dlg;
    }
 

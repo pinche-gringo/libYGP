@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.15 2003/12/09 04:39:13 markus Rel $
+//$Id: XAttrEntry.h,v 1.16 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,6 +66,12 @@ template <class T, class P = Gtk::Entry> class XAttributeEntry : public P {
    void update () {
       temp = attr_;
       set_text (has_focus () ? temp.toString () : temp.toUnformattedString ()); }
+   /// Actualizes the displayed value with the passed value. The value of the
+      P::set_text (P::has_focus () ? temp.toString () : temp.toUnformattedString ()); }
+   void setText (const Glib::ustring& value) {
+      temp = value;
+      set_text (has_focus () ? temp.toString () : temp.toUnformattedString ()); }
+
    /// Returns the handled attribute
    T& getAttribute () { return attr_; }
 
@@ -90,7 +96,7 @@ template <class T, class P = Gtk::Entry> class XAttributeEntry : public P {
          Gtk::MessageDialog msg (e.what (), Gtk::MESSAGE_ERROR);
          msg.set_title (Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, "Invalid value!")));
          msg.run ();
-         Glib::signal_timeout ().connect (slot (*this, &XAttributeEntry::takeFocus), 10);
+         Glib::signal_timeout ().connect (mem_fun (*this, &XAttributeEntry::takeFocus), 10);
          return true;
       }
       return true; }
@@ -110,6 +116,9 @@ template <> inline XAttributeEntry<std::string>::XAttributeEntry (std::string& a
      , attr_ (attr), inError (false) { parent::set_text (attr); }
 
      , attr_ (attr), inError (false) { set_text (attr); }
+template <> inline void XAttributeEntry<std::string>::setText (const Glib::ustring& value) {
+template <> inline void XAttributeEntry<std::string>::update () { set_text (temp = attr_); }
+   parent::set_text (value); }
 template <> inline bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {
    set_text (value); }
 template <> inline bool XAttributeEntry<std::string>::on_focus_out_event (GdkEventFocus* ev) {
@@ -121,6 +130,7 @@ template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustrin
      , attr_ (attr), inError (false) { parent::set_text (attr); }
 
      , attr_ (attr), inError (false) { set_text (attr); }
+template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { parent::set_text (temp = value); }
 template <> inline void XAttributeEntry<Glib::ustring>::update () { set_text (temp = attr_); }
 template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { set_text (temp = value); }
 template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {

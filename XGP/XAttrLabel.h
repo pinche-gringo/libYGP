@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.12 2003/11/14 20:28:08 markus Rel $
+//$Id: XAttrLabel.h,v 1.13 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ template <class T> class XAttributeLabel : public Gtk::Label {
    /// Constructor; pass the attribute to manage. It is aligned according to
    /// the values.
    XAttributeLabel (const T& attr, Gtk::AlignmentEnum xalign,
-                    Gtk::AlignmentEnum yalign = ALIGN_CENTER)
+                    Gtk::AlignmentEnum yalign = Gtk::ALIGN_CENTER)
       : Gtk::Label ("", xalign, yalign, false), attr_ (attr) {
       update (); }
    /// Destructor
@@ -134,7 +134,7 @@ template <class T> class XAttributeLabel2 : public Gtk::Label {
    /// Constructor; pass the attribute to manage. It is aligned according to
    /// the values.
    XAttributeLabel2 (const T& attr, Gtk::AlignmentEnum xalign,
-                     Gtk::AlignmentEnum yalign = ALIGN_CENTER)
+                     Gtk::AlignmentEnum yalign = Gtk::ALIGN_CENTER)
       : Gtk::Label ("", xalign, yalign, false), attr_ (attr) {
       update (); }
    /// Destructor

@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.11 2004/01/15 06:26:35 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.12 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -81,9 +81,9 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
    pPort->set_text (defPort);
 
    pConnect->signal_clicked ().connect
-       (bind (slot (*this, &Gtk::Dialog::on_response), CONNECT));
+       (sigc::bind<int> (sigc::mem_fun (*this, &ConnectDlg::on_response), CONNECT));
    pWait->signal_clicked ().connect
-       (bind (slot (*this, &ConnectDlg::command), WAIT));
+       (sigc::bind<int> (sigc::mem_fun (*this, &ConnectDlg::command), WAIT));
 
    pClient->attach (*pExplain, 0, 3, 0, 1, Gtk::FILL | Gtk::EXPAND,
                     Gtk::FILL | Gtk::EXPAND, 5, 3);
@@ -98,8 +98,8 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
    get_vbox ()->pack_start (*pClient, false, false, 5);
    get_action_area ()->pack_end (*pWait, false, false, 5);
 
-   pPort->signal_changed ().connect (slot (*this, &ConnectDlg::valueChanged));
-   pTarget->signal_changed ().connect (slot (*this, &ConnectDlg::valueChanged));
+   pPort->signal_changed ().connect (mem_fun (*this, &ConnectDlg::valueChanged));
+   pTarget->signal_changed ().connect (mem_fun (*this, &ConnectDlg::valueChanged));
    valueChanged ();
 
    show_all ();
@@ -163,7 +163,8 @@ void ConnectDlg::command (int action) {
          catch (std::domain_error& err) {
             Glib::ustring msg (_("Can't connect to server!\n\nReason: %1"));
             msg.replace (msg.find ("%1"), 2, err.what ());
-            Gtk::MessageDialog dlg (msg, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_CANCEL);
+            Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_ERROR,
+                                    Gtk::BUTTONS_CANCEL);
             dlg.set_title (_("Connect error"));
             dlg.run ();
          }
@@ -184,7 +185,8 @@ void ConnectDlg::command (int action) {
          catch (std::domain_error& err) {
             Glib::ustring msg (_("Can't bind to port!\n\nReason: %1"));
             msg.replace (msg.find ("%1"), 2, err.what ());
-            Gtk::MessageDialog dlg (msg, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_CANCEL);
+            Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_ERROR,
+                                    Gtk::BUTTONS_CANCEL);
             dlg.set_title (_("Connect error"));
             dlg.run ();
          }

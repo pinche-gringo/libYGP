@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.11 2004/04/19 01:48:25 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.12 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -52,7 +52,7 @@ HTMLViewer* HTMLViewer::create (const std::string& file) throw (std::string) {
    Check1 (file.size ());
 
    HTMLViewer* dlg (new HTMLViewer (file));
-   dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+   dlg->signal_response ().connect (mem_fun (*dlg, &HTMLViewer::free));
    return dlg;
 }
 

@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.26 2003/12/09 04:39:13 markus Rel $
+//$Id: XFileList.h,v 1.27 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -138,10 +138,10 @@ class XFileStore : public Parent, public IFileStore {
 
    /// Gets the name of the file for the specified line in the model.
    virtual std::string getFilename (unsigned int line) {
-      return children ()[line][cols.name]; }
+      return Parent::children ()[line][cols.name]; }
    /// Sets the file for the specified line in the model.
    virtual void setFilename (unsigned int line, const std::string& file) {
-      children ()[line][cols.name] = Glib::locale_to_utf8 (file); }
+      Parent::children ()[line][cols.name] = Glib::locale_to_utf8 (file); }
 
    /// Returns the adress of the IFileStore-parent
    const IFileStore* getBaseAddress () const {

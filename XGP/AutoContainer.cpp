@@ -1,11 +1,11 @@
-//$Id: AutoContainer.cpp,v 1.9 2004/01/15 06:26:35 markus Rel $
+//$Id: AutoContainer.cpp,v 1.10 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -75,9 +75,9 @@ void AutoContainer::add (Gtk::Widget& child) {
    Gtk::HBox* line (dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
 
    // Check if the widget fits into the line
-   GtkRequisition lineReq, childReq;
-   line->size_request (&lineReq);
-   child.size_request (&childReq);
+   Gtk::Requisition lineReq, childReq;
+   line->size_request (lineReq);
+   child.size_request (childReq);
 
    if (lineReq.width && ((childReq.width + lineReq.width + 10) > width)) {
       TRACE9 ("AutoContainer::checkLast (Gtk::HBox*, Gtk::Widget*) - Handle " <<  &child);
@@ -93,21 +93,21 @@ void AutoContainer::add (Gtk::Widget& child) {
 /// \param size: New size of the container
 /// \param line: Line to resize
 //-----------------------------------------------------------------------------
-void AutoContainer::line_size_allocate (GtkAllocation* size, Gtk::HBox* line) {
-   Check1 (size); Check1 (size->width >= -1); Check1 (size->height >= -1);
-   TRACE9 ("AutoContainer::line_size_allocate (GtkAllocation*, Gtk::HBox*) - Resize "
-           << line  << " to " << size->width << " * " << size->height);
+void AutoContainer::line_size_allocate (Gtk::Allocation& size, Gtk::HBox* line) {
+   Check1 (size.get_width () >= -1); Check1 (size.get_height () >= -1);
+   TRACE9 ("AutoContainer::line_size_allocate (Gtk::Allocation*, Gtk::HBox*) - Resize "
+           << line  << " to " << size.get_width () << " * " << size.get_height ());
    Check3 (line);
 
-   GtkRequisition lineReq;
-   line->size_request (&lineReq);
+   Gtk::Requisition lineReq;
+   line->size_request (lineReq);
 
-   if ((size->width - 8) < lineReq.width) {
+   if ((size.get_width () - 8) < lineReq.width) {
       // First find line which has been resized
        for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
             i != view.children ().end (); ++i)
            if ((i->get_widget () == line) && (line->children ().size () > 1)) {
-              TRACE9 ("AutoContainer::line_size_allocate (GtkAllocation*, Gtk::HBox*) - Moving last elem");
+              TRACE9 ("AutoContainer::line_size_allocate (Gtk::Allocation*, Gtk::HBox*) - Moving last elem");
 
               Gtk::Box::BoxList::reverse_iterator j (line->children ().rbegin ());
               Gtk::Widget* obj (j->get_widget ());
@@ -131,15 +131,15 @@ void AutoContainer::line_size_allocate (GtkAllocation* size, Gtk::HBox* line) {
 /// Resize-request: Re-arrangethe children
 /// \param size: New size of the container
 //-----------------------------------------------------------------------------
-void AutoContainer::on_size_allocate (GtkAllocation* size) {
-   Check1 (size); Check1 (size->width >= -1); Check1 (size->height >= -1);
-   TRACE9 ("AutoContainer::on_size_allocate (GtkAllocation*) - new size: "
-           << size->width << " * " << size->height);
+void AutoContainer::on_size_allocate (Gtk::Allocation& size) {
+   Check1 (size.get_width () >= -1); Check1 (size.get_height () >= -1);
+   TRACE9 ("AutoContainer::on_size_allocate (Gtk::Allocation*) - new size: "
+           << size.get_width () << " * " << size.get_height ());
 
    Gtk::ScrolledWindow::on_size_allocate (size);
 
-   if (width != size->width) {
-      width = size->width;
+   if (width != size.get_width ()) {
+      width = size.get_width ();
       std::vector<Gtk::Widget*> widgets;
       for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
            i != view.children ().end (); ++i) {
@@ -193,7 +193,7 @@ Gtk::HBox* AutoContainer::addLine () {
 
    Gtk::HBox* line (new Gtk::HBox ());
    line->signal_size_allocate ().connect
-       (bind (slot (*this, &AutoContainer::line_size_allocate), line));
+       (bind (mem_fun (*this, &AutoContainer::line_size_allocate), line));
    line->show ();
    view.pack_start (*manage (line), Gtk::PACK_SHRINK, 5);
    return line;

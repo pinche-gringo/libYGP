@@ -1,7 +1,7 @@
 #ifndef FOLDER_H
 #define FOLDER_H
 
-//$Id: Folder.h,v 1.5 2003/11/14 20:28:08 markus Rel $
+//$Id: Folder.h,v 1.6 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class Folder : public Gtk::ScrolledWindow {
    void add (Gtk::Widget& widget);
 
  protected:
-   void on_size_allocate (GtkAllocation* size);
+   void on_size_allocate (Gtk::Allocation& size);
 
    /// The view used to display the child widgets
    Gtk::Table view;

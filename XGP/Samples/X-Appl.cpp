@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.19 2004/01/15 06:26:35 markus Rel $
+//$Id: X-Appl.cpp,v 1.20 2004/09/06 00:27:38 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -239,12 +239,14 @@ void XAppl::command (int menu) {
    case OPEN:
       XGP::TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Add file...")),
                                        *this, &XAppl::addFile,
+                                       Gtk::FILE_CHOOSER_ACTION_OPEN,
                                        XGP::IFileDialog::MUST_EXIST);
       break;
 
    case SAVE:
       XGP::TFileDialog<XAppl>::create (Glib::locale_to_utf8 (_("Save search result to ...")),
                                        *this, &XAppl::saveToFile,
+                                       Gtk::FILE_CHOOSER_ACTION_OPEN,
                                        XGP::IFileDialog::ASK_OVERWRITE);
       break;
 
@@ -291,6 +293,7 @@ void XAppl::showAboutbox () {
 //Purpose   : Add the value of file to the list
 /*--------------------------------------------------------------------------*/
 void XAppl::addActFile () {
+   // This could be optimized ...
    for (unsigned int i (0); i < (unsigned int)num; ++i)
       addFile (file);
 }
@@ -300,7 +303,7 @@ void XAppl::addActFile () {
 //Parameters: file: Name of file to add
 /*--------------------------------------------------------------------------*/
 void XAppl::addFile (const std::string& file) {
-   TRACE9 ("XAppl::addFile (std::string&): " << file);
+   TRACE9 ("XAppl::addFile (const std::string&) - " << file);
 
    try {
       YGP::File objFile (file.c_str ());

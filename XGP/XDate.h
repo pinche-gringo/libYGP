@@ -1,7 +1,7 @@
 #ifndef XDATE_H
 #define XDATE_H
 
-//$Id: XDate.h,v 1.15 2003/11/14 20:28:08 markus Rel $
+//$Id: XDate.h,v 1.16 2004/09/06 00:27:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ class XDate : public XDialog {
    static XDate* create (const Glib::ustring& title, YGP::ATimestamp& date,
                          int showFields = SHOW_ALL) {
       XDate* dlg (new XDate (title, date, showFields));
-      dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+      dlg->signal_response ().connect (mem_fun (*dlg, &XDate::free));
       return dlg;
    }
 

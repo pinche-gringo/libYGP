@@ -1,11 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.5 2004/01/17 04:02:32 markus Rel $
+//$Id: MessageDlg.cpp,v 1.6 2004/09/06 00:27:38 markus Exp $
 
 //PROJECT     : Cardgames
 //SUBSYSTEM   : <FILLIN>
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -92,7 +92,7 @@ void MessageDlg::showDetails (bool show) {
 
    cb.disconnect ();
    cb = showDetail->signal_clicked ().connect
-       (bind (slot (*this, &MessageDlg::showDetails), !show));
+       (bind (mem_fun (*this, &MessageDlg::showDetails), !show));
 }
 
 //----------------------------------------------------------------------------
@@ -103,7 +103,7 @@ void MessageDlg::showDetails (bool show) {
 //----------------------------------------------------------------------------
 MessageDlg* MessageDlg::create (const YGP::StatusObject& obj) {
    MessageDlg* dlg (new MessageDlg (obj));
-   dlg->signal_response ().connect (slot (*dlg, &MessageDlg::free));
+   dlg->signal_response ().connect (mem_fun (*dlg, &MessageDlg::free));
    return dlg;
 }
 
@@ -120,7 +120,7 @@ void MessageDlg::free (int) {
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
 void MessageDlg::update (const YGP::StatusObject& obj) {
-   set_message (Glib::locale_to_utf8 (obj.getMessage ()));
+   set_message (Glib::locale_to_utf8 (obj.getMessage ()), false);
    if (obj.hasDetails ()) {
       detail->set_text (Glib::locale_to_utf8 (obj.getDetails ()));
       showDetail->show ();

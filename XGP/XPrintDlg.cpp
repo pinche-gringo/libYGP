@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.21 2004/01/15 06:26:35 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.22 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -127,7 +127,7 @@ void IPrintDialog::okEvent () {
 //----------------------------------------------------------------------------
 IPrintDialog* IPrintDialog::create () {
     IPrintDialog* dlg (new IPrintDialog ());
-    dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+    dlg->signal_response ().connect (mem_fun (*dlg, &IPrintDialog::free));
     return dlg;
 }
 

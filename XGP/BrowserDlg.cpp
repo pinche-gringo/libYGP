@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.16 2004/01/15 06:26:35 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.17 2004/09/06 00:27:38 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -58,7 +58,7 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    if (cmd.empty ())
       cmd = browserNames[0];
 
-   Gtk::RadioButton_Helpers::Group group;
+   Gtk::RadioButtonGroup group;
 
    // Create Other radio button
    aBrowsers[BROWSERS] = new Gtk::RadioButton (group, _("Other: "), 0);
@@ -66,13 +66,13 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    pboxOther->pack_start (*aBrowsers[BROWSERS], false, false);
    aBrowsers[BROWSERS]->show ();
    aBrowsers[BROWSERS]->signal_clicked ().connect
-      (bind (slot (*this, &BrowserDlg::control), BROWSERS));
+      (bind (mem_fun (*this, &BrowserDlg::control), BROWSERS));
 
    // Create radio button for other browsers and set them if specified by cmd
    for (unsigned int i (0); i < (BROWSERS);
         ++i) {
       aBrowsers[i] = new Gtk::RadioButton (group, _(browserNames[i]), 0);
-      aBrowsers[i]->signal_clicked ().connect (bind (slot (*this, &BrowserDlg::control), i));
+      aBrowsers[i]->signal_clicked ().connect (bind (mem_fun (*this, &BrowserDlg::control), i));
       get_vbox ()->pack_start (*aBrowsers[i], false, false);
       aBrowsers[i]->show ();
       if (cmd == browserNames[i]) {
@@ -117,8 +117,7 @@ void BrowserDlg::control (unsigned int cmd) {
          path.grab_focus ();
       else {
          Check1 (cmd < BROWSERS);
-         path.getAttribute () = browserNames[cmd];
-         path.update ();
+         path.setText (browserNames[cmd]);
       }
    }
 }
@@ -131,7 +130,7 @@ void BrowserDlg::control (unsigned int cmd) {
 //----------------------------------------------------------------------------
 BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
    BrowserDlg* dlg (new BrowserDlg (cmd));
-   dlg->signal_response ().connect (slot (*dlg, &XDialog::free));
+   dlg->signal_response ().connect (mem_fun (*dlg, &BrowserDlg::free));
    return dlg;
 }
 
