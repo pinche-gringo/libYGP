@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.9 2003/07/25 00:24:09 markus Exp $
+//$Id: BrowserDlg.cpp,v 1.10 2003/07/25 00:34:16 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Anticopyright (A) 2003
@@ -127,7 +127,7 @@ void BrowserDlg::control (unsigned int cmd) {
 //  \returns BrowserDlg*: Pointer to created dialog
 //----------------------------------------------------------------------------
 BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
-    BrowserDlg* dlg (new BrowserDlg (cmd));
-    dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
-    return dlg;
+   BrowserDlg* dlg (new BrowserDlg (cmd));
+   dlg->signal_delete_event ().connect (slot (*dlg, &XDialog::free));
+   return dlg;
 }
