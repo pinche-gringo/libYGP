@@ -1,11 +1,11 @@
-//$Id: XAbout.cpp,v 1.10 2002/07/08 03:38:47 markus Rel $
+//$Id: XAbout.cpp,v 1.11 2002/12/19 04:01:09 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999, 2000, 2001, 2002
@@ -38,9 +38,9 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Constructor; adds all controls to the dialog
-//Parameters: author: Author of the programm
-//            program: Description of the program-version
+//Purpose   : Constructor; adds all controls to the dialog and shows it.
+//Parameters: author: Author, copyright, ... of the program displayed in the client
+//            program: Name and version of the program; displaced in the title
 /*--------------------------------------------------------------------------*/
 XAbout::XAbout (const string& author, const string& program)
    : Dialog (), writer (new Label (author)), client (new HBox ())
@@ -48,7 +48,7 @@ XAbout::XAbout (const string& author, const string& program)
    , ok (new Button ("OK")) {
    Check3 (gpl); Check3 (writer); Check3 (client);
 
-   TRACE9 ("XAbout::XAbout - Show: " << text);
+   TRACE9 ("XAbout::XAbout - Show: " << author);
    TRACE9 ("XAbout::XAbout - Title: " << program);
 
    set_title (program);
@@ -81,8 +81,8 @@ XAbout::~XAbout () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Sets pixmap for the program
-//Parameters: picProgram: Pixmap for program
+//Purpose   : Sets the icon for the program (in xpm-format)
+//Parameters: picProgram: Pixmap representing program
 /*--------------------------------------------------------------------------*/
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check3 (client);
@@ -94,8 +94,8 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Sets pixmap for the programmer
-//Parameters: pIconData: Pointer to xpm-data for pixmap
+//Purpose   : Sets the icon for the programmer (in xpm-format)
+//Parameters: pIconData: Pointer to xpm-data for pixmap representing the programmer
 /*--------------------------------------------------------------------------*/
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check3 (client); Check3 (vboxPrgInfo);
