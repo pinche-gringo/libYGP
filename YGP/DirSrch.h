@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.15 2000/04/14 19:38:19 Markus Exp $
+//$Id: DirSrch.h,v 1.16 2000/04/21 00:55:49 Markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,6 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+// TODO/FIXME?: Maybe the classes in this files should be changed to either
+// 1. dirEntry is protected derived from "local" base
+//   or maybe even better
+// 2. Use an abstract implementation-class with concrete realizations for
+//    every OS (like abstract IdirEntry with concrete IdirEntryUNIX, which
+//    is (protected) used by dirEntry).
 
 
 #include <time.h>
@@ -41,7 +49,11 @@
 #     endif
 #  endif
 
-#  include <sys/stat.h>
+#  if STAT_MACROS_BROKEN
+#     error Autoconf reported invalid file-type macros (S_ISDIR, ...)
+#  else
+#     include <sys/stat.h>
+#  endif
 
 #else
 #  ifdef WINDOWS
