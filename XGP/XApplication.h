@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.15 2003/02/03 03:50:33 markus Exp $
+//$Id: XApplication.h,v 1.16 2003/02/18 02:55:19 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -73,14 +73,33 @@ namespace Gtk {
 // (as Gtk-- needs a unique group for them, which must be allocated on the
 // stack).
 //
-// Furthermore there exists the posibility to add a help-menu, consisting of an
-// about box (to be implemented by the showAboutbox-method) and the display of
-// the help to the program in a browser (the help must therefore be in
-// HTML-format), including the possibility to configure the browser.
-// Which file to display is determined by the getHelpfile-method (if a local
-// file is returned by this function, this search includes checking for
-// language-specific versions according to the LANGUAGE-environment variable
-// or the locale settings.
+// Furthermore there exists the posibility to add a help-menu consisting of:
+//
+//    * An about box (to be implemented by the showAboutbox-method)
+//    * A content menu (accessible by pressing F1), which executes a browser (default: galeon) with a file determinted by the getHelpfile-method). The help must therefore be in HTML-format
+//    * A menu to configure the browser to use
+//
+// To get the last two entries, the getHelpfile-method must return not NULL.
+//
+// The following algorithm is used to determine the help file to display:
+//
+//    1. If the file does not start with a single slash (/) and does
+//       not specify the file-protocoll (starting with file://), just
+//       pass the filename to the browser.
+//
+//    2. Else assume a local file to display and check the language
+//       settings: If the environment variable LANGUAGE is not empty,
+//       take that value, else the locale settings (LC_MESSAGES).
+//    3. Take every (comma-separated) entry from the value of step 2
+//       and append it to the name of the help-file.
+//    4. If step 2 does not specify a valid file name, cut the
+//       language specifier at the last underscore (_). (E.g. change
+//       de_AT to de).
+//    5. Repeat step 4 until either a file is found or the languge
+//       specifier is empty. If this still does not succeed, procceed
+//       with step 3.
+//    6. Nothing worked; search for the file "as is"
+//    7. As last resort append an ".en" to the filename
 class XApplication : public Gtk::Window {
  public:
    // Manager functions

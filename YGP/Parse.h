@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.30 2003/02/14 20:12:45 markus Exp $
+//$Id: Parse.h,v 1.31 2003/02/18 02:50:50 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -291,7 +291,20 @@ class ParseTextEsc : public ParseText {
 };
 
 
-// Class// Class to parse quoted text
+// Class to parse a quoted text-value until a specified abort-character is
+// found.
+//
+// Parsing of this element is stopped, if the closing quote is found
+// (or the maximal cardinality is reached). Note that this closing
+// character is not necessarily the same as the opening one. The
+// following characters have different closing characters (for all
+// others opening and closing quote are the same):
+//
+//   - The less-sign (<) is closed with a bigger-sign (>).
+//   - An opening parenthesis ({) is closed with a closing one (}).
+//   - An opening bracket (() is closed with a closing one ()).
+//   - An opening square bracket ([) is closed with a closing one (]).
+//   - An opening single quote (`) is closed with a closing one (´).
 class ParseQuoted : public ParseText {
  public:
    // Manager-functions
@@ -317,8 +330,22 @@ class ParseQuoted : public ParseText {
 };
 
 
-// Class// Class to parse quoted text, where the special characters can be
-// escaped
+// Class to parse a quoted text-value until a specified abort-character is
+// found. However, parsing is continued if those characters are preceeded
+//  by a escape-character (which "escapes" the special meaning of that
+// character).
+//
+// Parsing of this element is stopped, if the closing quote is found
+// (or the maximal cardinality is reached). Note that this closing
+// character is not necessarily the same as the opening one. The
+// following characters have different closing characters (for all
+// others opening and closing quote are the same):
+//
+//   - The less-sign (<) is closed with a bigger-sign (>).
+//   - An opening parenthesis ({) is closed with a closing one (}).
+//   - An opening bracket (() is closed with a closing one ()).
+//   - An opening square bracket ([) is closed with a closing one (]).
+//   - An opening single quote (`) is closed with a closing one (´).
 class ParseQuotedEsc : public ParseTextEsc {
  public:
    // Manager-functions

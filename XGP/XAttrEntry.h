@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.3 2003/02/03 03:47:24 markus Exp $
+//$Id: XAttrEntry.h,v 1.4 2003/02/18 02:55:37 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,12 @@
 
 
 // Class to display and change an attribute inside and entry box. The value of
-// the attribute is displayed formatted when not edited.
+// the attribute is displayed formated (localized) when not edited.
+//
+// If the curser enters the entry field, the value is displayed without
+// formatation. When leaving the field, the new value is checked for vality
+// (causing a message box with an error message if the user entered an invalid
+// value).
 template <class T> class XAttributeEntry : public Gtk::Entry {
    typedef P parent;
    XAttributeEntry (T& attr)

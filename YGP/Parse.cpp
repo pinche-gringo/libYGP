@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.36 2003/02/14 20:12:45 markus Exp $
+//$Id: Parse.cpp,v 1.37 2003/02/18 02:50:50 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -159,7 +159,7 @@ ParseSkip::~ParseSkip () {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object.
 //Parameters  : value: List of valid characters (see class description)
-//              description: Description of object (what it parses)
+//              description: Description of the object (what it parses)
 //              max: Maximal cardinality, how often can the object be parsed
 //              min: Minimal cardinality, how often must the object be parsed
 //              skipWhitespace: Flag if TRAILING whitespaces should be skipped after sucessfully parsing the object
@@ -412,7 +412,7 @@ int ParseText::checkValue (char ch) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object.
 //Parameters  : abort: List of valid characters
-//              description: Description of object (what it parses)
+//              description: Description of the object (what it parses)
 //              max: Maximal cardinality, how often can the object be parsed
 //              min: Minimal cardinality, how often must the object be parsed
 //              escape: Character which escapes characters in value
@@ -496,8 +496,8 @@ int ParseTextEsc::checkValue (char ch) {
 
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object.
-//Parameters  : quote: Character limiting the text
-//              description: Description of object (what it parses)
+//Parameters  : quote: Character limiting the text; the equivalent characters ends parsing.
+//              description: Description of the object (what it parses)
 //              max: Maximal cardinality, how often can the object be parsed
 //              min: Minimal cardinality, how often must the object be parsed
 //              skipWhitespace: Flag if TRAILING whitespaces should be skipped after sucessfully parsing the object
@@ -585,12 +585,12 @@ char ParseQuoted::getClosingChar (char ch) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the parsed value is according the abort-list of the
-//              object.
+//Purpose     : Checks if the parsed value is according the quote. The quotes
+//              themself are also valid, though not included in the output.
 //
 //              Valid are every characters NOT in pValue.
 //Parameters  : ch: Char to check
-//Returns     : int: Result; true if ch does not match any of those values.
+//Returns     : int: Result; true if ch is an ordinary character, -1 if it is quote, 0 after ending quote
 /*--------------------------------------------------------------------------*/
 int ParseQuoted::checkValue (char ch) {
    TRACE8 ("ParseQuoted::checkValue (char) - " << getDescription () << ": " << ch);
@@ -622,7 +622,7 @@ int ParseQuoted::checkValue (char ch) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object.
 //Parameters  : quote: Character limiting the text
-//              description: Description of object (what it parses)
+//              description: Description of the object (what it parses)
 //              max: Maximal cardinality, how often can the object be parsed
 //              min: Minimal cardinality, how often must the object be parsed
 //              escape: Character which escapes characters in value
@@ -686,12 +686,12 @@ ParseQuotedEsc& ParseQuotedEsc::operator= (const ParseQuotedEsc& other) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose     : Checks if the parsed value is according the abort-list of the
-//              object.
+//Purpose     : Checks if the parsed value is according the quote. The quotes
+//              themself are also valid, though not included in the output.
 //
 //              Valid are every characters NOT in pValue.
 //Parameters  : ch: Char to check
-//Returns     : int: Result; true if ch does not match any of those values.
+//Returns     : int: Result; true if ch is an ordinary character, -1 if it is quote, 0 after ending quote
 /*--------------------------------------------------------------------------*/
 int ParseQuotedEsc::checkValue (char ch) {
    TRACE8 ("ParseQuotedEsc::checkValue (char) - " << getDescription () << ": " << ch);
@@ -723,7 +723,7 @@ int ParseQuotedEsc::checkValue (char ch) {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object
 //Parameters  : value: Sequence of characters to parse in that order
-//              description: Description of object (what it parses)
+//              description: Description of the object (what it parses)
 //              skipWhitespace: Flag if TRAILING whitespaces should be skipped after sucessfully parsing the object
 //              reportData: Flag, if data should be stored and reported
 //Requires    : value != NULL && !ParseObject::checkIntegrity ()
@@ -827,7 +827,7 @@ int ParseUpperExact::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object.
 //Parameters  : pObjectList: NULL-terminated array of pointers to objects to parse
-//              description: Description of object (what it parses)
+//              description: Description of the object (what it parses)
 //              max: Maximal cardinality, how often can the object be parsed
 //              min: Minimal cardinality, how often must the object be parsed
 //              skipWhitespace: Flag if whitespaces should bS are skipped
@@ -953,7 +953,7 @@ int ParseSequence::checkIntegrity () const {
 /*--------------------------------------------------------------------------*/
 //Purpose     : Constructor; sets the neccessary data of this object.
 //Parameters  : pObjectList: NULL-terminated array of pointers to objects to parse
-//              description: Description of object (what it parses)
+//              description: Description of the object (what it parses)
 //              max: Maximal cardinality, how often can the object be parsed
 //              min: Minimal cardinality, how often must the object be parsed
 //              skipWhitespace: Flag if TRAILING whitespaces should be skipped after sucessfully parsing the object

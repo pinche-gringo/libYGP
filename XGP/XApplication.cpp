@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.20 2003/02/05 03:15:52 markus Exp $
+//$Id: XApplication.cpp,v 1.21 2003/02/18 02:55:19 markus Exp $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -41,10 +41,10 @@
 
 #include <Internal.h>
 
-#include "Check.h"
+#include <Check.h>
 #include <Trace_.h>
-#include <Process.h>
-#include "StackTrc.h"
+#include <Process_.h>
+#include <StackTrc.h>
 
 #include <Tokenize.h>
 
@@ -221,10 +221,10 @@ void XApplication::addMenus (const MenuEntry menuEntries[], int cMenus) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the program for internationalition by setting the
+//Purpose   : Initializes the program for internationalization by setting the
 //            locale and loading the messagefile.
 //Parameters: package: Name of the message-catalog
-//            dir: root-directory for message-catalogs
+//            dir: Root-directory for message-catalogs
 /*--------------------------------------------------------------------------*/
 void XApplication::initI18n (const char* package, const char* dir) {
    assert (package); assert (dir);
@@ -235,7 +235,7 @@ void XApplication::initI18n (const char* package, const char* dir) {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Initializes the program for internationalition by setting the
+//Purpose   : Initializes the program for localization by setting the
 //            locale and loading the messagefile.
 /*--------------------------------------------------------------------------*/
 void XApplication::initI18n () {
@@ -243,7 +243,10 @@ void XApplication::initI18n () {
 }
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Adds a help-menu at the end of the menu
+//Purpose   : Adds a help-menu at the end of the menu. This menu consists of
+//            an "About"-entry and - if the method getHelpfile does return a
+//            value - entries to display a help-file and to configure the help
+//            browser.
 /*--------------------------------------------------------------------------*/
 void XApplication::showHelpMenu () {
    MenuEntry menuItems[] = {
