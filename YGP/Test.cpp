@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.31 2000/04/02 01:25:09 Markus Exp $
+// $Id: Test.cpp,v 1.32 2000/04/21 00:56:16 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -158,11 +158,8 @@ int Application::perform (int argc, const char* argv[]) {
 
    cout << "Testing Parser...\n";
    CBParseAttomic nr ("\\9", "Number", foundNumber, 4, 2);
-#ifdef _MSC_VER
-   OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this, foundAlpha, 4, 2);
-#else
-   OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this, &foundAlpha, 4, 2);
-#endif
+   OFParseAttomic<Application> alpha ("\\X", "Alphanum", *this,
+                                      &Application::foundAlpha, 4, 2);
    ParseExact exact ("234", "234");
    ParseUpperExact upper ("9A42", "9A42");
    ParseObject* lstSeq[] = { &nr, &exact, NULL };
