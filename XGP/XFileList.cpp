@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.35 2004/01/15 06:26:35 markus Rel $
+//$Id: XFileList.cpp,v 1.36 2004/01/17 04:03:36 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -46,8 +46,6 @@
 
 #include "XGP/XFileList.h"
 
-
-namespace XGP {
 
 static const char* iconDirectory[] = {
    "16 16 9 1",
@@ -126,6 +124,8 @@ static Glib::RefPtr<Gdk::Pixbuf> iconExe;
 
 static std::map<std::string, Glib::RefPtr<Gdk::Pixbuf> > icons;
 
+
+namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; loads the default icons to display in the listbox
