@@ -1,5 +1,5 @@
 <!-- -*-HTML-*- -->
-<!-- $Id: index.html,v 1.17 2003/08/03 19:27:42 markus Rel $ -->
+<!-- $Id: index.html,v 1.18 2003/10/19 04:57:28 markus Rel $ -->
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 "http://www.w3.org/TR/html4/strict.dtd">
@@ -36,13 +36,16 @@
         used/installed operating system/library.</dd>
 
       <dt><b><a href="XGP/index.html">libXGP</a></b></dt>
-      <dd>Classes for the X-windows system; basing on gtkmm/gtk+ (only made
-         when a proper installation of gtkmm (formerly known as Gtk--) is
-         found).</dd>
+      <dd><p>Classes for the X-windows system; basing on gtkmm/gtk+ (only made
+          when a proper installation of gtkmm (formerly known as Gtk--) is
+          found).</p>
+
+        <p> An installed libgtkhtml enables displaying the help in a
+          dialog (else a browser is used).</p></dd>
 
       <dt><b>libCGP</b></dt>
-      <dd>Classes to be used with CORBA (only made when a
-          CORBA-implementation (MICO) is found).
+      <dd><p>Classes to be used with CORBA (only made when a
+          CORBA-implementation (MICO) is found).</p>
 
         <p>At the moment there exists no documentation (as actually hardly any
           classes).</p></dd>
@@ -64,6 +67,7 @@
     <h2>Installation</h2>
     <p>Principally according the GNU make system:</p>
     <pre>
+  ./configure
   make
   [make check]
   make install</pre>
