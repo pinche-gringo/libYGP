@@ -1,4 +1,4 @@
-<!-- $Id: FileRExp.html,v 1.1 2000/03/26 18:21:54 Markus Exp $ -->
+<!-- $Id: FileRExp.html,v 1.2 2000/03/26 18:25:39 Markus Exp $ -->
 
 <html>
   <head>
@@ -22,13 +22,14 @@
     <p>The following characters have a special meaning:</p>
 
     <ul>
-      <li>'*': matches any number of any characters</li>
-      <li>'?': matches any single character</li>
-      <li>'[&lt;match&gt;]:  matches the characters specified in match</li>
-      <li> '[^&lt;match&gt;]: matches the characters not specified in match.</li>
+      <li><b>*</b>: matches any number of any characters</li>
+      <li><b>?</b>: matches any single character</li>
+      <li><b>[&lt;match&gt;]</b>:  matches the characters specified in match</li>
+      <li><b>[^&lt;match&gt;]</b>: matches the characters not specified in match.</li>
     </ul>
-    <p>&lt;match&gt; ::= | &lt;char&gt;&lt;match&gt; | &lt;region&gt;&lt;match&gt; | {}<br>
-      &lt;region&gt; ::= &lt;low&gt;-&lt;high&gt;</p>
+    <p>&lt;<i>match</i>&gt; ::= | &lt;<i>char</i>&gt;&lt;<i>match</i>&gt; |
+      &lt;<i>region</i>&gt;&lt;<i>match</i>&gt; | {}<br>
+      &lt;<i>region</i>&gt; ::= &lt;<i>low</i>&gt;-&lt;<i>high</i>&gt;</p>
     
     <p>Examples are: [a-zA-Z0-9]* for all words starting with a letter or a
       number or [^aeiuo]?? for all three letter long words starting with no
