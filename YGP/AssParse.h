@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.5 2002/05/24 06:52:49 markus Rel $
+//$Id: AssParse.h,v 1.6 2002/12/15 22:15:53 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -47,9 +47,8 @@ class AssignmentParse : public Tokenize {
    std::string getActValue () const;
 
    static std::string makeAssignment (const char* key, const char* value,
-                                      size_t length = std::string::npos);
-   static std::string makeAssignment (const char* key, const std::string& value,
-                                      size_t length = std::string::npos);
+                                      size_t length = -1);
+   static std::string makeAssignment (const char* key, const std::string& value);
 
    static const char SEPERATOR;
    static const char EQUALSIGN;
