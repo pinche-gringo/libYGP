@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.7 2000/02/11 22:59:41 Markus Exp $
+//$Id: ANumeric.cpp,v 1.8 2000/02/19 15:42:38 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -54,7 +54,7 @@ static void print (ostream& out, long outValue);
 
 
 // Static (global) variables
-static struct lconv* loc (NULL);
+static struct lconv* loc = NULL;
 
 
 /*--------------------------------------------------------------------------*/
@@ -111,8 +111,8 @@ std::string ANumeric::toString () const {
       char* pString (mpz_get_str (NULL, 10, value)); assert (pString);
 #else
       char* pString = new char [16];
-      ostrstream str (pString, 16);
-      str << value;
+      ostrstream ostr (pString, 16);
+      ostr << value << '\0';
       
 #endif
       TRACE1 ("ANumeric::toString -> value = " << pString);
@@ -265,15 +265,27 @@ ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
 /*--------------------------------------------------------------------------*/
 int ANumeric::compare (const ANumeric& other) {
    if (isDefined () && other.isDefined ())     // Both sides defined -> compare
+#ifdef HAVE_LIBGMP
       return mpz_cmp (value, other.value);
+#else
+      return (value > other.value) ? 1 : (value < other.value) ? -1 : 0;
+#endif
 
    int rc;
    if (isDefined ())                            // this defined: Compare with 0
+#ifdef HAVE_LIBGMP
       rc = mpz_cmp_ui (value, 0);              // other defined: Compare with 0
+#else
+      rc = (value < 0) ? -1 : (value > 0) ? 1 : 0;
+#endif
    else if (other.isDefined ())                      // Both not defined: Equal
       return 0;
    else
+#ifdef HAVE_LIBGMP
       rc = -mpz_cmp_ui (other.value, 0);
+#else
+      rc = (value < 0) ? 1 : (value > 0) ? -1 : 0;
+#endif
    return rc ? rc : 1;                // If comp with 0 is equal: Return bigger
 }
 
@@ -338,6 +350,6 @@ ANumeric operator/ (const ANumeric& lhs, const ANumeric& rhs) {
 /*--------------------------------------------------------------------------*/
 ostream& operator<< (ostream& out, const ANumeric& outValue) {
    if (outValue.isDefined ())
-      out << outValue.toString ();
+      out << outValue.toString ().c_str ();
    return out;
 }
