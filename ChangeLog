@@ -1,6 +1,37 @@
+2003-10-02  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.6.22 added
+
+	* INSTALL: Typo corrected
+
+	* po/de.po, po/en.po, po/es.po: Line numbers actualized
+
+	* X-windows/Folder.cpp, X-windows/Folder.h, X-windows/XApplication.h, X-windows/XDate.h, X-windows/XDialog.h, X-windows/XFileDlg.h, X-windows/XFileList.h, X-windows/XPrintDlg.h:
+	  Fixed warnings with new doxygen
+
+	* Common/ADate.h, Common/ANumeric.cpp, Common/ATime.h, Common/AttrParse.cpp, Common/CRegExp.h, Common/DirSrch.h, Common/File.h, Common/FileRExp.h, Common/IDirSrch.h, Common/INIFile.h, Common/IVIOAppl.cpp, Common/Parse.h, Common/Process_.h, Common/RDirSrch.cpp, Common/RDirSrch.h, Common/RDirSrchSrv.cpp, Common/RemoteFile.cpp, Common/Thread.h, Common/XDirSrch.h:
+	  Fixed doxygen warnings
+
+2003-09-18  Markus Schwab  <g17m0@lycos.com>
+
+	* ANumeric.cpp: Fixed getUnformattedString without libGMP
+
+2003-09-11  Markus Schwab  <g17m0@lycos.com>
+
+	* Tests/IVIOAppl.cpp:
+	  Suppressing compiler warning about truncated debug info
+
+	* Tests/AssParse.cpp: Workaround for compiling problem with MSVC
+
+	* Process.cpp, Process_.h: Added getPID method
+
+	* StackTrc.cpp: Disabling MSC warnings
+
+	* Log.h, Version.cpp: Storing application name globaly for each process
+
 2003-09-05  Markus Schwab  <g17m0@lycos.com>
 
-	* ChangeLog, NEWS: Changes of V0.6.21 cummented
+	* ChangeLog, NEWS: Changes of V0.6.21 commented
 
 	* po/es.po: Fixes
 
@@ -10,14 +41,6 @@
 
 	* Common/ConnectDlg.cpp, Common/ConnectDlg.h:
 	  Implemented okEvent to free communiation thread
-
-2003-08-12  Markus Schwab  <g17m0@lycos.com>
-
-	* ChangeLog, NEWS: Changes of V0.6.20 commented
-
-	* po/de.po: Minor corrections
-
-	* po/de.po, po/en.po, po/es.po: Actualized
 
 2003-08-03  Markus Schwab  <g17m0@lycos.com>
 
