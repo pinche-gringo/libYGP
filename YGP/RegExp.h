@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.8 2002/12/08 18:41:06 markus Rel $
+//$Id: RegExp.h,v 1.9 2003/07/16 07:00:22 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,26 +19,35 @@
 
 #include <Check.h>
 
-// Base-class for any regular expression. Provides interface for other
-// regular-expression-like classes.
-//
-// Note: The pExpression-parameter is stored as is (and not copied); so take
-//       care it is valid during the life-time of the object.
+/**Base-class for any regular expression. Provides interface for other
+   regular-expression-like classes.
+
+   \note The <tt>pExpression</tt>-parameter is stored as is (and not copied);
+       so take care it is valid during the life-time of the object.
+*/
 class IRegularExpression {
  public:
+   /// Checks, if the regular expression matches the passed text
+   /// \param pCompare: Pointer to text to match
    bool matches (const char* pCompare) {
       Check1 (pCompare); Check1 (pRegExp); Check1 (!checkIntegrity ());
       return compare (pRegExp, pCompare); }
 
+   /// Checks the integrity of the object
    virtual int checkIntegrity () const { return 0; }
 
  protected:
+   /// Constructor; sets the regular expression
    IRegularExpression (const char* pExpression) : pRegExp (pExpression) { }
+   /// Destructor
    virtual ~IRegularExpression () { }
 
+   /// Assignment operator; sets the regular expression
    IRegularExpression& operator= (const char* pExpr) { pRegExp = pExpr; return *this; }
+   /// Returns the regular expression
    const char* getExpression () const { return pRegExp; }
 
+   /// Method to compare (a part of) the regular expression with some text
    virtual bool compare (const char* pAktRegExp, const char* pCompare) = 0;
 
  private:
