@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.14 2003/02/13 07:15:57 markus Exp $
+//$Id: RDirSrchSrv.cpp,v 1.15 2003/03/03 05:59:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -32,6 +32,7 @@
 
 #include "Internal.h"
 
+#define TRACELEVEL -1
 #include "File.h"
 #include "Check.h"
 #include "Trace_.h"

@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.9 2003/02/13 07:15:57 markus Exp $
+// $Id: RemoteFile.cpp,v 1.10 2003/03/03 05:59:28 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Anticopyright (A) 2001, 2002
@@ -30,6 +30,7 @@
 
 #include <gzo-cfg.h>
 
+#define TRACELEVEL -1
 #include "Check.h"
 #include "Trace_.h"
 #include "Internal.h"
