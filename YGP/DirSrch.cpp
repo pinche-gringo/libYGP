@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.24 2001/01/19 14:38:47 Markus Exp $
+//$Id: DirSrch.cpp,v 1.25 2001/04/02 21:00:44 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -43,45 +43,12 @@
 
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : Copyconstructor
-//Parameter : o: Object to copy
-/*--------------------------------------------------------------------------*/
-dirEntry::dirEntry (const dirEntry& o) : path_ (o.path_)
-#if SYSTEM == UNIX
-   , entry (o.entry), status (o.status), userExec (o.userExec)
-#else
-#  if SYSTEM == WINDOWS
-   , WIN32_FIND_DATA (o)
-#  else
-#     error Not implemented!
-#  endif
-#endif
-{
-}
-
-/*--------------------------------------------------------------------------*/
 //Purpose   : Destructor
 /*--------------------------------------------------------------------------*/
 DirectorySearch::~DirectorySearch () {
    cleanup ();
 }
 
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Assignmentoperator
-//Parameter : o: Object to copy
-/*--------------------------------------------------------------------------*/
-const dirEntry& dirEntry::operator= (const dirEntry& o) {
-   if (this != &o) {
-      path_ = o.path_;
-#if SYSTEM == UNIX
-      entry = o.entry;
-      status = o.status;
-      userExec = o.userExec;
-#endif
-   } // endif
-   return *this;
-}
 
 /*--------------------------------------------------------------------------*/
 //Purpose   : Retrieves the first file which matches the search-criteria
@@ -214,11 +181,11 @@ void DirectorySearch::setFile (const std::string& search) {
    searchFile = search;
 
    unsigned int len (search.length ());
-   if (searchFile[len - 1] == getSplitChar ())
+   if (searchFile[len - 1] == dirEntry::DIRSEPERATOR)
       searchFile.replace (--len, 1, 0, '\0');
 
    while (len--) {
-      if (search[len] == getSplitChar ()) {
+      if (search[len] == dirEntry::DIRSEPERATOR) {
          searchDir = search;
          searchDir.replace (len + 1, searchDir.length (), 0, '\0');
          searchFile.replace (0, len + 1, 0, '\0');
@@ -255,71 +222,3 @@ void DirectorySearch::cleanup () {
 #  error Not implemented yet!
 #endif
 }
-
-
-#if SYSTEM == WINDOWS
-/*--------------------------------------------------------------------------*/
-//Purpose   : Tests, if the file is executeable. This is decided on the file-
-//            extension: EXE-, COM- and BAT-files are considered executeable
-//Returns   : Flag, if file is executeable
-//Remarks   : Other also executeable files (like 4DOS BTM-files; I think
-//            there's even another WINDOZE-format) are not considered as exes.
-/*--------------------------------------------------------------------------*/
-bool dirEntry::isExecuteable () const {
-   const char* pEnd = strrchr (cFileName, '.');
-   if (pEnd++)
-      // Check the next 4 bytes; ignore end-of-string, the buffer is long
-      // enough (MAX_PATH) and the trailing \0 is in the compare
-      switch (toupper (*pEnd++) + (toupper (*pEnd++) << 8)
-              + (toupper (*pEnd++) << 16) + (toupper (*pEnd) << 24)) {
-#if defined __BORLANDC__ || defined __GNUG__
-      case 'EXE\0' :
-      case 'COM\0' :
-      case 'BAT\0' :
-#else
-#  ifdef _MSC_VER
-      case '\0EXE' :
-      case '\0MOC' :
-      case '\0TAB' :
-#  else
-#     error Unsupported compiler! Please check how long character-constants are treated.
-#  endif
-#endif
-	 return true;
-      } // end-switch
-   return false;
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the time of the file in a time_t.
-//Returns   : struct tm*: Pointer to time
-//Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
-/*--------------------------------------------------------------------------*/
-const time_t dirEntry::time () const {
-   struct tm fileTime;
-   time (fileTime);
-   return mktime (&fileTime);
-}
-
-/*--------------------------------------------------------------------------*/
-//Purpose   : Returns the time of the file in a (C-)struct tm.
-//Returns   : struct tm*: Pointer to time
-//Remarks   : The tm_wday, tm_yday and tm_isdst-members are not set!
-/*--------------------------------------------------------------------------*/
-void dirEntry::time (struct tm& time) const {
-   FILETIME fileTemp;
-   SYSTEMTIME sysTime;
-   FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
-   FileTimeToSystemTime (&fileTemp, &sysTime);
-   time.tm_sec = sysTime.wSecond;
-   time.tm_min = sysTime.wMinute;
-   time.tm_hour = sysTime.wHour;
-   time.tm_mday = sysTime.wDay;
-   time.tm_wday = sysTime.wDayOfWeek;
-   time.tm_mon = sysTime.wMonth - 1; assert ((time.tm_mon >= 0) && (time.tm_mon <= 11));
-   time.tm_year = sysTime.wYear - 1900; assert (time.tm_year >= 0);
-   time.tm_yday = 0;                                                  // TODO?
-   time.tm_isdst = 1;
-}
-
-#endif
