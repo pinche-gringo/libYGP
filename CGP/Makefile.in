@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.19 2004/01/21 17:35:49 markus Rel $
+# $Id: Makefile.in,v 1.20 2005/03/21 18:15:47 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -40,6 +40,7 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 pkgconfigDATA_INSTALL = $(INSTALL_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkdir_p = @mkdir_p@
 
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -209,13 +210,17 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 	for subdir in $(SUBDIRS); do \
-	  echo "Checking subdir: " $$subdir; \
 	  if test "$$subdir" = .; then :; else \
-	    test -d $(distdir)/$$subdir \
-	    || mkdir $(distdir)/$$subdir \
+	    test -d "$(distdir)/$$subdir" \
+	    || $(mkdir_p) "$(distdir)/$$subdir" \
 	    || exit 1; \
-	    chmod 777 $(distdir)/$$subdir; \
-	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    distdir=`$(am__cd) $(distdir) && pwd`; \
+	    top_distdir=`$(am__cd) $(top_distdir) && pwd`; \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$(top_distdir)" \
+	        distdir="$(distdir)/$$subdir" \
+	        distdir) \
 	      || exit 1; \
 	  fi; \
 	done
