@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.7 2002/10/20 23:19:43 markus Exp $
+//$Id: Thread.h,v 1.8 2002/10/23 05:53:04 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,6 +55,15 @@ class Thread {
    void isToCancel () const;
 
    unsigned long getID () const { return id; }
+   static unsigned long currentID () {
+#ifdef HAVE_LIBPTHREAD
+      return pthread_self ();
+#elif defined HAVE_BEGINTHREAD
+      return GetCurrentThreadId ();
+#elif
+      return getpid ();
+#endif
+   }
 
  protected:
    Thread ();
