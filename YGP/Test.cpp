@@ -1,11 +1,11 @@
-// $Id: Test.cpp,v 1.18 1999/10/12 00:23:41 Markus Exp $
+// $Id: Test.cpp,v 1.19 1999/10/13 00:09:43 Markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Anticopyright (A) 1999
@@ -235,10 +235,14 @@ int Application::perform (int argc, char* argv[]) {
    check (!regExp.checkIntegrity () && regExp.matches ("afb") && !regExp.matches ("axb"));
 
    cout << "Testing ADate...\n";
-   ADate today (true);
+   ADate today;
+   check (!today.isDefined ());
    ADate past (false);
+   check (past.isDefined ());
+   check (today < past);
 
-   check (today == ADate::today ()); 
+   today = ADate::today ();
+   check (today.isDefined ());
    check (today > past);
 
    today.sub (0, 1);
