@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.27 2003/06/02 01:32:39 markus Exp $
+//$Id: XFileList.cpp,v 1.28 2003/06/11 04:31:01 markus Rel $
 
 //PROJECT     : XGeneral
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -227,6 +227,7 @@ Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
    } // end-else
    Check3 (actIcon);
 
+   (*row)[cols.name] = file.name ();
    (*row)[cols.icon] = actIcon;
    return row;
 }
