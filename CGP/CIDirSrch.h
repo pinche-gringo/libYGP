@@ -1,7 +1,7 @@
 #ifndef CIDIRCOMP_H
 #define CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.3 2001/09/10 00:55:13 markus Rel $
+//$Id: CIDirSrch.h,v 1.4 2002/07/08 03:31:00 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,14 +19,14 @@
 
 #include <CORBA.h>
 
-#include <DirEntry.h>
+#include <File.h>
 
 #include <DirSrch.h>
 #include <CDirSrch.h>
 
-class CIDirEntry : virtual public CDirEntry_skel, virtual public dirEntry {
+class CIFile : public CFile {
  public:
-   CIDirEntry (const dirEntry& other);
+   CIFile (const File& other);
 
    char*        path ();
    char*        name ();
@@ -39,22 +39,22 @@ class CIDirEntry : virtual public CDirEntry_skel, virtual public dirEntry {
    CORBA::Boolean isUserExec ();
 
    CORBA::Short compare (const char* file);
-   CORBA::Short compareObject (CDirEntry_ptr other);
+   CORBA::Short compareObject (CFile_ptr other);
+
+ private:
+   const File* pFile;
 };
 
 
 class CIDirectorySearch : virtual public CDirectorySearch,
 			  virtual public DirectorySearch {
  public:
-   CDirEntry_ptr find (const char* file, CORBA::ULong attr);
-   CDirEntry_ptr findnext ();
+   CFile_ptr find (const char* file, CORBA::ULong attr);
+   CFile_ptr findnext ();
 
    char* getSearchValue ();
 
-   static CORBA::Char getSplitChar () { return dirEntry::DIRSEPERATOR; }
-
- private:
-   CIDirEntry entry;
+   static CORBA::Char getSplitChar () { return File::DIRSEPARATOR; }
 };
 
 

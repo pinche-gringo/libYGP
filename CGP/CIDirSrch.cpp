@@ -1,11 +1,11 @@
-//$Id: CIDirSrch.cpp,v 1.4 2001/08/22 01:38:28 markus Rel $
+//$Id: CIDirSrch.cpp,v 1.5 2002/07/08 03:31:00 markus Exp $
 
 //PROJECT     : General/CORBA
 //SUBSYSTEM   : CDirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -25,82 +25,78 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <assert.h>
+
 #include "ATStamp.h"
 #include "CIDirSrch.h"
 
 
-static unsigned long aAttributes[] = { DirectorySearch::FILE_NORMAL,
-                                       DirectorySearch::FILE_READONLY,
-                                       DirectorySearch::FILE_DIRECTORY,
-                                       DirectorySearch::FILE_HIDDEN };
-
-
-CIDirEntry::CIDirEntry (const dirEntry& other) : dirEntry (other) {
+CIFile::CIFile (const File& other) : pFile (&other) {
 }
 
-char* CIDirEntry::path () {
-   return const_cast <char*> (dirEntry::path ());
+char* CIFile::path () {
+   assert (pFile);
+   return const_cast <char*> (pFile->path ());
 }
 
-char* CIDirEntry::name () {
-   return const_cast <char*> (dirEntry::name ());
+char* CIFile::name () {
+   assert (pFile);
+   return const_cast <char*> (pFile->name ());
 }
 
-CORBA::ULong CIDirEntry::size () {
-   return dirEntry::size ();
+CORBA::ULong CIFile::size () {
+   assert (pFile);
+   return pFile->size ();
 }
 
-char* CIDirEntry::time () {
-   ATimestamp time (dirEntry::time ());
+char* CIFile::time () {
+   assert (pFile);
+   ATimestamp time (pFile->time ());
    return const_cast<char*> (time.toString ().c_str ());
 }
 
-CORBA::ULong CIDirEntry::attributes () {
-   unsigned long attrs (dirEntry::attributes ());
-   unsigned long result (0);
-
-   // Convert dirEntry-attributes to format of component
-   for (int i (0); i < (sizeof (aAttributes) / sizeof (aAttributes[0])); ++i)
-      if ((attrs & aAttributes[i]) == aAttributes[i])
-         result |= (1 << i);
-   return result;
+CORBA::ULong CIFile::attributes () {
+   assert (pFile);
+   return IDirectorySearch::convertFromSysAttribs (pFile->attributes ());
 }
 
-CORBA::Boolean CIDirEntry::isDirectory () {
-   return dirEntry::isDirectory ();
+CORBA::Boolean CIFile::isDirectory () {
+   assert (pFile);
+   return pFile->isDirectory ();
 }
 
-CORBA::Boolean CIDirEntry::isExecuteable () {
-   return dirEntry::isExecuteable ();
+CORBA::Boolean CIFile::isExecuteable () {
+   assert (pFile);
+   return pFile->isExecuteable ();
 }
 
-CORBA::Boolean CIDirEntry::isUserExec () {
-   return dirEntry::isUserExec ();
+CORBA::Boolean CIFile::isUserExec () {
+   assert (pFile);
+   return pFile->isUserExec ();
 }
 
-CORBA::Short CIDirEntry::compare (const char* file) {
-   return dirEntry::compare (file);
+CORBA::Short CIFile::compare (const char* file) {
+   assert (pFile);
+   return pFile->compare (file);
 }
 
-CORBA::Short CIDirEntry::compareObject (CDirEntry_ptr other) {
-   return dirEntry::compare (dynamic_cast<dirEntry*> (other));
+CORBA::Short CIFile::compareObject (CFile_ptr other) {
+   assert (pFile);
+   return pFile->compare (other->name ());
 }
 
 
 
-CDirEntry_ptr CIDirectorySearch::find (const char* file, CORBA::ULong attr) {
-   unsigned long attrs (0);
-
-   // Convert attributes to format of dirEntry
-   for (int i (0); i < (sizeof (aAttributes) / sizeof (aAttributes[0])); ++i)
-      if (attr & i)
-         attrs |= aAttributes[i];
-   
-   return DirectorySearch::find (file, entry, attrs) ? &entry : NULL;
+CFile_ptr CIDirectorySearch::find (const char* file, CORBA::ULong attr) {
+   const File* pEntry (DirectorySearch::find (file, attr));
+   assert (pEntry);
+   return new CIFile (*pEntry);
 }
 
-CDirEntry_ptr CIDirectorySearch::findnext () {
-   return DirectorySearch::find () ? &entry : NULL;
+CFile_ptr CIDirectorySearch::findnext () {
+   const File* pEntry (DirectorySearch::next ());
+   assert (pEntry);
+   return new CIFile (*pEntry);
 }
 
 char* CIDirectorySearch::getSearchValue () {

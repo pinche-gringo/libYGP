@@ -1,11 +1,11 @@
-//$Id: CDirSrch.idl,v 1.4 2001/08/22 01:37:57 markus Rel $
+//$Id: CDirSrch.idl,v 1.5 2002/07/08 03:31:00 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : CORBA
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.1.2001
 //COPYRIGHT   : Anticopyright (A) 2001
@@ -24,7 +24,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-interface CDirEntry {
+interface CFile {
    // Retrieve information
    string        path ();
    string        name ();
@@ -39,12 +39,12 @@ interface CDirEntry {
 
    // Compare
    short compare (in string name);
-   short compareObject (in CDirEntry other);
+   short compareObject (in CFile other);
 };
 
 interface CDirectorySearch {
-   CDirEntry find (in string file, in unsigned long attr);
-   CDirEntry findnext ();
+   CFile find (in string file, in unsigned long attr);
+   CFile findnext ();
 
    string getSearchValue ();
 
