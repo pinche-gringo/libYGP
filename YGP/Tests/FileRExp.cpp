@@ -1,11 +1,11 @@
-// $Id: FileRExp.cpp,v 1.4 2003/07/09 00:05:02 markus Rel $
+// $Id: FileRExp.cpp,v 1.5 2003/10/11 18:13:41 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/FileRExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -23,6 +23,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#include <gzo-cfg.h>
 
 #include <iostream>
 
@@ -46,7 +48,16 @@ int main (int argc, char* argv[]) {
 
    regExp = "[[:alpha:]]";
    check (!regExp.checkIntegrity ());
-   check (regExp.matches ("x"));
+   // Check named character classes especially; not all fmatch versions
+   // understand them
+   if (!regExp.matches ("x")) {
+#ifdef HAVE_FNMATCH
+       std::cout << "    -> Warning: Your fnmatch does not support named character classes\n"
+                    "    -> Failed (regExp.matches (\"x\"); line " << __LINE__ << ")\n" << std::flush;
+#else
+       ERROROUT ("regExp.matches (\"x\")");
+#endif
+   }
    check (!regExp.matches (":"));
 
    if (cErrors)
