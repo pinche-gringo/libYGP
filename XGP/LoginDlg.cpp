@@ -1,11 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.6 2004/12/29 18:16:32 markus Rel $
+//$Id: LoginDlg.cpp,v 1.7 2005/01/07 04:54:59 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -43,7 +43,7 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 ILoginDialog::ILoginDialog (const Glib::ustring& title)
    : XGP::XDialog (NONE), pClient (new Gtk::Table (2, 2)) {
-   set_title (title.size () ? title : _("Enter login information"));
+   set_title (title.size () ? title : Glib::locale_to_utf8 (_("Enter login information")));
 
    pClient->show ();
 
@@ -51,11 +51,11 @@ ILoginDialog::ILoginDialog (const Glib::ustring& title)
    txtPassword = manage (new Gtk::Entry ());
    txtPassword->set_visibility (false);
 
-   Gtk::Label* lbl (new Gtk::Label (_("_Userid:"), true));
+   Gtk::Label* lbl (new Gtk::Label (Glib::locale_to_utf8 (_("_Userid:")), true));
    lbl->set_mnemonic_widget (*txtUser);
    pClient->attach (*manage (lbl), 0, 1, 0, 1, Gtk::SHRINK, Gtk::SHRINK, 5, 5);
 
-   lbl = new Gtk::Label (_("_Password:"), true);
+   lbl = new Gtk::Label (Glib::locale_to_utf8 (_("_Password:")), true);
    lbl->set_mnemonic_widget (*txtPassword);
    pClient->attach (*manage (lbl), 0, 1, 1, 2, Gtk::SHRINK, Gtk::SHRINK, 5, 5);
    pClient->attach (*txtUser, 1, 2, 0, 1, Gtk::FILL | Gtk::EXPAND,
@@ -67,7 +67,7 @@ ILoginDialog::ILoginDialog (const Glib::ustring& title)
 
    txtUser->signal_changed ().connect (mem_fun (*this, &ILoginDialog::inputChanged));
 
-   ok = new Gtk::Button (_("_Login"), true);
+   ok = new Gtk::Button (Glib::locale_to_utf8 (_("_Login")), true);
    get_action_area ()->pack_start (*ok, false, false, 5);
    ok->set_flags (Gtk::CAN_DEFAULT);
    ok->grab_default ();
