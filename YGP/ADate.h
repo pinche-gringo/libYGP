@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.29 2003/11/14 20:27:55 markus Rel $
+//$Id: ADate.h,v 1.30 2004/11/07 22:02:30 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #include <string>
 
 #include <YGP/Check.h>
-#include <YGP/AttrVal.h>
+#include <YGP/AYear.h>
 
 
 // Forward declarations
@@ -38,7 +38,7 @@ namespace std {
 
 namespace YGP {
 
-/**Class for date attributes. As every AttributValue is supports undefined
+/**Class for date attributes. As every AYear is supports undefined
    values.
 
    \note It's possible to calculate with ADate objects. But beware, that the
@@ -48,14 +48,14 @@ namespace YGP {
 
    \invariant Objects hold always a valid date; even if they are not defined.
 */
-class ADate : public AttributValue {
+class ADate : public AYear {
  public:
    ADate ()                /// Default constructor; creates an undefined object
-       : AttributValue (), day (1), month (1), year (1900) { }
+       : day (1), month (1)  { year = 1900; }
    ADate (bool now);
    ADate (const ADate& other)     /// Copy constructor from another date object
-       : AttributValue ((const AttributValue&)other)
-       , day (other.day), month (other.month), year (other.year) { }
+       : AYear ((const AYear&)other)
+       , day (other.day), month (other.month) { }
    ADate (char Day, char Month, int Year) throw (std::invalid_argument);
    ADate (const char* pDate) throw (std::invalid_argument) {
        operator= (pDate); }          ///< Constructor from a text (unformatted)
@@ -77,6 +77,8 @@ class ADate : public AttributValue {
       return operator= (*gmtime (&date)); }
    ADate& operator= (const ADate& other);
    ADate& operator= (const char* pValue) throw (std::invalid_argument);
+
+   void assign (const char* pTime, unsigned int len);
 
    virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
    //@}
@@ -146,9 +148,6 @@ class ADate : public AttributValue {
    /// Returns the maximal day of the specified \c month (in the passed \c year)
    char maxDayOf () const { return maxDayOf (month, year); }
    static char maxDayOf (char month, int year);
-   static bool isLeapYear (int year);
-   bool isLeapYear () const {      /// Tests, if the actual year is a leap year
-      return isLeapYear (year); }
 
    virtual int checkIntegrity () const;
    //@}
@@ -163,7 +162,6 @@ class ADate : public AttributValue {
  private:
    unsigned char day;
    unsigned char month;
-   int           year;
 };
 
 }

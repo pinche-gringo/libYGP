@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.40 2004/11/04 16:31:18 markus Exp $
+//$Id: ADate.cpp,v 1.41 2004/11/07 22:02:30 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -49,7 +49,7 @@ namespace YGP {
 /// of January, 1900 (now = false), or to the current day (now = true)
 /// \param now: Flag which date to set (1900/1/1 (false) or now (true))
 //----------------------------------------------------------------------------
-ADate::ADate (bool now) : AttributValue () {
+ADate::ADate (bool now) : AYear () {
    if (now)
       operator= (time (NULL));
    else
@@ -65,7 +65,7 @@ ADate::ADate (bool now) : AttributValue () {
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
 ADate::ADate (char Day, char Month, int Year) throw (std::invalid_argument)
-   : AttributValue (true), day (Day), month (Month), year (Year) {
+   : AYear (Year), day (Day), month (Month) {
    int status (checkIntegrity ());
    if (status)
       throw (std::invalid_argument (status == 2 ? "Month" : "Day"));
@@ -91,8 +91,7 @@ ADate& ADate::operator= (const ADate& other) {
 
       day = other.day;
       month = other.month;
-      year = other.year;
-      AttributValue::operator= ((const AttributValue&) other);
+      AYear::operator= ((const AYear&) other);
    }
    return *this;
 }
@@ -106,14 +105,120 @@ ADate& ADate::operator= (const ADate& other) {
 /// \throw std::invalid_argument if the characters don't represent a valid date
 //----------------------------------------------------------------------------
 ADate& ADate::operator= (const char* pValue) throw (std::invalid_argument) {
-   Check1 (pValue);
    Check1 (!checkIntegrity ());
-
    TRACE5 ("ADate::operator= (const char*): " << pValue);
 
-   std::istringstream help (pValue);
-   readFromStream (help);
+   if (pValue && *pValue)
+      assign (pValue, strlen (pValue));
+   else
+      undefine ();
    return *this;
+}
+
+//-----------------------------------------------------------------------------
+/// Assignment-operator from a const char-pointer. The date must be passed
+/// either in the local format or as DDMMY[...}. If the buffer does not
+/// represent a valid date an excpetion is thrown.
+/// \param pDate: Character array specifying date to assign
+/// \returns Reference to self
+/// \throw std::invalid_argument if the parameter does not represent a
+///     valid date
+//-----------------------------------------------------------------------------
+void ADate::assign (const char* pDate, unsigned int len) {
+   TRACE5 ("ADate::assign (const char*, unsigned int): " << pDate << " ("
+	   << len << ')');
+   if (!(len && pDate && *pDate)) {
+      undefine ();
+      return;
+   }
+
+#ifdef HAVE_STRFTIME
+   struct tm result;
+   memset (&result, '\0', sizeof (result));
+
+   const char* fail (NULL);
+   switch (len) {
+   case 12:
+   case 11:
+   case 10:
+   case 9:
+      fail = strptime (pDate, "%x", &result);
+      break;
+   case 8:
+   case 7:
+      fail = strptime (pDate, "%d %m %Y", &result);
+      break;
+   case 6:
+   case 5:
+      fail = strptime (pDate, "%d %m %y", &result);
+      break;
+   default:
+      fail = NULL;
+   } // endswitch
+   operator= (result);
+   if (!fail || *fail || (fail = pDate, checkIntegrity ())) {
+      undefine ();
+      TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << fail);
+      std::string error (_("Invalid date: %1"));
+      error.replace (error.find ("%1"), 2, 1, char ((fail - pDate) + '0'));
+      throw std::invalid_argument (error);
+   }
+#else
+   day = month = 1;
+   int read (0);
+   switch (len) {
+   case 12:
+   case 11:
+   case 10: {
+   case 9:
+      ADate tmp (22, 11, 2000);
+      std::string format (tmp.toString ());
+      unsigned int posY (format.find ("2000")); Check3 (posY != std::string::npos);
+      unsigned int posM (format.find ("11")); Check3 (posM != std::string::npos);
+      unsigned int posD (format.find ("22")); Check3 (posD != std::string::npos);
+
+      format.replace (posD, 2, "%2u");
+      format.replace (posM, 2, "%2u");
+      format.replace (posY, 2, "%2u");
+
+      read = ((posY < posM)
+	      ? ((posD < posY)
+		 ? sscanf (pDate, format.c_str (), (int*)&day, &year, (int*)&month)
+		 : ((posM < posY)
+		    ? sscanf (pDate, format.c_str (), &year, (int*)&day, (int*)&month)
+		    : sscanf (pDate, format.c_str (), &year, (int*)&month, (int*)&day)))
+	      : ((posD < posM)
+		 ? sscanf (pDate, format.c_str (), (int*)&day, (int*)&month, &year)
+		 : ((posD < posY)
+		    ? sscanf (pDate, format.c_str (), (int*)&month, (int*)&day, &year)
+		    : sscanf (pDate, format.c_str (), (int*)&month, &year, (int*)&day))));
+      if (read != 3)
+	 read = -1;
+      break; }
+
+   case 8:
+   case 7:
+   case 6:
+   case 5:
+      read = sscanf (pDate, "%2u%2u%d", (int*)&day, (int*)&month, year);
+      if (read != 3)
+	 read = -1;
+      break;
+   default:
+      read = -1;
+   } // endswitch
+   TRACE5 ("ADate::assign (const char*, unsigned int) - Read: " << read);
+
+   if ((read == -1) || checkIntegrity ()) {
+      undefine ();
+      TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << fail);
+      std::string error (_("Invalid date: %1"));
+      error.replace (error.find ("%1"), 2, 1, char ((fail - pDate) + '0'));
+   }
+   else
+      setDefined ();
+#endif
+   return;
 }
 
 //----------------------------------------------------------------------------
@@ -188,39 +293,17 @@ void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
       undefine ();
       return;
    }
-   static unsigned char ADate::*const targets[] = { &ADate::day, &ADate::month };
-   day = month = 0;
 
-   int ch;
-   int i (0);
-   for (; i < 4; ++i) {
-      ch = in.get ();
-      TRACE8 ("ADate::readFromStream (istream&): Get: " << (char)ch)
+   char buffer[40];
+   char* pb = buffer;
+   in >> *pb;
+   while (!in.eof () && !isspace (*pb)
+	  && ((unsigned int)(pb - buffer) < (sizeof (buffer) - 1)))
+      in.get (*++pb);
+   in.unget ();
+   *pb = '\0';
 
-      if ((ch == EOF) || ((ch > '9') || (ch < '0')))
-         break;
-
-      this->*(targets[i >> 1]) += (ch & 0xf);
-      if (!(i & 1))
-	 this->*(targets[i >> 1]) *= 10;
-   } // endfor
-
-   in >> year;
-   TRACE9 ("ADate::readFromStream (istream&): Read: " << (int)day << '.' << (int)month
-           << '.' << year);
-
-   if ((i < 4) || checkIntegrity ()) {
-      undefine ();
-      if (i) {
-         std::string error (_("Position %1"));
-         error.replace (error.find ("%1"), 2, 1, char (i + '0'));
-         throw std::invalid_argument (error);
-      }
-   }
-   else {
-      TRACE9 ("ADate::readFromStream (istream&): Define");
-      setDefined ();
-   }
+   operator= (buffer);
 }
 
 //----------------------------------------------------------------------------
@@ -445,18 +528,6 @@ char ADate::maxDayOf (char month, int year) {
    if (month > (unsigned char)7)    // Adapt month after july for easier calc.
       --month;
    return (unsigned char)(month & 1 ? 31 : 30);
-}
-
-//----------------------------------------------------------------------------
-/// Checks if the passed year is a leap-year (years which can be divided by 4;
-/// except if it is also divideable by 100).
-/// \param year: Year to check
-/// \return \c bool: True, if leap-year
-//----------------------------------------------------------------------------
-bool ADate::isLeapYear (int year) {
-  TRACE9 ("ADate::isLeapYear: " << year << " %4 = " << (year & 3) << " %100 = "
-           << (year % 100) << " %400 = " << (year % 400));
-   return (year & 3) ? false : (year % 100) ? true : !(year % 400);
 }
 
 //----------------------------------------------------------------------------
