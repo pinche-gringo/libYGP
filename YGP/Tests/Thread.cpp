@@ -1,14 +1,14 @@
-// $Id: Thread.cpp,v 1.5 2004/01/15 06:26:30 markus Rel $
+// $Id: Thread.cpp,v 1.6 2004/10/24 00:25:56 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2004
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,13 @@
 
 
 #include <unistd.h>
+
+#include <ygp-cfg.h>
+
+#if defined HAVE__SLEEP
+#  define sleep      _sleep
+#endif
+
 
 #include <YGP/Mutex.h>
 #include <YGP/Thread.h>
