@@ -2,7 +2,7 @@
 
 SUBDIRS=.
 
-EXTRA_DIST=index.html YMP.doxy.in XMP.doxy.in
+EXTRA_DIST=index.html YGP.doxy.in XGP.doxy.in
 
 doc:	YGP.doxy XGP.doxy
 	doxygen YGP.doxy
