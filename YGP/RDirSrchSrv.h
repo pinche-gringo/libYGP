@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.6 2001/10/02 23:04:41 markus Exp $
+//$Id: RDirSrchSrv.h,v 1.7 2001/10/08 14:30:47 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,18 +30,35 @@ class AByteArray;
 // This is the server for the RemoteDirSearch-class
 //
 // Supported commands are:
-//   - Check="<file>"
-//   - Find="<file>;Attr=<attr>
-//   - Next
-//   - End
+//   -> Check="<file>"
+//   <- RC=0
 //
-// Possible answers to those commands are
-//    - RC=<status>[;E=<errortext>]
-//    - RC=0;File="<file>";Size=<size>;Time=<timestamp>;Attr=<attributes>
+//   -> Find="<file>;Attr=<attr>
+//   <- RC=0;File="<file>";Size=<size>;Time=<timestamp>;Attr=<attributes>
 //
-// RC=0 always means, that the commands completed successfully. This is also
-// true for the "Check"-command; RC=0 means in that case, that the file has
-// been found!
+//   -> Next
+//   <- RC=0;File="<file>";Size=<size>;Time=<timestamp>;Attr=<attributes>
+//
+//   -> End
+//   <- RC=0
+//
+//   -> Open="<file>";Mode=<mode>
+//   <- RC=0;ID=<ID>
+//
+//   -> Read="<ID>;Length=<length>
+//   <- RC=0;Data="<data>"
+//
+//   -> Write=<ID>;Length=<length>;Data="<data>"
+//   <- RC=0
+//
+//   -> EOF=<ID>
+//   <- RC=0
+//
+//   -> Close=<ID>
+//   <- RC=0
+//
+// Errors are reported in the following format:
+//   - RC=<status>[;E=<errortext>]
 class RemoteDirSearchSrv {
  public:
    //@Section manager-functions
@@ -52,7 +69,9 @@ class RemoteDirSearchSrv {
 
  private:
    void writeResult (Socket& socket, const File& result) const throw (domain_error);
-   int  writeError (Socket& socket, int error) const throw (domain_error);
+   int  writeError (Socket& socket, int error, bool desc = false) const throw (domain_error);
+
+   void handleArgError (Socket& sock, const std::string& error) const;
 };
 
 #endif // RDIRSRCHSRV
