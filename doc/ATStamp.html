@@ -1,4 +1,4 @@
-<!-- $Id: ATStamp.html,v 1.1 2000/03/22 18:53:22 Markus Exp $ -->
+<!-- $Id: ATStamp.html,v 1.2 2000/03/22 19:01:19 Markus Exp $ -->
 
 <html>
   <head>
@@ -61,7 +61,7 @@
 	<td>(istream&amp; in)</td></tr>
 
       <tr valign="top"><td>bool</td>
-	<td><a href="ATStamp.html#isDefined">define</a></td><td>()</td></tr>
+	<td><a href="ATStamp.html#isDefined">isDefined</a></td><td>()</td></tr>
       <tr valign="top"><td>virtual void</td>
 	<td><a href="ATStamp.html#undefine">undefine</a></td><td>()</td></tr>
       <tr valign="top"><td>virtual void</td>
@@ -171,10 +171,10 @@
         <i>Day.month.year hour:minute:second</i>. If the string does not
 	represent a valid timestamp, the object is set to undefined.</a></p>
 
-    <p><a name="ATimestamp7"><i>ATimestamp (const struct tm&amp; time)</i> - Constructor;
+    <p><a name="ATimestamp7"><i>ATimestamp (const struct tm&amp; tm)</i> - Constructor;
 	assigns the values from the passed struct tm to the object.</a></p>
 
-    <p><a name="ATimestamp8"><i>ATimestamp (const time_t time)</i> - Constructor;
+    <p><a name="ATimestamp8"><i>ATimestamp (const time_t stamp)</i> - Constructor;
 	sets date &amp; time to the value represented by the parameter.</a></p>
 
     <p><a name="~ATimestamp"><i>virtual ~ATimestamp ()</i> - Destructor</a></p>
@@ -196,15 +196,22 @@
     <p><a name="operator=4"><i>ATimestamp&amp; operator= (const struct tm&amp; time)</i>
 	- Assignment-operator; assigns the values from the passed struct tm.</a></p>
 
-    <p><a name="operator=5"><i>ATimestamp&amp; operator= (const time_t time)</i>
+    <p><a name="operator=5"><i>ATimestamp&amp; operator= (const time_t stamp)</i>
 	- Assignment-operator; sets the time to the value represented by the
 	parameter.</a></p>
 
-    <p><a name="define"><i>void define ()</i> - Sets the time to the 1st of
-	January, 1900 0:00:00.</a></p>
-
     <p><a name="now"><i>static ATimestamp now ()</i> - Returns a
 	timestamp-object representing the current time.</a></p>
+
+    <h4>Handling of the state</h4>
+    <p><a name="isDefined"><i>bool isDefined () const</i> - Returns true if the
+	object is already defined.</a></p>
+
+    <p><a name="undefine"><i>virtual void undefine ()</i> - Undefines the
+	object.</a></p>
+
+    <p><a name="define"><i>void define ()</i> - Sets the time to the 1st of
+	January, 1900 0:00:00.</a></p>
 
     <h4>In- &amp; output, conversion</h4>
     <p><a name="readFromStream"><i>virtual void readFromStream (istream& in)</i>
