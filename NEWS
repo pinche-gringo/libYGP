@@ -1,5 +1,7 @@
 Overview of Changes in version 0.6.10:
 
+  - libAttr renamed to libYMP
+  - libXAppl renamed to libXMP
   - ATimestamp got operator<</>> to avoid ambigouity
   - Tokenize got copy constructor and assignment operator
   - Added toString-methods for ints and shorts to ANumeric

@@ -1,5 +1,29 @@
 2003-06-11  Markus Schwab  <g17m0@lycos.com>
 
+	* ChangeLog, NEWS: Changes of V0.6.10 actualized
+
+	* X-windows/Makefile.am: Created lib renamed to XMP
+
+	* X-windows/Samples/Makefile.am: Used lib renamed (to libXMP)
+
+	* Common/Makefile.am:
+	  Renamed to YMP; don't use libtools version-info (only release-info)
+
+	* Common/StackTrc.cpp:
+	  Restoring original handlers before calling dumpStack in signal handler
+
+	* CORBA/Makefile.in, CORBA/Tests/Makefile.in:
+	  Changed libAttr with libYMP; added path to local copy
+
+	* gzo-cfg.h.in: Removed the PACKAGE and VERSION-macros
+
+	* configure.in:
+	  LIBVERSION removed; Created libs renamed; AC_PROG_RANLIB removed
+
+	* README: References to lib-names actualized (to new names)
+
+	* INSTALL: Actulized make-info after checking out of CVS
+
 	* ChangeLog: Changes of V0.6.10 commented
 	
 	* po/de.po, po/en.po, po/es.po: Actualized
