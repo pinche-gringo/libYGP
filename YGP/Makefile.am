@@ -9,7 +9,7 @@ libAttr_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp \
 		   XStrBuf.cpp PathDirSrch.cpp ADate.cpp ATStamp.cpp \
 		   INIFile.h INIFile.cpp CRegExp.cpp StackTrc.cpp \
 		   AByteArray.cpp Socket.cpp RDirSrch.cpp DirEntry.cpp \
-		   RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp
+		   RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp IDirSrch.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h \
 		FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace_.h \
