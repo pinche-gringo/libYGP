@@ -21,8 +21,8 @@ Inside the directory containing the source code type
   make [make-options]
 
 
-How to build (after checking out of CVS)
-----------------------------------------
+How to build (the first time after checking out of CVS)
+-------------------------------------------------------
 
 As there is no public CVS server, these are just notes for me.
 
@@ -30,6 +30,7 @@ Additional prerequiste software:
 
   - CVS (obviously)
   - GNU gettext
+  - libtool
   - autoconf
   - automake
 
@@ -41,6 +42,7 @@ Inside the directory containing the source code type
   mv configure.in~ configure.in		      # Undo changes made by gettextize
   libtoolize
   aclocal -I m4 && automake -a && autoconf    # Create configure.in
+  autoheader				      # Create gzo-cfg.in
   ./configure [configure-options]
   make [make-options]
 
