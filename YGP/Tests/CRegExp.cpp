@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.17 2003/11/17 15:07:05 markus Rel $
+// $Id: CRegExp.cpp,v 1.18 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -73,7 +73,7 @@ int foundResult (const char* pResult, unsigned int) {
 
 
 #if SYSTEM == WINDOWS
-static const char* TESTFILE = "..\\Common\\Tests\\CRegExp.test";
+static const char* TESTFILE = "..\\YGP\\Tests\\CRegExp.test";
 #else
 static const char* TESTFILE = "CRegExp.test";
 #endif

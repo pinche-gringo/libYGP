@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.19 2003/12/05 19:49:22 markus Exp $
+//$Id: Thread.cpp,v 1.20 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Anticopyright (A) 2002
@@ -52,7 +52,7 @@
 #  include "YGP/Mutex.h"
 
 // Map of wait-mutexes (1 per thread
-static std::map<unsigned long, Mutex> mutexes;
+static std::map<unsigned long, YGP::Mutex> mutexes;
 static std::map<unsigned long, void*> rcs;
 
 #endif

@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.13 2003/11/17 15:07:05 markus Rel $
+// $Id: Parse.cpp,v 1.14 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -40,7 +40,7 @@
 #if SYSTEM == UNIX
 #  define PATH
 #else
-#  define PATH "..\\Common\\Tests\\"
+#  define PATH "..\\YGP\\Tests\\"
 #endif
 
 

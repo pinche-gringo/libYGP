@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.14 2003/11/16 19:25:55 markus Rel $
+//$Id: Log.h,v 1.15 2003/12/10 00:19:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #  include <iostream>
 #  include <map>
 
-#  include <YGP/Process_.h>
+#  include <YGP/Process.h>
 #endif
 
 #include <YGP/Check.h>

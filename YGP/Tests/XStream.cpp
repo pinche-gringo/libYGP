@@ -1,11 +1,11 @@
-// $Id: XStream.cpp,v 1.9 2003/11/14 20:27:55 markus Rel $
+// $Id: XStream.cpp,v 1.10 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStream
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -37,7 +37,7 @@ using namespace std;
 #if SYSTEM == UNIX
 #  define PATH ""
 #else
-#  define PATH "..\\Common\\Tests\\"
+#  define PATH "..\\YGP\\Tests\\"
 #endif
 
 int main (int argc, char* argv[]) {

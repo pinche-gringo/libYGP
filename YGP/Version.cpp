@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.14 2003/12/05 19:49:22 markus Exp $
+// $Id: Version.cpp,v 1.15 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -61,7 +61,7 @@ static const char* Version = "\n!@$%" PACKAGE " V" VERSION
 // Function to initialize various global data
 static const int _init () {
    bindtextdomain (PACKAGE, LOCALEDIR);
-   return Version == NULL;
+   return Version == (const void*)0;
 }
 
 
@@ -75,12 +75,12 @@ static const int init = _init ();
 #endif
 
 #  include <map>
-#  include <Log.h>
+#  include <YGP/Log.h>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-std::map <unsigned int, char*> Syslog::apAppl;
+std::map <unsigned int, char*> YGP::Syslog::apAppl;
 
 
 extern "C" {

@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.37 2003/11/17 15:07:05 markus Rel $
+//$Id: ADate.cpp,v 1.38 2003/12/10 00:19:36 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Anticopyright (A) 1999 - 2003
@@ -143,7 +143,7 @@ std::string ADate::toUnformattedString () const {
 
 //----------------------------------------------------------------------------
 /// Converts the date into a string, in the format specified by the current
-/// locale           
+/// locale
 /// \return \c std::string: String-representation of ADate
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
@@ -355,7 +355,7 @@ ADate& ADate::sub (signed char Day, signed char Month, int Year) {
 }
 
 //----------------------------------------------------------------------------
-/// Returns the (approximated) difference in days between two dates. 
+/// Returns the (approximated) difference in days between two dates.
 /// "Younger dates" (closer to the past) are considered bigger than "older
 /// dates" (further in the past; that means the numeric value of the date is
 /// compared (e.g.: "yesterday" < "today" < "tomorrow").

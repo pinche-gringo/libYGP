@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.15 2003/11/16 19:25:55 markus Rel $
+// $Id: DirSrch.cpp,v 1.16 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -41,8 +41,8 @@
 #  define PATH
 #  define PATHBACK   "../"
 #else
-#  define PATH       "..\\Common\\Tests\\"
-#  define PATHBACK   "..\\Common\\"
+#  define PATH       "..\\YGP\\Tests\\"
+#  define PATHBACK   "..\\YGP\\"
 #endif
 
 

@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.16 2003/11/16 19:25:55 markus Rel $
+// $Id: XStrBuf.cpp,v 1.17 2003/12/10 00:19:37 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : Test/XStrBuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Anticopyright (A) 2001 - 2003
@@ -35,7 +35,7 @@
 #include "Test.h"
 
 #if SYSTEM == WINDOWS
-static const char* TESTFILE = "..\\Common\\Tests\\XStrBuf.test";
+static const char* TESTFILE = "..\\YGP\\Tests\\XStrBuf.test";
 #else
 static const char* TESTFILE = "XStrBuf.test";
 #endif
