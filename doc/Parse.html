@@ -1,4 +1,4 @@
-<!-- $Id: Parse.html,v 1.5 2000/04/02 23:17:29 Markus Exp $ -->
+<!-- $Id: Parse.html,v 1.6 2000/04/03 23:51:49 Markus Exp $ -->
 
 <html>
   <head>
@@ -344,7 +344,7 @@
     <h4>Management functions</h4>
     <pre><a name="OFParseEOF1">OFParseEOF (T&amp; objToNotify, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback.</dd>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
     </dl>
     <pre><a name="~OFParseEOF">virtual ~OFParseEOF ()</a></pre>
 
@@ -576,9 +576,12 @@
 	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
 	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
       <tr valign="top"><td></td><td><a href="Parse.html#CBParseAttomic2">CBParseAttomic</a></td>
-	<td>(const <a href="Parse.html#ParseAttomic">ParseAttomic</a>&amp; other)</td></tr>
+	<td>(const <a href="Parse.html#CBParseAttomic">CBParseAttomic</a>&amp; other)</td></tr>
       <tr valign="top"><td>virtual</td>
 	<td><a href="Parse.html#~CBParseAttomic">~CBParseAttomic</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseAttomic">CBParseAttomic</a>&amp;</td>
+	<td><a href="Parse.html#CBAttoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseAttomic">CBParseAttomic</a>&amp; other)</td></tr>
 
       <tr valign="top"><td>void</td>
 	<td><a href="Parse.html#CBAttsetCallback">setCallback</a></td>
@@ -595,12 +598,15 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="CBParseAttomic1">CBParseAttomic (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <pre><a name="CBParseAttomic1">CBParseAttomic (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+                unsigned int max = 1, unsigned int min = 1,
+                bool skipWhitespace = true)</a></pre>
     <dl>
       <dd>Constructor setting the callback.</dd>
     </dl>
-    <pre><a name="CBParseAttomic2">CBParseAttomic (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <pre><a name="CBParseAttomic2">CBParseAttomic (const CBParseAttomic&amp; other)</a></pre>
     <pre><a name="~CBParseAttomic">virtual ~CBParseAttomic ()</a></pre>
+    <pre><a name="CBAttoperator=">CBParseAttomic&amp; operator= (const CBParseAttomic&amp; other)</a></pre>
 
     <pre><a name="CBAttsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
     <dl>
@@ -628,8 +634,9 @@
 
     <hr noshade="noshade">
     <h2>Description</h2>
-    <p>Class to parse the end of a file (EOF) with a callback to report
-      matching input.</p>
+    <p>Class to parse attomic values with a callback to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseAttomic">ParseAttomic</a>
+      for further details.</p>
 
     <hr noshade="noshade">
     <table border="0">
@@ -642,6 +649,9 @@
 	<td>(const <a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp; other)</td></tr>
       <tr valign="top"><td>virtual</td>
 	<td><a href="Parse.html#~OFParseAttomic">~OFParseAttomic</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp;</td>
+	<td><a href="Parse.html#OFAttoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseAttomic">OFParseAttomic</a>&amp; other)</td></tr>
 
       <tr valign="top"><td>&nbsp;</td></tr>
       <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
@@ -654,12 +664,15 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="OFParseAttomic1">OFParseAttomic (T&amp; objToNotify, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</a></pre>
+    <pre><a name="OFParseAttomic1">OFParseAttomic (const char* value, const char* description, T&amp; objToNotify,
+                <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback, unsigned int max = 1,
+                unsigned int min = 1, bool skipWhitespace = true)</a></pre>
     <dl>
-      <dd>Constructor setting the object to notify and its callback.</dd>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
     </dl>
     <pre><a name="OFParseAttomic2">OFParseAttomic (const OFParseAttomic&amp; other)</a></pre>
     <pre><a name="~OFParseAttomic">virtual ~OFParseAttomic ()</a></pre>
+    <pre><a name="OFAttoperator=">OFParseAttomic&amp; operator= (const OFParseAttomic&amp; other)</a></pre>
 
     <h4>Parsing</h4>
     <pre><a name="CBAttfound">virtual int found (const char* pFoundValue)</a></pre>
@@ -739,6 +752,138 @@
 	<td><a href="Parse.html#General">General parser-information</a></td></tr>
     </table>
 
+    <h1 align="center"><a name="CBParseText">Class CBParseText</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseText">ParseText</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse text until an abort-character with a callback to report
+      matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseText">ParseText</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseText1">CBParseText</a></td>
+	<td>(const char* abort, const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseText2">CBParseText</a></td>
+	<td>(const <a href="Parse.html#CBParseText">CBParseText</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseText">~CBParseText</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseText">CBParseText</a>&amp;</td>
+	<td><a href="Parse.html#CBTxtoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseText">CBParseText</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBTxtsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBTxtfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseText1">CBParseText (const char* abort, const char* description, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	     unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseText2">CBParseText (const CBParseText&amp; other)</a></pre>
+    <pre><a name="~CBParseText">virtual ~CBParseText ()</a></pre>
+    <pre><a name="CBTxtoperator=">CBParseText&amp; operator= (const CBParseText&amp; other)</a></pre>
+
+    <pre><a name="CBTxtsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBTxtfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseText">Class OFParseText&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseText">ParseText</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse text until an abort-character with a callback to report
+      matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseText">ParseText</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseText1">OFParseText</a></td>
+	<td>(const char* abort, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseText2">OFParseText</a></td>
+	<td>(const <a href="Parse.html#OMParseText">OFParseText</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseText">~OFParseText</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseText">OFParseText</a>&amp;</td>
+	<td><a href="Parse.html#OFTxtoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseText">OFParseText</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#OFTxtfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseText1">OFParseText (const char* abort, const char* description, T&amp; objToNotify,
+             <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
+             unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
+    </dl>
+    <pre><a name="OFParseText2">OFParseText (const OFParseText&amp; other)</a></pre>
+    <pre><a name="~OFParseText">virtual ~OFParseText ()</a></pre>
+    <pre><a name="OFTxtoperator=">OFParseText&amp; operator= (const OFParseText&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="OFTxtfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
     <h1 align="center"><a name="ParseTextEsc">Class ParseTextEsc</a></h1>
     <p>Derived from: <a href="Parse.html#ParseText">ParseText</a></p>
 
@@ -800,6 +945,141 @@
       <dd>Checks if the parsed value is according the abort-list of the object.
 	If the parsed character is inside the list and not succeeded by the
 	escape-character, false is returned; if not true.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="CBParseTextEsc">Class CBParseTextEsc</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseTextEsc">ParseTextEsc</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse text until an abort-character with a callback to report
+      matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseTextEsc">ParseTextEsc</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseTextEsc1">CBParseTextEsc</a></td>
+	<td>(const char* abort, const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, char escape = '\\',
+	  bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseTextEsc2">CBParseTextEsc</a></td>
+	<td>(const <a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseTextEsc">~CBParseTextEsc</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a>&amp;</td>
+	<td><a href="Parse.html#CBTxEoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseTextEsc">CBParseTextEsc</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBTxEsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBTxEfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseTextEsc1">CBParseTextEsc (const char* abort, const char* description, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+                unsigned int max = 1, unsigned int min = 1, char escape = '\\',
+                bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseTextEsc2">CBParseTextEsc (const CBParseText&amp; other)</a></pre>
+    <pre><a name="~CBParseTextEsc">virtual ~CBParseTextEsc ()</a></pre>
+    <pre><a name="CBTxEoperator=">CBParseTextEsc&amp; operator= (const CBParseTextEsc&amp; other)</a></pre>
+
+    <pre><a name="CBTxEsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBTxEfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseTextEsc">Class OFParseTextEsc&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseTextEsc">ParseTextEsc</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse text until an abort-character with a callback to report
+      matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseTextEsc">ParseTextEsc</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseTextEsc1">OFParseTextEsc</a></td>
+	<td>(const char* value, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, char escape = '\\',
+	  bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseTextEsc2">OFParseTextEsc</a></td>
+	<td>(const <a href="Parse.html#OMParseTextEsc">OFParseTextEsc</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseTextEsc">~OFParseTextEsc</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseTextEsc">OFParseTextEsc</a>&amp;</td>
+	<td><a href="Parse.html#OFTxEoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseTextEsc">OFParseTextEsc</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#OFTxEfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseTextEsc1">OFParseTextEsc (const char* value, const char* description, T&amp; objToNotify,
+                <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1, unsigned int min = 1,
+                char escape = '\\', bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
+    </dl>
+    <pre><a name="OFParseTextEsc2">OFParseTextEsc (const OFParseTextEsc&amp; other)</a></pre>
+    <pre><a name="~OFParseTextEsc">virtual ~OFParseTextEsc ()</a></pre>
+    <pre><a name="OFTxEoperator=">OFParseTextEsc&amp; operator= (const OFParseTextEsc&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="OFTxEfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
     </dl>
 
     <hr noshade="noshade">
@@ -874,6 +1154,161 @@
       <dd>Checks if this object is in a valid state.</dd>
     </dl>
 
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="CBParseExact">Class CBParseExact</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseExact">ParseExact</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse exactly a certain text (case-sensitive!) with a callback
+      to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseExact">ParseExact</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseExact1">CBParseExact</a></td>
+	<td>(const char* value, const char* description,
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseExact2">CBParseExact</a></td>
+	<td>(const char* value, const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseExact3">CBParseExact</a></td>
+	<td>(const <a href="Parse.html#CBParseExact">CBParseExact</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseExact">~CBParseExact</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseExact">CBParseExact</a>&amp;</td>
+	<td><a href="Parse.html#CBExaoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseExact">CBParseExact</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBExasetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBExafound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseExact1">CBParseExact (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+              bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseExact2">CBParseExact (const char* value, const char* description, <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+              unsigned int max = 1, unsigned int min = 1,
+              bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback. With the <i>min</i>- and <i>max</i>-
+	parameters it is possible to parse abbreviable keywords.</dd>
+    </dl>
+    <pre><a name="CBParseExact3">CBParseExact (const CBParseExact&amp; other)</a></pre>
+    <pre><a name="~CBParseExact">virtual ~CBParseExact ()</a></pre>
+    <pre><a name="CBExaoperator=">CBParseExact&amp; operator= (const CBParseExact&amp; other)</a></pre>
+
+    <pre><a name="CBExasetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBExafound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseExact">Class OFParseExact&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseExact">ParseExact</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse exactly a certain text (case-sensitive!) with a callback
+      to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseExact">ParseExact</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseExact1">OFParseExact</a></td>
+	<td>(const char* value, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseExact2">OFParseExact</a></td>
+	<td>(const char* value, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseExact3">OFParseExact</a></td>
+	<td>(const <a href="Parse.html#OMParseExact">OFParseExact</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseExact">~OFParseExact</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseExact">OFParseExact</a>&amp;</td>
+	<td><a href="Parse.html#OFExaoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseExact">OFParseExact</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#OFExafound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseExact1">OFParseExact (const char* value, const char* description, T&amp; objToNotify,
+              <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
+    </dl>
+    <pre><a name="OFParseExact2">OFParseExact (const char* value, const char* description, T&amp; objToNotify,
+              <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
+              unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback. With the <i>min</i>- and <i>max</i>-
+	parameters it is possible to parse abbreviable keywords.</dd>
+    </dl>
+    <pre><a name="OFParseExact3">OFParseExact (const OFParseExact&amp; other)</a></pre>
+    <pre><a name="~OFParseExact">virtual ~OFParseExact ()</a></pre>
+    <pre><a name="OFExaoperator=">OFParseExact&amp; operator= (const OFParseExact&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="OFExafound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
     <table align="center" border="0" cellspacing="10">
       <tr><td><a href="index.html">Class Index</a></td>
 	<td><a href="Parse.html#General">General parser-information</a></td></tr>
@@ -919,9 +1354,10 @@
     <h2>Member descriptions</h2>
 
     <h4>Management functions</h4>
-    <pre><a name="ParseUpperExact1">ParseUpperExact (const char* value, const char* description, bool skipWhitespace = true)</a></pre>
+    <pre><a name="ParseUpperExact1">ParseUpperExact (const char* value, const char* description,
+                 bool skipWhitespace = true)</a></pre>
     <pre><a name="ParseUpperExact2">ParseUpperExact (const char* value, const char* description, unsigned int max,
-            unsigned int min, bool skipWhitespace = true)</a></pre>
+                 unsigned int min, bool skipWhitespace = true)</a></pre>
     <dl>
       <dd>The parameters <i>min</i> and <i>max</i> could be used to define a
 	minimal length of a keyword. This word would be valid if at least min
@@ -943,6 +1379,160 @@
     <pre><a name="POUExcheckIntegrity">virtual int checkIntegrity () const</a></pre>
     <dl>
       <dd>Checks if this object is in a valid state.</dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="CBParseUpperExact">Class CBParseUpperExact</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseUpperExact">ParseUpperExact</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse exactly a certain text (case-sensitive!) with a callback
+      to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseUpperExact">ParseUpperExact</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseUpperExact1">CBParseUpperExact</a></td>
+	<td>(const char* value, const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseUpperExact2">CBParseUpperExact</a></td>
+	<td>(const char* value, const char* description, 
+	  <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#CBParseUpperExact3">CBParseUpperExact</a></td>
+	<td>(const <a href="Parse.html#CBParseUpperExact">CBParseUpperExact</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~CBParseUpperExact">~CBParseUpperExact</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#CBParseUpperExact">CBParseUpperExact</a>&amp;</td>
+	<td><a href="Parse.html#CBUExoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#CBParseUpperExact">CBParseUpperExact</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>void</td>
+	<td><a href="Parse.html#CBUExsetCallback">setCallback</a></td>
+	<td>(<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#CBUExfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="CBParseUpperExact1">CBParseUpperExact (const char* value, const char* description,
+                   <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback.</dd>
+    </dl>
+    <pre><a name="CBParseUpperExact2">CBParseUpperExact (const char* value, const char* description,
+                   <a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a> callback, unsigned int max = 1,
+                   unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the callback. With the <i>min</i>- and <i>max</i>-
+	parameters it is possible to parse abbreviable keywords.</dd>
+    </dl>
+    <pre><a name="CBParseUpperExact3">CBParseUpperExact (const CBParseUpperExact&amp; other)</a></pre>
+    <pre><a name="~CBParseUpperExact">virtual ~CBParseUpperExact ()</a></pre>
+    <pre><a name="CBUExoperator=">CBParseUpperExact&amp; operator= (const CBParseUpperExact&amp; other)</a></pre>
+
+    <pre><a name="CBUExsetCallback">void setCallback (<a href="Parse.html#PARSECALLBACK">PARSECALLBACK</a>)</a></pre>
+    <dl>
+      <dd>Changes the callback to the passed parameter.</dd>
+    </dl>
+
+    <h4>Parsing</h4>
+    <pre><a name="CBUExfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback with the passed parameter and returns its
+	result.</i></dd>
+    </dl>
+
+    <hr noshade="noshade">
+
+    <table align="center" border="0" cellspacing="10">
+      <tr><td><a href="index.html">Class Index</a></td>
+	<td><a href="Parse.html#General">General parser-information</a></td></tr>
+    </table>
+
+    <h1 align="center"><a name="OMParseUpperExact">Class OFParseUpperExact&lt;T&gt;</a></h1>
+    <p>Derived from: <a href="Parse.html#ParseUpperExact">ParseUpperExact</a></p>
+
+    <p>Header-file: Parse.h</p>
+
+    <hr noshade="noshade">
+    <h2>Description</h2>
+    <p>Class to parse exactly a certain text (case-sensitive!) with a callback
+      to report matching input.</p>
+    <p>See the documentation of <a href="Parse.html#ParseUpperExact">ParseUpperExact</a>
+      for further details.</p>
+
+    <hr noshade="noshade">
+    <table border="0">
+      <tr valign="top"><td colspan="3"><h3>public member index</h3></td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseUpperExact1">OFParseUpperExact</a></td>
+	<td>(const char* value, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseUpperExact2">OFParseUpperExact</a></td>
+	<td>(const char* value, const char* description, T&amp; objToNotify,
+	  <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback,
+	  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)</td></tr>
+      <tr valign="top"><td></td><td><a href="Parse.html#OFParseUpperExact3">OFParseUpperExact</a></td>
+	<td>(const <a href="Parse.html#OMParseUpperExact">OFParseUpperExact</a>&amp; other)</td></tr>
+      <tr valign="top"><td>virtual</td>
+	<td><a href="Parse.html#~OFParseUpperExact">~OFParseUpperExact</a></td><td>()</td></tr>
+      <tr valign="top"><td><a href="Parse.html#OMParseUpperExact">OFParseUpperExact</a>&amp;</td>
+	<td><a href="Parse.html#OFUExoperator=">operator=</a></td>
+	<td>(const <a href="Parse.html#OMParseUpperExact">OFParseUpperExact</a>&amp; other)</td></tr>
+
+      <tr valign="top"><td>&nbsp;</td></tr>
+      <tr valign="top"><td colspan="3"><h3>protected member index</h3></td></tr>
+      <tr valign="top"><td>virtual int</td>
+	<td><a href="Parse.html#OFUExfound">found</a></td>
+	<td>(const char* pFoundValue)</td></tr>
+    </table>
+
+    <hr noshade="noshade">
+    <h2>Member descriptions</h2>
+
+    <h4>Management functions</h4>
+    <pre><a name="OFParseUpperExact1">OFParseUpperExact (const char* value, const char* description, T&amp; objToNotify,
+                   <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.</dd>
+    </dl>
+    <pre><a name="OFParseUpperExact2">OFParseUpperExact (const char* value, const char* description, T&amp; objToNotify,
+                   <a href="Parse.html#PTCALLBACK">PTCALLBACK</a> callback, unsigned int max = 1,
+                   unsigned int min = 1, bool skipWhitespace = true)</a></pre>
+    <dl>
+      <dd>Constructor setting the object to notify and its callback-method.
+	With the <i>min</i>- and <i>max</i>- parameters it is possible to
+	parse abbreviable keywords.</dd>
+    </dl>
+    <pre><a name="OFParseUpperExact3">OFParseUpperExact (const OFParseUpperExact&amp; other)</a></pre>
+    <pre><a name="~OFParseUpperExact">virtual ~OFParseUpperExact ()</a></pre>
+    <pre><a name="OFUExoperator=">OFParseUpperExact&amp; operator= (const OFParseUpperExact&amp; other)</a></pre>
+
+    <h4>Parsing</h4>
+    <pre><a name="OFUExfound">virtual int found (const char* pFoundValue)</a></pre>
+    <dl>
+      <dd>Calls the defined callback of the specified object with the passed
+	parameter and returns its result.</i></dd>
     </dl>
 
     <hr noshade="noshade">
