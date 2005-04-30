@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.11 2005/04/30 03:00:13 markus Exp $
+//$Id: Dialog.cpp,v 1.12 2005/04/30 03:13:20 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Samples
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -28,8 +28,6 @@
 #include <gtkmm/label.h>
 #include <gtkmm/table.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/ANumeric.h>
@@ -70,7 +68,8 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
      entryEnum (manage (new XGP::EnumEntry (metaEnum))),
      lblNum (manage (new XGP::XAttributeLabel<YGP::ANumeric> (numEntry))),
      entryNum (manage (new XGP::XAttributeEntry<YGP::ANumeric> (numEntry))),
-     spinNum (manage (new XGP::XAttributeSpinEntry<unsigned int> (n1))),
+     adjNum (manage (new Gtk::Adjustment (0, 0, 10000000.0, 1, 100))),
+     spinNum (manage (new XGP::XAttributeSpinEntry<unsigned int> (n1, *adjNum))),
      entryFile (manage (new XGP::XFileEntry ())),
      file_ (file) {
    TRACE9 ("Dialog::Dialog (ANumeric&, std::string&) - Num: " << numEntry
@@ -105,9 +104,6 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
 
    Gtk::Label* lblSpin (manage (new Gtk::Label ("_SpinButton", true)));
    lblFileEntry->set_mnemonic_widget (*spinNum);
-   spinNum->set_range (0.0, 1000000.0);
-   spinNum->set_increments (1.0, 100.0);
-   spinNum->set_numeric (false);
 
    pClient->attach (*lblSpin, 0, 1, 4, 5, Gtk::FILL, Gtk::FILL, 5, 2);
    pClient->attach (*spinNum, 1, 2, 4, 5, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
@@ -117,6 +113,7 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
    show ();
 
    entryNum->grab_focus ();
+   // Workaround for Gtk::SpinButton showing values only when realised
    spinNum->update ();
 }
 
