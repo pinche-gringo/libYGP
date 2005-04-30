@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.17 2004/11/14 21:20:43 markus Rel $
+//$Id: XAttrEntry.h,v 1.18 2005/04/30 02:19:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
 
 #include <gtkmm/main.h>
 #include <gtkmm/entry.h>
-#include <gtkmm/spinbutton.h>
 #include <gtkmm/messagedialog.h>
 
 
@@ -44,19 +43,20 @@ namespace XGP {
 
    If the curser enters the entry field, the value is displayed unformatted.
    When leaving the field, the new value is checked for vality (causing a
-   If the curser enters the entry field, the value is displayed without
-   formattation. When leaving the field, the new value is checked for vality
-   (causing a message box with an error message if the user entered an invalid
-   value).
+   message box with an error message if the user entered an invalid value).
+
+   The commit() method transfers the input to the attribute.
 */
 template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P {
    typedef P parent;
-template <class T, class P = Gtk::Entry> class XAttributeEntry : public P {
+
+ public:
+   /// Constructor; sets the attribute to handle.
    XAttributeEntry (T& attr)
       : temp (attr), attr_ (attr), inError (false) {
       P::set_text (attr_.toString ());
    }
-      set_text (attr.toString ());
+   /// Destructor
    ~XAttributeEntry () { }
 
    /// Returns if the field has been changed
@@ -71,7 +71,7 @@ template <class T, class P = Gtk::Entry> class XAttributeEntry : public P {
       temp = attr_;
       P::set_text (P::has_focus () ? temp.toUnformattedString () : temp.toString ()); }
    /// Actualizes the displayed value with the passed value. The value of the
-      P::set_text (P::has_focus () ? temp.toString () : temp.toUnformattedString ()); }
+   /// attribute is not (yet) changed (this happens at commit ()).
    void setText (const Glib::ustring& value) {
       temp = value;
       P::set_text (P::has_focus () ? temp.toString () : temp.toUnformattedString ()); }
@@ -120,43 +120,29 @@ template <class T, class P = Gtk::Entry> class XAttributeEntry : public P {
 template <> inline XAttributeEntry<std::string>::XAttributeEntry (std::string& attr) : temp (attr)
      , attr_ (attr), inError (false) { parent::set_text (attr); }
 
-     , attr_ (attr), inError (false) { set_text (attr); }
+template <> inline void XAttributeEntry<std::string>::update () { parent::set_text (temp = attr_); }
 template <> inline void XAttributeEntry<std::string>::setText (const Glib::ustring& value) {
-template <> inline void XAttributeEntry<std::string>::update () { set_text (temp = attr_); }
+   temp = Glib::locale_from_utf8 (value);
    parent::set_text (value); }
 template <> inline bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {
-   set_text (value); }
+   return parent::on_focus_in_event (ev); }
 template <> inline bool XAttributeEntry<std::string>::on_focus_out_event (GdkEventFocus* ev) {
-   return Gtk::Entry::on_focus_in_event (ev); }
+   temp = parent::get_text ();
    return parent::on_focus_out_event (ev); }
-   temp = get_text ();
-   return Gtk::Entry::on_focus_out_event (ev); }
+
+// Specialication for Glib::ustrings
 template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustring& attr) : temp (attr)
      , attr_ (attr), inError (false) { parent::set_text (attr); }
 
-     , attr_ (attr), inError (false) { set_text (attr); }
+template <> inline void XAttributeEntry<Glib::ustring>::update () { parent::set_text (temp = attr_); }
 template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { parent::set_text (temp = value); }
-template <> inline void XAttributeEntry<Glib::ustring>::update () { set_text (temp = attr_); }
-template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { set_text (temp = value); }
-template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
-   return Gtk::Entry::on_focus_in_event (ev); }
+ template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
+   return parent::on_focus_in_event (ev); }
+template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_out_event (GdkEventFocus* ev) {
+   temp = parent::get_text ();
    return parent::on_focus_out_event (ev); }
-   temp = get_text ();
-   return Gtk::Entry::on_focus_out_event (ev); }
 
-// Specialication for ints displayed in a spinbox
-template <> inline XAttributeEntry<unsigned int, Gtk::SpinButton>::XAttributeEntry (unsigned int& attr) 
-   : temp (attr) , attr_ (attr), inError (false) { set_value (attr); }
-
-template <> inline void XAttributeEntry<unsigned int, Gtk::SpinButton>::update () {
-   set_value (temp); }
-template <> inline void XAttributeEntry<unsigned int, Gtk::SpinButton>::setText (const Glib::ustring& value) {
-   set_text (value);
-   temp = get_value_as_int (); }
-template <> inline bool XAttributeEntry<unsigned int, Gtk::SpinButton>::on_focus_in_event (GdkEventFocus* ev) {
-   return Gtk::SpinButton::on_focus_in_event (ev); }
-template <> inline bool XAttributeEntry<unsigned int, Gtk::SpinButton>::on_focus_out_event (GdkEventFocus* ev) {
-   return Gtk::SpinButton::on_focus_out_event (ev); }
+}
 
 
 #endif
