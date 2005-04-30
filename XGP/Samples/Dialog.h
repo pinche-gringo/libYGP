@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.8 2005/04/30 03:00:13 markus Exp $
+//$Id: Dialog.h,v 1.9 2005/04/30 04:25:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,6 +68,8 @@ class Dialog : public XGP::XDialog {
    XGP::EnumEntry*                      entryEnum;
    XGP::XAttributeLabel<YGP::ANumeric>* lblNum;
    XGP::XAttributeEntry<YGP::ANumeric>* entryNum;
+
+   Gtk::Adjustment* adjNum;
    XGP::XAttributeSpinEntry<unsigned int>* spinNum;
 
    XGP::XFileEntry* entryFile;
