@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.12 2005/04/30 03:13:20 markus Exp $
+//$Id: Dialog.cpp,v 1.13 2005/04/30 04:25:05 markus -Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Samples
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -113,8 +113,6 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
    show ();
 
    entryNum->grab_focus ();
-   // Workaround for Gtk::SpinButton showing values only when realised
-   spinNum->update ();
 }
 
 //-----------------------------------------------------------------------------
