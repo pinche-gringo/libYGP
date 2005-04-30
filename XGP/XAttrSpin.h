@@ -1,7 +1,7 @@
 #ifndef XATTSPIN_H
 #define XATTRSPIN_H
 
-//$Id: XAttrSpin.h,v 1.1 2005/04/30 02:59:51 markus Exp $
+//$Id: XAttrSpin.h,v 1.2 2005/04/30 04:24:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -57,12 +57,14 @@ template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : 
 			double climbRate = 0.0, guint digits = 0)
    : P (adjustment, climbRate, digits), attr_ (attr), inError (false) {
       P::set_numeric (false);
-      P::set_text (YGP::ANumeric::toString (attr));
+      P::signal_realize ().connect
+	 (mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
    }
    XAttributeSpinEntry (T& attr, double climbRate = 0.0, guint digits = 0)
    : P (climbRate, digits), attr_ (attr), inError (false) {
       P::set_numeric (false);
-      P::set_text (YGP::ANumeric::toString (attr));
+      P::signal_realize ().connect
+	 (mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
    }
 
    /// Destructor
@@ -142,13 +144,15 @@ XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, Gt
 			double climbRate, guint digits)
    : parent (adjustment, climbRate, digits), attr_ (attr), inError (false) {
       parent::set_numeric (false);
-      parent::set_text (attr.toString ());
+      parent::signal_realize ().connect
+	 (mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
    }
 template <> inline
 XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, double climbRate, guint digits)
    : parent (climbRate, digits), attr_ (attr), inError (false) {
       parent::set_numeric (false);
-      parent::set_text (attr.toString ());
+      parent::signal_realize ().connect
+	 (mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
    }
 
 /// Actualizes the value of the attribute with the value entered in the
@@ -156,6 +160,15 @@ XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, do
 template <> inline
 void XAttributeSpinEntry<YGP::ANumeric>::commit () { attr_ = parent::get_text (); }
 
+   /// Actualizes the displayed value with the passed value. The value of the
+   /// attribute is not (yet) changed (this happens at commit ()).
+template <> inline
+void XAttributeSpinEntry<YGP::ANumeric>::setValue (YGP::ANumeric value) {
+   if (parent::has_focus ())
+      parent::set_value ((int)value);
+   else
+      parent::set_text (value.toString ());
+   }
 }
 
 
