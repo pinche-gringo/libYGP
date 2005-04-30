@@ -1,14 +1,14 @@
-//$Id: Dialog.cpp,v 1.10 2004/12/24 02:53:17 markus Rel $
+//$Id: Dialog.cpp,v 1.11 2005/04/30 03:00:13 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Samples
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,29 +28,51 @@
 #include <gtkmm/label.h>
 #include <gtkmm/table.h>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/ANumeric.h>
+#include <YGP/MetaEnum.h>
 
 #include <XGP/XFileEntry.h>
 
 #include "Dialog.h"
 
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : (Default-)Constructor
-//Parameters: numEntry: Value for the numeric fields
-//            file: File read from FileEntry
-/*--------------------------------------------------------------------------*/
+class MetaEnumTest : public YGP::MetaEnum {
+ public:
+   MetaEnumTest () {
+      insert (std::make_pair (0, "Undefined"));
+      insert (std::make_pair (1, "One"));
+      insert (std::make_pair (2, "Two"));
+      insert (std::make_pair (3, "Three"));
+      insert (std::make_pair (10, "Ten"));
+   }
+};
+static MetaEnumTest metaEnum;
+
+static unsigned int n1 (0);
+static unsigned int n2 (0);
+
+
+//-----------------------------------------------------------------------------
+/// (Default-)Constructor
+/// \param numEntry: Value for the numeric fields
+/// \param file: File read from FileEntry
+//-----------------------------------------------------------------------------
 Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
-   : XGP::XDialog ("Dialog", OKCANCEL), pClient (new Gtk::Table (3, 2))
-     , lblLabel (new Gtk::Label ("AttributeLabel"))
-     , lblEntry (new Gtk::Label ("_AttributeEntry", true))
-     , lblFileEntry (new Gtk::Label ("_FileEntry", true))
-     , lblNum (new XGP::XAttributeLabel<YGP::ANumeric> (numEntry))
-     , entryNum (new XGP::XAttributeEntry<YGP::ANumeric> (numEntry))
-     , entryFile (new XGP::XFileEntry ())
-     , file_ (file) {
+   : XGP::XDialog ("Dialog", OKCANCEL),
+     pClient (manage (new Gtk::Table (5, 2))),
+     lblLabel (manage (new Gtk::Label ("AttributeLabel"))),
+     lblEntry (manage (new Gtk::Label ("_AttributeEntry", true))),
+     lblFileEntry (manage (new Gtk::Label ("_FileEntry", true))),
+     entryEnum (manage (new XGP::EnumEntry (metaEnum))),
+     lblNum (manage (new XGP::XAttributeLabel<YGP::ANumeric> (numEntry))),
+     entryNum (manage (new XGP::XAttributeEntry<YGP::ANumeric> (numEntry))),
+     spinNum (manage (new XGP::XAttributeSpinEntry<unsigned int> (n1))),
+     entryFile (manage (new XGP::XFileEntry ())),
+     file_ (file) {
    TRACE9 ("Dialog::Dialog (ANumeric&, std::string&) - Num: " << numEntry
            << "; String: " << file);
 
@@ -74,31 +96,45 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
    pClient->attach (*lblFileEntry, 0, 1, 2, 3, Gtk::FILL, Gtk::FILL, 5, 2);
    pClient->attach (*entryFile,    1, 2, 2, 3, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
+   Gtk::Label* lblEnum (manage (new Gtk::Label ("_MetaEnum", true)));
+   lblFileEntry->set_mnemonic_widget (*entryEnum);
+
+   entryEnum->set_active_text (metaEnum[n2]);
+   pClient->attach (*lblEnum,   0, 1, 3, 4, Gtk::FILL, Gtk::FILL, 5, 2);
+   pClient->attach (*entryEnum, 1, 2, 3, 4, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
+
+   Gtk::Label* lblSpin (manage (new Gtk::Label ("_SpinButton", true)));
+   lblFileEntry->set_mnemonic_widget (*spinNum);
+   spinNum->set_range (0.0, 1000000.0);
+   spinNum->set_increments (1.0, 100.0);
+   spinNum->set_numeric (false);
+
+   pClient->attach (*lblSpin, 0, 1, 4, 5, Gtk::FILL, Gtk::FILL, 5, 2);
+   pClient->attach (*spinNum, 1, 2, 4, 5, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
+
    get_vbox ()->pack_start (*pClient, false, false, 5);
    show_all_children ();
    show ();
 
    entryNum->grab_focus ();
+   spinNum->update ();
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Destructor
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+// Destructor
+//-----------------------------------------------------------------------------
 Dialog::~Dialog () {
-   delete lblLabel;
-   delete lblEntry;
-   delete lblFileEntry;
-   delete lblNum;
-   delete entryNum;
-   delete entryFile;
-   delete pClient;
 }
 
-/*--------------------------------------------------------------------------*/
-//Purpose   : Handling of the OK button; closes dialog with commiting data
-/*--------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------
+/// Handling of the OK button; closes dialog with commiting data
+//-----------------------------------------------------------------------------
 void Dialog::okEvent () {
+   ok->grab_focus ();              // So that AttributeEntry-fields are updated
    entryNum->commit ();
+   spinNum->commit ();
    file_ = entryFile->get_text ();
+
+   n2 = metaEnum[entryEnum->get_active_text ()];
    XGP::XDialog::okEvent ();
 }

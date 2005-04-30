@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.29 2005/01/31 04:57:24 markus Rel $
+//$Id: X-Appl.cpp,v 1.30 2005/04/30 03:00:13 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -173,7 +173,7 @@ const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 /// Defaultconstructor; all widget are created
 //-----------------------------------------------------------------------------
 XAppl::XAppl ()
-   : XApplication ("X" PACKAGE " V" LIB_RELEASE)
+   : XApplication ("X-Appl V" LIB_RELEASE)
      , files (XGP::XFileListStore::create (cols)), listFiles (files)
      , status (), scroll () {
    TRACE3 ("XAppl::XAppl ()");
@@ -351,7 +351,7 @@ void XAppl::showAboutbox () {
                        (Glib::locale_to_utf8
 			("Copyright © 2003 - 2005 Markus Schwab\ne-mail: g17m0@lycos.com\n"
 			 "\nCompiled on " __DATE__ " at " __TIME__),
-			"X" PACKAGE " V" VERSION));
+			"X-Appl V" VERSION));
    about->setIconProgram (xpmXAppl);
    about->setIconAuthor (xpmAuthor);
 }
@@ -360,9 +360,10 @@ void XAppl::showAboutbox () {
 /// Add the value of file to the list
 //-----------------------------------------------------------------------------
 void XAppl::addActFile () {
-   // This could be optimized ...
-   for (unsigned int i (0); i < (unsigned int)num; ++i)
-      addFile (file);
+   if (file.size ())
+      // This could be optimized ...
+      for (unsigned int i (0); i < (unsigned int)num; ++i)
+	 addFile (file);
 }
 
 //-----------------------------------------------------------------------------

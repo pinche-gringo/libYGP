@@ -1,7 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
-//$Id: Dialog.h,v 1.7 2004/09/06 00:27:38 markus Rel $
+//$Id: Dialog.h,v 1.8 2005/04/30 03:00:13 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 
 #include <string>
 
+#include <XGP/EnumEntry.h>
+#include <XGP/XAttrSpin.h>
 #include <XGP/XAttrLabel.h>
 #include <XGP/XAttrEntry.h>
 
@@ -33,6 +35,7 @@ namespace YGP {
    class ANumeric;
 }
 namespace XGP {
+   class EnumEntry;
    class XFileEntry;
 }
 
@@ -62,8 +65,10 @@ class Dialog : public XGP::XDialog {
    Gtk::Label* lblEntry;
    Gtk::Label* lblFileEntry;
 
+   XGP::EnumEntry*                      entryEnum;
    XGP::XAttributeLabel<YGP::ANumeric>* lblNum;
    XGP::XAttributeEntry<YGP::ANumeric>* entryNum;
+   XGP::XAttributeSpinEntry<unsigned int>* spinNum;
 
    XGP::XFileEntry* entryFile;
 
