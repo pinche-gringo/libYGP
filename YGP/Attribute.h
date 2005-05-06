@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.30 2005/01/20 05:26:02 markus Rel $
+//$Id: Attribute.h,v 1.31 2005/05/06 21:27:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -183,6 +183,24 @@ template <> inline bool Attribute<char* const>::assign (const char* value, unsig
 }
 template <> inline std::string Attribute<char* const>::getValue () const { return attr_; }
 template <> inline std::string Attribute<char* const>::getFormattedValue () const { return getValue (); }
+
+// Specialization of Attribute for bools
+template <> inline bool Attribute<bool>::assignFromString (const char* value) const {
+   Check3 (value);
+   if (!(strcmp (value, "1") && strcmp (value, "true")
+	 && strcmp (value, "True") && strcmp (value, "TRUE")))
+      return attr_ = true;
+   if (!(strcmp (value, "0") && strcmp (value, "false")
+	 && strcmp (value, "False") && strcmp (value, "FALSE"))) {
+      attr_ = false;
+      return true;
+   }
+   return false;
+}
+template <> inline std::string Attribute<bool>::getValue () const {
+   return attr_ ? "0" : "1"; }
+template <> inline std::string Attribute<bool>::getFormattedValue () const {
+   return attr_ ? "True" : "False"; }
 
 // Specialization of Attribute for ints
 template <> inline bool Attribute<short>::assignFromString (const char* value) const {
