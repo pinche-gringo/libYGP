@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.49 2005/03/21 17:17:54 markus Rel $
+//$Id: ANumeric.cpp,v 1.50 2005/05/11 16:33:25 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.49 $
+//REVISION    : $Revision: 1.50 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -36,10 +36,6 @@
 #  include <cstdlib>
 
 #  include <sstream>
-
-#  if HAVE_STRFMON
-#    include <monetary.h>
-#  endif
 #endif
 
 #include <string>
@@ -87,7 +83,7 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
 
       struct lconv* loc = localeconv ();             // Get locale-information
       TRACE9 ("ANumeric::operator= (const char*) - Locale-info = "
-	      << loc->grouping << " - " << loc->thousands_sep);
+	      << std::hex << (int)*loc->grouping << std::dec << " - " << loc->thousands_sep);
       Check3 (strlen (loc->grouping) >= strlen (loc->thousands_sep));
 
       int len (unformatted.length () - 1);
@@ -95,28 +91,27 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
       while (loc->grouping[index])
 	 ++index;
       char group (loc->grouping[--index]);
-      char* pSep = loc->thousands_sep;
+      const char* pSep = loc->thousands_sep;
 
       if (!group)
 	 group = CHAR_MAX;
 
-   while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
-      TRACE9 ("ANumeric::operator= (const char*) - Len =  " << len
-	      << "; Group = " << (int)group << "; Index = " << index);
-      len -= group;
-      if (unformatted[len] == *pSep)
-         unformatted.replace (len--, 1, 0, '\0');
-      else
-	 break;
-      TRACE8 ("ANumeric::operator= (const char*) - Removed " << unformatted);
+      while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
+	 TRACE9 ("ANumeric::operator= (const char*) - Len =  " << len
+		 << "; Group = " << (int)group << "; Index = " << index);
+	 len -= group;
+	 if (unformatted[len] == *pSep)
+	    unformatted.replace (len--, 1, 0, '\0');
+	 else
+	    break;
+	 TRACE8 ("ANumeric::operator= (const char*) - Removed " << unformatted);
 
-      if (index) {                    // Decrement group-pointer if more groups
-	 group = loc->grouping[--index];
-         if (pSep[1])
-            ++pSep;
-      } // endif further grouping available
-   } // end-while grouping necessary
-
+	 if (index) {                    // Decrement group-pointer if more groups
+	    group = loc->grouping[--index];
+	    if (pSep[1])
+	       ++pSep;
+	 } // endif further grouping available
+      } // end-while grouping necessary
 
 #ifdef HAVE_LIBGMP
       if (mpz_init_set_str (unformatted.c_str (), pValue, 0))
@@ -127,7 +122,7 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
       if (errno || (pTail && *pTail && !isspace (*pTail)))
 #endif
 	 {
-	    std::string e =  (_("No number: %1"));
+	    std::string e =  (_("Not a number: %1"));
 	    e.replace (e.find ("%1"), 2, pTail);
 	    throw std::invalid_argument (e.c_str ());
 	 }
@@ -199,15 +194,10 @@ std::string ANumeric::toUnformattedString () const {
 //-----------------------------------------------------------------------------
 std::string ANumeric::toString () const {
    TRACE9 ("ANumeric::toString () const");
-#if defined HAVE_STRFMON && !defined HAVE_LIBGMP
-   char str[40] = "";
-   if (isDefined ())
-      strfmon (str, sizeof (str), "%!.0i", (double)value);
-#else
    std::string str;
 
    struct lconv* loc = localeconv ();                // Get locale-information
-   TRACE9 ("ANumeric::toString () const - Locale-info = " << loc->grouping
+   TRACE9 ("ANumeric::toString () const - Locale-info = " << (int)loc->grouping
            << " - " << loc->thousands_sep);
 
    str = toUnformattedString ();
@@ -216,7 +206,7 @@ std::string ANumeric::toString () const {
    int len (str.length ());
    int index (0);
    char group (loc->grouping[index]);
-   char* pSep = loc->thousands_sep;
+   const char* pSep = loc->thousands_sep;
    if (!group)
       group = CHAR_MAX;
 
@@ -234,19 +224,17 @@ std::string ANumeric::toString () const {
             ++pSep;
       } // endif further grouping available
    } // end-while grouping necessary
-#endif
 
    return str;
 }
 
 //-----------------------------------------------------------------------------
-/// Reads an unformatted numeric value from a stream. If the input is not
-/// valid, an excpetion is thrown.
+/// Reads a numeric value from a stream. If the input is not valid, an
+/// excpetion is thrown.
 /// \param in: Stream to parse
 /// \remarks
 ///     - Leading whitespaces in the stream are skipped.
 ///     - Parsing is stopped at EOF or at any non-digit.
-///     - Initializes the locale-definition (if not already done)
 //-----------------------------------------------------------------------------
 void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
    undefine ();
@@ -255,10 +243,11 @@ void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
 
    std::string help;
    char ch, chSep;
+   const char* pSep = loc->thousands_sep;
 
    in >> ch;                                       // Skip leading whitespaces
    while (!in.eof () && !isspace (ch)) {
-      if (strchr (loc->thousands_sep, ch)) {      // Skip thousand-seperators,
+      if (strchr (pSep, ch)) {      // Skip thousand-seperators,
          chSep = ch;
          in.get (ch);
       } // endif
