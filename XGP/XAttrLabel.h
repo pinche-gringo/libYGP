@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.13 2004/09/06 00:27:38 markus Rel $
+//$Id: XAttrLabel.h,v 1.14 2005/05/12 04:05:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,43 +66,43 @@ template <class T> class XAttributeLabel : public Gtk::Label {
 };
 
 // Specialization of XAttributeLabel for C++'s number types
-inline void XAttributeLabel<short>::update () {
+template <> inline void XAttributeLabel<short>::update () {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel<unsigned short>::update () {
+template <> inline void XAttributeLabel<unsigned short>::update () {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel<int>::update () {
+template <> inline void XAttributeLabel<int>::update () {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel<unsigned int>::update () {
+template <> inline void XAttributeLabel<unsigned int>::update () {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel<long>::update () {
+template <> inline void XAttributeLabel<long>::update () {
    char buffer[20];
    sprintf (buffer, "%ld", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel<unsigned long>::update () {
+template <> inline void XAttributeLabel<unsigned long>::update () {
    char buffer[20];
    sprintf (buffer, "%lu", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel<double>::update () {
+template <> inline void XAttributeLabel<double>::update () {
    char buffer[20];
    sprintf (buffer, "%lf", attr_);
    set_text (buffer);
@@ -153,43 +153,43 @@ template <class T> class XAttributeLabel2 : public Gtk::Label {
 };
 
 // Specialization of XAttributeLabel2 for C++'s number types
-inline void XAttributeLabel2<short>::update () {
+template <> inline void XAttributeLabel2<short>::update () {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel2<unsigned short>::update () {
+template <> inline void XAttributeLabel2<unsigned short>::update () {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel2<int>::update () {
+template <> inline void XAttributeLabel2<int>::update () {
    char buffer[20];
    sprintf (buffer, "%d", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel2<unsigned int>::update () {
+template <> inline void XAttributeLabel2<unsigned int>::update () {
    char buffer[20];
    sprintf (buffer, "%u", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel2<long>::update () {
+template <> inline void XAttributeLabel2<long>::update () {
    char buffer[20];
    sprintf (buffer, "%ld", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel2<unsigned long>::update () {
+template <> inline void XAttributeLabel2<unsigned long>::update () {
    char buffer[20];
    sprintf (buffer, "%lu", attr_);
    set_text (buffer);
 }
 
-inline void XAttributeLabel2<double>::update () {
+template <> inline void XAttributeLabel2<double>::update () {
    char buffer[20];
    sprintf (buffer, "%lf", attr_);
    set_text (buffer);
