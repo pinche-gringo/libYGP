@@ -1,14 +1,14 @@
-//$Id: ConnectDlg.cpp,v 1.13 2004/10/24 00:24:53 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.14 2005/05/12 23:33:03 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <sstream>
