@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.18 2005/04/05 04:10:40 markus Exp $
+//$Id: Process.cpp,v 1.19 2005/05/12 23:35:31 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -180,8 +180,12 @@ pid_t Process::start (const char* file, const char* const arguments[],
       }
    }
 #elif defined HAVE_FORK
-   pid = (pipe (pipes) ? - 1 : ((flags & CONNECT_STDERR) && pipe (errPipes)), fork ());
-   TRACE9 ("Errpipes: " << errPipes[0] << '/' << errPipes[1]);
+   if ((pid = pipe (pipes)) != -1) {
+      if (flags & CONNECT_STDERR)
+	 pipe (errPipes);
+      pid = fork ();
+      TRACE9 ("Errpipes: " << errPipes[0] << '/' << errPipes[1]);
+   }
    switch (pid) {
    case 0: {                                            // Child: Start program
       // Close input pipe and set output to the write pipe
