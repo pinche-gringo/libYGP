@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.16 2005/03/08 17:10:48 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.17 2005/05/13 16:23:35 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -43,26 +43,27 @@ namespace XGP {
 //----------------------------------------------------------------------------
 /// Creates (or updates) a dialog displaying a HTML-document
 /// \param file: File containing the HTML-document to display
+/// \param title: Title of help-window
 /// \returns HTMLViewer* : Pointer to the created dialog
 /// \throw std::string in case of error
 //----------------------------------------------------------------------------
-HTMLViewer* HTMLViewer::create (const std::string& file) throw (std::string) {
+HTMLViewer* HTMLViewer::create (const std::string& file, const Glib::ustring& title) throw (std::string) {
    TRACE9 ("HTMLViewer::create (const std::string&) - " << file);
    Check1 (file.size ());
 
-   HTMLViewer* dlg (new HTMLViewer (file));
+   HTMLViewer* dlg (new HTMLViewer (file, title));
    dlg->signal_response ().connect (mem_fun (*dlg, &HTMLViewer::free));
    return dlg;
 }
 
-
 //----------------------------------------------------------------------------
 /// Creates a dialog displaying a HTML-document
 /// \param file: File containing the HTML-document to display
+/// \param title: Title of help-window
 /// \throw \c std::string in case of error
 //----------------------------------------------------------------------------
-HTMLViewer::HTMLViewer (const std::string& file) throw (std::string)
-    : XDialog (Glib::locale_to_utf8 (_("Help window")), XDialog::OK)
+HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title) throw (std::string)
+    : XDialog (title + _(" Help"), XDialog::OK)
       , htmlCtrl (gtkhtmlInitialize ())
       , scrl (manage (new Gtk::ScrolledWindow)) {
    TRACE9 ("HTMLViewer::HTMLViewer (const std::string&) - " << file);
