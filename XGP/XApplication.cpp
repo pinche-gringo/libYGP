@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.45 2005/03/21 17:26:27 markus Rel $
+//$Id: XApplication.cpp,v 1.46 2005/05/13 16:24:15 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -66,7 +66,7 @@ namespace XGP {
 /// \param pTitle: Pointer to title of the application
 //-----------------------------------------------------------------------------
 XApplication::XApplication (const char* pTitle)
-   : vboxClient (new Gtk::VBox ())
+   : vboxClient (new Gtk::VBox)
      , grpAction (Gtk::ActionGroup::create ())
      , mgrUI (Gtk::UIManager::create ())
      , helpBrowser (BrowserDlg::getDefaultBrowser ()) {
@@ -213,7 +213,7 @@ void XApplication::showHelp () {
    try {
 #ifdef HAVE_VIEWER
       if (helpBrowser == "GTKHTML")
-	 HTMLViewer::create (file);
+	 HTMLViewer::create (file, get_title ());
       else {
 #endif
 	 file = "file://" + file;
