@@ -155,8 +155,11 @@
 /* Define if GTK is installed (in a fitting version) */
 #undef HAVE_GTK
 
-/* Define if GTKHTML is installed (in a fitting version) */
+/* Define to API-version, if GTKHTML is installed */
 #undef HAVE_GTKHTML
+
+/* Set to version if GTKMM is version 2.6 or above */
+#undef HAVE_GTKMM26
 
 /* Define if you have the iconv() function. */
 #undef HAVE_ICONV
@@ -182,6 +185,9 @@
 
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#undef HAVE_LIBDL
 
 /* Define to 1 if you have the `gmp' library (-lgmp). */
 #undef HAVE_LIBGMP
