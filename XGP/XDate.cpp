@@ -1,14 +1,14 @@
-//$Id: XDate.cpp,v 1.23 2004/10/24 00:24:53 markus Rel $
+//$Id: XDate.cpp,v 1.24 2005/05/13 16:21:33 markus -Rel $
 
 //PROJECT     : MessageDialog
 //SUBSYSTEM   : XDate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 
 #include <gtkmm/box.h>
 #include <gtkmm/calendar.h>
-#include <gtkmm/spinbutton.h> 
+#include <gtkmm/spinbutton.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
@@ -76,7 +76,7 @@ XDate::XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields)
       first = false;
 
       cal->grab_focus ();
-      cal->display_options (Gtk::CALENDAR_SHOW_HEADING 	
+      cal->display_options (Gtk::CALENDAR_SHOW_HEADING
                             | Gtk::CALENDAR_SHOW_DAY_NAMES
                             | Gtk::CALENDAR_SHOW_WEEK_NUMBERS);
       cal->show ();
