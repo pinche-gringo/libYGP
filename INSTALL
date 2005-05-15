@@ -44,8 +44,7 @@ Inside the directory containing the source code type
   mv Makefile.am~ Makefile.am
   mv configure.in~ configure.in		      # Undo changes made by gettextize
   libtoolize
-  aclocal -I m4 && automake -a && autoconf    # Create configure.in
-  autoheader				      # Create ygp-cfg.in
+  aclocal -I m4 && autoheader && automake -a && autoconf     # Create configure
   ./configure [configure-options]
   make [make-options]
 
