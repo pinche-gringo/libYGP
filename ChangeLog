@@ -1,3 +1,94 @@
+2005-05-19  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog: Changes in V0.7.20 documented
+
+	* po/de.po, po/en.po, po/es.po: Changed ANumeric's not-a-number message
+
+2005-05-15  Markus Schwab  <g17m0@lycos.com>
+
+	* INSTALL: Moved call of autoheader before automake
+
+2005-05-13  Markus Schwab  <g17m0@lycos.com>
+
+	* NEWS: Commented the changes in V0.7.20
+
+	* ygp-cfg.h.in:
+	  Define for installed GTKMM-2.6 added; Define for libdl added
+
+	* XGP/XApplication.cpp:
+	  Showing GTKHTML-help window with prg-title in titlebar
+
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  Added constructor to pass a title
+
+	* XGP/XDate.cpp: Removed trailing spaces
+
+	* configure.in: Version to 0.7.20
+
+2005-05-12  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Process.cpp: Removed warnings from GCC-4
+
+	* XGP/ConnectDlg.cpp: Converting messages to UTF-8
+
+	* XGP/XAttrLabel.h:
+	  Explicitely declaring specializations of template as such
+
+2005-05-11  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ANumeric.cpp: Don't use strfmon to format output
+
+2005-05-06  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Attribute.h: Added special handling for bools
+
+2005-04-30  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/Dialog.h: Added adjustment for XAttributeSpinEntry
+
+	* XGP/Samples/Dialog.cpp:
+	  Removed workaround for setting text in unrealized fields
+
+	* XGP/XAttrSpin.h:
+	  Updating the field after it is realized (to work around GTK+-bug)
+
+	* XGP/Samples/Dialog.cpp:
+	  Removed workarounds for old version of XGP::AttributeEntry with Gtk::SpinButton
+
+	* XGP/Makefile.am: Added XAttrSpin
+
+	* XGP/Samples/Dialog.cpp, XGP/Samples/Dialog.h, XGP/Samples/X-Appl.cpp:
+	  Added test of XAttributeSpinEntry
+
+	* XGP/XAttrSpin.h: New file.
+
+	* XGP/XAttrEntry.h:
+	  Fixed update(); Removed all SpinButton-stuff; Removed dependency to Entry
+
+2005-04-28  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/EnumEntry.cpp, XGP/EnumEntry.h: New file.
+
+2005-04-05  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Process.cpp: Checking return value of processes
+
+	* YGP/Process.cpp: Fixed waitForProcess
+
+2005-04-01  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Process.cpp, YGP/Process.h, YGP/Tests/Process.cpp:
+	  execIOConnected can separate output of stdout and stderr
+
+2005-03-31  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Process.cpp:
+	  execIOConnected() can specify which output to capture
+
+	* YGP/Tests/Process.cpp: Made exeIOConnected-test more error-tolerant
+
+	* YGP/Process.h: execIOConnected() can specify which output to capture
+
 2005-03-21  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Commented the changes in V0.7.10
