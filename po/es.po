@@ -4,22 +4,22 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.32 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.33 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-03-21 13:13-0400\n"
-"PO-Revision-Date: 2005-03-21 13:14-0400\n"
+"POT-Creation-Date: 2005-05-13 12:24-0400\n"
+"PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:163 YGP/ADate.cpp:216
+#: YGP/ADate.cpp:165 YGP/ADate.cpp:218
 msgid "Invalid date: %1"
 msgstr "Fecha inválida: %1"
 
-#: YGP/ANumeric.cpp:130
-msgid "No number: %1"
+#: YGP/ANumeric.cpp:125
+msgid "Not a number: %1"
 msgstr "Número invalido: %1"
 
 #: YGP/ATime.cpp:179
@@ -244,7 +244,7 @@ msgstr "No puedo conectar al servidor '%1'"
 msgid "Error sending data"
 msgstr "Error enviar los datos"
 
-#: YGP/Process.cpp:216
+#: YGP/Process.cpp:255
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -253,7 +253,7 @@ msgstr ""
 "Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
-#: YGP/Process.cpp:240
+#: YGP/Process.cpp:279
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -392,19 +392,19 @@ msgstr "_Corto"
 msgid "Show _details"
 msgstr "_Detalles"
 
-#: XGP/ConnectDlg.cpp:57
+#: XGP/ConnectDlg.cpp:58
 msgid "Connect to"
 msgstr "Conectar a"
 
-#: XGP/ConnectDlg.cpp:60
-msgid "_Wait for connections"
-msgstr "_Espera por conección"
-
 #: XGP/ConnectDlg.cpp:61
-msgid "Connec_t"
-msgstr "Conectar"
+msgid "_Wait for connections"
+msgstr "_Espera conexión"
 
-#: XGP/ConnectDlg.cpp:64
+#: XGP/ConnectDlg.cpp:62
+msgid "Connec_t"
+msgstr "C_onectar"
+
+#: XGP/ConnectDlg.cpp:65
 msgid ""
 "Click on \"Wait for connections\" to wait for connections from other "
 "computers.\n"
@@ -418,15 +418,15 @@ msgstr ""
 "Si quieres conectarte a un servidor, entra su dirección (nombre or número "
 "IP) en las entradas y haz clic en \"Conectar\"."
 
-#: XGP/ConnectDlg.cpp:71
+#: XGP/ConnectDlg.cpp:72
 msgid "_Server:"
 msgstr "Servidor:"
 
-#: XGP/ConnectDlg.cpp:72
+#: XGP/ConnectDlg.cpp:73
 msgid "_Port:"
 msgstr "_Puerto:"
 
-#: XGP/ConnectDlg.cpp:164
+#: XGP/ConnectDlg.cpp:165
 msgid ""
 "Can't connect to server!\n"
 "\n"
@@ -436,11 +436,11 @@ msgstr ""
 "\n"
 "Causa: %1"
 
-#: XGP/ConnectDlg.cpp:168 XGP/ConnectDlg.cpp:190
+#: XGP/ConnectDlg.cpp:169 XGP/ConnectDlg.cpp:191
 msgid "Connect error"
 msgstr "Error conectando"
 
-#: XGP/ConnectDlg.cpp:186
+#: XGP/ConnectDlg.cpp:187
 msgid ""
 "Can't bind to port!\n"
 "\n"

@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.31 $)\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.32 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-03-21 13:13-0400\n"
+"POT-Creation-Date: 2005-05-13 12:24-0400\n"
 "PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,12 +14,12 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:163 YGP/ADate.cpp:216
+#: YGP/ADate.cpp:165 YGP/ADate.cpp:218
 msgid "Invalid date: %1"
 msgstr ""
 
-#: YGP/ANumeric.cpp:130
-msgid "No number: %1"
+#: YGP/ANumeric.cpp:125
+msgid "Not a number: %1"
 msgstr ""
 
 #: YGP/ATime.cpp:179
@@ -243,14 +243,14 @@ msgstr ""
 msgid "Error sending data"
 msgstr ""
 
-#: YGP/Process.cpp:216
+#: YGP/Process.cpp:255
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: YGP/Process.cpp:240
+#: YGP/Process.cpp:279
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -384,19 +384,19 @@ msgstr ""
 msgid "Show _details"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:57
+#: XGP/ConnectDlg.cpp:58
 msgid "Connect to"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:60
+#: XGP/ConnectDlg.cpp:61
 msgid "_Wait for connections"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:61
+#: XGP/ConnectDlg.cpp:62
 msgid "Connec_t"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:64
+#: XGP/ConnectDlg.cpp:65
 msgid ""
 "Click on \"Wait for connections\" to wait for connections from other "
 "computers.\n"
@@ -405,26 +405,26 @@ msgid ""
 "the entry field and click on \"Connect\"."
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:71
+#: XGP/ConnectDlg.cpp:72
 msgid "_Server:"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:72
+#: XGP/ConnectDlg.cpp:73
 msgid "_Port:"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:164
+#: XGP/ConnectDlg.cpp:165
 msgid ""
 "Can't connect to server!\n"
 "\n"
 "Reason: %1"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:168 XGP/ConnectDlg.cpp:190
+#: XGP/ConnectDlg.cpp:169 XGP/ConnectDlg.cpp:191
 msgid "Connect error"
 msgstr ""
 
-#: XGP/ConnectDlg.cpp:186
+#: XGP/ConnectDlg.cpp:187
 msgid ""
 "Can't bind to port!\n"
 "\n"
