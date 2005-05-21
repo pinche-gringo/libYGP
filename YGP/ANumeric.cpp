@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.50 2005/05/11 16:33:25 markus Rel $
+//$Id: ANumeric.cpp,v 1.51 2005/05/21 17:21:53 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.50 $
+//REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -114,16 +114,16 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
       } // end-while grouping necessary
 
 #ifdef HAVE_LIBGMP
-      if (mpz_init_set_str (unformatted.c_str (), pValue, 0))
+      if (mpz_set_str (value, unformatted.c_str (), 0))
 #else
       char* pTail = NULL;
       errno = 0;
       value = strtol (unformatted.c_str (), &pTail, 0);
-      if (errno || (pTail && *pTail && !isspace (*pTail)))
+      if (errno || ((pValue = pTail) && *pTail && !isspace (*pTail)))
 #endif
 	 {
 	    std::string e =  (_("Not a number: %1"));
-	    e.replace (e.find ("%1"), 2, pTail);
+	    e.replace (e.find ("%1"), 2, pValue);
 	    throw std::invalid_argument (e.c_str ());
 	 }
       setDefined ();

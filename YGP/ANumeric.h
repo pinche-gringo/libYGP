@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.34 2004/11/04 23:16:37 markus Rel $
+//$Id: ANumeric.h,v 1.35 2005/05/21 17:21:53 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -104,10 +104,17 @@ class ANumeric : public AttributValue {
 
    /// Constructor; initializes the object from the passed text and defines it.
    ANumeric (const char* pValue) throw (std::invalid_argument) : AttributValue () {
+#ifdef HAVE_LIBGMP
+      mpz_init (value);
+#endif
       operator= (pValue); }
    /// Constructor; initializes the object from the passed text and defines it.
-   ANumeric (const std::string& value) throw (std::invalid_argument)
-      : AttributValue () { operator= (value.c_str ()); }
+   ANumeric (const std::string& str) throw (std::invalid_argument)
+      : AttributValue () {
+#ifdef HAVE_LIBGMP
+      mpz_init (value);
+#endif
+      operator= (str); }
    virtual ~ANumeric ();
 
    /// \name Assignment methods
