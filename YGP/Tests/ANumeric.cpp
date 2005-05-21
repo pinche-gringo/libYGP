@@ -1,11 +1,11 @@
-// $Id: ANumeric.cpp,v 1.11 2005/01/08 22:09:04 markus Rel $
+// $Id: ANumeric.cpp,v 1.12 2005/05/21 17:22:34 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -57,7 +57,7 @@ int main (int argc, char* argv[]) {
    std::string numStr (num2.toString ());
    check (numStr.length () >= 4);
 
-   setlocale (LC_NUMERIC, "de");                      // Activate german locale
+   setlocale (LC_NUMERIC, "de_DE");                   // Activate german locale
    try {
       num = "123.456.789";
       check (num == 123456789);
