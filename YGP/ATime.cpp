@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.37 2005/03/21 17:23:04 markus Rel $
+//$Id: ATime.cpp,v 1.38 2005/06/08 04:07:06 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -221,7 +221,7 @@ void ATime::assign (const char* pTime, unsigned int len) {
 
    if ((read == -1) || checkIntegrity ()) {
       undefine ();
-      throw std::invalid_argument (_"No time: Position 0"));
+      throw std::invalid_argument (_("No time: Position 0"));
    }
    else
       setDefined ();
