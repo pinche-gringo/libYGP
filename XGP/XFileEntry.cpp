@@ -1,14 +1,14 @@
-//$Id: XFileEntry.cpp,v 1.16 2004/10/24 00:24:54 markus Rel $
+//$Id: XFileEntry.cpp,v 1.17 2005/07/08 18:56:19 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 
 #include <YGP/Trace.h>
 #include <YGP/File.h>
@@ -62,7 +63,7 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
          if (result->isDirectory ())
             input += YGP::File::DIRSEPARATOR;
          set_text (input);
-     
+
          Check3 (len);
          set_position (len);
          select_region (len, get_text_length ());
