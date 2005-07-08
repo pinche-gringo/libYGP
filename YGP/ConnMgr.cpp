@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.9 2004/11/04 16:31:18 markus Rel $
+//$Id: ConnMgr.cpp,v 1.10 2005/07/08 18:54:02 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP/ConnectionManager
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -145,5 +145,28 @@ Socket* ConnectionMgr::addConnection (int socket) {
       return NULL;
    }
 }
+
+//-----------------------------------------------------------------------------
+/// Disconnects one of the partners
+/// \param partner: Partner to disconnect
+//-----------------------------------------------------------------------------
+void ConnectionMgr::disconnect (const Socket* partner) {
+   TRACE8 ("ConnectionMgr::disconnect (const Socket*)");
+   Check1 (mode == NONE);
+
+   if (mode == SERVER) {
+      std::vector<Socket*>::iterator i (find (connections.begin (), connections.end (), partner));
+      if (i == connections.end ())
+	 return;
+
+      connections.erase (i);
+      if (connections.size ())
+	 return;
+   }
+   delete server;
+   server = NULL;
+   mode = NONE;
+}
+
 
 }

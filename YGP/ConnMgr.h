@@ -1,7 +1,7 @@
 #ifndef CONNMGR_H
 #define CONNMGR_H
 
-//$Id: ConnMgr.h,v 1.4 2003/11/14 20:27:55 markus Rel $
+//$Id: ConnMgr.h,v 1.5 2005/07/08 18:54:02 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -73,6 +73,7 @@ class ConnectionMgr {
    /// Returns the actual mode of the connection
    modeConnect getMode () const { return mode; }
    void changeMode (modeConnect);
+   void disconnect (const Socket* partner);
    void clearConnections ();
    /// Returns the Socket over which to communicate (might be NULL)
    Socket* getSocket () const { return server; }
