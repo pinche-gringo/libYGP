@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.20 2004/10/27 20:27:07 markus Rel $
+//$Id: XDialog.cpp,v 1.21 2005/07/08 18:55:33 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004
@@ -99,8 +99,9 @@ void XDialog::init (unsigned int buttons) {
    TRACE9 ("XDialog::init ()");
    ok = (buttons & OK) ? add_button (Gtk::Stock::OK,
                                      Gtk::RESPONSE_OK) : NULL;
-   cancel = (buttons & CANCEL) ? add_button (Gtk::Stock::CANCEL,
-                                     Gtk::RESPONSE_CANCEL) : NULL;
+   cancel = (buttons & CANCEL) ? add_button ((buttons & OK) ? Gtk::Stock::CANCEL
+					     :  Gtk::Stock::CLOSE,
+					     Gtk::RESPONSE_CANCEL) : NULL;
 
    get_action_area ()->set_homogeneous (false);
 
