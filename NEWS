@@ -1,3 +1,10 @@
+Overview of Changes in version 0.7.21:
+
+  - Fixed compilation with missing strfmt()-function
+  - YGP::ConnectionMgr got a disconnect-method
+  - XDialog with a cancel-, but no OK-button displays a close-button
+
+
 Overview of Changes in version 0.7.20:
 
   - Added XGP::EnumEntry to select one of a list of values

@@ -1,3 +1,32 @@
+2005-07-10  g17m0@lycos.com  <markus@markus>
+
+	* ChangeLog, NEWS: Changes in V0.7.21 documented
+
+	* XGP/XValue.h: Removed (conditional) const from static value_type
+
+	* ygp-cfg.h.in: New defines added (from autoheader?)
+
+	* configure.in: Version to 0.7.21
+
+2005-07-08  g17m0@lycos.com  <markus@markus>
+
+	* XGP/XFileEntry.cpp: Formatting changed
+
+	* XGP/XDialog.cpp:
+	  A single cancel-button (without OK) is displayed as close
+
+	* YGP/ConnMgr.cpp, YGP/ConnMgr.h: Added a disconnect method
+
+2005-06-08  g17m0@lycos.com  <markus@markus>
+
+	* YGP/ATime.cpp: Fixed compiler-error when compiling without strfmt
+
+2005-05-21  g17m0@lycos.com  <markus@markus>
+
+	* YGP/Tests/ANumeric.cpp: Setting locale to de_DE
+
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Fixed compilation with libgmp
+
 2005-05-19  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog: Changes in V0.7.20 documented
