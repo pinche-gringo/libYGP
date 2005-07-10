@@ -79,6 +79,14 @@
 /* Define to 1 if you have the `beginthread' function. */
 #undef HAVE_BEGINTHREAD
 
+/* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
+   CoreFoundation framework. */
+#undef HAVE_CFLOCALECOPYCURRENT
+
+/* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
+   the CoreFoundation framework. */
+#undef HAVE_CFPREFERENCESCOPYAPPVALUE
+
 /* Define to 1 if you have the <CORBA.h> header file. */
 #undef HAVE_CORBA_H
 
