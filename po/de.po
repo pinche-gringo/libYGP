@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.35 $)\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.36 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-05-13 12:24-0400\n"
+"POT-Creation-Date: 2005-07-10 17:15-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -25,6 +25,10 @@ msgstr "Ungültige Nummer: %1"
 #: YGP/ATime.cpp:179
 msgid "No time: Position %1"
 msgstr "Ungültige Zeit: Position %1"
+
+#: YGP/ATime.cpp:224
+msgid "No time: Position 0"
+msgstr "Ungültige Zeit: Position 0"
 
 #: YGP/AssParse.cpp:67
 msgid "Not a valid assignment: '%1'"
