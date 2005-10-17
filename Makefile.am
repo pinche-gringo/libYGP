@@ -1,11 +1,11 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = intl m4 @MYSUBDIRS@ po bin
-DIST_SUBDIRS = intl m4 YGP XGP CGP po doc bin
+SUBDIRS = intl @MYSUBDIRS@ po bin
+DIST_SUBDIRS = intl YGP XGP CGP po doc bin
 
 include_HEADERS=ygp-cfg.h config.h
 
-EXTRA_DIST= config.rpath README.windows
+EXTRA_DIST= config.rpath README.windows mkinstalldirs
 
 # Add files for windows; don't make own Makefile[.am], as a
 # Windows-compiler might need its own Makefile
