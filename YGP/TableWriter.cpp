@@ -1,14 +1,14 @@
-//$Id: TableWriter.cpp,v 1.3 2004/12/29 18:22:49 markus Rel $
+//$Id: TableWriter.cpp,v 1.4 2005/10/17 04:01:25 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
-//COPYRIGHT   : Copyright (C) 2004
+//COPYRIGHT   : Copyright (C) 2004, 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,12 +24,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <ctime>
-#include <cstring>
-#include <clocale>
 
+#include <sstream>
 #include <iostream>
 
+#define CHECK 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 
@@ -43,9 +42,27 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Constructor
 /// \param format: Format how to display entries
+/// \param startRow: String starting rows
+/// \param endRow: String terminating rows
+/// \param sepColumn: String separating columns
+/// \param startTab: String starting table
+/// \param endTab: String terminating table
+/// \param sepTab: String separating the tableheader from the tablebody
+/// \param startRowHdr: String starting header of the table
+/// \param endRowHdr: String terminating header of the table
+/// \param sepHdrCol: String terminating columns of the header of the table
+/// \param defColumns: Definition of the columns
 //-----------------------------------------------------------------------------
-TableWriter::TableWriter (const std::string& format)
-   : columns_ (format) {
+TableWriter::TableWriter (const std::string& format, const char* startRow, const char* endRow,
+			  const char* sepColumn, const char* startTab, const char* endTab, const char* sepTab,
+			  const char* startRowHdr, const char* endRowHdr, const char* sepHdrCol,
+			  const char* defColumns)
+   : rowStart (startRow), rowEnd (endRow), colSeparator (sepColumn), tabStart (startTab),
+     tabEnd (endTab), tabHeader (sepTab), rowHdrStart (startRowHdr ? startRowHdr : startRow),
+     rowHdrEnd (endRowHdr ? endRowHdr : endRow), colHdrSeparator (sepHdrCol ? sepHdrCol : sepColumn),
+     colDefinitions (defColumns), columns_ (format) {
+   Check1 (rowStart); Check1 (rowEnd); Check1 (colSeparator);
+   Check1 (tabStart); Check1 (tabEnd); Check1 (tabHeader);
 }
 
 //-----------------------------------------------------------------------------
@@ -65,24 +82,6 @@ unsigned int TableWriter::columns () const {
    while (!t.getNextNode ('|').empty ())
       ++cols;
    return cols;
-}
-
-//-----------------------------------------------------------------------------
-/// Returns the passed string with special characters changed.
-/// \returns \c std::string: String with changed special characters
-/// \remarks: To be implemented by derived classes
-//-----------------------------------------------------------------------------
-std::string TableWriter::changeSpecialChars (const std::string& val) const {
-   return val;
- }
-
-//-----------------------------------------------------------------------------
-/// Returns the passed string with special filename characters changed.
-/// \returns \c std::string: String with changed special characters
-/// \remarks: To be implemented by derived classes
-//-----------------------------------------------------------------------------
-std::string TableWriter::changeSpecialFileChars (const std::string& val) const { 
-   return changeSpecialChars (val);
 }
 
 //-----------------------------------------------------------------------------
@@ -111,7 +110,7 @@ std::string TableWriter::getNextNode () const {
    std::string substitute;
    unsigned int nPos (0);
    while (((pos = token.find ('%', nPos)) != std::string::npos)
-          && (pos < token.size ())) {
+          && (pos < (token.size () - 1))) {
       if (token[pos + 1] == '*') {
          substitute = "";
          if ((pos + 1) < token.size ())
@@ -146,6 +145,46 @@ std::string TableWriter::getNextNode () const {
 //-----------------------------------------------------------------------------
 void TableWriter::printStart (std::ostream& out, const std::string& title) const {
    TRACE9 ("TableWriter::printStart (std::ostream&, const std::string&) const");
+
+   out << tabStart;
+   if (colDefinitions) {
+      std::string col (colDefinitions);
+      unsigned int pos (0);
+      while (((pos = col.find ('%', pos)) != std::string::npos)
+	     && (pos < (col.size () - 1))) {
+	 switch (col[pos + 1]) {
+	 case '#': {
+	    std::ostringstream output;
+	    output << columns () << std::ends;
+	    col.replace (pos, 2, output.str ());
+	    pos += output.str ().size ();
+	    break; }
+
+	 case '%':
+	    col.replace (pos++, 1, "", 0);
+	    break;
+
+	 default:
+	    col.replace (pos, 2, std::string (columns (), col[pos + 1]));
+	    pos += columns ();
+	 } // end-switch
+      } // end-while
+      out << col;
+   }
+   if (title.size ()) {
+      out << rowHdrStart;
+      printHeaderLead (out);
+
+      YGP::Tokenize titles (title);
+      std::string node (titles.getNextNode ('|'));
+      out << node;
+      while ((node = titles.getNextNode ('|')).size ())
+         out << colHdrSeparator << node;
+
+      printHeaderTail (out);
+      out << rowHdrEnd;
+   }
+   out << tabHeader;
 }
 
 //-----------------------------------------------------------------------------
@@ -153,6 +192,7 @@ void TableWriter::printStart (std::ostream& out, const std::string& title) const
 /// \param out: Stream where to put the output
 //-----------------------------------------------------------------------------
 void TableWriter::printEnd (std::ostream& out) const {
+   out << tabEnd << '\n';
 }
 
 //-----------------------------------------------------------------------------
@@ -169,46 +209,13 @@ void TableWriter::printHeaderLead (std::ostream& out) const {
 void TableWriter::printHeaderTail (std::ostream& out) const {
 }
 
-
-//-----------------------------------------------------------------------------
-/// Destructor
-//-----------------------------------------------------------------------------
-HTMLWriter::~HTMLWriter () {
-}
-
-
-//-----------------------------------------------------------------------------
-/// Prints the start of an HTML-table
-/// \param out: Stream where to put the output
-/// \param title: Title information; the columns must be seperated by an (|)
-//-----------------------------------------------------------------------------
-void HTMLWriter::printStart (std::ostream& out, const std::string& title) const {
-   TRACE9 ("HTMLWriter::printStart (std::ostream&, const std::string&) const");
-
-   out << "<table>\n";
-
-   if (title.size ()) {
-      out << "<thead><tr>";
-      printHeaderLead (out);
-
-      YGP::Tokenize titles (title);
-      std::string node;
-      while ((node = titles.getNextNode ('|')).size ())
-         out << "<td>" << node << "</td>";
-      out << "</tr></thead>\n";
-
-      printHeaderTail (out);
-   }
-   out << "<tbody>";
-}
-
 //-----------------------------------------------------------------------------
 /// Changes the HTML special characters quote ("), ampersand (&), apostrophe
 /// ('), less (<) and greater (>) to HTML-values
 /// \param value: String to change
 /// \returns \c Changed string
 //-----------------------------------------------------------------------------
-std::string HTMLWriter::changeSpecialChars (const std::string& value) const {
+std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
    TRACE5 ("HTMLWriter::changeSpecialChars (const std::string&) - Changing: " << value);
 
    std::string chg (value);
@@ -232,7 +239,7 @@ std::string HTMLWriter::changeSpecialChars (const std::string& value) const {
 /// \param value: String to change
 /// \returns \c Changed string
 //-----------------------------------------------------------------------------
-std::string HTMLWriter::changeSpecialFileChars (const std::string& value) const {
+std::string TableWriter::changeHTMLSpecialFileChars (const std::string& value) {
    std::string chg (value);
    for (unsigned int i (0); i < chg.size (); ++i)
       if (chg[i] == ' ') {
@@ -243,82 +250,12 @@ std::string HTMLWriter::changeSpecialFileChars (const std::string& value) const 
 }
 
 //-----------------------------------------------------------------------------
-/// Prints the end of an HTML-table
-/// \param out: Stream where to put the output
-//-----------------------------------------------------------------------------
-void HTMLWriter::printEnd (std::ostream& out) const {
-   out << "</tbody></table>\n";
-}
-
-
-//-----------------------------------------------------------------------------
-/// Destructor
-//-----------------------------------------------------------------------------
-TextWriter::~TextWriter () {
-}
-
-
-//-----------------------------------------------------------------------------
-/// Prints the start of a text-table
-/// \param out: Stream where to put the output
-/// \param title: Title information
-//-----------------------------------------------------------------------------
-void TextWriter::printStart (std::ostream& out, const std::string& title) const {
-   if (title.size ()) {
-      YGP::Tokenize titles (title);
-      std::string node;
-      while ((node = titles.getNextNode ('|')).size ())
-         out << node << " ";
-      out << '\n';
-   }
-}
-
-
-//-----------------------------------------------------------------------------
-/// Destructor
-//-----------------------------------------------------------------------------
-LaTeXWriter::~LaTeXWriter () {
-}
-
-
-//-----------------------------------------------------------------------------
-/// Prints the start of a LaTeX-table (tabular)
-/// \param out: Stream where to put the output
-/// \param title: Title information
-//-----------------------------------------------------------------------------
-void LaTeXWriter::printStart (std::ostream& out, const std::string& title) const {
-   out << "\\begin{tabular}{";
-   for (unsigned int i (0); i < columns (); ++i)
-      out << 'l';
-   out << "}\n";
-
-   if (title.size ()) {
-      YGP::Tokenize titles (title);
-      std::string node;
-      node = titles.getNextNode ('|');
-      out << "{\\textbf " << node << '}';
-      while ((node = titles.getNextNode ('|')).size ())
-         out << "&{\\textbf " << node << "}" << node;
-
-      out << "\\\\\n";
-   }
- }
-
-//-----------------------------------------------------------------------------
-/// Prints the end of a LaTeX-table
-/// \param out: Stream where to put the output
-//-----------------------------------------------------------------------------
-void LaTeXWriter::printEnd (std::ostream& out) const {
-   out << "\\end{tabular}\n";
-}
-
-//-----------------------------------------------------------------------------
 /// Changes the LaTeX special characters quote ("), ampersand (&), apostrophe
 /// ('), less (<) and greater (>) to HTML-values
 /// \param value: String to change
 /// \returns \c Changed string
 //-----------------------------------------------------------------------------
-std::string LaTeXWriter::changeSpecialChars (const std::string& value) const {
+std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
    std::string chg (value);
    static const char toChange[] = { '#', '$', '%', '&', '~', '_', '^', '\\',
                                     '{', '}' };
@@ -334,42 +271,28 @@ std::string LaTeXWriter::changeSpecialChars (const std::string& value) const {
             chg.replace (i, 1, changeTo[j]);
             i += strlen (changeTo[j]);
          }
-
-
    return chg;
 }
 
-
 //-----------------------------------------------------------------------------
-/// Destructor
-//-----------------------------------------------------------------------------
-XMLWriter::~XMLWriter () {
-}
-
-
-//-----------------------------------------------------------------------------
-/// Prints the start of an XML-table
+/// Prints the columns at the start of a LaTeX table
 /// \param out: Stream where to put the output
-/// \param title: Title information
+/// \param columns: Number of columns
 //-----------------------------------------------------------------------------
-void XMLWriter::printStart (std::ostream& out, const std::string& title) const {
-   out << "<table>\n";
-
-   if (title.size ()) {
-      YGP::Tokenize titles (title);
-      std::string node;
-      while ((node = titles.getNextNode ('|')).size ())
-         out << node;
-      out << '\n';
-   }
+void TableWriter::printLaTeXHeaderLead (std::ostream& out, unsigned int columns) {
+   out << '{';
+   for (unsigned int i (0); i < columns; ++i)
+      out << 'l';
+   out << "}\n";
 }
 
 //-----------------------------------------------------------------------------
-/// Prints the end of an XML-table
+/// Prints the columns at the start of a LaTeX table
 /// \param out: Stream where to put the output
+/// \param columns: String describing the columns
 //-----------------------------------------------------------------------------
-void XMLWriter::printEnd (std::ostream& out) const {
-   out << "</table>\n";
+void TableWriter::printLaTeXHeaderLead (std::ostream& out, const char* columns) {
+   out << '{' << columns << "}\n";
 }
 
-}
+} // end namespace YGP

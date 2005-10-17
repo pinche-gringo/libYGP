@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.3 2004/12/29 18:22:49 markus Rel $
+//$Id: TableWriter.h,v 1.4 2005/10/17 04:01:25 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,120 +46,67 @@ namespace YGP {
    It is possible to iterate over the columns with the getNextNode,
    which returns exactly that: The next column, in which control
    sequences have already been substituted.
+
+   There are some defines to declare table-writers for popular SGMLs. To write
+   a table in HTML, declare a TableWrite like this:
+
+   @code
+   YGP::TableWriter htmlWriter ("<Your format>", TBLW_HTML_PARAMS);
+   @endcode
+
+   Similar macros exists for XML, LaTeX, Text and QuotedText writers.
  */
 class TableWriter {
  public:
-   TableWriter (const std::string& format);
+   TableWriter (const std::string& format, const char* startRow = "",
+		const char* endRow = "", const char* sepColumn = " ",
+		const char* startTab = "", const char* endTab = "", const char* sepTab = " ",
+		const char* rowStartHdr = NULL, const char* rowEndHdr = NULL,
+		const char* sepHdrCol = NULL, const char* defColumns = NULL);
    virtual ~TableWriter ();
 
-   virtual void printStart (std::ostream& out, const std::string& title) const;
-   virtual void printEnd (std::ostream& out) const;
+   void printStart (std::ostream& out, const std::string& title) const;
+   void printEnd (std::ostream& out) const;
+
    virtual void printHeaderLead (std::ostream& out) const;
    virtual void printHeaderTail (std::ostream& out) const;
 
-   virtual std::string changeSpecialChars (const std::string& val) const;
-   virtual std::string changeSpecialFileChars (const std::string& val) const;
+   static std::string changeHTMLSpecialChars (const std::string& val);
+   static std::string changeHTMLSpecialFileChars (const std::string& val);
+   static std::string changeLaTeXSpecialChars (const std::string& val);
 
  protected:
    unsigned int columns () const;
 
+   static void printLaTeXHeaderLead (std::ostream& out, unsigned int columns);
+   static void printLaTeXHeaderLead (std::ostream& out, const char*  columns);
+
    std::string getNextNode () const;
    virtual std::string getSubstitute (char ctrl, bool extend = false) const;
+
+   const char* rowStart;
+   const char* rowEnd;
+   const char* colSeparator;
+
+   const char* tabStart;
+   const char* tabEnd;
+   const char* tabHeader;
+
+   const char* rowHdrStart;
+   const char* rowHdrEnd;
+   const char* colHdrSeparator;
+
+   const char* colDefinitions;
 
  private:
    YGP::Tokenize columns_;
 };
 
-
-/**Class to write tabular information in HTML format.
-
-   See TableWriter for further details.
- */
-class HTMLWriter : public TableWriter {
- public:
-   /// Constructor
-   /// \param format: Format how to display entries
-   HTMLWriter (const std::string& format)
-      : TableWriter (format) { }
-   virtual ~HTMLWriter ();
-
-   virtual void printStart (std::ostream& out, const std::string& title) const;
-   virtual void printEnd (std::ostream& out) const;
-
-   /// Creates an HTML writer
-   /// \param format: Format how to display entries
-   static HTMLWriter* create (const std::string& format) {
-      return new HTMLWriter (format); }
-
-   virtual std::string changeSpecialChars (const std::string& value) const;
-   virtual std::string changeSpecialFileChars (const std::string& val) const;
-};
-
-
-/**Class to write tabular information in XML format.
-
-   See TableWriter for further details.
- */
-class XMLWriter : public HTMLWriter {
- public:
-   /// Constructor
-   /// \param format: Format how to display entries
-   XMLWriter (const std::string& format) : HTMLWriter (format) { }
-   virtual ~XMLWriter ();
-
-   virtual void printStart (std::ostream& out, const std::string& title) const;
-   virtual void printEnd (std::ostream& out) const;
-
-   /// Creates an XML writer
-   /// \param format: Format how to display entries
-   static XMLWriter* create (const std::string& format) {
-      return new XMLWriter (format); }
-};
-
-
-/**Class to write tabular information in text format.
-
-   See TableWriter for further details.
- */
-class TextWriter : public TableWriter {
- public:
-   /// Constructor
-   /// \param format: Format how to display entries
-   TextWriter (const std::string& format) : TableWriter (format) { }
-   virtual ~TextWriter ();
-
-   virtual void printStart (std::ostream& out, const std::string& title) const;
-
-   /// Creates a text writer
-   /// \param format: Format how to display entries
-   static TextWriter* create (const std::string& format) {
-      return new TextWriter (format); }
-};
-
-
-
-/**Class to write tabular information in LaTeX format.
-
-   See TableWriter for further details.
- */
-class LaTeXWriter : public TableWriter {
- public:
-   /// Constructor
-   /// \param format: Format how to display entries
-   LaTeXWriter (const std::string& format) : TableWriter (format) { }
-   virtual ~LaTeXWriter ();
-
-   virtual void printStart (std::ostream& out, const std::string& title) const;
-   virtual void printEnd (std::ostream& out) const;
-
-   /// Creates a LaTeX writer
-   /// \param format: Format how to display entries
-   static LaTeXWriter* create (const std::string& format) {
-      return new LaTeXWriter (format); }
-
- protected:
-   virtual std::string changeSpecialChars (const std::string& val) const;
-};
+#define TBLW_TEXT_PARAMS "", "", " ", "", "\n", "", NULL, NULL, NULL, NULL
+#define TBLW_QUOTEDTEXT_PARAMS "\"", "\"\n", "\", ", "", "", "", NULL,  NULL, NULL, NULL
+#define TBLW_HTML_PARAMS "<tr valign=\"top\"><td>", "</td></tr>\n", "</td><td>", "<table><thead>", "</tbody></table>\n", "</thead><tbody>\n", "<tr valign=\"top\"><th>",  "</th></tr>\n", "</th><th>", "<colgroup span=\"%#\">\n"
+#define TBLW_XML_PARAMS TBLW_HTML_PARAMS
+#define TBLW_LATEX_PARAMS "", "\\\\\n", "&", "\\begin{tabular}", "\\end{tabular}\n", "", "\\textbf {", "}\\\\\n", "}&\\textbf {", "{%l}\n"
 
 }
 
