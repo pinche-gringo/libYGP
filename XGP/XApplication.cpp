@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.46 2005/05/13 16:24:15 markus Rel $
+//$Id: XApplication.cpp,v 1.47 2005/10/17 03:50:40 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -211,17 +211,22 @@ void XApplication::showHelp () {
    TRACE5 ("XApplication::command (int) - Starting browser with " << file);
 
    try {
-#ifdef HAVE_VIEWER
+      file = "file://" + file;
+
+#ifdef HAVE_GTKHTML
       if (helpBrowser == "GTKHTML")
-	 HTMLViewer::create (file, get_title ());
-      else {
+	 HTMLViewer::create (file, get_title (), HTMLViewer::GTKHTML);
+      else
 #endif
-	 file = "file://" + file;
+#ifdef HAVE_GTKMOZEMBED
+      if (helpBrowser == "GTKMOZEMBED")
+	 HTMLViewer::create (file, get_title (), HTMLViewer::GTKMOZEMBED);
+      else
+#endif
+      {
 	 const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
 	 YGP::Process::execAsync (helpBrowser.c_str (), args);
-#ifdef HAVE_VIEWER
       }
-#endif
    }
    catch (std::string& error) {
       if (error.size ()) {

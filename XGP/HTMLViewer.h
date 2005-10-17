@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.9 2005/05/13 16:23:35 markus Rel $
+//$Id: HTMLViewer.h,v 1.10 2005/10/17 03:51:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#ifdef HAVE_GTKHTML
+#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED
 #define HAVE_VIEWER
 
 #include <string>
@@ -35,29 +35,34 @@ namespace XGP {
 
 /**Helper class to display a HTML document in a dialog.
  *
- * Uses GTKHTML to display the HTML code.
+ * Uses GTKHTML or GtkMozEmbed to display the HTML code.
  */
 class HTMLViewer : public XDialog {
  public:
-    virtual ~HTMLViewer ();
+   typedef enum { GTKHTML, GTKMOZEMBED, LAST } widgetTypes;
 
-    static HTMLViewer* create (const std::string& file,
-			       const Glib::ustring& title) throw (std::string);
-    void display (const std::string& file);
+   virtual ~HTMLViewer ();
+
+   static HTMLViewer* create (const std::string& file, const Glib::ustring& title,
+			      widgetTypes type) throw (std::string);
+   void display (const std::string& file);
 
  protected:
-    HTMLViewer (const std::string& file, const Glib::ustring& title) throw (std::string);
+   HTMLViewer (const std::string& file, const Glib::ustring& title,
+	       widgetTypes type) throw (std::string);
 
  private:
-    HTMLViewer (const HTMLViewer&);
-    const HTMLViewer& operator= (const HTMLViewer&);
+   HTMLViewer (const HTMLViewer&);
+   const HTMLViewer& operator= (const HTMLViewer&);
 
-    GtkWidget*           htmlCtrl;
-    Gtk::ScrolledWindow* scrl;
+   int _display (const std::string file);
+
+   GtkWidget*  htmlCtrl;
+   widgetTypes _type;
 };
 
 }
 
-#endif // HAVE_GTKHTML
+#endif // HAVE_GTKHTML || HAVE_GTKMOZEMBED
 
 #endif

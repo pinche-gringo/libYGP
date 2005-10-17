@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.20 2005/03/21 17:25:09 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.21 2005/10/17 03:50:40 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -40,6 +40,9 @@ namespace XGP {
 const char* BrowserDlg::browserNames[] = {
 #ifdef HAVE_GTKHTML
     N_("GTKHTML"),
+#endif
+#ifdef HAVE_GTKMOZEMBED
+    N_("GTKMOZEMBED"),
 #endif
 #if HAVE_FIREFOX > 0
     N_("firefox"),
