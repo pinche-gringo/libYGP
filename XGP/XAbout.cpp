@@ -1,14 +1,14 @@
-//$Id: XAbout.cpp,v 1.27 2004/10/24 00:24:53 markus Rel $
+//$Id: XAbout.cpp,v 1.28 2005/10/17 03:52:07 markus Rel $
 
 //PROJECT     : MessageDialog
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2005
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
+
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include "XGP/XAbout.h"
@@ -48,8 +50,7 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author))
-     , gpl (new Gtk::Label (Glib::locale_to_utf8 (_("Distributed under the terms of the GNU General"
-                                                    " Public License"))))
+     , gpl (new Gtk::Label (_("Distributed under the terms of the GNU General Public License")))
      , client (new Gtk::HBox ()) {
    Check1 (gpl); Check1 (writer); Check1 (client);
 
@@ -100,7 +101,7 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 //-----------------------------------------------------------------------------
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
-   
+
    pIconAuthor = new Gtk::Image
       (Gdk::Pixbuf::create_from_xpm_data (pIconData));
 
