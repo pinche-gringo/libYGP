@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.20 2005/01/08 22:11:21 markus Rel $
+//$Id: AssParse.cpp,v 1.21 2005/10/25 21:01:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -143,11 +143,12 @@ std::string AssignmentParse::getActValue () const {
 //-----------------------------------------------------------------------------
 void AssignmentParse::escapeQuotes (std::string& value) {
    TRACE9 ("AssignmentParse::escapeQuotes (std::string&) - " << value);
-   unsigned int pos (-1U);
+   unsigned int pos (0);
 
-   while ((pos = value.find (QUOTE, pos + 1)) != std::string::npos) {
+   while ((pos = value.find (QUOTE, pos)) != std::string::npos) {
       TRACE8 ("AssignmentParse::escapeQuotes (std::string&) - Quote position " << pos);
-      value.replace (pos++, 0, 1, ESCAPE);
+      value.replace (pos, 0, 1, ESCAPE);
+      pos += 2;
    } // endwhile
 }
 
