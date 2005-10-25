@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.4 2005/10/17 04:01:25 markus Exp $
+//$Id: TableWriter.h,v 1.5 2005/10/25 20:54:59 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -71,6 +71,7 @@ class TableWriter {
    virtual void printHeaderLead (std::ostream& out) const;
    virtual void printHeaderTail (std::ostream& out) const;
 
+   static std::string changeQuotedSpecialChars (const std::string& val);
    static std::string changeHTMLSpecialChars (const std::string& val);
    static std::string changeHTMLSpecialFileChars (const std::string& val);
    static std::string changeLaTeXSpecialChars (const std::string& val);
@@ -103,7 +104,7 @@ class TableWriter {
 };
 
 #define TBLW_TEXT_PARAMS "", "", " ", "", "\n", "", NULL, NULL, NULL, NULL
-#define TBLW_QUOTEDTEXT_PARAMS "\"", "\"\n", "\", ", "", "", "", NULL,  NULL, NULL, NULL
+#define TBLW_QUOTEDTEXT_PARAMS "\"", "\"\n", "\", \"", "", "", "", NULL,  NULL, NULL, NULL
 #define TBLW_HTML_PARAMS "<tr valign=\"top\"><td>", "</td></tr>\n", "</td><td>", "<table><thead>", "</tbody></table>\n", "</thead><tbody>\n", "<tr valign=\"top\"><th>",  "</th></tr>\n", "</th><th>", "<colgroup span=\"%#\">\n"
 #define TBLW_XML_PARAMS TBLW_HTML_PARAMS
 #define TBLW_LATEX_PARAMS "", "\\\\\n", "&", "\\begin{tabular}", "\\end{tabular}\n", "", "\\textbf {", "}\\\\\n", "}&\\textbf {", "{%l}\n"

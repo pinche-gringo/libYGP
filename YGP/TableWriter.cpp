@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.4 2005/10/17 04:01:25 markus Exp $
+//$Id: TableWriter.cpp,v 1.5 2005/10/25 20:54:59 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -155,7 +155,7 @@ void TableWriter::printStart (std::ostream& out, const std::string& title) const
 	 switch (col[pos + 1]) {
 	 case '#': {
 	    std::ostringstream output;
-	    output << columns () << std::ends;
+	    output << columns ();
 	    col.replace (pos, 2, output.str ());
 	    pos += output.str ().size ();
 	    break; }
@@ -272,6 +272,23 @@ std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
             i += strlen (changeTo[j]);
          }
    return chg;
+}
+
+//-----------------------------------------------------------------------------
+/// Changes the LaTeX special characters quote ("), ampersand (&), apostrophe
+/// ('), less (<) and greater (>) to HTML-values
+/// \param value: String to change
+/// \returns \c Changed string
+//-----------------------------------------------------------------------------
+std::string TableWriter::changeQuotedSpecialChars (const std::string& value) {
+   std::string result (value);
+   unsigned int pos (0);
+   while ((pos = result.find ('"', pos)) != std::string::npos) {
+      TRACE8 ("TableWriter::changeQuotedSpecialChars (const std::string&) - Quote position " << pos);
+      result.replace (pos, 0, 1, '\\');
+      pos += 2;
+   } // endwhile
+   return result;
 }
 
 //-----------------------------------------------------------------------------
