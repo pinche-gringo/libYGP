@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.5 2005/10/25 20:54:59 markus Exp $
+//$Id: TableWriter.cpp,v 1.6 2005/10/25 21:00:31 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -28,10 +28,9 @@
 #include <sstream>
 #include <iostream>
 
-#define CHECK 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
-
+#include <YGP/AssParse.h>
 #include <YGP/Tokenize.h>
 
 #include "TableWriter.h"
@@ -282,12 +281,7 @@ std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
 //-----------------------------------------------------------------------------
 std::string TableWriter::changeQuotedSpecialChars (const std::string& value) {
    std::string result (value);
-   unsigned int pos (0);
-   while ((pos = result.find ('"', pos)) != std::string::npos) {
-      TRACE8 ("TableWriter::changeQuotedSpecialChars (const std::string&) - Quote position " << pos);
-      result.replace (pos, 0, 1, '\\');
-      pos += 2;
-   } // endwhile
+   AssignmentParse::escapeQuotes (result);
    return result;
 }
 
