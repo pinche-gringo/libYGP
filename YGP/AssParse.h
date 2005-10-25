@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.11 2005/01/08 22:11:38 markus Rel $
+//$Id: AssParse.h,v 1.12 2005/10/25 21:00:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,13 +66,13 @@ class AssignmentParse : public Tokenize {
    static const char QUOTE;  ///< Character which might quote the value; the quote (")
    static const char ESCAPE;  ///< Character which escapes a quote inside a quoted value; the backslash (\)
 
+   static void escapeQuotes (std::string& value);
+
  private:
    AssignmentParse ();
    AssignmentParse (const AssignmentParse& other);
 
    AssignmentParse& operator= (const AssignmentParse& other);
-
-   static void escapeQuotes (std::string& value);
 
    unsigned int posValue;
 };
