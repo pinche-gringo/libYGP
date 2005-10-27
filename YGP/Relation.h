@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.6 2005/10/17 03:59:56 markus Exp $
+//$Id: Relation.h,v 1.7 2005/10/27 00:16:14 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -246,6 +246,15 @@ class Relation1_N : public IRelation {
 	 objects.erase (i);
    }
 
+   /// Disconnect all objects from a parent
+   /// \param source: Parent to unrelate
+   void unrelateAll (const S& source) {
+      Check1 (source.isDefined ());
+      typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
+      Check1 (i != objects.end ());
+      objects.erase (i);
+   }
+
    /// Checks if the passed object is related to any other (within this relation)
    /// \param owner: Parent which should be checked for relations
    bool isRelated (const S& owner) const {
@@ -418,6 +427,24 @@ class RelationN_M : public IRelation {
       k->second.erase (l);
       if (l->second.empty ())
 	 objects.erase (k);
+   }
+
+   /// Disconnect all objects from a parent
+   /// \param source: Parent to unrelate
+   void unrelateAll (const S& source) {
+      Check1 (source.isDefined ());
+      typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
+      Check1 (i != objects.end ());
+      objects.erase (i);
+   }
+
+   /// Disconnect all parents from an object
+   /// \param source: Parent to unrelate
+   void unrelateAll (const T& target) {
+      Check1 (target.isDefined ());
+      typename std::map<T, std::vector<S> >::iterator i (parents.find (target));
+      Check1 (i != objects.end ());
+      parents.erase (i);
    }
 
    /// Checks if the passed object is related to any other (within this relation)
