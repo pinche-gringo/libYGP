@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.7 2005/10/27 00:16:14 markus Exp $
+//$Id: Relation.h,v 1.8 2005/10/28 21:15:43 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -125,6 +125,11 @@ class Relation1_1 : public IRelation {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       Check1 (objects.find (source) != objects.end ());
       objects.erase (objects.find (source));
+   }
+
+   /// Disconnect all objects
+   void unrelateAll () {
+      objects.erase (objects.begin (), objects.end ());
    }
 
    /// Checks if the passed object is related to any other (within this relation)
@@ -253,6 +258,11 @@ class Relation1_N : public IRelation {
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
       Check1 (i != objects.end ());
       objects.erase (i);
+   }
+
+   /// Disconnect all objects
+   void unrelateAll () {
+      objects.erase (objects.begin (), objects.end ());
    }
 
    /// Checks if the passed object is related to any other (within this relation)
@@ -445,6 +455,12 @@ class RelationN_M : public IRelation {
       typename std::map<T, std::vector<S> >::iterator i (parents.find (target));
       Check1 (i != objects.end ());
       parents.erase (i);
+   }
+
+   /// Disconnect all objects
+   void unrelateAll () {
+      objects.erase (objects.begin (), objects.end ());
+      parents.erase (parents.begin (), parents.end ());
    }
 
    /// Checks if the passed object is related to any other (within this relation)
