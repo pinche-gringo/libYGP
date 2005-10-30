@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.34 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.35 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-07-10 17:15-0400\n"
+"POT-Creation-Date: 2005-10-16 23:45-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -324,38 +324,42 @@ msgid "GTKHTML"
 msgstr ""
 
 #: XGP/BrowserDlg.cpp:45
+msgid "GTKMOZEMBED"
+msgstr ""
+
+#: XGP/BrowserDlg.cpp:48
 msgid "firefox"
 msgstr "Firefox"
 
-#: XGP/BrowserDlg.cpp:48
+#: XGP/BrowserDlg.cpp:51
 msgid "galeon"
 msgstr "Galeon"
 
-#: XGP/BrowserDlg.cpp:51
+#: XGP/BrowserDlg.cpp:54
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: XGP/BrowserDlg.cpp:54
+#: XGP/BrowserDlg.cpp:57
 msgid "netscape"
 msgstr "Netscape"
 
-#: XGP/BrowserDlg.cpp:57
+#: XGP/BrowserDlg.cpp:60
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: XGP/BrowserDlg.cpp:60
+#: XGP/BrowserDlg.cpp:63
 msgid "opera"
 msgstr "Opera"
 
-#: XGP/BrowserDlg.cpp:63
+#: XGP/BrowserDlg.cpp:66
 msgid "iexplore"
 msgstr "Internet Explorer"
 
-#: XGP/BrowserDlg.cpp:65
+#: XGP/BrowserDlg.cpp:68
 msgid "Other:"
 msgstr "Otro:"
 
-#: XGP/BrowserDlg.cpp:73
+#: XGP/BrowserDlg.cpp:76
 msgid "Select a browser"
 msgstr "Selecta un explorador"
 
@@ -379,7 +383,7 @@ msgstr "Permite elegir el explorador para mostrar la ayuda"
 msgid "_About ..."
 msgstr "_Acerca de ..."
 
-#: XGP/XAbout.cpp:51
+#: XGP/XAbout.cpp:53
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Distribuido bajo las condiciones de la GNU Licensia General Público"
 
