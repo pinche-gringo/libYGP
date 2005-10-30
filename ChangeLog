@@ -1,4 +1,63 @@
-2005-07-10  g17m0@lycos.com  <markus@markus>
+2005-10-30  author  <author@markus>
+
+	* ChangeLog, NEWS: Changes in V0.7.30 documented
+
+	* INSTALL: Minor fix in call-order of auto*-tools
+
+	* ygp-cfg.h.in: Added define for having GTKMOZEMBED
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+2005-10-28  author  <author@markus>
+
+	* YGP/Relation.h:
+	  Added an unrelateAll ()-method (without objects, to delete all)
+
+2005-10-26  author  <author@markus>
+
+	* YGP/Relation.h: Added unrelateAll-methods
+
+2005-10-25  author  <author@markus>
+
+	* YGP/AssParse.cpp: Minor optimization
+
+	* YGP/AssParse.h: Made escapeQuotes public
+
+	* YGP/TableWriter.cpp:
+	  Using AssignmentParse::escapeQuotes in changeQuotedSpecialChars
+
+	* YGP/TableWriter.cpp, YGP/TableWriter.h:
+	  Added changeQuotedSpecialChars
+
+2005-10-17  author  <author@markus>
+
+	* YGP/TableWriter.cpp, YGP/TableWriter.h:
+	  Rewritten; is polygonic through constructor-params and not inheritance
+
+2005-10-16  author  <author@markus>
+
+	* YGP/Relation.h: Added const-version of get-methods
+
+	* Makefile.am: Adapted to new automake
+
+	* configure.in: Version to 0.7.30; Searching for GtkMozEmbed
+
+	* XGP/XAbout.cpp:
+	  Converting automatically to UTF-8 when using '_'-macro
+
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  GtkMozEmbed can be used to display the help
+
+	* XGP/GTKViewer.h: Including ygp-cfg.h
+
+	* XGP/BrowserDlg.cpp, XGP/GtkMozViewer.c, XGP/GtkMozViewer.h, XGP/Makefile.am, XGP/XApplication.cpp:
+	  GtkMozEmbed can be used to display the help
+
+2005-07-14  author  <author@markus>
+
+	* po/de.po, po/en.po, po/es.po: Fixed 'Invalid time' message
+
+2005-07-10  author  <author@markus>
 
 	* ChangeLog, NEWS: Changes in V0.7.21 documented
 

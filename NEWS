@@ -1,3 +1,12 @@
+Overview of Changes in version 0.7.30:
+
+  - HTMLViewer can use GtkMozEmbed (if installed) to display HTML documents
+  - Relation: Added const-versions of methods
+  - Relation: Added unrelateAll methods
+  - TableWriter: Re-written; contains now all functionality; syntax is passed
+  - YGP::AssignmentParse: Made escapeQuotes public; also escapes backslashes
+
+
 Overview of Changes in version 0.7.21:
 
   - Fixed compilation with missing strfmt()-function
