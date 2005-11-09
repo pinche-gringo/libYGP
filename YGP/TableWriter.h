@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.5 2005/10/25 20:54:59 markus Rel $
+//$Id: TableWriter.h,v 1.6 2005/11/09 00:40:08 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -103,9 +103,9 @@ class TableWriter {
    YGP::Tokenize columns_;
 };
 
-#define TBLW_TEXT_PARAMS "", "", " ", "", "\n", "", NULL, NULL, NULL, NULL
+#define TBLW_TEXT_PARAMS "", "\n", " ", "", "\n", "", NULL, NULL, NULL, NULL
 #define TBLW_QUOTEDTEXT_PARAMS "\"", "\"\n", "\", \"", "", "", "", NULL,  NULL, NULL, NULL
-#define TBLW_HTML_PARAMS "<tr valign=\"top\"><td>", "</td></tr>\n", "</td><td>", "<table><thead>", "</tbody></table>\n", "</thead><tbody>\n", "<tr valign=\"top\"><th>",  "</th></tr>\n", "</th><th>", "<colgroup span=\"%#\">\n"
+#define TBLW_HTML_PARAMS "<tr valign=\"top\"><td>", "</td></tr>\n", "</td><td>", "<table>", "</tbody></table>\n", "<tbody>\n", "<thead><tr valign=\"top\"><th>",  "</th></tr></thead>\n", "</th><th>", "<colgroup span=\"%#\"></colgroup>\n"
 #define TBLW_XML_PARAMS TBLW_HTML_PARAMS
 #define TBLW_LATEX_PARAMS "", "\\\\\n", "&", "\\begin{tabular}", "\\end{tabular}\n", "", "\\textbf {", "}\\\\\n", "}&\\textbf {", "{%l}\n"
 
