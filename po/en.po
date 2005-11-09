@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.6 ($Revision: 1.34 $)\n"
+"Project-Id-Version: libYGP 0.6 ($Revision: 1.35 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-10-16 23:45-0400\n"
+"POT-Creation-Date: 2005-11-08 19:11-0400\n"
 "PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -303,11 +303,11 @@ msgstr ""
 msgid "Environment variable `TERM' not defined!"
 msgstr ""
 
-#: XGP/XFileList.h:196
+#: XGP/XFileList.h:198
 msgid "File"
 msgstr ""
 
-#: XGP/XAttrEntry.h:98
+#: XGP/XAttrEntry.h:100
 msgid "Invalid value!"
 msgstr ""
 
