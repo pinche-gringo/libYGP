@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.15 2004/12/29 18:21:57 markus Rel $
+//$Id: Socket.h,v 1.16 2005/11/09 19:19:03 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,9 @@
 
 // Headers for communication
 #if HAVE_SYS_SOCKET_H
+#  ifdef _BSD_SOURCE
+#    include <sys/types.h>                   // Needed to compile with OpenBSD
+#  endif
 #  include <sys/socket.h>
 #elif HAVE_WINSOCK2_H
 #  include <winsock2.h>
