@@ -1,4 +1,25 @@
-2005-10-30  author  <author@markus>
+2005-11-09  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.31 documented
+
+	* po/de.po, po/en.po, po/es.po: Updated line-infos
+
+	* XGP/XAttrEntry.h, XGP/XAttrSpin.h, XGP/XFileList.h:
+	  Including libintl.h for dgettext (if available and enabled)
+
+	* XGP/HTMLViewer.cpp: Disabled traces and checks
+
+	* YGP/Tests/FileRExp.cpp, YGP/TableWriter.cpp: Only formatting changed
+
+	* YGP/Socket.h: Fixed compilation under (Open)BSD
+
+	* configure.in: Version to 0.7.31 (library-versions stays at 0.7.30)
+
+2005-11-08  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/TableWriter.h: Fixed definitions for text- and HTML-tables
+
+2005-10-30  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.30 documented
 
@@ -8,16 +29,26 @@
 
 	* po/de.po, po/en.po, po/es.po: Actualized
 
-2005-10-28  author  <author@markus>
+2005-10-30  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.30 documented
+
+	* INSTALL: Minor fix in call-order of auto*-tools
+
+	* ygp-cfg.h.in: Added define for having GTKMOZEMBED
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+2005-10-28  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/Relation.h:
 	  Added an unrelateAll ()-method (without objects, to delete all)
 
-2005-10-26  author  <author@markus>
+2005-10-26  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/Relation.h: Added unrelateAll-methods
 
-2005-10-25  author  <author@markus>
+2005-10-25  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/AssParse.cpp: Minor optimization
 
@@ -29,12 +60,12 @@
 	* YGP/TableWriter.cpp, YGP/TableWriter.h:
 	  Added changeQuotedSpecialChars
 
-2005-10-17  author  <author@markus>
+2005-10-17  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/TableWriter.cpp, YGP/TableWriter.h:
 	  Rewritten; is polygonic through constructor-params and not inheritance
 
-2005-10-16  author  <author@markus>
+2005-10-16  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/Relation.h: Added const-version of get-methods
 
@@ -53,11 +84,11 @@
 	* XGP/BrowserDlg.cpp, XGP/GtkMozViewer.c, XGP/GtkMozViewer.h, XGP/Makefile.am, XGP/XApplication.cpp:
 	  GtkMozEmbed can be used to display the help
 
-2005-07-14  author  <author@markus>
+2005-07-14  Markus Schwab  <g17m0@lycos.com>
 
 	* po/de.po, po/en.po, po/es.po: Fixed 'Invalid time' message
 
-2005-07-10  author  <author@markus>
+2005-07-10  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.21 documented
 
@@ -67,7 +98,7 @@
 
 	* configure.in: Version to 0.7.21
 
-2005-07-08  g17m0@lycos.com  <markus@markus>
+2005-07-08  Markus Schwab  <g17m0@lycos.com>
 
 	* XGP/XFileEntry.cpp: Formatting changed
 
@@ -76,11 +107,11 @@
 
 	* YGP/ConnMgr.cpp, YGP/ConnMgr.h: Added a disconnect method
 
-2005-06-08  g17m0@lycos.com  <markus@markus>
+2005-06-08  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/ATime.cpp: Fixed compiler-error when compiling without strfmt
 
-2005-05-21  g17m0@lycos.com  <markus@markus>
+2005-05-21  Markus Schwab  <g17m0@lycos.com>
 
 	* YGP/Tests/ANumeric.cpp: Setting locale to de_DE
 

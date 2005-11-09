@@ -1,3 +1,16 @@
+Overview of Changes in version 0.7.31:
+
+  - Fixed compilation with OpenBSD
+  - TableWriter: Fixed creating the column-definition (colgroup) for HTML
+  - TableWriter: Fixed bug creating a text-table
+  - HTMLViewer: Disabled traces and checks
+
+
+Overview of Changes in version 0.7.30:
+
+  - Make TableWriter generate correct HTML
+
+
 Overview of Changes in version 0.7.30:
 
   - HTMLViewer can use GtkMozEmbed (if installed) to display HTML documents
