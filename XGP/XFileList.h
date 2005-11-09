@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.29 2004/12/29 18:18:08 markus Rel $
+//$Id: XFileList.h,v 1.30 2005/11/09 19:23:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,9 @@
 
 #include <ygp-cfg.h>
 
-#if !defined (HAVE_GETTEXT) || !defined (ENABLE_NLS)
+#if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
+#  include <libintl.h>
+#else
 #  define dgettext(pkg, text) (text)
 #endif
 
