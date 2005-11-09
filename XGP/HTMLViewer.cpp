@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.18 2005/10/17 03:51:11 markus Rel $
+//$Id: HTMLViewer.cpp,v 1.19 2005/11/09 19:22:08 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -33,8 +33,6 @@
 
 #include <gtkmm/scrolledwindow.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 
