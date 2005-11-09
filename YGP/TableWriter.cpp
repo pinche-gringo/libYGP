@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.6 2005/10/25 21:00:31 markus Rel $
+//$Id: TableWriter.cpp,v 1.7 2005/11/09 19:21:26 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -219,7 +219,7 @@ std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
 
    std::string chg (value);
    static const char toChange[] = { '&', '<', '>', '\'', '"' };
-   static const char* changeTo[] = { "&amp;", "&lt;", "&gt;", "&apos;", "&quot;" };
+   static const char* changeTo[] = { "&amp;", "&lt;", "&gt;", "&lsquo;", "&quot;" };
    Check3 (sizeof (toChange) == (sizeof (changeTo) / sizeof (changeTo[0])));
 
    for (unsigned int i (0); i < chg.size (); ++i)

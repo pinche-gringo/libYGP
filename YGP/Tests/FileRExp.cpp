@@ -1,11 +1,11 @@
-// $Id: FileRExp.cpp,v 1.10 2005/01/08 22:09:04 markus Rel $
+// $Id: FileRExp.cpp,v 1.11 2005/11/09 19:21:45 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/FileRExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -48,7 +48,7 @@ int main (int argc, char* argv[]) {
 
    regExp = "[[:alpha:]]";
    check (!regExp.checkIntegrity ());
-   // Check named character classes especially; not all fmatch versions
+   // Check named character classes especially; not all fnmatch versions
    // understand them
    if (!regExp.matches ("x")) {
 #ifdef HAVE_FNMATCH
