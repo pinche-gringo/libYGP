@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.44 2005/03/21 17:35:29 markus Rel $
+//$Id: ADate.cpp,v 1.45 2005/11/10 17:36:57 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -186,15 +186,15 @@ void ADate::assign (const char* pDate, unsigned int len) {
 
       read = ((posY < posM)
 	      ? ((posD < posY)
-		 ? sscanf (pDate, format.c_str (), (int*)&day, &year, (int*)&month)
+		 ? sscanf (pDate, format.c_str (), (unsigned int*)&day, &year, (unsigned int*)&month)
 		 : ((posM < posY)
-		    ? sscanf (pDate, format.c_str (), &year, (int*)&day, (int*)&month)
-		    : sscanf (pDate, format.c_str (), &year, (int*)&month, (int*)&day)))
+		    ? sscanf (pDate, format.c_str (), &year, (unsigned int*)&day, (unsigned int*)&month)
+		    : sscanf (pDate, format.c_str (), &year, (unsigned int*)&month, (unsigned int*)&day)))
 	      : ((posD < posM)
-		 ? sscanf (pDate, format.c_str (), (int*)&day, (int*)&month, &year)
+		 ? sscanf (pDate, format.c_str (), (unsigned int*)&day, (unsigned int*)&month, &year)
 		 : ((posD < posY)
-		    ? sscanf (pDate, format.c_str (), (int*)&month, (int*)&day, &year)
-		    : sscanf (pDate, format.c_str (), (int*)&month, &year, (int*)&day))));
+		    ? sscanf (pDate, format.c_str (), (unsigned int*)&month, (unsigned int*)&day, &year)
+		    : sscanf (pDate, format.c_str (), (unsigned int*)&month, &year, (unsigned int*)&day))));
       if (read != 3)
 	 read = -1;
       break; }
@@ -203,7 +203,7 @@ void ADate::assign (const char* pDate, unsigned int len) {
    case 7:
    case 6:
    case 5:
-      read = sscanf (pDate, "%2u%2u%d", (int*)&day, (int*)&month, year);
+      read = sscanf (pDate, "%2u%2u%d", (unsigned int*)&day, (unsigned int*)&month, &year);
       if (read != 3)
 	 read = -1;
       break;
