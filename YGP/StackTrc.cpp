@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.16 2005/01/09 02:10:25 markus Rel $
+// $Id: StackTrc.cpp,v 1.17 2005/11/10 17:36:25 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -32,7 +32,7 @@
 #include <ygp-cfg.h>
 
 #include <cstdio>
-#include <malloc.h>
+#include <cstdlib>
 
 #include <signal.h>
 
