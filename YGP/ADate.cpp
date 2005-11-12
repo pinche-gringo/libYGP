@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.45 2005/11/10 17:36:57 markus Exp $
+//$Id: ADate.cpp,v 1.46 2005/11/12 15:06:01 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -169,6 +169,8 @@ void ADate::assign (const char* pDate, unsigned int len) {
 #else
    day = month = 1;
    int read (0);
+   unsigned int _day, _year, _month;
+
    switch (len) {
    case 12:
    case 11:
@@ -186,15 +188,15 @@ void ADate::assign (const char* pDate, unsigned int len) {
 
       read = ((posY < posM)
 	      ? ((posD < posY)
-		 ? sscanf (pDate, format.c_str (), (unsigned int*)&day, &year, (unsigned int*)&month)
+		 ? sscanf (pDate, format.c_str (), &_day, &_year, &_month)
 		 : ((posM < posY)
-		    ? sscanf (pDate, format.c_str (), &year, (unsigned int*)&day, (unsigned int*)&month)
-		    : sscanf (pDate, format.c_str (), &year, (unsigned int*)&month, (unsigned int*)&day)))
+		    ? sscanf (pDate, format.c_str (), &_year, &_day, &_month)
+		    : sscanf (pDate, format.c_str (), &_year, &_month, &_day)))
 	      : ((posD < posM)
-		 ? sscanf (pDate, format.c_str (), (unsigned int*)&day, (unsigned int*)&month, &year)
+		 ? sscanf (pDate, format.c_str (), &_day, &_month, &_year)
 		 : ((posD < posY)
-		    ? sscanf (pDate, format.c_str (), (unsigned int*)&month, (unsigned int*)&day, &year)
-		    : sscanf (pDate, format.c_str (), (unsigned int*)&month, &year, (unsigned int*)&day))));
+		    ? sscanf (pDate, format.c_str (), &_month, &_day, &_year)
+		    : sscanf (pDate, format.c_str (), &_month, &_year, &_day))));
       if (read != 3)
 	 read = -1;
       break; }
@@ -203,7 +205,7 @@ void ADate::assign (const char* pDate, unsigned int len) {
    case 7:
    case 6:
    case 5:
-      read = sscanf (pDate, "%2u%2u%d", (unsigned int*)&day, (unsigned int*)&month, &year);
+      read = sscanf (pDate, "%2u%2u%d", &_day, &_month, &_year);
       if (read != 3)
 	 read = -1;
       break;
@@ -218,8 +220,12 @@ void ADate::assign (const char* pDate, unsigned int len) {
       std::string error (_("Invalid date: %1"));
       error.replace (error.find ("%1"), 2, 1, '0');
    }
-   else
+   else {
+      day = _day;
+      month = _month;
+      year = _year;
       setDefined ();
+   }
 #endif
    return;
 }

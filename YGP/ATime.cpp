@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.38 2005/06/08 04:07:06 markus Rel $
+//$Id: ATime.cpp,v 1.39 2005/11/12 15:06:01 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -182,35 +182,35 @@ void ATime::assign (const char* pTime, unsigned int len) {
       throw std::invalid_argument (error);
    }
 #else
-   hour = min_ = sec = 0;
+   unsigned int _hour (0), _min (0), _sec (0);
 
    TRACE5 ("ATime::assign (const char*, unsigned int) - Mode: " << mode
 	   << "; Length: " << len);
    int read (0);
    switch (len) {
    case 8:
-      read = sscanf (pTime, "%2u:%2u:%2u", (int*)&hour, (int*)&min_, (int*)&sec);
-      TRACE9 ("Read: " << read << "; " << (int)hour << ':' << (int)min_ << ':' << (int)sec);
+      read = sscanf (pTime, "%2u:%2u:%2u", &_hour, &_min, &_sec);
+      TRACE9 ("Read: " << read << "; " << _hour << ':' << _min << ':' << _sec);
       if (read != 3)
 	 read = -1;
       break;
    case 6:
-      read = sscanf (pTime, "%2u%2u%2u", (int*)&hour, (int*)&min_, (int*)&sec);
+      read = sscanf (pTime, "%2u%2u%2u", &_hour, &_min, &_sec);
       if (read != 3)
 	 read = -1;
       break;
    case 5:
-      read = ((mode == MODE_MMSS) ? sscanf (pTime, "%2u:%2u", (int*)&min_, (int*)&sec)
-	      : sscanf (pTime, "%2u:%2u", (int*)&hour, (int*)&min_));
+      read = ((mode == MODE_MMSS) ? sscanf (pTime, "%2u:%2u", &_min, &_sec)
+	      : sscanf (pTime, "%2u:%2u", &_hour, &_min));
       if (read != 2)
 	 read = -1;
       break;
    case 4:
       read = ((pTime[1] == ':') || (pTime[2] == ':')
-	      ? ((mode == MODE_MMSS) ? sscanf (pTime, "%2u:%2u", (int*)&min_, (int*)&sec)
-		 : sscanf (pTime, "%2u:%2u", (int*)&hour, (int*)&min_))
-	      : ((mode == MODE_MMSS) ? sscanf (pTime, "%2u%2u", (int*)&min_, (int*)&sec)
-		 : sscanf (pTime, "%2u%2u", (int*)&hour, (int*)&min_)));
+	      ? ((mode == MODE_MMSS) ? sscanf (pTime, "%2u:%2u", &_min, &_sec)
+		 : sscanf (pTime, "%2u:%2u", &_hour, &_min))
+	      : ((mode == MODE_MMSS) ? sscanf (pTime, "%2u%2u", &_min, &_sec)
+		 : sscanf (pTime, "%2u%2u", &_hour, &_min)));
       if (read != 2)
 	 read = -1;
       break;
@@ -223,8 +223,12 @@ void ATime::assign (const char* pTime, unsigned int len) {
       undefine ();
       throw std::invalid_argument (_("No time: Position 0"));
    }
-   else
+   else {
+      sec = _sec;
+      min_ = _min;
+      hour = _hour;
       setDefined ();
+   }
 #endif
    return;
 }
