@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.31 2005/05/06 21:27:32 markus Rel $
+//$Id: Attribute.h,v 1.32 2005/11/12 15:09:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -170,19 +170,6 @@ template <> inline bool Attribute<char*>::assignFromString (const char* value) c
 }
 template <> inline std::string Attribute<char*>::getValue () const { return attr_; }
 template <> inline std::string Attribute<char*>::getFormattedValue () const { return getValue (); }
-
-template <> inline bool Attribute<char* const>::assignFromString (const char* value) const {
-   Check3 (value);
-   strcpy (attr_, value);
-   return true;
-}
-template <> inline bool Attribute<char* const>::assign (const char* value, unsigned int length) const {
-   Check3 (value);
-   memcpy (attr_, value, length);
-   return true;
-}
-template <> inline std::string Attribute<char* const>::getValue () const { return attr_; }
-template <> inline std::string Attribute<char* const>::getFormattedValue () const { return getValue (); }
 
 // Specialization of Attribute for bools
 template <> inline bool Attribute<bool>::assignFromString (const char* value) const {
