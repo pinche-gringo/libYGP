@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.21 2004/11/04 16:31:19 markus Rel $
+// $Id: RemoteFile.cpp,v 1.22 2005/11/12 15:14:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -168,10 +168,17 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 
    if (isOK (text)) {
       AttributeParse attrs;
-      ATTRIBUTE (attrs, char* const, buffer, "Data");
-      ATTRIBUTE (attrs, unsigned int, length, "Length");
-
+      unsigned int lenReceived;
+      ATTRIBUTE (attrs, unsigned int, lenReceived, "Length");
       handleServerMsg (attrs, text.data () + 5);
+
+      if (lenReceived <= length) {
+	 AssignmentParse ass (text.substr (text.find (';')));
+	 memcpy (buffer, ass.getNextNode ().data (), lenReceived);
+      }
+      else
+	 TRACE ("RemoteFile::read (void*, char*, unsigned int) const"
+		"\n - Invalid length received: " << lenReceived << "; expected " << length);
       return length;
    }
    else
@@ -190,7 +197,7 @@ bool RemoteFile::isEOF (void* file) const throw (std::string) {
    std::string buffer ("EOF=");
    ANumeric id ((unsigned int)file);
    buffer += id.toUnformattedString ();
-   
+
    try {
       sock.write (buffer);
       sock.read (buffer);
