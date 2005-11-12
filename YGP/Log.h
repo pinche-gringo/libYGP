@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
 
-//$Id: Log.h,v 1.18 2004/12/29 18:21:06 markus Rel $
+//$Id: Log.h,v 1.19 2005/11/12 15:10:40 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,8 +56,9 @@ class Syslog {
 #ifdef HAVE_SYSLOG_H
       openlog (appl, LOG_PID | LOG_CONS, LOG_USER);
 #else
-      apAppl[Process::getPID ()] = new char[strlen (appl) + 1];
-      strcpy (apAppl[Process::getPID ()], appl);
+      unsigned int len (strlen (appl) + 1);
+      apAppl[Process::getPID ()] = new char[len];
+      memcpy (apAppl[Process::getPID ()], appl, len);
 #endif // HAVE_SYSLOG_H
    }
 
@@ -67,8 +68,9 @@ class Syslog {
 #ifdef HAVE_SYSLOG_H
       openlog (appl, LOG_PID | LOG_CONS, facility);
 #else
-      apAppl[Process::getPID ()] = new char[strlen (appl) + 1];
-      strcpy (apAppl[Process::getPID ()], appl);
+      unsigned int len (strlen (appl) + 1);
+      apAppl[Process::getPID ()] = new char[len];
+      memcpy (apAppl[Process::getPID ()], appl, len);
 #endif // HAVE_SYSLOG_H
    }
    /// Destructor
