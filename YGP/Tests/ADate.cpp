@@ -1,11 +1,11 @@
-// $Id: ADate.cpp,v 1.10 2005/01/08 22:09:04 markus Rel $
+// $Id: ADate.cpp,v 1.11 2005/11/12 15:05:32 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -71,7 +71,12 @@ int main (int argc, char* argv[]) {
 
    std::string out (past.toString ());
    check (out.size () == 8);
-   
+
+   today = "12112005";
+   check (today.getDay () == 12);
+   check (today.getMonth () == 11);
+   check (today.getYear () == 2005);
+
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
    return cErrors ? 1 : 0;
