@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.28 2004/11/04 16:31:18 markus Rel $
+//$Id: File.cpp,v 1.29 2005/11/12 15:09:28 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -120,7 +120,7 @@ File& File::operator= (const char* name) throw (std::string) {
          path_ = "./";
          posName = name;
       }
-      strcpy (entry.d_name, posName);
+      strncpy (entry.d_name, posName, sizeof (entry.d_name));
 
       userExec = !access (name, X_OK);
    }
@@ -139,10 +139,10 @@ File& File::operator= (const char* name) throw (std::string) {
       if (posName)
          path_.assign (name, ++posName - name);
       else {
-         path_ = "./";
+         path_ = ".\\";
          posName = name;
       }
-      strcpy (cFileName, posName);
+      strncpy (cFileName, posName, sizeof (cFileName));
       dwFileAttributes = fileInfo.dwFileAttributes;
       ftCreationTime = fileInfo.ftCreationTime;
       ftLastAccessTime = fileInfo.ftLastAccessTime;

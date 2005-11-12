@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.26 2005/03/06 06:37:04 markus Rel $
+//$Id: File.h,v 1.27 2005/11/12 15:09:28 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -189,7 +189,7 @@ struct File {
    /// Sets the path of the file (only internally)
    void path (const std::string& path) { path_ = path; }
    /// Sets the name of the file to the passed value
-   void name (const char* name) { strcpy (entry.d_name, name); }
+   void name (const char* name) { strncpy (entry.d_name, name, sizeof (entry.d_name)); }
    /// Sets the name of the file to the passed value (only internally)
    void name (const std::string& name) {
       memcpy (entry.d_name, name.data (), name.length ());
@@ -265,7 +265,7 @@ struct File : protected WIN32_FIND_DATA {
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }
-   void name (const char* name) { if (name) strcpy (cFileName, name); }
+   void name (const char* name) { if (name) strncpy (cFileName, name, sizeof (cFileName)); }
    void name (const std::string& name) {
       memcpy (cFileName, name.data (), name.length ());
       cFileName[name.length ()] = '\0'; }
