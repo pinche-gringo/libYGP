@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.8 2003/11/14 18:23:35 markus Rel $
+# $Id: Makefile.in,v 1.9 2005/11/12 15:17:07 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -85,8 +85,9 @@ Icon_mp3.xpm: Icon_wav.xpm
 
 clean:
 
+install-strip: install
+
 install: $(pkgdata_DATA)
-	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)
 	@list='$(pkgdata_DATA)'; for p in $$list; do \
 	  if test -f $(srcdir)/$$p; then \
@@ -99,7 +100,6 @@ install: $(pkgdata_DATA)
 	done
 
 uninstall:
-	@$(NORMAL_UNINSTALL)
 	list='$(pkgdata_DATA)'; for p in $$list; do \
 	  rm -f $(DESTDIR)$(pkgdatadir)/$$p; \
 	done
