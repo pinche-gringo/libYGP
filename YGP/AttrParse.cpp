@@ -1,11 +1,11 @@
-//$Id: AttrParse.cpp,v 1.16 2005/01/12 22:34:37 markus Rel $
+//$Id: AttrParse.cpp,v 1.17 2005/11/14 19:07:42 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005

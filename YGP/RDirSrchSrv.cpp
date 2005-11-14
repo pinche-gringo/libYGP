@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.26 2004/11/04 16:31:19 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.27 2005/11/14 19:07:43 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004
@@ -225,7 +225,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
             Check3 (errno);
             writeError (sock, errno);
          }
-		 delete [] contents;
+	 delete [] contents;
          }
 	 break;
 
