@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.36 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.37 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-11-08 19:11-0400\n"
+"POT-Creation-Date: 2005-11-12 10:56-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:165 YGP/ADate.cpp:218
+#: YGP/ADate.cpp:165 YGP/ADate.cpp:220
 msgid "Invalid date: %1"
 msgstr "Fecha inválida: %1"
 
@@ -194,7 +194,7 @@ msgstr "Error en la seria %1"
 msgid "Expected selection %1"
 msgstr "Esperaba selección %1"
 
-#: YGP/RDirSrch.cpp:259 YGP/RemoteFile.cpp:235
+#: YGP/RDirSrch.cpp:259 YGP/RemoteFile.cpp:242
 msgid "Server returned an error: "
 msgstr "El servidor retornó un error: "
 
