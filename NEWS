@@ -1,3 +1,11 @@
+Overview of Changes in version 0.7.32:
+
+  - Replaced the used strcpy-calls with (safer) strncpy/memcpy
+  - YGP::RemoteFile: Checking data received (to prevent buffer-overflows)
+  - YGP::ADate: Fixed reading from string (when not having strftime)
+  - Tests in YGP/Tests work under (Open)BSD
+
+
 Overview of Changes in version 0.7.31:
 
   - Fixed compilation with OpenBSD
@@ -8,16 +16,11 @@ Overview of Changes in version 0.7.31:
 
 Overview of Changes in version 0.7.30:
 
-  - Make TableWriter generate correct HTML
-
-
-Overview of Changes in version 0.7.30:
-
   - HTMLViewer can use GtkMozEmbed (if installed) to display HTML documents
   - Relation: Added const-versions of methods
   - Relation: Added unrelateAll methods
   - TableWriter: Re-written; contains now all functionality; syntax is passed
-  - YGP::AssignmentParse: Made escapeQuotes public; also escapes backslashes
+  - YGP::AssignmentParse: Made escapeQuotes public
 
 
 Overview of Changes in version 0.7.21:
