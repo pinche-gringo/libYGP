@@ -1,3 +1,64 @@
+2005-11-14  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.31 documented
+
+	* configure.in: Version to 0.7.32 (library-versions stays at 0.7.30)
+
+	* YGP/AttrParse.cpp, YGP/RDirSrchSrv.cpp: Only formatting changed
+
+	* po/en.po, po/es.po, po/de.po: Actualized
+
+2005-11-12  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Icons/Makefile.in:
+	  Added install-strip target; Fixed for (Open)BSD
+
+	* YGP/RemoteFile.cpp:
+	  Sanity-checks when reading file-content via server
+
+	* YGP/Log.h:
+	  Optimized storing application-name (when not having syslog.h)
+
+	* YGP/File.cpp, YGP/File.h: Replaced strcpy with strncpy
+
+	* YGP/Attribute.h:
+	  Remove char* const-specialization of Attribute, as implementation is unsafe
+
+	* YGP/ADate.cpp, YGP/ATime.cpp:
+	  Read values first into temporary values (when assigning from string)
+
+	* YGP/Tests/ADate.cpp: Added test for assigning from string
+
+	* YGP/Tests/ANumeric.cpp:
+	  Only test reading formatted number, if locale supports it
+
+	* YGP/Tests/CRegExp.cpp:
+	  Allow some tests to fail (but warn about libc-difference)
+
+2005-11-10  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ADate.cpp:
+	  Fixed passing a parameter (without address-operator) to sscanf
+
+	* YGP/StackTrc.cpp, YGP/Socket.h: Fixed compile-problems with (Open)BSD
+
+2005-11-09  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.31 documented
+
+	* po/de.po, po/en.po, po/es.po: Updated line-infos
+
+	* XGP/XAttrEntry.h, XGP/XAttrSpin.h, XGP/XFileList.h:
+	Including libintl.h for dgettext (if available and enabled)
+
+	* XGP/HTMLViewer.cpp: Disabled traces and checks
+
+	* YGP/Tests/FileRExp.cpp, YGP/TableWriter.cpp: Only formatting changed
+
+	* YGP/Socket.h: Fixed compilation under (Open)BSD
+
+	* configure.in: Version to 0.7.31 (library-versions stays at 0.7.30)
+
 2005-11-09  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.31 documented
