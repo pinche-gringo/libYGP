@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.27 2005/03/08 01:51:08 markus Rel $
+//$Id: INIFile.h,v 1.28 2005/11/19 01:52:14 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -194,11 +194,15 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
    /// Writes the contents of the passed values to the passed stream
    /// (in its own section named \c section).
+   /// \param stream: Stream to write to
+   /// \param section: Name of section to write
+   /// \param values: Values to write
    static void write (std::ostream& stream, const char* section, const L& values) {
       writeHeader (stream, section);
       for (unsigned int i (0); i < values.size (); ++i)
          stream << i << '=' << values[i] << '\n';
-      stream << '\n'; }
+      stream << '\n';
+   }
 
  protected:
    /// Callback when a key is found while parsing the INI-file (during parsing
