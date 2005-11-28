@@ -1,11 +1,11 @@
-// $Id: XStrBuf.cpp,v 1.35 2004/11/04 16:31:20 markus Rel $
+// $Id: XStrBuf.cpp,v 1.36 2005/11/28 00:24:06 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XStrBuf - Extended streambuf
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -27,9 +27,9 @@
 
 #include <ygp-cfg.h>
 
-#include <stdio.h>
-#include <malloc.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #include "YGP/Check.h"
 #include "YGP/Trace.h"

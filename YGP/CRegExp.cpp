@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.39 2004/11/04 16:31:18 markus Rel $
+//$Id: CRegExp.cpp,v 1.40 2005/11/28 00:24:06 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004
@@ -36,7 +36,7 @@
 #include "YGP/ANumeric.h"
 
 #ifndef HAVE_REGEX_H
-#  include <stdlib.h>
+#  include <cstdlib>
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
 #endif
 
