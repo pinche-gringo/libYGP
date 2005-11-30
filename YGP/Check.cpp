@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.18 2005/03/09 03:55:08 markus Rel $
+//$Id: Check.cpp,v 1.19 2005/11/30 21:34:50 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -107,7 +107,7 @@ int check (const char* expr, const char* file, unsigned int line) {
 #else
    char title[strlen (file) + 40];
 #endif
-   sprintf (title, "Check in %s, line %u", file, line);
+   snprintf (title, sizeof (title), "Check in %s, line %u", file, line);
    std::cerr << title << ": " << expr << '\n';
    if (show (expr, title)) {
       std::cerr << "\t-> Canceled\n";

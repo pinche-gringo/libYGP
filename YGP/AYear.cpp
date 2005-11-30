@@ -1,11 +1,11 @@
-//$Id: AYear.cpp,v 1.4 2004/12/29 18:20:36 markus Rel $
+//$Id: AYear.cpp,v 1.5 2005/11/30 21:34:50 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
 //COPYRIGHT   : Copyright (C) 2004
@@ -101,7 +101,7 @@ std::string AYear::toUnformattedString () const {
    char buffer[12] = "";
 
    if (isDefined ())
-      sprintf (buffer, "%d", year);
+      snprintf (buffer, sizeof (buffer), "%d", year);
    return std::string (buffer);
 }
 

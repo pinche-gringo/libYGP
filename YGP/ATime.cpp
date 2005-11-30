@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.39 2005/11/12 15:06:01 markus Rel $
+//$Id: ATime.cpp,v 1.40 2005/11/30 21:34:50 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -242,7 +242,7 @@ std::string ATime::toUnformattedString () const {
    char buffer[8] = "";
 
    if (isDefined ())
-      sprintf (buffer, "%02u%02u%02u", (unsigned)hour, (unsigned)min_, (unsigned)sec);
+      snprintf (buffer, sizeof (buffer), "%02u%02u%02u", (unsigned)hour, (unsigned)min_, (unsigned)sec);
    return std::string (buffer);
 }
 

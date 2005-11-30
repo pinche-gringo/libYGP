@@ -1,11 +1,11 @@
-// $Id: StackTrc.cpp,v 1.17 2005/11/10 17:36:25 markus Rel $
+// $Id: StackTrc.cpp,v 1.18 2005/11/30 21:34:50 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : StackTrace
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.12.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -86,9 +86,10 @@ void dumpStack () {
 
    free (lines);
 #else
-   char* pBuffer = (char*)malloc (64);
+   const unsigned int len (64);
+   char* pBuffer = (char*)malloc (len);
 
-   sprintf (pBuffer, "dumpStack @ %p", dumpStack);
+   snprintf (pBuffer, len, "dumpStack @ %p", dumpStack);
    PRINT (pBuffer);
 
    // Let pStack point to base-pointer
@@ -102,7 +103,7 @@ void dumpStack () {
               == ((unsigned int)pStack & ~(sizeof (int) - 1)));
 
       // The address of the caller is next (behind) the basepointer
-      sprintf (pBuffer, "Called by ?? @ %p", (void*)pStack[1]);
+      snprintf (pBuffer, len, "Called by ?? @ %p", (void*)pStack[1]);
       PRINT (pBuffer);
 
       if (!levels--)

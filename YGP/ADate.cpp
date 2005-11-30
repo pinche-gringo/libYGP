@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.46 2005/11/12 15:06:01 markus Rel $
+//$Id: ADate.cpp,v 1.47 2005/11/30 21:34:50 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -252,7 +252,7 @@ std::string ADate::toUnformattedString () const {
    char buffer[20] = "";
 
    if (isDefined ())
-      sprintf (buffer, "%02d%02d%d", (unsigned)day, (unsigned)month, year);
+      snprintf (buffer, sizeof (buffer), "%02d%02d%d", (unsigned)day, (unsigned)month, year);
    return std::string (buffer);
 }
 
