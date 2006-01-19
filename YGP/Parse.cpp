@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.53 2005/03/21 17:23:25 markus Rel $
+//$Id: Parse.cpp,v 1.54 2006/01/19 21:29:19 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.53 $
+//REVISION    : $Revision: 1.54 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005
@@ -150,10 +150,38 @@ ParseEOF::~ParseEOF () {
 
 
 //-----------------------------------------------------------------------------
+/// Construcutor
+/// \param bytes: Number of bytes to skip
+/// \param seek: From where to seek in the search
+//-----------------------------------------------------------------------------
+ParseSkip::ParseSkip (int bytes, std::ios_base::seekdir seek)
+   : ParseObject ("Skip", false), offset (bytes), seek (seek) {
+ }
+
+//-----------------------------------------------------------------------------
+/// Copy constructor
+/// \param other: Object to copy
+//-----------------------------------------------------------------------------
+ParseSkip::ParseSkip (const ParseSkip& other)
+   : ParseObject (other), offset (other.offset) {
+ }
+
+//-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
 ParseSkip::~ParseSkip () {
    TRACE9 ("ParseSkip::~ParseSkip () - " << getDescription ());
+}
+
+
+//-----------------------------------------------------------------------------
+/// "Parses" the object; the previously specified number of bytes are
+/// skipped (from the also set position).
+//-----------------------------------------------------------------------------
+int ParseSkip::doParse (Xistream& stream, bool) {
+   TRACE5 ("ParseSkip::doParse (Xistream& stream, bool) - " << offset << '/' << (int)seek);
+   stream.seekg (offset, seek);
+   return PARSE_OK;
 }
 
 
@@ -885,7 +913,7 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 /// \throw std::string: In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE1 ("ParseSequence::doParse -> " << getDescription ());
+   TRACE1 ("ParseSequence::doParse -> " << getDescription () << ' ' << maxCard);
    Check1 (!checkIntegrity ());
 
    unsigned int i (0);
@@ -1003,7 +1031,7 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 /// \throw std::string: In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string) {
-   TRACE1 ("ParseSelection::doParse -> " << getDescription ());
+   TRACE1 ("ParseSelection::doParse -> " << getDescription () << ' ' << maxCard);
    Check1 (!checkIntegrity ());
 
    unsigned int i (0);

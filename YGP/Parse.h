@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.41 2004/09/17 17:42:37 markus Rel $
+//$Id: Parse.h,v 1.42 2006/01/19 21:29:19 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -176,38 +176,44 @@ class ParseEOF : public ParseObject {
 };
 
 
-/**Class to skip some characters (from the current position in the stream).
+/**Class to skip some characters (default from the current position in
+   the stream).
 
    See ParseObject for a general description of the parser.
 */
 class ParseSkip : public ParseObject {
  public:
-   /// Constructor; bytes specify, how many bytes should be skipped, when the
-   /// object is "parsed".
-   ParseSkip (unsigned int bytes) : ParseObject ("Skip", false), offset (bytes) { }
-   /// Copy constructor
-   ParseSkip (const ParseSkip& other) : ParseObject (other), offset (other.offset) { }
+   ParseSkip (int bytes, std::ios_base::seekdir seek = std::ios::cur);
+   ParseSkip (const ParseSkip& other);
    virtual ~ParseSkip ();
 
    /// Assignment operator
    ParseSkip& operator= (const ParseSkip& other) {
-      if (this != &other)
+      if (this != &other) {
          offset = other.offset;
+	 seek = other.seek;
+      }
       return *this; }
 
-   /// "Parses" the object; the previously specified number of bytes are
-   /// skipped (from the current position).
-   virtual int doParse (Xistream& stream, bool) {
-      stream.seekg (offset, std::ios::cur);
-      return PARSE_OK; }
+   virtual int doParse (Xistream& stream, bool);
 
-   /// Returns the number of bytes which are skipped while parsing the object.
-   void setOffset (unsigned int val) { offset = val; }
    /// Sets the number of bytes which are skipped while parsing the object.
-   unsigned int getOffset () const { return offset; }
+   void setOffset (int val) { offset = val; }
+   /// Sets the number of bytes which are skipped while parsing the object.
+   void setOffset (int val, std::ios_base::seekdir way) { offset = val; seek = way; }
+   /// Returns the number of bytes which are skipped while parsing the object.
+   int getOffset () const { return offset; }
+
+   /// Sets the way of the skip
+   void setWay (std::ios_base::seekdir val) { seek = val; }
+   /// Returns the way of the skip
+   std::ios_base::seekdir getWay () const { return seek; }
 
  private:
-   unsigned int offset;
+   ParseSkip ();
+
+   int offset;
+   std::ios_base::seekdir seek;
 };
 
 
