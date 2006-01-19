@@ -1,14 +1,14 @@
-//$Id: X-Appl.cpp,v 1.30 2005/04/30 03:00:13 markus Rel $
+//$Id: X-Appl.cpp,v 1.31 2006/01/19 21:27:54 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005
+//COPYRIGHT   : Copyright (C) 2003 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -332,7 +332,9 @@ void XAppl::showMsgDialog () {
 /// Opens a dialog to enter login data
 //-----------------------------------------------------------------------------
 void XAppl::showLoginDialog () {
-   XGP::TLoginDialog<XAppl>::create ("", *this, &XAppl::loginEvent);
+   XGP::LoginDialog* dlg (XGP::LoginDialog::create (""));
+   dlg->get_window ()->set_transient_for (get_window ());
+   dlg->sigLogin.connect (mem_fun (*this, &XAppl::loginEvent));
 }
 
 //-----------------------------------------------------------------------------
@@ -349,7 +351,7 @@ void XAppl::showSearchDialog () {
 void XAppl::showAboutbox () {
    XGP::XAbout* about (XGP::XAbout::create
                        (Glib::locale_to_utf8
-			("Copyright © 2003 - 2005 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+			("Copyright © 2003 - 2006 Markus Schwab\ne-mail: g17m0@lycos.com\n"
 			 "\nCompiled on " __DATE__ " at " __TIME__),
 			"X-Appl V" VERSION));
    about->setIconProgram (xpmXAppl);
