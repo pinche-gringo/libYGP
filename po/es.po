@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.37 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.38 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2005-11-12 10:56-0400\n"
+"POT-Creation-Date: 2006-01-18 20:04-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -178,19 +178,19 @@ msgstr "-error: Opción '%1' es ambigua"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
-#: YGP/Parse.cpp:289
+#: YGP/Parse.cpp:317
 msgid "Expected %1, found: '%2'"
 msgstr "Esperaba %1, encontré '%2'"
 
-#: YGP/Parse.cpp:923
+#: YGP/Parse.cpp:951
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Error en la seria %1; Esperaba: %2"
 
-#: YGP/Parse.cpp:923
+#: YGP/Parse.cpp:951
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: YGP/Parse.cpp:1041
+#: YGP/Parse.cpp:1069
 msgid "Expected selection %1"
 msgstr "Esperaba selección %1"
 
@@ -470,14 +470,14 @@ msgstr "_Busca:"
 msgid "Enter login information"
 msgstr "Información del usario"
 
-#: XGP/LoginDlg.cpp:54
+#: XGP/LoginDlg.cpp:52
 msgid "_Userid:"
 msgstr "_Nombre de usario:"
 
-#: XGP/LoginDlg.cpp:58
+#: XGP/LoginDlg.cpp:56
 msgid "_Password:"
 msgstr "_Contraseña:"
 
-#: XGP/LoginDlg.cpp:70
+#: XGP/LoginDlg.cpp:68
 msgid "_Login"
 msgstr "C_onectar"
