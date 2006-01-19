@@ -1,7 +1,7 @@
 #ifndef LOGINDLG_H
 #define LOGINDLG_H
 
-//$Id: LoginDlg.h,v 1.4 2004/12/29 18:16:32 markus Rel $
+//$Id: LoginDlg.h,v 1.5 2006/01/19 21:27:05 markus -Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,91 +35,55 @@ namespace XGP {
 
    The password is not displayed openly.
  */
-class ILoginDialog : public XGP::XDialog {
+class LoginDialog : public XGP::XDialog {
  public:
-   ILoginDialog (const Glib::ustring& title);
-   virtual ~ILoginDialog ();
-
-   /// Sets the passed user in the dialog
-   /// \param user: User to set in the dialog
-   void setUser (const Glib::ustring& user) {
-      txtUser->set_text (user);
-      txtUser->select_region (0, user.size ());
-   }
-   void setCurrentUser ();
-
- protected:
-   Gtk::Table* pClient;             ///< Pointer to the client information area
-   Gtk::Entry* txtUser;                ///< Textfield, where user enters the ID
-   Gtk::Entry* txtPassword;      ///< Textfield, where user enters the password
-
-   enum { LOGIN };
-
- private:
-
-   // Prohibited manager functions
-   ILoginDialog (const ILoginDialog& other);
-   const ILoginDialog& operator= (const ILoginDialog& other);
-
-   void inputChanged ();
-};
-
-
-/**Dialog to enter the information to perform a login (userid and password)
-
-   The password is not displayed openly.
-
-   This class reports the user-entered input via a callback to the caller.
- */
-template <class T>
-class TLoginDialog : public ILoginDialog {
- public:
-   /// Declaration of the type of the callback for the user action
-   typedef bool (T::*PCALLBACK)(const Glib::ustring& user,
-				const Glib::ustring& password);
-
-   /// Constructor
-   /// \param title: Title to display for dialog
-   /// \param parent: Parent of the created dialog
-   /// \param callback: Method of parent to call when selecting OK
-   TLoginDialog (const Glib::ustring& title, T& parent,
-		 const PCALLBACK callback)
-      : ILoginDialog (title), parent (parent), callback (callback) { }
-   virtual ~TLoginDialog () { }
+   LoginDialog (const Glib::ustring& title);
+   virtual ~LoginDialog ();
 
    /// Creates the dialog (and set it as child of the parent)
    /// \param title: Title of the dialog
-   /// \param parent: Object which should be informed about the selection
-   /// \param callback: Method of parent to handle login
    /// \remarks Cares also about freeing the dialog
-   static TLoginDialog* create (const Glib::ustring& title, T& parent,
-                               const PCALLBACK callback) {
-      TLoginDialog<T>* dlg (new TLoginDialog<T> (title, parent, callback));
-      dlg->get_window ()->set_transient_for (parent.get_window ());
-      dlg->signal_response ().connect (mem_fun (*dlg, &TLoginDialog<T>::free));
+   static LoginDialog* create (const Glib::ustring& title) {
+      LoginDialog* dlg (new LoginDialog (title));
+      dlg->signal_response ().connect (mem_fun (*dlg, &LoginDialog::free));
       return dlg;
    }
 
- private:
-   //Prohibited manager functions
-   TLoginDialog (const TLoginDialog& other);
-   const TLoginDialog& operator= (const TLoginDialog& other);
+   /// Sets the passed user in the dialog
+   /// \param user: User to set
+   void setUser (const Glib::ustring& user) {
+      txtUser.set_text (user);
+      txtUser.select_region (0, user.size ());
+   }
+   void setCurrentUser ();
+
+   /// Sets the passed password in the dialog
+   /// \param pwd: Password to set
+   void setPassword (const Glib::ustring& pwd) {
+      txtPassword.set_text (pwd);
+   }
+
+   /// Signal emitted, when Login is selected
+   sigc::signal<bool, const Glib::ustring&, const Glib::ustring&> sigLogin;
+
+
+ protected:
+   Gtk::Table* pClient;             ///< Pointer to the client information area
+   Gtk::Entry txtUser;                 ///< Textfield, where user enters the ID
+   Gtk::Entry txtPassword;       ///< Textfield, where user enters the password
+
+   enum { LOGIN };
 
    /// Callback after clicking on a button in the dialog
    /// \param id: ID of clicked button
-   virtual void command (int id) {
-      if (id == LOGIN) {
-	 Check3 (txtUser); Check3 (txtUser->get_text_length ());
-	 Check3 (txtPassword);
-	 if ((parent.*callback) (txtUser->get_text (), txtPassword->get_text ()))
-	    response (Gtk::RESPONSE_OK);
-      }
-      else
-	 XDialog::command (id);
-   }
+   virtual void command (int id);
 
-   T&        parent;
-   PCALLBACK callback;
+ private:
+   // Prohibited manager functions
+   LoginDialog (const LoginDialog& other);
+   const LoginDialog& operator= (const LoginDialog& other);
+
+   void inputChanged ();
 };
 
 }
