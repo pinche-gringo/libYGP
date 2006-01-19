@@ -1,3 +1,42 @@
+2006-01-19  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.40 documented
+
+	* configure.in: Explicitely setting LIB_GMP
+
+	* po/de.po, po/en.po, po/es.po: Actualized line-numbers
+
+	* YGP/Parse.cpp, YGP/Parse.h: ParseSkip can be told from where to skip
+
+	* XGP/Folder.cpp, XGP/Folder.h: Deleted
+
+	* XGP/Samples/X-Appl.cpp: Using new style of LoginDialog
+
+	* XGP/LoginDlg.cpp, XGP/LoginDlg.h:
+	  Using signal to inform about login, thus TLoginDialog removed
+
+2006-01-18  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Makefile.am: Removed Folder
+
+2005-12-20  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in:
+	  Version to 0.7.40; Added options --with-corba/--with-gmp
+
+2005-11-30  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ADate.cpp, YGP/ATime.cpp, YGP/AYear.cpp, YGP/Check.cpp, YGP/StackTrc.cpp:
+	  Replaced sprintf with snprintf
+
+2005-11-27  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/CRegExp.cpp, YGP/XStrBuf.cpp: Using C++'s standard header
+
+2005-11-18  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/INIFile.h: Added description of parameters of INIList::write
+
 2005-11-14  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.31 documented
