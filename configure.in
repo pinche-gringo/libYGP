@@ -1,8 +1,8 @@
-dnl $Id: configure.in,v 1.81 2005/12/21 02:11:24 markus Exp $
+dnl $Id: configure.in,v 1.82 2006/01/19 21:33:19 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_REVISION($Revision: 1.81 $)
+AC_REVISION($Revision: 1.82 $)
 AC_INIT([libYGP],[0.7.40],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
@@ -209,12 +209,17 @@ if test "$with_corba" == "yes"; then
    fi
 fi
 
+LIB_GMP=""
 AC_ARG_WITH(gmp,
             AC_HELP_STRING([--with-gmp], [Use GNU's multiple precision library (if available)]),
             [with_gmp=yes])
 if test "$with_gmp" == "yes"; then
    AC_CHECK_LIB(gmp, main)
+   if test $ac_cv_lib_gmp_main = yes; then
+      LIB_GMP=-lgmp
+   fi
 fi
+AC_SUBST(LIB_GMP)
 
 AC_CONFIG_FILES([Makefile YGP/Makefile YGP/Tests/Makefile XGP/Makefile \
 	   intl/Makefile XGP/Icons/Makefile CGP/Makefile po/Makefile.in \
