@@ -1,14 +1,14 @@
-//$Id: ANumeric.cpp,v 1.51 2005/05/21 17:21:53 markus Rel $
+//$Id: ANumeric.cpp,v 1.52 2006/01/28 08:16:51 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.51 $
+//REVISION    : $Revision: 1.52 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -137,6 +137,7 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
 /// \returns Reference to self
 //-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator= (const ANumeric& other) {
+   TRACE9 ("ANumeric& ANumeric::operator= (const ANumeric&)");
    if (this != &other) {
 #ifdef HAVE_LIBGMP
       mpz_set (value, other.value);
@@ -359,7 +360,7 @@ ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
 /// \param other: Object to compare
 /// \returns 1 if this > other; 0 if this == other; -1 else
 //-----------------------------------------------------------------------------
-int ANumeric::compare (const ANumeric& other) {
+int ANumeric::compare (const ANumeric& other) const {
    if (isDefined () && other.isDefined ())     // Both sides defined -> compare
 #ifdef HAVE_LIBGMP
       return mpz_cmp (value, other.value);

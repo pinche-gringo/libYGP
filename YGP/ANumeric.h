@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.35 2005/05/21 17:21:53 markus Rel $
+//$Id: ANumeric.h,v 1.36 2006/01/28 08:16:51 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -104,17 +104,13 @@ class ANumeric : public AttributValue {
 
    /// Constructor; initializes the object from the passed text and defines it.
    ANumeric (const char* pValue) throw (std::invalid_argument) : AttributValue () {
-#ifdef HAVE_LIBGMP
-      mpz_init (value);
-#endif
-      operator= (pValue); }
+      operator= (pValue);
+   }
    /// Constructor; initializes the object from the passed text and defines it.
    ANumeric (const std::string& str) throw (std::invalid_argument)
       : AttributValue () {
-#ifdef HAVE_LIBGMP
-      mpz_init (value);
-#endif
-      operator= (str); }
+      operator= (str);
+   }
    virtual ~ANumeric ();
 
    /// \name Assignment methods
@@ -233,31 +229,31 @@ class ANumeric : public AttributValue {
    /// \name Comparison
    //@{
    /// Checks if two objects are equal. See compare() for details.
-   bool operator== (const ANumeric& other) { return !compare (other); }
+   bool operator== (const ANumeric& other) const { return !compare (other); }
    /// Checks if two objects are not equal. See compare() for details.
-   bool operator!= (const ANumeric& other) { return compare (other) != 0; }
+   bool operator!= (const ANumeric& other) const { return compare (other) != 0; }
    /// Checks if one object is smaller than another. See compare() for details.
-   bool operator<  (const ANumeric& other) { return compare (other) < 0; }
+   bool operator<  (const ANumeric& other) const { return compare (other) < 0; }
    /// Checks if one object is bigger than another. See compare() for details.
-   bool operator>  (const ANumeric& other) { return compare (other) > 0; }
+   bool operator>  (const ANumeric& other) const { return compare (other) > 0; }
    /// Checks if one object is smaller than or equan to another. See compare() for details.
-   bool operator<= (const ANumeric& other) { return compare (other) <= 0; }
+   bool operator<= (const ANumeric& other) const { return compare (other) <= 0; }
    /// Checks if one object is bigger than or equan to another. See compare() for details.
-   bool operator>= (const ANumeric& other) { return compare (other) >= 0; }
-   int compare (const ANumeric& other);
+   bool operator>= (const ANumeric& other) const { return compare (other) >= 0; }
+   int compare (const ANumeric& other) const;
 
    /// Checks if two objects are equal. See compare() for details.
-   bool operator== (int other) { return !compare (other); }
+   bool operator== (int other) const { return !compare (other); }
    /// Checks if two objects are not equal. See compare() for details.
-   bool operator!= (int other) { return compare (other) != 0; }
+   bool operator!= (int other) const { return compare (other) != 0; }
    /// Checks if one object is smaller than another. See compare() for details.
-   bool operator<  (int other) { return compare (other) < 0; }
+   bool operator<  (int other) const { return compare (other) < 0; }
    /// Checks if one object is bigger than another. See compare() for details.
-   bool operator>  (int other) { return compare (other) > 0; }
+   bool operator>  (int other) const { return compare (other) > 0; }
    /// Checks if one object is smaller than or equan to another. See compare() for details.
-   bool operator<= (int other) { return compare (other) <= 0; }
+   bool operator<= (int other) const { return compare (other) <= 0; }
    /// Checks if one object is bigger than or equan to another. See compare() for details.
-   bool operator>= (int other) { return compare (other) >= 0; }
+   bool operator>= (int other) const { return compare (other) >= 0; }
    //@}
 
  private:
