@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.14 2004/10/24 00:21:26 markus Rel $
+// $Id: Version.cpp,v 1.15 2006/01/28 08:35:31 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -65,7 +65,7 @@ static const char* Version = "\n!@$%" PACKAGE " V" VERSION
 // Function to initialize various global data
 static const int _init () {
    bindtextdomain (PACKAGE, LOCALEDIR);
-   return VERSION == (void*)0;
+   return Version != (const void*)0;
 }
 
 static const int init = _init ();
