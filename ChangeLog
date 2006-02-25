@@ -1,4 +1,25 @@
+2006-02-24  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.41 documented
+
+	* XGP/Samples/X-Appl.cpp:
+	  Using only ASCII-characters in text for about box
+
+	* YGP/CRegExp.h, YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/RegExp.h, YGP/ADate.cpp, YGP/ADate.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AYear.cpp, YGP/AYear.h, YGP/CRegExp.cpp:
+	  Made compare() const
+
+	* configure.in: Verstion to 0.7.41
+
+2006-01-28  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Version.cpp: Removed warning about unused variable
+
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Made comparison-methods const
+
 2006-01-19  Markus Schwab  <g17m0@lycos.com>
+
+	* doc/Makefile.am:
+	  Added target to copy the documentation to Sourceforge
 
 	* ChangeLog, NEWS: Changes in V0.7.40 documented
 
