@@ -1,14 +1,14 @@
-//$Id: AYear.cpp,v 1.5 2005/11/30 21:34:50 markus Rel $
+//$Id: AYear.cpp,v 1.6 2006/02/25 03:07:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
-//COPYRIGHT   : Copyright (C) 2004
+//COPYRIGHT   : Copyright (C) 2004 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -169,7 +169,7 @@ AYear& AYear::operator-= (const AYear& rhs) {
 /// \param other: Object to compare
 /// \return \c >0 if this "younger" other; 0 if this == other; <0 else
 //----------------------------------------------------------------------------
-long AYear::compare (const AYear& other) {
+long AYear::compare (const AYear& other) const {
    // Both sides are defined -> return (approximated) difference
    return (isDefined () ? other.isDefined () ? (year - other.year) : 1
 	   : other.isDefined () ? -1 : 0);

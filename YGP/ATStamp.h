@@ -1,7 +1,7 @@
 #ifndef ATSTAMP_H
 #define ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.22 2003/12/22 21:26:24 markus Rel $
+//$Id: ATStamp.h,v 1.23 2006/02/25 03:07:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -122,19 +122,19 @@ class ATimestamp : virtual public ADate, virtual public ATime {
 
    /// \name Comparison
    //@{
-   bool operator== (const ATimestamp& other) { /// Compares two objects for equalnesss
+   bool operator== (const ATimestamp& other) const { /// Compares two objects for equalnesss
       return !compare (other); }
-   bool operator!= (const ATimestamp& other) { /// Compares if two objects are not equal
+   bool operator!= (const ATimestamp& other) const { /// Compares if two objects are not equal
       return compare (other) != 0; }
    /// Checks if one object is "younger" than the other. See compare() for details
-   bool operator<  (const ATimestamp& other) { return compare (other) < 0; }
+   bool operator<  (const ATimestamp& other) const { return compare (other) < 0; }
    /// Checks if one object is "older" than the other. See compare() for details
-   bool operator>  (const ATimestamp& other) { return compare (other) > 0; }
+   bool operator>  (const ATimestamp& other) const { return compare (other) > 0; }
    /// Checks if one object is "younger"  than or equal to the other. See compare() for details
-   bool operator<= (const ATimestamp& other) { return compare (other) <= 0; }
+   bool operator<= (const ATimestamp& other) const { return compare (other) <= 0; }
    /// Checks if one object is "older" than or equal to the other. See compare() for details
-   bool operator>= (const ATimestamp& other) { return compare (other) >= 0; }
-   long compare (const ATimestamp& other);
+   bool operator>= (const ATimestamp& other) const { return compare (other) >= 0; }
+   long compare (const ATimestamp& other) const;
    //@}
 
    // Usefull utility-functions

@@ -1,7 +1,7 @@
 #ifndef AYEAR_H
 #define AYEAR_H
 
-//$Id: AYear.h,v 1.3 2004/12/29 18:20:00 markus Rel $
+//$Id: AYear.h,v 1.4 2006/02/25 03:07:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,21 +85,21 @@ class AYear : public AttributValue {
 
    /// \name Comparison
    //@{
-   bool operator== (const AYear& other) { /// Compares two objects for equalnesss
+   bool operator== (const AYear& other) const { /// Compares two objects for equalnesss
       return !compare (other); }
-   bool operator!= (const AYear& other) { /// Compares if two objects are not equal
+   bool operator!= (const AYear& other) const { /// Compares if two objects are not equal
       return compare (other) != 0; }
    /// Checks if one object is "younger" than the other. See compare() for details
-   bool operator<  (const AYear& other) { return compare (other) < 0; }
+   bool operator<  (const AYear& other) const { return compare (other) < 0; }
    /// Checks if one object is "older" than the other. See compare() for details
-   bool operator>  (const AYear& other) { return compare (other) > 0; }
+   bool operator>  (const AYear& other) const { return compare (other) > 0; }
    /// Checks if one object is "younger"  than or equal to the other. See compare() for details
-   bool operator<= (const AYear& other) {
+   bool operator<= (const AYear& other) const {
       return compare (other) <= 0; }
    /// Checks if one object is "older" than or equal to the other. See compare() for details
-   bool operator>= (const AYear& other) {
+   bool operator>= (const AYear& other) const {
       return compare (other) >= 0; }
-   long compare (const AYear& other);
+   long compare (const AYear& other) const;
    //@}
 
    /// \name Usefull utility-functions

@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.30 2004/11/07 22:02:30 markus Rel $
+//$Id: ADate.h,v 1.31 2006/02/25 03:07:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -126,21 +126,21 @@ class ADate : public AYear {
 
    /// \name Comparison
    //@{
-   bool operator== (const ADate& other) { /// Compares two objects for equalnesss
+   bool operator== (const ADate& other) const { /// Compares two objects for equalnesss
       return !compare (other); }
-   bool operator!= (const ADate& other) { /// Compares if two objects are not equal
+   bool operator!= (const ADate& other) const { /// Compares if two objects are not equal
       return compare (other) != 0; }
    /// Checks if one object is "younger" than the other. See compare() for details
-   bool operator<  (const ADate& other) { return compare (other) < 0; }
+   bool operator<  (const ADate& other) const { return compare (other) < 0; }
    /// Checks if one object is "older" than the other. See compare() for details
-   bool operator>  (const ADate& other) { return compare (other) > 0; }
+   bool operator>  (const ADate& other) const { return compare (other) > 0; }
    /// Checks if one object is "younger"  than or equal to the other. See compare() for details
-   bool operator<= (const ADate& other) {
+   bool operator<= (const ADate& other) const {
       return compare (other) <= 0; }
    /// Checks if one object is "older" than or equal to the other. See compare() for details
-   bool operator>= (const ADate& other) {
+   bool operator>= (const ADate& other) const {
       return compare (other) >= 0; }
-   long compare (const ADate& other);
+   long compare (const ADate& other) const;
    //@}
 
    /// \name Usefull utility-functions

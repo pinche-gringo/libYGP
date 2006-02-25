@@ -1,14 +1,14 @@
-//$Id: ATStamp.cpp,v 1.24 2004/11/04 16:31:18 markus Rel $
+//$Id: ATStamp.cpp,v 1.25 2006/02/25 03:07:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -264,7 +264,7 @@ ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
 /// \returns \c long: >0 if this is closer to the past than other; 0 if this
 ///      == other; <0 else
 //-----------------------------------------------------------------------------
-long ATimestamp::compare (const ATimestamp& other) {
+long ATimestamp::compare (const ATimestamp& other) const {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
 
    // Both sides are defined -> return (approximated) difference

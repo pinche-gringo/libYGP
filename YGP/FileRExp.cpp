@@ -1,14 +1,14 @@
-//$Id: FileRExp.cpp,v 1.28 2004/11/04 16:31:18 markus Rel $
+//$Id: FileRExp.cpp,v 1.29 2006/02/25 03:07:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ FileRegularExpr::~FileRegularExpr () {
 /// \returns \c bool: Result (true: match)
 /// \pre \c pAktRegExp, \c pCompare: ASCIIZ-strings
 //-----------------------------------------------------------------------------
-bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
+bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) const {
    Check1 (pAktRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
 
 #ifdef HAVE_FNMATCH

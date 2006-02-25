@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.23 2004/11/05 15:38:11 markus Rel $
+//$Id: ATime.h,v 1.24 2006/02/25 03:07:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -124,18 +124,18 @@ class ATime : public AttributValue {
    /// \name Comparison
    //@{
    /// Compares two objects for equalnesss
-   bool operator== (const ATime& other) { return !compare (other); }
-   bool operator!= (const ATime& other) { /// Compares if two objects are not equal
+   bool operator== (const ATime& other) const { return !compare (other); }
+   bool operator!= (const ATime& other) const { /// Compares if two objects are not equal
       return compare (other) != 0; }
    /// Checks if one object is "younger" than the other. See compare() for details
-   bool operator<  (const ATime& other) { return compare (other) < 0; }
+   bool operator<  (const ATime& other) const { return compare (other) < 0; }
    /// Checks if one object is "older" than the other. See compare() for details
-   bool operator>  (const ATime& other) { return compare (other) > 0; }
+   bool operator>  (const ATime& other) const { return compare (other) > 0; }
    /// Checks if one object is "younger"  than or equal to the other. See compare() for details
-   bool operator<= (const ATime& other) { return compare (other) <= 0; }
+   bool operator<= (const ATime& other) const { return compare (other) <= 0; }
    /// Checks if one object is "older" than or equal to the other. See compare() for details
-   bool operator>= (const ATime& other) { return compare (other) >= 0; }
-   long compare (const ATime& other);
+   bool operator>= (const ATime& other) const { return compare (other) >= 0; }
+   long compare (const ATime& other) const;
 
    // Utility-functions
    virtual int checkIntegrity () const;

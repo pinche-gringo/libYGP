@@ -1,14 +1,14 @@
-//$Id: ADate.cpp,v 1.47 2005/11/30 21:34:50 markus Rel $
+//$Id: ADate.cpp,v 1.48 2006/02/25 03:07:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.47 $
+//REVISION    : $Revision: 1.48 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -460,7 +460,7 @@ ADate& ADate::sub (signed char Day, signed char Month, int Year) {
 /// \param other: Object to compare
 /// \return \c >0 if this "younger" other; 0 if this == other; <0 else
 //----------------------------------------------------------------------------
-long ADate::compare (const ADate& other) {
+long ADate::compare (const ADate& other) const {
    Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
 
    // Both sides are defined -> return (approximated) difference

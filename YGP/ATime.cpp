@@ -1,14 +1,14 @@
-//$Id: ATime.cpp,v 1.40 2005/11/30 21:34:50 markus Rel $
+//$Id: ATime.cpp,v 1.41 2006/02/25 03:07:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -421,7 +421,7 @@ ATime& ATime::sub (char Hour, char minute, char second) {
 ///         dates"(further in the past; that means the numeric value of the
 ///         date is compared.
 //-----------------------------------------------------------------------------
-long ATime::compare (const ATime& other) {
+long ATime::compare (const ATime& other) const {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
 
    // Both sides are defined -> return (approximated) difference
