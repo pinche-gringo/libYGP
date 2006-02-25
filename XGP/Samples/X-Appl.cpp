@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.31 2006/01/19 21:27:54 markus Rel $
+//$Id: X-Appl.cpp,v 1.32 2006/02/25 03:13:43 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -314,7 +314,7 @@ void XAppl::showConnectDialog () {
 /// Opens a dialog to enter a number and a filename
 //-----------------------------------------------------------------------------
 void XAppl::showDialog () {
-   TRACE9 ("XAppl::command (int) - Num: " << num << "; File: " << file);
+   TRACE9 ("XAppl::showDialog () - Num: " << num << "; File: " << file);
    TDialog<XAppl>::create (*this, &XAppl::addActFile, num, file);
 }
 
@@ -351,7 +351,7 @@ void XAppl::showSearchDialog () {
 void XAppl::showAboutbox () {
    XGP::XAbout* about (XGP::XAbout::create
                        (Glib::locale_to_utf8
-			("Copyright © 2003 - 2006 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+			("Copyright (C) 2003 - 2006 Markus Schwab\ne-mail: g17m0@lycos.com\n"
 			 "\nCompiled on " __DATE__ " at " __TIME__),
 			"X-Appl V" VERSION));
    about->setIconProgram (xpmXAppl);
