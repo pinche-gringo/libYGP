@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.41 2006/02/25 03:07:39 markus Rel $
+//$Id: ATime.cpp,v 1.42 2006/03/16 21:58:29 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -147,7 +147,7 @@ void ATime::assign (const char* pTime, unsigned int len) {
       return;
    }
 
-#ifdef HAVE_STRFTIME
+#ifdef HAVE_STRPTIME
    struct tm result;
    memset (&result, '\0', sizeof (result));
 

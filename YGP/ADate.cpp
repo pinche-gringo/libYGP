@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.48 2006/02/25 03:07:39 markus Rel $
+//$Id: ADate.cpp,v 1.49 2006/03/16 21:58:29 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -133,7 +133,7 @@ void ADate::assign (const char* pDate, unsigned int len) {
       return;
    }
 
-#ifdef HAVE_STRFTIME
+#ifdef HAVE_STRPTIME
    struct tm result;
    memset (&result, '\0', sizeof (result));
 
