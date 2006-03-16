@@ -1,7 +1,7 @@
 #ifndef REGEXP_H
 #define REGEXP_H
 
-//$Id: RegExp.h,v 1.12 2006/02/25 03:07:40 markus Rel $
+//$Id: RegExp.h,v 1.13 2006/03/16 21:57:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ class IRegularExpression {
    const char* getExpression () const { return pRegExp; }
 
    /// Method to compare (a part of) the regular expression with some text
-   virtual bool compare (const char* pAktRegExp, const char* pCompare) const = 0;
+   virtual bool compare (const char* pAktRegExp, const char* pCompare) = 0;
 
  private:
    // Prohibited manager functions

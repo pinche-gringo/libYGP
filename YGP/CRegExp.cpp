@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.41 2006/02/25 03:07:39 markus Rel $
+//$Id: CRegExp.cpp,v 1.42 2006/03/16 21:57:32 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004, 2006
@@ -138,7 +138,7 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) throw (std
 /// \return \c  bool: Result (true: match)
 /// \pre \c pAktRegExp, \c pCompare: ASCIIZ-strings, not NULL
 //----------------------------------------------------------------------------
-bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) const {
+bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
    Check1 (pActRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
 
    TRACE1 ("RegularExpression::compare (const char*, const char*) -> "

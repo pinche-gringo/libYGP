@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.29 2006/02/25 03:07:40 markus Rel $
+//$Id: FileRExp.cpp,v 1.30 2006/03/16 21:57:32 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -77,7 +77,7 @@ FileRegularExpr::~FileRegularExpr () {
 /// \returns \c bool: Result (true: match)
 /// \pre \c pAktRegExp, \c pCompare: ASCIIZ-strings
 //-----------------------------------------------------------------------------
-bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) const {
+bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
    Check1 (pAktRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
 
 #ifdef HAVE_FNMATCH

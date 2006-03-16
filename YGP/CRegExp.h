@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.35 2006/02/25 03:07:40 markus Rel $
+//$Id: CRegExp.h,v 1.36 2006/03/16 21:57:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -130,7 +130,7 @@ class RegularExpression : public IRegularExpression {
    RegularExpression& operator= (const char* pRegExp) throw (std::string);
 
  protected:
-   virtual bool compare (const char* pAktRegExp, const char* pCompare) const;
+   virtual bool compare (const char* pAktRegExp, const char* pCompare);
 
  private:
    // Prohibited manager functions

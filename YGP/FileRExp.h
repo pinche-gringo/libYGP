@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.17 2006/02/25 03:07:40 markus Rel $
+//$Id: FileRExp.h,v 1.18 2006/03/16 21:57:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ class FileRegularExpr : public IRegularExpression {
       return (FileRegularExpr&)IRegularExpression::operator= (pRegExp); }
 
  protected:
-   virtual bool compare (const char* pAktRegExp, const char* pCompare) const;
+   virtual bool compare (const char* pAktRegExp, const char* pCompare);
 
  private:
    // Prohibited manager functions
