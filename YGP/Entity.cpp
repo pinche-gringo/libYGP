@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.12 2005/01/12 22:35:19 markus Rel $
+//$Id: Entity.cpp,v 1.13 2006/03/16 21:56:42 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2005
@@ -25,8 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define CHECK 9
-#define TRACELEVEL 2
 #include "Check.h"
 #include "Trace.h"
 #include "AttrParse.h"
@@ -54,6 +52,7 @@ Entity::~Entity () {
 /// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
 IAttribute* Entity::findAttribute (const char* name) const {
+   Check1 (name);
    std::vector<IAttribute*>::const_iterator i;
    for (i = attributes.begin (); i != attributes.end (); ++i)
       if ((*i)->matches (name))
