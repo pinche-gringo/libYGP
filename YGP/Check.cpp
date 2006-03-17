@@ -1,14 +1,14 @@
-//$Id: Check.cpp,v 1.19 2005/11/30 21:34:50 markus Rel $
+//$Id: Check.cpp,v 1.20 2006/03/17 23:20:44 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,7 +28,9 @@
 
 #include <cstdio>
 
-#include <dlfcn.h>
+#ifdef HAVE_DLFCN_H
+#  include <dlfcn.h>
+#endif
 
 #include <iostream>
 

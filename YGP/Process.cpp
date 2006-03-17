@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.19 2005/05/12 23:35:31 markus Rel $
+//$Id: Process.cpp,v 1.20 2006/03/17 23:20:59 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -125,7 +125,7 @@ pid_t Process::start (const char* file, const char* const arguments[],
    if ((pipe (pipes) != -1)
        && ((flags & CONNECT_STDOUT_AND_ERR) && pipe (errPipes) != -1)) {
       // Save original output-handles
-      int sin;
+      int sin (0);
       if (fd) {
 	 sin = dup (0);
 	 dup2 (fd[0], 0);
@@ -298,7 +298,7 @@ std::string Process::readChildOutput (int file) {
 //-----------------------------------------------------------------------------
 int Process::waitForProcess (pid_t pid) {
 #if defined HAVE_SPAWNVP && HAVE_WINDOWS_H
-   unsigned long rc (-1);
+   unsigned long rc (-1UL);
    GetExitCodeProcess ((HANDLE)pid, &rc);
    return (int)rc;
 #elif defined HAVE_FORK

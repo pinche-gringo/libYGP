@@ -1,14 +1,14 @@
-// $Id: Relation.cpp,v 1.3 2005/01/08 22:09:05 markus Rel $
+// $Id: Relation.cpp,v 1.4 2006/03/17 23:20:33 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Relation
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.10.2004
-//COPYRIGHT   : Copyright (C) 2004, 2005
+//COPYRIGHT   : Copyright (C) 2004 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#define CHECK 9
 #include <YGP/Handle.h>
 #include <YGP/Relation.h>
 

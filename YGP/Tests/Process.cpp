@@ -1,14 +1,14 @@
-// $Id: Process.cpp,v 1.7 2005/04/05 04:10:55 markus Rel $
+// $Id: Process.cpp,v 1.8 2006/03/17 23:20:33 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
-//COPYRIGHT   : Copyright (C) 2003 - 2005
+//COPYRIGHT   : Copyright (C) 2004 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,17 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <unistd.h>
+#if SYSTEM == UNIX
+#  include <unistd.h>
+#  if !defined HAVE_PIPE && defined HAVE__PIPE
+#    define pipe(p)  _pipe((p), 256, 0)
+#  endif
+#elif SYSTEM == WINDOWS
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
+
+#  define pipe(p)  _pipe((p), 256, O_TEXT | O_NOINHERIT)
+#endif
 
 #include <cerrno>
 #include <cstring>
