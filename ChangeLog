@@ -1,3 +1,23 @@
+2006-03-17  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.42 documented
+
+	* configure.in: Version to 0.7.42
+
+	* po/de.po, po/en.po, po/es.po: Project-Id-Version to 0.7
+
+	* YGP/Process.cpp, YGP/Check.cpp, YGP/Tests/Process.cpp, YGP/Tests/Relation.cpp:
+	  Can be compiled under Windows with MinGW
+
+2006-03-16  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ADate.cpp, YGP/ATime.cpp: Fixed check for strptime
+
+	* YGP/CRegExp.cpp, YGP/CRegExp.h, YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/RegExp.h:
+	  compare() is not const anymore (breaks manual comparing)
+
+	* YGP/Entity.cpp: Undefined checks and traces
+
 2006-02-24  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.41 documented

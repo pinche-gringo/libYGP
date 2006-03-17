@@ -1,3 +1,11 @@
+Overview of Changes in version 0.7.42:
+
+  - Can be compiled with MinGW
+  - Minor fixes in spanish translations
+  - Fixed Project-Id-Version in po-files
+  - compare() of regular expressions is not const anymore
+
+
 Overview of Changes in version 0.7.41:
 
   - Made compare()-methods const (of attributes and regular expressions)
