@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.8 2006/03/17 23:20:33 markus Rel $
+// $Id: Process.cpp,v 1.9 2006/03/18 03:16:08 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <ygp-cfg.h>
 
 #if SYSTEM == UNIX
 #  include <unistd.h>
