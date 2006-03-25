@@ -1,14 +1,14 @@
-//$Id: XFileList.cpp,v 1.40 2004/12/29 18:17:36 markus Rel $
+//$Id: XFileList.cpp,v 1.41 2006/03/25 18:31:00 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
+//REVISION    : $Revision: 1.41 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -128,22 +128,31 @@ static std::map<std::string, Glib::RefPtr<Gdk::Pixbuf> > icons;
 namespace XGP {
 
 //-----------------------------------------------------------------------------
-/// Constructor; loads the default icons to display in the listbox
-/// \param columns: Columns of the model
+/// Destructor
 //-----------------------------------------------------------------------------
-IFileStore::IFileStore (const FileColumns& columns) : cols (columns) {
-   TRACE9 ("IFileStore::IFileStore (const FileColumns&) - Using " PKGDIR);
+XFileList::~XFileList () {
+}
+
+
+//-----------------------------------------------------------------------------
+/// Creates the first column for the list holding an icon for the file and its name
+//-----------------------------------------------------------------------------
+void XFileList::init () {
+   Gtk::TreeView::Column* pColumn (new Gtk::TreeView::Column (_("File")));
+
+   Gtk::CellRendererPixbuf* rPB (new Gtk::CellRendererPixbuf);
+   pColumn->pack_start (*manage (rPB), false);
+   pColumn->add_attribute (*rPB, "pixbuf", 0);
+
+   Gtk::CellRendererText* rTxt (new Gtk::CellRendererText);
+   pColumn->pack_start (*manage (rTxt));
+   pColumn->add_attribute (*rTxt, "text", 1);
+   append_column (*pColumn);
+
 #ifdef PKGDIR
    loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
 #endif
 }
-
-//-----------------------------------------------------------------------------
-/// Destructor
-//-----------------------------------------------------------------------------
-IFileStore::~IFileStore () {
-}
-
 
 //-----------------------------------------------------------------------------
 /// Loads (additional) icons which should be used for the list-entries
@@ -153,42 +162,36 @@ IFileStore::~IFileStore () {
 ///    before comparing with actual filename
 /// \pre \c namePrefix < strlen (files)
 //-----------------------------------------------------------------------------
-void IFileStore::loadIcons (const char* path, const char* files,
-                            unsigned int namePrefix) {
+void XFileList::loadIcons (const char* path, const char* files, unsigned int namePrefix) {
    Check1 (path); Check1 (files);
    Check1 (namePrefix < strlen (files));
-   TRACE2 ("IFileList::loadIcons (const char*, const char*, unsigned int) - "
-           << path << '/' << files);
+   TRACE2 ("XFileList::loadIcons (const char*, const char*, unsigned int) - " << path << '/' << files);
 
-   static bool first (true);
-   if (first) {
-      first = false;
+   if (!iconExe) {
       iconDir = Gdk::Pixbuf::create_from_xpm_data (iconDirectory);
       iconDef = Gdk::Pixbuf::create_from_xpm_data (iconDefault);
       iconExe = Gdk::Pixbuf::create_from_xpm_data (iconExecuteable);
+
+      // Use Icon.*-files as icon for *-files
+      YGP::PathDirectorySearch ds (path, files);
+
+      const YGP::File* file = ds.find (YGP::IDirectorySearch::FILE_NORMAL);
+      std::string type;
+      while (file) {
+	 // Read icon-file and store it
+	 std::string filename (file->path ()); filename += file->name ();
+	 TRACE5 ("XFileList::loadIcons (const char*, const char*, unsigned int) - Read icon " << filename);
+
+	 const char* pTypepart (file->name () + namePrefix);
+	 TRACE9 ("XFileList::loadIcons (const char*, const char*, unsigned int) - Store icon "
+		 << std::string (pTypepart, strrchr (pTypepart, '.') - pTypepart));
+	 type.assign (pTypepart,
+		      strrchr (pTypepart, '.') - pTypepart);
+	 icons[type] = Gdk::Pixbuf::create_from_file (filename);
+	 file = ds.next ();
+      } // end-while icon-files found
    } // endif first call to loadIcons: Create default-icons
-
-   // Use Icon.*-files as icon for *-files
-   YGP::PathDirectorySearch ds (path, files);
-
-   const YGP::File* file = ds.find (YGP::IDirectorySearch::FILE_NORMAL);
-   std::string type;
-   while (file) {
-      // Read icon-file and store it
-      std::string filename (file->path ()); filename += file->name ();
-      TRACE5 ("IFileList::loadIcons (const char*, const char*, unsigned int) - Read icon "
-              << filename);
-
-      const char* pTypepart (file->name () + namePrefix);
-      TRACE9 ("IFileList::loadIcons (const char*, const char*, unsigned int) - Store icon "
-              << std::string (pTypepart, strrchr (pTypepart, '.') - pTypepart));
-      type.assign (pTypepart,
-                   strrchr (pTypepart, '.') - pTypepart);
-      icons[type] = Gdk::Pixbuf::create_from_file (filename);
-      file = ds.next ();
-   } // end-while icon-files found
 }
-
 
 //-----------------------------------------------------------------------------
 /// Searches for and sets an icon for the passed file The icon for the file is
@@ -201,9 +204,8 @@ void IFileStore::loadIcons (const char* path, const char* files,
 /// \param file: Files to use as icon-files
 /// \returns Reference to inserted line
 //-----------------------------------------------------------------------------
-Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
-                                              const YGP::File& file) {
-   TRACE7 ("XFileList_setIcon (Gtk::TreeModel::iterator, const File&)");
+Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
+   TRACE7 ("getIcon4File (Gtk::TreeModel::iterator, const File&)");
 
    Glib::RefPtr<Gdk::Pixbuf> actIcon (iconDef);
 
@@ -226,41 +228,33 @@ Gtk::TreeModel::iterator IFileStore::setIcon (Gtk::TreeModel::iterator row,
          } // endif icons available
       } while ((pName = strchr (pName, '.')) != NULL);
    } // end-else
+
    Check3 (actIcon);
-
-   (*row)[cols.name] = file.name ();
-   (*row)[cols.icon] = actIcon;
-   return row;
+   return actIcon;
 }
 
-
-//-----------------------------------------------------------------------------
-/// Destructor
-//-----------------------------------------------------------------------------
-XFileList::~XFileList () {
-}
-
-
-//-----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 /// Retrieves the file name of the passed line; which is considered to be
 /// stored in the column 1
 /// \param line: Line in list to get the filename from
-/// \returns Filename
-//-----------------------------------------------------------------------------
-std::string XFileList::getFilename (unsigned int line) const {
-   Check1 (fileModel);
-   return fileModel->getFilename (line);
+/// \returns std::string: Filename
+//----------------------------------------------------------------------------
+std::string XFileList::getFilename (const Gtk::TreeIter& line) const {
+   std::string file;
+   Gtk::TreeRow row (*line);
+   row.get_value (1, file);
+   return file;
 }
 
 //-----------------------------------------------------------------------------
-/// Retrieves the file name of the passed line; which is considered to be
+/// Sets the file name of the passed line; which is considered to be
 /// stored in the column 1
 /// \param line: Line in list to get the filename from
 /// \param file: Filename to set
 //-----------------------------------------------------------------------------
-void XFileList::setFilename (unsigned int line, const std::string& file) {
-   Check1 (fileModel);
-   fileModel->setFilename (line, file);
+void XFileList::setFilename (Gtk::TreeIter& line, const std::string& file) {
+   Gtk::TreeRow row (*line);
+   row.set_value (1, file);
 }
 
 //-----------------------------------------------------------------------------
@@ -279,23 +273,11 @@ bool XFileList::on_event (GdkEvent* event) {
             pMenuPopAction = NULL;
 	 }
 
-         TRACE9 ("XFileList::on_event (GdkEvent*) - Y-offset: " << bev->y);
-         TRACE9 ("XFileList::on_event (GdkEvent*) - VScroll "
-                 << (get_vadjustment () ? get_vadjustment ()->get_value () : -1));
-         float scrolled (get_vadjustment ()
-                         ? get_vadjustment ()->get_value () : 0);
-         int lineHeight (0);
-         int t;
-         get_column_cell_renderer (1)->get_size (*this, t, t, t, lineHeight);
-         TRACE9 ("XFileList::on_event (GdkEvent*) - Line height: " << lineHeight);
-         Check3 (lineHeight);
-         unsigned int entry (static_cast<unsigned int>
-                             ((bev->y + scrolled)
-                              / (lineHeight + 2)));
-         TRACE9 ("XFileList::on_event (GdkEvent*) - Line " << entry
-                 << " = " << getFilename (entry));
+	 Gtk::TreeModel::Path pathAct;
+	 Gtk::TreeViewColumn* colFocus;
+	 get_cursor (pathAct, colFocus);
 
-         if (entry < get_model ()->children ().size ()) {
+         if (!pathAct.empty ()) {
             TRACE8 ("XFileList::on_event (GdkEvent*) - Creating menu");
             pMenuPopAction = new Gtk::Menu;
 
@@ -306,21 +288,25 @@ bool XFileList::on_event (GdkEvent* event) {
                ed = "vi";
             editor.replace (editor.find ("%1"), 2, ed);
 
+	    // Get selected row
+	    Check3 (get_model ());
+	    Gtk::TreeIter iAct (get_model ()->get_iter (pathAct)); Check3 (iAct);
+
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (editor,
                  bind (mem_fun (*this, &XFileList::startInTerm),
-                       ed, entry)));
+                       ed, iAct)));
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (Glib::locale_to_utf8 (_("Rename/Move ...")),
-                 bind (mem_fun (*this, &XFileList::move), entry)));
+                 bind (mem_fun (*this, &XFileList::move), iAct)));
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem
                 (Glib::locale_to_utf8 (_("Delete")),
-                 bind (mem_fun (*this, &XFileList::remove), entry)));
+                 bind (mem_fun (*this, &XFileList::remove), iAct)));
 
-            addMenus (*pMenuPopAction, entry);
+            addMenus (*pMenuPopAction, iAct);
             pMenuPopAction->popup (bev->button, bev->time);
          }
          return true;
@@ -334,7 +320,7 @@ bool XFileList::on_event (GdkEvent* event) {
 /// \param file: File to execute
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::startInTerm (const char* file, unsigned int line) {
+void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
    const char* term (getenv ("TERM"));
    if (term) {
       std::string entry (getFilename (line));
@@ -354,7 +340,7 @@ void XFileList::startInTerm (const char* file, unsigned int line) {
 /// \param file: File to execute
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::startProgram (const char* file, unsigned int line) {
+void XFileList::startProgram (const char* file, Gtk::TreeIter line) {
    std::string entry (getFilename (line));
    const char* args[] = { file, entry.c_str (), NULL };
    execProgram (args[0], args, false);
@@ -365,7 +351,7 @@ void XFileList::startProgram (const char* file, unsigned int line) {
 /// \param file: File to execute
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::executeProgram (const char* file, unsigned int line) {
+void XFileList::executeProgram (const char* file, Gtk::TreeIter line) {
    std::string entry (getFilename (line));
    const char* args[] = { file, entry.c_str (), NULL };
    execProgram (args[0], args, true);
@@ -397,7 +383,7 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
 /// Moves the file in line to another location/name
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::move (unsigned int line) {
+void XFileList::move (Gtk::TreeIter line) {
    std::string file (IFileDialog::create (std::string ("Move file to ..."),
                                           Gtk::FILE_CHOOSER_ACTION_OPEN,
                                           IFileDialog::ASK_OVERWRITE)->execModal ());
@@ -422,13 +408,11 @@ void XFileList::move (unsigned int line) {
 /// Removes the passed file; both from the system and from the list
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::remove (unsigned int line) {
+void XFileList::remove (Gtk::TreeIter line) {
    std::string entry (getFilename (line));
    const char* args[] = { "rm", "-f", entry.c_str (), NULL };
-   if (execProgram (args[0], args, true)) {
-      TRACE1 ("Deleting row: " << line); Check3 (fileModel);
-      fileModel->remove (line);
-   }
+   if (execProgram (args[0], args, true))
+      ; // TODO: get_model ()->remove (line);
 }
 
 }
