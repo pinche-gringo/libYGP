@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.32 2006/02/25 03:13:43 markus Rel $
+//$Id: X-Appl.cpp,v 1.33 2006/03/25 18:12:03 markus -Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -174,7 +174,7 @@ const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 //-----------------------------------------------------------------------------
 XAppl::XAppl ()
    : XApplication ("X-Appl V" LIB_RELEASE)
-     , files (XGP::XFileListStore::create (cols)), listFiles (files)
+     , files (Gtk::ListStore::create (cols)), listFiles (files)
      , status (), scroll () {
    TRACE3 ("XAppl::XAppl ()");
 
@@ -382,7 +382,9 @@ void XAppl::addFile (const std::string& file) {
       name += objFile.name ();
 
       Check3 (files);
-      Gtk::TreeModel::Row row (*(files->append (&objFile)));
+      Gtk::TreeModel::Row row (*(files->append ()));
+      row[cols.icon] = XGP::XFileList::getIcon4File (objFile);
+      row[cols.name] = objFile.name ();
       row[cols.size] = objFile.size ();
       row[cols.date] = t.toString ().c_str ();
 

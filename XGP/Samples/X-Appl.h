@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.17 2005/01/31 04:57:25 markus Rel $
+//$Id: X-Appl.h,v 1.18 2006/03/25 18:12:03 markus -Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -72,9 +72,9 @@ class XAppl : public XGP::XApplication {
       FileCols () : XGP::FileColumns () { add (size); add (date); }
    };
 
-   FileCols                           cols;
-   Glib::RefPtr <XGP::XFileListStore> files;
-   XGP::XFileList                     listFiles;
+   FileCols                      cols;
+   Glib::RefPtr <Gtk::ListStore> files;
+   XGP::XFileList                listFiles;
 
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
