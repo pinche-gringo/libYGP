@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.42 2006/03/29 03:28:01 markus Exp $
+//$Id: XFileList.cpp,v 1.43 2006/03/29 22:48:28 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -34,6 +34,8 @@
 #include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/image.h>
+#include <gtkmm/liststore.h>
+#include <gtkmm/treestore.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
@@ -347,10 +349,22 @@ void XFileList::move (Gtk::TreeIter line) {
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::remove (Gtk::TreeIter line) {
+   TRACE4 ("XFileList::remove (Gtk::TreeIter) - " << getFilename (line));
    std::string entry (getFilename (line));
    const char* args[] = { "rm", "-f", entry.c_str (), NULL };
    if (execProgram (args[0], args, true))
-      ; // TODO: get_model ()->remove (line);
+      if (Glib::RefPtr<Gtk::TreeStore>::cast_dynamic (get_model ()))
+	 Glib::RefPtr<Gtk::TreeStore>::cast_static (get_model ())->erase (line);
+      else if (Glib::RefPtr<Gtk::ListStore>::cast_dynamic (get_model ()))
+	 Glib::RefPtr<Gtk::ListStore>::cast_static (get_model ())->erase (line);
+}
+
+//-----------------------------------------------------------------------------
+/// Adds further menus to the default popup-menu
+/// \param menu: Menu where to add some entries to
+/// \param line: Line for which to add entries
+//-----------------------------------------------------------------------------
+void XFileList::addMenus (Gtk::Menu& menu, const Gtk::TreeIter& line) {
 }
 
 }

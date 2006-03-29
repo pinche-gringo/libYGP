@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.31 2006/03/25 18:19:21 markus Exp $
+//$Id: XFileList.h,v 1.32 2006/03/29 22:48:28 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ class XFileList : public Gtk::TreeView {
 
    /// Method to add menus to the popup menu activated with the right mouse
    /// button (button 3)
-   virtual void addMenus (Gtk::Menu& menu, Gtk::TreeIter line) { };
+   virtual void addMenus (Gtk::Menu& menu, const Gtk::TreeIter& line);
 
    void move (Gtk::TreeIter line);
    void remove (Gtk::TreeIter line);
