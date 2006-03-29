@@ -1,12 +1,12 @@
 # English translation of messages for general library
-# Copyright (C) 2002-2004 Markus Schwab
+# Copyright (C) 2002-2006 Markus Schwab
 # Markus Schwab <g17m0@lycos.com>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.38 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.39 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2006-01-18 20:04-0400\n"
+"POT-Creation-Date: 2006-03-29 18:48-0400\n"
 "PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -287,24 +287,24 @@ msgstr ""
 msgid "File `%1' exists! Overwrite?"
 msgstr ""
 
-#: XGP/XFileList.cpp:303
+#: XGP/XFileList.cpp:73
+msgid "File"
+msgstr ""
+
+#: XGP/XFileList.cpp:225
 msgid "Open in %1 ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:316
+#: XGP/XFileList.cpp:242
 msgid "Rename/Move ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:320
+#: XGP/XFileList.cpp:246
 msgid "Delete"
 msgstr ""
 
-#: XGP/XFileList.cpp:345
+#: XGP/XFileList.cpp:271
 msgid "Environment variable `TERM' not defined!"
-msgstr ""
-
-#: XGP/XFileList.h:198
-msgid "File"
 msgstr ""
 
 #: XGP/XAttrEntry.h:100

@@ -1,12 +1,12 @@
 # Deutsche Übersetzungen für libYGP
-# Copyright (C) 2002 - 2005 Markus Schwab
+# Copyright (C) 2002 - 2006 Markus Schwab
 # Markus Schwab <g17m0@lycos.com>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.41 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.42 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2006-01-18 20:04-0400\n"
+"POT-Creation-Date: 2006-03-29 18:48-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -296,25 +296,25 @@ msgstr "Datei '%1' existiert nicht!"
 msgid "File `%1' exists! Overwrite?"
 msgstr "Datei '%1' existiert! Überschreiben?"
 
-#: XGP/XFileList.cpp:303
+#: XGP/XFileList.cpp:73
+msgid "File"
+msgstr "Datei"
+
+#: XGP/XFileList.cpp:225
 msgid "Open in %1 ..."
 msgstr "Öffnen mit %1 ..."
 
-#: XGP/XFileList.cpp:316
+#: XGP/XFileList.cpp:242
 msgid "Rename/Move ..."
 msgstr "Umbenennen/Verschieben ..."
 
-#: XGP/XFileList.cpp:320
+#: XGP/XFileList.cpp:246
 msgid "Delete"
 msgstr "Löschen"
 
-#: XGP/XFileList.cpp:345
+#: XGP/XFileList.cpp:271
 msgid "Environment variable `TERM' not defined!"
 msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
-
-#: XGP/XFileList.h:198
-msgid "File"
-msgstr "Datei"
 
 #: XGP/XAttrEntry.h:100
 msgid "Invalid value!"
