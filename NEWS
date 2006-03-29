@@ -1,3 +1,9 @@
+Overview of Changes in version 0.7.50:
+
+  - XFileList does not handle its model (XFileStore<>) itself anymore
+  - XFileList uses icons from Yattacier3 icon-theme
+
+
 Overview of Changes in version 0.7.42:
 
   - Can be compiled with MinGW

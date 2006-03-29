@@ -1,4 +1,41 @@
+2006-03-29  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in: Version to 0.7.50
+
+	* ygp-cfg.h.in: Removed the PACKAGE- and VERSION-stuff
+
+	* po/de.po, po/en.po, po/es.po: Actualized
+
+	* XGP/XFileList.cpp, XGP/XFileList.h:
+	  Implemented remove for Gtk::TreeStore and Gtk::ListStore
+
+2006-03-28  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/XFileList.cpp: Loading png-files for icons
+
+	* XGP/Icons/Makefile.in: Added icons for special files
+
+	* XGP/Icons/Default.png, XGP/Icons/Directory.png, XGP/Icons/Executable.png, XGP/Icons/Icon_3ds.png, XGP/Icons/Icon_AUTHORS.png, XGP/Icons/Icon_COPYING.png, XGP/Icons/Icon_CREDITS.png, XGP/Icons/Icon_INSTALL.png, XGP/Icons/Icon_Makefile.png, XGP/Icons/Icon_README.png, XGP/Icons/Icon_Z.png, XGP/Icons/Icon_ac3.png, XGP/Icons/Icon_afm.png, XGP/Icons/Icon_ag.png, XGP/Icons/Icon_aiff.png, XGP/Icons/Icon_arj.png, XGP/Icons/Icon_asf.png, XGP/Icons/Icon_au.png, XGP/Icons/Icon_avi.png, XGP/Icons/Icon_bak.png, XGP/Icons/Icon_bdf.png, XGP/Icons/Icon_blend.png, XGP/Icons/Icon_bmp.png, XGP/Icons/Icon_bmx.png, XGP/Icons/Icon_c.png, XGP/Icons/Icon_cc-source.png, XGP/Icons/Icon_core.png, XGP/Icons/Icon_cpp.png, XGP/Icons/Icon_deb.png, XGP/Icons/Icon_dia.png, XGP/Icons/Icon_doc.png, XGP/Icons/Icon_eps.png, XGP/Icons/Icon_gif.png, XGP/Icons/Icon_gnumeric.png, XGP/Icons/Icon_h.png, XGP/Icons/Icon_htm.png, XGP/Icons/Icon_html.png, XGP/Icons/Icon_ief.png, XGP/Icons/Icon_jar.png, XGP/Icons/Icon_java.png, XGP/Icons/Icon_jpeg.png, XGP/Icons/Icon_jpg.png, XGP/Icons/Icon_kil.png, XGP/Icons/Icon_kpr.png, XGP/Icons/Icon_ksp.png, XGP/Icons/Icon_kwd.png, XGP/Icons/Icon_lyx.png, XGP/Icons/Icon_mid.png, XGP/Icons/Icon_mod.png, XGP/Icons/Icon_mov.png, XGP/Icons/Icon_mp3.png, XGP/Icons/Icon_mpeg.png, XGP/Icons/Icon_mpg.png, XGP/Icons/Icon_mrp.png, XGP/Icons/Icon_o.png, XGP/Icons/Icon_odg.png, XGP/Icons/Icon_odp.png, XGP/Icons/Icon_ods.png, XGP/Icons/Icon_odt.png, XGP/Icons/Icon_ogg.png, XGP/Icons/Icon_pbm.png, XGP/Icons/Icon_pcf.png, XGP/Icons/Icon_pdf.png, XGP/Icons/Icon_pgm.png, XGP/Icons/Icon_pgp.png, XGP/Icons/Icon_php.png, XGP/Icons/Icon_png.png, XGP/Icons/Icon_pnm.png, XGP/Icons/Icon_ppm.png, XGP/Icons/Icon_ppt.png, XGP/Icons/Icon_ps.png, XGP/Icons/Icon_psd.png, XGP/Icons/Icon_psf.png, XGP/Icons/Icon_qif.png, XGP/Icons/Icon_ra.png, XGP/Icons/Icon_ras.png, XGP/Icons/Icon_rej.png, XGP/Icons/Icon_rgb.png, XGP/Icons/Icon_rm.png, XGP/Icons/Icon_rpm.png, XGP/Icons/Icon_rtf.png, XGP/Icons/Icon_s3m.png, XGP/Icons/Icon_scm.png, XGP/Icons/Icon_sdc.png, XGP/Icons/Icon_sdd.png, XGP/Icons/Icon_sdw.png, XGP/Icons/Icon_smi.png, XGP/Icons/Icon_so.png, XGP/Icons/Icon_sql.png, XGP/Icons/Icon_stm.png, XGP/Icons/Icon_svg.png, XGP/Icons/Icon_sxc.png, XGP/Icons/Icon_sxd.png, XGP/Icons/Icon_sxi.png, XGP/Icons/Icon_sxm.png, XGP/Icons/Icon_sxw.png, XGP/Icons/Icon_tar.png, XGP/Icons/Icon_tex.png, XGP/Icons/Icon_tga.png, XGP/Icons/Icon_tif.png, XGP/Icons/Icon_tiff.png, XGP/Icons/Icon_ttf.png, XGP/Icons/Icon_txt.png, XGP/Icons/Icon_ulaw.png, XGP/Icons/Icon_url.png, XGP/Icons/Icon_voc.png, XGP/Icons/Icon_wav.png, XGP/Icons/Icon_wks.png, XGP/Icons/Icon_x-xfig.png, XGP/Icons/Icon_xbm.png, XGP/Icons/Icon_xcf.png, XGP/Icons/Icon_xi.png, XGP/Icons/Icon_xls.png, XGP/Icons/Icon_xm.png, XGP/Icons/Icon_xpm.png, XGP/Icons/Icon_xwd.png, XGP/Icons/Icon_z.png, XGP/Icons/README:
+	  New file.
+
+	* XGP/Icons/Makefile.in:
+	  Changed icons to png; Using icons from Yattacier3-theme
+
+	* XGP/Icons/Icon_tex.xpm, XGP/Icons/Icon_tgz.xpm, XGP/Icons/Icon_txt.xpm, XGP/Icons/Icon_wav.xpm, XGP/Icons/Icon_xpm.xpm, XGP/Icons/Icon_cpp.xpm, XGP/Icons/Icon_dvi.xpm, XGP/Icons/Icon_htm.xpm, XGP/Icons/Icon_man.xpm, XGP/Icons/Icon_pdf.xpm, XGP/Icons/Icon_ps.xpm, XGP/Icons/Icon_rpm.xpm:
+	  Deleted
+
+	* po/POTFILES.in: Removed XFileList.h
+
+2006-03-25  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/XFileList.cpp, XGP/XFileList.h: Seperated model from view
+
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h:
+	  Using new XFileList (without XFileListStore)
+
 2006-03-17  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Process.cpp: Including ygp-cfg.h
 
 	* ChangeLog, NEWS: Changes in V0.7.42 documented
 
