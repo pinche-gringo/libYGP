@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.41 2006/03/25 18:31:00 markus Exp $
+//$Id: XFileList.cpp,v 1.42 2006/03/29 03:28:01 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.41 $
+//REVISION    : $Revision: 1.42 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -32,6 +32,7 @@
 #include <map>
 
 #include <gtkmm/menu.h>
+#include <gtkmm/stock.h>
 #include <gtkmm/image.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
@@ -46,77 +47,6 @@
 
 #include "XGP/XFileList.h"
 
-
-static const char* iconDirectory[] = {
-   "16 16 9 1",
-   "       c None",
-   ".      c #000000",
-   "+      c #585858",
-   "@      c #FFA858",
-   "#      c #FFDCA8",
-   "$      c #FFFFFF",
-   "%      c #C0C0C0",
-   "&      c #A0A0A4",
-   "*      c #808080",
-   "  .+.           ",
-   " .+@#..         ",
-   " .$++@#.....    ",
-   " .$$%++@###@.   ",
-   " .$%$%%+@###+   ",
-   " .%$%%%%++++@.  ",
-   " .$%%%%%%%&%.@+ ",
-   " .%%%%%%%&%&.@+ ",
-   " .%%%%%%&%&&.@+ ",
-   " .%%%%%&%&&&.@+ ",
-   " ..*%%&%&&&&.@+ ",
-   "   ..*%&&&&&.@+ ",
-   "     ..&&&&&.@+ ",
-   "       ..&&&.@..",
-   "         ..&.@..",
-   "           .... " };
-
-static const char* iconDefault[] = {
-   "16 14 5 1",
-   "       c None",
-   ".      c #FF0000",
-   "+      c #FFFFFF",
-   "@      c #000000",
-   "#      c #7F7F7F",
-   "     ......     ",
-   "    .+......    ",
-   "   .+..@@...@   ",
-   "   ...@  ...@   ",
-   "    @@   ...@   ",
-   "        ...@    ",
-   "       ...@     ",
-   "      ..@@      ",
-   "      ....@     ",
-   "      #.@#      ",
-   "      #+..      ",
-   "      ....#     ",
-   "       ..@#     ",
-   "        @#      "} ;
-
-static const char* iconExecuteable[] = {
-   "16 16 2 1",
-   "       c None",
-   ".      c #000000",
-   "                ",
-   "                ",
-   "                ",
-   " .....       .  ",
-   "  .....     .   ",
-   "   .....   .    ",
-   "    ..... .     ",
-   "     ... .      ",
-   "      . ...     ",
-   "     . .....    ",
-   "    .   .....   ",
-   "   .     .....  ",
-   "  .       ..... ",
-   "                ",
-   "                ",
-   "                " };
 
 static Glib::RefPtr<Gdk::Pixbuf> iconDir;
 static Glib::RefPtr<Gdk::Pixbuf> iconDef;
@@ -150,7 +80,7 @@ void XFileList::init () {
    append_column (*pColumn);
 
 #ifdef PKGDIR
-   loadIcons (PKGDIR, "Icon_*.xpm", sizeof ("Icon_") - 1);
+   loadIcons (PKGDIR, "Icon_*.png", sizeof ("Icon_") - 1);
 #endif
 }
 
@@ -168,14 +98,22 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
    TRACE2 ("XFileList::loadIcons (const char*, const char*, unsigned int) - " << path << '/' << files);
 
    if (!iconExe) {
-      iconDir = Gdk::Pixbuf::create_from_xpm_data (iconDirectory);
-      iconDef = Gdk::Pixbuf::create_from_xpm_data (iconDefault);
-      iconExe = Gdk::Pixbuf::create_from_xpm_data (iconExecuteable);
+      YGP::PathDirectorySearch ds (path, "Directory.png");
+      const YGP::File* file (ds.find (YGP::IDirectorySearch::FILE_NORMAL)); Check2 (file);
+      std::string filename (file->path ()); filename += file->name ();
+      iconDir = Gdk::Pixbuf::create_from_file (filename); Check1 (iconDir);
+
+      file = ds.find ("Default.png"); Check2 (file);
+      filename = file->path (); filename += file->name ();
+      iconDef = Gdk::Pixbuf::create_from_file (filename);
+
+      file = ds.find ("Executable.png"); Check2 (file);
+      filename = file->path (); filename += file->name ();
+      iconExe = Gdk::Pixbuf::create_from_file (filename);
 
       // Use Icon.*-files as icon for *-files
-      YGP::PathDirectorySearch ds (path, files);
+      ds.find (path, files);
 
-      const YGP::File* file = ds.find (YGP::IDirectorySearch::FILE_NORMAL);
       std::string type;
       while (file) {
 	 // Read icon-file and store it
