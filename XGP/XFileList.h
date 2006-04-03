@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.32 2006/03/29 22:48:28 markus Rel $
+//$Id: XFileList.h,v 1.33 2006/04/03 20:32:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ class XFileList : public Gtk::TreeView {
    Gtk::Menu* pMenuPopAction;
 
  private:
-   void XFileList::init ();
+   void init ();
    static void loadIcons (const char* path, const char* files, unsigned int namePrefix);
 };
 
