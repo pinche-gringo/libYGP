@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.85 2006/03/29 22:51:01 markus Rel $
+dnl $Id: configure.in,v 1.86 2006/04/03 20:33:00 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_REVISION($Revision: 1.85 $)
-AC_INIT([libYGP],[0.7.50],[g17m0@lycos.com],[libYGP])
+AC_REVISION($Revision: 1.86 $)
+AC_INIT([libYGP],[0.7.51],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=$PACKAGE_VERSION
-dnl LIBRELEASE=0.7.40
+dnl LIBRELEASE=$PACKAGE_VERSION
+LIBRELEASE=0.7.50
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
