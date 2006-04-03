@@ -1,8 +1,24 @@
+2006-04-03  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.51 documented
+
+	* doc/index.html: Minor fixes
+
+	* configure.in: Version to 0.7.50 (version of library stays at 0.7.50)
+
+	* XGP/XAttribute.h, XGP/XFileList.h:
+	  Fixed compile-erros when compiling with GCC 4.1
+
+	* XGP/XFileList.cpp:
+	  Only dynamically casting once (for each Storage-type)
+
 2006-03-29  Markus Schwab  <g17m0@lycos.com>
 
-	* configure.in: Version to 0.7.50
+	* ChangeLog, NEWS: Changes in V0.7.50 documented
 
-	* ygp-cfg.h.in: Removed the PACKAGE- and VERSION-stuff
+	* CREDITS: New file
+
+	* configure.in: Version to 0.7.50
 
 	* po/de.po, po/en.po, po/es.po: Actualized
 
