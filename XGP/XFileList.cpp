@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.43 2006/03/29 22:48:28 markus Rel $
+//$Id: XFileList.cpp,v 1.44 2006/04/03 20:32:05 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -352,11 +352,16 @@ void XFileList::remove (Gtk::TreeIter line) {
    TRACE4 ("XFileList::remove (Gtk::TreeIter) - " << getFilename (line));
    std::string entry (getFilename (line));
    const char* args[] = { "rm", "-f", entry.c_str (), NULL };
-   if (execProgram (args[0], args, true))
-      if (Glib::RefPtr<Gtk::TreeStore>::cast_dynamic (get_model ()))
-	 Glib::RefPtr<Gtk::TreeStore>::cast_static (get_model ())->erase (line);
-      else if (Glib::RefPtr<Gtk::ListStore>::cast_dynamic (get_model ()))
-	 Glib::RefPtr<Gtk::ListStore>::cast_static (get_model ())->erase (line);
+   if (execProgram (args[0], args, true)) {
+      Glib::RefPtr<Gtk::TreeStore> ptr (Glib::RefPtr<Gtk::TreeStore>::cast_dynamic (get_model ()));
+      if (ptr)
+	 ptr->erase (line);
+      else {
+	 Glib::RefPtr<Gtk::ListStore> ptr (Glib::RefPtr<Gtk::ListStore>::cast_dynamic (get_model ()));
+	 if (ptr)
+	    ptr->erase (line);
+      }
+   }
 }
 
 //-----------------------------------------------------------------------------
