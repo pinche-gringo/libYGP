@@ -1,14 +1,14 @@
-//$Id: Entity.cpp,v 1.13 2006/03/16 21:56:42 markus Rel $
+//$Id: Entity.cpp,v 1.14 2006/04/10 01:00:53 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
-//COPYRIGHT   : Copyright (C) 2002 - 2005
+//COPYRIGHT   : Copyright (C) 2002 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,11 +107,11 @@ std::istream& operator>> (std::istream& in, Entity& obj) throw () {
       attrs.addAttribute (*(*i)->clone ());
    }
 
-   char buffer[200];
+   char buffer[80];
    std::string input;
    do {
       in.clear ();
-      in.getline (buffer, 200);
+      in.getline (buffer, sizeof (buffer));
       input.append (buffer, in.gcount ());
    } while (in.fail () && !in.eof ()); // end-do
    TRACE5 ("operator>> (std::istream&, Entity& - Assign from " << input);
