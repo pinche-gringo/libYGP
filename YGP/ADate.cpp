@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.49 2006/03/16 21:58:29 markus Rel $
+//$Id: ADate.cpp,v 1.50 2006/04/10 01:45:31 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.49 $
+//REVISION    : $Revision: 1.50 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -244,8 +244,8 @@ ADate& ADate::operator= (const struct tm& date) {
 }
 
 //----------------------------------------------------------------------------
-/// Converts the date into a string, in the format <tt>DDMMYYYY[...]</tt>; each
-/// entry is filled up with zeros.
+/// Converts the date into a string, in the format <code>DDMMYYYY[...]</code>;
+/// each entry is filled up with zeros.
 /// \return \c std::string: String-representation of ADate
 //----------------------------------------------------------------------------
 std::string ADate::toUnformattedString () const {

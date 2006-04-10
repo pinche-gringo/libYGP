@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.6 2005/11/09 00:40:08 markus Rel $
+//$Id: TableWriter.h,v 1.7 2006/04/10 01:45:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,19 +85,19 @@ class TableWriter {
    std::string getNextNode () const;
    virtual std::string getSubstitute (char ctrl, bool extend = false) const;
 
-   const char* rowStart;
-   const char* rowEnd;
-   const char* colSeparator;
+   const char* rowStart;                          ///< Text for starting a row
+   const char* rowEnd;                                  ///< Text to end a row
+   const char* colSeparator;      ///< Text separting the columns of the table
 
-   const char* tabStart;
-   const char* tabEnd;
-   const char* tabHeader;
+   const char* tabStart;                          ///< Text starting the table
+   const char* tabEnd;                              ///< Text ending the table
+   const char* tabHeader;            ///< Text starting the heaer of the table
 
-   const char* rowHdrStart;
-   const char* rowHdrEnd;
-   const char* colHdrSeparator;
+   const char* rowHdrStart;             ///< Text to start a row in the header
+   const char* rowHdrEnd;                 ///< Text to end a row in the header
+   const char* colHdrSeparator;  ///< Text separting the columns of the header
 
-   const char* colDefinitions;
+   const char* colDefinitions;                 ///< Text to define the columns
 
  private:
    YGP::Tokenize columns_;

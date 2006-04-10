@@ -1,7 +1,7 @@
 #ifndef XATTRENTRY_H
 #define XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.19 2005/11/09 19:23:10 markus Rel $
+//$Id: XAttrEntry.h,v 1.20 2006/04/10 01:45:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -118,28 +118,36 @@ template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P 
 };
 
 
-// Specialication for strings
+/// Specialication of XAttributeEntry<T>::XAttributeEntry for strings
 template <> inline XAttributeEntry<std::string>::XAttributeEntry (std::string& attr) : temp (attr)
      , attr_ (attr), inError (false) { parent::set_text (attr); }
 
+/// Specialication of XAttributeEntry<T>::update for strings
 template <> inline void XAttributeEntry<std::string>::update () { parent::set_text (temp = attr_); }
+/// Specialication of XAttributeEntry<T>::setText for strings
 template <> inline void XAttributeEntry<std::string>::setText (const Glib::ustring& value) {
    temp = Glib::locale_from_utf8 (value);
    parent::set_text (value); }
+/// Specialication of XAttributeEntry<T>::on_focus_in_event for strings
 template <> inline bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {
    return parent::on_focus_in_event (ev); }
+/// Specialication of XAttributeEntry<T>::on_focus_out_event for strings
 template <> inline bool XAttributeEntry<std::string>::on_focus_out_event (GdkEventFocus* ev) {
    temp = parent::get_text ();
    return parent::on_focus_out_event (ev); }
 
-// Specialication for Glib::ustrings
+/// Specialication of XAttributeEntry<T>::XAttributeEntry for ustrings
 template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustring& attr) : temp (attr)
      , attr_ (attr), inError (false) { parent::set_text (attr); }
 
+/// Specialication of XAttributeEntry<T>::update for ustrings
 template <> inline void XAttributeEntry<Glib::ustring>::update () { parent::set_text (temp = attr_); }
+/// Specialication of XAttributeEntry<T>::setText for ustrings
 template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { parent::set_text (temp = value); }
- template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
+/// Specialication of XAttributeEntry<T>::on_focus_in_event for ustrings
+template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
    return parent::on_focus_in_event (ev); }
+/// Specialication of XAttributeEntry<T>::on_focus_out_event for ustrings
 template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_out_event (GdkEventFocus* ev) {
    temp = parent::get_text ();
    return parent::on_focus_out_event (ev); }

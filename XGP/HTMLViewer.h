@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.10 2005/10/17 03:51:11 markus Rel $
+//$Id: HTMLViewer.h,v 1.11 2006/04/10 01:45:38 markus -Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ namespace XGP {
  */
 class HTMLViewer : public XDialog {
  public:
+   /// Supported widgets to display HTML
    typedef enum { GTKHTML, GTKMOZEMBED, LAST } widgetTypes;
 
    virtual ~HTMLViewer ();

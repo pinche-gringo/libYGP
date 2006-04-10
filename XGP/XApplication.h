@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.28 2005/03/21 17:26:27 markus Rel $
+//$Id: XApplication.h,v 1.29 2006/04/10 01:45:38 markus -Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -91,10 +91,10 @@ class XApplication : public Gtk::Window {
    // Protected data
    PVBox    vboxClient;                   ///< Client window of the application
 
-   Glib::RefPtr<Gtk::ActionGroup> grpAction;
-   Glib::RefPtr<Gtk::UIManager>   mgrUI;
+   Glib::RefPtr<Gtk::ActionGroup> grpAction;    ///< Actions of the application
+   Glib::RefPtr<Gtk::UIManager>   mgrUI;                        ///< UI-manager
 
-   //Help-menu
+   // Help-menu
    void addHelpMenu (Glib::ustring& uiString);
 
    /// \name Help menu handling

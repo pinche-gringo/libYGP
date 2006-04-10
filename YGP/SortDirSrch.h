@@ -1,7 +1,7 @@
 #ifndef SORTDIRSRCH_H
 #define SORTDIRSRCH_H
 
-//$Id: SortDirSrch.h,v 1.2 2005/03/07 22:31:41 markus Rel $
+//$Id: SortDirSrch.h,v 1.3 2006/04/10 01:45:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,6 +51,8 @@ template <class Parent = YGP::DirectorySearch>
 class SortedDirSearch : public Parent {
  public:
    SortedDirSearch () : Parent (), inFirstFind (false) { }
+   /// Constructor from a search-string
+   /// \param search: Files to search for
    SortedDirSearch (const std::string& search)
       : Parent (search), inFirstFind (false) { }
    virtual ~SortedDirSearch () {
@@ -60,7 +62,7 @@ class SortedDirSearch : public Parent {
 
    /// \name Searching
    //@{
-   /// Returns the first found file matching \c spec, having the attributes \c
+   /// Returns the first found file matching \c spec, having the attributes \c attribs
    /// \param spec: Files to search for
    /// \param attribs: Attributes the searched files must have
    /// attribs

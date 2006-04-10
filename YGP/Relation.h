@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.8 2005/10/28 21:15:43 markus Rel $
+//$Id: Relation.h,v 1.9 2006/04/10 01:45:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -449,7 +449,7 @@ class RelationN_M : public IRelation {
    }
 
    /// Disconnect all parents from an object
-   /// \param source: Parent to unrelate
+   /// \param target: Parent to unrelate
    void unrelateAll (const T& target) {
       Check1 (target.isDefined ());
       typename std::map<T, std::vector<S> >::iterator i (parents.find (target));

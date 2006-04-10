@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.13 2005/04/01 06:33:47 markus Rel $
+//$Id: Process.h,v 1.14 2006/04/10 01:45:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -90,6 +90,7 @@ class Process {
    /// \param file: Name of file to execute
    /// \param arguments: Array with arguments for the file (as understood by execv)
    /// \param fd: Pipes for communication
+   /// \param flags: Flags describing how to connect stdin/stdout
    /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
    /// \remarks The called file must follow some convention:

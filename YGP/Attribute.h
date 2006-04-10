@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.32 2005/11/12 15:09:00 markus Rel $
+//$Id: Attribute.h,v 1.33 2006/04/10 01:45:32 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -406,13 +406,14 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
 };
 
 
-// Specialization of Attribute for character (arrays)
+/// Specialization of Attribute::assignFromString for a single character
 template <> inline bool AttributeList<char>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    list_[offset] = *value;
    return *value && !value[1];
 }
 
+/// Specialization of Attribute::assign for character-arrays
 template <> inline bool AttributeList<char*>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    delete [] list_[offset];
@@ -424,12 +425,13 @@ template <> inline bool AttributeList<char*>::assign (unsigned int offset, const
    return true;
 }
 
+/// Specialization of Attribute::assignFromString for character-arrays
 template <> inline bool AttributeList<char*>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    return assign (offset, value, strlen (value));
 }
 
-// Specialization of AttributeList for ints
+/// Specialization of AttributeList::assginFromString for short
 template <> inline bool AttributeList<short>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -438,6 +440,7 @@ template <> inline bool AttributeList<short>::assignFromString (unsigned int off
    return !(errno || *pTail);
 }
 
+/// Specialization of AttributeList::assginFromString for unsigned short
 template <> inline bool AttributeList<unsigned short>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -446,6 +449,7 @@ template <> inline bool AttributeList<unsigned short>::assignFromString (unsigne
    return !(errno || *pTail);
 }
 
+/// Specialization of AttributeList::assginFromString for int
 template <> inline bool AttributeList<int>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -454,6 +458,7 @@ template <> inline bool AttributeList<int>::assignFromString (unsigned int offse
    return !(errno || *pTail);
 }
 
+/// Specialization of AttributeList::assginFromString for unsigned int
 template <> inline bool AttributeList<unsigned int>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -462,6 +467,7 @@ template <> inline bool AttributeList<unsigned int>::assignFromString (unsigned 
    return !(errno || *pTail);
 }
 
+/// Specialization of AttributeList::assginFromString for unsigned long
 template <> inline bool AttributeList<long>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -470,6 +476,7 @@ template <> inline bool AttributeList<long>::assignFromString (unsigned int offs
    return !(errno || *pTail);
 }
 
+/// Specialization of AttributeList::assginFromString for unsigned long
 template <> inline bool AttributeList<unsigned long>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -478,6 +485,7 @@ template <> inline bool AttributeList<unsigned long>::assignFromString (unsigned
    return !(errno || *pTail);
 }
 
+/// Specialization of AttributeList::assginFromString for double
 template <> inline bool AttributeList<double>::assignFromString (unsigned int offset, const char* value) const {
    Check3 (value);
    char* pTail = NULL;
@@ -486,7 +494,6 @@ template <> inline bool AttributeList<double>::assignFromString (unsigned int of
    return !(errno || *pTail);
 }
 
-// Specialization of AttributeList for strings
 /// Assigns the passed text to the list of std::strings
 /// \returns \c true on success; \c false otherwise
 template <> inline bool AttributeList<std::string>::assignFromString (unsigned int offset, const char* value) const {
