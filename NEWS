@@ -1,3 +1,10 @@
+Overview of Changes in version 0.7.52:
+
+  - Checking for gtkhtml 3.8, 3.6 and 3,1
+  - Removed specialization of YGP::Attribute<Glib::ustring>::assign()
+  - Improved documentation
+
+
 Overview of Changes in version 0.7.51:
 
   - Can be compiled with GCC 4.1

@@ -1,10 +1,26 @@
+2006-04-09  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.52 documented
+
+	* configure.in: Testing for gtkhtml 3.8, 3.6 and 3.1
+
+	* XGP/HTMLViewer.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XAttrEntry.h, XGP/XAttrLabel.h, XGP/XAttribute.h, YGP/ADate.cpp, YGP/AYear.cpp, YGP/Attribute.h, YGP/Process.h, YGP/Relation.h, YGP/SortDirSrch.h, YGP/TableWriter.h:
+	  Added/Fixed comments for doxygen
+
+	* YGP/Entity.cpp: Buffer-size to read entity reduced
+
+	* configure.in: Version to 0.7.52 (version of library stays at 0.7.50)
+
+	* XGP/XAttribute.h:
+	  Removed specialization of YGP::Attribute<Glib::ustring>::assign
+
 2006-04-03  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.51 documented
 
 	* doc/index.html: Minor fixes
 
-	* configure.in: Version to 0.7.50 (version of library stays at 0.7.50)
+	* configure.in: Version to 0.7.51 (version of library stays at 0.7.50)
 
 	* XGP/XAttribute.h, XGP/XFileList.h:
 	  Fixed compile-erros when compiling with GCC 4.1
