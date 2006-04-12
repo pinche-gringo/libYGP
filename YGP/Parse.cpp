@@ -1,14 +1,14 @@
-//$Id: Parse.cpp,v 1.54 2006/01/19 21:29:19 markus Rel $
+//$Id: Parse.cpp,v 1.55 2006/04/12 19:18:59 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.54 $
+//REVISION    : $Revision: 1.55 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -266,9 +266,10 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 
    int ch ('\0');
    std::string& buffer = BUFFER;
+   unsigned int parsedChars (0);
    buffer = "";
 
-   while (buffer.size () < maxCard) {        // While not max. card is reached
+   while (parsedChars < maxCard) {           // While not max. card is reached
       ch = stream.get ();
       TRACE6 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
               << " -> " << (char)ch << " = 0x" << std::hex << ch << std::dec);
@@ -287,12 +288,13 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
 
       if (report || buffer.empty ())
          buffer += (char)ch;                                   // Store, if OK
+      ++parsedChars;
    } // end-while !maximal cardinality
    TRACE6 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ()
            << ": Final = '" << buffer << '\'');
 
    int rc (PARSE_OK);
-   if (buffer.length () >= minCard) {                     // Cardinalities OK?
+   if (parsedChars >= minCard) {                          // Cardinalities OK?
       if (report)
          rc = found (buffer.c_str (), buffer.length ());
       else {
@@ -796,10 +798,9 @@ ParseExact& ParseExact::operator= (const ParseExact& other) {
 //-----------------------------------------------------------------------------
 int ParseExact::checkValue (char ch) {
    TRACE8 ("ParseExact::checkValue " << getDescription () << ' ' << ch);
-   if (pValue[pos++] == ch) {   // Valid if ch == act-char; if wrong reset pos
-      if (pos >= maxCard)           // Reset position after successfull serach
+   if (pValue[pos] == ch) {     // Valid if ch == act-char; if wrong reset pos
+      if (++pos >= maxCard)         // Reset position after successfull serach
          pos = 0;
-
       return true;
    }
 
