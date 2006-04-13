@@ -1,3 +1,30 @@
+2006-04-13  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes in V0.7.53 documented
+
+	* configure.in: Version to 0.7.53; Testing for Epiphany
+
+	* ygp-cfg.h.in: Added define for Epiphany
+
+	* po/de.po, po/en.po, po/es.po:
+	  Added translation for epiphany; Browser-names beautified
+
+	* CREDITS: Added credits for browser-icons
+
+	* XGP/Icons/Browser_GTKHTML.png, XGP/Icons/Browser_GTKMOZEMBED.png, XGP/Icons/Browser_konqueror.png, XGP/Icons/Browser_netscape.png, XGP/Icons/Browser_epiphany.png, XGP/Icons/Browser_galeon.png, XGP/Icons/Browser_opera.png, XGP/Icons/Browser_firefox.png, XGP/Icons/Browser_mozilla.png:
+	  New file.
+
+	* XGP/Icons/Makefile.in: Added browser-icons
+
+	* XGP/BrowserDlg.cpp: Check and load, if available icon for browser
+
+	* XGP/Makefile.am: PKGDIR ends with slash
+
+2006-04-12  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Parse.cpp:
+	  Fixed calculating length of paresed entries, for not-reported objects
+
 2006-04-09  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.52 documented
