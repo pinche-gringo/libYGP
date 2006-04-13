@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.42 $)\n"
+"Project-Id-Version: libYGP 0.7 ($Revision: 1.43 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2006-03-29 18:48-0400\n"
+"POT-Creation-Date: 2006-04-13 17:06-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -178,19 +178,19 @@ msgstr "-Fehler: Die Option '%1' ist nicht eindeutig"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-Fehler: Ungültige Option '%1'"
 
-#: YGP/Parse.cpp:317
+#: YGP/Parse.cpp:319
 msgid "Expected %1, found: '%2'"
 msgstr "Erwartete %1, fand: '%2'"
 
-#: YGP/Parse.cpp:951
+#: YGP/Parse.cpp:952
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Fehler in Sequenz %1; Erwartete: %2"
 
-#: YGP/Parse.cpp:951
+#: YGP/Parse.cpp:952
 msgid "Error in sequence %1"
 msgstr "Fehler in Sequenz %1"
 
-#: YGP/Parse.cpp:1069
+#: YGP/Parse.cpp:1070
 msgid "Expected selection %1"
 msgstr "Erwartete Auswahl %1"
 
@@ -320,47 +320,51 @@ msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 msgid "Invalid value!"
 msgstr "Ungültiger Wert!"
 
-#: XGP/BrowserDlg.cpp:42
-msgid "GTKHTML"
-msgstr ""
-
 #: XGP/BrowserDlg.cpp:45
-msgid "GTKMOZEMBED"
-msgstr ""
+msgid "GTKHTML"
+msgstr "GTK-HTML"
 
 #: XGP/BrowserDlg.cpp:48
+msgid "GTKMOZEMBED"
+msgstr "GTK-Mozilla embeded"
+
+#: XGP/BrowserDlg.cpp:51
+msgid "epiphany"
+msgstr "Epiphany"
+
+#: XGP/BrowserDlg.cpp:54
 msgid "firefox"
 msgstr "Firefox"
 
-#: XGP/BrowserDlg.cpp:51
+#: XGP/BrowserDlg.cpp:57
 msgid "galeon"
 msgstr "Galeon"
 
-#: XGP/BrowserDlg.cpp:54
+#: XGP/BrowserDlg.cpp:60
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: XGP/BrowserDlg.cpp:57
+#: XGP/BrowserDlg.cpp:63
 msgid "netscape"
 msgstr "Netscape"
 
-#: XGP/BrowserDlg.cpp:60
+#: XGP/BrowserDlg.cpp:66
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: XGP/BrowserDlg.cpp:63
+#: XGP/BrowserDlg.cpp:69
 msgid "opera"
 msgstr "Opera"
 
-#: XGP/BrowserDlg.cpp:66
+#: XGP/BrowserDlg.cpp:72
 msgid "iexplore"
 msgstr "Internet Explorer"
 
-#: XGP/BrowserDlg.cpp:68
+#: XGP/BrowserDlg.cpp:74
 msgid "Other:"
 msgstr "Anderer:"
 
-#: XGP/BrowserDlg.cpp:76
+#: XGP/BrowserDlg.cpp:82
 msgid "Select a browser"
 msgstr "Auswählen eines Browsers"
 
