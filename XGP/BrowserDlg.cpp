@@ -1,14 +1,14 @@
-//$Id: BrowserDlg.cpp,v 1.21 2005/10/17 03:50:40 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.22 2006/04/13 19:48:10 markus -Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005
+//COPYRIGHT   : Copyright (C) 2003 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <YGP/Internal.h>
+
 #include <gtkmm/box.h>
+#include <gtkmm/image.h>
 #include <gtkmm/radiobutton.h>
 
 #include <YGP/Check.h>
@@ -43,6 +46,9 @@ const char* BrowserDlg::browserNames[] = {
 #endif
 #ifdef HAVE_GTKMOZEMBED
     N_("GTKMOZEMBED"),
+#endif
+#if HAVE_EPIPHANY > 0
+    N_("epiphany"),
 #endif
 #if HAVE_FIREFOX > 0
     N_("firefox"),
@@ -77,24 +83,44 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
      , pboxOther (new Gtk::HBox ()), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (Glib::ustring&) - " << cmd);
 
-   pboxOther->show ();
-
    if (cmd.empty ())
       cmd = browserNames[0];
 
    Gtk::RadioButtonGroup group;
    Gtk::RadioButton* rb;
 
+   std::string filename;
    for (unsigned int i (0);
 	i < (sizeof (browserNames) / sizeof (*browserNames)); ++i) {
-      rb = manage (new Gtk::RadioButton (group, _(browserNames[i]), 0));
+      rb = NULL;
+      try {
+	 filename = PKGDIR "Browser_";
+	 filename += browserNames[i];
+	 filename += ".png";
+	 TRACE1 (filename);
+	 Glib::RefPtr<Gdk::Pixbuf> img (Gdk::Pixbuf::create_from_file (filename));
+
+	 Gtk::HBox* boxRB (manage (new Gtk::HBox));
+	 Gtk::Label* lblRB (manage (new Gtk::Label (_(browserNames[i]), true)));
+	 Gtk::Image* imgRB (manage (new Gtk::Image (img)));
+
+	 rb = manage (new Gtk::RadioButton (group));
+	 rb->add (*boxRB);
+	 boxRB->pack_start (*imgRB, Gtk::PACK_SHRINK, 5);
+	 boxRB->pack_start (*lblRB, Gtk::PACK_EXPAND_WIDGET, 5);
+      }
+      catch (Glib::Error& e) {
+	 TRACE9 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Failed loading icon " << browserNames[i] << ":\n\t" << e.what ());
+	 rb = manage (new Gtk::RadioButton (group, _(browserNames[i]), false));
+      }
+
+      Check3 (rb);
       rb->signal_clicked ().connect (bind (mem_fun (*this, &BrowserDlg::control), i));
       aBrowsers.push_back (rb);
 
       (i == ((sizeof (browserNames) / sizeof (*browserNames)) - 1))
 	 ? pboxOther->pack_start (*rb, false, false, 5)
 	 : get_vbox ()->pack_start (*rb, false, false);
-      rb->show ();
       if (cmd == browserNames[i]) {
          rb->set_active (true);
          TRACE4 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Using browser " << cmd);
@@ -102,10 +128,10 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
       }
    }
 
-   path.show ();
    pboxOther->pack_start (path, true, true);
    get_vbox ()->pack_start (*pboxOther, false, false);
 
+   show_all_children ();
    show ();
 }
 
