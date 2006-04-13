@@ -121,6 +121,9 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* Set to 1 if Epiphany exists, 0 if not */
+#undef HAVE_EPIPHANY
+
 /* Set to 1 if Firefox exists, 0 if not */
 #undef HAVE_FIREFOX
 
