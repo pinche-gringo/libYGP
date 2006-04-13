@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.11 2006/03/29 03:27:06 markus Rel $
+# $Id: Makefile.in,v 1.12 2006/04/13 21:02:36 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -64,7 +64,10 @@ Icon_tex.png Icon_tga.png Icon_tiff.png Icon_tif.png Icon_ttf.png	\
 Icon_txt.png Icon_ulaw.png Icon_url.png Icon_voc.png Icon_wav.png	\
 Icon_wks.png Icon_xbm.png Icon_xcf.png Icon_xi.png Icon_xls.png		\
 Icon_xm.png Icon_xpm.png Icon_xwd.png Icon_x-xfig.png Icon_z.png	\
-Icon_Z.png Default.png Directory.png Executable.png
+Icon_Z.png Default.png Directory.png Executable.png			\
+Browser_epiphany.png Browser_firefox.png Browser_galeon.png		\
+Browser_mozilla.png Browser_opera.png Browser_netscape.png		\
+Browser_konqueror.png Browser_GTKMOZEMBED.png Browser_GTKHTML.png
 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
