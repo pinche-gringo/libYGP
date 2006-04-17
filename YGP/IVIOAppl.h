@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.24 2003/11/14 20:27:55 markus Rel $
+//$Id: IVIOAppl.h,v 1.25 2006/04/17 19:03:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ class IVIOApplication {
  public:
    /// Helper-structure to store long-options
    typedef struct {
-      char* longVal; ///< Pointer to buffer holding the value of the long option
+      const char* longVal;        ///< Pointer to the value of the long option
       char  shortVal;  ///< Character representing the equivalent short option
    } longOptions;
 

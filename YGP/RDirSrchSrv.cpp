@@ -1,14 +1,14 @@
-//$Id: RDirSrchSrv.cpp,v 1.27 2005/11/14 19:07:43 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.28 2006/04/17 19:03:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,8 +63,8 @@ static const unsigned int CMD_ISEOF = 8;
 // & const unsigned int), but Visual C++ wouldn't compile that. I really wonder
 // if they invented C# because they couldn't implement a working C++ compiler?
 /// Commands understood by the server
-static const struct { 
-   char* cmd;
+static const struct {
+   const char* cmd;
    unsigned int len;
 } commands[] = { { "Next", 4 },   { "Find=\"", 6 },  { "Check=\"", 7 },
                  { "End", 3 },    { "Open=\"", 6 },  { "Close=", 6 },
