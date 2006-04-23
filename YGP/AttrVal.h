@@ -1,7 +1,7 @@
 #ifndef ATTRVAL_H
 #define ATTRVAL_H
 
-//$Id: AttrVal.h,v 1.23 2005/01/10 02:16:14 markus Rel $
+//$Id: AttrVal.h,v 1.24 2006/04/23 02:55:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,12 +34,12 @@ namespace YGP {
 
    An attribute is considered defined, if a value is explicitely set or if the
    defined ()-member is called (where the attribute gets a default-value;
-   depending on its type) -> every derived object must call 
+   depending on its type) -> every derived object must call
    AttributValue::define () when setting a value!
  */
 class AttributValue {
  public:
-   /// Defines the object (setting it to a default value
+   /// Checks if the object is defined
    bool         isDefined () const { return defined; }
    virtual void undefine () { defined = false; }      ///< Undefines the object
 
@@ -81,6 +81,7 @@ class AttributValue {
    AttributValue& operator= (const AttributValue& other) {
       defined = other.defined; return *this; }
 
+   /// Defines the objects (sets to the default value)
    virtual void define () = 0;
    /// Defines the attribute; non-virtual method to be called inside
    /// define-methods of derived classes.

@@ -1,7 +1,7 @@
 #ifndef SMARTPTR_H
 #define SMARTPTR_H
 
-// $Id: SmartPtr.h,v 1.9 2003/11/14 20:27:55 markus Rel $
+// $Id: SmartPtr.h,v 1.10 2006/04/23 02:55:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ namespace YGP {
 
    <tt>definePtr(string)</tt> would create a <tt>typedef SmartPtr<std::string>
    Pstring</tt>.
-   
+
    \note This class is (intented to be) simple. Consider this when using it!
 */
 template <class T> class SmartPtr {
