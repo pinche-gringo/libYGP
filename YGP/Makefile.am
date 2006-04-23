@@ -16,7 +16,7 @@ includedir = ${prefix}/include/YGP
 libYGP_la_LDFLAGS=${LIBS} -release $(LIBRELEASE) -no-undefined
 
 libYGP_la_SOURCES=Tokenize.cpp IVIOAppl.cpp DirSrch.cpp ANumeric.cpp Parse.cpp\
-	FileRExp.cpp Handle.cpp Version.cpp ATime.cpp XStrBuf.cpp AYear.cpp \
+	FileRExp.cpp Version.cpp ATime.cpp XStrBuf.cpp AYear.cpp \
 	ADate.cpp PathDirSrch.cpp ATStamp.cpp INIFile.cpp CRegExp.cpp \
 	StackTrc.cpp Socket.cpp RDirSrch.cpp File.cpp RDirSrchSrv.cpp \
 	AssParse.cpp AttrParse.cpp IDirSrch.cpp RemoteFile.cpp Entity.cpp \
