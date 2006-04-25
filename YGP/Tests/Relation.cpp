@@ -1,11 +1,11 @@
-// $Id: Relation.cpp,v 1.4 2006/03/17 23:20:33 markus Rel $
+// $Id: Relation.cpp,v 1.5 2006/04/25 01:10:35 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Relation
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.10.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -171,6 +171,13 @@ int main (int argc, char* argv[]) {
 
    check (scx.getObjects (hServer).size () == 4);
    check (scx.getObjects (hServer2).size () == 3);
+
+   scx.unrelate (hServer, hClient1);
+   check (scx.getObjects (hServer).size () == 3);
+
+   scx.unrelateAll (hServer);
+   check (scx.getObjects (hServer).size () == 0);
+   check (scx.getParents (hClient1).size () == 1);
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
