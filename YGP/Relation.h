@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.9 2006/04/10 01:45:32 markus Rel $
+//$Id: Relation.h,v 1.10 2006/04/25 01:10:12 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -421,8 +421,7 @@ class RelationN_M : public IRelation {
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
       Check1 (i != objects.end ());
 
-      typename std::vector<T>::iterator j
-	 (find (i->second.begin (), i->second.end (), target));
+      typename std::vector<T>::iterator j (find (i->second.begin (), i->second.end (), target));
       Check1 (j != i->second.end ());
       i->second.erase (j);
       if (i->second.empty ())
@@ -431,12 +430,11 @@ class RelationN_M : public IRelation {
       typename std::map<T, std::vector<S> >::iterator k (parents.find (target));
       Check1 (k != parents.end ());
 
-      typename std::vector<S>::iterator l
-	 (find (k->second.begin (), k->second.end (), source));
+      typename std::vector<S>::iterator l (find (k->second.begin (), k->second.end (), source));
       Check1 (l != k->second.end ());
       k->second.erase (l);
-      if (l->second.empty ())
-	 objects.erase (k);
+      if (k->second.empty ())
+	 parents.erase (k);
    }
 
    /// Disconnect all objects from a parent
@@ -445,6 +443,12 @@ class RelationN_M : public IRelation {
       Check1 (source.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
       Check1 (i != objects.end ());
+
+      for (typename std::vector<T>::iterator j (i->second.begin ()); j != i->second.end (); ++j) {
+	 Check1 (parents.find (*j) != parents.end ());
+	 Check1 (find (parents[*j].begin (), parents[*j].end (), source) != parents[*j].end ());
+	 parents[*j].erase (find (parents[*j].begin (), parents[*j].end (), source));
+      }
       objects.erase (i);
    }
 
@@ -453,7 +457,13 @@ class RelationN_M : public IRelation {
    void unrelateAll (const T& target) {
       Check1 (target.isDefined ());
       typename std::map<T, std::vector<S> >::iterator i (parents.find (target));
-      Check1 (i != objects.end ());
+      Check1 (i != parents.end ());
+
+      for (typename std::vector<S>::iterator j (i->second.begin ()); j != i->second.end (); ++j) {
+	 Check1 (objects.find (*j) != objects.end ());
+	 Check1 (find (objects[*j].begin (), objects[*j].end (), target) != objects[*j].end ());
+	 objects[*j].erase (find (objects[*j].begin (), objects[*j].end (), target));
+      }
       parents.erase (i);
    }
 
