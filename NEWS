@@ -1,3 +1,10 @@
+Overview of Changes in version 0.7.60:
+
+  - YGP::Handle re-written (don't derive from IHandle/AttrVal)
+  - Fixed YGP::RelationN_M
+  - Can be compiled with GCC 4.2 (alpha)
+
+
 Overview of Changes in version 0.7.53:
 
   - YGP::Parser: Fixed parsing object which are not reported

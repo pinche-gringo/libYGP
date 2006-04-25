@@ -1,3 +1,31 @@
+2006-04-25  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.7.60 documented
+
+	* configure.in: Version to 0.7.60
+
+2006-04-24  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Relation.cpp: Added tests for RelationN_M unrelate*()
+
+	* YGP/Relation.h: Fixed unRelate*()
+
+2006-04-22  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Makefile.am: Removed Handle.cpp
+
+	* YGP/Handle.h:
+	Re-written; does not derive from AttrVal anymore; Added castDynamic()
+
+	* YGP/Handle.cpp: Deleted
+
+	* YGP/AttrVal.h, YGP/SmartPtr.h: Fixed formatting
+
+2006-04-17  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/IVIOAppl.h, YGP/RDirSrchSrv.cpp:
+	Can be compiled with GCC 4.2 (alpha)
+
 2006-04-13  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes in V0.7.53 documented
