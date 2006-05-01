@@ -1,14 +1,14 @@
-//$Id: XPrintDlg.cpp,v 1.23 2004/10/24 00:24:54 markus -Rel $
+//$Id: XPrintDlg.cpp,v 1.24 2006/05/01 02:23:46 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,26 +48,26 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 /// Constructor; creates a small dialog to enter the print command.
 //-----------------------------------------------------------------------------
-IPrintDialog::IPrintDialog ()
+PrintDialog::PrintDialog ()
    : XDialog (Glib::locale_to_utf8 (_("Print")), OKCANCEL)
      , lblCommand (new Gtk::Label (_("Print command: ")))
      , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
-   TRACE9 ("IPrintDialog::IPrintDialog (title) '" << title << '\'');
+   TRACE9 ("PrintDialog::PrintDialog (title) '" << title << '\'');
    init ();
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-IPrintDialog::~IPrintDialog () {
-   TRACE9 ("IPrintDialog::~IPrintDialog");
+PrintDialog::~PrintDialog () {
+   TRACE9 ("PrintDialog::~PrintDialog");
 }
 
 
 //-----------------------------------------------------------------------------
 /// Initialization of the class; creates the controls
 //-----------------------------------------------------------------------------
-void IPrintDialog::init () {
+void PrintDialog::init () {
    Check3 (lblCommand); Check3 (txtCommand); Check3 (boxCommand);
 
    // Command-box
@@ -89,7 +89,7 @@ void IPrintDialog::init () {
 //-----------------------------------------------------------------------------
 /// Callback after pressing OK
 //-----------------------------------------------------------------------------
-void IPrintDialog::okEvent () {
+void PrintDialog::okEvent () {
    TRACE9 ("IPrintDialog::okEvent ()");
 
    Check3 (txtCommand);
@@ -111,13 +111,8 @@ void IPrintDialog::okEvent () {
       return;
    } // endif error printing
 
-   // TODO!! std::ofstream pipe (fileno (stream));
-   std::ofstream pipe;
-   printToStream (pipe);
-   pipe.close ();
+   sigPrint.emit (stream);
    pclose (stream);
-
-   delete this;
 }
 
 //----------------------------------------------------------------------------
@@ -125,9 +120,9 @@ void IPrintDialog::okEvent () {
 /// after deleting.
 /// \returns IPrintDialog*: Pointer to created dialog
 //----------------------------------------------------------------------------
-IPrintDialog* IPrintDialog::create () {
-    IPrintDialog* dlg (new IPrintDialog ());
-    dlg->signal_response ().connect (mem_fun (*dlg, &IPrintDialog::free));
+PrintDialog* PrintDialog::create () {
+    PrintDialog* dlg (new PrintDialog ());
+    dlg->signal_response ().connect (mem_fun (*dlg, &PrintDialog::free));
     return dlg;
 }
 

@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.22 2004/12/05 03:33:22 markus -Rel $
+//$Id: XFileDlg.h,v 1.23 2006/05/01 02:23:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ namespace XGP {
 
      See also the description of the parent for further options!
 */
-class IFileDialog : public Gtk::FileChooserDialog {
+class FileDialog : public Gtk::FileChooserDialog {
  public:
    /// Options for the dialog
    enum { NONE = 0,           ///< Don't perform any checks on the entered file
@@ -50,16 +50,19 @@ class IFileDialog : public Gtk::FileChooserDialog {
 	  MULTIPLE = 0x80000000             ///< User can select multiple files
    };
 
-   ~IFileDialog ();
+   ~FileDialog ();
 
    std::string execModal ();
 
    void on_response (int cmd);
 
    /// Creates the dialog
-   static IFileDialog* create (const Glib::ustring& title,
-                               Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
-                               unsigned int dlgOption = NONE);
+   static FileDialog* create (const Glib::ustring& title,
+			      Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+			      unsigned int dlgOption = NONE);
+
+   /// Signal emitted, when OK is selected
+   sigc::signal<void, const std::string&> sigSelected;
 
  protected:
    /// IDs for the possible commands (OK, CANCEL)
@@ -71,73 +74,17 @@ class IFileDialog : public Gtk::FileChooserDialog {
 
    void free (int);
 
-   IFileDialog (const Glib::ustring& title,
-                Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
-                unsigned int dlgOption = NONE);
+   FileDialog (const Glib::ustring& title,
+	       Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+	       unsigned int dlgOption = NONE);
 
  private:
    // Prohibited manager-functions
-   IFileDialog (const IFileDialog&);
-   const IFileDialog& operator= (const IFileDialog&);
+   FileDialog (const FileDialog&);
+   const FileDialog& operator= (const FileDialog&);
 
    unsigned int opt;
    bool         modal;
-};
-
-
-/**Template version of the IFileDialog class to provide a (typesafe) callback
-   for the user input.
-*/
-template <class T>
-class TFileDialog : public IFileDialog {
- public:
-   /// Declaration of the type of the callback for the user action
-   typedef void (T::*PCALLBACK)(const std::string&);
-
-   /// Destructor
-   ~TFileDialog () { }
-
-   /// Creates the dialog (and set it as child of the parent)
-   /// \param title: Title of the dialog
-   /// \param parent: Object which should be informed about the selection
-   /// \param callback: Method of parent to handle information about selection 
-   /// \param action: Action which is caused by clicking a file
-   /// \param dlgOption: Checks to perform after selecting OK
-   /// \remarks Cares also about freeing the dialog
-   static TFileDialog* create (const Glib::ustring& title, T& parent,
-                               const PCALLBACK callback,
-                               Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
-                               unsigned dlgOption = NONE) {
-      TFileDialog<T>* dlg (new TFileDialog<T> (title, parent, callback, action, dlgOption));
-      dlg->get_window ()->set_transient_for (parent.get_window ());
-      dlg->signal_response ().connect (mem_fun (*dlg, &TFileDialog<T>::free));
-      return dlg;
-   }
-
- protected:
-   /// Constructor; creates a (modeless) dialog to select a file
-   /// \param title: Title of the dialog
-   /// \param parent: Object which should be informed about the selection
-   /// \param callback: Method of parent to handle information about selection 
-   /// \param action: Action which is caused by clicking a file
-   /// \param dlgOption: Checks to perform after selecting OK
-   TFileDialog (const Glib::ustring& title, T& parent, const PCALLBACK callback,
-                Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
-                unsigned dlgOption = NONE)
-      : IFileDialog (title, action, dlgOption), caller (parent)
-      , callerMethod (callback) { }
-
- private:
-   typedef enum { OK = 1, CANCEL } commandID;
-
-   // Prohibited manager-functions
-   TFileDialog (const TFileDialog&);
-   const TFileDialog& operator= (const TFileDialog&);
-
-   virtual void fileSelected (std::string& file) { (caller.*callerMethod) (file); }
-
-   T&              caller;
-   const PCALLBACK callerMethod;
 };
 
 }

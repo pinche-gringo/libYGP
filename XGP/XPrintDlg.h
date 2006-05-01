@@ -1,7 +1,7 @@
 #ifndef XPRINTDLG_H
 #define XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.19 2004/09/06 00:27:38 markus -Rel $
+//$Id: XPrintDlg.h,v 1.20 2006/05/01 02:23:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <iosfwd>
+#include <cstdio>
 
 #include <YGP/SmartPtr.h>
 
@@ -37,22 +37,22 @@ namespace XGP {
 
    This is a very basic interface; only supporting the line printer.
 */
-class IPrintDialog : public XDialog {
+class PrintDialog : public XDialog {
  public:
-   IPrintDialog ();
-   virtual ~IPrintDialog ();
+   PrintDialog ();
+   virtual ~PrintDialog ();
 
-   static IPrintDialog* create ();
+   static PrintDialog* create ();
+
+   /// Signal emitted, when OK is selected
+   sigc::signal<void, FILE*> sigPrint;
 
  private:
    // Prohibited manager-functions
-   IPrintDialog (const IPrintDialog&);
-   const IPrintDialog& operator= (const IPrintDialog&);
+   PrintDialog (const PrintDialog&);
+   const PrintDialog& operator= (const PrintDialog&);
 
    virtual void okEvent ();
-   /// Print to the passed stream.
-   /// \param stream: Stream to write to (for printing)
-   virtual void printToStream (std::ostream& stream) { }
 
    void init ();
 
@@ -63,48 +63,6 @@ class IPrintDialog : public XDialog {
    PLabel  lblCommand;
    PEntry  txtCommand;
    PHBox   boxCommand;
-};
-
-
-/**Templated version of the IPrintDialog which allows a (typesafe)
-   notification of the caller about user input.
-*/
-template <class T>
-class TPrintDialog : public IPrintDialog {
- public:
-   /// Declaration of the type of the callback for the user action
-   typedef void (T::*PCALLBACK)(std::ostream&);
-
-   /// Constructor
-   /// \param parent: Window to notify of the print command
-   /// \param callback: Method of \c parent to call for printing
-   TPrintDialog (T& parent, PCALLBACK callback) : IPrintDialog ()
-       , pCaller (parent), callerMethod (callback) { }
-   /// Destructor
-   ~TPrintDialog () { }
-
-   /// Creates a (modeless) print dialog and registers a handler to free it
-   /// after deleting.
-   /// \param parent: Window to notify of the print command
-   /// \param callback: Method of \c parent to call for printing
-   /// \remark
-   static TPrintDialog* create (T& parent, PCALLBACK callback) {
-      TPrintDialog<T>* dlg (new TPrintDialog<T> (parent, callback));
-      dlg->signal_response ().connect (mem_fun (*dlg, &TPrintDialog<T>::free));
-      dlg->get_window ()->set_transient_for (parent.get_window ());
-      return dlg;
-   }
-
- protected:
-   /// Print to the passed stream.
-   /// \param stream: Stream to write to (for printing)
-   virtual void printToStream (std::ostream& stream) {
-       (pCaller.*callerMethod) (stream);
-   }
-
- private:
-   T& pCaller;
-   PCALLBACK callerMethod;
 };
 
 }
