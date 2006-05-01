@@ -1,7 +1,7 @@
 #ifndef LOGINDLG_H
 #define LOGINDLG_H
 
-//$Id: LoginDlg.h,v 1.5 2006/01/19 21:27:05 markus -Rel $
+//$Id: LoginDlg.h,v 1.6 2006/05/01 02:23:07 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -65,7 +65,6 @@ class LoginDialog : public XGP::XDialog {
 
    /// Signal emitted, when Login is selected
    sigc::signal<bool, const Glib::ustring&, const Glib::ustring&> sigLogin;
-
 
  protected:
    Gtk::Table* pClient;             ///< Pointer to the client information area
