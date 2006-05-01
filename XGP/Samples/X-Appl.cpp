@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.33 2006/03/25 18:12:03 markus -Rel $
+//$Id: X-Appl.cpp,v 1.34 2006/05/01 02:24:13 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -271,28 +271,28 @@ XAppl::XAppl ()
 /// Opens a dialog to select file(s)
 //-----------------------------------------------------------------------------
 void XAppl::open () {
-   XGP::TFileDialog<XAppl>::create ("Add file(s)",
-				    *this, &XAppl::addFile,
-				    Gtk::FILE_CHOOSER_ACTION_OPEN,
-				    XGP::IFileDialog::MUST_EXIST
-				    | XGP::IFileDialog::MULTIPLE);
+   XGP::FileDialog::create ("Add file(s)",
+			    Gtk::FILE_CHOOSER_ACTION_OPEN,
+			    XGP::FileDialog::MUST_EXIST
+			    | XGP::FileDialog::MULTIPLE)
+      ->sigSelected.connect (mem_fun (*this, &XAppl::addFile));
 }
 
 //-----------------------------------------------------------------------------
 /// Opens a dialog to save to a file
 //-----------------------------------------------------------------------------
 void XAppl::save () {
-   XGP::TFileDialog<XAppl>::create ("Save search result to ...",
-				    *this, &XAppl::saveToFile,
-				    Gtk::FILE_CHOOSER_ACTION_OPEN,
-				    XGP::IFileDialog::ASK_OVERWRITE);
+   XGP::FileDialog::create ("Save search result to ...",
+			    Gtk::FILE_CHOOSER_ACTION_SAVE,
+			    XGP::FileDialog::ASK_OVERWRITE)
+      ->sigSelected.connect (mem_fun (*this, &XAppl::saveToFile));
 }
 
 //-----------------------------------------------------------------------------
 /// Opens a dialog to print
 //-----------------------------------------------------------------------------
 void XAppl::print () {
-   XGP::TPrintDialog<XAppl>::create (*this, &XAppl::writeToStream);
+   XGP::PrintDialog::create ()->sigPrint.connect (mem_fun (*this, &XAppl::writeToStream));
 }
 
 //-----------------------------------------------------------------------------
@@ -378,6 +378,7 @@ void XAppl::addFile (const std::string& file) {
    try {
       YGP::File objFile (file.c_str ());
       YGP::ATimestamp t (objFile.time (), false );
+      YGP::ANumeric s (objFile.size ());
       std::string name (objFile.path ());
       name += objFile.name ();
 
@@ -385,7 +386,7 @@ void XAppl::addFile (const std::string& file) {
       Gtk::TreeModel::Row row (*(files->append ()));
       row[cols.icon] = XGP::XFileList::getIcon4File (objFile);
       row[cols.name] = objFile.name ();
-      row[cols.size] = objFile.size ();
+      row[cols.size] = s.toString ();
       row[cols.date] = t.toString ().c_str ();
 
       // Enable menus
@@ -405,7 +406,7 @@ void XAppl::addFile (const std::string& file) {
 void XAppl::saveToFile (const std::string& file) {
    TRACE9 ("XAppl::saveToFile (string&): " << file);
 
-   std::ofstream output (file.c_str ());
+   FILE* output (fopen (file.c_str (), "w"));
    if (!output) {
       std::string err ("Can't create file `%1'\n Reason: %2");
       err.replace (err.find ("%1"), 2, file);
@@ -421,8 +422,8 @@ void XAppl::saveToFile (const std::string& file) {
 /// Save result of comparison into a file
 /// \param file: Stream to fill
 //-----------------------------------------------------------------------------
-void XAppl::writeToStream (std::ostream& file) {
-   TRACE9 ("XAppl::writeToStream (ofstream&)");
+void XAppl::writeToStream (FILE* file) {
+   TRACE9 ("XAppl::writeToStream (FILE*)");
    Check (file);
 
    int lenTime (YGP::ATimestamp::now ().toString ().length () + 1);
@@ -431,11 +432,12 @@ void XAppl::writeToStream (std::ostream& file) {
    Gtk::TreeNodeChildren::const_iterator i (rows.begin ());
    while (i != rows.end ()) {
       std::string filename ((*i)[cols.name]);
-      TRACE8 ("XAppl::writeToStream (ofstream&): " << filename);
-      std::string date ((*i)[cols.date]);
+      TRACE8 ("XAppl::writeToStream (FILE*): " << filename);
+      Glib::ustring date ((*i)[cols.date]);
+      Glib::ustring size ((*i)[cols.size]);
 
-      file << filename << std::setw (78 - filename.length () - lenTime) << ' '
-           << (*i)[cols.size] << ' ' << date << '\n';
+      filename.append (78 - filename.length () - size.length () - date.length (), ' ');
+      fprintf (file, "%s%s %s\n", filename.c_str (), size.c_str (), date.c_str ());
       ++i;
    } // end-for all text-columns
 }

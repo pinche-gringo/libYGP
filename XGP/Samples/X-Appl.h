@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.18 2006/03/25 18:12:03 markus -Rel $
+//$Id: X-Appl.h,v 1.19 2006/05/01 02:24:13 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#include <cstdio>
 #include <string>
 #include <iosfwd>
 
@@ -57,7 +58,7 @@ class XAppl : public XGP::XApplication {
    void addActFile ();
    void addFile (const std::string& file);
    void saveToFile (const std::string& file);
-   void writeToStream (std::ostream& file);
+   void writeToStream (FILE* file);
    void find (const Glib::ustring& text);
    bool loginEvent (const Glib::ustring& user, const Glib::ustring& password);
 
@@ -66,8 +67,8 @@ class XAppl : public XGP::XApplication {
 
    class FileCols : public XGP::FileColumns {
     public:
-      Gtk::TreeModelColumn <int>         size;
-      Gtk::TreeModelColumn <std::string> date;
+      Gtk::TreeModelColumn <Glib::ustring> size;
+      Gtk::TreeModelColumn <Glib::ustring> date;
 
       FileCols () : XGP::FileColumns () { add (size); add (date); }
    };

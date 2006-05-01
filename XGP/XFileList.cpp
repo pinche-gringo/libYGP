@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.44 2006/04/03 20:32:05 markus -Rel $
+//$Id: XFileList.cpp,v 1.45 2006/05/01 02:24:13 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -324,9 +324,9 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
 /// \param line: Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::move (Gtk::TreeIter line) {
-   std::string file (IFileDialog::create (std::string ("Move file to ..."),
-                                          Gtk::FILE_CHOOSER_ACTION_OPEN,
-                                          IFileDialog::ASK_OVERWRITE)->execModal ());
+   std::string file (FileDialog::create (std::string ("Move file to ..."),
+					 Gtk::FILE_CHOOSER_ACTION_OPEN,
+					 FileDialog::ASK_OVERWRITE)->execModal ());
 
    if (file.length ()) {
       std::string entry (getFilename (line));
