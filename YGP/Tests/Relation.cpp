@@ -1,11 +1,11 @@
-// $Id: Relation.cpp,v 1.5 2006/04/25 01:10:35 markus Rel $
+// $Id: Relation.cpp,v 1.6 2006/05/02 21:40:57 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Relation
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.10.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -125,6 +125,16 @@ int main (int argc, char* argv[]) {
    check (!ServerClient.isRelated (hClient4));
    check (!ServerClient.isRelated (hServer));
 
+   std::vector<HClient> vClients;
+   vClients.push_back (hClient2);
+   vClients.push_back (hClient3);
+   vClients.push_back (hClient4);
+   ServerClient.relate (hServer, vClients);
+   check (ServerClient.isRelated (hServer));
+   check (!ServerClient.isRelated (hClient1));
+   check (ServerClient.isRelated (hClient4));
+   check (ServerClient.getObjects (hServer).size () == vClients.size ());
+
    YGP::Relation1_1<HServer, HClient> sc1 ("ServerClient-1:1");
    check (!sc1.isRelated (hServer, hClient1));
    sc1.relate (hServer, hClient1);
@@ -176,8 +186,11 @@ int main (int argc, char* argv[]) {
    check (scx.getObjects (hServer).size () == 3);
 
    scx.unrelateAll (hServer);
-   check (scx.getObjects (hServer).size () == 0);
+   check (!scx.isRelated (hServer));
    check (scx.getParents (hClient1).size () == 1);
+
+   scx.relate (hServer, vClients);
+   check (scx.getObjects (hServer).size () == vClients.size ());
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
