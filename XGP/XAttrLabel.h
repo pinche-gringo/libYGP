@@ -1,7 +1,7 @@
 #ifndef XATTRLABEL_H
 #define XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.15 2006/04/10 01:45:38 markus -Rel $
+//$Id: XAttrLabel.h,v 1.16 2006/05/02 13:07:18 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,49 +68,49 @@ template <class T> class XAttributeLabel : public Gtk::Label {
 /// Specialization of XAttributeLabel<T>::update for short
 template <> inline void XAttributeLabel<short>::update () {
    char buffer[20];
-   sprintf (buffer, "%d", attr_);
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel<T>::update for unsigned short
 template <> inline void XAttributeLabel<unsigned short>::update () {
    char buffer[20];
-   sprintf (buffer, "%u", attr_);
+   snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel<T>::update for int
 template <> inline void XAttributeLabel<int>::update () {
    char buffer[20];
-   sprintf (buffer, "%d", attr_);
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel<T>::update for unsigned int
 template <> inline void XAttributeLabel<unsigned int>::update () {
    char buffer[20];
-   sprintf (buffer, "%u", attr_);
+   snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel<T>::update for long
 template <> inline void XAttributeLabel<long>::update () {
    char buffer[20];
-   sprintf (buffer, "%ld", attr_);
+   snprintf (buffer, sizeof (buffer), "%ld", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel<T>::update for unsigned long
 template <> inline void XAttributeLabel<unsigned long>::update () {
    char buffer[20];
-   sprintf (buffer, "%lu", attr_);
+   snprintf (buffer, sizeof (buffer), "%lu", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel<T>::update for double
 template <> inline void XAttributeLabel<double>::update () {
    char buffer[20];
-   sprintf (buffer, "%lf", attr_);
+   snprintf (buffer, sizeof (buffer), "%lf", attr_);
    set_text (buffer);
 }
 
@@ -161,49 +161,49 @@ template <class T> class XAttributeLabel2 : public Gtk::Label {
 /// Specialization of XAttributeLabel2<T>::update for short
 template <> inline void XAttributeLabel2<short>::update () {
    char buffer[20];
-   sprintf (buffer, "%d", attr_);
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel2<T>::update for unsigned short
 template <> inline void XAttributeLabel2<unsigned short>::update () {
    char buffer[20];
-   sprintf (buffer, "%u", attr_);
+   snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel2<T>::update for int
 template <> inline void XAttributeLabel2<int>::update () {
    char buffer[20];
-   sprintf (buffer, "%d", attr_);
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel2<T>::update for unsigned int
 template <> inline void XAttributeLabel2<unsigned int>::update () {
    char buffer[20];
-   sprintf (buffer, "%u", attr_);
+   snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel2<T>::update for long
 template <> inline void XAttributeLabel2<long>::update () {
    char buffer[20];
-   sprintf (buffer, "%ld", attr_);
+   snprintf (buffer, sizeof (buffer), "%ld", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel2<T>::update for unsigned long
 template <> inline void XAttributeLabel2<unsigned long>::update () {
    char buffer[20];
-   sprintf (buffer, "%lu", attr_);
+   snprintf (buffer, sizeof (buffer), "%lu", attr_);
    set_text (buffer);
 }
 
 /// Specialization of XAttributeLabel2<T>::update for double
 template <> inline void XAttributeLabel2<double>::update () {
    char buffer[20];
-   sprintf (buffer, "%lf", attr_);
+   snprintf (buffer, sizeof (buffer), "%lf", attr_);
    set_text (buffer);
 }
 

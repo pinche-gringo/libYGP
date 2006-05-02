@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.33 2006/04/10 01:45:32 markus Rel $
+//$Id: Attribute.h,v 1.34 2006/05/02 13:07:17 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -199,7 +199,7 @@ template <> inline bool Attribute<short>::assignFromString (const char* value) c
 }
 template <> inline std::string Attribute<short>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%d", attr_);
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<short>::getFormattedValue () const { return getValue (); }
 
@@ -212,7 +212,7 @@ template <> inline bool Attribute<unsigned short>::assignFromString (const char*
 }
 template <> inline std::string Attribute<unsigned short>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%u", attr_);
+   snprintf (buffer, sizeof (buffer), "%u", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<unsigned short>::getFormattedValue () const { return getValue (); }
 
@@ -225,7 +225,7 @@ template <> inline bool Attribute<int>::assignFromString (const char* value) con
 }
 template <> inline std::string Attribute<int>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%d", attr_);
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<int>::getFormattedValue () const { return getValue (); }
 
@@ -238,7 +238,7 @@ template <> inline bool Attribute<unsigned int>::assignFromString (const char* v
 }
 template <> inline std::string Attribute<unsigned int>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%u", attr_);
+   snprintf (buffer, sizeof (buffer), "%u", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<unsigned int>::getFormattedValue () const { return getValue (); }
 
@@ -251,7 +251,7 @@ template <> inline bool Attribute<long>::assignFromString (const char* value) co
 }
 template <> inline std::string Attribute<long>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%ld", attr_);
+   snprintf (buffer, sizeof (buffer), "%ld", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<long>::getFormattedValue () const { return getValue (); }
 
@@ -264,7 +264,7 @@ template <> inline bool Attribute<unsigned long>::assignFromString (const char* 
 }
 template <> inline std::string Attribute<unsigned long>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%ld", attr_);
+   snprintf (buffer, sizeof (buffer), "%ld", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<unsigned long>::getFormattedValue () const { return getValue (); }
 
@@ -277,7 +277,7 @@ template <> inline bool Attribute<double>::assignFromString (const char* value) 
 }
 template <> inline std::string Attribute<double>::getValue () const {
    char buffer[20];
-   sprintf (buffer, "%lg", attr_);
+   snprintf (buffer, sizeof (buffer), "%lg", attr_);
    return std::string (buffer); }
 template <> inline std::string Attribute<double>::getFormattedValue () const { return getValue (); }
 
@@ -385,10 +385,10 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    /// [offset]=[value];</tt> entries.
    std::string getValue ()  const {
       std::string help;
-      char nummer[20];
+      char number[20];
       for (unsigned int i (0); i < list_.size (); ++i) {
-         sprintf (nummer, "%d", i);
-         Attribute<T> value (nummer, list_[i]);
+         snprintf (number, sizeof (number), "%d", i);
+         Attribute<T> value (number, list_[i]);
          help += value.getName ();
          help += '=';
          help += value.getValue ();
