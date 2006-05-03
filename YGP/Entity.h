@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.10 2005/01/08 22:14:23 markus Rel $
+//$Id: Entity.h,v 1.11 2006/05/03 20:53:56 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include <iosfwd>
 #include <algorithm>
 
 #ifndef NO_HANDLE
