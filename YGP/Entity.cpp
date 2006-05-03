@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.14 2006/04/10 01:00:53 markus Rel $
+//$Id: Entity.cpp,v 1.15 2006/05/03 20:54:28 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2006
@@ -24,6 +24,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
+#include <iostream>
 
 #include "Check.h"
 #include "Trace.h"
