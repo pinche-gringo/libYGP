@@ -1,6 +1,6 @@
 SUBDIRS=.
 
-INCLUDES = -I$(top_srcdir) @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wall
+INCLUDES = -I$(top_srcdir) @GTKMM_CFLAGS@ -I$(top_srcdir)/intl  -I$(top_srcdir)/YGP -Wall
 
 # Settings for gettext
 localedir = $(datadir)/locale
