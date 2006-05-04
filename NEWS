@@ -1,3 +1,13 @@
+Overview of Changes in version 0.8.00:
+
+  - YGP::DynTrace, a class for tracing changable at runtime added
+  - XGP::TraceDlg, a dialog to change traces dynamically added
+  - XGP::FileDlg, XGP::PrintDlg use signals to inform about input
+  - YGP::Relation[1N]_[NMX] can relate a bunch of objects at a time
+  - YGP::Relation's get{Objects,Parents} only returns const vectors
+  - Removed remaining sprintf's
+
+
 Overview of Changes in version 0.7.60:
 
   - YGP::Handle re-written (don't derive from IHandle/AttrVal)
