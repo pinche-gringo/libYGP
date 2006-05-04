@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.48 2006/04/10 01:45:38 markus -Rel $
+//$Id: XApplication.cpp,v 1.49 2006/05/04 01:24:46 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -49,6 +49,7 @@
 
 #include <YGP/Tokenize.h>
 
+#include "XGP/TraceDlg.h"
 #include "XGP/HTMLViewer.h"
 #include "XGP/BrowserDlg.h"
 
@@ -124,9 +125,13 @@ void XApplication::initI18n () {
 /// Adds a help-menu at the end of the menu. This menu consists of an
 /// "About"-entry and - if the method getHelpfile() does return a value -
 /// entries to display a help-file and to configure the help browser.
+///
+/// Additionally an entry to show a dialog enabling to change the trace-level
+/// dynamically is added, if withDynTrace is set to <tt>true</tt>.
 /// \param uiString: String, to which the menu-structure is appended
+/// \param withDynTrace: Flag, if an entry to show the trace-window should be added
 //-----------------------------------------------------------------------------
-void XApplication::addHelpMenu (Glib::ustring& uiString) {
+void XApplication::addHelpMenu (Glib::ustring& uiString, bool withDynTrace) {
    TRACE9 ("XApplication::addHelpMenu ()");
 
    uiString += "<menu action='Help'>";
@@ -144,7 +149,18 @@ void XApplication::addHelpMenu (Glib::ustring& uiString) {
 
       uiString += ("<menuitem action='HlpContent'/>"
 		   "<menuitem action='HlpSetBrowser'/><separator/>");
+
    }
+
+   if (withDynTrace) {
+      uiString += "<menuitem action='HlpShowTraceObjs'/><separator/>";
+
+      grpAction->add (Gtk::Action::create ("HlpShowTraceObjs",
+					   _("Set _trace-levels ..."),
+					   _("Enables to change the trace-levels")),
+		      mem_fun (*this, &XApplication::showTraceObjects));
+   }
+
 #ifdef HAVE_GTKMM26
    grpAction->add (Gtk::Action::create ("HlpAbout", Gtk::Stock::ABOUT),
 #else
@@ -243,6 +259,13 @@ void XApplication::showHelp () {
 void XApplication::selectHelpBrowser () {
    Check3 (getHelpfile ());
    BrowserDlg::create (helpBrowser);
+}
+
+//----------------------------------------------------------------------------
+/// Shows the dialog to set the levels of the dynamic trace
+//----------------------------------------------------------------------------
+void XApplication::showTraceObjects () {
+   TraceDlg::create ()->get_window ()->set_transient_for (get_window ());
 }
 
 //----------------------------------------------------------------------------

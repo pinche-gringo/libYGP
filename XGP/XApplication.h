@@ -1,7 +1,7 @@
 #ifndef XAPPLICATION_H
 #define XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.29 2006/04/10 01:45:38 markus -Rel $
+//$Id: XApplication.h,v 1.30 2006/05/04 01:24:46 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ class XApplication : public Gtk::Window {
    Glib::RefPtr<Gtk::UIManager>   mgrUI;                        ///< UI-manager
 
    // Help-menu
-   void addHelpMenu (Glib::ustring& uiString);
+   void addHelpMenu (Glib::ustring& uiString, bool withDynTrace = false);
 
    /// \name Help menu handling
    //@{
@@ -103,6 +103,7 @@ class XApplication : public Gtk::Window {
    virtual void showAboutbox ();
    void showHelp ();
    void selectHelpBrowser ();
+   void showTraceObjects ();
    //@}
 
    Glib::ustring helpBrowser;       ///< Name of the browser to show the help.
