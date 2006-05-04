@@ -1,11 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.29 2006/05/01 02:23:46 markus Exp $
+//$Id: XFileDlg.cpp,v 1.30 2006/05/04 01:26:29 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -34,6 +34,8 @@
 
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
+
+#define CONVERT_TO_UTF8
 #include "YGP/Internal.h"
 
 #include "XGP/XFileDlg.h"
@@ -93,8 +95,8 @@ void FileDialog::on_response (int cmd) {
 
 	    if (opt & MUST_EXIST)
 	       if (rc) {              // File does not exist: Show msg and exit
-		  std::string err (_("File `%1' does not exist!"));
-		  err.replace (err.find ("%1"), 2, Glib::locale_to_utf8 (filename));
+		  Glib::ustring err (_("File `%1' does not exist!"));
+		  err.replace (err.find ("%1"), 2, Glib::filename_to_utf8 (filename));
 		  Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
 		  msg.run ();
 		  return;
@@ -103,7 +105,7 @@ void FileDialog::on_response (int cmd) {
 	    if (opt & ASK_OVERWRITE)
 	       if (!rc) {
 		  Glib::ustring msg (_("File `%1' exists! Overwrite?"));
-		  msg.replace (msg.find ("%1"), 2, Glib::locale_to_utf8 (filename));
+		  msg.replace (msg.find ("%1"), 2, Glib::filename_to_utf8 (filename));
 		  Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_QUESTION,
 					  Gtk::BUTTONS_YES_NO);
 		  if (dlg.run () != Gtk::RESPONSE_YES)

@@ -1,14 +1,14 @@
-//$Id: XDialog.cpp,v 1.21 2005/07/08 18:55:33 markus -Rel $
+//$Id: XDialog.cpp,v 1.22 2006/05/04 01:26:29 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,8 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
-#include <YGP/Internal.h>
 
 #include <gtkmm/stock.h>
 #include <gtkmm/button.h>

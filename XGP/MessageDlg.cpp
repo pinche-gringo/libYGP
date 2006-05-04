@@ -1,14 +1,14 @@
-//$Id: MessageDlg.cpp,v 1.10 2005/02/19 05:32:12 markus -Rel $
+//$Id: MessageDlg.cpp,v 1.11 2006/05/04 01:26:28 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : MessageDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <gtkmm/label.h>
@@ -84,8 +85,7 @@ Gtk::MessageType MessageDlg::getButtonType (YGP::StatusObject::type tp) {
 ///       is disabled
 //----------------------------------------------------------------------------
 void MessageDlg::showDetails (bool show) {
-   showDetail->set_label (Glib::locale_to_utf8
-                          (show ? _("Hide _details") : _("Show _details")));
+   showDetail->set_label (show ? _("Hide _details") : _("Show _details"));
    show ? detail->show () : detail->hide ();
 
    Glib::signal_idle ().connect

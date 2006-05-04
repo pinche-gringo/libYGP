@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.24 2006/05/01 02:23:46 markus Exp $
+//$Id: XPrintDlg.cpp,v 1.25 2006/05/04 01:26:29 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -38,6 +38,8 @@
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
+
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include "XGP/XPrintDlg.h"
@@ -49,7 +51,7 @@ namespace XGP {
 /// Constructor; creates a small dialog to enter the print command.
 //-----------------------------------------------------------------------------
 PrintDialog::PrintDialog ()
-   : XDialog (Glib::locale_to_utf8 (_("Print")), OKCANCEL)
+   : XDialog (_("Print"), OKCANCEL)
      , lblCommand (new Gtk::Label (_("Print command: ")))
      , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
    TRACE9 ("PrintDialog::PrintDialog (title) '" << title << '\'');

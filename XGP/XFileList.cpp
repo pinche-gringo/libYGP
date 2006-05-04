@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.45 2006/05/01 02:24:13 markus Exp $
+//$Id: XFileList.cpp,v 1.46 2006/05/04 01:26:29 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.45 $
+//REVISION    : $Revision: 1.46 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <string.h>
@@ -222,7 +223,7 @@ bool XFileList::on_event (GdkEvent* event) {
             pMenuPopAction = new Gtk::Menu;
 
             // Testing if $EDITOR exists and add that to list; else use VI
-            Glib::ustring editor (Glib::locale_to_utf8 (_("Open in %1 ...")));
+            Glib::ustring editor (_("Open in %1 ..."));
             const char* ed;
             if ((ed = getenv ("EDITOR")) == NULL)
                ed = "vi";
@@ -238,12 +239,10 @@ bool XFileList::on_event (GdkEvent* event) {
                  bind (mem_fun (*this, &XFileList::startInTerm),
                        ed, iAct)));
             pMenuPopAction->items ().push_back
-               (Gtk::Menu_Helpers::MenuElem
-                (Glib::locale_to_utf8 (_("Rename/Move ...")),
+               (Gtk::Menu_Helpers::MenuElem (("Rename/Move ..."),
                  bind (mem_fun (*this, &XFileList::move), iAct)));
             pMenuPopAction->items ().push_back
-               (Gtk::Menu_Helpers::MenuElem
-                (Glib::locale_to_utf8 (_("Delete")),
+               (Gtk::Menu_Helpers::MenuElem (_("Delete"),
                  bind (mem_fun (*this, &XFileList::remove), iAct)));
 
             addMenus (*pMenuPopAction, iAct);
@@ -268,8 +267,7 @@ void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
       execProgram (term, args, false);
    }
    else {
-      Gtk::MessageDialog msg (Glib::locale_to_utf8 (_("Environment variable "
-                                                      "`TERM' not defined!")),
+      Gtk::MessageDialog msg (_("Environment variable `TERM' not defined!"),
                               Gtk::MESSAGE_ERROR);
       msg.run ();
    }

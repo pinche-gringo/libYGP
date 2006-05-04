@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.22 2006/04/13 19:48:10 markus -Rel $
+//$Id: BrowserDlg.cpp,v 1.23 2006/05/04 01:26:28 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -25,6 +25,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <gtkmm/box.h>
@@ -33,7 +34,6 @@
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
-#include <YGP/Internal.h>
 
 #include "XGP/BrowserDlg.h"
 
@@ -79,7 +79,7 @@ const char* BrowserDlg::browserNames[] = {
 /// Constructor
 //-----------------------------------------------------------------------------
 BrowserDlg::BrowserDlg (Glib::ustring& cmd)
-   : XDialog (Glib::locale_to_utf8 (_("Select a browser")), OKCANCEL)
+   : XDialog (_("Select a browser"), OKCANCEL)
      , pboxOther (new Gtk::HBox ()), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (Glib::ustring&) - " << cmd);
 

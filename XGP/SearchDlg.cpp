@@ -1,14 +1,14 @@
-//$Id: SearchDlg.cpp,v 1.1 2004/12/22 16:51:51 markus -Rel $
+//$Id: SearchDlg.cpp,v 1.2 2006/05/04 01:26:29 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 18.12.2004
-//COPYRIGHT   : Copyright (C) 2004
+//COPYRIGHT   : Copyright (C) 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <gtkmm/entry.h>
 #include <gtkmm/label.h>
 
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include "SearchDlg.h"

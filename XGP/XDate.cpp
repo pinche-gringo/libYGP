@@ -1,14 +1,14 @@
-//$Id: XDate.cpp,v 1.24 2005/05/13 16:21:33 markus -Rel $
+//$Id: XDate.cpp,v 1.25 2006/05/04 01:26:29 markus Rel $
 
 //PROJECT     : MessageDialog
 //SUBSYSTEM   : XDate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 2001 - 2005
+//COPYRIGHT   : Copyright (C) 2001 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
+
+#define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <YGP/ATStamp.h>
@@ -150,7 +152,7 @@ void XDate::okEvent () {
       delete this;
    }
    catch (std::invalid_argument& e) {
-      std::string err (_("Date is not valid!\n\nReason: %1"));
+      Glib::ustring err (_("Date is not valid!\n\nReason: %1"));
       err.replace (err.find ("%1"), 2, e.what ());
       Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
       msg.run ();
