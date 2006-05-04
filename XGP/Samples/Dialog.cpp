@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.13 2005/04/30 04:25:05 markus -Rel $
+//$Id: Dialog.cpp,v 1.14 2006/05/04 01:27:10 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Samples
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -29,7 +29,7 @@
 #include <gtkmm/table.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace.h>
+#include <YGP/DynTrace.h>
 #include <YGP/ANumeric.h>
 #include <YGP/MetaEnum.h>
 
@@ -37,6 +37,8 @@
 
 #include "Dialog.h"
 
+
+static YGP::DynTrace _dt_ ("Dialog");
 
 class MetaEnumTest : public YGP::MetaEnum {
  public:

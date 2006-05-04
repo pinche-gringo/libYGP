@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.34 2006/05/01 02:24:13 markus Exp $
+//$Id: X-Appl.cpp,v 1.35 2006/05/04 01:27:10 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -36,7 +36,7 @@
 
 #include <YGP/File.h>
 #include <YGP/Check.h>
-#include <YGP/Trace.h>
+#include <YGP/DynTrace.h>
 #include <YGP/ConnMgr.h>
 #include <YGP/ANumeric.h>
 #include <YGP/StatusObj.h>
@@ -52,6 +52,10 @@
 
 #include "Dialog.h"
 #include "X-Appl.h"
+
+
+static YGP::DynTrace _dt_ ("Application");
+static YGP::DynTrace dt ("Callbacks");
 
 // Pixmap for program
 const char* XAppl::xpmXAppl[] = {
@@ -233,7 +237,7 @@ XAppl::XAppl ()
    grpAction->add (Gtk::Action::create ("DSearch", Gtk::Stock::FIND, "_Searchdialog ...",
 					"Tests the search dialog"),
 		   mem_fun (*this, &XAppl::showSearchDialog));
-   addHelpMenu (ui);
+   addHelpMenu (ui, true);
    ui += "</menubar></ui>";
    mgrUI->insert_action_group (grpAction);
    add_accel_group (mgrUI->get_accel_group ());
@@ -271,6 +275,7 @@ XAppl::XAppl ()
 /// Opens a dialog to select file(s)
 //-----------------------------------------------------------------------------
 void XAppl::open () {
+   OTRACE3 (dt, "XAppl::open");
    XGP::FileDialog::create ("Add file(s)",
 			    Gtk::FILE_CHOOSER_ACTION_OPEN,
 			    XGP::FileDialog::MUST_EXIST
@@ -282,6 +287,7 @@ void XAppl::open () {
 /// Opens a dialog to save to a file
 //-----------------------------------------------------------------------------
 void XAppl::save () {
+   OTRACE3 (dt, "XAppl::save");
    XGP::FileDialog::create ("Save search result to ...",
 			    Gtk::FILE_CHOOSER_ACTION_SAVE,
 			    XGP::FileDialog::ASK_OVERWRITE)
@@ -292,6 +298,7 @@ void XAppl::save () {
 /// Opens a dialog to print
 //-----------------------------------------------------------------------------
 void XAppl::print () {
+   OTRACE3 (dt, "XAppl::print");
    XGP::PrintDialog::create ()->sigPrint.connect (mem_fun (*this, &XAppl::writeToStream));
 }
 
@@ -299,6 +306,7 @@ void XAppl::print () {
 /// Opens a dialog to enter a date
 //-----------------------------------------------------------------------------
 void XAppl::showDateDialog () {
+   OTRACE3 (dt, "XAppl::showDateDialog ()");
    XGP::XDate::create ("Enter date", time);
 }
 
@@ -306,6 +314,7 @@ void XAppl::showDateDialog () {
 /// Opens a dialog to connect with other computers
 //-----------------------------------------------------------------------------
 void XAppl::showConnectDialog () {
+   OTRACE3 (dt, "XAppl::showConnectDialog ()");
    static YGP::ConnectionMgr cmgr;
    XGP::ConnectDlg::perform (4, 4711, cmgr);
 }
@@ -322,6 +331,7 @@ void XAppl::showDialog () {
 /// Opens a dialog displaying a status message
 //-----------------------------------------------------------------------------
 void XAppl::showMsgDialog () {
+   OTRACE3 (dt, "XAppl::showMsgDialog ()");
    YGP::StatusObject obj (YGP::StatusObject::INFO,
 			  "Some very important detail");
    obj.generalize ("Generalized info-message");
