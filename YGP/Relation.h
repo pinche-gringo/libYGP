@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.11 2006/05/02 21:40:36 markus Exp $
+//$Id: Relation.h,v 1.12 2006/05/04 01:18:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class RelationManager {
 
  public:
    static IRelation*  getRelation (const char* name);
-   static const std::string& getRelationName (const IRelation& relation);
+   static const char* getRelationName (const IRelation& relation);
 
  private:
    static void remove (const IRelation* relation);
@@ -53,7 +53,7 @@ class RelationManager {
    const RelationManager& operator= (const RelationManager& other);
    ~RelationManager ();
 
-   static std::map<const std::string, IRelation*> relations;
+   static std::map<const char*, IRelation*> relations;
 };
 
 
@@ -81,8 +81,8 @@ class IRelation {
    virtual ~IRelation ();
 
    /// Returns the name of the relation
-   /// \returns std::string: Name of the relation
-   const std::string& name () const {
+   /// \returns const char*: Name of the relation
+   const char* name () const {
       return RelationManager::getRelationName (*this); }
 
  private:

@@ -1,11 +1,11 @@
-//$Id: Relation.cpp,v 1.3 2004/11/04 16:29:39 markus Rel $
+//$Id: Relation.cpp,v 1.4 2006/05/04 01:18:36 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Relation
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.10.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005
@@ -35,7 +35,7 @@
 namespace YGP {
 
 
-std::map<const std::string, IRelation*> RelationManager::relations;
+std::map<const char*, IRelation*> RelationManager::relations;
 
 
 //-----------------------------------------------------------------------------
@@ -63,8 +63,9 @@ IRelation::~IRelation () {
 //-----------------------------------------------------------------------------
 void RelationManager::remove (const IRelation* relation) {
    TRACE9 ("RelationManager::remove (const IRelation*)");
+   Check1 (relation);
 
-   for (std::map<const std::string, IRelation*>::iterator i (relations.begin ());
+   for (std::map<const char*, IRelation*>::iterator i (relations.begin ());
 	i != relations.end (); ++i)
       if (i->second == relation) {
 	 relations.erase (i);
@@ -80,18 +81,19 @@ void RelationManager::remove (const IRelation* relation) {
 //-----------------------------------------------------------------------------
 IRelation* RelationManager::getRelation (const char* name) {
    TRACE9 ("RelationManager::getRelation (const char*) - " << name);
+   Check1 (name);
 
-   std::map<const std::string, IRelation*>::iterator i (relations.find (name));
+   std::map<const char*, IRelation*>::iterator i (relations.find (name));
    return (i != relations.end ()) ?  i->second : NULL;
 }
 
 //-----------------------------------------------------------------------------
 /// Retuns the name of the passed relation
 /// \param relation: Relation to get the name for
-/// \returns const std::string&: Name of the passed relation
+/// \returns const char*: Name of the passed relation
 //-----------------------------------------------------------------------------
-const std::string& RelationManager::getRelationName (const IRelation& relation) {
-   std::map<const std::string, IRelation*>::iterator i (relations.begin ());
+const char* RelationManager::getRelationName (const IRelation& relation) {
+   std::map<const char*, IRelation*>::iterator i (relations.begin ());
    for (; i != relations.end (); ++i)
       if (i->second == &relation)
 	 break;
