@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.42 2006/03/16 21:57:32 markus Rel $
+//$Id: CRegExp.cpp,v 1.43 2006/05/18 00:36:24 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004, 2006
@@ -49,38 +49,38 @@ namespace YGP {
 // Furthermore can't even be const chars, as Borland C is that not constant
 // enough for casees. Why do I bother about staying portable with Windows?
 // Contstants for repeating
-#define MULTIMATCHOPT '*'
-#define MULTIMATCHMAND '+'
-#define MULTIMATCH1 '?'
-#define BOUNDBEG '{'
-#define BOUNDEND '}'
+const char MULTIMATCHOPT = '*';
+const char MULTIMATCHMAND = '+';
+const char MULTIMATCH1 = '?';
+const char BOUNDBEG = '{';
+const char BOUNDEND = '}';
 
 // Special single characters
-#define SINGLEMATCH '.'
-#define LINEBEGIN '^'
-#define LINEEND '$'
-#define ESCAPE '\\'
+const char SINGLEMATCH = '.';
+const char LINEBEGIN = '^';
+const char LINEEND = '$';
+const char ESCAPE = '\\';
 
 // Contants for groups
-#define GROUPBEGIN '('
-#define GROUPEND ')'
-#define ALTERNATIVE '|'
+const char GROUPBEGIN = '(';
+const char GROUPEND = ')';
+const char ALTERNATIVE = '|';
 
 // Contants related to regions
-#define REGIONBEGIN '['
-#define REGIONEND ']'
-#define RANGE '-'
-#define NEGREGION1 '^'
-#define NEGREGION2 '!'
-#define REGIONCLASS ':'
+const char REGIONBEGIN = '[';
+const char REGIONEND = ']';
+const char RANGE = '-';
+const char NEGREGION1 = '^';
+const char NEGREGION2 = '!';
+const char REGIONCLASS = ':';
 
 // Escaped special characters (after a quoting backslash (\))
-#define WORD 'w'
-#define NOTWORD 'W'
-#define WORDBORDER 'b'
-#define NOTWORDBORDER 'B'
-#define WORDBEGIN '<'
-#define WORDEND '>'
+const char WORD = 'w';
+const char NOTWORD = 'W';
+const char WORDBORDER = 'b';
+const char NOTWORDBORDER = 'B';
+const char WORDBEGIN = '<';
+const char WORDEND = '>';
 
 
 //----------------------------------------------------------------------------
