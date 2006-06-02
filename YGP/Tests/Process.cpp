@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.9 2006/03/18 03:16:08 markus Rel $
+// $Id: Process.cpp,v 1.10 2006/06/02 20:07:46 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -47,8 +47,6 @@
 #include <YGP/Process.h>
 
 #include "Test.h"
-
-unsigned int count (0);
 
 const char  TESTCHAR = '\xf3';
 
