@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.30 2006/03/16 21:57:32 markus Rel $
+//$Id: FileRExp.cpp,v 1.31 2006/06/02 20:10:23 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -51,14 +51,15 @@ namespace YGP {
 #define isclass(type,str,len,ch) (strncmp ((str), #type, len) ? 0 : (is##type (ch) ? 2 : 1))
 
 
-#define MULTIMATCH '*'
-#define SINGLEMATCH '?'
-#define REGIONBEGIN '['
-#define REGIONEND ']'
-#define RANGE '-'
-#define NEGREGION1 '^'
-#define NEGREGION2 '!'
-#define REGIONCLASS ':'
+const char MULTIMATCH = '*';
+const char SINGLEMATCH = '?';
+const char REGIONBEGIN = '[';
+const char REGIONEND = ']';
+const char RANGE = '-';
+const char NEGREGION1 = '^';
+const char NEGREGION2 = '!';
+const char REGIONCLASS = ':';
+const char REGIONCOLLATE = '.';
 
 
 //-----------------------------------------------------------------------------
