@@ -1,14 +1,14 @@
-// $Id: RemoteFile.cpp,v 1.22 2005/11/12 15:14:40 markus Rel $
+// $Id: RemoteFile.cpp,v 1.23 2006/06/02 02:35:15 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ File* RemoteFile::clone () const {
 
 //-----------------------------------------------------------------------------
 /// Opends the file in the specified mode. The mode parameter can have the
-/// same values than the ANSI-C fopen-function.
+/// same values as the ANSI-C fopen-function.
 /// \param mode: Mode for open the file (analogue to libc's fopen)
 /// \returns \c void*: Pointer to a handle for the opened file.
 /// \throw string: In case of an error a textual description

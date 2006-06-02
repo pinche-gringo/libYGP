@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.6 2003/11/14 20:27:55 markus Rel $
+// $Id: RemoteFile.h,v 1.7 2006/06/02 02:35:15 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ class AttributeParse;
 /**Class representing a file on a remote server with simple
    management-functions.
 
-   This class offers the same functionality like its parent although the file
+   This class offers the same functionality as its parent although the file
    is (or can be) actually stored on a remote computer.
 
    This class is not really (very) useful by itself but designed to be used by
@@ -39,7 +39,7 @@ class AttributeParse;
 typedef struct RemoteFile : public File {
    /// Default constructor; creates an empty object (holding no file) with the
    /// socket for the communication
-   RemoteFile (Socket& socket) : File (), sock (socket) { }
+   RemoteFile (Socket& socket) : sock (socket) { }
    /// Copy constructor; with the socket for the communication
    RemoteFile (const RemoteFile& o) : File (o), sock (o.sock) { }
    virtual ~RemoteFile ();
