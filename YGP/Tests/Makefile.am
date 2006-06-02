@@ -4,13 +4,13 @@ INCLUDES=-I$(top_srcdir)
 
 # Settings for gettext
 localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -DLIBRELEASE=\"$(LIBRELEASE)\"
 LIBS = -L.. -lYGP @LTLIBINTL@ @LIBS@
 
 TESTS=IVIOAppl ANumeric AYear ADate ATime ATStamp XStrBuf XStream Parse \
       FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
       AssParse AttrParse INIFile Handle Thread Relation Process MetaEnum \
-      Entity SortDirSrch
+      Entity SortDirSrch Module
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -65,5 +65,7 @@ MetaEnum_SOURCES=MetaEnum.cpp
 Entity_SOURCES=Entity.cpp
 
 SortDirSrch_SOURCES=SortDirSrch.cpp
+
+Module_SOURCES=Module.cpp
 
 EXTRA_DIST=Parser.test INIFile.test CRegExp.test Test.h XStrBuf.test
