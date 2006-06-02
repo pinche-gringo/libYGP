@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.42 2006/01/19 21:29:19 markus Rel $
+//$Id: Parse.h,v 1.43 2006/06/02 02:33:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -189,10 +189,8 @@ class ParseSkip : public ParseObject {
 
    /// Assignment operator
    ParseSkip& operator= (const ParseSkip& other) {
-      if (this != &other) {
-         offset = other.offset;
-	 seek = other.seek;
-      }
+      offset = other.offset;
+      seek = other.seek;
       return *this; }
 
    virtual int doParse (Xistream& stream, bool);
@@ -1084,10 +1082,8 @@ template <class T> class OFParseSkip : public ParseSkip {
 
    /// Assignment operator
    OFParseSkip& operator= (const OFParseSkip& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseSkip::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseSkip::operator= (other);
       return *this; }
 
  protected:
@@ -1126,10 +1122,8 @@ template <class T> class OFParseAttomic : public ParseAttomic {
 
    /// Assignment operator
    OFParseAttomic& operator= (const OFParseAttomic& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseAttomic::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseAttomic::operator= (other);
       return *this; }
 
  protected:
@@ -1172,10 +1166,8 @@ template <class T> class OFParseText : public ParseText {
 
    /// Assignment operator
    OFParseText& operator= (const OFParseText& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseText::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseText::operator= (other);
       return *this; }
 
  protected:
@@ -1219,10 +1211,8 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
 
    /// Assignment operator
    OFParseTextEsc& operator= (const OFParseTextEsc& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseTextEsc::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseTextEsc::operator= (other);
       return *this; }
 
  protected:
@@ -1264,10 +1254,8 @@ template <class T> class OFParseQuoted : public ParseQuoted {
 
    /// Assignment operator
    OFParseQuoted& operator= (const OFParseQuoted& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseQuoted::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseQuoted::operator= (other);
       return *this; }
 
  protected:
@@ -1312,10 +1300,8 @@ template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
 
    /// Assignment operator
    OFParseQuotedEsc& operator= (const OFParseQuotedEsc& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseQuotedEsc::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseQuotedEsc::operator= (other);
       return *this; }
 
  protected:
@@ -1363,10 +1349,8 @@ template <class T> class OFParseExact : public ParseExact {
 
    /// Assignment operator
    OFParseExact& operator= (const OFParseExact& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseText::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseText::operator= (other);
       return *this; }
 
  protected:
@@ -1415,10 +1399,8 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
 
    /// Assignment operator
    OFParseUpperExact& operator= (const OFParseUpperExact& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseText::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseText::operator= (other);
       return *this; }
 
  protected:
@@ -1460,10 +1442,8 @@ template <class T> class OFParseSequence : public ParseSequence {
 
    /// Assignment operator
    OFParseSequence& operator= (const OFParseSequence& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseText::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseText::operator= (other);
       return *this; }
 
  protected:
@@ -1505,10 +1485,8 @@ template <class T> class OFParseSelection : public ParseSelection {
 
    /// Assignment operator
    OFParseSelection& operator= (const OFParseSelection& other) {
-      if (this != &other) {
-         pCallback = other.pCallback; Check1 (pCallback);
-	 ParseText::operator= (other);
-      }
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseText::operator= (other);
       return *this; }
 
 

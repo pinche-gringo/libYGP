@@ -1,14 +1,14 @@
-//$Id: File.cpp,v 1.29 2005/11/12 15:09:28 markus Rel $
+//$Id: File.cpp,v 1.30 2006/06/02 02:33:39 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
-//COPYRIGHT   : Copyright (C) 2000 - 2005
+//COPYRIGHT   : Copyright (C) 2000 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -91,16 +91,14 @@ File::~File () {
 /// \returns \c File&: Reference to this
 //-----------------------------------------------------------------------------
 File& File::operator= (const File& other) {
-   if (this != &other) {
-      path_ = other.path_;
+   path_ = other.path_;
 #if SYSTEM == UNIX
-      entry = other.entry;
-      status = other.status;
-      userExec = other.userExec;
+   entry = other.entry;
+   status = other.status;
+   userExec = other.userExec;
 #elif SYSTEM == WINDOWS
-      (*(WIN32_FIND_DATA*)this) = other;
+   (*(WIN32_FIND_DATA*)this) = other;
 #endif
-   } // endif
    return *this;
 }
 

@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.15 2004/12/29 18:23:03 markus Rel $
+//$Id: Tokenize.h,v 1.16 2006/06/02 02:33:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,10 +45,8 @@ class Tokenize {
    /// Assignment operator; the same string as the object is holding will be
    /// split, although the tokenization starts from the start
    Tokenize& operator= (const Tokenize& other) {
-      if (this != &other) {
-         _string = other._string;
-         reset ();
-      }
+      _string = other._string;
+      reset ();
       return *this; }
    /// Assignment operator; assigns a new string to tokenize.
    Tokenize& operator= (const std::string& string) {

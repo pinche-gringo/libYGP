@@ -1,11 +1,11 @@
-//$Id: AYear.cpp,v 1.7 2006/04/10 01:45:32 markus Rel $
+//$Id: AYear.cpp,v 1.8 2006/06/02 02:33:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -58,11 +58,9 @@ AYear::~AYear () {
 /// \return \c AYear&: Reference to self
 //----------------------------------------------------------------------------
 AYear& AYear::operator= (const AYear& other) {
-   if (this != &other) {
-      TRACE5 ("AYear::operator=: " << other);
-      year = other.year;
-      AttributValue::operator= ((const AttributValue&) other);
-   }
+   TRACE5 ("AYear::operator=: " << other);
+   year = other.year;
+   AttributValue::operator= ((const AttributValue&) other);
    return *this;
 }
 

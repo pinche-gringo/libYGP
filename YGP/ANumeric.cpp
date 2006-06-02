@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.52 2006/01/28 08:16:51 markus Rel $
+//$Id: ANumeric.cpp,v 1.53 2006/06/02 02:33:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.52 $
+//REVISION    : $Revision: 1.53 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -138,14 +138,12 @@ ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument)
 //-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator= (const ANumeric& other) {
    TRACE9 ("ANumeric& ANumeric::operator= (const ANumeric&)");
-   if (this != &other) {
 #ifdef HAVE_LIBGMP
-      mpz_set (value, other.value);
+   mpz_set (value, other.value);
 #else
-      value = other.value;
+   value = other.value;
 #endif
-      AttributValue::operator= ((const AttributValue&) other);
-   }
+   AttributValue::operator= ((const AttributValue&) other);
    return *this;
 }
 

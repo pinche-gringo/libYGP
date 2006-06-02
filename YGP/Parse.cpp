@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.55 2006/04/12 19:18:59 markus Rel $
+//$Id: Parse.cpp,v 1.56 2006/06/02 02:33:39 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.55 $
+//REVISION    : $Revision: 1.56 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -101,11 +101,8 @@ ParseObject& ParseObject::operator= (const ParseObject& other) {
    TRACE9 ("ParseObject::operator= (const ParseObject&) - " << pDescription);
    Check1 (!other.checkIntegrity ());
 
-   if (&other != this) {
-      pDescription = other.pDescription;
-      skip = other.skip;
-   } // endif other object
-
+   pDescription = other.pDescription;
+   skip = other.skip;
    Check3 (!checkIntegrity ());
    return *this;
 }
@@ -232,13 +229,11 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
    TRACE9 ("ParseAttomic::operator= (const ParseAttomic&) - " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (&other != this) {
-      ParseObject::operator= ((const ParseObject&)other);
-      pValue = other.pValue;
-      maxCard = other.maxCard;
-      minCard = other.minCard;
-      report = other.report;
-   } // endif other object
+   ParseObject::operator= ((const ParseObject&)other);
+   pValue = other.pValue;
+   maxCard = other.maxCard;
+   minCard = other.minCard;
+   report = other.report;
 
    Check3 (!checkIntegrity ());
    return *this;
@@ -1114,10 +1109,9 @@ CBParseSkip& CBParseSkip::operator= (const CBParseSkip& other) {
    TRACE8 ("ParseSkip::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseSkip::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseSkip::operator= (other);
+
    Check3 (!checkIntegrity ());
    return *this;
 }
@@ -1151,10 +1145,9 @@ CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
    TRACE8 ("ParseAttomic::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseAttomic::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseAttomic::operator= (other);
+
    Check3 (!checkIntegrity ());
    return *this;
 }
@@ -1188,10 +1181,8 @@ CBParseText& CBParseText::operator= (const CBParseText& other) {
    TRACE8 ("ParseText::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseText::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseText::operator= (other);
 
    Check3 (!checkIntegrity ());
    return *this;
@@ -1226,10 +1217,9 @@ CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
    TRACE8 ("ParseTextEsc::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseTextEsc::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseTextEsc::operator= (other);
+
    Check3 (!checkIntegrity ());
    return *this;
 }
@@ -1263,10 +1253,8 @@ CBParseQuoted& CBParseQuoted::operator= (const CBParseQuoted& other) {
    TRACE8 ("ParseQuoted::operator= (const CBParseQuoted&) - " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseQuoted::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseQuoted::operator= (other);
 
    Check3 (!checkIntegrity ());
    return *this;
@@ -1301,10 +1289,8 @@ CBParseQuotedEsc& CBParseQuotedEsc::operator= (const CBParseQuotedEsc& other) {
    TRACE8 ("ParseQuotedEsc::operator= (const CBParseQuotedEsc&) - " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseQuotedEsc::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseQuotedEsc::operator= (other);
 
    Check3 (!checkIntegrity ());
    return *this;
@@ -1339,10 +1325,9 @@ CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseExact::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseExact::operator= (other);
+
    Check3 (!checkIntegrity ());
    return *this;
 }
@@ -1376,10 +1361,9 @@ CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other)
    TRACE8 ("CBParseUpperExact::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseUpperExact::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseUpperExact::operator= (other);
+
    Check2 (!checkIntegrity ());
    return *this;
 }
@@ -1413,10 +1397,9 @@ CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
    TRACE8 ("ParseSequence::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseSequence::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseSequence::operator= (other);
+
    Check2 (!checkIntegrity ());
    return *this;
 }
@@ -1450,10 +1433,9 @@ CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
    TRACE8 ("CBParseSelection::operator=: " << getDescription ());
    Check1 (!other.checkIntegrity ());
 
-   if (this != &other) {
-      pCallback = other.pCallback; Check3 (pCallback);
-      ParseSelection::operator= (other);
-   }
+   pCallback = other.pCallback; Check3 (pCallback);
+   ParseSelection::operator= (other);
+
    Check3 (!checkIntegrity ());
    return *this;
 }

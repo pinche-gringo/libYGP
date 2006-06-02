@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.25 2006/02/25 03:07:39 markus Rel $
+//$Id: ATStamp.cpp,v 1.26 2006/06/02 02:33:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -86,13 +86,10 @@ ATimestamp::~ATimestamp () {
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
+   TRACE5 ("ATimestamp::operator=: " << other);
 
-   if (this != &other) {
-      TRACE5 ("ATimestamp::operator=: " << other);
-
-      ADate::operator= ((const ADate&)other);          // Calls checkIntegrity
-      ATime::operator= ((const ATime&)other);
-   }
+   ADate::operator= ((const ADate&)other);             // Calls checkIntegrity
+   ATime::operator= ((const ATime&)other);
    return *this;
 }
 

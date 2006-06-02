@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.50 2006/04/10 01:45:31 markus Rel $
+//$Id: ADate.cpp,v 1.51 2006/06/02 02:33:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.50 $
+//REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -85,14 +85,11 @@ ADate::~ADate () {
 //----------------------------------------------------------------------------
 ADate& ADate::operator= (const ADate& other) {
    Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
+   TRACE5 ("ADate::operator=: " << other);
 
-   if (this != &other) {
-      TRACE5 ("ADate::operator=: " << other);
-
-      day = other.day;
-      month = other.month;
-      AYear::operator= ((const AYear&) other);
-   }
+   day = other.day;
+   month = other.month;
+   AYear::operator= ((const AYear&) other);
    return *this;
 }
 

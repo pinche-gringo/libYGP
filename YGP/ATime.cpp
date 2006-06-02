@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.42 2006/03/16 21:58:29 markus Rel $
+//$Id: ATime.cpp,v 1.43 2006/06/02 02:33:39 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.42 $
+//REVISION    : $Revision: 1.43 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -94,15 +94,12 @@ ATime::~ATime () {
 //-----------------------------------------------------------------------------
 ATime& ATime::operator= (const ATime& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
+   TRACE5 ("ATime::operator=: " << other);
 
-   if (this != &other) {
-      TRACE5 ("ATime::operator=: " << other);
-
-      hour = other.hour;
-      min_ = other.min_;
-      sec = other.sec;
-      AttributValue::operator= ((const AttributValue&) other);
-   }
+   hour = other.hour;
+   min_ = other.min_;
+   sec = other.sec;
+   AttributValue::operator= ((const AttributValue&) other);
    return *this;
 }
 
