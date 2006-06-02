@@ -1,11 +1,11 @@
-//$Id: Entity.cpp,v 1.15 2006/05/03 20:54:28 markus Exp $
+//$Id: Entity.cpp,v 1.16 2006/06/02 02:34:25 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Entity
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.3.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2006
@@ -90,8 +90,7 @@ std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
    for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i)
       output += AssignmentParse::makeAssignment ((*i)->getName ().c_str (),
 						 (*i)->getValue ());
-   out << output << '\n';
-   return out;
+   return out << output << '\n';
 }
 
 //-----------------------------------------------------------------------------
