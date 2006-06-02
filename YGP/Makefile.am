@@ -22,7 +22,7 @@ StackTrc.cpp Socket.cpp RDirSrch.cpp File.cpp RDirSrchSrv.cpp		\
 AssParse.cpp AttrParse.cpp IDirSrch.cpp RemoteFile.cpp Entity.cpp	\
 Thread.cpp PathSrch.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp	\
 StatusObj.cpp Internal.h Relation.cpp TableWriter.cpp MetaEnum.cpp	\
-DynTrace.cpp
+DynTrace.cpp Module.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h	\
 FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h Check.h	\
@@ -31,7 +31,7 @@ CRegExp.h RegExp.h Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h	\
 File.h RDirSrchSrv.h AssParse.h Attribute.h AttrParse.h RemoteFile.h	\
 Entity.h Thread.h Mutex.h INIFile.h XDirSrch.h ConnMgr.h Process.h	\
 StatusObj.h Relation.h TableWriter.h MetaEnum.h SortDirSrch.h		\
-DynTrace.h
+DynTrace.h Module.h Exception.h
 
 pkgconfigdir =$(libdir)/pkgconfig
 pkgconfig_DATA=YGP.pc
