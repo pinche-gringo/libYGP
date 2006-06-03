@@ -1,11 +1,11 @@
-// $Id: CRegExp.cpp,v 1.21 2005/11/12 14:58:53 markus Rel $
+// $Id: CRegExp.cpp,v 1.22 2006/06/03 21:32:34 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/CRegExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -95,8 +95,8 @@ int main (int argc, char* argv[]) {
          return !rc;
       }
    }
-   catch (std::string& e) {
-      std::cerr << e.c_str () << '\n';
+   catch (std::invalid_argument& e) {
+      std::cerr << e.what () << '\n';
    }
 
    YGP::Xifstream frexexp;

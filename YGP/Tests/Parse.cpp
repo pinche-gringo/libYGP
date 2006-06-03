@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.17 2005/01/08 22:09:05 markus Rel $
+// $Id: Parse.cpp,v 1.18 2006/06/03 21:32:35 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -141,9 +141,9 @@ int Application::perform (int argc, const char* argv[]) {
 	 // Don't check line number anymore, its undefined after skipping
          check (xstr.getColumn () == 0);
       } // end-try
-      catch (std::string e) {
+      catch (YGP::ParseError& e) {
          std::cerr << "Error parsing Parser.test in line " << xstr.getLine () << " ("
-                   << xstr.getColumn () << "): " << e.c_str () << '\n';
+                   << xstr.getColumn () << "): " << e.what () << '\n';
       } // end-catch
    }
 

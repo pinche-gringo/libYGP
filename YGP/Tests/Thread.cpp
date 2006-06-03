@@ -1,11 +1,11 @@
-// $Id: Thread.cpp,v 1.7 2005/01/08 22:09:05 markus Rel $
+// $Id: Thread.cpp,v 1.8 2006/06/03 21:32:35 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -57,14 +57,20 @@ void* sum (void*) {
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
-   YGP::Thread* thread (YGP::Thread::create (&sum, NULL));
-   check (thread);
-   while (waitThread.trylock ()) {
-      waitThread.unlock ();
-      sleep (0);
+   try {
+      YGP::Thread* thread (YGP::Thread::create (&sum, NULL));
+      check (thread);
+      while (waitThread.trylock ()) {
+	 waitThread.unlock ();
+	 sleep (0);
+      }
+      waitParent.lock ();
+      check (count == COUNT);
    }
-   waitParent.lock ();
-   check (count == COUNT);
+   catch (YGP::ExecError& e) {
+      std::cerr << e.what () << '\n';
+      check (0);
+   }
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';

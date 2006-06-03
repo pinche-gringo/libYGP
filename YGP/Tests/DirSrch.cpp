@@ -1,11 +1,11 @@
-// $Id: DirSrch.cpp,v 1.18 2005/01/08 22:09:04 markus Rel $
+// $Id: DirSrch.cpp,v 1.19 2006/06/03 21:32:34 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -72,8 +72,8 @@ int main (int argc, char* argv[]) {
       check (!strcmp (test.name (), NAME));
       check (!strcmp (test.path (), PATHBACK));
    }
-   catch (std::string& err) {
-      std::cerr << err << '\n';
+   catch (YGP::FileError& err) {
+      std::cerr << err.what () << '\n';
    }
 
    std::cout << "Testing DirectorySearch...\n";

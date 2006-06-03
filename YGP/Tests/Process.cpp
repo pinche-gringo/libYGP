@@ -1,11 +1,11 @@
-// $Id: Process.cpp,v 1.10 2006/06/02 20:07:46 markus Exp $
+// $Id: Process.cpp,v 1.11 2006/06/03 21:32:35 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.10.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -132,8 +132,8 @@ int main (int argc, char* argv[]) {
       close (pipes[0]);
       close (pipes[1]);
    }
-   catch (std::string& err) {
-      std::cerr << err << '\n';
+   catch (YGP::ExecError& err) {
+      std::cerr << err.what () << '\n';
       check (0);
    }
 

@@ -1,11 +1,11 @@
-// $Id: AttrParse.cpp,v 1.10 2005/01/08 22:09:04 markus Rel $
+// $Id: AttrParse.cpp,v 1.11 2006/06/03 21:32:34 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/AttrParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -49,9 +49,9 @@ int main (int argc, char* argv[]) {
 
       attrs.assignValues ("File=\"ADate.cpp\";Size=18180;Time=01012000 121005");
    }
-   catch (std::string& err) {
+   catch (YGP::ParseError& err) {
       ++cErrors;
-      std::cerr << "Test-Error: " << err << '\n';
+      std::cerr << "Test-Error: " << err.what () << '\n';
    }
 
    if (cErrors)

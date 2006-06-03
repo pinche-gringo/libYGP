@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.12 2005/01/08 22:09:05 markus Rel $
+// $Id: INIFile.cpp,v 1.13 2006/06/03 21:32:35 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -80,20 +80,20 @@ int main (int argc, char* argv[]) {
          int rc = global.readFromStream ((YGP::Xistream&)_inifile_.getFile ());
          check (!rc);
       } // end-try
-      catch (std::string& e) {
+      catch (std::exception& e) {
          throw (std::string ("Error parsing INIFile.test in line ")
                 + YGP::ANumeric (_inifile_.getFile ().getLine ()).toString ()
                 + std::string (" (")
                 + YGP::ANumeric (_inifile_.getFile ().getColumn ()).toString ()
-                + std::string ("): ") + e);
+                + std::string ("): ") + e.what ());
       } // end-catch
 
       int rc = INIFILE_READ ();
       check (!rc);
    } // end-try
-   catch (std::string& e) {
+   catch (std::exception& e) {
       ++cErrors;
-      std::cerr << e.c_str () << '\n';
+      std::cerr << e.what () << '\n';
    }
 
    if (cErrors)

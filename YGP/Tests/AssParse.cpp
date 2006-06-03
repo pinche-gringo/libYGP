@@ -1,11 +1,11 @@
-// $Id: AssParse.cpp,v 1.12 2005/01/08 22:09:04 markus Rel $
+// $Id: AssParse.cpp,v 1.13 2006/06/03 21:32:34 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/AssParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -85,8 +85,8 @@ int main (int argc, char* argv[]) {
 
       check (attrs.getNextNode ().empty ());
    }
-   catch (std::string& e) {
-      std::cerr << "Test: Error: " << e << '\n';
+   catch (YGP::ParseError& e) {
+      std::cerr << "Test: Error: " << e.what () << '\n';
    }
 
    if (cErrors)
