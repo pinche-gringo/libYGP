@@ -1,7 +1,7 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
-//$Id: Exception.h,v 1.1 2006/06/02 20:10:50 markus Exp $
+//$Id: Exception.h,v 1.2 2006/06/03 21:31:33 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +28,30 @@ namespace YGP {
 class FileError : public std::runtime_error {
  public:
    FileError (const std::string& file) : std::runtime_error (file) { }
+};
+
+
+/**Exception indicating an error handling network communication
+ */
+class CommError : public std::runtime_error {
+ public:
+   CommError (const std::string& what) : std::runtime_error (what) { }
+};
+
+
+/**Exception indicating an error parsing
+ */
+class ParseError : public std::runtime_error {
+ public:
+   ParseError (const std::string& what) : std::runtime_error (what) { }
+};
+
+
+/**Exception indicating an error executing a program
+ */
+class ExecError : public std::runtime_error {
+ public:
+   ExecError (const std::string& what) : std::runtime_error (what) { }
 };
 
 
