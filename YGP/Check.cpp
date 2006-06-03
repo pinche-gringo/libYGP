@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.20 2006/03/17 23:20:44 markus Rel $
+//$Id: Check.cpp,v 1.21 2006/06/03 21:31:53 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -51,13 +51,13 @@ extern "C" {
    typedef int (*PFNRUNDLG)(GtkDialog*);
    typedef void (*PFNDESTROY)(GtkWidget*);
 
-   inline bool show (const char* expr, const char* title) {
-#    if defined (HAVE_DLFCN_H) && defined (HAVE_LIBDL)
+   static bool show (const char* expr, const char* title) {
+#    ifdef HAVE_DLFCN_H
       static void* hDLL = NULL;
       static bool gtkOK (false);
 
       if (!hDLL)
-	 hDLL = dlopen ("libgtk-x11-2.0.so", 0x00001);
+	 hDLL = dlopen ("libgtk-x11-2.0.so", RTLD_LAZY);
 
       if (hDLL && !gtkOK) {
 	 PFNINIT pfnInit ((PFNINIT)dlsym (hDLL, "gtk_init_check"));
@@ -85,7 +85,7 @@ extern "C" {
       }
 #    endif
 #  else
-      inline bool show (const char* expr, const char*) {
+      static bool show (const char* expr, const char*) {
 #  endif
          std::cerr << "Check failed! Continue y/n? ";
          char ch;
