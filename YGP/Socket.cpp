@@ -1,14 +1,14 @@
-//$Id: Socket.cpp,v 1.27 2004/11/04 16:31:19 markus Rel $
+//$Id: Socket.cpp,v 1.28 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004
+//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -67,9 +67,9 @@ namespace YGP {
 
 //----------------------------------------------------------------------------
 /// Defaultconstructor; creates an socket but without any connection.
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket () throw (std::domain_error)
+Socket::Socket () throw (YGP::CommError)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket ()");
 
@@ -80,9 +80,9 @@ Socket::Socket () throw (std::domain_error)
 //----------------------------------------------------------------------------
 /// Constructor; creates an socket which waits for input on \c port.
 /// \param port: Port to listen at
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (unsigned int port) throw (std::domain_error)
+Socket::Socket (unsigned int port) throw (YGP::CommError)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (unsigned int)");
 
@@ -96,9 +96,9 @@ Socket::Socket (unsigned int port) throw (std::domain_error)
 /// passed \c port.
 /// \param server: Name (or number) of server to send to
 /// \param port: Port to write to
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (const char* server, unsigned int port) throw (std::domain_error)
+Socket::Socket (const char* server, unsigned int port) throw (YGP::CommError)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const char*, unsigned int)");
    Check1 (server);
@@ -114,9 +114,9 @@ Socket::Socket (const char* server, unsigned int port) throw (std::domain_error)
 /// passed  \c port.
 /// \param server: Name (or number) of server to send to
 /// \param port: Port to write to
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (const std::string& server, unsigned int port) throw (std::domain_error)
+Socket::Socket (const std::string& server, unsigned int port) throw (YGP::CommError)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const std::string&, unsigned int)");
 
@@ -139,9 +139,9 @@ Socket::~Socket () {
 /// Assignment-operator; duplicates a socket. The old socket is closed.
 /// \param rhs: Socket to assign
 /// \return \c Socket&: Reference to self
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket& Socket::operator= (const Socket& rhs) throw (std::domain_error) {
+Socket& Socket::operator= (const Socket& rhs) throw (YGP::CommError) {
    if (&rhs != this) {
       close (sock);
       sock = socket (PF_INET, SOCK_STREAM, 0);
@@ -166,9 +166,9 @@ Socket& Socket::operator= (int socket) {
 //----------------------------------------------------------------------------
 /// Specifies the port to listen at (for incoming connections).
 /// \param port: Port at which to listen
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-void Socket::listenAt (unsigned int port) const throw (std::domain_error) {
+void Socket::listenAt (unsigned int port) const throw (YGP::CommError) {
    TRACE9 ("Socket::listenAt (unsigned int) - " << port << " (" << sock << ')');
 
    struct sockaddr_in addr;
@@ -188,9 +188,9 @@ void Socket::listenAt (unsigned int port) const throw (std::domain_error) {
 /// name or number as text).
 /// \param service: Text describing port
 /// \return <tt>unsigned int</tt>: Number of the passed service
-/// \throw std::domain_error in case of an invalid input
+/// \throw YGP::CommError in case of an invalid input
 //----------------------------------------------------------------------------
-unsigned int Socket::getPortOfService (const char* service) throw (std::domain_error) {
+unsigned int Socket::getPortOfService (const char* service) throw (YGP::CommError) {
    TRACE9 ("Socket::getPortOfService (const char*)");
 
    char* pTail = NULL;
@@ -219,9 +219,9 @@ unsigned int Socket::getPortOfService (const char* service) throw (std::domain_e
 /// previously specified source.
 /// \param input: String receiving the input
 /// \return \c int: Number of bytes read<br>
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::read (std::string& input) const throw (std::domain_error) {
+int Socket::read (std::string& input) const throw (YGP::CommError) {
    TRACE9 ("Socket::read (std::string&)" << " (" << sock << ')');
 
    char buffer[80] = "";
@@ -251,9 +251,9 @@ int Socket::read (std::string& input) const throw (std::domain_error) {
 /// \param pBuffer: Pointer to buffer receiving the input
 /// \param lenBuffer: Length of that buffer
 /// \return \c int: Number of bytes read<br>
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error) {
+int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError) {
    TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
@@ -274,9 +274,9 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (std::domai
 /// actually "duplicated" and returned to enable multiple connections to one
 /// port (socket).
 /// \return \c int: Socket over which to communicate<br>
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::waitForInput () const throw (std::domain_error) {
+int Socket::waitForInput () const throw (YGP::CommError) {
    TRACE9 ("Socket::waitForInput (Socket&) const - (" << sock << ')');
 
    struct sockaddr_in client;
@@ -294,10 +294,10 @@ int Socket::waitForInput () const throw (std::domain_error) {
 /// Specifies the \c server and \c port to write to (for outgoing connections).
 /// \param server: Name (or number) of the server to connect to
 /// \param port: Portnumber to connect to
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 /// \pre \c server not NULL<br>
 //----------------------------------------------------------------------------
-void Socket::writeTo (const char* server, unsigned int port) const throw (std::domain_error) {
+void Socket::writeTo (const char* server, unsigned int port) const throw (YGP::CommError) {
    TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << server << ':' << port);
    Check1 (server);
 
@@ -326,11 +326,11 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (std::d
 /// socket (which must have been connected to an address).
 /// \param pBuffer: Buffer to write
 /// \param lenBuffer: Length of data to write
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
 void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
-   throw (std::domain_error) {
+   throw (YGP::CommError) {
    TRACE5 ("Socket::write (const char*, int) const - " << pBuffer << " (" << sock << ')');
    Check1 (pBuffer);
 
@@ -342,10 +342,10 @@ void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
 /// Writes the contents of \c pBuffer up to the first zero-byte to the socket
 /// (which must have been connected to an address).
 /// \param pBuffer: Buffer to write
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
-void Socket::write (const char* pBuffer) const throw (std::domain_error) {
+void Socket::write (const char* pBuffer) const throw (YGP::CommError) {
    Check1 (pBuffer);
    TRACE9 ("Socket::write (const char*) const - (" << sock << ')');
 
@@ -356,17 +356,15 @@ void Socket::write (const char* pBuffer) const throw (std::domain_error) {
 /// Throws a domain_error with an explaining text.
 /// \param error: Text describing the error
 /// \param errNum: Number of error; if !=0 an explaining text is appended
-/// \throw std::domain_error in case of a communication error
+/// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-void Socket::throwError (const std::string& error, int errNum) throw (std::domain_error) {
+void Socket::throwError (const std::string& error, int errNum) throw (YGP::CommError) {
    std::string str (error);
    if (errNum) {
       str += ": ";
       str += strerror (errNum);
    }
-
-   std::domain_error e (str);
-   throw (e);
+   throw (YGP::CommError (str));
 }
 
 }

@@ -1,7 +1,7 @@
 #ifndef RDIRSRCHSRV_H
 #define RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.14 2003/11/14 20:27:55 markus Rel $
+//$Id: RDirSrchSrv.h,v 1.15 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 
 
 #include <string>
-#include <stdexcept>
 
 #include <YGP/File.h>
 #include <YGP/Socket.h>
 
 
 namespace YGP {
+class CommError;
 
 /**Class for a server to enable remote directory searching.
    This is the server for the RemoteDirSearch-class.
@@ -68,11 +68,11 @@ class RemoteDirSearchSrv {
    RemoteDirSearchSrv ();
    ~RemoteDirSearchSrv ();
 
-   int performCommands (int socket) throw (std::domain_error);
+   int performCommands (int socket) throw (YGP::CommError);
 
  private:
-   void writeResult (Socket& socket, const File& result) const throw (std::domain_error);
-   int  writeError (Socket& socket, int error, bool desc = false) const throw (std::domain_error);
+   void writeResult (Socket& socket, const File& result) const throw (YGP::CommError);
+   int  writeError (Socket& socket, int error, bool desc = false) const throw (YGP::CommError);
 
    void handleArgError (Socket& sock, const std::string& error) const;
 };

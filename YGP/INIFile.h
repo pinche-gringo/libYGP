@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.28 2005/11/19 01:52:14 markus Rel $
+//$Id: INIFile.h,v 1.29 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <stdexcept>
 
 #include <YGP/Check.h>
 #include <YGP/Parse.h>
 #include <YGP/XStream.h>
 #include <YGP/Attribute.h>
+#include <YGP/Exception.h>
 
 
 namespace YGP {
@@ -78,8 +78,8 @@ class INISection {
    const IAttribute* findAttribute (const char* name) const;
    void addAttribute (const IAttribute& attribute);
 
-   int readFromStream (Xistream& stream) throw (std::string);
-   int readAttributes (Xistream& stream) throw (std::string);
+   int readFromStream (Xistream& stream) throw (YGP::ParseError);
+   int readAttributes (Xistream& stream) throw (YGP::ParseError);
    static void skipComments (Xistream& stream);
 
    /// Returns the name of the section
@@ -114,7 +114,7 @@ class INISection {
       ISectionParser ();
       virtual ~ISectionParser ();
 
-      int parse (Xistream& stream) throw (std::string);
+      int parse (Xistream& stream) throw (YGP::ParseError);
 
     protected:
       virtual int foundSection (const char* name, unsigned int len) = 0;
@@ -313,7 +313,7 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
 */
 class INIFile {
  public:
-   INIFile (const char* filename) throw (std::string);
+   INIFile (const char* filename) throw (YGP::FileError);
    virtual ~INIFile ();
 
    void addSection (const INISection& section);
@@ -325,7 +325,7 @@ class INIFile {
       addEntity (obj, *addSection (section)); }
    void addEntity (const Entity& obj, INISection& section);
 
-   int read () throw (std::string);
+   int read () throw (YGP::ParseError);
 
    /// Returns the stream the data is parsed from.
    Xifstream& getFile () { return file; }

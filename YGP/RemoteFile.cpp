@@ -1,11 +1,11 @@
-// $Id: RemoteFile.cpp,v 1.23 2006/06/02 02:35:15 markus Exp $
+// $Id: RemoteFile.cpp,v 1.24 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
@@ -64,9 +64,9 @@ File* RemoteFile::clone () const {
 /// same values as the ANSI-C fopen-function.
 /// \param mode: Mode for open the file (analogue to libc's fopen)
 /// \returns \c void*: Pointer to a handle for the opened file.
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error a textual description
 //-----------------------------------------------------------------------------
-void* RemoteFile::open (const char* mode) const throw (std::string) {
+void* RemoteFile::open (const char* mode) const throw (YGP::FileError) {
    std::string file (path ()); file += name ();
    TRACE5 ("RemoteFile::open (const char*) const - " << file);
    Check3 (mode);
@@ -82,9 +82,8 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
       sock.write (buffer);
       sock.read (buffer);
    }
-   catch (std::domain_error& error) {
-      std::string err (error.what ());
-      throw err;
+   catch (YGP::CommError& e) {
+      throw (YGP::FileError (e.what ()));
    }
    buffer += '\0';
 
@@ -105,9 +104,9 @@ void* RemoteFile::open (const char* mode) const throw (std::string) {
 //-----------------------------------------------------------------------------
 /// Closes a (previously opened) file
 /// \param file: Handle of opened file
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error a textual description
 //-----------------------------------------------------------------------------
-void RemoteFile::close (void* file) const throw (std::string) {
+void RemoteFile::close (void* file) const throw (YGP::FileError) {
    TRACE5 ("RemoteFile::close (void*) const - " << path () << name ());
    Check3 (file);
 
@@ -121,7 +120,7 @@ void RemoteFile::close (void* file) const throw (std::string) {
    }
    catch (std::domain_error& error) {
       std::string err (error.what ());
-      throw err;
+      throw (YGP::FileError (err));
    }
    buffer += '\0';
 
@@ -138,9 +137,9 @@ void RemoteFile::close (void* file) const throw (std::string) {
 /// \param buffer: Buffer for data
 /// \param length: Maximal length of buffer
 /// \returns \c int: Number of read bytes
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error a textual description
 //-----------------------------------------------------------------------------
-int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
+int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw (YGP::FileError) {
    TRACE5 ("RemoteFile::read (void*, char*, unsigned int) const - "
            << path () << name ());
 
@@ -156,14 +155,8 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
    text += ";Length=";
    text += id.toUnformattedString ();
 
-   try {
-      sock.write (text);
-      sock.read (text);
-   }
-   catch (std::domain_error& error) {
-      std::string err (error.what ());
-      throw err;
-   }
+   sock.write (text);
+   sock.read (text);
    text += '\0';
 
    if (isOK (text)) {
@@ -190,7 +183,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
 /// Checks if further data is available for reading
 /// \param file: Handle of openeded file
 //-----------------------------------------------------------------------------
-bool RemoteFile::isEOF (void* file) const throw (std::string) {
+bool RemoteFile::isEOF (void* file) const throw (YGP::FileError) {
    TRACE5 ("RemoteFile::isEOF (void*) const - " << path () << name ());
    Check3 (file);
 
@@ -228,7 +221,7 @@ bool RemoteFile::isOK (const std::string& answer) const {
 /// this is thrown to inform the client name and directory to analyze
 /// \param pAnswer: Response from the server
 //-----------------------------------------------------------------------------
-void RemoteFile::handleServerError (const char* pAnswer) const throw (std::string) {
+void RemoteFile::handleServerError (const char* pAnswer) const throw (YGP::FileError) {
    int rc;
    std::string error;
 
@@ -250,7 +243,7 @@ void RemoteFile::handleServerError (const char* pAnswer) const throw (std::strin
 /// \param pAnswer: Data send from server
 //-----------------------------------------------------------------------------
 void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnswer)
-   const throw (std::string) {
+   const throw (YGP::FileError) {
    Check3 (pAnswer);
 
    try {
@@ -272,7 +265,7 @@ void RemoteFile::handleServerMsg (const AttributeParse& attrs, const char* pAnsw
 /// \returns \c int: Number of written bytes
 /// \throw string: In case of an error a textual description
 //-----------------------------------------------------------------------------
-int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
+int RemoteFile::write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError) {
    TRACE5 ("RemoteFile::write (void*, char*, unsigned int) const - "
            << path () << name ());
    Check3 (file);

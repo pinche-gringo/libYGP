@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.32 2005/03/08 01:51:08 markus Rel $
+//$Id: INIFile.cpp,v 1.33 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
+//REVISION    : $Revision: 1.33 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -73,8 +73,9 @@ INISection::ISectionParser::~ISectionParser () {
 /// Parses the section header
 /// \param stream: Stream to parse from
 /// \returns int: Status of parse
+/// \throw YGP::ParseError: Error while parsing
 //-----------------------------------------------------------------------------
-int INISection::ISectionParser::parse (Xistream& stream) throw (std::string) {
+int INISection::ISectionParser::parse (Xistream& stream) throw (YGP::ParseError) {
    INISection::skipComments (stream);
    return SectionHeader.parse (stream);
 }
@@ -161,10 +162,10 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /// \returns \c int: ParseObject::OK if a know key is found and it's value can
 ///     be assigned Remarks The exact behaviour depends on the type of the
 ///     attribute!
-/// \throw std::string: Text describing error if an unrecoverable error
-///     occurs
+/// \throw YGP::ParseError: With text describing error if an unrecoverable
+///     error occurs
 //-----------------------------------------------------------------------------
-int INISection::readFromStream (Xistream& stream) throw (std::string) {
+int INISection::readFromStream (Xistream& stream) throw (YGP::ParseError) {
    TRACE9 ("INISection::readFromStream (Xistream&)");
    TSectionParser<INISection> hdrParser (*this, &INISection::foundSection);
 
@@ -184,10 +185,10 @@ int INISection::readFromStream (Xistream& stream) throw (std::string) {
 /// \returns \c int: ParseObject::OK if a know key is found and it's value can
 ///     be assigned Remarks The exact behaviour depends on the type of the
 ///     attribute!
-/// \throw std::string: Text describing error if an unrecoverable error
-///     occurs
+/// \throw YGP::ParseError: With text describing error if an unrecoverable
+///     error occurs
 //-----------------------------------------------------------------------------
-int INISection::readAttributes (Xistream& stream) throw (std::string) {
+int INISection::readAttributes (Xistream& stream) throw (YGP::ParseError) {
    TRACE9 ("INISection::readAttributes (Xistream&)");
    int rc (ParseObject::PARSE_OK);
 
@@ -274,10 +275,10 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// initialization-information. If this file does not exist, an exception is
 /// thrown.
 /// \param filename: Name of the INI file
-/// \throw string: If file couldn't be open a text describing the error
+/// \throw YGP::FileError: If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL) {
+INIFile::INIFile (const char* filename) throw (YGP::FileError) : pSection (NULL) {
    Check3 (filename);
 
    TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
@@ -287,7 +288,7 @@ INIFile::INIFile (const char* filename) throw (std::string) : pSection (NULL) {
       std::string error (_("Could not open INI-file '%1': Reason: %2"));
       error.replace (error.find ("%1"), 2, filename);
       error.replace (error.find ("%2"), 2, strerror (errno));
-      throw (error);
+      throw (YGP::FileError (error));
    }
    file.init ();
 }
@@ -340,9 +341,9 @@ INISection* INIFile::addSection (const char* section) {
 /// ParseObject::PARSE_OK, if EOF is reached; else a non-zero value is
 /// returned or - depending on the error - an exception is thrown.
 /// \returns \c int: Status of reading: <0 hard error; 0 OK, >0 soft error
-/// \throw string: Message describing error in case of an invalid value
+/// \throw YGP::ParseError: With a message describing error in case of an invalid value
 //-----------------------------------------------------------------------------
-int INIFile::read () throw (std::string) {
+int INIFile::read () throw (YGP::ParseError) {
   TRACE9 ("INIFile::read ()");
 
    // Parse the section-header; terminate on error

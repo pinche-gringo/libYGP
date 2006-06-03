@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.56 2006/06/02 02:33:39 markus Exp $
+//$Id: Parse.cpp,v 1.57 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.56 $
+//REVISION    : $Revision: 1.57 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -253,9 +253,9 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 /// 0), an exception (std::string) is thrown.
 /// \param stream: Source from which to read
 /// \param optional: Flag, if node must be found
-/// \throw std::string: In case of a not recoverable error
+/// \throw YGP::ParseError: In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) {
+int ParseAttomic::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
    Check1 (!checkIntegrity ());
 
@@ -316,7 +316,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (std::string) 
          if (buffer.size () > 23)
             buffer.replace (10, buffer.size () - 20, "...");
          error.replace (error.find ("%2"), 2, buffer);
-	 throw (error);
+	 throw (YGP::ParseError (error));
       } // end-if mandatory value not found
    } // endif error
    else
@@ -906,9 +906,9 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 /// \param stream: Source from which to read
 /// \param optional: Flag, if object must be found
 /// \returns \c PARSE_OK if selection found; PARSE_ERROR if not
-/// \throw std::string: In case of a not recoverable error
+/// \throw YGP::ParseError: In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string) {
+int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseSequence::doParse -> " << getDescription () << ' ' << maxCard);
    Check1 (!checkIntegrity ());
 
@@ -948,7 +948,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (std::string)
       error.replace (error.find ("%1"), 2, getDescription ());
       if (*ppAct)
          error.replace (error.find ("%2"), 2, (*ppAct)->getDescription ());
-      throw (error);
+      throw (YGP::ParseError (error));
    }
 
    TRACE8 ("ParseSequence::doParse -> " << getDescription () << " exiting with rc = " << rc);
@@ -1024,9 +1024,9 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 /// \param stream: Source from which to read
 /// \param optional: Flag, if node must be found
 /// \returns \c PARSE_OK if selection found; PARSE_ERROR if not
-/// \throw std::string: In case of a not recoverable error
+/// \throw YGP::ParseError: In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string) {
+int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseSelection::doParse -> " << getDescription () << ' ' << maxCard);
    Check1 (!checkIntegrity ());
 
@@ -1064,7 +1064,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (std::string
       std::string error;
       error = _("Expected selection %1");
       error.replace (error.find ("%1"), 2, getDescription ());
-      throw (error);
+      throw (YGP::ParseError (error));
    }
 
    TRACE8 ("ParseSelection::doParse -> " << getDescription ()

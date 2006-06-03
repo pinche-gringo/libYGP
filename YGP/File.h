@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.27 2005/11/12 15:09:28 markus Rel $
+//$Id: File.h,v 1.28 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -82,6 +82,7 @@
 #include <string>
 
 #include <YGP/Check.h>
+#include <YGP/Exception.h>
 
 namespace YGP {
 
@@ -108,12 +109,12 @@ struct File {
    /// Default constructor; creates an empty file object (holding no file)
    File () : userExec (false)
       { *entry.d_name = '\0'; }
-   File (const char* name) throw (std::string);
+   File (const char* name) throw (YGP::FileError);
    File (const File& other);
    virtual ~File ();
 
    File& operator= (const File& other);
-   File& operator= (const char* name) throw (std::string);
+   File& operator= (const char* name) throw (YGP::FileError);
 
    virtual File* clone () const;
 
@@ -165,11 +166,11 @@ struct File {
 
    /// \name File access
    //@{
-   virtual bool isEOF (void* file) const throw (std::string);
-   virtual void* open  (const char* mode) const throw (std::string);
-   virtual void close (void* file) const throw (std::string);
-   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
-   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
+   virtual bool isEOF (void* file) const throw (YGP::FileError);
+   virtual void* open  (const char* mode) const throw (YGP::FileError);
+   virtual void close (void* file) const throw (YGP::FileError);
+   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (YGP::FileError);
+   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError);
    //@}
 
    ///< Character to separte directories of the operating system
@@ -182,7 +183,7 @@ struct File {
 
    bool  userExec;   ///< Flag, if the file can be executed by the current user (don't access directly)
 
-   void throwErrorText (const char* error) const throw (std::string);
+   void throwErrorText (const char* error) const throw (YGP::FileError);
 
    /// Sets the path of the file (only internally)
    void path (const char* path) { path_ = path; }
@@ -209,12 +210,12 @@ struct File : protected WIN32_FIND_DATA {
    friend class RemoteDirSearch;
 
    File () { }
-   File (const char* name) throw (std::string);
+   File (const char* name) throw (YGP::FileError);
    File (const File& other);
    virtual ~File ();
 
    File& operator= (const File& other);
-   File& operator= (const char* name) throw (std::string);
+   File& operator= (const char* name) throw (YGP::FileError);
 
    virtual File* clone () const;
 
@@ -249,11 +250,11 @@ struct File : protected WIN32_FIND_DATA {
 
    /// \name File access
    //@{
-   virtual bool isEOF (void* file) const throw (std::string);
-   virtual void* open  (const char* mode) const throw (std::string);
-   virtual void close (void* file) const throw (std::string);
-   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
-   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
+   virtual bool isEOF (void* file) const throw (YGP::FileError);
+   virtual void* open  (const char* mode) const throw (YGP::FileError);
+   virtual void close (void* file) const throw (YGP::FileError);
+   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (YGP::FileError);
+   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError);
    //@}
 
    static const char DIRSEPARATOR;
@@ -261,7 +262,7 @@ struct File : protected WIN32_FIND_DATA {
  protected:
    std::string path_;
 
-   void throwErrorText (const char* error) const throw (std::string);
+   void throwErrorText (const char* error) const throw (YGP::FileError);
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }

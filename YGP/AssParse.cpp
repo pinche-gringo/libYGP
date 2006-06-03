@@ -1,11 +1,11 @@
-//$Id: AssParse.cpp,v 1.21 2005/10/25 21:01:37 markus Rel $
+//$Id: AssParse.cpp,v 1.22 2006/06/03 21:32:37 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -53,10 +53,10 @@ AssignmentParse::~AssignmentParse () {
 /// quoted, all quotes (") inside the value must be escaped with a backslash
 /// (\). Those characters are removed by this function.
 /// \returns \c Next node (empty string at end)
-/// \throw std::string: describing error if node doesn't contain a valid
-///     assignment
+/// \throw YGP::ParseError: describing error if node doesn't contain a
+///     valid assignment
 //-----------------------------------------------------------------------------
-std::string AssignmentParse::getNextNode () throw (std::string) {
+std::string AssignmentParse::getNextNode () throw (YGP::ParseError) {
    std::string key (Tokenize::getNextNode (EQUALSIGN));
 
    if (key.empty ())
@@ -66,7 +66,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
    if (_string[actPos + len - 1] != EQUALSIGN) {
       std::string error (_("Not a valid assignment: '%1'"));
       error.replace (error.find ("%1"), 2, key);
-      throw (error);
+      throw (YGP::ParseError (error));
    }
 
    posValue = actPos + len;
@@ -78,7 +78,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
          if ((pos = _string.find (QUOTE, pos)) == std::string::npos) {
             key = _("Invalid value for an attribute: '%1'");
             key.replace (key.find ("%1"), 2, _string.substr (posValue));
-            throw key;
+	    throw (YGP::ParseError (key));
          }
 
          if (_string[pos - 1] != ESCAPE)           // Check if quote is escaped
@@ -92,7 +92,7 @@ std::string AssignmentParse::getNextNode () throw (std::string) {
       if ((pos < _string.length ()) && (_string[pos] != SEPARATOR)) {
          key = _("Quoted value is not followed by a separator: '%1'");
          key.replace (key.find ("%1"), 2, _string.substr (pos - 10, 20));
-         throw key;
+	 throw (YGP::ParseError (key));
       }
    }
    else

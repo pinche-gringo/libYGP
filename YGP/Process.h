@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.14 2006/04/10 01:45:32 markus Rel $
+//$Id: Process.h,v 1.15 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@ typedef int pid_t;
 
 
 #include <string>
+
+#include <YGP/Exception.h>
 
 
 namespace YGP {
@@ -61,11 +63,11 @@ class Process {
    /// \param arguments: Array with arguments for the file (as understood by execv)
    /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
+   /// \throw YGP::ExecError: An error-message displayed by the program
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static pid_t execAsync (const char* file, const char* const arguments[])
-      throw (std::string) {
+   static pid_t execAsync (const char* file, const char* const arguments[]) throw (YGP::ExecError) {
       return start (file, arguments, NO_WAIT); }
 
    /// Executes a program. The execution of the calling process is
@@ -76,11 +78,11 @@ class Process {
    /// \param file: Name of file to execute
    /// \param arguments: Array with arguments for the file (as understood by execv)
    /// \pre \c file is a valid ASCIIZ-string
+   /// \throw YGP::ExecError: An error-message displayed by the program
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static void execute (const char* file, const char* const arguments[])
-      throw (std::string) {
+   static void execute (const char* file, const char* const arguments[]) throw (YGP::ExecError) {
       start (file, arguments, WAIT); }
 
    /// Executes a program in the background. If either the file can not be
@@ -93,12 +95,13 @@ class Process {
    /// \param flags: Flags describing how to connect stdin/stdout
    /// \returns pid_t: PID of created process
    /// \pre \c file is a valid ASCIIZ-string
+   /// \throw YGP::ExecError: An error-message displayed by the program
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
    static pid_t execIOConnected (const char* file, const char* const arguments[],
 				 int* fd, unsigned int flags = CONNECT_STDOUT_AND_ERR)
-      throw (std::string) {
+      throw (YGP::ExecError) {
       return start (file, arguments, NO_WAIT | flags, fd); }
 
    /// Returns the process ID of the actual process
@@ -115,8 +118,7 @@ class Process {
 
  protected:
    static pid_t start (const char* file, const char* const arguments[],
-		       int flags, int* fd = NULL)
-      throw (std::string);
+		       int flags, int* fd = NULL) throw (YGP::ExecError);
 
  private:
    Process ();

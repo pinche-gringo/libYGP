@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.19 2003/11/16 19:25:55 markus Rel $
+//$Id: RDirSrch.h,v 1.20 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,12 +22,11 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <stdexcept>
-
 #include <ygp-cfg.h>
 #include <YGP/Socket.h>
 #include <YGP/ATStamp.h>
 #include <YGP/AttrParse.h>
+#include <YGP/Exception.h>
 
 #include <YGP/IDirSrch.h>
 
@@ -37,7 +36,7 @@ namespace YGP {
 /**Class to search for files in a directory over a
    network-connection. This search can be restricted to files matching
    certain name-criterias or by attributes.
-  
+
    The name-part of the files to search supports UNIX-like wildcards;
    that are the asterisk (*) for any number of any characters, the
    question-mark for any single character and a set of characters in
@@ -45,10 +44,10 @@ namespace YGP {
    (like [abcde]) or a region (like [a-e]). To invert this set use a
    leading caret (^) or a leading exclamation mark (!), like
    ([^a-e]).
-  
+
    The found (and matching) files are retrieved by objects of type
    File.
-  
+
    Note: The class does not do any word expansion for the search-path
          (like expanding the tilde (~) to the home-directory)!
 */
@@ -56,13 +55,12 @@ class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
    RemoteDirSearch () : IDirectorySearch (), sock (-1) { }
-   RemoteDirSearch (const std::string& search) throw (std::domain_error);
-   RemoteDirSearch (const std::string& search, unsigned int port)
-      throw (std::domain_error);
+   RemoteDirSearch (const std::string& search) throw (YGP::CommError);
+   RemoteDirSearch (const std::string& search, unsigned int port) throw (YGP::CommError);
    virtual ~RemoteDirSearch ();
 
    //@Section initializing
-   void sendTo (const std::string& server, unsigned int port) throw (std::domain_error);
+   void sendTo (const std::string& server, unsigned int port) throw (YGP::CommError);
 
    //@Section manipulating
    virtual void setSearchValue (const std::string& search);
@@ -72,8 +70,8 @@ class RemoteDirSearch : public IDirectorySearch {
    /// \name Searching
    //@{
    virtual const File* find (unsigned long attribs = FILE_NORMAL)
-      throw (std::string);
-   virtual const File* next () throw (std::string);
+      throw (YGP::CommError, YGP::FileError);
+   virtual const File* next () throw (YGP::CommError, YGP::FileError);
    //@}
 
    enum FileType { FILE_NORMAL = 0,                          ///< Ordinary file
@@ -82,8 +80,8 @@ class RemoteDirSearch : public IDirectorySearch {
                    FILE_HIDDEN = 4                       ///< %File is "hidden"
    };
 
-   virtual bool isValid () const throw (std::domain_error);
-   bool isValid (const std::string& dir) throw (std::domain_error);
+   virtual bool isValid () const throw (YGP::CommError);
+   bool isValid (const std::string& dir) throw (YGP::CommError);
 
    static const char SEPARATOR;            ///< Separator between host and port
 
@@ -98,8 +96,8 @@ class RemoteDirSearch : public IDirectorySearch {
    int posSeparator (const std::string& dir) const;
 
    bool isOK (const std::string& answer) const;
-   const File* setFiledata (const char* pAnswer) throw (std::string);
-   void handleServerError (const char* pAnswer) throw (std::string);
+   const File* setFiledata (const char* pAnswer) throw (YGP::FileError);
+   void handleServerError (const char* pAnswer) throw (YGP::CommError);
 
    std::string server;
    std::string files;

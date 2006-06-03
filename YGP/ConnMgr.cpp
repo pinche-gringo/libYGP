@@ -1,14 +1,14 @@
-//$Id: ConnMgr.cpp,v 1.10 2005/07/08 18:54:02 markus Rel $
+//$Id: ConnMgr.cpp,v 1.11 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP/ConnectionManager
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -83,10 +83,9 @@ void ConnectionMgr::changeMode (modeConnect newMode) {
 /// Connect to \c server on the specified \c port.
 /// \param target: Server to connect to
 /// \param port: Port the server is listening at
-/// \throws std::domain_error: In case of a connection error
+/// \throws YGP::CommError: In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::connectTo (const char* target, unsigned int port)
-    throw (std::domain_error) {
+void ConnectionMgr::connectTo (const char* target, unsigned int port) throw (YGP::CommError) {
    TRACE1 ("ConnectionMgr::connectTo (const char*, unsinged int) - "
            << target << ':' << port);
    server = new Socket (target, port);
@@ -96,9 +95,9 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port)
 //----------------------------------------------------------------------------
 /// Wait at port \c port for connections
 /// \param port: Port the server is listening at
-/// \throws std::domain_error: In case of a connection error
+/// \throws YGP::CommError: In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::listenAt (unsigned int port) throw (std::domain_error) {
+void ConnectionMgr::listenAt (unsigned int port) throw (YGP::CommError) {
    TRACE1 ("ConnectionMgr::listenAt (unsinged int) - " << port);
    server = new Socket (port);
    changeMode (SERVER);
@@ -117,7 +116,7 @@ int ConnectionMgr::getNewConnection () const {
    try {
        socket = server->waitForInput ();
    }
-   catch (std::domain_error& e) {
+   catch (YGP::CommError& e) {
       TRACE1 ("ConnectionMgr::getNewConnection () - Unexpected exception: "
               << e.what ());
    }
@@ -139,9 +138,8 @@ Socket* ConnectionMgr::addConnection (int socket) {
        connections.push_back (new Socket (socket));
        return connections.back ();
    }
-   catch (std::domain_error& e) {
-      TRACE1 ("ConnectionMgr::addConnection (int) - Unexpected exception: "
-              << e.what ());
+   catch (YGP::CommError& e) {
+      TRACE1 ("ConnectionMgr::addConnection (int) - Unexpected exception: " << e.what ());
       return NULL;
    }
 }

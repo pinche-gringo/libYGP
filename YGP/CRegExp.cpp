@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.43 2006/05/18 00:36:24 markus Exp $
+//$Id: CRegExp.cpp,v 1.44 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004, 2006
@@ -86,11 +86,11 @@ const char WORDEND = '>';
 //----------------------------------------------------------------------------
 /// Constructor, specifies the regular expression to match.
 /// \param pRegExp: Pointer to character array holding regular expression
-/// \throw std::string: In case of an invalid regexp a describing text
+/// \throw std::invalid_argument: In case of an invalid regexp a describing text
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
-RegularExpression::RegularExpression (const char* pRegExp) throw (std::string)
+RegularExpression::RegularExpression (const char* pRegExp) throw (std::invalid_argument)
    : IRegularExpression (pRegExp) {
 #ifdef HAVE_REGEX_H
    init (pRegExp);
@@ -113,11 +113,11 @@ RegularExpression::~RegularExpression () {
 /// Assignmentoperator; specifies the regular expression to match.
 /// \param pRegExp: Pointer to character array holding regular expression
 /// \return \c RegularExpression&: Reference to this
-/// \throw std::string: In case of an invalid regexp a describing text
+/// \throw std::invalid_argument: In case of an invalid regexp a describing text
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
-RegularExpression& RegularExpression::operator= (const char* pRegExp) throw (std::string) {
+RegularExpression& RegularExpression::operator= (const char* pRegExp) throw (std::invalid_argument) {
    IRegularExpression::operator= (pRegExp);
 #ifdef HAVE_REGEX_H
    regfree (&regexp);
@@ -148,12 +148,9 @@ bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
    // Use system-regular expressions if available
    regmatch_t match[1];
    int ret (regexec (&regexp, pCompare, sizeof (match) / sizeof (match[0]), match, 0));
-   if (ret < 0)
-      throw (getError (ret, 0));
 
    TRACE5 ("RegularExpression::compare (const char*, const char*) -  "
            "Subexpr.: " << match[0].rm_so << " - " << match[0].rm_eo);
-
    return ret ? false
               : ((match[0].rm_so == 0)
                  && (static_cast<unsigned int> (match[0].rm_eo) == strlen (pCompare)));
@@ -912,10 +909,10 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, unsigned int& m
 /// returned; 1 if there is no regular expression at all. In case of any
 /// other error an exception is thrown.
 /// \return \c int: Status; 0: OK
-/// \throw std::string: In case of an invalid regexp a describing text
+/// \throw std::invalid_argument: In case of an invalid regexp a describing text
 /// \pre \c pFileRegExp is a valid regexp
 //----------------------------------------------------------------------------
-int RegularExpression::checkIntegrity () const throw (std::string) {
+int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
 #ifndef HAVE_REGEX_H
    const char* pRegExp = getExpression ();
    if (!pRegExp)
@@ -1022,9 +1019,9 @@ int RegularExpression::checkIntegrity () const throw (std::string) {
 /// Builds the error-string for checkIntegrity ()
 /// \param rc: Occured error
 /// \param pos: Position of the error inside the regular expression
-/// \return \c std::string: Text describing error in human-readable format
+/// \return \c std::invalid_arguemnt: With a text describing error in human-readable format
 //----------------------------------------------------------------------------
-std::string RegularExpression::getError (int rc, unsigned int pos) const {
+std::invalid_argument RegularExpression::getError (int rc, unsigned int pos) const {
 #ifdef HAVE_REGEX_H
    char error[256];
    regerror (rc, &regexp, error, sizeof (error));
@@ -1050,7 +1047,7 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
    err.replace (err.find ("%3"), 2, error);
 
    TRACE1 ("RegularExpression::getError (int, unsinged int): " << err);
-   return err;
+   return std::invalid_argument (err);
 }
 
 
@@ -1060,7 +1057,7 @@ std::string RegularExpression::getError (int rc, unsigned int pos) const {
 /// \param pRegExp: Pointer to ASCIIZ-string holding regexp
 /// \pre \c pRegExp is an ASCIIZ-string (not NULL)
 //----------------------------------------------------------------------------
-void RegularExpression::init (const char* pRegExp) throw (std::string) {
+void RegularExpression::init (const char* pRegExp) throw (std::invalid_argument) {
    Check1 (pRegExp);
 
    int rc = regcomp (&regexp, pRegExp, REG_EXTENDED);

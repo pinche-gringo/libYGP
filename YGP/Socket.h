@@ -1,7 +1,7 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-//$Id: Socket.h,v 1.17 2005/11/10 17:36:12 markus Rel $
+//$Id: Socket.h,v 1.18 2006/06/03 21:32:38 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,9 @@
 #endif
 
 #include <string>
-#include <stdexcept>
+
+
+#include <YGP/Exception.h>
 
 
 namespace YGP {
@@ -47,36 +49,36 @@ namespace YGP {
    connections in the Internet namespace.*/
 class Socket {
  public:
-   Socket () throw (std::domain_error);
+   Socket () throw (YGP::CommError);
    Socket (int socket) : sock (socket) { }  ///< Constructor from system socket
-   Socket (unsigned int port) throw (std::domain_error);
-   Socket (const char* server, unsigned int port) throw (std::domain_error);
-   Socket (const std::string& server, unsigned int port) throw (std::domain_error);
+   Socket (unsigned int port) throw (YGP::CommError);
+   Socket (const char* server, unsigned int port) throw (YGP::CommError);
+   Socket (const std::string& server, unsigned int port) throw (YGP::CommError);
    Socket (const Socket& other) : sock (other.sock) { }   ///< Copy constructor
    virtual ~Socket ();
 
-   Socket& operator= (const Socket& other) throw (std::domain_error);
+   Socket& operator= (const Socket& other) throw (YGP::CommError);
    Socket& operator= (int socket);
 
-   void listenAt (unsigned int port) const throw (std::domain_error);
-   int waitForInput () const throw (std::domain_error);
+   void listenAt (unsigned int port) const throw (YGP::CommError);
+   int waitForInput () const throw (YGP::CommError);
 
-   int  read (std::string& input) const throw (std::domain_error);
-   int  read (char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
+   int  read (std::string& input) const throw (YGP::CommError);
+   int  read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError);
 
    /// Specifies the \c server and \c port to write to (for outgoing connections).
-   void writeTo (const std::string& server, unsigned int port) const throw (std::domain_error) {
+   void writeTo (const std::string& server, unsigned int port) const throw (YGP::CommError) {
       writeTo (server.c_str (), port); }
-   void writeTo (const char* server, unsigned int port) const throw (std::domain_error);
+   void writeTo (const char* server, unsigned int port) const throw (YGP::CommError);
 
    /// Writes the content of \c output to the socket (which must have been connected to an address).
-   void write (const std::string& output) const throw (std::domain_error) {
+   void write (const std::string& output) const throw (YGP::CommError) {
       write (output.data (), output.length ()); }
-   void write (const char* pBuffer) const throw (std::domain_error);
-   void write (const char* pBuffer, unsigned int lenBuffer) const throw (std::domain_error);
+   void write (const char* pBuffer) const throw (YGP::CommError);
+   void write (const char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError);
 
    // General helper-functions
-   static unsigned int getPortOfService (const char* service) throw (std::domain_error);
+   static unsigned int getPortOfService (const char* service) throw (YGP::CommError);
 
    /// Convertion from a Socket to a system socket (represented by an integer).
    int number () const { return sock; }
@@ -84,7 +86,7 @@ class Socket {
    operator int () const { return sock; }
 
  protected:
-   static void throwError (const std::string& error, int errNum) throw (std::domain_error);
+   static void throwError (const std::string& error, int errNum) throw (YGP::CommError);
 
  private:
    // Prohibited manager-functions

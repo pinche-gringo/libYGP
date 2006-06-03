@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.43 2006/06/02 02:33:39 markus Exp $
+//$Id: Parse.h,v 1.44 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include <YGP/Check.h>
 #include <YGP/XStream.h>
+#include <YGP/Exception.h>
 
 
 namespace YGP {
@@ -124,7 +125,7 @@ class ParseObject {
    // Parsing
    static void skipWS (Xistream& stream);
    /// Tries to parse the object; See parseObject() for a detailed description
-   int  parse (Xistream& stream) throw (std::string) {
+   int  parse (Xistream& stream) throw (YGP::ParseError) {
       Check1 (!checkIntegrity ());
       return doParse (stream, false); }
    /// Method to actual parse the object.
@@ -290,7 +291,7 @@ class ParseAttomic : public ParseObject {
    virtual int checkValue (char ch);
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
+   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
 
  private:
    // Prohibited manager functions
@@ -585,7 +586,7 @@ class ParseSequence : public ParseObject {
    virtual int checkIntegrity () const;
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
+   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
 
    ParseObject** ppList;       ///< Pointer to array of objects in the sequence
 
@@ -617,7 +618,7 @@ class ParseSelection : public ParseSequence {
 
  protected:
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) throw (std::string);
+   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
 
  private:
    // Prohibited manager functions
@@ -1488,7 +1489,6 @@ template <class T> class OFParseSelection : public ParseSelection {
       pCallback = other.pCallback; Check1 (pCallback);
       ParseText::operator= (other);
       return *this; }
-
 
  protected:
    /// The object was parsed successfully: Notify via the callback

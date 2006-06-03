@@ -1,11 +1,11 @@
-//$Id: RDirSrchSrv.cpp,v 1.28 2006/04/17 19:03:37 markus Rel $
+//$Id: RDirSrchSrv.cpp,v 1.29 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteDirectorySearchServer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
@@ -43,6 +43,7 @@
 #include "YGP/DirSrch.h"
 #include "YGP/ANumeric.h"
 #include "YGP/AssParse.h"
+#include "YGP/Exception.h"
 #include "YGP/AttrParse.h"
 #include "YGP/RDirSrchSrv.h"
 
@@ -94,12 +95,12 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 //-----------------------------------------------------------------------------
 /// Handles the commands send from the client; the respectative action is
 /// performed and data is returned accordingly.
-/// 
+///
 /// \param socket: Socket for communication
 /// \returns \c int: 0 in case of end-of-communication; 99 after the END-command
-/// \throw std::domain_error: In case of a communication problem
+/// \throw YGP::CommError: In case of a communication problem
 //-----------------------------------------------------------------------------
-int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
+int RemoteDirSearchSrv::performCommands (int socket) throw (YGP::CommError){
    std::string data;
 
    DirectorySearch dirSrch;
@@ -294,7 +295,7 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (std::domain_error){
 /// \param desc: Flag if a description should be included
 //-----------------------------------------------------------------------------
 int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
-   throw (std::domain_error) {
+   throw (YGP::CommError) {
    std::string write ("RC=");
    ANumeric err (error);
    write += err.toUnformattedString ();
@@ -325,7 +326,7 @@ void RemoteDirSearchSrv::handleArgError (Socket& sock, const std::string& error)
 /// \param result: Found file
 //-----------------------------------------------------------------------------
 void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
-   throw (std::domain_error) {
+   throw (YGP::CommError) {
    std::string write ("RC=0;File=\"");
    write += result.path ();
    write += result.name ();

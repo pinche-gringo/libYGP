@@ -1,7 +1,7 @@
 #ifndef CREGEXP_H
 #define CREGEXP_H
 
-//$Id: CRegExp.h,v 1.36 2006/03/16 21:57:32 markus Rel $
+//$Id: CRegExp.h,v 1.37 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #include <YGP/RegExp.h>
 
@@ -123,11 +124,11 @@ namespace YGP {
 */
 class RegularExpression : public IRegularExpression {
  public:
-   RegularExpression (const char* pRegExp) throw (std::string);
+   RegularExpression (const char* pRegExp) throw (std::invalid_argument);
    virtual ~RegularExpression ();
 
-   virtual int checkIntegrity () const throw (std::string);
-   RegularExpression& operator= (const char* pRegExp) throw (std::string);
+   virtual int checkIntegrity () const throw (std::invalid_argument);
+   RegularExpression& operator= (const char* pRegExp) throw (std::invalid_argument);
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
@@ -138,7 +139,7 @@ class RegularExpression : public IRegularExpression {
    RegularExpression (const RegularExpression&);
    RegularExpression& operator= (const RegularExpression&);
 
-   std::string getError (int rc, unsigned int pos) const;
+   std::invalid_argument getError (int rc, unsigned int pos) const;
 
    enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
           INV_RANGE, ENDING_BACKSLASH, INV_BOUND };
@@ -146,7 +147,7 @@ class RegularExpression : public IRegularExpression {
 #ifdef HAVE_REGEX_H
    regex_t regexp;
 
-   void init (const char* pRegExp) throw (std::string);
+   void init (const char* pRegExp) throw (std::invalid_argument);
 #else
    bool doCompare (const char*& pAktRegExp, const char*& pCompare);
 

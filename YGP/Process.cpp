@@ -1,14 +1,14 @@
-//$Id: Process.cpp,v 1.20 2006/03/17 23:20:59 markus Rel $
+//$Id: Process.cpp,v 1.21 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005
+//COPYRIGHT   : Copyright (C) 2003 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -104,12 +104,13 @@ namespace YGP {
 ///     filled with the filedescriptor for the output
 /// \pre \c file is a valid ASCIIZ-string
 /// \returns pid_t: PID of created process
+/// \throw YGP::ExecError: An error-message displayed by the program
 /// \remarks The called file must follow some convention:
 ///    - Return 0 if OK and !0 if an error occured
 ///    - In case of an error the output should contain a describing message
 //-----------------------------------------------------------------------------
 pid_t Process::start (const char* file, const char* const arguments[],
-		      int flags, int* fd) throw (std::string)
+		      int flags, int* fd) throw (YGP::ExecError)
 {
    TRACE9 ("Process::start (const char*, const char*, int, int*) - " << file);
    Check1 (file);
@@ -263,7 +264,7 @@ pid_t Process::start (const char* file, const char* const arguments[],
          cmd += (std::string (1, ' ') + std::string (*arg));
 
       err.replace (err.find ("%1"), 2, cmd);
-      throw err;
+      throw (YGP::ExecError (err));
    }
 
    return pid;

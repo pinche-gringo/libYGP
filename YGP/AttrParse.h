@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.10 2003/11/14 20:27:55 markus Rel $
+//$Id: AttrParse.h,v 1.11 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 
+#include <YGP/Exception.h>
 #include <YGP/Attribute.h>
 
 
@@ -51,7 +52,7 @@ namespace YGP {
     try {
        attrs.assignValues ("File=\"ADate.cpp\";Time=01012000 121005;Size=18180");
     }
-    catch (std::string& e) {
+    catch (YGP::ParseError& e) {
        // Errorhandling
     }
 \endverbatim
@@ -68,7 +69,7 @@ class AttributeParse {
    AttributeParse () { }      ///< Default constructor; creates an empty object
    virtual ~AttributeParse ();
 
-   void assignValues (const std::string& values) const throw (std::string);
+   void assignValues (const std::string& values) const throw (YGP::ParseError);
 
    void addAttribute (IAttribute& attr);
 

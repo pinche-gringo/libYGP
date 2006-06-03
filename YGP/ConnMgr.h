@@ -1,7 +1,7 @@
 #ifndef CONNMGR_H
 #define CONNMGR_H
 
-//$Id: ConnMgr.h,v 1.5 2005/07/08 18:54:02 markus Rel $
+//$Id: ConnMgr.h,v 1.6 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <stdexcept>
-
 #include <string>
 #include <vector>
+
+#include <YGP/Exception.h>
 
 
 namespace YGP {
@@ -52,17 +52,17 @@ class ConnectionMgr {
    /// \name Client mode
    //@{
    /// Connect to \c server on the specified \c port.
-   /// \throw std::domain_error
-   void connectTo (const std::string& server, unsigned int port) throw (std::domain_error) {
+   /// \throw YGP::CommError
+   void connectTo (const std::string& server, unsigned int port) throw (YGP::CommError) {
        connectTo (server.c_str (), port);
    }
-   void connectTo (const char* server, unsigned int port) throw (std::domain_error);
+   void connectTo (const char* server, unsigned int port) throw (YGP::CommError);
 
    //@}
 
    /// \name Server mode
    //@{
-   void listenAt (unsigned int port) throw (std::domain_error);
+   void listenAt (unsigned int port) throw (YGP::CommError);
    int  getNewConnection () const;
    Socket* addConnection (int socket);
 

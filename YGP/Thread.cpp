@@ -1,14 +1,14 @@
-//$Id: Thread.cpp,v 1.23 2004/11/04 16:31:19 markus Rel $
+//$Id: Thread.cpp,v 1.24 2006/06/03 21:32:38 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
-//COPYRIGHT   : Copyright (C) 2002 - 2004
+//COPYRIGHT   : Copyright (C) 2002 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,8 +34,11 @@
 #include <cerrno>
 #include <cstdlib>
 
+#include <string>
+
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
+
 #include "YGP/Thread.h"
 
 #if HAVE_LIBPTHREAD
@@ -71,9 +74,9 @@ Thread::Thread () : pArgs_ (NULL), id (0) {
 /// Constructor; Create object and a thread and passes pArgs as arguments
 /// \param fnc: Function to be called in the thread
 /// \param pArgs: Pointer to argument(s)
-/// \throw std::string describing the error
+/// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
-Thread::Thread (THREAD_FUNCTION fnc, void* pArgs) throw (std::string)
+Thread::Thread (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError)
    : pArgs_ (pArgs) {
    TRACE3 ("Thread::Thread (THREAD_FUNCTION, void*)");
    init (fnc, pArgs);
@@ -93,9 +96,9 @@ Thread::~Thread () {
 /// Creates the actual thread from the passed function
 /// \param fnc: Function to be called in the thread
 /// \param pArgs: Pointer to parameters
-/// \throw std::string describing the error
+/// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
-void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
+void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
 #ifdef HAVE_LIBPTHREAD
    if (pthread_create (&id, NULL, fnc, pArgs) != 0) {
 #elif  defined (HAVE_BEGINTHREAD)
@@ -108,7 +111,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
 #if defined (HAVE_LIBPTHREAD) || defined (HAVE_BEGINTHREAD)
       std::string err (_("Can't create thread!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
-      throw (err);
+      throw (YGP::ExecError (err));
    }
 #else
    canceled = false;
@@ -120,7 +123,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (std::string) {
    case -1: {                        // Error creating process: Throw exception
       std::string err (_("Can't create background-process!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
-      throw (err);
+      throw (YGP::ExecError (err));
       }
    } // end-switch
 #endif

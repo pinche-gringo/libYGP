@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.12 2005/10/25 21:00:51 markus Rel $
+//$Id: AssParse.h,v 1.13 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include <string>
 
 #include <YGP/Tokenize.h>
+#include <YGP/Exception.h>
 
 
 namespace YGP {
@@ -46,7 +47,7 @@ class AssignmentParse : public Tokenize {
    AssignmentParse& operator= (const std::string& path) {
       return (AssignmentParse&)Tokenize::operator= (path); }
 
-   std::string getNextNode () throw (std::string);
+   std::string getNextNode () throw (YGP::ParseError);
 
    /// \name Accessing the values of the actual part
    //@{

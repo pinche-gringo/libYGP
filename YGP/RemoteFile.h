@@ -1,7 +1,7 @@
 #ifndef REMOTEFILE_H
 #define REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.7 2006/06/02 02:35:15 markus Exp $
+// $Id: RemoteFile.h,v 1.8 2006/06/03 21:32:37 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,11 +21,10 @@
 
 #include <YGP/File.h>
 #include <YGP/Socket.h>
+#include <YGP/Exception.h>
 
 
 namespace YGP {
-
-class AttributeParse;
 
 /**Class representing a file on a remote server with simple
    management-functions.
@@ -50,18 +49,18 @@ typedef struct RemoteFile : public File {
    virtual File* clone () const;
 
    //@Section file-access
-   virtual bool isEOF (void* file) const throw (std::string);
-   virtual void* open  (const char* mode) const throw (std::string);
-   virtual void close (void* file) const throw (std::string);
-   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (std::string);
-   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (std::string);
+   virtual bool isEOF (void* file) const throw (YGP::FileError);
+   virtual void* open  (const char* mode) const throw (YGP::FileError);
+   virtual void close (void* file) const throw (YGP::FileError);
+   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (YGP::FileError);
+   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError);
 
  private:
    Socket& sock;
 
    void handleServerMsg (const AttributeParse& attr, const char* pValue)
-        const throw (std::string);
-   void handleServerError (const char*) const throw (std::string);
+        const throw (YGP::FileError);
+   void handleServerError (const char*) const throw (YGP::FileError);
    bool isOK (const std::string& answer) const;
 } RemoteFile;
 

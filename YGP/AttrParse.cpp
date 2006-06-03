@@ -1,14 +1,14 @@
-//$Id: AttrParse.cpp,v 1.17 2005/11/14 19:07:42 markus Rel $
+//$Id: AttrParse.cpp,v 1.18 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AttributeParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 26.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005
+//COPYRIGHT   : Copyright (C) 2001 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -98,9 +98,9 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 /// inside the object. If the name does not match any of the attributes or the
 /// value does not fit to the type, an exception is thrown.
 /// \param values: Name of attribute to find
-/// \throw std::string in case of an unknown name or an invalid value
+/// \throw YGP::ParseError_argument in case of an unknown name or an invalid value
 //----------------------------------------------------------------------------
-void AttributeParse::assignValues (const std::string& values) const throw (std::string) {
+void AttributeParse::assignValues (const std::string& values) const throw (YGP::ParseError) {
    TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
    AssignmentParse ass (values);
 
@@ -120,13 +120,13 @@ void AttributeParse::assignValues (const std::string& values) const throw (std::
             std::string error (_("Error assigning '%1' to %2"));
             error.replace (error.find ("%1"), 2, value);
             error.replace (error.find ("%2"), 2, ass.getActKey ());
-            throw (error);
+            throw (YGP::ParseError (error));
          }
       } // endif
       else {
          std::string error (_("Key '%1' not found"));
          error.replace (error.find ("%1"), 2, ass.getActKey ());
-         throw (error);
+	 throw (YGP::ParseError (error));
       }
    } // end-while
 }

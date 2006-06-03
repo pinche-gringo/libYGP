@@ -1,11 +1,11 @@
-//$Id: File.cpp,v 1.30 2006/06/02 02:33:39 markus Exp $
+//$Id: File.cpp,v 1.31 2006/06/03 21:32:37 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : File
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.3.2001
 //COPYRIGHT   : Copyright (C) 2000 - 2006
@@ -67,9 +67,9 @@ File::File (const File& other) : path_ (other.path_)
 //-----------------------------------------------------------------------------
 /// Constructor; create from a name Parameter : name: Pointer to
 /// character-array holding name of file to create
-/// \throw String describing the error
+/// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
-File::File (const char* name) throw (std::string)
+File::File (const char* name) throw (YGP::FileError)
 #if SYSTEM == UNIX
    : userExec (false)
 #endif
@@ -105,9 +105,9 @@ File& File::operator= (const File& other) {
 //-----------------------------------------------------------------------------
 /// Assignment operator; create from a name Parameter : name: Name of file
 /// \returns Reference to self
-/// \throw String describing the error
+/// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
-File& File::operator= (const char* name) throw (std::string) {
+File& File::operator= (const char* name) throw (YGP::FileError) {
 #if SYSTEM == UNIX
    // If file exists, fill data-fields
    if (!stat (name, &status)) {
@@ -123,7 +123,7 @@ File& File::operator= (const char* name) throw (std::string) {
       userExec = !access (name, X_OK);
    }
    else
-      throw (strerror (errno));
+      throw (YGP::FileError (strerror (errno)));
 
 #elif SYSTEM == WINDOWS
    HANDLE hFile;
@@ -154,7 +154,7 @@ File& File::operator= (const char* name) throw (std::string) {
       char buffer[80];
       FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError (),
                      0, buffer, sizeof (buffer), NULL);
-      throw (buffer);
+      throw (YGP::FileError (buffer));
    }
 #endif
 
@@ -259,9 +259,9 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 /// same values than the ANSI-C fopen-function.
 /// \param mode: Mode for open the file (analogue to libc's fopen)
 /// \returns \c void*: Pointer to a handle for the opened file.
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error with a textual description
 //-----------------------------------------------------------------------------
-void* File::open  (const char* mode) const throw (std::string) {
+void* File::open  (const char* mode) const throw (YGP::FileError) {
    std::string file (path ()); file += name ();
    TRACE5 ("File::open  (const char*) const - " << file);
    Check1 (mode);
@@ -276,9 +276,9 @@ void* File::open  (const char* mode) const throw (std::string) {
 //-----------------------------------------------------------------------------
 /// Closes a (previously opened) file
 /// \param file: Handle of opened file
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error with a textual description
 //-----------------------------------------------------------------------------
-void File::close (void* file) const throw (std::string) {
+void File::close (void* file) const throw (YGP::FileError) {
    TRACE5 ("File::close  () const - " << path () << name ());
    Check1 (file);
 
@@ -295,9 +295,9 @@ void File::close (void* file) const throw (std::string) {
 /// \param buffer: Buffer for data
 /// \param length: Maximal length of buffer
 /// \returns \c int: Number of read bytes
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error a textual description
 //-----------------------------------------------------------------------------
-int File::read (void* file, char* buffer, unsigned int length) const throw (std::string) {
+int File::read (void* file, char* buffer, unsigned int length) const throw (YGP::FileError) {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
    Check1 (file);
    Check1 (buffer);
@@ -318,9 +318,9 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (std:
 /// \param buffer: Buffer of data
 /// \param length: Length of buffer (= bytes to write)
 /// \returns \c int: Number of written bytes
-/// \throw string: In case of an error a textual description
+/// \throw YGP::FileError: In case of an error a textual description
 //-----------------------------------------------------------------------------
-int File::write (void* file, const char* buffer, unsigned int length) const throw (std::string) {
+int File::write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError) {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
    Check1 (file);
    Check1 (buffer);
@@ -329,7 +329,6 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
    int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
    if ((unsigned int)rc < length)
       throwErrorText (N_("Error writing to file `%1!' Reason: %2"));
-
    return rc;
 }
 
@@ -338,7 +337,7 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 /// \param file: Handle of openeded file
 /// \returns \c bool: True, if further data is available
 //-----------------------------------------------------------------------------
-bool File::isEOF (void* file) const throw (std::string) {
+bool File::isEOF (void* file) const throw (YGP::FileError) {
    Check1 (file);
    return feof (static_cast <FILE*> (file)) != 0;
 }
@@ -349,15 +348,16 @@ bool File::isEOF (void* file) const throw (std::string) {
 /// (according to strerror).
 /// \param error: ASCIIZ-String describing error-message
 /// \pre error != NULL, an ASCIIZ-string with the placeholders %1, %2
+/// \throw YGP::FileError: In case of an error
 //-----------------------------------------------------------------------------
-void File::throwErrorText (const char* error) const throw (std::string) {
+void File::throwErrorText (const char* error) const throw (YGP::FileError) {
    Check1 (error);
    std::string file (path ());
    file += name ();
    std::string err (_(error));
    err.replace (err.find ("%1"), 2, file);
    err.replace (err.find ("%2"), 2, strerror (errno));
-   throw (err);
+   throw (YGP::FileError (err));
 }
 
 }
