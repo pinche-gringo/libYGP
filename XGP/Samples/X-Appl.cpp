@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.35 2006/05/04 01:27:10 markus Exp $
+//$Id: X-Appl.cpp,v 1.36 2006/06/04 04:10:28 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -403,8 +403,8 @@ void XAppl::addFile (const std::string& file) {
       apMenus[SAVE]->set_sensitive (true);
       apMenus[PRINT]->set_sensitive (true);
    }
-   catch (std::string& e) {
-      Gtk::MessageDialog dlg (e, Gtk::MESSAGE_ERROR);
+   catch (YGP::FileError& e) {
+      Gtk::MessageDialog dlg (e.what (), Gtk::MESSAGE_ERROR);
       dlg.run ();
    }
 }
