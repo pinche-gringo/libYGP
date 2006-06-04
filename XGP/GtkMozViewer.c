@@ -1,14 +1,14 @@
-//$Id: GtkMozViewer.c,v 1.1 2005/10/17 03:50:40 markus -Rel $
+//$Id: GtkMozViewer.c,v 1.2 2006/06/04 04:10:56 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : GtkMozEmbedViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.7.2005
-//COPYRIGHT   : Copyright (C) 2005
+//COPYRIGHT   : Copyright (C) 2005, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,8 +31,6 @@
 
 #include <dlfcn.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <YGP/Check.h>
 
 #include <gtkmozembed.h>
