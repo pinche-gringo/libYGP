@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.49 2006/05/04 01:24:46 markus Exp $
+//$Id: XApplication.cpp,v 1.50 2006/06/04 04:11:17 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.49 $
+//REVISION    : $Revision: 1.50 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -244,9 +244,9 @@ void XApplication::showHelp () {
 	 YGP::Process::execAsync (helpBrowser.c_str (), args);
       }
    }
-   catch (std::string& error) {
-      if (error.size ()) {
-	 Gtk::MessageDialog msg (Glib::locale_to_utf8 (error),
+   catch (std::exception& error) {
+      if (*error.what ()) {
+	 Gtk::MessageDialog msg (Glib::locale_to_utf8 (error.what ()),
 				 Gtk::MESSAGE_ERROR);
 	 msg.run ();
       }

@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.46 2006/05/04 01:26:29 markus Exp $
+//$Id: XFileList.cpp,v 1.47 2006/06/04 04:11:17 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -310,8 +310,8 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
          YGP::Process::execAsync (file, args);
       return true;
    }
-   catch (std::string& err) {
-      Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
+   catch (YGP::ExecError& err) {
+      Gtk::MessageDialog msg (err.what (), Gtk::MESSAGE_ERROR);
       msg.run ();
    }
    return false;
@@ -334,8 +334,8 @@ void XFileList::move (Gtk::TreeIter line) {
             YGP::File objFile (file.c_str ());
             setFilename (line, file);
          }
-         catch (std::string& err) {
-            Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
+         catch (YGP::FileError& err) {
+            Gtk::MessageDialog msg (err.what (), Gtk::MESSAGE_ERROR);
             msg.run ();
          }
       }

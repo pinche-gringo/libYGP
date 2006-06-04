@@ -1,11 +1,11 @@
-//$Id: ConnectDlg.cpp,v 1.14 2005/05/12 23:33:03 markus -Rel $
+//$Id: ConnectDlg.cpp,v 1.15 2006/06/04 04:11:17 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -161,7 +161,7 @@ void ConnectDlg::command (int action) {
             valueChanged ();
             response (Gtk::RESPONSE_OK);
          }
-         catch (std::domain_error& err) {
+         catch (YGP::CommError& err) {
             Glib::ustring msg (_("Can't connect to server!\n\nReason: %1"));
             msg.replace (msg.find ("%1"), 2, err.what ());
             Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_ERROR,
@@ -183,7 +183,7 @@ void ConnectDlg::command (int action) {
             pThread->allowCancelation ();
             valueChanged ();
          }
-         catch (std::domain_error& err) {
+         catch (YGP::CommError& err) {
             Glib::ustring msg (_("Can't bind to port!\n\nReason: %1"));
             msg.replace (msg.find ("%1"), 2, err.what ());
             Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_ERROR,
