@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.19 2005/11/09 19:22:08 markus -Rel $
+//$Id: HTMLViewer.cpp,v 1.20 2006/06/04 04:11:17 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -139,7 +139,7 @@ HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
       if (type == GTKMOZEMBED)
 	 err = _("Can't display GtkMozEmbed control!");
 #endif
-      throw (err);
+      throw (CreateError (err));
    }
 }
 

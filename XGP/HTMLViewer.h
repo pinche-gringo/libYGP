@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.11 2006/04/10 01:45:38 markus -Rel $
+//$Id: HTMLViewer.h,v 1.12 2006/06/04 04:11:17 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #define HAVE_VIEWER
 
 #include <string>
+#include <stdexcept>
 
 
 namespace Gtk {
@@ -39,6 +40,11 @@ namespace XGP {
  */
 class HTMLViewer : public XDialog {
  public:
+   class CreateError : public std::runtime_error {
+    public:
+      CreateError (const std::string& what) : std::runtime_error (what) { }
+   };
+
    /// Supported widgets to display HTML
    typedef enum { GTKHTML, GTKMOZEMBED, LAST } widgetTypes;
 
