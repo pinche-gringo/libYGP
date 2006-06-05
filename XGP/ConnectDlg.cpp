@@ -1,14 +1,14 @@
-//$Id: ConnectDlg.cpp,v 1.15 2006/06/04 04:11:17 markus Exp $
+//$Id: ConnectDlg.cpp,v 1.16 2006/06/05 20:02:41 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005
+//COPYRIGHT   : Copyright (C) 2003 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -231,9 +231,9 @@ void ConnectDlg::valueChanged () const {
 
 //----------------------------------------------------------------------------
 /// Waits for connections
-/// \throw domain_error: In case of an connection error
+/// \throw YGP::CommError: In case of an connection error
 //----------------------------------------------------------------------------
-void* ConnectDlg::waitForConnections (void* pVoid) throw (std::domain_error){
+void* ConnectDlg::waitForConnections (void* pVoid) throw (YGP::CommError){
    while (true) {
        int socket (cmgr.getNewConnection ());
        ((YGP::Thread*)pVoid)->isToCancel ();
@@ -254,9 +254,9 @@ YGP::Socket* ConnectDlg::addClient (int socket) {
 /// Connects the client with the passed target
 /// \param target: Name or IP address of target
 /// \param port: Port the target is listening at
-/// \throw domain_error: In case of an connection error
+/// \throw YGP::CommError: In case of an connection error
 //----------------------------------------------------------------------------
-void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) throw (std::domain_error) {
+void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) throw (YGP::CommError) {
    TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"
            << target << ':' << port);
    cmgr.connectTo (target, port);

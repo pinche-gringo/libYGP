@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.7 2003/11/14 20:28:08 markus -Rel $
+//$Id: ConnectDlg.h,v 1.8 2006/06/05 20:02:41 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,10 +20,6 @@
 
 #include <XGP/XDialog.h>
 
-namespace std {
-   class domain_error;
-}
-
 namespace Gtk {
    class Label;
    class Entry;
@@ -32,6 +28,7 @@ namespace Gtk {
 namespace YGP {
    class Thread;
    class Socket;
+   class CommError;
    class ConnectionMgr;
 }
 
@@ -64,9 +61,9 @@ class ConnectDlg : public XDialog {
    ConnectDlg (unsigned int cMaxConnections, const Glib::ustring& defPort,
                YGP::ConnectionMgr& connMgr);
 
-   void* waitForConnections (void* socket) throw (std::domain_error);
+   void* waitForConnections (void* socket) throw (YGP::CommError);
    virtual YGP::Socket* addClient (int socket);
-   virtual void connect (const Glib::ustring& target, unsigned int port) throw (std::domain_error);
+   virtual void connect (const Glib::ustring& target, unsigned int port) throw (YGP::CommError);
 
    Gtk::Entry*  pTarget;  ///< Entry field holding the target computer (IP address or name)
    Gtk::Entry*  pPort;          ///< Entry field for the port of the connection
