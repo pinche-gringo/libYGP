@@ -1,14 +1,14 @@
-//$Id: AssParse.cpp,v 1.22 2006/06/03 21:32:37 markus Exp $
+//$Id: AssParse.cpp,v 1.23 2006/06/05 20:33:55 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005
+//COPYRIGHT   : Copyright (C) 2001 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,14 +1,14 @@
-//$Id: Relation.cpp,v 1.4 2006/05/04 01:18:36 markus Exp $
+//$Id: Relation.cpp,v 1.5 2006/06/05 20:33:55 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Relation
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.10.2004
-//COPYRIGHT   : Copyright (C) 2004, 2005
+//COPYRIGHT   : Copyright (C) 2004 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
