@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.18 2006/03/16 21:57:32 markus Rel $
+//$Id: FileRExp.h,v 1.19 2006/06/05 16:47:06 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,7 +17,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+
 #include <string>
+#include <stdexcept>
 
 #include <YGP/RegExp.h>
 
@@ -61,7 +63,7 @@ class FileRegularExpr : public IRegularExpression {
    FileRegularExpr (const char* pRegExp) : IRegularExpression (pRegExp) { }
    virtual ~FileRegularExpr ();
 
-   virtual int checkIntegrity () const throw (std::string);
+   virtual int checkIntegrity () const throw (std::invalid_argument);
    /// Assignmentoperator; specifies the regular expression to match.
    /// \pre The input is not copied, so it must be valid during the lifetime
    ///      of the regular expression.
@@ -77,7 +79,7 @@ class FileRegularExpr : public IRegularExpression {
    FileRegularExpr (const FileRegularExpr&);
    const FileRegularExpr& operator= (const FileRegularExpr&);
 
-   std::string getError (const char* error, unsigned int pos) const;
+   std::invalid_argument getError (const char* error, unsigned int pos) const;
 };
 
 }

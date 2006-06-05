@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.31 2006/06/02 20:10:23 markus Exp $
+//$Id: FileRExp.cpp,v 1.32 2006/06/05 16:47:06 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.31 $
+//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -204,10 +204,10 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 /// returned; 1 if there is no regular expression at all. In case of any other
 /// error an exception is thrown.
 /// \returns \c int: Status; 0: OK
-/// \throw std::string: In case of an invalid regexp a describing text
+/// \throw std::invalid_argument: In case of an invalid regexp a describing text
 /// \pre pFileRegExp is a valid regexp
 //-----------------------------------------------------------------------------
-int FileRegularExpr::checkIntegrity () const throw (std::string) {
+int FileRegularExpr::checkIntegrity () const throw (std::invalid_argument) {
    const char* pRegExp = getExpression ();
    if (!(pRegExp || *pRegExp))
       return 1;
@@ -247,16 +247,16 @@ int FileRegularExpr::checkIntegrity () const throw (std::string) {
 /// Builds the error-string for checkIntegrity ()
 /// \param error: Text describing error
 /// \param pos: Position of the error inside the regular expression
-/// \returns \c std::string: Text describing error in human-readable format
+/// \returns \c std::invalid_argument: With a text describing error in human-readable format
 /// \pre error is an ASCIIZ-string
 //-----------------------------------------------------------------------------
-std::string FileRegularExpr::getError (const char* error, unsigned int pos) const {
+std::invalid_argument FileRegularExpr::getError (const char* error, unsigned int pos) const {
    Check1 (error);
    std::string err (_("`%1', position %2: %3"));
    err.replace (err.find ("%1"), 2, getExpression ());
    err.replace (err.find ("%2"), 2, ANumeric::toString ((unsigned long)pos));
    err.replace (err.find ("%3"), 2, _(error));
-   return err;
+   return std::invalid_argument (err);
 }
 
 }
