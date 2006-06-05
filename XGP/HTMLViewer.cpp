@@ -1,11 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.20 2006/06/04 04:11:17 markus Exp $
+//$Id: HTMLViewer.cpp,v 1.21 2006/06/05 20:06:21 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005
@@ -54,10 +54,10 @@ namespace XGP {
 /// \param title: Title of help-window
 /// \param type: Type of control to create
 /// \returns HTMLViewer* : Pointer to the created dialog
-/// \throw std::string in case of error
+/// \throw CreateError in case of error
 //----------------------------------------------------------------------------
 HTMLViewer* HTMLViewer::create (const std::string& file, const Glib::ustring& title,
-				widgetTypes type) throw (std::string) {
+				widgetTypes type) throw (CreateError) {
    TRACE9 ("HTMLViewer::create (const std::string&, const Glib::ustring&, widgetTypes) - " << file);
    Check1 (file.size ());
    Check (type < LAST);
@@ -78,10 +78,10 @@ HTMLViewer* HTMLViewer::create (const std::string& file, const Glib::ustring& ti
 /// \param file: File containing the HTML-document to display
 /// \param title: Title of help-window
 /// \param type: Type of control to create
-/// \throw \c std::string in case of error
+/// \throw \c CreateError in case of error
 //----------------------------------------------------------------------------
 HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
-			widgetTypes type) throw (std::string)
+			widgetTypes type) throw (CreateError)
     : XDialog (title + _(" Help"), XDialog::OK)
       , htmlCtrl (NULL), _type (type) {
    TRACE9 ("HTMLViewer::HTMLViewer (const std::string&, const Glib::ustring&, widgetTypes) - " << file);

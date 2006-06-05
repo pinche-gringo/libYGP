@@ -1,7 +1,7 @@
 #ifndef HTMLVIEWER_H
 #define HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.12 2006/06/04 04:11:17 markus Exp $
+//$Id: HTMLViewer.h,v 1.13 2006/06/05 20:06:21 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,12 +51,12 @@ class HTMLViewer : public XDialog {
    virtual ~HTMLViewer ();
 
    static HTMLViewer* create (const std::string& file, const Glib::ustring& title,
-			      widgetTypes type) throw (std::string);
+			      widgetTypes type) throw (CreateError);
    void display (const std::string& file);
 
  protected:
    HTMLViewer (const std::string& file, const Glib::ustring& title,
-	       widgetTypes type) throw (std::string);
+	       widgetTypes type) throw (CreateError);
 
  private:
    HTMLViewer (const HTMLViewer&);
