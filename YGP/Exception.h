@@ -1,7 +1,7 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
-//$Id: Exception.h,v 1.2 2006/06/03 21:31:33 markus Exp $
+//$Id: Exception.h,v 1.3 2006/06/06 22:28:26 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,6 +52,14 @@ class ParseError : public std::runtime_error {
 class ExecError : public std::runtime_error {
  public:
    ExecError (const std::string& what) : std::runtime_error (what) { }
+};
+
+
+/**Exception indicating an invalid value
+ */
+class InvalidValue : public std::runtime_error {
+ public:
+   InvalidValue (const std::string& what) : std::runtime_error (what) { }
 };
 
 
