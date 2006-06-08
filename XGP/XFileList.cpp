@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.47 2006/06/04 04:11:17 markus Exp $
+//$Id: XFileList.cpp,v 1.48 2006/06/08 00:24:21 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.47 $
+//REVISION    : $Revision: 1.48 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -239,7 +239,7 @@ bool XFileList::on_event (GdkEvent* event) {
                  bind (mem_fun (*this, &XFileList::startInTerm),
                        ed, iAct)));
             pMenuPopAction->items ().push_back
-               (Gtk::Menu_Helpers::MenuElem (("Rename/Move ..."),
+               (Gtk::Menu_Helpers::MenuElem (_("Rename/Move ..."),
                  bind (mem_fun (*this, &XFileList::move), iAct)));
             pMenuPopAction->items ().push_back
                (Gtk::Menu_Helpers::MenuElem (_("Delete"),
