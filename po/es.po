@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.7 ($Revision: 1.41 $)\n"
+"Project-Id-Version: libYGP 0.8 ($Revision: 1.42 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2006-04-13 17:06-0400\n"
+"POT-Creation-Date: 2006-06-07 20:23-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:165 YGP/ADate.cpp:220
+#: YGP/ADate.cpp:162 YGP/ADate.cpp:217
 msgid "Invalid date: %1"
 msgstr "Fecha inválida: %1"
 
@@ -22,11 +22,11 @@ msgstr "Fecha inválida: %1"
 msgid "Not a number: %1"
 msgstr "Número invalido: %1"
 
-#: YGP/ATime.cpp:179
+#: YGP/ATime.cpp:176
 msgid "No time: Position %1"
 msgstr "Hora inválida: Posición %1"
 
-#: YGP/ATime.cpp:224
+#: YGP/ATime.cpp:221
 msgid "No time: Position 0"
 msgstr "Hora inválida: Posición 0"
 
@@ -54,71 +54,71 @@ msgstr "Error asignar '%1' a %2"
 msgid "Key '%1' not found"
 msgstr "No encontré llave '%1'"
 
-#: YGP/CRegExp.cpp:1035
+#: YGP/CRegExp.cpp:1032
 msgid "Unmatched [ or [^"
 msgstr "[ ó [^ desemparejado"
 
-#: YGP/CRegExp.cpp:1036
+#: YGP/CRegExp.cpp:1033
 msgid "Unmatched ( or )"
 msgstr "( ó ) desemparejados"
 
-#: YGP/CRegExp.cpp:1037
+#: YGP/CRegExp.cpp:1034
 msgid "Invalid range end"
 msgstr "Fin invalido de la región"
 
-#: YGP/CRegExp.cpp:1038
+#: YGP/CRegExp.cpp:1035
 msgid "Repeating suffix without previous expression"
 msgstr "Factor repitente sin anterior expresión regular"
 
-#: YGP/CRegExp.cpp:1039
+#: YGP/CRegExp.cpp:1036
 msgid "Invalid group-number"
 msgstr "Número de grupo invalido"
 
-#: YGP/CRegExp.cpp:1040
+#: YGP/CRegExp.cpp:1037
 msgid "Invalid range (lower border larger than upper border)"
 msgstr "Enumeración invalido (frontera baja más alta que la alta)"
 
-#: YGP/CRegExp.cpp:1041
+#: YGP/CRegExp.cpp:1038
 msgid "Invalid bound"
 msgstr "Unión invalida"
 
-#: YGP/CRegExp.cpp:1042
+#: YGP/CRegExp.cpp:1039
 msgid "Regular expression ends with escape-character (\\)"
 msgstr "Expresión regular termina con la letra especial de escapar (\\)"
 
-#: YGP/CRegExp.cpp:1043
+#: YGP/CRegExp.cpp:1040
 msgid "Unknown error"
 msgstr "Error general"
 
-#: YGP/CRegExp.cpp:1047 YGP/FileRExp.cpp:254
+#: YGP/CRegExp.cpp:1044 YGP/FileRExp.cpp:255
 msgid "`%1', position %2: %3"
 msgstr "'%1', posición %2: %3"
 
-#: YGP/File.cpp:273
+#: YGP/File.cpp:271
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Error abriendo el fichero '%1'! Causa: %2"
 
-#: YGP/File.cpp:288
+#: YGP/File.cpp:286
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Error cerrando el fichero '%1'! Causa: %2"
 
-#: YGP/File.cpp:311
+#: YGP/File.cpp:309
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Error leyendo fichero '%1'! Causa: %2"
 
-#: YGP/File.cpp:333
+#: YGP/File.cpp:331
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Error escribiendo al fichero '%1'! Causa: %2"
 
-#: YGP/FileRExp.cpp:217
+#: YGP/FileRExp.cpp:218
 msgid "Open region"
 msgstr "Región abierta"
 
-#: YGP/FileRExp.cpp:230
+#: YGP/FileRExp.cpp:231
 msgid "Empty range"
 msgstr "Enumeración vacía"
 
-#: YGP/FileRExp.cpp:234
+#: YGP/FileRExp.cpp:235
 msgid "Empty region"
 msgstr "Región vacía"
 
@@ -138,23 +138,23 @@ msgstr "Nombre de sección"
 msgid "End of section (])"
 msgstr "Fin de sección (])"
 
-#: YGP/INIFile.cpp:88
+#: YGP/INIFile.cpp:89
 msgid "Attribute"
 msgstr "Atributo"
 
-#: YGP/INIFile.cpp:89
+#: YGP/INIFile.cpp:90
 msgid "Identifier (key)"
 msgstr "Identificación (llave)"
 
-#: YGP/INIFile.cpp:90
+#: YGP/INIFile.cpp:91
 msgid "Equal-sign (=)"
 msgstr "Signo de igualidad (=)"
 
-#: YGP/INIFile.cpp:91
+#: YGP/INIFile.cpp:92
 msgid "Value"
 msgstr "Valor"
 
-#: YGP/INIFile.cpp:287
+#: YGP/INIFile.cpp:288
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
@@ -178,35 +178,35 @@ msgstr "-error: Opción '%1' es ambigua"
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
-#: YGP/Parse.cpp:319
+#: YGP/Parse.cpp:314
 msgid "Expected %1, found: '%2'"
 msgstr "Esperaba %1, encontré '%2'"
 
-#: YGP/Parse.cpp:952
+#: YGP/Parse.cpp:947
 msgid "Error in sequence %1; Expected: %2"
 msgstr "Error en la seria %1; Esperaba: %2"
 
-#: YGP/Parse.cpp:952
+#: YGP/Parse.cpp:947
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: YGP/Parse.cpp:1070
+#: YGP/Parse.cpp:1065
 msgid "Expected selection %1"
 msgstr "Esperaba selección %1"
 
-#: YGP/RDirSrch.cpp:259 YGP/RemoteFile.cpp:242
+#: YGP/RDirSrch.cpp:264 YGP/RemoteFile.cpp:235
 msgid "Server returned an error: "
 msgstr "El servidor retornó un error: "
 
-#: YGP/RDirSrchSrv.cpp:255
+#: YGP/RDirSrchSrv.cpp:256
 msgid "Not yet implemented"
 msgstr "Ya no implementado"
 
-#: YGP/RDirSrchSrv.cpp:281
+#: YGP/RDirSrchSrv.cpp:282
 msgid "Invalid command"
 msgstr "Comando invalido"
 
-#: YGP/RDirSrchSrv.cpp:317
+#: YGP/RDirSrchSrv.cpp:318
 msgid "Invalid arguments: "
 msgstr "Argumentos invalidos: "
 
@@ -248,7 +248,7 @@ msgstr "No puedo conectar al servidor '%1'"
 msgid "Error sending data"
 msgstr "Error enviar los datos"
 
-#: YGP/Process.cpp:255
+#: YGP/Process.cpp:256
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -257,7 +257,7 @@ msgstr ""
 "Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
-#: YGP/Process.cpp:279
+#: YGP/Process.cpp:280
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -267,19 +267,19 @@ msgstr ""
 "\n"
 "Salida: %2"
 
-#: XGP/XPrintDlg.cpp:52
+#: XGP/XPrintDlg.cpp:54
 msgid "Print"
 msgstr "Imprimir"
 
-#: XGP/XPrintDlg.cpp:53
+#: XGP/XPrintDlg.cpp:55
 msgid "Print command: "
 msgstr "Orden para imprimir: "
 
-#: XGP/XPrintDlg.cpp:98
+#: XGP/XPrintDlg.cpp:100
 msgid "No print-command specified"
 msgstr "No orden para imprimir especificado"
 
-#: XGP/XPrintDlg.cpp:106
+#: XGP/XPrintDlg.cpp:108
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
@@ -287,19 +287,19 @@ msgstr ""
 "No puedo ejecutar el comando '%1'\n"
 "Causa: %2"
 
-#: XGP/XFileDlg.cpp:96
+#: XGP/XFileDlg.cpp:98
 msgid "File `%1' does not exist!"
 msgstr "Fichero '%1' no existe!"
 
-#: XGP/XFileDlg.cpp:105
+#: XGP/XFileDlg.cpp:107
 msgid "File `%1' exists! Overwrite?"
 msgstr "¡Fichero '%1' existe! ¿Sobreescribirlo?"
 
-#: XGP/XFileList.cpp:73
+#: XGP/XFileList.cpp:74
 msgid "File"
 msgstr "Archivo"
 
-#: XGP/XFileList.cpp:225
+#: XGP/XFileList.cpp:226
 msgid "Open in %1 ..."
 msgstr "Abrir con %1 ..."
 
@@ -307,11 +307,11 @@ msgstr "Abrir con %1 ..."
 msgid "Rename/Move ..."
 msgstr "Cambiar el nombre/Mover ..."
 
-#: XGP/XFileList.cpp:246
+#: XGP/XFileList.cpp:245
 msgid "Delete"
 msgstr "Eleminar"
 
-#: XGP/XFileList.cpp:271
+#: XGP/XFileList.cpp:270
 msgid "Environment variable `TERM' not defined!"
 msgstr "¡Variable de etorno 'TERM' no es definida!"
 
@@ -367,23 +367,31 @@ msgstr "Otro:"
 msgid "Select a browser"
 msgstr "Selecta un explorador"
 
-#: XGP/XApplication.cpp:137
+#: XGP/XApplication.cpp:142
 msgid "_Contents"
 msgstr "_Contenido ..."
 
-#: XGP/XApplication.cpp:138
+#: XGP/XApplication.cpp:143
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:141
+#: XGP/XApplication.cpp:146
 msgid "Set help-_browser ..."
 msgstr "Selecta un e_xplorador ..."
 
-#: XGP/XApplication.cpp:142
+#: XGP/XApplication.cpp:147
 msgid "Enables selecting which browser to use"
 msgstr "Permite elegir el explorador para mostrar la ayuda"
 
-#: XGP/XApplication.cpp:151
+#: XGP/XApplication.cpp:159
+msgid "Set _trace-levels ..."
+msgstr "Define nivel de los traces"
+
+#: XGP/XApplication.cpp:160
+msgid "Enables to change the trace-levels"
+msgstr "Permite cambiar el nivel de los traces"
+
+#: XGP/XApplication.cpp:167
 msgid "_About ..."
 msgstr "_Acerca de ..."
 
@@ -462,26 +470,26 @@ msgstr ""
 "\n"
 "Causa: %1"
 
-#: XGP/SearchDlg.cpp:47
+#: XGP/SearchDlg.cpp:48
 msgid "Search"
 msgstr "Buscear"
 
-#: XGP/SearchDlg.cpp:49
+#: XGP/SearchDlg.cpp:50
 msgid "_Find:"
 msgstr "_Busca:"
 
-#: XGP/LoginDlg.cpp:46
+#: XGP/LoginDlg.cpp:47
 msgid "Enter login information"
 msgstr "Información del usario"
 
-#: XGP/LoginDlg.cpp:52
+#: XGP/LoginDlg.cpp:53
 msgid "_Userid:"
 msgstr "_Nombre de usario:"
 
-#: XGP/LoginDlg.cpp:56
+#: XGP/LoginDlg.cpp:57
 msgid "_Password:"
 msgstr "_Contraseña:"
 
-#: XGP/LoginDlg.cpp:68
+#: XGP/LoginDlg.cpp:69
 msgid "_Login"
 msgstr "C_onectar"
