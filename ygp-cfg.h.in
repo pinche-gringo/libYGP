@@ -230,6 +230,9 @@
 /* Define to 1 if you have the <malloc.h> header file. */
 #undef HAVE_MALLOC_H
 
+/* Define to 1 if you have the `mbtowc' function. */
+#undef HAVE_MBTOWC
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -373,6 +376,9 @@
 
 /* Define if you have the 'wchar_t' type. */
 #undef HAVE_WCHAR_T
+
+/* Define to 1 if you have the `wcscoll' function. */
+#undef HAVE_WCSCOLL
 
 /* Define to 1 if you have the `wcslen' function. */
 #undef HAVE_WCSLEN
