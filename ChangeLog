@@ -1,3 +1,134 @@
+2006-06-07  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.00 documented
+
+	* XGP/XFileList.cpp: Re-translating 'Rename/move' message
+
+	* po/de.po, po/en.po, po/es.po: Actualized for 0.8.00
+
+	* ygp-cfg.h.in: Added defines for HAVE_MBTOWC and HAVE_WSCOLL
+
+	* configure.in: Version to 0.8.00; Testing for more functions
+
+2006-06-06  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Exception.h: Added InvalidValue
+
+2006-06-05  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/AssParse.cpp, YGP/Relation.cpp: Actualized copyright
+
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  Throwing CreateError instead of string
+
+	* XGP/ConnectDlg.cpp, XGP/ConnectDlg.h:
+	  Throwing YGP::CommError instead of std::domain_error
+
+	* YGP/FileRExp.cpp, YGP/FileRExp.h:
+	  checkIntegrity() throws std::invalid_argument
+
+2006-06-04  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
+	  Throwing CreateError instead of std::string
+
+	* XGP/ConnectDlg.cpp, XGP/XApplication.cpp, XGP/XFileList.cpp:
+	  Using new exceptions
+
+	* XGP/GtkMozViewer.c: Disabled checks and traces
+
+	* XGP/Samples/X-Appl.cpp: Adapted to new exceptions
+
+2006-06-03  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/Parse.cpp, YGP/Tests/Process.cpp, YGP/Tests/Thread.cpp:
+	  Adapted to new exception-handling style
+
+	* YGP/AssParse.cpp, YGP/AssParse.h, YGP/AttrParse.cpp, YGP/AttrParse.h, YGP/CRegExp.cpp, YGP/CRegExp.h, YGP/ConnMgr.cpp, YGP/ConnMgr.h, YGP/File.cpp, YGP/File.h, YGP/INIFile.cpp, YGP/INIFile.h, YGP/Parse.cpp, YGP/Parse.h, YGP/Process.cpp, YGP/Process.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h, YGP/RemoteFile.cpp, YGP/RemoteFile.h, YGP/Socket.cpp, YGP/Socket.h, YGP/Thread.cpp, YGP/Thread.h:
+	  Throw only exceptions derived from std::exception
+
+	* YGP/Check.cpp: Optimization
+
+	* YGP/Exception.h: Added further exceptions
+
+2006-06-02  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Exception.h: Intitial revision
+
+	* YGP/Makefile.am: Added Module and Exception
+
+	* YGP/FileRExp.cpp: Replaced defines (of special chaas) with const char
+
+	* YGP/Module.cpp, YGP/Module.h: New file.
+
+	* YGP/Tests/Makefile.am: Added Module
+
+	* YGP/Tests/Process.cpp: Removed unused variable count
+
+	* YGP/Tests/Module.cpp: New file.
+
+2006-06-01  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/RemoteFile.cpp, YGP/RemoteFile.h: Fixed comments/documentation
+
+	* YGP/Entity.cpp: Minor optimization
+
+	* YGP/Trace.h: Optimized trace-statement
+
+	* YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ATStamp.cpp, YGP/ATime.cpp, YGP/AYear.cpp, YGP/File.cpp, YGP/Parse.cpp, YGP/Parse.h, YGP/Tokenize.h:
+	  Optimized operator=
+
+2006-05-17  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/CRegExp.cpp: Replaced defines with const chars
+
+2006-05-03  Markus Schwab  <g17m0@lycos.com>
+
+	* NEWS: First features of V0.8.00 added
+
+	* XGP/Samples/Dialog.cpp, XGP/Samples/X-Appl.cpp: Using TraceDlg
+
+	* XGP/Samples/Makefile.am: Fixed INCLUDES
+
+	* XGP/BrowserDlg.cpp, XGP/LoginDlg.cpp, XGP/MessageDlg.cpp, XGP/SearchDlg.cpp, XGP/XDate.cpp, XGP/XDialog.cpp, XGP/XFileDlg.cpp, XGP/XFileList.cpp, XGP/XPrintDlg.cpp:
+	  Using CONVERT_TO_UTF8
+
+	* XGP/Makefile.am: Fixed INCLUDES; Added TraceDlg
+
+	* XGP/XApplication.cpp, XGP/XApplication.h: Managing the trace-dialog
+
+	* XGP/TraceDlg.cpp, XGP/TraceDlg.h: New file.
+
+	* YGP/Relation.cpp, YGP/Relation.h:
+	  Only storing pointer to name of relation
+
+	* YGP/Makefile.am: Added DynTrace
+
+	* YGP/DynTrace.cpp, YGP/DynTrace.h: New file.
+
+	* YGP/Entity.cpp: Including iostream
+
+	* YGP/Entity.h: Only forward-declaring iostream-classes
+
+2006-05-02  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Tests/Relation.cpp: Added tests of relate() with vector
+
+	* YGP/Relation.h:
+	  Added relate() with vectors; Removed un-const get{Objects,Parents}
+
+	* XGP/XAttrLabel.h, YGP/Attribute.h: Replaced sprintf's with snprintf
+
+2006-04-30  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h, XGP/XFileList.cpp:
+	  Adapted to new XFileDialog-interface
+
+	* XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
+	  Using signal to report user-input
+
+	* XGP/LoginDlg.h: Changed formatting
+
 2006-04-25  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.7.60 documented

@@ -1,11 +1,15 @@
 Overview of Changes in version 0.8.00:
 
+  - YGP::Module to load shared libraries added
+  - YGP::Exceptions added
   - YGP::DynTrace, a class for tracing changable at runtime added
   - XGP::TraceDlg, a dialog to change traces dynamically added
   - XGP::FileDlg, XGP::PrintDlg use signals to inform about input
   - YGP::Relation[1N]_[NMX] can relate a bunch of objects at a time
   - YGP::Relation's get{Objects,Parents} only returns const vectors
+  - All thrown exceptions are derived from std::exception
   - Removed remaining sprintf's
+  - Optimizations
 
 
 Overview of Changes in version 0.7.60:
@@ -112,7 +116,7 @@ Overview of Changes in version 0.7.10:
 
   - Added SortDirSearch template to sort the results of the DirSrch-classes
   - Dont't convert YGP::MessageDialog's messages to UTF-8
-  - Fixed trap, when GTKHTML-viewer can't convert filenames to UTF-8
+  - Fixed trap when GTKHTML-viewer can't convert filenames to UTF-8
   - Fixed File::compare (const std::string&)
   - Using gtkhtml-3.1 (or gtkhtml-3.6)  instead of libgtkhtml-2
   - Removed dependency to GTK+ from libYGP
