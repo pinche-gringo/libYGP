@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.91 2006/06/08 00:16:32 markus Rel $
+dnl $Id: configure.in,v 1.92 2006/07/06 18:24:08 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_REVISION($Revision: 1.91 $)
-AC_INIT([libYGP],[0.8.00],[g17m0@lycos.com],[libYGP])
+AC_REVISION($Revision: 1.92 $)
+AC_INIT([libYGP],[0.8.01],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=$PACKAGE_VERSION
-dnl LIBRELEASE=0.7.50
+dnl LIBRELEASE=$PACKAGE_VERSION
+LIBRELEASE=0.8.00
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
@@ -49,6 +49,7 @@ fi
 AC_CHECK_PROG([HAVE_EPIPHANY], [epiphany], [yes], [no])
 AC_CHECK_PROG([HAVE_FIREFOX], [firefox], [yes], [no])
 AC_CHECK_PROG([HAVE_GALEON], [galeon], [yes], [no])
+AC_CHECK_PROG([HAVE_SEAMONKEY], [seamonkey], [yes], [no])
 AC_CHECK_PROG([HAVE_MOZILLA], [mozilla], [yes], [no])
 AC_CHECK_PROG([HAVE_NETSCAPE], [netscape], [yes], [no])
 AC_CHECK_PROG([HAVE_KONQUEROR], [konqueror], [yes], [no])
@@ -70,6 +71,11 @@ if test "$HAVE_GALEON" = "yes"; then
    HAVE_GALEON=1
 else
    HAVE_GALEON=0
+fi
+if test "$HAVE_SEAMONKEY" = "yes"; then
+   HAVE_SEAMONKEY=1
+else
+   HAVE_SEAMONKEY=0
 fi
 if test "$HAVE_MOZILLA" = "yes"; then
    HAVE_MOZILLA=1
@@ -96,9 +102,11 @@ if test "$HAVE_IEXPLORER" = "yes"; then
 else
    HAVE_IEXPLORER=0
 fi
+
 AC_DEFINE_UNQUOTED([HAVE_EPIPHANY], $HAVE_EPIPHANY, [Set to 1 if Epiphany exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_FIREFOX], $HAVE_FIREFOX, [Set to 1 if Firefox exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_GALEON], $HAVE_GALEON, [Set to 1 if Galeon exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_SEAMONKEY], $HAVE_SEAMONKEY, [Set to 1 if Seamonkey exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_MOZILLA], $HAVE_MOZILLA, [Set to 1 if Mozilla exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_NETSCAPE], $HAVE_NETSCAPE, [Set to 1 if Netscape exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_KONQUEROR], $HAVE_KONQUEROR, [Set to 1 if Konqueror exists, 0 if not])
@@ -147,9 +155,14 @@ PKG_CHECK_MODULES(GTKMOZEMBED, firefox-gtkmozembed,
                   [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
                   [GTKMOZEMBED="no"])
 if test "$GTKMOZEMBED" = "no"; then
-   PKG_CHECK_MODULES(GTKMOZEMBED, mozilla-gtkmozembed,
+   PKG_CHECK_MODULES(GTKMOZEMBED, seamonkey-gtkmozembed,
                      [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
-                     [AC_MSG_NOTICE([Disable showing help using GtkMozEmbed])])
+                     [GTKMOZEMBED="no"])
+   if test "$GTKMOZEMBED" = "no"; then
+      PKG_CHECK_MODULES(GTKMOZEMBED, mozilla-gtkmozembed,
+                        [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
+                        [AC_MSG_NOTICE([Disable showing help using GtkMozEmbed])])
+   fi
 fi
 
 GTKMM_CFLAGS="$GTKMM_CFLAGS $GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS"
