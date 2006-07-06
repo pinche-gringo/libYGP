@@ -1,11 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.23 2006/05/04 01:26:28 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.24 2006/07/06 18:15:04 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -56,6 +56,9 @@ const char* BrowserDlg::browserNames[] = {
 #if HAVE_GALEON > 0
     N_("galeon"),
 #endif
+#if HAVE_SEAMONKEY > 0
+    N_("seamonkey"),
+#endif
 #if HAVE_MOZILLA > 0
     N_("mozilla"),
 #endif
@@ -83,6 +86,8 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
      , pboxOther (new Gtk::HBox ()), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (Glib::ustring&) - " << cmd);
 
+   unsigned int selection (-1U);
+
    if (cmd.empty ())
       cmd = browserNames[0];
 
@@ -97,7 +102,7 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 	 filename = PKGDIR "Browser_";
 	 filename += browserNames[i];
 	 filename += ".png";
-	 TRACE1 (filename);
+	 TRACE1 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Loading: " << filename);
 	 Glib::RefPtr<Gdk::Pixbuf> img (Gdk::Pixbuf::create_from_file (filename));
 
 	 Gtk::HBox* boxRB (manage (new Gtk::HBox));
@@ -123,8 +128,8 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 	 : get_vbox ()->pack_start (*rb, false, false);
       if (cmd == browserNames[i]) {
          rb->set_active (true);
+	 selection = i;
          TRACE4 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Using browser " << cmd);
-	 control (i);
       }
    }
 
@@ -133,6 +138,9 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 
    show_all_children ();
    show ();
+
+   if (selection != -1U)
+      control (selection);
 }
 
 //-----------------------------------------------------------------------------
@@ -155,7 +163,7 @@ void BrowserDlg::okEvent () {
 void BrowserDlg::control (unsigned int cmd) {
    TRACE9 ("BrowserDlg::control (unsigned int) - " << cmd);
    Check1 (cmd < aBrowsers.size ());
-   
+
    if (aBrowsers[cmd]->get_active ()) {
       path.set_sensitive (cmd == (aBrowsers.size () - 1));
       if (path.is_sensitive ())
