@@ -1,7 +1,7 @@
 #ifndef DYNTRACE_H
 #define DYNTRACE_H
 
-//$Id: DynTrace.h,v 1.1 2006/05/04 01:17:45 markus Rel $
+//$Id: DynTrace.h,v 1.2 2006/07/17 00:55:33 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -106,10 +106,10 @@ class DynTraceManager {
    */
    struct lessDereferenced : public std::binary_function<const char*, const char*, bool> {
    /// Access to the functor
-   /// \param __x: First object to compare
-   /// \param __y: Second object to compare
-   /// \returns bool: True, if the address of the  object __x points to is
-   ///     smaller than the address the second objects points to.
+   /// \param x: First object to compare
+   /// \param y: Second object to compare
+   /// \returns bool: True, if the string the  object x points to is
+   ///     smaller than the string the second objects points to.
    bool operator() (const char* x, const char* y) const {
       Check1 (x); Check1 (y);
       return strcmp (x, y) < 0; }
