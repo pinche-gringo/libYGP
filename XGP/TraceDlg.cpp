@@ -1,11 +1,11 @@
-//$Id: TraceDlg.cpp,v 1.1 2006/05/04 01:24:13 markus Rel $
+//$Id: TraceDlg.cpp,v 1.2 2006/08/01 02:31:33 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 03.05.2006
 //COPYRIGHT   : Copyright (C) 2006
@@ -157,7 +157,6 @@ void TraceDlg::levelChanged (const Glib::ustring& path, const Glib::ustring& val
 	 throw std::invalid_argument (_("Level must be from -1 to 9!"));
 
       TraceObjColumns cols;
-      YGP::DynTrace* obj (row[cols.obj]); Check3 (obj);
       row[cols.level] = nr;
    }
    catch (std::exception& e) {

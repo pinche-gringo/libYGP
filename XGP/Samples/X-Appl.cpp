@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.36 2006/06/04 04:10:28 markus Rel $
+//$Id: X-Appl.cpp,v 1.37 2006/08/01 02:31:33 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -435,8 +435,6 @@ void XAppl::saveToFile (const std::string& file) {
 void XAppl::writeToStream (FILE* file) {
    TRACE9 ("XAppl::writeToStream (FILE*)");
    Check (file);
-
-   int lenTime (YGP::ATimestamp::now ().toString ().length () + 1);
 
    Gtk::TreeNodeChildren rows (files->children ());
    Gtk::TreeNodeChildren::const_iterator i (rows.begin ());
