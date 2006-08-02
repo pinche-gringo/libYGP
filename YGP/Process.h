@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.15 2006/06/03 21:32:37 markus Rel $
+//$Id: Process.h,v 1.16 2006/08/02 04:33:16 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,11 @@
 #  include <windows.h>
 
 typedef int pid_t;
+#endif
+
+
+#if !defined (HAVE_GETPID) && defined (HAVE__GETPID)
+#  define getpid _getpid
 #endif
 
 
