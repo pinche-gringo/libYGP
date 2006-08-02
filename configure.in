@@ -1,8 +1,8 @@
-dnl $Id: configure.in,v 1.92 2006/07/06 18:24:08 markus Exp $
+dnl $Id: configure.in,v 1.93 2006/08/02 04:32:41 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_REVISION($Revision: 1.92 $)
+AC_REVISION($Revision: 1.93 $)
 AC_INIT([libYGP],[0.8.01],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
@@ -180,7 +180,8 @@ AC_FUNC_FNMATCH
 AC_FUNC_CLOSEDIR_VOID
 
 AC_CHECK_FUNCS(timegm strfmon beginthread _beginthread pipe _pipe fork \
-spawnvp _sleep getlogin strftime strptime backtrace wcscoll mbtowc)
+spawnvp _sleep getlogin strftime strptime backtrace getpid _getpid \
+wcscoll mbtowc)
 
 AC_MSG_CHECKING(if signal.h defines SIGBUS)
 AC_CACHE_VAL(ac_cv_HAVE_SIGBUS, ac_cv_HAVE_SIGBUS=$ac_HAVE_SIGBUS)
