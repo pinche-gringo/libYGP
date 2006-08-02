@@ -157,6 +157,9 @@
 /* Define to 1 if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
+/* Define to 1 if you have the `getpid' function. */
+#undef HAVE_GETPID
+
 /* Define if the GNU gettext() function is already present or preinstalled. */
 #undef HAVE_GETTEXT
 
@@ -271,6 +274,9 @@
 
 /* Define to 1 if you have the <regex.h> header file. */
 #undef HAVE_REGEX_H
+
+/* Set to 1 if Seamonkey exists, 0 if not */
+#undef HAVE_SEAMONKEY
 
 /* Define to 1 if you have the `setenv' function. */
 #undef HAVE_SETENV
@@ -394,6 +400,9 @@
 
 /* Define to 1 if you have the `_beginthread' function. */
 #undef HAVE__BEGINTHREAD
+
+/* Define to 1 if you have the `_getpid' function. */
+#undef HAVE__GETPID
 
 /* Define to 1 if you have the `_pipe' function. */
 #undef HAVE__PIPE
