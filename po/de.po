@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.8 ($Revision: 1.44 $)\n"
+"Project-Id-Version: libYGP 0.8 ($Revision: 1.45 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2006-06-07 20:23-0400\n"
+"POT-Creation-Date: 2006-07-06 14:15-0400\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -341,30 +341,34 @@ msgid "galeon"
 msgstr "Galeon"
 
 #: XGP/BrowserDlg.cpp:60
+msgid "seamonkey"
+msgstr "Seamonkey"
+
+#: XGP/BrowserDlg.cpp:63
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: XGP/BrowserDlg.cpp:63
+#: XGP/BrowserDlg.cpp:66
 msgid "netscape"
 msgstr "Netscape"
 
-#: XGP/BrowserDlg.cpp:66
+#: XGP/BrowserDlg.cpp:69
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: XGP/BrowserDlg.cpp:69
+#: XGP/BrowserDlg.cpp:72
 msgid "opera"
 msgstr "Opera"
 
-#: XGP/BrowserDlg.cpp:72
+#: XGP/BrowserDlg.cpp:75
 msgid "iexplore"
 msgstr "Internet Explorer"
 
-#: XGP/BrowserDlg.cpp:74
+#: XGP/BrowserDlg.cpp:77
 msgid "Other:"
 msgstr "Anderer:"
 
-#: XGP/BrowserDlg.cpp:82
+#: XGP/BrowserDlg.cpp:85
 msgid "Select a browser"
 msgstr "Auswählen eines Browsers"
 
