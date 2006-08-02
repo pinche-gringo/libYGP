@@ -1,3 +1,10 @@
+Overview of Changes in version 0.8.01:
+
+  - Supporting Seamonkey as help-browser
+  - Explicitly linking libYGP to libXGP (needed by MinGW)
+  - Some changes for MinGW
+
+
 Overview of Changes in version 0.8.00:
 
   - YGP::Module to load shared libraries added
@@ -9,7 +16,7 @@ Overview of Changes in version 0.8.00:
   - YGP::Relation's get{Objects,Parents} only returns const vectors
   - All thrown exceptions are derived from std::exception
   - Removed remaining sprintf's
-  - Optimizations
+  - Optimisations
 
 
 Overview of Changes in version 0.7.60:

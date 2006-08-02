@@ -1,3 +1,38 @@
+2006-08-02  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.01 documented
+
+	* XGP/Makefile.am: Removed include of ../YGP
+
+	* YGP/Process.h:
+	  Defining _getpid() to getpid(), if first exists and second not
+
+	* configure.in: Checking for (_)getpid
+
+	* ygp-cfg.h.in: Added defines for (_)getpid and seamonkey
+
+	* po/en.po, po/es.po, po/de.po: Actualised
+
+2006-07-31  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/X-Appl.cpp, XGP/TraceDlg.cpp: Removed unused variable
+
+	* XGP/Makefile.am: Linking with YGP
+
+2006-07-16  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/DynTrace.h: Changed comment
+
+2006-07-06  Markus Schwab  <g17m0@lycos.com>
+
+	* configure.in: Version to 0.8.01; Supporting Seamonkey
+
+	* XGP/BrowserDlg.cpp: Supporting Seamonkey
+
+	* XGP/Icons/Makefile.in: Added Seamonkey-icon
+
+	* XGP/Icons/Browser_seamonkey.png: New file.
+
 2006-06-07  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.8.00 documented
@@ -1518,45 +1553,45 @@
 
 	* po/POTFILES.in: Added XFileList.h
 
-	* Common/Makefile.am: Wee optimization
+	* YGP/Makefile.am: Wee optimization
 
-	* X-windows/XFileList.h: Translating name of File column
+	* XGP/XFileList.h: Translating name of File column
 
-	* X-windows/GTKViewer.c:
+	* XGP/GTKViewer.c:
 	  Converting filenames from UTF-8; Fixed storing of old path
 
 2003-10-28  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/GTKViewer.c: Converting error msg to UTF-8
+	* XGP/GTKViewer.c: Converting error msg to UTF-8
 
-	* X-windows/XApplication.cpp:
+	* XGP/XApplication.cpp:
 	  Fixed calculation of language extension for the help file
 
-	* X-windows/XAbout.h: Made constructor protected
+	* XGP/XAbout.h: Made constructor protected
 
-	* X-windows/Makefile.am: Making XGP.pc in dist_pkgconfig_DATA target
+	* XGP/Makefile.am: Making XGP.pc in dist_pkgconfig_DATA target
 
-	* X-windows/HTMLViewer.cpp:
+	* XGP/HTMLViewer.cpp:
 	  Throwing empty exception if GTKViewer already showed an error
 
 2003-10-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/Makefile.am:
+	* YGP/Tests/Makefile.am:
 	  Using libYMP and not object files for executables
 
-	* Common/Tests/AssParse.cpp: Fixed define of K4NODE under Windows
+	* YGP/Tests/AssParse.cpp: Fixed define of K4NODE under Windows
 
-	* Common/Tests/Thread.cpp:
+	* YGP/Tests/Thread.cpp:
 	  Removed include of Internal.h; removed trace statement
 
 2003-10-19  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Thread.cpp, Common/Thread.h:
+	* YGP/Thread.cpp, YGP/Thread.h:
 	  Applied patch to cast from/to pthread_t from david@pinko.net
 
-	* Common/Tests/Thread.cpp: New file.
+	* YGP/Tests/Thread.cpp: New file.
 
-	* Common/Tests/Makefile.am: Thread added
+	* YGP/Tests/Makefile.am: Thread added
 
 2003-10-19  Markus Schwab  <g17m0@lycos.com>
 
@@ -1568,12 +1603,12 @@
 
 	* gzo-cfg.h.in: Define if strftime returns length
 
-	* X-windows/XApplication.h, X-windows/XApplication.cpp:
+	* XGP/XApplication.h, XGP/XApplication.cpp:
 	  $LANGUAGE-entries must be separated by colon (and not comma)
 
-	* X-windows/Version.cpp: Fixed missing description of Labels
+	* XGP/Version.cpp: Fixed missing description of Labels
 
-	* X-windows/HTMLViewer.h: Made some more methods public/protected
+	* XGP/HTMLViewer.h: Made some more methods public/protected
 
 	* configure.in: Version to 0.6.30; Added C to used languages
 
@@ -1583,35 +1618,35 @@
 
 	* po/POTFILES.in: Added GTKViewer.c
 
-	* X-windows/HTMLViewer.cpp:
+	* XGP/HTMLViewer.cpp:
 	  Freeing GTKHTML data; Don't handle file-not-found errors (is done by GTKHTML)
 
-	* X-windows/GTKViewer.c:
+	* XGP/GTKViewer.c:
 	  Fixed and optimized calculation of relative paths
 
-	* X-windows/XDialog.cpp: Fixed problem with deleting (memory leak)
+	* XGP/XDialog.cpp: Fixed problem with deleting (memory leak)
 
-	* X-windows/BrowserDlg.cpp, X-windows/BrowserDlg.h, X-windows/XAbout.cpp, X-windows/XDate.h, X-windows/XFileDlg.cpp, X-windows/XFileDlg.h, X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	* XGP/BrowserDlg.cpp, XGP/BrowserDlg.h, XGP/XAbout.cpp, XGP/XDate.h, XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
 	  Adapted to new XDialog interface
 
-	* X-windows/XDialog.h: Fixed problem with deleting (memory leak)
+	* XGP/XDialog.h: Fixed problem with deleting (memory leak)
 
-	* X-windows/HTMLViewer.cpp, X-windows/HTMLViewer.h:
+	* XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
 	  Setting default size; Showing scrollbar, if needed
 
-	* X-windows/Samples/Dialog.h: Adapted to new XDialog interface
+	* XGP/Samples/Dialog.h: Adapted to new XDialog interface
 
-	* X-windows/GTKViewer.c, X-windows/GTKViewer.h:
+	* XGP/GTKViewer.c, XGP/GTKViewer.h:
 	  Storing path of last file to be able to follow relative links
 
 2003-10-17  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/GTKViewer.c, X-windows/GTKViewer.h, X-windows/HTMLViewer.cpp, X-windows/HTMLViewer.h:
+	* XGP/GTKViewer.c, XGP/GTKViewer.h, XGP/HTMLViewer.cpp, XGP/HTMLViewer.h:
 	  New file.
 
-	* X-windows/XApplication.cpp: Moved GTKHTML-stuff in own files
+	* XGP/XApplication.cpp: Moved GTKHTML-stuff in own files
 
-	* X-windows/Makefile.am: HTMViewer and GTKViewer added
+	* XGP/Makefile.am: HTMViewer and GTKViewer added
 
 2003-10-15  Markus Schwab  <g17m0@lycos.com>
 
@@ -1621,10 +1656,10 @@
 
 2003-10-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/FileRExp.cpp:
+	* YGP/Tests/FileRExp.cpp:
 	  Changing named class error with fnmatch to a warning
 
-	* Common/Tests/Makefile.am:
+	* YGP/Tests/Makefile.am:
 	  Including project root directory to be able to read gzo-cfg.h
 
 	* INSTALL: Fixed building from CVS
@@ -1634,18 +1669,18 @@
 	* configure.in:
 	  Version to 0.6.23; Testing if strftime returns the needed length
 
-	* X-windows/Samples/Makefile.am: Linking with used libintl
+	* XGP/Samples/Makefile.am: Linking with used libintl
 
-	* Common/ADate.cpp, Common/ATime.cpp:
+	* YGP/ADate.cpp, YGP/ATime.cpp:
 	  Using strftime-feature of returning needed size only when available
 
-	* Common/ADate.h: Including C++ standard headers
+	* YGP/ADate.h: Including C++ standard headers
 
-	* Common/Tests/Makefile.am: Linking with used libintl
+	* YGP/Tests/Makefile.am: Linking with used libintl
 
 2003-10-03  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RDirSrch.cpp: Fixed doxygen warnings
+	* YGP/RDirSrch.cpp: Fixed doxygen warnings
 
 2003-10-02  Markus Schwab  <g17m0@lycos.com>
 
@@ -1657,10 +1692,10 @@
 
 	* po/de.po, po/en.po, po/es.po: Line numbers actualized
 
-	* X-windows/Folder.cpp, X-windows/Folder.h, X-windows/XApplication.h, X-windows/XDate.h, X-windows/XDialog.h, X-windows/XFileDlg.h, X-windows/XFileList.h, X-windows/XPrintDlg.h:
+	* XGP/Folder.cpp, XGP/Folder.h, XGP/XApplication.h, XGP/XDate.h, XGP/XDialog.h, XGP/XFileDlg.h, XGP/XFileList.h, XGP/XPrintDlg.h:
 	  Fixed warnings with new doxygen
 
-	* Common/ADate.h, Common/ANumeric.cpp, Common/ATime.h, Common/AttrParse.cpp, Common/CRegExp.h, Common/DirSrch.h, Common/File.h, Common/FileRExp.h, Common/IDirSrch.h, Common/INIFile.h, Common/IVIOAppl.cpp, Common/Parse.h, Common/Process_.h, Common/RDirSrch.cpp, Common/RDirSrch.h, Common/RDirSrchSrv.cpp, Common/RemoteFile.cpp, Common/Thread.h, Common/XDirSrch.h:
+	* YGP/ADate.h, YGP/ANumeric.cpp, YGP/ATime.h, YGP/AttrParse.cpp, YGP/CRegExp.h, YGP/DirSrch.h, YGP/File.h, YGP/FileRExp.h, YGP/IDirSrch.h, YGP/INIFile.h, YGP/IVIOAppl.cpp, YGP/Parse.h, YGP/Process_.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/RDirSrchSrv.cpp, YGP/RemoteFile.cpp, YGP/Thread.h, YGP/XDirSrch.h:
 	  Fixed doxygen warnings
 
 2003-09-18  Markus Schwab  <g17m0@lycos.com>
@@ -1686,19 +1721,19 @@
 
 	* po/es.po: Fixes
 
-	* Common/Mutex.h: Comments corrected
+	* YGP/Mutex.h: Comments corrected
 
-	* Common/ConnMgr.h: Only setting mode, if connect succeeds
+	* YGP/ConnMgr.h: Only setting mode, if connect succeeds
 
-	* Common/ConnectDlg.cpp, Common/ConnectDlg.h:
+	* YGP/ConnectDlg.cpp, YGP/ConnectDlg.h:
 	  Implemented okEvent to free communiation thread
 
 2003-08-03  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/ConnectDlg.cpp:
+	* XGP/ConnectDlg.cpp:
 	  Fixed hanging the dialog after connecting to server
 
-	* X-windows/XApplication.cpp:
+	* XGP/XApplication.cpp:
 	  Fixed trap displaying help, if LANGUAGE is not set
 
 	* doc/General/doc/index.html, doc/index.html:
@@ -1706,58 +1741,58 @@
 
 2003-07-27  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ConnMgr.cpp, Common/ConnMgr.h, X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h, X-windows/XFileDlg.cpp:
+	* YGP/ConnMgr.cpp, YGP/ConnMgr.h, XGP/ConnectDlg.cpp, XGP/ConnectDlg.h, XGP/XFileDlg.cpp:
 	  Fixed comments for the documentation
 
-	* X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h:
+	* XGP/ConnectDlg.cpp, XGP/ConnectDlg.h:
 	  Made pClient protected
 
 2003-07-26  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/AttrParse.h: Fixed a type in the documentation
+	* YGP/AttrParse.h: Fixed a type in the documentation
 
 2003-07-25  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h, Common/ConnMgr.cpp, Common/ConnMgr.h:
+	* XGP/ConnectDlg.cpp, XGP/ConnectDlg.h, YGP/ConnMgr.cpp, YGP/ConnMgr.h:
 	  Providing hook for subclasses
 
-	* Common/Makefile.am: ConnMgr added
+	* YGP/Makefile.am: ConnMgr added
 
-	* Common/Thread.cpp, Common/Thread.h: Method allowCancelation added
+	* YGP/Thread.cpp, YGP/Thread.h: Method allowCancelation added
 
 	* INSTALL, README: Describing new handling of the documentation
 
-	* X-windows/BrowserDlg.cpp: Re-formatted create-method
+	* XGP/BrowserDlg.cpp: Re-formatted create-method
 
-	* Common/ConnMgr.cpp, Common/ConnMgr.h, X-windows/ConnectDlg.cpp, X-windows/ConnectDlg.h:
+	* YGP/ConnMgr.cpp, YGP/ConnMgr.h, XGP/ConnectDlg.cpp, XGP/ConnectDlg.h:
 	  New file.
 
-	* X-windows/Makefile.am: Added ConnectDlg
+	* XGP/Makefile.am: Added ConnectDlg
 
-	* X-windows/XAttrEntry.h: Added specialization for Glib::ustring
+	* XGP/XAttrEntry.h: Added specialization for Glib::ustring
 
-	* X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XFileList.cpp:
+	* XGP/XApplication.cpp, XGP/XApplication.h, XGP/XFileList.cpp:
 	Adapted to new dialog interfaces
 
-	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h, X-windows/BrowserDlg.cpp, X-windows/BrowserDlg.h, X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XDate.h, X-windows/XDialog.cpp, X-windows/XDialog.h, X-windows/XFileDlg.cpp, X-windows/XFileDlg.h:
+	* XGP/XPrintDlg.cpp, XGP/XPrintDlg.h, XGP/BrowserDlg.cpp, XGP/BrowserDlg.h, XGP/XAbout.cpp, XGP/XAbout.h, XGP/XDate.h, XGP/XDialog.cpp, XGP/XDialog.h, XGP/XFileDlg.cpp, XGP/XFileDlg.h:
 	Renamed perform to create; Freeing created dialogs
 
-	* X-windows/Samples/Dialog.h:
+	* XGP/Samples/Dialog.h:
 	Renamed perform to create (as it does only that); freeing dialog afterwards
 
-	* X-windows/Samples/X-Appl.cpp, X-windows/Samples/X-Appl.h:
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h:
 	Adapted to new interface
 
 2003-07-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Socket.cpp: Error message improved
+	* YGP/Socket.cpp: Error message improved
 
-	* X-windows/XDialog.cpp:
+	* XGP/XDialog.cpp:
 	  Responses destroy_ the dialog instead of deleting it
 
-	* X-windows/Samples/X-Appl.cpp, X-windows/Samples/X-Appl.h: Actualized
+	* XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h: Actualized
 
-	* X-windows/XFileList.h: UTF-8 converting filename
+	* XGP/XFileList.h: UTF-8 converting filename
 
 2003-07-22  Markus Schwab  <g17m0@lycos.com>
 
@@ -1773,12 +1808,12 @@
 
 	* po/de.po, po/es.po: Messages actualized
 
-	* X-windows/XFileDlg.h:
+	* XGP/XFileDlg.h:
 	  Fixed comments (name of param in docu and function differed)
 
-	* Common/RDirSrchSrv.h: Fixed comments
+	* YGP/RDirSrchSrv.h: Fixed comments
 
-	* Common/DirSrch.h, Common/IDirSrch.h:
+	* YGP/DirSrch.h, YGP/IDirSrch.h:
 	  Fixed (doxygens) \return statements
 
 	* configure.in:
@@ -1793,44 +1828,44 @@
 
 2003-07-20  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Icons/Makefile.in: Installing data in /XGP
+	* XGP/Icons/Makefile.in: Installing data in /XGP
 
-	* X-windows/XPrintDlg.h: Removed backward compatibility typedef
+	* XGP/XPrintDlg.h: Removed backward compatibility typedef
 
-	* X-windows/XFileDlg.h, X-windows/XFileList.cpp, X-windows/XFileList.h, X-windows/XFileDlg.cpp:
+	* XGP/XFileDlg.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XFileDlg.cpp:
 	  Doxygenified
 
-	* X-windows/Folder.h: Fixed typo in comments
+	* XGP/Folder.h: Fixed typo in comments
 
-	* X-windows/Folder.cpp:
+	* XGP/Folder.cpp:
 	  Objects are added with 5 pixels distance to the others
 
-	* X-windows/XAttrEntry.h, X-windows/XFileEntry.cpp, X-windows/XFileEntry.h:
+	* XGP/XAttrEntry.h, XGP/XFileEntry.cpp, XGP/XFileEntry.h:
 	  Doxygenified comments
 
-	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	* XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
 	  Doxygenified comments; Separated in Dialog & template with callback
 
-	* X-windows/Version.cpp: Moved start of intro in own line)
+	* XGP/Version.cpp: Moved start of intro in own line)
 
-	* X-windows/BrowserDlg.cpp, X-windows/BrowserDlg.h:
+	* XGP/BrowserDlg.cpp, XGP/BrowserDlg.h:
 	  Doxygenified comments; Added entry for GTKHTML (if installed)
 
-	* X-windows/XDate.cpp, X-windows/XDate.h, X-windows/XDialog.cpp, X-windows/XDialog.h, X-windows/XAttrLabel.h:
+	* XGP/XDate.cpp, XGP/XDate.h, XGP/XDialog.cpp, XGP/XDialog.h, XGP/XAttrLabel.h:
 	  Doxygenified comments
 
 2003-07-19  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XApplication.cpp:
+	* XGP/XApplication.cpp:
 	  Doxygenified comments; Started to support gtkhtml (not finished yet)
 
-	* X-windows/XApplication.h: Doxygenified comments
+	* XGP/XApplication.h: Doxygenified comments
 
-	* X-windows/Version.cpp: Documentation for the XGP library added
+	* XGP/Version.cpp: Documentation for the XGP library added
 
 	* doc/Makefile.am: Added dependencies for doc; added documenting of XGP
 
-	* X-windows/XAbout.cpp, X-windows/XAbout.h: Doxygenified
+	* XGP/XAbout.cpp, XGP/XAbout.h: Doxygenified
 
 	* doc/footer.txt: New file.
 
@@ -1838,163 +1873,163 @@
 
 2003-07-16  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/AssParse.cpp: Actualized copyright
+	* YGP/AssParse.cpp: Actualized copyright
 
-	* Common/AssParse.cpp:
+	* YGP/AssParse.cpp:
 	  Fixed bug handling escaped quotes inside a quoted value
 
-	* Common/Tests/AssParse.cpp: Added test if escaped quotes are removed
+	* YGP/Tests/AssParse.cpp: Added test if escaped quotes are removed
 
-	* Common/File.h: Moved define for MAX_PATH (UNIX)
+	* YGP/File.h: Moved define for MAX_PATH (UNIX)
 
-	* Common/Version.cpp: Copyright actualized
+	* YGP/Version.cpp: Copyright actualized
 
-	* Common/RegExp.h: Doxygenified
+	* YGP/RegExp.h: Doxygenified
 
-	* Common/AssParse.h: Typo corrected
+	* YGP/AssParse.h: Typo corrected
 
-	* Common/IVIOAppl.h: Actualized copyright
+	* YGP/IVIOAppl.h: Actualized copyright
 
-	* Common/AssParse.cpp: Fixed bug with strings holding escaped quotes
+	* YGP/AssParse.cpp: Fixed bug with strings holding escaped quotes
 
 2003-07-10  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp: Fixed bug in docu
+	* YGP/XStrBuf.cpp: Fixed bug in docu
 
-	* Common/Version.cpp: Comments for main page of help added
+	* YGP/Version.cpp: Comments for main page of help added
 
-	* Common/AssParse.cpp, Common/AssParse.h, Common/PathSrch.cpp, Common/PathSrch.h, Common/Thread.h, Common/Tokenize.cpp, Common/Tokenize.h Common/Log.h, Common/Thread.cpp, Common/Thread.h, Common/XStream.h, Common/XStrBuf.h, Common/XStrBuf.cpp:
+	* YGP/AssParse.cpp, YGP/AssParse.h, YGP/PathSrch.cpp, YGP/PathSrch.h, YGP/Thread.h, YGP/Tokenize.cpp, YGP/Tokenize.h YGP/Log.h, YGP/Thread.cpp, YGP/Thread.h, YGP/XStream.h, YGP/XStrBuf.h, YGP/XStrBuf.cpp:
 	  Doxygenified
 
 2003-07-09  Markus Schwab  <g17m0@lycos.com>
 
 	* gzo-cfg.h.in: Removed PACKAGE and VERSION defines
 
-	* X-windows/XGP.pc.in: Fixed typo
+	* XGP/XGP.pc.in: Fixed typo
 
-	* Common/Attribute.h: Moved Glib::ustring parts to XAttribute.h
+	* YGP/Attribute.h: Moved Glib::ustring parts to XAttribute.h
 
-	* Common/YGP.pc.in: Fixed typo in lib-name
+	* YGP/YGP.pc.in: Fixed typo in lib-name
 
-	* CORBA/Makefile.in, Common/Makefile.am, Common/YGP.pc.in, README, X-windows/Makefile.am, X-windows/Samples/Makefile.am, X-windows/XGP.pc.in, configure.in:
+	* CORBA/Makefile.in, YGP/Makefile.am, YGP/YGP.pc.in, README, XGP/Makefile.am, XGP/Samples/Makefile.am, XGP/XGP.pc.in, configure.in:
 	  Renamed to lib[CXY]GP
 
 	* ChangeLog: Changes of V0.6.12 commented
 
-	* Common/ANumeric.cpp: Fixed bug formatting negative numbers
+	* YGP/ANumeric.cpp: Fixed bug formatting negative numbers
 
-	* X-windows/Samples/Makefile.am: Linking against lib[XY]GP
+	* XGP/Samples/Makefile.am: Linking against lib[XY]GP
 
-	* CORBA/Makefile.in, Common/Makefile.am, Common/YGP.pc.in, X-windows/Makefile.am, X-windows/XGP.pc.in, configure.in, gzo-cfg.h.in:
+	* CORBA/Makefile.in, YGP/Makefile.am, YGP/YGP.pc.in, XGP/Makefile.am, XGP/XGP.pc.in, configure.in, gzo-cfg.h.in:
 	  Renamed to libYGP, libXGP and libXCPG
 
 	* NEWS: Changed of V0.6.12 commented
 
 	* po/de.po, po/en.po, po/es.po: Line numbers actualized
 
-	* Common/Tests/ADate.cpp, Common/Tests/ANumeric.cpp, Common/Tests/ATStamp.cpp, Common/Tests/ATime.cpp, Common/Tests/AssParse.cpp, Common/Tests/AttrParse.cpp, Common/Tests/Attribute.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/INIFile.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	* YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp:
 	  Copyright actualized
 
-	* Common/Tests/XStrBuf.cpp: Workaround for MVC-bug
+	* YGP/Tests/XStrBuf.cpp: Workaround for MVC-bug
 
 2003-07-08  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAttribute.h: New file.
+	* XGP/XAttribute.h: New file.
 
 2003-07-05  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Attribute.h: Attribute handles Glib::ustring
+	* YGP/Attribute.h: Attribute handles Glib::ustring
 
-	* Common/Makefile.am, Common/Tests/Makefile.am: Adding GTKMM_CFLAGS
+	* YGP/Makefile.am, YGP/Tests/Makefile.am: Adding GTKMM_CFLAGS
 
 	* gzo-cfg.h.in:
 	  Added defines for GTK and GTKMM; removed define for REGEXP_H
 
 	* configure.in: Defining HAVE_GTKMM, if gtkmm is installed
 
-	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	* XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
 	  Constructor casting from GtkDialog removed; Title is UTF-8 converted
 
-	* X-windows/XAttrEntry.h, X-windows/XAttrLabel.h:
+	* XGP/XAttrEntry.h, XGP/XAttrLabel.h:
 	  Using C++ standard headers
 
-	* X-windows/Samples/Dialog.cpp: Setting title directly
+	* XGP/Samples/Dialog.cpp: Setting title directly
 
-	* X-windows/XDate.cpp, X-windows/XDate.h:
+	* XGP/XDate.cpp, XGP/XDate.h:
 	  Passing title directly to XDialog; title is UTF-8 string
 
-	* X-windows/XDialog.cpp, X-windows/XDialog.h:
+	* XGP/XDialog.cpp, XGP/XDialog.h:
 	  Added constructors according to Gtk::Dialog ctrs
 
-	* X-windows/Makefile.am: Folder added
+	* XGP/Makefile.am: Folder added
 
-	* X-windows/Folder.cpp, X-windows/Folder.h: New file.
+	* XGP/Folder.cpp, XGP/Folder.h: New file.
 
 2003-07-03  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XDirSrch.cpp: Commented in doxygen style
+	* YGP/XDirSrch.cpp: Commented in doxygen style
 
-	* Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	* YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp:
 	  Using C++ standard headers (instead C standard headers)
 
-	* Common/Tests/ANumeric.cpp: Output can be tested (if defined)
+	* YGP/Tests/ANumeric.cpp: Output can be tested (if defined)
 
-	* Common/ANumeric.cpp: Fixed printing negative numbers
+	* YGP/ANumeric.cpp: Fixed printing negative numbers
 
-	* Common/XDirSrch.h: Comments improved
+	* YGP/XDirSrch.h: Comments improved
 
-	* Common/XDirSrch.h, Common/SmartPtr.h: 
+	* YGP/XDirSrch.h, YGP/SmartPtr.h: 
 	  Comments changed to doxygen style
 
-	* Common/ADate.cpp, Common/ANumeric.cpp, Common/ATStamp.cpp, Common/ATime.cpp, Common/CRegExp.cpp, Common/File.cpp, Common/FileRExp.cpp, Common/INIFile.cpp, Common/Parse.cpp, Common/RemoteFile.cpp, Common/Socket.cpp:
+	* YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ATStamp.cpp, YGP/ATime.cpp, YGP/CRegExp.cpp, YGP/File.cpp, YGP/FileRExp.cpp, YGP/INIFile.cpp, YGP/Parse.cpp, YGP/RemoteFile.cpp, YGP/Socket.cpp:
 	  Removed formatting in description of exception type (is made by doxygen)
 
-	* Common/RDirSrchSrv.cpp:
+	* YGP/RDirSrchSrv.cpp:
 	  Comments changed to doxygen style; AByteArray replaced with std::string
 
-	* Common/RDirSrchSrv.h, Common/Process.cpp, Common/Process_.h:
+	* YGP/RDirSrchSrv.h, YGP/Process.cpp, YGP/Process_.h:
 	  Comments changed to doxygen style
 
-	* Common/Parse.cpp: Including C++ standard headers (and not C std hdrs)
+	* YGP/Parse.cpp: Including C++ standard headers (and not C std hdrs)
 
-	* Common/CRegExp.h: Wee fixes in the docu
+	* YGP/CRegExp.h: Wee fixes in the docu
 
-	* Common/Parse.cpp, Common/Parse.h: Changed comments to doxygen style
+	* YGP/Parse.cpp, YGP/Parse.h: Changed comments to doxygen style
 
 2003-07-01  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Mutex.h: Changed comments to a doxygen format
+	* YGP/Mutex.h: Changed comments to a doxygen format
 
-	* Common/IVIOAppl.cpp: Changed comments to a doxygen-format
+	* YGP/IVIOAppl.cpp: Changed comments to a doxygen-format
 
-	* Common/IVIOAppl.cpp:
+	* YGP/IVIOAppl.cpp:
 	  Using std-namespace explicitely; Removed warnings from -Wall
 
-	* Common/IVIOAppl.h: Changed comments to a doxygen-format
+	* YGP/IVIOAppl.h: Changed comments to a doxygen-format
 
-	* Common/FileRExp.cpp, Common/FileRExp.h: Doxigenified the comments
+	* YGP/FileRExp.cpp, YGP/FileRExp.h: Doxigenified the comments
 
 2003-06-30  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAbout.cpp, X-windows/XAbout.h: Converting input to UTF-8
+	* XGP/XAbout.cpp, XGP/XAbout.h: Converting input to UTF-8
 
 2003-06-29  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAttrEntry.h: Converting error message to UTF-8
+	* XGP/XAttrEntry.h: Converting error message to UTF-8
 
-	* X-windows/XFileList.cpp:
+	* XGP/XFileList.cpp:
 	  Remove of entry really removes the line (was TODO before)
 
-	* X-windows/XFileEntry.cpp: Replaced asserts with Check
+	* XGP/XFileEntry.cpp: Replaced asserts with Check
 
-	* X-windows/BrowserDlg.cpp: Converting title to UTF-8
+	* XGP/BrowserDlg.cpp: Converting title to UTF-8
 
-	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	* XGP/XApplication.cpp, XGP/XApplication.h:
 	  Converting menu-entries to UTF-8; setIconProgramm added
 
-	* X-windows/XApplication.cpp: Converting menu-entries to UTF-8
+	* XGP/XApplication.cpp: Converting menu-entries to UTF-8
 
-	* X-windows/BrowserDlg.cpp: Converting dialog title to UTF-8
+	* XGP/BrowserDlg.cpp: Converting dialog title to UTF-8
 
 2003-06-24  Markus Schwab  <g17m0@lycos.com>
 
@@ -2004,53 +2039,53 @@
 
 2003-06-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Attribute.h:
+	* YGP/Attribute.h:
 	  Implemented AttributeList::getValue with Attribute<T> to not need specialization
 
-	* Common/Attribute.h: Changed itoa with sprintf
+	* YGP/Attribute.h: Changed itoa with sprintf
 
 2003-06-22  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.cpp: Fixed a bug in formatting negative numbers
+	* YGP/ANumeric.cpp: Fixed a bug in formatting negative numbers
 
 2003-06-19  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RDirSrch.h: Grouped search methods for doxygen
+	* YGP/RDirSrch.h: Grouped search methods for doxygen
 
-	* Common/DirSrch.cpp, Common/IDirSrch.cpp, Common/RDirSrch.cpp:
+	* YGP/DirSrch.cpp, YGP/IDirSrch.cpp, YGP/RDirSrch.cpp:
 	  Fixed comments
 
-	* Common/PathDirSrch.cpp, Common/PathDirSrch.h, Common/DirSrch.cpp, Common/DirSrch.h, Common/IDirSrch.cpp, Common/IDirSrch.h, Common/INIFile.h, Common/INIFile.cpp:
+	* YGP/PathDirSrch.cpp, YGP/PathDirSrch.h, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/IDirSrch.cpp, YGP/IDirSrch.h, YGP/INIFile.h, YGP/INIFile.cpp:
 	  Changed comments to doxygen style
 
-	* Common/Attribute.h: Fixed bugs introdcued while changing comments
+	* YGP/Attribute.h: Fixed bugs introdcued while changing comments
 
-	* Common/Attribute.h:
+	* YGP/Attribute.h:
 	  Implemted AttributeList::getValue; Removed support for AByteArray; Doxygen-style
 
 	* doc/Parse.html: Fixed a bug in referencing ParseQuoted from ParseText
 
-	* Common/Parse.cpp:
+	* YGP/Parse.cpp:
 	  Resetting status of ParseQuoted after object was parsed for next parse
 
 2003-06-11  Markus Schwab  <g17m0@lycos.com>
 
 	* INSTALL: Build-info (from CVS) corrected
 
-	* Common/YMP.pc.in, X-windows/XMP.pc.in: Renamed libs
+	* YGP/YMP.pc.in, XGP/XMP.pc.in: Renamed libs
 
 	* gzo-cfg.h.in: Removed PACKAGE and VERSION macros
 
 	* ChangeLog, NEWS: Changes of V0.6.10 actualized
 
-	* X-windows/Makefile.am: Created lib renamed to XMP
+	* XGP/Makefile.am: Created lib renamed to XMP
 
-	* X-windows/Samples/Makefile.am: Used lib renamed (to libXMP)
+	* XGP/Samples/Makefile.am: Used lib renamed (to libXMP)
 
-	* Common/Makefile.am:
+	* YGP/Makefile.am:
 	  Renamed to YMP; don't use libtools version-info (only release-info)
 
-	* Common/StackTrc.cpp:
+	* YGP/StackTrc.cpp:
 	  Restoring original handlers before calling dumpStack in signal handler
 
 	* CORBA/Makefile.in, CORBA/Tests/Makefile.in:
@@ -2069,14 +2104,14 @@
 	
 	* po/de.po, po/en.po, po/es.po: Actualized
 
-	* X-windows/Samples/X-Appl.cpp:
+	* XGP/Samples/X-Appl.cpp:
 	  Not setting name of found file in list (is done by XListFile)
 
-	* X-windows/XFileList.cpp: Setting name of file
+	* XGP/XFileList.cpp: Setting name of file
 
 	* Windows/VCGeneral.mak: Using gawk (and not awk) to generate .def file
 
-	* Common/Internal.h: Only using gettext if ENABLE_NLS is defined
+	* YGP/Internal.h: Only using gettext if ENABLE_NLS is defined
 
 	* Windows/BCGeneral.mak: A bit improved
 
@@ -2084,11 +2119,11 @@
 
 2003-06-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/XStrBuf.cpp: Workaround for MVC-bug
+	* YGP/Tests/XStrBuf.cpp: Workaround for MVC-bug
 
 2003-06-04  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAppl.pc.in, Common/Attr.pc.in: New file.
+	* XGP/XAppl.pc.in, YGP/Attr.pc.in: New file.
 
 2003-06-02  Markus Schwab  <g17m0@lycos.com>
 
@@ -2098,59 +2133,59 @@
 
 	* po/de.po, po/en.po, po/es.po: Actualized
 
-	* X-windows/Samples/X-Appl.h:
+	* XGP/Samples/X-Appl.h:
 	  Declaring files before listFiles (to optimize definition)
 
-	* X-windows/Samples/X-Appl.cpp:
+	* XGP/Samples/X-Appl.cpp:
 	  Using set_default_size to size window; optimized
 
-	* X-windows/XFileList.h:
+	* XGP/XFileList.h:
 	  Delcaring get/setFilename of XFileList as virtual
 
-	* X-windows/XFileList.cpp: Disabling traces
+	* XGP/XFileList.cpp: Disabling traces
 
-	* X-windows/XFileEntry.cpp: Including (forgotten) assert.h
+	* XGP/XFileEntry.cpp: Including (forgotten) assert.h
 
-	* X-windows/XDialog.cpp, X-windows/XDate.cpp: Disabling traces
+	* XGP/XDialog.cpp, XGP/XDate.cpp: Disabling traces
 
-	* X-windows/XApplication.cpp: Including (forgotten) assert.h
+	* XGP/XApplication.cpp: Including (forgotten) assert.h
 
-	* X-windows/XAbout.cpp: Centering the text-labels
+	* XGP/XAbout.cpp: Centering the text-labels
 
-	* X-windows/BrowserDlg.h: Using gtkmm-2 and GCC3.2
+	* XGP/BrowserDlg.h: Using gtkmm-2 and GCC3.2
 
-	* Common/Check.cpp, X-windows/Check.cpp:
+	* YGP/Check.cpp, XGP/Check.cpp:
 	  Only including gtk/gtkmessagedialog.h (nto whole gtk/gkt.h
 
 	* NEWS: Changes of V0.6.10 commented
 
 2003-05-31  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Check.cpp, X-windows/Check.cpp:
+	* YGP/Check.cpp, XGP/Check.cpp:
 	Setting title and default size of check window (GTK+)
 
 2003-05-23  Markus Schwab  <g17m0@lycos.com>
 
 	* doc/Makefile.am: XMessageBox.html removed
 
-	* X-windows/Icons/Makefile.in: Added distclean-label
+	* XGP/Icons/Makefile.in: Added distclean-label
 
-	* X-windows/Samples/Makefile.am: Compiling with -Wall
+	* XGP/Samples/Makefile.am: Compiling with -Wall
 
-	* X-windows/XAttrEntry.h, X-windows/XAttrLabel.h:
+	* XGP/XAttrEntry.h, XGP/XAttrLabel.h:
 	  Declared methods of specialization of templates as inline
 
-	* Common/Makefile.am, X-windows/Makefile.am:
+	* YGP/Makefile.am, XGP/Makefile.am:
 	  Compiling with -Wall; Using pkgconfig; changed for new automake
 
-	* Common/CRegExp.cpp: Removed warnings when compiling with -Wall
+	* YGP/CRegExp.cpp: Removed warnings when compiling with -Wall
 
-	* Common/CRegExp.h: Undefining of HAVE_REGEX?_H removed
+	* YGP/CRegExp.h: Undefining of HAVE_REGEX?_H removed
 
-	* Common/ATStamp.cpp, Common/ATime.cpp:
+	* YGP/ATStamp.cpp, YGP/ATime.cpp:
 	  Using stringstream (instead of strstream)
 
-	* Common/ANumeric.cpp: Using standard-headers
+	* YGP/ANumeric.cpp: Using standard-headers
 
 	* CORBA/Makefile.in: Compiling with -Wall
 
@@ -2161,10 +2196,10 @@
 
 	* Makefile.am: Changed to new version of automake
 
-	* Common/Tokenize.h:
+	* YGP/Tokenize.h:
 	  Implemented copy-constructor and assignment operator
 
-	* Common/Attribute.h: Template specialization declared inline
+	* YGP/Attribute.h: Template specialization declared inline
 
 	* acconfig.h: Deleted
 
@@ -2196,18 +2231,18 @@
 
 	* ChangeLog: Changes of V0.6.02 commented
 
-	* X-windows/XFileList.cpp: Fixed calls to setIcon
+	* XGP/XFileList.cpp: Fixed calls to setIcon
 	
 	* doc/Makefile.am: Remaining X-windows docus added
 
 	* po/de.po, po/en.po, po/es.po: Only line-numbers actualized
 
-	* X-windows/XPrintDlg.h, X-windows/XPrintDlg.cpp: Comments improved
+	* XGP/XPrintDlg.h, XGP/XPrintDlg.cpp: Comments improved
 
-	* Common/Parse.cpp:
+	* YGP/Parse.cpp:
 	  Made freeBuffer more error-tolerant
 
-	* Common/File.h, Common/DirSrch.h:
+	* YGP/File.h, YGP/DirSrch.h:
 	  Undefining macros for dirent before defining them
 
 	* gzo-cfg.h.in: HAVE_GTKMM added
@@ -2228,10 +2263,10 @@
 
 	* bin/mdocu.pl: Fixed end-of-parameter tags
 
-	* X-windows/XFileList.cpp, X-windows/XFileList.h:
+	* XGP/XFileList.cpp, XGP/XFileList.h:
 	  Comments improved
 
-	* X-windows/XMessageBox.cpp, X-windows/XMessageBox.h:
+	* XGP/XMessageBox.cpp, XGP/XMessageBox.h:
 	  Comments improved; C-interface added
 
 	* doc/Log.html, doc/Makefile.am, doc/Mutex.html, doc/Parse.html, doc/PathDirSrch.html, doc/PathSrch.html, doc/RDirSrch.html, doc/RDirSrchSrv.html, doc/RegExp.html, doc/RemoteFile.html, doc/SmartPtr.html, doc/Socket.html, doc/Thread.html, doc/Tokenize.html, doc/XAbout.html, doc/XApplication.html, doc/XDate.html, doc/XDirSrch.html, doc/XFileDlg.html, doc/XFileEntry.html, doc/XFileList.html, doc/XStrBuf.html, doc/XStream.html, doc/ADate.html, doc/ANumeric.html, doc/ATStamp.html, doc/ATime.html, doc/AssParse.html, doc/AttrParse.html, doc/Attribute.html, doc/CRegExp.html, doc/DirSrch.html, doc/Entity.html, doc/File.html, doc/FileRExp.html, doc/Handle.html, doc/IDirSrch.html, doc/INIFile.html, doc/IVIOAppl.html:
@@ -2248,14 +2283,14 @@
 
 	* doc/XFileList.html: New file.
 
-	* X-windows/XFileDlg.cpp, X-windows/XFileDlg.h, X-windows/XFileEntry.cpp, X-windows/XFileEntry.h:
+	* XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XFileEntry.cpp, XGP/XFileEntry.h:
 	  Comments improved
 
 	* doc/XFileEntry.html, doc/XFileDlg.html: New file.
 
 2002-12-22  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XDate.cpp, X-windows/XDate.h:
+	* XGP/XApplication.cpp, XGP/XApplication.h, XGP/XDate.cpp, XGP/XDate.h:
 	Comments improved
 
 	* doc/XDate.html: New file.
@@ -2268,13 +2303,13 @@
 
 	* doc/XAbout.html: New file.
 
-	* X-windows/XAbout.h, X-windows/XAbout.cpp: Comments improved
+	* XGP/XAbout.h, XGP/XAbout.cpp: Comments improved
 
-	* X-windows/Makefile.am: Check removed
+	* XGP/Makefile.am: Check removed
 
 2002-12-17  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ADate.cpp, Common/ATime.cpp:
+	* YGP/ADate.cpp, YGP/ATime.cpp:
 	  VC can't return the needed length for strftime -> Using a buffer of 80 char
 
 	* Windows/gzo-cfg.h:
@@ -2294,19 +2329,19 @@
 
 	* doc/File.html: Some notes moved from purpose to remark section
 
-	* Common/File.cpp: Comments fixed
+	* YGP/File.cpp: Comments fixed
 
 	* Windows/VCGeneral.mak: Name of configurations (again) simplified
 
 	* bin/mdef.awk:
 	  Adding lines according to the filename; operating on whole dumpbin output
 
-	* Common/File.cpp:
+	* YGP/File.cpp:
 	  Fixed isExecutable in Windows version (forgotten return in every case)
 
 2002-12-16  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Thread.cpp:
+	* YGP/Thread.cpp:
 	  Canceling thread also under Windows; asserts replaced with Checks
 
 2002-12-15  Markus Schwab  <g17m0@lycos.com>
@@ -2315,13 +2350,13 @@
 
 	* bin/mgeni: Helptext to --version corrected
 
-	* Common/Tests/Makefile.am: Dependencies added
+	* YGP/Tests/Makefile.am: Dependencies added
 
-	* Common/Tests/PathDirSrch.cpp: File.h included
+	* YGP/Tests/PathDirSrch.cpp: File.h included
 
-	* Common/Tests/ADate.cpp, Common/Tests/XStrBuf.cpp: asserts replaced with Checks
+	* YGP/Tests/ADate.cpp, YGP/Tests/XStrBuf.cpp: asserts replaced with Checks
 
-	* Common/Tests/CRegExp.cpp:
+	* YGP/Tests/CRegExp.cpp:
 	  asserts replaced with Checks; Escape character not removed anymore
 
 	* configure.in: 
@@ -2331,38 +2366,38 @@
 
 	* NEWS: Changes of V0.6.02 commented
 
-	* Common/XStream.h: Include of assert.h removed
+	* YGP/XStream.h: Include of assert.h removed
 
-	* Common/XStrBuf.cpp, Common/XStrBuf.h: asserts replaced with Checks
+	* YGP/XStrBuf.cpp, YGP/XStrBuf.h: asserts replaced with Checks
 
-	* Common/XDirSrch.h: typedef'ed classes reneamed
+	* YGP/XDirSrch.h: typedef'ed classes reneamed
 
-	* Common/Tokenize.h: Comments improved
+	* YGP/Tokenize.h: Comments improved
 
-	* Common/Tokenize.cpp: asserts replaced with Checks
+	* YGP/Tokenize.cpp: asserts replaced with Checks
 
-	* Common/Thread.h: ret exists always
+	* YGP/Thread.h: ret exists always
 
-	* Common/StackTrc.cpp: asserts replaced with Checks
+	* YGP/StackTrc.cpp: asserts replaced with Checks
 
-	* Common/Socket.h: DOS newline changed
+	* YGP/Socket.h: DOS newline changed
 
-	* Common/RDirSrch.cpp: Typo in comment corrected
+	* YGP/RDirSrch.cpp: Typo in comment corrected
 
-	* Common/PathSrch.cpp, Common/PathSrch.h: Comments improved
+	* YGP/PathSrch.cpp, YGP/PathSrch.h: Comments improved
 
-	* Common/Log.h: asserts replaced with Checks
+	* YGP/Log.h: asserts replaced with Checks
 
-	* Common/IDirSrch.h: File.h included (not prototyped)
+	* YGP/IDirSrch.h: File.h included (not prototyped)
 
-	* Common/Entity.cpp, Common/Entity.h: Comments improved
+	* YGP/Entity.cpp, YGP/Entity.h: Comments improved
 
-	* Common/AttrVal.h: Fixed operator>>
+	* YGP/AttrVal.h: Fixed operator>>
 
-	* Common/AssParse.h:
+	* YGP/AssParse.h:
 	  Interface of makeAsignment changed (doesn't need length for strings)
 
-	* Common/AssParse.cpp: Comments improved; asserts replaced by Checks
+	* YGP/AssParse.cpp: Comments improved; asserts replaced by Checks
 
 	* doc/index.html: Using CSS formatting; New classes added
 
@@ -2388,7 +2423,7 @@
 	* doc/ATStamp.html, doc/AByteArray.html, doc/ADate.html, doc/ANumeric.html, doc/ATime.html, doc/AttrParse.html, doc/AttrVal.html, doc/Attribute.html, doc/DirSrch.html, doc/File.html, doc/IDirSrch.html, doc/INIFile.html, doc/PathDirSrch.html, doc/RDirSrch.html, doc/RemoteFile.html, doc/Thread.html:
 	  Using CSS instead of font
 
-	* Common/Socket.cpp: Comments improved; asserts replaced with Checks
+	* YGP/Socket.cpp: Comments improved; asserts replaced with Checks
 
 	* doc/Socket.html: Changed to new style
 
@@ -2400,7 +2435,7 @@
 
 	* doc/Handle.html: Using CSS instead of font for colorizationc
 
-	* Common/Parse.cpp, Common/Parse.h: 
+	* YGP/Parse.cpp, YGP/Parse.h: 
 	  Comments improved; asserts replaced with Checks
 
 	* doc/Parse.html: *ParseSelection & *ParseSequence converted to new style
@@ -2425,46 +2460,46 @@
 
 2002-12-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IVIOAppl.h: Comments improved
+	* YGP/IVIOAppl.h: Comments improved
 
 	* doc/IVIOAppl.html: Adapted to new style
 
-	* Common/IVIOAppl.cpp: Comments improved; asserts replaced with Checks
+	* YGP/IVIOAppl.cpp: Comments improved; asserts replaced with Checks
 
 2002-12-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.h:
+	* YGP/CRegExp.h:
 	  Compare helpers made private (as they are only available if regexps are missing)
 
 	* doc/CRegExp.html: Adapted to new style
 
-	* Common/CRegExp.cpp: Comments improved; asserts replaced with Checks
+	* YGP/CRegExp.cpp: Comments improved; asserts replaced with Checks
 
 	* doc/FileRExp.html: Adapted to new style
 
-	* Common/FileRExp.cpp: Comments improved; asserts replaced with Checks
+	* YGP/FileRExp.cpp: Comments improved; asserts replaced with Checks
 
 	* bin/mdocu.pl: Converting all texts to HTML; fixes
 
 	* doc/RegExp.html: Adapted to new style
 
-	* Common/RegExp.h: Asserts replaced with Check3
+	* YGP/RegExp.h: Asserts replaced with Check3
 
-	* Common/RDirSrchSrv.h: Include of assert.h removed
+	* YGP/RDirSrchSrv.h: Include of assert.h removed
 
-	* Common/RDirSrchSrv.cpp: Comments improved; asserts replaced with Check3
+	* YGP/RDirSrchSrv.cpp: Comments improved; asserts replaced with Check3
 
 	* doc/RDirSrchSrv.html: Adapted to new style
 
-	* Common/XDirSrch.h: Description improved
+	* YGP/XDirSrch.h: Description improved
 
-	* Common/XDirSrch.cpp: Comments improved; asserts replaced with Check3
+	* YGP/XDirSrch.cpp: Comments improved; asserts replaced with Check3
 
 	* doc/XDirSrch.html: New file.
 
-	* Common/RDirSrch.h: init renamed to sendTo; include of assert removed
+	* YGP/RDirSrch.h: init renamed to sendTo; include of assert removed
 
-	* Common/RDirSrch.cpp: Comments improved; asserts replaced with Check3
+	* YGP/RDirSrch.cpp: Comments improved; asserts replaced with Check3
 
 	* doc/RDirSrch.html: Adapted to new style
 
@@ -2472,24 +2507,24 @@
 
 2002-12-07  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/File.h: Some (stupid) const removed; Asserts replaced with Checks
+	* YGP/File.h: Some (stupid) const removed; Asserts replaced with Checks
 
-	* Common/IDirSrch.cpp: Comments improved
+	* YGP/IDirSrch.cpp: Comments improved
 
-	* Common/ADate.cpp: Checking input parameters with Check1
+	* YGP/ADate.cpp: Checking input parameters with Check1
 
-	* Common/File.cpp: Fixes; Checking input parameters with Check1
+	* YGP/File.cpp: Fixes; Checking input parameters with Check1
 
-	* Common/PathDirSrch.h: Unnecessary includes removed; makePath removed
+	* YGP/PathDirSrch.h: Unnecessary includes removed; makePath removed
 
-	* Common/PathDirSrch.cpp: Comments improved; asserts replaced with Check3
+	* YGP/PathDirSrch.cpp: Comments improved; asserts replaced with Check3
 
 	* doc/PathDirSrch.html: Adapted to new style
 
-	* Common/DirSrch.h: 
+	* YGP/DirSrch.h: 
 	  Include of File.h replaced with UNIX-directory search includes
 
-	* Common/DirSrch.cpp: Comments improved; asserts replaced with Check3
+	* YGP/DirSrch.cpp: Comments improved; asserts replaced with Check3
 
 	* doc/DirSrch.html: Adapted to new style
 
@@ -2499,23 +2534,23 @@
 
 2002-12-01  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RemoteFile.cpp: Comments improved; Asserts replaced with Checks
+	* YGP/RemoteFile.cpp: Comments improved; Asserts replaced with Checks
 
 	* doc/RemoteFile.html: Adapted to new style
 
-	* Common/SmartPtr.h: Comments improved; operator= fixed
+	* YGP/SmartPtr.h: Comments improved; operator= fixed
 
-	* Common/File.cpp: Comments improved; Checks instead of asserts
+	* YGP/File.cpp: Comments improved; Checks instead of asserts
 
-	* Common/Check.h, X-windows/Check.h: CheckMsg macro added
+	* YGP/Check.h, XGP/Check.h: CheckMsg macro added
 
 	* doc/File.html: Adapted to new style; Actualized
 
-	* Common/INIFile.cpp: Comments improved; asserts replaced with Checks
+	* YGP/INIFile.cpp: Comments improved; asserts replaced with Checks
 
-	* Common/Attribute.h: asserts replaced with Checks
+	* YGP/Attribute.h: asserts replaced with Checks
 
-	* Common/AttrParse.cpp, Common/AttrParse.h:
+	* YGP/AttrParse.cpp, YGP/AttrParse.h:
 	  Comments improved; addAttribute doesn't throw exception anymore
 
 	* doc/INIFile.html: Adapted to new style
@@ -2530,9 +2565,9 @@
 
 	* bin/Makefile.am: mdef.awk, mdocu.pl added
 
-	* Common/Handle.h: Comments improved; Asserts replaced with Check2
+	* YGP/Handle.h: Comments improved; Asserts replaced with Check2
 
-	* Common/Handle.cpp: Comments improved
+	* YGP/Handle.cpp: Comments improved
 
 	* doc/ATime.html: Minor fixes
 
@@ -2540,25 +2575,25 @@
 
 	* doc/Handle.html: Adapted to new style
 
-	* Common/ATStamp.cpp: Comments improved; Checks instead of asserts
+	* YGP/ATStamp.cpp: Comments improved; Checks instead of asserts
 
 	* doc/ATStamp.html: Changed to new style
 
 2002-11-28  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ATime.h: set*-methods throw exception in case of error
+	* YGP/ATime.h: set*-methods throw exception in case of error
 
-	* Common/ATime.cpp: omments improved; asserts replaced with Checks
+	* YGP/ATime.cpp: omments improved; asserts replaced with Checks
 
 	* doc/ATime.html: Changed to new style; Fixed
 
 2002-11-27  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.h: Minor change of comments
+	* YGP/ANumeric.h: Minor change of comments
 
-	* Common/AByteArray.cpp: Asserts replaced with Checks
+	* YGP/AByteArray.cpp: Asserts replaced with Checks
 
-	* Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp:
+	* YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.cpp:
 	  Asserts replaced with Checks; Comments improved
 
 	* doc/ANumeric.html: Changed to new style
@@ -2573,15 +2608,15 @@
 
 	* doc/AttrVal.html: Adapted to new style
 
-	* Common/Parse.cpp:
+	* YGP/Parse.cpp:
 	  - Replaced asserts with Checks
 	  - Traces changed
 	  - Attomic::doParse can skip and/or ignore char
 	  - Parse*Ignore removed
 
-	* Common/IDirSrch.h: Fixed isSpecial
+	* YGP/IDirSrch.h: Fixed isSpecial
 
-	* Common/Check.cpp, X-windows/Check.cpp:
+	* YGP/Check.cpp, XGP/Check.cpp:
 	  Don't delete instance of Gtk::Main (as it can be created only once)
 
 	* doc/Thread.html: Added OThread<T>
@@ -2624,25 +2659,25 @@
 
 	* doc/AByteArray.html: Function description changed to new style
 
-	* Common/AByteArray.h: Added header describing the class
+	* YGP/AByteArray.h: Added header describing the class
 
-	* Common/AByteArray.cpp: Comments and compare method improved
+	* YGP/AByteArray.cpp: Comments and compare method improved
 
 2002-11-18  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp:
+	* YGP/XStrBuf.cpp:
 	  Fixed seekoff with ios::cur; Asserts replaced with checks; Traces improved
 
-	* Common/XStrBuf.cpp, Common/XStrBuf.h:
+	* YGP/XStrBuf.cpp, YGP/XStrBuf.h:
 	  Virtual methods seekoff and seekpos implemented
 
-	* Common/Makefile.am: Linking GTKMM libs statically
+	* YGP/Makefile.am: Linking GTKMM libs statically
 
-	* Common/INIFile.cpp: Skipping whitespaces always before parsing sectionheader
+	* YGP/INIFile.cpp: Skipping whitespaces always before parsing sectionheader
 
-	* Common/Check.h, X-windows/Check.h: 2nd undef Check removed
+	* YGP/Check.h, XGP/Check.h: 2nd undef Check removed
 
-	* Common/Check.cpp, X-windows/Check.cpp:
+	* YGP/Check.cpp, XGP/Check.cpp:
 	  Loading XAppl.so dynamically to show MsgBox also for VIO-appls
 
 2002-11-13  Markus Schwab  <g17m0@lycos.com>
@@ -2651,31 +2686,31 @@
 
 	* Windows/VCGeneral.dsp, Windows/VCGeneral.mak: Check added
 
-	* Common/Makefile.am: GTK libs added (if available)
+	* YGP/Makefile.am: GTK libs added (if available)
 
-	* Common/Check.cpp, X-windows/Check.cpp:
+	* YGP/Check.cpp, XGP/Check.cpp:
 	  Output is according to available libs on console or in MessageBox
 
 	* Make.bat: Option to generate VCGeneral.def file
 
 2002-11-12  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	* XGP/XApplication.cpp, XGP/XApplication.h:
 	  Storing menus (having an ID other than 0)
 
 2002-11-10  Markus Schwab  <g17m0@lycos.com>
 
 	* bin/mgeni: Leading and trailing blanks removed from parsed data
 
-	* Common/Makefile.am: Check added (moved from X-windows)
+	* YGP/Makefile.am: Check added (moved from X-windows)
 
-	* Common/INIFile.cpp, Common/INIFile.h:
+	* YGP/INIFile.cpp, YGP/INIFile.h:
 	  Methods to parse whole Entity object added; asserts changed to Checks
 
-	* Common/Entity.h:
+	* YGP/Entity.h:
 	  asserts replaced with checks; addAttribte with function template (if supported)
 
-	* Common/Entity.cpp: Freeing stored attributes
+	* YGP/Entity.cpp: Freeing stored attributes
 
 	* bin/mgeni: Fixes; destructor also generated
 
@@ -2697,36 +2732,36 @@
 
 	* po/de.po, po/en.po, po/es.po: Only linenumbers have been changed
 
-	* Common/Thread.cpp, Common/Thread.h: waitForThread with Thread-ID added
+	* YGP/Thread.cpp, YGP/Thread.h: waitForThread with Thread-ID added
 
-	* Common/Parse.cpp: Bufferhandling optimized
+	* YGP/Parse.cpp: Bufferhandling optimized
 
-	* Common/Tests/Makefile.am: Dependencies adapted
+	* YGP/Tests/Makefile.am: Dependencies adapted
 
-	* Common/Tests/DirSrch.cpp, Common/Tests/Attribute.cpp: Test for Cygwin removed
+	* YGP/Tests/DirSrch.cpp, YGP/Tests/Attribute.cpp: Test for Cygwin removed
 
-	* Common/Tests/ADate.cpp:
+	* YGP/Tests/ADate.cpp:
 	  Adapted to special cases (like 31.10 - 1m = 30.9 , ...)
 
-	* Common/Socket.cpp: Declaring ssize_t and socklen_t if not declared
+	* YGP/Socket.cpp: Declaring ssize_t and socklen_t if not declared
 
-	* Common/XStrBuf.cpp:
+	* YGP/XStrBuf.cpp:
 	  Reserved buffer is freed again (as before); Sanity check for buffersize
 
-	* Common/PathSrch.cpp:
+	* YGP/PathSrch.cpp:
 	  Fixed bug in Windows-version (Bracket for UNIX-version moved in UNIX-block)
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: Method to read from INI-file added
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h: Method to read from INI-file added
 
-	* Common/CRegExp.h: VC-warnings about truncationg debug-info suppressed
+	* YGP/CRegExp.h: VC-warnings about truncationg debug-info suppressed
 
-	* Common/CRegExp.cpp: Converted to UNIX-format
+	* YGP/CRegExp.cpp: Converted to UNIX-format
 
-	* Common/Attribute.h: Trailing blanks removed
+	* YGP/Attribute.h: Trailing blanks removed
 
-	* Common/ATime.cpp: Trace in readFromStream beautified; compare optimized
+	* YGP/ATime.cpp: Trace in readFromStream beautified; compare optimized
 
-	* Common/ADate.cpp: Fixed minAdapt; optimized compare
+	* YGP/ADate.cpp: Fixed minAdapt; optimized compare
 
 	* README.windows: Minor changes
 
@@ -2744,12 +2779,12 @@
 
 2002-10-25  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h:
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h:
 	  2 initI18n-methods: One for only locale; other for also message file
 
 2002-10-24  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.cpp: Fixed putback of not found ParseAttribute
+	* YGP/Parse.cpp: Fixed putback of not found ParseAttribute
 
 2002-10-23  Markus Schwab  <g17m0@lycos.com>
 
@@ -2757,66 +2792,66 @@
 
 	* NEWS: Enhancements of Parser commented; XDirSearch added
 
-	* Common/Tests/INIFile.cpp: Caught exception increases error-count
+	* YGP/Tests/INIFile.cpp: Caught exception increases error-count
 
-	* Common/XStream.h:
+	* YGP/XStream.h:
 	  Special handling for VC removed (as new iostreams behave like GCC)
 
-	* Common/XStrBuf.h: Assert while setting source corrected
+	* YGP/XStrBuf.h: Assert while setting source corrected
 
-	* Common/XStrBuf.cpp:
+	* YGP/XStrBuf.cpp:
 	  Freeing of used buffer is done by streambuf; Replace C++-style new with malloc
 
-	* Common/Thread.h: Method currentID (to get ID of current thread) added
+	* YGP/Thread.h: Method currentID (to get ID of current thread) added
 
-	* Common/Parse.cpp, Common/Parse.h:
+	* YGP/Parse.cpp, YGP/Parse.h:
 	  Replaced parsebuffer with per-thread std::string
 
-	* Common/Mutex.h: DOS-newlines removed (again)
+	* YGP/Mutex.h: DOS-newlines removed (again)
 
-	* Common/INIFile.cpp:
+	* YGP/INIFile.cpp:
 	  Adapted to new parser interface; Fixed bug adding attributes to sections
 
-	* Common/INIFile.h: Adapted to new parser interface
+	* YGP/INIFile.h: Adapted to new parser interface
 
-	* Common/ADate.h: Unused static var MEMADD deleted
+	* YGP/ADate.h: Unused static var MEMADD deleted
 
 2002-10-22  Markus Schwab  <g17m0@lycos.com>
 
 	* Makefile.am:
 	  Projectfiles and pre-defined headers for Windows-versions added to distribution
 
-	* Common/Parse.cpp, Common/Parse.h:
+	* YGP/Parse.cpp, YGP/Parse.h:
 	  Classes Parse*Ignore added (analogue to ParseAttomic without storing found data
 
 2002-10-20  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Mutex.h: DOS-newlines removed (introduced thanx to VC)
+	* YGP/Mutex.h: DOS-newlines removed (introduced thanx to VC)
 
-	* Common/Thread.h: Changes for Windows; Object of OThread changed to pointer
+	* YGP/Thread.h: Changes for Windows; Object of OThread changed to pointer
 
-	* Common/Thread.cpp: Fixed windows-version
+	* YGP/Thread.cpp: Fixed windows-version
 
-	* Common/File.cpp: Fixed operator= in Windows-version
+	* YGP/File.cpp: Fixed operator= in Windows-version
 
-	* Common/IDirSrch.h, Common/XDirSrch.cpp: Adapted to VC6.0
+	* YGP/IDirSrch.h, YGP/XDirSrch.cpp: Adapted to VC6.0
 
-	* Common/Tests/CRegExp.cpp, Common/Tests/Parse.cpp:
+	* YGP/Tests/CRegExp.cpp, YGP/Tests/Parse.cpp:
 	  Adapted to new Parse-interface
 
-	* Common/IVIOAppl.cpp: Fixed comparing of long option (first was not checked)
+	* YGP/IVIOAppl.cpp: Fixed comparing of long option (first was not checked)
 
-	* Common/Parse.cpp, Common/Parse.h: Callbacks also pass length of passed data
+	* YGP/Parse.cpp, YGP/Parse.h: Callbacks also pass length of passed data
 
-	* Common/Makefile.am: XDirSrch added
+	* YGP/Makefile.am: XDirSrch added
 
-	* Common/XDirSrch.cpp, Common/XDirSrch.h: New file.
+	* YGP/XDirSrch.cpp, YGP/XDirSrch.h: New file.
 
-	* Common/IDirSrch.h: Method isSpecial added
+	* YGP/IDirSrch.h: Method isSpecial added
 
 2002-10-17  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Icons/Makefile.in: Label check added
+	* XGP/Icons/Makefile.in: Label check added
 
 2002-10-16  Markus Schwab  <g17m0@lycos.com>
 
@@ -2825,34 +2860,34 @@
 
 2002-10-10  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp: Fixed bug when char xFF was directly behind a newline (0xa)
+	* YGP/XStrBuf.cpp: Fixed bug when char xFF was directly behind a newline (0xa)
 
 	* po/de.po, po/en.po, po/es.po: Actualized
 
 	* Windows/VCTests.mak: Outputdir changed and created if not existing
 
-	* Common/Tests/Test.h: Adapted to VC6.0
+	* YGP/Tests/Test.h: Adapted to VC6.0
 
-	* Common/Tests/INIFile.cpp: Adapted to VC6.0; Fixed sequence of parsing
+	* YGP/Tests/INIFile.cpp: Adapted to VC6.0; Fixed sequence of parsing
 
-	* Common/Tests/AttrParse.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	* YGP/Tests/AttrParse.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp:
 	  Adapted to VC6.0 and/or Windows
 
-	* Common/XStream.h, Common/XStrBuf.cpp, Common/XStrBuf.h: Adapted to VC6.0
+	* YGP/XStream.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h: Adapted to VC6.0
 
-	* Common/INIFile.h: Method getFile added
+	* YGP/INIFile.h: Method getFile added
 
-	* Common/Trace_.h: Adapted to VC6.0 (added namespace to flush)
+	* YGP/Trace_.h: Adapted to VC6.0 (added namespace to flush)
 
-	* Common/Parse.cpp: Removed assert of isspace in skipWS)
+	* YGP/Parse.cpp: Removed assert of isspace in skipWS)
 
-	* Common/Internal.h:
+	* YGP/Internal.h:
 	  Defining textdomain to empty (if there's no gettext)
 
-	* Common/INIFile.cpp:
+	* YGP/INIFile.cpp:
 	  INISection::readFromStream reads now also attributes; Changes for VC6.0
 
-	* Common/IDirSrch.cpp, Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp, Common/ANumeric.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.cpp, Common/ATime.h, Common/AttrVal.h:
+	* YGP/IDirSrch.cpp, YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AttrVal.h:
 	  Adapted to VC6.0
 
 	* gzo-cfg.h.in:
@@ -2870,29 +2905,29 @@
 
 	* Windows/VCTests.mak: Outputdir changed and created if not existing
 
-	* Common/Tests/Test.h: Adapted to VC6.0
+	* YGP/Tests/Test.h: Adapted to VC6.0
 
-	* Common/Tests/INIFile.cpp:
+	* YGP/Tests/INIFile.cpp:
 	  Adapted to VC6.0; Fixed sequence of parsing
 
-	* Common/Tests/AttrParse.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	* YGP/Tests/AttrParse.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp:
 	  Adapted to VC6.0 and/or Windows
 
-	* Common/XStream.h, Common/XStrBuf.cpp, Common/XStrBuf.h: Adapted to VC6.0
+	* YGP/XStream.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h: Adapted to VC6.0
 
-	* Common/INIFile.h: Method getFile added
+	* YGP/INIFile.h: Method getFile added
 
-	* Common/Trace_.h: Adapted to VC6.0 (added namespace to flush)
+	* YGP/Trace_.h: Adapted to VC6.0 (added namespace to flush)
 
-	* Common/Parse.cpp: Removed assert of isspace in skipWS)
+	* YGP/Parse.cpp: Removed assert of isspace in skipWS)
 
-	* Common/Internal.h:
+	* YGP/Internal.h:
 	  Defining textdomain to empty (if there's no gettext)
 
-	* Common/INIFile.cpp:
+	* YGP/INIFile.cpp:
 	  INISection::readFromStream reads now also attributes; Changes for VC6.0
 
-	* Common/IDirSrch.cpp, Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp, Common/ANumeric.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.cpp, Common/ATime.h, Common/AttrVal.h:
+	* YGP/IDirSrch.cpp, YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AttrVal.h:
 	  Adapted to VC6.0
 
 	* gzo-cfg.h.in:
@@ -2917,18 +2952,18 @@
 
 2002-09-13  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Makefile.am: INIFile.h moved from sources to headers
+	* YGP/Makefile.am: INIFile.h moved from sources to headers
 
-	* Common/Parse.h: Using new iostreams
+	* YGP/Parse.h: Using new iostreams
 
-	* Common/ANumeric.cpp, Common/ANumeric.h, Common/AttrVal.h, Common/INIFile.h, Common/Log.h:
+	* YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/AttrVal.h, YGP/INIFile.h, YGP/Log.h:
 	  Adapted for VC++
 
 2002-09-12  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XMessageBox.cpp: Fixed setting default button
+	* XGP/XMessageBox.cpp: Fixed setting default button
 
-	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	* XGP/XApplication.cpp, XGP/XApplication.h:
 	  Handling of radiomenu-items and submenus added
 
 2002-09-08  Markus Schwab  <g17m0@lycos.com>
@@ -2937,24 +2972,24 @@
 
 2002-08-21  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/AByteArray.cpp, Common/Tests/ADate.cpp, Common/Tests/ANumeric.cpp, Common/Tests/ATStamp.cpp, Common/Tests/ATime.cpp, Common/Tests/AssParse.cpp, Common/Tests/AttrParse.cpp, Common/Tests/Attribute.cpp, Common/Tests/CRegExp.cpp, Common/Tests/XStrBuf.cpp:
+	* YGP/Tests/AByteArray.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/XStrBuf.cpp:
 	  Adapted for VC6
 
 2002-08-20  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStream.h: Note corrected
+	* YGP/XStream.h: Note corrected
 
-	* Common/AssParse.cpp: Throw of getNetNode explained in function-comment
+	* YGP/AssParse.cpp: Throw of getNetNode explained in function-comment
 
-	* Common/PathSrch.cpp: gzo-cfg.h included
+	* YGP/PathSrch.cpp: gzo-cfg.h included
 
-	* Common/RegExp.h: assert.h included
+	* YGP/RegExp.h: assert.h included
 
-	* Common/DirSrch.h, Common/File.h: Notes to class changed
+	* YGP/DirSrch.h, YGP/File.h: Notes to class changed
 
-	* Common/DirSrch.cpp: Fixed next-method for Windows
+	* YGP/DirSrch.cpp: Fixed next-method for Windows
 
-	* Common/Attribute.h: Namespace added to used exception
+	* YGP/Attribute.h: Namespace added to used exception
 
 2002-08-06  Markus Schwab  <g17m0@lycos.com>
 
@@ -2971,7 +3006,7 @@
 
 2002-08-01  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Icons/Makefile.in: Missing clean-label added
+	* XGP/Icons/Makefile.in: Missing clean-label added
 
 	* NEWS: V0.6.01 commented; Hope there are no more changes
 
@@ -2979,11 +3014,11 @@
 
 	* configure.in, acconfig.h: RELEASE renamed to LIB_RELEASE
 
-	* X-windows/XMessageBox.h: Modal messagebox (called XMessageDialog) added
+	* XGP/XMessageBox.h: Modal messagebox (called XMessageDialog) added
 
 2002-07-15  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IDirSrch.cpp, Common/Entity.cpp: Project info corected
+	* YGP/IDirSrch.cpp, YGP/Entity.cpp: Project info corected
 
 	* CORBA/CIDirSrch.h: Method exit to shutdown server added
 
@@ -3013,25 +3048,25 @@
 
 2002-07-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Trace_.h:
+	* YGP/Trace_.h:
 	  New semantic: TRACE is always defined TRACE[0-9] only if TRACELEVEL set acc.
 
-	* Common/Thread.cpp, Common/Thread.h: Implemented for VC++ 6.0
+	* YGP/Thread.cpp, YGP/Thread.h: Implemented for VC++ 6.0
 
-	* Common/Mutex.h: Implemnted for VC++ 6.0
+	* YGP/Mutex.h: Implemnted for VC++ 6.0
 
 2002-07-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/AssParse.cpp: Error-msg corrected
+	* YGP/AssParse.cpp: Error-msg corrected
 
 	* po/de.po, po/en.po: Line numbers (of sources) actualized
 
 	* po/es.po: Corrections
 
-	* X-windows/XAbout.cpp, X-windows/XDate.cpp, X-windows/XFileDlg.cpp, X-windows/XFileEntry.cpp, X-windows/XFileList.cpp, X-windows/XMessageBox.cpp, X-windows/XPrintDlg.cpp:
+	* XGP/XAbout.cpp, XGP/XDate.cpp, XGP/XFileDlg.cpp, XGP/XFileEntry.cpp, XGP/XFileList.cpp, XGP/XMessageBox.cpp, XGP/XPrintDlg.cpp:
 	  Using configure-flags to enable trace/checks
 
-	* X-windows/XApplication.h, X-windows/XApplication.cpp: Method initI18n added
+	* XGP/XApplication.h, XGP/XApplication.cpp: Method initI18n added
 
 	* gzo-cfg.h.in:
 	  Removed define of MICRO_VERSION; using RELEASE instead
@@ -3047,12 +3082,12 @@
 	* CORBA/CDirSrch.idl, CORBA/CIDirSrch.cpp, CORBA/CIDirSrch.h:
 	  Adapted to new File-interface
 
-	* X-windows/Version.cpp, Common/Version.cpp:
+	* XGP/Version.cpp, YGP/Version.cpp:
 	  Adapted to new syntax of VERSION-flag
 
-	* X-windows/Check.h: Define for checks renamed to CHECK
+	* XGP/Check.h: Define for checks renamed to CHECK
 
-	* X-windows/Check.cpp: Logging user response to check
+	* XGP/Check.cpp: Logging user response to check
 
 2002-07-05  Markus Schwab  <g17m0@lycos.com>
 
@@ -3064,9 +3099,9 @@
 
 2002-06-29  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Mutex.h: New file.
+	* YGP/Mutex.h: New file.
 
-	* Common/Tests/Makefile.am: INCLUDE's corrected
+	* YGP/Tests/Makefile.am: INCLUDE's corrected
 
 	* INSTALL: Prerequiste SW added; Fixed make from CVS
 
@@ -3078,12 +3113,12 @@
 
 2002-05-25  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.h, Common/DirSrch.h, Common/File.cpp, Common/File.h, Common/FileRExp.cpp, Common/IVIOAppl.cpp, Common/PathSrch.cpp, Common/Trace_.h:
+	* YGP/CRegExp.h, YGP/DirSrch.h, YGP/File.cpp, YGP/File.h, YGP/FileRExp.cpp, YGP/IVIOAppl.cpp, YGP/PathSrch.cpp, YGP/Trace_.h:
 	  Adapted to VC98
 
-	* Common/ANumeric.cpp: Unused includes removed
+	* YGP/ANumeric.cpp: Unused includes removed
 
-	* Common/ADate.cpp, Common/ATime.cpp: toString doesn't complain if this is invalid
+	* YGP/ADate.cpp, YGP/ATime.cpp: toString doesn't complain if this is invalid
 
 2002-05-24  Markus Schwab  <g17m0@lycos.com>
 
@@ -3091,34 +3126,34 @@
 
 	* Makefile.am: Own Makefile[.*] for doc-subdir
 
-	* Common/Tests/Makefile.am: Added dependencies introduced by fucked-up VC98
+	* YGP/Tests/Makefile.am: Added dependencies introduced by fucked-up VC98
 
-	* Common/Tests/Test.h: Macro CHECK renamed to TEST
+	* YGP/Tests/Test.h: Macro CHECK renamed to TEST
 
-	* Common/Tests/DirSrch.cpp: SEPERATOR corrected to SEPARATOR
+	* YGP/Tests/DirSrch.cpp: SEPERATOR corrected to SEPARATOR
 
-	* Common/RemoteFile.cpp: Fixed compiler-warnings
+	* YGP/RemoteFile.cpp: Fixed compiler-warnings
 
-	* Common/ATime.cpp, Common/ADate.cpp, Common/ANumeric.cpp, Common/ATStamp.cpp, Common/ATStamp.h, Common/AssParse.cpp, Common/AssParse.h, Common/AttrParse.cpp, Common/AttrParse.h, Common/CRegExp.cpp, Common/CRegExp.h, Common/DirSrch.cpp, Common/Entity.h, Common/File.cpp, Common/File.h, Common/FileRExp.cpp, Common/FileRExp.h, Common/IDirSrch.cpp, Common/IDirSrch.h, Common/PathDirSrch.cpp, Common/PathSrch.cpp, Common/PathSrch.h, Common/RDirSrch.cpp, Common/RDirSrch.h, Common/RDirSrchSrv.cpp, Common/RDirSrchSrv.h, Common/RemoteFile.cpp, Common/Socket.cpp, Common/Socket.h, Common/StackTrc.cpp:
+	* YGP/ATime.cpp, YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/AssParse.cpp, YGP/AssParse.h, YGP/AttrParse.cpp, YGP/AttrParse.h, YGP/CRegExp.cpp, YGP/CRegExp.h, YGP/DirSrch.cpp, YGP/Entity.h, YGP/File.cpp, YGP/File.h, YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/IDirSrch.cpp, YGP/IDirSrch.h, YGP/PathDirSrch.cpp, YGP/PathSrch.cpp, YGP/PathSrch.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h, YGP/RemoteFile.cpp, YGP/Socket.cpp, YGP/Socket.h, YGP/StackTrc.cpp:
 	  Adapted to VC98
 
-	* Common/Trace_.h, Common/XStrBuf.cpp:
+	* YGP/Trace_.h, YGP/XStrBuf.cpp:
 	Traces (and checks) are controlled via --enable-flags
 
-	* Common/Version.cpp: _init-method returns value
+	* YGP/Version.cpp: _init-method returns value
 
-	* Common/Parse.cpp: Traces (and checks) are controlled via --enable-flags
+	* YGP/Parse.cpp: Traces (and checks) are controlled via --enable-flags
 
-	* Common/Makefile.am: Mutex.h added
+	* YGP/Makefile.am: Mutex.h added
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: 
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h: 
 	  Adapted to VC98; Method to init I18n added
 
-	* Common/INIFile.cpp: Traces (and checks) are controlled via --enable-flags
+	* YGP/INIFile.cpp: Traces (and checks) are controlled via --enable-flags
 
-	* Common/Attribute.h: Unused parameter un-named
+	* YGP/Attribute.h: Unused parameter un-named
 
-	* Common/ATime.h: operator= (struct tm) defines object
+	* YGP/ATime.h: operator= (struct tm) defines object
 
 	* gzo-cfg.h.in: Defines for SIGBUS and HAVE_TIMEGM added
 
@@ -3131,11 +3166,11 @@
 
 	* doc/Socket.html.en: Minor clearification
 
-	* Common/AByteArray.cpp, Common/AByteArray.h: Adapted to VC++ (98)
+	* YGP/AByteArray.cpp, YGP/AByteArray.h: Adapted to VC++ (98)
 
 2002-05-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Thread.cpp, Common/Thread.h: waitForThread (unsigned long) added
+	* YGP/Thread.cpp, YGP/Thread.h: waitForThread (unsigned long) added
 
 2002-05-20  Markus Schwab  <g17m0@lycos.com>
 
@@ -3144,18 +3179,18 @@
 
 2002-05-19  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Thread.cpp, Common/Thread.h:
+	* YGP/Thread.cpp, YGP/Thread.h:
 	  2nd create-method: 1 gives thread as param; the other just the args
 
-	* Common/Thread.cpp: Removed the (unused) arg-parameter from init
+	* YGP/Thread.cpp: Removed the (unused) arg-parameter from init
 
 2002-05-13  Markus Schwab  <g17m0@lycos.com>
 
 	* po/es.po: Messages of print-dialog translated
 
-	* Common/Thread.h: getID added; Fixed creation of OThread<T>
+	* YGP/Thread.h: getID added; Fixed creation of OThread<T>
 
-	* Common/Thread.cpp: Traces++; Minor fixes
+	* YGP/Thread.cpp: Traces++; Minor fixes
 
 2002-05-11  Markus Schwab  <g17m0@lycos.com>
 
@@ -3167,53 +3202,53 @@
 
 2002-05-09  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileList.cpp:  Traces changed
+	* XGP/XFileList.cpp:  Traces changed
 
-	* Common/Thread.cpp: DEBUG-flag set to 0
+	* YGP/Thread.cpp: DEBUG-flag set to 0
 
 	* ChangeLog, NEWS: V0.5.01 to V0.6.00 documented
 
-	* X-windows/Makefile.am: Settings for gettext enhanced
+	* XGP/Makefile.am: Settings for gettext enhanced
 
-	* Common/Tests/Makefile.am: PathSrch.o added to PathDirSrch-test
+	* YGP/Tests/Makefile.am: PathSrch.o added to PathDirSrch-test
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Changes for special cases not
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Changes for special cases not
 	  shown in output
 
 	* gzo-cfg.h.in: Test for pthread-lib added
 
 	* configure.in: Test for gtkmm-config corrected
 
-	* Common/SmartPtr.h: Macro to define const smartptr added
+	* YGP/SmartPtr.h: Macro to define const smartptr added
 
-	* Common/PathSrch.h: Methods to expand node added
+	* YGP/PathSrch.h: Methods to expand node added
 
-	* Common/PathDirSrch.h: Method checkPath removed
+	* YGP/PathDirSrch.h: Method checkPath removed
 
-	* Common/PathDirSrch.cpp: Check of path removed; Using PathSearch-method
+	* YGP/PathDirSrch.cpp: Check of path removed; Using PathSearch-method
 	  to expand home-directories
 
-	* Common/PathSrch.cpp: New file.
+	* YGP/PathSrch.cpp: New file.
 
-	* Common/Makefile.am: Settings for gettext corrected; PathSrch.cpp added
+	* YGP/Makefile.am: Settings for gettext corrected; PathSrch.cpp added
 
 2002-05-03  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Thread.cpp, Common/Thread.h: Tests for existing pthread-lib
+	* YGP/Thread.cpp, YGP/Thread.h: Tests for existing pthread-lib
 	  and not header
 
 	* configure.in: Test for pthreads with lib and not with header
 
 2002-05-01  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/INIFile.cpp: Name of INI-file (in exception-handling)
+	* YGP/Tests/INIFile.cpp: Name of INI-file (in exception-handling)
 	  corrected
 
-	* Common/Tests/DirSrch.cpp: Test for / added
+	* YGP/Tests/DirSrch.cpp: Test for / added
 
-	* Common/Thread.cpp, Common/Thread.h: New file.
+	* YGP/Thread.cpp, YGP/Thread.h: New file.
 
-	* Common/Makefile.am: Thread added
+	* YGP/Makefile.am: Thread added
 
 	* gzo-cfg.h.in: Flag for pthread.h added
 
@@ -3221,26 +3256,26 @@
 
 2002-04-28  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XPrintDlg.cpp: I18n
+	* XGP/XPrintDlg.cpp: I18n
 
-	* X-windows/XApplication.cpp: addMenu-interface changed
+	* XGP/XApplication.cpp: addMenu-interface changed
 
-	* X-windows/XApplication.h: Comments++; addMenu-interface changed
+	* XGP/XApplication.h: Comments++; addMenu-interface changed
 
-	* X-windows/Check.cpp: Traces check (and user-reaction) to stderr
+	* XGP/Check.cpp: Traces check (and user-reaction) to stderr
 
-	* Common/IVIOAppl.cpp: Deleted line in comments inserted (again)
+	* YGP/IVIOAppl.cpp: Deleted line in comments inserted (again)
 
 2002-04-27  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/AByteArray.cpp, Common/Tests/ADate.cpp, Common/Tests/ANumeric.cpp, Common/Tests/ATStamp.cpp, Common/Tests/ATime.cpp, Common/Tests/AssParse.cpp, Common/Tests/AttrParse.cpp, Common/Tests/Attribute.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/INIFile.cpp, Common/Tests/INIFile.test, Common/Tests/IVIOAppl.cpp, Common/Tests/Makefile.am, Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp:
+	* YGP/Tests/AByteArray.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/INIFile.test, YGP/Tests/IVIOAppl.cpp, YGP/Tests/Makefile.am, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp:
 	I18n
 
 2002-04-24  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Version.cpp: Version-string is file-local; gettext initizialized
+	* XGP/Version.cpp: Version-string is file-local; gettext initizialized
 
-	* X-windows/Makefile.am: Settings for gettext added
+	* XGP/Makefile.am: Settings for gettext added
 
 	* gzo-cfg.h.in: Define of PACKAGE & VERSION removed
 
@@ -3250,18 +3285,18 @@
 
 	* po/de.po, po/en.po, po/es.po: Messages of X-windows files added
 
-	* X-windows/XMessageBox.cpp: I18n
+	* XGP/XMessageBox.cpp: I18n
 
-	* X-windows/XFileEntry.cpp: Constant for dir-seperator replaced with
+	* XGP/XFileEntry.cpp: Constant for dir-seperator replaced with
 	  constant in File-class
 
-	* X-windows/Icons/Makefile.in: Makefile.in added to distribution
+	* XGP/Icons/Makefile.in: Makefile.in added to distribution
 
-	* X-windows/XAbout.cpp, X-windows/XDate.cpp, X-windows/XFileDlg.cpp: I18n
+	* XGP/XAbout.cpp, XGP/XDate.cpp, XGP/XFileDlg.cpp: I18n
 
 2002-04-20  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.cpp, Common/CRegExp.h: operator= throws error
+	* YGP/CRegExp.cpp, YGP/CRegExp.h: operator= throws error
 
 	* po/de.po, po/en.po, po/es.po: New linenumbers
 
@@ -3273,42 +3308,42 @@
 
 	* po/de.po, po/en.po, po/es.po: Bound-errormsg changed
 
-	* Common/Tests/CRegExp.cpp: Include of Test.h at beginning;
+	* YGP/Tests/CRegExp.cpp: Include of Test.h at beginning;
 	  VERBOSE-define prints some usefull information
 
-	* Common/Tests/CRegExp.test: Tests of escaped chars added
+	* YGP/Tests/CRegExp.test: Tests of escaped chars added
 
-	* Common/CRegExp.h: Support for \<digit> added; Comments++; Decl. of
+	* YGP/CRegExp.h: Support for \<digit> added; Comments++; Decl. of
 	  small cmp-fncs added; consts removed (the price of recursivity);
 	  Description corrected; Region can be negated with (^) and (!)
 
-	* Common/CRegExp.cpp: Fixed handling of 'real' regexp; \<digit> implemented;
+	* YGP/CRegExp.cpp: Fixed handling of 'real' regexp; \<digit> implemented;
 	  Cleanup; Enhancement: 2 special bracket expressions (which are mentioned
 	  by regex(7)) implemented; Errormsg improved
 
-	* Common/Tests/CRegExp.test: Special-char-tests, complicated group-tests
+	* YGP/Tests/CRegExp.test: Special-char-tests, complicated group-tests
 	  and bound-tests added
 
-	* Common/Tests/Test.h: ERROROUT flushes stream; PRINT-macro added
+	* YGP/Tests/Test.h: ERROROUT flushes stream; PRINT-macro added
 
-	* Common/Trace_.h: TRACE flushes stream
+	* YGP/Trace_.h: TRACE flushes stream
 
 2002-04-18  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.cpp, Common/CRegExp.h: Finished change to new-style
+	* YGP/CRegExp.cpp, YGP/CRegExp.h: Finished change to new-style
 	  (comp-fnc handle repeat-factor by themself); works as before
 
 2002-04-16  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/CRegExp.test: Fixes (regex expects groups and
+	* YGP/Tests/CRegExp.test: Fixes (regex expects groups and
 	  alternatives without leading backslash);
 	  Can check regexp passed as parameter
 
 2002-04-14  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.cpp, Common/CRegExp.h: static constants defined in header; I18n
+	* YGP/CRegExp.cpp, YGP/CRegExp.h: static constants defined in header; I18n
 
-	* Common/File.cpp: Errormsgs fixed
+	* YGP/File.cpp: Errormsgs fixed
 
 	* po/de.po: Wee fix
 
@@ -3324,13 +3359,13 @@
 	* Makefile.am:
 	Copy of docu-files (for dist-label) adapted to naming-syntax
 
-	* Common/PathSrch.h:
+	* YGP/PathSrch.h:
 	General cfg-header included; Test for system corrected
 
-	* Common/Makefile.am:
+	* YGP/Makefile.am:
 	Current directory is added to include-path
 
-	* Common/ATStamp.h: assignGMT-method added
+	* YGP/ATStamp.h: assignGMT-method added
 
 2002-04-11  Markus Schwab  <g17m0@lycos.com>
 
@@ -3341,7 +3376,7 @@
 	* doc/AByteArray.html.en, doc/ADate.html.en, doc/ANumeric.html.en, doc/ATStamp.html.en, doc/ATime.html.en, doc/AssParse.html.en, doc/AttrParse.html.en, doc/AttrVal.html.en, doc/Attribute.html.en, doc/CRegExp.html.en, doc/DirSrch.html.en, doc/File.html.en, doc/FileRExp.html.en, doc/Handle.html.en, doc/IDirSrch.html.en, doc/INIFile.html.en, doc/IVIOAppl.html.en, doc/Log.html.en, doc/Parse.html.en, doc/PathDirSrch.html.en, doc/PathSrch.html.en, doc/RDirSrch.html.en, doc/RDirSrchSrv.html.en, doc/RegExp.html.en, doc/RemoteFile.html.en, doc/SmartPtr.html.en, doc/Socket.html.en, doc/Tokenize.html.en, doc/XStrBuf.html.en, doc/XStream.html.en, doc/index.html:
 	Comment to recognize file-type added
 
-	* configure.in: Test for CORBA activated; X-windows/Icons/Makefile created
+	* configure.in: Test for CORBA activated; XGP/Icons/Makefile created
 
 	* acconfig.h: Gettext-settings removed
 
@@ -3350,44 +3385,44 @@
 	* Makefile.am: DIST_SUBDIRS added (to always install everything);
 	  gettext-settings removed
 
-	* X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XDate.cpp, X-windows/XDate.h, X-windows/XFileDlg.h, X-windows/XFileEntry.h, X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	* XGP/XAbout.cpp, XGP/XAbout.h, XGP/XDate.cpp, XGP/XDate.h, XGP/XFileDlg.h, XGP/XFileEntry.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
 	  Support for Gtk-- < 1.2 removed
 
-	* X-windows/XFileList.cpp: Type-selection of icons adapted to new name-syntax
+	* XGP/XFileList.cpp: Type-selection of icons adapted to new name-syntax
 
-	* X-windows/Makefile.am: Icons moved into own subdir
+	* XGP/Makefile.am: Icons moved into own subdir
 
-	* X-windows/Icons/Makefile.in: Fixed install (datadir was not defined)
+	* XGP/Icons/Makefile.in: Fixed install (datadir was not defined)
 
-	* X-windows/Icons/Makefile.in: New file.
+	* XGP/Icons/Makefile.in: New file.
 
 	* gzo-cfg.h.in: Gettext-stuff removed (moved to Internal.h)
 
 2002-04-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RemoteFile.cpp: I18n
+	* YGP/RemoteFile.cpp: I18n
 
-	* Common/Internal.h: Definition of N_ fixed
+	* YGP/Internal.h: Definition of N_ fixed
 
-	* Common/AByteArray.cpp, Common/ATStamp.cpp, Common/DirSrch.cpp, Common/Handle.cpp, Common/IDirSrch.cpp, Common/StackTrc.cpp, Common/Tokenize.cpp, Common/XStrBuf.cpp:
+	* YGP/AByteArray.cpp, YGP/ATStamp.cpp, YGP/DirSrch.cpp, YGP/Handle.cpp, YGP/IDirSrch.cpp, YGP/StackTrc.cpp, YGP/Tokenize.cpp, YGP/XStrBuf.cpp:
 	  Copyright adapted
 
-	* Common/Socket.h: read/write-methods with std::string added
+	* YGP/Socket.h: read/write-methods with std::string added
 
-	* Common/File.h: appendErrorText changed to throwErrorText
+	* YGP/File.h: appendErrorText changed to throwErrorText
 
-	* Common/Version.cpp: Init-method (for library) added
+	* YGP/Version.cpp: Init-method (for library) added
 
-	* Common/ADate.cpp, Common/ANumeric.cpp, Common/ATime.cpp, Common/AssParse.cpp, Common/AttrParse.cpp, Common/CRegExp.cpp, Common/File.cpp, Common/FileRExp.cpp, Common/INIFile.cpp, Common/IVIOAppl.cpp, Common/Parse.cpp, Common/PathDirSrch.cpp, Common/RDirSrch.cpp, Common/RDirSrchSrv.cpp, Common/Socket.cpp:
+	* YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ATime.cpp, YGP/AssParse.cpp, YGP/AttrParse.cpp, YGP/CRegExp.cpp, YGP/File.cpp, YGP/FileRExp.cpp, YGP/INIFile.cpp, YGP/IVIOAppl.cpp, YGP/Parse.cpp, YGP/PathDirSrch.cpp, YGP/RDirSrch.cpp, YGP/RDirSrchSrv.cpp, YGP/Socket.cpp:
 	  I18n
 
 	* po/de.po, po/es.po: New file.
 
-	* Common/Socket.cpp: Forgotten string I18n
+	* YGP/Socket.cpp: Forgotten string I18n
 
-	* Common/Internal.h: New file.
+	* YGP/Internal.h: New file.
 
-	* Common/Makefile.am: Settings for gettext added; Internal.h added
+	* YGP/Makefile.am: Settings for gettext added; Internal.h added
 
 	* ChangeLog: I18n; class Entity added
 
@@ -3399,22 +3434,22 @@
 
 	* Makefile.am: I18n-subdirs added
 
-	* X-windows/XFileList.h: Support for Gtk-- < 1.2 removed
+	* XGP/XFileList.h: Support for Gtk-- < 1.2 removed
 
-	* X-windows/XFileList.cpp: Support for Gtk-- < 1.2 removed; Ugly trace (if
+	* XGP/XFileList.cpp: Support for Gtk-- < 1.2 removed; Ugly trace (if
 	  window==NULL) removed
 
-	* X-windows/XMessageBox.h: Support for Gtk-- < 1.2 removed; static data moved
+	* XGP/XMessageBox.h: Support for Gtk-- < 1.2 removed; static data moved
 	  into class
 
-	* X-windows/XMessageBox.cpp: Static var moved into class; Fixed trap
+	* XGP/XMessageBox.cpp: Static var moved into class; Fixed trap
 	  with show (Gtk--?); Traces improved
 
 2002-04-05  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Makefile.am, Common/Makefile.am: Version-info for libAttr set
+	* XGP/Makefile.am, YGP/Makefile.am: Version-info for libAttr set
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: name () returns only filename (without
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h: name () returns only filename (without
 	  path)
 
 2002-04-04  Markus Schwab  <g17m0@lycos.com>
@@ -3423,38 +3458,38 @@
 
 2002-04-01  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XApplication.cpp, X-windows/XApplication.h:
+	* XGP/XApplication.cpp, XGP/XApplication.h:
 	Support for Gtk-- < 1.2 removed; Accelgroup removed (caused sigseg); Minor changes
 
 2002-03-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/Makefile.am: Test.h added
+	* YGP/Tests/Makefile.am: Test.h added
 
-	* Common/XStrBuf.h, Common/XStream.h: Comments improved
+	* YGP/XStrBuf.h, YGP/XStream.h: Comments improved
 
-	* Common/Tokenize.h: Minor fix
+	* YGP/Tokenize.h: Minor fix
 
-	* Common/AttrVal.h: setDefined-method added
+	* YGP/AttrVal.h: setDefined-method added
 
-	* Common/SmartPtr.h: Comments improved
+	* YGP/SmartPtr.h: Comments improved
 
-	* Common/Makefile.am: Entity added
+	* YGP/Makefile.am: Entity added
 
-	* Common/INIFile.cpp, Common/INIFile.h: addAttribute doesn't throw exception
+	* YGP/INIFile.cpp, YGP/INIFile.h: addAttribute doesn't throw exception
 	  (but asserts)
 
-	* Common/Handle.h: Using now setDefined-method of AttrVal; Fix in assert
+	* YGP/Handle.h: Using now setDefined-method of AttrVal; Fix in assert
 
-	* Common/ATime.h, Common/ATime.cpp, Common/Handle.cpp, Common/AByteArray.cpp, Common/ADate.cpp, Common/ADate.h, Common/ANumeric.cpp, Common/ANumeric.h:
+	* YGP/ATime.h, YGP/ATime.cpp, YGP/Handle.cpp, YGP/AByteArray.cpp, YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h:
 	  Using now setDefined-method of AttrVal
 
-	* Common/Entity.cpp, Common/Entity.h: New file.
+	* YGP/Entity.cpp, YGP/Entity.h: New file.
 
 2001-10-20  Markus Schwab  <g17m0@lycos.com>
 
 	* doc/XStrBuf.html.en, doc/SmartPtr.html.en: Colorized
 
-	* Common/Socket.h, Common/Socket.cpp:
+	* YGP/Socket.h, YGP/Socket.cpp:
 	  Name 'host' replaced with 'server'; const-correctness improved; comments improved
 
 	* doc/ADate.html.en: Static-keyword from member-descriptions removed
@@ -3465,19 +3500,19 @@
 
 	* doc/Parse.html.en: Colorized *ParseSelection
 
-	* Common/Parse.h: Comments improved; Minor fix
+	* YGP/Parse.h: Comments improved; Minor fix
 
 	* doc/Parse.html.en: Heaps of objects colorized
 
 2001-10-18  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/AssParse.cpp: Test with quoted text with quotes corrected
+	* YGP/Tests/AssParse.cpp: Test with quoted text with quotes corrected
 
-	* Common/Tokenize.h: Operator= returns non-const this
+	* YGP/Tokenize.h: Operator= returns non-const this
 
-	* Common/AssParse.h: Comments improved
+	* YGP/AssParse.h: Comments improved
 
-	* Common/AssParse.cpp: Bugfix de-escaping quoted text
+	* YGP/AssParse.cpp: Bugfix de-escaping quoted text
 
 2001-10-17  Markus Schwab  <g17m0@lycos.com>
 
@@ -3528,97 +3563,97 @@
 
 	* AUTHORS, README: Actualized
 
-	* X-windows/XApplication.cpp: Stacktrace (in case of GPF) added
+	* XGP/XApplication.cpp: Stacktrace (in case of GPF) added
 
-	* Common/RemoteFile.cpp, Common/RemoteFile.h:
+	* YGP/RemoteFile.cpp, YGP/RemoteFile.h:
 	  Read-command examines length (of read data) from server
 
-	* Common/RDirSrchSrv.cpp, Common/RDirSrchSrv.h:
+	* YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h:
 	  Read-command returns also length (of read data)
 
-	* Common/AttrParse.h, Common/AttrParse.cpp:
+	* YGP/AttrParse.h, YGP/AttrParse.cpp:
 	  Const-corrected assignValues
 
 2001-10-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RemoteFile.cpp: Traces changed
+	* YGP/RemoteFile.cpp: Traces changed
 
-	* Common/StackTrc.cpp: Stacktrace only displays (max.) 15 levels
+	* YGP/StackTrc.cpp: Stacktrace only displays (max.) 15 levels
 
-	* Common/RDirSrchSrv.cpp: Read-command fixed
+	* YGP/RDirSrchSrv.cpp: Read-command fixed
 
-	* Common/RDirSrch.cpp: Fixed UTC-handling
+	* YGP/RDirSrch.cpp: Fixed UTC-handling
 
-	* Common/Log.h: Fixed log-macros
+	* YGP/Log.h: Fixed log-macros
 
-	* Common/Attribute.h: Method to assign a value with known size added (assign)
+	* YGP/Attribute.h: Method to assign a value with known size added (assign)
 
-	* Common/AttrParse.cpp: Assigning values to attributes with length of data specified
+	* YGP/AttrParse.cpp: Assigning values to attributes with length of data specified
 
-	* Common/AssParse.h: makeAssignment got length-parameter
+	* YGP/AssParse.h: makeAssignment got length-parameter
 
-	* Common/AssParse.cpp: getNextNode removes escaped quotes; fixes
+	* YGP/AssParse.cpp: getNextNode removes escaped quotes; fixes
 
-	* Common/ATStamp.h: toSysTime added (again)
+	* YGP/ATStamp.h: toSysTime added (again)
 
 2001-10-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RemoteFile.cpp: Read-buffer is char* const-attribute
+	* YGP/RemoteFile.cpp: Read-buffer is char* const-attribute
 
-	* Common/RDirSrchSrv.cpp: Fixed bug in read-command
+	* YGP/RDirSrchSrv.cpp: Fixed bug in read-command
 
-	* Common/Attribute.h: Attribute for char* consts added
+	* YGP/Attribute.h: Attribute for char* consts added
 
-	* Common/AssParse.cpp, Common/AssParse.h: Methods to create assignment-string added
+	* YGP/AssParse.cpp, YGP/AssParse.h: Methods to create assignment-string added
 
-	* Common/ATStamp.h: Handling of GMT/local time changed
+	* YGP/ATStamp.h: Handling of GMT/local time changed
 
-	* Common/RDirSrchSrv.cpp: Handling of file-commands added
+	* YGP/RDirSrchSrv.cpp: Handling of file-commands added
 
-	* Common/RDirSrchSrv.h: New commands commented
+	* YGP/RDirSrchSrv.h: New commands commented
 
-	* Common/RemoteFile.cpp, Common/RemoteFile.h: New file.
+	* YGP/RemoteFile.cpp, YGP/RemoteFile.h: New file.
 
-	* Common/RDirSrch.cpp: Changes caused by RemoteFile-class
+	* YGP/RDirSrch.cpp: Changes caused by RemoteFile-class
 
-	* Common/INIFile.cpp: Include of errno added (for strerror)
+	* YGP/INIFile.cpp: Include of errno added (for strerror)
 
-	* Common/File.h, Common/File.cpp: Filehandle is passed to file-functions
+	* YGP/File.h, YGP/File.cpp: Filehandle is passed to file-functions
 
 2001-10-03  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/PathDirSrch.cpp: Fixed GPF
+	* YGP/PathDirSrch.cpp: Fixed GPF
 
-	* Common/RDirSrchSrv.cpp: Fixed errorhandling
+	* YGP/RDirSrchSrv.cpp: Fixed errorhandling
 
-	* Common/File.h, Common/File.cpp: Methods to read/write from files added
+	* YGP/File.h, YGP/File.cpp: Methods to read/write from files added
 
-	* Common/DirSrch.cpp: Fixed attribute-handling
+	* YGP/DirSrch.cpp: Fixed attribute-handling
 
-	* Common/ANumeric.cpp: Fixes in toString-method
+	* YGP/ANumeric.cpp: Fixes in toString-method
 
-	* X-windows/XFileEntry.cpp, X-windows/XFileList.h, X-windows/XFileList.cpp:
+	* XGP/XFileEntry.cpp, XGP/XFileList.h, XGP/XFileList.cpp:
 	Using File instead of dirEntry
 
 2001-10-02  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/Makefile.am: DirEntry replaced with File
+	* YGP/Tests/Makefile.am: DirEntry replaced with File
 
-	* Common/Tests/PathDirSrch.cpp, Common/Tests/DirSrch.cpp, Common/RDirSrchSrv.cpp, Common/RDirSrchSrv.h:
+	* YGP/Tests/PathDirSrch.cpp, YGP/Tests/DirSrch.cpp, YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h:
 	  Adapted to new File-interface
 
-	* Common/PathDirSrch.cpp, Common/DirSrch.h, Common/IDirSrch.cpp, Common/IDirSrch.h, Common/PathDirSrch.h, Common/RDirSrch.cpp, Common/RDirSrch.h, Common/DirSrch.cpp:
+	* YGP/PathDirSrch.cpp, YGP/DirSrch.h, YGP/IDirSrch.cpp, YGP/IDirSrch.h, YGP/PathDirSrch.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/DirSrch.cpp:
 	  Keeping result inside search-object
 
-	* Common/Makefile.am:
+	* YGP/Makefile.am:
 	  DirEntry removed; File & RemoteFile added
 
-	* Common/File.h, Common/File.cpp:
+	* YGP/File.h, YGP/File.cpp:
 	  Renamed to File
 
 2001-09-29  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Log.h: EMERGENCY-log added; Macros fixed
+	* YGP/Log.h: EMERGENCY-log added; Macros fixed
 
 	* doc/IVIOAppl.html.en: Colorized
 
@@ -3637,9 +3672,9 @@
 
 	* gzo-cfg.h.in:	Definition of TM_IN_SYS_TIME added
 
-	* Common/FileRExp.cpp, Common/FileRExp.h: Static constants moved into header
+	* YGP/FileRExp.cpp, YGP/FileRExp.h: Static constants moved into header
 
-	* Common/PathDirSrch.h, Common/RDirSrch.h, Common/DirSrch.h, Common/IDirSrch.h:
+	* YGP/PathDirSrch.h, YGP/RDirSrch.h, YGP/DirSrch.h, YGP/IDirSrch.h:
 	  Description improved
 
 	* doc/DirSrch.html.en: Colorized; DirEntry moved into own file
@@ -3648,19 +3683,19 @@
 
 2001-09-25  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/INIFile.h: Const-correctness and comments improved
+	* YGP/INIFile.h: Const-correctness and comments improved
 
-	* Common/INIFile.cpp: Const-correctness improved
+	* YGP/INIFile.cpp: Const-correctness improved
 
-	* Common/File.cpp, Common/File.h: operator= returns non-const self
+	* YGP/File.cpp, YGP/File.h: operator= returns non-const self
 
-	* Common/Attribute.h: Const-correctnes improved
+	* YGP/Attribute.h: Const-correctnes improved
 
-	* Common/ANumeric.cpp: Correct formatting of number
+	* YGP/ANumeric.cpp: Correct formatting of number
 
-	* Common/ANumeric.h: Value is long long (where supported), if GMP is missing
+	* YGP/ANumeric.h: Value is long long (where supported), if GMP is missing
 
-	* Common/ATime.h, Common/ADate.h: Include of sys/time for (missing) struct tm
+	* YGP/ATime.h, YGP/ADate.h: Include of sys/time for (missing) struct tm
 
 	* doc/INIFile.html.en: Colorized; IINIAttribute moved into own file
 
@@ -3678,7 +3713,7 @@
 
 	* doc/ANumeric.html.en: Colorized; New methods (in V0.6) documented
 
-	* Common/AttrVal.h: Fixed handling with toString-methods
+	* YGP/AttrVal.h: Fixed handling with toString-methods
 
 	* doc/AttrVal.html.en, doc/ADate.html.en: Colorized
 
@@ -3686,9 +3721,9 @@
 
 	* doc/AByteArray.html.en: Coloration added
 
-	* Common/AByteArray.cpp: Ctr from char added; compare-methods added
+	* YGP/AByteArray.cpp: Ctr from char added; compare-methods added
 
-	* Common/AByteArray.h: Ctr from char added; compare-methods added; Fixes
+	* YGP/AByteArray.h: Ctr from char added; compare-methods added; Fixes
 
 	* doc/index.html: Classes of V0.6.0 added
 
@@ -3702,129 +3737,129 @@
 
 2001-09-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RDirSrch.h, Common/RDirSrch.cpp: End-command added; fixes
+	* YGP/RDirSrch.h, YGP/RDirSrch.cpp: End-command added; fixes
 
-	* Common/RDirSrchSrv.h, Common/RDirSrchSrv.cpp: End-command added
+	* YGP/RDirSrchSrv.h, YGP/RDirSrchSrv.cpp: End-command added
 
-	* Common/Tokenize.h: Method to access search-string added
+	* YGP/Tokenize.h: Method to access search-string added
 
-	* Common/PathDirSrch.cpp: Minor changes; Adapted to new DirSrch-behaviour
+	* YGP/PathDirSrch.cpp: Minor changes; Adapted to new DirSrch-behaviour
 
 2001-09-06  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp: pEntry is cleared after find-error
+	* YGP/DirSrch.cpp: pEntry is cleared after find-error
 
 2001-09-05  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RDirSrch.cpp: Fixes; Changed name 'host' to 'server'
+	* YGP/RDirSrch.cpp: Fixes; Changed name 'host' to 'server'
 
-	* Common/RDirSrch.h, Common/IDirSrch.h, Common/DirSrch.h: Returnvalue of
+	* YGP/RDirSrch.h, YGP/IDirSrch.h, YGP/DirSrch.h: Returnvalue of
 	  get-method changed
 
 2001-09-04  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IVIOAppl.cpp: SIGBUS also caught
+	* YGP/IVIOAppl.cpp: SIGBUS also caught
 
-	* Common/StackTrc.cpp: Signalhandler restored after stacktrace (at GPF)
+	* YGP/StackTrc.cpp: Signalhandler restored after stacktrace (at GPF)
 
-	* configure.in: Common/Tests added
+	* configure.in: YGP/Tests added
 
 2001-08-28  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tests/Makefile.am: IDirSrch.o added where necessary
+	* YGP/Tests/Makefile.am: IDirSrch.o added where necessary
 
-	* Common/Tests/INIFile.cpp: New file.
+	* YGP/Tests/INIFile.cpp: New file.
 
-	* Common/RDirSrchSrv.cpp, Common/RDirSrchSrv.h: Commands changed (to match
+	* YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h: Commands changed (to match
 	  AssParse-syntax)
 
-	* Common/RDirSrch.h, Common/RDirSrch.cpp: Handling of errors returned from
+	* YGP/RDirSrch.h, YGP/RDirSrch.cpp: Handling of errors returned from
 	  server improved
 
-	* Common/Makefile.am: IDirSrch.cpp added
+	* YGP/Makefile.am: IDirSrch.cpp added
 
-	* Common/IDirSrch.h: Method to convert attributes between systems added
+	* YGP/IDirSrch.h: Method to convert attributes between systems added
 
-	* Common/IDirSrch.cpp: New file.
+	* YGP/IDirSrch.cpp: New file.
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Method to convert attributes (from
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Method to convert attributes (from
 	  system-attr to IDirSrch-attrs) removed
 
-	* Common/File.h: Method to check for hidden files and to set attributes added
+	* YGP/File.h: Method to check for hidden files and to set attributes added
 
-	* Common/AttrParse.h: New file.
+	* YGP/AttrParse.h: New file.
 
 2001-08-27  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.h: Include of assert.h aded
+	* YGP/XStrBuf.h: Include of assert.h aded
 
-	* Common/Tests/Makefile.am: New file.
+	* YGP/Tests/Makefile.am: New file.
 
-	* Common/Makefile.am: Tests splitted in various sources and moved into own directory
+	* YGP/Makefile.am: Tests splitted in various sources and moved into own directory
 
-	* Common/Tests/CRegExp.test, Common/Tests/INIFile.test, Common/Tests/Parsertest.dat:
+	* YGP/Tests/CRegExp.test, YGP/Tests/INIFile.test, YGP/Tests/Parsertest.dat:
 	  Initial revision of test-datafile
 
-	* Common/Tests/Test.h: Initial revision of global header for testing
+	* YGP/Tests/Test.h: Initial revision of global header for testing
 
-	* Common/Tests/Parse.cpp, Common/Tests/PathDirSrch.cpp, Common/Tests/PathSrch.cpp, Common/Tests/Tokenize.cpp, Common/Tests/XStrBuf.cpp, Common/Tests/XStream.cpp, Common/Tests/CRegExp.cpp, Common/Tests/DirSrch.cpp, Common/Tests/FileRExp.cpp, Common/Tests/Handle.cpp, Common/Tests/IVIOAppl.cpp, Common/Tests/ADate.cpp, Common/Tests/ANumeric.cpp, Common/Tests/ATStamp.cpp, Common/Tests/ATime.cpp, Common/Tests/AssParse.cpp, Common/Tests/AttrParse.cpp, Common/Tests/Attribute.cpp, Common/Tests/AByteArray.cpp:
+	* YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/AByteArray.cpp:
 	  Initial revision of test
 
-	* Common/Test.Dat, Common/Test.cpp, Common/Test.ini, Common/Test.rex:
+	* YGP/Test.Dat, YGP/Test.cpp, YGP/Test.ini, YGP/Test.rex:
 	  Removed
 
 2001-08-26  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Tokenize.h: virtual-methods non-virtual (Tokenize doesn't need to be
+	* YGP/Tokenize.h: virtual-methods non-virtual (Tokenize doesn't need to be
 	  polymorph)
 
-	* Common/Tokenize.cpp: Minor fix in getNextNode
+	* YGP/Tokenize.cpp: Minor fix in getNextNode
 
-	* Common/Test.cpp: Test of AttributeParse added
+	* YGP/Test.cpp: Test of AttributeParse added
 
-	* Common/Makefile.am: AttrParse added
+	* YGP/Makefile.am: AttrParse added
 
-	* Common/RDirSrch.cpp, Common/RDirSrch.h:
+	* YGP/RDirSrch.cpp, YGP/RDirSrch.h:
 	  Assigning values from request with new class AttributeParse
 
-	* Common/INIFile.cpp, Common/INIFile.h:
+	* YGP/INIFile.cpp, YGP/INIFile.h:
 	  findAttribute-method with std::string as argument
 
-	* Common/Attribute.h: Destructor is public
+	* YGP/Attribute.h: Destructor is public
 
-	* Common/AssParse.cpp: Coping with missing trailing seperator
+	* YGP/AssParse.cpp: Coping with missing trailing seperator
 
-	* Common/AttrParse.cpp: Initial revision of class to assign the values of
+	* YGP/AttrParse.cpp: Initial revision of class to assign the values of
 	  assign-statements to attributes
 
-	* Common/Tokenize.h: Internal data is protected
+	* YGP/Tokenize.h: Internal data is protected
 
-	* Common/Test.cpp: Attribute- and AssignmentParse-tests added; Handle-tests
+	* YGP/Test.cpp: Attribute- and AssignmentParse-tests added; Handle-tests
 	  moved to the end
 
-	* Common/Makefile.am: AssParse and Attribute added
+	* YGP/Makefile.am: AssParse and Attribute added
 
-	* Common/INIFile.h, Common/INIFile.cpp: INIAttribute moved into own file (and
+	* YGP/INIFile.h, YGP/INIFile.cpp: INIAttribute moved into own file (and
 	  renamed to Attribute)
 
-	* Common/AssParse.cpp, Common/AssParse.h, Common/Attribute.h: New file.
+	* YGP/AssParse.cpp, YGP/AssParse.h, YGP/Attribute.h: New file.
 
 2001-08-24  Markus Schwab  <g17m0@lycos.com>
 
 	* gzo-cfg.h.in: Useless (second) definition of VERSION and PACKAGE removed
 
-	* Common/File.cpp, Common/File.h: Methods to handle GMT-time added
+	* YGP/File.cpp, YGP/File.h: Methods to handle GMT-time added
 
-	* Common/ADate.h: time_t is passed as reference (not directly)
+	* YGP/ADate.h: time_t is passed as reference (not directly)
 
-	* Common/ATStamp.h, Common/ATime.h: Methods to handle GMT-time added
+	* YGP/ATStamp.h, YGP/ATime.h: Methods to handle GMT-time added
 
 	* CORBA/Makefile.in: Handling of dependencies corrected; creating of
 	  (shared) libraries fixed
 
 2001-08-22  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Version.cpp: Including header for definitions
+	* XGP/Version.cpp: Including header for definitions
 
 	* CORBA/CIDirSrch.cpp, CORBA/CIDirSrch.h, CORBA/CDirSrch.idl:
 	  Adapted to new DirectorySearch-interface
@@ -3833,96 +3868,96 @@
 
 	* configure.in: Check for headers added
 
-	* Common/Test.ini: Attribut-values are unformated (as needed by new read-routine)
+	* YGP/Test.ini: Attribut-values are unformated (as needed by new read-routine)
 
 2001-08-21  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp:
+	* YGP/DirSrch.cpp:
 	Using set-Methods from dirEntry
 
 2001-08-17  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RDirSrchSrv.h: Description of class improved; writerError returns status
+	* YGP/RDirSrchSrv.h: Description of class improved; writerError returns status
 
-	* Common/INIFile.h: Adapted to exceptions of AttrVals
+	* YGP/INIFile.h: Adapted to exceptions of AttrVals
 
-	* Common/ANumeric.cpp, Common/ANumeric.h, Common/ADate.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.cpp, Common/ATime.h, Common/ADate.cpp:
+	* YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ADate.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/ADate.cpp:
 	  Unformated IO added; Wrong input throws exception
 
-	* Common/AttrVal.h: Unformated IO added
+	* YGP/AttrVal.h: Unformated IO added
 
-	* Common/AByteArray.cpp: Bugfix
+	* YGP/AByteArray.cpp: Bugfix
 
 2001-08-14  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/File.h: Private access-methods added (for friends)
+	* YGP/File.h: Private access-methods added (for friends)
 
-	* Common/RDirSrch.cpp, Common/RDirSrch.h: Interface changed;
+	* YGP/RDirSrch.cpp, YGP/RDirSrch.h: Interface changed;
 	  Implementation continued
 
-	* Common/PathDirSrch.cpp: Bugfix finding in next node
+	* YGP/PathDirSrch.cpp: Bugfix finding in next node
 
 2001-08-12  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Makefile.am: RDirSrchSrv added
+	* YGP/Makefile.am: RDirSrchSrv added
 
-	* Common/RDirSrchSrv.cpp, Common/RDirSrchSrv.h: Initial revision of
+	* YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h: Initial revision of
 	  DirComp-serverclass
 
 2001-08-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Socket.h, Common/ANumeric.h: Cast-operator added
+	* YGP/Socket.h, YGP/ANumeric.h: Cast-operator added
 
 2001-08-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/RDirSrch.cpp:
+	* YGP/RDirSrch.cpp:
 	  Adapted to new IDirectorySearch-interface; Implementation continued
 
-	* Common/RDirSrch.h, Common/PathDirSrch.cpp, Common/DirSrch.h, Common/DirSrch.cpp:
+	* YGP/RDirSrch.h, YGP/PathDirSrch.cpp, YGP/DirSrch.h, YGP/DirSrch.cpp:
 	  Adapted to new IDirectorySearch-interface
 
-	* Common/IDirSrch.h: Interface enhanced
+	* YGP/IDirSrch.h: Interface enhanced
 
 2001-04-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Adapted to IDirSrch
+	* YGP/Test.cpp: Adapted to IDirSrch
 
-	* Common/Socket.cpp, Common/Socket.h: Read-methods const; write (const char*) added
+	* YGP/Socket.cpp, YGP/Socket.h: Read-methods const; write (const char*) added
 
-	* Common/RDirSrch.cpp, Common/RDirSrch.h: isValid-methods added
+	* YGP/RDirSrch.cpp, YGP/RDirSrch.h: isValid-methods added
 
-	* Common/IDirSrch.h: Attribut-constants and isValid-methods added
+	* YGP/IDirSrch.h: Attribut-constants and isValid-methods added
 
-	* Common/DirSrch.h, Common/DirSrch.cpp:	Adapted to IDirectorySearch-interface
+	* YGP/DirSrch.h, YGP/DirSrch.cpp:	Adapted to IDirectorySearch-interface
 
 2001-04-02  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Adapted to new seperator-handling
+	* YGP/Test.cpp: Adapted to new seperator-handling
 
-	* Common/PathSrch.h, Common/PathDirSrch.cpp: Seperator is const-char-member
+	* YGP/PathSrch.h, YGP/PathDirSrch.cpp: Seperator is const-char-member
 
-	* Common/Socket.h, Common/Socket.cpp: Operator=, ctr (host, port) added;
+	* YGP/Socket.h, YGP/Socket.cpp: Operator=, ctr (host, port) added;
 	  Exception-handling improved; Fixes
 
-	* Common/Makefile.am: RDirSrch, DirEntry, IDirSrch added
+	* YGP/Makefile.am: RDirSrch, DirEntry, IDirSrch added
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: dirEntry in own file; derived from IDirSrch
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: dirEntry in own file; derived from IDirSrch
 
-	* Common/IDirSrch.h: Initial revision of base of DirectorySearch-classes
+	* YGP/IDirSrch.h: Initial revision of base of DirectorySearch-classes
 
-	* Common/RDirSrch.cpp, Common/RDirSrch.h, Common/File.cpp, Common/File.h: New file.
+	* YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/File.cpp, YGP/File.h: New file.
 
 2001-03-27  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Socket.cpp, Common/Socket.h: New file.
+	* YGP/Socket.cpp, YGP/Socket.h: New file.
 
-	* Common/Makefile.am: Socket-class added
+	* YGP/Makefile.am: Socket-class added
 
-	* Common/ANumeric.h: gmp.h is included only from system-path
+	* YGP/ANumeric.h: gmp.h is included only from system-path
 
-	* Common/ANumeric.cpp: Fix of errorhandling after strtol
+	* YGP/ANumeric.cpp: Fix of errorhandling after strtol
 
-	* Common/AByteArray.cpp: Assert removed
+	* YGP/AByteArray.cpp: Assert removed
 
 2001-03-25  Markus Schwab  <g17m0@lycos.com>
 
@@ -3934,32 +3969,32 @@
 
 	* configure.in: Minor fixes; Test for libgmp corrected
 
-	* Common/Test.cpp: Test of AByteArray added
+	* YGP/Test.cpp: Test of AByteArray added
 
-	* Common/Makefile.am: AByteArray added
+	* YGP/Makefile.am: AByteArray added
 
-	* Common/CRegExp.cpp: Using static const-values instead of enum for constants
+	* YGP/CRegExp.cpp: Using static const-values instead of enum for constants
 
-	* Common/AttrVal.h: New constructor with define-parameter
+	* YGP/AttrVal.h: New constructor with define-parameter
 
-	* Common/ANumeric.h: Headers are searched only in path (not locally)
+	* YGP/ANumeric.h: Headers are searched only in path (not locally)
 
-	* Common/ADate.cpp: Using new AtributValue-constructor
+	* YGP/ADate.cpp: Using new AtributValue-constructor
 
-	* Common/Parse.h, Common/PathDirSrch.h, Common/PathSrch.h, Common/XStream.h, Common/ATStamp.h, Common/ATime.h, Common/CRegExp.h, Common/FileRExp.h, Common/Handle.h, Common/INIFile.h, Common/ADate.h:
+	* YGP/Parse.h, YGP/PathDirSrch.h, YGP/PathSrch.h, YGP/XStream.h, YGP/ATStamp.h, YGP/ATime.h, YGP/CRegExp.h, YGP/FileRExp.h, YGP/Handle.h, YGP/INIFile.h, YGP/ADate.h:
 	  Headers are searched only in path (not locally)
 
-	* Common/AByteArray.h, Common/AByteArray.cpp:
+	* YGP/AByteArray.h, YGP/AByteArray.cpp:
 	  Initial revision of byte-array
 
 2001-03-06  Markus Schwab  <g17m0@lycos.com>
 
 	* README: CORBA-dir added
 
-	* X-windows/Makefile.am, Common/Makefile.am:
+	* XGP/Makefile.am, YGP/Makefile.am:
 	  SUBDIR-var resetted (needed, because it is evaluated and set from top-dir)
 
-	* Common/FileRExp.cpp, Common/FileRExp.h:
+	* YGP/FileRExp.cpp, YGP/FileRExp.h:
 	  Constants changed to static const char (from enum) for type-safety
 
 	* CORBA/Makefile.in: IDL-files are installed
@@ -3979,9 +4014,9 @@
 
 	* CORBA/CDirSrch.idl: Constants for file-types added
 
-	* Common/Test.cpp: Bugfix counting number of errors
+	* YGP/Test.cpp: Bugfix counting number of errors
 
-	* Common/IVIOAppl.h: Define for help-longoption added
+	* YGP/IVIOAppl.h: Define for help-longoption added
 
 	* gzo-cfg.h.in:	Initial revision of sceleton for configuration-header
 
@@ -4009,9 +4044,9 @@
 
 	* CORBA/Makefile.in: LIB_TARGETS is set by global Makefile/configure); Fixes
 
-	* Common/ADate.cpp: Using config-header; Bugfixes (with sub/add)
+	* YGP/ADate.cpp: Using config-header; Bugfixes (with sub/add)
 
-	* Common/PathDirSrch.cpp, Common/Test.cpp, Common/Version.cpp, Common/XStrBuf.cpp, Common/XStrBuf.h, Common/ATStamp.cpp, Common/ATime.cpp, Common/CRegExp.cpp, Common/CRegExp.h, Common/DirSrch.cpp, Common/DirSrch.h, Common/FileRExp.cpp, Common/IVIOAppl.cpp, Common/Log.h, Common/ADate.h, Common/ANumeric.cpp, Common/ANumeric.h:
+	* YGP/PathDirSrch.cpp, YGP/Test.cpp, YGP/Version.cpp, YGP/XStrBuf.cpp, YGP/XStrBuf.h, YGP/ATStamp.cpp, YGP/ATime.cpp, YGP/CRegExp.cpp, YGP/CRegExp.h, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/FileRExp.cpp, YGP/IVIOAppl.cpp, YGP/Log.h, YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h:
 	  Using config-header
 
 	* configure.in:
@@ -4021,17 +4056,17 @@
 
 2001-01-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IVIOAppl.cpp: Workaround for VC++-errors
+	* YGP/IVIOAppl.cpp: Workaround for VC++-errors
 
-	* Common/FileRExp.cpp: Adapted for Windoze
+	* YGP/FileRExp.cpp: Adapted for Windoze
 
-	* Common/StackTrc.cpp: Alloc replaced with malloc
+	* YGP/StackTrc.cpp: Alloc replaced with malloc
 
-	* Common/ADate.cpp, Common/ATime.cpp: Include of winnt.h removed
+	* YGP/ADate.cpp, YGP/ATime.cpp: Include of winnt.h removed
 
 2001-01-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Log.h: Logging for Windoze (to console) added
+	* YGP/Log.h: Logging for Windoze (to console) added
 
 	* Windows/VCGeneral.def, Windows/VCGeneral.dsp, Windows/VCGeneral.dsw, Windows/VCGeneral.mak:
 	  File for VC++
@@ -4053,29 +4088,29 @@
 
 2000-12-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.cpp: If read from a string, the leading chars (0, 0x)
+	* YGP/ANumeric.cpp: If read from a string, the leading chars (0, 0x)
 	  specify base (equal to C)
 
 2000-12-07  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/StackTrc.cpp, Common/StackTrc.h:
+	* YGP/StackTrc.cpp, YGP/StackTrc.h:
 	  Signalhandler performing stacktrace added (only for segmentation faults)
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h:
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h:
 	  Stacktrace in case of segmentation fault added
 
-	* Common/Makefile.am:
+	* YGP/Makefile.am:
 	  Log.h and StackTrc-files added
 
-	* Common/Log.h: Constants for logging added
+	* YGP/Log.h: Constants for logging added
 
-	* Common/Test.cpp: Option to test stackdump added; Returns # of wrong tests
+	* YGP/Test.cpp: Option to test stackdump added; Returns # of wrong tests
 
-	* Common/StackTrc.cpp, Common/StackTrc.h: Initial version of stackdump
+	* YGP/StackTrc.cpp, YGP/StackTrc.h: Initial version of stackdump
 
 2000-12-03  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Log.h: Initial version of Log-class
+	* YGP/Log.h: Initial version of Log-class
 
 2000-07-17  Markus Schwab  <g17m0@lycos.com>
 
@@ -4083,29 +4118,29 @@
 
 2000-06-06  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.cpp: Fixed rules when input is putted back
+	* YGP/Parse.cpp: Fixed rules when input is putted back
 
 2000-06-04  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Errorhandling of reg-exps improved
+	* YGP/Test.cpp: Errorhandling of reg-exps improved
 
-	* Common/RegExp.h: CheckIntegrity fixed (no return-statement)
+	* YGP/RegExp.h: CheckIntegrity fixed (no return-statement)
 
-	* Common/ANumeric.cpp: ReadFromStream improved
+	* YGP/ANumeric.cpp: ReadFromStream improved
 
-	* Common/FileRExp.cpp: Bugfix with region-classes
+	* YGP/FileRExp.cpp: Bugfix with region-classes
 
 2000-06-03  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.rex: Alternative-tests added
+	* YGP/Test.rex: Alternative-tests added
 
-	* Common/Test.cpp: Minor changes parsing regexp-file
+	* YGP/Test.cpp: Minor changes parsing regexp-file
 
-	* Common/CRegExp.cpp, Common/CRegExp.h: Handling of alternatvies added
+	* YGP/CRegExp.cpp, YGP/CRegExp.h: Handling of alternatvies added
 
 2000-06-02  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.cpp: Error in ParseSequence throws exception with info
+	* YGP/Parse.cpp: Error in ParseSequence throws exception with info
 	  about wrong object
 
 2000-05-30  Markus Schwab  <g17m0@lycos.com>
@@ -4114,89 +4149,89 @@
 
 	* configure.in: Version++
 
-	* Common/CRegExp.cpp, Common/CRegExp.h: Const-correctness adapted to parent
+	* YGP/CRegExp.cpp, YGP/CRegExp.h: Const-correctness adapted to parent
 
-	* Common/Test.cpp: Traces improved; Fixes while checking regular expressions
+	* YGP/Test.cpp: Traces improved; Fixes while checking regular expressions
 
-	* Common/FileRExp.cpp: Fixed check for region-class
+	* YGP/FileRExp.cpp: Fixed check for region-class
 
-	* Common/FileRExp.cpp, Common/FileRExp.h, Common/RegExp.h:
+	* YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/RegExp.h:
 	  Removed const from matches-method
 
 2000-05-29  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.rex: Initial revision of file containing reg-exps to check
+	* YGP/Test.rex: Initial revision of file containing reg-exps to check
 
 2000-05-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Minor fixes with PathDirSrch & INIFile-tests;
+	* YGP/Test.cpp: Minor fixes with PathDirSrch & INIFile-tests;
 	  Regular expressions to check are read from a file
 
-	* Common/Parse.cpp: Fixes with error-handing of ParseSequence and -Selection
+	* YGP/Parse.cpp: Fixes with error-handing of ParseSequence and -Selection
 
-	* Common/Makefile.am: Test.rex added
+	* YGP/Makefile.am: Test.rex added
 
-	* Common/CRegExp.cpp: Fixes within word-begin-checks
+	* YGP/CRegExp.cpp: Fixes within word-begin-checks
 
 2000-05-21  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.cpp: Fixes with matching region-classes
+	* YGP/CRegExp.cpp: Fixes with matching region-classes
 
-	* Common/Test.cpp: Tests of reg-exps added
+	* YGP/Test.cpp: Tests of reg-exps added
 
-	* Common/Trace_.h: Include of iomanip.h added
+	* YGP/Trace_.h: Include of iomanip.h added
 
-	* Common/Makefile.am: Test.ini added
+	* YGP/Makefile.am: Test.ini added
 
-	* Common/CRegExp.cpp, Common/CRegExp.h: Handling of quoted characters added
+	* YGP/CRegExp.cpp, YGP/CRegExp.h: Handling of quoted characters added
 
 2000-05-18  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Regexp-tests added and fixed
+	* YGP/Test.cpp: Regexp-tests added and fixed
 
-	* Common/CRegExp.h: Compare-methods (for differing reg-exp-classes added
+	* YGP/CRegExp.h: Compare-methods (for differing reg-exp-classes added
 
-	* Common/CRegExp.cpp: Further fixes: Checking found range in regexp;
+	* YGP/CRegExp.cpp: Further fixes: Checking found range in regexp;
 	  Abort in own code
 
-	* Common/FileRExp.cpp: Fixes checking ranges
+	* YGP/FileRExp.cpp: Fixes checking ranges
 
-	* Common/Test.cpp: Tests of regular reg-exp added
+	* YGP/Test.cpp: Tests of regular reg-exp added
 
-	* Common/CRegExp.cpp: Fixes in region-handling
+	* YGP/CRegExp.cpp: Fixes in region-handling
 
 2000-05-16  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.cpp: Implemented repeater-characters, char- & region-compare
+	* YGP/CRegExp.cpp: Implemented repeater-characters, char- & region-compare
 
 2000-05-15  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/CRegExp.cpp: Started with reg-exp-compare
+	* YGP/CRegExp.cpp: Started with reg-exp-compare
 
-	* Common/FileRExp.cpp: Errors reported with exceptions; Constants renamed
+	* YGP/FileRExp.cpp: Errors reported with exceptions; Constants renamed
 
-	* Common/FileRExp.h: Parent & constants renamed
+	* YGP/FileRExp.h: Parent & constants renamed
 
-	* Common/CRegExp.cpp, Common/CRegExp.h:
+	* YGP/CRegExp.cpp, YGP/CRegExp.h:
 	Initial revision of class to compare real regular expressions
 
-	* Common/RegExp.h: Renamed
+	* YGP/RegExp.h: Renamed
 
-	* Common/Makefile.am: CRegExp added
+	* YGP/Makefile.am: CRegExp added
 
 2000-05-14  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.h: Static methods for int-conversion added
+	* YGP/ANumeric.h: Static methods for int-conversion added
 
-	* Common/FileRExp.cpp, Common/FileRExp.h: Using RegularExpression-base class
+	* YGP/FileRExp.cpp, YGP/FileRExp.h: Using RegularExpression-base class
 
-	* Common/RegExp.h: Initial revision of base-class of all regular expression
+	* YGP/RegExp.h: Initial revision of base-class of all regular expression
 
 2000-05-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/INIFile.h: Specializations of INIAttribute added; Const-correctness improved
+	* YGP/INIFile.h: Specializations of INIAttribute added; Const-correctness improved
 
-	* Common/INIFile.cpp: INISection::findAttribute added; const-correctness improved
+	* YGP/INIFile.cpp: INISection::findAttribute added; const-correctness improved
 
 	* doc/INIFile.html.en: Initial revision of documentations of INI-file-parsing classes
 
@@ -4204,58 +4239,58 @@
 
 2000-05-10  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Test of INI-file-parse with new macros
+	* YGP/Test.cpp: Test of INI-file-parse with new macros
 
-	* Common/INIFile.h: Macros to handle INI-files added
+	* YGP/INIFile.h: Macros to handle INI-files added
 
 2000-05-09  Markus Schwab  <g17m0@lycos.com>
 
 	* : Adapted to GCC for DOS (cygwin); Minor fixes
 
-	* Common/Version.cpp: Entry-point for Win-DLL added
+	* YGP/Version.cpp: Entry-point for Win-DLL added
 
-	* Common/Test.cpp: Tests of INI-file-parser added
+	* YGP/Test.cpp: Tests of INI-file-parser added
 
-	* Common/Makefile.am: Classes to handle INI-files added (INIFile.cpp/h)
+	* YGP/Makefile.am: Classes to handle INI-files added (INIFile.cpp/h)
 
-	* Common/XStrBuf.h, Common/ANumeric.cpp, Common/ATStamp.cpp: Minor fixes
+	* YGP/XStrBuf.h, YGP/ANumeric.cpp, YGP/ATStamp.cpp: Minor fixes
 	  Adapted to GCC for DOS (cygwin);
 
-	* Common/DirSrch.cpp, Common/ADate.cpp, Common/ATime.cpp:
+	* YGP/DirSrch.cpp, YGP/ADate.cpp, YGP/ATime.cpp:
 	  Adapted to GCC for DOS (cygwin)
 
-	* Common/Test.ini: Initial revision of INI-file to test
+	* YGP/Test.ini: Initial revision of INI-file to test
 
-	* Common/INIFile.cpp, Common/INIFile.h: Parsing of whole file added
+	* YGP/INIFile.cpp, YGP/INIFile.h: Parsing of whole file added
 
 2000-05-07  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/INIFile.cpp, Common/INIFile.h: Initial revision of class to parse INI-files
+	* YGP/INIFile.cpp, YGP/INIFile.h: Initial revision of class to parse INI-files
 
-	* Common/INIFile.Gen: Initial revision of Generator-input for INIFile-class(es)
+	* YGP/INIFile.Gen: Initial revision of Generator-input for INIFile-class(es)
 
 2000-04-24  Markus Schwab  <g17m0@lycos.com>
 
 	* doc/IVIOAppl.html.en: Changes of extStreambuf, IVIOApplication added
 
-	* Common/Test.cpp: Verbose-mode shows option-parameters
+	* YGP/Test.cpp: Verbose-mode shows option-parameters
 
-	* Common/XStrBuf.cpp: Fix if last line contains no trailing LF
+	* YGP/XStrBuf.cpp: Fix if last line contains no trailing LF
 
-	* Common/IVIOAppl.cpp: Handling of long-options adapted (more) to getopt
+	* YGP/IVIOAppl.cpp: Handling of long-options adapted (more) to getopt
 
 2000-04-21  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileDlg.h, X-windows/XMessageBox.h, X-windows/Check.cpp, X-windows/XAbout.cpp, X-windows/XApplication.cpp, X-windows/XDate.cpp, X-windows/XFileDlg.cpp, X-windows/XMessageBox.cpp, X-windows/XPrintDlg.cpp:
+	* XGP/XFileDlg.h, XGP/XMessageBox.h, XGP/Check.cpp, XGP/XAbout.cpp, XGP/XApplication.cpp, XGP/XDate.cpp, XGP/XFileDlg.cpp, XGP/XMessageBox.cpp, XGP/XPrintDlg.cpp:
 	  Adapted to Gtk-- 1.2.0
 
 	* ChangeLog: V0.5.21
 
 	* configure.in: Fixes of autoconf-checks (AC_C_CONST, AC_C_INLINE removed; Version++)
 
-	* Common/Test.cpp: Fix for GCC-2.95.2
+	* YGP/Test.cpp: Fix for GCC-2.95.2
 
-	* Common/DirSrch.h: Autoconf-checks added; suggestions for improvement
+	* YGP/DirSrch.h: Autoconf-checks added; suggestions for improvement
 
 2000-04-15  Markus Schwab  <g17m0@lycos.com>
 
@@ -4264,19 +4299,19 @@
 
 2000-04-14  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/PathDirSrch.cpp: Traces improved
+	* YGP/PathDirSrch.cpp: Traces improved
 
-	* Common/DirSrch.h, Common/PathDirSrch.cpp: Fixes for Windoze-version
+	* YGP/DirSrch.h, YGP/PathDirSrch.cpp: Fixes for Windoze-version
 
-	* Common/ANumeric.cpp, Common/ANumeric.h: Fixes in assignment-operators
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Fixes in assignment-operators
 
 2000-04-13  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp: Fix checking status of UNIX-files
+	* YGP/DirSrch.cpp: Fix checking status of UNIX-files
 
 2000-04-12  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileList.cpp: Adapted for Gtk-- version 1.2.0pre1
+	* XGP/XFileList.cpp: Adapted for Gtk-- version 1.2.0pre1
 
 2000-04-11  Markus Schwab  <g17m0@lycos.com>
 
@@ -4284,20 +4319,20 @@
 
 	* doc/DirSrch.html.en: Description improved
 
-	* Common/PathDirSrch.cpp, Common/PathDirSrch.h: Method to check path added
+	* YGP/PathDirSrch.cpp, YGP/PathDirSrch.h: Method to check path added
 
-	* Common/DirSrch.cpp: Traces with more info
+	* YGP/DirSrch.cpp: Traces with more info
 
 2000-04-07  Markus Schwab  <g17m0@lycos.com>
 
 	* doc/ANumeric.html.en: Documentation of new constructors and assignement-operators added
 
-	* X-windows/XFileList.cpp, X-windows/XFileList.h: Pixmap handling changed (yet again)
+	* XGP/XFileList.cpp, XGP/XFileList.h: Pixmap handling changed (yet again)
 
-	* X-windows/XAbout.cpp, X-windows/XApplication.cpp, X-windows/XApplication.h:
+	* XGP/XAbout.cpp, XGP/XApplication.cpp, XGP/XApplication.h:
 	  Fixes for Gtk---version 1.0.x
 
-	* Common/ANumeric.h: Constructors (and assignment-operators) added
+	* YGP/ANumeric.h: Constructors (and assignment-operators) added
 
 2000-04-06  Markus Schwab  <g17m0@lycos.com>
 
@@ -4307,13 +4342,13 @@
 
 	* README: Documentation of directory-structure added
 
-	* doc/XStream.html.en, Common/XStream.h: Initial revision of documentation of extStream-class
+	* doc/XStream.html.en, YGP/XStream.h: Initial revision of documentation of extStream-class
 
-	* Common/Tokenize.h: Const-correctness
+	* YGP/Tokenize.h: Const-correctness
 
-	* Common/SmartPtr.h: Fix of assignment-operator
+	* YGP/SmartPtr.h: Fix of assignment-operator
 
-	* Common/PathSrch.h: Assignment-operator for std::string added; Constructor,
+	* YGP/PathSrch.h: Assignment-operator for std::string added; Constructor,
 	  Copy-ctr & Assignmentoperator prohibited
 
 	* doc/XStrBuf.html.en: Initial revision of documentation of extStreambuf-class
@@ -4328,9 +4363,9 @@
 
 	* doc/SmartPtr.html.en: Initial revision of documentation of SmartPtr-class
 
-	* Common/IVIOAppl.cpp: Formatting; additional assert
+	* YGP/IVIOAppl.cpp: Formatting; additional assert
 
-	* Common/Parse.cpp, Common/Parse.h: Errorhandling improved (exceptions) and
+	* YGP/Parse.cpp, YGP/Parse.h: Errorhandling improved (exceptions) and
 	  corrected
 
 	* doc/Parse.html.en: CB/OFParseSelection added
@@ -4363,9 +4398,9 @@
 
 	* doc/Parse.html.en: Documentation of ParseText added; changed to new style
 
-	* Common/Test.cpp: Errorhandling of parser with exception
+	* YGP/Test.cpp: Errorhandling of parser with exception
 
-	* Common/Parse.cpp, Common/Parse.h: Error-handling changed to excpetions;
+	* YGP/Parse.cpp, YGP/Parse.h: Error-handling changed to excpetions;
 	  operator= returns non-const object
 
 2000-04-01  Markus Schwab  <g17m0@lycos.com>
@@ -4384,9 +4419,9 @@
 
 	* doc/IVIOAppl.html.en: Initial revision of documentation of IVIOApplication-class
 
-	* Common/IVIOAppl.h: Comments added
+	* YGP/IVIOAppl.h: Comments added
 
-	* Common/FileRExp.cpp, Common/FileRExp.h: Wildcard-characters as enum (not static const char)
+	* YGP/FileRExp.cpp, YGP/FileRExp.h: Wildcard-characters as enum (not static const char)
 
 2000-03-26  Markus Schwab  <g17m0@lycos.com>
 
@@ -4399,16 +4434,16 @@
 	* doc/PathDirSrch.html.en:
 	  Initial revision of documentation of PathDirectroySearch-class
 
-	* Common/PathDirSrch.h:
+	* YGP/PathDirSrch.h:
 	  checkIntegrity protected; default value for attributes changed
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Path-handling with strings (not const char*)
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Path-handling with strings (not const char*)
 
-	* Common/Handle.h: operator= returns non-const IHandle; fixes
+	* YGP/Handle.h: operator= returns non-const IHandle; fixes
 
-	* Common/Handle.cpp: operator= returns non-const IHandle
+	* YGP/Handle.cpp: operator= returns non-const IHandle
 
-	* Common/ATStamp.cpp, Common/ATStamp.h: Year can be negative
+	* YGP/ATStamp.cpp, YGP/ATStamp.h: Year can be negative
 
 	* doc/DirSrch.html.en: Initial revision of documentation of DirectroySearch-class
 
@@ -4422,9 +4457,9 @@
 
 	* doc/ANumeric.html.en: Structure added
 
-	* Common/ANumeric.cpp, Common/ANumeric.h: Construction & assignment from strings added
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Construction & assignment from strings added
 
-	* Common/ADate.cpp, Common/ADate.h: Year is signed; fixes at aritmethics
+	* YGP/ADate.cpp, YGP/ADate.h: Year is signed; fixes at aritmethics
 
 	* doc/ATime.html.en: Description of member-functions finished
 
@@ -4450,45 +4485,45 @@
 
 2000-03-12  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStream.h: Restoring old streambuf at destruction
+	* YGP/XStream.h: Restoring old streambuf at destruction
 
-	* Common/Parse.h: Type in template corrected
+	* YGP/Parse.h: Type in template corrected
 
-	* Common/AttrVal.h: Including old-style iostreams
+	* YGP/AttrVal.h: Including old-style iostreams
 
 2000-03-11  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XApplication.cpp, X-windows/XApplication.h:
+	* XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h:
 	  Icon-handling changed
 
 2000-03-10  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileList.cpp: Equal parts (of Gtk-- handling) put together
+	* XGP/XFileList.cpp: Equal parts (of Gtk-- handling) put together
 
 	* Makefile.am: Windoze-parts added to distribution
 
 	* ChangeLog: V0.5.11
 
-	* X-windows/XAbout.h, X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XDate.cpp, X-windows/XDate.h, X-windows/XFileDlg.h, X-windows/XFileEntry.h, X-windows/XFileList.cpp, X-windows/XFileList.h, X-windows/XMessageBox.cpp, X-windows/XMessageBox.h, X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h, X-windows/XAbout.cpp:
+	* XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XDate.cpp, XGP/XDate.h, XGP/XFileDlg.h, XGP/XFileEntry.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XMessageBox.cpp, XGP/XMessageBox.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h, XGP/XAbout.cpp:
 	  Changes for Gtk-- 1.0.x
 
 2000-03-08  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/AttrVal.h: Formatting of operator<< changed
+	* YGP/AttrVal.h: Formatting of operator<< changed
 
-	* Common/DirSrch.h: Methods to compare dirEntry-objects (by name)
+	* YGP/DirSrch.h: Methods to compare dirEntry-objects (by name)
 
 2000-03-07  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp: Fix for VC in check for executeable extensions
+	* YGP/DirSrch.cpp: Fix for VC in check for executeable extensions
 
 2000-03-05  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Testfile is only opened; not created
+	* YGP/Test.cpp: Testfile is only opened; not created
 
 2000-03-04  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp: Don't delete pBuffer as this is done by streambuf-dtr
+	* YGP/XStrBuf.cpp: Don't delete pBuffer as this is done by streambuf-dtr
 
 	* Make.bat: Bugfix passing parameters
 
@@ -4498,10 +4533,10 @@
 
 	* Make.bat: Batch to compile Windoze-version
 
-	* X-windows/XFileList.cpp, X-windows/XFileList.h: 
+	* XGP/XFileList.cpp, XGP/XFileList.h: 
 	  Pixmap-handling changed for Gtk-- 1.1.8 (to Gdk_Pixmaps)
 
-	* Common/Parse.h: Fix with definition of ostream_withassign
+	* YGP/Parse.h: Fix with definition of ostream_withassign
 
 	* configure.in: Library-checks added
 
@@ -4511,105 +4546,105 @@
 
 2000-03-02  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XMessageBox.cpp, X-windows/XMessageBox.h, X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XFileDlg.h, X-windows/XFileEntry.h, X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h:
+	* XGP/XMessageBox.cpp, XGP/XMessageBox.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XFileDlg.h, XGP/XFileEntry.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h:
 	  Test for Gtk---version with Gtk---macros
 
 2000-02-24  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/FileRExp.h: New file.
+	* YGP/FileRExp.h: New file.
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Bugfix testing attributes in Linux-version
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Bugfix testing attributes in Linux-version
 
-	* Common/Test.cpp: DirSrch-tests improved
+	* YGP/Test.cpp: DirSrch-tests improved
 
-	* X-windows/XApplication.h, X-windows/XDate.h, X-windows/XFileDlg.h, X-windows/XFileEntry.h, X-windows/XFileList.h, X-windows/XMessageBox.h, X-windows/XPrintDlg.h, X-windows/XAbout.h, X-windows/XApplication.cpp, X-windows/XDate.cpp, X-windows/XFileDlg.cpp, X-windows/XFileEntry.cpp, X-windows/XFileList.cpp, X-windows/XMessageBox.cpp, X-windows/XPrintDlg.cpp:
+	* XGP/XApplication.h, XGP/XDate.h, XGP/XFileDlg.h, XGP/XFileEntry.h, XGP/XFileList.h, XGP/XMessageBox.h, XGP/XPrintDlg.h, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XDate.cpp, XGP/XFileDlg.cpp, XGP/XFileEntry.cpp, XGP/XFileList.cpp, XGP/XMessageBox.cpp, XGP/XPrintDlg.cpp:
 	  Adapted to Gtk-- 1.1.8 (using namespaces)
 
 2000-02-22  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XMessageBox.h:
+	* XGP/XAbout.cpp, XGP/XAbout.h, XGP/XMessageBox.h:
 	  Adapted to new Gtk-- (with namespace)
 
 2000-02-21  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Tests generalized (for Windoze)
+	* YGP/Test.cpp: Tests generalized (for Windoze)
 
-	* Common/DirSrch.cpp: Bugfix handling attributs in Windoze-version
+	* YGP/DirSrch.cpp: Bugfix handling attributs in Windoze-version
 
-	* Common/DirSrch.cpp: Bugfix setting attributs for Windoze
+	* YGP/DirSrch.cpp: Bugfix setting attributs for Windoze
 
 2000-02-19  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.h: Bugfixes; adapted for VC++ 6.0
+	* YGP/ANumeric.h: Bugfixes; adapted for VC++ 6.0
 
-	* Common/ANumeric.cpp: Using long if GMP is not available (completed)
+	* YGP/ANumeric.cpp: Using long if GMP is not available (completed)
 
-	* Common/ADate.cpp, Common/ATime.cpp: min/maxAdapt checks only integrity of their part
+	* YGP/ADate.cpp, YGP/ATime.cpp: min/maxAdapt checks only integrity of their part
 
 2000-02-15  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Bugfix checking attributs in Windoze
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Bugfix checking attributs in Windoze
 
 	* Windows/Test.mak: New file.
 
 2000-02-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.h: Constructor with streambuf*
+	* YGP/XStrBuf.h: Constructor with streambuf*
 
-	* Common/XStrBuf.cpp: Constructor with streambuf*; Bugfix in underflow
+	* YGP/XStrBuf.cpp: Constructor with streambuf*; Bugfix in underflow
 
-	* Common/ANumeric.cpp, Common/ANumeric.h: Using long if GMP is not available
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Using long if GMP is not available
 
 2000-02-06  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.h: Methods to set data-sink added
+	* YGP/XStrBuf.h: Methods to set data-sink added
 
-	* Common/XStream.h: extStream is multiple inherited from extStreambuf & istream
+	* YGP/XStream.h: extStream is multiple inherited from extStreambuf & istream
 
-	* Common/XStrBuf.cpp, Common/XStrBuf.h, Common/Test.cpp: Changes for Visual C++
+	* YGP/XStrBuf.cpp, YGP/XStrBuf.h, YGP/Test.cpp: Changes for Visual C++
 
-	* Common/DirSrch.cpp: Formatting changed
+	* YGP/DirSrch.cpp: Formatting changed
 
 2000-02-02  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ADate.h, Common/ATime.h: operator= (istream&) implementiert
+	* YGP/ADate.h, YGP/ATime.h: operator= (istream&) implementiert
 
 	* configure.in: Version 0.5.11
 
-	* Common/PathDirSrch.cpp, Common/XStrBuf.cpp, Common/ANumeric.cpp, Common/DirSrch.cpp, Common/DirSrch.h, Common/FileRExp.cpp, Common/Makefile.am, Common/Parse.cpp, Common/Parse.h:
+	* YGP/PathDirSrch.cpp, YGP/XStrBuf.cpp, YGP/ANumeric.cpp, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/FileRExp.cpp, YGP/Makefile.am, YGP/Parse.cpp, YGP/Parse.h:
 	  Adapted for MVC
 
-	* Common/IVIOAppl.cpp, Common/AttrVal.h, Common/ADate.cpp, Common/ADate.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.cpp, Common/ATime.h, Common/Handle.cpp, Common/Handle.h:
+	* YGP/IVIOAppl.cpp, YGP/AttrVal.h, YGP/ADate.cpp, YGP/ADate.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/Handle.cpp, YGP/Handle.h:
 	  Adapted for MVC; minor fixes
 
-	* X-windows/XFileEntry.h: Adapted to new DirectorySearch-interface
+	* XGP/XFileEntry.h: Adapted to new DirectorySearch-interface
 
 2000-01-26  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileList.cpp: File-types from DirectorySearch used
+	* XGP/XFileList.cpp: File-types from DirectorySearch used
 
-	* Common/Test.cpp: File-types are DirectorySearch-constants
+	* YGP/Test.cpp: File-types are DirectorySearch-constants
 
-	* Common/IVIOAppl.h: Long-option array is public
+	* YGP/IVIOAppl.h: Long-option array is public
 
-	* Common/DirSrch.h: Improved (File-types as enum
+	* YGP/DirSrch.h: Improved (File-types as enum)
 
-	* Common/DirSrch.cpp: Bugfixes in Windows-Version
+	* YGP/DirSrch.cpp: Bugfixes in Windows-Version
 
 2000-01-24  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.h: ParseEOF for object-member-callbacks corrected
+	* YGP/Parse.h: ParseEOF for object-member-callbacks corrected
 
-	* Common/Parse.cpp: Traces removed
+	* YGP/Parse.cpp: Traces removed
 
-	* Common/IVIOAppl.cpp: Bugfix handling long options
+	* YGP/IVIOAppl.cpp: Bugfix handling long options
 
 2000-01-23  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XFileList.cpp, X-windows/XFileList.h:
+	* XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XFileList.cpp, XGP/XFileList.h:
 	  Adapted to Gtk-- 1.1.x
 
-	* X-windows/Makefile.am: Gtk---settings are set dynamically
+	* XGP/Makefile.am: Gtk---settings are set dynamically
 
 	* configure.in: Dir-structure changed (subdirs Common and X-Windows)
 
@@ -4619,66 +4654,66 @@
 
 2000-01-22  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Makefile.am: Printdlg added; Changed for new Gtk--
+	* XGP/Makefile.am: Printdlg added; Changed for new Gtk--
 
 2000-01-21  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.cpp, Common/Parse.h: Callbacks with inheritance, static or member functions
+	* YGP/Parse.cpp, YGP/Parse.h: Callbacks with inheritance, static or member functions
 
-	* Common/Test.cpp: const-correctness; ADate-tests added
+	* YGP/Test.cpp: const-correctness; ADate-tests added
 
-	* Common/ADate.cpp, Common/ADate.h: Bugfixes (add/sub); Traces)
+	* YGP/ADate.cpp, YGP/ADate.h: Bugfixes (add/sub); Traces)
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: const-correctnes corrected
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h: const-correctnes corrected
 
 1999-12-19  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileDlg.cpp, X-windows/XFileDlg.h, X-windows/XDate.cpp, X-windows/XMessageBox.cpp, X-windows/XPrintDlg.cpp:
+	* XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XDate.cpp, XGP/XMessageBox.cpp, XGP/XPrintDlg.cpp:
 	  Adapted to Gtk-- 1.1.x
 
 1999-11-19  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Tests added and adapted to new file-structure
+	* YGP/Test.cpp: Tests added and adapted to new file-structure
 
-	* Common/Parse.cpp, Common/Parse.h:
+	* YGP/Parse.cpp, YGP/Parse.h:
 	  Inheritance and call of object-functions to respond to found data added
 
-	* Common/PathDirSrch.cpp: Bugfix when calling again after final error
+	* YGP/PathDirSrch.cpp: Bugfix when calling again after final error
 
 1999-11-15  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XPrintDlg.cpp, X-windows/XPrintDlg.h: New file.
+	* XGP/XPrintDlg.cpp, XGP/XPrintDlg.h: New file.
 
-	* X-windows/XMessageBox.cpp: Bugfix (OK and Retry labels swapped)
+	* XGP/XMessageBox.cpp: Bugfix (OK and Retry labels swapped)
 
-	* X-windows/XFileDlg.cpp, X-windows/XFileDlg.h: Options (ASK_OVERWRITE,
+	* XGP/XFileDlg.cpp, XGP/XFileDlg.h: Options (ASK_OVERWRITE,
 	  MUST_EXIST) added
 
 1999-11-14  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/XFileDlg.cpp, X-windows/XFileDlg.h: New file.
+	* XGP/XFileDlg.cpp, XGP/XFileDlg.h: New file.
 
-	* X-windows/Makefile.am: XFileDlg added
+	* XGP/Makefile.am: XFileDlg added
 
-	* X-windows/XFileList.h, X-windows/XFileList.cpp: Using default icons in
+	* XGP/XFileList.h, XGP/XFileList.cpp: Using default icons in
 	  package-directory
 
 1999-11-13  Markus Schwab  <g17m0@lycos.com>
 
-	* X-windows/Makefile.am: Moved from General
+	* XGP/Makefile.am: Moved from General
 
-	* Common/Makefile.am: Moved common parts from General/Makefile.am
+	* YGP/Makefile.am: Moved common parts from General/Makefile.am
 
 	* Makefile.am: X-related files moved to XGeneral
 
-	* X-windows/Check.cpp, X-windows/Check.h, X-windows/Icons/Icon_cpp.xpm, X-windows/Icons/Icon_dvi.xpm, X-windows/Icons/Icon_htm.xpm, X-windows/Icons/Icon_man.xpm, X-windows/Icons/Icon_pdf.xpm, X-windows/Icons/Icon_ps.xpm, X-windows/Icons/Icon_rpm.xpm, X-windows/Icons/Icon_tex.xpm, X-windows/Icons/Icon_tgz.xpm, X-windows/Icons/Icon_txt.xpm, X-windows/Icons/Icon_wav.xpm, X-windows/Icons/Icon_xpm.xpm, X-windows/Makefile.am, X-windows/Version.cpp, X-windows/XAbout.cpp, X-windows/XAbout.h, X-windows/XApplication.cpp, X-windows/XApplication.h, X-windows/XDate.cpp, X-windows/XDate.h, X-windows/XFileEntry.cpp, X-windows/XFileEntry.h, X-windows/XFileList.cpp, X-windows/XFileList.h, X-windows/XMessageBox.cpp, X-windows/XMessageBox.h:
+	* XGP/Check.cpp, XGP/Check.h, XGP/Icons/Icon_cpp.xpm, XGP/Icons/Icon_dvi.xpm, XGP/Icons/Icon_htm.xpm, XGP/Icons/Icon_man.xpm, XGP/Icons/Icon_pdf.xpm, XGP/Icons/Icon_ps.xpm, XGP/Icons/Icon_rpm.xpm, XGP/Icons/Icon_tex.xpm, XGP/Icons/Icon_tgz.xpm, XGP/Icons/Icon_txt.xpm, XGP/Icons/Icon_wav.xpm, XGP/Icons/Icon_xpm.xpm, XGP/Makefile.am, XGP/Version.cpp, XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XDate.cpp, XGP/XDate.h, XGP/XFileEntry.cpp, XGP/XFileEntry.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XMessageBox.cpp, XGP/XMessageBox.h:
 	  Moved from General
 
 1999-11-09  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.cpp: Bugfix increasing parse-buffer
+	* YGP/Parse.cpp: Bugfix increasing parse-buffer
 
-	* Common/ADate.cpp, Common/ADate.h, Common/ATStamp.cpp, Common/ATStamp.h, Common/ATime.h, Common/Parse.h, Common/PathDirSrch.cpp:
+	* YGP/ADate.cpp, YGP/ADate.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.h, YGP/Parse.h, YGP/PathDirSrch.cpp:
 	  Adapted to Windoze
 
 1999-11-04  Markus Schwab  <g17m0@lycos.com>
@@ -4687,16 +4722,16 @@
 
 	* Makefile.am: PathSrch.cpp removed
 
-	* Common/DirSrch.cpp, Common/DirSrch.h, Common/PathDirSrch.h, Common/PathSrch.h:
+	* YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/PathDirSrch.h, YGP/PathSrch.h:
 	  static constants replaced with functions
 
 1999-10-25  Markus Schwab  <g17m0@lycos.com>
 
 	* configure.in: Version 0.5.01
 
-	* Common/Test.cpp: Adapted to new Parse-interface
+	* YGP/Test.cpp: Adapted to new Parse-interface
 
-	* Common/Parse.h: Interface(s) in one style
+	* YGP/Parse.h: Interface(s) in one style
 
 1999-10-21  Markus Schwab  <g17m0@lycos.com>
 
@@ -4704,13 +4739,13 @@
 
 1999-10-19  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.cpp: Bugfix with localization and toString
+	* YGP/ANumeric.cpp: Bugfix with localization and toString
 
-	* Common/ANumeric.h: Define in cpp-file
+	* YGP/ANumeric.h: Define in cpp-file
 
 	* Makefile.am: XDate & Icons added
 
-	* Common/Test.cpp: Localization
+	* YGP/Test.cpp: Localization
 
 1999-10-17  Markus Schwab  <g17m0@lycos.com>
 
@@ -4726,103 +4761,103 @@
 
 	* Makefile.am: libPort -> libAttr; libXAppl added (from XDirComp)
 
-	* Common/ATStamp.h: toSysTime added
+	* YGP/ATStamp.h: toSysTime added
 
 1999-10-15  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ATStamp.cpp, Common/ATStamp.h: Inherited from ADate and ATime
+	* YGP/ATStamp.cpp, YGP/ATStamp.h: Inherited from ADate and ATime
 
-	* Common/ADate.cpp, Common/ADate.h: Adapted for ATime(stamp); minor corrections
+	* YGP/ADate.cpp, YGP/ADate.h: Adapted for ATime(stamp); minor corrections
 
-	* Common/Test.cpp: ATime-tests added
+	* YGP/Test.cpp: ATime-tests added
 
 	* Makefile.am: ATime added
 
-	* Common/ATime.cpp, Common/ATime.h:
+	* YGP/ATime.cpp, YGP/ATime.h:
 	Initial revision of class to handle times
 
 1999-10-14  Markus Schwab  <g17m0@lycos.com>
 
 	* configure.in: Version 0.4.20
 
-	* Common/ADate.cpp, Common/AttrVal.h, Common/Test.cpp, Makefile.am:
+	* YGP/ADate.cpp, YGP/AttrVal.h, YGP/Test.cpp, Makefile.am:
 	  ATimestamp-tests added
 
-	* Common/ADate.h: Changed to handle subclassing of timestamp-class
+	* YGP/ADate.h: Changed to handle subclassing of timestamp-class
 
 	* configure.in: Check for gmp-library added
 
-	* Common/ATStamp.cpp, Common/ATStamp.h: Initial revision of timestamp-class
+	* YGP/ATStamp.cpp, YGP/ATStamp.h: Initial revision of timestamp-class
 
-	* Common/ANumeric.cpp, Common/ANumeric.h: ReadFromStream-method added
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: ReadFromStream-method added
 
 	* ChangeLog: Version 0.4.2
 
 1999-10-13  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ADate.cpp, Common/ADate.h: Conversion-functions added
+	* YGP/ADate.cpp, YGP/ADate.h: Conversion-functions added
 
-	* Common/ADate.cpp: New assignment-operators; lots of fixes
+	* YGP/ADate.cpp: New assignment-operators; lots of fixes
 
-	* Common/ADate.h: Constructors and operator='s added
+	* YGP/ADate.h: Constructors and operator='s added
 
-	* Common/Test.cpp: Tests added
+	* YGP/Test.cpp: Tests added
 
 1999-10-12  Markus Schwab  <g17m0@lycos.com>
 
 	* configure.in: Version 0.4.11
 
-	* Common/ADate.cpp, Common/ADate.h: Bugfixes; + operator= (cont char*)
+	* YGP/ADate.cpp, YGP/ADate.h: Bugfixes; + operator= (cont char*)
 
 	* configure.in: Version 0.4.10
 
-	* Common/Test.cpp: ADate-tests added
+	* YGP/Test.cpp: ADate-tests added
 
 	* Makefile.am: Timestamp-class added
 
-	* Common/AttrVal.h: Operator<< added
+	* YGP/AttrVal.h: Operator<< added
 
-	* Common/ANumeric.h: Operator<< moved to base-class
+	* YGP/ANumeric.h: Operator<< moved to base-class
 
-	* Common/ADate.cpp, Common/ADate.h:
+	* YGP/ADate.cpp, YGP/ADate.h:
 	Initial revision of date-class
 
 1999-10-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.h: Adapted for Windoze
+	* YGP/Parse.h: Adapted for Windoze
 
 1999-09-29  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/PathDirSrch.cpp: Bugfix (include errno.h)
+	* YGP/PathDirSrch.cpp: Bugfix (include errno.h)
 
 1999-09-26  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/PathDirSrch.cpp: Bugfix finding non-existign files
+	* YGP/PathDirSrch.cpp: Bugfix finding non-existign files
 
-	* Common/PathDirSrch.h: Bugfix in find (file, dirEntry&, attr)
+	* YGP/PathDirSrch.h: Bugfix in find (file, dirEntry&, attr)
 
-	* Common/PathDirSrch.h: Constructor added
+	* YGP/PathDirSrch.h: Constructor added
 
 	* configure.in: Version 0.4
 
-	* Common/Tokenize.h: Operator= added
+	* YGP/Tokenize.h: Operator= added
 
-	* Common/Tokenize.cpp: getNextNode sets values for getActNode at end-of-string
+	* YGP/Tokenize.cpp: getNextNode sets values for getActNode at end-of-string
 
-	* Common/Test.cpp: Test of PathDirSrch added
+	* YGP/Test.cpp: Test of PathDirSrch added
 
 	* Makefile.am: PathDirSrch added
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Changes for PathDirSrch
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Changes for PathDirSrch
 
-	* Common/PathDirSrch.cpp, Common/PathDirSrch.h:
+	* YGP/PathDirSrch.cpp, YGP/PathDirSrch.h:
 	Initial revision of class to search for files in paths
 
 1999-09-21  Markus Schwab  <g17m0@lycos.com>
 
 	* configure.in: Version 0.3.12
 
-	* Common/XStrBuf.cpp, Common/Parse.cpp, Common/Parse.h: Adapted for Windoze
+	* YGP/XStrBuf.cpp, YGP/Parse.cpp, YGP/Parse.h: Adapted for Windoze
 
 1999-09-16  Markus Schwab  <g17m0@lycos.com>
 
@@ -4830,13 +4865,13 @@
 
 1999-09-15  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp, Common/XStrBuf.h, Common/XStream.h: Windog-changes
+	* YGP/XStrBuf.cpp, YGP/XStrBuf.h, YGP/XStream.h: Windog-changes
 
 	* Makefile.am: gmp-files added
 
 1999-09-12  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/SmartPtr.h: Bugfix with operator*
+	* YGP/SmartPtr.h: Bugfix with operator*
 
 1999-09-11  Markus Schwab  <g17m0@lycos.com>
 
@@ -4844,199 +4879,199 @@
 
 	* Makefile.am: GMP-functions included directly to project
 
-	* Common/ANumeric.h: ANumeric () uses singed-int for init
+	* YGP/ANumeric.h: ANumeric () uses singed-int for init
 
 	* AUTHORS: e-mail-addr changed
 
 	* configure.in: Version++
 
-	* Common/Version.cpp: Initial revision of version-info-file
+	* YGP/Version.cpp: Initial revision of version-info-file
 
 	* Makefile.am: Versioninfo-file added
 
-	* Common/FileRExp.cpp, Common/IVIOAppl.cpp, Common/IVIOAppl.h, Common/PathSrch.h, Common/Tokenize.cpp, Common/Tokenize.h:
+	* YGP/FileRExp.cpp, YGP/IVIOAppl.cpp, YGP/IVIOAppl.h, YGP/PathSrch.h, YGP/Tokenize.cpp, YGP/Tokenize.h:
 	  Policy changed (to GPL)
 
-	* Common/Test.cpp: New ANumeric-tests; WINDOZE-changes
+	* YGP/Test.cpp: New ANumeric-tests; WINDOZE-changes
 
-	* Common/XStrBuf.h: Windoze-changes
+	* YGP/XStrBuf.h: Windoze-changes
 
-	* Common/Parse.cpp, Common/Parse.h: getLine/Column didn't work -> Removed (what a bugfix)
+	* YGP/Parse.cpp, YGP/Parse.h: getLine/Column didn't work -> Removed (what a bugfix)
 
 	* Makefile.am: libPort removed; libgmp added
 
-	* Common/ANumeric.cpp, Common/ANumeric.h: Comparison and calculation added
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Comparison and calculation added
 
 1999-09-10  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/AttrVal.h: toString-methods added
+	* YGP/AttrVal.h: toString-methods added
 
-	* Common/AttrVal.h: GPL instead of LGPL
+	* YGP/AttrVal.h: GPL instead of LGPL
 
 1999-09-07  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.h: Bugfix at constructor; distrib under GPL
+	* YGP/DirSrch.h: Bugfix at constructor; distrib under GPL
 
-	* Common/DirSrch.cpp: Traces added; distrib under GPL
+	* YGP/DirSrch.cpp: Traces added; distrib under GPL
 
 1999-09-05  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/ANumeric.cpp, Common/ANumeric.h: Localication; Operator string added
+	* YGP/ANumeric.cpp, YGP/ANumeric.h: Localication; Operator string added
 
-	* Common/Test.cpp: ANumeric-length-test corrected
+	* YGP/Test.cpp: ANumeric-length-test corrected
 
 1999-09-04  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/SmartPtr.h: Operator=(T*) added
+	* YGP/SmartPtr.h: Operator=(T*) added
 
 1999-08-29  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Tests of SmartPtr and Handle added
+	* YGP/Test.cpp: Tests of SmartPtr and Handle added
 
-	* Common/AttrVal.h: unDefine to undefine renamed
+	* YGP/AttrVal.h: unDefine to undefine renamed
 
 	* configure.in: Version++
 
 	* Makefile.am: Handle.*; SmartPtr.h added
 
-	* Common/Handle.cpp, Common/Handle.h: Initial revision of handle-class
+	* YGP/Handle.cpp, YGP/Handle.h: Initial revision of handle-class
 
-	* Common/SmartPtr.h: Initial revision of smart-pointer-class
+	* YGP/SmartPtr.h: Initial revision of smart-pointer-class
 
 1999-08-27  Markus Schwab  <g17m0@lycos.com>
 
 	* configure.in: Minor version++
 
-	* Common/Test.cpp: Test of ParseText[Esc] added
+	* YGP/Test.cpp: Test of ParseText[Esc] added
 
-	* Common/Parse.cpp, Common/Parse.h: ParseText, ParseTextEsc added; Comments, Fixes
+	* YGP/Parse.cpp, YGP/Parse.h: ParseText, ParseTextEsc added; Comments, Fixes
 
 1999-08-26  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Test for ParseExact, ParseUpperExact and ParseSelection added
+	* YGP/Test.cpp: Test for ParseExact, ParseUpperExact and ParseSelection added
 
-	* Common/Parse.cpp, Common/Parse.h: ParseExact, ParseUpperExact, ParseSelection added; Fixes
+	* YGP/Parse.cpp, YGP/Parse.h: ParseExact, ParseUpperExact, ParseSelection added; Fixes
 
-	* Common/XStrBuf.cpp: Debug-traces with TRACE-macros
+	* YGP/XStrBuf.cpp: Debug-traces with TRACE-macros
 
 1999-08-25  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Parse.cpp, Common/Parse.h: ParseSequence added; Fixes
+	* YGP/Parse.cpp, YGP/Parse.h: ParseSequence added; Fixes
 
 1999-08-24  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Parser-test added
+	* YGP/Test.cpp: Parser-test added
 
-	* Common/Parse.cpp: buffer changed to char*; Traces added; Fixes
+	* YGP/Parse.cpp: buffer changed to char*; Traces added; Fixes
 
-	* Common/Parse.h: buffer changed to char*
+	* YGP/Parse.h: buffer changed to char*
 
 	* Makefile.am: Trace.h added
 
-	* Common/Trace_.h: Initial revision of trace-defines
+	* YGP/Trace_.h: Initial revision of trace-defines
 
-	* Common/XStream.h: parent-typedef deleted
+	* YGP/XStream.h: parent-typedef deleted
  
-	* Common/Parse.cpp, Common/Parse.h: Initial revision of parser-clases
+	* YGP/Parse.cpp, YGP/Parse.h: Initial revision of parser-clases
 
 	* Makefile.am: Parse added
 
 1999-08-23  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp: Wee bit optimized
+	* YGP/XStrBuf.cpp: Wee bit optimized
 
-	* Common/Test.cpp: extStream-test added
+	* YGP/Test.cpp: extStream-test added
 
 	* Makefile.am: XStream.h added
 
-	* Common/XStream.h: Template to enhance streams with line-info and
+	* YGP/XStream.h: Template to enhance streams with line-info and
 	  general-putback-features
 
 1999-08-22  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/XStrBuf.cpp, Common/XStrBuf.h: Implementation finished
+	* YGP/XStrBuf.cpp, YGP/XStrBuf.h: Implementation finished
 
-	* Common/Test.cpp: extStreambuf-tests added
+	* YGP/Test.cpp: extStreambuf-tests added
 
-	* Common/Test.Dat: Contents for Test adapted
+	* YGP/Test.Dat: Contents for Test adapted
 
 	* configure.in: Version++
 
 1999-08-21  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: Test of checkOptionValue added
+	* YGP/Test.cpp: Test of checkOptionValue added
 
-	* Common/IVIOAppl.cpp: getOptionValue returns const char*
+	* YGP/IVIOAppl.cpp: getOptionValue returns const char*
 
-	* Common/IVIOAppl.h: checkOptionValue added
+	* YGP/IVIOAppl.h: checkOptionValue added
 
-	* Common/FileRExp.cpp: Checks added; fnmatch is only used if working
+	* YGP/FileRExp.cpp: Checks added; fnmatch is only used if working
 
-	* Common/DirSrch.h: Copy-constructor  and op= for dirEntry (Win);
+	* YGP/DirSrch.h: Copy-constructor  and op= for dirEntry (Win);
 	  generalized (autoconf-checks added)
 
 	* configure.in: Tests added
 
 1999-08-12  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp: Bugfix testing attributes
+	* YGP/DirSrch.cpp: Bugfix testing attributes
 
 1999-08-11  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IVIOAppl.cpp: Bugfix getting non-existing option-value
+	* YGP/IVIOAppl.cpp: Bugfix getting non-existing option-value
 
-	* Common/Test.cpp: Long-options renamed
+	* YGP/Test.cpp: Long-options renamed
 
-	* Common/IVIOAppl.cpp: Debugging-output removed
+	* YGP/IVIOAppl.cpp: Debugging-output removed
 
-	* Common/IVIOAppl.h: Option-handling improved
+	* YGP/IVIOAppl.h: Option-handling improved
 
-	* Common/IVIOAppl.cpp: Bugfixes handling long-options and special cases
+	* YGP/IVIOAppl.cpp: Bugfixes handling long-options and special cases
 
-	* Common/Test.cpp: Options to test option-handling added
+	* YGP/Test.cpp: Options to test option-handling added
 
-	* Common/IVIOAppl.h: Constructor sets long-options
+	* YGP/IVIOAppl.h: Constructor sets long-options
 
-	* Common/IVIOAppl.cpp: Bugfix getting option-values
+	* YGP/IVIOAppl.cpp: Bugfix getting option-values
 
-	* Common/DirSrch.cpp: Bugfix testing attributes
+	* YGP/DirSrch.cpp: Bugfix testing attributes
 
-	* Common/IVIOAppl.cpp, Common/IVIOAppl.h: Bugfix searching for options
+	* YGP/IVIOAppl.cpp, YGP/IVIOAppl.h: Bugfix searching for options
 
 1999-08-10  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/IVIOAppl.cpp: Bugfix handling --
+	* YGP/IVIOAppl.cpp: Bugfix handling --
 
 1999-08-01  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/Test.cpp: DirectorySearch-tests added
+	* YGP/Test.cpp: DirectorySearch-tests added
 
-	* Common/DirSrch.cpp: Formating of code changed
+	* YGP/DirSrch.cpp: Formating of code changed
 
-	* Common/DirSrch.h: Bugfix in constructor
+	* YGP/DirSrch.h: Bugfix in constructor
 
-	* Common/DirSrch.cpp: Bugfix at setFile (handling of names with trailing /
+	* YGP/DirSrch.cpp: Bugfix at setFile (handling of names with trailing /
 
 1999-07-31  Markus Schwab  <g17m0@lycos.com>
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Copyconstructor and assignment-operator added
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Copyconstructor and assignment-operator added
 
-	* Common/Test.cpp: Test of DirectorySearch improved (hidden files)
+	* YGP/Test.cpp: Test of DirectorySearch improved (hidden files)
 
-	* Common/PathSrch.h: SPLIT_CHAR is public
+	* YGP/PathSrch.h: SPLIT_CHAR is public
 
 	* Makefile.am: Test binds objects directly
 
-	* Common/DirSrch.cpp, Common/DirSrch.h: Hidden files added
+	* YGP/DirSrch.cpp, YGP/DirSrch.h: Hidden files added
 
-	* Common/PathSrch.h: virtual-keyword removed at getNextNode
+	* YGP/PathSrch.h: virtual-keyword removed at getNextNode
 
 	* Makefile.am: Headers exported
 
-	* Common/Test.cpp: DirectorySearch adapted to new directory-structure
+	* YGP/Test.cpp: DirectorySearch adapted to new directory-structure
 
-	* AUTHORS, ChangeLog, Common/ANumeric.cpp, Common/ANumeric.h, Common/AttrVal.h, Common/DirSrch.cpp, Common/DirSrch.h, Common/FileRExp.cpp, Common/IVIOAppl.cpp, Common/IVIOAppl.h, Common/PathSrch.h, Common/Test.Dat, Common/Test.cpp, Common/Tokenize.cpp, Common/Tokenize.h, Common/XStrBuf.cpp, Common/XStrBuf.h, Makefile.am, NEWS, README, configure.in:
+	* AUTHORS, ChangeLog, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/AttrVal.h, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/FileRExp.cpp, YGP/IVIOAppl.cpp, YGP/IVIOAppl.h, YGP/PathSrch.h, YGP/Test.Dat, YGP/Test.cpp, YGP/Tokenize.cpp, YGP/Tokenize.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h, Makefile.am, NEWS, README, configure.in:
 	  Imported sources
 
-	* AUTHORS, ChangeLog, Common/ANumeric.cpp, Common/ANumeric.h, Common/AttrVal.h, Common/DirSrch.cpp, Common/DirSrch.h, Common/FileRExp.cpp, Common/IVIOAppl.cpp, Common/IVIOAppl.h, Common/PathSrch.h, Common/Test.Dat, Common/Test.cpp, Common/Tokenize.cpp, Common/Tokenize.h, Common/XStrBuf.cpp, Common/XStrBuf.h, Makefile.am, NEWS, README, configure.in:
+	* AUTHORS, ChangeLog, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/AttrVal.h, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/FileRExp.cpp, YGP/IVIOAppl.cpp, YGP/IVIOAppl.h, YGP/PathSrch.h, YGP/Test.Dat, YGP/Test.cpp, YGP/Tokenize.cpp, YGP/Tokenize.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h, Makefile.am, NEWS, README, configure.in:
 	  New file.
