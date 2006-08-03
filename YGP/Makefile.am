@@ -22,7 +22,7 @@ StackTrc.cpp Socket.cpp RDirSrch.cpp File.cpp RDirSrchSrv.cpp		\
 AssParse.cpp AttrParse.cpp IDirSrch.cpp RemoteFile.cpp Entity.cpp	\
 Thread.cpp PathSrch.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp	\
 StatusObj.cpp Internal.h Relation.cpp TableWriter.cpp MetaEnum.cpp	\
-DynTrace.cpp Module.cpp
+DynTrace.cpp Module.cpp Attribute.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h	\
 FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h Check.h	\
