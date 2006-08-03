@@ -1,7 +1,7 @@
 #ifndef METAENUM_H
 #define METAENUM_H
 
-//$Id: MetaEnum.h,v 1.2 2005/01/20 05:27:02 markus Rel $
+//$Id: MetaEnum.h,v 1.3 2006/08/03 17:35:25 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,14 +35,14 @@ class MetaEnum : public std::map<int, std::string> {
    /// Checks if the integer value exists
    /// \param value: Value to check for
    /// \returns bool: True if the value exists
-   bool exists (int value) { return find (value) != end (); }
-   bool exists (const std::string& value);
+   bool exists (int value) const { return find (value) != end (); }
+   bool exists (const std::string& value) const;
    //@}
 
    /// \name Accessing values (which must exist)
    //@{
-   std::string operator[] (int value) throw (std::out_of_range);
-   int         operator[] (const std::string& value) throw (std::out_of_range);
+   std::string operator[] (int value) const throw (std::out_of_range);
+   int         operator[] (const std::string& value) const throw (std::out_of_range);
    //@}
 
  protected:
