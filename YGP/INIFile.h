@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.29 2006/06/03 21:32:37 markus Rel $
+//$Id: INIFile.h,v 1.30 2006/08/03 17:34:45 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,6 +51,10 @@ class INIFile;
 #define INIATTR(section, type, attr) YGP::Attribute<type> attr##_ (#attr, (attr)); \
                              (section).addAttribute (attr##_);
 #define INIATTR2(section, type, attr, name) YGP::Attribute<type> name##_ (#name, (attr)); \
+                             (section).addAttribute (name##_);
+#define INIATTR3(section, metaenum, attr) YGP::MetaEnumAttribute attr##_ (#attr, (metaenum), (unsigned int&)(attr)); \
+                             (section).addAttribute (attr##_);
+#define INIATTR4(section, metaenum, attr, name) YGP::MetaEnumAttribute name##_ (#name, (metaenum), (unsigned int&)(attr)); \
                              (section).addAttribute (name##_);
 #define INILIST(name, type)  YGP::INIList<type> name (#name, name); _inifile_.addSection (name);
 #define INILIST2(section, type, name) YGP::INIList<type> section (#section, name); \
@@ -277,7 +281,7 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
         value of this key is assigned to a variable of type type and
         (also) name name.
 
-        \note This macro defines a variable (of type \c INIAttribute<type>)
+        \note This macro defines a variable (of type \c YGP::Attribute<type>)
              called \c name_.
 
    - <b>INIATTR2(section, type, attr, name)</b>: Defines an attribute
@@ -285,7 +289,21 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
        name. The value of this key is assigned to a variable of type
        type and name attr.
 
-        \note This macro defines a variable (of type \c INIAttribute<type>)
+        \note This macro defines a variable (of type \c YGP::Attribute<type>)
+              called \c name_.
+
+   - <b>INIATTR3(section, metaenum, attr)</b>: Defines an attribute
+       for section section having the key (in the INI-file) of
+       name. The value of this key must be a value of the metaenum.
+
+        \note This macro defines a variable (of type \c YGP::MetaEnumAttribute)
+              called \c name_.
+
+   - <b>INIATTR4(section, metaenum, attr, name)</b>: Defines an attribute
+       for section section having the key (in the INI-file) of
+       name. The value of this key must be a value of the metaenum.
+
+        \note This macro defines a variable (of type \c YGP::MetaEnumAttribute)
               called \c name_.
 
    - <b>INILIST(name, type)</b>: Defines a section to parse a
