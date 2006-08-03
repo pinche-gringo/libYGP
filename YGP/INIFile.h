@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.30 2006/08/03 17:34:45 markus Exp $
+//$Id: INIFile.h,v 1.31 2006/08/03 18:06:18 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,9 +52,9 @@ class INIFile;
                              (section).addAttribute (attr##_);
 #define INIATTR2(section, type, attr, name) YGP::Attribute<type> name##_ (#name, (attr)); \
                              (section).addAttribute (name##_);
-#define INIATTR3(section, metaenum, attr) YGP::MetaEnumAttribute attr##_ (#attr, (metaenum), (unsigned int&)(attr)); \
+#define INIATTR3(section, metaenum, attr) YGP::MetaEnumAttribute attr##_ (#attr, (metaenum), (attr)); \
                              (section).addAttribute (attr##_);
-#define INIATTR4(section, metaenum, attr, name) YGP::MetaEnumAttribute name##_ (#name, (metaenum), (unsigned int&)(attr)); \
+#define INIATTR4(section, metaenum, attr, name) YGP::MetaEnumAttribute name##_ (#name, (metaenum), (attr)); \
                              (section).addAttribute (name##_);
 #define INILIST(name, type)  YGP::INIList<type> name (#name, name); _inifile_.addSection (name);
 #define INILIST2(section, type, name) YGP::INIList<type> section (#section, name); \
