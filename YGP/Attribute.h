@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.34 2006/05/02 13:07:17 markus Rel $
+//$Id: Attribute.h,v 1.35 2006/08/03 17:35:12 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 
 #include <YGP/Check.h>
 #include <YGP/AssParse.h>
+#include <YGP/MetaEnum.h>
 
 #include <ygp-cfg.h>
 
@@ -509,6 +510,46 @@ template <> inline bool AttributeList<std::string>::assign (unsigned int offset,
    list_[offset].assign (value, length);
    return true;
 }
+
+
+
+/**An attribute to assign an integer-value from a list of string-values
+ */
+class MetaEnumAttribute : public IAttribute {
+ public:
+   /// Constructor; creates an attribute with the specified name, referencing the attribute value
+   MetaEnumAttribute (const char* name, const MetaEnum& list, unsigned int& attr) : IAttribute (name), attr_ (attr), list_ (list) { }
+   /// Constructor; creates an attribute with the specified name, referencing the attribute value
+   MetaEnumAttribute (const std::string& name, const MetaEnum& list, unsigned int& attr) : IAttribute (name), attr_ (attr), list_ (list) { }
+   /// Destructor
+   ~MetaEnumAttribute () { }
+
+   /// Returns a copy of the attribute
+   virtual IAttribute* clone () { return new MetaEnumAttribute (*this); }
+
+   virtual bool assignFromString (const char* value) const;
+   virtual bool assign (const char* value, unsigned int) const {
+      return assignFromString (value); }
+
+   /// Returns a reference to the handled attribute value
+   unsigned int& getAttribute () const { return attr_; }
+   virtual std::string getValue () const {
+   char buffer[20];
+   snprintf (buffer, sizeof (buffer), "%d", attr_);
+   return std::string (buffer); }
+   virtual std::string getFormattedValue () const { return list_[attr_]; }
+
+ private:
+   /// Copyconstructor; clones the attribute
+   MetaEnumAttribute (const MetaEnumAttribute& other) : IAttribute ((IAttribute&)other),
+      attr_ (other.attr_), list_ (other.list_) { }
+   const MetaEnumAttribute& operator= (const MetaEnumAttribute&);
+
+   unsigned int& attr_;
+   const MetaEnum& list_;
+};
+
+
 
 }
 
