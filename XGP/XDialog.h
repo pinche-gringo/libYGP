@@ -1,7 +1,7 @@
 #ifndef XDIALOG_H
 #define XDIALOG_H
 
-//$Id: XDialog.h,v 1.13 2004/10/27 20:27:07 markus Rel $
+//$Id: XDialog.h,v 1.14 2006/08/04 20:10:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ class XDialog : public Gtk::Dialog {
    const XDialog& operator= (const XDialog& other);
 
    void init ();
+   void handleOK ();
 };
 
 }

@@ -1,11 +1,11 @@
-//$Id: XDialog.cpp,v 1.22 2006/05/04 01:26:29 markus Rel $
+//$Id: XDialog.cpp,v 1.23 2006/08/04 20:10:24 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004, 2006
@@ -95,8 +95,15 @@ XDialog::~XDialog () {
 //-----------------------------------------------------------------------------
 void XDialog::init (unsigned int buttons) {
    TRACE9 ("XDialog::init ()");
-   ok = (buttons & OK) ? add_button (Gtk::Stock::OK,
-                                     Gtk::RESPONSE_OK) : NULL;
+   if (buttons & OK) {
+      ok = manage (new Gtk::Button (Gtk::Stock::OK));
+      ok->signal_clicked ().connect (mem_fun (*this, &XDialog::handleOK));
+      get_action_area ()->pack_start (*ok, false, false, 5);
+      ok->set_flags (Gtk::CAN_DEFAULT);
+      ok->show ();
+   }
+   else
+      ok = NULL;
    cancel = (buttons & CANCEL) ? add_button ((buttons & OK) ? Gtk::Stock::CANCEL
 					     :  Gtk::Stock::CLOSE,
 					     Gtk::RESPONSE_CANCEL) : NULL;
@@ -116,23 +123,26 @@ void XDialog::init (unsigned int buttons) {
 //-----------------------------------------------------------------------------
 void XDialog::on_response (int cmd) {
    TRACE9 ("XDialog::on_response (int) " << cmd);
-   switch (cmd) {
-   case Gtk::RESPONSE_OK:
-      if (isDataOK ())
-	 okEvent ();
-      break;
-
-   case Gtk::RESPONSE_CANCEL:
+   if (cmd == Gtk::RESPONSE_CANCEL)
       cancelEvent ();
-      break;
-
-   default:
+   else
       command (cmd);
+}
+
+//-----------------------------------------------------------------------------
+/// Internal callback after pressing the OK button
+//-----------------------------------------------------------------------------
+void XDialog::handleOK () {
+   TRACE9 ("XDialog::handleOK ()");
+   if (isDataOK ()) {
+      okEvent ();
+      response (Gtk::RESPONSE_OK);
    }
 }
 
 //-----------------------------------------------------------------------------
-/// Callback after pressing the OK button
+/// Callback after pressing the OK button; the user can override that to implemnt
+/// own behaviour
 //-----------------------------------------------------------------------------
 void XDialog::okEvent () {
    TRACE9 ("XDialog::okEvent ()");
@@ -161,7 +171,6 @@ bool XDialog::isDataOK () {
 //-----------------------------------------------------------------------------
 void XDialog::command (int action) {
    TRACE9 ("XDialog::command (int) - " << action);
-   Check1 (action == Gtk::RESPONSE_DELETE_EVENT);
 }
 
 //-----------------------------------------------------------------------------
