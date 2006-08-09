@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.31 2006/08/03 18:06:18 markus Exp $
+//$Id: INIFile.h,v 1.32 2006/08/09 16:37:27 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,14 +48,14 @@ class INIFile;
 #define INIOBJ(obj, section) _inifile_.addEntity ((obj), #section);
 #define INISECTION(section)  YGP::INISection section (#section); \
                              _inifile_.addSection (section);
-#define INIATTR(section, type, attr) YGP::Attribute<type> attr##_ (#attr, (attr)); \
-                             (section).addAttribute (attr##_);
-#define INIATTR2(section, type, attr, name) YGP::Attribute<type> name##_ (#name, (attr)); \
-                             (section).addAttribute (name##_);
-#define INIATTR3(section, metaenum, attr) YGP::MetaEnumAttribute attr##_ (#attr, (metaenum), (attr)); \
-                             (section).addAttribute (attr##_);
-#define INIATTR4(section, metaenum, attr, name) YGP::MetaEnumAttribute name##_ (#name, (metaenum), (attr)); \
-                             (section).addAttribute (name##_);
+#define INIATTR(section, type, attr) YGP::Attribute<type> section ## attr##_ (#attr, (attr)); \
+                             (section).addAttribute (section ## attr##_);
+#define INIATTR2(section, type, attr, name) YGP::Attribute<type> section ## name##_ (#name, (attr)); \
+                             (section).addAttribute (section ## name##_);
+#define INIATTR3(section, metaenum, attr) YGP::MetaEnumAttribute section ## attr##_ (#attr, (metaenum), (attr)); \
+                             (section).addAttribute (section ## attr##_);
+#define INIATTR4(section, metaenum, attr, name) YGP::MetaEnumAttribute section ## name##_ (#name, (metaenum), (attr)); \
+                             (section).addAttribute (section ## name##_);
 #define INILIST(name, type)  YGP::INIList<type> name (#name, name); _inifile_.addSection (name);
 #define INILIST2(section, type, name) YGP::INIList<type> section (#section, name); \
                              _inifile_.addSection (section);
