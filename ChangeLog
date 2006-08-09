@@ -1,3 +1,33 @@
+2006-08-09  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.10 documented
+
+	* configure.in: Version to 0.8.10
+
+	* YGP/INIFile.h:
+	  Adding section-name to name of variable to enable attributes with same name
+
+	* YGP/AttrParse.h: Added MEATTRIBUTE to parse MetaEnum-based values
+
+2006-08-04  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/XDialog.cpp, XGP/XDialog.h:
+	  OK checks if dialog can/shell be closed
+
+2006-08-03  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/INIFile.h: Removed type-case ini INIATTR[34]
+
+	* YGP/Attribute.cpp: New file.
+
+	* YGP/Makefile.am: Added Attribute.cpp
+
+	* YGP/MetaEnum.cpp, YGP/MetaEnum.h: Const-corrected
+
+	* YGP/Attribute.h: Added MetaEnumAttribute
+
+	* YGP/INIFile.h: Added INIATTR[34] to hande MetaEnumAttributes
+
 2006-08-02  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.8.01 documented

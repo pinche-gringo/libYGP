@@ -1,3 +1,10 @@
+Overview of Changes in version 0.8.10:
+
+  - Added MetaEnumAttribute (and handling them in INIFile and AttributeParse)
+  - Fixed XDialog checking if dialog can be closed by selecting OK
+  - Const-corrected MetaEnum
+
+
 Overview of Changes in version 0.8.01:
 
   - Supporting Seamonkey as help-browser
