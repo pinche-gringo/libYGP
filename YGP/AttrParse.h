@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.11 2006/06/03 21:32:37 markus Rel $
+//$Id: AttrParse.h,v 1.12 2006/08/09 16:36:11 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ namespace YGP {
 
 // Macros to set the attribute-values to parse into the attribute-parser
 #define ATTRIBUTE(APobj, type, var, name)  APobj.addAttribute (*new YGP::Attribute<type> (name, var));
+#define MEATTRIBUTE(APobj, meobj, var, name)  APobj.addAttribute (*new YGP::MetaEnumAttribute (name, meobj, var));
 
 
 /**Class to parse attribute-assignments from a string and sets its values
@@ -59,6 +60,9 @@ namespace YGP {
 
  This example would assign the values \c ADate.cpp to \c file, \c 18180 to \c
  size and the <tt>1st of January 2000, 12:10:05</tt> to \c time.
+
+ MEATTRIBUTE defines an attribute whose values are restricted to the
+ values in the respective YGP::MetaEnum.
 
  \note Tthe order of the attributes while declaration and during parsing
        does not need to be the same!
