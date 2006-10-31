@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.50 2006/06/04 04:11:17 markus Rel $
+//$Id: XApplication.cpp,v 1.51 2006/10/31 14:28:03 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.50 $
+//REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -300,7 +300,7 @@ void XApplication::setIconProgram (const char* const* pIconData) {
 //-----------------------------------------------------------------------------
 /// Constructor for programs with program information in the client.
 /// \param pTitle: Pointer to title
-/// \param pPrgInfo: Text describing the application
+/// \param prgInfo: Text describing the application
 /// \param copyright: Copyright-information
 //-----------------------------------------------------------------------------
 XInfoApplication::XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo,

@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.12 2006/05/04 01:18:36 markus Rel $
+//$Id: Relation.h,v 1.13 2006/10/31 14:27:42 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -464,8 +464,8 @@ class RelationN_M : public IRelation {
    }
    /// Connects an object with a bunch of objects, replacing the previously
    /// related objects.
-   /// \param source: Parents to relate
-   /// \param targets: Child to relate with parents
+   /// \param sources: Parents to relate
+   /// \param target: Child to relate with parents
    void relate (const std::vector<S>& sources, const T& target) {
       Check1 (sources.size ()); Check1 (target.isDefined ());
 

@@ -1,11 +1,11 @@
-//$Id: XFileList.cpp,v 1.48 2006/06/08 00:24:21 markus Rel $
+//$Id: XFileList.cpp,v 1.49 2006/10/31 14:28:03 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.48 $
+//REVISION    : $Revision: 1.49 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
@@ -141,7 +141,6 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
 /// file is stored in the icon-map. - Remove the first part (til the next dot
 /// (.)) of the name and repeat the previous step. - If no name-part is left
 /// use a special default-icon.
-/// \param row: Path where to search for the icons
 /// \param file: Files to use as icon-files
 /// \returns Reference to inserted line
 //-----------------------------------------------------------------------------

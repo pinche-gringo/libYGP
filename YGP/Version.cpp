@@ -1,11 +1,11 @@
-// $Id: Version.cpp,v 1.19 2004/12/29 18:22:49 markus Rel $
+// $Id: Version.cpp,v 1.20 2006/10/31 14:27:42 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004
@@ -27,10 +27,10 @@
 #include "YGP/Internal.h"
 
 
-/**\mainpage Overview of the %YGP library
+/**\mainpage Overview of the YGP library
 
    \section intro Introduction
-   %YGP stands for Yet another General Purpose library and that is what it is
+   YGP stands for Yet another General Purpose library and that is what it is
    (and also says alot about my creativity finding "cool" names).
 
    Those clases are designed to be portable (and maybe even usefull).

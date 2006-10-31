@@ -1,11 +1,11 @@
-//$Id: AYear.cpp,v 1.8 2006/06/02 02:33:39 markus Rel $
+//$Id: AYear.cpp,v 1.9 2006/10/31 14:27:42 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006
@@ -92,7 +92,7 @@ AYear& AYear::operator= (const char* pValue) throw (std::invalid_argument) {
 
 //----------------------------------------------------------------------------
 /// Converts the year into a string, in the format <code>DDMMYYYY[...]</code>;
-/// eachentry is filled up with zeros.
+/// each entry is filled up with zeros.
 /// \return \c std::string: String-representation of AYear
 //----------------------------------------------------------------------------
 std::string AYear::toUnformattedString () const {
