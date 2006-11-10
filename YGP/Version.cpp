@@ -1,14 +1,14 @@
-// $Id: Version.cpp,v 1.20 2006/10/31 14:27:42 markus Exp $
+// $Id: Version.cpp,v 1.21 2006/11/10 06:21:17 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.20 $
+//REVISION    : $Revision: 1.21 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,12 +56,12 @@
    This namespace holds plattform independend classes of common use.
  */
 
-static const char* Version = "\n!@$%" PACKAGE " V" VERSION
+static const char* Version = "\n!@$%" LIBYGP_NAME " V" PACKAGE_VERSION
                              " Compiled on " __DATE__ "%$@!\n";
 
 // Function to initialize various global data
 static const int _init () {
-   bindtextdomain (PACKAGE, LOCALEDIR);
+   bindtextdomain (LIBYGP_NAME, LOCALEDIR);
    return Version == (const void*)0;
 }
 

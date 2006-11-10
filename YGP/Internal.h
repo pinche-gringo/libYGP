@@ -1,7 +1,7 @@
 #ifndef INTERNAL_H
 #define INTERNAL_H
 
-//$Id: Internal.h,v 1.8 2005/01/31 15:42:13 markus Rel $
+//$Id: Internal.h,v 1.9 2006/11/10 06:21:16 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,9 +24,9 @@
 #if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
 #  include <libintl.h>
 #  ifdef CONVERT_TO_UTF8
-#     define _(String)                        Glib::locale_to_utf8 (dgettext (PACKAGE, String))
+#     define _(String)                        Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, String))
 #  else
-#     define _(String)                        dgettext (PACKAGE, String)
+#     define _(String)                        dgettext (LIBYGP_NAME, String)
 #  endif
 #  define N_(String)                          (String)
 #else

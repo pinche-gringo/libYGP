@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.13 2006/07/06 18:14:43 markus Rel $
+# $Id: Makefile.in,v 1.14 2006/11/10 06:22:05 markus Exp $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -71,7 +71,8 @@ Browser_konqueror.png Browser_GTKMOZEMBED.png Browser_GTKHTML.png	\
 Browser_seamonkey.png
 
 
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+install_sh = @install_sh@
+mkinstalldirs = $(install_sh) -d
 
 DISTFILES = $(pkgdata_DATA) Makefile.in README
 

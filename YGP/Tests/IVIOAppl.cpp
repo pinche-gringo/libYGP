@@ -1,11 +1,11 @@
-// $Id: IVIOAppl.cpp,v 1.11 2005/01/08 22:09:05 markus Rel $
+// $Id: IVIOAppl.cpp,v 1.12 2006/11/10 06:21:17 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/IVIOAppl
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -54,7 +54,7 @@ class Application : public YGP::IVIOApplication {
    // Program-handling
    virtual int         perform (int argc, const char* argv[]);
    virtual const char* name () const { return "Test/IVIOAppl"; }
-   virtual const char* description () const { return VERSION; }
+   virtual const char* description () const { return PACKAGE_VERSION; }
 
    // Help-handling
    virtual void showHelp () const;

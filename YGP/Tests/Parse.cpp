@@ -1,14 +1,14 @@
-// $Id: Parse.cpp,v 1.18 2006/06/03 21:32:35 markus Rel $
+// $Id: Parse.cpp,v 1.19 2006/11/10 06:21:17 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.18 $
+//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005
+//COPYRIGHT   : Copyright (C) 2001 - 2006
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ class Application : public YGP::IVIOApplication {
    // Program-handling
    virtual int         perform (int argc, const char* argv[]);
    virtual const char* name () const { return "Test/Parse"; }
-   virtual const char* description () const { return VERSION; }
+   virtual const char* description () const { return PACKAGE_VERSION; }
 
    // Help-handling
    virtual void showHelp () const;
@@ -154,8 +154,8 @@ int Application::perform (int argc, const char* argv[]) {
 
 int main (int argc, char* argv[]) {
    setlocale (LC_ALL, "");
-   bindtextdomain (PACKAGE, LOCALEDIR);     // Specify messagefile for gettext
-   textdomain (PACKAGE);
+   bindtextdomain (LIBYGP_NAME, LOCALEDIR);   // Specify msg-file for gettext
+   textdomain (LIBYGP_NAME);
 
    setlocale (LC_ALL, "");                         // Activate current locale
 
