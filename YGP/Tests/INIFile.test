@@ -16,3 +16,13 @@ Attr1=2
 Attr2=value1
 Attr3=2000
 Attr4=28021999
+
+[List]
+1=One
+2=Two
+9=Nine
+
+[Map]
+A=First letter
+B=Second letter
+Z=Last letter

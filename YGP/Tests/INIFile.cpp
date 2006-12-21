@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.13 2006/06/03 21:32:35 markus Rel $
+// $Id: INIFile.cpp,v 1.14 2006/12/21 13:30:12 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -26,6 +26,9 @@
 
 #include <ygp-cfg.h>
 
+#include <map>
+#include <vector>
+#include <string>
 #include <iostream>
 
 #include <YGP/ADate.h>
@@ -47,13 +50,16 @@ int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    std::cout << "Testing INI-file parser...\n";
-   int Attr1;
-   std::string Attr2;
-   YGP::ANumeric Attr3;
-   YGP::ADate Attr4;
-   YGP::ATime Attr5;
-   YGP::ATimestamp Attr6;
    try {
+      int Attr1;
+      std::string Attr2;
+      YGP::ANumeric Attr3;
+      YGP::ADate Attr4;
+      YGP::ATime Attr5;
+      YGP::ATimestamp Attr6;
+      std::vector<std::string> list (10);
+      std::map<std::string, std::string> map;
+
       YGP::INISection global ("Global");
       YGP::Attribute<int> attr1 ("Attr1", Attr1);
       YGP::Attribute<std::string> attr2 ("Attr2", Attr2);
@@ -68,6 +74,9 @@ int main (int argc, char* argv[]) {
       INISECTION (Special);
       INIATTR (Special, YGP::ATime, Attr5);
       INIATTR (Special, YGP::ATimestamp, Attr6);
+
+      INILIST2 (List, std::string, list);
+      INIMAP2  (Map, std::string, map);
 
       INISECTION (Local);
       INIATTR (Local, int, Attr1);
@@ -90,6 +99,13 @@ int main (int argc, char* argv[]) {
 
       int rc = INIFILE_READ ();
       check (!rc);
+
+      check (list[1] == "One");
+      check (list[2] == "Two");
+      check (list[9] == "Nine");
+      check (map["A"] == "First letter");
+      check (map["B"] == "Second letter");
+      check (map["Z"] == "Last letter");
    } // end-try
    catch (std::exception& e) {
       ++cErrors;
