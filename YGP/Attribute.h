@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.35 2006/08/03 17:35:12 markus Rel $
+//$Id: Attribute.h,v 1.36 2006/12/21 13:30:58 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <cstdio>
 #include <cerrno>
 
+#include <map>
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -303,7 +304,7 @@ template <> inline std::string Attribute<std::string>::getValue () const { retur
 template <> inline std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
 
 
-/**Template for s list of attributes of a specific type.
+/**Template for a list of attributes of a specific type.
 
    This class is designed to be used by AttributeValues (and derived types),
    but there exists specializations for:
@@ -325,6 +326,7 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    AttributeList (const char* name, L& list) : IAttribute (name), list_ (list) { }
    /// Constructor; creates an attribute list with the specified name, referencing the (vector of) attribute values
    AttributeList (const std::string& name, L& list) : IAttribute (name), list_ (list) { }
+
    /// Destructor
    ~AttributeList () { }
 
@@ -387,12 +389,11 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    std::string getValue ()  const {
       std::string help;
       char number[20];
-      for (unsigned int i (0); i < list_.size (); ++i) {
-         snprintf (number, sizeof (number), "%d", i);
-         Attribute<T> value (number, list_[i]);
-         help += value.getName ();
+      for (typename L::const_iterator i (list_.begin ()); i != list_.end (); ++i) {
+         snprintf (number, sizeof (number), "%d", i - list_.begin ());
+         help += number;
          help += '=';
-         help += value.getValue ();
+         help += *i;
          help += ';';
       }
       return help;
@@ -512,7 +513,6 @@ template <> inline bool AttributeList<std::string>::assign (unsigned int offset,
 }
 
 
-
 /**An attribute to assign an integer-value from a list of string-values
  */
 class MetaEnumAttribute : public IAttribute {
@@ -534,9 +534,9 @@ class MetaEnumAttribute : public IAttribute {
    /// Returns a reference to the handled attribute value
    unsigned int& getAttribute () const { return attr_; }
    virtual std::string getValue () const {
-   char buffer[20];
-   snprintf (buffer, sizeof (buffer), "%d", attr_);
-   return std::string (buffer); }
+      char buffer[20];
+      snprintf (buffer, sizeof (buffer), "%d", attr_);
+      return std::string (buffer); }
    virtual std::string getFormattedValue () const { return list_[attr_]; }
 
  private:
@@ -549,6 +549,205 @@ class MetaEnumAttribute : public IAttribute {
    const MetaEnum& list_;
 };
 
+
+/**Template for a map of attributes of a specific type.
+
+   This class is designed to be used by AttributeValues (and derived types),
+   but there exists specializations for:
+     - char
+     - char*
+     - char* const
+     - short
+     - unsigned short
+     - int
+     - unsigned int
+     - long
+     - unsigned long
+     - double
+     - std::string
+*/
+template <class T, class L=std::map<std::string, T> > class AttributeMap : public IAttribute {
+ public:
+   /// Constructor; creates an attribute map with the specified name, referencing the (vector of) attribute values
+   AttributeMap (const char* name, L& map) : IAttribute (name), map_ (map) { }
+   /// Constructor; creates an attribute map with the specified name, referencing the (vector of) attribute values
+   AttributeMap (const std::string& name, L& map) : IAttribute (name), map_ (map) { }
+   /// Destructor
+   ~AttributeMap () { }
+
+   virtual IAttribute* clone () { return new AttributeMap<T, L> (*this); }
+
+   /// Method to assign a value from a character-pointer to the attribute
+   /// map.
+   ///
+   /// The character-array is supposed to be a sequence of offset=value
+   /// entries, which are separated by a semicolon (;). In case of an error
+   /// (invalid offset or value) the assigning is stopped; leaving the
+   /// previously (valid) entries assigned.
+   /// \returns \c true on success; \c false otherwise
+   virtual bool assignFromString (const char* value) const {
+      AssignmentParse parse (value);
+      std::string node;
+      while (node = parse.getNextNode (), !node.empty ()) {
+         try {
+            if (!assignFromString (parse.getActKey (), parse.getActValue ().c_str ()))
+                return false;
+         }
+         catch (std::invalid_argument&) {
+            return false;
+         }
+      }
+      return true;
+   }
+
+   /// Method to assign a value from a character-pointer to the attribute
+   /// map. See assignFromString() for details.
+   virtual bool assign (const char* value, unsigned int length) const {
+      return assignFromString (value); }
+
+   /// Method to assign a value from a character-pointer to a single
+   /// (specified) element of the map.
+   /// \note The \c offset is not checked vor validity!
+   virtual bool assignFromString (const std::string& offset, const char* value) const {
+      try {
+         map_[offset] = value;
+      }
+      catch (std::invalid_argument&) {
+         return false;
+      }
+      return true;
+   }
+
+   /// Method to assign a value from a character-pointer to a single
+   /// (specified) element of the map. See See assignFromString() for details.
+   virtual bool assign (const std::string& offset, const char* value, unsigned int length) const {
+      return assignFromString (offset, value); }
+
+   /// Returns the value of the attribute map. This is a string of
+   /// <tt>[offset]=[value];</tt> entries.
+   std::string getValue ()  const {
+      std::string help;
+      for (typename L::const_iterator i (map_.begin ()); i != map_.end (); ++i) {
+         help += i->first;
+         help += '=';
+         help += i->second;
+         help += ';';
+      }
+      return help;
+   }
+
+ private:
+   AttributeMap (const AttributeMap& o) : IAttribute ((const IAttribute&)o),
+      map_ (o.map_) { }
+   const AttributeMap& operator= (const AttributeMap&);
+
+   L& map_;
+};
+
+
+/// Specialization of Attribute::assignFromString for a single character
+template <> inline bool AttributeMap<char>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   map_[offset] = *value;
+   return *value && !value[1];
+}
+
+/// Specialization of Attribute::assign for character-arrays
+template <> inline bool AttributeMap<char*>::assign (const std::string& offset, const char* value, unsigned int length) const {
+   Check3 (value);
+   delete [] map_[offset];
+   map_[offset] = new char[length + 1];
+   if (!map_[offset])
+      return false;
+   memcpy (map_[offset], value, length);
+   map_[offset][length] = '\0';
+   return true;
+}
+
+/// Specialization of Attribute::assignFromString for character-arrays
+template <> inline bool AttributeMap<char*>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   return assign (offset, value, strlen (value));
+}
+
+/// Specialization of AttributeMap::assginFromString for short
+template <> inline bool AttributeMap<short>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Specialization of AttributeMap::assginFromString for unsigned short
+template <> inline bool AttributeMap<unsigned short>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Specialization of AttributeMap::assginFromString for int
+template <> inline bool AttributeMap<int>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Specialization of AttributeMap::assginFromString for unsigned int
+template <> inline bool AttributeMap<unsigned int>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Specialization of AttributeMap::assginFromString for unsigned long
+template <> inline bool AttributeMap<long>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Specialization of AttributeMap::assginFromString for unsigned long
+template <> inline bool AttributeMap<unsigned long>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Specialization of AttributeMap::assginFromString for double
+template <> inline bool AttributeMap<double>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   char* pTail = NULL;
+   errno = 0;
+   map_[offset] = strtod (value, &pTail); Check3 (pTail);
+   return !(errno || *pTail);
+}
+
+/// Assigns the passed text to the map of std::strings
+/// \returns \c true on success; \c false otherwise
+template <> inline bool AttributeMap<std::string>::assignFromString (const std::string& offset, const char* value) const {
+   Check3 (value);
+   map_[offset] = value;
+   return true;
+}
+
+/// Assigns the passed text with known length to the map of std::strings
+/// \returns \c true on success; \c false otherwise
+template <> inline bool AttributeMap<std::string>::assign (const std::string& offset, const char* value, unsigned int length) const {
+   Check3 (value);
+   map_[offset].assign (value, length);
+   return true;
+}
 
 
 }

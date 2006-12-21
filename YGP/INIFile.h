@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.32 2006/08/09 16:37:27 markus Rel $
+//$Id: INIFile.h,v 1.33 2006/12/21 13:30:59 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,6 +58,9 @@ class INIFile;
                              (section).addAttribute (section ## name##_);
 #define INILIST(name, type)  YGP::INIList<type> name (#name, name); _inifile_.addSection (name);
 #define INILIST2(section, type, name) YGP::INIList<type> section (#section, name); \
+                             _inifile_.addSection (section);
+#define INIMAP(name, type)  YGP::INIMap<type> name (#name, name); _inifile_.addSection (name);
+#define INIMAP2(section, type, name) YGP::INIMap<type> section (#section, name); \
                              _inifile_.addSection (section);
 #define INIFILE_READ()       _inifile_.read ()
 
@@ -186,13 +189,16 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
  public:
    /// Constructor; Creates an object named \c name and a vector to receive
    /// the parsed values
+   /// \param name: Name of the section
+   /// \param values: List to store the passed values
    INIList (const char* name, L& values) : INISection (name), offset (0) {
       addAttribute (*new AttributeList<T, L> (name, values)); }
    /// Destructor; Frees the internally used attribute list
-   ~INIList () { delete attributes.front (); }
+   ~INIList () { delete attributes.front (); Check3 (attributes.empty ()); }
 
    /// Writes the contents of the holded attribute values to the passed stream
    /// (in its own section).
+   /// \param stream: Stream to write to
    void write (std::ostream& stream) {
       return write (stream, attributes[0]->getName (),
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
@@ -203,9 +209,7 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
    /// \param values: Values to write
    static void write (std::ostream& stream, const char* section, const L& values) {
       writeHeader (stream, section);
-      for (unsigned int i (0); i < values.size (); ++i)
-         stream << i << '=' << values[i] << '\n';
-      stream << '\n';
+      stream << values.getValue () << '\n';
    }
 
  protected:
@@ -234,6 +238,65 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
 
  private:
    unsigned int offset;
+};
+
+
+/**Class to parse all entries of a section into a list (map) of values (see
+   INIFile for more details).
+
+   The entries of the section must have a unique (alphanumeric) key.
+*/
+template <class T, class M=std::map<std::string, T> > class INIMap : public INISection {
+ public:
+   /// Constructor; Creates an object named \c name and a vector to receive
+   /// the parsed values
+   /// \param name: Name of the section
+   /// \param values: Map to store the passed values
+   INIMap (const char* name, M& values) : INISection (name) {
+      addAttribute (*new AttributeMap<T, M> (name, values)); }
+   /// Destructor; Frees the internally used attribute list
+   ~INIMap () { delete attributes.front (); Check3 (attributes.empty ()); }
+
+   /// Writes the contents of the holded attribute values to the passed stream
+   /// (in its own section).
+   /// \param stream: Stream to write to
+   void write (std::ostream& stream) {
+      return write (stream, attributes[0]->getName (),
+                    ((AttributeMap<T>*)attributes[0])->getAttribute ()); }
+   /// Writes the contents of the passed values to the passed stream
+   /// (in its own section named \c section).
+   /// \param stream: Stream to write to
+   /// \param section: Name of section to write
+   /// \param values: Values to write
+   static void write (std::ostream& stream, const char* section, const M& values) {
+      writeHeader (stream, section);
+      stream << values.getValue () << '\n';
+   }
+
+ protected:
+   /// Callback when a key is found while parsing the INI-file (during parsing
+   /// the INIMap).
+   ///
+   /// This method considers the \c key as offet for the value in the list.
+   virtual int foundKey (const char* key, unsigned int) {
+      Check3 (key);
+      offset = key;
+      pFoundAttr = attributes.front ();
+      return ParseObject::PARSE_OK; }
+
+   /// Callback when a value is found while parsing the INI-file (during
+   /// parsing the INIMap).
+   ///
+   /// This method assigns \c value to the previously parsed offset.
+   virtual int foundValue (const char* value, unsigned int len) {
+      Check3 (pFoundAttr);
+      return ((((AttributeMap<T>*)pFoundAttr)->assign
+               (offset, value, len)
+               ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT));
+   }
+
+ private:
+   std::string offset;
 };
 
 
@@ -307,12 +370,21 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
               called \c name_.
 
    - <b>INILIST(name, type)</b>: Defines a section to parse a
-        list. Both the section and the variable containing the list
+        list. Both the section and the variable containing the list (vector)
         are called name.
 
    - <b>INILIST2(section, type, name)</b>: Defines a section to parse
         a list. The section in the INI file is called section and its
         values are stored in the array (vector) name.
+
+   - <b>INIMAP(name, type)</b>: Defines a section to parse a list with
+        an arbitrary string as offset. Both the section and the
+        variable containing the list (map) are called name.
+
+   - <b>INIMAP2(section, type, name)</b>: Defines a section to parse a
+        list with an arbitrary string as offset. The section in the
+        INI file is called section and its values are stored in the
+        array (map) name.
 
    To parse the INI-file above use the following commands:
 
