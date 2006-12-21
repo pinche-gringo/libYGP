@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.36 2006/12/21 13:30:58 markus Exp $
+//$Id: Attribute.h,v 1.37 2006/12/21 14:23:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -360,20 +360,14 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
       }
       return true;
    }
-
-   /// Method to assign a value from a character-pointer to the attribute
-   /// list. See assignFromString() for details.
-   virtual bool assign (const char* value, unsigned int length) const {
-      return assignFromString (value); }
-
    /// Method to assign a value from a character-pointer to a single
    /// (specified) element of the list.
    /// \note The \c offset is not checked vor validity!
    virtual bool assignFromString (unsigned int offset, const char* value) const {
       try {
-         list_[offset] = value;
+	 doAssignFromString (offset, value);
       }
-      catch (std::invalid_argument&) {
+      catch (std::exception&) {
          return false;
       }
       return true;
@@ -383,6 +377,10 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    /// (specified) element of the list. See See assignFromString() for details.
    virtual bool assign (unsigned int offset, const char* value, unsigned int length) const {
       return assignFromString (offset, value); }
+   /// Method to assign a value from a character-pointer to the attribute
+   /// list. See assignFromString() for details.
+   virtual bool assign (const char* value, unsigned int length) const {
+      return assignFromString (value); }
 
    /// Returns the value of the attribute list. This is a string of <tt>
    /// [offset]=[value];</tt> entries.
@@ -399,108 +397,126 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
       return help;
    }
 
+   /// Checks if the passed value specifies a valid offset
+   /// \returns \c true, if the offset is valid
+   bool isValidOffset (unsigned int offset) const {
+      return offset < list_.size ();
+   }
+
  private:
    AttributeList (const AttributeList& o) : IAttribute ((const IAttribute&)o),
       list_ (o.list_) { }
    const AttributeList& operator= (const AttributeList&);
 
+   bool doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
+      list_.at (offset) = value;
+      return true;
+   }
+
    L& list_;
 };
 
 
-/// Specialization of Attribute::assignFromString for a single character
-template <> inline bool AttributeList<char>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of Attribute::doAssignFromString for a single character
+template <> inline bool AttributeList<char>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
-   list_[offset] = *value;
+   list_.at (offset) = *value;
    return *value && !value[1];
 }
 
 /// Specialization of Attribute::assign for character-arrays
 template <> inline bool AttributeList<char*>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
-   delete [] list_[offset];
-   list_[offset] = new char[length + 1];
-   if (!list_[offset])
+   try {
+      if (strlen (list_.at (offset)) < length) {
+	 delete [] list_.at (offset);
+	 list_[offset] = new char[length + 1];
+	 if (!list_[offset])
+	    return false;
+      }
+      memcpy (list_[offset], value, length);
+      list_[offset][length] = '\0';
+   }
+   catch (std::exception&) {
       return false;
-   memcpy (list_[offset], value, length);
-   list_[offset][length] = '\0';
+   }
    return true;
 }
 
-/// Specialization of Attribute::assignFromString for character-arrays
-template <> inline bool AttributeList<char*>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of Attribute::doAssignFromString for character-arrays
+template <> inline bool AttributeList<char*>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    return assign (offset, value, strlen (value));
 }
 
-/// Specialization of AttributeList::assginFromString for short
-template <> inline bool AttributeList<short>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssginFromString for short
+template <> inline bool AttributeList<short>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   list_.at (offset) = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
-/// Specialization of AttributeList::assginFromString for unsigned short
-template <> inline bool AttributeList<unsigned short>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssginFromString for unsigned short
+template <> inline bool AttributeList<unsigned short>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   list_.at (offset) = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
-/// Specialization of AttributeList::assginFromString for int
-template <> inline bool AttributeList<int>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssignFromString for int
+template <> inline bool AttributeList<int>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   list_.at (offset) = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
-/// Specialization of AttributeList::assginFromString for unsigned int
-template <> inline bool AttributeList<unsigned int>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssignFromString for unsigned int
+template <> inline bool AttributeList<unsigned int>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   list_.at (offset) = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
-/// Specialization of AttributeList::assginFromString for unsigned long
-template <> inline bool AttributeList<long>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssignFromString for unsigned long
+template <> inline bool AttributeList<long>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtol (value, &pTail, 10); Check3 (pTail);
+   list_.at (offset) = strtol (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
-/// Specialization of AttributeList::assginFromString for unsigned long
-template <> inline bool AttributeList<unsigned long>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssignFromString for unsigned long
+template <> inline bool AttributeList<unsigned long>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtoul (value, &pTail, 10); Check3 (pTail);
+   list_.at (offset) = strtoul (value, &pTail, 10); Check3 (pTail);
    return !(errno || *pTail);
 }
 
-/// Specialization of AttributeList::assginFromString for double
-template <> inline bool AttributeList<double>::assignFromString (unsigned int offset, const char* value) const {
+/// Specialization of AttributeList::doAssignFromString for double
+template <> inline bool AttributeList<double>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
    char* pTail = NULL;
    errno = 0;
-   list_[offset] = strtod (value, &pTail); Check3 (pTail);
+   list_.at (offset) = strtod (value, &pTail); Check3 (pTail);
    return !(errno || *pTail);
 }
 
 /// Assigns the passed text to the list of std::strings
 /// \returns \c true on success; \c false otherwise
-template <> inline bool AttributeList<std::string>::assignFromString (unsigned int offset, const char* value) const {
+template <> inline bool AttributeList<std::string>::doAssignFromString (unsigned int offset, const char* value) const throw (std::out_of_range) {
    Check3 (value);
-   list_[offset] = value;
+   list_.at (offset) = value;
    return true;
 }
 
@@ -508,7 +524,12 @@ template <> inline bool AttributeList<std::string>::assignFromString (unsigned i
 /// \returns \c true on success; \c false otherwise
 template <> inline bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
-   list_[offset].assign (value, length);
+   try {
+      list_.at (offset).assign (value, length);
+   }
+   catch (std::exception&) {
+      return false;
+   }
    return true;
 }
 
