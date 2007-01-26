@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.34 2006/12/21 14:32:48 markus Exp $
+//$Id: INIFile.h,v 1.35 2007/01/26 20:19:49 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -194,7 +194,7 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
    INIList (const char* name, L& values) : INISection (name), offset (0) {
       addAttribute (*new AttributeList<T, L> (name, values)); }
    /// Destructor; Frees the internally used attribute list
-   ~INIList () { delete attributes.front (); Check3 (attributes.empty ()); }
+   ~INIList () { Check3 (attributes.size () == 1); delete attributes.front (); }
 
    /// Writes the contents of the holded attribute values to the passed stream
    /// (in its own section).
@@ -256,7 +256,7 @@ template <class T, class M=std::map<std::string, T> > class INIMap : public INIS
    INIMap (const char* name, M& values) : INISection (name) {
       addAttribute (*new AttributeMap<T, M> (name, values)); }
    /// Destructor; Frees the internally used attribute list
-   ~INIMap () { delete attributes.front (); Check3 (attributes.empty ()); }
+   ~INIMap () { Check3 (attributes.size () == 1); delete attributes.front (); }
 
    /// Writes the contents of the holded attribute values to the passed stream
    /// (in its own section).
