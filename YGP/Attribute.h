@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.37 2006/12/21 14:23:39 markus Exp $
+//$Id: Attribute.h,v 1.38 2007/01/26 20:37:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -387,11 +387,11 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    std::string getValue ()  const {
       std::string help;
       char number[20];
-      for (typename L::const_iterator i (list_.begin ()); i != list_.end (); ++i) {
-         snprintf (number, sizeof (number), "%d", i - list_.begin ());
+      for (unsigned int i (0); i < list_.size (); ++i) {
+         snprintf (number, sizeof (number), "%d", i);
          help += number;
          help += '=';
-         help += *i;
+         help += list_[i];
          help += ';';
       }
       return help;
@@ -769,7 +769,6 @@ template <> inline bool AttributeMap<std::string>::assign (const std::string& of
    map_[offset].assign (value, length);
    return true;
 }
-
 
 }
 
