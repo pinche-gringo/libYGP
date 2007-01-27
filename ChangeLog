@@ -2,6 +2,8 @@
 
 	* ChangeLog, NEWS: Changes of V0.8.10 documented
 
+	* Makefile.am: Removed mkinstalldirs from distribution
+
 	* configure.in: Version to 0.8.20; Added checks for size of intergers
 
 	* ygp-cfg.h.in:
