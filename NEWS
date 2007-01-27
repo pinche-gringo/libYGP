@@ -1,3 +1,12 @@
+Overview of Changes in version 0.8.20:
+
+  - Added YGP::INIMap to parse maps from an INI-file
+  - Added YGP::FileTypeChecker to check types of files
+  - Added YGP/Utility.h containing some utility-functions
+  - YGP::INIList throws an exception if parsing an invalid offset
+  - Adapted to new automake/-conf
+
+
 Overview of Changes in version 0.8.10:
 
   - Added MetaEnumAttribute (and handling them in INIFile and AttributeParse)
