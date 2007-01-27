@@ -1,14 +1,14 @@
-//$Id: Parse.cpp,v 1.57 2006/06/03 21:32:37 markus Rel $
+//$Id: Parse.cpp,v 1.58 2007/01/27 12:34:11 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.57 $
+//REVISION    : $Revision: 1.58 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006
+//COPYRIGHT   : Copyright (C) 1999 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -944,7 +944,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseEr
 
    if ((rc < 0) || (rc && !(optional && (ppAct == ppList)))) {
       std::string error;
-      error = _(*ppAct ? "Error in sequence %1; Expected: %2" : "Error in sequence %1");
+      error = _(*ppAct ? N_("Error in sequence %1; Expected: %2") : N_("Error in sequence %1"));
       error.replace (error.find ("%1"), 2, getDescription ());
       if (*ppAct)
          error.replace (error.find ("%2"), 2, (*ppAct)->getDescription ());
