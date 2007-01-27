@@ -1,12 +1,12 @@
 # Deutsche Übersetzungen für libYGP
-# Copyright (C) 2002 - 2006 Markus Schwab
+# Copyright (C) 2002 - 2007 Markus Schwab
 # Markus Schwab <g17m0@lycos.com>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.8 ($Revision: 1.45 $)\n"
+"Project-Id-Version: libYGP 0.8 ($Revision: 1.46 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2006-07-06 14:15-0400\n"
+"POT-Creation-Date: 2007-01-27 13:31+0100\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -300,19 +300,19 @@ msgstr "Datei '%1' existiert! Überschreiben?"
 msgid "File"
 msgstr "Datei"
 
-#: XGP/XFileList.cpp:226
+#: XGP/XFileList.cpp:225
 msgid "Open in %1 ..."
 msgstr "Öffnen mit %1 ..."
 
-#: XGP/XFileList.cpp:242
+#: XGP/XFileList.cpp:241
 msgid "Rename/Move ..."
 msgstr "Umbenennen/Verschieben ..."
 
-#: XGP/XFileList.cpp:245
+#: XGP/XFileList.cpp:244
 msgid "Delete"
 msgstr "Löschen"
 
-#: XGP/XFileList.cpp:270
+#: XGP/XFileList.cpp:269
 msgid "Environment variable `TERM' not defined!"
 msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 
