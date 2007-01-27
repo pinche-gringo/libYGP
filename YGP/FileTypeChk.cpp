@@ -1,11 +1,11 @@
-//$Id: FileTypeChk.cpp,v 1.1 2007/01/26 20:35:52 markus Exp $
+//$Id: FileTypeChk.cpp,v 1.2 2007/01/27 12:27:36 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.07.2006
 //COPYRIGHT   : Copyright (C) 2006, 2007
@@ -330,7 +330,7 @@ void FileTypeCheckerByContent::skipHTMLComments (char* buffer, unsigned int size
 /// Checks if the first bytes in buffer machtes the passed value
 /// \param buffer: Buffer to inspect
 /// \param text: Text to match
-/// \param len: Number of bytes to check
+/// \param length: Number of bytes to check
 /// \param stream: Stream from where to read more characters
 /// \returns bool: True, if the text matches
 //-----------------------------------------------------------------------------
@@ -343,7 +343,7 @@ bool FileTypeCheckerByContent::matchFirstBytes (char* buffer, const char* text,
 /// Checks if the first bytes in buffer machtes the passed value
 /// \param buffer: Buffer to inspect
 /// \param text: Text to match
-/// \param len: Number of bytes to check
+/// \param length: Number of bytes to check
 /// \param stream: Stream from where to read more characters
 /// \returns bool: True, if the text matches
 //-----------------------------------------------------------------------------
@@ -360,7 +360,7 @@ bool FileTypeCheckerByContent::isHTML (char* buffer, const char* text,
 /// Checks if the first bytes in buffer machtes the passed value
 /// \param buffer: Buffer to inspect
 /// \param text: Text to match
-/// \param len: Number of bytes to check
+/// \param length: Number of bytes to check
 /// \param stream: Stream from where to read more characters
 /// \returns bool: True, if the text matches
 //-----------------------------------------------------------------------------
@@ -374,7 +374,7 @@ bool FileTypeCheckerByContent::isMP3 (char* buffer, const char* text,
 /// Checks if the first bytes in buffer machtes the passed value
 /// \param buffer: Buffer to inspect
 /// \param text: Text to match
-/// \param len: Number of bytes to check
+/// \param length: Number of bytes to check
 /// \param stream: Stream from where to read more characters
 /// \returns bool: True, if the text matches
 //-----------------------------------------------------------------------------
@@ -424,7 +424,7 @@ bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 /// Checks if the first bytes in buffer machtes the passed value
 /// \param buffer: Buffer to inspect
 /// \param text: Text to match
-/// \param len: Number of bytes to check
+/// \param length: Number of bytes to check
 /// \param stream: Stream from where to read more characters
 /// \returns bool: True, if the text matches
 //-----------------------------------------------------------------------------
@@ -446,7 +446,7 @@ bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
 /// Checks if the first bytes in buffer machtes the passed value
 /// \param buffer: Buffer to inspect
 /// \param text: Text to match
-/// \param len: Number of bytes to check
+/// \param length: Number of bytes to check
 /// \param stream: Stream from where to read more characters
 /// \returns bool: True, if the text matches
 //-----------------------------------------------------------------------------

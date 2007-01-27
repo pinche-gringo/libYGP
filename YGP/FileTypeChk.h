@@ -1,7 +1,7 @@
 #ifndef FILETYPECHK_H
 #define FILETYPECHK_H
 
-//$Id: FileTypeChk.h,v 1.1 2007/01/26 20:35:52 markus Exp $
+//$Id: FileTypeChk.h,v 1.2 2007/01/27 12:27:36 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +28,20 @@
 namespace YGP {
 
 /**Base-class to check for file-types
+ *
+ * Currently supported types are:
+ *   - Abiword
+ *   - GIF
+ *   - HTML
+ *   - JPEG
+ *   - MP3
+ *   - MS-Office
+ *   - OGG
+ *   - OpenOffice.org
+ *   - PDF
+ *   - PNG
+ *   - RTF
+ *   - StarOffice
  */
 class FileTypeChecker {
  public:
@@ -47,7 +61,9 @@ protected:
 
 
 /**Class to check for the type of a file (e.g. MS Office document) by
-   the extension of the file
+ * the extension of the file
+ *
+ * Further types can be added by the addType()-member
  */
 class FileTypeCheckerByExtension : public FileTypeChecker {
  public:
@@ -96,6 +112,8 @@ class FileTypeCheckerByCaseExt : public FileTypeCheckerByExtension {
 
 
 /**Type to check for type of files by the content of the file
+ *
+ * Further types can be added by the addType()-members
  */
 class FileTypeCheckerByContent : public FileTypeChecker {
  public:
