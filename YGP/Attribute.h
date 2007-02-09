@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.38 2007/01/26 20:37:36 markus Rel $
+//$Id: Attribute.h,v 1.39 2007/02/09 11:26:00 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -365,9 +365,11 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    /// \note The \c offset is not checked vor validity!
    virtual bool assignFromString (unsigned int offset, const char* value) const {
       try {
+	 if (offset == list_.size ())
+  	    list_.push_back (T ());
 	 doAssignFromString (offset, value);
       }
-      catch (std::exception&) {
+      catch (std::exception& e) {
          return false;
       }
       return true;
@@ -400,7 +402,7 @@ template <class T, class L=std::vector<T> > class AttributeList : public IAttrib
    /// Checks if the passed value specifies a valid offset
    /// \returns \c true, if the offset is valid
    bool isValidOffset (unsigned int offset) const {
-      return offset < list_.size ();
+      return offset <= list_.size ();
    }
 
  private:
@@ -428,11 +430,15 @@ template <> inline bool AttributeList<char>::doAssignFromString (unsigned int of
 template <> inline bool AttributeList<char*>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    try {
-      if (strlen (list_.at (offset)) < length) {
-	 delete [] list_.at (offset);
-	 list_[offset] = new char[length + 1];
-	 if (!list_[offset])
-	    return false;
+      if (list_.size () == offset)
+	 list_.push_back (new char [length + 1]);
+      else {
+	 if (strlen (list_.at (offset)) < length) {
+	    delete [] list_[offset];
+	    list_[offset] = new char[length + 1];
+	    if (!list_[offset])
+	       return false;
+	 }
       }
       memcpy (list_[offset], value, length);
       list_[offset][length] = '\0';
@@ -525,7 +531,10 @@ template <> inline bool AttributeList<std::string>::doAssignFromString (unsigned
 template <> inline bool AttributeList<std::string>::assign (unsigned int offset, const char* value, unsigned int length) const {
    Check3 (value);
    try {
-      list_.at (offset).assign (value, length);
+      if (list_.size () == offset)
+	 list_.push_back (std::string (value, length));
+      else
+	 list_.at (offset).assign (value, length);
    }
    catch (std::exception&) {
       return false;
