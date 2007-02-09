@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.34 2006/12/21 13:30:59 markus Rel $
+//$Id: INIFile.cpp,v 1.35 2007/02/09 11:27:05 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.34 $
+//REVISION    : $Revision: 1.35 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2005
@@ -433,7 +433,6 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
       Check3 (*i);
       stream << (*i)->getName () << '=' << (*i)->getValue () << '\n';
    }
-   stream << '\n';
 }
 
 }
