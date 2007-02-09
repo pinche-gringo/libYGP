@@ -1,6 +1,35 @@
+2007-02-09  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.21 documented
+
+	* XGP/Samples/X-Appl.cpp:
+	  Using PACKAGE_VERSION instead of VERSION; changed copyright-info
+
+	* configure.in: Version to 0.8.21; Lib-version stays at 0.8.20
+
+	* YGP/RemoteFile.cpp: Might now compile on a 64-bit system
+
+	* YGP/Relation.h: Fixed iterating over targes (in a check)
+
+	* YGP/Tests/INIFile.cpp, YGP/Tests/INIFile.test:
+	  Don't parse a list with holes
+
+	* YGP/INIFile.cpp:
+	  Don't write newline when writen a section for an object
+
+	* YGP/INIFile.h: Adding list-template to casts
+
+	* YGP/Attribute.h: AttributeList reserves element, if in sequence
+
+	* YGP/AssParse.h: Removed compiler warning on 64-bit systems
+
 2007-01-27  Markus Schwab  <g17m0@lycos.com>
 
-	* ChangeLog, NEWS: Changes of V0.8.10 documented
+	* ChangeLog, doc/index.html: Added change of Makefile.am
+
+	* Makefile.am: Removed mkinstalldirs from distribution
+
+	* ChangeLog, NEWS: Changes of V0.8.20 documented
 
 	* Makefile.am: Removed mkinstalldirs from distribution
 

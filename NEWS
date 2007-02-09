@@ -1,3 +1,10 @@
+Overview of Changes in version 0.8.21:
+
+  - YGP::INIList automatically re-allocates the vector (if parsed in order)
+  - Fixed check in YGP::Relation
+  - Actualized sample in XGP
+
+
 Overview of Changes in version 0.8.20:
 
   - Added YGP::INIMap to parse maps from an INI-file
