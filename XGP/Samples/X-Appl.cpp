@@ -1,14 +1,14 @@
-//$Id: X-Appl.cpp,v 1.37 2006/08/01 02:31:33 markus Rel $
+//$Id: X-Appl.cpp,v 1.38 2007/02/09 13:15:20 markus Rel $
 
 //PROJECT     : General
 //SUBSYSTEM   : X-Windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2006
+//COPYRIGHT   : Copyright (C) 2003 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -361,9 +361,9 @@ void XAppl::showSearchDialog () {
 void XAppl::showAboutbox () {
    XGP::XAbout* about (XGP::XAbout::create
                        (Glib::locale_to_utf8
-			("Copyright (C) 2003 - 2006 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+			("Copyright (C) 2003 - 2007 Markus Schwab\ne-mail: g17m0@lycos.com\n"
 			 "\nCompiled on " __DATE__ " at " __TIME__),
-			"X-Appl V" VERSION));
+			"X-Appl V" PACKAGE_VERSION));
    about->setIconProgram (xpmXAppl);
    about->setIconAuthor (xpmAuthor);
 }
