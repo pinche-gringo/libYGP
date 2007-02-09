@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.35 2007/01/26 20:19:49 markus Rel $
+//$Id: INIFile.h,v 1.36 2007/02/09 11:26:33 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -223,7 +223,7 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
       char* pEnd = NULL;
       offset = strtol (key, &pEnd, 10); Check3 (pEnd);
       pFoundAttr = attributes.front ();
-      return ((errno || *pEnd || !((AttributeList<T>*)pFoundAttr)->isValidOffset (offset))
+      return ((errno || *pEnd || !((AttributeList<T, L>*)pFoundAttr)->isValidOffset (offset))
 	      ? ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK); }
 
    /// Callback when a value is found while parsing the INI-file (during
@@ -232,7 +232,7 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
    /// This method assigns \c value to the previously parsed offset.
    virtual int foundValue (const char* value, unsigned int len) {
       Check3 (pFoundAttr);
-      return ((((AttributeList<T>*)pFoundAttr)->assign
+      return ((((AttributeList<T, L>*)pFoundAttr)->assign
                (offset, value, len)
                ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT));
    }
