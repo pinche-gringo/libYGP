@@ -1,14 +1,14 @@
-// $Id: RemoteFile.cpp,v 1.24 2006/06/03 21:32:37 markus Rel $
+// $Id: RemoteFile.cpp,v 1.25 2007/02/09 13:04:32 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.10.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
+//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ void RemoteFile::close (void* file) const throw (YGP::FileError) {
    Check3 (file);
 
    std::string buffer ("Close=");
-   ANumeric id ((unsigned int)file);
+   ANumeric id ((unsigned long)file);
    buffer += id.toUnformattedString ();
 
    try {
@@ -148,7 +148,7 @@ int RemoteFile::read (void* file, char* buffer, unsigned int length) const throw
    Check3 (length);
 
    std::string text ("Read=");
-   ANumeric id ((unsigned int)file);
+   ANumeric id ((unsigned long)file);
    text += id.toUnformattedString ();
 
    id = length;
@@ -188,7 +188,7 @@ bool RemoteFile::isEOF (void* file) const throw (YGP::FileError) {
    Check3 (file);
 
    std::string buffer ("EOF=");
-   ANumeric id ((unsigned int)file);
+   ANumeric id ((unsigned long)file);
    buffer += id.toUnformattedString ();
 
    try {
@@ -273,7 +273,7 @@ int RemoteFile::write (void* file, const char* buffer, unsigned int length) cons
    Check3 (length);
 
    std::string text ("Write=");
-   ANumeric id ((unsigned int)file);
+   ANumeric id ((unsigned long)file);
    text += id.toUnformattedString ();
 
    id = length;
