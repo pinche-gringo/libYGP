@@ -1,7 +1,7 @@
 #ifndef RELATION_H
 #define RELATION_H
 
-//$Id: Relation.h,v 1.13 2006/10/31 14:27:42 markus Rel $
+//$Id: Relation.h,v 1.14 2007/02/09 13:04:03 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -245,7 +245,7 @@ class Relation1_N : public IRelation {
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i)
 	 for (typename std::vector<T>::const_iterator t (targets.begin ());
-	      t != targets.end; ++t)
+	      t != targets.end (); ++t)
 	    Check (find (i->second.begin (), i->second.end (), *t)
 		   == i->second.end ());
 #endif
