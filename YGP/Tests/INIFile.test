@@ -18,9 +18,10 @@ Attr3=2000
 Attr4=28021999
 
 [List]
+0=Zero
 1=One
 2=Two
-9=Nine
+3=Three
 
 [Map]
 A=First letter

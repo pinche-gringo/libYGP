@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.14 2006/12/21 13:30:12 markus Rel $
+// $Id: INIFile.cpp,v 1.15 2007/02/09 11:27:46 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005
@@ -57,7 +57,7 @@ int main (int argc, char* argv[]) {
       YGP::ADate Attr4;
       YGP::ATime Attr5;
       YGP::ATimestamp Attr6;
-      std::vector<std::string> list (10);
+      std::vector<std::string> list;
       std::map<std::string, std::string> map;
 
       YGP::INISection global ("Global");
@@ -100,9 +100,10 @@ int main (int argc, char* argv[]) {
       int rc = INIFILE_READ ();
       check (!rc);
 
+      check (list[0] == "Zero");
       check (list[1] == "One");
       check (list[2] == "Two");
-      check (list[9] == "Nine");
+      check (list[3] == "Three");
       check (map["A"] == "First letter");
       check (map["B"] == "Second letter");
       check (map["Z"] == "Last letter");
