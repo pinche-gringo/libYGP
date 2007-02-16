@@ -1,14 +1,14 @@
-//$Id: BrowserDlg.cpp,v 1.24 2006/07/06 18:15:04 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.25 2007/02/16 10:41:20 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2006
+//COPYRIGHT   : Copyright (C) 2003 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,6 +70,9 @@ const char* BrowserDlg::browserNames[] = {
 #endif
 #if HAVE_OPERA > 0
     N_("opera"),
+#endif
+#if HAVE_DILLO > 0
+    N_("dillo"),
 #endif
 #if HAVE_IEXPLORER > 0
     N_("iexplore"),
@@ -139,8 +142,7 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    show_all_children ();
    show ();
 
-   if (selection != -1U)
-      control (selection);
+   control (selection != -1U ? selection : 0);
 }
 
 //-----------------------------------------------------------------------------
