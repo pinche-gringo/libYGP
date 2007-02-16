@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.20 2006/06/03 21:32:37 markus Rel $
+//$Id: RDirSrch.h,v 1.21 2007/02/16 10:01:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <time.h>
-#include <stddef.h>
-#include <string.h>
+#include <ctime>
+#include <cstddef>
+#include <cstring>
 
 #include <ygp-cfg.h>
 #include <YGP/Socket.h>

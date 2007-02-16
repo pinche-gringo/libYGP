@@ -1,7 +1,7 @@
 #ifndef DIRSRCH_H
 #define DIRSRCH_H
 
-//$Id: DirSrch.h,v 1.36 2005/03/06 06:36:43 markus Rel $
+//$Id: DirSrch.h,v 1.37 2007/02/16 10:01:39 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-#include <time.h>
-#include <stddef.h>
-#include <string.h>
+#include <ctime>
+#include <cstddef>
+#include <cstring>
 
 #if SYSTEM == UNIX
 #  if HAVE_DIRENT_H
