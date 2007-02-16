@@ -1,14 +1,14 @@
-//$Id: DirSrch.cpp,v 1.52 2005/03/06 06:36:24 markus Rel $
+//$Id: DirSrch.cpp,v 1.53 2007/02/16 10:01:06 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.52 $
+//REVISION    : $Revision: 1.53 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
 #include <ygp-cfg.h>
 
 #if SYSTEM == UNIX
@@ -39,8 +38,9 @@
 #include "YGP/File.h"
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
-#include "YGP/DirSrch.h"
 #include "YGP/FileRExp.h"
+
+#include "YGP/DirSrch.h"
 
 
 namespace YGP {
