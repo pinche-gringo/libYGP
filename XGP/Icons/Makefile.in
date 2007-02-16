@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.15 2007/01/27 12:29:46 markus Rel $
+# $Id: Makefile.in,v 1.16 2007/02/16 10:32:52 markus Rel $
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -68,7 +68,7 @@ Icon_Z.png Default.png Directory.png Executable.png			\
 Browser_epiphany.png Browser_firefox.png Browser_galeon.png		\
 Browser_mozilla.png Browser_opera.png Browser_netscape.png		\
 Browser_konqueror.png Browser_GTKMOZEMBED.png Browser_GTKHTML.png	\
-Browser_seamonkey.png
+Browser_seamonkey.png Browser_dillo.png
 
 
 install_sh = @install_sh@
