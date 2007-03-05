@@ -10,7 +10,7 @@ Note that the shared library (DLL) does not work. Therefore configure must be
 invoked with the --disable-shared option. To be investigated ...
 
 There still exists an outdated Makefile for Visual C++ in the windows
-directory (and theoretically it is possible to actualize it), but building
+directory (and theoretically it is possible to actualise it), but building
 with this compiler is not longer supported. It has also the disadvantage that
 the XGP subsystem will not be compiled (as the gtkmm-folks also seems to
 dislike Visual C++ - and who can blame them?).
