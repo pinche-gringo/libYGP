@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.44 2006/06/03 21:32:37 markus Rel $
+//$Id: Parse.h,v 1.45 2007/03/05 19:22:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -632,7 +632,7 @@ class ParseSelection : public ParseSequence {
    The return-value specifies how the parsing should be continued:
    0 ..... Parsing (and callback OK)
    > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
-   < 1 ... Error while parsing; abort parsing (unrecoverable error)
+   < 0 ... Error while parsing; abort parsing (unrecoverable error)
    If possible use the error-values in the error-enum
 */
 typedef int (*PARSECALLBACK)(const char*, unsigned int);
@@ -1028,7 +1028,7 @@ class CBParseSelection : public ParseSelection {
    The return-value specifies how the parsing should be continued:
    0 ..... Parsing (and callback OK)
    > 0 ... Error while parsing; parsing can be continued (in sequences, ...)
-   < 1 ... Error while parsing; abort parsing (unrecoverable error)
+   < 0 ... Error while parsing; abort parsing (unrecoverable error)
    If possible use the error-values in the error-enum
 */
 

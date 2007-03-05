@@ -1,14 +1,14 @@
-//$Id: RDirSrch.cpp,v 1.28 2006/06/03 21:32:37 markus Rel $
+//$Id: RDirSrch.cpp,v 1.29 2007/03/05 19:22:24 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006
+//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -144,7 +144,7 @@ const File* RemoteDirSearch::setFiledata (const char* pAnswer) throw (YGP::FileE
    pEntry = new RemoteFile (sock);
 
    // Set filename
-   unsigned int posDirEnd (file.rfind (File::DIRSEPARATOR));
+   size_t posDirEnd (file.rfind (File::DIRSEPARATOR));
    if (posDirEnd != std::string::npos) {
       pEntry->path (file.substr (0, ++posDirEnd));
       pEntry->name (file.substr (posDirEnd));
@@ -277,9 +277,9 @@ int RemoteDirSearch::posSeparator (const std::string& dir) const {
    int pos (dir.find (SEPARATOR));
 #else
    // Search after drive-letter-seperator in Windoze, ...
-   int pos ((dir.length () < 3)
-            ? std::string::npos
-            : dir.find (File::DIRSEPARATOR, (dir[1] == SEPARATOR) ? 2 : 0));
+   size_t pos ((dir.length () < 3)
+	       ? std::string::npos
+	       : dir.find (File::DIRSEPARATOR, (dir[1] == SEPARATOR) ? 2 : 0));
 #endif
 
    return pos;
@@ -312,7 +312,7 @@ void RemoteDirSearch::setSearchValue (const std::string& search) {
    TRACE9 ("RemoteDirSearch::setSearchValue (const std::string& srch) - "
            << search);
 
-   unsigned int len (search.find (SEPARATOR));
+   size_t len (search.find (SEPARATOR));
    Check1 (len != std::string::npos);
    files = server = search;
    server.replace (len, server.length (), 0, '\0');
@@ -334,7 +334,7 @@ std::string RemoteDirSearch::getDirectory () const {
    std::string ret (server);
    ret += SEPARATOR;
 
-   unsigned int pos (files.rfind (File::DIRSEPARATOR));
+   size_t pos (files.rfind (File::DIRSEPARATOR));
    if (pos != std::string::npos)
       ret += files.substr (0, pos + 1);
 

@@ -1,14 +1,14 @@
-//$Id: ADate.cpp,v 1.51 2006/06/02 02:33:39 markus Rel $
+//$Id: ADate.cpp,v 1.52 2007/03/05 19:22:24 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.51 $
+//REVISION    : $Revision: 1.52 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006
+//COPYRIGHT   : Copyright (C) 1999 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -175,9 +175,9 @@ void ADate::assign (const char* pDate, unsigned int len) {
    case 9:
       ADate tmp (22, 11, 2000);
       std::string format (tmp.toString ());
-      unsigned int posY (format.find ("2000")); Check3 (posY != std::string::npos);
-      unsigned int posM (format.find ("11")); Check3 (posM != std::string::npos);
-      unsigned int posD (format.find ("22")); Check3 (posD != std::string::npos);
+      size_t posY (format.find ("2000")); Check3 (posY != std::string::npos);
+      size_t posM (format.find ("11")); Check3 (posM != std::string::npos);
+      size_t posD (format.find ("22")); Check3 (posD != std::string::npos);
 
       format.replace (posD, 2, "%2u");
       format.replace (posM, 2, "%2u");

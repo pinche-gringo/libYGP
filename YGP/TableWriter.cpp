@@ -1,14 +1,14 @@
-//$Id: TableWriter.cpp,v 1.7 2005/11/09 19:21:26 markus Rel $
+//$Id: TableWriter.cpp,v 1.8 2007/03/05 19:22:24 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.7 $
+//REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
-//COPYRIGHT   : Copyright (C) 2004, 2005
+//COPYRIGHT   : Copyright (C) 2004, 2005, 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ std::string TableWriter::getNextNode () const {
    TRACE2 ("TableWriter::getNextNode () - Node = '" << token << '\'');
 
    std::string substitute;
-   unsigned int nPos (0);
+   size_t nPos (0);
    while (((pos = token.find ('%', nPos)) != std::string::npos)
           && (pos < (token.size () - 1))) {
       if (token[pos + 1] == '*') {
@@ -148,7 +148,7 @@ void TableWriter::printStart (std::ostream& out, const std::string& title) const
    out << tabStart;
    if (colDefinitions) {
       std::string col (colDefinitions);
-      unsigned int pos (0);
+      size_t pos (0);
       while (((pos = col.find ('%', pos)) != std::string::npos)
 	     && (pos < (col.size () - 1))) {
 	 switch (col[pos + 1]) {

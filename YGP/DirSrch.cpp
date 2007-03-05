@@ -1,11 +1,11 @@
-//$Id: DirSrch.cpp,v 1.53 2007/02/16 10:01:06 markus Exp $
+//$Id: DirSrch.cpp,v 1.54 2007/03/05 19:22:24 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.53 $
+//REVISION    : $Revision: 1.54 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2005, 2007
@@ -245,7 +245,7 @@ void DirectorySearch::setSearchValue (const std::string& search) {
 
    searchFile = search;
 
-   unsigned int len (search.length () - 1);
+   size_t len (search.length () - 1);
    if (searchFile[len] == File::DIRSEPARATOR)
       searchFile.replace (len, 1, 0, '\0');
 

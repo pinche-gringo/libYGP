@@ -1,14 +1,14 @@
-//$Id: AssParse.cpp,v 1.23 2006/06/05 20:33:55 markus Rel $
+//$Id: AssParse.cpp,v 1.24 2007/03/05 19:22:24 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2006
+//COPYRIGHT   : Copyright (C) 2001 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ std::string AssignmentParse::getNextNode () throw (YGP::ParseError) {
    }
 
    posValue = actPos + len;
-   unsigned int pos (posValue + 1);
+   size_t pos (posValue + 1);
    char ch (_string[posValue]);
    if (ch == QUOTE) {
       do {
@@ -143,7 +143,7 @@ std::string AssignmentParse::getActValue () const {
 //-----------------------------------------------------------------------------
 void AssignmentParse::escapeQuotes (std::string& value) {
    TRACE9 ("AssignmentParse::escapeQuotes (std::string&) - " << value);
-   unsigned int pos (0);
+   size_t pos (0);
 
    while ((pos = value.find (QUOTE, pos)) != std::string::npos) {
       TRACE8 ("AssignmentParse::escapeQuotes (std::string&) - Quote position " << pos);

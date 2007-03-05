@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.14 2007/02/09 11:25:07 markus Rel $
+//$Id: AssParse.h,v 1.15 2007/03/05 19:22:24 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ class AssignmentParse : public Tokenize {
  public:
    /// Constructor; from the string to analyze
    AssignmentParse (const std::string& assignments) : Tokenize (assignments)
-      , posValue ((unsigned int)std::string::npos) { }
+      , posValue (std::string::npos) { }
    virtual ~AssignmentParse ();
 
    /// Assignment operator; from the string to analyze
@@ -75,7 +75,7 @@ class AssignmentParse : public Tokenize {
 
    AssignmentParse& operator= (const AssignmentParse& other);
 
-   unsigned int posValue;
+   size_t posValue;
 };
 
 }
