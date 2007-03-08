@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.8 2007/03/05 19:22:24 markus Exp $
+//$Id: TableWriter.cpp,v 1.9 2007/03/08 18:58:27 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.8 $
+//REVISION    : $Revision: 1.9 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005, 2007
@@ -97,7 +97,7 @@ std::string TableWriter::getSubstitute (char ctrl, bool extend) const {
 /// \returns \c std::string: Next (expanded) token
 //-----------------------------------------------------------------------------
 std::string TableWriter::getNextNode () const {
-   unsigned int pos (0);
+   size_t pos (0);
    std::string token (const_cast<TableWriter*> (this)->columns_.getNextNode ('|'));
    if (token.empty ()) {
       const_cast<TableWriter*> (this)->columns_.reset ();
