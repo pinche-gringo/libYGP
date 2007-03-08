@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.97 2007/02/09 13:05:21 markus Rel $
+dnl $Id: configure.in,v 1.98 2007/03/08 19:03:36 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_REVISION($Revision: 1.97 $)
-AC_INIT([libYGP],[0.8.21],[g17m0@lycos.com],[libYGP])
+AC_REVISION($Revision: 1.98 $)
+AC_INIT([libYGP],[0.8.22],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -54,6 +54,7 @@ AC_CHECK_PROG([HAVE_MOZILLA], [mozilla], [yes], [no])
 AC_CHECK_PROG([HAVE_NETSCAPE], [netscape], [yes], [no])
 AC_CHECK_PROG([HAVE_KONQUEROR], [konqueror], [yes], [no])
 AC_CHECK_PROG([HAVE_OPERA], [opera], [yes], [no])
+AC_CHECK_PROG([HAVE_DILLO], [dillo], [yes], [no])
 AC_CHECK_PROG([HAVE_IEXPLORER], [iexplore], [yes], [no])
 
 dnl Convert yes/no values to values understood by the pre-processor
@@ -97,6 +98,11 @@ if test "$HAVE_OPERA" = "yes"; then
 else
    HAVE_OPERA=0
 fi
+if test "$HAVE_DILLO" = "yes"; then
+   HAVE_DILLO=1
+else
+   HAVE_DILLO=0
+fi
 if test "$HAVE_IEXPLORER" = "yes"; then
    HAVE_IEXPLORER=1
 else
@@ -111,6 +117,7 @@ AC_DEFINE_UNQUOTED([HAVE_MOZILLA], $HAVE_MOZILLA, [Set to 1 if Mozilla exists, 0
 AC_DEFINE_UNQUOTED([HAVE_NETSCAPE], $HAVE_NETSCAPE, [Set to 1 if Netscape exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_KONQUEROR], $HAVE_KONQUEROR, [Set to 1 if Konqueror exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_OPERA], $HAVE_OPERA, [Set to 1 if Opera exists, 0 if not])
+AC_DEFINE_UNQUOTED([HAVE_DILLO], $HAVE_DILLO, [Set to 1 if Dillo exists, 0 if not])
 AC_DEFINE_UNQUOTED([HAVE_IEXPLORER], $HAVE_IEXPLORER, [Set to 1 if Internet Explorer exists, 0 if not])
 
 
