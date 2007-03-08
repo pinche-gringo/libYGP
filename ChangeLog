@@ -1,3 +1,36 @@
+2007-03-08  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.22 documented
+
+	* ygp-cfg.h.in: Added define for Dillo
+
+	* po/de.po, po/en.po, po/es.po: Added dillo
+
+	* configure.in: Added define for Dillo; Version to 0.8.22
+
+	* YGP/TableWriter.cpp: Compiles under x86_64
+
+2007-03-05  Markus Schwab  <g17m0@lycos.com>
+
+	* README.windows: English writing (not US)
+
+	* README: Actualised the copyright
+
+	* YGP/ADate.cpp, YGP/AssParse.cpp, YGP/AssParse.h, YGP/DirSrch.cpp, YGP/Parse.h, YGP/RDirSrch.cpp, YGP/TableWriter.cpp:
+	Can be compiled under x86_64
+
+2007-02-16  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/BrowserDlg.cpp: Supporting dillo
+
+	* XGP/Icons/Makefile.in: Added Dillo-icon
+
+	* XGP/Icons/Browser_dillo.png: New file.
+
+	* YGP/DirSrch.h, YGP/RDirSrch.h: Using C++'s standard headers
+
+	* YGP/DirSrch.cpp: Formatting
+
 2007-02-09  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.8.21 documented

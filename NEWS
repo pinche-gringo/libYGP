@@ -1,3 +1,10 @@
+Overview of Changes in version 0.8.22:
+
+  - Added dillo to the supported browsers
+  - Including C++'s standard headers in DirSrch.h, RDirSrch.h
+  - Can be compiled under x86_64
+
+
 Overview of Changes in version 0.8.21:
 
   - YGP::INIList automatically re-allocates the vector (if parsed in order)
