@@ -1,14 +1,14 @@
-// $Id: Parse.cpp,v 1.19 2006/11/10 06:21:17 markus Rel $
+// $Id: Parse.cpp,v 1.20 2007/03/14 14:12:01 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
+//REVISION    : $Revision: 1.20 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2006
+//COPYRIGHT   : Copyright (C) 2001 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -119,6 +119,8 @@ int Application::perform (int argc, const char* argv[]) {
    YGP::ParseSkip skip (2);
    YGP::ParseQuoted qText ('"', "Quoted", 10, 1);
    YGP::CBParseQuotedEsc qEText ('<', "QuotedEsc", foundQuotedText, 10, 1);
+   YGP::ParseToText endMark ("**END**", "End-marker");
+   YGP::ParseEOF eof;
 
    YGP::Xifstream xstr;
    xstr.open (PATH "Parser.test", std::ios::in);
@@ -140,6 +142,10 @@ int Application::perform (int argc, const char* argv[]) {
          check (!qEText.parse ((YGP::Xistream&)xstr));
 	 // Don't check line number anymore, its undefined after skipping
          check (xstr.getColumn () == 0);
+
+	 // Test ParseToText and ParseEOF
+         check (!endMark.parse ((YGP::Xistream&)xstr));
+         check (!eof.parse ((YGP::Xistream&)xstr));
       } // end-try
       catch (YGP::ParseError& e) {
          std::cerr << "Error parsing Parser.test in line " << xstr.getLine () << " ("
