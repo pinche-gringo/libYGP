@@ -1,11 +1,11 @@
-//$Id: Parse.cpp,v 1.58 2007/01/27 12:34:11 markus Rel $
+//$Id: Parse.cpp,v 1.59 2007/03/14 17:40:37 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.58 $
+//REVISION    : $Revision: 1.59 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2007
@@ -147,11 +147,29 @@ ParseEOF::~ParseEOF () {
 
 
 //-----------------------------------------------------------------------------
+/// "Parses" the object. This class returns found, if there is no more
+/// data available to parse.
+///
+/// Returns \c PARSE_OK if data matching the object is found (and the callback
+/// does not report something different).
+/// \param stream: Source from which to read
+//-----------------------------------------------------------------------------
+int ParseEOF::doParse (Xistream& stream, bool) {
+   int ch (stream.get ());
+   TRACE9 ("ParseEOF::doParse (Xistream&, bool) - " << ch);
+   if (ch == EOF) {
+      return found ("EOF", 3);
+   }
+   stream.putback ((char)ch);
+   return PARSE_ERROR;
+}
+
+//-----------------------------------------------------------------------------
 /// Construcutor
 /// \param bytes: Number of bytes to skip
 /// \param seek: From where to seek in the search
 //-----------------------------------------------------------------------------
-ParseSkip::ParseSkip (int bytes, std::ios_base::seekdir seek)
+ParseSkip::ParseSkip (std::streamoff bytes, std::ios_base::seekdir seek)
    : ParseObject ("Skip", false), offset (bytes), seek (seek) {
  }
 
@@ -257,7 +275,6 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 //-----------------------------------------------------------------------------
 int ParseAttomic::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
-   Check1 (!checkIntegrity ());
 
    int ch ('\0');
    std::string& buffer = BUFFER;
@@ -844,6 +861,78 @@ int ParseUpperExact::checkIntegrity () const {
 
 
 //-----------------------------------------------------------------------------
+/// Destructor
+//-----------------------------------------------------------------------------
+ParseToText::~ParseToText () {
+   TRACE9 ("ParseToText::~ParseToText () - " << getDescription ());
+}
+
+
+//-----------------------------------------------------------------------------
+/// Tries to parse the object from the stream.
+///
+/// Returns \c PARSE_OK if data matching the object is found (and the callback
+/// does not report something different).
+///
+/// It is a soft error (\c PARSE_ERROR) if the minimal cardinality is not
+/// fullfilled. If parsing is optional or the error is recoverable (> 0), the
+/// parsed data is pushed back into the stream and \c PARSE_ERROR is
+/// returned. If parsing is not optional and the error is not recoverable (<
+/// 0), an exception (std::string) is thrown.
+/// \param stream: Source from which to read
+/// \param optional: Flag, if node must be found
+/// \throw YGP::ParseError: In case of a not recoverable error
+//-----------------------------------------------------------------------------
+int ParseToText::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
+   TRACE1 ("ParseToText::doParse (Xistream&, bool) - " << getDescription ());
+
+   std::streampos oldPos (stream.tellg ()), lastPos (oldPos);
+   int ch (0);
+
+   unsigned int i (0);
+   while (i < maxCard) {
+      TRACE3 ("ParseToText::doParse (Xistream&, bool) - Occurence: " << minCard << '-' << i << '-' << maxCard);
+      // Inspect stream; search for the first character of the search-string
+      while ((ch = stream.get ()) != EOF) {
+	 if ((char)ch == *pValue) {
+	    TRACE7 ("ParseToText::doParse (Xistream&, bool) - Found 1st char");
+	    // If found, try to parse the whole text
+	    const char* pAct (pValue);
+
+	    do {
+	       // Check if all chars have been matched
+	       if (!*++pAct)
+		  goto found;
+	       // End at EOF
+	       if ((ch = stream.get ()) == EOF)
+		  goto eof;
+
+	    } while (((char)ch) == *pAct);
+	    TRACE8 ("ParseToText::doParse (Xistream&, bool) - No match");
+	 } // endif first char found
+      } // end-while
+      break;
+
+ found:
+      TRACE5 ("ParseToText::doParse (Xistream&, bool) - Found");
+      lastPos = stream.tellg ();
+      ++i;
+   }
+
+ eof:
+   if (i >= minCard) {
+      if (ch == EOF)
+	 stream.seekg (lastPos, std::ios::beg);
+      return found (pValue, i);
+   }
+   else {
+      stream.seekg (oldPos, std::ios::beg);
+      return PARSE_ERROR;
+   }
+}
+
+
+//-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
 /// \param apObjectList: NULL-terminated array of pointers to objects to parse
 /// \param description: Description of the object (what it parses)
@@ -910,7 +999,6 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 //-----------------------------------------------------------------------------
 int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseSequence::doParse -> " << getDescription () << ' ' << maxCard);
-   Check1 (!checkIntegrity ());
 
    unsigned int i (0);
    int rc (PARSE_OK);
@@ -1028,7 +1116,6 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 //-----------------------------------------------------------------------------
 int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseSelection::doParse -> " << getDescription () << ' ' << maxCard);
-   Check1 (!checkIntegrity ());
 
    unsigned int i (0);
    int rc (PARSE_OK);
