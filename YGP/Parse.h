@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.45 2007/03/05 19:22:24 markus Rel $
+//$Id: Parse.h,v 1.46 2007/03/14 14:07:59 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@ namespace YGP {
           specified characters is found
      - \b ParseTextEsc: As ParseText, but this terminating characters can be
           escaped
+     - \b ParseToText: Parses til the specified text has been found. All leading
+          text is skipped.
      - \b ParseExact: Parses (a part) of the specified characters in that
           sequence
      - \b ParseUpperExact: As ParseExact, but ignores the case
@@ -55,7 +57,7 @@ namespace YGP {
 
    The following sequences exists:
      - \b ParseSequence: All of its children must be found in that order.
-     - \b ParseSelection: One of its children must be found; stopps parsing if
+     - \b ParseSelection: One of its children must be found; stops parsing if
           one matches.
 
    All of these classes exists in 3 variants:
@@ -125,7 +127,7 @@ class ParseObject {
    // Parsing
    static void skipWS (Xistream& stream);
    /// Tries to parse the object; See parseObject() for a detailed description
-   int  parse (Xistream& stream) throw (YGP::ParseError) {
+   int parse (Xistream& stream) throw (YGP::ParseError) {
       Check1 (!checkIntegrity ());
       return doParse (stream, false); }
    /// Method to actual parse the object.
@@ -169,7 +171,7 @@ class ParseEOF : public ParseObject {
 
    /// "Parses" the object. This class returns found, if there is no more
    /// data available to parse.
-   virtual int doParse (Xistream& stream, bool) { return !stream.eof (); }
+   virtual int doParse (Xistream& stream, bool);
 
  private:
    ParseEOF (const ParseEOF&);                 // Not very usefull -> prohibit
@@ -180,11 +182,13 @@ class ParseEOF : public ParseObject {
 /**Class to skip some characters (default from the current position in
    the stream).
 
+   \note: The line-number of the stream is undefined after skipping!
+
    See ParseObject for a general description of the parser.
 */
 class ParseSkip : public ParseObject {
  public:
-   ParseSkip (int bytes, std::ios_base::seekdir seek = std::ios::cur);
+   ParseSkip (std::streamoff bytes, std::ios_base::seekdir seek = std::ios::cur);
    ParseSkip (const ParseSkip& other);
    virtual ~ParseSkip ();
 
@@ -197,11 +201,11 @@ class ParseSkip : public ParseObject {
    virtual int doParse (Xistream& stream, bool);
 
    /// Sets the number of bytes which are skipped while parsing the object.
-   void setOffset (int val) { offset = val; }
+   void setOffset (std::streamoff val) { offset = val; }
    /// Sets the number of bytes which are skipped while parsing the object.
-   void setOffset (int val, std::ios_base::seekdir way) { offset = val; seek = way; }
+   void setOffset (std::streamoff val, std::ios_base::seekdir way) { offset = val; seek = way; }
    /// Returns the number of bytes which are skipped while parsing the object.
-   int getOffset () const { return offset; }
+   std::streamoff getOffset () const { return offset; }
 
    /// Sets the way of the skip
    void setWay (std::ios_base::seekdir val) { seek = val; }
@@ -211,7 +215,7 @@ class ParseSkip : public ParseObject {
  private:
    ParseSkip ();
 
-   int offset;
+   std::streamoff offset;
    std::ios_base::seekdir seek;
 };
 
@@ -301,7 +305,7 @@ class ParseAttomic : public ParseObject {
 };
 
 
-/**Class to parse text until specified abot-characters are found.
+/**Class to parse text until specified abort-characters are found.
 
    Parsing of this element is stopped, if any of the characters in the
    \c abort-parameters is found (or the maximal cardinality is reached).
@@ -488,7 +492,7 @@ class ParseExact : public ParseAttomic {
    enum { POS_ERROR = ParseAttomic::LAST, LAST };
 
  protected:
-   virtual int  checkIntegrity () const;
+   virtual int checkIntegrity () const;
    virtual int checkValue (char ch);
 
  private:
@@ -545,6 +549,39 @@ class ParseUpperExact : public ParseExact {
 };
 
 
+/**Class to parse text until the specified text is found
+
+   Parsing of this element is stopped, \b after the specified text
+   is found (or the maximal cardinality is reached).
+
+   The found()-method gets the name of the scanned text passed als first
+   parameter and the number of found entries as second.
+
+   See ParseObject for a general description of the parser.
+*/
+class ParseToText : public ParseAttomic {
+ public:
+   /// Constructor
+   ParseToText (const char* text, const char* description,
+		unsigned int max = 1, unsigned int min = 1,
+		bool skipWhitespace = true)
+      : ParseAttomic (text, description, max, min, skipWhitespace, false) { }
+   /// Copy constructor
+   ParseToText (const ParseToText& other) : ParseAttomic (other) { }
+   virtual ~ParseToText ();
+
+   /// Assignment operator
+   ParseToText& operator= (const ParseToText& other) {
+      return (ParseToText&)ParseAttomic::operator= (other); }
+
+   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
+
+ private:
+   // Prohibited manager functions
+   ParseToText ();
+};
+
+
 /**Class to parse series of ParseObjects (sequences).
 
    A sequence is only considered parsed successfully, if all of its elements
@@ -553,6 +590,9 @@ class ParseUpperExact : public ParseExact {
    Errors while parsing cause a soft error (meaning parsing can be continued)
    only for the first element; errors for further elements cause hard errors
    (which are not recoverable and parsing is ended).
+
+   The found()-method gets the name of the sequence passed als first
+   parameter and the number of found entries as second.
 
    See ParseObject for a general description of the parser.
 */
@@ -603,6 +643,9 @@ private:
 
    If an object matching the parsed intput is found, the sequence is
    considered as parsed successfully.
+
+   The found()-method gets the name of the selection passed als first
+   parameter and the number of found entries as second.
 
    See ParseObject for a general description of the parser.
 */
@@ -949,6 +992,48 @@ class CBParseUpperExact : public ParseUpperExact {
 
    // Prohibited manager functions
    CBParseUpperExact ();
+};
+
+
+/**Class to parse text until the specified text is found.
+
+   Parsing of this element is stopped, \b after the specified text
+   is found (or the maximal cardinality is reached).
+
+   If this text has been found, the callback is called with the name
+   of the scanned text passed als first parameter and the number of
+   found entries as second.
+
+   See ParseObject for a general description of the parser and ParseToText
+   for a description of how this class parses its object.
+*/
+class CBParseToText : public ParseToText {
+ public:
+   // Manager-functions
+   /// Constructor setting explicit the length ot the data to parse; with
+   /// callback to call if object is found
+   CBParseToText (const char* value, const char* description, PARSECALLBACK callback,
+		  unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)
+      : ParseToText (value, description, max, min, skipWhitespace)
+      , pCallback (callback) { Check1 (pCallback); }
+   /// Sets the callback to the passed value
+   CBParseToText (const CBParseToText& other) : ParseToText (other)
+      , pCallback (other.pCallback) { Check1 (pCallback); }
+   virtual ~CBParseToText ();
+
+   CBParseToText& operator= (const CBParseToText& other);
+
+   /// Sets the callback to the passed value
+   void setCallback (PARSECALLBACK callback) { pCallback = callback; Check1 (pCallback); }
+
+ protected:
+   virtual int found (const char* pFoundValue, unsigned int len);
+
+ private:
+   PARSECALLBACK pCallback;
+
+   // Prohibited manager functions
+   CBParseToText ();
 };
 
 
@@ -1419,6 +1504,56 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
 };
 
 
+/**Class to parse text until the specified text is found.
+
+   Parsing of this element is stopped, \b after the specified text
+   is found (or the maximal cardinality is reached).
+
+   If this text has been found, the callback is called with the name
+   of the scanned text passed als first parameter and the number of
+   found entries as second.
+
+   See ParseObject for a general description of the parser and ParseText for a
+   description of how this class parses its object.
+*/
+template <class T> class OFParseToText : public ParseToText {
+   typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+
+ public:
+   // Manager-functions
+   /// Constructor; with callback to call if object is found
+   OFParseToText (const char* abort, const char* description,
+		  T& objToNotify, PTCALLBACK callback, unsigned int max = 1,
+		  unsigned int min = 1, bool skipWhitespace = true)
+      : ParseToText (abort, description, max, min, skipWhitespace)
+      , object (objToNotify), pCallback (callback) { Check1 (pCallback); }
+   /// Copy constructor
+   OFParseToText (const OFParseToText& other) : ParseToText (other)
+      , object (other.object), pCallback (other.pCallback) { Check1 (pCallback); }
+   /// Destructor
+   virtual ~OFParseToText () { }
+
+   /// Assignment operator
+   OFParseToText& operator= (const OFParseToText& other) {
+      pCallback = other.pCallback; Check1 (pCallback);
+      ParseToText::operator= (other);
+      return *this; }
+
+ protected:
+   /// The object was parsed successfully: Notify via the callback
+   virtual int found (const char* pFoundValue, unsigned int len) {
+      Check1 (pCallback); Check1 (pFoundValue);
+      return (object.*pCallback) (pFoundValue, len); }
+
+ private:
+   T&         object;
+   PTCALLBACK pCallback;
+
+   // Prohibited manager functions
+   OFParseToText ();
+};
+
+
 /**Class to parse sequences (series of ParseObjects). Every ParseObject
    in this list must be found (in the same order).
 
@@ -1444,7 +1579,7 @@ template <class T> class OFParseSequence : public ParseSequence {
    /// Assignment operator
    OFParseSequence& operator= (const OFParseSequence& other) {
       pCallback = other.pCallback; Check1 (pCallback);
-      ParseText::operator= (other);
+      ParseSequence::operator= (other);
       return *this; }
 
  protected:
