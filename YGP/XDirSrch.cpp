@@ -1,14 +1,14 @@
-//$Id: XDirSrch.cpp,v 1.12 2004/11/04 16:31:20 markus Rel $
+//$Id: XDirSrch.cpp,v 1.13 2007/03/21 20:15:53 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
-//COPYRIGHT   : Copyright (C) 2002 - 2004
+//COPYRIGHT   : Copyright (C) 2002 - 2004, 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ namespace YGP {
 /// \remarks If the list starts with an x-node, a leading i*-node is assumed
 //-----------------------------------------------------------------------------
 bool _XDSfileIsValid (const std::string& files, const char* pFile) {
-   TRACE9 ("_XDSfileIsValid (const char*) const - " << pFile);
+   TRACE9 ("_XDSfileIsValid (const char*) const - " << pFile << " in " << files);
    Check1 (pFile);
 
    if (files.empty ())
@@ -56,7 +56,7 @@ bool _XDSfileIsValid (const std::string& files, const char* pFile) {
    bool include (false);
 
    // Test every file in list
-   while (!((node = list.getNextNode ()).empty ())) {
+   while ((node = list.getNextNode ()).size ()) {
       TRACE8 ("_XDSfileIsValid (const string&, const char*) const - Node: " << node);
       Check3 ((node[0] == 'i') || (node[0] == 'x'));
 
