@@ -1,11 +1,11 @@
-//$Id: XDirSrch.cpp,v 1.13 2007/03/21 20:15:53 markus Exp $
+//$Id: XDirSrch.cpp,v 1.12.2.1 2007/04/22 14:48:29 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XDirectorySearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.12.2.1 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.10.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004, 2007
