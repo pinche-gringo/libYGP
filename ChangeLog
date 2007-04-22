@@ -1,3 +1,20 @@
+2007-04-22  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.22 documented
+
+	* configure.in: Version to 0.8.23
+
+	* INSTALL: Install from CVS: First call aclocal and then libtoolize
+
+	* XGP/Makefile.am: Don't link with libYGP (reported by int at
+	  acror dot de)
+
+	* XGP/GtkMozViewer.c:
+	  Basing conditional compilation on right define (HAVE_GTKMOZEMBED;
+	  bug reported by int at acror dot de)
+
+	* YGP/XDirSrch.cpp: Minor optimisations
+
 2007-03-08  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.8.22 documented
