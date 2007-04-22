@@ -21,7 +21,7 @@ XPrintDlg.cpp BrowserDlg.cpp ConnectDlg.cpp HTMLViewer.cpp GTKViewer.c	\
 AutoContainer.cpp MessageDlg.cpp LoginDlg.cpp EnumEntry.cpp		\
 GtkMozViewer.c TraceDlg.cpp $(include_HEADERS)
 
-libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined -lYGP
+libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
 INCLUDES = -I $(top_srcdir) -I . -DPKGDIR=\"$(datadir)/XGP/\" \
            @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wall
