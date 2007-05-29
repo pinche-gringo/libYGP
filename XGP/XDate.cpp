@@ -1,11 +1,11 @@
-//$Id: XDate.cpp,v 1.25 2006/05/04 01:26:29 markus Rel $
+//$Id: XDate.cpp,v 1.26 2007/05/29 17:33:44 markus Exp $
 
 //PROJECT     : MessageDialog
 //SUBSYSTEM   : XDate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
 //COPYRIGHT   : Copyright (C) 2001 - 2006
@@ -149,7 +149,6 @@ void XDate::okEvent () {
 
       result = help;
       TRACE7 ("XDate::okEvent () - Result = " << result);
-      delete this;
    }
    catch (std::invalid_argument& e) {
       Glib::ustring err (_("Date is not valid!\n\nReason: %1"));
