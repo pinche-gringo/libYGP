@@ -1,7 +1,7 @@
 #ifndef MESSAGEDLG_H
 #define MESSAGEDLG_H
 
-//$Id: MessageDlg.h,v 1.4 2004/09/07 05:57:30 markus Rel $
+//$Id: MessageDlg.h,v 1.5 2007/08/27 20:34:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ class MessageDlg : public Gtk::MessageDialog {
    Gtk::Label*  detail;
    Gtk::Button* showDetail;
 
-   SigC::Connection cb;
+   sigc::connection cb;
 
    bool doRegister (bool show);
 };
