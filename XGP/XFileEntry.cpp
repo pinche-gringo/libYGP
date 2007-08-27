@@ -1,14 +1,14 @@
-//$Id: XFileEntry.cpp,v 1.17 2005/07/08 18:56:19 markus Rel $
+//$Id: XFileEntry.cpp,v 1.18 2007/08/27 20:32:39 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
 
    TRACE5 ("XFileEntry::key_press_event_impl: Input: " << ev->keyval);
 
-   if ((ev->state > 1)                 // I tried to check only non-ctrl-chars
+   if (((ev->state & 0x7) > 1)         // I tried to check only non-ctrl-chars
        || (ev->keyval > 0xf000))         // (I've checked keysymdef.h & hope I
       return rc;                       // got the japanese/korean-stuff right)
 
