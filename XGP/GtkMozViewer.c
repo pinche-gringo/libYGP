@@ -1,14 +1,14 @@
-//$Id: GtkMozViewer.c,v 1.2 2006/06/04 04:10:56 markus Rel $
+//$Id: GtkMozViewer.c,v 1.3 2007/08/27 20:34:51 markus Exp $
 
 //PROJECT     : General
 //SUBSYSTEM   : GtkMozEmbedViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.7.2005
-//COPYRIGHT   : Copyright (C) 2005, 2006
+//COPYRIGHT   : Copyright (C) 2005 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 #include <ygp-cfg.h>
 
-#ifdef HAVE_GTKHTML
+#ifdef HAVE_GTKMOZEMBED
 
 #include <dlfcn.h>
 
