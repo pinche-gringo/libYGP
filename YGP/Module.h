@@ -1,7 +1,7 @@
 #ifndef MODULE_H
 #define MODULE_H
 
-//$Id: Module.h,v 1.1 2006/06/02 20:09:47 markus Rel $
+//$Id: Module.h,v 1.2 2007/08/27 20:28:39 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@
 
 #ifdef HAVE_DLFCN_H
 #  include <dlfcn.h>
+#elif defined HAVE_WINDOWS_H
+#  define WIN32_LEAN_AND_MEAN
+#  include <windows.h>
 #endif
 
 
@@ -45,6 +48,8 @@ class Module {
 
 #ifdef HAVE_DLFCN_H
    void* hDLL;
+#elif defined HAVE_WINDOWS_H
+   HMODULE hDLL;
 #endif
 };
 

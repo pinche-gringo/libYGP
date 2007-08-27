@@ -1,11 +1,11 @@
-//$Id: Module.cpp,v 1.1 2006/06/02 20:09:47 markus Rel $
+//$Id: Module.cpp,v 1.2 2007/08/27 20:28:38 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.05.2006
 //COPYRIGHT   : Copyright (C) 2006
@@ -57,7 +57,15 @@ Module::Module (const char* module) throw (FileError) {
    }
    if (!hDLL)
       throw (FileError (dlerror ()));
-#else
+#elif defined HAVE_WINDOWS_H
+   if (!(hDLL = LoadLibrary (module))) {
+      int err (GetLastError ());
+      char msg[128];
+      FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		     NULL, err, MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),
+		     msg, sizeof (msg), NULL);
+      throw FileError (msg);
+   }
 #endif
 }
 
@@ -67,6 +75,8 @@ Module::Module (const char* module) throw (FileError) {
 Module::~Module () {
 #ifdef HAVE_DLFCN_H
    dlclose (hDLL);
+#elif defined HAVE_WINDOWS_H
+   FreeLibrary (hDLL);
 #endif
 }
 
@@ -81,6 +91,10 @@ void* Module::getSymbol (const char* symbol) const {
    Check1 (symbol);
 #ifdef HAVE_DLFCN_H
    return dlsym (hDLL, symbol);
+#elif defined HAVE_WINDOWS_H
+   return (void*)GetProcAddress (hDLL, symbol);
+#else
+   return NULL;
 #endif
 }
 
