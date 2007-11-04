@@ -1,14 +1,14 @@
-//$Id: ATime.cpp,v 1.43 2006/06/02 02:33:39 markus Rel $
+//$Id: ATime.cpp,v 1.44 2007/11/04 11:06:24 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.43 $
+//REVISION    : $Revision: 1.44 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006
+//COPYRIGHT   : Copyright (C) 1999 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -160,6 +160,7 @@ void ATime::assign (const char* pTime, unsigned int len) {
       fail = strptime (pTime, MODES[mode], &result);
       break;
    case 4:
+      TRACE9 ("Modus: " << ((pTime[1] == ':') || (pTime[2] == ':') ? mode : (unsigned)mode + 2));
       fail = ((pTime[1] == ':') || (pTime[2] == ':')
 	      ? strptime (pTime, MODES[mode], &result)
 	      : strptime (pTime, MODES[(unsigned)mode + 2], &result));
@@ -413,7 +414,7 @@ ATime& ATime::sub (char Hour, char minute, char second) {
 /// (-> undefined times are considered as (very) old).
 /// \param other: Object to compare
 /// \returns \c long: >0 if this other; 0 if this == other; <0 else
-///     \note Undefined values are considered as (incredible) old "Younger
+/// \note Undefined values are considered as (incredible) old "Younger
 ///         dates" (closer to the past) are considered bigger than "older
 ///         dates"(further in the past; that means the numeric value of the
 ///         date is compared.
