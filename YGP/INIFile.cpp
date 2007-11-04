@@ -1,14 +1,14 @@
-//$Id: INIFile.cpp,v 1.35 2007/02/09 11:27:05 markus Rel $
+//$Id: INIFile.cpp,v 1.36 2007/11/04 11:06:01 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.35 $
+//REVISION    : $Revision: 1.36 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2005
+//COPYRIGHT   : Copyright (C) 2000 - 2007
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,9 +43,9 @@
 
 // Define constant values; don't skip white-spaces after parsing
 
-static unsigned int LEN_SECTIONNAME = 32;
-static unsigned int LEN_KEY = 32;
-static unsigned int LEN_VALUE = 256;
+static unsigned int LEN_SECTIONNAME = 64;
+static unsigned int LEN_KEY = 64;
+static unsigned int LEN_VALUE = 512;
 
 
 namespace YGP {
@@ -278,15 +278,24 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// \throw YGP::FileError: If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-INIFile::INIFile (const char* filename) throw (YGP::FileError) : pSection (NULL) {
+INIFile::INIFile (const char* filename) throw (YGP::FileError) : name (filename),
+								 pSection (NULL) {
    Check3 (filename);
 
    TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
+   open ();
+}
 
-   file.open (filename, std::ios::in);
+//-----------------------------------------------------------------------------
+/// Opens the file for reading. If this file does not exist, an exception is
+/// thrown.
+/// \throw YGP::FileError: If file couldn't be open a text describing the error
+//-----------------------------------------------------------------------------
+void INIFile::open () throw (YGP::FileError) {
+   file.open (name.c_str (), std::ios::in);
    if (!file) {
       std::string error (_("Could not open INI-file '%1': Reason: %2"));
-      error.replace (error.find ("%1"), 2, filename);
+      error.replace (error.find ("%1"), 2, name);
       error.replace (error.find ("%2"), 2, strerror (errno));
       throw (YGP::FileError (error));
    }
@@ -433,6 +442,60 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
       Check3 (*i);
       stream << (*i)->getName () << '=' << (*i)->getValue () << '\n';
    }
+}
+
+//-----------------------------------------------------------------------------
+/// Overwrites the INI-file with the values set 
+/// \throws
+///    - YGP::FileError in case file-access fails somehow
+///    - YGP::ParseError in case of failing to parse the file (before overwriting it)
+//-----------------------------------------------------------------------------
+void INIFile::overwrite () throw (FileError, ParseError) {
+   TRACE9 ("INIFile::overwrite ()");
+
+   // First read the contents of the INI-file
+   const INISection* pSection (NULL);
+   std::string output;
+   char line[80];
+   while (file.getline (line, sizeof (line))) {
+      // Section found?
+      if (*line == '[') {
+	 char* end ((char*)memchr (line + 1, ']', sizeof (line) - 1));
+	 if (end) {
+	    std::string name (line + 1, end - line - 1);
+	    pSection = findSection (name.c_str ());
+	 }
+	 else {
+	    std::string error (_("Invalid section: %1"));
+	    error.replace (error.find ("%1"), 2, line, file.gcount ());
+	    throw (ParseError (error));
+	 }
+      }
+      else {
+	 // Else an attribute has been found -> Handle it, if in a know section
+	 if (pSection) {
+	    char* end ((char*)memchr (line, '=', sizeof (line)));
+	    if (end) {
+	       std::string name (line, end - line);
+	       // Check if the attribute is to be updated
+	       const IAttribute* attr (pSection->findAttribute (name));
+	       if (attr) {
+		  output.append (line, end - line + 1);
+		  output += attr->getFormattedValue ();
+		  output += '\n';
+		  continue;
+	       }
+	    }
+	 }
+      }
+      output.append (line, file.gcount ());
+      output += '\n';
+   }
+   file.close ();
+
+   std::ofstream ofile (name.c_str ());
+   ofile << output;
+   ofile.close ();
 }
 
 }

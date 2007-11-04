@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.36 2007/02/09 11:26:33 markus Rel $
+//$Id: INIFile.h,v 1.37 2007/11/04 11:06:01 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -93,6 +93,8 @@ class INISection {
    const char* getName () const { return pName; }
 
    /// Returns if the name of the section matches the passed text
+   /// \param name: Name of the section
+   /// \returns bool: True, if the passed name matches that of the section
    bool matches (const char* name) const {
       Check3 (name);
       return !strcmp (name, pName); }
@@ -215,7 +217,6 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
  protected:
    /// Callback when a key is found while parsing the INI-file (during parsing
    /// the INIList).
-   ///
    /// This method considers the \c key as offet for the value in the list.
    virtual int foundKey (const char* key, unsigned int) {
       Check3 (key);
@@ -417,26 +418,33 @@ class INIFile {
    void addEntity (const Entity& obj, INISection& section);
 
    int read () throw (YGP::ParseError);
+   void open () throw (YGP::FileError);
 
    /// Returns the stream the data is parsed from.
    Xifstream& getFile () { return file; }
 
+   //@{ Writing to an INI-file
    /// Writes a header for the section to the passed stream.
    static void writeSectionHeader (std::ostream& stream, const char* section) {
       INISection::writeHeader (stream, section); }
    static void write (std::ostream& stream, const char* section,
                       const Entity& obj);
 
+   void overwrite () throw (YGP::ParseError, YGP::FileError);
+   //@}
+
  protected:
    virtual int foundSection (const char* section, unsigned int);
 
    const INISection* findSection (const char* name) const;
+   const INISection* findSection (const std::string& name) const;
 
  private:
    INIFile (const INIFile&);
    INIFile& operator= (const INIFile&);
 
    Xifstream file;
+   std::string name;
    std::vector<const INISection*> sections;
    std::vector<INISection*> sectionsToFree;
    INISection* pSection;
