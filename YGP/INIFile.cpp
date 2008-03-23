@@ -1,11 +1,11 @@
-//$Id: INIFile.cpp,v 1.37 2008/03/23 13:59:20 markus Exp $
+//$Id: INIFile.cpp,v 1.38 2008/03/23 20:57:05 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.37 $
+//REVISION    : $Revision: 1.38 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2008
@@ -30,9 +30,13 @@
 
 #include <cstring>
 
+#include <sstream>
+
+#define TRACELEVEL 1
 #include <YGP/Trace.h>
 #include "YGP/Entity.h"
 #include "YGP/INIFile.h"
+#include "YGP/AssParse.h"
 #include "YGP/Internal.h"
 
 
@@ -446,7 +450,7 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
 }
 
 //-----------------------------------------------------------------------------
-/// Overwrites the INI-file with the values set 
+/// Overwrites the INI-file with the values set
 /// \throws
 ///    - YGP::FileError in case file-access fails somehow
 ///    - YGP::ParseError in case of failing to parse the file (before overwriting it)
@@ -456,43 +460,80 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 
    // First read the contents of the INI-file
    const INISection* pSection (NULL);
-   std::string output;
-   char line[80];
-   while (file.getline (line, sizeof (line))) {
+   std::string output, line;
+   char buffer[80];
+   while (!file.getline (buffer, sizeof (buffer)).eof ()) {
+      // Read til the end of the line
+      if (file.fail ()) {
+	 line += std::string (buffer, file.gcount ());
+	 continue;
+      }
+      else
+	 line.assign (buffer, file.gcount () - 1);
+
+      TRACE2 ("INIFile::overwrite () - Read: " << line);
       // Section found?
-      if (*line == '[') {
-	 char* end ((char*)memchr (line + 1, ']', sizeof (line) - 1));
-	 if (end) {
-	    std::string name (line + 1, end - line - 1);
-	    pSection = findSection (name.c_str ());
+      if (line[0] == '[') {
+	 size_t end (line.find (']', 1));
+	 if (end != std::string::npos) {
+	    // Find end of section; also accept comments behind it
+	    std::string name (line.substr (1, end - 1));
+	    TRACE5 ("INIFile::overwrite () - Section: " << name);
+	    TRACE9 ("INIFile::overwrite () - Remaining: " << line.substr (end + 1).size ());
+	    std::istringstream stream (line.substr (end + 1));
+	    char last ('\0');
+	    stream >> last;
+	    if (!stream || (last == ';'))
+	       pSection = findSection (name.c_str ());
+	    else {
+	       std::string error (_("Invalid characters after section %1: %2"));
+	       error.replace (error.find ("%1"), 2, name);
+	       error.replace (error.find ("%2"), 2, &last, 1);
+	       throw (ParseError (error));
+	    }
 	 }
 	 else {
 	    std::string error (_("Invalid section: %1"));
-	    error.replace (error.find ("%1"), 2, line, file.gcount ());
+	    error.replace (error.find ("%1"), 2, line);
 	    throw (ParseError (error));
 	 }
       }
       else {
 	 // Else an attribute has been found -> Handle it, if in a know section
 	 if (pSection) {
-	    char* end ((char*)memchr (line, '=', sizeof (line)));
-	    if (end) {
-	       std::string name (line, end - line);
+	    YGP::AssignmentParse ap (line);
+	    if (ap.getNextNode ().size ()) {
+	       TRACE5 ("INIFile::overwrite () - Attribute: " << ap.getActKey ());
 	       // Check if the attribute is to be updated
-	       const IAttribute* attr (pSection->findAttribute (name));
+	       const IAttribute* attr (pSection->findAttribute (ap.getActKey ()));
 	       if (attr) {
-		  output.append (line, end - line + 1);
-		  output += attr->getFormattedValue ();
+		  std::string value (ap.getActKey ().c_str () + std::string (1, '=')
+				     + attr->getQuotedValue ());
+		  TRACE9 ("INIFile::overwrite () - Value: " << value);
+		  output += value;
+
+		  // Now append comment (aligned as before, if possible)
+		  int len (line.size () - value.size ());
+		  if (ap.getEndPosition () < line.size ()) {
+		     value = std::string (1, ';') + ap.remaining ();
+		     len -= value.size ();
+		     while (len-- > 0)
+			output += ' ';
+		     output += value;
+		  }
+
 		  output += '\n';
 		  continue;
 	       }
 	    }
 	 }
       }
-      output.append (line, file.gcount ());
+      output += line;
       output += '\n';
    }
    file.close ();
+
+   // Todo: Add sections not found
 
    std::ofstream ofile (name.c_str ());
    ofile << output;

@@ -1,7 +1,7 @@
 #ifndef INIFILE_H
 #define INIFILE_H
 
-//$Id: INIFile.h,v 1.37 2007/11/04 11:06:01 markus Exp $
+//$Id: INIFile.h,v 1.38 2008/03/23 20:57:05 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,6 +63,7 @@ class INIFile;
 #define INIMAP2(section, type, name) YGP::INIMap<type> section (#section, name); \
                              _inifile_.addSection (section);
 #define INIFILE_READ()       _inifile_.read ()
+#define INIFILE_WRITE()      _inifile_.overwrite ()
 
 
 /**Class to handle the information stored in a section of an INI-file (see
