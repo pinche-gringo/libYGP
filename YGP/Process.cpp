@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.21 2006/06/03 21:32:37 markus Rel $
+//$Id: Process.cpp,v 1.22 2008/03/23 13:56:41 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006
@@ -37,7 +37,6 @@
 #include <cstring>
 
 #if SYSTEM == UNIX
-#  include <unistd.h>
 #  if !defined HAVE_PIPE && defined HAVE__PIPE
 #    define pipe(p)  _pipe((p), 256, 0)
 #  endif
