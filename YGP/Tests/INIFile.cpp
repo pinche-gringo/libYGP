@@ -1,14 +1,14 @@
-// $Id: INIFile.cpp,v 1.15 2007/02/09 11:27:46 markus Rel $
+// $Id: INIFile.cpp,v 1.16 2008/03/23 20:56:50 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005
+//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <ygp-cfg.h>
+
+#include <cstdio>
 
 #include <map>
 #include <vector>
@@ -112,6 +114,53 @@ int main (int argc, char* argv[]) {
       ++cErrors;
       std::cerr << e.what () << '\n';
    }
+
+   std::cout << "Testing INI-file writer ...\n";
+   try {
+      char output[] = "[Global]\n"
+	 "Key=\"Value with space\"     ; Global value\n"
+	 "ID=234\n\n"
+	 "[Local]                    ; Local section\n"
+	 "Key=Value                  ; Local value\n"
+	 "ID=123\n";
+
+      std::string file (tmpnam (NULL));
+      std::ofstream ostr (file.c_str (), std::ios::binary | std::ios::out);
+      ostr << output;
+      ostr.close ();
+
+      std::string Key ("Value_*no*_space");
+      int ID (321);
+      INIFILE (file.c_str ());
+      INISECTION (Global);
+      INIATTR (Global, std::string, Key);
+      INISECTION (Local);
+      INIATTR (Local, int, ID);
+
+      INIFILE_WRITE ();
+
+      std::string input;
+      std::ifstream istr (file.c_str ());
+      while (istr) {
+	 char buffer[80];
+	 istr.read (buffer, sizeof (buffer));
+	 input += std::string (buffer, istr.gcount ());
+      }
+
+      // Update the output to match the changes
+      memcpy (output + 19, "_*no*_", 6);
+      memcpy (output + sizeof (output) - 5, "321", 3);
+
+      std::cout << "Output:\n" << output << "\n\n" << "Input:\n" << input;
+
+      check (input == output);
+      unlink (file.c_str ());
+   }
+   catch (std::exception& e) {
+      ++cErrors;
+      std::cerr << e.what () << '\n';
+   }
+
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
