@@ -1,14 +1,14 @@
-//$Id: MessageDlg.cpp,v 1.11 2006/05/04 01:26:28 markus Rel $
+//$Id: MessageDlg.cpp,v 1.12 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : MessageDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,8 +45,8 @@ namespace XGP {
 /// \param obj: StatusObject to display
 //-----------------------------------------------------------------------------
 MessageDlg::MessageDlg (const YGP::StatusObject& obj)
-   : Gtk::MessageDialog (obj.getMessage (), getButtonType (obj.getType ()))
-     , detail (new Gtk::Label) , showDetail (new Gtk::Button) {
+   : Gtk::MessageDialog (obj.getMessage (), getButtonType (obj.getType ())),
+     detail (new Gtk::Label) , showDetail (new Gtk::Button), cb () {
    get_vbox ()->pack_end (*detail, Gtk::PACK_EXPAND_WIDGET, 5);
    get_action_area ()->pack_end (*showDetail, Gtk::PACK_SHRINK, 5);
    showDetail->set_use_underline ();

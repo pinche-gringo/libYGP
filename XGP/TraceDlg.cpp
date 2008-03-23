@@ -1,14 +1,14 @@
-//$Id: TraceDlg.cpp,v 1.2 2006/08/01 02:31:33 markus Rel $
+//$Id: TraceDlg.cpp,v 1.3 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 03.05.2006
-//COPYRIGHT   : Copyright (C) 2006
+//COPYRIGHT   : Copyright (C) 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ namespace XGP {
  */
 class TraceObjColumns : public Gtk::TreeModel::ColumnRecord {
  public:
-   TraceObjColumns () {
+   TraceObjColumns () : Gtk::TreeModel::ColumnRecord (), obj (), name (), level () {
       add (obj); add (name); add (level); }
 
    Gtk::TreeModelColumn<YGP::DynTrace*> obj;

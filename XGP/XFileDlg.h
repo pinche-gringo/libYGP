@@ -1,7 +1,7 @@
 #ifndef XFILEDLG_H
 #define XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.23 2006/05/01 02:23:46 markus Rel $
+//$Id: XFileDlg.h,v 1.24 2008/03/23 22:12:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,8 +69,8 @@ class FileDialog : public Gtk::FileChooserDialog {
    typedef enum { OK = 1, CANCEL } commandID;
 
    /// Callback after selecting a file
-   /// @param file: Name of selected file
-   virtual void fileSelected (std::string& file) { }
+   /// @param: Name of selected file
+   virtual void fileSelected (std::string&) { }
 
    void free (int);
 

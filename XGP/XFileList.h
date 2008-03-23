@@ -1,7 +1,7 @@
 #ifndef XFILELIST_H
 #define XFILELIST_H
 
-//$Id: XFileList.h,v 1.33 2006/04/03 20:32:26 markus Rel $
+//$Id: XFileList.h,v 1.34 2008/03/23 22:12:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class FileColumns : public Gtk::TreeModel::ColumnRecord {
    Gtk::TreeModelColumn <Glib::RefPtr<Gdk::Pixbuf> > icon; ///< Icon for the file
    Gtk::TreeModelColumn <std::string>                name; ///< Name of the file
 
-   FileColumns () { add (icon); add (name); }
+   FileColumns () : Gtk::TreeModel::ColumnRecord (), icon (), name () { add (icon); add (name); }
 };
 
 
@@ -89,6 +89,9 @@ class XFileList : public Gtk::TreeView {
    Gtk::Menu* pMenuPopAction;
 
  private:
+   XFileList (const XFileList&);
+   XFileList& operator= (const XFileList&);
+
    void init ();
    static void loadIcons (const char* path, const char* files, unsigned int namePrefix);
 };

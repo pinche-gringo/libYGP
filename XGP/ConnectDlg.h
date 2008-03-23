@@ -1,7 +1,7 @@
 #ifndef CONNECTDLG_H
 #define CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.8 2006/06/05 20:02:41 markus Rel $
+//$Id: ConnectDlg.h,v 1.9 2008/03/23 22:12:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -80,7 +80,8 @@ class ConnectDlg : public XDialog {
 
    Glib::ustring port;
 
-   YGP::Thread*      pThread;
+   YGP::Thread*  pThread;
+   unsigned int  cMaxConns;
 
    ConnectDlg (const ConnectDlg& other);
    const ConnectDlg& operator= (const ConnectDlg& other);

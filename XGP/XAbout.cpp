@@ -1,14 +1,14 @@
-//$Id: XAbout.cpp,v 1.28 2005/10/17 03:52:07 markus Rel $
+//$Id: XAbout.cpp,v 1.29 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : MessageDialog
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
+//REVISION    : $Revision: 1.29 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,9 +49,10 @@ namespace XGP {
 /// \param program: Name and version of the program; displaced in the title
 //-----------------------------------------------------------------------------
 XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
-   : XDialog (CANCEL), writer (new Gtk::Label (author))
-     , gpl (new Gtk::Label (_("Distributed under the terms of the GNU General Public License")))
-     , client (new Gtk::HBox ()) {
+   : XDialog (CANCEL), writer (new Gtk::Label (author)),
+     gpl (new Gtk::Label (_("Distributed under the terms of the GNU General Public License"))),
+     pIconAuthor (), pIconProgramm (),
+     client (new Gtk::HBox) {
    Check1 (gpl); Check1 (writer); Check1 (client);
 
    TRACE9 ("XAbout::XAbout - Show: " << author);

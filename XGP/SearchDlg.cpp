@@ -1,14 +1,14 @@
-//$Id: SearchDlg.cpp,v 1.2 2006/05/04 01:26:29 markus Rel $
+//$Id: SearchDlg.cpp,v 1.3 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 18.12.2004
-//COPYRIGHT   : Copyright (C) 2004, 2006
+//COPYRIGHT   : Copyright (C) 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,11 +44,10 @@ Glib::ustring SearchDialog::last;
 /// (Default-)Constructor
 //-----------------------------------------------------------------------------
 SearchDialog::SearchDialog ()
-   : XGP::XDialog (OKCANCEL) {
+   : XGP::XDialog (OKCANCEL), signalFind (), find (new Gtk::Entry) {
    set_title (_("Search"));
 
    Gtk::Label* lblFind (new Gtk::Label (_("_Find:"), true));
-   find = new Gtk::Entry;
    lblFind->set_mnemonic_widget (*find);
    find->signal_changed ().connect (mem_fun (*this, &SearchDialog::inputChanged));
 

@@ -1,14 +1,14 @@
-//$Id: XPrintDlg.cpp,v 1.25 2006/05/04 01:26:29 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.26 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,9 +51,9 @@ namespace XGP {
 /// Constructor; creates a small dialog to enter the print command.
 //-----------------------------------------------------------------------------
 PrintDialog::PrintDialog ()
-   : XDialog (_("Print"), OKCANCEL)
-     , lblCommand (new Gtk::Label (_("Print command: ")))
-     , txtCommand (new Gtk::Entry ()), boxCommand (new Gtk::HBox ()) {
+   : XDialog (_("Print"), OKCANCEL), sigPrint (),
+     lblCommand (new Gtk::Label (_("Print command: "))),
+     txtCommand (new Gtk::Entry), boxCommand (new Gtk::HBox) {
    TRACE9 ("PrintDialog::PrintDialog (title) '" << title << '\'');
    init ();
 }

@@ -1,14 +1,14 @@
-//$Id: ConnectDlg.cpp,v 1.16 2006/06/05 20:02:41 markus Rel $
+//$Id: ConnectDlg.cpp,v 1.17 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : X-windows
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.16 $
+//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2006
+//COPYRIGHT   : Copyright (C) 2003 - 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,23 +55,23 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
                         const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr)
-    : XDialog (_("Connect to"), OKCANCEL)
-      , pTarget (manage (new Gtk::Entry ()))
-      , pPort (manage (new Gtk::Entry ()))
-      , pWait (manage (new Gtk::Button (_("_Wait for connections"), true)))
-      , pConnect (manage (new Gtk::Button (_("Connec_t"), true)))
-      , pClient (manage (new Gtk::Table (3, 3)))
-      , cmgr (connMgr)
-      , pExplain (manage (new Gtk::Label (_("Click on \"Wait for connections\" "
-                                            "to wait for connections from "
-                                            "other computers.\n\nIf you want "
-                                            "to connect to a server, enter its "
-                                            "address (name or IP number) in "
-                                            "the entry field and click on "
-                                            "\"Connect\"."), 0, 0)))
-      , pLblServer (manage (new Gtk::Label (_("_Server:"), 0.0, 0.5, true)))
-      , pLblPort (manage (new Gtk::Label (_("_Port:"), 0.0, 0.5, true)))
-      , port (defPort), pThread (NULL) {
+   : XDialog (_("Connect to"), OKCANCEL),
+     pTarget (manage (new Gtk::Entry)),
+     pPort (manage (new Gtk::Entry)),
+     pWait (manage (new Gtk::Button (_("_Wait for connections"), true))),
+     pConnect (manage (new Gtk::Button (_("Connec_t"), true))),
+     pClient (manage (new Gtk::Table (3, 3))),
+     cmgr (connMgr),
+     pExplain (manage (new Gtk::Label (_("Click on \"Wait for connections\" "
+					 "to wait for connections from "
+					 "other computers.\n\nIf you want "
+					 "to connect to a server, enter its "
+					 "address (name or IP number) in "
+					 "the entry field and click on "
+					 "\"Connect\"."), 0, 0))),
+     pLblServer (manage (new Gtk::Label (_("_Server:"), 0.0, 0.5, true))),
+     pLblPort (manage (new Gtk::Label (_("_Port:"), 0.0, 0.5, true))),
+     port (defPort), pThread (NULL), cMaxConns (cMaxConnections) {
    TRACE8 ("ConnectDlg::ConnectDlg (unsigned int, const Glib::ustring&, ConnectionMgr&) - "
            << cMaxConnections << "; Port: " << defPort);
 
@@ -224,7 +224,8 @@ void ConnectDlg::cancelEvent () {
 /// Callback if the CANCEL buttons has been pressed
 //----------------------------------------------------------------------------
 void ConnectDlg::valueChanged () const {
-   pWait->set_sensitive (!pThread && pPort->get_text_length ());
+   pWait->set_sensitive (!pThread && pPort->get_text_length ()
+			 && (cMaxConns != cmgr.getClients ().size ()));
    pConnect->set_sensitive (!pThread && pPort->get_text_length ()
                             && pTarget->get_text_length ());
 }
@@ -247,7 +248,13 @@ void* ConnectDlg::waitForConnections (void* pVoid) throw (YGP::CommError){
 /// \returns Socket*: Pointer to created socket (or \c NULL)
 //----------------------------------------------------------------------------
 YGP::Socket* ConnectDlg::addClient (int socket) {
-   return cmgr.addConnection (socket);
+   YGP::Socket* newSocket (cmgr.addConnection (socket));
+   if (cMaxConns == cmgr.getClients ().size ()) {
+      delete pThread;
+      pThread = NULL;
+      pWait->set_sensitive (false);
+   }
+   return newSocket;
 }
 
 //----------------------------------------------------------------------------

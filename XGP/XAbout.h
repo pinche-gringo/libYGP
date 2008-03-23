@@ -1,7 +1,7 @@
 #ifndef XABOUT_H
 #define XABOUT_H
 
-//$Id: XAbout.h,v 1.17 2003/11/14 20:28:08 markus Rel $
+//$Id: XAbout.h,v 1.18 2008/03/23 22:12:55 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,7 +63,6 @@ class XAbout : public XDialog {
 
    const XAbout& operator= (const XAbout&);
 
-   PLabel appl;
    PLabel writer;
    PLabel gpl;
    PImage pIconAuthor;

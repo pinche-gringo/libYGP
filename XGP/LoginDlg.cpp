@@ -1,14 +1,14 @@
-//$Id: LoginDlg.cpp,v 1.9 2006/05/04 01:26:28 markus Rel $
+//$Id: LoginDlg.cpp,v 1.10 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006
+//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ namespace XGP {
 /// \param title: Title to display for dialog
 //-----------------------------------------------------------------------------
 LoginDialog::LoginDialog (const Glib::ustring& title)
-   : XGP::XDialog (NONE), pClient (new Gtk::Table (2, 2)) {
+   : XGP::XDialog (NONE), sigLogin (), pClient (new Gtk::Table (2, 2)), txtUser (), txtPassword () {
    set_title (title.size () ? title : _("Enter login information"));
 
    pClient->show ();

@@ -1,14 +1,14 @@
-//$Id: XDialog.cpp,v 1.23 2006/08/04 20:10:24 markus Rel $
+//$Id: XDialog.cpp,v 1.24 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ namespace XGP {
 ///     between its contents and its buttons
 //-----------------------------------------------------------------------------
 XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
-    : Gtk::Dialog ("", modal, use_separator) {
+   : Gtk::Dialog ("", modal, use_separator), ok (NULL), cancel (NULL) {
    init (buttons);
 }
 
@@ -60,7 +60,7 @@ XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
                   bool modal, bool use_separator)
-    : Gtk::Dialog (title, modal, use_separator) {
+   : Gtk::Dialog (title, modal, use_separator), ok (NULL), cancel (NULL) {
    init (buttons);
 }
 
@@ -75,7 +75,7 @@ XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
                   unsigned int buttons, bool modal, bool use_separator)
-    : Gtk::Dialog (title, parent, modal, use_separator) {
+   : Gtk::Dialog (title, parent, modal, use_separator), ok (NULL), cancel (NULL) {
    init (buttons);
 }
 

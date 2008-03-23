@@ -1,14 +1,14 @@
-//$Id: XFileList.cpp,v 1.49 2006/10/31 14:28:03 markus Rel $
+//$Id: XFileList.cpp,v 1.50 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.49 $
+//REVISION    : $Revision: 1.50 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -363,10 +363,10 @@ void XFileList::remove (Gtk::TreeIter line) {
 
 //-----------------------------------------------------------------------------
 /// Adds further menus to the default popup-menu
-/// \param menu: Menu where to add some entries to
-/// \param line: Line for which to add entries
+/// \param: Menu where to add some entries to
+/// \param: Line for which to add entries
 //-----------------------------------------------------------------------------
-void XFileList::addMenus (Gtk::Menu& menu, const Gtk::TreeIter& line) {
+void XFileList::addMenus (Gtk::Menu&, const Gtk::TreeIter&) {
 }
 
 }

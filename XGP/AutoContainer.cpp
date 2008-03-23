@@ -1,14 +1,14 @@
-//$Id: AutoContainer.cpp,v 1.11 2004/10/24 00:24:53 markus Rel $
+//$Id: AutoContainer.cpp,v 1.12 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : AutoContainer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-AutoContainer::AutoContainer () : Gtk::ScrolledWindow (), width (-1) {
+AutoContainer::AutoContainer () : Gtk::ScrolledWindow (), view (), width (-1) {
    init ();
 }
 
@@ -51,7 +51,7 @@ AutoContainer::AutoContainer () : Gtk::ScrolledWindow (), width (-1) {
 /// @param vadjustment: Vertical adjustment bar
 //-----------------------------------------------------------------------------
 AutoContainer::AutoContainer (Gtk::Adjustment& hadjustment, Gtk::Adjustment& vadjustment)
-    : Gtk::ScrolledWindow (), width (-1) {
+   : Gtk::ScrolledWindow (hadjustment, vadjustment), view (), width (-1) {
    init ();
 }
 

@@ -1,11 +1,11 @@
-//$Id: XApplication.cpp,v 1.51 2006/10/31 14:28:03 markus Rel $
+//$Id: XApplication.cpp,v 1.52 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.51 $
+//REVISION    : $Revision: 1.52 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006
@@ -67,10 +67,10 @@ namespace XGP {
 /// \param pTitle: Pointer to title of the application
 //-----------------------------------------------------------------------------
 XApplication::XApplication (const char* pTitle)
-   : vboxClient (new Gtk::VBox)
-     , grpAction (Gtk::ActionGroup::create ())
-     , mgrUI (Gtk::UIManager::create ())
-     , helpBrowser (BrowserDlg::getDefaultBrowser ()) {
+   : vboxClient (new Gtk::VBox),
+     grpAction (Gtk::ActionGroup::create ()),
+     mgrUI (Gtk::UIManager::create ()),
+     helpBrowser (BrowserDlg::getDefaultBrowser ()) {
    TRACE9 ("XApplication::XApplication (const char*) - " << pTitle);
    signal (SIGSEGV, handleSignal);
 #ifdef HAVE_SIGBUS
@@ -208,7 +208,7 @@ void XApplication::showHelp () {
 	    if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
 	       break;
 
-	    unsigned int pos (extension.rfind ('_'));
+	    size_t pos (extension.rfind ('_'));
 	    if (pos == std::string::npos)
 	       pos = 0;
 	    extension.replace (pos, extension.length (), 0, '\0');

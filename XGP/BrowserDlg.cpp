@@ -1,14 +1,14 @@
-//$Id: BrowserDlg.cpp,v 1.25 2007/02/16 10:41:20 markus Rel $
+//$Id: BrowserDlg.cpp,v 1.26 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
+//REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2007
+//COPYRIGHT   : Copyright (C) 2003 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,8 +85,8 @@ const char* BrowserDlg::browserNames[] = {
 /// Constructor
 //-----------------------------------------------------------------------------
 BrowserDlg::BrowserDlg (Glib::ustring& cmd)
-   : XDialog (_("Select a browser"), OKCANCEL)
-     , pboxOther (new Gtk::HBox ()), path (cmd) {
+   : XDialog (_("Select a browser"), OKCANCEL),
+     pboxOther (new Gtk::HBox), aBrowsers (), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (Glib::ustring&) - " << cmd);
 
    unsigned int selection (-1U);

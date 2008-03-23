@@ -1,14 +1,14 @@
-//$Id: XFileDlg.cpp,v 1.30 2006/05/04 01:26:29 markus Rel $
+//$Id: XFileDlg.cpp,v 1.31 2008/03/23 22:12:55 markus Exp $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,14 +51,13 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 FileDialog::FileDialog (const Glib::ustring& title,
 			Gtk::FileChooserAction action, unsigned int dlgOption)
-   : Gtk::FileChooserDialog (title, action), opt (dlgOption) {
+   : Gtk::FileChooserDialog (title, action), sigSelected (), opt (dlgOption), modal (false) {
    TRACE9 ("FileDialog::FileDialog (const Glib::ustring&, Gtk::FileChooserAction, unsigned int)");
 
    add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
    add_button ((action == Gtk::FILE_CHOOSER_ACTION_SAVE)
                ? Gtk::Stock::SAVE : Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
 
-   modal = false;
    set_select_multiple (dlgOption & MULTIPLE);
    opt = opt & ~MULTIPLE;
    show ();
