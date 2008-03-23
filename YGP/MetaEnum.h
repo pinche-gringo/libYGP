@@ -1,7 +1,7 @@
 #ifndef METAENUM_H
 #define METAENUM_H
 
-//$Id: MetaEnum.h,v 1.4 2008/03/23 13:56:12 markus Exp $
+//$Id: MetaEnum.h,v 1.5 2008/03/23 17:34:23 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,11 @@ namespace YGP {
  */
 class MetaEnum {
  public:
+   typedef std::pair<int, std::string>  typePair;
+   typedef std::map<int, std::string>   typeEnum;
+   typedef typeEnum::iterator           iterator;
+   typedef typeEnum::const_iterator     const_iterator;
+
    /// \name Check for existence
    //@{
    /// Checks if the integer value exists
@@ -41,13 +46,26 @@ class MetaEnum {
 
    /// Inserts a new item into the object
    /// \param value: Value to insert; create with std::make_pair
-   void insert (const std::pair<int, std::string>& value) { values.insert (value); }
+   void insert (const typePair& value) { values.insert (value); }
 
    /// \name Accessing values (which must exist)
    //@{
    std::string operator[] (int value) const throw (std::out_of_range);
    int         operator[] (const std::string& value) const throw (std::out_of_range);
    //@}
+
+   /// Returns an iterator to the first element of the enumeration
+   /// \retunrs: Iterator to the first element
+   iterator begin () { return values.begin (); }
+   /// Returns an iterator to the first element of the enumeration
+   /// \retunrs: Iterator to the first element
+   const_iterator begin () const { return values.begin (); }
+   /// Returns an iterator after the last element of the enumeration
+   /// \retunrs: Iterator after the last element
+   iterator end () { return values.end (); }
+   /// Returns an iterator after the last element of the enumeration
+   /// \retunrs: Iterator after the last element
+   const_iterator end () const { return values.end (); }
 
  protected:
    MetaEnum () : values () { }

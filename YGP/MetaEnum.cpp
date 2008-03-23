@@ -1,11 +1,11 @@
-//$Id: MetaEnum.cpp,v 1.3 2008/03/23 13:56:12 markus Exp $
+//$Id: MetaEnum.cpp,v 1.4 2008/03/23 17:34:23 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : MetaEnum
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 06.12.2004
 //COPYRIGHT   : Copyright (C) 2004, 2008
@@ -49,7 +49,7 @@ MetaEnum::~MetaEnum () {
 /// \throws std::out_of_range
 //-----------------------------------------------------------------------------
 std::string MetaEnum::operator[] (int value) const throw (std::out_of_range) {
-   std::map<int, std::string>::const_iterator i (values.find (value));
+   const_iterator i (values.find (value));
    if (i != values.end ())
       return i->second;
    throw std::out_of_range ("MetaEnum::operator[] (int)");
@@ -62,8 +62,7 @@ std::string MetaEnum::operator[] (int value) const throw (std::out_of_range) {
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------
 int MetaEnum::operator[] (const std::string& value) const throw (std::out_of_range) {
-   for (std::map<int, std::string>::const_iterator i (values.begin ());
-	i != values.end (); ++i)
+   for (const_iterator i (values.begin ()); i != values.end (); ++i)
       if (i->second == value)
 	 return i->first;
    throw std::out_of_range ("MetaEnum::operator[] (const std::string&)");
@@ -76,8 +75,7 @@ int MetaEnum::operator[] (const std::string& value) const throw (std::out_of_ran
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------
 bool MetaEnum::exists (const std::string& value) const {
-   for (std::map<int, std::string>::const_iterator i (values.begin ());
-	i != values.end (); ++i)
+   for (const_iterator i (values.begin ()); i != values.end (); ++i)
       if (i->second == value)
 	 return true;
    return false;
