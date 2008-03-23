@@ -1,14 +1,14 @@
-//$Id: AssParse.cpp,v 1.24 2007/03/05 19:22:24 markus Rel $
+//$Id: AssParse.cpp,v 1.25 2008/03/23 20:55:51 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AssignmentParse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2007
+//COPYRIGHT   : Copyright (C) 2001 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -87,7 +87,10 @@ std::string AssignmentParse::getNextNode () throw (YGP::ParseError) {
          // Remove all escape-characters before quotes
          _string.replace (pos - 1, 1, 0, '\0');
       } while (true);
-      ++pos;
+
+      // Skip whitespaces
+      while (isspace (_string[++pos]))
+	 ;
 
       if ((pos < _string.length ()) && (_string[pos] != SEPARATOR)) {
          key = _("Quoted value is not followed by a separator: '%1'");
