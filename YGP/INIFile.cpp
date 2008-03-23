@@ -1,14 +1,14 @@
-//$Id: INIFile.cpp,v 1.36 2007/11/04 11:06:01 markus Exp $
+//$Id: INIFile.cpp,v 1.37 2008/03/23 13:59:20 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.36 $
+//REVISION    : $Revision: 1.37 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2007
+//COPYRIGHT   : Copyright (C) 2000 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,11 +85,12 @@ int INISection::ISectionParser::parse (Xistream& stream) throw (YGP::ParseError)
 /// \param name: Name of section
 /// \remarks name must be a valid ASCIIZ-string (not NULL)
 //-----------------------------------------------------------------------------
-INISection::INISection (const char* name) : pFoundAttr (NULL), pName (name)
-   , Attributes (_Attributes, _("Attribute"), 1, 0)
-   , Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false)
-   , equals ("=", _("Equal-sign (=)"), false)
-   , Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
+INISection::INISection (const char* name)
+   : pFoundAttr (NULL), attributes (), pName (name),
+     Attributes (_Attributes, _("Attribute"), 1, 0),
+     Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false),
+     equals ("=", _("Equal-sign (=)"), false),
+   Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
    TRACE9 ("INISection::INISection (const char*) - Create: " << pName);
    Check1 (pName);
 
@@ -278,8 +279,8 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// \throw YGP::FileError: If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-INIFile::INIFile (const char* filename) throw (YGP::FileError) : name (filename),
-								 pSection (NULL) {
+INIFile::INIFile (const char* filename) throw (YGP::FileError)
+   : file (), name (filename), sections (), sectionsToFree (), pSection (NULL) {
    Check3 (filename);
 
    TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
