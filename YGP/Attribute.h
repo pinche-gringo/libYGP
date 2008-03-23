@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.40 2008/03/23 13:56:12 markus Exp $
+//$Id: Attribute.h,v 1.41 2008/03/23 20:56:09 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -76,6 +76,8 @@ class IAttribute {
    virtual std::string getValue () const = 0;
    /// Returns the value of the attribute (value) as formatted string
    virtual std::string getFormattedValue () const { return getValue (); }
+   /// Returns the value of the attribute (value) as quoted string, if necessary
+   virtual std::string getQuotedValue () const { return getValue (); }
 
  protected:
    /// Constructor; creates an attribute with the specified name
@@ -138,6 +140,7 @@ template <class T> class Attribute : public IAttribute {
    T& getAttribute () const { return attr_; }
    virtual std::string getValue () const { return attr_.toUnformattedString (); }
    virtual std::string getFormattedValue () const { return attr_.toString (); }
+   virtual std::string getQuotedValue () const { return getFormattedValue (); }
 
  private:
    /// Copyconstructor; clones the attribute
@@ -174,6 +177,9 @@ template <> inline bool Attribute<char*>::assignFromString (const char* value) c
 }
 template <> inline std::string Attribute<char*>::getValue () const { return attr_; }
 template <> inline std::string Attribute<char*>::getFormattedValue () const { return getValue (); }
+template <> inline std::string Attribute<char*>::getQuotedValue () const {
+   return std::string (1, '"') + getValue () + std::string (1, '"');
+}
 
 // Specialization of Attribute for bools
 template <> inline bool Attribute<bool>::assignFromString (const char* value) const {
@@ -304,6 +310,10 @@ template <> inline bool Attribute<std::string>::assign (const char* value, unsig
 template <> inline std::string Attribute<std::string>::getValue () const { return attr_; }
 /// Returns the value of the attribute (value) as formatted string
 template <> inline std::string Attribute<std::string>::getFormattedValue () const { return getValue (); }
+/// Returns the value of the attribute (value) as quoted string
+template <> inline std::string Attribute<std::string>::getQuotedValue () const {
+   return std::string (1, '"') + getValue () + std::string (1, '"');
+}
 
 
 /**Template for a list of attributes of a specific type.
