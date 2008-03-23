@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.53 2008/03/23 13:56:12 markus Exp $
+//$Id: ADate.cpp,v 1.54 2008/03/23 20:54:46 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.53 $
+//REVISION    : $Revision: 1.54 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2008
@@ -33,7 +33,6 @@
 #   include <windows.h>
 #endif
 
-#include <sstream>
 #include <stdexcept>
 
 #include "YGP/Trace.h"
