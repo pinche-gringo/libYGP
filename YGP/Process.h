@@ -1,7 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-//$Id: Process.h,v 1.16 2006/08/02 04:33:16 markus Rel $
+//$Id: Process.h,v 1.17 2008/03/23 13:57:04 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ class Process {
    static pid_t execIOConnected (const char* file, const char* const arguments[],
 				 int* fd, unsigned int flags = CONNECT_STDOUT_AND_ERR)
       throw (YGP::ExecError) {
-      return start (file, arguments, NO_WAIT | flags, fd); }
+      return start (file, arguments, flags & ~WAIT , fd); }
 
    /// Returns the process ID of the actual process
    /// \return pid_t: Process ID of running process
