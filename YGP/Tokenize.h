@@ -1,7 +1,7 @@
 #ifndef TOKENIZE_H
 #define TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.16 2006/06/02 02:33:39 markus Rel $
+//$Id: Tokenize.h,v 1.17 2008/03/23 20:56:25 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -60,6 +60,8 @@ class Tokenize {
    operator const std::string& () const { return _string; }
    /// Accessing the whole handled string
    const std::string& data () const { return _string; }
+   /// Accessing the remaining string
+   std::string remaining () const { return _string.substr (getEndPosition ()); }
    //@}
 
    /// \name Accessing the sub-parts
