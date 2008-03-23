@@ -1,7 +1,7 @@
 #ifndef ATIME_H
 #define ATIME_H
 
-//$Id: ATime.h,v 1.24 2006/02/25 03:07:39 markus Rel $
+//$Id: ATime.h,v 1.25 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,10 +56,11 @@ class ATime : public AttributValue {
    ATime (const std::string& time) throw (std::invalid_argument)
       : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       operator= (time); }            ///< Constructor from a text (unformatted)
-   ATime (const struct tm& tm) : mode (MODE_LOCALE) {
+   ATime (const struct tm& tm) : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       operator= (tm); }                  ///< Constructor from broken down time
    /// Construct from system time
-   ATime (const time_t& time, bool local = true) : mode (MODE_LOCALE) {
+   ATime (const time_t& time, bool local = true)
+      : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       local ?  operator= (time) : operator= (*localtime (&time)); }
    virtual ~ATime ();
 

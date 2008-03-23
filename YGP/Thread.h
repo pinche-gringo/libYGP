@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.20 2006/06/03 21:32:38 markus Rel $
+//$Id: Thread.h,v 1.21 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -112,12 +112,15 @@ class Thread {
    void* pArgs_;             ///< Pointer to (array of) arguments to the thread
 
  private:
+   Thread (const Thread&);
+   Thread& operator= (const Thread&);
+
 #ifdef HAVE_LIBPTHREAD
    pthread_t id;
 #else
    bool  canceled;
 
-#  if defined (HAVE_BEGINTHREAD)
+#  ifdef HAVE_BEGINTHREAD
    THREAD_FUNCTION callback;
    static void threadFunction (void* thread);
    unsigned long id;

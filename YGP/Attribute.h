@@ -1,7 +1,7 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.39 2007/02/09 11:26:00 markus Rel $
+//$Id: Attribute.h,v 1.40 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -65,7 +65,9 @@ class IAttribute {
    /// \returns \c true on success; \c false otherwise
    virtual bool assignFromString (const char* value) const = 0;
    /// Assigns the passed text to the attribute value
-   virtual bool assign (const char* value, unsigned int length) const {
+   /// \param value: Value to assign
+   /// \param : Length of passed value
+   virtual bool assign (const char* value, unsigned int) const {
       return assignFromString (value); }
 
    /// Returns the name of the attribute

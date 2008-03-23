@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//$Id: Entity.h,v 1.11 2006/05/03 20:53:56 markus Rel $
+//$Id: Entity.h,v 1.12 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ class Entity {
 
  public:
    /// Default constructor
-   Entity () { };
+   Entity () : attributes () { };
    virtual ~Entity ();
 
    IAttribute* findAttribute (const char* name) const;

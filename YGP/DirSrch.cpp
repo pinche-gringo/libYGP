@@ -1,14 +1,14 @@
-//$Id: DirSrch.cpp,v 1.54 2007/03/05 19:22:24 markus Rel $
+//$Id: DirSrch.cpp,v 1.55 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : DirSrch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.54 $
+//REVISION    : $Revision: 1.55 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005, 2007
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2007, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,8 +48,8 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Defaultconstructor
 //-----------------------------------------------------------------------------
-DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
-                                      , offStrip (0)
+DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.'),
+				      searchFile (), attr (0), offStrip (0)
 #if SYSTEM == UNIX
      , pDir (NULL)
 #else
@@ -66,11 +66,11 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.')
 /// \param search: Files (including the path) to search for.
 //-----------------------------------------------------------------------------
 DirectorySearch::DirectorySearch (const std::string& search)
-   : IDirectorySearch ()
+   : IDirectorySearch (), searchDir (), searchFile (), attr (0), offStrip (0),
 #if SYSTEM == UNIX
-      , pDir (NULL)
+     pDir (NULL)
 #else
-      , hSearch (INVALID_HANDLE_VALUE)
+     hSearch (INVALID_HANDLE_VALUE)
 #endif
 {
    TRACE9 ("DirectorySearch::DirectorySearch (const std::string&) - " << search.c_str ());
@@ -225,9 +225,13 @@ const File* DirectorySearch::next () {
 int DirectorySearch::checkIntegrity () const {
    TRACE9 ("DirectorySearch::checkIntegrity () const");
 
-   return searchDir.empty () ? NO_DIR : searchFile.empty () ? NO_FILE :
-                                        pEntry ?
-                                        (pEntry->path_.empty () && !offStrip) : NO_ENTRY;
+   return (searchDir.empty ()
+	   ? NO_DIR
+	   : (searchFile.empty ()
+	      ? NO_FILE
+	      : (pEntry
+		 ? DIRSRCH_OK + (pEntry->path_.empty () && !offStrip)
+		 : NO_ENTRY)));
 }
 
 //-----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #ifndef RDIRSRCH_H
 #define RDIRSRCH_H
 
-//$Id: RDirSrch.h,v 1.21 2007/02/16 10:01:39 markus Rel $
+//$Id: RDirSrch.h,v 1.22 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,7 +54,8 @@ namespace YGP {
 class RemoteDirSearch : public IDirectorySearch {
  public:
    //@Section manager-functions
-   RemoteDirSearch () : IDirectorySearch (), sock (-1) { }
+      RemoteDirSearch () : IDirectorySearch (), sock (-1), server (), files (),
+	 attrs (), file (), time (), attr (0), size (0) { }
    RemoteDirSearch (const std::string& search) throw (YGP::CommError);
    RemoteDirSearch (const std::string& search, unsigned int port) throw (YGP::CommError);
    virtual ~RemoteDirSearch ();

@@ -1,14 +1,14 @@
-//$Id: ConnMgr.cpp,v 1.11 2006/06/03 21:32:37 markus Rel $
+//$Id: ConnMgr.cpp,v 1.12 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP/ConnectionManager
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::ConnectionMgr () : mode (NONE), server (NULL) {
+ConnectionMgr::ConnectionMgr () : mode (NONE), server (NULL), connections () {
    TRACE9 ("ConnectionMgr::ConnectionMgr ()");
 }
 

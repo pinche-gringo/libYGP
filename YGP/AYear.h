@@ -1,7 +1,7 @@
 #ifndef AYEAR_H
 #define AYEAR_H
 
-//$Id: AYear.h,v 1.4 2006/02/25 03:07:39 markus Rel $
+//$Id: AYear.h,v 1.5 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,9 +43,9 @@ class AYear : public AttributValue {
        : AttributValue ((const AttributValue&)other) , year (other.year) { }
    AYear (int Year)                      ///< Constructor; sets the passed year
       : AttributValue (true), year (Year) { }
-   AYear (const char* pYear) throw (std::invalid_argument) {
+   AYear (const char* pYear) throw (std::invalid_argument) : AttributValue (), year (1900) {
        operator= (pYear); }                        ///< Constructor from a text
-   AYear (const std::string& year) throw (std::invalid_argument) {
+   AYear (const std::string& year) throw (std::invalid_argument) : AttributValue (), year (1900) {
        operator= (year); }                         ///< Constructor from a text
    virtual ~AYear ();
 

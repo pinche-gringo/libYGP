@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-//$Id: File.h,v 1.28 2006/06/03 21:32:37 markus Rel $
+//$Id: File.h,v 1.29 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ struct File {
    friend class RemoteDirSearch;                   ///< Class mainly using File
 
    /// Default constructor; creates an empty file object (holding no file)
-   File () : userExec (false)
+   File () : path_ (), entry (), status (), userExec (false)
       { *entry.d_name = '\0'; }
    File (const char* name) throw (YGP::FileError);
    File (const File& other);
@@ -209,7 +209,7 @@ struct File : protected WIN32_FIND_DATA {
    friend class DirectorySearch;
    friend class RemoteDirSearch;
 
-   File () { }
+   File () : WIN32_FIND_DATA (), path_ () { }
    File (const char* name) throw (YGP::FileError);
    File (const File& other);
    virtual ~File ();

@@ -1,14 +1,14 @@
-//$Id: RDirSrch.cpp,v 1.29 2007/03/05 19:22:24 markus Rel $
+//$Id: RDirSrch.cpp,v 1.30 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RemoteDirSearch
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.3.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2007
+//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -57,7 +57,8 @@ const char RemoteDirSearch::SEPARATOR = ':';
 /// \throw YGP::CommError: Containing error message in case of an error
 //----------------------------------------------------------------------------
 RemoteDirSearch::RemoteDirSearch (const std::string& srch) throw (YGP::CommError)
-   : IDirectorySearch (), sock () {
+   : IDirectorySearch (), sock (), server (), files (), attrs (), file (),
+     time (), attr (0), size (0) {
    TRACE9 ("RemoteDirSearch::RemoteDirSearch (const std::string&) - " << srch << ':');
 
    int posPort (srch.rfind (SEPARATOR));
@@ -77,7 +78,8 @@ RemoteDirSearch::RemoteDirSearch (const std::string& srch) throw (YGP::CommError
 /// \throw YGP::CommError: Containing error message in case of an error
 //----------------------------------------------------------------------------
 RemoteDirSearch::RemoteDirSearch (const std::string& srch, unsigned int port) throw (YGP::CommError)
-   : IDirectorySearch (), sock () {
+   : IDirectorySearch (), sock (), server (), files (), attrs (), file (),
+     time (), attr (0), size (0) {
    TRACE9 ("RemoteDirSearch::RemoteDirSearch (const std::string&, unsigned int) - "
            << srch << ':' << port);
 

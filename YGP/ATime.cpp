@@ -1,14 +1,14 @@
-//$Id: ATime.cpp,v 1.44 2007/11/04 11:06:24 markus Exp $
+//$Id: ATime.cpp,v 1.45 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.44 $
+//REVISION    : $Revision: 1.45 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2007
+//COPYRIGHT   : Copyright (C) 1999 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,11 +56,11 @@ const char* ATime::MODES[] = { "%X", "%H:%M", "%M:%S", "%H %M", "%M %S" };
 /// "0:00:00" (now = false), or to the current time (now = true).
 /// \param now: Flag if current time or default start-time (1.1.1900) should be set
 //-----------------------------------------------------------------------------
-ATime::ATime (bool now) : AttributValue (), mode (MODE_LOCALE) {
+ATime::ATime (bool now) : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
    if (now)
       operator= (time (NULL));
    else
-      define ();
+      setDefined ();
 }
 
 //-----------------------------------------------------------------------------

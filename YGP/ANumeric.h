@@ -1,7 +1,7 @@
 #ifndef ANUMERIC_H
 #define ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.36 2006/01/28 08:16:51 markus Rel $
+//$Id: ANumeric.h,v 1.37 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ namespace YGP {
 class ANumeric : public AttributValue {
  public:
    /// Default constructor; creates an undefined number
-   ANumeric () : AttributValue () {
+   ANumeric () : AttributValue (), value () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, 0);
 #else
@@ -62,7 +62,7 @@ class ANumeric : public AttributValue {
 #endif
 }
    /// Copy constructor
-   ANumeric (const ANumeric& other) : AttributValue ((const AttributValue&)other) {
+   ANumeric (const ANumeric& other) : AttributValue ((const AttributValue&)other), value () {
 #ifdef HAVE_LIBGMP
      mpz_init_set (value, other.value);
 #else
@@ -70,7 +70,7 @@ class ANumeric : public AttributValue {
 #endif
 }
    /// Constructor; initializes the object with the passed value and defines it.
-   ANumeric (const unsigned int val) : AttributValue (true) {
+   ANumeric (const unsigned int val) : AttributValue (true), value () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_ui (value, (long)val);
 #else
@@ -78,7 +78,7 @@ class ANumeric : public AttributValue {
 #endif
    }
    /// Constructor; initializes the object with the passed value and defines it.
-   ANumeric (const unsigned long val) : AttributValue () {
+   ANumeric (const unsigned long val) : AttributValue (), value () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_ui (value, val);
 #else
@@ -86,7 +86,7 @@ class ANumeric : public AttributValue {
 #endif
       setDefined (); }
    /// Constructor; initializes the object with the passed value and defines it.
-   ANumeric (const int val) : AttributValue () {
+   ANumeric (const int val) : AttributValue (), value () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, (long)val);
 #else
@@ -94,7 +94,7 @@ class ANumeric : public AttributValue {
 #endif
       setDefined (); }
    /// Constructor; initializes the object with the passed value and defines it.
-   ANumeric (const long val) : AttributValue () {
+   ANumeric (const long val) : AttributValue (), value () {
 #ifdef HAVE_LIBGMP
       mpz_init_set_si (value, val);
 #else
@@ -103,12 +103,12 @@ class ANumeric : public AttributValue {
       setDefined (); }
 
    /// Constructor; initializes the object from the passed text and defines it.
-   ANumeric (const char* pValue) throw (std::invalid_argument) : AttributValue () {
+   ANumeric (const char* pValue) throw (std::invalid_argument) : AttributValue (), value () {
       operator= (pValue);
    }
    /// Constructor; initializes the object from the passed text and defines it.
    ANumeric (const std::string& str) throw (std::invalid_argument)
-      : AttributValue () {
+      : AttributValue (), value () {
       operator= (str);
    }
    virtual ~ANumeric ();

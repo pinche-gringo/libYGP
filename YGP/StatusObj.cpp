@@ -1,14 +1,14 @@
-//$Id: StatusObj.cpp,v 1.6 2004/12/29 18:22:49 markus Rel $
+//$Id: StatusObj.cpp,v 1.7 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP/StatusObject
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.6 $
+//REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-StatusObject::StatusObject () : tp (UNDEFINED) {
+StatusObject::StatusObject () : tp (UNDEFINED), msg (), child () {
 }
 
 //-----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ StatusObject::StatusObject () : tp (UNDEFINED) {
 /// \param message: Message of the object
 //-----------------------------------------------------------------------------
 StatusObject::StatusObject (type t, const std::string& message)
-    : tp (INFO), msg (message) {
+   : tp (INFO), msg (message), child () {
 }
 
 //-----------------------------------------------------------------------------
@@ -50,8 +50,8 @@ StatusObject::StatusObject (type t, const std::string& message)
 /// \param other: Object to copy
 //-----------------------------------------------------------------------------
 StatusObject::StatusObject (const StatusObject& other)
-    : tp (other.tp), msg (other.msg)
-      , child (other.child ? new StatusObject (*other.child) : NULL) {
+   : tp (other.tp), msg (other.msg),
+     child (other.child ? new StatusObject (*other.child) : NULL) {
 }
 
 //-----------------------------------------------------------------------------

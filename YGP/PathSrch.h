@@ -1,7 +1,7 @@
 #ifndef PATHSRC_H
 #define PATHSRC_H
 
-//$Id: PathSrch.h,v 1.16 2003/11/16 19:25:55 markus Rel $
+//$Id: PathSrch.h,v 1.17 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -44,11 +44,12 @@ class PathSearch : public Tokenize {
    /// Constructor; with path to analyze
    PathSearch (const std::string& path) : Tokenize (path) { }
    /// Destructor
-   virtual ~PathSearch () { }
+   ~PathSearch () { }
 
    /// Assignemnt operator; Specify other path to split
    PathSearch& operator= (const std::string& path) {
-      return (PathSearch&)Tokenize::operator= (path); }
+      Tokenize::operator= (path);
+      return *this; }
 
    /// \name Accessing the sub-parts
    //@{

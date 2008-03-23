@@ -1,7 +1,7 @@
 #ifndef FILEREXP_H
 #define FILEREXP_H
 
-//$Id: FileRExp.h,v 1.19 2006/06/05 16:47:06 markus Rel $
+//$Id: FileRExp.h,v 1.20 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -68,7 +68,8 @@ class FileRegularExpr : public IRegularExpression {
    /// \pre The input is not copied, so it must be valid during the lifetime
    ///      of the regular expression.
    FileRegularExpr& operator= (const char* pRegExp) {
-      return (FileRegularExpr&)IRegularExpression::operator= (pRegExp); }
+      IRegularExpression::operator= (pRegExp);
+      return *this; }
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);

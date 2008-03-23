@@ -1,7 +1,7 @@
 #ifndef PARSE_H
 #define PARSE_H
 
-//$Id: Parse.h,v 1.46 2007/03/14 14:07:59 markus Exp $
+//$Id: Parse.h,v 1.47 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -325,7 +325,8 @@ class ParseText : public ParseAttomic {
 
    /// Assignment operator
    ParseText& operator= (const ParseText& other) {
-      return (ParseText&)ParseAttomic::operator= (other); }
+      ParseAttomic::operator= (other);
+      return *this; }
 
  protected:
    virtual int checkValue (char ch);
@@ -534,7 +535,8 @@ class ParseUpperExact : public ParseExact {
 
    /// Assignment operator
    ParseUpperExact& operator= (const ParseUpperExact& other) {
-      return (ParseUpperExact&)ParseExact::operator= (other); }
+      ParseExact::operator= (other);
+      return *this; }
 
  protected:
    // Possible errors of checkIntegrity
@@ -572,7 +574,8 @@ class ParseToText : public ParseAttomic {
 
    /// Assignment operator
    ParseToText& operator= (const ParseToText& other) {
-      return (ParseToText&)ParseAttomic::operator= (other); }
+      ParseAttomic::operator= (other);
+      return *this; }
 
    virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
 

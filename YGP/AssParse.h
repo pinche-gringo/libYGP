@@ -1,7 +1,7 @@
 #ifndef ASSNPARSE_H
 #define ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.15 2007/03/05 19:22:24 markus Rel $
+//$Id: AssParse.h,v 1.16 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,7 +45,8 @@ class AssignmentParse : public Tokenize {
 
    /// Assignment operator; from the string to analyze
    AssignmentParse& operator= (const std::string& path) {
-      return (AssignmentParse&)Tokenize::operator= (path); }
+      Tokenize::operator= (path);
+      return *this; }
 
    std::string getNextNode () throw (YGP::ParseError);
 

@@ -1,14 +1,14 @@
-//$Id: Thread.cpp,v 1.24 2006/06/03 21:32:38 markus Rel $
+//$Id: Thread.cpp,v 1.25 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.24 $
+//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
-//COPYRIGHT   : Copyright (C) 2002 - 2004, 2006
+//COPYRIGHT   : Copyright (C) 2002 - 2004, 2006, 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,11 +63,21 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Defaultconstructor; create the object but no actual thread
 //-----------------------------------------------------------------------------
-Thread::Thread () : pArgs_ (NULL), id (0) {
-   TRACE3 ("Thread::Thread ()");
-#ifndef HAVE_LIBPTHREAD
-   canceled = false;
+Thread::Thread ()
+   : pArgs_ (NULL)
+#ifdef HAVE_LIBPTHREAD
+   , id (0)
+#else
+   , canceled (false)
+#  ifdef HAVE_BEGINTHREAD
+   , callback (NULL)
+   , id (0)
+#  else
+   , id (0)
+#  endif
 #endif
+ {
+   TRACE3 ("Thread::Thread ()");
 }
 
 //-----------------------------------------------------------------------------

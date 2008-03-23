@@ -1,7 +1,7 @@
 #ifndef ATTRPARSE_H
 #define ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.12 2006/08/09 16:36:11 markus Rel $
+//$Id: AttrParse.h,v 1.13 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -70,7 +70,8 @@ namespace YGP {
 class AttributeParse {
  public:
    //Section manager-functions
-   AttributeParse () { }      ///< Default constructor; creates an empty object
+   /// Default constructor; creates an empty object
+   AttributeParse () : apAttrs () { }
    virtual ~AttributeParse ();
 
    void assignValues (const std::string& values) const throw (YGP::ParseError);
@@ -84,8 +85,7 @@ class AttributeParse {
    AttributeParse (const AttributeParse&);
    AttributeParse& operator= (const AttributeParse&);
 
-   IAttribute** attrs;                 // Pointer to array holding attributes
-   std::vector<IAttribute*> apAttrs;
+   std::vector<IAttribute*> apAttrs;   // Pointer to vector holding attributes
 };
 
 }

@@ -1,14 +1,14 @@
-//$Id: ADate.cpp,v 1.52 2007/03/05 19:22:24 markus Rel $
+//$Id: ADate.cpp,v 1.53 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.52 $
+//REVISION    : $Revision: 1.53 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2007
+//COPYRIGHT   : Copyright (C) 1999 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,11 +49,11 @@ namespace YGP {
 /// of January, 1900 (now = false), or to the current day (now = true)
 /// \param now: Flag which date to set (1900/1/1 (false) or now (true))
 //----------------------------------------------------------------------------
-ADate::ADate (bool now) : AYear () {
+ADate::ADate (bool now) : AYear (1900), day ((unsigned char)1), month ((unsigned char)1) {
    if (now)
       operator= (time (NULL));
    else
-      define ();
+      setDefined ();
 }
 
 //----------------------------------------------------------------------------
@@ -635,7 +635,8 @@ void ADate::setMonth (char Month) throw (std::invalid_argument) {
 //        <tt>struct tm</tt> (after 1900 and before 2039)
 //----------------------------------------------------------------------------
 struct tm ADate::toStructTM () const {
-   struct tm result = { 0, 0, 0, 0, 0, 0 };
+   struct tm result;
+   memset (&result, '\0', sizeof (result));
    if (isDefined ()) {
       result.tm_mday = day;
       result.tm_mon = month - 1;

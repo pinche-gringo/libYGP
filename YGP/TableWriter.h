@@ -1,7 +1,7 @@
 #ifndef TABLEWRITER_H
 #define TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.7 2006/04/10 01:45:32 markus Rel $
+//$Id: TableWriter.h,v 1.8 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -100,6 +100,10 @@ class TableWriter {
    const char* colDefinitions;                 ///< Text to define the columns
 
  private:
+   // Prohibited manager methods
+   TableWriter (const TableWriter&);
+   TableWriter& operator= (const TableWriter&);
+
    YGP::Tokenize columns_;
 };
 

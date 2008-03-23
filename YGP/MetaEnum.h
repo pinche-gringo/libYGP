@@ -1,7 +1,7 @@
 #ifndef METAENUM_H
 #define METAENUM_H
 
-//$Id: MetaEnum.h,v 1.3 2006/08/03 17:35:25 markus Rel $
+//$Id: MetaEnum.h,v 1.4 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,16 +28,20 @@ namespace YGP {
 /**Class to handle enumerations; in counterpart to C-style enums those values
  * can be accessed by number and name.
  */
-class MetaEnum : public std::map<int, std::string> {
+class MetaEnum {
  public:
    /// \name Check for existence
    //@{
    /// Checks if the integer value exists
    /// \param value: Value to check for
    /// \returns bool: True if the value exists
-   bool exists (int value) const { return find (value) != end (); }
+   bool exists (int value) const { return values.find (value) != values.end (); }
    bool exists (const std::string& value) const;
    //@}
+
+   /// Inserts a new item into the object
+   /// \param value: Value to insert; create with std::make_pair
+   void insert (const std::pair<int, std::string>& value) { values.insert (value); }
 
    /// \name Accessing values (which must exist)
    //@{
@@ -46,13 +50,15 @@ class MetaEnum : public std::map<int, std::string> {
    //@}
 
  protected:
-   MetaEnum () { }
+   MetaEnum () : values () { }
    virtual ~MetaEnum ();
 
  private:
    // Prohibited manager methods
    MetaEnum (const MetaEnum& other);
    const MetaEnum& operator= (const MetaEnum& other);
+
+   std::map<int, std::string> values;
 };
 
 

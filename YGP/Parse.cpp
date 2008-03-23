@@ -1,14 +1,14 @@
-//$Id: Parse.cpp,v 1.59 2007/03/14 17:40:37 markus Exp $
+//$Id: Parse.cpp,v 1.60 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.59 $
+//REVISION    : $Revision: 1.60 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2007
+//COPYRIGHT   : Copyright (C) 1999 - 2008
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -120,12 +120,11 @@ void ParseObject::skipWS (Xistream& stream) {
 
 //-----------------------------------------------------------------------------
 /// Callback if an object was found
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found value - Unused
+/// \param: Pointer to found value
+/// \param: Length of found value
 /// \returns \c int: Status; 0 OK
 //-----------------------------------------------------------------------------
-int ParseObject::found (const char* pFoundValue, unsigned int len) {
-   Check1 (pFoundValue);
+int ParseObject::found (const char*, unsigned int) {
    return PARSE_OK;
 }
 
@@ -178,7 +177,7 @@ ParseSkip::ParseSkip (std::streamoff bytes, std::ios_base::seekdir seek)
 /// \param other: Object to copy
 //-----------------------------------------------------------------------------
 ParseSkip::ParseSkip (const ParseSkip& other)
-   : ParseObject (other), offset (other.offset) {
+   : ParseObject (other), offset (other.offset), seek (other.seek) {
  }
 
 //-----------------------------------------------------------------------------
@@ -875,10 +874,11 @@ ParseToText::~ParseToText () {
 /// does not report something different).
 ///
 /// It is a soft error (\c PARSE_ERROR) if the minimal cardinality is not
-/// fullfilled. If parsing is optional or the error is recoverable (> 0), the
+/// fullfilled. If parsing is optional the
 /// parsed data is pushed back into the stream and \c PARSE_ERROR is
-/// returned. If parsing is not optional and the error is not recoverable (<
+/// returned, else
 /// 0), an exception (std::string) is thrown.
+
 /// \param stream: Source from which to read
 /// \param optional: Flag, if node must be found
 /// \throw YGP::ParseError: In case of a not recoverable error
@@ -926,8 +926,15 @@ int ParseToText::doParse (Xistream& stream, bool optional) throw (YGP::ParseErro
       return found (pValue, i);
    }
    else {
-      stream.seekg (oldPos, std::ios::beg);
-      return PARSE_ERROR;
+      if (optional) {
+	 stream.seekg (oldPos, std::ios::beg);
+	 return PARSE_ERROR;
+      }
+      else {
+         std::string error (_("Expected %1 not found"));
+	 error.replace (error.find ("%1"), 2, getDescription ());
+	 throw (YGP::ParseError (error));
+      }
    }
 }
 
@@ -955,7 +962,8 @@ ParseSequence::ParseSequence (ParseObject* apObjectList[],
 /// \param other: Object to clone
 //-----------------------------------------------------------------------------
 ParseSequence::ParseSequence (const ParseSequence& other)
-   : ParseObject ((const ParseObject&)other), ppList (other.ppList) {
+   : ParseObject ((const ParseObject&)other), ppList (other.ppList),
+     maxCard (other.maxCard), minCard (other.minCard) {
    TRACE9 ("Copying ParseSequence " << getDescription ());
    Check1 (!checkIntegrity ());
 }

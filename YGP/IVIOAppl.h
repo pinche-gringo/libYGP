@@ -1,7 +1,7 @@
 #ifndef IVIOAPPL_H
 #define IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.25 2006/04/17 19:03:37 markus Rel $
+//$Id: IVIOAppl.h,v 1.26 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -106,7 +106,8 @@ class IVIOApplication {
    void         setLongOptions (const longOptions* pLongOpts,
                                 unsigned int numLongOpts);
    /// Parses some initialization data from a file specified by \c pFile.
-   virtual void readINIFile (const char* pFile) { }
+   /// \param: Name of file to read
+   virtual void readINIFile (const char*) { }
 
    /// \name Program-handling
    //@{

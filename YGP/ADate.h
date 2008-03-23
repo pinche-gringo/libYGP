@@ -1,7 +1,7 @@
 #ifndef ADATE_H
 #define ADATE_H
 
-//$Id: ADate.h,v 1.31 2006/02/25 03:07:39 markus Rel $
+//$Id: ADate.h,v 1.32 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,19 +51,18 @@ namespace YGP {
 class ADate : public AYear {
  public:
    ADate ()                /// Default constructor; creates an undefined object
-       : day (1), month (1)  { year = 1900; }
+      : AYear (), day (1), month (1)  { year = 1900; }
    ADate (bool now);
    ADate (const ADate& other)     /// Copy constructor from another date object
-       : AYear ((const AYear&)other)
-       , day (other.day), month (other.month) { }
+      : AYear ((const AYear&)other) , day (other.day), month (other.month) { }
    ADate (char Day, char Month, int Year) throw (std::invalid_argument);
-   ADate (const char* pDate) throw (std::invalid_argument) {
+   ADate (const char* pDate) throw (std::invalid_argument) : AYear (), day (1), month (1) {
        operator= (pDate); }          ///< Constructor from a text (unformatted)
-   ADate (const std::string& date) throw (std::invalid_argument) {
+   ADate (const std::string& date) throw (std::invalid_argument) : AYear (), day (1), month (1) {
        operator= (date); }           ///< Constructor from a text (unformatted)
-   ADate (const struct tm& tm) {
+   ADate (const struct tm& tm) : AYear (), day (1), month (1) {
        operator= (tm); }                 ///< Constructor from broken down time
-   ADate (const time_t& date) {
+   ADate (const time_t& date) : AYear (), day (1), month (1) {
        operator= (date); }                      ///< Construct from system time
    virtual ~ADate ();
 

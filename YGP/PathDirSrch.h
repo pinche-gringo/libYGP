@@ -1,7 +1,7 @@
 #ifndef PATHDIRSRCH_H
 #define PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.14 2003/11/14 20:27:55 markus Rel $
+//$Id: PathDirSrch.h,v 1.15 2008/03/23 13:56:12 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -46,10 +46,10 @@ class PathDirectorySearch : public DirectorySearch {
  public:
    //@Section manager-functions
    /// Default constructur; creates an empty object, not ready to search for files
-   PathDirectorySearch () : DirectorySearch (), searchPath ("") { }
+   PathDirectorySearch () : DirectorySearch (), srch (), searchPath ("") { }
    /// Constructur; creates an object with an path to files in.
-   PathDirectorySearch (const std::string& path) : DirectorySearch ()
-      , searchPath (path) { }
+   PathDirectorySearch (const std::string& path) : DirectorySearch (),
+	 srch (), searchPath (path) { }
    /// Constructur; creates an object with an path to files in and the files
    /// to search for.
    PathDirectorySearch (const std::string& path, const std::string& search)

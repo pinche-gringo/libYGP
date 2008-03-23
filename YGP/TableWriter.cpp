@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.9 2007/03/08 18:58:27 markus Rel $
+//$Id: TableWriter.cpp,v 1.10 2008/03/23 13:56:12 markus Exp $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005, 2007
@@ -86,9 +86,9 @@ unsigned int TableWriter::columns () const {
 //-----------------------------------------------------------------------------
 /// Returns the substitute for a control character.
 /// \param ctrl: Control character
-/// \param extend: Flag, if special formatting of substitute is wanted
+/// \param: Flag, if special formatting of substitute is wanted
 //-----------------------------------------------------------------------------
-std::string TableWriter::getSubstitute (char ctrl, bool extend) const {
+std::string TableWriter::getSubstitute (char ctrl, bool) const {
    return std::string (1, ctrl);
 }
 
@@ -196,16 +196,16 @@ void TableWriter::printEnd (std::ostream& out) const {
 
 //-----------------------------------------------------------------------------
 /// Prints something at the start of the table-header
-/// \param out: Stream where to put the output
+/// \param: Stream where to put the output
 //-----------------------------------------------------------------------------
-void TableWriter::printHeaderLead (std::ostream& out) const {
+void TableWriter::printHeaderLead (std::ostream&) const {
 }
 
 //-----------------------------------------------------------------------------
 /// Prints something at the end of the table-header
-/// \param out: Stream where to put the output
+/// \param: Stream where to put the output
 //-----------------------------------------------------------------------------
-void TableWriter::printHeaderTail (std::ostream& out) const {
+void TableWriter::printHeaderTail (std::ostream&) const {
 }
 
 //-----------------------------------------------------------------------------
