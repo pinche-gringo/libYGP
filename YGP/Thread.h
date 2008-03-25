@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-//$Id: Thread.h,v 1.21 2008/03/23 13:56:12 markus Exp $
+//$Id: Thread.h,v 1.22 2008/03/25 20:32:21 markus Exp $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -174,6 +174,9 @@ template <class T> class OThread : public Thread {
       init (&proxy, this); }
 
  private:
+   OThread (const OThread&);
+   OThread& operator= (const OThread&);
+
    static void* proxy (void* pArgs) {
       OThread<T>* thread = static_cast <OThread<T>*> (pArgs);
       void* rc = ((thread->object)->*(thread->callback))
