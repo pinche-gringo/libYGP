@@ -1,3 +1,27 @@
+Overview of Changes in version 0.9.00:
+
+  - YGP::ParseToText added
+  - YGP::INIFile: Increased possible length of names/values within INI-file
+  - YGP::INIFile can change existing INI-files
+  - Implemented YGP::Module for Windows
+  - YGP::MetaEnum doesn't derive from std::map anymore
+  - XGP::XDate: Fixed double-free of dialogue when selecting OK
+  - XGP::ConnectDlg respects cMaxConnections-parameter
+  - Don't use sigc's deprecated methods
+  - Enabled and fixed more compiler-warnings
+  - Added animation-classes
+  - Put under GPL3
+  - Fixes
+
+
+Overview of Changes in version 0.8.23:
+
+  - Fixed compiling GtkMozViewer, when GTKHTML is available, but not
+    mozilla-embedded (bug reported by int at acror dot de)
+  - Don't link libXGP with libYGP anymore (reported by int at acror dot de)
+  - Minor optimisations
+
+
 Overview of Changes in version 0.8.22:
 
   - Added dillo to the supported browsers
