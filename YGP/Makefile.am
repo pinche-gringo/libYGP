@@ -6,9 +6,10 @@ lib_LTLIBRARIES=libYGP.la
 
 # Settings for gettext
 localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -Wextra -Weffc++ -Wall -Woverloaded-virtual
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+CXXFLAGS = @CXXFLAGS@  -Woverloaded-virtual -Weffc++ -Wextra
 DEFAULT_INCLUDES =
-INCLUDES = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@
+INCLUDES = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@ -Wall
 LIBS = @LTLIBINTL@ @LIBS@
 
 includedir = ${prefix}/include/YGP
