@@ -1,28 +1,30 @@
-//$Id: INIFile.cpp,v 1.38 2008/03/23 20:57:05 markus Exp $
+//$Id: INIFile.cpp,v 1.39 2008/03/29 17:10:28 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.38 $
+//REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2008
 
-// This program is free software; you can redistribute it and/or modify
+// This file is part of libYGP.
+//
+// libYGP is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
+// the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-
-// This program is distributed in the hope that it will be useful,
+//
+// libYGP is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-
+//
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+// along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
+
 
 #ifdef _MSC_VER
 #pragma warning(disable:4786) // disable warning about truncating debug info
@@ -32,7 +34,6 @@
 
 #include <sstream>
 
-#define TRACELEVEL 1
 #include <YGP/Trace.h>
 #include "YGP/Entity.h"
 #include "YGP/INIFile.h"
@@ -451,6 +452,7 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
 
 //-----------------------------------------------------------------------------
 /// Overwrites the INI-file with the values set
+/// \remarks: The stored sections/attributes of this INI-file are changed; so they can't be reused!
 /// \throws
 ///    - YGP::FileError in case file-access fails somehow
 ///    - YGP::ParseError in case of failing to parse the file (before overwriting it)
@@ -459,7 +461,7 @@ void INIFile::overwrite () throw (FileError, ParseError) {
    TRACE9 ("INIFile::overwrite ()");
 
    // First read the contents of the INI-file
-   const INISection* pSection (NULL);
+   INISection* pSection (NULL);
    std::string output, line;
    char buffer[80];
    while (!file.getline (buffer, sizeof (buffer)).eof ()) {
@@ -472,8 +474,16 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 	 line.assign (buffer, file.gcount () - 1);
 
       TRACE2 ("INIFile::overwrite () - Read: " << line);
+      // Empty line (or starting with a white-space)
+      if (line.empty () || (isspace (line[0]))) {
+	 // First finish up old section, if any
+	 if (pSection) {
+	    output += getSectionAttributes (*pSection);
+	    pSection = NULL;
+	 }
+      }
       // Section found?
-      if (line[0] == '[') {
+      else if (line[0] == '[') {
 	 size_t end (line.find (']', 1));
 	 if (end != std::string::npos) {
 	    // Find end of section; also accept comments behind it
@@ -483,8 +493,17 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 	    std::istringstream stream (line.substr (end + 1));
 	    char last ('\0');
 	    stream >> last;
-	    if (!stream || (last == ';'))
-	       pSection = findSection (name.c_str ());
+	    if (!stream || (last == ';')) {
+	       std::vector<const INISection*>::iterator i;
+	       for (i = sections.begin (); i != sections.end (); ++i) {
+		  TRACE9 ("Checking for " << (*i)->getName ());
+		  if ((*i)->matches (name.c_str ())) {
+		     pSection = const_cast <INISection*> (*i);
+		     sections.erase (i);
+		     break;
+		  }
+	       }
+	    }
 	    else {
 	       std::string error (_("Invalid characters after section %1: %2"));
 	       error.replace (error.find ("%1"), 2, name);
@@ -505,26 +524,32 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 	    if (ap.getNextNode ().size ()) {
 	       TRACE5 ("INIFile::overwrite () - Attribute: " << ap.getActKey ());
 	       // Check if the attribute is to be updated
-	       const IAttribute* attr (pSection->findAttribute (ap.getActKey ()));
-	       if (attr) {
-		  std::string value (ap.getActKey ().c_str () + std::string (1, '=')
-				     + attr->getQuotedValue ());
-		  TRACE9 ("INIFile::overwrite () - Value: " << value);
-		  output += value;
-
-		  // Now append comment (aligned as before, if possible)
-		  int len (line.size () - value.size ());
-		  if (ap.getEndPosition () < line.size ()) {
-		     value = std::string (1, ';') + ap.remaining ();
-		     len -= value.size ();
-		     while (len-- > 0)
-			output += ' ';
+	       bool found (false);
+	       std::vector<const IAttribute*>::iterator i;
+	       for (i = pSection->attributes.begin ();
+		    i != pSection->attributes.end (); ++i)
+		  if ((*i)->matches (ap.getActKey ().c_str ())) {
+		     found = true;
+		     std::string value (ap.getActKey ().c_str () + std::string (1, '=')
+					+ (*i)->getQuotedValue ());
+		     TRACE9 ("INIFile::overwrite () - Value: " << value);
 		     output += value;
-		  }
 
-		  output += '\n';
+		     // Now append comment (aligned as before, if possible)
+		     int len (line.size () - value.size ());
+		     if (ap.getEndPosition () < line.size ()) {
+			value = std::string (1, ';') + ap.remaining ();
+			len -= value.size ();
+			while (len-- > 0)
+			   output += ' ';
+			output += value;
+		     }
+		     output += '\n';
+		     pSection->attributes.erase (i);
+		     break;
+		  }
+	       if (found)
 		  continue;
-	       }
 	    }
 	 }
       }
@@ -533,11 +558,37 @@ void INIFile::overwrite () throw (FileError, ParseError) {
    }
    file.close ();
 
-   // Todo: Add sections not found
-
    std::ofstream ofile (name.c_str ());
    ofile << output;
+
+   // Add sections not found
+   while (sections.size ()) {
+      ofile << getSectionAttributes (*sections[0]);
+      sections.erase (sections.begin ());
+   }
+
    ofile.close ();
+}
+
+
+//-----------------------------------------------------------------------------
+/// Gets the attributes of the passed section; as they should be written to the
+/// INI-file
+/// \param section: Section whose attributes are queried
+/// \returns std::string: Attributes as written to INI-file
+//-----------------------------------------------------------------------------
+std::string INIFile::getSectionAttributes (const INISection& section) {
+   TRACE9 ("INIFile::getSectionAttributes (const INISection&) - " << section.getName ());
+   std::string output;
+   while (section.attributes.size ()) {
+      Check2 (section.attributes[0]);
+      output += section.attributes[0]->getName ();
+      output += '=';
+      output += section.attributes[0]->getQuotedValue ();
+      output += '\n';
+   }
+   TRACE9 ("INIFile::getSectionAttributes (const INISection&) - '" << output << '\'');
+   return output;
 }
 
 }
