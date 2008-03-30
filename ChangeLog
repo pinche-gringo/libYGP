@@ -1,3 +1,141 @@
+2008-03-30  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.9.00 documented
+
+	* bin/mdocu.pl: Finally removed
+
+	* po/de.po, po/en.po, po/es.po: Updated for 0.9.00
+
+	* configure.in: Version to 0.9.00
+
+	* XGP/Makefile.am: Added AnimWindow
+
+	* XGP/AnimWindow.cpp, XGP/AnimWindow.h: New file.
+
+	* XGP/AutoContainer.cpp, XGP/AutoContainer.h, XGP/BrowserDlg.cpp, XGP/BrowserDlg.h, XGP/ConnectDlg.cpp, XGP/ConnectDlg.h, XGP/EnumEntry.cpp, XGP/EnumEntry.h, XGP/GTKViewer.h, XGP/GtkMozViewer.c, XGP/GtkMozViewer.h, XGP/HTMLViewer.cpp, XGP/HTMLViewer.h, XGP/LoginDlg.cpp, XGP/LoginDlg.h, XGP/MessageDlg.cpp, XGP/MessageDlg.h, XGP/Samples/Dialog.cpp, XGP/Samples/Dialog.h, XGP/Samples/X-Appl.cpp, XGP/Samples/X-Appl.h, XGP/SearchDlg.cpp, XGP/SearchDlg.h, XGP/TraceDlg.cpp, XGP/TraceDlg.h, XGP/Version.cpp, XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XApplication.h, XGP/XAttrEntry.h, XGP/XAttrLabel.h, XGP/XAttrSpin.h, XGP/XAttribute.h, XGP/XDate.cpp, XGP/XDate.h, XGP/XDialog.cpp, XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XFileEntry.cpp, XGP/XFileEntry.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XPrintDlg.cpp, XGP/XPrintDlg.h, XGP/XValue.h:
+	  Switched to GPL V3
+
+2008-03-29  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.cpp, YGP/ANumeric.h, YGP/ATStamp.cpp, YGP/ATStamp.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AYear.cpp, YGP/AYear.h, YGP/AssParse.cpp, YGP/AssParse.h, YGP/AttrParse.cpp, YGP/AttrParse.h, YGP/AttrVal.h, YGP/Attribute.cpp, YGP/Attribute.h, YGP/CRegExp.cpp, YGP/CRegExp.h, YGP/Check.cpp, YGP/Check.h, YGP/ConnMgr.cpp, YGP/ConnMgr.h, YGP/DirSrch.cpp, YGP/DirSrch.h, YGP/DynTrace.cpp, YGP/DynTrace.h, YGP/Entity.cpp, YGP/Entity.h, YGP/Exception.h, YGP/File.cpp, YGP/File.h, YGP/FileRExp.cpp, YGP/FileRExp.h, YGP/FileTypeChk.cpp, YGP/FileTypeChk.h, YGP/Handle.h, YGP/IDirSrch.cpp, YGP/IDirSrch.h, YGP/IVIOAppl.cpp, YGP/IVIOAppl.h, YGP/Internal.h, YGP/Log.h, YGP/MetaEnum.cpp, YGP/MetaEnum.h, YGP/Module.cpp, YGP/Module.h, YGP/Mutex.h, YGP/Parse.cpp, YGP/Parse.h, YGP/PathDirSrch.cpp, YGP/PathDirSrch.h, YGP/PathSrch.cpp, YGP/PathSrch.h, YGP/Process.cpp, YGP/Process.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/RDirSrchSrv.cpp, YGP/RDirSrchSrv.h, YGP/RegExp.h, YGP/Relation.cpp, YGP/Relation.h, YGP/RemoteFile.cpp, YGP/RemoteFile.h, YGP/SmartPtr.h, YGP/Socket.cpp, YGP/Socket.h, YGP/SortDirSrch.h, YGP/StackTrc.cpp, YGP/StackTrc.h, YGP/StatusObj.cpp, YGP/StatusObj.h, YGP/TableWriter.cpp, YGP/TableWriter.h, YGP/Tests/ADate.cpp, YGP/Tests/ANumeric.cpp, YGP/Tests/ATStamp.cpp, YGP/Tests/ATime.cpp, YGP/Tests/AYear.cpp, YGP/Tests/AssParse.cpp, YGP/Tests/AttrParse.cpp, YGP/Tests/Attribute.cpp, YGP/Tests/CRegExp.cpp, YGP/Tests/DirSrch.cpp, YGP/Tests/Entity.cpp, YGP/Tests/FileRExp.cpp, YGP/Tests/Handle.cpp, YGP/Tests/INIFile.cpp, YGP/Tests/IVIOAppl.cpp, YGP/Tests/MetaEnum.cpp, YGP/Tests/Module.cpp, YGP/Tests/Parse.cpp, YGP/Tests/PathDirSrch.cpp, YGP/Tests/PathSrch.cpp, YGP/Tests/Process.cpp, YGP/Tests/Relation.cpp, YGP/Tests/SortDirSrch.cpp, YGP/Tests/Test.h, YGP/Tests/Thread.cpp, YGP/Tests/Tokenize.cpp, YGP/Tests/XStrBuf.cpp, YGP/Tests/XStream.cpp, YGP/Thread.cpp, YGP/Thread.h, YGP/Tokenize.cpp, YGP/Tokenize.h, YGP/Trace.h, YGP/Utility.h, YGP/Version.cpp, YGP/XDirSrch.cpp, YGP/XDirSrch.h, YGP/XStrBuf.cpp, YGP/XStrBuf.h, YGP/XStream.h:
+	  Put under GPL V3
+
+	* YGP/Tests/AByteArray.cpp: Removed
+
+	* YGP/INIFile.cpp, YGP/INIFile.h: Writing new section/attributes
+
+2008-03-25  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Thread.h: Prohibit manager methods of OThread
+
+	* YGP/Makefile.am: Put C++-options to CXXFLAGS
+
+	* NEWS: Changes of V0.9.00 documented
+
+2008-03-23  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/AutoContainer.cpp, XGP/BrowserDlg.cpp, XGP/ConnectDlg.cpp, XGP/ConnectDlg.h, XGP/LoginDlg.cpp, XGP/MessageDlg.cpp, XGP/SearchDlg.cpp, XGP/TraceDlg.cpp, XGP/XAbout.cpp, XGP/XAbout.h, XGP/XApplication.cpp, XGP/XDialog.cpp, XGP/XFileDlg.cpp, XGP/XFileDlg.h, XGP/XFileList.cpp, XGP/XFileList.h, XGP/XPrintDlg.cpp:
+	  Fixed compiler-warnings
+
+	* XGP/Makefile.am: Enabled further compiler-warnings
+
+	* YGP/INIFile.cpp, YGP/INIFile.h: Fixed overwriting INI-files
+
+	* YGP/Tests/INIFile.cpp: Added test for overwriting INI-files
+
+	* YGP/Tokenize.h: Added remaining()
+
+	* YGP/Attribute.h: Added getQuotedValue
+
+	* YGP/AssParse.cpp:
+	  Skip whitespaces after quoted values (til separator)
+
+	* YGP/AssParse.h: Destructor is not virtual
+
+	* YGP/ADate.cpp: Don't include sstream
+
+	* YGP/MetaEnum.cpp, YGP/MetaEnum.h:
+	  Added begin(), end() and insert(); typedef'd used map
+
+	* YGP/AByteArray.cpp, YGP/AByteArray.h: Finally removed
+
+	* YGP/Makefile.am: Adding further compiler-warnings
+
+	* YGP/Process.h: Fixed flag-handling to start()
+
+	* YGP/Process.cpp: Don't include unistd.h
+
+	* YGP/ADate.cpp, YGP/ADate.h, YGP/ANumeric.h, YGP/ATime.cpp, YGP/ATime.h, YGP/AYear.h, YGP/AssParse.h, YGP/AttrParse.h, YGP/Attribute.h, YGP/ConnMgr.cpp, YGP/DirSrch.cpp, YGP/Entity.h, YGP/File.cpp, YGP/File.h, YGP/FileRExp.h, YGP/IVIOAppl.h, YGP/MetaEnum.cpp, YGP/MetaEnum.h, YGP/Parse.cpp, YGP/Parse.h, YGP/PathDirSrch.h, YGP/PathSrch.h, YGP/RDirSrch.cpp, YGP/RDirSrch.h, YGP/StatusObj.cpp, YGP/TableWriter.cpp, YGP/TableWriter.h, YGP/Thread.cpp, YGP/Thread.h, YGP/CRegExp.cpp, YGP/INIFile.cpp:
+	  Fixed compiler-warnings
+
+2007-11-04  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/ATime.cpp: Formatting
+
+	* YGP/INIFile.cpp, YGP/INIFile.h:
+	  Method to overwrite certain values of an INI-file
+
+2007-08-27  Markus Schwab  <g17m0@lycos.com>
+
+	* INSTALL: Fixed description of how to build
+
+	* XGP/Makefile.am: Don't link with -lYGP
+
+	* XGP/GtkMozViewer.c: Fixed define for conditional compilation
+
+	* XGP/MessageDlg.h: Don't use deprecated sigc-style
+
+	* XGP/XFileEntry.cpp: Only check lower 4 bits of status
+
+	* YGP/Module.cpp, YGP/Module.h: Implemented for Windows
+
+2007-05-29  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/XDate.cpp: Don't delete self at okEvent()
+
+2007-03-14  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Parse.cpp, YGP/Parse.h: Added ParseToText
+
+	* YGP/Tests/Parse.cpp, YGP/Tests/Parser.test:
+	  Added test for ParseToText and ParseEOF
+
+2007-04-22  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.23 documented
+
+	* configure.in: Version to 0.8.23
+
+	* INSTALL: Install from CVS: First call aclocal and then libtoolize
+
+	* XGP/Makefile.am: Don't link with libYGP
+
+	* XGP/GtkMozViewer.c:
+	  Basing conditional compilation on right define (HAVE_GTKMOZEMBED)
+
+	* YGP/XDirSrch.cpp: Minor optimisations
+
+2007-03-21  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/XDirSrch.cpp: Minor optimisations
+
+2007-04-22  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.8.22 documented
+
+	* configure.in: Version to 0.8.23
+
+	* INSTALL: Install from CVS: First call aclocal and then libtoolize
+
+	* XGP/Makefile.am: Don't link with libYGP (reported by int at
+	  acror dot de)
+
+	* XGP/GtkMozViewer.c:
+	  Basing conditional compilation on right define (HAVE_GTKMOZEMBED;
+	  bug reported by int at acror dot de)
+
+	* YGP/XDirSrch.cpp: Minor optimisations
+
 2007-03-08  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.8.22 documented
@@ -17,7 +155,7 @@
 	* README: Actualised the copyright
 
 	* YGP/ADate.cpp, YGP/AssParse.cpp, YGP/AssParse.h, YGP/DirSrch.cpp, YGP/Parse.h, YGP/RDirSrch.cpp, YGP/TableWriter.cpp:
-	Can be compiled under x86_64
+	  Can be compiled under x86_64
 
 2007-02-16  Markus Schwab  <g17m0@lycos.com>
 
@@ -824,7 +962,7 @@
 
 2005-03-09  Markus Schwab  <g17m0@lycos.com>
 
-	* YGP/Tests/Makefile.am: Removed dependency to GKT+
+	* YGP/Tests/Makefile.am: Removed dependency to GTK+
 
 	* configure.in:
 	  Version to 0.7.10; Checking for libdl; Needing libgtkhtml-3.1; Testing for Perl
@@ -886,7 +1024,7 @@
 	* doc/index.html: Actualized copyright
 
 	* bin/mgeni.pl:
-	  Seperating >> to > > in line for attributes, to suppress compiler warnings
+	  Separating >> to > > in line for attributes, to suppress compiler warnings
 
 	* YGP/Internal.h:
 	  Added define to decide if gettext also converts strings to UTF8
