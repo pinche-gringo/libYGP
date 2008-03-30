@@ -1,11 +1,11 @@
-//$Id: FileTypeChk.cpp,v 1.3 2008/03/29 17:35:17 markus Rel $
+//$Id: FileTypeChk.cpp,v 1.4 2008/03/30 18:13:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
+//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.07.2006
 //COPYRIGHT   : Copyright (C) 2006 - 2008
@@ -70,7 +70,7 @@ FileTypeChecker::~FileTypeChecker () {
 //-----------------------------------------------------------------------------
 /// Defaultconstructor
 //-----------------------------------------------------------------------------
-FileTypeCheckerByExtension::FileTypeCheckerByExtension () : FileTypeChecker () {
+   FileTypeCheckerByExtension::FileTypeCheckerByExtension () : FileTypeChecker (), types () {
    // Create table of file-types
    types.insert (types.end (), std::pair<std::string, unsigned int> ("abw", ABIWORD));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("doc", MSOFFICE));
@@ -124,7 +124,7 @@ unsigned int FileTypeCheckerByExtension::getType (const char* file) const {
    TRACE1 ("FileTypeCheckerByExtension::getType (const char*) const - Checking " << file);
 
    const char* extension (strrchr (file, '.'));
-   return extension ? getType4Extension (extension + 1) : UNKNOWN;
+   return extension ? getType4Extension (extension + 1) : (unsigned int)UNKNOWN;
 }
 
 //-----------------------------------------------------------------------------
@@ -138,7 +138,7 @@ unsigned int FileTypeCheckerByExtension::getType4Extension (const char* extensio
    TRACE3 ("FileTypeCheckerByExtension::getType4Extension (const char*) const - " << extension);
 
    std::map<std::string, unsigned int>::const_iterator i (types.find (extension));
-   return i != types.end () ? i->second : UNKNOWN;
+   return i != types.end () ? i->second : (unsigned int)UNKNOWN;
 }
 
 //-----------------------------------------------------------------------------
@@ -183,7 +183,7 @@ unsigned int FileTypeCheckerByCaseExt::getType (const char* file) const {
 //-----------------------------------------------------------------------------
 /// Defaultconstructor
 //-----------------------------------------------------------------------------
-FileTypeCheckerByContent::FileTypeCheckerByContent () : FileTypeChecker () {
+FileTypeCheckerByContent::FileTypeCheckerByContent () : FileTypeChecker (), types () {
    // Create table of file-types
    types.push_back (ID (0, sizeof (ID_PDF) - 1, ID_PDF, PDF));
    types.push_back (ID (0, sizeof (ID_RTF) - 1, ID_RTF, RTF));
