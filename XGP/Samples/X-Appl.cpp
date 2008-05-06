@@ -1,11 +1,11 @@
-//$Id: X-Appl.cpp,v 1.39 2008/03/30 13:39:17 markus Rel $
+//$Id: X-Appl.cpp,v 1.40 2008/05/06 09:06:05 markus Rel $
 
 //PROJECT     : General
-//SUBSYSTEM   : X-Windows
+//SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.39 $
+//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2008
@@ -32,6 +32,7 @@
 #include <iomanip>
 
 #include <gtkmm/stock.h>
+#include <gtkmm/button.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/messagedialog.h>
 
@@ -48,10 +49,13 @@
 #include <XGP/XFileDlg.h>
 #include <XGP/XPrintDlg.h>
 #include <XGP/SearchDlg.h>
+#include <XGP/AnimWindow.h>
 #include <XGP/ConnectDlg.h>
 #include <XGP/MessageDlg.h>
 
 #include "Dialog.h"
+#include "AnimWindow.h"
+
 #include "X-Appl.h"
 
 
@@ -178,9 +182,8 @@ const char* XAppl::pTitles[] = { "", "File", "Size", "Last change" };
 /// Defaultconstructor; all widget are created
 //-----------------------------------------------------------------------------
 XAppl::XAppl ()
-   : XApplication ("X-Appl V" LIB_RELEASE)
-     , files (Gtk::ListStore::create (cols)), listFiles (files)
-     , status (), scroll () {
+   : XApplication ("X-Appl V" LIB_RELEASE), cols (), files (Gtk::ListStore::create (cols)),
+     listFiles (files) , status (), scroll (), time (), file (), num () {
    TRACE3 ("XAppl::XAppl ()");
 
    setIconProgram (xpmXAppl);
@@ -203,6 +206,9 @@ XAppl::XAppl ()
 		     "    <menuitem action='DMsg'/>"
 		     "    <menuitem action='DLogin'/>"
 		     "    <menuitem action='DSearch'/>"
+		     "  </menu>"
+		     "  <menu action='Extras'>"
+		     "    <menuitem action='XAnimate'/>"
 		     "  </menu>");
 
    grpAction->add (Gtk::Action::create ("File", "_File"));
@@ -238,6 +244,11 @@ XAppl::XAppl ()
    grpAction->add (Gtk::Action::create ("DSearch", Gtk::Stock::FIND, "_Searchdialog ...",
 					"Tests the search dialog"),
 		   mem_fun (*this, &XAppl::showSearchDialog));
+   grpAction->add (Gtk::Action::create ("Extras", "_Extras"));
+   grpAction->add (Gtk::Action::create ("XAnimate", "_Animate",
+					"Tests the animated window"),
+		   Gtk::AccelKey ("<ctl>A"),
+		   mem_fun (*this, &XAppl::animate));
    addHelpMenu (ui, true);
    ui += "</menubar></ui>";
    mgrUI->insert_action_group (grpAction);
@@ -249,7 +260,7 @@ XAppl::XAppl ()
    // Disable menus according to state of program
    TRACE7 ("XAppl::XAppl () -> Initialize menus");
    apMenus[SAVE]->set_sensitive (false);
-    apMenus[PRINT]->set_sensitive (false);
+   apMenus[PRINT]->set_sensitive (false);
 
    TRACE5 ("XAppl::XAppl () -> Create scrollwindow");
    scroll.set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
@@ -267,7 +278,7 @@ XAppl::XAppl ()
 
    TRACE5 ("XAppl::XAppl () -> Create statusbar");
    status.push ("Populate the list with File-Open or Dialogs-Dialog");
-   vboxClient->pack_start (status, Gtk::PACK_SHRINK);
+   vboxClient->pack_end (status, Gtk::PACK_SHRINK);
 
    show_all_children ();
 }
@@ -362,7 +373,7 @@ void XAppl::showSearchDialog () {
 void XAppl::showAboutbox () {
    XGP::XAbout* about (XGP::XAbout::create
                        (Glib::locale_to_utf8
-			("Copyright (C) 2003 - 2007 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+			("Copyright (C) 2003 - 2008 Markus Schwab\ne-mail: g17m0@lycos.com\n"
 			 "\nCompiled on " __DATE__ " at " __TIME__),
 			"X-Appl V" PACKAGE_VERSION));
    about->setIconProgram (xpmXAppl);
@@ -476,6 +487,24 @@ void XAppl::find (const Glib::ustring& text) {
    status.pop ();
    Glib::ustring txt ("Find: ");
    status.push (txt + text);
+}
+
+
+//-----------------------------------------------------------------------------
+/// Command animate - animates a window
+//-----------------------------------------------------------------------------
+void XAppl::animate () {
+   YGP::StatusObject obj (YGP::StatusObject::INFO, "Animated window");
+   Glib::signal_idle ().connect (bind (ptr_fun (&XAppl::doAnimate), XGP::MessageDlg::create (obj)));
+}
+
+//-----------------------------------------------------------------------------
+/// Animates a window
+//-----------------------------------------------------------------------------
+bool XAppl::doAnimate (Gtk::Widget* winAnim) {
+   AnimWindow* albl (AnimWindow::create (winAnim->get_window ()));
+   albl->animate ();
+   return false;
 }
 
 
