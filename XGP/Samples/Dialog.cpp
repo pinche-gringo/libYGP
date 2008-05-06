@@ -1,11 +1,11 @@
-//$Id: Dialog.cpp,v 1.15 2008/03/30 13:39:17 markus Rel $
+//$Id: Dialog.cpp,v 1.16 2008/05/06 09:04:40 markus Rel $
 
 //PROJECT     : libYGP
-//SUBSYSTEM   : Samples
+//SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.15 $
+//REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005, 2008
