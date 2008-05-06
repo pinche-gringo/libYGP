@@ -1,7 +1,7 @@
 #ifndef ANIMWINDOW_H
 #define ANIMWINDOW_H
 
-//$Id: AnimWindow.h,v 1.1 2008/03/30 17:48:32 markus Rel $
+//$Id: AnimWindow.h,v 1.2 2008/05/06 09:02:06 markus Exp $
 
 // This file is part of libYGP.
 //
@@ -19,17 +19,18 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <gtkmm/window.h>
+#include <gdkmm/window.h>
 
 
 namespace XGP {
+
 
 /**Class animating objects.
  *
  * \note: Create on heap (with new) as this class deletes itself when the
  *        animation has been finished.
  */
-class AnimatedWindow : public Gtk::Window {
+class AnimatedWindow : public sigc::trackable {
  public:
    virtual ~AnimatedWindow ();
 
@@ -41,16 +42,18 @@ class AnimatedWindow : public Gtk::Window {
    virtual void finish ();
 
  protected:
-   AnimatedWindow ();
+   AnimatedWindow (Glib::RefPtr<Gdk::Window> window);
 
    void animateTo (int x, int y);
 
  private:
+   AnimatedWindow ();
    AnimatedWindow (const AnimatedWindow& other);
    const AnimatedWindow& operator= (const AnimatedWindow& other);
 
    bool animationStep ();
 
+   Glib::RefPtr<Gdk::Window> win;
    unsigned int steps;
 };
 

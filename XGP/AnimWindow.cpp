@@ -1,11 +1,11 @@
-//$Id: AnimWindow.cpp,v 1.1 2008/03/30 17:48:32 markus Rel $
+//$Id: AnimWindow.cpp,v 1.2 2008/05/06 09:02:06 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AnimatedWindow
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.1 $
+//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 20.05.2007
 //COPYRIGHT   : Copyright (C) 2007, 2008
@@ -36,9 +36,10 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
+/// \param window: Window to animate
 //-----------------------------------------------------------------------------
-AnimatedWindow::AnimatedWindow ()
-   : Gtk::Window (Gtk::WINDOW_POPUP), steps (10) {
+AnimatedWindow::AnimatedWindow (Glib::RefPtr<Gdk::Window> window)
+   : win (window), steps (10) {
    TRACE9 ("AnimatedWindow::AnimatedWindow ()");
 }
 
@@ -54,10 +55,12 @@ AnimatedWindow::~AnimatedWindow () {
 /// Starts the animation of the object
 //-----------------------------------------------------------------------------
 void AnimatedWindow::animate () {
+   Check1 (win);
+
    start ();
-   if (is_visible ()) {
+   if (win->is_visible ()) {
       steps = 10;
-      Glib::signal_timeout ().connect (mem_fun (*this, &AnimatedWindow::animationStep), 10);
+      Glib::signal_timeout ().connect (sigc::mem_fun (*this, &AnimatedWindow::animationStep), 10);
    }
    else {
       cleanup ();
@@ -92,19 +95,21 @@ bool AnimatedWindow::animationStep () {
 /// \param y: Y-coordinate of end-position
 //-----------------------------------------------------------------------------
 void AnimatedWindow::animateTo (int x, int y) {
+   Check1 (win);
+
    if (steps) {
       int x2, y2;
-      get_position (x2, y2);
+      win->get_position (x2, y2);
 
       x -= x2;
       y -= y2;
       x /= (int)steps;
       y /= (int)steps;
-      move (x + x2, y + y2);
+      win->move (x + x2, y + y2);
       TRACE5 ("AnimatedWindow::animationTo (2x int) - Moving " << x << '/' << y);
    }
    else
-      move (x, y);
+      win->move (x, y);
 }
 
 //-----------------------------------------------------------------------------
