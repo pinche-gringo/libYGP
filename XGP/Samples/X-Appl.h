@@ -1,7 +1,7 @@
 #ifndef X_APPL_H
 #define X_APPL_H
 
-//$Id: X-Appl.h,v 1.20 2008/03/30 13:39:17 markus Rel $
+//$Id: X-Appl.h,v 1.21 2008/05/06 09:05:57 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -56,6 +56,9 @@ class XAppl : public XGP::XApplication {
    void showLoginDialog ();
    void showSearchDialog ();
 
+   void animate ();
+   static bool doAnimate (Gtk::Widget* winAnim);
+
    void addActFile ();
    void addFile (const std::string& file);
    void saveToFile (const std::string& file);
@@ -71,19 +74,19 @@ class XAppl : public XGP::XApplication {
       Gtk::TreeModelColumn <Glib::ustring> size;
       Gtk::TreeModelColumn <Glib::ustring> date;
 
-      FileCols () : XGP::FileColumns () { add (size); add (date); }
+      FileCols () : XGP::FileColumns (), size (), date () { add (size); add (date); }
    };
 
-   FileCols                      cols;
-   Glib::RefPtr <Gtk::ListStore> files;
-   XGP::XFileList                listFiles;
+   FileCols                     cols;
+   Glib::RefPtr<Gtk::ListStore> files;
+   XGP::XFileList               listFiles;
 
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
 
-   YGP::ATimestamp  time;
-   std::string file;
-   YGP::ANumeric    num;
+   YGP::ATimestamp time;
+   std::string     file;
+   YGP::ANumeric   num;
 
    static const char* pTitles[];
 
