@@ -1,11 +1,11 @@
-//$Id: ATStamp.cpp,v 1.27 2008/03/29 17:35:17 markus Rel $
+//$Id: ATStamp.cpp,v 1.28 2008/05/18 18:47:36 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATimestamp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
@@ -37,6 +37,15 @@
 #include "YGP/Trace.h"
 
 #include "YGP/ATStamp.h"
+
+
+#if !defined (HAVE_TIMEGM) && !defined (HAVE_TZSET)
+#  if defined (HAVE_TZSET)
+#     define tzset _tzset
+#  else
+#     error Need either timegm or tzset/_tzset!
+#  endif
+#endif
 
 
 namespace YGP {
@@ -368,11 +377,11 @@ time_t ATimestamp::toGMTTime () const {
 #else
    std::string TZ (getenv ("TZ"));
    putenv ("TZ=UTC");
-   _tzset ();
+   tzset ();
    time_t utcTime (toLocalTime ());
    TZ = "TZ=" + TZ;
-   putenv (TZ.c_str ());
-   _tzset ();
+   putenv (const_cast<char*> (TZ.c_str ()));
+   tzset ();
    return utcTime;
 #endif
 }
