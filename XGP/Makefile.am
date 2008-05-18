@@ -26,7 +26,7 @@ libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
 INCLUDES = -I $(top_srcdir) -I . -DPKGDIR=\"$(datadir)/XGP/\" \
            @GTKMM_CFLAGS@ -I$(top_srcdir)/intl -Wextra -Wall
-CXXFLAGS = @CXXFLAGS@ -Woverloaded-virtual -Weffc++
+AM_CXXFLAGS = -Woverloaded-virtual -Weffc++ -Wextra
 
 # Settings for gettext
 localedir = $(datadir)/locale
