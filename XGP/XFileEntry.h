@@ -1,7 +1,7 @@
-#ifndef XFILEENTRY_H
-#define XFILEENTRY_H
+#ifndef XGP_XFILEENTRY_H
+#define XGP_XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.13 2008/03/30 13:39:17 markus Rel $
+//$Id: XFileEntry.h,v 1.14 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

@@ -1,7 +1,7 @@
-#ifndef XATTRIBUTE_H
-#define XATTRIBUTE_H
+#ifndef XGP_XATTRIBUTE_H
+#define XGP_XATTRIBUTE_H
 
-//$Id: XAttribute.h,v 1.10 2008/03/30 13:39:17 markus Rel $
+//$Id: XAttribute.h,v 1.11 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

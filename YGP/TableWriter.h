@@ -1,7 +1,7 @@
-#ifndef TABLEWRITER_H
-#define TABLEWRITER_H
+#ifndef YGP_TABLEWRITER_H
+#define YGP_TABLEWRITER_H
 
-//$Id: TableWriter.h,v 1.9 2008/03/29 17:35:17 markus Rel $
+//$Id: TableWriter.h,v 1.10 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

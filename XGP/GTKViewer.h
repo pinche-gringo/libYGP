@@ -1,7 +1,7 @@
-#ifndef GTKVIEWER_H
-#define GTKVIEWER_H
+#ifndef XGP_GTKVIEWER_H
+#define XGP_GTKVIEWER_H
 
-//$Id: GTKViewer.h,v 1.6 2008/03/30 13:39:17 markus Rel $
+//$Id: GTKViewer.h,v 1.7 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

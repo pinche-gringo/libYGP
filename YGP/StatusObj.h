@@ -1,7 +1,7 @@
-#ifndef STATUSOBJ_H
-#define STATUSOBJ_H
+#ifndef YGP_STATUSOBJ_H
+#define YGP_STATUSOBJ_H
 
-//$Id: StatusObj.h,v 1.4 2008/03/29 17:35:17 markus Rel $
+//$Id: StatusObj.h,v 1.5 2008/05/18 13:21:27 markus Exp $
 
 // This file is part of libYGP.
 //

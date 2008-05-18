@@ -1,7 +1,7 @@
-#ifndef XATTRENTRY_H
-#define XATTRENTRY_H
+#ifndef XGP_XATTRENTRY_H
+#define XGP_XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.21 2008/03/30 13:39:17 markus Rel $
+//$Id: XAttrEntry.h,v 1.22 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

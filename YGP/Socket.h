@@ -1,7 +1,7 @@
-#ifndef SOCKET_H
-#define SOCKET_H
+#ifndef YGP_SOCKET_H
+#define YGP_SOCKET_H
 
-//$Id: Socket.h,v 1.19 2008/03/29 17:35:17 markus Rel $
+//$Id: Socket.h,v 1.20 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

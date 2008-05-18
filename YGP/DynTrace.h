@@ -1,7 +1,7 @@
-#ifndef DYNTRACE_H
-#define DYNTRACE_H
+#ifndef YGP_DYNTRACE_H
+#define YGP_DYNTRACE_H
 
-//$Id: DynTrace.h,v 1.3 2008/03/29 17:35:17 markus Rel $
+//$Id: DynTrace.h,v 1.4 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

@@ -1,7 +1,7 @@
-#ifndef BROWSERDLG_H
-#define BROWSERDLG_H
+#ifndef XGP_BROWSERDLG_H
+#define XGP_BROWSERDLG_H
 
-//$Id: BrowserDlg.h,v 1.12 2008/03/30 13:39:17 markus Rel $
+//$Id: BrowserDlg.h,v 1.13 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

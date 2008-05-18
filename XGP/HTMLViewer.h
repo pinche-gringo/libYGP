@@ -1,7 +1,7 @@
-#ifndef HTMLVIEWER_H
-#define HTMLVIEWER_H
+#ifndef XGP_HTMLVIEWER_H
+#define XGP_HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.14 2008/03/30 13:39:17 markus Rel $
+//$Id: HTMLViewer.h,v 1.15 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

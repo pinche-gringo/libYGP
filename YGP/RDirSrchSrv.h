@@ -1,7 +1,7 @@
-#ifndef RDIRSRCHSRV_H
-#define RDIRSRCHSRV_H
+#ifndef YGP_RDIRSRCHSRV_H
+#define YGP_RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.16 2008/03/29 17:35:17 markus Rel $
+//$Id: RDirSrchSrv.h,v 1.17 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

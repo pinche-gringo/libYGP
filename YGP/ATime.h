@@ -1,7 +1,7 @@
-#ifndef ATIME_H
-#define ATIME_H
+#ifndef YGP_ATIME_H
+#define YGP_ATIME_H
 
-//$Id: ATime.h,v 1.26 2008/03/29 17:35:17 markus Rel $
+//$Id: ATime.h,v 1.27 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

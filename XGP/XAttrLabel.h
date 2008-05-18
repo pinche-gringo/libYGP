@@ -1,7 +1,7 @@
-#ifndef XATTRLABEL_H
-#define XATTRLABEL_H
+#ifndef XGP_XATTRLABEL_H
+#define XGP_XATTRLABEL_H
 
-//$Id: XAttrLabel.h,v 1.17 2008/03/30 13:39:17 markus Rel $
+//$Id: XAttrLabel.h,v 1.18 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

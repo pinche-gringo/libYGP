@@ -1,7 +1,7 @@
-#ifndef MODULE_H
-#define MODULE_H
+#ifndef YGP_MODULE_H
+#define YGP_MODULE_H
 
-//$Id: Module.h,v 1.3 2008/03/29 17:35:17 markus Rel $
+//$Id: Module.h,v 1.4 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

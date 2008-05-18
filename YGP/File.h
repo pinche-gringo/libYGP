@@ -1,7 +1,7 @@
-#ifndef FILE_H
-#define FILE_H
+#ifndef YGP_FILE_H
+#define YGP_FILE_H
 
-//$Id: File.h,v 1.30 2008/03/29 17:35:17 markus Rel $
+//$Id: File.h,v 1.31 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

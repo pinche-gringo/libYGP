@@ -1,7 +1,7 @@
-#ifndef XSTREAM_H
-#define XSTREAM_H
+#ifndef YGP_XSTREAM_H
+#define YGP_XSTREAM_H
 
-// $Id: XStream.h,v 1.21 2008/03/29 17:35:17 markus Rel $
+// $Id: XStream.h,v 1.22 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

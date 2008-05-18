@@ -1,7 +1,7 @@
-#ifndef CHECK_H
-#define CHECK_H
+#ifndef YGP_CHECK_H
+#define YGP_CHECK_H
 
-//$Id: Check.h,v 1.7 2008/03/29 17:35:17 markus Rel $
+//$Id: Check.h,v 1.8 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

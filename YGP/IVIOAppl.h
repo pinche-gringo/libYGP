@@ -1,7 +1,7 @@
-#ifndef IVIOAPPL_H
-#define IVIOAPPL_H
+#ifndef YGP_IVIOAPPL_H
+#define YGP_IVIOAPPL_H
 
-//$Id: IVIOAppl.h,v 1.27 2008/03/29 17:35:17 markus Rel $
+//$Id: IVIOAppl.h,v 1.28 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

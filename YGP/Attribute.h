@@ -1,7 +1,7 @@
-#ifndef ATTRIBUTE_H
-#define ATTRIBUTE_H
+#ifndef YGP_ATTRIBUTE_H
+#define YGP_ATTRIBUTE_H
 
-//$Id: Attribute.h,v 1.42 2008/03/29 17:35:17 markus Rel $
+//$Id: Attribute.h,v 1.43 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

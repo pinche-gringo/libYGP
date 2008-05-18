@@ -1,7 +1,7 @@
-#ifndef TOKENIZE_H
-#define TOKENIZE_H
+#ifndef YGP_TOKENIZE_H
+#define YGP_TOKENIZE_H
 
-//$Id: Tokenize.h,v 1.18 2008/03/29 17:35:17 markus Rel $
+//$Id: Tokenize.h,v 1.19 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

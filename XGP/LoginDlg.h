@@ -1,7 +1,7 @@
-#ifndef LOGINDLG_H
-#define LOGINDLG_H
+#ifndef XGP_LOGINDLG_H
+#define XGP_LOGINDLG_H
 
-//$Id: LoginDlg.h,v 1.7 2008/03/30 13:39:17 markus Rel $
+//$Id: LoginDlg.h,v 1.8 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

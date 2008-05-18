@@ -1,7 +1,7 @@
-#ifndef PATHDIRSRCH_H
-#define PATHDIRSRCH_H
+#ifndef YGP_PATHDIRSRCH_H
+#define YGP_PATHDIRSRCH_H
 
-//$Id: PathDirSrch.h,v 1.16 2008/03/29 17:35:17 markus Rel $
+//$Id: PathDirSrch.h,v 1.17 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

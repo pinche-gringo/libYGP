@@ -1,7 +1,7 @@
-#ifndef CIDIRCOMP_H
-#define CIDIRCOMP_H
+#ifndef CGP_CIDIRCOMP_H
+#define CGP_CIDIRCOMP_H
 
-//$Id: CIDirSrch.h,v 1.8 2003/11/14 20:28:34 markus Rel $
+//$Id: CIDirSrch.h,v 1.9 2008/05/18 13:21:27 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

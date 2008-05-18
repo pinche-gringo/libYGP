@@ -1,7 +1,7 @@
-#ifndef ANIMWINDOW_H
-#define ANIMWINDOW_H
+#ifndef XGP_ANIMWINDOW_H
+#define XGP_ANIMWINDOW_H
 
-//$Id: AnimWindow.h,v 1.2 2008/05/06 09:02:06 markus Exp $
+//$Id: AnimWindow.h,v 1.3 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

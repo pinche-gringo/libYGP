@@ -1,7 +1,7 @@
-#ifndef PARSE_H
-#define PARSE_H
+#ifndef YGP_PARSE_H
+#define YGP_PARSE_H
 
-//$Id: Parse.h,v 1.48 2008/03/29 17:35:17 markus Rel $
+//$Id: Parse.h,v 1.49 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

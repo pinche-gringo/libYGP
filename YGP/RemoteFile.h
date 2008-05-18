@@ -1,7 +1,7 @@
-#ifndef REMOTEFILE_H
-#define REMOTEFILE_H
+#ifndef YGP_REMOTEFILE_H
+#define YGP_REMOTEFILE_H
 
-// $Id: RemoteFile.h,v 1.9 2008/03/29 17:35:17 markus Rel $
+// $Id: RemoteFile.h,v 1.10 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

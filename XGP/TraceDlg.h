@@ -1,7 +1,7 @@
-#ifndef TRACEDLG_H
-#define TRACEDLG_H
+#ifndef XGP_TRACEDLG_H
+#define XGP_TRACEDLG_H
 
-//$Id: TraceDlg.h,v 1.2 2008/03/30 13:39:17 markus Rel $
+//$Id: TraceDlg.h,v 1.3 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

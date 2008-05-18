@@ -1,7 +1,7 @@
-#ifndef ANUMERIC_H
-#define ANUMERIC_H
+#ifndef YGP_ANUMERIC_H
+#define YGP_ANUMERIC_H
 
-//$Id: ANumeric.h,v 1.38 2008/03/29 17:35:17 markus Rel $
+//$Id: ANumeric.h,v 1.39 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

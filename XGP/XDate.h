@@ -1,7 +1,7 @@
-#ifndef XDATE_H
-#define XDATE_H
+#ifndef XGP_XDATE_H
+#define XGP_XDATE_H
 
-//$Id: XDate.h,v 1.17 2008/03/30 13:39:17 markus Rel $
+//$Id: XDate.h,v 1.18 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

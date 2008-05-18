@@ -1,7 +1,7 @@
-#ifndef UTILITY_H
-#define UTILITY_H
+#ifndef YGP_UTILITY_H
+#define YGP_UTILITY_H
 
-//$Id: Utility.h,v 1.2 2008/03/29 17:35:17 markus Rel $
+//$Id: Utility.h,v 1.3 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

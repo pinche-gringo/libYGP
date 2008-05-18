@@ -1,7 +1,7 @@
-#ifndef XABOUT_H
-#define XABOUT_H
+#ifndef XGP_XABOUT_H
+#define XGP_XABOUT_H
 
-//$Id: XAbout.h,v 1.19 2008/03/30 13:39:17 markus Rel $
+//$Id: XAbout.h,v 1.20 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

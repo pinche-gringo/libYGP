@@ -1,7 +1,7 @@
-#ifndef IDIRSRCH_H
-#define IDIRSRCH_H
+#ifndef YGP_IDIRSRCH_H
+#define YGP_IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.18 2008/03/29 17:35:17 markus Rel $
+//$Id: IDirSrch.h,v 1.19 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

@@ -1,7 +1,7 @@
-#ifndef XATTSPIN_H
-#define XATTRSPIN_H
+#ifndef XGP_XATTSPIN_H
+#define XGP_XATTRSPIN_H
 
-//$Id: XAttrSpin.h,v 1.4 2008/03/30 13:39:17 markus Rel $
+//$Id: XAttrSpin.h,v 1.5 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

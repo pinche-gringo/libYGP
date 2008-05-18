@@ -1,7 +1,7 @@
-#ifndef ATSTAMP_H
-#define ATSTAMP_H
+#ifndef YGP_ATSTAMP_H
+#define YGP_ATSTAMP_H
 
-//$Id: ATStamp.h,v 1.24 2008/03/29 17:35:17 markus Rel $
+//$Id: ATStamp.h,v 1.25 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

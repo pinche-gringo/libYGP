@@ -1,7 +1,7 @@
-#ifndef XAPPLICATION_H
-#define XAPPLICATION_H
+#ifndef XGP_XAPPLICATION_H
+#define XGP_XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.31 2008/03/30 13:39:17 markus Rel $
+//$Id: XApplication.h,v 1.32 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

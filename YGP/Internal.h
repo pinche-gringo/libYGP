@@ -1,7 +1,7 @@
-#ifndef INTERNAL_H
-#define INTERNAL_H
+#ifndef YGP_INTERNAL_H
+#define YGP_INTERNAL_H
 
-//$Id: Internal.h,v 1.10 2008/03/29 17:35:17 markus Rel $
+//$Id: Internal.h,v 1.11 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

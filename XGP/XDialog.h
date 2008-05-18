@@ -1,7 +1,7 @@
-#ifndef XDIALOG_H
-#define XDIALOG_H
+#ifndef XGP_XDIALOG_H
+#define XGP_XDIALOG_H
 
-//$Id: XDialog.h,v 1.15 2007/01/27 12:28:52 markus Rel $
+//$Id: XDialog.h,v 1.16 2008/05/18 13:21:27 markus Rel $
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

@@ -1,7 +1,7 @@
-#ifndef ATTRPARSE_H
-#define ATTRPARSE_H
+#ifndef YGP_ATTRPARSE_H
+#define YGP_ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.14 2008/03/29 17:35:17 markus Rel $
+//$Id: AttrParse.h,v 1.15 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

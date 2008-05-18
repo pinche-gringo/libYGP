@@ -1,7 +1,7 @@
-#ifndef XDIRSRCH_H
-#define XDIRSRCH_H
+#ifndef YGP_XDIRSRCH_H
+#define YGP_XDIRSRCH_H
 
-//$Id: XDirSrch.h,v 1.15 2008/03/29 17:35:17 markus Rel $
+//$Id: XDirSrch.h,v 1.16 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

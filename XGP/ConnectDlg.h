@@ -1,7 +1,7 @@
-#ifndef CONNECTDLG_H
-#define CONNECTDLG_H
+#ifndef XGP_CONNECTDLG_H
+#define XGP_CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.10 2008/03/30 13:39:17 markus Rel $
+//$Id: ConnectDlg.h,v 1.11 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

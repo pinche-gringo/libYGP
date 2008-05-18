@@ -1,7 +1,7 @@
-#ifndef INIFILE_H
-#define INIFILE_H
+#ifndef YGP_INIFILE_H
+#define YGP_INIFILE_H
 
-//$Id: INIFile.h,v 1.39 2008/03/29 17:10:29 markus Rel $
+//$Id: INIFile.h,v 1.40 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

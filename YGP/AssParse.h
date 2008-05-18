@@ -1,7 +1,7 @@
-#ifndef ASSNPARSE_H
-#define ASSNPARSE_H
+#ifndef YGP_ASSNPARSE_H
+#define YGP_ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.18 2008/03/29 17:35:17 markus Rel $
+//$Id: AssParse.h,v 1.19 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

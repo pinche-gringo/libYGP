@@ -1,7 +1,7 @@
-#ifndef XFILEDLG_H
-#define XFILEDLG_H
+#ifndef XGP_XFILEDLG_H
+#define XGP_XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.25 2008/03/30 13:39:17 markus Rel $
+//$Id: XFileDlg.h,v 1.26 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

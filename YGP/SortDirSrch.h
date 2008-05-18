@@ -1,7 +1,7 @@
-#ifndef SORTDIRSRCH_H
-#define SORTDIRSRCH_H
+#ifndef YGP_SORTDIRSRCH_H
+#define YGP_SORTDIRSRCH_H
 
-//$Id: SortDirSrch.h,v 1.4 2008/03/29 17:35:17 markus Rel $
+//$Id: SortDirSrch.h,v 1.5 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

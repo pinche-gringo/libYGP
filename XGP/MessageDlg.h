@@ -1,7 +1,7 @@
-#ifndef MESSAGEDLG_H
-#define MESSAGEDLG_H
+#ifndef XGP_MESSAGEDLG_H
+#define XGP_MESSAGEDLG_H
 
-//$Id: MessageDlg.h,v 1.6 2008/03/30 13:39:17 markus Rel $
+//$Id: MessageDlg.h,v 1.7 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //

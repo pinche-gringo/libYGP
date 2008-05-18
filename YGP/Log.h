@@ -1,7 +1,7 @@
-#ifndef LOG_H
-#define LOG_H
+#ifndef YGP_LOG_H
+#define YGP_LOG_H
 
-//$Id: Log.h,v 1.20 2008/03/29 17:35:17 markus Rel $
+//$Id: Log.h,v 1.21 2008/05/18 13:21:27 markus Exp $
 
 // This file is part of libYGP.
 //

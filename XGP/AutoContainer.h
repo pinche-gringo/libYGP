@@ -1,7 +1,7 @@
-#ifndef AUTOCONTAINER_H
-#define AUTOCONTAINER_H
+#ifndef XGP_AUTOCONTAINER_H
+#define XGP_AUTOCONTAINER_H
 
-//$Id: AutoContainer.h,v 1.6 2008/03/30 13:39:17 markus Rel $
+//$Id: AutoContainer.h,v 1.7 2008/05/18 13:21:27 markus Rel $
 
 // This file is part of libYGP.
 //
