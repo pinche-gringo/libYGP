@@ -1,11 +1,11 @@
-// $Id: ANumeric.cpp,v 1.14 2008/03/29 17:35:17 markus Rel $
+// $Id: ANumeric.cpp,v 1.15 2008/05/18 13:20:26 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.14 $
+//REVISION    : $Revision: 1.15 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
@@ -59,21 +59,23 @@ int main (int argc, char* argv[]) {
    std::string numStr (num2.toString ());
    check (numStr.length () >= 4);
 
-   setlocale (LC_NUMERIC, "de_DE");                   // Activate german locale
-   struct lconv* loc = localeconv ();                 // Get locale-information
-   if (*loc->grouping) {       // Only perform test, if locale has numeric info
-     try {
-	num = "123.456.789";
-	check (num == 123456789);
-	num = "-123.456.789";
-	check (num == -123456789);
-      }
-      catch (std::invalid_argument& error) {
-	std::cout << "Invalid argument: " << error.what () << '\n';
-	check (!"Invalid argument!");
-      }
+   struct lconv* loc (NULL);
+   if (setlocale (LC_NUMERIC, "de_DE")) {             // Activate german locale
+     loc = localeconv ();                             // Get locale-information
+     if (*loc->grouping) {     // Only perform test, if locale has numeric info
+       try {
+	 num = "123.456.789";
+	 check (num == 123456789);
+	 num = "-123.456.789";
+	 check (num == -123456789);
+       }
+       catch (std::invalid_argument& error) {
+	 std::cout << "Invalid argument: " << error.what () << '\n';
+	 check (!"Invalid argument!");
+       }
+     }
    }
-   else
+   if (!loc)
      std::cout << "    -> Warning: German locale not defined or without data for numbers!\n";
 #ifdef TEST_OUTPUT
    setlocale (LC_ALL, "");                           // Activate current locale
