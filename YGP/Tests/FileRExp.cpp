@@ -1,11 +1,11 @@
-// $Id: FileRExp.cpp,v 1.12 2008/03/29 17:35:17 markus Rel $
+// $Id: FileRExp.cpp,v 1.13 2008/05/18 18:49:02 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/FileRExp
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.12 $
+//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
@@ -45,8 +45,25 @@ int main (int argc, char* argv[]) {
    regExp = "a[a-d]b";
    check (!regExp.checkIntegrity () && regExp.matches ("adb") && !regExp.matches ("axb"));
 
+   regExp = "a[!xa-dy]b";
+   if (!(regExp.checkIntegrity () || !regExp.matches ("afb") || regExp.matches ("axb"))) {
+#ifdef HAVE_FNMATCH
+       std::cout << "    -> Warning: Your fnmatch does not support inverted regions\n"
+                    "    -> Failed (regExp.matches (\"a[!xa-dy]b\"); line " << __LINE__ << ")\n" << std::flush;
+#else
+       ERROROUT ("regExp.matches (\"a[!xa-dy]b\")");
+#endif
+   }
+
    regExp = "a[^xa-dy]b";
-   check (!regExp.checkIntegrity () && regExp.matches ("afb") && !regExp.matches ("axb"));
+   if (!(regExp.checkIntegrity () || !regExp.matches ("afb") || regExp.matches ("axb"))) {
+#ifdef HAVE_FNMATCH
+       std::cout << "    -> Warning: Your fnmatch does not support inverted regions\n"
+                    "    -> Failed (regExp.matches (\"a[^xa-dy]b\"); line " << __LINE__ << ")\n" << std::flush;
+#else
+       ERROROUT ("regExp.matches (\"a[^xa-dy]b\")");
+#endif
+   }
 
    regExp = "[[:alpha:]]";
    check (!regExp.checkIntegrity ());
