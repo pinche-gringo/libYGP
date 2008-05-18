@@ -15,3 +15,4 @@ dist-hook:
 	      $(srcdir)/Windows/*.h $(distdir)/Windows
 
 ACLOCAL_AMFLAGS = -I m4
+LIBS = @LTLIBINTL@ @LIBS@
