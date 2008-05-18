@@ -1,11 +1,11 @@
-// $Id: INIFile.cpp,v 1.17 2008/03/29 17:35:17 markus Rel $
+// $Id: INIFile.cpp,v 1.18 2008/05/18 13:18:57 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/INIFile
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
+//REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
@@ -153,7 +153,9 @@ int main (int argc, char* argv[]) {
       memcpy (output + 19, "_*no*_", 6);
       memcpy (output + sizeof (output) - 5, "321", 3);
 
+#ifdef VERBOSE
       std::cout << "Output:\n" << output << "\n\n" << "Input:\n" << input;
+#endif
 
       check (input == output);
       unlink (file.c_str ());
