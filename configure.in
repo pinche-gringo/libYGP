@@ -1,9 +1,9 @@
-dnl $Id: configure.in,v 1.99 2008/03/30 17:53:28 markus Rel $
+dnl $Id: configure.in,v 1.100 2008/05/18 12:51:31 markus Exp $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_REVISION($Revision: 1.99 $)
-AC_INIT([libYGP],[0.9.0],[g17m0@lycos.com],[libYGP])
+AC_REVISION($Revision: 1.100 $)
+AC_INIT([libYGP],[0.9.01],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-dnl LIBRELEASE=0.9.00
-LIBRELEASE=$PACKAGE_VERSION
+LIBRELEASE=0.9.00
+dnl LIBRELEASE=$PACKAGE_VERSION
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
@@ -129,7 +129,7 @@ AC_CHECK_LIB(ws2_32, main)
 dnl Checks for header files.
 AC_HEADER_DIRENT
 
-AC_CHECK_HEADERS(regex.h syslog.h sys/socket.h winsock2.h windows.h sys/wait.h)
+AC_CHECK_HEADERS(regex.h syslog.h sys/socket.h sys/socket.h winsock2.h windows.h sys/wait.h)
 
 dnl Check gtkmm version
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
@@ -180,7 +180,11 @@ AC_SUBST(GTKMM_LIBS)
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STAT
 AC_STRUCT_TM
-AC_CHECK_TYPES([ssize_t, socklen_t])
+AC_CHECK_TYPES([ssize_t])
+AC_CHECK_TYPES([socklen_t], [AC_DEFINE([HAVE_SOCKLEN_T], [1], 
+                                       [Whether we have socklen_t])],
+               [], [AC_INCLUDES_DEFAULT
+#include <sys/socket.h>])
 AC_CHECK_SIZEOF(short)
 AC_CHECK_SIZEOF(int)
 AC_CHECK_SIZEOF(long)
@@ -190,7 +194,7 @@ AC_FUNC_FNMATCH
 AC_FUNC_CLOSEDIR_VOID
 
 AC_CHECK_FUNCS(timegm strfmon beginthread _beginthread pipe _pipe fork \
-spawnvp _sleep getlogin strftime strptime backtrace getpid _getpid \
+spawnvp sleep _sleep getlogin strftime strptime backtrace getpid _getpid \
 wcscoll mbtowc)
 
 AC_MSG_CHECKING(if signal.h defines SIGBUS)
