@@ -1,7 +1,7 @@
 #ifndef YGP_STATUSOBJ_H
 #define YGP_STATUSOBJ_H
 
-//$Id: StatusObj.h,v 1.5 2008/05/18 13:21:27 markus Exp $
+//$Id: StatusObj.h,v 1.6 2008/05/18 18:48:24 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -38,8 +38,7 @@ class StatusObject {
    typedef enum { UNDEFINED,               ///< The object contains no message
                   INFO,      ///< The object contains an informational message
                   WARNING,          ///< The object contains a warning message
-                  ERROR,                     ///< The object contains an error
-                  ERR = ERROR                ///< The object contains an error
+                  ERROR                      ///< The object contains an error
    } type;
 
    StatusObject ();
