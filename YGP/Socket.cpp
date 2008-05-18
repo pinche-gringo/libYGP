@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.29 2008/03/29 17:35:17 markus Rel $
+//$Id: Socket.cpp,v 1.30 2008/05/18 13:23:31 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.29 $
+//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2008
@@ -62,7 +62,6 @@ typedef size_t  ssize_t;
 #ifndef HAVE_SOCKLEN_T
 typedef int socklen_t;
 #endif
-
 
 
 namespace YGP {
