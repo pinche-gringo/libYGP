@@ -1,7 +1,7 @@
 #ifndef YGP_LOG_H
 #define YGP_LOG_H
 
-//$Id: Log.h,v 1.21 2008/05/18 13:21:27 markus Exp $
+//$Id: Log.h,v 1.22 2008/05/18 18:47:59 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -99,11 +99,11 @@ class Syslog {
 
 #ifdef HAVE_SYSLOG_H
    enum { EMERGENCY = LOG_EMERG, ALERT = LOG_ALERT, CRITICAL = LOG_CRIT,
-          ERR = LOG_ERR, WARNING = LOG_WARNING, NOTICE = LOG_NOTICE,
+          ERROR = LOG_ERR, WARNING = LOG_WARNING, NOTICE = LOG_NOTICE,
           INFO = LOG_INFO, DEBUGGING = LOG_DEBUG };
 #else
    // Don't rename ERR to ERROR, as this causes an error with BCC
-   enum { EMERGENCY, ALERT, CRITICAL, ERR, WARNING, NOTICE, INFO, DEBUGGING };
+   enum { EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFO, DEBUGGING };
 
  private:
    // Declaration is in Version.cpp!
