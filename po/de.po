@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.8 ($Revision: 1.48 $)\n"
+"Project-Id-Version: libYGP 0.8 ($Revision: 1.49 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-03-30 19:53+0200\n"
+"POT-Creation-Date: 2008-05-18 12:31+0200\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -54,43 +54,43 @@ msgstr "Fehler beim Zuweisen von '%1' zu %2"
 msgid "Key '%1' not found"
 msgstr "Schlüssel '%1' nicht gefunden"
 
-#: YGP/CRegExp.cpp:1033
+#: YGP/CRegExp.cpp:1037
 msgid "Unmatched [ or [^"
 msgstr "'[' oder '[^' ohne schließende Klammer"
 
-#: YGP/CRegExp.cpp:1034
+#: YGP/CRegExp.cpp:1038
 msgid "Unmatched ( or )"
 msgstr "'(' oder '(' ohne schließende Klammer"
 
-#: YGP/CRegExp.cpp:1035
+#: YGP/CRegExp.cpp:1039
 msgid "Invalid range end"
 msgstr "Bereich ohne Wert"
 
-#: YGP/CRegExp.cpp:1036
+#: YGP/CRegExp.cpp:1040
 msgid "Repeating suffix without previous expression"
 msgstr "Wiederholfaktor ohne vorhergehenden regulären Ausruck"
 
-#: YGP/CRegExp.cpp:1037
+#: YGP/CRegExp.cpp:1041
 msgid "Invalid group-number"
 msgstr "Ungültige Gruppennummer"
 
-#: YGP/CRegExp.cpp:1038
+#: YGP/CRegExp.cpp:1042
 msgid "Invalid range (lower border larger than upper border)"
 msgstr "Ungültiger Bereich (untere Grenze ist größer als die obere)"
 
-#: YGP/CRegExp.cpp:1039
+#: YGP/CRegExp.cpp:1043
 msgid "Invalid bound"
 msgstr "Ungültige Wiederholfaktoren"
 
-#: YGP/CRegExp.cpp:1040
+#: YGP/CRegExp.cpp:1044
 msgid "Regular expression ends with escape-character (\\)"
 msgstr "Regulärer Ausdruck endet mit dem Quotenzeichen (\\)"
 
-#: YGP/CRegExp.cpp:1041
+#: YGP/CRegExp.cpp:1045
 msgid "Unknown error"
 msgstr "Allgemeiner Fehler"
 
-#: YGP/CRegExp.cpp:1045 YGP/FileRExp.cpp:256
+#: YGP/CRegExp.cpp:1049 YGP/FileRExp.cpp:256
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
 
@@ -222,42 +222,42 @@ msgstr "Ungültiger Befehl"
 msgid "Invalid arguments: "
 msgstr "Ungültige Argumente: "
 
-#: YGP/Socket.cpp:79 YGP/Socket.cpp:92 YGP/Socket.cpp:126 YGP/Socket.cpp:151
+#: YGP/Socket.cpp:78 YGP/Socket.cpp:91 YGP/Socket.cpp:125 YGP/Socket.cpp:150
 msgid "Can't create socket"
 msgstr "Kann keinen Socket (für die Kommunikation) erzeugen"
 
-#: YGP/Socket.cpp:182
+#: YGP/Socket.cpp:181
 msgid "Can't bind to port"
 msgstr "Fehler beim Binden zu Port"
 
-#: YGP/Socket.cpp:185
+#: YGP/Socket.cpp:184
 msgid "Can't listen on port"
 msgstr "Fehler beim Warten an Port"
 
-#: YGP/Socket.cpp:209
+#: YGP/Socket.cpp:208
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 "Port '%1' ist weder numerisch (dezimal, oktal or hexadezimal) noch ein "
 "Service-name"
 
-#: YGP/Socket.cpp:243 YGP/Socket.cpp:263
+#: YGP/Socket.cpp:242 YGP/Socket.cpp:262
 msgid "Error reading data"
 msgstr "Fehler beim Lesen der Daten"
 
-#: YGP/Socket.cpp:289
+#: YGP/Socket.cpp:288
 msgid "Error accepting connection"
 msgstr "Fehler beim Akzeptieren einer Verbindung"
 
-#: YGP/Socket.cpp:312
+#: YGP/Socket.cpp:311
 msgid "Can't resolve name '%1'"
 msgstr "Kann den Namen '%1' nicht auflösen"
 
-#: YGP/Socket.cpp:320
+#: YGP/Socket.cpp:319
 msgid "Can't connect to server '%1'"
 msgstr "Kann keine Verbindung zu Server '%1' herstellen"
 
-#: YGP/Socket.cpp:340
+#: YGP/Socket.cpp:339
 msgid "Error sending data"
 msgstr "Fehler beim Senden von Daten"
 
