@@ -1,6 +1,6 @@
 SUBDIRS=.
 
-INCLUDES = -I$(top_srcdir) @GTKMM_CFLAGS@ -I$(top_srcdir)/intl  -I$(top_srcdir)/YGP -Wall
+INCLUDES = -I$(top_srcdir) @GTKMM_CFLAGS@ -I$(top_srcdir)/intl  -I$(top_srcdir)/YGP -Wall -Wextra -Woverloaded-virtual -Weffc++
 
 # Settings for gettext
 localedir = $(datadir)/locale
@@ -12,4 +12,4 @@ TESTS=X-Appl
 
 noinst_PROGRAMS=$(TESTS)
 
-X_Appl_SOURCES=X-Appl.cpp X-Appl.h Dialog.cpp Dialog.h
+X_Appl_SOURCES=X-Appl.cpp X-Appl.h Dialog.cpp Dialog.h AnimWindow.cpp AnimWindow.h
