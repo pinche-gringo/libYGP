@@ -1,3 +1,11 @@
+Overview of Changes in version 0.9.01:
+
+  - Added test for animated window
+  - Fixed compiling CRegExp without regex.h
+  - Fixed compiling under FreeBSD
+  - YGP can be compiled under OpenSOLARIS (with some tweaking)
+
+
 Overview of Changes in version 0.9.00:
 
   - YGP::ParseToText added

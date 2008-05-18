@@ -1,6 +1,66 @@
+2008-05-18  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.9.01 documented
+
+	* configure.in: Checking for libsocket, tzset/_tzset
+
+	* Makefile.am: Setting LIBS to include libintl (if any)
+
+	* ygp-cfg.h.in: Added defines for tzset/_tzset/sleep/libsocket
+
+	* YGP/Tests/FileRExp.cpp: Only warn if matching inverse region fails
+
+	* YGP/StatusObj.h: Don't define type ERR (only ERROR)
+
+	* YGP/Log.h: Renamed ERR to ERROR
+
+	* YGP/ATStamp.cpp: Checking for tzset/_tzset
+
+	* po/de.po, po/en.po, po/es.po: Actualised
+
+	* XGP/Makefile.am, YGP/Makefile.am: Using AM_CXXFLAGS and not CXXFLAGS
+
+	* YGP/Socket.cpp: Removed empty line
+
+	* YGP/CRegExp.cpp: Fixed compiling without regex.h
+
+	* CGP/CIDirSrch.h, XGP/AnimWindow.h, XGP/AutoContainer.h, XGP/BrowserDlg.h, XGP/ConnectDlg.h, XGP/EnumEntry.h, XGP/GTKViewer.h, XGP/GtkMozViewer.h, XGP/HTMLViewer.h, XGP/LoginDlg.h, XGP/MessageDlg.h, XGP/SearchDlg.h, XGP/TraceDlg.h, XGP/XAbout.h, XGP/XApplication.h, XGP/XAttrEntry.h, XGP/XAttrLabel.h, XGP/XAttrSpin.h, XGP/XAttribute.h, XGP/XDate.h, XGP/XDialog.h, XGP/XFileDlg.h, XGP/XFileEntry.h, XGP/XFileList.h, XGP/XPrintDlg.h, XGP/XValue.h, YGP/ADate.h, YGP/ANumeric.h, YGP/ATStamp.h, YGP/ATime.h, YGP/AYear.h, YGP/AssParse.h, YGP/AttrParse.h, YGP/AttrVal.h, YGP/Attribute.h, YGP/CRegExp.h, YGP/Check.h, YGP/ConnMgr.h, YGP/DirSrch.h, YGP/DynTrace.h, YGP/Entity.h, YGP/Exception.h, YGP/File.h, YGP/FileRExp.h, YGP/FileTypeChk.h, YGP/Handle.h, YGP/IDirSrch.h, YGP/INIFile.h, YGP/IVIOAppl.h, YGP/Internal.h, YGP/Log.h, YGP/MetaEnum.h, YGP/Module.h, YGP/Mutex.h, YGP/Parse.h, YGP/PathDirSrch.h, YGP/PathSrch.h, YGP/Process.h, YGP/RDirSrch.h, YGP/RDirSrchSrv.h, YGP/RegExp.h, YGP/Relation.h, YGP/RemoteFile.h, YGP/SmartPtr.h, YGP/Socket.h, YGP/SortDirSrch.h, YGP/StackTrc.h, YGP/StatusObj.h, YGP/TableWriter.h, YGP/Thread.h, YGP/Tokenize.h, YGP/Trace.h, YGP/Utility.h, YGP/XDirSrch.h, YGP/XStrBuf.h, YGP/XStream.h:
+	  Changed define to protect agains double-includes
+
+	* YGP/Tests/ANumeric.cpp:
+	  Make setlocale() failing only a warning (fails on FreeBSD)
+
+	* YGP/Tests/Thread.cpp:
+	  Only define sleep, if sleep() is not declared, but _sleep()
+
+	* YGP/Tests/INIFile.cpp: Show info-output only when VERBOSE is defined
+
+	* XGP/Samples/AnimWindow.cpp, XGP/Samples/AnimWindow.h: New file.
+
+	* XGP/Samples/Makefile.am:
+	  Added AnimWindow.{cpp,h}; Added compiler warnings
+
+	* configure.in:
+	  Fixed check for socklen_t; Checking for sleep; Version to 0.9.01
+
+2008-05-06  Markus Schwab  <g17m0@lycos.com>
+
+	* XGP/Samples/X-Appl.cpp: Added animation
+
+	* XGP/Samples/X-Appl.h: Fixed compiler-warnings; Added animation
+
+	* XGP/Samples/Dialog.cpp: Fixed name of subsystem
+
+	* XGP/Makefile.am: Formatting
+
+	* XGP/AnimWindow.cpp, XGP/AnimWindow.h:
+	  Don't derive from Gtk::Window, but sigc::trackable; to increase flexibility
+
 2008-03-30  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.9.00 documented
+
+	* YGP/FileTypeChk.cpp: Fixed compiler-warnings
 
 	* bin/mdocu.pl: Finally removed
 
