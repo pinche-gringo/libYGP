@@ -1,11 +1,11 @@
-// $Id: Thread.cpp,v 1.9 2008/03/29 17:35:17 markus Rel $
+// $Id: Thread.cpp,v 1.10 2008/05/18 13:19:53 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.9 $
+//REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.10.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2005, 2008
@@ -30,7 +30,7 @@
 
 #include <ygp-cfg.h>
 
-#if defined HAVE__SLEEP
+#if !defined (HAVE_SLEEP) && defined (HAVE__SLEEP)
 #  define sleep      _sleep
 #endif
 
