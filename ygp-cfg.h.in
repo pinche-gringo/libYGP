@@ -193,7 +193,7 @@
 /* Define if GtkMozEmbed is installed */
 #undef HAVE_GTKMOZEMBED
 
-/* Define if you have the iconv() function. */
+/* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
 /* Set to 1 if Internet Explorer exists, 0 if not */
@@ -227,6 +227,9 @@
 /* Define to 1 if you have the `pthread' library (-lpthread). */
 #undef HAVE_LIBPTHREAD
 
+/* Define to 1 if you have the `socket' library (-lsocket). */
+#undef HAVE_LIBSOCKET
+
 /* Define to 1 if you have the `stdc++' library (-lstdc++). */
 #undef HAVE_LIBSTDC__
 
@@ -235,9 +238,6 @@
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
-
-/* Define if you have the 'long double' type. */
-#undef HAVE_LONG_DOUBLE
 
 /* Define to 1 if the system has the type `long long int'. */
 #undef HAVE_LONG_LONG_INT
@@ -303,10 +303,13 @@
 /* Define for defined SIGBUS */
 #undef HAVE_SIGBUS
 
+/* Define to 1 if you have the `sleep' function. */
+#undef HAVE_SLEEP
+
 /* Define to 1 if you have the `snprintf' function. */
 #undef HAVE_SNPRINTF
 
-/* Define to 1 if the system has the type `socklen_t'. */
+/* Whether we have socklen_t */
 #undef HAVE_SOCKLEN_T
 
 /* Define to 1 if you have the `spawnvp' function. */
@@ -387,14 +390,14 @@
 /* Define to 1 if you have the `tsearch' function. */
 #undef HAVE_TSEARCH
 
+/* Define to 1 if you have the `tzset' function. */
+#undef HAVE_TZSET
+
 /* Define if you have the 'uintmax_t' type in <stdint.h> or <inttypes.h>. */
 #undef HAVE_UINTMAX_T
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* Define if you have the 'unsigned long long' type. */
-#undef HAVE_UNSIGNED_LONG_LONG
 
 /* Define to 1 if the system has the type `unsigned long long int'. */
 #undef HAVE_UNSIGNED_LONG_LONG_INT
@@ -432,6 +435,9 @@
 
 /* Define to 1 if you have the `_sleep' function. */
 #undef HAVE__SLEEP
+
+/* Define to 1 if you have the `_tzset' function. */
+#undef HAVE__TZSET
 
 /* Define to 1 if you have the `__fsetlocking' function. */
 #undef HAVE___FSETLOCKING
@@ -513,9 +519,37 @@
    first (like Motorola and SPARC, unlike Intel and VAX). */
 #undef WORDS_BIGENDIAN
 
+/* Define to 1 if on AIX 3.
+   System headers sometimes define this.
+   We just want to avoid a redefinition error message.  */
+#ifndef _ALL_SOURCE
+# undef _ALL_SOURCE
+#endif
+
 /* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
 # undef _GNU_SOURCE
+#endif
+
+/* Define to 1 if on MINIX. */
+#undef _MINIX
+
+/* Define to 2 if the system does not provide POSIX.1 features except with
+   this defined. */
+#undef _POSIX_1_SOURCE
+
+/* Define to 1 if you need to in order for `stat' and other things to work. */
+#undef _POSIX_SOURCE
+
+/* Enable extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# undef __EXTENSIONS__
+#endif
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# undef _POSIX_PTHREAD_SEMANTICS
+#endif
+#ifndef _TANDEM_SOURCE
+# undef _TANDEM_SOURCE
 #endif
 
 /* Define to `__inline__' or `__inline' if that's what the C compiler
