@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.46 2008/03/29 17:35:17 markus Rel $
+//$Id: CRegExp.cpp,v 1.47 2008/05/18 13:22:41 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004, 2006, 2008
@@ -92,7 +92,11 @@ const char WORDEND = '>';
 ///      of the regular expression.
 //----------------------------------------------------------------------------
 RegularExpression::RegularExpression (const char* pRegExp) throw (std::invalid_argument)
-   : IRegularExpression (pRegExp), regexp () {
+   : IRegularExpression (pRegExp)
+#ifdef HAVE_REGEX_H
+   , regexp ()
+#endif
+{
 #ifdef HAVE_REGEX_H
    init (pRegExp);
 #else
