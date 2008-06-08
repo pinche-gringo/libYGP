@@ -1,11 +1,11 @@
-//$Id: AnimWindow.cpp,v 1.2 2008/05/06 09:02:06 markus Rel $
+//$Id: AnimWindow.cpp,v 1.3 2008/06/08 12:11:51 markus Rel $
 
-//PROJECT     : libYGP
+//PROJECT     : libXGP
 //SUBSYSTEM   : AnimatedWindow
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
+//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 20.05.2007
 //COPYRIGHT   : Copyright (C) 2007, 2008
@@ -100,6 +100,7 @@ void AnimatedWindow::animateTo (int x, int y) {
    if (steps) {
       int x2, y2;
       win->get_position (x2, y2);
+      TRACE5 ("AnimatedWindow::animationTo (2x int) - Current " << x2 << '/' << y2);
 
       x -= x2;
       y -= y2;
