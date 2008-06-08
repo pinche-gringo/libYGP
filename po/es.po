@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.8 ($Revision: 1.47 $)\n"
+"Project-Id-Version: libYGP 0.9 ($Revision: 1.48 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-05-18 12:31+0200\n"
+"POT-Creation-Date: 2008-06-08 16:34+0200\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -419,7 +419,7 @@ msgstr "_Acerca de ..."
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Distribuido bajo las condiciones de la GNU Licensia General Público"
 
-#: XGP/GTKViewer.c:217
+#: XGP/GTKViewer.c:218
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr "Error abriendo el fichero '%s'! %s"
