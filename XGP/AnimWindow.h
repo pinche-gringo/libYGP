@@ -1,7 +1,7 @@
 #ifndef XGP_ANIMWINDOW_H
 #define XGP_ANIMWINDOW_H
 
-//$Id: AnimWindow.h,v 1.3 2008/05/18 13:21:27 markus Rel $
+//$Id: AnimWindow.h,v 1.4 2008/06/08 12:11:28 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -46,6 +46,8 @@ class AnimatedWindow : public sigc::trackable {
 
    void animateTo (int x, int y);
 
+   Glib::RefPtr<Gdk::Window> win;
+
  private:
    AnimatedWindow ();
    AnimatedWindow (const AnimatedWindow& other);
@@ -53,7 +55,6 @@ class AnimatedWindow : public sigc::trackable {
 
    bool animationStep ();
 
-   Glib::RefPtr<Gdk::Window> win;
    unsigned int steps;
 };
 
