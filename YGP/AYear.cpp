@@ -1,11 +1,11 @@
-//$Id: AYear.cpp,v 1.10 2008/03/29 17:35:17 markus Rel $
+//$Id: AYear.cpp,v 1.11 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : AYEAR
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.11.2004
 //COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
@@ -29,6 +29,8 @@
 #include <cstdio>
 #include <cerrno>
 #include <cctype>
+#include <cstdlib>
+
 #include <ygp-cfg.h>
 
 #if SYSTEM == WINDOWS

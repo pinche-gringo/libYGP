@@ -1,7 +1,7 @@
 #ifndef YGP_FILE_H
 #define YGP_FILE_H
 
-//$Id: File.h,v 1.31 2008/05/18 13:21:27 markus Rel $
+//$Id: File.h,v 1.32 2008/06/10 21:47:32 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -27,7 +27,8 @@
 //    is (protected) used by File).
 
 
-#include <stdio.h>
+#include <cstdio>
+#include <cstring>
 
 #include <time.h>
 

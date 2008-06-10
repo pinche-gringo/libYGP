@@ -1,11 +1,11 @@
-//$Id: Socket.cpp,v 1.30 2008/05/18 13:23:31 markus Rel $
+//$Id: Socket.cpp,v 1.31 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Socket
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
+//REVISION    : $Revision: 1.31 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.3.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2008
@@ -29,6 +29,7 @@
 #include "ygp-cfg.h"
 
 #include <cerrno>
+#include <cstdlib>
 #include <cstring>
 
 #include "YGP/Check.h"

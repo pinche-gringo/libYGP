@@ -1,4 +1,4 @@
-//$Id: CRegExp.cpp,v 1.47 2008/05/18 13:22:41 markus Rel $
+//$Id: CRegExp.cpp,v 1.48 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : RegularExpression
@@ -7,7 +7,7 @@
 //              compare-objects (with repeat-factor). Maybe check, how
 //              regexp is doing its compile.
 //BUGS        : Probably (regular expressions are quite complex); YOU tell me
-//REVISION    : $Revision: 1.47 $
+//REVISION    : $Revision: 1.48 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.5.2000
 //COPYRIGHT   : Copyright (C) 2000 - 2004, 2006, 2008
@@ -39,6 +39,8 @@
 #ifndef HAVE_REGEX_H
 #  include <cstdlib>
 #  define isclass(type,str,len,ch) (strncmp ((str), #type, (len)) ? 0 : (is##type (ch) ? 2 : 1))
+#else
+#  include <cstring>
 #endif
 
 

@@ -1,11 +1,11 @@
-//$Id: Thread.cpp,v 1.26 2008/03/29 17:35:17 markus Rel $
+//$Id: Thread.cpp,v 1.27 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Thread
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.26 $
+//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.4.2002
 //COPYRIGHT   : Copyright (C) 2002 - 2004, 2006, 2008
@@ -35,6 +35,7 @@
 
 #include <cerrno>
 #include <cstdlib>
+#include <cstring>
 
 #include <string>
 

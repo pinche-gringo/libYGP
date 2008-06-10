@@ -1,11 +1,11 @@
-//$Id: ANumeric.cpp,v 1.54 2008/03/29 17:35:17 markus Rel $
+//$Id: ANumeric.cpp,v 1.55 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ANumeric
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.54 $
+//REVISION    : $Revision: 1.55 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006, 2008
@@ -26,6 +26,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#include <cstring>
 #include <cerrno>
 #include <clocale>
 #include <climits>

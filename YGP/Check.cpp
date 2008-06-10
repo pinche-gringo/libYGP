@@ -1,11 +1,11 @@
-//$Id: Check.cpp,v 1.22 2008/03/29 17:35:17 markus Rel $
+//$Id: Check.cpp,v 1.23 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Check
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
+//REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.9.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2006, 2008
@@ -29,6 +29,8 @@
 #include <ygp-cfg.h>
 
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #ifdef HAVE_DLFCN_H
 #  include <dlfcn.h>

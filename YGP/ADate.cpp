@@ -1,11 +1,11 @@
-//$Id: ADate.cpp,v 1.55 2008/03/29 17:35:17 markus Rel $
+//$Id: ADate.cpp,v 1.56 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ADate
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.55 $
+//REVISION    : $Revision: 1.56 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 11.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2008
@@ -26,6 +26,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdio>
+#include <cstring>
 
 #include <ygp-cfg.h>
 

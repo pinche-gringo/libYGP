@@ -1,11 +1,11 @@
-//$Id: Process.cpp,v 1.23 2008/03/29 17:35:17 markus Rel $
+//$Id: Process.cpp,v 1.24 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Process
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.23 $
+//REVISION    : $Revision: 1.24 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.02.2003
 //COPYRIGHT   : Copyright (C) 2003 - 2006, 2008
@@ -35,6 +35,7 @@
 
 #include <cstdio>
 #include <cerrno>
+#include <cstdlib>
 #include <cstring>
 
 #if SYSTEM == UNIX

@@ -1,11 +1,11 @@
-//$Id: ATime.cpp,v 1.46 2008/03/29 17:35:17 markus Rel $
+//$Id: ATime.cpp,v 1.47 2008/06/10 21:47:20 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : ATime
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.46 $
+//REVISION    : $Revision: 1.47 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 15.10.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2008
@@ -28,6 +28,7 @@
 
 #include <cstdio>
 #include <cctype>
+#include <cstring>
 
 #include <ygp-cfg.h>
 
