@@ -1,11 +1,11 @@
-//$Id: FileRExp.cpp,v 1.33 2008/03/29 17:35:17 markus Rel $
+//$Id: FileRExp.cpp,v 1.34 2008/06/11 17:52:57 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : FileRegularExpr
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.33 $
+//REVISION    : $Revision: 1.34 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
@@ -58,9 +58,21 @@ const char REGIONBEGIN = '[';
 const char REGIONEND = ']';
 const char RANGE = '-';
 const char NEGREGION1 = '^';
-const char NEGREGION2 = '!';
 const char REGIONCLASS = ':';
 const char REGIONCOLLATE = '.';
+
+#ifdef HAVE_EXCLMARK_AS_REGION_NEGATOR
+const char NEGREGION2 = '!';
+
+static inline bool isRegionNegator (const char ch) {
+   return (ch == NEGREGION1) || (ch == NEGREGION2);
+}
+#else
+
+static inline bool isRegionNegator (const char ch) {
+   return ch == NEGREGION1;
+}
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -107,7 +119,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
          // Compares the actual file-char with the region
          bool fNeg (false);
          // Values to invert (either "!" or "^" at beginning)?
-         if ((pAktRegExp[1] == NEGREGION1) || (pAktRegExp[1] == NEGREGION2)) {
+         if (isRegionNegator (pAktRegExp[1])) {
             ++pAktRegExp;
             fNeg = true;
          } // endif
@@ -219,7 +231,7 @@ int FileRegularExpr::checkIntegrity () const throw (std::invalid_argument) {
             throw (getError (N_("Open region"), pRegExp - getExpression ()));
 
          // Skip leading range-inversion
-         if ((*pRegExp == NEGREGION1) || (*pRegExp == NEGREGION2))
+         if (isRegionNegator (*pRegExp))
             ++pRegExp;
 
          if (*pRegExp == REGIONEND)
