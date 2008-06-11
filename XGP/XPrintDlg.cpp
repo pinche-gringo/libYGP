@@ -1,11 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.27 2008/03/30 13:39:17 markus Rel $
+//$Id: XPrintDlg.cpp,v 1.28 2008/06/11 18:23:19 markus Rel $
 
 //PROJECT     : libXGP
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
+//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
 //COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
@@ -28,6 +28,7 @@
 
 #include <cstdio>
 #include <cerrno>
+#include <cstring>
 
 #include <string>
 #include <fstream>
