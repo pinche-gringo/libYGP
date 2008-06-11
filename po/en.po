@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: libYGP 0.9 ($Revision: 1.47 $)\n"
+"Project-Id-Version: libYGP 0.9 ($Revision: 1.48 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-06-08 16:34+0200\n"
+"POT-Creation-Date: 2008-06-11 20:29+0200\n"
 "PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,19 +14,19 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:162 YGP/ADate.cpp:217
+#: YGP/ADate.cpp:163 YGP/ADate.cpp:218
 msgid "Invalid date: %1"
 msgstr ""
 
-#: YGP/ANumeric.cpp:126
+#: YGP/ANumeric.cpp:127
 msgid "Not a number: %1"
 msgstr ""
 
-#: YGP/ATime.cpp:178
+#: YGP/ATime.cpp:179
 msgid "No time: Position %1"
 msgstr ""
 
-#: YGP/ATime.cpp:223
+#: YGP/ATime.cpp:224
 msgid "No time: Position 0"
 msgstr ""
 
@@ -54,43 +54,43 @@ msgstr ""
 msgid "Key '%1' not found"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1037
+#: YGP/CRegExp.cpp:1039
 msgid "Unmatched [ or [^"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1038
+#: YGP/CRegExp.cpp:1040
 msgid "Unmatched ( or )"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1039
+#: YGP/CRegExp.cpp:1041
 msgid "Invalid range end"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1040
+#: YGP/CRegExp.cpp:1042
 msgid "Repeating suffix without previous expression"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1041
+#: YGP/CRegExp.cpp:1043
 msgid "Invalid group-number"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1042
+#: YGP/CRegExp.cpp:1044
 msgid "Invalid range (lower border larger than upper border)"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1043
+#: YGP/CRegExp.cpp:1045
 msgid "Invalid bound"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1044
+#: YGP/CRegExp.cpp:1046
 msgid "Regular expression ends with escape-character (\\)"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1045
+#: YGP/CRegExp.cpp:1047
 msgid "Unknown error"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1049 YGP/FileRExp.cpp:256
+#: YGP/CRegExp.cpp:1051 YGP/FileRExp.cpp:268
 msgid "`%1', position %2: %3"
 msgstr ""
 
@@ -110,15 +110,15 @@ msgstr ""
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr ""
 
-#: YGP/FileRExp.cpp:219
+#: YGP/FileRExp.cpp:231
 msgid "Open region"
 msgstr ""
 
-#: YGP/FileRExp.cpp:232
+#: YGP/FileRExp.cpp:244
 msgid "Empty range"
 msgstr ""
 
-#: YGP/FileRExp.cpp:236
+#: YGP/FileRExp.cpp:248
 msgid "Empty region"
 msgstr ""
 
@@ -222,70 +222,70 @@ msgstr ""
 msgid "Invalid arguments: "
 msgstr ""
 
-#: YGP/Socket.cpp:78 YGP/Socket.cpp:91 YGP/Socket.cpp:125 YGP/Socket.cpp:150
+#: YGP/Socket.cpp:79 YGP/Socket.cpp:92 YGP/Socket.cpp:126 YGP/Socket.cpp:151
 msgid "Can't create socket"
 msgstr "Can't create socket (for communication)"
 
-#: YGP/Socket.cpp:181
+#: YGP/Socket.cpp:182
 msgid "Can't bind to port"
 msgstr ""
 
-#: YGP/Socket.cpp:184
+#: YGP/Socket.cpp:185
 msgid "Can't listen on port"
 msgstr ""
 
-#: YGP/Socket.cpp:208
+#: YGP/Socket.cpp:209
 msgid ""
 "Port '%1' is neither numeric (decimal, octal or hexadecimal) nor a service"
 msgstr ""
 
-#: YGP/Socket.cpp:242 YGP/Socket.cpp:262
+#: YGP/Socket.cpp:243 YGP/Socket.cpp:263
 msgid "Error reading data"
 msgstr ""
 
-#: YGP/Socket.cpp:288
+#: YGP/Socket.cpp:289
 msgid "Error accepting connection"
 msgstr ""
 
-#: YGP/Socket.cpp:311
+#: YGP/Socket.cpp:312
 msgid "Can't resolve name '%1'"
 msgstr ""
 
-#: YGP/Socket.cpp:319
+#: YGP/Socket.cpp:320
 msgid "Can't connect to server '%1'"
 msgstr ""
 
-#: YGP/Socket.cpp:339
+#: YGP/Socket.cpp:340
 msgid "Error sending data"
 msgstr ""
 
-#: YGP/Process.cpp:256
+#: YGP/Process.cpp:257
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: YGP/Process.cpp:280
+#: YGP/Process.cpp:281
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
 "Output: %2"
 msgstr ""
 
-#: XGP/XPrintDlg.cpp:56
+#: XGP/XPrintDlg.cpp:57
 msgid "Print"
 msgstr ""
 
-#: XGP/XPrintDlg.cpp:57
+#: XGP/XPrintDlg.cpp:58
 msgid "Print command: "
 msgstr ""
 
-#: XGP/XPrintDlg.cpp:102
+#: XGP/XPrintDlg.cpp:103
 msgid "No print-command specified"
 msgstr ""
 
-#: XGP/XPrintDlg.cpp:110
+#: XGP/XPrintDlg.cpp:111
 msgid ""
 "Could not run command `%1'\n"
 "Reason: %2"
