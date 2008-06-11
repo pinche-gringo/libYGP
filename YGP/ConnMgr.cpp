@@ -1,11 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.13 2008/03/29 17:35:17 markus Rel $
+//$Id: ConnMgr.cpp,v 1.14 2008/06/11 17:53:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP/ConnectionManager
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
+//REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.07.2003
 //COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
@@ -25,6 +25,8 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#include <algorithm>
 
 #include "YGP/Check.h"
 #include "YGP/Trace.h"

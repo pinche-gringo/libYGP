@@ -1,11 +1,11 @@
-//$Id: TableWriter.cpp,v 1.11 2008/03/29 17:35:17 markus Rel $
+//$Id: TableWriter.cpp,v 1.12 2008/06/11 17:53:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : TableWriter
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
+//REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
 //COPYRIGHT   : Copyright (C) 2004, 2005, 2007, 2008
@@ -25,6 +25,8 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#include <cstring>
 
 #include <sstream>
 #include <iostream>

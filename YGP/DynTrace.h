@@ -1,7 +1,7 @@
 #ifndef YGP_DYNTRACE_H
 #define YGP_DYNTRACE_H
 
-//$Id: DynTrace.h,v 1.4 2008/05/18 13:21:27 markus Rel $
+//$Id: DynTrace.h,v 1.5 2008/06/11 17:53:40 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -18,6 +18,8 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#include <cstring>
 
 #include <map>
 #include <string>

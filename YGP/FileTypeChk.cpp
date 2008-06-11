@@ -1,11 +1,11 @@
-//$Id: FileTypeChk.cpp,v 1.4 2008/03/30 18:13:40 markus Rel $
+//$Id: FileTypeChk.cpp,v 1.5 2008/06/11 17:53:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
+//REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.07.2006
 //COPYRIGHT   : Copyright (C) 2006 - 2008
@@ -29,6 +29,7 @@
 #include <ygp-cfg.h>
 
 #include <cctype>
+#include <cstring>
 #include <fstream>
 #include <algorithm>
 

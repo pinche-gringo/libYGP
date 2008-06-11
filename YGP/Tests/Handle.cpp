@@ -1,11 +1,11 @@
-// $Id: Handle.cpp,v 1.10 2008/03/29 17:35:17 markus Rel $
+// $Id: Handle.cpp,v 1.11 2008/06/11 17:53:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Handle
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.10 $
+//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
@@ -25,6 +25,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+
+
+#include <cstring>
 
 #include <iostream>
 

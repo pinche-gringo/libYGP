@@ -1,11 +1,11 @@
-// $Id: Parse.cpp,v 1.21 2008/03/29 17:35:17 markus Rel $
+// $Id: Parse.cpp,v 1.22 2008/06/11 17:53:40 markus Rel $
 
 //PROJECT     : libYGP
 //SUBSYSTEM   : Test/Parse
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.21 $
+//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
 //COPYRIGHT   : Copyright (C) 2001 - 2008
@@ -28,6 +28,7 @@
 
 #include <ygp-cfg.h>
 
+#include <cstring>
 #include <clocale>
 
 #include <YGP/Parse.h>

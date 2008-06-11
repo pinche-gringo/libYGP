@@ -1,7 +1,7 @@
 #ifndef YGP_RELATION_H
 #define YGP_RELATION_H
 
-//$Id: Relation.h,v 1.16 2008/05/18 13:21:27 markus Rel $
+//$Id: Relation.h,v 1.17 2008/06/11 17:53:40 markus Rel $
 
 // This file is part of libYGP.
 //
@@ -21,6 +21,7 @@
 
 #include <map>
 #include <vector>
+#include <algorithm>
 #include <stdexcept>
 
 #include <YGP/Check.h>
