@@ -1,3 +1,38 @@
+2008-06-11  Markus Schwab  <g17m0@lycos.com>
+
+	* ChangeLog, NEWS: Changes of V0.9.02 documented
+
+	* po/de.po, po/en.po, po/es.po: Actualised
+
+	* XGP/XPrintDlg.cpp, YGP/ConnMgr.cpp, YGP/DynTrace.h, YGP/FileTypeChk.cpp, YGP/Relation.h, YGP/SortDirSrch.h, YGP/TableWriter.cpp, YGP/Tests/Handle.cpp, YGP/Tests/Parse.cpp:
+	  Adapted includes to be compilable by GCC 4.3
+
+	* YGP/FileRExp.cpp, YGP/Tests/FileRExp.cpp:
+	  Only accept exclamation-mark to negate a region when enabled
+
+2008-06-10  Markus Schwab  <g17m0@lycos.com>
+
+	* YGP/Attribute.h, YGP/File.h, YGP/ADate.cpp, YGP/ANumeric.cpp, YGP/ATime.cpp, YGP/AYear.cpp, YGP/CRegExp.cpp, YGP/Check.cpp, YGP/Process.cpp, YGP/Socket.cpp, YGP/Thread.cpp:
+	  Adapted includes to be compilable by GCC 4.3
+
+2008-06-08  Markus Schwab  <g17m0@lycos.com>
+
+	* README: Copyright to 2008
+
+	* po/de.po, po/en.po, po/es.po: Version to 0.9
+
+	* Windows/ygp-cfg.h, config.h, ygp-cfg.h.in, XGP/GTKViewer.c, XGP/GtkMozViewer.c, XGP/XDialog.h:
+	  Put under GPL version 3
+
+	* configure.in: Version to 0.9.02; Using GPL version 3
+
+	* CGP/CDirSrch.idl, CGP/CIDirSrch.cpp, CGP/CIDirSrch.h, CGP/Version.cpp:
+	  Put under GPL-3
+
+	* XGP/AnimWindow.cpp: Added trace; fixed comments
+
+	* XGP/AnimWindow.h: Pointer to animated Gdk::Window is protected
+
 2008-05-18  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog, NEWS: Changes of V0.9.01 documented

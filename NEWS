@@ -1,3 +1,11 @@
+Overview of Changes in version 0.9.02:
+
+  - XGP::AnimatedWindow: Animated Gdk::Window is protected
+  - Can be compiled with GCC 4.3
+  - YGP::FileRegularExpr doesn't accept exclamation mark (!) to negate a region
+  - Put forgotten files under GPL-3
+
+
 Overview of Changes in version 0.9.01:
 
   - Added test for animated window
@@ -41,7 +49,7 @@ Overview of Changes in version 0.8.21:
 
   - YGP::INIList automatically re-allocates the vector (if parsed in order)
   - Fixed check in YGP::Relation
-  - Actualized sample in XGP
+  - Actualised sample in XGP
 
 
 Overview of Changes in version 0.8.20:
