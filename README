@@ -2,7 +2,7 @@
                      ===================================
 
 
-Some generally usefull classes; ; separated in a common part (subdir Common),
+Some generally usefull classes; separated in a common part (subdir Common),
 designed to be independent of the used operating system or (GUI)
 library/system and in parts specific to such things (subdirs CORBA, Windows,
 X-windows).
@@ -23,10 +23,11 @@ The whole thing is:
 Copyright (C) 1999 - 2008  Markus Schwab <g17m0@lycos.com>
 ----------------------------------------------------------
 
-Basically this means, the package is distributed under the GNU General Public
-License; in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
-even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-PURPOSE.  See the file COPYING for more details.
+This package is distributed under the GNU General Public License
+version 3; in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the file COPYING for more
+details.
 
 
 Installation
