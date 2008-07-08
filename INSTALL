@@ -27,8 +27,6 @@ Inside the directory containing the source code type
 How to build (the first time after checking out of CVS)
 -------------------------------------------------------
 
-As there is no public CVS server, these are just notes for me.
-
 Additional prerequiste software:
 
   - CVS (obviously)
