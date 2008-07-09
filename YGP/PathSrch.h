@@ -60,7 +60,7 @@ class PathSearch : public Tokenize {
    std::string getNextExpandedNode () {
       return expandNode (getNextNode ()); }
    //@}
-   
+
    static std::string expandNode (const std::string& input);
 
    /// Character separating nodes in a path. Under UNIX-like operating systems
