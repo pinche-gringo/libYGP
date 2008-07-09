@@ -1,3 +1,10 @@
+Overview of Changes in version 0.9.03:
+
+  - XGP::AnimatedWindow: Expecting root-coordinates for animateTo()
+  - Added doc/footer.txt
+  - Fixed doxygen-comments
+
+
 Overview of Changes in version 0.9.02:
 
   - XGP::AnimatedWindow: Animated Gdk::Window is protected
