@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.48 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-06-11 20:29+0200\n"
+"POT-Creation-Date: 2008-07-09 23:37+0200\n"
 "PO-Revision-Date: 2004-12-29 14:32-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: YGP/ADate.cpp:163 YGP/ADate.cpp:218
+#: YGP/ADate.cpp:162 YGP/ADate.cpp:217
 msgid "Invalid date: %1"
 msgstr ""
 
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Not a number: %1"
 msgstr ""
 
-#: YGP/ATime.cpp:179
+#: YGP/ATime.cpp:178
 msgid "No time: Position %1"
 msgstr ""
 
-#: YGP/ATime.cpp:224
+#: YGP/ATime.cpp:223
 msgid "No time: Position 0"
 msgstr ""
 
@@ -54,43 +54,43 @@ msgstr ""
 msgid "Key '%1' not found"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1039
+#: YGP/CRegExp.cpp:1038
 msgid "Unmatched [ or [^"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1040
+#: YGP/CRegExp.cpp:1039
 msgid "Unmatched ( or )"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1041
+#: YGP/CRegExp.cpp:1040
 msgid "Invalid range end"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1042
+#: YGP/CRegExp.cpp:1041
 msgid "Repeating suffix without previous expression"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1043
+#: YGP/CRegExp.cpp:1042
 msgid "Invalid group-number"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1044
+#: YGP/CRegExp.cpp:1043
 msgid "Invalid range (lower border larger than upper border)"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1045
+#: YGP/CRegExp.cpp:1044
 msgid "Invalid bound"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1046
+#: YGP/CRegExp.cpp:1045
 msgid "Regular expression ends with escape-character (\\)"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1047
+#: YGP/CRegExp.cpp:1046
 msgid "Unknown error"
 msgstr ""
 
-#: YGP/CRegExp.cpp:1051 YGP/FileRExp.cpp:268
+#: YGP/CRegExp.cpp:1050 YGP/FileRExp.cpp:268
 msgid "`%1', position %2: %3"
 msgstr ""
 
@@ -411,7 +411,7 @@ msgstr ""
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr ""
 
-#: XGP/GTKViewer.c:218
+#: XGP/GTKViewer.c:217
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr ""
