@@ -52,7 +52,7 @@ std::map<const char*, DynTrace*, DynTraceManager::lessDereferenced> DynTraceMana
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param subsystem: Name of subsystem
+/// \param subsystem Name of subsystem
 //-----------------------------------------------------------------------------
 DynTrace::DynTrace (const char* subsystem) : level (-1) {
    TRACE1 ("DynTrace::DynTrace (const std::string&) - " << subsystem);
@@ -70,7 +70,7 @@ DynTrace::~DynTrace () {
 
 //-----------------------------------------------------------------------------
 /// Removes the passed relation
-/// \param relation: Relation to remove
+/// \param relation Relation to remove
 //-----------------------------------------------------------------------------
 void DynTraceManager::remove (const DynTrace* traceObj) {
    TRACE9 ("DynTraceManager::remove (const DynTrace*)");

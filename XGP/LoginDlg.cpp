@@ -41,7 +41,7 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param title: Title to display for dialog
+/// \param title Title to display for dialog
 //-----------------------------------------------------------------------------
 LoginDialog::LoginDialog (const Glib::ustring& title)
    : XGP::XDialog (NONE), sigLogin (), pClient (new Gtk::Table (2, 2)), txtUser (), txtPassword () {
@@ -108,7 +108,7 @@ void LoginDialog::setCurrentUser () {
 
 //-----------------------------------------------------------------------------
 /// Callback after clicking on a button in the dialog
-/// \param id: ID of clicked button
+/// \param id ID of clicked button
 //-----------------------------------------------------------------------------
 void LoginDialog::command (int id) {
    if (id == LOGIN) {

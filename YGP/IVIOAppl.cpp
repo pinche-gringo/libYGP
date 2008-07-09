@@ -46,8 +46,8 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Checks char if it starts an option
-/// \param ch: Character to check
-/// \returns \c bool: Result (true: char starts option)
+/// \param ch Character to check
+/// \returns bool Result (true: char starts option)
 //-----------------------------------------------------------------------------
 static inline bool isOptionChar (const char ch) {
 #if SYSTEM == UNIX
@@ -63,9 +63,9 @@ static inline bool isOptionChar (const char ch) {
 /// program-arguments (as passed to the main-function) and a table to map the
 /// verbose long-options to their short equivalent. If the third parameter is
 /// NULL, no long options are used.
-/// \param argc: Number of arguments
-/// \param argv: Array of pointers to argumetns
-/// \param pOpt: Pointer to long-option-table
+/// \param argc Number of arguments
+/// \param argv Array of pointers to argumetns
+/// \param pOpt Pointer to long-option-table
 //-----------------------------------------------------------------------------
 IVIOApplication::IVIOApplication (const int argc, const char* argv[],
                                   const longOptions* pOpt)
@@ -99,7 +99,7 @@ IVIOApplication::~IVIOApplication () {
 /// terminated with an entry where the short option is '\\0' and the associated
 /// long options is NULL; the previous entries must not have lines with those
 /// values.
-/// \param pLongOpts: Pointer to an array of longOptions; terminated with a
+/// \param pLongOpts Pointer to an array of longOptions; terminated with a
 ///    longOption with NULL as longVal
 /// \pre
 ///     - \c pLongOpts not NULL
@@ -124,8 +124,8 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
 //-----------------------------------------------------------------------------
 /// Sets a table which maps options to a verbose version. This table must not
 /// contain entries with either '\\0' as short option or NULL as long option.
-/// \param pLongOpts: Pointer to an array of longOptions
-/// \param numLongOpts: Number of elements in the array
+/// \param pLongOpts Pointer to an array of longOptions
+/// \param numLongOpts Number of elements in the array
 /// \pre
 ///     - \c pLongOpts not NULL
 ///     - all long-entries not NULL
@@ -153,7 +153,7 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 /// data from an INI file. Then the options are checked. If an invalid or a
 /// help-option is passed, the help-screen is displayed, else the actual job
 /// of the application is performed.
-/// \returns \c int: Status
+/// \returns int Status
 //-----------------------------------------------------------------------------
 int IVIOApplication::run () {
    try {
@@ -208,7 +208,7 @@ int IVIOApplication::run () {
 ///       the value behind the equal sign (=) if given in a long option.
 ///     - The next argument of the application.
 ///     - NULL
-///  \returns \c char*: Parameter for the option
+///  \returns char* Parameter for the option
 //-----------------------------------------------------------------------------
 const char* IVIOApplication::getOptionValue () {
    if (startOpt > startArg)
@@ -241,8 +241,8 @@ const char* IVIOApplication::getOptionValue () {
 ///     --<LongOption>
 ///     --<LongOption>=<Value>
 ///     --<LongOption> <Value>
-/// \returns \c char: Next option ('\\0' at last option)
-/// \remarks : In non-UNIX-systems the slash (/) is also an option-char
+/// \returns char Next option ('\\0' at last option)
+/// \remarks In non-UNIX-systems the slash (/) is also an option-char
 //-----------------------------------------------------------------------------
 char IVIOApplication::getOption () {
    char option ('\0');
@@ -323,7 +323,7 @@ char IVIOApplication::getOption () {
 //-----------------------------------------------------------------------------
 /// Moves the option (or option-value) in parameter \c numOpt before the
 /// arguments (indicated with startArg)
-/// \param numOpt: Option (argument) to move
+/// \param numOpt Option (argument) to move
 //-----------------------------------------------------------------------------
 void IVIOApplication::moveOption (unsigned int numOpt) const {
    Check1 (numOpt < args);
@@ -347,7 +347,7 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
 /// Returns the name of the application. The default action is to return the
 /// name of the file as stored in index 0 of the argv-array, stripped by any
 /// path information.
-/// \returns \c const char*: Name of programm
+/// \returns const char* Name of programm
 //-----------------------------------------------------------------------------
 const char* IVIOApplication::name () const {
    const char* pEnd = strrchr (filename (), File::DIRSEPARATOR);
@@ -365,8 +365,8 @@ void IVIOApplication::initI18n () {
 //-----------------------------------------------------------------------------
 /// Initializes the program for internationalization by setting the current
 /// locale and loading the message file.
-/// \param package: Name of the message-catalog
-/// \param dir: root-directory for message-catalogs
+/// \param package Name of the message-catalog
+/// \param dir root-directory for message-catalogs
 /// \remarks If the GNU gettext library is not installed or supported, the
 ///     methods only sets the locale!
 //-----------------------------------------------------------------------------

@@ -51,8 +51,8 @@ Entity::~Entity () {
 
 //-----------------------------------------------------------------------------
 /// Tries to find an attribute with the specified name.
-/// \param name: Name of attribute to find
-/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \param name Name of attribute to find
+/// \returns IAttribute* Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
 IAttribute* Entity::findAttribute (const char* name) const {
    Check1 (name);
@@ -66,8 +66,8 @@ IAttribute* Entity::findAttribute (const char* name) const {
 
 //-----------------------------------------------------------------------------
 /// Tries to find an attribute with the specified name.
-/// \param name: Name of attribute to find
-/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \param name Name of attribute to find
+/// \returns IAttribute* Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
 IAttribute* Entity::findAttribute (const std::string& name) const {
    std::vector<IAttribute*>::const_iterator i;
@@ -80,9 +80,9 @@ IAttribute* Entity::findAttribute (const std::string& name) const {
 
 //-----------------------------------------------------------------------------
 /// Writes the attributes to a stream.
-/// \param out: Stream to write to
-/// \param obj: Object to write
-/// \returns std::ostream&: The stream
+/// \param out Stream to write to
+/// \param obj Object to write
+/// \returns std::ostream& The stream
 /// \throws Anything that operator<< of the attributes might throw
 //-----------------------------------------------------------------------------
 std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
@@ -96,9 +96,9 @@ std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
 
 //-----------------------------------------------------------------------------
 /// Reads the attributes from a stream
-/// \param in: Stream to read from
-/// \param obj: Object to read
-/// \returns std::ostream&: The stream
+/// \param in Stream to read from
+/// \param obj Object to read
+/// \returns std::ostream& The stream
 /// \throws Anything that operator>> of the attributes might throw
 //-----------------------------------------------------------------------------
 std::istream& operator>> (std::istream& in, Entity& obj) throw () {

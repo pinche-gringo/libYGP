@@ -39,8 +39,8 @@ StatusObject::StatusObject () : tp (UNDEFINED), msg (), child () {
 
 //-----------------------------------------------------------------------------
 /// Constructor from a type and a message
-/// \param t: Type of the object
-/// \param message: Message of the object
+/// \param t Type of the object
+/// \param message Message of the object
 //-----------------------------------------------------------------------------
 StatusObject::StatusObject (type t, const std::string& message)
    : tp (INFO), msg (message), child () {
@@ -48,7 +48,7 @@ StatusObject::StatusObject (type t, const std::string& message)
 
 //-----------------------------------------------------------------------------
 /// Copy constructor
-/// \param other: Object to copy
+/// \param other Object to copy
 //-----------------------------------------------------------------------------
 StatusObject::StatusObject (const StatusObject& other)
    : tp (other.tp), msg (other.msg),
@@ -64,7 +64,7 @@ StatusObject::~StatusObject () {
 
 //-----------------------------------------------------------------------------
 /// Assignment operator
-/// \param other: Object to copy the values from
+/// \param other Object to copy the values from
 //-----------------------------------------------------------------------------
 StatusObject& StatusObject::operator= (const StatusObject& other) {
    if (&other != this) {
@@ -78,8 +78,8 @@ StatusObject& StatusObject::operator= (const StatusObject& other) {
 
 //----------------------------------------------------------------------------
 /// Sets a new status message (old messages are preserved)
-/// \param t: Type of the object
-/// \param message: Message of the object
+/// \param t Type of the object
+/// \param message Message of the object
 /// \remarks - The message is appended to existing ones
 ///     - If the passed type is more important than the old one, it is changed
 //----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ void StatusObject::setMessage (type t, const std::string& message) {
 
 //----------------------------------------------------------------------------
 /// Sets a new status message (old messages are preserved as "details")
-/// \param message: Message of the object
+/// \param message Message of the object
 /// \remarks - The message replaces existing ones
 ///     - The old messages are accessable as "details"
 //----------------------------------------------------------------------------

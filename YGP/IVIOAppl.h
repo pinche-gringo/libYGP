@@ -65,7 +65,7 @@ namespace YGP {
    a '--'-parameter is a non-option parameter and is passed to the
    perform()-method. Options are inspected before that method is called!
 
-   \note: The options <tt>-h</tt> and <tt>-?</tt> causes the call of the
+   \note The options <tt>-h</tt> and <tt>-?</tt> causes the call of the
    showHelp()-method!
 
    <b>Programmers information</b>:
@@ -107,7 +107,7 @@ class IVIOApplication {
    void         setLongOptions (const longOptions* pLongOpts,
                                 unsigned int numLongOpts);
    /// Parses some initialization data from a file specified by \c pFile.
-   /// \param: Name of file to read
+   /// \param Name of file to read
    virtual void readINIFile (const char*) { }
 
    /// \name Program-handling

@@ -90,20 +90,20 @@ class DirectorySearch : public IDirectorySearch {
    /// \name Searching
    //@{
    /// Searches for the specified files with the passed attributes.
-   /// \param search: Files to search for
-   /// \param attribs: Attributes the searched files must have
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \param search Files to search for
+   /// \param attribs Attributes the searched files must have
+   /// \returns const File* Pointer to found file or NULL
    const File* find (const std::string& search,
                      unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
       cleanup ();
       setSearchValue (search);
       return find (attribs); }
    /// Searches for previously specified files with the passed attributes.
-   /// \param attribs: Attributes the searched files must have
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \param attribs Attributes the searched files must have
+   /// \returns const File* Pointer to found file or NULL
    virtual const File* find (unsigned long attribs = IDirectorySearch::FILE_NORMAL);
    /// Method to find the next file matching the  previously specified values.
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns const File* Pointer to found file or NULL
    virtual const File* next ();
    //@}
 

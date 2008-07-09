@@ -29,8 +29,8 @@ namespace YGP {
 
 /**Class to compare text with (UNIX-file-style) regular expressions
 
-  \note: Depending on the operating system this comparison is either
-         case-sensitive (*X) or just case-preserving (DOS and derivates)!
+  \note Depending on the operating system this comparison is either
+        case-sensitive (*X) or just case-preserving (DOS and derivates)!
 
    The following characters have a special meaning:
 

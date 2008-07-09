@@ -88,8 +88,8 @@ const char WORDEND = '>';
 
 //----------------------------------------------------------------------------
 /// Constructor, specifies the regular expression to match.
-/// \param pRegExp: Pointer to character array holding regular expression
-/// \throw std::invalid_argument: In case of an invalid regexp a describing text
+/// \param pRegExp Pointer to character array holding regular expression
+/// \throw std::invalid_argument In case of an invalid regexp a describing text
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
@@ -118,9 +118,9 @@ RegularExpression::~RegularExpression () {
 
 //----------------------------------------------------------------------------
 /// Assignmentoperator; specifies the regular expression to match.
-/// \param pRegExp: Pointer to character array holding regular expression
-/// \return \c RegularExpression&: Reference to this
-/// \throw std::invalid_argument: In case of an invalid regexp a describing text
+/// \param pRegExp Pointer to character array holding regular expression
+/// \return RegularExpression& Reference to this
+/// \throw std::invalid_argument In case of an invalid regexp a describing text
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
@@ -140,10 +140,10 @@ RegularExpression& RegularExpression::operator= (const char* pRegExp) throw (std
 /// Both passed parameters must not be NULL-pointers and the regular expression
 /// must be in a valid syntax (this can be checked with the
 /// checkIntegrity()-method).
-/// \param pActRegExp: Pointer to character array holding regular expression
-/// \param pCompare: Pointer to character array holding value to compare
-/// \return \c  bool: Result (true: match)
-/// \pre \c pAktRegExp, \c pCompare: ASCIIZ-strings, not NULL
+/// \param pActRegExp Pointer to character array holding regular expression
+/// \param pCompare Pointer to character array holding value to compare
+/// \return bool Result (true: match)
+/// \pre \c pAktRegExp, \c pCompare must be ASCIIZ-strings, not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
    Check1 (pActRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
@@ -175,10 +175,10 @@ bool RegularExpression::compare (const char* pActRegExp, const char* pCompare) {
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the regular expression; the regular
 /// expression is seperated in various parts (if neccessary).
-/// \param pActRegExp: Pointer to regular expression
-/// \param pCompare: String to compare
-/// \return \c bool: Result (true: match)
-/// \pre \c pActRegExp, \c pCompare: ASCIIZ-string; not NULL
+/// \param pActRegExp Pointer to regular expression
+/// \param pCompare String to compare
+/// \return bool Result (true: match)
+/// \pre \c pActRegExp, \c pCompare must be ASCIIZ-string; not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::compareParts (const char*& pActRegExp,
                                       const char*& pCompare, bool inGroup) {
@@ -210,10 +210,10 @@ bool RegularExpression::compareParts (const char*& pActRegExp,
 
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the regular expression.
-///   - \c pActRegExp: Pointer to regular expression
-///   - \c pCompare: String to compare
-/// \return \c bool: Result (true: match)
-/// \pre \c pActRegExp, \c pCompare: ASCIIZ-string, not NULL
+///   - \c pActRegExp Pointer to regular expression
+///   - \c pCompare String to compare
+/// \return bool Result (true: match)
+/// \pre \c pActRegExp, \c pCompare must be ASCIIZ-string, not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::doCompare (const char*& pActRegExp, const char*& pCompare) {
    Check1 (pActRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
@@ -277,10 +277,10 @@ bool RegularExpression::doCompare (const char*& pActRegExp, const char*& pCompar
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the region (incl\. handling of the
 /// repeat-factor.
-/// \param pActRegExp: Pointer to regular expression
-/// \param pCompare: String to compare
-/// \return \c bool: Result (true: match)
-/// \pre \c pActRegExp, \c pCompare ASCIIZ-string, not NULL
+/// \param pActRegExp Pointer to regular expression
+/// \param pCompare String to compare
+/// \return bool Result (true: match)
+/// \pre \c pActRegExp, \c pCompare ASCIIZ-string must be not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::compRegion (const char*& pActRegExp,
                                     const char*& pCompare) {
@@ -292,10 +292,10 @@ bool RegularExpression::compRegion (const char*& pActRegExp,
 
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the region.
-/// \param pActRegExp: Pointer to regular expression
-/// \param pEnd: Pointer to end of the region in the regular expression
-/// \param pCompare: String to compare
-/// \return \c bool: Result (true: match)
+/// \param pActRegExp Pointer to regular expression
+/// \param pEnd Pointer to end of the region in the regular expression
+/// \param pCompare String to compare
+/// \return bool Result (true: match)
 /// \pre
 ///    - \c pActRegExp, \c pEnd, \c pCompare ASCIIZ-string;
 ///    - \c pEnd > \c pActRegExp
@@ -400,9 +400,9 @@ bool RegularExpression::doCompRegion (const char*& pActRegExp, const char* pEnd,
 
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the group.
-/// \param pActRegExp: Reference to pointer to actual position in match
-/// \param pCompare: Value to compare with
-/// \return \c bool: Result (true: match)
+/// \param pActRegExp Reference to pointer to actual position in match
+/// \param pCompare Value to compare with
+/// \return bool Result (true: match)
 /// \pre
 ///     - \c pActRegExp, \c pCompare ASCIIZ-string, not NULL;
 ///     - \c *pActRegExp not NULL
@@ -433,12 +433,12 @@ bool RegularExpression::compGroup (const char*& pActRegExp,
 
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the group.
-/// \param pActPos: Reference to pointer to actual position in match
-/// \param pEnd: Pointer to end of the region in the regular expression
-/// \param pCompare: Pointer to group to compare
-/// \param min: Minimal number of matches
-/// \param max: Maximal number of matches
-/// \return \c bool: Result (true: match)
+/// \param pActPos Reference to pointer to actual position in match
+/// \param pEnd Pointer to end of the region in the regular expression
+/// \param pCompare Pointer to group to compare
+/// \param min Minimal number of matches
+/// \param max Maximal number of matches
+/// \return bool Result (true: match)
 /// \pre
 ///   - \ pActRegExp, \c pCompare ASCIIZ-string, not NULL;
 ///   - \c *pActRegExp not NULL
@@ -510,9 +510,9 @@ bool RegularExpression::doCompGroup (const char*& pActRegExp, const char* pEnd,
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the single character (incl\. handling
 /// of the repeat-factor).
-/// \param pActPos: Reference to pointer to actual position in match
-/// \param pCompare: Pointer to group to compare
-/// \return \c bool: Result (true: match)
+/// \param pActPos Reference to pointer to actual position in match
+/// \param pCompare Pointer to group to compare
+/// \return bool Result (true: match)
 /// \pre \c pActRegExp, pCompare ASCIIZ-string
 //----------------------------------------------------------------------------
 bool RegularExpression::compChar (const char*& pActRegExp,
@@ -525,10 +525,10 @@ bool RegularExpression::compChar (const char*& pActRegExp,
 
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the single character.
-/// \param pActPos: Reference to pointer to actual position in match
+/// \param pActPos Reference to pointer to actual position in match
 ///     - Pointer to end of the region in the regular expression
-/// \param pCompare: Pointer to group to compare
-/// \return \c bool: Result (true: match)
+/// \param pCompare Pointer to group to compare
+/// \return bool Result (true: match)
 /// \pre \c pActRegExp, pEnd, pCompare ASCIIZ-string; pEnd > pActRegExp
 //----------------------------------------------------------------------------
 bool RegularExpression::doCompChar (const char*& pActRegExp, const char*,
@@ -566,9 +566,9 @@ bool RegularExpression::doCompChar (const char*& pActRegExp, const char*,
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the single character (incl\.
 //            handling of the repeat-factor).
-/// \param pActPos: Reference to pointer to actual position in match
-/// \param region: Region to compare
-/// \return \c bool: Result (true: match)
+/// \param pActPos Reference to pointer to actual position in match
+/// \param region Region to compare
+/// \return bool Result (true: match)
 /// \pre \c pActRegExp, pCompare ASCIIZ-string
 //----------------------------------------------------------------------------
 bool RegularExpression::compEscChar (const char*& pActRegExp,
@@ -581,10 +581,10 @@ bool RegularExpression::compEscChar (const char*& pActRegExp,
 
 //----------------------------------------------------------------------------
 /// Checks if the passed string matches the single (escaped) character
-/// \param pActPos: Reference to pointer to actual position in match
-//  \param pEnd: Pointer to regexp after char (incl. repeat-factor)
-/// \param ch: Character to compare
-/// \return \c bool: Result (true: match)
+/// \param pActPos Reference to pointer to actual position in match
+//  \param pEnd Pointer to regexp after char (incl. repeat-factor)
+/// \param ch Character to compare
+/// \return bool Result (true: match)
 /// \pre \c pActRegExp, pEnd, pCompare ASCIIZ-string; pEnd > pActRegExp
 //----------------------------------------------------------------------------
 bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd,
@@ -640,8 +640,8 @@ bool RegularExpression::doCompEscChar (const char*& pActRegExp, const char* pEnd
 
 //----------------------------------------------------------------------------
 /// Checks if the actual position is at a word-border
-/// \param pCompare: String to inspect
-/// \return \c bool
+/// \param pCompare String to inspect
+/// \return bool; True if the actual position is at the border of a word
 /// \pre \c pCompare not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::isWordBorder (const char* pCompare) const {
@@ -654,8 +654,8 @@ bool RegularExpression::isWordBorder (const char* pCompare) const {
 
 //----------------------------------------------------------------------------
 /// Checks if the actual position is at the beginning of a word.
-/// \param pCompare: String to inspect
-/// \return \c bool
+/// \param pCompare String to inspect
+/// \return bool; True if the actual position is at the beginning of a word
 /// \pre \c pCompare not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::isWordBeginn (const char* pCompare) const {
@@ -668,8 +668,8 @@ bool RegularExpression::isWordBeginn (const char* pCompare) const {
 
 //----------------------------------------------------------------------------
 /// Checks if the actual position is at the end of a word.
-/// \param pCompare: String to inspect
-/// \return \c bool
+/// \param pCompare String to inspect
+/// \return bool; True if the actual position is at the end of a word
 /// \pre \c pCompare not NULL
 //----------------------------------------------------------------------------
 bool RegularExpression::isWordEnd (const char* pCompare) const {
@@ -681,8 +681,8 @@ bool RegularExpression::isWordEnd (const char* pCompare) const {
 
 //----------------------------------------------------------------------------
 /// Finds the end of a region.
-/// \param pRegExp: Pointer to the beginning of the region (*after* bracket)
-/// \return \c const char*: Pointer to end of region (points to closing bracket)
+/// \param pRegExp Pointer to the beginning of the region (*after* bracket)
+/// \return const char* Pointer to end of region (points to closing bracket)
 /// \pre \c pRegExp not NULL, \c pRegExp[-1] == REGIONBEGIN
 //----------------------------------------------------------------------------
 const char* RegularExpression::findEndOfRegion (const char* pRegExp) const {
@@ -721,9 +721,8 @@ const char* RegularExpression::findEndOfRegion (const char* pRegExp) const {
 
 //----------------------------------------------------------------------------
 /// Finds the end of a group.
-/// \param pRegExp: Pointer to the beginning of the group (*after* parent.)
-///
-/// \return \c const char*: Pointer to end of group (points to closing parent.)
+/// \param pRegExp Pointer to the beginning of the group (*after* parent.)
+/// \return const char* Pointer to end of group (points to closing parent.)
 /// \pre \c pRegExp not \c NULL, \c pRegExp[-1] == GROUPBEGIN
 //----------------------------------------------------------------------------
 const char* RegularExpression::findEndOfGroup (const char* pRegExp) const {
@@ -743,9 +742,9 @@ const char* RegularExpression::findEndOfGroup (const char* pRegExp) const {
 
 //----------------------------------------------------------------------------
 /// Finds the end of an alternative.
-/// \param pRegExp: Pointer to the beginning of the regexp
-/// \param inGroup: Flag, if we are searching only inside a group
-/// \return \c const char*: Pointer to alternative-seperator (or NULL, if no
+/// \param pRegExp Pointer to the beginning of the regexp
+/// \param inGroup Flag, if we are searching only inside a group
+/// \return const char* Pointer to alternative-seperator (or NULL, if no
 //                         alternative found)
 /// \pre \c pRegExp not \c NULL and at least 1 char long
 //----------------------------------------------------------------------------
@@ -787,11 +786,11 @@ const char* RegularExpression::findEndOfAlternative (const char* pRegExp,
 
 //----------------------------------------------------------------------------
 /// Compares the acutal RE-part according to the repeat-factor.
-/// \param fnCompare: Member for comparing the regular expression
-/// \param pActRegExp: Pointer to regular expression
-/// \param pEnd: Pointer to end of the region in the regular expression
+/// \param fnCompare Member for comparing the regular expression
+/// \param pActRegExp Pointer to regular expression
+/// \param pEnd Pointer to end of the region in the regular expression
 /// \param pCompare: String to compare
-/// \return \c bool: True, if matches; false, if not
+/// \return bool True, if matches; false, if not
 /// \pre All Pointers not NULL; \c pEndRE >= \c pActRegExp
 //----------------------------------------------------------------------------
 bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActRegExp,
@@ -855,11 +854,11 @@ bool RegularExpression::compActREPart (MFCOMPARE fnCompare, const char*& pActReg
 
 //----------------------------------------------------------------------------
 /// Checks how often the last regular expression must be repeated.
-/// \param pRE: Ptr. to regular expression
-/// \param min: Minimal number, how often the previous part of the regular
+/// \param pRE Ptr. to regular expression
+/// \param min Minimal number, how often the previous part of the regular
 ///               expression must be repeated
-/// \param max: Maximal number
-/// \return \c const char*: End of repeat-factor (char behind)
+/// \param max Maximal number
+/// \return const char* End of repeat-factor (char behind)
 /// \pre \c pRE, \c ASCIIZ-string; not \c NULL
 //----------------------------------------------------------------------------
 const char* RegularExpression::getRepeatFactor (const char* pRE, unsigned int& min,
@@ -915,8 +914,8 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, unsigned int& m
 /// Checks the syntax of the regular expression. If everything is OK, 0 is
 /// returned; 1 if there is no regular expression at all. In case of any
 /// other error an exception is thrown.
-/// \return \c int: Status; 0: OK
-/// \throw std::invalid_argument: In case of an invalid regexp a describing text
+/// \return int Status; 0: OK
+/// \throw std::invalid_argument In case of an invalid regexp a describing text
 /// \pre \c pFileRegExp is a valid regexp
 //----------------------------------------------------------------------------
 int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
@@ -1024,9 +1023,9 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
 
 //----------------------------------------------------------------------------
 /// Builds the error-string for checkIntegrity ()
-/// \param rc: Occured error
-/// \param pos: Position of the error inside the regular expression
-/// \return \c std::invalid_arguemnt: With a text describing error in human-readable format
+/// \param rc Occured error
+/// \param pos Position of the error inside the regular expression
+/// \return std::invalid_arguemnt With a text describing error in human-readable format
 //----------------------------------------------------------------------------
 std::invalid_argument RegularExpression::getError (int rc, unsigned int pos) const {
 #ifdef HAVE_REGEX_H
@@ -1061,7 +1060,7 @@ std::invalid_argument RegularExpression::getError (int rc, unsigned int pos) con
 #ifdef HAVE_REGEX_H
 //----------------------------------------------------------------------------
 /// Initializes the regular-expression
-/// \param pRegExp: Pointer to ASCIIZ-string holding regexp
+/// \param pRegExp Pointer to ASCIIZ-string holding regexp
 /// \pre \c pRegExp is an ASCIIZ-string (not NULL)
 //----------------------------------------------------------------------------
 void RegularExpression::init (const char* pRegExp) throw (std::invalid_argument) {

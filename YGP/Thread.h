@@ -60,13 +60,13 @@ class Thread {
    virtual ~Thread ();
 
    /// Creates a new thread; the argument is passed directly to the thread function
-   /// \param fnc: Thread function to execute
-   /// \param pArgs: Argument to the thread
+   /// \param fnc Thread function to execute
+   /// \param pArgs Argument to the thread
    static Thread* create (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
       return new Thread (fnc, pArgs); }
    /// Creates a new thread; a pointer to the thread ID is passed to the thread function
-   /// \param fnc: Thread function to execute
-   /// \param pArgs: Argument to the thread
+   /// \param fnc Thread function to execute
+   /// \param pArgs Argument to the thread
    static Thread* create2 (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
       Thread* t = new Thread;
       t->pArgs_ = pArgs;
@@ -147,25 +147,25 @@ template <class T> class OThread : public Thread {
    ~OThread () { }
 
    /// Creates a new thread; the argument is passed directly to the thread function
-   /// \param obj: Object having a member to execute in a thread
-   /// \param fnc: Member to execute as thread
-   /// \param pArgs: Argument to the thread
+   /// \param obj Object having a member to execute in a thread
+   /// \param fnc Member to execute as thread
+   /// \param pArgs Argument to the thread
    static OThread<T>* create (T* obj, THREAD_OBJMEMBER fnc, void* pArgs) throw (YGP::ExecError) {
       return new OThread<T> (obj, fnc, pArgs); }
    /// Creates a new thread; a pointer to the thread is passed to the thread function
-   /// \param obj: Object having a member to execute in a thread
-   /// \param fnc: Member to execute as thread
-   /// \param pArgs: Argument to the thread
+   /// \param obj Object having a member to execute in a thread
+   /// \param fnc Member to execute as thread
+   /// \param pArgs Argument to the thread
    static OThread<T>* create2 (T* obj, THREAD_OBJMEMBER fnc, void* pArgs) throw (YGP::ExecError) {
       return new OThread<T> (obj, fnc, pArgs, true); }
 
 
  protected:
    /// Constructor
-   /// \param obj: Object having a member to execute in a thread
-   /// \param fnc: Member to execute as thread
-   /// \param pArgs: Argument to the thread
-   /// \param threadAsArg: Flag, if the thread expects its argument directly
+   /// \param obj Object having a member to execute in a thread
+   /// \param fnc Member to execute as thread
+   /// \param pArgs Argument to the thread
+   /// \param threadAsArg Flag, if the thread expects its argument directly
    OThread (T* obj, THREAD_OBJMEMBER fnc, void* pArgs, bool threadAsArg = false)
       throw (YGP::ExecError)
       : Thread (), indirect (threadAsArg), object (obj), callback (fnc) {

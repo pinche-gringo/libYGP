@@ -89,8 +89,8 @@ File::~File () {
 
 //-----------------------------------------------------------------------------
 /// Assignment operator
-/// \param other: Object to copy
-/// \returns \c File&: Reference to this
+/// \param other Object to copy
+/// \returns File& Reference to this
 //-----------------------------------------------------------------------------
 File& File::operator= (const File& other) {
    path_ = other.path_;
@@ -166,7 +166,7 @@ File& File::operator= (const char* name) throw (YGP::FileError) {
 //-----------------------------------------------------------------------------
 /// Duplicates (clones) the object and returns a pointer to the newly created
 /// object.
-/// \returns \c File*: Pointer to newly created clone
+/// \returns File* Pointer to newly created clone
 //-----------------------------------------------------------------------------
 File* File::clone () const {
    return new File (*this);
@@ -210,7 +210,7 @@ bool File::isExecuteable () const {
 //-----------------------------------------------------------------------------
 /// Retrieves the modification time of the file in the format of the
 /// system-time.
-/// \returns \c time_t: Filetime in system format
+/// \returns time_t Filetime in system format
 /// \remarks The call is only valid after a successfull find.
 //-----------------------------------------------------------------------------
 time_t File::time () const {
@@ -221,7 +221,7 @@ time_t File::time () const {
 
 //-----------------------------------------------------------------------------
 /// Returns the (local) time of the file in a (C-)struct tm.
-/// \param time: Broken down time structure to set
+/// \param time Broken down time structure to set
 /// \remarks The call is only valid with a valid object
 //-----------------------------------------------------------------------------
 void File::localtime (struct tm& time) const {
@@ -232,8 +232,8 @@ void File::localtime (struct tm& time) const {
 
 //-----------------------------------------------------------------------------
 /// Converts the filetime into a (C-)struct tm.
-/// \param time: Time of the file (in Windows format)
-/// \param result: Time of file converted into a struct tm
+/// \param time Time of the file (in Windows format)
+/// \param result Time of file converted into a struct tm
 /// \remarks
 ///     - The tm_wday, tm_yday and tm_isdst-members are not set!
 ///     - The call is only valid with a valid object
@@ -259,9 +259,9 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 //-----------------------------------------------------------------------------
 /// Opends the file in the specified mode. The mode parameter can have the
 /// same values than the ANSI-C fopen-function.
-/// \param mode: Mode for open the file (analogue to libc's fopen)
-/// \returns \c void*: Pointer to a handle for the opened file.
-/// \throw YGP::FileError: In case of an error with a textual description
+/// \param mode Mode for open the file (analogue to libc's fopen)
+/// \returns void* Pointer to a handle for the opened file.
+/// \throw YGP::FileError In case of an error with a textual description
 //-----------------------------------------------------------------------------
 void* File::open  (const char* mode) const throw (YGP::FileError) {
    std::string file (path ()); file += name ();
@@ -277,8 +277,8 @@ void* File::open  (const char* mode) const throw (YGP::FileError) {
 
 //-----------------------------------------------------------------------------
 /// Closes a (previously opened) file
-/// \param file: Handle of opened file
-/// \throw YGP::FileError: In case of an error with a textual description
+/// \param file Handle of opened file
+/// \throw YGP::FileError In case of an error with a textual description
 //-----------------------------------------------------------------------------
 void File::close (void* file) const throw (YGP::FileError) {
    TRACE5 ("File::close  () const - " << path () << name ());
@@ -293,11 +293,11 @@ void File::close (void* file) const throw (YGP::FileError) {
 /// opened) file (or less, if the end of the file has been reached) into
 /// buffer. and returns the number of actually read bytes. If an error
 /// occurres, an exception is thrown
-/// \param file: Handle of openeded file
-/// \param buffer: Buffer for data
-/// \param length: Maximal length of buffer
-/// \returns \c int: Number of read bytes
-/// \throw YGP::FileError: In case of an error a textual description
+/// \param file Handle of openeded file
+/// \param buffer Buffer for data
+/// \param length Maximal length of buffer
+/// \returns int Number of read bytes
+/// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
 int File::read (void* file, char* buffer, unsigned int length) const throw (YGP::FileError) {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
@@ -316,11 +316,11 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (YGP:
 /// Writes the specified number of characters to the (previously opened) file
 /// and returns the number of actually written bytes. If an error occurres, an
 /// exception is thrown.
-/// \param file: Handle of openeded file
-/// \param buffer: Buffer of data
-/// \param length: Length of buffer (= bytes to write)
-/// \returns \c int: Number of written bytes
-/// \throw YGP::FileError: In case of an error a textual description
+/// \param file Handle of openeded file
+/// \param buffer Buffer of data
+/// \param length Length of buffer (= bytes to write)
+/// \returns int Number of written bytes
+/// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
 int File::write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError) {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
@@ -336,8 +336,8 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 
 //-----------------------------------------------------------------------------
 /// Checks if further data is available for reading.
-/// \param file: Handle of openeded file
-/// \returns \c bool: True, if further data is available
+/// \param file Handle of openeded file
+/// \returns bool True, if further data is available
 //-----------------------------------------------------------------------------
 bool File::isEOF (void* file) const throw (YGP::FileError) {
    Check1 (file);
@@ -348,9 +348,9 @@ bool File::isEOF (void* file) const throw (YGP::FileError) {
 /// Throws an error consisting of the passed string, where the characters '%1'
 /// are subsituted with the name of the file and '%2' with an error message
 /// (according to strerror).
-/// \param error: ASCIIZ-String describing error-message
+/// \param error ASCIIZ-String describing error-message
 /// \pre error != NULL, an ASCIIZ-string with the placeholders %1, %2
-/// \throw YGP::FileError: In case of an error
+/// \throw YGP::FileError In case of an error
 //-----------------------------------------------------------------------------
 void File::throwErrorText (const char* error) const throw (YGP::FileError) {
    Check1 (error);

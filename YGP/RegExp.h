@@ -32,7 +32,7 @@ namespace YGP {
 class IRegularExpression {
  public:
    /// Checks, if the regular expression matches the passed text
-   /// \param pCompare: Pointer to text to match
+   /// \param pCompare Pointer to text to match
    bool matches (const char* pCompare) {
       Check1 (pCompare); Check1 (pRegExp); Check1 (!checkIntegrity ());
       return compare (pRegExp, pCompare); }

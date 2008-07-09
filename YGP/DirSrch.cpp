@@ -65,7 +65,7 @@ DirectorySearch::DirectorySearch () : IDirectorySearch (), searchDir (1, '.'),
 //-----------------------------------------------------------------------------
 /// Constructor; creates an object with the files to search. The parameter may
 /// include path-information.
-/// \param search: Files (including the path) to search for.
+/// \param search Files (including the path) to search for.
 //-----------------------------------------------------------------------------
 DirectorySearch::DirectorySearch (const std::string& search)
    : IDirectorySearch (), searchDir (), searchFile (), attr (0), offStrip (0),
@@ -90,8 +90,8 @@ DirectorySearch::~DirectorySearch () {
 //-----------------------------------------------------------------------------
 /// Retrieves the first file matching the previously specified
 /// search-criteria.
-/// \param attribs: Attributes the file must contain
-/// \returns <tt>const File*</tt>: Pointer to found file-object or NULL
+/// \param attribs Attributes the file must contain
+/// \returns const File* Pointer to found file-object or NULL
 /// \pre The search values must have been specified!
 //-----------------------------------------------------------------------------
 const File* DirectorySearch::find (unsigned long attribs) {
@@ -155,7 +155,7 @@ const File* DirectorySearch::find (unsigned long attribs) {
 //-----------------------------------------------------------------------------
 /// Returns the next matching file according to parameters specified in
 /// earlier find-calls. If a file was found 0 is returned, errno otherwise.
-/// \returns <tt>const File*</tt>: Pointer to found file-object or NULL
+/// \returns const File* Pointer to found file-object or NULL
 /// \pre The search must have already been started by a find!
 //-----------------------------------------------------------------------------
 const File* DirectorySearch::next () {
@@ -222,7 +222,7 @@ const File* DirectorySearch::next () {
 //-----------------------------------------------------------------------------
 /// Checks if this object is integer. If yes 0 is returned, else a number
 /// describing the error.
-/// \returns \c int: Status; 0: OK
+/// \returns int Status; 0: OK
 //-----------------------------------------------------------------------------
 int DirectorySearch::checkIntegrity () const {
    TRACE9 ("DirectorySearch::checkIntegrity () const");
@@ -240,7 +240,7 @@ int DirectorySearch::checkIntegrity () const {
 /// Sets the value for the next search. Internally it splits the search-string
 /// in its directory- and filepart; it prepares the internal data also for a
 /// new search.
-/// \param search: Files to find
+/// \param search Files to find
 //-----------------------------------------------------------------------------
 void DirectorySearch::setSearchValue (const std::string& search) {
    TRACE8 ("DirectorySearch::setSearchValue (const std::string&) - " << search);
@@ -310,8 +310,8 @@ void DirectorySearch::cleanup () {
 
 //-----------------------------------------------------------------------------
 /// Checks if the passed string specifies an existing directory.
-/// \param dir: Directory whose validity should be checked
-/// \returns \c bool: True if the directory exists
+/// \param dir Directory whose validity should be checked
+/// \returns bool True if the directory exists
 //-----------------------------------------------------------------------------
 bool DirectorySearch::isValid (const std::string& dir) {
    TRACE8 ("DirectorySearch::isValid (const std::string&) - " << dir.c_str ());
@@ -331,7 +331,7 @@ bool DirectorySearch::isValid (const std::string& dir) {
 //-----------------------------------------------------------------------------
 /// Checks if the directory-part of this object specifies an existing
 /// directory.
-/// \returns \c bool: True if the directory exists
+/// \returns bool True if the directory exists
 //-----------------------------------------------------------------------------
 bool DirectorySearch::isValid () const {
    return isValid (searchDir);

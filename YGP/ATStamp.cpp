@@ -61,7 +61,7 @@ ATimestamp::ATimestamp () : ADate (), ATime () {
 /// Constructor; depending on the parameter the timestamp is either set to the
 /// 1st of January, 1900 0:00:00 (now = false), or to the current time (now =
 /// true).
-/// \param now: Flag if current time or default time (1.1.1900) should be set
+/// \param now Flag if current time or default time (1.1.1900) should be set
 //-----------------------------------------------------------------------------
 ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
    TRACE5 ("ATimestamp::ATimestamp (" << (now ? "true)" : "false)"));
@@ -71,12 +71,12 @@ ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
 /// Constructor; sets the passed time. The object is undefined, if the passed
 /// parameters represent no valid date/time-combination (e.g. Hour > 23,
 /// minute > 59, second > 61 or day > 31).
-/// \param Day: Day for this object
-/// \param Month
-/// \param Year
-/// \param Hour
-/// \param minute
-/// \param second: Other time-parameters (self explaining, I think)
+/// \param Day Day for this object
+/// \param Month Month of this object
+/// \param Year Year of this object
+/// \param Hour Hour of this object
+/// \param minute Minute of this object 
+/// \param second Other time-parameters
 //-----------------------------------------------------------------------------
 ATimestamp::ATimestamp (char Day, char Month, int Year, char Hour,
                         char minute, char second) throw (std::invalid_argument)
@@ -92,8 +92,8 @@ ATimestamp::~ATimestamp () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator from another timestamp object
-/// \param other: Object to assign
-/// \returns Reference to self
+/// \param other Object to assign
+/// \returns ATimestamp& Reference to self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
    Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
@@ -108,8 +108,8 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 /// Assignment-operator from an const char-pointer. The timestamp must be
 /// passed as DDMMY[Y...] hhmmss. If the buffer does not represent a valid
 /// timestamp, an exception is thrown.
-/// \param pValue: Character array specifying timestamp to assign
-/// \returns Reference to self
+/// \param pValue Character array specifying timestamp to assign
+/// \returns ATimestamp& Reference to self
 /// \throw std::invalid_argument if the parameters has a wrong format
 /// \remarks A NULL-pointer as parameter is not permitted!
 //-----------------------------------------------------------------------------
@@ -126,8 +126,8 @@ ATimestamp& ATimestamp::operator= (const char* pValue) throw (std::invalid_argum
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator; assigns the values from the passed struct tm.
-/// \param tm: Object to assign as char-string
-/// \returns Reference to self
+/// \param tm Object to assign as char-string
+/// \returns ATimestamp& Reference to self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::operator= (const struct tm& tm) {
    ADate::operator= (tm);
@@ -172,7 +172,7 @@ std::string ATimestamp::toString (const char* format) const {
 /// Reads the timestamp in the format DDMMY[Y...] hhmmss (with leading zeros)
 /// from a stream. If the input is not a valid timestamp an exception is
 /// thrown.
-/// \param in: Stream to parse
+/// \param in Stream to parse
 /// \throw std::invalid_argument in case of a format error
 //-----------------------------------------------------------------------------
 void ATimestamp::readFromStream (std::istream& in) throw (std::invalid_argument) {
@@ -187,8 +187,8 @@ void ATimestamp::readFromStream (std::istream& in) throw (std::invalid_argument)
 /// Adds another timestamp-value to the object. An undefined timestamp is
 /// treated as "0.0.0 0:00:00"; if both objects are undefined, the result is
 /// undefined. Overflows are corrected.
-/// \param rhs: Value to add
-/// \returns Self
+/// \param rhs Value to add
+/// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::operator+= (const ATimestamp& rhs) {
    Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -202,8 +202,8 @@ ATimestamp& ATimestamp::operator+= (const ATimestamp& rhs) {
 /// Substracts another timestamp-value to the object. An undefined timestamp
 /// is treated as "0.0.0 0:00:00"; if both objects are undefined, the result
 /// is undefined. Underflows are corrected.
-/// \param rhs: Value to substract
-/// \returns Self
+/// \param rhs Value to substract
+/// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
    Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -218,13 +218,13 @@ ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
 /// corrected. The result is returned. In counterpart to the mathematic
 /// operators (+ and -) this method does not change the object if it is
 /// undefined!
-/// \param Day: Day to add
-/// \param Month: Month to add
-/// \param Year: Year to add
-/// \param Hour: Hour to add
-/// \param minute: Minute to add
-/// \param second: Second to add
-/// \returns Self
+/// \param Day Day to add
+/// \param Month Month to add
+/// \param Year Year to add
+/// \param Hour Hour to add
+/// \param minute Minute to add
+/// \param second Second to add
+/// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::add (char Day, char Month, int Year,
                              char Hour, char minute ,char second) {
@@ -240,13 +240,13 @@ ATimestamp& ATimestamp::add (char Day, char Month, int Year,
 /// are corrected. The result is returned. In counterpart to the mathematic
 /// operators (+ and -) this method does not change the object if it is
 /// undefined!
-/// \param Day: Day to substract
-/// \param Month: Month to substract
-/// \param Year: Year to substract
-/// \param Hour: Hour to substract
-/// \param minute: Minute to substract
-/// \param second: Second to substract
-/// \returns Self
+/// \param Day Day to substract
+/// \param Month Month to substract
+/// \param Year Year to substract
+/// \param Hour Hour to substract
+/// \param minute Minute to substract
+/// \param second Second to substract
+/// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
 ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
                              char Hour, char minute ,char second) {
@@ -268,8 +268,8 @@ ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
 /// If both objects are undefined, those difference is "0", if only this is
 /// undefined the result is MINLONG, if only other is undefined MAXLONG is
 /// returned (-> undefined times are considered to be very old).
-/// \param other: Object to compare
-/// \returns \c long: >0 if this is closer to the past than other; 0 if this
+/// \param other Object to compare
+/// \returns long >0 if this is closer to the past than other; 0 if this
 ///      == other; <0 else
 //-----------------------------------------------------------------------------
 long ATimestamp::compare (const ATimestamp& other) const {
@@ -289,9 +289,9 @@ long ATimestamp::compare (const ATimestamp& other) const {
 /// Returns the addition of two timestamp-values. An undefined time is treated
 /// as "0.0.0 0:00:00"; if both objects are undefined, the result is
 /// undefined. Overflows are corrected.
-/// \param lhs: Left-hand-side of addition
-/// \param rhs: Right-hand-side of addition
-/// \returns \c ATimestamp: Result of additon
+/// \param lhs Left-hand-side of addition
+/// \param rhs Right-hand-side of addition
+/// \returns ATimestamp Result of additon
 //-----------------------------------------------------------------------------
 ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -305,9 +305,9 @@ ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs) {
 /// Returns the substraction of two timestamp-values. An undefined time is
 /// treated as "0.0.0 0:00:00"; if both objects are undefined, the result is
 /// undefined. Underflows are corrected.
-/// \param lhs: Left-hand-side of substraction
-/// \param rhs: Right-hand-side of substraction
-/// \returns \c ATimestamp: Result of substraction
+/// \param lhs Left-hand-side of substraction
+/// \param rhs Right-hand-side of substraction
+/// \returns ATimestamp Result of substraction
 //-----------------------------------------------------------------------------
 ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs) {
    Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
@@ -320,7 +320,7 @@ ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs) {
 //-----------------------------------------------------------------------------
 /// Checks if this object represents a valid timestamp. Note: Even undefined
 /// times must have valid values!
-/// \returns Status; 0: OK
+/// \returns int Status; 0: OK
 //-----------------------------------------------------------------------------
 int ATimestamp::checkIntegrity () const {
    int rc (ATime::checkIntegrity ());
@@ -330,7 +330,7 @@ int ATimestamp::checkIntegrity () const {
 //-----------------------------------------------------------------------------
 /// Corrects the object after underflows. If the the object is integer after
 /// the operation, true is returned (else false).
-/// \returns \c bool: True, if object is integer after the operation
+/// \returns bool True, if object is integer after the operation
 //-----------------------------------------------------------------------------
 bool ATimestamp::minAdapt () {
    if (ATime::minAdapt ())
@@ -342,7 +342,7 @@ bool ATimestamp::minAdapt () {
 //-----------------------------------------------------------------------------
 /// Corrects the object after overflows. If the the object is integer after
 /// the operation, true is returned (else false).
-/// \returns \c bool: True, if object is integer after the operation
+/// \returns bool True, if object is integer after the operation
 //-----------------------------------------------------------------------------
 bool ATimestamp::maxAdapt () {
    if (ATime::maxAdapt ())
@@ -352,7 +352,7 @@ bool ATimestamp::maxAdapt () {
 
 //-----------------------------------------------------------------------------
 /// Converts the object to a struct tm.
-/// \returns <tt>struct tm</tt>: Timestamp in struct tm-format
+/// \returns struct tm Timestamp in struct tm-format
 /// \remarks It is not checked if the date is in the right range for a
 ///    <tt>struct tm</tt> (after 1900 and before 2039)
 //-----------------------------------------------------------------------------
@@ -368,7 +368,7 @@ struct tm ATimestamp::toStructTM () const {
 
 //-----------------------------------------------------------------------------
 /// Converts the object to a system-timestructure (as GMT).
-/// \returns \c time_t: Converted time
+/// \returns time_t Converted time
 //-----------------------------------------------------------------------------
 time_t ATimestamp::toGMTTime () const {
 #ifdef HAVE_TIMEGM

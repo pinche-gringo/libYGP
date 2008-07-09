@@ -43,7 +43,7 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param obj: StatusObject to display
+/// \param obj StatusObject to display
 //-----------------------------------------------------------------------------
 MessageDlg::MessageDlg (const YGP::StatusObject& obj)
    : Gtk::MessageDialog (obj.getMessage (), getButtonType (obj.getType ())),

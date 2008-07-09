@@ -109,9 +109,9 @@ class DynTraceManager {
    */
    struct lessDereferenced : public std::binary_function<const char*, const char*, bool> {
    /// Access to the functor
-   /// \param x: First object to compare
-   /// \param y: Second object to compare
-   /// \returns bool: True, if the string the  object x points to is
+   /// \param x First object to compare
+   /// \param y Second object to compare
+   /// \returns bool True, if the string the  object x points to is
    ///     smaller than the string the second objects points to.
    bool operator() (const char* x, const char* y) const {
       Check1 (x); Check1 (y);

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005
+//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008
 
 // This file is part of libYGP.
 //
@@ -126,9 +126,9 @@ GtkWidget* gtkhtmlInitialize () {
 
 //----------------------------------------------------------------------------
 /// Displays a file in the GTKHTML control
-/// \param ctrl: HTML-widget
-/// \param file: File to display
-/// \remarks: Don't call with a NULL-pointer for file
+/// \param ctrl HTML-widget
+/// \param file File to display
+/// \remarks Don't call with a NULL-pointer for file
 //----------------------------------------------------------------------------
 void gtkhtmlDisplayFile (GtkWidget* ctrl, const char* file) {
    Check2 (ctrl);
@@ -179,9 +179,9 @@ const char* gtkhtmlGetError () {
 
 //----------------------------------------------------------------------------
 /// Callback when clicking on a link
-/// \param doc: Displayed document
-/// \param url: URL to display
-/// \param x: Unused
+/// \param doc Displayed document
+/// \param url URL to display
+/// \param x Unused
 //----------------------------------------------------------------------------
 static void gtkhtmlLinkClicked (GtkHTML *widget, const gchar *url, gpointer x) {
     TRACE2 ("Link: %s\n", url);
@@ -191,12 +191,11 @@ static void gtkhtmlLinkClicked (GtkHTML *widget, const gchar *url, gpointer x) {
 //----------------------------------------------------------------------------
 /// Callback when the HTML parser founds an "inline" document (such as images,
 /// or an external CSS style sheet)
-/// \param doc: Displayed document
-/// \param url: URL of "included" file
-/// \param stream: Stream, where to write the file to
-/// \param x: Unused
+/// \param doc Displayed document
+/// \param url URL of "included" file
+/// \param stream Stream, where to write the file to
 //----------------------------------------------------------------------------
-static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *stream, gpointer x) {
+static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *stream, gpointer) {
    TRACE2 ("Loading file `%s'\n", url);
    Check1 (url); Check1 (widget); Check1 (stream);
    Check1 (*url);

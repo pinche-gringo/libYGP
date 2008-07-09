@@ -54,7 +54,7 @@ class SortedDirSearch : public Parent {
  public:
    SortedDirSearch () : Parent (), inFirstFind (false) { }
    /// Constructor from a search-string
-   /// \param search: Files to search for
+   /// \param search Files to search for
    SortedDirSearch (const std::string& search)
       : Parent (search), inFirstFind (false) { }
    virtual ~SortedDirSearch () {
@@ -72,8 +72,8 @@ class SortedDirSearch : public Parent {
       Parent::setSearchValue (spec);
       return find (attribs); }
    /// Searches for previously specified files with the passed attributes.
-   /// \param attribs: Attributes the searched files must have
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \param attribs Attributes the searched files must have
+   /// \returns const File* Pointer to found file or NULL
    virtual const File* find (unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
       inFirstFind = true;
       const File* file (Parent::find (attribs));
@@ -87,7 +87,7 @@ class SortedDirSearch : public Parent {
       return result.size () ? *result.begin () : NULL;
    }
    /// Method to find the next file matching the  previously specified values.
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns const File* Pointer to found file or NULL
    virtual const File* next () {
       if (inFirstFind)
          return Parent::next ();
@@ -102,7 +102,7 @@ class SortedDirSearch : public Parent {
 
  protected:
    /// Method to find the next file matching the  previously specified values.
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns const File* Pointer to found file or NULL
    static bool compareFiles (const File* a, const File* b) {
       return strcmp (a->name (), b->name ()) < 0;
    }

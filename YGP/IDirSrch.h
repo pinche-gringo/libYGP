@@ -64,12 +64,12 @@ class IDirectorySearch {
    /// files returned must match the passed attributes.
    ///
    /// To be implemented by derived classes.
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns const File* Pointer to found file or NULL
    virtual const File* find (unsigned long attribs = FILE_NORMAL) = 0;
    /// Method to find the next file matching the  previously specified values.
    ///
    /// To be implemented by derived classes.
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns const File* Pointer to found file or NULL
    virtual const File* next () = 0;
    //@}
 

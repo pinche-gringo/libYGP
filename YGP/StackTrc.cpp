@@ -55,7 +55,7 @@ extern "C" {
 
 //-----------------------------------------------------------------------------
 /// Signalhandler; dumps stack when signal is caught
-/// \param sig: Number of signal caught
+/// \param sig Number of signal caught
 /// \remarks A stacktrace might be useful (only?) after a segmentation fault
 //-----------------------------------------------------------------------------
 void handleSignal (int sig) {

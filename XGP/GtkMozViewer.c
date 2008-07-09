@@ -60,7 +60,7 @@ static PFNLOAD        pfnLoad = NULL;
 
 //----------------------------------------------------------------------------
 /// Initializes the GktMozEmbed instance
-/// \returns GtkWidget*: Created widget
+/// \returns GtkWidget* Created widget
 //----------------------------------------------------------------------------
 GtkWidget* gtkMozEmbedInitialize () {
    TRACE ("Initializing gtkmozembed viewer\n");
@@ -86,9 +86,9 @@ GtkWidget* gtkMozEmbedInitialize () {
 
 //----------------------------------------------------------------------------
 /// Displays a URL in the GtkMozEmbed control
-/// \param ctrl: MozEmbed-widget
-/// \param file: File to display
-/// \remarks: Don't call with a NULL-pointer for file
+/// \param ctrl MozEmbed-widget
+/// \param file File to display
+/// \remarks Don't call with a NULL-pointer for file
 //----------------------------------------------------------------------------
 void gtkMozEmbedDisplayURL (GtkWidget* ctrl, const char* url) {
    TRACE2 ("gtkMozEmbedDisplayURL: Showing URL %s\n", url);
@@ -101,7 +101,7 @@ void gtkMozEmbedDisplayURL (GtkWidget* ctrl, const char* url) {
 
 //----------------------------------------------------------------------------
 /// Returns the error of the last action (concerning accessing the DLL)
-/// \return const char*: A text describing the last error
+/// \return const char* A text describing the last error
 //----------------------------------------------------------------------------
 const char* gtkMozEmbedGetError () {
     return dlerror ();

@@ -144,8 +144,8 @@ void TraceDlg::okEvent () {
 
 //-----------------------------------------------------------------------------
 /// Callback after changing a value in the listbox
-/// \param path: Path to changed line
-/// \param value: New value of entry
+/// \param path Path to changed line
+/// \param value New value of entry
 //-----------------------------------------------------------------------------
 void TraceDlg::levelChanged (const Glib::ustring& path, const Glib::ustring& value) {
    TRACE9 ("TraceDlg::valueChanged (2x const Glib::ustring&)");

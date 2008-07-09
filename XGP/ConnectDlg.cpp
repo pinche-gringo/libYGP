@@ -49,10 +49,10 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
-/// \param cMaxConnections: Maximal number of connections the dialog (in
+/// \param cMaxConnections Maximal number of connections the dialog (in
 ///    server mode) will wait for.
-/// \param defPort: Default port to listen at/send to
-/// \param connMgr: Connection manager; holding the connections to use
+/// \param defPort Default port to listen at/send to
+/// \param connMgr Connection manager; holding the connections to use
 //-----------------------------------------------------------------------------
 ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
                         const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr)
@@ -116,11 +116,11 @@ ConnectDlg::~ConnectDlg () {
 
 //----------------------------------------------------------------------------
 /// Performs the dialog (modal)
-/// \param cMaxConnections: Maximal number of connections the dialog (in
+/// \param cMaxConnections Maximal number of connections the dialog (in
 ///    server mode) will wait for.
-/// \param defPort: Default port to listen at/send to
-/// \param connMgr: Connection manager; holding the connections to use
-/// \returns ConnectDlg::modeConnect: Mode of the connection
+/// \param defPort Default port to listen at/send to
+/// \param connMgr Connection manager; holding the connections to use
+/// \returns ConnectDlg::modeConnect Mode of the connection
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
@@ -132,11 +132,11 @@ void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
 
 //----------------------------------------------------------------------------
 /// Performs the dialog (modal)
-/// \param cMaxConnections: Maximal number of connections the dialog (in
+/// \param cMaxConnections Maximal number of connections the dialog (in
 ///    server mode) will wait for.
-/// \param defPort: Default port to listen at/send to
-/// \param connMgr: Connection manager; holding the connections to use
-/// \returns ConnectDlg::modeConnect: Mode of the connection
+/// \param defPort Default port to listen at/send to
+/// \param connMgr Connection manager; holding the connections to use
+/// \returns ConnectDlg::modeConnect Mode of the connection
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, const Glib::ustring& defPort,
@@ -148,7 +148,7 @@ void ConnectDlg::perform (unsigned int cMaxConnections, const Glib::ustring& def
 
 //----------------------------------------------------------------------------
 /// Command handler of the dialog
-/// \param action: Selected command (button)
+/// \param action Selected command (button)
 //----------------------------------------------------------------------------
 void ConnectDlg::command (int action) {
    TRACE8 ("ConnectDlg::command (int) - " << action);
@@ -233,7 +233,7 @@ void ConnectDlg::valueChanged () const {
 
 //----------------------------------------------------------------------------
 /// Waits for connections
-/// \throw YGP::CommError: In case of an connection error
+/// \throw YGP::CommError In case of an connection error
 //----------------------------------------------------------------------------
 void* ConnectDlg::waitForConnections (void* pVoid) throw (YGP::CommError){
    while (true) {
@@ -245,8 +245,8 @@ void* ConnectDlg::waitForConnections (void* pVoid) throw (YGP::CommError){
 
 //----------------------------------------------------------------------------
 /// Adds a connected client to the vector holding the connections
-/// \param socket: Socket over which the client communicates
-/// \returns Socket*: Pointer to created socket (or \c NULL)
+/// \param socket Socket over which the client communicates
+/// \returns Socket* Pointer to created socket (or \c NULL)
 //----------------------------------------------------------------------------
 YGP::Socket* ConnectDlg::addClient (int socket) {
    YGP::Socket* newSocket (cmgr.addConnection (socket));
@@ -260,9 +260,9 @@ YGP::Socket* ConnectDlg::addClient (int socket) {
 
 //----------------------------------------------------------------------------
 /// Connects the client with the passed target
-/// \param target: Name or IP address of target
-/// \param port: Port the target is listening at
-/// \throw YGP::CommError: In case of an connection error
+/// \param target Name or IP address of target
+/// \param port Port the target is listening at
+/// \throw YGP::CommError In case of an connection error
 //----------------------------------------------------------------------------
 void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) throw (YGP::CommError) {
    TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"

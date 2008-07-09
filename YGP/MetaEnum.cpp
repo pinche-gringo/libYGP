@@ -44,8 +44,8 @@ MetaEnum::~MetaEnum () {
 
 //-----------------------------------------------------------------------------
 /// Returns the string-value of the passed value
-/// \param value: Value to return as string
-/// \returns std::string: Value as string
+/// \param value Value to return as string
+/// \returns std::string Value as string
 /// \remarks value must exist within the enum
 /// \throws std::out_of_range
 //-----------------------------------------------------------------------------
@@ -58,8 +58,8 @@ std::string MetaEnum::operator[] (int value) const throw (std::out_of_range) {
 
 //-----------------------------------------------------------------------------
 /// Returns the numeric value of the passed string
-/// \param value: String Value to return numeric
-/// \returns int: Numeric value
+/// \param value String Value to return numeric
+/// \returns int Numeric value
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------
 int MetaEnum::operator[] (const std::string& value) const throw (std::out_of_range) {
@@ -71,7 +71,7 @@ int MetaEnum::operator[] (const std::string& value) const throw (std::out_of_ran
 
 //-----------------------------------------------------------------------------
 /// Checks if the passed string-value exists within the enum
-/// \param value: Value to check for
+/// \param value Value to check for
 /// \returns bool
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------

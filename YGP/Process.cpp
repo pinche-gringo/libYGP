@@ -90,10 +90,10 @@ namespace YGP {
 /// can not be found or produces an error while executing/initializing (in the
 /// more or less 1st second) an describing text (at least if the program
 /// produces an helpful output) is thrown.
-/// \param file: Name of file to execute
-/// \param arguments: Array with arguments for the file (as understood by execv)
-/// \param flags: Flags; e.g. if to wait til the program terminates
-/// \param fd: Filedescriptors for communication with the child.
+/// \param file Name of file to execute
+/// \param arguments Array with arguments for the file (as understood by execv)
+/// \param flags Flags; e.g. if to wait til the program terminates
+/// \param fd Filedescriptors for communication with the child.
 ///     - fd[0] contains the filedescriptor the child should read its data from;
 ///             will be overwritten with the descriptor the output from the
 ///             child can be read from (if flags & CONNECT_STDOUT or
@@ -104,8 +104,8 @@ namespace YGP {
 ///             child can be read from (if flags & CONNECT_STDERR)
 ///     filled with the filedescriptor for the output
 /// \pre \c file is a valid ASCIIZ-string
-/// \returns pid_t: PID of created process
-/// \throw YGP::ExecError: An error-message displayed by the program
+/// \returns pid_t PID of created process
+/// \throw YGP::ExecError An error-message displayed by the program
 /// \remarks The called file must follow some convention:
 ///    - Return 0 if OK and !0 if an error occured
 ///    - In case of an error the output should contain a describing message
@@ -274,8 +274,8 @@ pid_t Process::start (const char* file, const char* const arguments[],
 //-----------------------------------------------------------------------------
 /// Reads the data for the passed descriptor and returns it with a
 /// description.
-/// \param file: Descriptor of stream to read from
-/// \returns \c String with error-message
+/// \param file Descriptor of stream to read from
+/// \returns std::string String with error-message
 //-----------------------------------------------------------------------------
 std::string Process::readChildOutput (int file) {
    std::string err (_("The command `%1' returned an error!\n\nOutput: %2"));
@@ -295,8 +295,8 @@ std::string Process::readChildOutput (int file) {
 
 //-----------------------------------------------------------------------------
 /// Wait til process has terminated
-/// \param pid: Proess to wait for
-/// \returns int: Returncode of the program
+/// \param pid Proess to wait for
+/// \returns int Returncode of the program
 //-----------------------------------------------------------------------------
 int Process::waitForProcess (pid_t pid) {
 #if defined HAVE_SPAWNVP && HAVE_WINDOWS_H

@@ -51,10 +51,10 @@ namespace XGP {
 
 //----------------------------------------------------------------------------
 /// Creates (or updates) a dialog displaying a HTML-document
-/// \param file: File containing the HTML-document to display
-/// \param title: Title of help-window
-/// \param type: Type of control to create
-/// \returns HTMLViewer* : Pointer to the created dialog
+/// \param file File containing the HTML-document to display
+/// \param title Title of help-window
+/// \param type Type of control to create
+/// \returns HTMLViewer* Pointer to the created dialog
 /// \throw CreateError in case of error
 //----------------------------------------------------------------------------
 HTMLViewer* HTMLViewer::create (const std::string& file, const Glib::ustring& title,
@@ -76,10 +76,10 @@ HTMLViewer* HTMLViewer::create (const std::string& file, const Glib::ustring& ti
 
 //----------------------------------------------------------------------------
 /// Creates a dialog displaying a HTML-document
-/// \param file: File containing the HTML-document to display
-/// \param title: Title of help-window
-/// \param type: Type of control to create
-/// \throw \c CreateError in case of error
+/// \param file File containing the HTML-document to display
+/// \param title Title of help-window
+/// \param type Type of control to create
+/// \throw CreateError in case of error
 //----------------------------------------------------------------------------
 HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
 			widgetTypes type) throw (CreateError)
@@ -154,7 +154,7 @@ HTMLViewer::~HTMLViewer () {
 
 //----------------------------------------------------------------------------
 /// Sets the HTML-document to display in the dialog
-/// \param file: File containing the HTML-document to display
+/// \param file File containing the HTML-document to display
 //----------------------------------------------------------------------------
 void HTMLViewer::display (const std::string& file) {
    TRACE9 ("HTMLViewer::display (const std::string&) - " << file);
@@ -173,7 +173,7 @@ void HTMLViewer::display (const std::string& file) {
 
 //----------------------------------------------------------------------------
 /// Sets the HTML-document to display in the dialog; do be used from the idle-signal
-/// \param file: File containing the HTML-document to display
+/// \param file File containing the HTML-document to display
 //----------------------------------------------------------------------------
 int HTMLViewer::_display (const std::string file) {
    display (file);

@@ -57,8 +57,8 @@ AYear::~AYear () {
 
 //----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to assign
-/// \return \c AYear&: Reference to self
+/// \param other Object to assign
+/// \return AYear& Reference to self
 //----------------------------------------------------------------------------
 AYear& AYear::operator= (const AYear& other) {
    TRACE5 ("AYear::operator=: " << other);
@@ -71,8 +71,8 @@ AYear& AYear::operator= (const AYear& other) {
 /// Assignment-operator from a const char-pointer. The year must be passed as
 /// <tt>Y[Y...]</tt>. If the buffer does not represent a valid year, an
 /// exception is thrown.
-/// \param pValue: Character array holding year to assign
-/// \return \c AYear&: Reference to self
+/// \param pValue Character array holding year to assign
+/// \return AYear& Reference to self
 /// \throw std::invalid_argument if the characters don't represent a valid year
 //----------------------------------------------------------------------------
 AYear& AYear::operator= (const char* pValue) throw (std::invalid_argument) {
@@ -96,7 +96,7 @@ AYear& AYear::operator= (const char* pValue) throw (std::invalid_argument) {
 //----------------------------------------------------------------------------
 /// Converts the year into a string, in the format <code>DDMMYYYY[...]</code>;
 /// each entry is filled up with zeros.
-/// \return \c std::string: String-representation of AYear
+/// \return std::string String-representation of AYear
 //----------------------------------------------------------------------------
 std::string AYear::toUnformattedString () const {
    char buffer[12] = "";
@@ -109,7 +109,7 @@ std::string AYear::toUnformattedString () const {
 //----------------------------------------------------------------------------
 /// Reads a year as DDMMY[Y...] from a stream. If the input is not valid, an
 /// exception is thrown.
-/// \param in: Stream to parse
+/// \param in Stream to parse
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
 void AYear::readFromStream (std::istream& in) throw (std::invalid_argument) {
@@ -128,8 +128,8 @@ void AYear::readFromStream (std::istream& in) throw (std::invalid_argument) {
 /// Adds another year-value to the year-object. An undefined year is treated
 /// as <tt>0.0.0</tt>; so only if both objects are undefined, the result is
 /// (remains) undefined. Overflows (of day or month) are corrected.
-/// \param rhs: Value to add
-/// \return \c Self
+/// \param rhs Value to add
+/// \return AYear& Self
 //----------------------------------------------------------------------------
 AYear& AYear::operator+= (const AYear& rhs) {
    if (rhs.isDefined ()) {
@@ -145,8 +145,8 @@ AYear& AYear::operator+= (const AYear& rhs) {
 /// Substracts another year-value from the year-object. An undefined year
 /// is treated as <tt>0.0.0</tt>; the result is (remains) undefined if both
 ///  objects are undefined. Underflows (of day or month) are corrected.
-/// \param rhs: Value to substract
-/// \return \c Self
+/// \param rhs Value to substract
+/// \return AYear& Self
 //----------------------------------------------------------------------------
 AYear& AYear::operator-= (const AYear& rhs) {
    if (rhs.isDefined ()) {
@@ -167,8 +167,8 @@ AYear& AYear::operator-= (const AYear& rhs) {
 ///  If both years are undefined, their difference is "0", if only this is
 ///  undefined the result is -1; if other is undefined 1 is returned.
 ///
-/// \param other: Object to compare
-/// \return \c >0 if this "younger" other; 0 if this == other; <0 else
+/// \param other Object to compare
+/// \return long >0 if this "younger" other; 0 if this == other; <0 else
 //----------------------------------------------------------------------------
 long AYear::compare (const AYear& other) const {
    // Both sides are defined -> return (approximated) difference
@@ -180,9 +180,9 @@ long AYear::compare (const AYear& other) const {
 /// Adds two year-values and returns the result. An undefined year is
 /// treated as "0.0.0"; the result is (remains) undefined if both objects are
 /// undefined. Overflows (of day or month) are corrected.
-/// \param lhs: Left-hand-side of addition
-/// \param rhs: Right-hand-side of addition
-/// \return \c AYear: Result of additon
+/// \param lhs Left-hand-side of addition
+/// \param rhs Right-hand-side of addition
+/// \return AYear Result of additon
 //----------------------------------------------------------------------------
 AYear operator+ (const AYear& lhs, const AYear& rhs) {
    AYear result (lhs);
@@ -194,9 +194,9 @@ AYear operator+ (const AYear& lhs, const AYear& rhs) {
 /// Substracts two year-values and returns the result. An undefined year is
 /// treated as "0.0.0"; the result is (remains) undefined if both objects
 /// are undefined. Overflows (of day or month) are corrected.
-/// \param lhs: Left-hand-side of substraction
-/// \param rhs: Right-hand-side of substraction
-/// \return \c AYear: Result of substraction
+/// \param lhs Left-hand-side of substraction
+/// \param rhs Right-hand-side of substraction
+/// \return AYear Result of substraction
 //----------------------------------------------------------------------------
 AYear operator- (const AYear& lhs, const AYear& rhs) {
    AYear result (lhs);
@@ -207,8 +207,8 @@ AYear operator- (const AYear& lhs, const AYear& rhs) {
 //----------------------------------------------------------------------------
 /// Checks if the passed year is a leap-year (years which can be divided by 4;
 /// except if it is also divideable by 100).
-/// \param year: Year to check
-/// \return \c bool: True, if leap-year
+/// \param year Year to check
+/// \return bool True, if leap-year
 //----------------------------------------------------------------------------
 bool AYear::isLeapYear (int year) {
   TRACE9 ("AYear::isLeapYear: " << year << " %4 = " << (year & 3) << " %100 = "

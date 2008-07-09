@@ -45,17 +45,22 @@ namespace YGP {
 */
 class PathDirectorySearch : public DirectorySearch {
  public:
-   //@Section manager-functions
+   /// \name Section manager-functions
+   //@{
    /// Default constructur; creates an empty object, not ready to search for files
    PathDirectorySearch () : DirectorySearch (), srch (), searchPath ("") { }
    /// Constructur; creates an object with an path to files in.
+   /// \param path Path to search files in
    PathDirectorySearch (const std::string& path) : DirectorySearch (),
 	 srch (), searchPath (path) { }
    /// Constructur; creates an object with an path to files in and the files
    /// to search for.
+   /// \param path Path to search files in
+   /// \param search Specification of files to search in path
    PathDirectorySearch (const std::string& path, const std::string& search)
       : DirectorySearch (), srch (search), searchPath (path) { }
    virtual ~PathDirectorySearch ();
+   //@}
 
    /// Sets/Changes the path to search in.
    void setPath (const std::string& path) { searchPath = path; }
@@ -64,7 +69,7 @@ class PathDirectorySearch : public DirectorySearch {
    //@{
    /// Searches for the specified files with the passed attributes in all the
    /// nodes specified by \c path.
-   /// \returns <tt>const File*</tt>: Pointer to found file or NULL
+   /// \returns const File* Pointer to found file or NULL
    const File* find (const std::string& path, const std::string& search,
 	             unsigned long attribs = FILE_NORMAL) {
       setPath (path);

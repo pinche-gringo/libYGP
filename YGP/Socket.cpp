@@ -81,7 +81,7 @@ Socket::Socket () throw (YGP::CommError)
 
 //----------------------------------------------------------------------------
 /// Constructor; creates an socket which waits for input on \c port.
-/// \param port: Port to listen at
+/// \param port Port to listen at
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 Socket::Socket (unsigned int port) throw (YGP::CommError)
@@ -96,8 +96,8 @@ Socket::Socket (unsigned int port) throw (YGP::CommError)
 //----------------------------------------------------------------------------
 /// Constructor; creates an socket which tries to write to \c server using the
 /// passed \c port.
-/// \param server: Name (or number) of server to send to
-/// \param port: Port to write to
+/// \param server Name (or number) of server to send to
+/// \param port Port to write to
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 Socket::Socket (const char* server, unsigned int port) throw (YGP::CommError)
@@ -114,8 +114,8 @@ Socket::Socket (const char* server, unsigned int port) throw (YGP::CommError)
 //----------------------------------------------------------------------------
 /// Constructor; creates an socket which tries to write to \c server using the
 /// passed  \c port.
-/// \param server: Name (or number) of server to send to
-/// \param port: Port to write to
+/// \param server Name (or number) of server to send to
+/// \param port Port to write to
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 Socket::Socket (const std::string& server, unsigned int port) throw (YGP::CommError)
@@ -139,8 +139,8 @@ Socket::~Socket () {
 
 //----------------------------------------------------------------------------
 /// Assignment-operator; duplicates a socket. The old socket is closed.
-/// \param rhs: Socket to assign
-/// \return \c Socket&: Reference to self
+/// \param rhs Socket to assign
+/// \returns Socket& Reference to self
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 Socket& Socket::operator= (const Socket& rhs) throw (YGP::CommError) {
@@ -156,7 +156,7 @@ Socket& Socket::operator= (const Socket& rhs) throw (YGP::CommError) {
 //----------------------------------------------------------------------------
 /// Assignmentoperator; creates an socket out of a system-socket.
 /// \param socket: Socket to assign
-/// \return \c Socket&: Reference to self
+/// \returns Socket& Reference to self
 //----------------------------------------------------------------------------
 Socket& Socket::operator= (int socket) {
    close (sock);
@@ -167,7 +167,7 @@ Socket& Socket::operator= (int socket) {
 
 //----------------------------------------------------------------------------
 /// Specifies the port to listen at (for incoming connections).
-/// \param port: Port at which to listen
+/// \param port Port at which to listen
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 void Socket::listenAt (unsigned int port) const throw (YGP::CommError) {
@@ -188,8 +188,8 @@ void Socket::listenAt (unsigned int port) const throw (YGP::CommError) {
 //----------------------------------------------------------------------------
 /// Retrieves the port-number of the passed textual port-description (service
 /// name or number as text).
-/// \param service: Text describing port
-/// \return <tt>unsigned int</tt>: Number of the passed service
+/// \param service Text describing port
+/// \returns unsigned int Number of the passed service
 /// \throw YGP::CommError in case of an invalid input
 //----------------------------------------------------------------------------
 unsigned int Socket::getPortOfService (const char* service) throw (YGP::CommError) {
@@ -219,8 +219,8 @@ unsigned int Socket::getPortOfService (const char* service) throw (YGP::CommErro
 //----------------------------------------------------------------------------
 /// Reads all available data into the buffer specified by \c input from the
 /// previously specified source.
-/// \param input: String receiving the input
-/// \return \c int: Number of bytes read<br>
+/// \param input String receiving the input
+/// \returns int Number of bytes read<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 int Socket::read (std::string& input) const throw (YGP::CommError) {
@@ -250,9 +250,9 @@ int Socket::read (std::string& input) const throw (YGP::CommError) {
 //----------------------------------------------------------------------------
 /// Reads up to \c lenBuffer bytes data into the buffer specified by \c pBuffer
 /// from the previously specified source.
-/// \param pBuffer: Pointer to buffer receiving the input
-/// \param lenBuffer: Length of that buffer
-/// \return \c int: Number of bytes read<br>
+/// \param pBuffer Pointer to buffer receiving the input
+/// \param lenBuffer Length of that buffer
+/// \returns int Number of bytes read<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError) {
@@ -275,7 +275,7 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommE
 /// <b>Technical note</b>: If a new connection is opened to a Socket, it is
 /// actually "duplicated" and returned to enable multiple connections to one
 /// port (socket).
-/// \return \c int: Socket over which to communicate<br>
+/// \returns int Socket over which to communicate<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 int Socket::waitForInput () const throw (YGP::CommError) {
@@ -294,10 +294,10 @@ int Socket::waitForInput () const throw (YGP::CommError) {
 
 //----------------------------------------------------------------------------
 /// Specifies the \c server and \c port to write to (for outgoing connections).
-/// \param server: Name (or number) of the server to connect to
-/// \param port: Portnumber to connect to
+/// \param server Name (or number) of the server to connect to
+/// \param port Portnumber to connect to
 /// \throw YGP::CommError in case of a communication error
-/// \pre \c server not NULL<br>
+/// \pre \c server not NULL
 //----------------------------------------------------------------------------
 void Socket::writeTo (const char* server, unsigned int port) const throw (YGP::CommError) {
    TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << server << ':' << port);
@@ -326,8 +326,8 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (YGP::C
 //----------------------------------------------------------------------------
 /// Writes \c %lenBuff bytes of the buffer pointed to by \c pBuffer to the
 /// socket (which must have been connected to an address).
-/// \param pBuffer: Buffer to write
-/// \param lenBuffer: Length of data to write
+/// \param pBuffer Buffer to write
+/// \param lenBuffer Length of data to write
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
@@ -343,7 +343,7 @@ void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
 //----------------------------------------------------------------------------
 /// Writes the contents of \c pBuffer up to the first zero-byte to the socket
 /// (which must have been connected to an address).
-/// \param pBuffer: Buffer to write
+/// \param pBuffer Buffer to write
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
@@ -356,8 +356,8 @@ void Socket::write (const char* pBuffer) const throw (YGP::CommError) {
 
 //----------------------------------------------------------------------------
 /// Throws a domain_error with an explaining text.
-/// \param error: Text describing the error
-/// \param errNum: Number of error; if !=0 an explaining text is appended
+/// \param error Text describing the error
+/// \param errNum Number of error; if !=0 an explaining text is appended
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
 void Socket::throwError (const std::string& error, int errNum) throw (YGP::CommError) {

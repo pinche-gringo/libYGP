@@ -65,7 +65,7 @@ AutoContainer::~AutoContainer () {
 
 //-----------------------------------------------------------------------------
 /// Adding a child the the container
-/// \param child: Child widget to add
+/// \param child Child widget to add
 //-----------------------------------------------------------------------------
 void AutoContainer::add (Gtk::Widget& child) {
    TRACE9 ("AutoContainer::add (Gtk::Widget&) - To " << view.children ().size ());
@@ -91,8 +91,8 @@ void AutoContainer::add (Gtk::Widget& child) {
 
 //-----------------------------------------------------------------------------
 /// Resize-request: Resize a line
-/// \param size: New size of the container
-/// \param line: Line to resize
+/// \param size New size of the container
+/// \param line Line to resize
 //-----------------------------------------------------------------------------
 void AutoContainer::line_size_allocate (Gtk::Allocation& size, Gtk::HBox* line) {
    Check1 (size.get_width () >= -1); Check1 (size.get_height () >= -1);
@@ -130,7 +130,7 @@ void AutoContainer::line_size_allocate (Gtk::Allocation& size, Gtk::HBox* line) 
 
 //-----------------------------------------------------------------------------
 /// Resize-request: Re-arrangethe children
-/// \param size: New size of the container
+/// \param size New size of the container
 //-----------------------------------------------------------------------------
 void AutoContainer::on_size_allocate (Gtk::Allocation& size) {
    Check1 (size.get_width () >= -1); Check1 (size.get_height () >= -1);
@@ -187,7 +187,7 @@ void AutoContainer::init () {
 
 //-----------------------------------------------------------------------------
 /// Adds a new line of objects to the widget
-/// \returns Gtk::HBox*: The new created line
+/// \returns Gtk::HBox* The new created line
 //-----------------------------------------------------------------------------
 Gtk::HBox* AutoContainer::addLine () {
    TRACE9 ("AutoContainer::addLine ()");
@@ -202,7 +202,7 @@ Gtk::HBox* AutoContainer::addLine () {
 
 //----------------------------------------------------------------------------
 /// Removes the passed widget from the container
-/// \param widget: Widget to remove 
+/// \param widget Widget to remove
 //----------------------------------------------------------------------------
 void AutoContainer::remove (Gtk::Widget& widget) {
    TRACE4 ("AutoContainer::remove (Gtk::Widget&)");
@@ -234,8 +234,8 @@ void AutoContainer::remove (Gtk::Widget& widget) {
 
 //----------------------------------------------------------------------------
 /// Inserts a widget to a given position
-/// \param widget: Widget to insert 
-/// \param pos: Position where to insert the widget
+/// \param widget Widget to insert
+/// \param pos Position where to insert the widget
 //----------------------------------------------------------------------------
 void AutoContainer::insert (Gtk::Widget& widget, unsigned int pos) {
    TRACE4 ("AutoContainer::insert (Gtk::Widget&, unsigned int) - " << pos);

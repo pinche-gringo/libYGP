@@ -54,7 +54,7 @@ AssignmentParse::~AssignmentParse () {
 /// quoted, all quotes (") inside the value must be escaped with a backslash
 /// (\). Those characters are removed by this function.
 /// \returns \c Next node (empty string at end)
-/// \throw YGP::ParseError: describing error if node doesn't contain a
+/// \throw YGP::ParseError describing error if node doesn't contain a
 ///     valid assignment
 //-----------------------------------------------------------------------------
 std::string AssignmentParse::getNextNode () throw (YGP::ParseError) {
@@ -143,7 +143,7 @@ std::string AssignmentParse::getActValue () const {
 
 //-----------------------------------------------------------------------------
 /// Escapes all quote-characters inside a string
-/// \param value: String to check (and change)
+/// \param value String to check (and change)
 //-----------------------------------------------------------------------------
 void AssignmentParse::escapeQuotes (std::string& value) {
    TRACE9 ("AssignmentParse::escapeQuotes (std::string&) - " << value);
@@ -159,10 +159,10 @@ void AssignmentParse::escapeQuotes (std::string& value) {
 //-----------------------------------------------------------------------------
 /// Makes an assignment-statement with quoted value. Every quote (") inside
 /// the value is escaped with a backslash (\).
-/// \param key: Name of key
-/// \param value: Value of key
-/// \param length: Length of value; if -1 value must be zero-terminated
-/// \returns \c std::string: Created assignment
+/// \param key Name of key
+/// \param value Value of key
+/// \param length Length of value; if -1 value must be zero-terminated
+/// \returns std::string Created assignment
 /// \pre key is a valid pointer to length bytes or zero-terminated
 //-----------------------------------------------------------------------------
 std::string AssignmentParse::makeAssignment (const char* key, const char* value,
@@ -187,9 +187,9 @@ std::string AssignmentParse::makeAssignment (const char* key, const char* value,
 //-----------------------------------------------------------------------------
 /// Makes an assignment-statement with quoted value. Every quote (") inside
 /// the value is escaped with a backslash (\).
-/// \param key: Name of key
-/// \param value: Value of key
-/// \returns \c std::string: Created assignment
+/// \param key Name of key
+/// \param value Value of key
+/// \returns std::string Created assignment
 /// \pre key is an ASCIIZ-string
 //-----------------------------------------------------------------------------
 std::string AssignmentParse::makeAssignment (const char* key, const std::string& value) {

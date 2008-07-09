@@ -85,8 +85,8 @@ Thread::Thread ()
 
 //-----------------------------------------------------------------------------
 /// Constructor; Create object and a thread and passes pArgs as arguments
-/// \param fnc: Function to be called in the thread
-/// \param pArgs: Pointer to argument(s)
+/// \param fnc Function to be called in the thread
+/// \param pArgs Pointer to argument(s)
 /// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
 Thread::Thread (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError)
@@ -107,8 +107,8 @@ Thread::~Thread () {
 
 //-----------------------------------------------------------------------------
 /// Creates the actual thread from the passed function
-/// \param fnc: Function to be called in the thread
-/// \param pArgs: Pointer to parameters
+/// \param fnc Function to be called in the thread
+/// \param pArgs Pointer to parameters
 /// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
 void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
@@ -145,7 +145,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
 
 //-----------------------------------------------------------------------------
 /// Sets the return value for the thread
-/// \param rc: Returncode
+/// \param rc Returncode
 //-----------------------------------------------------------------------------
 void Thread::ret (void* rc) const {
 #ifdef HAVE_LIBPTHREAD
@@ -185,8 +185,8 @@ void Thread::allowCancelation (bool allow) {
 
 //-----------------------------------------------------------------------------
 /// Waits for the passed thread to terminate
-/// \param id: Thread to wait for
-/// \returns \c void*: The returncode of the thread
+/// \param id Thread to wait for
+/// \returns void* The returncode of the thread
 //-----------------------------------------------------------------------------
 void* Thread::waitForThread (const Thread& id) {
 #ifndef HAVE_BEGINTHREAD
@@ -199,8 +199,8 @@ void* Thread::waitForThread (const Thread& id) {
 
 //-----------------------------------------------------------------------------
 /// Waits for the thread with the passed ID to terminate
-/// \param id: Thread to wait for
-/// \returns \c void*: The returncode of the thread
+/// \param id Thread to wait for
+/// \returns void* The returncode of the thread
 //-----------------------------------------------------------------------------
 void* Thread::waitForThread (unsigned long id) {
    TRACE3 ("Thread::waitForThread (unsigned long) - " << id);
@@ -238,7 +238,7 @@ void Thread::isToCancel () const {
 //-----------------------------------------------------------------------------
 /// Dummy thread-routine, because (of course) VC++6 has a differnt signature
 /// for a thread-function and can't (of course) not cast it
-/// \param params: Pointer to thread
+/// \param params Pointer to thread
 //-----------------------------------------------------------------------------
 void Thread::threadFunction (void* params) {
    Thread* pThread = reinterpret_cast<Thread*> (params);

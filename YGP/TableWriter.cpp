@@ -43,17 +43,17 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param format: Format how to display entries
-/// \param startRow: String starting rows
-/// \param endRow: String terminating rows
-/// \param sepColumn: String separating columns
-/// \param startTab: String starting table
-/// \param endTab: String terminating table
-/// \param sepTab: String separating the tableheader from the tablebody
-/// \param startRowHdr: String starting header of the table
-/// \param endRowHdr: String terminating header of the table
-/// \param sepHdrCol: String terminating columns of the header of the table
-/// \param defColumns: Definition of the columns
+/// \param format Format how to display entries
+/// \param startRow String starting rows
+/// \param endRow String terminating rows
+/// \param sepColumn String separating columns
+/// \param startTab String starting table
+/// \param endTab String terminating table
+/// \param sepTab String separating the tableheader from the tablebody
+/// \param startRowHdr String starting header of the table
+/// \param endRowHdr String terminating header of the table
+/// \param sepHdrCol String terminating columns of the header of the table
+/// \param defColumns Definition of the columns
 //-----------------------------------------------------------------------------
 TableWriter::TableWriter (const std::string& format, const char* startRow, const char* endRow,
 			  const char* sepColumn, const char* startTab, const char* endTab, const char* sepTab,
@@ -76,7 +76,7 @@ TableWriter::~TableWriter () {
 
 //-----------------------------------------------------------------------------
 /// Counts the number of columns
-/// \returns \c unsigned int: Number of columns
+/// \returns unsigned int Number of columns
 //-----------------------------------------------------------------------------
 unsigned int TableWriter::columns () const {
    unsigned int cols (1);
@@ -88,8 +88,8 @@ unsigned int TableWriter::columns () const {
 
 //-----------------------------------------------------------------------------
 /// Returns the substitute for a control character.
-/// \param ctrl: Control character
-/// \param: Flag, if special formatting of substitute is wanted
+/// \param ctrl Control character
+/// \param Flag, if special formatting of substitute is wanted
 //-----------------------------------------------------------------------------
 std::string TableWriter::getSubstitute (char ctrl, bool) const {
    return std::string (1, ctrl);
@@ -97,7 +97,7 @@ std::string TableWriter::getSubstitute (char ctrl, bool) const {
 
 //-----------------------------------------------------------------------------
 /// Returns the next token; special characters are expanded
-/// \returns \c std::string: Next (expanded) token
+/// \returns std::string Next (expanded) token
 //-----------------------------------------------------------------------------
 std::string TableWriter::getNextNode () const {
    size_t pos (0);
@@ -142,8 +142,8 @@ std::string TableWriter::getNextNode () const {
 
 //-----------------------------------------------------------------------------
 /// Prints the start of a generic table
-/// \param out: Stream where to put the output
-/// \param title: Title information; the columns must be seperated by an (|)
+/// \param out Stream where to put the output
+/// \param title Title information; the columns must be seperated by an (|)
 //-----------------------------------------------------------------------------
 void TableWriter::printStart (std::ostream& out, const std::string& title) const {
    TRACE9 ("TableWriter::printStart (std::ostream&, const std::string&) const");
@@ -191,7 +191,7 @@ void TableWriter::printStart (std::ostream& out, const std::string& title) const
 
 //-----------------------------------------------------------------------------
 /// Prints the end of a generic table
-/// \param out: Stream where to put the output
+/// \param out Stream where to put the output
 //-----------------------------------------------------------------------------
 void TableWriter::printEnd (std::ostream& out) const {
    out << tabEnd << '\n';
@@ -199,14 +199,14 @@ void TableWriter::printEnd (std::ostream& out) const {
 
 //-----------------------------------------------------------------------------
 /// Prints something at the start of the table-header
-/// \param: Stream where to put the output
+/// \param Stream where to put the output
 //-----------------------------------------------------------------------------
 void TableWriter::printHeaderLead (std::ostream&) const {
 }
 
 //-----------------------------------------------------------------------------
 /// Prints something at the end of the table-header
-/// \param: Stream where to put the output
+/// \param Stream where to put the output
 //-----------------------------------------------------------------------------
 void TableWriter::printHeaderTail (std::ostream&) const {
 }
@@ -214,8 +214,8 @@ void TableWriter::printHeaderTail (std::ostream&) const {
 //-----------------------------------------------------------------------------
 /// Changes the HTML special characters quote ("), ampersand (&), apostrophe
 /// ('), less (<) and greater (>) to HTML-values
-/// \param value: String to change
-/// \returns \c Changed string
+/// \param value String to change
+/// \returns std::string Changed string
 //-----------------------------------------------------------------------------
 std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
    TRACE5 ("HTMLWriter::changeSpecialChars (const std::string&) - Changing: " << value);
@@ -238,8 +238,8 @@ std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
 
 //-----------------------------------------------------------------------------
 /// Changes the blank in filenames to %20
-/// \param value: String to change
-/// \returns \c Changed string
+/// \param value String to change
+/// \returns std::string Changed string
 //-----------------------------------------------------------------------------
 std::string TableWriter::changeHTMLSpecialFileChars (const std::string& value) {
    std::string chg (value);
@@ -254,8 +254,8 @@ std::string TableWriter::changeHTMLSpecialFileChars (const std::string& value) {
 //-----------------------------------------------------------------------------
 /// Changes the LaTeX special characters quote ("), ampersand (&), apostrophe
 /// ('), less (<) and greater (>) to HTML-values
-/// \param value: String to change
-/// \returns \c Changed string
+/// \param value String to change
+/// \returns std::string Changed string
 //-----------------------------------------------------------------------------
 std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
    std::string chg (value);
@@ -279,8 +279,8 @@ std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
 //-----------------------------------------------------------------------------
 /// Changes the LaTeX special characters quote ("), ampersand (&), apostrophe
 /// ('), less (<) and greater (>) to HTML-values
-/// \param value: String to change
-/// \returns \c Changed string
+/// \param value String to change
+/// \returns std::string Changed string
 //-----------------------------------------------------------------------------
 std::string TableWriter::changeQuotedSpecialChars (const std::string& value) {
    std::string result (value);
@@ -290,8 +290,8 @@ std::string TableWriter::changeQuotedSpecialChars (const std::string& value) {
 
 //-----------------------------------------------------------------------------
 /// Prints the columns at the start of a LaTeX table
-/// \param out: Stream where to put the output
-/// \param columns: Number of columns
+/// \param out Stream where to put the output
+/// \param columns Number of columns
 //-----------------------------------------------------------------------------
 void TableWriter::printLaTeXHeaderLead (std::ostream& out, unsigned int columns) {
    out << '{';
@@ -302,8 +302,8 @@ void TableWriter::printLaTeXHeaderLead (std::ostream& out, unsigned int columns)
 
 //-----------------------------------------------------------------------------
 /// Prints the columns at the start of a LaTeX table
-/// \param out: Stream where to put the output
-/// \param columns: String describing the columns
+/// \param out Stream where to put the output
+/// \param columns String describing the columns
 //-----------------------------------------------------------------------------
 void TableWriter::printLaTeXHeaderLead (std::ostream& out, const char* columns) {
    out << '{' << columns << "}\n";

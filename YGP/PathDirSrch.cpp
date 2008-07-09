@@ -49,8 +49,8 @@ PathDirectorySearch::~PathDirectorySearch () {
 /// Searches for first file matching the input specified by the constructor(s)
 /// or the set-methods. If a search within a node of the path returns an
 /// error, continue with the next node.
-/// \param attribs: Attributes the file must contain
-/// \returns <tt>const File*</tt>: Pointer to found file-object
+/// \param attribs Attributes the file must contain
+/// \returns const File* Pointer to found file-object
 /// \pre The values to search for must have been set before!
 /// \remarks Every node of the path is tilde-expanded (UNIX-like to the home
 ///     directory).
@@ -83,7 +83,7 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
 /// Returns the next matching file according to parameters specified in
 /// earlier find-calls. If a search within a node of the path returns an
 /// error, continue with the next node.
-/// \returns <tt>const File*</tt>: Pointer to found file-object or NULL
+/// \returns const File* Pointer to found file-object or NULL
 /// \pre The search must have already been started by a find!
 /// \remarks Every node of the path is tilde-expanded (UNIX-like to the home
 ///     directory).
@@ -110,7 +110,7 @@ const File* PathDirectorySearch::next () {
 //-----------------------------------------------------------------------------
 /// Checks if this object is integer. If yes 0 is returned, else a number
 /// describing the error.
-/// \returns \c int: Status; 0: OK
+/// \returns int Status; 0: OK
 //-----------------------------------------------------------------------------
 int PathDirectorySearch::checkIntegrity () const {
    return (((const std::string&)searchPath).empty ()

@@ -84,9 +84,9 @@ void ConnectionMgr::changeMode (modeConnect newMode) {
 
 //----------------------------------------------------------------------------
 /// Connect to \c server on the specified \c port.
-/// \param target: Server to connect to
-/// \param port: Port the server is listening at
-/// \throws YGP::CommError: In case of a connection error
+/// \param target Server to connect to
+/// \param port Port the server is listening at
+/// \throws YGP::CommError In case of a connection error
 //----------------------------------------------------------------------------
 void ConnectionMgr::connectTo (const char* target, unsigned int port) throw (YGP::CommError) {
    TRACE1 ("ConnectionMgr::connectTo (const char*, unsinged int) - "
@@ -97,8 +97,8 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port) throw (YGP
 
 //----------------------------------------------------------------------------
 /// Wait at port \c port for connections
-/// \param port: Port the server is listening at
-/// \throws YGP::CommError: In case of a connection error
+/// \param port Port the server is listening at
+/// \throws YGP::CommError In case of a connection error
 //----------------------------------------------------------------------------
 void ConnectionMgr::listenAt (unsigned int port) throw (YGP::CommError) {
    TRACE1 ("ConnectionMgr::listenAt (unsinged int) - " << port);
@@ -128,7 +128,7 @@ int ConnectionMgr::getNewConnection () const {
 
 //----------------------------------------------------------------------------
 /// Adds a connection the the server connections
-/// \returns Socket*: Pointer to created socket (or \c NULL)
+/// \returns Socket* Pointer to created socket (or \c NULL)
 /// \pre
 ///    - listenAt() must have been called before
 //----------------------------------------------------------------------------
@@ -149,7 +149,7 @@ Socket* ConnectionMgr::addConnection (int socket) {
 
 //-----------------------------------------------------------------------------
 /// Disconnects one of the partners
-/// \param partner: Partner to disconnect
+/// \param partner Partner to disconnect
 //-----------------------------------------------------------------------------
 void ConnectionMgr::disconnect (const Socket* partner) {
    TRACE8 ("ConnectionMgr::disconnect (const Socket*)");

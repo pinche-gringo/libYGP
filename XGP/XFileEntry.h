@@ -37,7 +37,7 @@ namespace XGP {
 class XFileEntry : public Gtk::Entry {
  public:
    /// Constructor
-   /// \param fileAttrs: Attributes the files to display must have (default:
+   /// \param fileAttrs Attributes the files to display must have (default:
    /// Normal files, no directories)
    XFileEntry (int fileAttrs = YGP::IDirectorySearch::FILE_NORMAL) : Entry ()
       , attrs (fileAttrs) { }

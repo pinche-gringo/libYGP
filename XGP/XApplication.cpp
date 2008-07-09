@@ -65,7 +65,7 @@ namespace XGP {
 /// Constructor; creates a program-window showing only an empty menu and an
 /// area (a GTK::VBox) for the client. Furthermore \c SIGSEGV and \c SIGBUS
 /// signals are trapped to produce a stackdump in the log file.
-/// \param pTitle: Pointer to title of the application
+/// \param pTitle Pointer to title of the application
 //-----------------------------------------------------------------------------
 XApplication::XApplication (const char* pTitle)
    : vboxClient (new Gtk::VBox),
@@ -103,8 +103,8 @@ XApplication::~XApplication () {
 //-----------------------------------------------------------------------------
 /// Initializes the program for internationalization by setting the locale and
 /// loading the messagefile.
-/// \param package: Name of the message-catalog
-/// \param dir: Root-directory for message-catalogs
+/// \param package Name of the message-catalog
+/// \param dir Root-directory for message-catalogs
 //-----------------------------------------------------------------------------
 void XApplication::initI18n (const char* package, const char* dir) {
    Check1 (package); Check1 (dir);
@@ -129,8 +129,8 @@ void XApplication::initI18n () {
 ///
 /// Additionally an entry to show a dialog enabling to change the trace-level
 /// dynamically is added, if withDynTrace is set to <tt>true</tt>.
-/// \param uiString: String, to which the menu-structure is appended
-/// \param withDynTrace: Flag, if an entry to show the trace-window should be added
+/// \param uiString String, to which the menu-structure is appended
+/// \param withDynTrace Flag, if an entry to show the trace-window should be added
 //-----------------------------------------------------------------------------
 void XApplication::addHelpMenu (Glib::ustring& uiString, bool withDynTrace) {
    TRACE9 ("XApplication::addHelpMenu ()");
@@ -271,7 +271,7 @@ void XApplication::showTraceObjects () {
 
 //----------------------------------------------------------------------------
 /// Returns the name of the help file to display.
-/// \returns const char*: Name of help-file (NULL: none)
+/// \returns const char* Name of help-file (NULL: none)
 //----------------------------------------------------------------------------
 const char* XApplication::getHelpfile () {
    return NULL;
@@ -288,7 +288,7 @@ void XApplication::showAboutbox () {
 /// the program.
 /// \param pIconData Array of character pointers describing the icon (xpm-format)
 /// \pre pIconData must be a valid pointer to xpm-data
-/// \remarks: Some window managers might also display the icon on other occassions.
+/// \remarks Some window managers might also display the icon on other occassions.
 //----------------------------------------------------------------------------
 void XApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XApplication::setIconProgram");
@@ -300,9 +300,9 @@ void XApplication::setIconProgram (const char* const* pIconData) {
 
 //-----------------------------------------------------------------------------
 /// Constructor for programs with program information in the client.
-/// \param pTitle: Pointer to title
-/// \param prgInfo: Text describing the application
-/// \param copyright: Copyright-information
+/// \param pTitle Pointer to title
+/// \param prgInfo Text describing the application
+/// \param copyright Copyright-information
 //-----------------------------------------------------------------------------
 XInfoApplication::XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo,
                                     const Glib::ustring& copyright)
@@ -340,7 +340,7 @@ XInfoApplication::~XInfoApplication () {
 
 //-----------------------------------------------------------------------------
 /// Sets an icon for the program
-/// \param pIconData: Pointer to xpm-data for pixmap
+/// \param pIconData Pointer to xpm-data for pixmap
 //-----------------------------------------------------------------------------
 void XInfoApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XInfoApplication::setIconProgram");
@@ -359,7 +359,7 @@ void XInfoApplication::setIconProgram (const char* const* pIconData) {
 
 //-----------------------------------------------------------------------------
 /// Sets pixmap for the programmer
-/// \param pIconData: Pointer to xpm-data for pixmap
+/// \param pIconData Pointer to xpm-data for pixmap
 //-----------------------------------------------------------------------------
 void XInfoApplication::setIconAuthor (const char* const* pIconData) {
    TRACE9 ("XInfoApplication::setIconAuthor");

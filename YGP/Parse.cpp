@@ -65,8 +65,8 @@ void ParseObject::freeBuffer () {
 //-----------------------------------------------------------------------------
 /// Constructor The description must be valid during the LIFETIME (OR AT LEAST
 /// the usage) of the object!
-/// \param description: Description of the object (what it parses)
-/// \param skipWhitespace: Flag if \b trailing whitespaces should be skipped
+/// \param description Description of the object (what it parses)
+/// \param skipWhitespace Flag if \b trailing whitespaces should be skipped
 /// after sucessfully parsing the object
 /// \pre description valid ASCIIZ string != NULL
 //-----------------------------------------------------------------------------
@@ -78,7 +78,7 @@ ParseObject::ParseObject (const char* description, bool skipWhitespace)
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseObject::ParseObject (const ParseObject& other)
    : skip (other.skip) , pDescription (other.pDescription) {
@@ -96,7 +96,7 @@ ParseObject::~ParseObject () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
+/// \param other Object to clone
 /// \returns \c Reference to this
 //-----------------------------------------------------------------------------
 ParseObject& ParseObject::operator= (const ParseObject& other) {
@@ -112,7 +112,7 @@ ParseObject& ParseObject::operator= (const ParseObject& other) {
 //-----------------------------------------------------------------------------
 /// Skips all whitespace characters (blank, tabulator, carriage return and
 /// line feed) from the current position in the passed stream (if the object
-/// \param stream: Source from which to read
+/// \param stream Source from which to read
 //-----------------------------------------------------------------------------
 void ParseObject::skipWS (Xistream& stream) {
    char c ('\0');
@@ -122,9 +122,9 @@ void ParseObject::skipWS (Xistream& stream) {
 
 //-----------------------------------------------------------------------------
 /// Callback if an object was found
-/// \param: Pointer to found value
-/// \param: Length of found value
-/// \returns \c int: Status; 0 OK
+/// \param Pointer to found value
+/// \param Length of found value
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int ParseObject::found (const char*, unsigned int) {
    return PARSE_OK;
@@ -132,7 +132,7 @@ int ParseObject::found (const char*, unsigned int) {
 
 //-----------------------------------------------------------------------------
 /// Checks the constraints of the object
-/// \returns \c int: Status; 0 OK
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int ParseObject::checkIntegrity () const {
    return pDescription ? OK : NO_DESCRIPTION;
@@ -153,7 +153,7 @@ ParseEOF::~ParseEOF () {
 ///
 /// Returns \c PARSE_OK if data matching the object is found (and the callback
 /// does not report something different).
-/// \param stream: Source from which to read
+/// \param stream Source from which to read
 //-----------------------------------------------------------------------------
 int ParseEOF::doParse (Xistream& stream, bool) {
    int ch (stream.get ());
@@ -167,8 +167,8 @@ int ParseEOF::doParse (Xistream& stream, bool) {
 
 //-----------------------------------------------------------------------------
 /// Construcutor
-/// \param bytes: Number of bytes to skip
-/// \param seek: From where to seek in the search
+/// \param bytes Number of bytes to skip
+/// \param seek From where to seek in the search
 //-----------------------------------------------------------------------------
 ParseSkip::ParseSkip (std::streamoff bytes, std::ios_base::seekdir seek)
    : ParseObject ("Skip", false), offset (bytes), seek (seek) {
@@ -176,7 +176,7 @@ ParseSkip::ParseSkip (std::streamoff bytes, std::ios_base::seekdir seek)
 
 //-----------------------------------------------------------------------------
 /// Copy constructor
-/// \param other: Object to copy
+/// \param other Object to copy
 //-----------------------------------------------------------------------------
 ParseSkip::ParseSkip (const ParseSkip& other)
    : ParseObject (other), offset (other.offset), seek (other.seek) {
@@ -203,12 +203,12 @@ int ParseSkip::doParse (Xistream& stream, bool) {
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
-/// \param value: List of valid characters (see class description)
-/// \param description: Description of the object (what it parses)
-/// \param max: Maximal cardinality, how often can the object be parsed
-/// \param min: Minimal cardinality, how often must the object be parsed
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped after sucessfully parsing the object
-/// \param reportData: Flag if parsed data should be stored and reported via the virtual found method
+/// \param value List of valid characters (see class description)
+/// \param description Description of the object (what it parses)
+/// \param max Maximal cardinality, how often can the object be parsed
+/// \param min Minimal cardinality, how often must the object be parsed
+/// \param skipWhitespace Flag if trailing whitespaces should be skipped after sucessfully parsing the object
+/// \param reportData Flag if parsed data should be stored and reported via the virtual found method
 /// \pre !checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseAttomic::ParseAttomic (const char* value, const char* description,
@@ -223,7 +223,7 @@ ParseAttomic::ParseAttomic (const char* value, const char* description,
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseAttomic::ParseAttomic (const ParseAttomic& other)
    : ParseObject ((const ParseObject&)other), pValue (other.pValue)
@@ -241,8 +241,8 @@ ParseAttomic::~ParseAttomic () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseAttomic& Reference to this
 //-----------------------------------------------------------------------------
 ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
    TRACE9 ("ParseAttomic::operator= (const ParseAttomic&) - " << getDescription ());
@@ -270,9 +270,9 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 /// parsed data is pushed back into the stream and \c PARSE_ERROR is
 /// returned. If parsing is not optional and the error is not recoverable (<
 /// 0), an exception (std::string) is thrown.
-/// \param stream: Source from which to read
-/// \param optional: Flag, if node must be found
-/// \throw YGP::ParseError: In case of a not recoverable error
+/// \param stream Source from which to read
+/// \param optional Flag, if node must be found
+/// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseAttomic::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
@@ -359,8 +359,8 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (YGP::ParseErr
 ///    - \b n: ch is valid if it is line-feed (\\n)
 ///    - <b>*</b>: ch is always valid.
 ///     - Else: ch is valid if it equal to this char
-/// \param ch: Char to check
-/// \returns \c int: Result; 1 if ch valid, -1 if it should be just ignored.
+/// \param ch Char to check
+/// \returns int Result; 1 if ch valid, -1 if it should be just ignored.
 ///     Else 0
 //-----------------------------------------------------------------------------
 int ParseAttomic::checkValue (char ch) {
@@ -417,7 +417,7 @@ int ParseAttomic::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Checks if this object is in a valid state.
-/// \returns \c int: Status; 0 OK
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int ParseAttomic::checkIntegrity () const {
    return (pValue ? (maxCard < minCard
@@ -436,8 +436,8 @@ ParseText::~ParseText () {
 //-----------------------------------------------------------------------------
 /// Checks if the parsed value is according the abort-list of the object.
 /// Valid are every characters NOT in pValue.
-/// \param ch: Char to check
-/// \returns \c int: Result; true if ch does not match any of those values.
+/// \param ch Char to check
+/// \returns int Result; true if ch does not match any of those values.
 //-----------------------------------------------------------------------------
 int ParseText::checkValue (char ch) {
    TRACE8 ("ParseText::checkValue (char) -  " << getDescription () << ": " << ch);
@@ -455,13 +455,13 @@ int ParseText::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
-/// \param abort: List of valid characters
-/// \param description: Description of the object (what it parses)
-/// \param max: Maximal cardinality, how often can the object be parsed
-/// \param min: Minimal cardinality, how often must the object be parsed
-/// \param escape: Character which escapes characters in value
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped after sucessfully parsing the object
-/// \param reportData: Flag if parsed data should be stored and reported via the virtual found method
+/// \param abort List of valid characters
+/// \param description Description of the object (what it parses)
+/// \param max Maximal cardinality, how often can the object be parsed
+/// \param min Minimal cardinality, how often must the object be parsed
+/// \param escape Character which escapes characters in value
+/// \param skipWhitespace Flag if trailing whitespaces should be skipped after sucessfully parsing the object
+/// \param reportData Flag if parsed data should be stored and reported via the virtual found method
 /// \pre value != NULL && !ParseObject::checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
@@ -474,7 +474,7 @@ ParseTextEsc::ParseTextEsc (const char* abort, const char* description,
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseTextEsc::ParseTextEsc (const ParseTextEsc& other)
    : ParseText (other), esc (other.esc), last (!other.esc) {
@@ -490,8 +490,8 @@ ParseTextEsc::~ParseTextEsc () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseTextEsc& Reference to this
 //-----------------------------------------------------------------------------
 ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
    TRACE8 ("ParseTextExact::operator=: " << getDescription ());
@@ -512,8 +512,8 @@ ParseTextEsc& ParseTextEsc::operator= (const ParseTextEsc& other) {
 /// Valid are every characters NOT in pValue or even those if they are
 /// preceeded ("escaped") by the character specified by escape (unless this
 /// itself is preceeded by itself).
-/// \param ch: Char to check
-/// \returns \c boolean: Result; 1 if valid, 0 if not or -1 if character
+/// \param ch Char to check
+/// \returns int Result; 1 if valid, 0 if not or -1 if character
 ///     should be ignored
 //-----------------------------------------------------------------------------
 int ParseTextEsc::checkValue (char ch) {
@@ -537,12 +537,12 @@ int ParseTextEsc::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
-/// \param quote: Character limiting the text; the equivalent characters ends parsing.
-/// \param description: Description of the object (what it parses)
-/// \param max: Maximal cardinality, how often can the object be parsed
-/// \param min: Minimal cardinality, how often must the object be parsed
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped after sucessfully parsing the object
-/// \param reportData: Flag if parsed data should be stored and reported via the virtual found method
+/// \param quote Character limiting the text; the equivalent characters ends parsing.
+/// \param description Description of the object (what it parses)
+/// \param max Maximal cardinality, how often can the object be parsed
+/// \param min Minimal cardinality, how often must the object be parsed
+/// \param skipWhitespace Flag if trailing whitespaces should be skipped after sucessfully parsing the object
+/// \param reportData Flag if parsed data should be stored and reported via the virtual found method
 /// \pre !checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseQuoted::ParseQuoted (char quote, const char* description,
@@ -560,7 +560,7 @@ ParseQuoted::ParseQuoted (char quote, const char* description,
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseQuoted::ParseQuoted (const ParseQuoted& other)
    : ParseText (other), pos (0) {
@@ -581,8 +581,8 @@ ParseQuoted::~ParseQuoted () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseQuoted& Reference to this
 //-----------------------------------------------------------------------------
 ParseQuoted& ParseQuoted::operator= (const ParseQuoted& other) {
    TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << getDescription ());
@@ -609,8 +609,8 @@ ParseQuoted& ParseQuoted::operator= (const ParseQuoted& other) {
 ///    - '}' if ch == '{'
 ///    - '´' if ch == '`'
 ///    - Else: ch
-/// \param ch: Char to find match to
-/// \returns \c Character "closing" the passed one
+/// \param ch Char to find match to
+/// \returns char Character "closing" the passed one
 //-----------------------------------------------------------------------------
 char ParseQuoted::getClosingChar (char ch) {
    static char open[]  = "<([{`";
@@ -628,8 +628,8 @@ char ParseQuoted::getClosingChar (char ch) {
 /// Checks if the parsed value is according the quote. The quotes themself are
 /// also valid, though not included in the output. Valid are every characters
 /// NOT in pValue.
-/// \param ch: Char to check
-/// \returns \c int: Result; true if ch is an ordinary character, -1 if it is
+/// \param ch Char to check
+/// \returns int: Result; true if ch is an ordinary character, -1 if it is
 ///     quote, 0 after ending quote
 //-----------------------------------------------------------------------------
 int ParseQuoted::checkValue (char ch) {
@@ -662,13 +662,13 @@ int ParseQuoted::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
-/// \param quote: Character limiting the text
-/// \param description: Description of the object (what it parses)
-/// \param max: Maximal cardinality, how often can the object be parsed
-/// \param min: Minimal cardinality, how often must the object be parsed
-/// \param escape: Character which escapes characters in value
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped after sucessfully parsing the object
-/// \param reportData: Flag if parsed data should be stored and reported via the virtual found method
+/// \param quote Character limiting the text
+/// \param description Description of the object (what it parses)
+/// \param max Maximal cardinality, how often can the object be parsed
+/// \param min Minimal cardinality, how often must the object be parsed
+/// \param escape Character which escapes characters in value
+/// \param skipWhitespace Flag if trailing whitespaces should be skipped after sucessfully parsing the object
+/// \param reportData Flag if parsed data should be stored and reported via the virtual found method
 /// \pre !checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseQuotedEsc::ParseQuotedEsc (char quote, const char* description,
@@ -686,7 +686,7 @@ ParseQuotedEsc::ParseQuotedEsc (char quote, const char* description,
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseQuotedEsc::ParseQuotedEsc (const ParseQuotedEsc& other)
    : ParseTextEsc (other), pos (0) {
@@ -707,8 +707,8 @@ ParseQuotedEsc::~ParseQuotedEsc () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseQuotedEsc& Reference to this
 //-----------------------------------------------------------------------------
 ParseQuotedEsc& ParseQuotedEsc::operator= (const ParseQuotedEsc& other) {
    TRACE9 ("ParseQuoted::operator= (const ParseQuoted&) - " << getDescription ());
@@ -730,8 +730,8 @@ ParseQuotedEsc& ParseQuotedEsc::operator= (const ParseQuotedEsc& other) {
 /// Checks if the parsed value is according the quote. The quotes themself are
 /// also valid, though not included in the output. Valid are every characters
 /// NOT in pValue.
-/// \param ch: Char to check
-/// \returns \c int: Result; true if ch is an ordinary character, -1 if it is
+/// \param ch Char to check
+/// \returns int: Result; true if ch is an ordinary character, -1 if it is
 ///     quote, 0 after ending quote
 //-----------------------------------------------------------------------------
 int ParseQuotedEsc::checkValue (char ch) {
@@ -763,11 +763,11 @@ int ParseQuotedEsc::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object
-/// \param value: Sequence of characters to parse in that order
-/// \param description: Description of the object (what it parses)
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped
+/// \param value Sequence of characters to parse in that order
+/// \param description Description of the object (what it parses)
+/// \param skipWhitespace Flag if trailing whitespaces should be skipped
 ///      after sucessfully parsing the object
-/// \param reportData: Flag, if data should be stored and reported
+/// \param reportData Flag, if data should be stored and reported
 /// \pre value != NULL && !ParseObject::checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseExact::ParseExact (const char* value, const char* description,
@@ -788,8 +788,8 @@ ParseExact::~ParseExact () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseExact& Reference to this
 //-----------------------------------------------------------------------------
 ParseExact& ParseExact::operator= (const ParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
@@ -806,8 +806,8 @@ ParseExact& ParseExact::operator= (const ParseExact& other) {
 //-----------------------------------------------------------------------------
 /// Checks if the passed character is exactly equal (case-sensitive!) than the
 /// one in the actual position of the object.
-/// \param ch: Char to check
-/// \returns \c boolean: Result; true if valid
+/// \param ch Char to check
+/// \returns int Result; true if valid
 //-----------------------------------------------------------------------------
 int ParseExact::checkValue (char ch) {
    TRACE8 ("ParseExact::checkValue " << getDescription () << ' ' << ch);
@@ -823,7 +823,7 @@ int ParseExact::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Checks the constraints of the object
-/// \returns \c int: Status; 0 OK
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int ParseExact::checkIntegrity () const {
    return pos > (strlen (pValue) + 1) ? POS_ERROR : ParseAttomic::checkIntegrity ();
@@ -840,8 +840,8 @@ ParseUpperExact::~ParseUpperExact () {
 //-----------------------------------------------------------------------------
 /// Checks if the passed character is exactly equal (not case-sensitive!) than
 /// the one in the actual position of the object.
-/// \param ch: Char to check
-/// \returns \c boolean: Result; true if valid
+/// \param ch Char to check
+/// \returns int Result; !0 if valid
 //-----------------------------------------------------------------------------
 int ParseUpperExact::checkValue (char ch) {
    TRACE8 ("ParseUpperExact::checkValue " << getDescription () << ' ' << ch);
@@ -850,7 +850,7 @@ int ParseUpperExact::checkValue (char ch) {
 
 //-----------------------------------------------------------------------------
 /// Checks the constraints of the object
-/// \returns \c int: Status; 0 OK
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int ParseUpperExact::checkIntegrity () const {
    for (unsigned int i (0); i < maxCard; ++i)
@@ -881,9 +881,9 @@ ParseToText::~ParseToText () {
 /// returned, else
 /// 0), an exception (std::string) is thrown.
 
-/// \param stream: Source from which to read
-/// \param optional: Flag, if node must be found
-/// \throw YGP::ParseError: In case of a not recoverable error
+/// \param stream Source from which to read
+/// \param optional Flag, if node must be found
+/// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseToText::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseToText::doParse (Xistream&, bool) - " << getDescription ());
@@ -943,11 +943,11 @@ int ParseToText::doParse (Xistream& stream, bool optional) throw (YGP::ParseErro
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
-/// \param apObjectList: NULL-terminated array of pointers to objects to parse
-/// \param description: Description of the object (what it parses)
-/// \param max: Maximal cardinality, how often can the object be parsed
-/// \param min: Minimal cardinality, how often must the object be parsed
-/// \param skipWhitespace: Flag if whitespaces should bS are skipped
+/// \param apObjectList NULL-terminated array of pointers to objects to parse
+/// \param description Description of the object (what it parses)
+/// \param max Maximal cardinality, how often can the object be parsed
+/// \param min Minimal cardinality, how often must the object be parsed
+/// \param skipWhitespace Flag if whitespaces should bS are skipped
 /// \pre apObjectList != NULL && !ParseObject::checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseSequence::ParseSequence (ParseObject* apObjectList[],
@@ -961,7 +961,7 @@ ParseSequence::ParseSequence (ParseObject* apObjectList[],
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseSequence::ParseSequence (const ParseSequence& other)
    : ParseObject ((const ParseObject&)other), ppList (other.ppList),
@@ -979,8 +979,8 @@ ParseSequence::~ParseSequence () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseSequence& Reference to this
 //-----------------------------------------------------------------------------
 ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
    TRACE8 ("ParseSequence::operator=: " << getDescription ());
@@ -1002,10 +1002,10 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 /// every object reports PARSE_OK. It is a soft error (PARSE_ERROR) if the
 /// minimal cardinality is not fullfilled. If parsing is not optional and/or
 /// the error is not recoverable (< 0), an exception (std::string) is thrown.
-/// \param stream: Source from which to read
-/// \param optional: Flag, if object must be found
-/// \returns \c PARSE_OK if selection found; PARSE_ERROR if not
-/// \throw YGP::ParseError: In case of a not recoverable error
+/// \param stream Source from which to read
+/// \param optional Flag, if object must be found
+/// \returns int PARSE_OK if selection found; PARSE_ERROR if not
+/// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseSequence::doParse -> " << getDescription () << ' ' << maxCard);
@@ -1055,7 +1055,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseEr
 
 //-----------------------------------------------------------------------------
 /// Checks the constraints of the object
-/// \returns \c int: Status; 0 OK
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int ParseSequence::checkIntegrity () const {
    return ((ppList)
@@ -1066,11 +1066,11 @@ int ParseSequence::checkIntegrity () const {
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the neccessary data of this object.
-/// \param apObjectList: NULL-terminated array of pointers to objects to parse
-/// \param description: Description of the object (what it parses)
-/// \param max: Maximal cardinality, how often can the object be parsed
-/// \param min: Minimal cardinality, how often must the object be parsed
-/// \param skipWhitespace: Flag if trailing whitespaces should be skipped after sucessfully parsing the object
+/// \param apObjectList NULL-terminated array of pointers to objects to parse
+/// \param description Description of the object (what it parses)
+/// \param max Maximal cardinality, how often can the object be parsed
+/// \param min Minimal cardinality, how often must the object be parsed
+/// \param skipWhitespace Flag if trailing whitespaces should be skipped after sucessfully parsing the object
 /// \pre apObjectList != NULL && !ParseObject::checkIntegrity ()
 //-----------------------------------------------------------------------------
 ParseSelection::ParseSelection (ParseObject* apObjectList[],
@@ -1083,7 +1083,7 @@ ParseSelection::ParseSelection (ParseObject* apObjectList[],
 
 //-----------------------------------------------------------------------------
 /// Copy-constructor
-/// \param other: Object to clone
+/// \param other Object to clone
 //-----------------------------------------------------------------------------
 ParseSelection::ParseSelection (const ParseSelection& other)
    : ParseSequence ((const ParseSequence&)other) {
@@ -1100,8 +1100,8 @@ ParseSelection::~ParseSelection () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns ParseSelection& Reference to this
 //-----------------------------------------------------------------------------
 ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
    TRACE8 ("ParseSelection::operator=: " << getDescription ());
@@ -1119,10 +1119,10 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 /// object reports PARSE_OK. It is a soft error (PARSE_ERROR) if the minimal
 /// cardinality is not fullfilled. If parsing is not optional and/or the error
 /// is not recoverable (< 0), an exception (std::string) is thrown.
-/// \param stream: Source from which to read
-/// \param optional: Flag, if node must be found
-/// \returns \c PARSE_OK if selection found; PARSE_ERROR if not
-/// \throw YGP::ParseError: In case of a not recoverable error
+/// \param stream Source from which to read
+/// \param optional Flag, if node must be found
+/// \returns int PARSE_OK if selection found; PARSE_ERROR if not
+/// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
 int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
    TRACE1 ("ParseSelection::doParse -> " << getDescription () << ' ' << maxCard);
@@ -1180,9 +1180,9 @@ CBParseEOF::~CBParseEOF () {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameters and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK Requieres : pFoundValue != 0; len == 0
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK Requieres : pFoundValue != 0; len == 0
 //-----------------------------------------------------------------------------
 int CBParseEOF::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue); Check1 (!len);
@@ -1199,8 +1199,8 @@ CBParseSkip::~CBParseSkip () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseSkip& Reference to this
 //-----------------------------------------------------------------------------
 CBParseSkip& CBParseSkip::operator= (const CBParseSkip& other) {
    TRACE8 ("ParseSkip::operator=: " << getDescription ());
@@ -1216,9 +1216,9 @@ CBParseSkip& CBParseSkip::operator= (const CBParseSkip& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameters and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK Requieres : pFoundValue != 0; len == 0
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK Requieres : pFoundValue != 0; len == 0
 //-----------------------------------------------------------------------------
 int CBParseSkip::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue); Check1 (!len);
@@ -1235,8 +1235,8 @@ CBParseAttomic::~CBParseAttomic () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseAttomic& Reference to this
 //-----------------------------------------------------------------------------
 CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
    TRACE8 ("ParseAttomic::operator=: " << getDescription ());
@@ -1252,9 +1252,9 @@ CBParseAttomic& CBParseAttomic::operator= (const CBParseAttomic& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseAttomic::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1271,8 +1271,8 @@ CBParseText::~CBParseText () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseText& Reference to this
 //-----------------------------------------------------------------------------
 CBParseText& CBParseText::operator= (const CBParseText& other) {
    TRACE8 ("ParseText::operator=: " << getDescription ());
@@ -1288,9 +1288,9 @@ CBParseText& CBParseText::operator= (const CBParseText& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseText::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1307,8 +1307,8 @@ CBParseTextEsc::~CBParseTextEsc () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseTextEsc& Reference to this
 //-----------------------------------------------------------------------------
 CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
    TRACE8 ("ParseTextEsc::operator=: " << getDescription ());
@@ -1324,9 +1324,9 @@ CBParseTextEsc& CBParseTextEsc::operator= (const CBParseTextEsc& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseTextEsc::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1343,8 +1343,8 @@ CBParseQuoted::~CBParseQuoted () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseQuoted Reference to this
 //-----------------------------------------------------------------------------
 CBParseQuoted& CBParseQuoted::operator= (const CBParseQuoted& other) {
    TRACE8 ("ParseQuoted::operator= (const CBParseQuoted&) - " << getDescription ());
@@ -1360,9 +1360,9 @@ CBParseQuoted& CBParseQuoted::operator= (const CBParseQuoted& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseQuoted::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1379,8 +1379,8 @@ CBParseQuotedEsc::~CBParseQuotedEsc () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseQuotedEsc& Reference to this
 //-----------------------------------------------------------------------------
 CBParseQuotedEsc& CBParseQuotedEsc::operator= (const CBParseQuotedEsc& other) {
    TRACE8 ("ParseQuotedEsc::operator= (const CBParseQuotedEsc&) - " << getDescription ());
@@ -1396,9 +1396,9 @@ CBParseQuotedEsc& CBParseQuotedEsc::operator= (const CBParseQuotedEsc& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseQuotedEsc::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1415,8 +1415,8 @@ CBParseExact::~CBParseExact () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseExact& Reference to this
 //-----------------------------------------------------------------------------
 CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
    TRACE8 ("ParseExact::operator=: " << getDescription ());
@@ -1432,9 +1432,9 @@ CBParseExact& CBParseExact::operator= (const CBParseExact& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseExact::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1451,8 +1451,8 @@ CBParseUpperExact::~CBParseUpperExact () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseUpperExact& Reference to this
 //-----------------------------------------------------------------------------
 CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other) {
    TRACE8 ("CBParseUpperExact::operator=: " << getDescription ());
@@ -1468,9 +1468,9 @@ CBParseUpperExact& CBParseUpperExact::operator= (const CBParseUpperExact& other)
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseUpperExact::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1487,8 +1487,8 @@ CBParseSequence::~CBParseSequence () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseSequence& Reference to this
 //-----------------------------------------------------------------------------
 CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
    TRACE8 ("ParseSequence::operator=: " << getDescription ());
@@ -1504,9 +1504,9 @@ CBParseSequence& CBParseSequence::operator= (const CBParseSequence& other) {
 //-----------------------------------------------------------------------------
 /// Calls the defined callback with the passed parameter and returns its
 /// result.
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int: Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseSequence::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);
@@ -1523,8 +1523,8 @@ CBParseSelection::~CBParseSelection () {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to clone
-/// \returns \c Reference to this
+/// \param other Object to clone
+/// \returns CBParseSelection& Reference to this
 //-----------------------------------------------------------------------------
 CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
    TRACE8 ("CBParseSelection::operator=: " << getDescription ());
@@ -1539,9 +1539,9 @@ CBParseSelection& CBParseSelection::operator= (const CBParseSelection& other) {
 
 //-----------------------------------------------------------------------------
 /// Callback if an object was found
-/// \param pFoundValue: Pointer to found value
-/// \param len: Length of found data
-/// \returns \c int: Status; 0 OK
+/// \param pFoundValue Pointer to found value
+/// \param len Length of found data
+/// \returns int Status; 0 OK
 //-----------------------------------------------------------------------------
 int CBParseSelection::found (const char* pFoundValue, unsigned int len) {
    Check1 (pCallback); Check1 (pFoundValue);

@@ -49,19 +49,19 @@ class ValueBase_Attribute : public ValueBase {
    }
 
    /// Sets from another AttributValue
-   /// \param data: Value to set
+   /// \param data Value to set
    void set (const YGP::AttributValue& data) {
       g_value_set_string (&gobject_, data.toString ().c_str ()); }
 
  protected:
    /// Sets the value as c-string
-   /// \param data: c-string to set
+   /// \param data c-string to set
    /// \remarks never returns 0
    void        set_cstring (const char* data) {
       g_value_set_string (&gobject_, data); }
 
    /// Returns the value as c-string
-   /// \return const char*: Value as c-string
+   /// \return const char* Value as c-string
    /// \remarks never returns 0
    const char* get_cstring () const {
       const char *const data (g_value_get_string (&gobject_));

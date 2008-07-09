@@ -55,9 +55,9 @@ namespace XGP {
 class XDate : public XDialog {
  public:
    /// Constructor
-   /// \param title: Title to display for the dialog
-   /// \param date: Date/time to preselect in the dialog
-   /// \param showFields: Which fields to display; a combination of the \c
+   /// \param title Title to display for the dialog
+   /// \param date Date/time to preselect in the dialog
+   /// \param showFields Which fields to display; a combination of the \c
    ///     SHOW_* values.
    XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields = SHOW_ALL);
    ~XDate ();
@@ -73,9 +73,9 @@ class XDate : public XDialog {
    };
 
    /// Method to display the dialog; caring about freeing it afterwards
-   /// \param title: Title to display for the dialog
-   /// \param date: Date/time to preselect in the dialog
-   /// \param showFields: Which fields to display; a combination of the \c
+   /// \param title Title to display for the dialog
+   /// \param date Date/time to preselect in the dialog
+   /// \param showFields Which fields to display; a combination of the \c
    ///     SHOW_* values.
    static XDate* create (const Glib::ustring& title, YGP::ATimestamp& date,
                          int showFields = SHOW_ALL) {

@@ -65,9 +65,9 @@ class RelationManager {
 template <class _Tp>
 struct lessDereferenced : public std::binary_function<_Tp, _Tp, bool> {
    /// Access to the functor
-   /// \param __x: First object to compare
-   /// \param __y: Second object to compare
-   /// \returns bool: True, if the address of the  object __x points to is
+   /// \param __x First object to compare
+   /// \param __y Second object to compare
+   /// \returns bool True, if the address of the  object __x points to is
    ///     smaller than the address the second objects points to.
    bool operator() (const _Tp& __x, const _Tp& __y) const {
       return __x.ptr () < __y.ptr (); }
@@ -83,7 +83,7 @@ class IRelation {
    virtual ~IRelation ();
 
    /// Returns the name of the relation
-   /// \returns const char*: Name of the relation
+   /// \returns const char* Name of the relation
    const char* name () const {
       return RelationManager::getRelationName (*this); }
 
@@ -104,8 +104,8 @@ class Relation1_1 : public IRelation {
    virtual ~Relation1_1 () { }                                  ///< Destructor
 
    /// Connects two objects
-   /// \param source: Parent to relate
-   /// \param target: Child to relate with parent
+   /// \param source Parent to relate
+   /// \param target Child to relate with parent
    void relate (const S& source, const T& target) throw (std::overflow_error) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       typename std::map<S, T >::const_iterator i (objects.find (source));
@@ -121,8 +121,8 @@ class Relation1_1 : public IRelation {
 	 throw std::overflow_error (name ());
    }
    /// Disconnects two objects
-   /// \param source: Parent to unrelate
-   /// \param target: Child to unrelate from parent
+   /// \param source Parent to unrelate
+   /// \param target Child to unrelate from parent
    void unrelate (const S& source, const T& target) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       Check1 (objects.find (source) != objects.end ());
@@ -135,13 +135,13 @@ class Relation1_1 : public IRelation {
    }
 
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param owner: Parent which should be checked for relations
+   /// \param owner Parent which should be checked for relations
    bool isRelated (const S& owner) const {
       Check1 (owner.isDefined ());
       return objects.find (owner) != objects.end ();
    }
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param object: Child which should be checked for being related
+   /// \param object Child which should be checked for being related
    bool isRelated (const T& object) const {
       Check1 (object.isDefined ());
       for (typename std::map<S, T >::const_iterator i (objects.begin ());
@@ -151,8 +151,8 @@ class Relation1_1 : public IRelation {
       return false;
    }
    /// Checks if the passed objects are related to each other (within this relation)
-   /// \param owner: Parent which should be checked for being related
-   /// \param object: Child which should be checked for relations
+   /// \param owner Parent which should be checked for being related
+   /// \param object Child which should be checked for relations
    bool isRelated (const S& owner, const T& object) const {
       Check1 (owner.isDefined ()); Check1 (object.isDefined ());
       typename std::map<S, T >::const_iterator i (objects.find (owner));
@@ -160,8 +160,8 @@ class Relation1_1 : public IRelation {
    }
 
    /// Returns the child which is related with the passed object
-   /// \param owner: Parent whose object should be returned
-   /// \returns T: The related object
+   /// \param owner Parent whose object should be returned
+   /// \returns T The related object
    /// \remarks The object must be related
    T& getObject (const S& owner) {
       Check1 (owner.isDefined ());
@@ -169,8 +169,8 @@ class Relation1_1 : public IRelation {
       return objects[owner];
    }
    /// Returns the child which is related with the passed object
-   /// \param owner: Parent whose object should be returned
-   /// \returns const T: The related object
+   /// \param owner Parent whose object should be returned
+   /// \returns const T The related object
    /// \remarks The object must be related
    const T& getObject (const S& owner) const {
       Check1 (owner.isDefined ());
@@ -178,8 +178,8 @@ class Relation1_1 : public IRelation {
       return *objects.find (owner);
    }
    /// Returns the parent of the passed object
-   /// \param object: Child whose parent should be returned
-   /// \returns S: The related parent
+   /// \param object Child whose parent should be returned
+   /// \returns S The related parent
    /// \remarks The object must be related
    S& getParent (const T& object) {
       Check1 (object.isDefined ());
@@ -191,8 +191,8 @@ class Relation1_1 : public IRelation {
       return objects.begin ()->first;
    }
    /// Returns the parent of the passed object
-   /// \param object: Child whose parent should be returned
-   /// \returns S: The related parent
+   /// \param object Child whose parent should be returned
+   /// \returns S The related parent
    /// \remarks The object must be related
    const S& getParent (const T& object) const {
       Check1 (object.isDefined ());
@@ -220,13 +220,13 @@ template <class S, class T>
 class Relation1_N : public IRelation {
  public:
    /// Creates an 1-to-n relation.
-   /// \param name: Name of relation
+   /// \param name Name of relation
    Relation1_N (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~Relation1_N () { }                                  ///< Destructor
 
    /// Connects two objects
-   /// \param source: Parent to relate
-   /// \param target: Child to relate with parent
+   /// \param source Parent to relate
+   /// \param target Child to relate with parent
    void relate (const S& source, const T& target) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
 #if defined (CHECK) && (CHECK > 0)
@@ -239,8 +239,8 @@ class Relation1_N : public IRelation {
    }
    /// Connects an object with a bunch of objects, replacing the previously
    /// related objects.
-   /// \param source: Parent to relate
-   /// \param targets: Children to relate with parent
+   /// \param source Parent to relate
+   /// \param targets Children to relate with parent
    void relate (const S& source, const std::vector<T>& targets) {
       Check1 (source.isDefined ()); Check1 (targets.size ());
 #if defined (CHECK) && (CHECK > 0)
@@ -255,8 +255,8 @@ class Relation1_N : public IRelation {
    }
 
    /// Disconnects two objects
-   /// \param source: Parent to unrelate
-   /// \param target: Child to unrelate from parent
+   /// \param source Parent to unrelate
+   /// \param target Child to unrelate from parent
    void unrelate (const S& source, const T& target) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
@@ -271,7 +271,7 @@ class Relation1_N : public IRelation {
    }
 
    /// Disconnect all objects from a parent
-   /// \param source: Parent to unrelate
+   /// \param source Parent to unrelate
    void unrelateAll (const S& source) {
       Check1 (source.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
@@ -285,13 +285,13 @@ class Relation1_N : public IRelation {
    }
 
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param owner: Parent which should be checked for relations
+   /// \param owner Parent which should be checked for relations
    bool isRelated (const S& owner) const {
       Check1 (owner.isDefined ());
       return objects.find (owner) != objects.end ();
    }
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param object: Child which should be checked for being related
+   /// \param object Child which should be checked for being related
    bool isRelated (const T& object) const {
       Check1 (object.isDefined ());
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
@@ -302,8 +302,8 @@ class Relation1_N : public IRelation {
       return false;
    }
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param owner: Parent which should be checked for relations
-   /// \param object: Child which should be checked for being related
+   /// \param owner Parent which should be checked for relations
+   /// \param object Child which should be checked for being related
    bool isRelated (const S& owner, const T& object) const {
       Check1 (owner.isDefined ()); Check1 (object.isDefined ());
       typename std::map<S, std::vector<T> >::const_iterator i (objects.find (owner));
@@ -314,8 +314,8 @@ class Relation1_N : public IRelation {
    }
 
    /// Returns the childs which are related with the passed object
-   /// \param owner: Parent whose object should be returned
-   /// \returns T: The related object
+   /// \param owner Parent whose object should be returned
+   /// \returns T The related object
    /// \remarks The object must be related
    const std::vector<T>& getObjects (const S& owner) const {
       Check1 (owner.isDefined ());
@@ -323,8 +323,8 @@ class Relation1_N : public IRelation {
       return objects.find (owner)->second;
    }
    /// Returns the parent of the passed object
-   /// \param object: Child whose parent should be returned
-   /// \returns S: The related parent
+   /// \param object Child whose parent should be returned
+   /// \returns S The related parent
    /// \remarks The object must be related
    S getParent (const T& object) {
       Check1 (object.isDefined ());
@@ -339,8 +339,8 @@ class Relation1_N : public IRelation {
       return objects.begin ()->first;
    }
    /// Returns the parent of the passed object
-   /// \param object: Child whose parent should be returned
-   /// \returns S: The related parent
+   /// \param object Child whose parent should be returned
+   /// \returns S The related parent
    /// \remarks The object must be related
    const S getParent (const T& object) const {
       Check1 (object.isDefined ());
@@ -374,16 +374,16 @@ template <class S, class T>
 class Relation1_X : public Relation1_N<S, T> {
  public:
    /// Creates an 1-to-n relation.
-   /// \param name: Name of relation
-   /// \param maxRelated: The number of elements which can be related to the object
+   /// \param name Name of relation
+   /// \param maxRelated The number of elements which can be related to the object
    Relation1_X (const char* name, unsigned int maxRelated)
       : Relation1_N<S, T> (name), cRelated (maxRelated) { }
    virtual ~Relation1_X () { }                                  ///< Destructor
 
    /// Connects two objects
-   /// \param source: Parent to relate
-   /// \param target: Child to relate with parent
-   /// \throws std::overflow_error: If cardinality would be invalidated
+   /// \param source Parent to relate
+   /// \param target Child to relate with parent
+   /// \throws std::overflow_error If cardinality would be invalidated
    void relate (S source, T target) throw (std::overflow_error) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i
@@ -396,9 +396,9 @@ class Relation1_X : public Relation1_N<S, T> {
    }
    /// Connects an object with a bunch of objects, replacing the previously
    /// related objects.
-   /// \param source: Parent to relate
-   /// \param targets: Children to relate with parent
-   /// \throws std::overflow_error: If cardinality would be invalidated
+   /// \param source Parent to relate
+   /// \param targets Children to relate with parent
+   /// \throws std::overflow_error If cardinality would be invalidated
    void relate (const S& source, const std::vector<T>& targets) throw (std::overflow_error) {
       Check1 (source.isDefined ()); Check1 (targets.size ());
       if (targets.size () >= cRelated)
@@ -424,13 +424,13 @@ template <class S, class T>
 class RelationN_M : public IRelation {
  public:
    /// Creates an 1-to-n relation.
-   /// \param name: Name of relation
+   /// \param name Name of relation
    RelationN_M (const char* name) : IRelation (name) { }        ///< Defaultctr
    virtual ~RelationN_M () { }                                  ///< Destructor
 
    /// Connects two objects
-   /// \param source: Parent to relate
-   /// \param target: Child to relate with parent
+   /// \param source Parent to relate
+   /// \param target Child to relate with parent
    void relate (const S& source, const T& target) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       objects[source].push_back (target);
@@ -438,8 +438,8 @@ class RelationN_M : public IRelation {
    }
    /// Connects an object with a bunch of objects, replacing the previously
    /// related objects.
-   /// \param source: Parent to relate
-   /// \param targets: Children to relate with parent
+   /// \param source Parent to relate
+   /// \param targets Children to relate with parent
    void relate (const S& source, const std::vector<T>& targets) {
       Check1 (source.isDefined ()); Check1 (targets.size ());
 
@@ -466,8 +466,8 @@ class RelationN_M : public IRelation {
    }
    /// Connects an object with a bunch of objects, replacing the previously
    /// related objects.
-   /// \param sources: Parents to relate
-   /// \param target: Child to relate with parents
+   /// \param sources Parents to relate
+   /// \param target Child to relate with parents
    void relate (const std::vector<S>& sources, const T& target) {
       Check1 (sources.size ()); Check1 (target.isDefined ());
 
@@ -494,8 +494,8 @@ class RelationN_M : public IRelation {
    }
 
    /// Disconnects two objects
-   /// \param source: Parent to unrelate
-   /// \param target: Child to unrelate from parent
+   /// \param source Parent to unrelate
+   /// \param target Child to unrelate from parent
    void unrelate (const S& source, const T& target) {
       Check1 (source.isDefined ()); Check1 (target.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
@@ -518,7 +518,7 @@ class RelationN_M : public IRelation {
    }
 
    /// Disconnect all objects from a parent
-   /// \param source: Parent to unrelate
+   /// \param source Parent to unrelate
    void unrelateAll (const S& source) {
       Check1 (source.isDefined ());
       typename std::map<S, std::vector<T> >::iterator i (objects.find (source));
@@ -537,7 +537,7 @@ class RelationN_M : public IRelation {
    }
 
    /// Disconnect all parents from an object
-   /// \param target: Parent to unrelate
+   /// \param target Parent to unrelate
    void unrelateAll (const T& target) {
       Check1 (target.isDefined ());
       typename std::map<T, std::vector<S> >::iterator i (parents.find (target));
@@ -558,20 +558,20 @@ class RelationN_M : public IRelation {
    }
 
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param owner: Parent which should be checked for relations
+   /// \param owner Parent which should be checked for relations
    bool isRelated (const S& owner) const {
       Check1 (owner.isDefined ());
       return objects.find (owner) != objects.end ();
    }
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param object: Child which should be checked for being related
+   /// \param object Child which should be checked for being related
    bool isRelated (const T& object) const {
       Check1 (object.isDefined ());
       return parents.find (object) != parents.end ();
    }
    /// Checks if the passed object is related to any other (within this relation)
-   /// \param owner: Parent which should be checked for relations
-   /// \param object: Child which should be checked for being related
+   /// \param owner Parent which should be checked for relations
+   /// \param object Child which should be checked for being related
    bool isRelated (const S& owner, const T& object) const {
       Check1 (owner.isDefined ()); Check1 (object.isDefined ());
       typename std::map<S, std::vector<T> >::const_iterator i (objects.find (owner));
@@ -582,8 +582,8 @@ class RelationN_M : public IRelation {
    }
 
    /// Returns the childs which are related with the passed object
-   /// \param owner: Parent whose object should be returned
-   /// \returns T: The related object
+   /// \param owner Parent whose object should be returned
+   /// \returns T The related object
    /// \remarks The object must be related
    const std::vector<T>& getObjects (const S& owner) const {
       Check1 (owner.isDefined ());
@@ -592,8 +592,8 @@ class RelationN_M : public IRelation {
       return i->second;
    }
    /// Returns the parents of the passed object
-   /// \param object: Child whose parent should be returned
-   /// \returns S: The related parent
+   /// \param object Child whose parent should be returned
+   /// \returns S The related parent
    /// \remarks The object must be related
    const std::vector<S>& getParents (const T& object) const {
       Check1 (object.isDefined ());

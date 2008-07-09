@@ -47,9 +47,9 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; Creates a (modeless) dialog to select a file
-/// \param title: Text to display in the title of the dialog
-/// \param action: Action which is caused by clicking a file
-/// \param dlgOption: Checks to perform after selecting OK
+/// \param title Text to display in the title of the dialog
+/// \param action Action which is caused by clicking a file
+/// \param dlgOption Checks to perform after selecting OK
 //-----------------------------------------------------------------------------
 FileDialog::FileDialog (const Glib::ustring& title,
 			Gtk::FileChooserAction action, unsigned int dlgOption)
@@ -75,7 +75,7 @@ FileDialog::~FileDialog () {
 
 //-----------------------------------------------------------------------------
 /// Callback on user-action (file selected or dialog closed)
-/// \param cmd: ID of selected action
+/// \param cmd ID of selected action
 /// \remarks - Depending on the option, the file must either exist or it is
 ///     checked if it should be overwritten
 //-----------------------------------------------------------------------------
@@ -132,8 +132,8 @@ void FileDialog::on_response (int cmd) {
 
 //-----------------------------------------------------------------------------
 /// Performs the dialog modaly
-/// \returns std::string: The selected file
-/// \remarks: When executed modally, only the first file is returned
+/// \returns std::string The selected file
+/// \remarks When executed modally, only the first file is returned
 //-----------------------------------------------------------------------------
 std::string FileDialog::execModal () {
    Check2 (!(opt % MULTIPLE));
@@ -148,10 +148,10 @@ std::string FileDialog::execModal () {
 //----------------------------------------------------------------------------
 /// Creates a (modeless) dialog and registers a handler to free it after
 /// deleting.
-/// \param title: Title of the dialog
-/// \param action: Action which is caused by clicking a file
-/// \param dlgOption: Options for the dialog
-//  \returns FileDialog*: Pointer to created dialog
+/// \param title Title of the dialog
+/// \param action Action which is caused by clicking a file
+/// \param dlgOption Options for the dialog
+//  \returns FileDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
 FileDialog* FileDialog::create (const Glib::ustring& title,
 				Gtk::FileChooserAction action, unsigned int dlgOption) {

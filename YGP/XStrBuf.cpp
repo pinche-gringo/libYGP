@@ -59,7 +59,7 @@ extStreambuf::extStreambuf ()
 //-----------------------------------------------------------------------------
 /// Constructur; creates an extended streambuf which takes its input from the
 /// provided source.
-/// \param source: Actual datasink to use
+/// \param source Actual datasink to use
 //-----------------------------------------------------------------------------
 extStreambuf::extStreambuf (std::streambuf& source)
    : line (0), pushbackOffset (-1), pSource (&source)
@@ -70,7 +70,7 @@ extStreambuf::extStreambuf (std::streambuf& source)
 //-----------------------------------------------------------------------------
 /// Constructur; creates an extended streambuf which takes its input from the
 /// provided source.
-/// \param source: Actual datasink to use
+/// \param source Actual datasink to use
 //-----------------------------------------------------------------------------
 extStreambuf::extStreambuf (std::streambuf* source)
    : line (0), pushbackOffset (-1), pSource (source)
@@ -89,8 +89,8 @@ extStreambuf::~extStreambuf () {
 //-----------------------------------------------------------------------------
 /// Called if output would cause the streambuf to overrun. Because this class
 /// is designed for input, this method shouldn't be called.
-/// \param ch: Char to write, causing the overflow
-/// \returns \c int: EOF in case of error
+/// \param ch Char to write, causing the overflow
+/// \returns int EOF in case of error
 //-----------------------------------------------------------------------------
 int extStreambuf::overflow (int) {
    Check (0);
@@ -104,7 +104,7 @@ int extStreambuf::overflow (int) {
 /// (10, 0x0a, '\n') and sets this data as its input. This method is called
 /// automatically and should NOT be used. It also might be declared protected
 /// in the future.
-/// \returns \c int: EOF in case of an error, else 0
+/// \returns int EOF in case of an error, else 0
 /// \pre Readpointer equal or behind end-of-readbuffer
 //-----------------------------------------------------------------------------
 int extStreambuf::underflow () {
@@ -154,8 +154,8 @@ int extStreambuf::underflow () {
 ///      previous line (and - depending on the implementation of streambuf -
 ///      maybe a few characters more). In this read-position of the
 ///      data-sink is changed to the end of the previous line.
-/// \param c: Character to put back (not EOF)
-/// \returns \c Character putted back (EOF if an error occured)
+/// \param c Character to put back (not EOF)
+/// \returns int Character putted back (EOF if an error occured)
 /// \remarks For the sake of performance the check if the character pushed
 ///     back matches the character in the stream is \b not performed (but the
 ///     next read-operation returns the "right" character)!
@@ -191,10 +191,10 @@ int extStreambuf::pbackfail (int c) {
 //-----------------------------------------------------------------------------
 /// Positionates the read pointer to the passed offset (either starting from
 /// the beginning or the end of the stream or from the current position).
-/// \param off: Offset to change in the stream
-/// \param dir: Direction to change offset to
-/// \param mode: Which pointer to move (get, put)
-/// \returns \c New position in the stream
+/// \param off Offset to change in the stream
+/// \param dir Direction to change offset to
+/// \param mode Which pointer to move (get, put)
+/// \returns std::streampos New position in the stream
 //-----------------------------------------------------------------------------
 std::streampos extStreambuf::seekoff (std::streamoff off,
                                       std::ios_base::seekdir dir,
@@ -214,9 +214,9 @@ std::streampos extStreambuf::seekoff (std::streamoff off,
 
 //-----------------------------------------------------------------------------
 /// Positionates the read pointer to the passed position.
-/// \param pos: New position in the stream
-/// \param mode: Which pointer to move (get, put)
-/// \returns \c New position in the stream
+/// \param pos New position in the stream
+/// \param mode Which pointer to move (get, put)
+/// \returns std::streampos New position in the stream
 //-----------------------------------------------------------------------------
 std::streampos extStreambuf::seekpos (std::streampos pos,
                                       std::ios_base::openmode mode) {
@@ -228,7 +228,7 @@ std::streampos extStreambuf::seekpos (std::streampos pos,
 
 //-----------------------------------------------------------------------------
 /// Checks the integrity of the object
-/// \returns \c int: Status: 0 OK; 1 \c pSource == NULL; 2 \c pBuffer == NULL
+/// \returns int Status 0 OK; 1 \c pSource == NULL; 2 \c pBuffer == NULL
 //-----------------------------------------------------------------------------
 int extStreambuf::checkIntegrity () const {
    return pBuffer ? pSource ? 0 : 1 : 2;

@@ -39,14 +39,14 @@ class MetaEnum {
    /// \name Check for existence
    //@{
    /// Checks if the integer value exists
-   /// \param value: Value to check for
-   /// \returns bool: True if the value exists
+   /// \param value Value to check for
+   /// \returns bool True if the value exists
    bool exists (int value) const { return values.find (value) != values.end (); }
    bool exists (const std::string& value) const;
    //@}
 
    /// Inserts a new item into the object
-   /// \param value: Value to insert; create with std::make_pair
+   /// \param value Value to insert; create with std::make_pair
    void insert (const typePair& value) { values.insert (value); }
 
    /// \name Accessing values (which must exist)
@@ -56,16 +56,16 @@ class MetaEnum {
    //@}
 
    /// Returns an iterator to the first element of the enumeration
-   /// \retunrs: Iterator to the first element
+   /// \returns Iterator to the first element
    iterator begin () { return values.begin (); }
    /// Returns an iterator to the first element of the enumeration
-   /// \retunrs: Iterator to the first element
+   /// \returns Iterator to the first element
    const_iterator begin () const { return values.begin (); }
    /// Returns an iterator after the last element of the enumeration
-   /// \retunrs: Iterator after the last element
+   /// \returns Iterator after the last element
    iterator end () { return values.end (); }
    /// Returns an iterator after the last element of the enumeration
-   /// \retunrs: Iterator after the last element
+   /// \returns Iterator after the last element
    const_iterator end () const { return values.end (); }
 
  protected:

@@ -72,16 +72,16 @@ class FileTypeCheckerByExtension : public FileTypeChecker {
    ~FileTypeCheckerByExtension ();
 
    /// Gets the type of the passed file
-   /// \param file: File to analyse
-   /// \returns unsigned int: Type of file
+   /// \param file File to analyse
+   /// \returns unsigned int Type of file
    virtual unsigned int getType (const char* file) const;
 
    void addType (const char* ext, unsigned int value);
 
  protected:
    /// Gets the file-type defined by the passed extension
-   /// \param file: Extension of file to analyse
-   /// \returns unsigned int: Type of file
+   /// \param file Extension of file to analyse
+   /// \returns unsigned int Type of file
    unsigned int getType4Extension (const char* extension) const;
 
  private:
@@ -102,8 +102,8 @@ class FileTypeCheckerByCaseExt : public FileTypeCheckerByExtension {
    ~FileTypeCheckerByCaseExt ();
 
    /// Gets the type of the passed file
-   /// \param file: File to analyse
-   /// \returns unsigned int: Type of file
+   /// \param file File to analyse
+   /// \returns unsigned int Type of file
    virtual unsigned int getType (const char* file) const;
 
  private:
@@ -122,20 +122,20 @@ class FileTypeCheckerByContent : public FileTypeChecker {
    ~FileTypeCheckerByContent ();
 
    /// Gets the type of the passed file
-   /// \param file: File to analyse
-   /// \returns unsigned int: Type of file
+   /// \param file File to analyse
+   /// \returns unsigned int Type of file
    virtual unsigned int getType (const char* file) const;
 
    typedef bool (*MATCHFNC)(char*, const char*, unsigned int, std::ifstream&);
    /// Adds a new handled type
-   /// \param type: Type of file
-   /// \param fnMatch: Method to check for file of type
+   /// \param type Type of file
+   /// \param fnMatch Method to check for file of type
    void addType (unsigned int type, MATCHFNC fnMatch) {
       types.push_back (ID (0, 0, "", type, fnMatch));
    }
    /// Adds a new handled type
-   /// \param type: Type of file
-   /// \param fnMatch: Method to check for file of type
+   /// \param type Type of file
+   /// \param fnMatch Method to check for file of type
    void addType (unsigned int start, unsigned int len, const char* text, unsigned int type, MATCHFNC fnMatch = matchFirstBytes) {
       types.push_back (ID (start, len, text, type, fnMatch));
    }

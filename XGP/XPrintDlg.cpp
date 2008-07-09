@@ -123,7 +123,7 @@ void PrintDialog::okEvent () {
 //----------------------------------------------------------------------------
 /// Creates a (modeless) print dialog and registers a handler to free it
 /// after deleting.
-/// \returns IPrintDialog*: Pointer to created dialog
+/// \returns IPrintDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
 PrintDialog* PrintDialog::create () {
     PrintDialog* dlg (new PrintDialog ());

@@ -46,8 +46,8 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; adds all controls to the dialog and shows it.
-/// \param author: Author, copyright, ... of the program displayed in the client
-/// \param program: Name and version of the program; displaced in the title
+/// \param author Author, copyright, ... of the program displayed in the client
+/// \param program Name and version of the program; displaced in the title
 //-----------------------------------------------------------------------------
 XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author)),
@@ -85,7 +85,7 @@ XAbout::~XAbout () {
 
 //-----------------------------------------------------------------------------
 /// Sets the icon for the program (in xpm-format)
-/// \param pIconData: Image representing program
+/// \param pIconData Image representing program
 //-----------------------------------------------------------------------------
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
@@ -99,7 +99,7 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 
 //-----------------------------------------------------------------------------
 /// Sets the icon for the programmer (in xpm-format)
-/// \param pIconData: Pointer to xpm-data for pixmap representing the programmer
+/// \param pIconData Pointer to xpm-data for pixmap representing the programmer
 //-----------------------------------------------------------------------------
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
@@ -117,7 +117,7 @@ void XAbout::setIconAuthor (const char* const* pIconData) {
 //----------------------------------------------------------------------------
 /// Creates a (modeless) about dialog and registers a handler to free it
 /// after deleting
-/// \returns IPrintDialog*: Pointer to created dialog
+/// \returns IPrintDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
 XAbout* XAbout::create (const Glib::ustring& author, const Glib::ustring& program) {
     XAbout* dlg (new XAbout (author, program));

@@ -91,9 +91,11 @@ class RemoteDirSearch : public IDirectorySearch {
    Socket sock;                               ///< Socket for the communication
 
  private:
-   //@Section prohibited manager functions
+   /// \name Section prohibited manager functions
+   //@{
    RemoteDirSearch (const RemoteDirSearch&);
    RemoteDirSearch& operator= (const RemoteDirSearch&);
+   //@}
 
    int posSeparator (const std::string& dir) const;
 

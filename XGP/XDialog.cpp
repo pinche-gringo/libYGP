@@ -41,9 +41,9 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates the dialog with the specified buttons
-/// \param buttons: Bitfield for buttons to display
-/// \param modal: Flag, if the dialog is modal
-/// \param use_separator: Flag, if the dialog should display a separator line
+/// \param buttons Bitfield for buttons to display
+/// \param modal Flag, if the dialog is modal
+/// \param use_separator Flag, if the dialog should display a separator line
 ///     between its contents and its buttons
 //-----------------------------------------------------------------------------
 XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
@@ -53,10 +53,10 @@ XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates the dialog with the specified buttons
-/// \param buttons: Bitfield for buttons to display
-/// \param title: Title to display
-/// \param modal: Flag, if the dialog is modal
-/// \param use_separator: Flag, if the dialog should display a separator line
+/// \param buttons Bitfield for buttons to display
+/// \param title Title to display
+/// \param modal Flag, if the dialog is modal
+/// \param use_separator Flag, if the dialog should display a separator line
 ///     between its contents and its buttons
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
@@ -67,11 +67,11 @@ XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
 
 //-----------------------------------------------------------------------------
 /// (Default-)Constructor; creates the dialog with the specified buttons
-/// \param buttons: Bitfield for buttons to display
-/// \param title: Title to display
-/// \param parent: Parent of the dialog
-/// \param modal: Flag, if the dialog is modal
-/// \param use_separator: Flag, if the dialog should display a separator line
+/// \param buttons Bitfield for buttons to display
+/// \param title Title to display
+/// \param parent Parent of the dialog
+/// \param modal Flag, if the dialog is modal
+/// \param use_separator Flag, if the dialog should display a separator line
 ///     between its contents and its buttons
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
@@ -92,7 +92,7 @@ XDialog::~XDialog () {
 
 //-----------------------------------------------------------------------------
 /// Adds the specified buttons to the dialog
-/// \param buttons: Bitfield for buttons to display
+/// \param buttons Bitfield for buttons to display
 //-----------------------------------------------------------------------------
 void XDialog::init (unsigned int buttons) {
    TRACE9 ("XDialog::init ()");
@@ -120,7 +120,7 @@ void XDialog::init (unsigned int buttons) {
 
 //-----------------------------------------------------------------------------
 /// Callback after button-events
-/// \param cmd: ID of pressed button
+/// \param cmd ID of pressed button
 //-----------------------------------------------------------------------------
 void XDialog::on_response (int cmd) {
    TRACE9 ("XDialog::on_response (int) " << cmd);
@@ -158,7 +158,7 @@ void XDialog::cancelEvent () {
 
 //-----------------------------------------------------------------------------
 /// Checks if the data entered in the dialog is OK
-/// \returns bool: True, if dialog can be left by selecting OK
+/// \returns bool True, if dialog can be left by selecting OK
 //-----------------------------------------------------------------------------
 bool XDialog::isDataOK () {
    TRACE9 ("XDialog::isDataOK ()");
@@ -167,7 +167,7 @@ bool XDialog::isDataOK () {
 
 //-----------------------------------------------------------------------------
 /// Command handler of the dialog
-/// \param action: Selected action
+/// \param action Selected action
 /// \remarks Must not be called
 //-----------------------------------------------------------------------------
 void XDialog::command (int action) {

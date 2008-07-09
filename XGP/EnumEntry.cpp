@@ -35,7 +35,7 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param values: MetaEnum whose values should be shown
+/// \param values MetaEnum whose values should be shown
 //-----------------------------------------------------------------------------
 EnumEntry::EnumEntry (const YGP::MetaEnum& values) {
    for (YGP::MetaEnum::const_iterator i (values.begin ()); i != values.end (); ++i)

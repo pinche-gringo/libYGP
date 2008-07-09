@@ -27,8 +27,8 @@ namespace XGP {
 
 /**Class animating objects.
  *
- * \note: Create on heap (with new) as this class deletes itself when the
- *        animation has been finished.
+ * \note Create on heap (with new) as this class deletes itself when
+ *       the animation has been finished.
  */
 class AnimatedWindow : public sigc::trackable {
  public:

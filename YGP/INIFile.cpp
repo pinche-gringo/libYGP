@@ -76,9 +76,9 @@ INISection::ISectionParser::~ISectionParser () {
 
 //-----------------------------------------------------------------------------
 /// Parses the section header
-/// \param stream: Stream to parse from
-/// \returns int: Status of parse
-/// \throw YGP::ParseError: Error while parsing
+/// \param stream Stream to parse from
+/// \returns int Status of parse
+/// \throw YGP::ParseError Error while parsing
 //-----------------------------------------------------------------------------
 int INISection::ISectionParser::parse (Xistream& stream) throw (YGP::ParseError) {
    INISection::skipComments (stream);
@@ -87,7 +87,7 @@ int INISection::ISectionParser::parse (Xistream& stream) throw (YGP::ParseError)
 
 //-----------------------------------------------------------------------------
 /// Constructor; name is the name of the section.
-/// \param name: Name of section
+/// \param name Name of section
 /// \remarks name must be a valid ASCIIZ-string (not NULL)
 //-----------------------------------------------------------------------------
 INISection::INISection (const char* name)
@@ -112,7 +112,7 @@ INISection::~INISection () {
 
 //-----------------------------------------------------------------------------
 /// Adds an attribute to parse to the section
-/// \param attribute: %Attribute to add
+/// \param attribute %Attribute to add
 //-----------------------------------------------------------------------------
 void INISection::addAttribute (const IAttribute& attribute) {
    Check3 (!findAttribute (attribute.getName ()));
@@ -123,8 +123,8 @@ void INISection::addAttribute (const IAttribute& attribute) {
 //-----------------------------------------------------------------------------
 /// Searches for an attribute matching the passed name. If such an attribute
 /// is not found, NULL is returned.
-/// \param name: Name of attribute to find
-/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \param name Name of attribute to find
+/// \returns IAttribute* Pointer to attribute or NULL (if not found)
 /// \remarks name must not be a NULL pointer
 //-----------------------------------------------------------------------------
 const IAttribute* INISection::findAttribute (const char* name) const {
@@ -141,8 +141,8 @@ const IAttribute* INISection::findAttribute (const char* name) const {
 //-----------------------------------------------------------------------------
 /// TriesSearches for an attribute matching the passed name. If such an
 /// attribute is not found, NULL is returned.
-/// \param name: Name of attribute to find
-/// \returns \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \param name Name of attribute to find
+/// \returns IAttribute* Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
 const IAttribute* INISection::findAttribute (const std::string& name) const {
    TRACE9 ("INISection::findAttribute (const std::string&) - " << name);
@@ -164,11 +164,11 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /// be exact: Anything which is not a key) is reached. Errors are returned (or
 /// execeptions are thrown) if the attribute is either not found inside the
 /// class or the value can not be assigned.
-/// \param stream: Extended stream to read from
-/// \returns \c int: ParseObject::OK if a know key is found and it's value can
+/// \param stream Extended stream to read from
+/// \returns int ParseObject::OK if a know key is found and it's value can
 ///     be assigned Remarks The exact behaviour depends on the type of the
 ///     attribute!
-/// \throw YGP::ParseError: With text describing error if an unrecoverable
+/// \throw YGP::ParseError With text describing error if an unrecoverable
 ///     error occurs
 //-----------------------------------------------------------------------------
 int INISection::readFromStream (Xistream& stream) throw (YGP::ParseError) {
@@ -187,11 +187,11 @@ int INISection::readFromStream (Xistream& stream) throw (YGP::ParseError) {
 /// Anything which is not a key) is reached. Errors are returned (or
 /// execeptions are thrown) if the attribute is either not found inside the
 /// class or the value can not be assigned.
-/// \param stream: Extended stream to read from
-/// \returns \c int: ParseObject::OK if a know key is found and it's value can
+/// \param stream Extended stream to read from
+/// \returns int ParseObject::OK if a know key is found and it's value can
 ///     be assigned Remarks The exact behaviour depends on the type of the
 ///     attribute!
-/// \throw YGP::ParseError: With text describing error if an unrecoverable
+/// \throw YGP::ParseError With text describing error if an unrecoverable
 ///     error occurs
 //-----------------------------------------------------------------------------
 int INISection::readAttributes (Xistream& stream) throw (YGP::ParseError) {
@@ -210,7 +210,7 @@ int INISection::readAttributes (Xistream& stream) throw (YGP::ParseError) {
 //-----------------------------------------------------------------------------
 /// Skips over comments (the text following a semi-colon (;) til the end of the
 /// line.
-/// \param stream: Stream to read from
+/// \param stream Stream to read from
 //-----------------------------------------------------------------------------
 void INISection::skipComments (Xistream& stream) {
    ParseExact semi (";", "Semicolon", true, false);
@@ -223,9 +223,9 @@ void INISection::skipComments (Xistream& stream) {
 
 //-----------------------------------------------------------------------------
 /// Callback when the name of a section was found
-/// \param section: Name of found section
-/// \param int: Unused length of the section name
-/// \returns \c int: PARSE_OK, if name of section is OK
+/// \param section Name of found section
+/// \param int Unused length of the section name
+/// \returns int PARSE_OK, if name of section is OK
 //-----------------------------------------------------------------------------
 int INISection::foundSection (const char* section, unsigned int) {
    TRACE5 ("INISection::foundSection (const char*, unsigned int): '" << section << '\'');
@@ -239,9 +239,9 @@ int INISection::foundSection (const char* section, unsigned int) {
 /// Callback if a key of an attribute has been found. Every attribute of the
 /// section is compared with the passed key. If they match the value of the
 /// key is assigned to the attribute
-/// \param key: Name of the found key
-/// \param int: Unused length of the section name
-/// \returns \c int: PARSE_OK, if key is found; else
+/// \param key Name of the found key
+/// \param int Unused length of the section name
+/// \returns int PARSE_OK, if key is found; else
 ///     ParseObject::PARSE_CB_ABORT.
 //-----------------------------------------------------------------------------
 int INISection::foundKey (const char* key, unsigned int) {
@@ -263,9 +263,9 @@ int INISection::foundKey (const char* key, unsigned int) {
 //-----------------------------------------------------------------------------
 /// Callback if a value of an attribute has been found. This value is assigned
 /// using the assign-member of IAttribute.
-/// \param value: Value to assign to the (previously) found attribute
-/// \param len: Length of text hold by \c value
-/// \returns \c int: PARSE_OK, if value could be assigned successfully; else
+/// \param value Value to assign to the (previously) found attribute
+/// \param len Length of text hold by \c value
+/// \returns int PARSE_OK, if value could be assigned successfully; else
 ///     ParseObject::PARSE_CB_ABORT
 //-----------------------------------------------------------------------------
 int INISection::foundValue (const char* value, unsigned int len) {
@@ -280,8 +280,8 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// Constructor; The parameter filename specifies the file to parse for
 /// initialization-information. If this file does not exist, an exception is
 /// thrown.
-/// \param filename: Name of the INI file
-/// \throw YGP::FileError: If file couldn't be open a text describing the error
+/// \param filename Name of the INI file
+/// \throw YGP::FileError If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
 INIFile::INIFile (const char* filename) throw (YGP::FileError)
@@ -295,7 +295,7 @@ INIFile::INIFile (const char* filename) throw (YGP::FileError)
 //-----------------------------------------------------------------------------
 /// Opens the file for reading. If this file does not exist, an exception is
 /// thrown.
-/// \throw YGP::FileError: If file couldn't be open a text describing the error
+/// \throw YGP::FileError If file couldn't be open a text describing the error
 //-----------------------------------------------------------------------------
 void INIFile::open () throw (YGP::FileError) {
    file.open (name.c_str (), std::ios::in);
@@ -320,7 +320,7 @@ INIFile::~INIFile () {
 
 //-----------------------------------------------------------------------------
 /// Adds the passed section to the list of sections to parse.
-/// \param section: Specification of the section
+/// \param section Specification of the section
 //-----------------------------------------------------------------------------
 void INIFile::addSection (const INISection& section) {
    TRACE9 ("INIFile::addSection (const INISection&) - " << section.getName ());
@@ -331,8 +331,8 @@ void INIFile::addSection (const INISection& section) {
 //-----------------------------------------------------------------------------
 /// Adds a section to parse to the INI-file; does nothing if section already
 /// exists
-/// \param section: Name of the section
-/// \returns \c INISection*: Pointer to new (or existing) section
+/// \param section Name of the section
+/// \returns INISection* Pointer to new (or existing) section
 
 //-----------------------------------------------------------------------------
 INISection* INIFile::addSection (const char* section) {
@@ -355,8 +355,8 @@ INISection* INIFile::addSection (const char* section) {
 /// section-header, nor an attribute. The function returns
 /// ParseObject::PARSE_OK, if EOF is reached; else a non-zero value is
 /// returned or - depending on the error - an exception is thrown.
-/// \returns \c int: Status of reading: <0 hard error; 0 OK, >0 soft error
-/// \throw YGP::ParseError: With a message describing error in case of an invalid value
+/// \returns int Status of reading: <0 hard error; 0 OK, >0 soft error
+/// \throw YGP::ParseError With a message describing error in case of an invalid value
 //-----------------------------------------------------------------------------
 int INIFile::read () throw (YGP::ParseError) {
   TRACE9 ("INIFile::read ()");
@@ -383,8 +383,8 @@ int INIFile::read () throw (YGP::ParseError) {
 /// Searches the entries of the INI-file-object for a section with the passed
 /// name. If a matching entry is found, a pointer to it is returned; else
 /// NULL.
-/// \param name: Name of section to find
-/// \returns \c Section*: Pointer to section or NULL (if not found)
+/// \param name Name of section to find
+/// \returns Section* Pointer to section or NULL (if not found)
 //-----------------------------------------------------------------------------
 const INISection* INIFile::findSection (const char* name) const {
    std::vector<const INISection*>::const_iterator i;
@@ -400,9 +400,9 @@ const INISection* INIFile::findSection (const char* name) const {
 /// start-of-section character open bracket ([)) is found. The default action
 /// is to check, if the section matches (case-sensitive!) the passed
 /// parameter. If yes, its attributes are parsed.
-/// \param section: Name of found section
-/// \param int: Unused length of the section name
-/// \returns \c int: PARSE_OK, if name of section is OK, else
+/// \param section Name of found section
+/// \param int Unused length of the section name
+/// \returns int PARSE_OK, if name of section is OK, else
 ///     ParseObject::PARSE_CB_ABORT.
 //-----------------------------------------------------------------------------
 int INIFile::foundSection (const char* section, unsigned int) {
@@ -416,8 +416,8 @@ int INIFile::foundSection (const char* section, unsigned int) {
 
 //-----------------------------------------------------------------------------
 /// Adds all the attributes of the Entity to the passed section
-/// \param obj: Object whose attributes should be added
-/// \param section: Section where to add the attributes
+/// \param obj Object whose attributes should be added
+/// \param section Section where to add the attributes
 //-----------------------------------------------------------------------------
 void INIFile::addEntity (const Entity& obj, INISection& section) {
    TRACE9 ("INIFile::addEntity (const Entity&, INISection&) - adding "
@@ -432,9 +432,9 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
 //-----------------------------------------------------------------------------
 /// Writes an entity to the INI-file. Every attribute of the object is written
 /// as "name=value".
-/// \param stream: File to write to
-/// \param section: Name of the section for all attributes in the object
-/// \param obj: Object to write
+/// \param stream File to write to
+/// \param section Name of the section for all attributes in the object
+/// \param obj Object to write
 /// \remarks There is no error-handling; failures are silently ignored!
 //-----------------------------------------------------------------------------
 void INIFile::write (std::ostream& stream, const char* section, const Entity& obj) {
@@ -452,7 +452,7 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
 
 //-----------------------------------------------------------------------------
 /// Overwrites the INI-file with the values set
-/// \remarks: The stored sections/attributes of this INI-file are changed; so they can't be reused!
+/// \remarks The stored sections/attributes of this INI-file are changed; so they can't be reused!
 /// \throws
 ///    - YGP::FileError in case file-access fails somehow
 ///    - YGP::ParseError in case of failing to parse the file (before overwriting it)
@@ -574,8 +574,8 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 //-----------------------------------------------------------------------------
 /// Gets the attributes of the passed section; as they should be written to the
 /// INI-file
-/// \param section: Section whose attributes are queried
-/// \returns std::string: Attributes as written to INI-file
+/// \param section Section whose attributes are queried
+/// \returns std::string Attributes as written to INI-file
 //-----------------------------------------------------------------------------
 std::string INIFile::getSectionAttributes (const INISection& section) {
    TRACE9 ("INIFile::getSectionAttributes (const INISection&) - " << section.getName ());

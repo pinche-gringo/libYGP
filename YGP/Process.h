@@ -66,11 +66,11 @@ class Process {
    /// produces an error while initializing (in the more or less 1st
    /// second) an describing text (at least if the program produces an
    /// helpful output) is thrown.
-   /// \param file: Name of file to execute
-   /// \param arguments: Array with arguments for the file (as understood by execv)
-   /// \returns pid_t: PID of created process
+   /// \param file Name of file to execute
+   /// \param arguments Array with arguments for the file (as understood by execv)
+   /// \returns pid_t PID of created process
    /// \pre \c file is a valid ASCIIZ-string
-   /// \throw YGP::ExecError: An error-message displayed by the program
+   /// \throw YGP::ExecError An error-message displayed by the program
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
@@ -82,10 +82,10 @@ class Process {
    /// file can not be found or produces an error while executing an
    /// describing text (at least if the program produces an helpful
    /// output) is thrown.
-   /// \param file: Name of file to execute
-   /// \param arguments: Array with arguments for the file (as understood by execv)
+   /// \param file Name of file to execute
+   /// \param arguments Array with arguments for the file (as understood by execv)
    /// \pre \c file is a valid ASCIIZ-string
-   /// \throw YGP::ExecError: An error-message displayed by the program
+   /// \throw YGP::ExecError An error-message displayed by the program
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
@@ -96,13 +96,13 @@ class Process {
    /// found or produces an error while initializing (in the more or less 1st
    /// second) an describing text (at least if the program produces an helpful
    /// output) is thrown.
-   /// \param file: Name of file to execute
-   /// \param arguments: Array with arguments for the file (as understood by execv)
-   /// \param fd: Pipes for communication
-   /// \param flags: Flags describing how to connect stdin/stdout
-   /// \returns pid_t: PID of created process
+   /// \param file Name of file to execute
+   /// \param arguments Array with arguments for the file (as understood by execv)
+   /// \param fd Pipes for communication
+   /// \param flags Flags describing how to connect stdin/stdout
+   /// \returns pid_t PID of created process
    /// \pre \c file is a valid ASCIIZ-string
-   /// \throw YGP::ExecError: An error-message displayed by the program
+   /// \throw YGP::ExecError An error-message displayed by the program
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
@@ -112,7 +112,7 @@ class Process {
       return start (file, arguments, flags & ~WAIT , fd); }
 
    /// Returns the process ID of the actual process
-   /// \return pid_t: Process ID of running process
+   /// \return pid_t Process ID of running process
    static pid_t getPID () {
 #if SYSTEM == UNIX
       return getpid ();

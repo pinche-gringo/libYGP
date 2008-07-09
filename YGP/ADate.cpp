@@ -48,7 +48,7 @@ namespace YGP {
 //----------------------------------------------------------------------------
 /// Constructor; depending on the parameter the date is either set to the first
 /// of January, 1900 (now = false), or to the current day (now = true)
-/// \param now: Flag which date to set (1900/1/1 (false) or now (true))
+/// \param now Flag which date to set (1900/1/1 (false) or now (true))
 //----------------------------------------------------------------------------
 ADate::ADate (bool now) : AYear (1900), day ((unsigned char)1), month ((unsigned char)1) {
    if (now)
@@ -60,9 +60,9 @@ ADate::ADate (bool now) : AYear (1900), day ((unsigned char)1), month ((unsigned
 //----------------------------------------------------------------------------
 /// Constructor; sets the passed date. The date is undefined, if the passed
 /// parameters represent no valid day.
-/// \param Day: Day for this ADate
-/// \param Month: Month
-/// \param Year: Year to set
+/// \param Day Day for this ADate
+/// \param Month Month
+/// \param Year Year to set
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
 ADate::ADate (char Day, char Month, int Year) throw (std::invalid_argument)
@@ -81,8 +81,8 @@ ADate::~ADate () {
 
 //----------------------------------------------------------------------------
 /// Assignment-operator
-/// \param other: Object to assign
-/// \return \c ADate&: Reference to self
+/// \param other Object to assign
+/// \return ADate& Reference to self
 //----------------------------------------------------------------------------
 ADate& ADate::operator= (const ADate& other) {
    Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
@@ -98,8 +98,8 @@ ADate& ADate::operator= (const ADate& other) {
 /// Assignment-operator from a const char-pointer. The date must be passed as
 /// <tt>DDMMY[Y...]</tt>. If the buffer does not represent a valid day, an
 /// exception is thrown.
-/// \param pValue: Character array holding date to assign
-/// \return \c ADate&: Reference to self
+/// \param pValue Character array holding date to assign
+/// \return ADate& Reference to self
 /// \throw std::invalid_argument if the characters don't represent a valid date
 //----------------------------------------------------------------------------
 ADate& ADate::operator= (const char* pValue) throw (std::invalid_argument) {
@@ -117,9 +117,8 @@ ADate& ADate::operator= (const char* pValue) throw (std::invalid_argument) {
 /// Assignment-operator from a const char-pointer. The date must be passed
 /// either in the local format or as DDMMY[...}. If the buffer does not
 /// represent a valid date an excpetion is thrown.
-/// \param pDate: Character array specifying date to assign
-/// \param len: Length of the passed date
-/// \returns Reference to self
+/// \param pDate Character array specifying date to assign
+/// \param len Length of the passed date
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid date
 //-----------------------------------------------------------------------------
@@ -230,8 +229,8 @@ void ADate::assign (const char* pDate, unsigned int len) {
 
 //----------------------------------------------------------------------------
 /// Assignment operator from a broken down time structure.
-/// \param date: Structure holding the date to assign
-/// \return \c ADate&: Reference to self
+/// \param date Structure holding the date to assign
+/// \return ADate& Reference to self
 //----------------------------------------------------------------------------
 ADate& ADate::operator= (const struct tm& date) {
    setDefined ();
@@ -244,7 +243,7 @@ ADate& ADate::operator= (const struct tm& date) {
 //----------------------------------------------------------------------------
 /// Converts the date into a string, in the format <code>DDMMYYYY[...]</code>;
 /// each entry is filled up with zeros.
-/// \return \c std::string: String-representation of ADate
+/// \return std::string String-representation of ADate
 //----------------------------------------------------------------------------
 std::string ADate::toUnformattedString () const {
    char buffer[20] = "";
@@ -257,7 +256,7 @@ std::string ADate::toUnformattedString () const {
 //----------------------------------------------------------------------------
 /// Converts the date into a string, in the format specified by the current
 /// locale
-/// \return \c std::string: String-representation of ADate
+/// \return std::string String-representation of ADate
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
 //----------------------------------------------------------------------------
@@ -269,7 +268,7 @@ std::string ADate::toString () const {
 //// Converts the date into a string, in the specified format. The parameter
 ///  format can be any value accepted by the \c strftime
 //            library-routine.
-/// \return \c std::string: String-representation of ADate
+/// \return std::string String-representation of ADate
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
 //----------------------------------------------------------------------------
@@ -293,7 +292,7 @@ std::string ADate::toString (const char* format) const {
 //----------------------------------------------------------------------------
 /// Reads a date as DDMMY[Y...] from a stream. If the input is not valid, an
 /// exception is thrown.
-/// \param in: Stream to parse
+/// \param in:Stream to parse
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
 void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
@@ -318,8 +317,8 @@ void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
 /// Adds another date-value to the date-object. An undefined date is treated
 /// as <tt>0.0.0</tt>; so only if both objects are undefined, the result is
 /// (remains) undefined. Overflows (of day or month) are corrected.
-/// \param rhs: Value to add
-/// \return \c Self
+/// \param rhs Value to add
+/// \return ADate& Self
 //----------------------------------------------------------------------------
 ADate& ADate::operator+= (const ADate& rhs) {
    Check1 (!checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
@@ -344,8 +343,8 @@ ADate& ADate::operator+= (const ADate& rhs) {
 /// Substracts another date-value from the date-object. An undefined date
 /// is treated as <tt>0.0.0</tt>; the result is (remains) undefined if both
 ///  objects are undefined. Underflows (of day or month) are corrected.
-/// \param rhs: Value to substract
-/// \return \c Self
+/// \param rhs Value to substract
+/// \return ADate& Self
 //----------------------------------------------------------------------------
 ADate& ADate::operator-= (const ADate& rhs) {
    Check1 (!checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
@@ -372,10 +371,10 @@ ADate& ADate::operator-= (const ADate& rhs) {
 //----------------------------------------------------------------------------
 /// If this is not undefined, the passed values are added (with attention to
 /// overflows). The result is returned.
-/// \param Day: Day to add
-/// \param Month: Month to add
-/// \param Year: Year to add
-/// \return \c Self
+/// \param Day Day to add
+/// \param Month Month to add
+/// \param Year Year to add
+/// \return ADate& Self
 /// \remarks In counterpart to the mathematic operators (operator+() and
 ///    operator-()) this method does not change the object if it is undefined!
 //----------------------------------------------------------------------------
@@ -408,10 +407,10 @@ ADate& ADate::add (signed char Day, signed char Month, int Year) {
 //----------------------------------------------------------------------------
 /// If this is defined, the passed values are substracted (with attention to
 /// underflows). The result is returned.
-/// \param Day: Day to substract
-/// \param Month: Month to substract
-/// \param Year: Year to substract
-/// \return \c Self
+/// \param Day Day to substract
+/// \param Month Month to substract
+/// \param Year Year to substract
+/// \return ADate& Self
 /// \remarks In counterpart to the mathematic operators (operator+() and
 ///    operator-()) this method does not change the object if it is undefined!
 //----------------------------------------------------------------------------
@@ -455,8 +454,8 @@ ADate& ADate::sub (signed char Day, signed char Month, int Year) {
 ///  undefined the result is MINLONG; if other is undefined MAXLONG is
 ///  returned (-> undefined dates are considered as (very) old).
 ///
-/// \param other: Object to compare
-/// \return \c >0 if this "younger" other; 0 if this == other; <0 else
+/// \param other Object to compare
+/// \return long >0 if this "younger" other; 0 if this == other; <0 else
 //----------------------------------------------------------------------------
 long ADate::compare (const ADate& other) const {
    Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
@@ -482,9 +481,9 @@ long ADate::compare (const ADate& other) const {
 /// Adds two date-values and returns the result. An undefined date is
 /// treated as "0.0.0"; the result is (remains) undefined if both objects are
 /// undefined. Overflows (of day or month) are corrected.
-/// \param lhs: Left-hand-side of addition
-/// \param rhs: Right-hand-side of addition
-/// \return \c ADate: Result of additon
+/// \param lhs Left-hand-side of addition
+/// \param rhs Right-hand-side of addition
+/// \return ADate Result of additon
 //----------------------------------------------------------------------------
 ADate operator+ (const ADate& lhs, const ADate& rhs) {
    Check1 (!lhs.checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
@@ -498,9 +497,9 @@ ADate operator+ (const ADate& lhs, const ADate& rhs) {
 /// Substracts two date-values and returns the result. An undefined date is
 /// treated as "0.0.0"; the result is (remains) undefined if both objects
 /// are undefined. Overflows (of day or month) are corrected.
-/// \param lhs: Left-hand-side of substraction
-/// \param rhs: Right-hand-side of substraction
-/// \return \c ADate: Result of substraction
+/// \param lhs Left-hand-side of substraction
+/// \param rhs Right-hand-side of substraction
+/// \return ADate Result of substraction
 //----------------------------------------------------------------------------
 ADate operator- (const ADate& lhs, const ADate& rhs) {
    Check1 (!lhs.checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
@@ -512,7 +511,7 @@ ADate operator- (const ADate& lhs, const ADate& rhs) {
 
 //----------------------------------------------------------------------------
 /// Checks if this object represents a valid date.
-/// \return \c Status; 0: OK
+/// \return int Status; 0: OK
 /// \remarks Even undefined dates must have valid values!
 //----------------------------------------------------------------------------
 int ADate::checkIntegrity () const {
@@ -523,9 +522,9 @@ int ADate::checkIntegrity () const {
 
 //----------------------------------------------------------------------------
 /// Returns the maximal day for the the passed month/year-combination
-/// \param month: Month to check
-/// \param year: Year to check
-/// \return \c int: Maximal day for the passed parameters [28 - 31]
+/// \param month Month to check
+/// \param year Year to check
+/// \return char Maximal day for the passed parameters [28 - 31]
 //----------------------------------------------------------------------------
 char ADate::maxDayOf (char month, int year) {
    Check1 ((month > 0) && (month < 13));
@@ -541,7 +540,7 @@ char ADate::maxDayOf (char month, int year) {
 //----------------------------------------------------------------------------
 /// Corrects the object after an (possible) underflows. If the object is
 /// integer after the operation, true is returned.
-/// \return \c bool: Flag, if object is integer
+/// \return bool Flag, if object is integer
 //----------------------------------------------------------------------------
 bool ADate::minAdapt () {
    TRACE7 ("ADate::minAdapt: " << toString ());
@@ -573,7 +572,7 @@ bool ADate::minAdapt () {
 //----------------------------------------------------------------------------
 /// Corrects the object after an (possible) overflows. If the object is
 /// integer after the operation, true is returned.
-/// \return \c bool: Flag, if object is integer
+/// \return bool Flag, if object is integer
 //----------------------------------------------------------------------------
 bool ADate::maxAdapt () {
    TRACE7 ("ADate::maxAdapt: " << toString ());
@@ -600,7 +599,7 @@ bool ADate::maxAdapt () {
 //----------------------------------------------------------------------------
 /// Sets the day to the passed value. If the date is not valid, it is set to
 /// undefined.
-/// \param Day: Day to set
+/// \param Day Day to set
 //----------------------------------------------------------------------------
 void ADate::setDay (char Day) throw (std::invalid_argument) {
    day = Day;
@@ -616,7 +615,7 @@ void ADate::setDay (char Day) throw (std::invalid_argument) {
 //----------------------------------------------------------------------------
 /// Sets the month to the passed value. If the date is not valid, it is set to
 /// undefined.
-/// \param Month: Month to set
+/// \param Month Month to set
 //----------------------------------------------------------------------------
 void ADate::setMonth (char Month) throw (std::invalid_argument) {
    month = Month;
@@ -631,7 +630,7 @@ void ADate::setMonth (char Month) throw (std::invalid_argument) {
 
 //----------------------------------------------------------------------------
 /// Converting to a struct tm.
-/// \return \c struct tm: Date in struct tm-format; the time-part is set to zeros
+/// \return struct tm Date in struct tm-format; the time-part is set to zeros
 /// \remarks It is not checked if the date is in the right range for a
 //        <tt>struct tm</tt> (after 1900 and before 2039)
 //----------------------------------------------------------------------------

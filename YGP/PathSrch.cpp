@@ -62,8 +62,8 @@ const char PathSearch::PATHSEPARATOR = ';';
 /// <tt>HOMEDRIVE</tt> and <tt>HOMEPATH</tt> (Windows). A tilde with following
 /// name returns the <tt>HOME</tt>-path of the user with that name (or the
 /// input, if such a user does not exist
-/// \param input: String to expand
-/// \returns \c std::string: Expanded string or input (if not expandable)
+/// \param input String to expand
+/// \returns std::string Expanded string or input (if not expandable)
 //-----------------------------------------------------------------------------
 std::string PathSearch::expandNode (const std::string& input) {
    TRACE9 ("PathSearch::expandNode (const std::string&) - " << input);

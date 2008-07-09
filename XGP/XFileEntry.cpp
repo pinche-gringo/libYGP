@@ -37,7 +37,7 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 /// Handling of the pressed key; Tries to complete the input to the first file
 /// matching the input.
-/// \param ev: Event, containing input-information
+/// \param ev Event, containing input-information
 //-----------------------------------------------------------------------------
 bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
    Check1 (ev);

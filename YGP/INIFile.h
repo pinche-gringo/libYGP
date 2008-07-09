@@ -95,8 +95,8 @@ class INISection {
    const char* getName () const { return pName; }
 
    /// Returns if the name of the section matches the passed text
-   /// \param name: Name of the section
-   /// \returns bool: True, if the passed name matches that of the section
+   /// \param name Name of the section
+   /// \returns bool True, if the passed name matches that of the section
    bool matches (const char* name) const {
       Check3 (name);
       return !strcmp (name, pName); }
@@ -193,8 +193,8 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
  public:
    /// Constructor; Creates an object named \c name and a vector to receive
    /// the parsed values
-   /// \param name: Name of the section
-   /// \param values: List to store the passed values
+   /// \param name Name of the section
+   /// \param values List to store the passed values
    INIList (const char* name, L& values) : INISection (name), offset (0) {
       addAttribute (*new AttributeList<T, L> (name, values)); }
    /// Destructor; Frees the internally used attribute list
@@ -202,15 +202,15 @@ template <class T, class L=std::vector<T> > class INIList : public INISection {
 
    /// Writes the contents of the holded attribute values to the passed stream
    /// (in its own section).
-   /// \param stream: Stream to write to
+   /// \param stream Stream to write to
    void write (std::ostream& stream) {
       return write (stream, attributes[0]->getName (),
                     ((AttributeList<T>*)attributes[0])->getAttribute ()); }
    /// Writes the contents of the passed values to the passed stream
    /// (in its own section named \c section).
-   /// \param stream: Stream to write to
-   /// \param section: Name of section to write
-   /// \param values: Values to write
+   /// \param stream Stream to write to
+   /// \param section Name of section to write
+   /// \param values Values to write
    static void write (std::ostream& stream, const char* section, const L& values) {
       writeHeader (stream, section);
       stream << values.getValue () << '\n';
@@ -254,8 +254,8 @@ template <class T, class M=std::map<std::string, T> > class INIMap : public INIS
  public:
    /// Constructor; Creates an object named \c name and a vector to receive
    /// the parsed values
-   /// \param name: Name of the section
-   /// \param values: Map to store the passed values
+   /// \param name Name of the section
+   /// \param values Map to store the passed values
    INIMap (const char* name, M& values) : INISection (name) {
       addAttribute (*new AttributeMap<T, M> (name, values)); }
    /// Destructor; Frees the internally used attribute list
@@ -263,15 +263,15 @@ template <class T, class M=std::map<std::string, T> > class INIMap : public INIS
 
    /// Writes the contents of the holded attribute values to the passed stream
    /// (in its own section).
-   /// \param stream: Stream to write to
+   /// \param stream Stream to write to
    void write (std::ostream& stream) {
       return write (stream, attributes[0]->getName (),
                     ((AttributeMap<T>*)attributes[0])->getAttribute ()); }
    /// Writes the contents of the passed values to the passed stream
    /// (in its own section named \c section).
-   /// \param stream: Stream to write to
-   /// \param section: Name of section to write
-   /// \param values: Values to write
+   /// \param stream Stream to write to
+   /// \param section Name of section to write
+   /// \param values Values to write
    static void write (std::ostream& stream, const char* section, const M& values) {
       writeHeader (stream, section);
       stream << values.getValue () << '\n';

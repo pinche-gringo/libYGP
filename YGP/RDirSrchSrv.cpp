@@ -98,9 +98,9 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv () {
 /// Handles the commands send from the client; the respectative action is
 /// performed and data is returned accordingly.
 ///
-/// \param socket: Socket for communication
-/// \returns \c int: 0 in case of end-of-communication; 99 after the END-command
-/// \throw YGP::CommError: In case of a communication problem
+/// \param socket Socket for communication
+/// \returns int 0 in case of end-of-communication; 99 after the END-command
+/// \throw YGP::CommError In case of a communication problem
 //-----------------------------------------------------------------------------
 int RemoteDirSearchSrv::performCommands (int socket) throw (YGP::CommError){
    std::string data;
@@ -292,9 +292,9 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (YGP::CommError){
 
 //-----------------------------------------------------------------------------
 /// Sends information about the occured error to the client
-/// \param socket: Socket for communication
-/// \param error: Errornumber
-/// \param desc: Flag if a description should be included
+/// \param socket Socket for communication
+/// \param error Errornumber
+/// \param desc Flag if a description should be included
 //-----------------------------------------------------------------------------
 int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
    throw (YGP::CommError) {
@@ -312,8 +312,8 @@ int RemoteDirSearchSrv::writeError (Socket& socket, int error, bool desc) const
 
 //-----------------------------------------------------------------------------
 /// Informs the caller about an input-error
-/// \param sock: Reference to socket for output
-/// \param error: Description of error in input
+/// \param sock Reference to socket for output
+/// \param error Description of error in input
 //-----------------------------------------------------------------------------
 void RemoteDirSearchSrv::handleArgError (Socket& sock, const std::string& error) const {
    std::string errText ("RC=99;E=");
@@ -324,8 +324,8 @@ void RemoteDirSearchSrv::handleArgError (Socket& sock, const std::string& error)
 
 //-----------------------------------------------------------------------------
 /// Sends information about the found file to the client
-/// \param socket: Socket for communication
-/// \param result: Found file
+/// \param socket Socket for communication
+/// \param result Found file
 //-----------------------------------------------------------------------------
 void RemoteDirSearchSrv::writeResult (Socket& socket, const File& result) const
    throw (YGP::CommError) {

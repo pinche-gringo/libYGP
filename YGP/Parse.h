@@ -183,7 +183,7 @@ class ParseEOF : public ParseObject {
 /**Class to skip some characters (default from the current position in
    the stream).
 
-   \note: The line-number of the stream is undefined after skipping!
+   \note The line-number of the stream is undefined after skipping!
 
    See ParseObject for a general description of the parser.
 */

@@ -50,9 +50,9 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 /// Constructor; adds all controls to the dialog. Only the specified fields
 /// are shown.
-/// \param title: Text to display in the titlebar of the dialog
-/// \param date: Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
-/// \param showFields: Bitfield describing wich fields to show
+/// \param title Text to display in the titlebar of the dialog
+/// \param date Default date to display; will be overwritten with the input (if the dialog is leaved with OK)
+/// \param showFields Bitfield describing wich fields to show
 //-----------------------------------------------------------------------------
 XDate::XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields)
    : XDialog (title, OKCANCEL)

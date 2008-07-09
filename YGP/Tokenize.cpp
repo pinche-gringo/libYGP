@@ -37,8 +37,8 @@ namespace YGP {
 /// separation (skipping of all characters equal to split) or the beginning of
 /// the string for the first search to the next occurence of split (or the end
 /// of the string). The separating characters are not included.
-/// \param split: Character separating the parts
-/// \returns \c Next node (empty string at end)
+/// \param split Character separating the parts
+/// \returns std::string Next node (empty string at end)
 /// \remarks Two following separators are ignored; the method always returns
 ///     some data (if available)
 //-----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ std::string Tokenize::getNextNode (const char split) {
 
 //-----------------------------------------------------------------------------
 /// Checks the status of the object
-/// \returns \c Status; 0: OK
+/// \returns int Status; 0: OK
 //-----------------------------------------------------------------------------
 int Tokenize::checkIntegrity () const {
    Check1 (actPos < _string.length ());

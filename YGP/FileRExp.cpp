@@ -86,10 +86,10 @@ FileRegularExpr::~FileRegularExpr () {
 /// Checks if the passed text matches the passed regular expression. Both
 /// passed parameter must not be NULL-pointers and the regular expression must
 /// be in a valid syntax (this can be checked with the checkIntegrity()-method).
-/// \param pAktRegExp: Pointer to character array holding regular expression
-/// \param pCompare: Pointer to character array holding value to compare
-/// \returns \c bool: Result (true: match)
-/// \pre \c pAktRegExp, \c pCompare: ASCIIZ-strings
+/// \param pAktRegExp Pointer to character array holding regular expression
+/// \param pCompare Pointer to character array holding value to compare
+/// \returns bool Result (true: match)
+/// \pre \c pAktRegExp, \c pCompare must be ASCIIZ-strings
 //-----------------------------------------------------------------------------
 bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
    Check1 (pAktRegExp); Check1 (pCompare); Check1 (!checkIntegrity ());
@@ -216,8 +216,8 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 /// Checks the syntax of the regular expression. If everything is OK, 0 is
 /// returned; 1 if there is no regular expression at all. In case of any other
 /// error an exception is thrown.
-/// \returns \c int: Status; 0: OK
-/// \throw std::invalid_argument: In case of an invalid regexp a describing text
+/// \returns int Status; 0: OK
+/// \throw std::invalid_argument In case of an invalid regexp a describing text
 /// \pre pFileRegExp is a valid regexp
 //-----------------------------------------------------------------------------
 int FileRegularExpr::checkIntegrity () const throw (std::invalid_argument) {
@@ -258,9 +258,9 @@ int FileRegularExpr::checkIntegrity () const throw (std::invalid_argument) {
 
 //-----------------------------------------------------------------------------
 /// Builds the error-string for checkIntegrity ()
-/// \param error: Text describing error
-/// \param pos: Position of the error inside the regular expression
-/// \returns \c std::invalid_argument: With a text describing error in human-readable format
+/// \param error Text describing error
+/// \param pos Position of the error inside the regular expression
+/// \returns std::invalid_argument With a text describing error in human-readable format
 /// \pre error is an ASCIIZ-string
 //-----------------------------------------------------------------------------
 std::invalid_argument FileRegularExpr::getError (const char* error, unsigned int pos) const {

@@ -59,7 +59,7 @@ IRelation::~IRelation () {
 
 //-----------------------------------------------------------------------------
 /// Removes the passed relation
-/// \param relation: Relation to remove
+/// \param relation Relation to remove
 //-----------------------------------------------------------------------------
 void RelationManager::remove (const IRelation* relation) {
    TRACE9 ("RelationManager::remove (const IRelation*)");
@@ -76,8 +76,8 @@ void RelationManager::remove (const IRelation* relation) {
 
 //-----------------------------------------------------------------------------
 /// Retuns the relation with the passed name
-/// \param name: Name of relation to find
-/// \returns IRelation*: Relation searched for or NULL
+/// \param name Name of relation to find
+/// \returns IRelation* Relation searched for or NULL
 //-----------------------------------------------------------------------------
 IRelation* RelationManager::getRelation (const char* name) {
    TRACE9 ("RelationManager::getRelation (const char*) - " << name);
@@ -89,8 +89,8 @@ IRelation* RelationManager::getRelation (const char* name) {
 
 //-----------------------------------------------------------------------------
 /// Retuns the name of the passed relation
-/// \param relation: Relation to get the name for
-/// \returns const char*: Name of the passed relation
+/// \param relation Relation to get the name for
+/// \returns const char* Name of the passed relation
 //-----------------------------------------------------------------------------
 const char* RelationManager::getRelationName (const IRelation& relation) {
    std::map<const char*, IRelation*>::iterator i (relations.begin ());

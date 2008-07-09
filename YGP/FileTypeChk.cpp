@@ -117,8 +117,8 @@ FileTypeCheckerByExtension::~FileTypeCheckerByExtension () {
 //-----------------------------------------------------------------------------
 /// Returns the type of the file (e.g. MS Word document) according to
 /// passed file-name
-/// \param file: File to inspect
-/// \returns unsigned int: Type of file
+/// \param file File to inspect
+/// \returns unsigned int Type of file
 //-----------------------------------------------------------------------------
 unsigned int FileTypeCheckerByExtension::getType (const char* file) const {
    Check1 (file);
@@ -131,8 +131,8 @@ unsigned int FileTypeCheckerByExtension::getType (const char* file) const {
 //-----------------------------------------------------------------------------
 /// Returns the type of the file (e.g. MS Word document) according to
 /// passed extension
-/// \param file: File to inspect
-/// \returns unsigned int: Type of file
+/// \param file File to inspect
+/// \returns unsigned int Type of file
 //-----------------------------------------------------------------------------
 unsigned int FileTypeCheckerByExtension::getType4Extension (const char* extension) const {
    Check1 (extension);
@@ -144,8 +144,8 @@ unsigned int FileTypeCheckerByExtension::getType4Extension (const char* extensio
 
 //-----------------------------------------------------------------------------
 /// Adds a type to the handled file-types
-/// \param ext: Extension, which is handled
-/// \param vaule: ID identifying the file-type
+/// \param ext Extension, which is handled
+/// \param vaule ID identifying the file-type
 //-----------------------------------------------------------------------------
 void FileTypeCheckerByExtension::addType (const char* ext, unsigned int value) {
    TRACE9 ("FileTypeCheckerByExtension::addType (const char*, unsigned int) - " << ext << ": " << value);
@@ -164,8 +164,8 @@ FileTypeCheckerByCaseExt::~FileTypeCheckerByCaseExt () {
 //-----------------------------------------------------------------------------
 /// Returns the type of the file (e.g. MS Word document) according to
 /// passed file-name (ignoring the case)
-/// \param file: File to inspect
-/// \returns unsigned int: Type of file
+/// \param file File to inspect
+/// \returns unsigned int Type of file
 //-----------------------------------------------------------------------------
 unsigned int FileTypeCheckerByCaseExt::getType (const char* file) const {
    Check1 (file);
@@ -214,8 +214,8 @@ FileTypeCheckerByContent::~FileTypeCheckerByContent () {
 //-----------------------------------------------------------------------------
 /// Returns the class of the file (e.g. MS Office document) according
 /// to passed file-name
-/// \param file: File to inspect
-/// \returns unsigned int: Class of file
+/// \param file File to inspect
+/// \returns unsigned int Class of file
 //-----------------------------------------------------------------------------
 unsigned int FileTypeCheckerByContent::getType (const char* file) const {
    Check1 (file);
@@ -260,9 +260,9 @@ unsigned int FileTypeCheckerByContent::getType (const char* file) const {
 //-----------------------------------------------------------------------------
 /// Skips over HTML-comments and white-spaces. The buffer contains afterwards
 /// the first charcter not being a white-space or a HTML-comment.
-/// \param buffer: Buffer to inspect (and maybe re-fill with new data from stream)
-/// \param size: Size of buffer
-/// \param stream: Stream to read from
+/// \param buffer Buffer to inspect (and maybe re-fill with new data from stream)
+/// \param size Size of buffer
+/// \param stream Stream to read from
 /// \pre buffer must be at least 4 characters big
 //-----------------------------------------------------------------------------
 void FileTypeCheckerByContent::skipHTMLComments (char* buffer, unsigned int size,
@@ -330,11 +330,11 @@ void FileTypeCheckerByContent::skipHTMLComments (char* buffer, unsigned int size
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer: Buffer to inspect
-/// \param text: Text to match
-/// \param length: Number of bytes to check
-/// \param stream: Stream from where to read more characters
-/// \returns bool: True, if the text matches
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::matchFirstBytes (char* buffer, const char* text,
 						unsigned int length, std::ifstream& stream) {
@@ -343,11 +343,11 @@ bool FileTypeCheckerByContent::matchFirstBytes (char* buffer, const char* text,
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer: Buffer to inspect
-/// \param text: Text to match
-/// \param length: Number of bytes to check
-/// \param stream: Stream from where to read more characters
-/// \returns bool: True, if the text matches
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isHTML (char* buffer, const char* text,
 				       unsigned int length, std::ifstream& stream) {
@@ -360,11 +360,11 @@ bool FileTypeCheckerByContent::isHTML (char* buffer, const char* text,
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer: Buffer to inspect
-/// \param text: Text to match
-/// \param length: Number of bytes to check
-/// \param stream: Stream from where to read more characters
-/// \returns bool: True, if the text matches
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isMP3 (char* buffer, const char* text,
 				      unsigned int length, std::ifstream& stream) {
@@ -374,11 +374,11 @@ bool FileTypeCheckerByContent::isMP3 (char* buffer, const char* text,
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer: Buffer to inspect
-/// \param text: Text to match
-/// \param length: Number of bytes to check
-/// \param stream: Stream from where to read more characters
-/// \returns bool: True, if the text matches
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 					  unsigned int length, std::ifstream& stream) {
@@ -424,11 +424,11 @@ bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer: Buffer to inspect
-/// \param text: Text to match
-/// \param length: Number of bytes to check
-/// \param stream: Stream from where to read more characters
-/// \returns bool: True, if the text matches
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
 					     unsigned int length, std::ifstream& stream) {
@@ -446,11 +446,11 @@ bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer: Buffer to inspect
-/// \param text: Text to match
-/// \param length: Number of bytes to check
-/// \param stream: Stream from where to read more characters
-/// \returns bool: True, if the text matches
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isMSOffice (char* buffer, const char* text,
 					   unsigned int length, std::ifstream& stream) {

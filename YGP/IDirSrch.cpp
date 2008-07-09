@@ -136,8 +136,8 @@ IDirectorySearch::~IDirectorySearch () {
 //-----------------------------------------------------------------------------
 /// Converts attributes according to IDirectorySearch (as defined at the top)
 /// into values used by the system.
-/// \param attribs: Attributes to convert
-/// \returns <tt>unsigned long</tt>: Systemattributes
+/// \param attribs Attributes to convert
+/// \returns unsigned long Systemattributes
 //-----------------------------------------------------------------------------
 unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertToSysAttribs (unsigned long) - "
@@ -157,8 +157,8 @@ unsigned long IDirectorySearch::convertToSysAttribs (unsigned long attribs) {
 //-----------------------------------------------------------------------------
 /// Converts the attributes as used by the system into attributes used by
 /// IDirectorySearch (as defined at the top).
-/// \param attribs: Attributes to convert
-/// \returns <tt>unsigned long</tt>: Attributes according to IDirectorySearch
+/// \param attribs Attributes to convert
+/// \returns unsigned long Attributes according to IDirectorySearch
 //-----------------------------------------------------------------------------
 unsigned long IDirectorySearch::convertFromSysAttribs (unsigned long attribs) {
    TRACE3 ("IDirectorySearch::convertFromSysAttribs (unsigned long) - "

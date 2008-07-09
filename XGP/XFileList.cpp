@@ -90,9 +90,9 @@ void XFileList::init () {
 
 //-----------------------------------------------------------------------------
 /// Loads (additional) icons which should be used for the list-entries
-/// \param path: Path where to search for the icons
-/// \param files: Files to use as icon-files
-/// \param namePrefix: Length of the prefix of the name, which should be removed
+/// \param path Path where to search for the icons
+/// \param files Files to use as icon-files
+/// \param namePrefix Length of the prefix of the name, which should be removed
 ///    before comparing with actual filename
 /// \pre \c namePrefix < strlen (files)
 //-----------------------------------------------------------------------------
@@ -142,8 +142,8 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
 /// file is stored in the icon-map. - Remove the first part (til the next dot
 /// (.)) of the name and repeat the previous step. - If no name-part is left
 /// use a special default-icon.
-/// \param file: Files to use as icon-files
-/// \returns Reference to inserted line
+/// \param file Files to use as icon-files
+/// \returns Glib::RefPtr<Gdk::Pixbuf> Reference to inserted line
 //-----------------------------------------------------------------------------
 Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
    TRACE7 ("getIcon4File (Gtk::TreeModel::iterator, const File&)");
@@ -177,8 +177,8 @@ Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
 //----------------------------------------------------------------------------
 /// Retrieves the file name of the passed line; which is considered to be
 /// stored in the column 1
-/// \param line: Line in list to get the filename from
-/// \returns std::string: Filename
+/// \param line Line in list to get the filename from
+/// \returns std::string Filename
 //----------------------------------------------------------------------------
 std::string XFileList::getFilename (const Gtk::TreeIter& line) const {
    std::string file;
@@ -190,8 +190,8 @@ std::string XFileList::getFilename (const Gtk::TreeIter& line) const {
 //-----------------------------------------------------------------------------
 /// Sets the file name of the passed line; which is considered to be
 /// stored in the column 1
-/// \param line: Line in list to get the filename from
-/// \param file: Filename to set
+/// \param line Line in list to get the filename from
+/// \param file Filename to set
 //-----------------------------------------------------------------------------
 void XFileList::setFilename (Gtk::TreeIter& line, const std::string& file) {
    Gtk::TreeRow row (*line);
@@ -200,8 +200,8 @@ void XFileList::setFilename (Gtk::TreeIter& line, const std::string& file) {
 
 //-----------------------------------------------------------------------------
 /// Callback after clicking in list; if its by button 3: Display menu
-/// \param event: Datails about the event
-/// \returns \c true: Event has been handled; false else
+/// \param event Datails about the event
+/// \returns bool true: Event has been handled; false else
 //-----------------------------------------------------------------------------
 bool XFileList::on_event (GdkEvent* event) {
    TRACE2 ("XFileList::on_event (GdkEvent*) - " << event->type);
@@ -256,8 +256,8 @@ bool XFileList::on_event (GdkEvent* event) {
 
 //-----------------------------------------------------------------------------
 /// Starts the passed program in a terminal with argument as argument
-/// \param file: File to execute
-/// \param line: Line in list of file to pass as argument
+/// \param file File to execute
+/// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
    const char* term (getenv ("TERM"));
@@ -275,8 +275,8 @@ void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
 
 //-----------------------------------------------------------------------------
 /// Starts the passed program in the background with argument as argument
-/// \param file: File to execute
-/// \param line: Line in list of file to pass as argument
+/// \param file File to execute
+/// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::startProgram (const char* file, Gtk::TreeIter line) {
    std::string entry (getFilename (line));
@@ -286,8 +286,8 @@ void XFileList::startProgram (const char* file, Gtk::TreeIter line) {
 
 //-----------------------------------------------------------------------------
 /// Starts the passed program in the foreground with argument as argument
-/// \param file: File to execute
-/// \param line: Line in list of file to pass as argument
+/// \param file File to execute
+/// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::executeProgram (const char* file, Gtk::TreeIter line) {
    std::string entry (getFilename (line));
@@ -297,10 +297,10 @@ void XFileList::executeProgram (const char* file, Gtk::TreeIter line) {
 
 //-----------------------------------------------------------------------------
 /// Starts the passed program with argument
-/// \param file: File to execute
-/// \param args: Arguments for the program
-/// \param sync: Flag, if file should be executed synchron or not
-/// \returns Status; false, if exeuctions failed
+/// \param file File to execute
+/// \param args Arguments for the program
+/// \param sync Flag, if file should be executed synchron or not
+/// \returns bool Status; false, if exeuctions failed
 //-----------------------------------------------------------------------------
 bool XFileList::execProgram (const char* file, const char* const args[], bool sync) {
    try {
@@ -319,7 +319,7 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
 
 //-----------------------------------------------------------------------------
 /// Moves the file in line to another location/name
-/// \param line: Line in list of file to pass as argument
+/// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::move (Gtk::TreeIter line) {
    std::string file (FileDialog::create (std::string ("Move file to ..."),
@@ -344,7 +344,7 @@ void XFileList::move (Gtk::TreeIter line) {
 
 //-----------------------------------------------------------------------------
 /// Removes the passed file; both from the system and from the list
-/// \param line: Line in list of file to pass as argument
+/// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::remove (Gtk::TreeIter line) {
    TRACE4 ("XFileList::remove (Gtk::TreeIter) - " << getFilename (line));
@@ -364,8 +364,8 @@ void XFileList::remove (Gtk::TreeIter line) {
 
 //-----------------------------------------------------------------------------
 /// Adds further menus to the default popup-menu
-/// \param: Menu where to add some entries to
-/// \param: Line for which to add entries
+/// \param Menu where to add some entries to
+/// \param Line for which to add entries
 //-----------------------------------------------------------------------------
 void XFileList::addMenus (Gtk::Menu&, const Gtk::TreeIter&) {
 }

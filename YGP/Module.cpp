@@ -39,9 +39,9 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor from a std::string
-/// \param module: Name of module to load (may contain the path; else
+/// \param module Name of module to load (may contain the path; else
 ///                it is searched for in the default places)
-/// \throw std::string: An describing text in case of an error
+/// \throw std::string An describing text in case of an error
 //-----------------------------------------------------------------------------
 Module::Module (const char* module) throw (FileError) {
    TRACE3 ("Module::Module (const char*) - " << module);
@@ -84,8 +84,8 @@ Module::~Module () {
 
 //-----------------------------------------------------------------------------
 /// Returns a pointer to the function with the passed name
-/// \param symbol: Name of function to find
-/// \returns void*: Pointer to function or NULL
+/// \param symbol Name of function to find
+/// \returns void* Pointer to function or NULL
 //-----------------------------------------------------------------------------
 void* Module::getSymbol (const char* symbol) const {
    TRACE5 ("Module::getSymbol (const char*) const - " << symbol);

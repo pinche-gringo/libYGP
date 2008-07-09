@@ -38,9 +38,9 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Checks the validity of the filename
-/// \param files: Nodes of files to in/exclude
-/// \param pFile: Pointer to filename
-/// \returns \c bool: True: Name valid
+/// \param files Nodes of files to in/exclude
+/// \param pFile Pointer to filename
+/// \returns bool True: Name valid
 /// \pre pFile is ASCIIZ-string
 /// \remarks If the list starts with an x-node, a leading i*-node is assumed
 //-----------------------------------------------------------------------------
@@ -76,9 +76,9 @@ bool _XDSfileIsValid (const std::string& files, const char* pFile) {
 //-----------------------------------------------------------------------------
 /// Appends a (list of) node to a list. Every subnode in the node is prefixed
 /// with the prefix-character
-/// \param list: List to change
-/// \param prefix: Leading character
-/// \param node: Node to check
+/// \param list List to change
+/// \param prefix Leading character
+/// \param node Node to check
 /// \remarks The node is added to the beginning of the list
 //-----------------------------------------------------------------------------
 void _XDSaddNode (std::string& list, char prefix, const std::string& node) {

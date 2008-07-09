@@ -135,7 +135,7 @@ template <class T> class Handle {
    /// \name Accessing the object
    //@{
    /// Casting to a <tt>T*</tt>
-   /// \returns T*: Pointer to the object
+   /// \returns T* Pointer to the object
    T* ptr        () const { return pData ? pData->getValue () : NULL; }
    T* operator-> () const { return pData->getValue (); }    ///< Dereferencing
    operator T*   () const { return ptr (); }      ///< Casting to a <tt>T*</tt>
@@ -183,13 +183,13 @@ template <class T> class Handle {
    /// \name Comparison
    //@{
    /// Comparison-operator; Checks if two handles are equal
-   /// \param other: Handle to compare with
-   /// \returns bool: True if objects are equal
+   /// \param other Handle to compare with
+   /// \returns bool True if objects are equal
    bool operator== (const Handle& other) const {
       return ptr () == other.ptr (); }
    /// Comparison-operator; Checks if two handles are equal
-   /// \param other: Handle to compare with
-   /// \returns bool: True if objects are equal
+   /// \param other Handle to compare with
+   /// \returns bool True if objects are equal
    bool operator!= (const Handle& other) const {
       return pData->getValue () != other.pData->getValue (); }
 

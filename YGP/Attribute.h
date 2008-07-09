@@ -68,8 +68,8 @@ class IAttribute {
    /// \returns \c true on success; \c false otherwise
    virtual bool assignFromString (const char* value) const = 0;
    /// Assigns the passed text to the attribute value
-   /// \param value: Value to assign
-   /// \param : Length of passed value
+   /// \param value Value to assign
+   /// \param Length of passed value
    virtual bool assign (const char* value, unsigned int) const {
       return assignFromString (value); }
 

@@ -48,7 +48,7 @@ AttributeParse::~AttributeParse () {
 
 //----------------------------------------------------------------------------
 /// Adds an attribute to the request
-/// \param attribute: Attribute to add
+/// \param attribute Attribute to add
 /// \remark In the debug version a message is shown, if the attribute already exists
 //----------------------------------------------------------------------------
 void AttributeParse::addAttribute (IAttribute& attribute) {
@@ -68,8 +68,8 @@ void AttributeParse::addAttribute (IAttribute& attribute) {
 
 //----------------------------------------------------------------------------
 /// Searches for an attribute with the passed name.
-/// \param name: Name of attribute to find
-/// \return \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \param name Name of attribute to find
+/// \return IAttribute* Pointer to attribute or NULL (if not found)
 //----------------------------------------------------------------------------
 const IAttribute* AttributeParse::findAttribute (const char* name) const {
    std::vector<IAttribute*>::const_iterator i;
@@ -82,8 +82,8 @@ const IAttribute* AttributeParse::findAttribute (const char* name) const {
 
 //----------------------------------------------------------------------------
 /// Searches for an attribute with the passed name.
-/// \param name: Name of attribute to find
-/// \return \c IAttribute*: Pointer to attribute or NULL (if not found)
+/// \param name Name of attribute to find
+/// \return IAttribute* Pointer to attribute or NULL (if not found)
 //----------------------------------------------------------------------------
 const IAttribute* AttributeParse::findAttribute (const std::string& name) const {
    std::vector<IAttribute*>::const_iterator i;
@@ -98,7 +98,7 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 /// Assigns the values from the passed string to the attribute-values stored
 /// inside the object. If the name does not match any of the attributes or the
 /// value does not fit to the type, an exception is thrown.
-/// \param values: Name of attribute to find
+/// \param values Name of attribute to find
 /// \throw YGP::ParseError_argument in case of an unknown name or an invalid value
 //----------------------------------------------------------------------------
 void AttributeParse::assignValues (const std::string& values) const throw (YGP::ParseError) {

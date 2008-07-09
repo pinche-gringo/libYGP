@@ -42,7 +42,7 @@ class LoginDialog : public XGP::XDialog {
    virtual ~LoginDialog ();
 
    /// Creates the dialog (and set it as child of the parent)
-   /// \param title: Title of the dialog
+   /// \param title Title of the dialog
    /// \remarks Cares also about freeing the dialog
    static LoginDialog* create (const Glib::ustring& title) {
       LoginDialog* dlg (new LoginDialog (title));
@@ -51,7 +51,7 @@ class LoginDialog : public XGP::XDialog {
    }
 
    /// Sets the passed user in the dialog
-   /// \param user: User to set
+   /// \param user User to set
    void setUser (const Glib::ustring& user) {
       txtUser.set_text (user);
       txtUser.select_region (0, user.size ());
@@ -59,7 +59,7 @@ class LoginDialog : public XGP::XDialog {
    void setCurrentUser ();
 
    /// Sets the passed password in the dialog
-   /// \param pwd: Password to set
+   /// \param pwd Password to set
    void setPassword (const Glib::ustring& pwd) {
       txtPassword.set_text (pwd);
    }
@@ -75,7 +75,7 @@ class LoginDialog : public XGP::XDialog {
    enum { LOGIN };
 
    /// Callback after clicking on a button in the dialog
-   /// \param id: ID of clicked button
+   /// \param id ID of clicked button
    virtual void command (int id);
 
  private:

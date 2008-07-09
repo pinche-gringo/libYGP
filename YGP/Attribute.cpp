@@ -37,8 +37,8 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Assigs a string-value to the attribute; This value must be defined in the MetaEnum
-/// \param value: Value to assign
-/// \returns bool: True, if value was assigned successfully
+/// \param value Value to assign
+/// \returns bool True, if value was assigned successfully
 //-----------------------------------------------------------------------------
 bool MetaEnumAttribute::assignFromString (const char* value) const {
    Check1 (value);

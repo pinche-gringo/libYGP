@@ -181,8 +181,8 @@ void BrowserDlg::control (unsigned int cmd) {
 //----------------------------------------------------------------------------
 /// Creates a (modeless) dialog and registers a handler to free it after
 /// deleting.
-/// \param cmd: Default command to execute to start the browser
-//  \returns BrowserDlg*: Pointer to created dialog
+/// \param cmd Default command to execute to start the browser
+//  \returns BrowserDlg* Pointer to created dialog
 //----------------------------------------------------------------------------
 BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
    BrowserDlg* dlg (new BrowserDlg (cmd));

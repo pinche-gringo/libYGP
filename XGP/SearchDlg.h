@@ -37,7 +37,7 @@ class SearchDialog : public XGP::XDialog {
    virtual ~SearchDialog ();
 
    /// Creates a search-dialog
-   /// \param parent: Parent window
+   /// \param parent Parent window
    static SearchDialog* create (const Glib::RefPtr<Gdk::Window>& parent) {
       SearchDialog* dlg (new SearchDialog);
       dlg->get_window ()->set_transient_for (parent);
