@@ -55,7 +55,8 @@ const char File::DIRSEPARATOR = '\\';
 
 
 //-----------------------------------------------------------------------------
-/// Copyconstructor Parameter : other: Object to copy
+/// Copyconstructor
+/// \param other Object to copy
 //-----------------------------------------------------------------------------
 File::File (const File& other) : path_ (other.path_)
 #if SYSTEM == UNIX
@@ -67,7 +68,8 @@ File::File (const File& other) : path_ (other.path_)
 }
 
 //-----------------------------------------------------------------------------
-/// Constructor; create from a name Parameter : name: Pointer to
+/// Constructor; create from a name
+/// \param name Pointer to
 /// character-array holding name of file to create
 /// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
@@ -105,7 +107,8 @@ File& File::operator= (const File& other) {
 }
 
 //-----------------------------------------------------------------------------
-/// Assignment operator; create from a name Parameter : name: Name of file
+/// Assignment operator; create from a name
+/// \param name: Name of file
 /// \returns Reference to self
 /// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
