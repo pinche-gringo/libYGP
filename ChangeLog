@@ -2,40 +2,40 @@
 
 	* ChangeLog, NEWS: Changes of V0.9.03 documented
 
-        * Doxygenified comments
+	* Doxygenified comments
 
 2008-07-09 22:17:39 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * Removed trailing spaces
+	* Removed trailing spaces
 
 2008-07-09 22:11:27 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * configure.in: Version to 0.9.03
+	* configure.in: Version to 0.9.03
 
 2008-07-09 22:05:54 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * XGP::AnimateWindow.cpp:
+	* XGP::AnimateWindow.cpp:
 	  Only animating visible windows; animateTo() expects root-coordinates
 
 2008-07-08 17:34:24 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * INSTALL: Removed remark about no public CVS-server
+	* INSTALL: Removed remark about no public CVS-server
 
 2008-07-08 17:32:19 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * po-files: Actualised
+	* po-files: Actualised
 
 2008-07-08 17:30:55 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * doc/Makefile.am: Added footer.txt
+	* doc/Makefile.am: Added footer.txt
 
 2008-06-13 21:28:01 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * Further files to ignore
+	* Further files to ignore
 
 2008-06-13 21:22:53 +0200  Markus Schwab  <g17m0@lycos.com>
 
-        * Added .gitignore-files
+	* Added .gitignore-files
 
 2008-06-11  Markus Schwab  <g17m0@lycos.com>
 
