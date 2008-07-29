@@ -46,8 +46,8 @@ namespace YGP {
  */
 class FileTypeChecker {
  public:
-   typedef enum { UNKNOWN, ABIWORD, GIF, HTML, JPEG, MP3, MSOFFICE, OGG,
-		  OPENOFFICE, PDF, PNG, RTF, STAROFFICE, LAST } FileType;
+   typedef enum { UNKNOWN, ABIWORD, GIF, HTML, JPEG, MP3, MSOFFICE, MSOFFICE2007,
+		   OGG, OPENOFFICE, PDF, PNG, RTF, STAROFFICE, LAST } FileType;
 
    virtual unsigned int getType (const char* file) const = 0;
    virtual ~FileTypeChecker ();
@@ -148,6 +148,10 @@ class FileTypeCheckerByContent : public FileTypeChecker {
    static bool isOOffice (char* buffer, const char* text, unsigned int length, std::ifstream& stream);
    static bool isStarOffice (char* buffer, const char* text, unsigned int length, std::ifstream& stream);
    static bool isMSOffice (char* buffer, const char* text, unsigned int length, std::ifstream& stream);
+   static bool isMSOffice2007 (char* buffer, const char* text, unsigned int length, std::ifstream& stream);
+
+   static bool isZIPWithFile (std::ifstream& stream, char* buffer,
+			      const char* file, unsigned int lenFile);
 
  private:
    FileTypeCheckerByContent (const FileTypeCheckerByContent& other);

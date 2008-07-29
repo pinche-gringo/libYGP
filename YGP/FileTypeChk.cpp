@@ -75,6 +75,7 @@ FileTypeChecker::~FileTypeChecker () {
    // Create table of file-types
    types.insert (types.end (), std::pair<std::string, unsigned int> ("abw", ABIWORD));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("doc", MSOFFICE));
+   types.insert (types.end (), std::pair<std::string, unsigned int> ("docx", MSOFFICE2007));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("gif", GIF));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("htm", HTML));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("html", HTML));
@@ -201,6 +202,7 @@ FileTypeCheckerByContent::FileTypeCheckerByContent () : FileTypeChecker (), type
    types.push_back (ID (0, 0, "", STAROFFICE, &isStarOffice));
    types.push_back (ID (0, 0, "", MSOFFICE, &isMSOffice));
    types.push_back (ID (0, 0, "", HTML, &isHTML));
+   types.push_back (ID (0, 0, "", MSOFFICE2007, &isMSOffice2007));
    TRACE9 ("FileTypeCheckerByContent::FileTypeCheckerByContent () - Known types " << types.size ());
 }
 
@@ -235,7 +237,7 @@ unsigned int FileTypeCheckerByContent::getType (const char* file) const {
 	 if (((i->start + len) > stream.tellg ())
 	     || (i->start != ((unsigned int)stream.tellg () - sizeof (buffer)))) {
 	    TRACE3 ("FileTypeCheckerByContent::getType (const char*) - Skip to " << i->start);
-	    stream.seekg (i->start);
+	    stream.seekg (i->start, std::ios::beg);
 	    stream.read (buffer, sizeof (buffer));
 	 }
 
@@ -252,6 +254,7 @@ unsigned int FileTypeCheckerByContent::getType (const char* file) const {
 	       len -= sizeof (buffer);
 	    }
 	 } while (true); // end-do
+	 stream.clear ();
       }
    }
    return UNKNOWN;
@@ -260,6 +263,8 @@ unsigned int FileTypeCheckerByContent::getType (const char* file) const {
 //-----------------------------------------------------------------------------
 /// Skips over HTML-comments and white-spaces. The buffer contains afterwards
 /// the first charcter not being a white-space or a HTML-comment.
+/// If the buffer contains only HTML-comments or white-spaces additional data
+/// is read from the passed stream
 /// \param buffer Buffer to inspect (and maybe re-fill with new data from stream)
 /// \param size Size of buffer
 /// \param stream Stream to read from
@@ -342,7 +347,8 @@ bool FileTypeCheckerByContent::matchFirstBytes (char* buffer, const char* text,
 }
 
 //-----------------------------------------------------------------------------
-/// Checks if the first bytes in buffer machtes the passed value
+/// Checks if the buffer contains HTML-code; HTML-comments are skipped. If
+/// necessary additional data is read from the stream
 /// \param buffer Buffer to inspect
 /// \param text Text to match
 /// \param length Number of bytes to check
@@ -354,12 +360,12 @@ bool FileTypeCheckerByContent::isHTML (char* buffer, const char* text,
    // Check for HTML-document; this must be the last test, as the buffer
    // might be updated
    skipHTMLComments (buffer, length, stream);
-   TRACE1 (" FileTypeCheckerByContent::isHTML (...): " << std::string (buffer, sizeof (ID_HTML) - 1));
+   TRACE3 (" FileTypeCheckerByContent::isHTML (...): " << std::string (buffer, sizeof (ID_HTML) - 1));
    return !memcmp (buffer, ID_HTML, sizeof (ID_HTML) - 1);
 }
 
 //-----------------------------------------------------------------------------
-/// Checks if the first bytes in buffer machtes the passed value
+/// Checks if the first two bytes in the buffer are an MP3-ID tag
 /// \param buffer Buffer to inspect
 /// \param text Text to match
 /// \param length Number of bytes to check
@@ -373,16 +379,30 @@ bool FileTypeCheckerByContent::isMP3 (char* buffer, const char* text,
 }
 
 //-----------------------------------------------------------------------------
-/// Checks if the first bytes in buffer machtes the passed value
-/// \param buffer Buffer to inspect
-/// \param text Text to match
-/// \param length Number of bytes to check
+/// Checks if the first four bytes in buffer identify a ZIP-archive. If so, check
+/// if the file could be an OpenOffice-document
+/// \param buffer Buffer to inspect (ignored)
+/// \param text Text to match (ignored)
+/// \param length Number of bytes to check (ignored)
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 					  unsigned int length, std::ifstream& stream) {
-   // Check for OpenOffice
+   return isZIPWithFile (stream, buffer, "meta.xml", 8);
+}
+
+
+//-----------------------------------------------------------------------------
+/// Checks if the passed stream is a ZIP-archive having the passed file inside
+/// \param stream Stream from where to read more characters
+/// \param buffer Buffer to inspect
+/// \param file Name of file which must be inside the ZIP-file
+/// \param length Lenght of file-name
+/// \returns bool True, if the file is included
+//-----------------------------------------------------------------------------
+bool FileTypeCheckerByContent::isZIPWithFile (std::ifstream& stream, char* buffer,
+					      const char* file, unsigned int lenFile) {
    if (get4BytesLSB (buffer) == ID_PKZIP_LOCALHDR) {
       char buffer[80];
       memset (buffer, 0, sizeof (buffer));
@@ -393,7 +413,7 @@ bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 	 // Skip to central directory record
 	 unsigned int cEntries (get4BytesLSB (buffer + 10));
 	 stream.seekg (get4BytesLSB (buffer + 16), std::ios::beg);
-	 TRACE7 ("FileTypeCheckerByContent::getType (const char*) - Start CDR: " << get4BytesLSB (buffer + 16) << " (" << cEntries << ')');
+	 TRACE6 ("FileTypeCheckerByContent::isOOffice (2x const char*, unsigned int, std::ifstream&) - Start CDR: " << get4BytesLSB (buffer + 16) << " (" << cEntries << ')');
 
 	 // Inspect all entries
 	 while (cEntries--) {
@@ -401,14 +421,14 @@ bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 	    if (get4BytesLSB (buffer) == ID_PKZIP_CENTRALFILEHDR) {
 	       unsigned int lenName (get2BytesLSB (buffer + 28));
 	       unsigned int lenSkip (get2BytesLSB (buffer + 30) + get2BytesLSB (buffer + 32));
-	       TRACE7 ("FileTypeCheckerByContent::isOOffice (2x const char*, unsigned itn, std::ifstream&) - Len of filename: " << lenName
+	       TRACE6 ("FileTypeCheckerByContent::isOOffice (2x const char*, unsigned int, std::ifstream&) - Len of filename: " << lenName
 		       << "; Skipping: " << lenSkip);
 
 	       // Check if "meta.xml" entry has been found
-	       if (lenName == 8) {
+	       if (lenName == lenFile) {
 		  stream.read (buffer, 8);
-		  if (!memcmp ("meta.xml", buffer, 8))
-		     return OPENOFFICE;
+		  if (!memcmp (file, buffer, 8))
+		     return true;
 		  lenName -= 8;
 	       }
 	       stream.seekg (lenName + lenSkip, std::ios::cur);
@@ -417,13 +437,14 @@ bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 	       break;
 	 } // end-while
       }
-      return true;
    }
    return false;
 }
 
 //-----------------------------------------------------------------------------
-/// Checks if the first bytes in buffer machtes the passed value
+/// Checks if the first bytes in buffer identify a MSOffice-document which also
+/// identifies a StarOffice-document. The latter has another identifier at
+/// position 0xc2.
 /// \param buffer Buffer to inspect
 /// \param text Text to match
 /// \param length Number of bytes to check
@@ -445,7 +466,9 @@ bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
 }
 
 //-----------------------------------------------------------------------------
-/// Checks if the first bytes in buffer machtes the passed value
+/// Checks if the first bytes in buffer identify a MSOffice-document. As StarOffice-
+/// documents have the same identifier, check position 0xc2 of the stream if
+/// it does \b not contain an StarOffice-identifier.
 /// \param buffer Buffer to inspect
 /// \param text Text to match
 /// \param length Number of bytes to check
@@ -464,6 +487,20 @@ bool FileTypeCheckerByContent::isMSOffice (char* buffer, const char* text,
       return memcmp (buffer, ID_STAROFFICE, sizeof (ID_STAROFFICE) - 1);
    }
    return false;
+}
+
+//-----------------------------------------------------------------------------
+/// Checks if the passed stream is an MS-Office 2007 document
+/// \param buffer Buffer to inspect (ignored)
+/// \param text Text to match (ignored)
+/// \param length Number of bytes to check (ignored)
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
+//-----------------------------------------------------------------------------
+bool FileTypeCheckerByContent::isMSOffice2007 (char* buffer, const char* text,
+					       unsigned int length, std::ifstream& stream) {
+   TRACE1 (" FileTypeCheckerByContent::isMSOffice2007 (...)");
+   return isZIPWithFile (stream, buffer, "docProps/core.xml", 17);
 }
 
 }

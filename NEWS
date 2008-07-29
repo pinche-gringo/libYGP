@@ -1,3 +1,8 @@
+Overview of Changes in version 0.9.10:
+
+  - FileTypeChk: Checking for MS-Office 2007 documents
+
+
 Overview of Changes in version 0.9.03:
 
   - XGP::AnimatedWindow: Expecting root-coordinates for animateTo()

@@ -10,7 +10,7 @@ LIBS = -L.. -lYGP @LTLIBINTL@ @LIBS@
 TESTS=IVIOAppl ANumeric AYear ADate ATime ATStamp XStrBuf XStream Parse \
       FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
       AssParse AttrParse INIFile Handle Thread Relation Process MetaEnum \
-      Entity SortDirSrch Module
+      Entity SortDirSrch Module FileTypeChk
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -67,5 +67,7 @@ Entity_SOURCES=Entity.cpp
 SortDirSrch_SOURCES=SortDirSrch.cpp
 
 Module_SOURCES=Module.cpp
+
+FileTypChk_SOURCES=FileTypChk.cpp
 
 EXTRA_DIST=Parser.test INIFile.test CRegExp.test Test.h XStrBuf.test
