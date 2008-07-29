@@ -52,7 +52,6 @@
 namespace YGP {
 
 struct File;
-class DirectorySearch;
 
 
 /**Class to search for files in a certain (locally accesable) directory. This
