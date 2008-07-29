@@ -23,7 +23,6 @@
 #include <vector>
 #include <string>
 #include <iosfwd>
-#include <functional>
 
 
 namespace YGP {
@@ -46,8 +45,8 @@ namespace YGP {
  */
 class FileTypeChecker {
  public:
-   typedef enum { UNKNOWN, ABIWORD, GIF, HTML, JPEG, MP3, MSOFFICE, MSOFFICE2007,
-		   OGG, OPENOFFICE, PDF, PNG, RTF, STAROFFICE, LAST } FileType;
+   typedef enum { UNKNOWN, ABIWORD, GIF, HTML, JPEG, MP3, MSOFFICE, OGG, OPENOFFICE,
+		  PDF, PNG, RTF, STAROFFICE, MSOFFICE2007, LAST } FileType;
 
    virtual unsigned int getType (const char* file) const = 0;
    virtual ~FileTypeChecker ();
