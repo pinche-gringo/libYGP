@@ -181,7 +181,7 @@ File* File::clone () const {
 /// Returns true, if the file is executeable. Under UNIX it checks the
 /// file-permissions (any execute-right is sufficient), under DOS/WINDOZE the
 /// extension of the file (EXE/COM/BAT).
-/// \returns \c Flag, if file is executeable
+/// \returns bool Flag, if file is executeable
 /// \remarks
 ///     - VBS, WSH, and whatever Windows executes directly are not considered
 ///       as executable.
