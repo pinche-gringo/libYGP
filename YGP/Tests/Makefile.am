@@ -68,6 +68,6 @@ SortDirSrch_SOURCES=SortDirSrch.cpp
 
 Module_SOURCES=Module.cpp
 
-FileTypChk_SOURCES=FileTypChk.cpp
+FileTypeChk_SOURCES=FileTypeChk.cpp
 
 EXTRA_DIST=Parser.test INIFile.test CRegExp.test Test.h XStrBuf.test
