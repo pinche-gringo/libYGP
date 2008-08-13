@@ -194,8 +194,9 @@ static void gtkhtmlLinkClicked (GtkHTML *widget, const gchar *url, gpointer x) {
 /// \param doc Displayed document
 /// \param url URL of "included" file
 /// \param stream Stream, where to write the file to
+/// \param x Unused
 //----------------------------------------------------------------------------
-static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *stream, gpointer) {
+static void gtkhtmlLoadURL (GtkHTML *widget, const gchar *url, GtkHTMLStream *stream, gpointer x) {
    TRACE2 ("Loading file `%s'\n", url);
    Check1 (url); Check1 (widget); Check1 (stream);
    Check1 (*url);
