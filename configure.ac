@@ -145,17 +145,22 @@ if $PKG_CONFIG --exists "gtkmm-2.4 >= 2.6.0" ; then
                       [Set to version if GTKMM is version 2.6 or above])
 fi
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.8 >= 3.8.0,
-                  [AC_DEFINE(HAVE_GTKHTML, "3.8", [Define to API-version, if GTKHTML is installed])],
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.14 >= 3.14.0,
+                  [AC_DEFINE(HAVE_GTKHTML, "3.14", [Define to API-version, if GTKHTML is installed])],
                   [GTKHTML="no"])
 if test "$GTKHTML" = "no"; then
-   PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6 >= 3.5.0,
-                     [AC_DEFINE(HAVE_GTKHTML, "3.6", [Define to API-version, if GTKHTML is installed])],
+   PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.8 >= 3.8.0,
+                     [AC_DEFINE(HAVE_GTKHTML, "3.8", [Define to API-version, if GTKHTML is installed])],
                      [GTKHTML="no"])
    if test "$GTKHTML" = "no"; then
-      PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.1 >= 3.1.0,
-                        [AC_DEFINE(HAVE_GTKHTML, "3.1", [Define to API-version, if GTKHTML is installed])],
-                        [AC_MSG_NOTICE([Disable showing help using GTKHTML])])
+      PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6 >= 3.5.0,
+                        [AC_DEFINE(HAVE_GTKHTML, "3.6", [Define to API-version, if GTKHTML is installed])],
+                        [GTKHTML="no"])
+      if test "$GTKHTML" = "no"; then
+         PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.1 >= 3.1.0,
+                           [AC_DEFINE(HAVE_GTKHTML, "3.1", [Define to API-version, if GTKHTML is installed])],
+                           [AC_MSG_NOTICE([Disable showing help using GTKHTML])])
+      fi
    fi
 fi
 

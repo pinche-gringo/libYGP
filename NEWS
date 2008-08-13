@@ -1,6 +1,7 @@
 Overview of Changes in version 0.9.10:
 
   - FileTypeChk: Checking for MS-Office 2007 documents
+  - configure.in: Checking for GTKHTML 3.14
 
 
 Overview of Changes in version 0.9.03:
