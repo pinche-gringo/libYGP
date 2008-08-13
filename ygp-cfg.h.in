@@ -1,4 +1,4 @@
-/* ygp-cfg.h.in.  Generated from configure.in by autoheader.  */
+/* ygp-cfg.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef YGP_CFG_H
 #define YGP_CFG_H
