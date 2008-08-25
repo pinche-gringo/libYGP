@@ -48,7 +48,7 @@ int main (int argc, char* argv[]) {
 
    YGP::FileTypeChecker::FileType aTypes[] = {
       YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::MSOFFICE,
-      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::MSOFFICE2007, YGP::FileTypeChecker::OPENOFFICE,
+      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::OOXML, YGP::FileTypeChecker::OPENOFFICE,
       YGP::FileTypeChecker::GIF, YGP::FileTypeChecker::OGG, YGP::FileTypeChecker::PNG,
       YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::HTML, YGP::FileTypeChecker::MP3,
       YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::PDF };
@@ -64,6 +64,8 @@ int main (int argc, char* argv[]) {
 	 ++offset;
       } while ((file = ds.next ()));
    }
+   else
+      std::cout << "    -> Warning: No files to check found!" << std::flush;
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
