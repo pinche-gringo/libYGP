@@ -19,6 +19,8 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#include <iosfwd>
+
 #include <ygp-cfg.h>
 
 #undef INT16
@@ -141,6 +143,9 @@ inline unsigned long get4BytesMSB (const char* pAddr) {
 }
 
 #endif
+
+unsigned int getFileOffsetInArchive (std::istream& stream, char* buffer,
+				     const char* file, unsigned int lenFile);
 
 }
 

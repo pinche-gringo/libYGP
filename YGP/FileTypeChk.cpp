@@ -56,9 +56,6 @@ static const char ID_MSOFFICE[]   = "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1";
 static const char ID_STAROFFICE[] = "SfxDocumentInfo";
 
 static const unsigned int ID_MP3                  (0xE0FF);
-static const unsigned int ID_PKZIP_LOCALHDR       (0x04034b50);
-static const unsigned int ID_PKZIP_END_CDR        (0x06054B50);
-static const unsigned int ID_PKZIP_CENTRALFILEHDR (0x02014b50);
 
 
 //-----------------------------------------------------------------------------
@@ -75,7 +72,7 @@ FileTypeChecker::~FileTypeChecker () {
    // Create table of file-types
    types.insert (types.end (), std::pair<std::string, unsigned int> ("abw", ABIWORD));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("doc", MSOFFICE));
-   types.insert (types.end (), std::pair<std::string, unsigned int> ("docx", MSOFFICE2007));
+   types.insert (types.end (), std::pair<std::string, unsigned int> ("docx", OOXML));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("gif", GIF));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("htm", HTML));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("html", HTML));
@@ -202,7 +199,7 @@ FileTypeCheckerByContent::FileTypeCheckerByContent () : FileTypeChecker (), type
    types.push_back (ID (0, 0, "", STAROFFICE, &isStarOffice));
    types.push_back (ID (0, 0, "", MSOFFICE, &isMSOffice));
    types.push_back (ID (0, 0, "", HTML, &isHTML));
-   types.push_back (ID (0, 0, "", MSOFFICE2007, &isMSOffice2007));
+   types.push_back (ID (0, 0, "", OOXML, &isOfficeOpenXML));
    TRACE9 ("FileTypeCheckerByContent::FileTypeCheckerByContent () - Known types " << types.size ());
 }
 
@@ -389,57 +386,9 @@ bool FileTypeCheckerByContent::isMP3 (char* buffer, const char* text,
 //-----------------------------------------------------------------------------
 bool FileTypeCheckerByContent::isOOffice (char* buffer, const char* text,
 					  unsigned int length, std::ifstream& stream) {
-   return isZIPWithFile (stream, buffer, "meta.xml", 8);
+   return getFileOffsetInArchive (stream, buffer, "meta.xml", 8);
 }
 
-
-//-----------------------------------------------------------------------------
-/// Checks if the passed stream is a ZIP-archive having the passed file inside
-/// \param stream Stream from where to read more characters
-/// \param buffer Buffer to inspect
-/// \param file Name of file which must be inside the ZIP-file
-/// \param length Lenght of file-name
-/// \returns bool True, if the file is included
-//-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isZIPWithFile (std::ifstream& stream, char* buffer,
-					      const char* file, unsigned int lenFile) {
-   if (get4BytesLSB (buffer) == ID_PKZIP_LOCALHDR) {
-      char buffer[80];
-      memset (buffer, 0, sizeof (buffer));
-      stream.seekg (-22, std::ios::end);
-      stream.read (buffer, 22);
-
-      if (get4BytesLSB (buffer) == ID_PKZIP_END_CDR) {
-	 // Skip to central directory record
-	 unsigned int cEntries (get4BytesLSB (buffer + 10));
-	 stream.seekg (get4BytesLSB (buffer + 16), std::ios::beg);
-	 TRACE6 ("FileTypeCheckerByContent::isOOffice (2x const char*, unsigned int, std::ifstream&) - Start CDR: " << get4BytesLSB (buffer + 16) << " (" << cEntries << ')');
-
-	 // Inspect all entries
-	 while (cEntries--) {
-	    stream.read (buffer, 46);
-	    if (get4BytesLSB (buffer) == ID_PKZIP_CENTRALFILEHDR) {
-	       unsigned int lenName (get2BytesLSB (buffer + 28));
-	       unsigned int lenSkip (get2BytesLSB (buffer + 30) + get2BytesLSB (buffer + 32));
-	       TRACE6 ("FileTypeCheckerByContent::isOOffice (2x const char*, unsigned int, std::ifstream&) - Len of filename: " << lenName
-		       << "; Skipping: " << lenSkip);
-
-	       // Check if "meta.xml" entry has been found
-	       if (lenName == lenFile) {
-		  stream.read (buffer, 8);
-		  if (!memcmp (file, buffer, 8))
-		     return true;
-		  lenName -= 8;
-	       }
-	       stream.seekg (lenName + lenSkip, std::ios::cur);
-	    }
-	    else
-	       break;
-	 } // end-while
-      }
-   }
-   return false;
-}
 
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer identify a MSOffice-document which also
@@ -497,10 +446,10 @@ bool FileTypeCheckerByContent::isMSOffice (char* buffer, const char* text,
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isMSOffice2007 (char* buffer, const char* text,
-					       unsigned int length, std::ifstream& stream) {
-   TRACE1 (" FileTypeCheckerByContent::isMSOffice2007 (...)");
-   return isZIPWithFile (stream, buffer, "docProps/core.xml", 17);
+bool FileTypeCheckerByContent::isOfficeOpenXML (char* buffer, const char* text,
+						unsigned int length, std::ifstream& stream) {
+   TRACE1 (" FileTypeCheckerByContent::isOfficeOpenXML (...)");
+   return getFileOffsetInArchive (stream, buffer, "docProps/core.xml", 17);
 }
 
 }
