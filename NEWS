@@ -1,6 +1,7 @@
 Overview of Changes in version 0.9.10:
 
   - FileTypeChk: Checking for MS-Office 2007 documents
+  - Utility: Added function to return entries in ZIP-archives
   - configure.in: Checking for GTKHTML 3.14
 
 
