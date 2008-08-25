@@ -49,10 +49,10 @@ int main (int argc, char* argv[]) {
    regExp = "a[!xa-dy]b";
    if (regExp.checkIntegrity () || !regExp.matches ("afb") || regExp.matches ("axb")) {
 #  ifdef HAVE_FNMATCH
-       std::cout << "    -> Warning: Your fnmatch does not support inverted regions\n"
-                    "    -> Failed (regExp.matches (\"a[!xa-dy]b\"); line " << __LINE__ << ")\n" << std::flush;
+      std::cout << ("    -> Warning: Your fnmatch does not support inverted regions\n"
+		    "    -> Failed (regExp.matches (\"a[!xa-dy]b\"); line ") << __LINE__ << ")\n" << std::flush;
 #  else
-       ERROROUT ("regExp.matches (\"a[!xa-dy]b\")");
+      ERROROUT ("regExp.matches (\"a[!xa-dy]b\")");
 #  endif
    }
 #endif
