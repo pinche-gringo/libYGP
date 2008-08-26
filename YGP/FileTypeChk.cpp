@@ -88,6 +88,7 @@ FileTypeChecker::~FileTypeChecker () {
    types.insert (types.end (), std::pair<std::string, unsigned int> ("php", HTML));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("png", PNG));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("ppt", MSOFFICE));
+   types.insert (types.end (), std::pair<std::string, unsigned int> ("pptx", OOXML));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("rtf", RTF));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("sda", STAROFFICE));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("sdc", STAROFFICE));
@@ -102,6 +103,7 @@ FileTypeChecker::~FileTypeChecker () {
    types.insert (types.end (), std::pair<std::string, unsigned int> ("sxm", OPENOFFICE));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("sxw", OPENOFFICE));
    types.insert (types.end (), std::pair<std::string, unsigned int> ("xls", MSOFFICE));
+   types.insert (types.end (), std::pair<std::string, unsigned int> ("xlsx", OOXML));
    TRACE9 ("FileTypeCheckerByExtension::FileTypeCheckerByExtension () - Known types " << types.size ());
 }
 
@@ -417,7 +419,7 @@ bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
 //-----------------------------------------------------------------------------
 /// Checks if the first bytes in buffer identify a MSOffice-document. As StarOffice-
 /// documents have the same identifier, check position 0xc2 of the stream if
-/// it does \b not contain an StarOffice-identifier.
+/// it does \b not contain a StarOffice-identifier.
 /// \param buffer Buffer to inspect
 /// \param text Text to match
 /// \param length Number of bytes to check
