@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.51 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-07-09 23:37+0200\n"
+"POT-Creation-Date: 2008-08-25 19:12+0200\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -94,19 +94,19 @@ msgstr "Allgemeiner Fehler"
 msgid "`%1', position %2: %3"
 msgstr "'%1', Position %2: %3"
 
-#: YGP/File.cpp:273
+#: YGP/File.cpp:276
 msgid "Error opening file `%1'! Reason: %2"
 msgstr "Fehler beim Öffnen von Datei '%1': Ursache: %2"
 
-#: YGP/File.cpp:288
+#: YGP/File.cpp:291
 msgid "Error closing file `%1'! Reason: %2"
 msgstr "Fehler beim Schliessen von Datei '%1': Ursache: %2"
 
-#: YGP/File.cpp:311
+#: YGP/File.cpp:314
 msgid "Error reading from file `%1'! Reason: %2"
 msgstr "Fehler beim Lesen von Datei '%1'! Ursache: %2"
 
-#: YGP/File.cpp:333
+#: YGP/File.cpp:336
 msgid "Error writing to file `%1!' Reason: %2"
 msgstr "Fehler beim Schreiben in Datei '%1'! Ursache: %2"
 
@@ -420,7 +420,7 @@ msgstr "_Über ..."
 msgid "Distributed under the terms of the GNU General Public License"
 msgstr "Vertrieben unter den Bedingungen der GNU General Public License"
 
-#: XGP/GTKViewer.c:217
+#: XGP/GTKViewer.c:218
 #, c-format
 msgid "Error loading file '%s': %s"
 msgstr "Fehler beim Öffnen von Datei '%s': %s"
