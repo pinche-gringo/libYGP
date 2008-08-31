@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.49 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
 "POT-Creation-Date: 2008-08-25 19:12+0200\n"
-"PO-Revision-Date: 2005-05-13 12:24-0400\n"
+"PO-Revision-Date: 2008-08-29 10:06+0200\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr "Fecha inválida: %1"
 
 #: YGP/ANumeric.cpp:127
 msgid "Not a number: %1"
-msgstr "Número invalido: %1"
+msgstr "Número inválido: %1"
 
 #: YGP/ATime.cpp:178
 msgid "No time: Position %1"
@@ -32,11 +32,11 @@ msgstr "Hora inválida: Posición 0"
 
 #: YGP/AssParse.cpp:68
 msgid "Not a valid assignment: '%1'"
-msgstr "Asignación no es válida: '%1'"
+msgstr "La asignación no es válida: '%1'"
 
 #: YGP/AssParse.cpp:80
 msgid "Invalid value for an attribute: '%1'"
-msgstr "Valor invalido por atributo: '%1'"
+msgstr "Valor inválido por atributo: '%1'"
 
 #: YGP/AssParse.cpp:97
 msgid "Quoted value is not followed by a separator: '%1'"
@@ -60,27 +60,27 @@ msgstr "[ ó [^ desemparejado"
 
 #: YGP/CRegExp.cpp:1039
 msgid "Unmatched ( or )"
-msgstr "( ó ) desemparejados"
+msgstr "( ó ) desemparejado"
 
 #: YGP/CRegExp.cpp:1040
 msgid "Invalid range end"
-msgstr "Fin invalido de la región"
+msgstr "Inválido fin de la región"
 
 #: YGP/CRegExp.cpp:1041
 msgid "Repeating suffix without previous expression"
-msgstr "Factor repitente sin anterior expresión regular"
+msgstr "Factor repitente sin expresión regular anterior"
 
 #: YGP/CRegExp.cpp:1042
 msgid "Invalid group-number"
-msgstr "Número de grupo invalido"
+msgstr "Número de grupo inválido"
 
 #: YGP/CRegExp.cpp:1043
 msgid "Invalid range (lower border larger than upper border)"
-msgstr "Enumeración invalido (frontera baja más alta que la alta)"
+msgstr "Enumeración inválido (frontera baja más alta que la alta)"
 
 #: YGP/CRegExp.cpp:1044
 msgid "Invalid bound"
-msgstr "Unión invalida"
+msgstr "Unión inválida"
 
 #: YGP/CRegExp.cpp:1045
 msgid "Regular expression ends with escape-character (\\)"
@@ -168,15 +168,15 @@ msgstr "Sección inválida: %1"
 
 #: YGP/IVIOAppl.cpp:192
 msgid "-warning: Unhandled exception (std::exception): "
-msgstr "-aviso: Excepción no manejada (std::exception): "
+msgstr "-aviso: Excepción no atendido (std::exception): "
 
 #: YGP/IVIOAppl.cpp:195
 msgid "-warning: Unhandled exception (std::string): "
-msgstr "-aviso: Excepción no manejada (std::string): "
+msgstr "-aviso: Excepción no atendido (std::string): "
 
 #: YGP/IVIOAppl.cpp:198
 msgid "-warning: Unhandled exception!"
-msgstr "-aviso: Excepción no manejada!"
+msgstr "-aviso: ¡Excepción no atendido!"
 
 #: YGP/IVIOAppl.cpp:286
 msgid "-error: Option `%1' is ambiguous"
@@ -212,15 +212,15 @@ msgstr "El servidor retornó un error: "
 
 #: YGP/RDirSrchSrv.cpp:258
 msgid "Not yet implemented"
-msgstr "Ya no implementado"
+msgstr "Aún no implementado"
 
 #: YGP/RDirSrchSrv.cpp:284
 msgid "Invalid command"
-msgstr "Comando invalido"
+msgstr "Comando inválido"
 
 #: YGP/RDirSrchSrv.cpp:320
 msgid "Invalid arguments: "
-msgstr "Argumentos invalidos: "
+msgstr "Argumentos inválidos: "
 
 #: YGP/Socket.cpp:79 YGP/Socket.cpp:92 YGP/Socket.cpp:126 YGP/Socket.cpp:151
 msgid "Can't create socket"
@@ -246,7 +246,7 @@ msgstr "Error leyendo los datos"
 
 #: YGP/Socket.cpp:289
 msgid "Error accepting connection"
-msgstr "Error acceptando la connectión"
+msgstr "Error acceptando la connexión"
 
 #: YGP/Socket.cpp:312
 msgid "Can't resolve name '%1'"
@@ -266,7 +266,7 @@ msgid ""
 "\n"
 "Reason: %2"
 msgstr ""
-"Error ejecutando el programa '%1'!\n"
+"¡Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
 #: YGP/Process.cpp:281
@@ -289,7 +289,7 @@ msgstr "Orden para imprimir: "
 
 #: XGP/XPrintDlg.cpp:103
 msgid "No print-command specified"
-msgstr "No orden para imprimir especificado"
+msgstr "El orden para imprimir no está especificado"
 
 #: XGP/XPrintDlg.cpp:111
 msgid ""
@@ -301,11 +301,11 @@ msgstr ""
 
 #: XGP/XFileDlg.cpp:99
 msgid "File `%1' does not exist!"
-msgstr "Fichero '%1' no existe!"
+msgstr "¡El fichero '%1' no existe!"
 
 #: XGP/XFileDlg.cpp:108
 msgid "File `%1' exists! Overwrite?"
-msgstr "¡Fichero '%1' existe! ¿Sobreescribirlo?"
+msgstr "¡El fichero '%1' ya existe! ¿Sobreescribirlo?"
 
 #: XGP/XFileList.cpp:75
 msgid "File"
@@ -321,15 +321,15 @@ msgstr "Cambiar el nombre/Mover ..."
 
 #: XGP/XFileList.cpp:245
 msgid "Delete"
-msgstr "Eleminar"
+msgstr "Eliminar"
 
 #: XGP/XFileList.cpp:270
 msgid "Environment variable `TERM' not defined!"
-msgstr "¡Variable de etorno 'TERM' no es definida!"
+msgstr "¡Variable de etorno 'TERM' no está definida!"
 
 #: XGP/XAttrEntry.h:101
 msgid "Invalid value!"
-msgstr "¡Valor invalido!"
+msgstr "¡Valor inválido!"
 
 #: XGP/BrowserDlg.cpp:46
 msgid "GTKHTML"
@@ -385,7 +385,7 @@ msgstr "Otro:"
 
 #: XGP/BrowserDlg.cpp:89
 msgid "Select a browser"
-msgstr "Selecta un explorador"
+msgstr "Selecta a un explorador"
 
 #: XGP/XApplication.cpp:143
 msgid "_Contents"
@@ -397,11 +397,11 @@ msgstr ""
 
 #: XGP/XApplication.cpp:147
 msgid "Set help-_browser ..."
-msgstr "Selecta un e_xplorador ..."
+msgstr "Selecta a un e_xplorador ..."
 
 #: XGP/XApplication.cpp:148
 msgid "Enables selecting which browser to use"
-msgstr "Permite elegir el explorador para mostrar la ayuda"
+msgstr "Permite eligir el explorador para mostrar la ayuda"
 
 #: XGP/XApplication.cpp:160
 msgid "Set _trace-levels ..."
@@ -422,7 +422,7 @@ msgstr "Distribuido bajo las condiciones de la GNU Licensia General Público"
 #: XGP/GTKViewer.c:218
 #, c-format
 msgid "Error loading file '%s': %s"
-msgstr "Error abriendo el fichero '%s'! %s"
+msgstr "!Error abriendo el fichero '%s'! %s"
 
 #: XGP/MessageDlg.cpp:89
 msgid "Hide _details"
@@ -452,11 +452,9 @@ msgid ""
 "If you want to connect to a server, enter its address (name or IP number) in "
 "the entry field and click on \"Connect\"."
 msgstr ""
-"Haz clic en \"Espera por conección\" para eserpar a una conección de una "
-"otra máquina.\n"
+"Haz clic en \"Espera por conexión\" para eserpar a una conección de una otra máquina.\n"
 "\n"
-"Si quieres conectarte a un servidor, entra su dirección (nombre or número "
-"IP) en las entradas y haz clic en \"Conectar\"."
+"Si quieres conectarte a un servidor, entra su dirección (nombre or número IP) en las entradas y haz clic en \"Conectar\"."
 
 #: XGP/ConnectDlg.cpp:73
 msgid "_Server:"
@@ -472,7 +470,7 @@ msgid ""
 "\n"
 "Reason: %1"
 msgstr ""
-"No puedo conectar al servidor '%1'!\n"
+"¡No puedo conectar al servidor '%1'!\n"
 "\n"
 "Causa: %1"
 
@@ -486,7 +484,7 @@ msgid ""
 "\n"
 "Reason: %1"
 msgstr ""
-"No puedo atar al puerto!\n"
+"¡No puedo atar al puerto!\n"
 "\n"
 "Causa: %1"
 
