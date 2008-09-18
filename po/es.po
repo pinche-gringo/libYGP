@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.49 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-08-25 19:12+0200\n"
+"POT-Creation-Date: 2008-09-18 18:13+0200\n"
 "PO-Revision-Date: 2008-08-29 10:06+0200\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -63,7 +63,7 @@ msgid "Unmatched ( or )"
 msgstr "( ó ) desemparejado"
 
 #: YGP/CRegExp.cpp:1040
-msgid "Invalid range end"
+msgid "Invalid end of range"
 msgstr "Inválido fin de la región"
 
 #: YGP/CRegExp.cpp:1041
@@ -452,9 +452,11 @@ msgid ""
 "If you want to connect to a server, enter its address (name or IP number) in "
 "the entry field and click on \"Connect\"."
 msgstr ""
-"Haz clic en \"Espera por conexión\" para eserpar a una conección de una otra máquina.\n"
+"Haz clic en \"Espera por conexión\" para eserpar a una conección de una otra "
+"máquina.\n"
 "\n"
-"Si quieres conectarte a un servidor, entra su dirección (nombre or número IP) en las entradas y haz clic en \"Conectar\"."
+"Si quieres conectarte a un servidor, entra su dirección (nombre o número "
+"IP) en las entradas y haz clic en \"Conectar\"."
 
 #: XGP/ConnectDlg.cpp:73
 msgid "_Server:"

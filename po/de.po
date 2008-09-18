@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.51 $)\n"
 "Report-Msgid-Bugs-To: g17m0@lycos.com\n"
-"POT-Creation-Date: 2008-08-25 19:12+0200\n"
+"POT-Creation-Date: 2008-09-18 18:13+0200\n"
 "PO-Revision-Date: 2005-05-13 12:24-0400\n"
 "Last-Translator: Markus Schwab <g17m0@lycos.com>\n"
 "Language-Team: English <markus@gizmo.org>\n"
@@ -63,7 +63,7 @@ msgid "Unmatched ( or )"
 msgstr "'(' oder '(' ohne schlieﬂende Klammer"
 
 #: YGP/CRegExp.cpp:1040
-msgid "Invalid range end"
+msgid "Invalid end of range"
 msgstr "Bereich ohne Wert"
 
 #: YGP/CRegExp.cpp:1041

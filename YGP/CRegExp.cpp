@@ -1037,7 +1037,7 @@ std::invalid_argument RegularExpression::getError (int rc, unsigned int pos) con
    switch (rc) {
    case REGION_OPEN: error = N_("Unmatched [ or [^"); break;
    case GROUP_OPEN: error = N_("Unmatched ( or )"); break;
-   case RANGE_OPEN: error = N_("Invalid range end"); break;
+   case RANGE_OPEN: error = N_("Invalid end of range"); break;
    case NO_PREV_EXP: error = N_("Repeating suffix without previous expression"); break;
    case INV_DIGIT: error = N_("Invalid group-number"); break;
    case INV_RANGE: error = N_("Invalid range (lower border larger than upper border)"); break;
