@@ -97,21 +97,19 @@ bool AnimatedWindow::animationStep () {
 void AnimatedWindow::animateTo (int x, int y) {
    Check1 (win);
 
-   if (steps && win->is_visible ()) {
-      int x2, y2;
-      win->get_origin (x2, y2);
-      TRACE5 ("AnimatedWindow::animationTo (2x int) - Current " << x2 << '/' << y2);
+   int x2, y2;
+   win->get_origin (x2, y2);
+   TRACE5 ("AnimatedWindow::animationTo (2x int) - Current " << x2 << '/' << y2);
+   x -= x2;
+   y -= y2;
 
-      x -= x2;
-      y -= y2;
+   if (steps && win->is_visible ()) {
       x /= (int)steps;
       y /= (int)steps;
-      win->get_position (x2, y2);
-      win->move (x + x2, y + y2);
-      TRACE5 ("AnimatedWindow::animationTo (2x int) - Moving " << x << '/' << y);
    }
-   else
-      win->move (x, y);
+   win->get_position (x2, y2);
+   win->move (x + x2, y + y2);
+   TRACE5 ("AnimatedWindow::animationTo (2x int) - Moving " << x << '/' << y);
 }
 
 //-----------------------------------------------------------------------------
