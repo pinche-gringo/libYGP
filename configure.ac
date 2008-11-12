@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.10],[g17m0@lycos.com],[libYGP])
+AC_INIT([libYGP],[0.9.11],[g17m0@lycos.com],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -187,7 +187,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STAT
 AC_STRUCT_TM
 AC_CHECK_TYPES([ssize_t])
-AC_CHECK_TYPES([socklen_t], [AC_DEFINE([HAVE_SOCKLEN_T], [1], 
+AC_CHECK_TYPES([socklen_t], [AC_DEFINE([HAVE_SOCKLEN_T], [1],
                                        [Whether we have socklen_t])],
                [], [AC_INCLUDES_DEFAULT
 #include <sys/socket.h>])
