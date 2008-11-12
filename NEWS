@@ -1,3 +1,10 @@
+Overview of Changes in version 0.9.11:
+
+  - es.po: Fixed translations
+  - CRegExp: Improved error-messages
+  - AnimWindow: Fixed positioning card at the last step
+
+
 Overview of Changes in version 0.9.10:
 
   - FileTypeChk: Checking for MS-Office 2007 documents

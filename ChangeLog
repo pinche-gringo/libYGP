@@ -1,3 +1,25 @@
+2008-11-12 14:46:19 +0100  Markus Schwab  <g17m0@lycos.com>
+
+	* NEWS, ChangeLog: Changes of V0.9.10 documented
+
+        * configure.ac: Version to 0.9.11
+
+2008-11-12 14:43:07 +0100  Markus Schwab  <g17m0@lycos.com>
+
+        * AnimWindow: Fixed positioning card at the last step
+
+2008-09-18 18:17:38 +0200  Markus Schwab  <g17m0@lycos.com>
+
+        * CRegExp: Improved error-message (invalid end of region)
+
+2008-08-31 13:20:42 +0200  Markus Schwab  <g17m0@lycos.com>
+
+        * es.po: Fixed translation
+
+2008-08-26 19:10:51 +0200  Markus Schwab  <g17m0@lycos.com>
+
+        * doc/index.html: Copyright to 2008
+
 2008-08-26 18:01:37 +0200  Markus Schwab  <g17m0@lycos.com>
 
 	* ChangeLog: Changes of V0.9.10 documented
