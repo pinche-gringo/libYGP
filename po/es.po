@@ -455,8 +455,8 @@ msgstr ""
 "Haz clic en \"Espera por conexión\" para eserpar a una conección de una otra "
 "máquina.\n"
 "\n"
-"Si quieres conectarte a un servidor, entra su dirección (nombre o número "
-"IP) en las entradas y haz clic en \"Conectar\"."
+"Si quieres conectarte a un servidor, entra su dirección (nombre o número IP) "
+"en las entradas y haz clic en \"Conectar\"."
 
 #: XGP/ConnectDlg.cpp:73
 msgid "_Server:"
