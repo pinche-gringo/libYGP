@@ -1,3 +1,17 @@
+2009-02-03 12:01:43 -0300  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* NEWS, ChangeLog: Changes of V0.9.12 documented
+
+	* Actualised contact address
+	
+2009-02-03 12:01:11 -0300  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* ygp-cfg.h.in: Changed automake/-conf version
+	
+2009-02-03 11:58:59 -0300  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* INSTALL: Actualised; Changed contact address
+	
 2008-11-12 14:46:19 +0100  Markus Schwab  <g17m0@lycos.com>
 
 	* NEWS, ChangeLog: Changes of V0.9.10 documented

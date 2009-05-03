@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.11],[g17m0@lycos.com],[libYGP])
+AC_INIT([libYGP],[0.9.12],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")

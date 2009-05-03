@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2008
+//COPYRIGHT   : Copyright (C) 2003 - 2009
 
 // This file is part of libYGP.
 //
@@ -373,7 +373,7 @@ void XAppl::showSearchDialog () {
 void XAppl::showAboutbox () {
    XGP::XAbout* about (XGP::XAbout::create
                        (Glib::locale_to_utf8
-			("Copyright (C) 2003 - 2008 Markus Schwab\ne-mail: g17m0@lycos.com\n"
+			("Copyright (C) 2003 - 2009 Markus Schwab\ne-mail: g17m0@users.sourceforge.net\n"
 			 "\nCompiled on " __DATE__ " at " __TIME__),
 			"X-Appl V" PACKAGE_VERSION));
    about->setIconProgram (xpmXAppl);
