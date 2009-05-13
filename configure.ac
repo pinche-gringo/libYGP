@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.12],[g17m0@users.sourceforge.net],[libYGP])
+AC_INIT([libYGP],[0.9.20],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=0.9.00
-dnl LIBRELEASE=$PACKAGE_VERSION
+dnl LIBRELEASE=0.9.20
+LIBRELEASE=$PACKAGE_VERSION
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
