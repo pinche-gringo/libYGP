@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -86,6 +86,7 @@ XAbout::~XAbout () {
 //-----------------------------------------------------------------------------
 /// Sets the icon for the program (in xpm-format)
 /// \param pIconData Image representing program
+/// \deprecated Use setLogoProgram instead
 //-----------------------------------------------------------------------------
 void XAbout::setIconProgram (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
@@ -98,14 +99,48 @@ void XAbout::setIconProgram (const char* const* pIconData) {
 }
 
 //-----------------------------------------------------------------------------
+/// Sets the icon for the program (in inline format)
+/// \param pIconData Image representing program
+/// \param lenData: Length of image
+//-----------------------------------------------------------------------------
+void XAbout::setLogoProgram (const guint8* pIconData, int lenData) {
+   Check1 (client); Check1 (pIconData);
+
+   pIconProgramm = new Gtk::Image
+      (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
+
+   pIconProgramm->show ();
+   client->pack_start (*pIconProgramm, false, false, 5);
+}
+
+//-----------------------------------------------------------------------------
 /// Sets the icon for the programmer (in xpm-format)
 /// \param pIconData Pointer to xpm-data for pixmap representing the programmer
+/// \deprecated Use setLogoAuthor instead
 //-----------------------------------------------------------------------------
 void XAbout::setIconAuthor (const char* const* pIconData) {
    Check1 (client); Check1 (pIconData);
 
    pIconAuthor = new Gtk::Image
       (Gdk::Pixbuf::create_from_xpm_data (pIconData));
+
+   pIconAuthor->show ();
+   client->pack_end (*pIconAuthor, false, false, 5);
+
+   Check3 (writer);
+   client->reorder_child (*writer, 3);
+}
+
+//-----------------------------------------------------------------------------
+/// Sets the icon for the programmer (in xpm-format)
+/// \param pIconData Pointer to xpm-data for pixmap representing the programmer
+/// \param lenData: Length of image
+//-----------------------------------------------------------------------------
+void XAbout::setLogoAuthor (const guint8* pIconData, int lenData) {
+   Check1 (client); Check1 (pIconData);
+
+   pIconAuthor = new Gtk::Image
+      (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
 
    pIconAuthor->show ();
    client->pack_end (*pIconAuthor, false, false, 5);

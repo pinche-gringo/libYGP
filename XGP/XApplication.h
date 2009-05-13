@@ -85,6 +85,7 @@ class XApplication : public Gtk::Window {
    typedef YGP::SmartPtr<Gtk::VBox>    PVBox;     ///< Smart pointer for a vbox
 
    virtual void setIconProgram (const char* const* iconData);
+   virtual void setLogoProgram (const guint8* iconData, int lenData);
 
    /// Returns the client window
    Gtk::VBox* getClient () const { return vboxClient; }
@@ -130,7 +131,9 @@ class XInfoApplication : public XApplication {
  protected:
    // Add information
    virtual void setIconProgram (const char* const* iconData);
+   virtual void setLogoProgram (const guint8* iconData, int lenData);
    void setIconAuthor (const char* const* iconData);
+   void setLogoAuthor (const guint8* iconData, int lenData);
 
  private:
    // Protected manager functions

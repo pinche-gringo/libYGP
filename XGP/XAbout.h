@@ -47,7 +47,9 @@ class XAbout : public XDialog {
    ~XAbout ();
 
    void setIconProgram (const char* const* iconData);
+   void setLogoProgram (const guint8* iconData, int lenData);
    void setIconAuthor  (const char* const* iconData);
+   void setLogoAuthor  (const guint8* iconData, int lenData);
 
    static XAbout* create (const Glib::ustring& author, const Glib::ustring& program);
 

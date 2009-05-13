@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.53 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -284,17 +284,33 @@ void XApplication::showAboutbox () {
 }
 
 //----------------------------------------------------------------------------
-/// Sets the program icon which is used by some window managers when minimizing
+/// Sets the program icon which is used by some window managers when minimising
 /// the program.
 /// \param pIconData Array of character pointers describing the icon (xpm-format)
 /// \pre pIconData must be a valid pointer to xpm-data
-/// \remarks Some window managers might also display the icon on other occassions.
+/// \remarks Some window managers might also display the icon on other ocassions.
+/// \deprecated Use setLogoProgram instead
 //----------------------------------------------------------------------------
 void XApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XApplication::setIconProgram");
    Check1 (pIconData);
 
    set_icon (Gdk::Pixbuf::create_from_xpm_data (pIconData));
+}
+
+//----------------------------------------------------------------------------
+/// Sets the program icon which is used by some window managers when minimising
+/// the program.
+/// \param pIconData Array of characters describing the icon (inline format)
+/// \param lenData: Length of inline data
+/// \pre pIconData must be a valid pointer to inline data
+/// \remarks Some window managers might also display the icon on other ocassions.
+//----------------------------------------------------------------------------
+void XApplication::setLogoProgram (const guint8* pIconData, int lenData) {
+   TRACE9 ("XApplication::setLogoProgram (const char*, int) - " << lenData);
+   Check1 (pIconData);
+
+   set_icon (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
 }
 
 
@@ -341,14 +357,14 @@ XInfoApplication::~XInfoApplication () {
 //-----------------------------------------------------------------------------
 /// Sets an icon for the program
 /// \param pIconData Pointer to xpm-data for pixmap
+/// \deprecated Use setLogoProgram instead
 //-----------------------------------------------------------------------------
 void XInfoApplication::setIconProgram (const char* const* pIconData) {
    TRACE9 ("XInfoApplication::setIconProgram");
    Check1 (pIconData);
    Check3 (hboxTitle);
 
-   iconPrg = new Gtk::Image
-      (Gdk::Pixbuf::create_from_xpm_data (pIconData));
+   iconPrg = new Gtk::Image (Gdk::Pixbuf::create_from_xpm_data (pIconData));
    Check3 (iconPrg);
 
    iconPrg->show ();
@@ -360,6 +376,7 @@ void XInfoApplication::setIconProgram (const char* const* pIconData) {
 //-----------------------------------------------------------------------------
 /// Sets pixmap for the programmer
 /// \param pIconData Pointer to xpm-data for pixmap
+/// \deprecated Use setLogoAuthor instead
 //-----------------------------------------------------------------------------
 void XInfoApplication::setIconAuthor (const char* const* pIconData) {
    TRACE9 ("XInfoApplication::setIconAuthor");
@@ -368,6 +385,43 @@ void XInfoApplication::setIconAuthor (const char* const* pIconData) {
 
    iconAuthor = new Gtk::Image
       (Gdk::Pixbuf::create_from_xpm_data (pIconData));
+   Check3 (iconAuthor);
+
+   iconAuthor->show ();
+   hboxTitle->pack_end (*iconAuthor, Gtk::PACK_SHRINK, 5);
+   hboxTitle->reorder_child (*vboxPrgInfo, 3);
+}
+
+//-----------------------------------------------------------------------------
+/// Sets an icon for the program from inline data
+/// \param pIconData Pointer to inline data for pixmap
+/// \param lenData: Length of inline data
+//-----------------------------------------------------------------------------
+void XInfoApplication::setLogoProgram (const guint8* pIconData, int lenData) {
+   TRACE9 ("XInfoApplication::setLogoProgram (const guint8*, int) - " << lenData);
+   Check1 (pIconData);
+   Check3 (hboxTitle);
+
+   Glib::RefPtr<Gdk::Pixbuf> pic (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
+   iconPrg = new Gtk::Image (pic);
+   Check3 (iconPrg);
+
+   iconPrg->show ();
+   hboxTitle->pack_start (*iconPrg, Gtk::PACK_SHRINK, 5);
+   set_icon (pic);
+}
+
+//-----------------------------------------------------------------------------
+/// Sets pixmap for the programmer
+/// \param pIconData Pointer to xpm-data for pixmap
+/// \param lenData: Length of inline data
+//-----------------------------------------------------------------------------
+ void XInfoApplication::setLogoAuthor (const guint8* pIconData, int lenData) {
+   TRACE9 ("XInfoApplication::setLogoAuthor (const guint8*, int) - " << lenData);
+   Check1 (pIconData);
+   Check3 (hboxTitle); Check3 (vboxPrgInfo);
+
+   iconAuthor = new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
    Check3 (iconAuthor);
 
    iconAuthor->show ();
