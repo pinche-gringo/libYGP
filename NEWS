@@ -1,6 +1,7 @@
 Overview of Changes in version 0.9.20:
 
   - XGP::XApplication::setIcon* expects inline representation of images
+  - Improved checks for GTKHTML and Mozilla-embeded
 
 
 Overview of Changes in version 0.9.12:

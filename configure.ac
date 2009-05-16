@@ -145,38 +145,25 @@ if $PKG_CONFIG --exists "gtkmm-2.4 >= 2.6.0" ; then
                       [Set to version if GTKMM is version 2.6 or above])
 fi
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.14 >= 3.14.0,
-                  [AC_DEFINE(HAVE_GTKHTML, "3.14", [Define to API-version, if GTKHTML is installed])],
-                  [GTKHTML="no"])
-if test "$GTKHTML" = "no"; then
-   PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.8 >= 3.8.0,
-                     [AC_DEFINE(HAVE_GTKHTML, "3.8", [Define to API-version, if GTKHTML is installed])],
+dnl Checking for GTKHTML which can be used
+for version in 3.14 3.8 3.5 3.1; do
+   PKG_CHECK_MODULES(GTKHTML, libgtkhtml-$version >= $version.0,
+                     [AC_DEFINE_UNQUOTED(HAVE_GTKHTML, "$version", [Define to API-version, if GTKHTML is installed])],
                      [GTKHTML="no"])
-   if test "$GTKHTML" = "no"; then
-      PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6 >= 3.5.0,
-                        [AC_DEFINE(HAVE_GTKHTML, "3.6", [Define to API-version, if GTKHTML is installed])],
-                        [GTKHTML="no"])
-      if test "$GTKHTML" = "no"; then
-         PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.1 >= 3.1.0,
-                           [AC_DEFINE(HAVE_GTKHTML, "3.1", [Define to API-version, if GTKHTML is installed])],
-                           [AC_MSG_NOTICE([Disable showing help using GTKHTML])])
-      fi
+   if test "$GTKHTML" != "no"; then
+      break;
    fi
-fi
+done
 
-PKG_CHECK_MODULES(GTKMOZEMBED, firefox-gtkmozembed,
-                  [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
-                  [GTKMOZEMBED="no"])
-if test "$GTKMOZEMBED" = "no"; then
-   PKG_CHECK_MODULES(GTKMOZEMBED, seamonkey-gtkmozembed,
+dnl Checking for mozilla-embeded which can be used
+for variant in firefox seamonkey mozilla; do
+   PKG_CHECK_MODULES(GTKMOZEMBED, $variant-gtkmozembed,
                      [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
                      [GTKMOZEMBED="no"])
-   if test "$GTKMOZEMBED" = "no"; then
-      PKG_CHECK_MODULES(GTKMOZEMBED, mozilla-gtkmozembed,
-                        [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
-                        [AC_MSG_NOTICE([Disable showing help using GtkMozEmbed])])
+   if test "$GTKMOZEMBED" != "no"; then
+      break;
    fi
-fi
+done
 
 GTKMM_CFLAGS="$GTKMM_CFLAGS $GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS"
 AC_SUBST(MYSUBDIRS)
