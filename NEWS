@@ -1,11 +1,11 @@
 Overview of Changes in version 0.9.20:
 
-  - Added XGP::XApplication::setLogo* to handle inline representation of images
+  - XGP::XApplication::setIcon* expects inline representation of images
 
 
 Overview of Changes in version 0.9.12:
 
-  - Changed contact address (lycos discontinued its service)
+  - Changed contact address (Lycos discontinued its service)
 
 
 Overview of Changes in version 0.9.11:
