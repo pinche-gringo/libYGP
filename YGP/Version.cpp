@@ -62,7 +62,7 @@ static const char* Version = "\n!@$%" LIBYGP_NAME " V" PACKAGE_VERSION
                              " Compiled on " __DATE__ "%$@!\n";
 
 // Function to initialize various global data
-static const int _init () {
+static int _init () {
    bindtextdomain (LIBYGP_NAME, LOCALEDIR);
    return Version == (const void*)0;
 }
