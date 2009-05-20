@@ -9,4 +9,4 @@ doc: YGP.doxy XGP.doxy footer.txt
 	doxygen XGP.doxy
 
 sf-install:
-	 scp -r index.html XGP YGP g17m0@shell.sf.net:/home/groups/l/li/libymp/htdocs/doc
+	 scp -r index.html XGP YGP g17m0,libymp@web.sourceforge.net:htdocs/doc
