@@ -4,15 +4,23 @@ Prerequisites
 Parts of this libraries need
 
   - Gtkmm (which itself needs GTK+); configure tests for version 2.2.0, but the
-    2.0 series might also work. Get if from http://www.gtkmm.org.
-  - libgtkhtml (http://???)
-  - A CORBA implementation (tested with MICO 2.3.9 (http://www.mico.org))
-  - doxygen to generate the documentation (available from www.doxygen.org)
+    2.0 series might also work. Get if from http://www.gtkmm.org/.
+
+  - libgtkhtml: Part of GNOME (http://www.gnome.org/)
+
+  - GtkMozEmbed: A GTK+ widget embedding Mozilla (part of Firefox or
+    Seamonkey); Get it from http://www.mozilla.org/
+
+  - A CORBA implementation (tested with MICO 2.3.9 (http://www.mico.org/))
+
+  - doxygen to generate the documentation (available from
+    http://www.doxygen.org/)
+
 
 The package will compile without them, but you don't get the whole
-functionality (not surprisingly the CORBA- and/or the X-windows library are
-missing). The libgtkhtml is used to display the help of (X-)applications
-(loads faster than by using a browser).
+functionality (not surprisingly the CORBA- and/or the X-windows
+library are missing). The libgtkhtml and GtkMozEmbed are used to
+display the help of (X-)applications (load faster as a full browser).
 
 
 How to build (if extracted from an (tar-)archive)
@@ -35,6 +43,12 @@ Additional prerequiste software:
   - autoconf
   - automake
 
+The source can be obtained via (press enter when being asked for a
+password):
+
+  cvs -d:pserver:anonymous@libymp.cvs.sourceforge.net:/cvsroot/libymp login
+  cvs -z3 -d:pserver:anonymous@libymp.cvs.sourceforge.net:/cvsroot/libymp co -P libYGP
+
 
 Inside the directory containing the source code type
 
@@ -53,6 +67,7 @@ Inside the directory containing the source code type
   --help=short                  # Reduces the output of configure --help
   --prefix=<path>		# default: /usr/local
   --disable-nls                 # Disable national language support
+  --disable-static		# Don't build static libs (only shared ones)
   --enable-checks[=level]	# Adds asserts and Checks
   --enable-debug[=level]	# Sets tracelevel & generation of debuginfo
 
