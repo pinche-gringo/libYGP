@@ -317,7 +317,7 @@ ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
 /// \returns ANumeric& Self
 //-----------------------------------------------------------------------------
 ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
-   if (rhs.isDefined ())
+   if (rhs.isDefined ()) {
       if (isDefined ())
 #ifdef HAVE_LIBGMP
          mpz_mul (value, value, rhs.value);
@@ -326,6 +326,7 @@ ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
 #endif
       else
          operator= (rhs);
+   }
    return *this;
 }
 

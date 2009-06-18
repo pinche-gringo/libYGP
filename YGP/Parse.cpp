@@ -1151,11 +1151,12 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseE
       }
    } // end-while i < maxCard
 
-   if (!rc)               // Report found of object with selection-description
+   if (!rc) {             // Report found of object with selection-description
       if (i < minCard)
          rc = PARSE_ERROR;
       else
          rc = found (getDescription (), i);
+   }
 
    if ((rc < 0) || (rc && !optional)) {
       std::string error;
