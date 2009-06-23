@@ -38,7 +38,7 @@ int main (int argc, char* argv[]) {
    try {
       YGP::Module mod1 ("YGP-" LIBRELEASE);
       YGP::Module mod2 ("libYGP-" LIBRELEASE);
-      YGP::Module mod3 ("libYGP-" LIBRELEASE ".so");
+      YGP::Module mod3 ("libYGP-" LIBRELEASE SHAREOBJ_EXT);
 
       check (mod1.getSymbol ("check"));
       check (mod2.getSymbol ("check"));

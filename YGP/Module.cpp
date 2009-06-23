@@ -50,7 +50,7 @@ Module::Module (const char* module) throw (FileError) {
 #ifdef HAVE_DLFCN_H
    if (!(hDLL = dlopen (module, RTLD_LAZY))) {
       std::string name (module);
-      name += ".so";
+      name += SHAREOBJ_EXT;
       if (!(hDLL = dlopen (name.c_str (), RTLD_LAZY))) {
 	 name = "lib" + name;
 	 hDLL = dlopen (name.c_str (), RTLD_LAZY);

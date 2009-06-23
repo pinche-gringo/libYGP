@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.21],[g17m0@users.sourceforge.net],[libYGP])
+AC_INIT([libYGP],[0.9.30],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -182,6 +182,8 @@ AC_CHECK_TYPES([socklen_t], [AC_DEFINE([HAVE_SOCKLEN_T], [1],
 AC_CHECK_SIZEOF(short)
 AC_CHECK_SIZEOF(int)
 AC_CHECK_SIZEOF(long)
+AC_DEFINE_UNQUOTED(SHAREOBJ_EXT, "$shrext_cmds", ["Extension of shared objects"])
+
 
 dnl Checks for library functions.
 AC_FUNC_FNMATCH

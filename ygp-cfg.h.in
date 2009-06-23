@@ -461,6 +461,9 @@
 /* Define if the pthread_in_use() detection is hard. */
 #undef PTHREAD_IN_USE_DETECTION_HARD
 
+/* "Extension of shared objects" */
+#undef SHAREOBJ_EXT
+
 /* The size of `int', as computed by sizeof. */
 #undef SIZEOF_INT
 

@@ -1,6 +1,9 @@
-Overview of Changes in version 0.9.21:
+Overview of Changes in version 0.9.30:
 
   - configure does not terminate if GTK+ is not installed
+  - YGP::Module uses correct extension of the system (and not always .so)
+  - Fixed compiler warnings
+  - Improved INSTALL/README
 
 
 Overview of Changes in version 0.9.20:
