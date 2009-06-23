@@ -1,14 +1,14 @@
-//$Id: GtkMozViewer.c,v 1.5 2008/06/08 12:42:40 markus Rel $
+//$Id$
 
-//PROJECT     : General
-//SUBSYSTEM   : GtkMozEmbedViewer
+//PROJECT     : XGP
+//SUBSYSTEM   : Webkit
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.5 $
+//REVISION    : $Revision$
 //AUTHOR      : Markus Schwab
-//CREATED     : 24.7.2005
-//COPYRIGHT   : Copyright (C) 2005 - 2008
+//CREATED     : 23.6.2009
+//COPYRIGHT   : Copyright (C) 2009
 
 // This file is part of libYGP.
 //
@@ -28,18 +28,17 @@
 
 #include <ygp-cfg.h>
 
-#ifdef HAVE_GTKMOZEMBED
+#ifdef HAVE_WEBKIT
 
 #include <dlfcn.h>
 
 #include <YGP/Check.h>
 
-#include <gtkmozembed.h>
+#include <webkit/webkitwebview.h>
 
-#include "GtkMozViewer.h"
+#include "WebkitViewer.h"
 
 
-#define TRACELEVEL 9
 #undef TRACE
 #undef TRACE2
 #if TRACELEVEL > 0
@@ -52,29 +51,29 @@
 
 static void* hDLL = NULL;
 
-typedef GtkWidget* (*PFNNEWMOZEMBED)(void);
-typedef void (*PFNLOAD)(GtkMozEmbed* widget, const char*);
+typedef GtkWidget* (*PFNNEWWEBKITVIEW)(void);
+typedef void (*PFNLOAD)(GtkWidget* widget, const char*);
 
-static PFNNEWMOZEMBED pfnNew  = NULL;
-static PFNLOAD        pfnLoad = NULL;
+static PFNNEWWEBKITVIEW pfnNew  = NULL;
+static PFNLOAD          pfnLoad = NULL;
 
 
 //----------------------------------------------------------------------------
-/// Initializes the GktMozEmbed instance
+/// Initialises the Webkit widget
 /// \returns GtkWidget* Created widget
 //----------------------------------------------------------------------------
-GtkWidget* gtkMozEmbedInitialize () {
-   TRACE ("Initializing gtkmozembed viewer\n");
+GtkWidget* initialiseWebkit () {
+   TRACE ("Initialising Webkit viewer\n");
 
    if (!hDLL)
-      hDLL = dlopen ("libgtkembedmoz.so", 0x00001);
+      hDLL = dlopen ("libwebkit-1.0.so", 0x00001);
 
    if (hDLL) {
       TRACE ("Checking function pointers\n");
       if (!pfnNew) {
 	 TRACE ("Getting function pointers\n");
-         pfnNew = (PFNNEWMOZEMBED)dlsym (hDLL, "gtk_moz_embed_new");
-         pfnLoad = (PFNLOAD)dlsym (hDLL, "gtk_moz_embed_load_url");
+         pfnNew = (PFNNEWWEBKITVIEW)dlsym (hDLL, "webkit_web_view_new");
+         pfnLoad = (PFNLOAD)dlsym (hDLL, "webkit_web_view_open");
 
          if (!(pfnNew && pfnLoad))
             return NULL;
@@ -87,24 +86,24 @@ GtkWidget* gtkMozEmbedInitialize () {
 
 //----------------------------------------------------------------------------
 /// Displays a URL in the GtkMozEmbed control
-/// \param ctrl MozEmbed-widget
+/// \param ctrl Webkit-widget
 /// \param file File to display
 /// \remarks Don't call with a NULL-pointer for file
 //----------------------------------------------------------------------------
-void gtkMozEmbedDisplayURL (GtkWidget* ctrl, const char* url) {
-   TRACE2 ("gtkMozEmbedDisplayURL: Showing URL %s\n", url);
+void webkitDisplayURL (GtkWidget* ctrl, const char* url) {
+   TRACE2 ("webkitDisplayURL: Showing URL %s\n", url);
    Check2 (ctrl);
    Check2 (url);
    Check1 (pfnLoad);
 
-   pfnLoad ((GtkMozEmbed*)ctrl, url);
+   pfnLoad (ctrl, url);
 }
 
 //----------------------------------------------------------------------------
 /// Returns the error of the last action (concerning accessing the DLL)
 /// \return const char* A text describing the last error
 //----------------------------------------------------------------------------
-const char* gtkMozEmbedGetError () {
+const char* gtkWebkitGetError () {
     return dlerror ();
 }
 

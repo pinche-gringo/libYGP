@@ -1,5 +1,6 @@
 Overview of Changes in version 0.9.30:
 
+  - Supporting Webkit to display the help
   - configure does not terminate if GTK+ is not installed
   - YGP::Module uses correct extension of the system (and not always .so)
   - Fixed compiler warnings

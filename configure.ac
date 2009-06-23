@@ -166,9 +166,14 @@ for variant in firefox seamonkey mozilla; do
    fi
 done
 
-GTKMM_CFLAGS="$GTKMM_CFLAGS $GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS"
+dnl Checking for Webkit 1.0 which can be used
+PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,
+                  [AC_DEFINE(HAVE_WEBKIT, 1, [Define if Webkit is installed])], [])
+
+VIEWER_CFLAGS="$GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS $WEBKIT_CFLAGS"
 AC_SUBST(MYSUBDIRS)
 AC_SUBST(GTKMM_CFLAGS)
+AC_SUBST(VIEWER_CFLAGS)
 AC_SUBST(GTKMM_LIBS)
 
 dnl Checks for typedefs, structures, and compiler characteristics.

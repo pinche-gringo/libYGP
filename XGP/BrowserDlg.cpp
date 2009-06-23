@@ -48,6 +48,9 @@ const char* BrowserDlg::browserNames[] = {
 #ifdef HAVE_GTKMOZEMBED
     N_("GTKMOZEMBED"),
 #endif
+#ifdef HAVE_WEBKIT
+    N_("WEBKIT"),
+#endif
 #if HAVE_EPIPHANY > 0
     N_("epiphany"),
 #endif

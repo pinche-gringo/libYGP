@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.49 $)\n"
 "Report-Msgid-Bugs-To: g17m0@users.sourceforge.net\n"
-"POT-Creation-Date: 2009-02-03 11:31-0300\n"
-"PO-Revision-Date: 2009-02-03 11:46-0300\n"
+"POT-Creation-Date: 2009-06-23 21:34+0200\n"
+"PO-Revision-Date: 2009-06-23 21:35+0200\n"
 "Last-Translator: Markus Schwab <g17m0@users.sourceforge.net>\n"
 "Language-Team: English <g17m0@users.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -202,7 +202,7 @@ msgstr "Error en la seria %1; Esperaba: %2"
 msgid "Error in sequence %1"
 msgstr "Error en la seria %1"
 
-#: YGP/Parse.cpp:1162
+#: YGP/Parse.cpp:1163
 msgid "Expected selection %1"
 msgstr "Esperaba selección %1"
 
@@ -340,50 +340,54 @@ msgid "GTKMOZEMBED"
 msgstr "GTK-Mozilla embeded"
 
 #: XGP/BrowserDlg.cpp:52
+msgid "WEBKIT"
+msgstr "Webkit"
+
+#: XGP/BrowserDlg.cpp:55
 msgid "epiphany"
 msgstr "Epiphany"
 
-#: XGP/BrowserDlg.cpp:55
+#: XGP/BrowserDlg.cpp:58
 msgid "firefox"
 msgstr "Firefox"
 
-#: XGP/BrowserDlg.cpp:58
+#: XGP/BrowserDlg.cpp:61
 msgid "galeon"
 msgstr "Galeon"
 
-#: XGP/BrowserDlg.cpp:61
+#: XGP/BrowserDlg.cpp:64
 msgid "seamonkey"
 msgstr "Seamonkey"
 
-#: XGP/BrowserDlg.cpp:64
+#: XGP/BrowserDlg.cpp:67
 msgid "mozilla"
 msgstr "Mozilla"
 
-#: XGP/BrowserDlg.cpp:67
+#: XGP/BrowserDlg.cpp:70
 msgid "netscape"
 msgstr "Netscape"
 
-#: XGP/BrowserDlg.cpp:70
+#: XGP/BrowserDlg.cpp:73
 msgid "konqueror"
 msgstr "Konqueror"
 
-#: XGP/BrowserDlg.cpp:73
+#: XGP/BrowserDlg.cpp:76
 msgid "opera"
 msgstr "Opera"
 
-#: XGP/BrowserDlg.cpp:76
+#: XGP/BrowserDlg.cpp:79
 msgid "dillo"
 msgstr "Dillo"
 
-#: XGP/BrowserDlg.cpp:79
+#: XGP/BrowserDlg.cpp:82
 msgid "iexplore"
 msgstr "Internet Explorer"
 
-#: XGP/BrowserDlg.cpp:81
+#: XGP/BrowserDlg.cpp:84
 msgid "Other:"
 msgstr "Otro:"
 
-#: XGP/BrowserDlg.cpp:89
+#: XGP/BrowserDlg.cpp:92
 msgid "Select a browser"
 msgstr "Selecta a un explorador"
 

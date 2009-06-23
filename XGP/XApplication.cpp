@@ -240,6 +240,11 @@ void XApplication::showHelp () {
 	 HTMLViewer::create (file, get_title (), HTMLViewer::GTKMOZEMBED);
       else
 #endif
+#ifdef HAVE_GTKMOZEMBED
+      if (helpBrowser == "WEBKIT")
+	 HTMLViewer::create (file, get_title (), HTMLViewer::WEBKIT);
+      else
+#endif
       {
 	 const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
 	 YGP::Process::execAsync (helpBrowser.c_str (), args);

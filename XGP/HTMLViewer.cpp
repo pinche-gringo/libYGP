@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -27,7 +27,7 @@
 
 
 #include <ygp-cfg.h>
-#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED
+#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
 
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
@@ -42,6 +42,9 @@
 #endif
 #ifdef HAVE_GTKMOZEMBED
 #  include "XGP/GtkMozViewer.h"
+#endif
+#ifdef HAVE_WEBKIT
+#  include "XGP/WebkitViewer.h"
 #endif
 
 #include "XGP/HTMLViewer.h"
@@ -62,12 +65,6 @@ HTMLViewer* HTMLViewer::create (const std::string& file, const Glib::ustring& ti
    TRACE9 ("HTMLViewer::create (const std::string&, const Glib::ustring&, widgetTypes) - " << file);
    Check1 (file.size ());
    Check (type < LAST);
-#ifndef HAVE_GTKHTML
-   Check (type != GTKHTML);
-#endif
-#ifndef HAVE_GTKMOZEMBED
-   Check (type != GTKMOZEMBED);
-#endif
 
    HTMLViewer* dlg (new HTMLViewer (file, title, type));
    dlg->signal_response ().connect (mem_fun (*dlg, &HTMLViewer::free));
@@ -88,39 +85,58 @@ HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
    TRACE9 ("HTMLViewer::HTMLViewer (const std::string&, const Glib::ustring&, widgetTypes) - " << file);
    Check1 (file.size ());
    Check1 (type < LAST);
-#ifndef HAVE_GTKHTML
-   Check (type != GTKHTML);
-#endif
-#ifndef HAVE_GTKMOZEMBED
-   Check (type != GTKMOZEMBED);
+
+   switch (type) {
+#ifdef HAVE_GTKHTML
+   case GTKHTML:
+      htmlCtrl = gtkhtmlInitialize ();
+      break;
 #endif
 
-#ifdef HAVE_GTKHTML
-   if (type == GTKHTML)
-      htmlCtrl = gtkhtmlInitialize ();
-#endif
 #ifdef HAVE_GTKMOZEMBED
-   if (type == GTKMOZEMBED)
+   case GTKMOZEMBED:
       htmlCtrl = gtkMozEmbedInitialize ();
+      break;
 #endif
+
+#ifdef HAVE_WEBKIT
+   case WEBKIT:
+      htmlCtrl = initialiseWebkit ();
+      break;
+#endif
+
+   default:
+      Check (0);
+   }
 
    if (htmlCtrl) {
       TRACE9 ("HTMLViewer::HTMLViewer (const std::string&, const Glib::ustring&, widgetTypes) - Resizing control");
       resize (640, 400);
 
       TRACE9 ("HTMLViewer::HTMLViewer (const std::string&, const Glib::ustring&, widgetTypes) - Adding control");
+      switch (type) {
 #ifdef HAVE_GTKHTML
-      if (type == GTKHTML) {
+      case GTKHTML: {
 	 Gtk::ScrolledWindow* scrl (manage (new Gtk::ScrolledWindow));
 	 scrl->add (*manage (Glib::wrap (htmlCtrl)));
 	 scrl->set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	 get_vbox ()->pack_start (*scrl);
+	 break;
       }
 #endif
+
 #ifdef HAVE_GTKMOZEMBED
-      if (type == GTKMOZEMBED)
+      case GTKMOZEMBED:
 	 get_vbox ()->pack_start (*manage (Glib::wrap (htmlCtrl)));
+	 break;
 #endif
+
+#ifdef HAVE_WEBKIT
+      case WEBKIT:
+	 get_vbox ()->pack_start (*manage (Glib::wrap (htmlCtrl)));
+	 break;
+#endif
+      }
 
       show_all_children ();
       TRACE9 ("HTMLViewer::HTMLViewer (const std::string&, const Glib::ustring&, widgetTypes) - Showing dialog");
@@ -130,16 +146,29 @@ HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
    }
    else {
       std::string err;
+
+      switch (type) {
 #ifdef HAVE_GTKHTML
-      if (type == GTKHTML) {
+      case GTKHTML:
 	 err = _("Can't display the GtkHTML control!\n\nReason: %1");
 	 err.replace (err.find ("%1"), 2, gtkhtmlGetError ());
-      }
+	 break;
 #endif
+
 #ifdef HAVE_GTKMOZEMBED
-      if (type == GTKMOZEMBED)
-	 err = _("Can't display GtkMozEmbed control!");
+      case GTKMOZEMBED:
+	 err = _("Can't display GtkMozEmbed control!\n\nReason: %1");
+	 err.replace (err.find ("%1"), 2, gtkMozEmbedGetError ());
+	 break;
 #endif
+
+#ifdef HAVE_WEBKIT
+      case WEBKIT:
+	 err = _("Can't display Webkit control!\n\nReason: %1");
+	 err.replace (err.find ("%1"), 2, webkitGetError ());
+	 break;
+#endif
+      }
       throw (CreateError (err));
    }
 }
@@ -160,14 +189,23 @@ void HTMLViewer::display (const std::string& file) {
    TRACE9 ("HTMLViewer::display (const std::string&) - " << file);
    Check1 (file.size ());
 
+   switch (_type) {
 #ifdef HAVE_GTKHTML
-   if (_type == GTKHTML)
+   case GTKHTML:
       gtkhtmlDisplayFile (htmlCtrl, file.c_str ());
+      break;
 #endif
 #ifdef HAVE_GTKMOZEMBED
-   if (_type == GTKMOZEMBED)
+   case GTKMOZEMBED:
       gtkMozEmbedDisplayURL (htmlCtrl, file.c_str ());
+      break;
 #endif
+#ifdef HAVE_WEBKIT
+   case WEBKIT:
+      webkitDisplayURL (htmlCtrl, file.c_str ());
+      break;
+#endif
+   }
    TRACE9 ("HTMLViewer::display (const std::string&) - Finished " << file);
 }
 

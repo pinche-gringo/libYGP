@@ -19,7 +19,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED
+#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
 #define HAVE_VIEWER
 
 #include <string>
@@ -47,7 +47,7 @@ class HTMLViewer : public XDialog {
    };
 
    /// Supported widgets to display HTML
-   typedef enum { GTKHTML, GTKMOZEMBED, LAST } widgetTypes;
+   typedef enum { GTKHTML, GTKMOZEMBED, WEBKIT, LAST } widgetTypes;
 
    virtual ~HTMLViewer ();
 
