@@ -39,7 +39,6 @@
 #include "GtkMozViewer.h"
 
 
-#define TRACELEVEL 9
 #undef TRACE
 #undef TRACE2
 #if TRACELEVEL > 0
