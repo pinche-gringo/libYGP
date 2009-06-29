@@ -103,7 +103,7 @@ void webkitDisplayURL (GtkWidget* ctrl, const char* url) {
 /// Returns the error of the last action (concerning accessing the DLL)
 /// \return const char* A text describing the last error
 //----------------------------------------------------------------------------
-const char* gtkWebkitGetError () {
+const char* webkitGetError () {
     return dlerror ();
 }
 
