@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.8 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2008
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -43,7 +43,7 @@ StatusObject::StatusObject () : tp (UNDEFINED), msg (), child () {
 /// \param message Message of the object
 //-----------------------------------------------------------------------------
 StatusObject::StatusObject (type t, const std::string& message)
-   : tp (INFO), msg (message), child () {
+   : tp (t), msg (message), child () {
 }
 
 //-----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ StatusObject& StatusObject::operator= (const StatusObject& other) {
    if (&other != this) {
       tp = other.tp;
       msg = other.msg;
-      child = other.child ? new StatusObject (*other.child) : NULL;
+      child.reset (other.child ? new StatusObject (*other.child) : NULL);
    }
 
    return *this;
@@ -99,7 +99,7 @@ void StatusObject::generalize (const std::string& message) {
     if (child)
        child->msg += msg;
     else
-       child = new StatusObject (tp, msg);
+       child.reset (new StatusObject (tp, msg));
 
     msg = message;
 }

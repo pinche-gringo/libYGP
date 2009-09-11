@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include <YGP/SmartPtr.h>
+#include <boost/scoped_ptr.hpp>
 
 
 namespace YGP {
@@ -61,7 +61,7 @@ class StatusObject {
    bool hasDetails () const { return child; }
 
    /// Cleans the object (sets it again to undefined)
-   void clean () { tp = UNDEFINED; msg.clear (); child = NULL; }
+   void clean () { tp = UNDEFINED; msg.clear (); child.reset (NULL); }
 
    void generalize (const std::string& message);
    void setMessage (type t, const std::string& message);
@@ -70,7 +70,7 @@ class StatusObject {
    type        tp;
    std::string msg;
 
-   SmartPtr<StatusObject> child;
+   boost::scoped_ptr<StatusObject> child;
 };
 
 }
