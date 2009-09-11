@@ -289,7 +289,7 @@ void FileTypeCheckerByContent::skipHTMLComments (char* buffer, unsigned int size
 	 bool cont (true);
 	 do {
 	    // Try to find the end of the comment (-->)
-	    pos = static_cast<char*> (memchr (pos, '-', left));
+	    pos = static_cast<const char*> (memchr (pos, '-', left));
 	    if (pos) {
 	       TRACE7 ("FileTypeCheckerByContent::skipHTMLComments (char*, unsigned int, std::ifstream&) - EOC: \"" << std::string (pos, (left > 4) ? 5 : left) << '"');
 	       left = size - (pos - buffer);
