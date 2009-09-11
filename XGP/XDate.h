@@ -19,7 +19,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <YGP/SmartPtr.h>
+#include <boost/scoped_ptr.hpp>
 
 #include <XGP/XDialog.h>
 
@@ -91,10 +91,10 @@ class XDate : public XDialog {
 
    virtual void okEvent ();
 
-   typedef YGP::SmartPtr<Gtk::HBox>        PHBox;
-   typedef YGP::SmartPtr<Gtk::Calendar>    PCalendar;
-   typedef YGP::SmartPtr<Gtk::SpinButton>  PSpinButton;
-   typedef YGP::SmartPtr<Gtk::Adjustment>  PAdjustment;
+   typedef boost::scoped_ptr<Gtk::HBox>        PHBox;
+   typedef boost::scoped_ptr<Gtk::Calendar>    PCalendar;
+   typedef boost::scoped_ptr<Gtk::SpinButton>  PSpinButton;
+   typedef boost::scoped_ptr<Gtk::Adjustment>  PAdjustment;
 
    PHBox       client;
    PCalendar   cal;

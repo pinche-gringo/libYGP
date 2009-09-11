@@ -21,7 +21,7 @@
 
 #include <cstdio>
 
-#include <YGP/SmartPtr.h>
+#include <boost/scoped_ptr.hpp>
 
 #include <XGP/XDialog.h>
 
@@ -57,9 +57,9 @@ class PrintDialog : public XDialog {
 
    void init ();
 
-   typedef YGP::SmartPtr<Gtk::HBox>   PHBox;
-   typedef YGP::SmartPtr<Gtk::Label>  PLabel;
-   typedef YGP::SmartPtr<Gtk::Entry>  PEntry;
+   typedef boost::scoped_ptr<Gtk::HBox>   PHBox;
+   typedef boost::scoped_ptr<Gtk::Label>  PLabel;
+   typedef boost::scoped_ptr<Gtk::Entry>  PEntry;
 
    PLabel  lblCommand;
    PEntry  txtCommand;

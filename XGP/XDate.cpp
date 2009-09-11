@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 2001 - 2006, 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2006, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -89,7 +89,7 @@ XDate::XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields)
    }
 
    // Create spinbuttons
-   Gtk::SpinButton* spins[] = { spinHour, spinMinute, spinSecond };
+   Gtk::SpinButton* spins[] = { spinHour.get (), spinMinute.get (), spinSecond.get () };
    for (unsigned int i = 0; i < sizeof (spins) / sizeof (spins[0]); ++i)
       if (showFields & (1 << i)) {
          Check3 (spins[i]);

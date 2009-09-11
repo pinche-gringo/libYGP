@@ -355,7 +355,7 @@ void XInfoApplication::setIconProgram (const guint8* pIconData, int lenData) {
    Check3 (hboxTitle);
 
    Glib::RefPtr<Gdk::Pixbuf> pic (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
-   iconPrg = new Gtk::Image (pic);
+   iconPrg.reset (new Gtk::Image (pic));
    Check3 (iconPrg);
 
    iconPrg->show ();
@@ -373,7 +373,7 @@ void XInfoApplication::setIconProgram (const guint8* pIconData, int lenData) {
    Check1 (pIconData);
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
-   iconAuthor = new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
+   iconAuthor.reset (new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData)));
    Check3 (iconAuthor);
 
    iconAuthor->show ();

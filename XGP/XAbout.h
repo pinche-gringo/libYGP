@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include <YGP/SmartPtr.h>
+#include <boost/scoped_ptr.hpp>
 
 #include <XGP/XDialog.h>
 
@@ -55,9 +55,9 @@ class XAbout : public XDialog {
    XAbout (const Glib::ustring& author, const Glib::ustring& program);
 
  private:
-   typedef YGP::SmartPtr<Gtk::HBox>   PHBox;
-   typedef YGP::SmartPtr<Gtk::Label>  PLabel;
-   typedef YGP::SmartPtr<Gtk::Image>  PImage;
+   typedef boost::scoped_ptr<Gtk::HBox>   PHBox;
+   typedef boost::scoped_ptr<Gtk::Label>  PLabel;
+   typedef boost::scoped_ptr<Gtk::Image>  PImage;
 
    // Prohibited manager-functions
    XAbout (const XAbout&);

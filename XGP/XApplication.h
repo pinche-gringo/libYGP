@@ -19,12 +19,12 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#include <boost/scoped_ptr.hpp>
+
 #include <gtkmm/main.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/window.h>
 #include <gtkmm/uimanager.h>
-
-#include <YGP/SmartPtr.h>
 
 
 // Forward declarations
@@ -82,12 +82,12 @@ class XApplication : public Gtk::Window {
    static void initI18n (const char* package, const char* dir);
 
  protected:
-   typedef YGP::SmartPtr<Gtk::VBox>    PVBox;     ///< Smart pointer for a vbox
+   typedef boost::scoped_ptr<Gtk::VBox>    PVBox;     ///< Smart pointer for a vbox
 
    virtual void setIconProgram (const guint8* iconData, int lenData);
 
    /// Returns the client window
-   Gtk::VBox* getClient () const { return vboxClient; }
+   Gtk::VBox* getClient () const { return vboxClient.get (); }
 
    // Protected data
    PVBox    vboxClient;                   ///< Client window of the application
@@ -137,9 +137,9 @@ class XInfoApplication : public XApplication {
    XInfoApplication (const XInfoApplication&);
    const XInfoApplication& operator= (const XInfoApplication&);
 
-   typedef YGP::SmartPtr<Gtk::HBox>  PHBox;
-   typedef YGP::SmartPtr<Gtk::Label> PLabel;
-   typedef YGP::SmartPtr<Gtk::Image> PImage;
+   typedef boost::scoped_ptr<Gtk::HBox>  PHBox;
+   typedef boost::scoped_ptr<Gtk::Label> PLabel;
+   typedef boost::scoped_ptr<Gtk::Image> PImage;
 
    PHBox  hboxTitle;
    PVBox  vboxPrgInfo;

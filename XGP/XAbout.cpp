@@ -91,8 +91,7 @@ XAbout::~XAbout () {
 void XAbout::setIconProgram (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
-   pIconProgramm = new Gtk::Image
-      (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
+   pIconProgramm.reset (new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData)));
 
    pIconProgramm->show ();
    client->pack_start (*pIconProgramm, false, false, 5);
@@ -106,8 +105,7 @@ void XAbout::setIconProgram (const guint8* pIconData, int lenData) {
 void XAbout::setIconAuthor (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
-   pIconAuthor = new Gtk::Image
-      (Gdk::Pixbuf::create_from_inline (lenData, pIconData));
+   pIconAuthor.reset (new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData)));
 
    pIconAuthor->show ();
    client->pack_end (*pIconAuthor, false, false, 5);
