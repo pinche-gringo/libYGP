@@ -182,9 +182,8 @@ pid_t Process::start (const char* file, const char* const arguments[],
       }
    }
 #elif defined HAVE_FORK
-   if ((pid = pipe (pipes)) != -1) {
-      if (flags & CONNECT_STDERR)
-	 pipe (errPipes);
+   if (((pid = pipe (pipes)) != -1)
+       && ((flags & CONNECT_STDERR) ? ((pid = pipe (errPipes)) != -1) : true)) {
       pid = fork ();
       TRACE9 ("Errpipes: " << errPipes[0] << '/' << errPipes[1]);
    }
