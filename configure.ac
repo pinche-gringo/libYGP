@@ -132,6 +132,9 @@ AC_HEADER_DIRENT
 
 AC_CHECK_HEADERS(regex.h syslog.h sys/socket.h sys/socket.h winsock2.h windows.h sys/wait.h)
 
+AC_CHECK_HEADERS(boost/shared_ptr.hpp boost/scoped_ptr.hpp,,AC_MSG_ERROR([Required headers not found]))
+
+
 dnl Check gtkmm version
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])],
