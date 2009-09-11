@@ -28,10 +28,6 @@
 #include <iosfwd>
 #include <algorithm>
 
-#ifndef NO_HANDLE
-#  include "Handle.h"
-#endif
-
 #include <YGP/Check.h>
 #include <YGP/Attribute.h>
 
@@ -85,12 +81,6 @@ class Entity {
  private:
    std::vector <IAttribute*> attributes;
 };
-
-
-#ifndef NO_HANDLE
-/// Defines a handle (smart pointer with reference counting) to an Entity
-defineHndl (Entity);
-#endif
 
 }
 

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.7 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 22.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
+//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -26,7 +26,8 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <YGP/Handle.h>
+#include <boost/shared_ptr.hpp>
+
 #include <YGP/Relation.h>
 
 #include "Test.h"
@@ -44,7 +45,7 @@ typedef struct Server {
    Server () { COUT ("Creating server"); }
    ~Server () { COUT ("Deleting server " << name); }
 } Server;
-defineHndl (Server);
+typedef boost::shared_ptr<Server> HServer;
 
 typedef struct Client {
    const char* name;
@@ -52,40 +53,35 @@ typedef struct Client {
    Client () { COUT ("Creating client"); }
    ~Client () { COUT ("Deleting client " << name); }
 } Client;
-defineHndl (Client);
+typedef boost::shared_ptr<Client> HClient;
 
 
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
    YGP::Relation1_X<HServer, HClient> ServerClient ("ServerClient-1:4", 4);
-   HServer hServer;
-   HClient hClient1, hClient2, hClient3, hClient4, hClient5;
+   HServer hServer (new Server);
+   HClient hClient1 (new Client), hClient2 (new Client), hClient3 (new Client);
+   HClient hClient4 (new Client), hClient5 (new Client);
 
-   hServer.define ();
    hServer->name = "Server";
 
-   hClient1.define ();
    hClient1->name = "Client1";
    ServerClient.relate (hServer, hClient1);
    check (ServerClient.isRelated (hServer, hClient1));
 
-   hClient2.define ();
    hClient2->name = "Client2";
    ServerClient.relate (hServer, hClient2);
    check (ServerClient.isRelated (hServer, hClient2));
 
-   hClient3.define ();
    hClient3->name = "Client3";
    ServerClient.relate (hServer, hClient3);
    check (ServerClient.isRelated (hServer, hClient3));
 
-   hClient4.define ();
    hClient4->name = "Client4";
    ServerClient.relate (hServer, hClient4);
    check (ServerClient.isRelated (hServer, hClient4));
 
-   hClient5.define ();
    hClient5->name = "Client5";
    try {
       ServerClient.relate (hServer, hClient5);
@@ -153,8 +149,7 @@ int main (int argc, char* argv[]) {
 
    YGP::RelationN_M<HServer, HClient> scx ("ServerClient-N:M");
 
-   HServer hServer2;
-   hServer2.define ();
+   HServer hServer2 (new Server);
    hServer2->name = "Server2";
 
    check (!scx.isRelated (hServer, hClient1));

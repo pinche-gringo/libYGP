@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.6 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
+//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2009
 
 // This file is part of libYGP.
 //

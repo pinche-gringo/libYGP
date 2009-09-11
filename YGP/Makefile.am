@@ -27,12 +27,12 @@ DynTrace.cpp Module.cpp Attribute.cpp FileTypeChk.cpp Utility.cpp
 
 include_HEADERS=ANumeric.h DirSrch.h IVIOAppl.h Tokenize.h AttrVal.h	\
 FileRExp.h PathSrch.h XStrBuf.h XStream.h Parse.h Trace.h Check.h	\
-SmartPtr.h Handle.h PathDirSrch.h AYear.h ADate.h ATStamp.h ATime.h	\
-CRegExp.h RegExp.h Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h	\
-File.h RDirSrchSrv.h AssParse.h Attribute.h AttrParse.h RemoteFile.h	\
-Entity.h Thread.h Mutex.h INIFile.h XDirSrch.h ConnMgr.h Process.h	\
-StatusObj.h Relation.h TableWriter.h MetaEnum.h SortDirSrch.h		\
-DynTrace.h Module.h Exception.h FileTypeChk.h Utility.h
+PathDirSrch.h AYear.h ADate.h ATStamp.h ATime.h CRegExp.h RegExp.h	\
+Log.h StackTrc.h Socket.h RDirSrch.h IDirSrch.h File.h RDirSrchSrv.h	\
+AssParse.h Attribute.h AttrParse.h RemoteFile.h Entity.h Thread.h	\
+Mutex.h INIFile.h XDirSrch.h ConnMgr.h Process.h StatusObj.h		\
+Relation.h TableWriter.h MetaEnum.h SortDirSrch.h DynTrace.h Module.h	\
+Exception.h FileTypeChk.h Utility.h
 
 pkgconfigdir =$(libdir)/pkgconfig
 pkgconfig_DATA=YGP.pc
