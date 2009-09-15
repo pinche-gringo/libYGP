@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -49,8 +49,8 @@
      - A regular expression class
      - Classes to relate objects
 
-   and the usual stuff like smart pointers, communication over a network,
-   executing other processes or threads and handle/format diverse attributes.
+   and the usual stuff communication over a network, executing other
+   processes or threads and handle/format diverse attributes.
 */
 
 /**\namespace YGP
