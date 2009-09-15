@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -31,7 +31,7 @@
 #include <clocale>
 #include <csignal>
 
-#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include <string>
 #include <iostream>
