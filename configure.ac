@@ -126,6 +126,7 @@ AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(pthread, main)
 AC_CHECK_LIB(socket, main)
 AC_CHECK_LIB(ws2_32, main)
+AC_CHECK_LIB(boost_filesystem, main)
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
