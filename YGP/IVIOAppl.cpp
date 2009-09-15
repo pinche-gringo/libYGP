@@ -31,15 +31,19 @@
 #include <clocale>
 #include <csignal>
 
+#include <boost/filesystem.hpp>
+
 #include <string>
 #include <iostream>
 
 #include "YGP/Check.h"
-#include "YGP/File.h"
 #include "YGP/PathSrch.h"
 #include "YGP/Internal.h"
 #include "YGP/StackTrc.h"
 #include "YGP/IVIOAppl.h"
+
+
+namespace fs = boost::filesystem;
 
 
 namespace YGP {
@@ -157,10 +161,9 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 //-----------------------------------------------------------------------------
 int IVIOApplication::run () {
    try {
-      std::string inifile (PathSearch::expandNode (std::string (1, '~')));
-      Check1 (inifile.size ());
-      if (inifile[inifile.size () - 1] != File::DIRSEPARATOR)
-         inifile += File::DIRSEPARATOR;
+      fs::path path (PathSearch::expandNode (std::string (1, '~')), fs::native);
+      std::string inifile;
+      Check1 (path.size ());
 #if SYSTEM == UNIX
       inifile += '.';
 #endif
@@ -168,7 +171,8 @@ int IVIOApplication::run () {
 #if SYSTEM != UNIX
       inifile += ".ini";
 #endif
-      readINIFile (inifile.c_str ());
+      path /= inifile;
+      readINIFile (path.file_string ().c_str ());
 
       char ch;
       bool showHlp (false);
@@ -345,13 +349,12 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
 
 //-----------------------------------------------------------------------------
 /// Returns the name of the application. The default action is to return the
-/// name of the file as stored in index 0 of the argv-array, stripped by any
+/// name of the file as stored in index 0 of the argv-array, stripped of any
 /// path information.
 /// \returns const char* Name of programm
 //-----------------------------------------------------------------------------
 const char* IVIOApplication::name () const {
-   const char* pEnd = strrchr (filename (), File::DIRSEPARATOR);
-   return pEnd ? pEnd + 1 : filename ();
+   return fs::path (filename ()).filename ().c_str ();
 }
 
 //-----------------------------------------------------------------------------
