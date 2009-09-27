@@ -90,7 +90,11 @@ Thread::Thread ()
 /// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
 Thread::Thread (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError)
-   : pArgs_ (pArgs) {
+   : pArgs_ (pArgs)
+#ifdef HAVE_LIBPTHREAD
+   , id ()
+#endif
+{
    TRACE3 ("Thread::Thread (THREAD_FUNCTION, void*)");
    init (fnc, pArgs);
 

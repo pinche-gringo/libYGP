@@ -43,7 +43,7 @@ namespace YGP {
 ///                it is searched for in the default places)
 /// \throw std::string An describing text in case of an error
 //-----------------------------------------------------------------------------
-Module::Module (const char* module) throw (FileError) {
+Module::Module (const char* module) throw (FileError) : hDLL () {
    TRACE3 ("Module::Module (const char*) - " << module);
    Check1 (module);
 
