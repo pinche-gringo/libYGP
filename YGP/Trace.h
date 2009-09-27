@@ -19,15 +19,64 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-// Semantic of that traces: TRACE is defined, when TRACELEVEL is defined;
-// TRACE0 - TRACE9 only if TRACELVEL is set to a value corresponding to TRACEx
+// Semantic of the traces:
+// There are 3 different types of traces: Only text, with a leading
+// time (including milliseconds) or with a leading timestamp (date and
+// time; including milliseconds).
+//
+// The format of the trace is specified on a per-module basis by defining either
+// TRACELEVEL (only text), TRACELEVEL_TIME (with time) or TRACELEVEL_TS
+// respectively (with a timestamp).
+
+// TRACE is defined, when TRACELEVEL* is defined;
+// TRACE0 - TRACE9 only if TRACELVEL* is set to a value corresponding to TRACEx
+
+
+#ifdef TRACELEVEL_TS
+#  undef TRACELEVEL
+#  define TRACELEVEL TRACELEVEL_TS
+
+#  include <sys/time.h>
+#  include <ctime>
+#  include <iomanip>
+#  include <iostream>
+
+static inline char* printTime () {
+   struct timeval actTime;
+   gettimeofday (&actTime, NULL);
+   static char time[24];
+   strftime (time, sizeof (time), "%x %X.", localtime (&actTime.tv_sec));
+   std::cout << time << std::setfill ('0') << std::setw (6) << actTime.tv_usec << ": ";
+}
+
+#elif defined (TRACELEVEL_TIME)
+#  undef TRACELEVEL
+#  define TRACELEVEL TRACELEVEL_TIME
+
+#  include <sys/time.h>
+#  include <ctime>
+#  include <iostream>
+#  include <iomanip>
+
+static inline char* printTime () {
+   struct timeval actTime;
+   gettimeofday (&actTime, NULL);
+   static char time[12];
+   strftime (time, sizeof (time), "%X.", localtime (&actTime.tv_sec));
+   std::cout << time << std::setfill ('0') << std::setw (6) << actTime.tv_usec << ": ";
+}
+
+#else
+static inline char* printTime () {
+}
+#endif
 
 #ifdef TRACELEVEL
 #include <iomanip>
 #include <iostream>
 
 // Flush every trace imediately
-#define TRACE(x)            std::cout << x << std::endl;
+#define TRACE(x)            printTime (), std::cout << x << std::endl;
 #endif
 
 #if defined (TRACELEVEL) && (TRACELEVEL >= 0)
