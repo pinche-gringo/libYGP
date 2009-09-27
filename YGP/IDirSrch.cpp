@@ -95,7 +95,7 @@ static const int FILE_READONLY_  = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
                                     | (S_IXUSR)|(S_IXGRP)|(S_IXOTH));
 static const int FILE_DIRECTORY_ = ((S_IFDIR)  |(S_ISUID)|(S_ISGID)|(S_ISVTX)
                                     | (S_IRWXU)|(S_IRWXG)|(S_IRWXO));
-static const int FILE_HIDDEN_    = (1 << (sizeof (long) * 8 - 1));
+static const int FILE_HIDDEN_    = (1 << (sizeof (int) * 8 - 1));
 
 #elif SYSTEM == WINDOWS
 
