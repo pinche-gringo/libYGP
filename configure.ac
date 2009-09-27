@@ -21,6 +21,7 @@ MYSUBDIRS="YGP"
 dnl AC_CANONICAL_TARGET([])
 
 AM_INIT_AUTOMAKE(dist-bzip2 no-define)
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 AC_CONFIG_HEADERS([ygp-cfg.h])
 
 AC_LANG(C)
