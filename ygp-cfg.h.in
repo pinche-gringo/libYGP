@@ -92,6 +92,9 @@
 /* Define to 1 if you have the `beginthread' function. */
 #undef HAVE_BEGINTHREAD
 
+/* Define to 1 if you have the <boost/filesystem/path.hpp> header file. */
+#undef HAVE_BOOST_FILESYSTEM_PATH_HPP
+
 /* Define to 1 if you have the <boost/scoped_ptr.hpp> header file. */
 #undef HAVE_BOOST_SCOPED_PTR_HPP
 
@@ -227,6 +230,10 @@
 
 /* Define if your <locale.h> file defines LC_MESSAGES. */
 #undef HAVE_LC_MESSAGES
+
+/* Define to 1 if you have the `boost_filesystem' library
+   (-lboost_filesystem). */
+#undef HAVE_LIBBOOST_FILESYSTEM
 
 /* Define to 1 if you have the `dl' library (-ldl). */
 #undef HAVE_LIBDL
@@ -463,6 +470,10 @@
 
 /* Name of the libYGP-package */
 #undef LIBYGP_NAME
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
 
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. */
 #undef PRI_MACROS_BROKEN
