@@ -41,7 +41,7 @@
 #  include <iomanip>
 #  include <iostream>
 
-static inline char* printTime () {
+static inline void printTime () {
    struct timeval actTime;
    gettimeofday (&actTime, NULL);
    static char time[24];
@@ -58,7 +58,7 @@ static inline char* printTime () {
 #  include <iostream>
 #  include <iomanip>
 
-static inline char* printTime () {
+static inline void printTime () {
    struct timeval actTime;
    gettimeofday (&actTime, NULL);
    static char time[12];
@@ -67,7 +67,7 @@ static inline char* printTime () {
 }
 
 #else
-static inline char* printTime () {
+static inline void printTime () {
 }
 #endif
 
