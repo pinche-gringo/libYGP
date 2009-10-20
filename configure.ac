@@ -172,8 +172,8 @@ for variant in firefox seamonkey mozilla; do
    fi
 done
 
-dnl Checking for Webkit 1.0 which can be used
-PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,
+dnl Checking for Webkit 1.0 which can be used (Webkit needs also gthread)
+PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0 gthread-2.0 > 2.2.0,
                   [AC_DEFINE(HAVE_WEBKIT, 1, [Define if Webkit is installed])], [])
 
 VIEWER_CFLAGS="$GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS $WEBKIT_CFLAGS"

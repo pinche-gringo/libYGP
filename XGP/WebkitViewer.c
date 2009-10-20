@@ -64,6 +64,8 @@ static PFNLOAD          pfnLoad = NULL;
 //----------------------------------------------------------------------------
 GtkWidget* initialiseWebkit () {
    TRACE ("Initialising Webkit viewer\n");
+   if (!g_thread_get_initialized ())
+      g_thread_init (NULL);
 
    if (!hDLL)
       hDLL = dlopen ("libwebkit-1.0.so", 0x00001);
