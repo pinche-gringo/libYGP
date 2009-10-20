@@ -7,9 +7,9 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@ -DLIBRELEASE=\"$(LIBRELEASE)\"
 LIBS = -L.. -lYGP @LTLIBINTL@ @LIBS@
 
-TESTS=IVIOAppl ANumeric AYear ADate ATime ATStamp XStrBuf XStream Parse \
-      FileRExp CRegExp Tokenize PathSrch DirSrch PathDirSrch Attribute \
-      AssParse AttrParse INIFile Thread Relation Process MetaEnum \
+TESTS=IVIOAppl ANumeric AYear ADate ATime ATStamp XStrBuf XStream	\
+      Parse FileRExp CRegExp PathSrch DirSrch PathDirSrch Attribute	\
+      AssParse AttrParse INIFile Thread Relation Process MetaEnum	\
       Entity SortDirSrch Module FileTypeChk
 
 noinst_PROGRAMS=$(TESTS)
@@ -35,8 +35,6 @@ Parse_SOURCES=Parse.cpp
 CRegExp_SOURCES=CRegExp.cpp
 
 FileRExp_SOURCES=FileRExp.cpp
-
-Tokenize_SOURCES=Tokenize.cpp
 
 PathSrch_SOURCES=PathSrch.cpp
 
