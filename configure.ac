@@ -134,7 +134,7 @@ AC_HEADER_DIRENT
 
 AC_CHECK_HEADERS(regex.h syslog.h sys/socket.h sys/socket.h winsock2.h windows.h sys/wait.h)
 
-AC_CHECK_HEADERS(boost/filesystem/path.hpp boost/shared_ptr.hpp \
+AC_CHECK_HEADERS(boost/filesystem/path.hpp boost/shared_ptr.hpp boost/tokenizer.hpp \
                  boost/scoped_ptr.hpp,,AC_MSG_ERROR([Required headers not found]))
 
 

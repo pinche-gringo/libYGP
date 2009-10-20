@@ -21,7 +21,7 @@
 
 #include <ygp-cfg.h>
 
-#include <YGP/Tokenize.h>
+#include <boost/tokenizer.hpp>
 
 
 namespace YGP {
@@ -40,28 +40,37 @@ namespace YGP {
    Under UNIX (or UNIX-like systems) it's the double-point (:), in DOS,
    Windoze and OS/2 its the semicolon (;).
 */
-class PathSearch : public Tokenize {
+class PathSearch {
  public:
-   /// Constructor; with path to analyze
-   PathSearch (const std::string& path) : Tokenize (path) { }
+   /// Constructor; with path to analyse
+   /// \param p Path to search
+   PathSearch (const std::string& p) : path (p, boost::char_separator<char> (":")),
+      i () { }
    /// Destructor
    ~PathSearch () { }
 
    /// Assignemnt operator; Specify other path to split
-   PathSearch& operator= (const std::string& path) {
-      Tokenize::operator= (path);
+   /// \param newPath: New path to tokenise
+   PathSearch& operator= (const std::string& newPath) {
+      path.assign (newPath);
+      i = path.begin ();
       return *this; }
 
    /// \name Accessing the sub-parts
    //@{
+   /// Returns the actual node of the path
+   std::string getActNode () { return *i; }
    /// Returns the current node of the path "as is".
-   std::string getNextNode () { return Tokenize::getNextNode (PATHSEPARATOR); }
+   std::string getNextNode () { return *++i; }
    /// Returns the current node of the path "expanded" (see expandNode ())
    std::string getNextExpandedNode () {
       return expandNode (getNextNode ()); }
    //@}
 
    static std::string expandNode (const std::string& input);
+
+   /// Resets the search-objects so that the whole path is searched again
+   void reset () { i = path.begin (); }
 
    /// Character separating nodes in a path. Under UNIX-like operating systems
    /// this is the double-point (:); under DOS/Windoze the semicolon (;)
@@ -72,6 +81,11 @@ class PathSearch : public Tokenize {
    PathSearch (const PathSearch& other);
 
    PathSearch& operator= (const PathSearch& other);
+
+   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+
+   tokenizer path;
+   tokenizer::iterator i;
 };
 
 }

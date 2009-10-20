@@ -48,7 +48,7 @@ class PathDirectorySearch : public DirectorySearch {
    /// \name Section manager-functions
    //@{
    /// Default constructur; creates an empty object, not ready to search for files
-   PathDirectorySearch () : DirectorySearch (), srch (), searchPath ("") { }
+   PathDirectorySearch () : DirectorySearch (), srch (), searchPath (std::string ()) { }
    /// Constructur; creates an object with an path to files in.
    /// \param path Path to search files in
    PathDirectorySearch (const std::string& path) : DirectorySearch (),

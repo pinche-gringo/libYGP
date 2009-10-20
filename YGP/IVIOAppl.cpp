@@ -37,7 +37,6 @@
 #include <iostream>
 
 #include "YGP/Check.h"
-#include "YGP/PathSrch.h"
 #include "YGP/Internal.h"
 #include "YGP/StackTrc.h"
 #include "YGP/IVIOAppl.h"
@@ -151,7 +150,6 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 #endif
 }
 
-
 //-----------------------------------------------------------------------------
 /// Runs the application; first the method readINIFile() is called to read the
 /// data from an INI file. Then the options are checked. If an invalid or a
@@ -161,15 +159,32 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 //-----------------------------------------------------------------------------
 int IVIOApplication::run () {
    try {
-      fs::path path (PathSearch::expandNode (std::string (1, '~')), fs::native);
-      std::string inifile;
-      Check1 (path.size ());
+      // Get the home directory of the current user
+      std::string userdir;
 #if SYSTEM == UNIX
-      inifile += '.';
+      const char* user = getenv ("HOME");
+      if (user)
+	 userdir = user;
+#else
+      const char* env = getenv ("HOMEDRIVE");
+      if (env) {
+         ret.replace (0, 1, env);
+         i = strlen (env);
+      }
+      else
+         ret.replace (0, 1, i = 0, '\0');
+
+      env = getenv ("HOMEPATH");
+      if (env)
+         ret.replace (i, 0, env);
 #endif
-      inifile += name ();
-#if SYSTEM != UNIX
-      inifile += ".ini";
+
+      fs::path path (userdir, fs::native); Check1 (path.size ());
+      std::string inifile;
+#if SYSTEM == UNIX
+      inifile = '.' + name ();
+#else
+      inifile = name () + ".ini";
 #endif
       path /= inifile;
       readINIFile (path.file_string ().c_str ());
