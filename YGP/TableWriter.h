@@ -22,7 +22,7 @@
 #include <string>
 #include <iosfwd>
 
-#include <YGP/Tokenize.h>
+#include <boost/tokenizer.hpp>
 
 
 namespace YGP {
@@ -83,7 +83,7 @@ class TableWriter {
    static void printLaTeXHeaderLead (std::ostream& out, unsigned int columns);
    static void printLaTeXHeaderLead (std::ostream& out, const char*  columns);
 
-   std::string getNextNode () const;
+   std::string getNextNode ();
    virtual std::string getSubstitute (char ctrl, bool extend = false) const;
 
    const char* rowStart;                          ///< Text for starting a row
@@ -105,7 +105,9 @@ class TableWriter {
    TableWriter (const TableWriter&);
    TableWriter& operator= (const TableWriter&);
 
-   YGP::Tokenize columns_;
+   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+   tokenizer columns_;
+   tokenizer::iterator actCol;
 };
 
 #define TBLW_TEXT_PARAMS "", "\n", " ", "", "\n", "", NULL, NULL, NULL, NULL

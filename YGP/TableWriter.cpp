@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
-//COPYRIGHT   : Copyright (C) 2004, 2005, 2007, 2008
+//COPYRIGHT   : Copyright (C) 2004, 2005, 2007 - 2009
 
 // This file is part of libYGP.
 //
@@ -34,7 +34,6 @@
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/AssParse.h>
-#include <YGP/Tokenize.h>
 
 #include "TableWriter.h"
 
@@ -62,7 +61,8 @@ TableWriter::TableWriter (const std::string& format, const char* startRow, const
    : rowStart (startRow), rowEnd (endRow), colSeparator (sepColumn), tabStart (startTab),
      tabEnd (endTab), tabHeader (sepTab), rowHdrStart (startRowHdr ? startRowHdr : startRow),
      rowHdrEnd (endRowHdr ? endRowHdr : endRow), colHdrSeparator (sepHdrCol ? sepHdrCol : sepColumn),
-     colDefinitions (defColumns), columns_ (format) {
+     colDefinitions (defColumns), columns_ (format, boost::char_separator<char> ("|")),
+     actCol (columns_.begin ()) {
    Check1 (rowStart); Check1 (rowEnd); Check1 (colSeparator);
    Check1 (tabStart); Check1 (tabEnd); Check1 (tabHeader);
 }
@@ -79,9 +79,8 @@ TableWriter::~TableWriter () {
 /// \returns unsigned int Number of columns
 //-----------------------------------------------------------------------------
 unsigned int TableWriter::columns () const {
-   unsigned int cols (1);
-   YGP::Tokenize t (columns_);
-   while (!t.getNextNode ('|').empty ())
+   unsigned int cols (0);
+   for (tokenizer::iterator i (columns_.begin ()); i != columns_.end (); ++i)
       ++cols;
    return cols;
 }
@@ -99,13 +98,13 @@ std::string TableWriter::getSubstitute (char ctrl, bool) const {
 /// Returns the next token; special characters are expanded
 /// \returns std::string Next (expanded) token
 //-----------------------------------------------------------------------------
-std::string TableWriter::getNextNode () const {
+std::string TableWriter::getNextNode () {
    size_t pos (0);
-   std::string token (const_cast<TableWriter*> (this)->columns_.getNextNode ('|'));
-   if (token.empty ()) {
-      const_cast<TableWriter*> (this)->columns_.reset ();
-      return token;
+   if (actCol == columns_.end ()) {
+      actCol = columns_.begin ();
+      return std::string ();
    }
+   std::string token (*++actCol);
 
    TRACE2 ("TableWriter::getNextNode () - Node = '" << token << '\'');
 
@@ -177,11 +176,12 @@ void TableWriter::printStart (std::ostream& out, const std::string& title) const
       out << rowHdrStart;
       printHeaderLead (out);
 
-      YGP::Tokenize titles (title);
-      std::string node (titles.getNextNode ('|'));
-      out << node;
-      while ((node = titles.getNextNode ('|')).size ())
-         out << colHdrSeparator << node;
+      tokenizer titles (title, boost::char_separator<char> ("|"));
+      tokenizer::iterator i (titles.begin ());
+      if (i != titles.end ())
+	 out << *i;
+      while (++i != titles.end ())
+         out << colHdrSeparator << *i;
 
       printHeaderTail (out);
       out << rowHdrEnd;
