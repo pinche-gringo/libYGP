@@ -21,13 +21,14 @@
 
 #include <string>
 
-#include <YGP/Tokenize.h>
-#include <YGP/Exception.h>
+#include <boost/tokenizer.hpp>
+
+#include <exception>
 
 
 namespace YGP {
 
-/**Class to split a string of assignments into its single parts
+/**Class to parse a single assignment.
 
    The single assignments are separated with a semicolon (;) and look like
    <tt>key=value</tt> or <tt>key="value"</tt>.
@@ -35,26 +36,27 @@ namespace YGP {
    Quoted values can still contain the quotes, if they are escaped by
    a leading backslash (\).
 
-   As for all Tokenize objects empty assignments are silently ignored.
+   Empty assignments are silently ignored.
 */
-class AssignmentParse : public Tokenize {
+class AssignmentParse {
  public:
-   /// Constructor; from the string to analyze
-   AssignmentParse (const std::string& assignments) : Tokenize (assignments)
-      , posValue (std::string::npos) { }
+   /// Constructor; from the string to analyse
+   AssignmentParse (const std::string& assignments) : token (assignments), i (token.end ()),
+						      actKey (), actValue () { }
    ~AssignmentParse ();
 
-   /// Assignment operator; from the string to analyze
+   /// Assignment operator; from the string to analyse
    AssignmentParse& operator= (const std::string& path) {
-      Tokenize::operator= (path);
+      token.assign (path);
+      i = token.begin ();
       return *this; }
 
-   std::string getNextNode () throw (YGP::ParseError);
+   std::string getNextNode () throw (std::exception);
 
-   /// \name Accessing the values of the actual part
+   /// \name Accessing the values of the actual part; only valid after calling getNextNode
    //@{
-   std::string getActKey () const;
-   std::string getActValue () const;
+   std::string getActKey () const { return actKey; }
+   std::string getActValue () const { return actValue; }
    //@}
 
    /// \name Building entries
@@ -77,7 +79,13 @@ class AssignmentParse : public Tokenize {
 
    AssignmentParse& operator= (const AssignmentParse& other);
 
-   size_t posValue;
+   typedef boost::tokenizer<> tokenizer;
+
+   tokenizer token;
+   tokenizer::iterator i;
+
+   std::string actKey;
+   std::string actValue;
 };
 
 }

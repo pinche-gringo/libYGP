@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2008
+//COPYRIGHT   : Copyright (C) 2000 - 2009
 
 // This file is part of libYGP.
 //
@@ -34,16 +34,22 @@
 
 #include <sstream>
 
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_rule.hpp>
+#include <boost/spirit/include/classic_actor.hpp>
+
 #include <YGP/Trace.h>
 #include "YGP/Entity.h"
 #include "YGP/INIFile.h"
-#include "YGP/AssParse.h"
 #include "YGP/Internal.h"
 
 
 #ifdef _MSC_VER
 #pragma warning(disable:4355) // disable warning about this in init-list
 #endif
+
+
+namespace spirit = BOOST_SPIRIT_CLASSIC_NS;
 
 
 // Define constant values; don't skip white-spaces after parsing
@@ -451,7 +457,7 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
 }
 
 //-----------------------------------------------------------------------------
-/// Overwrites the INI-file with the values set
+/// Overwrites the INI-file with the set values
 /// \remarks The stored sections/attributes of this INI-file are changed; so they can't be reused!
 /// \throws
 ///    - YGP::FileError in case file-access fails somehow
@@ -520,37 +526,31 @@ void INIFile::overwrite () throw (FileError, ParseError) {
       else {
 	 // Else an attribute has been found -> Handle it, if in a know section
 	 if (pSection) {
-	    YGP::AssignmentParse ap (line);
-	    if (ap.getNextNode ().size ()) {
-	       TRACE5 ("INIFile::overwrite () - Attribute: " << ap.getActKey ());
-	       // Check if the attribute is to be updated
-	       bool found (false);
-	       std::vector<const IAttribute*>::iterator i;
-	       for (i = pSection->attributes.begin ();
-		    i != pSection->attributes.end (); ++i)
-		  if ((*i)->matches (ap.getActKey ().c_str ())) {
-		     found = true;
-		     std::string value (ap.getActKey ().c_str () + std::string (1, '=')
-					+ (*i)->getQuotedValue ());
-		     TRACE9 ("INIFile::overwrite () - Value: " << value);
-		     output += value;
+	    std::string actKey, actValue, actComment;
 
-		     // Now append comment (aligned as before, if possible)
-		     int len (line.size () - value.size ());
-		     if (ap.getEndPosition () < line.size ()) {
-			value = std::string (1, ';') + ap.remaining ();
-			len -= value.size ();
-			while (len-- > 0)
-			   output += ' ';
-			output += value;
-		     }
-		     output += '\n';
-		     pSection->attributes.erase (i);
-		     break;
-		  }
-	       if (found)
-		  continue;
-	    }
+	    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
+	    spirit::rule<> comment (spirit::ch_p (';' | '#') >> *spirit::anychar_p);
+	    spirit::rule<> assignment =
+	       (key[spirit::assign_a (actKey)] >> '=' >>
+		*(spirit::anychar_p[spirit::assign_a (actValue)]) >>
+		*comment[spirit::assign_a (actComment)]);
+
+	    spirit::parse (line.c_str (), assignment);
+
+	    TRACE5 ("INIFile::overwrite () - Attribute: " << actKey);
+	    // Check if the attribute is to be updated
+	    std::vector<const IAttribute*>::iterator i;
+	    for (i = pSection->attributes.begin ();
+		 i != pSection->attributes.end (); ++i)
+	       if ((*i)->matches (actKey.c_str ())) {
+		  output += actKey + '=' + actValue;
+
+		  if (actComment.size ())
+		     output += std::string (' ', 1) + actComment;
+		  output += '\n';
+		  pSection->attributes.erase (i);
+		  break;
+	       }
 	 }
       }
       output += line;

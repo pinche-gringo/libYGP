@@ -59,7 +59,7 @@ class PathSearch {
    /// \name Accessing the sub-parts
    //@{
    /// Returns the actual node of the path
-   std::string getActNode () { return *i; }
+   std::string getActNode () { return (i != path.end ()) ? *i : std::string (); }
    /// Returns the current node of the path "as is".
    std::string getNextNode () { return *++i; }
    /// Returns the current node of the path "expanded" (see expandNode ())

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.10 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -42,7 +42,6 @@ int main (int argc, char* argv[]) {
    std::cout << "Testing PathSearch...\n";
 #if SYSTEM == UNIX
    YGP::PathSearch ps (".:..:/::/usr/:/usr");
-   check (ps.getActNode () == ".:..:/::/usr/:/usr");
    check (ps.getNextNode () == ".");
    check (ps.getNextNode () == "..");
    check (ps.getNextNode () == "/");
@@ -50,7 +49,6 @@ int main (int argc, char* argv[]) {
    check (ps.getNextNode () == "/usr");
 #else
    YGP::PathSearch ps (".;..;\\;;\\usr\\;\\usr");
-   check (ps.getActNode () == ".;..;\\;;\\usr\\;\\usr");
    check (ps.getNextNode () == ".");
    check (ps.getNextNode () == "..");
    check (ps.getNextNode () == "\\");

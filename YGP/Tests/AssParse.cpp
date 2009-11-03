@@ -66,28 +66,24 @@ int main (int argc, char* argv[]) {
    YGP::AssignmentParse attrs (A1 ";" A2 ";" A3 ";" A4);
    try {
       std::string node (attrs.getNextNode ());
-      check (attrs.getActNode () == A1);
       check (attrs.getActKey () == K1);
       check (attrs.getActValue ()== KV1);
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == A2);
       check (attrs.getActKey () == K2);
       check (attrs.getActValue () == KV2);
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == A3);
       check (attrs.getActKey () == K3);
       check (attrs.getActValue () == KV3);
 
       node = attrs.getNextNode ();
-      check (attrs.getActNode () == K4 K4NODE);
       check (attrs.getActKey () == K4);
       check (attrs.getActValue () == K4VALUE);
 
       check (attrs.getNextNode ().empty ());
    }
-   catch (YGP::ParseError& e) {
+   catch (std::exception& e) {
       std::cerr << "Test: Error: " << e.what () << '\n';
    }
 

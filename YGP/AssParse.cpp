@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2009
 
 // This file is part of libYGP.
 //
@@ -26,12 +26,19 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#include <boost/spirit/include/classic_core.hpp>
+#include <boost/spirit/include/classic_rule.hpp>
+#include <boost/spirit/include/classic_actor.hpp>
+
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 #include "YGP/Internal.h"
 #include "YGP/Attribute.h"
 
 #include "YGP/AssParse.h"
+
+
+namespace spirit = BOOST_SPIRIT_CLASSIC_NS;
 
 
 namespace YGP {
@@ -52,93 +59,23 @@ AssignmentParse::~AssignmentParse () {
 //-----------------------------------------------------------------------------
 /// Returns the next assignment-statement. If the value of the assignment is
 /// quoted, all quotes (") inside the value must be escaped with a backslash
-/// (\). Those characters are removed by this function.
+/// (\). These characters are removed by this function.
 /// \returns \c Next node (empty string at end)
 /// \throw YGP::ParseError describing error if node doesn't contain a
 ///     valid assignment
 //-----------------------------------------------------------------------------
-std::string AssignmentParse::getNextNode () throw (YGP::ParseError) {
-   std::string key (Tokenize::getNextNode (EQUALSIGN));
+std::string AssignmentParse::getNextNode () throw (std::exception) {
+   if (i == token.end ())
+      return std::string ();
 
-   if (key.empty ())
-      return key;
+   spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
+   spirit::rule<> comment (spirit::ch_p (';' | '#') >> *spirit::anychar_p);
+   spirit::rule<> assignment =
+      (key[spirit::assign_a (actKey)] >> '=' >>
+       *(spirit::anychar_p[spirit::assign_a (actValue)]));
 
-   TRACE8 ("AssignmentParse::getNextNode () - Pos = " << actPos << "; Len = " << len);
-   if (_string[actPos + len - 1] != EQUALSIGN) {
-      std::string error (_("Not a valid assignment: '%1'"));
-      error.replace (error.find ("%1"), 2, key);
-      throw (YGP::ParseError (error));
-   }
-
-   posValue = actPos + len;
-   size_t pos (posValue + 1);
-   char ch (_string[posValue]);
-   if (ch == QUOTE) {
-      do {
-         TRACE9 ("AssignmentParse::getNextNode () - Analyzing " << _string.substr (pos));
-         if ((pos = _string.find (QUOTE, pos)) == std::string::npos) {
-            key = _("Invalid value for an attribute: '%1'");
-            key.replace (key.find ("%1"), 2, _string.substr (posValue));
-	    throw (YGP::ParseError (key));
-         }
-
-         if (_string[pos - 1] != ESCAPE)           // Check if quote is escaped
-            break;
-
-         // Remove all escape-characters before quotes
-         _string.replace (pos - 1, 1, 0, '\0');
-      } while (true);
-
-      // Skip whitespaces
-      while (isspace (_string[++pos]))
-	 ;
-
-      if ((pos < _string.length ()) && (_string[pos] != SEPARATOR)) {
-         key = _("Quoted value is not followed by a separator: '%1'");
-         key.replace (key.find ("%1"), 2, _string.substr (pos - 10, 20));
-	 throw (YGP::ParseError (key));
-      }
-   }
-   else
-      if ((pos = _string.find (SEPARATOR, pos)) == std::string::npos)
-         pos = _string.length ();
-
-   len = pos - actPos + 1;
-
-   TRACE3 ("AssignmentParse::getNextNode () - Final: " << getActNode ().c_str ());
-   return getActNode ();
-}
-
-//-----------------------------------------------------------------------------
-/// Returns the key (name) of the actual assignment.
-/// \returns \c Name of key
-/// \pre getNextNode must have been called already
-//-----------------------------------------------------------------------------
-std::string AssignmentParse::getActKey () const {
-   Check1 (posValue != std::string::npos);
-
-   TRACE3 ("AssignmentParse::getActKey () - "
-           << _string.substr (actPos, posValue - actPos - 1).c_str ());
-   return _string.substr (actPos, posValue - actPos - 1);
-}
-
-//-----------------------------------------------------------------------------
-/// Returns the value of the actual assignment.
-/// \returns \c Value
-/// \pre getNextNode must have been called already
-//-----------------------------------------------------------------------------
-std::string AssignmentParse::getActValue () const {
-   TRACE9 ("AssignmentParse::getActValue () const - Pos = " << posValue);
-   Check1 (posValue != std::string::npos);
-
-   std::string ret;
-   if (_string[posValue] == QUOTE)
-      ret = _string.substr (posValue + 1, len - 3 - posValue + actPos);
-   else
-      ret = _string.substr (posValue, len - posValue + actPos - 1);
-
-   TRACE3 ("AssignmentParse::getActValue () const - " << ret.c_str ());
-   return ret;
+    spirit::parse (i->c_str (), assignment);
+   ++i;
 }
 
 //-----------------------------------------------------------------------------
