@@ -23,6 +23,8 @@
 
 #include <boost/tokenizer.hpp>
 
+#warning This class is deprecated! Please use boost::tokenizer
+
 
 namespace YGP {
 
@@ -39,13 +41,15 @@ namespace YGP {
    The character to seperate the nodes differ between the operating systems.
    Under UNIX (or UNIX-like systems) it's the double-point (:), in DOS,
    Windoze and OS/2 its the semicolon (;).
+
+   \deprecated Please use boost::tokenize instead
 */
 class PathSearch {
  public:
    /// Constructor; with path to analyse
    /// \param p Path to search
    PathSearch (const std::string& p) : path (p, boost::char_separator<char> (":")),
-      i () { }
+      i (path.begin ()) { }
    /// Destructor
    ~PathSearch () { }
 
@@ -61,7 +65,7 @@ class PathSearch {
    /// Returns the actual node of the path
    std::string getActNode () { return (i != path.end ()) ? *i : std::string (); }
    /// Returns the current node of the path "as is".
-   std::string getNextNode () { return *++i; }
+   std::string getNextNode () { return *i++; }
    /// Returns the current node of the path "expanded" (see expandNode ())
    std::string getNextExpandedNode () {
       return expandNode (getNextNode ()); }
