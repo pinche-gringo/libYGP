@@ -19,6 +19,10 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#warning Deprecated! Please use boost::asio
+
+
+
 #include "ygp-cfg.h"
 
 
@@ -47,7 +51,10 @@ namespace YGP {
    write to another socket.
 
    At the moment the communications are always handled using streamed
-   connections in the Internet namespace.*/
+   connections in the Internet namespace.
+
+   \deprecated Please use boost::asio
+*/
 class Socket {
  public:
    Socket () throw (YGP::CommError);

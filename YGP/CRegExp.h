@@ -23,6 +23,8 @@
 #pragma warning(disable:4786) // disable warning about truncating debug info
 #endif
 
+#warning Deprecated! Please use boost::Regex
+
 
 #include <ygp-cfg.h>
 
@@ -123,6 +125,9 @@ namespace YGP {
          take care it is valid during the life-time of the object.
 
    Use IRegularExpression::matches to check if the object matches some data.
+
+   \deprecated Please use boost::Regex
+
 */
 class RegularExpression : public IRegularExpression {
  public:
