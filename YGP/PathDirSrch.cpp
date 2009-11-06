@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -31,6 +31,7 @@
 #include "YGP/Internal.h"
 
 #include "YGP/File.h"
+#include "YGP/Path.h"
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 #include "YGP/PathDirSrch.h"
@@ -56,18 +57,19 @@ PathDirectorySearch::~PathDirectorySearch () {
 ///     directory).
 //-----------------------------------------------------------------------------
 const File* PathDirectorySearch::find (unsigned long attribs) {
-   TRACE9 ("PathDirectorySearch::find (unsigned long) - "
-           << (std::string)searchPath << " -> " << srch);
+   TRACE9 ("PathDirectorySearch::find (unsigned long) - " << srch);
    Check1 (checkIntegrity () <= DirectorySearch::LAST);
 
    const File* rc;
    do {
-      // Build filename with next (= first on first call) node of path
-      std::string node = searchPath.getNextExpandedNode ();
-      if (node.empty ()) {
+      if (i == path.end ()) {
          clearEntry ();
          return NULL;
       }
+
+      // Build filename with next (= first on first call) node of path
+      std::string node (Path::expandNode (*i));
+      ++i;
 
       if (node[node.length () - 1] != File::DIRSEPARATOR)
          node += File::DIRSEPARATOR;
@@ -89,15 +91,12 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
 ///     directory).
 //-----------------------------------------------------------------------------
 const File* PathDirectorySearch::next () {
-   TRACE9 ("PathDirectorySearch::next (): " << searchPath.data ()  << " -> " << srch);
+   TRACE9 ("PathDirectorySearch::next (): " << srch);
    Check1 (!checkIntegrity ());
-
-   TRACE5 ("PathDirectorySearch::next () - searchPath::actNode ()="
-	   << searchPath.getActNode ());
 
    const File* tmp = DirectorySearch::next ();
    while (!tmp) {
-      if (searchPath.getActNode ().empty ()) {
+      if (i == path.end ()) {
          clearEntry ();
          return NULL;
       } // endif nodes available
@@ -105,16 +104,6 @@ const File* PathDirectorySearch::next () {
       tmp = find (attr);
    } // end-while
    return tmp;
-}
-
-//-----------------------------------------------------------------------------
-/// Checks if this object is integer. If yes 0 is returned, else a number
-/// describing the error.
-/// \returns int Status; 0: OK
-//-----------------------------------------------------------------------------
-int PathDirectorySearch::checkIntegrity () const {
-   return (((const std::string&)searchPath).empty ()
-            ? NO_PATH : DirectorySearch::checkIntegrity ());
 }
 
 }

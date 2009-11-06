@@ -38,12 +38,15 @@
 int main (int argc, char* argv[]) {
    unsigned int cErrors (0);
 
+   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+
    std::cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX
-   YGP::PathDirectorySearch pds ("..:../../XGP", "?GP.pc.*");
+   const std::string path ("..:../../XGP");
 #else
-   YGP::PathDirectorySearch pds ("..\\YGP;..\\XGP", "?GP.pc.*");
+   const std::string path ("..\\YGP;..\\XGP");
 #endif
+   YGP::PathDirectorySearch pds (path, "?GP.pc.*");
    check (pds.find (YGP::IDirectorySearch::FILE_NORMAL
                     | YGP::IDirectorySearch::FILE_READONLY));
    check (pds.next ());
