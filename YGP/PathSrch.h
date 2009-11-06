@@ -23,7 +23,7 @@
 
 #include <boost/tokenizer.hpp>
 
-#warning This class is deprecated! Please use boost::tokenizer
+#warning This class is deprecated! Please use boost::tokenizer or YGP::Path
 
 
 namespace YGP {
@@ -42,7 +42,7 @@ namespace YGP {
    Under UNIX (or UNIX-like systems) it's the double-point (:), in DOS,
    Windoze and OS/2 its the semicolon (;).
 
-   \deprecated Please use boost::tokenize instead
+   \deprecated Please use boost::tokenize or YGP::Path
 */
 class PathSearch {
  public:
