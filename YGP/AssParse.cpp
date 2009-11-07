@@ -30,6 +30,8 @@
 #include <boost/spirit/include/classic_rule.hpp>
 #include <boost/spirit/include/classic_actor.hpp>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 #include "YGP/Internal.h"
@@ -65,17 +67,20 @@ AssignmentParse::~AssignmentParse () {
 ///     valid assignment
 //-----------------------------------------------------------------------------
 std::string AssignmentParse::getNextNode () throw (std::exception) {
-   if (i == token.end ())
-      return std::string ();
+   TRACE1 ("AssignmentParse::getNextNode () - " << assignments);
+   std::string node;
 
    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
-   spirit::rule<> comment (spirit::ch_p (';' | '#') >> *spirit::anychar_p);
+   spirit::rule<> value ((spirit::ch_p (QUOTE) >> (*(~spirit::ch_p (QUOTE))) >> spirit::ch_p (QUOTE))
+			 | +(~spirit::ch_p (SEPARATOR)));
    spirit::rule<> assignment =
-      (key[spirit::assign_a (actKey)] >> '=' >>
-       *(spirit::anychar_p[spirit::assign_a (actValue)]));
+      ((key[spirit::assign_a (actKey)] >> '=' >>
+	value[spirit::assign_a (actValue)])[spirit::assign_a (node)] >>
+       ((spirit::ch_p (SEPARATOR) >> (*spirit::anychar_p)[spirit::assign_a (assignments)]) | spirit::end_p));
 
-    spirit::parse (i->c_str (), assignment);
-   ++i;
+   TRACE1 ("AssignmentParse::getNextNode () - Remaining: " << assignments);
+   spirit::parse (assignments.c_str (), assignment);
+   return node;
 }
 
 //-----------------------------------------------------------------------------

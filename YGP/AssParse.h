@@ -41,14 +41,12 @@ namespace YGP {
 class AssignmentParse {
  public:
    /// Constructor; from the string to analyse
-   AssignmentParse (const std::string& assignments) : token (assignments), i (token.end ()),
-						      actKey (), actValue () { }
+   AssignmentParse (const std::string& assignments) : assignments (assignments), actKey (), actValue () { }
    ~AssignmentParse ();
 
    /// Assignment operator; from the string to analyse
-   AssignmentParse& operator= (const std::string& path) {
-      token.assign (path);
-      i = token.begin ();
+   AssignmentParse& operator= (const std::string& newAssignment) {
+      assignments = newAssignment;
       return *this; }
 
    std::string getNextNode () throw (std::exception);
@@ -79,10 +77,7 @@ class AssignmentParse {
 
    AssignmentParse& operator= (const AssignmentParse& other);
 
-   typedef boost::tokenizer<> tokenizer;
-
-   tokenizer token;
-   tokenizer::iterator i;
+   std::string assignments;
 
    std::string actKey;
    std::string actValue;

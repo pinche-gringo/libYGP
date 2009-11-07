@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.14 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -33,27 +33,27 @@
 #include "Test.h"
 
 #define K1     "key1"
-#define KV1    "12342"
+#define KV1    "12345"
 #define A1     K1 "=" KV1
 #define K2     "key2"
 #define KV2    "a;b;"
 #ifndef _MSC_VER
-#define A2     K2 "=\"" KV2 "\""
+#  define A2     K2 "=\"" KV2 "\""
 #else
-#define A2     K2 "=\042" KV2 "\042"
+#  define A2     K2 "=\042" KV2 "\042"
 #endif
 #define K3     "key3"
 #define K4     "key4"
 #ifndef _MSC_VER
-#define KV3      "abcd\\\"def\""
-#define KV4      "\"\\\"v4\\\"\""
-#define K4NODE  "=\"\"v4\"\""
-#define K4VALUE "\"v4\""
+#  define KV3      "abcd\\\"def\""
+#  define KV4      "\"\\\"v4\\\"\""
+#  define K4NODE  "=\"\"v4\"\""
+#  define K4VALUE "\"v4\""
 #else
-#define KV3    "abcd\\\042def\042"
-#define KV4    "\042\\\042v4\\\042\042"
-#define K4NODE  "=\042\042v4\042\042"
-#define K4VALUE "\042v4\042"
+#  define KV3    "abcd\\\042def\042"
+#  define KV4    "\042\\\042v4\\\042\042"
+#  define K4NODE  "=\042\042v4\042\042"
+#  define K4VALUE "\042v4\042"
 #endif
 #define A3     K3 "=" KV3
 #define A4     K4 "=" KV4
