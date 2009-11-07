@@ -17,11 +17,11 @@ includedir = ${prefix}/include/YGP
 libYGP_la_LDFLAGS=${LIBS} -release $(LIBRELEASE) -no-undefined
 
 libYGP_la_SOURCES=Path.cpp IVIOAppl.cpp DirSrch.cpp PathSrch.cpp	\
-ANumeric.cpp Parse.cpp FileRExp.cpp Version.cpp ATime.cpp XStrBuf.cpp	\
-AYear.cpp ADate.cpp PathDirSrch.cpp ATStamp.cpp INIFile.cpp		\
-CRegExp.cpp StackTrc.cpp Socket.cpp RDirSrch.cpp File.cpp		\
-RDirSrchSrv.cpp AssParse.cpp AttrParse.cpp IDirSrch.cpp RemoteFile.cpp	\
-Entity.cpp Thread.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp	\
+ANumeric.cpp AssParse.cpp Parse.cpp FileRExp.cpp Version.cpp ATime.cpp	\
+XStrBuf.cpp AYear.cpp ADate.cpp PathDirSrch.cpp ATStamp.cpp		\
+INIFile.cpp CRegExp.cpp StackTrc.cpp Socket.cpp RDirSrch.cpp File.cpp	\
+RDirSrchSrv.cpp AttrParse.cpp IDirSrch.cpp RemoteFile.cpp Entity.cpp	\
+Thread.cpp XDirSrch.cpp Check.cpp Process.cpp ConnMgr.cpp		\
 StatusObj.cpp Internal.h Relation.cpp TableWriter.cpp MetaEnum.cpp	\
 DynTrace.cpp Module.cpp Attribute.cpp FileTypeChk.cpp Utility.cpp
 
