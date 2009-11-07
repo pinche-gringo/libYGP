@@ -101,6 +101,10 @@
 /* Define to 1 if you have the <boost/shared_ptr.hpp> header file. */
 #undef HAVE_BOOST_SHARED_PTR_HPP
 
+/* Define to 1 if you have the <boost/spirit/include/classic_core.hpp> header
+   file. */
+#undef HAVE_BOOST_SPIRIT_INCLUDE_CLASSIC_CORE_HPP
+
 /* Define to 1 if you have the <boost/tokenizer.hpp> header file. */
 #undef HAVE_BOOST_TOKENIZER_HPP
 
