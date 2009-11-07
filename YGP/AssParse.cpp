@@ -71,11 +71,11 @@ std::string AssignmentParse::getNextNode () throw (std::exception) {
    std::string node;
 
    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
-   spirit::rule<> value ((spirit::ch_p (QUOTE) >> (*(~spirit::ch_p (QUOTE))) >> spirit::ch_p (QUOTE))
-			 | +(~spirit::ch_p (SEPARATOR)));
+   spirit::rule<> value ((spirit::ch_p (QUOTE) >> (*(~spirit::ch_p (QUOTE)))[spirit::assign_a (actValue)] >> spirit::ch_p (QUOTE))
+			 | (+(~spirit::ch_p (SEPARATOR)))[spirit::assign_a (actValue)]);
    spirit::rule<> assignment =
       ((key[spirit::assign_a (actKey)] >> '=' >>
-	value[spirit::assign_a (actValue)])[spirit::assign_a (node)] >>
+	value)[spirit::assign_a (node)] >>
        ((spirit::ch_p (SEPARATOR) >> (*spirit::anychar_p)[spirit::assign_a (assignments)]) | spirit::end_p));
 
    TRACE1 ("AssignmentParse::getNextNode () - Remaining: " << assignments);
