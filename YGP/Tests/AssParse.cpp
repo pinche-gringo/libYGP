@@ -48,12 +48,12 @@
 #  define KV3      "abcd\\\"def\""
 #  define KV4      "\"\\\"v4\\\"\""
 #  define K4NODE  "=\"\"v4\"\""
-#  define K4VALUE "\"v4\""
+#  define K4VALUE "\\\"v4\\\""
 #else
 #  define KV3    "abcd\\\042def\042"
 #  define KV4    "\042\\\042v4\\\042\042"
 #  define K4NODE  "=\042\042v4\042\042"
-#  define K4VALUE "\042v4\042"
+#  define K4VALUE "\042\042v4\042\042"
 #endif
 #define A3     K3 "=" KV3
 #define A4     K4 "=" KV4

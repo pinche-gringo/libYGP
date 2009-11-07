@@ -29,9 +29,9 @@
 #include <boost/spirit/include/classic_core.hpp>
 #include <boost/spirit/include/classic_rule.hpp>
 #include <boost/spirit/include/classic_actor.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 #include "YGP/Internal.h"
@@ -71,12 +71,13 @@ std::string AssignmentParse::getNextNode () throw (std::exception) {
    std::string node;
 
    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
-   spirit::rule<> value ((spirit::ch_p (QUOTE) >> (*(~spirit::ch_p (QUOTE)))[spirit::assign_a (actValue)] >> spirit::ch_p (QUOTE))
+   spirit::rule<> value (spirit::confix_p (QUOTE, (*spirit::c_escape_ch_p)[spirit::assign_a (actValue)], QUOTE)
 			 | (+(~spirit::ch_p (SEPARATOR)))[spirit::assign_a (actValue)]);
    spirit::rule<> assignment =
       ((key[spirit::assign_a (actKey)] >> '=' >>
 	value)[spirit::assign_a (node)] >>
-       ((spirit::ch_p (SEPARATOR) >> (*spirit::anychar_p)[spirit::assign_a (assignments)]) | spirit::end_p));
+       ((spirit::ch_p (SEPARATOR) >> (*spirit::anychar_p)[spirit::assign_a (assignments)])
+	| spirit::end_p[spirit::clear_a (assignments)]));
 
    TRACE1 ("AssignmentParse::getNextNode () - Remaining: " << assignments);
    spirit::parse (assignments.c_str (), assignment);
