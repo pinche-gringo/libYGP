@@ -104,7 +104,8 @@ std::string TableWriter::getNextNode () {
       actCol = columns_.begin ();
       return std::string ();
    }
-   std::string token (*++actCol);
+   std::string token (*actCol);
+   ++actCol;
 
    TRACE2 ("TableWriter::getNextNode () - Node = '" << token << '\'');
 
@@ -136,7 +137,7 @@ std::string TableWriter::getNextNode () {
       token.replace (pos, nPos - pos + 1, substitute);
       nPos = pos + substitute.length ();
    }
-   return token.empty () ? " " : token;
+   return token.empty () ? std::string (1, ' ') : token;
 }
 
 //-----------------------------------------------------------------------------
