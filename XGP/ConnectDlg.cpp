@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.07.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2006, 2008
+//COPYRIGHT   : Copyright (C) 2003 - 2006, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -241,6 +241,7 @@ void* ConnectDlg::waitForConnections (void* pVoid) throw (YGP::CommError){
        ((YGP::Thread*)pVoid)->isToCancel ();
        addClient (socket);
    }
+   return pVoid;
 }
 
 //----------------------------------------------------------------------------

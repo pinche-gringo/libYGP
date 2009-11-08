@@ -136,6 +136,8 @@ HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
 	 get_vbox ()->pack_start (*manage (Glib::wrap (htmlCtrl)));
 	 break;
 #endif
+      default:
+	 Check (0);
       }
 
       show_all_children ();
@@ -168,6 +170,8 @@ HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
 	 err.replace (err.find ("%1"), 2, webkitGetError ());
 	 break;
 #endif
+      default:
+	 Check (0);
       }
       throw (CreateError (err));
    }
@@ -205,6 +209,8 @@ void HTMLViewer::display (const std::string& file) {
       webkitDisplayURL (htmlCtrl, file.c_str ());
       break;
 #endif
+      default:
+	 Check (0);
    }
    TRACE9 ("HTMLViewer::display (const std::string&) - Finished " << file);
 }
