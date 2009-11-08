@@ -37,6 +37,8 @@
 #include <boost/spirit/include/classic_core.hpp>
 #include <boost/spirit/include/classic_rule.hpp>
 #include <boost/spirit/include/classic_actor.hpp>
+#include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_escape_char.hpp>
 
 #include <YGP/Trace.h>
 #include "YGP/Entity.h"
@@ -528,26 +530,32 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 	 if (pSection) {
 	    std::string actKey, actValue, actComment;
 
+	    spirit::rule<> startComment (spirit::ch_p (';') | '#');
 	    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
-	    spirit::rule<> comment (spirit::ch_p (';' | '#') >> *spirit::anychar_p);
+	    spirit::rule<> value (spirit::confix_p ('"', (*spirit::c_escape_ch_p)[spirit::assign_a (actValue)], '"')
+				  | (+(spirit::anychar_p - (startComment | spirit::space_p)))[spirit::assign_a (actValue)]);
+	    spirit::rule<> comment (startComment >> *spirit::anychar_p);
 	    spirit::rule<> assignment =
-	       (key[spirit::assign_a (actKey)] >> '=' >>
-		*(spirit::anychar_p[spirit::assign_a (actValue)]) >>
-		*comment[spirit::assign_a (actComment)]);
+	       (key[spirit::assign_a (actKey)] >> '=' >> value >> *spirit::space_p >>
+		(!comment)[spirit::assign_a (actComment)]);
 
 	    spirit::parse (line.c_str (), assignment);
 
-	    TRACE5 ("INIFile::overwrite () - Attribute: " << actKey);
+	    TRACE5 ("INIFile::overwrite () - Attribute: " << actKey << '=' << actValue << '|' << actComment);
 	    // Check if the attribute is to be updated
 	    std::vector<const IAttribute*>::iterator i;
 	    for (i = pSection->attributes.begin ();
 		 i != pSection->attributes.end (); ++i)
 	       if ((*i)->matches (actKey.c_str ())) {
-		  output += actKey + '=' + actValue;
+		  TRACE8 ("INIFile::overwrite () - Replace with  " << actValue);
+		  std::string newLine (actKey + '=' + (*i)->getQuotedValue ());
 
-		  if (actComment.size ())
-		     output += std::string (' ', 1) + actComment;
-		  output += '\n';
+		  if (actComment.size ()) {
+		     int blanks (line.size () - newLine.size () - actComment.size ());
+		     newLine += std::string ((blanks < 1) ? 1 : blanks, ' ');
+		     newLine += actComment;
+		  }
+		  line = newLine;
 		  pSection->attributes.erase (i);
 		  break;
 	       }
