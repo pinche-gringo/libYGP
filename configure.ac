@@ -141,7 +141,7 @@ AC_CHECK_HEADERS(boost/filesystem/path.hpp boost/shared_ptr.hpp \
 
 
 dnl Check gtkmm version
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0,
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0 gthread-2.0 > 2.2.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])],
 		  [AC_MSG_NOTICE(No GTK+: Checks will be only textual)])
 PKG_CHECK_MODULES(GTKMM, gtkmm-2.4 >= 2.4.0,
@@ -175,7 +175,7 @@ for variant in firefox seamonkey mozilla; do
 done
 
 dnl Checking for Webkit 1.0 which can be used (Webkit needs also gthread)
-PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0 gthread-2.0 > 2.2.0,
+PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,
                   [AC_DEFINE(HAVE_WEBKIT, 1, [Define if Webkit is installed])], [])
 
 VIEWER_CFLAGS="$GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS $WEBKIT_CFLAGS"
