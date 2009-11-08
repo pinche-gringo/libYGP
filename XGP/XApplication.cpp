@@ -45,8 +45,6 @@
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/Process.h>
