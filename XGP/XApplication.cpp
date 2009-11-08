@@ -32,6 +32,8 @@
 
 #include <sys/stat.h>
 
+#include <boost/tokenizer.hpp>
+
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
@@ -43,12 +45,12 @@
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/Process.h>
 #include <YGP/StackTrc.h>
-
-#include <YGP/Tokenize.h>
 
 #include "XGP/TraceDlg.h"
 #include "XGP/HTMLViewer.h"
@@ -57,6 +59,9 @@
 #include "XGP/XApplication.h"
 
 using namespace Gtk::Menu_Helpers;
+
+
+typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 
 
 namespace XGP {
@@ -191,15 +196,18 @@ void XApplication::showHelp () {
       // environment variable or the locale settings
       const char* pLang (getenv ("LANGUAGE"));
 #ifdef HAVE_LC_MESSAGES
-      YGP::Tokenize ext (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
+      std::string lang (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
 #else
-      YGP::Tokenize ext (pLang ? pLang : getenv ("LANG"));
+      std::string lang (pLang ? pLang : getenv ("LANG"));
 #endif
+
+      tokenizer ext (lang, boost::char_separator<char> (":"));
 
       // Check every language-entry (while removing trailing specifiers)
       std::string extension;
       struct stat sfile;
-      while ((extension = ext.getNextNode (':')).size ()) {
+      for (tokenizer::iterator i (ext.begin ()); i != ext.end (); ++i) {
+	 extension = *i;
 	 std::string search;
 	 do {
 	    search = file + std::string (1, '.') + extension;
@@ -219,7 +227,7 @@ void XApplication::showHelp () {
 	    file = search;
 	    break;
 	 }
-      } // end-while
+      } // end-for
 
       // Nothing worked: Check if file exists directly; if not try english
       if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
