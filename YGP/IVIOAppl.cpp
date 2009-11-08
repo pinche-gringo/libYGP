@@ -182,7 +182,7 @@ int IVIOApplication::run () {
       fs::path path (userdir, fs::native); Check1 (path.size ());
       std::string inifile;
 #if SYSTEM == UNIX
-      inifile = '.' + name ();
+      inifile = std::string (1, '.') + name ();
 #else
       inifile = name () + ".ini";
 #endif
