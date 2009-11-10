@@ -42,7 +42,7 @@ namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param format Format how to display entries
+/// \param format Format how to display entries (Don't pass a temporary object!)
 /// \param startRow String starting rows
 /// \param endRow String terminating rows
 /// \param sepColumn String separating columns
@@ -53,6 +53,9 @@ namespace YGP {
 /// \param endRowHdr String terminating header of the table
 /// \param sepHdrCol String terminating columns of the header of the table
 /// \param defColumns Definition of the columns
+/// \note All passed values must be preserved during the life-time of
+/// the object. This is especially important for the format parameter!
+/// Make sure to not pass a temporary object!
 //-----------------------------------------------------------------------------
 TableWriter::TableWriter (const std::string& format, const char* startRow, const char* endRow,
 			  const char* sepColumn, const char* startTab, const char* endTab, const char* sepTab,
