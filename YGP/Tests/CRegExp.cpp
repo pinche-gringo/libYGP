@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.23 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -32,7 +32,6 @@
 
 #include "Test.h"
 
-#include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/ANumeric.h>
 #include <YGP/Parse.h>
@@ -47,7 +46,7 @@ bool match;
 
 
 int foundRegExp (const char* pRegExp, unsigned int) {
-   Check1 (pRegExp);
+   check (pRegExp);
    TRACE1 ("Found regular expression: " << pRegExp);
    strRE = pRegExp;
    regexp = strRE.c_str ();
@@ -55,8 +54,8 @@ int foundRegExp (const char* pRegExp, unsigned int) {
    }
 
 int foundValue (const char* pValue, unsigned int) {
-   Check1 (pValue);
-   Check1 (strRE.size ());
+   check (pValue);
+   check (strRE.size ());
    TRACE1 ("Found value: " << pValue);
    strVal = pValue;
    match = regexp.matches (pValue);
@@ -64,7 +63,7 @@ int foundValue (const char* pValue, unsigned int) {
 }
 
 int foundResult (const char* pResult, unsigned int) {
-   Check1 (pResult);
+   check (pResult);
    PRINT (strRE << " matches " << strVal << " == " << pResult << '\n');
    if ((*pResult != '0') != match)
       ERROROUT ("RegExp (\"" << strRE << "\").matches (\"" << strVal

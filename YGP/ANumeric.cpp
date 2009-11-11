@@ -198,8 +198,8 @@ std::string ANumeric::toString () const {
    std::string str;
 
    struct lconv* loc = localeconv ();                // Get locale-information
-   TRACE9 ("ANumeric::toString () const - Locale-info = " << (int)loc->grouping
-           << " - " << loc->thousands_sep);
+   TRACE9 ("ANumeric::toString () const - Locale-info = " << std::hex << (long)(*loc->grouping)
+           << std::dec << " - " << loc->thousands_sep);
 
    str = toUnformattedString ();
    TRACE5 ("ANumeric::toString () const - " << str);

@@ -111,8 +111,8 @@ int extStreambuf::underflow () {
    if (gptr () < egptr ()) // Sanity-check; VC uses underflow to get curr char
       return *gptr ();
 
-   TRACE7 ("extStreambuf::underflow () - Act: " << std::hex << (int)gptr ()
-          << "; End: " << (int)egptr () << std::dec);
+   TRACE7 ("extStreambuf::underflow () - Act: " << std::hex << gptr () << "; End: "
+	   << egptr () << std::dec);
    Check1 (!checkIntegrity ());
 
    char* pTemp = pBuffer;

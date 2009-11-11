@@ -241,7 +241,7 @@ unsigned int FileTypeCheckerByContent::getType (const char* file) const {
 	 }
 
 	 do {
-	    TRACE9 ("Do call: " << (unsigned int)i->fnCheck);
+	    TRACE9 ("Do call: " << i->fnCheck);
 	    if (i->fnCheck (buffer, i->text.data (), len, stream))
 	       return i->type;
 

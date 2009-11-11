@@ -161,7 +161,7 @@ void ATime::assign (const char* pTime, unsigned int len) {
       fail = strptime (pTime, MODES[mode], &result);
       break;
    case 4:
-      TRACE9 ("Modus: " << ((pTime[1] == ':') || (pTime[2] == ':') ? mode : (unsigned)mode + 2));
+      TRACE9 ("Modus: " << ((pTime[1] == ':') || (pTime[2] == ':') ? (unsigned)mode : (unsigned)mode + 2));
       fail = ((pTime[1] == ':') || (pTime[2] == ':')
 	      ? strptime (pTime, MODES[mode], &result)
 	      : strptime (pTime, MODES[(unsigned)mode + 2], &result));

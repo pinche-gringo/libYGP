@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -36,7 +36,6 @@
 #include <iostream>
 
 #include <YGP/Log.h>
-#include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/IVIOAppl.h>
 #include <YGP/StackTrc.h>
@@ -85,7 +84,7 @@ bool Application::handleOption (const char option) {
 
    if ((option == 'a') || (option == 'A')) {
       const char* pValue = checkOptionValue ();
-      Check1 (pValue == getOptionValue ());
+      check (pValue == getOptionValue ());
       if (option == 'A')
          check (pValue);
 
