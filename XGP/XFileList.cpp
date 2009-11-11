@@ -102,7 +102,8 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
    TRACE2 ("XFileList::loadIcons (const char*, const char*, unsigned int) - " << path << '/' << files);
 
    if (!iconExe) {
-      YGP::PathDirectorySearch ds (path, "Directory.png");
+      std::string p (path);
+      YGP::PathDirectorySearch ds (p, "Directory.png");
       const YGP::File* file (ds.find (YGP::IDirectorySearch::FILE_NORMAL)); Check2 (file);
       std::string filename (file->path ()); filename += file->name ();
       iconDir = Gdk::Pixbuf::create_from_file (filename); Check1 (iconDir);
