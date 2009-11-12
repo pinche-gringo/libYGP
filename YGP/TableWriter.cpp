@@ -135,8 +135,8 @@ std::string TableWriter::getNextNode () {
                nPos = token.size ();
       } // end-else '(' found
 
-      TRACE9 ("Replacing " << pos << '-' << (nPos - pos + 1) << " of " << token
-              << " with " << substitute);
+      TRACE9 ("TableWriter::getNextNode () - Replacing " << pos << '-' << nPos << " of "
+	      << token << " with " << substitute);
       token.replace (pos, nPos - pos + 1, substitute);
       nPos = pos + substitute.length ();
    }
