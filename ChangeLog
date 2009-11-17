@@ -1,17 +1,287 @@
+2009-11-12 16:08:55 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* NEWS, ChangeLog: Changes of V0.9.30 documented
+
+        * YGP/TableWriter.cpp: Improved trace-output
+
+2009-11-11 17:16:29 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/XFileList.cpp: Params of YGP::PathDirectorySearch are valid whole lifetime
+
+2009-11-11 17:13:57 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Fixed code to compile with checks and traces enabled
+
+2009-11-10 18:36:59 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/TableWriter.cpp: Improved comments
+
+2009-11-08 19:36:43 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/XApplication.cpp: Disabled checks and traces
+
+2009-11-08 19:36:17 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Check for GTK+ also checks for gthreads
+
+2009-11-08 19:35:38 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/XDirSrch.cpp: Using boost::tokenizer instead of YGP::Tokenize
+
+2009-11-08 19:35:05 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Tests/Makefile.am: Removed PathSrch
+
+2009-11-08 19:34:30 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/TableWriter.cpp: Fixed iterating over columns
+
+2009-11-08 19:33:58 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Makefile.am: Removed PathSrch
+
+2009-11-08 19:33:26 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/IVIOAppl.cpp: Fixed building name of (default) INI-file
+
+2009-11-08 19:32:37 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/PathSrch: Removed
+
+2009-11-08 17:58:02 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/XAppliction.cpp: Using boost::tokenizer instead of YGP::Tokenize
+
+2009-11-08 17:57:15 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/Makefile.am: Explicitely linking with GTK+-libraries
+
+2009-11-08 15:39:43 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * ConnectDlg.cpp, HTMLViewer.cpp: Fixed compiler-warnings
+
+2009-11-08 15:27:31 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/INIFile.cpp: Fixed overwriting file
+
+2009-11-07 18:41:45 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Fixed AssignmentParse
+
+2009-11-07 18:20:48 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/AssParse.cpp: Parsing first quotes values; assign them without quotes
+
+2009-11-07 15:52:40 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Assignment-Parse: First draft using boost::spirit
+
+2009-11-07 15:51:56 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Makefile.am: Compiling AssParse before classes depending on it
+
+2009-11-07 14:06:03 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * ygp-cfg.h.in: Checking for spirit-headers
+
+2009-11-06 23:22:00 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Checking for spirit-headers
+
+2009-11-06 19:19:38 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Tests/PathDirSrch.cpp: Actualised copyright
+
+2009-11-06 19:18:10 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/PathDirSrch: Fixes
+
+2009-11-06 19:18:01 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/PathSrch.h: Improved deprecated-info
+
+2009-11-06 19:17:29 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Makefile.am: Added Path.{cpp,h}
+
+2009-11-06 19:16:56 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Path.{cpp,h}: Added
+
+2009-11-06 18:51:08 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Socket.h, YGP/CRegExp,h: Deprecated
+
+2009-11-06 15:34:21 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/PathSrch.h: Fixed
+
+2009-11-03 18:02:23 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Using boost::spirit for parsing
+
+2009-11-03 18:02:19 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Makefile.am: Re-added PathSrch
+
+2009-10-20 22:20:55 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/TableWriter: Using boost::tokenizer instead of YGP::Tokenize
+
+2009-10-20 17:39:40 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Tests/Tokenize: Removed
+
+2009-10-20 15:31:23 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Replace YGP::Tokenize with boost::tokenizer
+
+2009-10-20 11:52:00 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/WebkitViewer.c: Initialising thread-system, if necessary
+
+2009-09-27 12:40:47 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/{Module,Thread}.cpp: Fixed compiler warnings regardings init of params
+
+2009-09-27 12:28:20 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * ygp-cfg.h.in: Added defines for boost-filesystem headers/libs
+
+2009-09-27 12:27:05 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac:  Prettifying output of make (if supported by automake)
+
+2009-09-27 12:25:40 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Trace.h: Declaring printTime() as void
+
+2009-09-27 12:25:11 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/IDirSrch.cpp: Fixed compiler warning regarding shift of FILE_HIDDEN_
+
+2009-09-27 12:24:41 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * NEWS: Added changes so far
+
+2009-09-27 12:09:01 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Trace.h: Can trace with time/timestamp
+
+2009-09-15 22:43:09 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Checking for boost-filesystem library
+
+2009-09-15 15:33:25 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/IVIOAppl.cpp: Only including boost/filesystem/path.hpp
+
+2009-09-15 15:32:45 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Added check for boost/filesystem/path.hpp
+
+2009-09-15 15:21:06 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/IVIOAppl.cpp: Using boost::filesystem rathern than YGP::File
+
+2009-09-15 12:10:20 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Version.cpp: Removed mention of smart pointers
+
+2009-09-11 20:33:24 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Handle.h/SmartPtr.h: Removed
+
+2009-09-11 20:33:00 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Checking for needed boost-headers
+
+2009-09-11 20:32:40 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * ygp-cfg.h: Added defines for boost-headers
+
+2009-09-11 20:32:05 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP: Replaced SmartPtr with boost::scoped_ptr
+
+2009-09-11 20:31:29 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Replaced SmartPtr with boost::scoped_ptr
+
+2009-09-11 20:11:34 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Removed Handle.h and SmartPtr.h; use boost::shared_ptr/scoped_ptr instead
+
+2009-09-11 19:48:18 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Process.cpp: Reporting error when piping stderr fails
+
+2009-09-11 19:43:44 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/FileTypeChk.cpp: Const-correctness
+
+2009-06-29 17:40:46 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * WebkitViewer.c: Fixed name of webkitGetError()
+
+2009-06-23 23:03:36 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/GtkMozViewer.c: Removed traces
+
+2009-06-23 22:51:50 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * doc/index.html: Actualised
+
+2009-06-23 21:48:45 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP::BrowserDlg: Replaced Webkit-icon with its favicon
+
+2009-06-23 21:43:42 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP::BrowserDlg: Added icon for Webkit
+
+2009-06-23 21:36:29 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP::BrowserDlg: Supporting Webkit
+
+2009-06-23 18:39:18 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Better handling of module extension (using system default)
+
+2009-06-18 21:56:19 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/{ANumeric,Parse}.cpp: Fixed compiler warnings
+
+2009-06-18 21:55:43 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * INSTALL: Improved (especially Section 'Build from CVS'
+
+2009-05-29 21:27:56 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Don't terminate if GTK+ is not installed; Version to 0.9.21
+
+2009-05-20 19:31:04 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * doc/Makefile.am: Actualised copy to SourceForge
+
+2009-05-20 19:30:30 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * doc/index.html: Actualised
+
 2009-02-03 12:01:43 -0300  Markus Schwab  <g17m0@users.sourceforge.net>
 
 	* NEWS, ChangeLog: Changes of V0.9.12 documented
 
 	* Actualised contact address
-	
+
 2009-02-03 12:01:11 -0300  Markus Schwab  <g17m0@users.sourceforge.net>
 
 	* ygp-cfg.h.in: Changed automake/-conf version
-	
+
 2009-02-03 11:58:59 -0300  Markus Schwab  <g17m0@users.sourceforge.net>
 
 	* INSTALL: Actualised; Changed contact address
-	
+
 2008-11-12 14:46:19 +0100  Markus Schwab  <g17m0@lycos.com>
 
 	* NEWS, ChangeLog: Changes of V0.9.10 documented

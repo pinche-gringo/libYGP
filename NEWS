@@ -1,13 +1,14 @@
 Overview of Changes in version 0.9.30:
 
-  - YGP/Trace.h can show traces with date/time
+  - Supporting Webkit to display the help
   - Using boost::shared_ptr/scoped_ptr instead of Handle/SmartPtr
   - Using boost::tokenizer instead of YGP::Tokenize
+  - Using boost::tokenizer and YGP::Path instead of YGP::PathSearch
   - Prefering boost/filesystem/* to YGP/File for OS-constants
-  - Supporting Webkit to display the help
   - configure does not terminate if GTK+ is not installed
   - YGP::Module uses correct extension of the system (and not always .so)
-  - YGP::Process handles errors better
+  - YGP::Process: Improved error-handling
+  - YGP/Trace.h: Traces can be shown with date/time
   - Fixed compiler warnings
   - Improved INSTALL/README
   - Prettifying output of make (if supported by automake)
@@ -29,7 +30,7 @@ Overview of Changes in version 0.9.11:
 
   - es.po: Fixed translations
   - CRegExp: Improved error-messages
-  - AnimWindow: Fixed positioning card at the last step
+  - AnimWindow: Fixed positioning widget at the last step
 
 
 Overview of Changes in version 0.9.10:
