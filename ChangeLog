@@ -1,6 +1,14 @@
-2009-11-12 16:08:55 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+2009-11-17 16:20:05 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
 
 	* NEWS, ChangeLog: Changes of V0.9.30 documented
+
+	* po/*.po: Actualised
+
+2009-11-17 16:18:43 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* CGP/*/Makefile.in: Adapted to style of automake 1.11
+
+2009-11-12 16:08:55 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
 
         * YGP/TableWriter.cpp: Improved trace-output
 
