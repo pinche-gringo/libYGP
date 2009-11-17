@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.49 $)\n"
 "Report-Msgid-Bugs-To: g17m0@users.sourceforge.net\n"
-"POT-Creation-Date: 2009-06-23 21:34+0200\n"
+"POT-Creation-Date: 2009-11-17 16:16+0100\n"
 "PO-Revision-Date: 2009-06-23 21:35+0200\n"
 "Last-Translator: Markus Schwab <g17m0@users.sourceforge.net>\n"
 "Language-Team: English <g17m0@users.sourceforge.net>\n"
@@ -29,18 +29,6 @@ msgstr "Hora inválida: Posición %1"
 #: YGP/ATime.cpp:223
 msgid "No time: Position 0"
 msgstr "Hora inválida: Posición 0"
-
-#: YGP/AssParse.cpp:68
-msgid "Not a valid assignment: '%1'"
-msgstr "La asignación no es válida: '%1'"
-
-#: YGP/AssParse.cpp:80
-msgid "Invalid value for an attribute: '%1'"
-msgstr "Valor inválido por atributo: '%1'"
-
-#: YGP/AssParse.cpp:97
-msgid "Quoted value is not followed by a separator: '%1'"
-msgstr "Valor no es seguido de un separator: '%1'"
 
 #: YGP/AttrParse.cpp:60
 msgid "Attribute '%1' already exists"
@@ -122,67 +110,67 @@ msgstr "Enumeración vacía"
 msgid "Empty region"
 msgstr "Región vacía"
 
-#: YGP/INIFile.cpp:62
+#: YGP/INIFile.cpp:70
 msgid "Section-header"
 msgstr "Cabeza de sección"
 
-#: YGP/INIFile.cpp:63
+#: YGP/INIFile.cpp:71
 msgid "Start of section ([)"
 msgstr "Comienzo de sección ([)"
 
-#: YGP/INIFile.cpp:64
+#: YGP/INIFile.cpp:72
 msgid "Name of section"
 msgstr "Nombre de sección"
 
-#: YGP/INIFile.cpp:65
+#: YGP/INIFile.cpp:73
 msgid "End of section (])"
 msgstr "Fin de sección (])"
 
-#: YGP/INIFile.cpp:95
+#: YGP/INIFile.cpp:103
 msgid "Attribute"
 msgstr "Atributo"
 
-#: YGP/INIFile.cpp:96
+#: YGP/INIFile.cpp:104
 msgid "Identifier (key)"
 msgstr "Identificación (llave)"
 
-#: YGP/INIFile.cpp:97
+#: YGP/INIFile.cpp:105
 msgid "Equal-sign (=)"
 msgstr "Signo de igualidad (=)"
 
-#: YGP/INIFile.cpp:98
+#: YGP/INIFile.cpp:106
 msgid "Value"
 msgstr "Valor"
 
-#: YGP/INIFile.cpp:303
+#: YGP/INIFile.cpp:311
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr "No puedo abrir el fichero de inicialisación '%1'! Causa: %2"
 
-#: YGP/INIFile.cpp:508
+#: YGP/INIFile.cpp:516
 msgid "Invalid characters after section %1: %2"
 msgstr "Letras inválidas después de la sección %1: %2"
 
-#: YGP/INIFile.cpp:515
+#: YGP/INIFile.cpp:523
 msgid "Invalid section: %1"
 msgstr "Sección inválida: %1"
 
-#: YGP/IVIOAppl.cpp:192
+#: YGP/IVIOAppl.cpp:211
 msgid "-warning: Unhandled exception (std::exception): "
 msgstr "-aviso: Excepción no atendido (std::exception): "
 
-#: YGP/IVIOAppl.cpp:195
+#: YGP/IVIOAppl.cpp:214
 msgid "-warning: Unhandled exception (std::string): "
 msgstr "-aviso: Excepción no atendido (std::string): "
 
-#: YGP/IVIOAppl.cpp:198
+#: YGP/IVIOAppl.cpp:217
 msgid "-warning: Unhandled exception!"
 msgstr "-aviso: ¡Excepción no atendido!"
 
-#: YGP/IVIOAppl.cpp:286
+#: YGP/IVIOAppl.cpp:305
 msgid "-error: Option `%1' is ambiguous"
 msgstr "-error: Opción '%1' es ambigua"
 
-#: YGP/IVIOAppl.cpp:295
+#: YGP/IVIOAppl.cpp:314
 msgid "-error: Unrecognized option `%1'"
 msgstr "-error: Opción '%1' es inválida"
 
@@ -260,7 +248,7 @@ msgstr "No puedo conectar al servidor '%1'"
 msgid "Error sending data"
 msgstr "Error enviar los datos"
 
-#: YGP/Process.cpp:257
+#: YGP/Process.cpp:256
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
@@ -269,7 +257,7 @@ msgstr ""
 "¡Error ejecutando el programa '%1'!\n"
 "Causa: %2"
 
-#: YGP/Process.cpp:281
+#: YGP/Process.cpp:280
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -311,19 +299,19 @@ msgstr "¡El fichero '%1' ya existe! ¿Sobreescribirlo?"
 msgid "File"
 msgstr "Archivo"
 
-#: XGP/XFileList.cpp:226
+#: XGP/XFileList.cpp:227
 msgid "Open in %1 ..."
 msgstr "Abrir con %1 ..."
 
-#: XGP/XFileList.cpp:242
+#: XGP/XFileList.cpp:243
 msgid "Rename/Move ..."
 msgstr "Cambiar el nombre/Mover ..."
 
-#: XGP/XFileList.cpp:245
+#: XGP/XFileList.cpp:246
 msgid "Delete"
 msgstr "Eliminar"
 
-#: XGP/XFileList.cpp:270
+#: XGP/XFileList.cpp:271
 msgid "Environment variable `TERM' not defined!"
 msgstr "¡Variable de etorno 'TERM' no está definida!"
 
@@ -391,31 +379,31 @@ msgstr "Otro:"
 msgid "Select a browser"
 msgstr "Selecta a un explorador"
 
-#: XGP/XApplication.cpp:143
+#: XGP/XApplication.cpp:146
 msgid "_Contents"
 msgstr "_Contenido ..."
 
-#: XGP/XApplication.cpp:144
+#: XGP/XApplication.cpp:147
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:147
+#: XGP/XApplication.cpp:150
 msgid "Set help-_browser ..."
 msgstr "Selecta a un e_xplorador ..."
 
-#: XGP/XApplication.cpp:148
+#: XGP/XApplication.cpp:151
 msgid "Enables selecting which browser to use"
 msgstr "Permite eligir el explorador para mostrar la ayuda"
 
-#: XGP/XApplication.cpp:160
+#: XGP/XApplication.cpp:163
 msgid "Set _trace-levels ..."
 msgstr "Define nivel de los traces"
 
-#: XGP/XApplication.cpp:161
+#: XGP/XApplication.cpp:164
 msgid "Enables to change the trace-levels"
 msgstr "Permite cambiar el nivel de los traces"
 
-#: XGP/XApplication.cpp:168
+#: XGP/XApplication.cpp:171
 msgid "_About ..."
 msgstr "_Acerca de ..."
 
@@ -517,3 +505,12 @@ msgstr "_Contraseña:"
 #: XGP/LoginDlg.cpp:70
 msgid "_Login"
 msgstr "C_onectar"
+
+#~ msgid "Not a valid assignment: '%1'"
+#~ msgstr "La asignación no es válida: '%1'"
+
+#~ msgid "Invalid value for an attribute: '%1'"
+#~ msgstr "Valor inválido por atributo: '%1'"
+
+#~ msgid "Quoted value is not followed by a separator: '%1'"
+#~ msgstr "Valor no es seguido de un separator: '%1'"

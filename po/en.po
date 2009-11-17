@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.48 $)\n"
 "Report-Msgid-Bugs-To: g17m0@users.sourceforge.net\n"
-"POT-Creation-Date: 2009-06-23 21:34+0200\n"
+"POT-Creation-Date: 2009-11-17 16:16+0100\n"
 "PO-Revision-Date: 2009-06-23 21:35+0200\n"
 "Last-Translator: Markus Schwab <g17m0@users.sourceforge.net>\n"
 "Language-Team: English <g17m0@users.sourceforge.net>\n"
@@ -28,18 +28,6 @@ msgstr ""
 
 #: YGP/ATime.cpp:223
 msgid "No time: Position 0"
-msgstr ""
-
-#: YGP/AssParse.cpp:68
-msgid "Not a valid assignment: '%1'"
-msgstr ""
-
-#: YGP/AssParse.cpp:80
-msgid "Invalid value for an attribute: '%1'"
-msgstr ""
-
-#: YGP/AssParse.cpp:97
-msgid "Quoted value is not followed by a separator: '%1'"
 msgstr ""
 
 #: YGP/AttrParse.cpp:60
@@ -122,67 +110,67 @@ msgstr ""
 msgid "Empty region"
 msgstr ""
 
-#: YGP/INIFile.cpp:62
+#: YGP/INIFile.cpp:70
 msgid "Section-header"
 msgstr ""
 
-#: YGP/INIFile.cpp:63
+#: YGP/INIFile.cpp:71
 msgid "Start of section ([)"
 msgstr ""
 
-#: YGP/INIFile.cpp:64
+#: YGP/INIFile.cpp:72
 msgid "Name of section"
 msgstr ""
 
-#: YGP/INIFile.cpp:65
+#: YGP/INIFile.cpp:73
 msgid "End of section (])"
 msgstr ""
 
-#: YGP/INIFile.cpp:95
+#: YGP/INIFile.cpp:103
 msgid "Attribute"
 msgstr ""
 
-#: YGP/INIFile.cpp:96
+#: YGP/INIFile.cpp:104
 msgid "Identifier (key)"
 msgstr ""
 
-#: YGP/INIFile.cpp:97
+#: YGP/INIFile.cpp:105
 msgid "Equal-sign (=)"
 msgstr ""
 
-#: YGP/INIFile.cpp:98
+#: YGP/INIFile.cpp:106
 msgid "Value"
 msgstr ""
 
-#: YGP/INIFile.cpp:303
+#: YGP/INIFile.cpp:311
 msgid "Could not open INI-file '%1': Reason: %2"
 msgstr ""
 
-#: YGP/INIFile.cpp:508
+#: YGP/INIFile.cpp:516
 msgid "Invalid characters after section %1: %2"
 msgstr ""
 
-#: YGP/INIFile.cpp:515
+#: YGP/INIFile.cpp:523
 msgid "Invalid section: %1"
 msgstr ""
 
-#: YGP/IVIOAppl.cpp:192
+#: YGP/IVIOAppl.cpp:211
 msgid "-warning: Unhandled exception (std::exception): "
 msgstr ""
 
-#: YGP/IVIOAppl.cpp:195
+#: YGP/IVIOAppl.cpp:214
 msgid "-warning: Unhandled exception (std::string): "
 msgstr ""
 
-#: YGP/IVIOAppl.cpp:198
+#: YGP/IVIOAppl.cpp:217
 msgid "-warning: Unhandled exception!"
 msgstr ""
 
-#: YGP/IVIOAppl.cpp:286
+#: YGP/IVIOAppl.cpp:305
 msgid "-error: Option `%1' is ambiguous"
 msgstr ""
 
-#: YGP/IVIOAppl.cpp:295
+#: YGP/IVIOAppl.cpp:314
 msgid "-error: Unrecognized option `%1'"
 msgstr ""
 
@@ -259,14 +247,14 @@ msgstr ""
 msgid "Error sending data"
 msgstr ""
 
-#: YGP/Process.cpp:257
+#: YGP/Process.cpp:256
 msgid ""
 "Error executing program `%1'!\n"
 "\n"
 "Reason: %2"
 msgstr ""
 
-#: YGP/Process.cpp:281
+#: YGP/Process.cpp:280
 msgid ""
 "The command `%1' returned an error!\n"
 "\n"
@@ -303,19 +291,19 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: XGP/XFileList.cpp:226
+#: XGP/XFileList.cpp:227
 msgid "Open in %1 ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:242
+#: XGP/XFileList.cpp:243
 msgid "Rename/Move ..."
 msgstr ""
 
-#: XGP/XFileList.cpp:245
+#: XGP/XFileList.cpp:246
 msgid "Delete"
 msgstr ""
 
-#: XGP/XFileList.cpp:270
+#: XGP/XFileList.cpp:271
 msgid "Environment variable `TERM' not defined!"
 msgstr ""
 
@@ -383,31 +371,31 @@ msgstr ""
 msgid "Select a browser"
 msgstr ""
 
-#: XGP/XApplication.cpp:143
+#: XGP/XApplication.cpp:146
 msgid "_Contents"
 msgstr ""
 
-#: XGP/XApplication.cpp:144
+#: XGP/XApplication.cpp:147
 msgid "F1"
 msgstr ""
 
-#: XGP/XApplication.cpp:147
+#: XGP/XApplication.cpp:150
 msgid "Set help-_browser ..."
 msgstr ""
 
-#: XGP/XApplication.cpp:148
+#: XGP/XApplication.cpp:151
 msgid "Enables selecting which browser to use"
 msgstr ""
 
-#: XGP/XApplication.cpp:160
+#: XGP/XApplication.cpp:163
 msgid "Set _trace-levels ..."
 msgstr ""
 
-#: XGP/XApplication.cpp:161
+#: XGP/XApplication.cpp:164
 msgid "Enables to change the trace-levels"
 msgstr ""
 
-#: XGP/XApplication.cpp:168
+#: XGP/XApplication.cpp:171
 msgid "_About ..."
 msgstr ""
 
