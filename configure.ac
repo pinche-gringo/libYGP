@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.30],[g17m0@users.sourceforge.net],[libYGP])
+AC_INIT([libYGP],[0.9.31],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -176,7 +176,8 @@ done
 
 dnl Checking for Webkit 1.0 which can be used (Webkit needs also gthread)
 PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,
-                  [AC_DEFINE(HAVE_WEBKIT, 1, [Define if Webkit is installed])], [])
+                  [AC_DEFINE(HAVE_WEBKIT, 1, [Define if Webkit is installed])],
+		  [WEBKIT="no"])
 
 VIEWER_CFLAGS="$GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS $WEBKIT_CFLAGS"
 AC_SUBST(MYSUBDIRS)
