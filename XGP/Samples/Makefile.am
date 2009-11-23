@@ -12,4 +12,5 @@ TESTS=X-Appl
 
 noinst_PROGRAMS=$(TESTS)
 
-X_Appl_SOURCES=X-Appl.cpp X-Appl.h Dialog.cpp Dialog.h AnimWindow.cpp AnimWindow.h
+X_Appl_SOURCES=X-Appl.cpp X-Appl.h Dialog.cpp Dialog.h AnimWindow.cpp \
+	AnimWindow.h images.h
