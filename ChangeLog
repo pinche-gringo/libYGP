@@ -1,3 +1,13 @@
+2009-11-23 19:05:21 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* NEWS, ChangeLog: Changes of V0.9.31 documented
+
+        * configure.ac: Terminate if libstdc++ or boost_filesystem can't be found
+
+2009-11-17 23:56:42 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Don't terminate if Webkit is not installed
+
 2009-11-17 16:20:05 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
 
 	* NEWS, ChangeLog: Changes of V0.9.30 documented
