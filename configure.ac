@@ -123,11 +123,14 @@ AC_DEFINE_UNQUOTED([HAVE_IEXPLORER], $HAVE_IEXPLORER, [Set to 1 if Internet Expl
 
 
 dnl Checks for libraries.
-AC_CHECK_LIB(stdc++, main)
+AC_CHECK_LIB(stdc++, main,, AC_MSG_ERROR([Required library libstdc++ not found!]))
 AC_CHECK_LIB(pthread, main)
 AC_CHECK_LIB(socket, main)
 AC_CHECK_LIB(ws2_32, main)
-AC_CHECK_LIB(boost_filesystem, main)
+AC_CHECK_LIB(boost_filesystem, main,, AC_MSG_ERROR([Required library boost_filesystem not found!
+Either it can't be found in your default link-path (check the LIBS-environment
+variable) or install it using your package-manager or from its website at
+http://www.boost.org]))
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
