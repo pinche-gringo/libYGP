@@ -8,7 +8,7 @@
 //REVISION    : $Revision$
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.2008
-//COPYRIGHT   : Copyright (C) 2008
+//COPYRIGHT   : Copyright (C) 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -65,7 +65,7 @@ int main (int argc, char* argv[]) {
       } while ((file = ds.next ()));
    }
    else
-      std::cout << "    -> Warning: No files to check found!" << std::flush;
+      std::cout << "    -> Warning: No files to check found!\n" << std::flush;
 
    if (cErrors)
       std::cout << "Failures: " << cErrors << '\n';
