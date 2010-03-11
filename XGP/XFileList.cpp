@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008 - 2010
 
 // This file is part of libYGP.
 //
@@ -33,14 +33,23 @@
 
 #include <map>
 
+#ifdef HAVE_GIOMM
+#  include <giomm/file.h>
+#  include <giomm/fileicon.h>
+#  include <giomm/themedicon.h>
+#endif
+
 #include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/image.h>
+#include <gtkmm/icontheme.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/treestore.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
+#define CHECK 9
+#define TRACELEVEL 1
 #include <YGP/File.h>
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
@@ -52,11 +61,13 @@
 #include "XGP/XFileList.h"
 
 
-static Glib::RefPtr<Gdk::Pixbuf> iconDir;
 static Glib::RefPtr<Gdk::Pixbuf> iconDef;
+#ifndef HAVE_GIOMM
+static Glib::RefPtr<Gdk::Pixbuf> iconDir;
 static Glib::RefPtr<Gdk::Pixbuf> iconExe;
 
 static std::map<std::string, Glib::RefPtr<Gdk::Pixbuf> > icons;
+#endif
 
 
 namespace XGP {
@@ -83,7 +94,7 @@ void XFileList::init () {
    pColumn->add_attribute (*rTxt, "text", 1);
    append_column (*pColumn);
 
-#ifdef PKGDIR
+#if defined (PKGDIR) && !defined (HAVE_GIOMM)
    loadIcons (PKGDIR, "Icon_*.png", sizeof ("Icon_") - 1);
 #endif
 }
@@ -101,6 +112,7 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
    Check1 (namePrefix < strlen (files));
    TRACE2 ("XFileList::loadIcons (const char*, const char*, unsigned int) - " << path << '/' << files);
 
+#ifndef HAVE_GIOMM
    if (!iconExe) {
       std::string p (path);
       YGP::PathDirectorySearch ds (p, "Directory.png");
@@ -134,6 +146,7 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
 	 file = ds.next ();
       } // end-while icon-files found
    } // endif first call to loadIcons: Create default-icons
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -147,8 +160,35 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
 /// \returns Glib::RefPtr<Gdk::Pixbuf> Reference to inserted line
 //-----------------------------------------------------------------------------
 Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
-   TRACE7 ("getIcon4File (Gtk::TreeModel::iterator, const File&)");
+   TRACE7 ("getIcon4File (Gtk::TreeModel::iterator, const File&)" << file.path () << file.name ());
 
+#ifdef HAVE_GIOMM
+   Glib::RefPtr<Gio::File> gFile (Gio::File::create_for_path (std::string (file.path ()) + file.name ()));
+   Glib::RefPtr<Gio::FileInfo> gInfo (gFile->query_info (G_FILE_ATTRIBUTE_STANDARD_ICON));
+
+   Glib::RefPtr<const Gio::Icon> gIcon (gInfo->get_icon ());
+   Glib::RefPtr<const Gio::FileIcon> fIcon (Glib::RefPtr<const Gio::FileIcon>::cast_dynamic (gIcon));
+   if (fIcon)
+      return Gdk::Pixbuf::create_from_file (fIcon->get_file ()->get_path ());
+   else {
+      Glib::RefPtr<const Gio::ThemedIcon> tIcon (Glib::RefPtr<const Gio::ThemedIcon>::cast_dynamic (gIcon));
+      if (tIcon) {
+	 // icon = tIcon->get_names ();            // TODO: Fix when implemented
+	 const gchar* const* names (g_themed_icon_get_names (const_cast<GThemedIcon*> (tIcon->gobj ())));
+	 if (names) {
+	    Glib::RefPtr<Gtk::IconTheme> theme (Gtk::IconTheme::get_default ());
+	    while (*names) {
+	       try {
+		  return theme->load_icon (*names, 16);
+	       }
+	       catch (...) { }
+	       ++names;
+	    }
+	 }
+      }
+   }
+   return Gdk::Pixbuf::create_from_inline (0, NULL);;
+#else
    Glib::RefPtr<Gdk::Pixbuf> actIcon (iconDef);
 
    if (file.isDirectory ())
@@ -173,6 +213,7 @@ Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
 
    Check3 (actIcon);
    return actIcon;
+#endif
 }
 
 //----------------------------------------------------------------------------
