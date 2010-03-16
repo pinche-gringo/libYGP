@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.31],[g17m0@users.sourceforge.net],[libYGP])
+AC_INIT([libYGP],[0.9.40],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -157,6 +157,10 @@ if $PKG_CONFIG --exists "gtkmm-2.4 >= 2.6.0" ; then
                       [Set to version if GTKMM is version 2.6 or above])
 fi
 
+PKG_CHECK_MODULES(GIOMM, giomm-2.4 >= 2.4.0,
+                  [AC_DEFINE(HAVE_GIOMM, 1, [Define if Giomm is installed (in a fitting version)])],
+                  [AC_MSG_WARN([Using own icon-handling])])
+
 dnl Checking for GTKHTML which can be used
 for version in 3.14 3.8 3.5 3.1; do
    PKG_CHECK_MODULES(GTKHTML, libgtkhtml-$version >= $version.0,
@@ -185,7 +189,9 @@ PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,
 VIEWER_CFLAGS="$GTKHTML_CFLAGS $GTKMOZEMBED_CFLAGS $WEBKIT_CFLAGS"
 AC_SUBST(MYSUBDIRS)
 AC_SUBST(GTKMM_CFLAGS)
+AC_SUBST(GIOMM_CFLAGS)
 AC_SUBST(VIEWER_CFLAGS)
+AC_SUBST(GIOMM_LIBS)
 AC_SUBST(GTKMM_LIBS)
 
 dnl Checks for typedefs, structures, and compiler characteristics.

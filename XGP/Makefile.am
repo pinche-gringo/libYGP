@@ -3,7 +3,7 @@
 SUBDIRS=Icons
 DIST_SUBDIRS=$(SUBDIRS) Samples
 
-LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@ @GTKMM_LIBS@
+LIBS = @LTLIBINTL@ @LIBS@ @GTK_LIBS@ @GIOMM_LIBS@ @GTKMM_LIBS@
 
 lib_LTLIBRARIES=libXGP.la
 
@@ -25,9 +25,9 @@ $(include_HEADERS)
 
 libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
-INCLUDES = -I $(top_srcdir) -I . -DPKGDIR=\"$(datadir)/XGP/\"		\
-           @GTKMM_CFLAGS@ @VIEWER_CFLAGS@ -I$(top_srcdir)/intl -Wextra	\
-           -Wall
+INCLUDES = -I $(top_srcdir) -I . -DPKGDIR=\"$(datadir)/XGP/\"	\
+           @GIOMM_CFLAGS@ @GTKMM_CFLAGS@ @VIEWER_CFLAGS@	\
+           -I$(top_srcdir)/intl -Wextra -Wall
 AM_CXXFLAGS = -Woverloaded-virtual -Weffc++ -Wextra
 
 # Settings for gettext

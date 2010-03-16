@@ -201,6 +201,9 @@
 /* Define to 1 if you have the `getuid' function. */
 #undef HAVE_GETUID
 
+/* Define if Giomm is installed (in a fitting version) */
+#undef HAVE_GIOMM
+
 /* Define if GTK is installed (in a fitting version) */
 #undef HAVE_GTK
 
