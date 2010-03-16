@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008, 2009
+//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008 - 2010
 
 // This file is part of libYGP.
 //
@@ -132,9 +132,13 @@ HTMLViewer::HTMLViewer (const std::string& file, const Glib::ustring& title,
 #endif
 
 #ifdef HAVE_WEBKIT
-      case WEBKIT:
-	 get_vbox ()->pack_start (*manage (Glib::wrap (htmlCtrl)));
+      case WEBKIT: {
+	 Gtk::ScrolledWindow* scrl (manage (new Gtk::ScrolledWindow));
+	 scrl->add (*manage (Glib::wrap (htmlCtrl)));
+	 scrl->set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+	 get_vbox ()->pack_start (*scrl);
 	 break;
+      }
 #endif
       default:
 	 Check (0);
