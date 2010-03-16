@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.53 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 4.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008, 2009
+//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008 - 2010
 
 // This file is part of libYGP.
 //
@@ -246,7 +246,7 @@ void XApplication::showHelp () {
 	 HTMLViewer::create (file, get_title (), HTMLViewer::GTKMOZEMBED);
       else
 #endif
-#ifdef HAVE_GTKMOZEMBED
+#ifdef HAVE_WEBKIT
       if (helpBrowser == "WEBKIT")
 	 HTMLViewer::create (file, get_title (), HTMLViewer::WEBKIT);
       else
