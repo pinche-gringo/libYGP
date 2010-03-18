@@ -1,3 +1,9 @@
+Overview of Changes in version 0.9.40:
+
+  - XGP::XFileList uses icons of default theme (if Giomm is available)
+  - XGP::XApplication: Fixed showing help with Webkit
+
+
 Overview of Changes in version 0.9.31:
 
   - configure.ac: Improved/fixed checks for required libs/headers

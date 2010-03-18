@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.51 $)\n"
 "Report-Msgid-Bugs-To: g17m0@users.sourceforge.net\n"
-"POT-Creation-Date: 2009-11-17 16:16+0100\n"
+"POT-Creation-Date: 2010-03-18 09:40+0100\n"
 "PO-Revision-Date: 2009-06-23 21:35+0200\n"
 "Last-Translator: Markus Schwab <g17m0@users.sourceforge.net>\n"
 "Language-Team: English <g17m0@users.sourceforge.net>\n"
@@ -296,23 +296,23 @@ msgstr "Datei '%1' existiert nicht!"
 msgid "File `%1' exists! Overwrite?"
 msgstr "Datei '%1' existiert! Überschreiben?"
 
-#: XGP/XFileList.cpp:75
+#: XGP/XFileList.cpp:86
 msgid "File"
 msgstr "Datei"
 
-#: XGP/XFileList.cpp:227
+#: XGP/XFileList.cpp:268
 msgid "Open in %1 ..."
 msgstr "Öffnen mit %1 ..."
 
-#: XGP/XFileList.cpp:243
+#: XGP/XFileList.cpp:284
 msgid "Rename/Move ..."
 msgstr "Umbenennen/Verschieben ..."
 
-#: XGP/XFileList.cpp:246
+#: XGP/XFileList.cpp:287
 msgid "Delete"
 msgstr "Löschen"
 
-#: XGP/XFileList.cpp:271
+#: XGP/XFileList.cpp:312
 msgid "Environment variable `TERM' not defined!"
 msgstr "Die Umgebungsvariable 'TERM' ist nicht gesetzt!"
 
