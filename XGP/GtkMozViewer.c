@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.5 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 24.7.2005
-//COPYRIGHT   : Copyright (C) 2005 - 2008
+//COPYRIGHT   : Copyright (C) 2005 - 2008, 2010
 
 // This file is part of libYGP.
 //
@@ -66,7 +66,7 @@ GtkWidget* gtkMozEmbedInitialize () {
    TRACE ("Initializing gtkmozembed viewer\n");
 
    if (!hDLL)
-      hDLL = dlopen ("libgtkembedmoz.so", 0x00001);
+      hDLL = dlopen ("libgtkembedmoz" SHAREOBJ_EXT, 0x00001);
 
    if (hDLL) {
       TRACE ("Checking function pointers\n");

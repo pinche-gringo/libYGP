@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008, 2010
 
 // This file is part of libYGP.
 //
@@ -97,7 +97,7 @@ GtkWidget* gtkhtmlInitialize () {
    TRACE ("Initializing gtkhtml viewer\n");
 
    if (!hDLL)
-      hDLL = dlopen ("libgtkhtml-" HAVE_GTKHTML ".so", 0x00001);
+      hDLL = dlopen ("libgtkhtml-" HAVE_GTKHTML SHAREOBJ_EXT, 0x00001);
 
    if (hDLL) {
       if (!pfnNew) {

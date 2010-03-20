@@ -8,7 +8,7 @@
 //REVISION    : $Revision$
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.6.2009
-//COPYRIGHT   : Copyright (C) 2009
+//COPYRIGHT   : Copyright (C) 2009, 2010
 
 // This file is part of libYGP.
 //
@@ -68,7 +68,7 @@ GtkWidget* initialiseWebkit () {
       g_thread_init (NULL);
 
    if (!hDLL)
-      hDLL = dlopen ("libwebkit-1.0.so", 0x00001);
+      hDLL = dlopen ("libwebkit-1.0" SHAREOBJ_EXT, 0x00001);
 
    if (hDLL) {
       TRACE ("Checking function pointers\n");
