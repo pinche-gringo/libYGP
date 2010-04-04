@@ -54,7 +54,7 @@ template <class T> class XAttributeLabel : public Gtk::Label {
    /// Destructor
    ~XAttributeLabel () { }
 
-   /// Actualizes the displayed value with that of the attribute
+   /// Actualises the displayed value with that of the attribute
    void update () { set_text (attr_.toString ()); }
    /// Returns a reference to the handled attribute
    T& getAttribute () { return const_cast<T&> (attr_); }
@@ -66,49 +66,49 @@ template <class T> class XAttributeLabel : public Gtk::Label {
    const T& attr_;
 };
 
-/// Specialization of XAttributeLabel<T>::update for short
+/// Specialisation of XAttributeLabel<T>::update for short
 template <> inline void XAttributeLabel<short>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel<T>::update for unsigned short
+/// Specialisation of XAttributeLabel<T>::update for unsigned short
 template <> inline void XAttributeLabel<unsigned short>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel<T>::update for int
+/// Specialisation of XAttributeLabel<T>::update for int
 template <> inline void XAttributeLabel<int>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel<T>::update for unsigned int
+/// Specialisation of XAttributeLabel<T>::update for unsigned int
 template <> inline void XAttributeLabel<unsigned int>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel<T>::update for long
+/// Specialisation of XAttributeLabel<T>::update for long
 template <> inline void XAttributeLabel<long>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%ld", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel<T>::update for unsigned long
+/// Specialisation of XAttributeLabel<T>::update for unsigned long
 template <> inline void XAttributeLabel<unsigned long>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%lu", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel<T>::update for double
+/// Specialisation of XAttributeLabel<T>::update for double
 template <> inline void XAttributeLabel<double>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%lf", attr_);
@@ -147,7 +147,7 @@ template <class T> class XAttributeLabel2 : public Gtk::Label {
    /// Destructor
    ~XAttributeLabel2 () { }
 
-   /// Actualizes the displayed value with that of the attribute
+   /// Actualises the displayed value with that of the attribute
    void update () { set_text (attr_.toString ()); }
    /// Returns a reference to the handled attribute
    T& getAttribute () { return const_cast<T&> (attr_); }
@@ -159,49 +159,49 @@ template <class T> class XAttributeLabel2 : public Gtk::Label {
    const T attr_;
 };
 
-/// Specialization of XAttributeLabel2<T>::update for short
+/// Specialisation of XAttributeLabel2<T>::update for short
 template <> inline void XAttributeLabel2<short>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel2<T>::update for unsigned short
+/// Specialisation of XAttributeLabel2<T>::update for unsigned short
 template <> inline void XAttributeLabel2<unsigned short>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel2<T>::update for int
+/// Specialisation of XAttributeLabel2<T>::update for int
 template <> inline void XAttributeLabel2<int>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%d", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel2<T>::update for unsigned int
+/// Specialisation of XAttributeLabel2<T>::update for unsigned int
 template <> inline void XAttributeLabel2<unsigned int>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%u", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel2<T>::update for long
+/// Specialisation of XAttributeLabel2<T>::update for long
 template <> inline void XAttributeLabel2<long>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%ld", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel2<T>::update for unsigned long
+/// Specialisation of XAttributeLabel2<T>::update for unsigned long
 template <> inline void XAttributeLabel2<unsigned long>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%lu", attr_);
    set_text (buffer);
 }
 
-/// Specialization of XAttributeLabel2<T>::update for double
+/// Specialisation of XAttributeLabel2<T>::update for double
 template <> inline void XAttributeLabel2<double>::update () {
    char buffer[20];
    snprintf (buffer, sizeof (buffer), "%lf", attr_);
