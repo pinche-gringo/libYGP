@@ -3,6 +3,7 @@ Overview of Changes in version 0.9.40:
   - XGP::XFileList uses icons of default theme (if Giomm is available)
   - XGP::XApplication: Fixed showing help with Webkit
   - XGP: Dynamically loaded help-viewers use system-depended lib-extension
+  - Disabled support for GtkMozEmbed
 
 
 Overview of Changes in version 0.9.31:

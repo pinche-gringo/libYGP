@@ -1,3 +1,57 @@
+2010-04-23 22:19:01 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+	* NEWS, ChangeLog: Changes of V0.9.40 documented
+
+        * ygp-cfg.h.in: Removed definition for GtkMozEmbed
+
+2010-04-23 22:14:40 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * configure.ac: Fixed testing for libgtkhtml; Disabled GtkMozEmbed
+
+2010-04-23 22:13:38 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/GtkMozViewer.c: Loading libxul instead of libgtkembedmoz
+
+2010-04-04 23:20:41 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/XAttrLabel.h: De-bastardised english words
+
+2010-03-20 12:49:22 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP: Dynamically loaded help-viewers use system-depended lib-extension
+
+2010-03-18 09:41:24 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP: Using default icon-theme instead of own iconset (if Giomm is available)
+
+2010-03-16 13:37:17 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * Makesystem: Checking for Giomm
+
+2010-03-16 13:35:39 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * README: Actualised copyright
+
+2010-03-16 13:33:25 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/HTMLViewer.cpp: Show Webkit-widget with scrollbars
+
+2010-03-16 13:29:55 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/XApplication.cpp: Fixed showing help with Webkit
+
+2010-03-11 16:23:37 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/XFileList.cpp: Using GTK+-API to display icons
+
+2009-11-23 21:36:14 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP/Tests/FileTypeChk.cpp: Added CR/LF to warning message
+
+2009-11-23 21:16:17 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * XGP/Samples/Makefile.am: Adding images.h to distribution
+
 2009-11-23 19:05:21 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
 
 	* NEWS, ChangeLog: Changes of V0.9.31 documented
