@@ -4,6 +4,7 @@ Overview of Changes in version 0.9.40:
   - XGP::XApplication: Fixed showing help with Webkit
   - XGP: Dynamically loaded help-viewers use system-depended lib-extension
   - Disabled support for GtkMozEmbed
+  - Removed CGP and Windows subdirectories
 
 
 Overview of Changes in version 0.9.31:
