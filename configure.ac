@@ -255,18 +255,6 @@ AC_ARG_ENABLE(checks,
                   CXXFLAGS="$CXXFLAGS -DCHECK=$enableval";
               else
                   CXXFLAGS="$CXXFLAGS -DNDEBUG -UCHECK"; fi)
-AC_ARG_WITH(corba,
-            AC_HELP_STRING([--with-corba], [Enables the check for an CORBA-implementation]),
-	    [with_corba=yes])
-if test "$with_corba" == "yes"; then
-   AC_CHECK_HEADERS([CORBA.h], [ac_cv_header_CORBA_h=yes],
-                    [ac_cv_header_CORBA_h=no])
-   if test "$ac_cv_header_CORBA_h" == "yes"; then
-      MYSUBDIRS="$MYSUBDIRS CGP"
-   else
-      AC_MSG_WARN([CORBA is not installed; subdir CGP will not be made])
-   fi
-fi
 
 LIB_GMP=""
 AC_ARG_WITH(gmp,
@@ -281,9 +269,9 @@ fi
 AC_SUBST(LIB_GMP)
 
 AC_CONFIG_FILES([Makefile YGP/Makefile YGP/Tests/Makefile XGP/Makefile \
-	   intl/Makefile XGP/Icons/Makefile CGP/Makefile po/Makefile.in \
-           doc/Makefile CGP/Tests/Makefile bin/Makefile XGP/Samples/Makefile \
-           YGP/YGP.pc XGP/XGP.pc doc/YGP.doxy doc/XGP.doxy CGP/CGP.pc])
+	        intl/Makefile XGP/Icons/Makefile po/Makefile.in \
+	        doc/Makefile bin/Makefile XGP/Samples/Makefile \
+	        YGP/YGP.pc XGP/XGP.pc doc/YGP.doxy doc/XGP.doxy])
 AC_OUTPUT
 
 dnl Settings for autoheader
