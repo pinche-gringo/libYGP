@@ -1,6 +1,24 @@
-2010-04-23 22:19:01 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+2010-04-23 22:51:54 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
 
-	* NEWS, ChangeLog: Changes of V0.9.40 documented
+        * Makefile.am, configure.ac: Removed handling of CGP/* and Windows/*
+
+2010-04-23 22:51:04 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * ygp-cfg.h.in: Removed define for CORBA
+
+2010-04-23 22:50:30 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * README.windows: Removed
+
+2010-04-23 22:50:06 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * CGP/*, Windows/*: Removed
+
+2010-04-23 22:22:03 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * NEWS, ChangeLog: Changes of V0.9.40 documented
+
+2010-04-23 22:19:01 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
 
         * ygp-cfg.h.in: Removed definition for GtkMozEmbed
 
@@ -26,7 +44,7 @@
 
 2010-03-16 13:37:17 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
 
-        * Makesystem: Checking for Giomm
+        * :Makesystem: Checking for Giomm
 
 2010-03-16 13:35:39 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
 
