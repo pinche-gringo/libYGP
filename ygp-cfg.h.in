@@ -213,9 +213,6 @@
 /* Set to version if GTKMM is version 2.6 or above */
 #undef HAVE_GTKMM26
 
-/* Define if GtkMozEmbed is installed */
-#undef HAVE_GTKMOZEMBED
-
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
