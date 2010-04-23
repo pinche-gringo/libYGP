@@ -32,6 +32,9 @@
 
 #include <dlfcn.h>
 
+#include <stdlib.h>
+#include <string.h>
+
 #include <YGP/Check.h>
 
 #include <gtkmozembed.h>
@@ -63,10 +66,10 @@ static PFNLOAD        pfnLoad = NULL;
 /// \returns GtkWidget* Created widget
 //----------------------------------------------------------------------------
 GtkWidget* gtkMozEmbedInitialize () {
-   TRACE ("Initializing gtkmozembed viewer\n");
+   TRACE ("Initialising gtkmozembed viewer\n");
 
    if (!hDLL)
-      hDLL = dlopen ("libgtkembedmoz" SHAREOBJ_EXT, 0x00001);
+      hDLL = dlopen ("libxul" SHAREOBJ_EXT, 0x00001);
 
    if (hDLL) {
       TRACE ("Checking function pointers\n");
