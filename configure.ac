@@ -163,23 +163,23 @@ PKG_CHECK_MODULES(GIOMM, giomm-2.4 >= 2.4.0,
 
 dnl Checking for GTKHTML which can be used
 for version in 3.14 3.8 3.5 3.1; do
-   PKG_CHECK_MODULES(GTKHTML, libgtkhtml-$version >= $version.0,
-                     [AC_DEFINE_UNQUOTED(HAVE_GTKHTML, "$version", [Define to API-version, if GTKHTML is installed])],
-                     [GTKHTML="no"])
-   if test "$GTKHTML" != "no"; then
+   PKG_CHECK_MODULES(GTKHTML, libgtkhtml-$version >= $version.0, [GTKHTML="yes"], [GTKHTML="no"])
+   if test "$GTKHTML" = "yes"; then
+      AC_DEFINE_UNQUOTED(HAVE_GTKHTML, "$version", [Define to API-version, if GTKHTML is installed])
       break;
    fi
 done
 
+dnl Doesn't seem to work with xulrunner-1.9, so disable it
 dnl Checking for mozilla-embeded which can be used
-for variant in firefox seamonkey mozilla; do
-   PKG_CHECK_MODULES(GTKMOZEMBED, $variant-gtkmozembed,
-                     [AC_DEFINE(HAVE_GTKMOZEMBED, 1, [Define if GtkMozEmbed is installed])],
-                     [GTKMOZEMBED="no"])
-   if test "$GTKMOZEMBED" != "no"; then
-      break;
-   fi
-done
+dnl for variant in firefox seamonkey mozilla; do
+dnl    PKG_CHECK_MODULES(GTKMOZEMBED, $variant-gtkmozembed, [GTKMOZEMBED="yes"], [GTKMOZEMBED="no"])
+dnl    if test "$GTKMOZEMBED" = "yes"; then
+dnl       gtkmoz=`pkg-config --modversion $variant-gtkmozembed`
+dnl       AC_DEFINE_UNQUOTED(HAVE_GTKMOZEMBED, "$gtkmoz", [Set to the version of the GTKMOZEMBED library])
+dnl       break;
+dnl    fi
+dnl done
 
 dnl Checking for Webkit 1.0 which can be used (Webkit needs also gthread)
 PKG_CHECK_MODULES(WEBKIT, webkit-1.0 >= 1.0.0,
