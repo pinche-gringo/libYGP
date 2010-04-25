@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.26 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2009
+//COPYRIGHT   : Copyright (C) 2001 - 2010
 
 // This file is part of libYGP.
 //
@@ -25,6 +25,8 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#include <boost/bind.hpp>
 
 #include <boost/spirit/include/classic_core.hpp>
 #include <boost/spirit/include/classic_rule.hpp>
@@ -69,9 +71,10 @@ AssignmentParse::~AssignmentParse () {
 std::string AssignmentParse::getNextNode () throw (std::exception) {
    TRACE1 ("AssignmentParse::getNextNode () - " << assignments);
    std::string node;
+   bool quoted (false);
 
    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
-   spirit::rule<> value (spirit::confix_p (QUOTE, (*spirit::c_escape_ch_p)[spirit::assign_a (actValue)], QUOTE)
+   spirit::rule<> value (spirit::confix_p (QUOTE, (*spirit::c_escape_ch_p)[spirit::assign_a (actValue)], QUOTE)[spirit::assign_a (quoted, true)]
 			 | (+(~spirit::ch_p (SEPARATOR)))[spirit::assign_a (actValue)]);
    spirit::rule<> assignment =
       ((key[spirit::assign_a (actKey)] >> '=' >>
@@ -81,6 +84,11 @@ std::string AssignmentParse::getNextNode () throw (std::exception) {
 
    TRACE1 ("AssignmentParse::getNextNode () - Remaining: " << assignments);
    spirit::parse (assignments.c_str (), assignment);
+
+   if (quoted)
+      for (std::string::size_type pos (0);
+	   (pos = actValue.find ("\\\"", pos)) != std::string::npos; ++pos)
+	 actValue.replace (pos, 2, 1, '"');
    return node;
 }
 
