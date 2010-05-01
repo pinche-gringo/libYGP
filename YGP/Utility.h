@@ -1,8 +1,6 @@
 #ifndef YGP_UTILITY_H
 #define YGP_UTILITY_H
 
-//$Id: Utility.h,v 1.3 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -20,6 +18,7 @@
 
 
 #include <iosfwd>
+#include <string>
 
 #include <ygp-cfg.h>
 
@@ -146,6 +145,9 @@ inline unsigned long get4BytesMSB (const char* pAddr) {
 
 unsigned int getFileOffsetInArchive (std::istream& stream, char* buffer,
 				     const char* file, unsigned int lenFile);
+
+void convertHTMLUnicode2UTF8 (std::string& string);
+std::string convertUnicode2UTF8 (unsigned int unicode);
 
 }
 

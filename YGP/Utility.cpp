@@ -1,5 +1,3 @@
-//$Id$
-
 //PROJECT     : libYGP
 //SUBSYSTEM   : YGP
 //REFERENCES  :
@@ -8,7 +6,7 @@
 //REVISION    : $Revision$
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.08.2008
-//COPYRIGHT   : Copyright (C) 2008
+//COPYRIGHT   : Copyright (C) 2008, 2010
 
 // This file is part of libYGP.
 //
@@ -27,6 +25,7 @@
 
 
 #include <cstring>
+
 #include <iostream>
 
 #include "YGP/Check.h"
@@ -90,6 +89,66 @@ unsigned int getFileOffsetInArchive (std::istream& stream, char* buffer,
       }
    }
    return 0;
+}
+
+//-----------------------------------------------------------------------------
+/// Converts HTML-unicode characters (&#xXXXX;) in string to its
+/// equivalent UTF-8 representation
+/// \param string String to convert
+//-----------------------------------------------------------------------------
+void convertHTMLUnicode2UTF8 (std::string& string) {
+   std::string::size_type start (0);
+   while ((start = string.find ("&#x", start)) != std::string::npos) {
+      TRACE1 ("convertHTMLUnicode2UTF8 (std::string&) - Found at " << start);
+
+      std::string::size_type pos (start + 3);
+      std::string::size_type end (string.find (';', pos));
+      unsigned int unicode (0);
+      if (end != std::string::npos)
+	 while (pos < end) {
+	    unicode <<= 4;
+	    char ch (string[pos++]);
+	    if (isdigit (ch))
+	       unicode |= (ch - '0');
+	    else if ((ch >= 'A') && (ch <= 'F'))
+	       unicode |= ch - 'A' + 10;
+	    else if ((ch >= 'a') && (ch <= 'f'))
+	       unicode |= ch - 'a' + 10;
+	 }
+
+      std::string subst (convertUnicode2UTF8 (unicode));
+      string.replace (start, end - start + 1, subst);
+      start += subst.length ();
+   }
+}
+
+//-----------------------------------------------------------------------------
+/// Converts a unicode character to an UTF-8 string
+/// equivalent UTF-8 representation
+/// \param unicode Unicode value
+/// \returns std::string Unicode character or empty string, if unknown unicode
+//-----------------------------------------------------------------------------
+std::string convertUnicode2UTF8 (unsigned int unicode) {
+   TRACE8 ("convertUnicode2UTF8 (std::string&) - Unicode: " << std::hex << unicode << std::dec);
+   std::string subst;
+   if (unicode < 0x80)
+      subst = (char)unicode;
+   else if (unicode < 0x800) {
+      subst = (char)(0xC0 + (unicode >> 6));
+      subst += (char)(0x80 + (unicode & 0x3F));
+   }
+   else if (unicode < 0x10000) {
+      subst = (char)(0xE0 + (unicode >> 12));
+      subst += (char)(0x80 + ((unicode >> 6) & 0x3F));
+      subst += (char)(0x80 + (unicode & 0x3F));
+   }
+   else if (unicode < 0x110000) {
+      subst = (char)(0xF0 + (unicode >> 18));
+      subst += (char)(0x80 + ((unicode >> 12) & 0x3F));
+      subst += (char)(0x80 + ((unicode >> 6) & 0x3F));
+      subst += (char)(0x80 + (unicode & 0x3F));
+   }
+   return subst;
 }
 
 }

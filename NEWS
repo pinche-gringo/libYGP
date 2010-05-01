@@ -1,3 +1,9 @@
+Overview of Changes in version 0.9.41:
+
+  - YGP::AssParse: Fixed parsing quoted values having a quote inside
+  - YGP::Utility: Added functions for Unicode-transformation
+
+
 Overview of Changes in version 0.9.40:
 
   - XGP::XFileList uses icons of default theme (if Giomm is available)
