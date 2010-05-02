@@ -41,7 +41,7 @@ const char DIR_SEPARATOR = '\\';
 
 #include <stdio.h>
 #include <errno.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include <dlfcn.h>
