@@ -47,11 +47,11 @@ int main (int argc, char* argv[]) {
    YGP::DirectorySearch ds ("FileTypes/*");
 
    YGP::FileTypeChecker::FileType aTypes[] = {
-      YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::MSOFFICE,
-      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::OOXML, YGP::FileTypeChecker::OPENOFFICE,
-      YGP::FileTypeChecker::GIF, YGP::FileTypeChecker::OGG, YGP::FileTypeChecker::PNG,
-      YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::HTML, YGP::FileTypeChecker::MP3,
-      YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::PDF };
+      YGP::FileTypeChecker::PDF, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::HTML,
+      YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::MSOFFICE,
+      YGP::FileTypeChecker::MP3, YGP::FileTypeChecker::OOXML, YGP::FileTypeChecker::OGG,
+      YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::GIF,
+      YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::PNG, YGP::FileTypeChecker::RTF };
 
    if ((file = ds.find ())) {
       unsigned int offset (0);
