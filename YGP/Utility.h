@@ -146,6 +146,7 @@ inline unsigned long get4BytesMSB (const char* pAddr) {
 unsigned int getFileOffsetInArchive (std::istream& stream, char* buffer,
 				     const char* file, unsigned int lenFile);
 
+void convertHTML2UTF8 (std::string& string);
 void convertHTMLUnicode2UTF8 (std::string& string);
 std::string convertUnicode2UTF8 (unsigned int unicode);
 
