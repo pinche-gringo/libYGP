@@ -104,6 +104,7 @@ class Relation1_1 : public IRelation {
    /// Connects two objects
    /// \param source Parent to relate
    /// \param target Child to relate with parent
+   /// \throws std::overflow_error If cardinality would be invalidated
    void relate (const S& source, const T& target) throw (std::overflow_error) {
       Check1 (source); Check1 (target);
       typename std::map<S, T >::const_iterator i (objects.find (source));
@@ -178,28 +179,26 @@ class Relation1_1 : public IRelation {
    /// Returns the parent of the passed object
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
-   /// \remarks The object must be related
-   S& getParent (const T& object) {
+   /// \throws std::invalid_argument If the passed object is not related
+   S& getParent (const T& object) throw (std::invalid_argument) {
       Check1 (object);
       for (typename std::map<S, T >::iterator i (objects.begin ());
 	   i != objects.end (); ++i)
 	 if (i->second == object)
 	    return i->first;
-      Check1 (0);
-      return objects.begin ()->first;
+      throw std::invalid_argument ("Relation1_1::getParent");
    }
    /// Returns the parent of the passed object
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
-   /// \remarks The object must be related
-   const S& getParent (const T& object) const {
+   /// \throws std::invalid_argument If the passed object is not related
+   const S& getParent (const T& object) const throw (std::invalid_argument) {
       Check1 (object);
       for (typename std::map<S, T >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i)
 	 if (i->second == object)
 	    return i->first;
-      Check1 (0);
-      return objects.begin ()->first;
+      throw std::invalid_argument ("Relation1_1::getParent");
    }
 
  private:
@@ -323,8 +322,8 @@ class Relation1_N : public IRelation {
    /// Returns the parent of the passed object
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
-   /// \remarks The object must be related
-   S getParent (const T& object) {
+   /// \throws std::invalid_argument If the passed object is not related
+   S getParent (const T& object) throw (std::invalid_argument) {
       Check1 (object);
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {
@@ -333,14 +332,13 @@ class Relation1_N : public IRelation {
 	 if (o != i->second.end ())
 	    return i->first;
       }
-      Check1 (0);
-      return objects.begin ()->first;
+      throw std::invalid_argument ("Relation1_N::getParent");
    }
    /// Returns the parent of the passed object
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
-   /// \remarks The object must be related
-   const S getParent (const T& object) const {
+   /// \throws std::invalid_argument If the passed object is not related
+   const S getParent (const T& object) const throw (std::invalid_argument) {
       Check1 (object);
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {
@@ -349,8 +347,7 @@ class Relation1_N : public IRelation {
 	 if (o != i->second.end ())
 	    return i->first;
       }
-      Check1 (0);
-      return objects.begin ()->first;
+      throw std::invalid_argument ("Relation1_N::getParent");
    }
 
  protected:
@@ -592,8 +589,8 @@ class RelationN_M : public IRelation {
    /// Returns the parents of the passed object
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
-   /// \remarks The object must be related
-   const std::vector<S>& getParents (const T& object) const {
+   /// \throws std::invalid_argument If the passed object is not related
+   const std::vector<S>& getParents (const T& object) const throw (std::invalid_argument) {
       Check1 (object);
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {
@@ -606,8 +603,7 @@ class RelationN_M : public IRelation {
 	    return p->second;
 	 }
       }
-      Check1 (0);
-      return parents.end ()->second;
+      throw std::invalid_argument ("RelationN_M::getParent");
    }
 
  protected:
