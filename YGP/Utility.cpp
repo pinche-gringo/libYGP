@@ -6,7 +6,7 @@
 //REVISION    : $Revision$
 //AUTHOR      : Markus Schwab
 //CREATED     : 25.08.2008
-//COPYRIGHT   : Copyright (C) 2008, 2010
+//COPYRIGHT   : Copyright (C) 2008, 2010, 2011
 
 // This file is part of libYGP.
 //
@@ -193,33 +193,46 @@ void convertHTML2UTF8 (std::string& string) {
 }
 
 //-----------------------------------------------------------------------------
-/// Converts HTML-unicode characters (&#xXXXX;) in string to its
+/// Converts HTML-unicode characters (&#xXXXX; or &#XXX;) in string to its
 /// equivalent UTF-8 representation
 /// \param string String to convert
 //-----------------------------------------------------------------------------
 void convertHTMLUnicode2UTF8 (std::string& string) {
    std::string::size_type start (0);
-   while ((start = string.find ("&#x", start)) != std::string::npos) {
+   while ((start = string.find ("&#", start)) != std::string::npos) {
       TRACE1 ("convertHTMLUnicode2UTF8 (std::string&) - Found at " << start);
 
-      std::string::size_type pos (start + 3);
+      std::string::size_type pos (start + 2);
       std::string::size_type end (string.find (';', pos));
-      unsigned int unicode (0);
-      if (end != std::string::npos)
-	 while (pos < end) {
-	    unicode <<= 4;
-	    char ch (string[pos++]);
-	    if (isdigit (ch))
-	       unicode |= (ch - '0');
-	    else if ((ch >= 'A') && (ch <= 'F'))
-	       unicode |= ch - 'A' + 10;
-	    else if ((ch >= 'a') && (ch <= 'f'))
-	       unicode |= ch - 'a' + 10;
+      if (end != std::string::npos) {
+	 unsigned int unicode (0);
+
+	 if (string[pos] == 'x')
+	    while (++pos < end) {
+	       unicode <<= 4;
+	       char ch (string[pos]);
+	       if (isdigit (ch))
+		  unicode |= (ch - '0');
+	       else if ((ch >= 'A') && (ch <= 'F'))
+		  unicode |= ch - 'A' + 10;
+	       else if ((ch >= 'a') && (ch <= 'f'))
+		  unicode |= ch - 'a' + 10;
+	    }
+	 else {
+	    while (pos < end) {
+	       unicode *= 10;
+	       char ch (string[pos++]);
+	       if (isdigit (ch))
+		  unicode += (ch - '0');
+	    }
 	 }
 
-      std::string subst (convertUnicode2UTF8 (unicode));
-      string.replace (start, end - start + 1, subst);
-      start += subst.length ();
+	 std::string subst (convertUnicode2UTF8 (unicode));
+	 string.replace (start, end - start + 1, subst);
+	 start += subst.length ();
+      }
+      else
+	 start += 2;
    }
 }
 
