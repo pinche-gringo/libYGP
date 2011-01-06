@@ -99,8 +99,8 @@ void convertHTML2UTF8 (std::string& string) {
    convertHTMLUnicode2UTF8 (string);
 
    static struct {
-      const char* html;
-      const char* utf8;
+      const std::string html;
+      const std::string utf8;
    } convTable[] = {
       { "AElig", "\xc3\x86" }, { "Aacute", "\xc3\x81" }, { "Acirc", "\xc3\x82" }, { "Agrave", "\xc3\x80" },
       { "Alpha", "\xce\x91" }, { "Aring", "\xc3\x85" }, { "Atilde", "\xc3\x83" }, { "Auml", "\xc3\x84" },
@@ -263,6 +263,30 @@ std::string convertUnicode2UTF8 (unsigned int unicode) {
       subst += (char)(0x80 + (unicode & 0x3F));
    }
    return subst;
+}
+
+//-----------------------------------------------------------------------------
+/// Converts special HTML characters (&, <, >
+/// \param string String to convert
+//-----------------------------------------------------------------------------
+void convertUTF82HTML (std::string& string) {
+   static struct {
+      char character;
+      std::string replace;
+   } convTable[] = {
+      { '&', "&amp;" },
+      { '<',  "&lt;" },
+      { '>', "&gt;" },
+      { '\'', "&lsquo;" },
+      { '"',  "&quot;" }
+   };
+
+   for (unsigned int i (0); i < string.size (); ++i)
+      for (unsigned int j (0); j < (sizeof (convTable) / sizeof (convTable[0])); ++j)
+         if (string[i] == convTable[j].character) {
+            string.replace (i, 1, convTable[j].replace);
+            i += convTable[j].replace.length ();
+         }
 }
 
 }

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.12 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.11.2004
-//COPYRIGHT   : Copyright (C) 2004, 2005, 2007 - 2009
+//COPYRIGHT   : Copyright (C) 2004, 2005, 2007 - 2009, 2011
 
 // This file is part of libYGP.
 //
@@ -33,6 +33,7 @@
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
+#include <YGP/Utility.h>
 #include <YGP/AssParse.h>
 
 #include "TableWriter.h"
@@ -222,21 +223,9 @@ void TableWriter::printHeaderTail (std::ostream&) const {
 /// \returns std::string Changed string
 //-----------------------------------------------------------------------------
 std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
-   TRACE5 ("HTMLWriter::changeSpecialChars (const std::string&) - Changing: " << value);
-
+   TRACE5 ("TableWriter::changeSpecialChars (const std::string&) - Changing: " << value);
    std::string chg (value);
-   static const char toChange[] = { '&', '<', '>', '\'', '"' };
-   static const char* changeTo[] = { "&amp;", "&lt;", "&gt;", "&lsquo;", "&quot;" };
-   Check3 (sizeof (toChange) == (sizeof (changeTo) / sizeof (changeTo[0])));
-
-   for (unsigned int i (0); i < chg.size (); ++i)
-      for (unsigned int j (0); j < sizeof (toChange); ++j)
-         if (chg[i] == toChange[j]) {
-            TRACE9 ("HTMLWriter::changeSpecialChars (const std::string&) - Changing "
-                    << chg[i] << " with " << changeTo[j]);
-            chg.replace (i, 1, changeTo[j]);
-            i += strlen (changeTo[j]);
-         }
+   convertUTF82HTML (chg);
    return chg;
 }
 
