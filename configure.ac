@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.41],[g17m0@users.sourceforge.net],[libYGP])
+AC_INIT([libYGP],[0.9.42],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -241,6 +241,9 @@ AC_RUN_IFELSE(
      AC_MSG_WARN([Disabling dynamic calculation of buffersize for strftime])])
 
 dnl Enable special features
+AC_ARG_ENABLE(network-trav,
+              AC_HELP_STRING([--enable-network-trav],
+	                     [Adds classes to traverse directories over a network]))
 AC_ARG_ENABLE(debug,
               AS_HELP_STRING([[[[--enable-debug[=LEVEL]]]]],Enables additional traces),
               if test "$enableval" != "no"; then
@@ -255,6 +258,11 @@ AC_ARG_ENABLE(checks,
                   CXXFLAGS="$CXXFLAGS -DCHECK=$enableval";
               else
                   CXXFLAGS="$CXXFLAGS -DNDEBUG -UCHECK"; fi)
+
+if test "$enable_network_trav" = "yes"; then
+   AC_DEFINE(HAVE_NETWORK_TRAVERSING, 1, [Define if network traversing is included])
+fi
+AM_CONDITIONAL(WITH_NETWORK_TRAVERSING, test "$enable_network_trav" = "yes")
 
 LIB_GMP=""
 AC_ARG_WITH(gmp,
