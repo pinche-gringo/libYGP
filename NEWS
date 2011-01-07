@@ -1,8 +1,14 @@
+Overview of Changes in version 0.9.42:
+
+  - YGP::Relation: getParent throws if object is not related
+  - YGP::Utility: Added further functions for Unicode-transformation
+  - YGP::Remote-classes must be enabled at compile-time
+
+
 Overview of Changes in version 0.9.41:
 
   - YGP::AssParse: Fixed parsing quoted values having a quote inside
   - YGP::Utility: Added functions for Unicode-transformation
-  - YGP::Relation: getParent throws if object is not related
 
 
 Overview of Changes in version 0.9.40:

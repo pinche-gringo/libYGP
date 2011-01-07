@@ -1,3 +1,33 @@
+2011-01-07 20:48:34 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * NEWS, ChangeLog: Changes of V0.9.42 documented
+
+        * configure: Version to 0.9.42; Network-traversal classes are disabled by default
+
+2011-01-07 20:47:00 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * po: Updated
+
+2011-01-06 18:19:29 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Added further conversion-functions to utility
+
+2011-01-04 19:56:28 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Utility::convertHTMLUnicode2UTF8() handles decimal unicode-characters
+
+2011-01-02 19:59:33 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Added convertHTML2UTF8()
+
+2011-01-02 15:54:55 +0100  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * YGP: Relation throws if getParent is called with an unrelated object
+
+2010-08-13 22:26:52 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
+
+        * FileTypeChk: Resorted expected results; due to copying of files
+
 2010-04-23 22:51:54 +0200  Markus Schwab  <g17m0@users.sourceforge.net>
 
         * Makefile.am, configure.ac: Removed handling of CGP/* and Windows/*
