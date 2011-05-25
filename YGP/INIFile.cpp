@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.39 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 7.5.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2009
+//COPYRIGHT   : Copyright (C) 2000 - 2009, 2011
 
 // This file is part of libYGP.
 //
@@ -107,8 +107,10 @@ INISection::INISection (const char* name)
    TRACE9 ("INISection::INISection (const char*) - Create: " << pName);
    Check1 (pName);
 
-   _Attributes[0] = &Identifier; _Attributes[1] = &equals;
-   _Attributes[2] = &Value; _Attributes[3] = NULL;
+   _Attributes[0] = &Identifier;
+   _Attributes[1] = &equals;
+   _Attributes[2] = &Value;
+   _Attributes[3] = NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -377,11 +379,11 @@ int INIFile::read () throw (YGP::ParseError) {
 
       INISection::TSectionParser<INIFile> hdrParser (*this, &INIFile::foundSection);
       rc = hdrParser.parse ((Xistream&)file);
-      if (rc || file.eof ())
+      TRACE1 ("INIFile::read " << rc << '/' << pSection << '/' << file.eof ());
+      if (rc || file.eof () || !pSection)
 	 break;
 
-      if (pSection)
-         rc = pSection->readAttributes ((Xistream&)file);
+      rc = pSection->readAttributes ((Xistream&)file);
    } while (!rc); // end-do
 
    return rc;

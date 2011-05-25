@@ -1,3 +1,8 @@
+Overview of Changes in version 0.9.43:
+
+  - YGP: Adapted to work with glibc 2.13.90 and boost 1.46
+
+
 Overview of Changes in version 0.9.42:
 
   - YGP::Relation: getParent throws if object is not related

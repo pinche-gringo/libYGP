@@ -5,7 +5,7 @@ Attr2=value2
 Attr3=1999
 Attr4=29022000
 
-; Further sections ; parse by INISection
+; Further sections ; parsed by INISection
 [Special]
 Attr5=
 Attr6=28021900 113015

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009, 2011
 
 // This file is part of libYGP.
 //
@@ -179,7 +179,7 @@ int IVIOApplication::run () {
          ret.replace (i, 0, env);
 #endif
 
-      fs::path path (userdir, fs::native); Check1 (path.size ());
+      fs::path path (userdir); Check1 (path.is_complete ());
       std::string inifile;
 #if SYSTEM == UNIX
       inifile = std::string (1, '.') + name ();
@@ -187,7 +187,7 @@ int IVIOApplication::run () {
       inifile = name () + ".ini";
 #endif
       path /= inifile;
-      readINIFile (path.file_string ().c_str ());
+      readINIFile (path.c_str ());
 
       char ch;
       bool showHlp (false);
