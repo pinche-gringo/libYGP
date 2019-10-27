@@ -30,7 +30,9 @@
 #include <cstdio>
 #include <stdexcept>
 
-#include <gtkmm/main.h>
+#include <glibmm/main.h>
+#include <glibmm/convert.h>
+
 #include <gtkmm/spinbutton.h>
 #include <gtkmm/messagedialog.h>
 
@@ -56,7 +58,7 @@ template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : 
 
  public:
    /// Constructor; sets the attribute to handle.
-   XAttributeSpinEntry (T& attr, Gtk::Adjustment& adjustment,
+   XAttributeSpinEntry (T& attr, const Glib::RefPtr<Gtk::Adjustment>& adjustment,
 			double climbRate = 0.0, guint digits = 0)
    : P (adjustment, climbRate, digits), attr_ (attr), inError (false) {
       P::set_numeric (false);
@@ -143,7 +145,7 @@ template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : 
 
 // Specialication for YGP::ANumeric
 template <> inline
-XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, Gtk::Adjustment& adjustment,
+XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, const Glib::RefPtr<Gtk::Adjustment>& adjustment,
 			double climbRate, guint digits)
    : parent (adjustment, climbRate, digits), attr_ (attr), inError (false) {
       parent::set_numeric (false);

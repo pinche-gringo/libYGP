@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 1.2.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2009
+//COPYRIGHT   : Copyright (C) 2003 - 2009, 2011
 
 // This file is part of libYGP.
 //
@@ -162,7 +162,7 @@ XAppl::XAppl ()
    listFiles.get_column (0)->set_min_width (390);
    listFiles.get_column (1)->set_min_width (60);
    listFiles.get_column (2)->set_min_width (105);
-   listFiles.get_selection ()->set_mode (Gtk::SELECTION_EXTENDED);
+   listFiles.get_selection ()->set_mode (Gtk::SELECTION_MULTIPLE);
 
    scroll.add (listFiles);
 

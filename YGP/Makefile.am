@@ -14,7 +14,7 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 AM_CXXFLAGS = -Woverloaded-virtual -Weffc++
 DEFAULT_INCLUDES =
-INCLUDES = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@ -Wall -Wextra
+AM_CPPFLAGS = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@ -Wall -Wextra
 LIBS = @LTLIBINTL@ @LIBS@
 
 includedir = ${prefix}/include/YGP

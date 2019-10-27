@@ -38,7 +38,8 @@ namespace XGP {
 class AutoContainer : public Gtk::ScrolledWindow {
   public:
    AutoContainer ();
-   AutoContainer (Gtk::Adjustment& hadjustment, Gtk::Adjustment& vadjustment);
+   AutoContainer (const Glib::RefPtr<Gtk::Adjustment>& hadjustment,
+		  const Glib::RefPtr<Gtk::Adjustment>& vadjustment);
    virtual ~AutoContainer ();
 
    void insert (Gtk::Widget& widget, unsigned int pos);

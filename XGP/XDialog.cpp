@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2011
 
 // This file is part of libYGP.
 //
@@ -43,11 +43,9 @@ namespace XGP {
 /// Constructor; creates the dialog with the specified buttons
 /// \param buttons Bitfield for buttons to display
 /// \param modal Flag, if the dialog is modal
-/// \param use_separator Flag, if the dialog should display a separator line
-///     between its contents and its buttons
 //-----------------------------------------------------------------------------
-XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
-   : Gtk::Dialog ("", modal, use_separator), ok (NULL), cancel (NULL) {
+XDialog::XDialog (unsigned int buttons, bool modal)
+   : Gtk::Dialog (Glib::ustring (), modal), ok (NULL), cancel (NULL) {
    init (buttons);
 }
 
@@ -56,12 +54,9 @@ XDialog::XDialog (unsigned int buttons, bool modal, bool use_separator)
 /// \param buttons Bitfield for buttons to display
 /// \param title Title to display
 /// \param modal Flag, if the dialog is modal
-/// \param use_separator Flag, if the dialog should display a separator line
-///     between its contents and its buttons
 //-----------------------------------------------------------------------------
-XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
-                  bool modal, bool use_separator)
-   : Gtk::Dialog (title, modal, use_separator), ok (NULL), cancel (NULL) {
+XDialog::XDialog (const Glib::ustring& title, unsigned int buttons, bool modal)
+   : Gtk::Dialog (title, modal), ok (NULL), cancel (NULL) {
    init (buttons);
 }
 
@@ -71,12 +66,10 @@ XDialog::XDialog (const Glib::ustring& title, unsigned int buttons,
 /// \param title Title to display
 /// \param parent Parent of the dialog
 /// \param modal Flag, if the dialog is modal
-/// \param use_separator Flag, if the dialog should display a separator line
-///     between its contents and its buttons
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
-                  unsigned int buttons, bool modal, bool use_separator)
-   : Gtk::Dialog (title, parent, modal, use_separator), ok (NULL), cancel (NULL) {
+                  unsigned int buttons, bool modal)
+   : Gtk::Dialog (title, parent, modal), ok (NULL), cancel (NULL) {
    init (buttons);
 }
 
@@ -100,7 +93,7 @@ void XDialog::init (unsigned int buttons) {
       ok = manage (new Gtk::Button (Gtk::Stock::OK));
       ok->signal_clicked ().connect (mem_fun (*this, &XDialog::handleOK));
       get_action_area ()->pack_start (*ok, false, false, 5);
-      ok->set_flags (Gtk::CAN_DEFAULT);
+      ok->set_can_default ();
       ok->show ();
    }
    else

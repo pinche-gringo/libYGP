@@ -1,6 +1,6 @@
 SUBDIRS=.
 
-INCLUDES=-I$(top_srcdir)
+AM_CPPFLAGS=-I$(top_srcdir)
 
 # Settings for gettext
 localedir = $(datadir)/locale

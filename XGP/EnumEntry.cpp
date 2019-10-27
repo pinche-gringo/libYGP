@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.04.2005
-//COPYRIGHT   : Copyright (C) 2005, 2008
+//COPYRIGHT   : Copyright (C) 2005, 2008, 2011
 
 // This file is part of libYGP.
 //
@@ -39,8 +39,8 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 EnumEntry::EnumEntry (const YGP::MetaEnum& values) {
    for (YGP::MetaEnum::const_iterator i (values.begin ()); i != values.end (); ++i)
-      append_text (i->second);
-   set_active (0);
+      append (i->second);
+   // set_active (0);
 }
 
 //-----------------------------------------------------------------------------

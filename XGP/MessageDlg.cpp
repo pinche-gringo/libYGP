@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2012
 
 // This file is part of libYGP.
 //
@@ -28,6 +28,8 @@
 
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
+
+#include <glibmm/main.h>
 
 #include <gtkmm/label.h>
 #include <gtkmm/button.h>

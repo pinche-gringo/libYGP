@@ -30,7 +30,8 @@
 #include <cstdio>
 #include <stdexcept>
 
-#include <gtkmm/main.h>
+#include <glibmm/main.h>
+
 #include <gtkmm/entry.h>
 #include <gtkmm/messagedialog.h>
 

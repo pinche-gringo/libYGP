@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
 AC_REVISION($Revision: 1.102 $)
-AC_INIT([libYGP],[0.9.43],[g17m0@users.sourceforge.net],[libYGP])
+AC_INIT([libYGP],[0.9.50],[g17m0@users.sourceforge.net],[libYGP])
 
 RELEASE=${PACKAGE_VERSION%.*}
 AC_DEFINE_UNQUOTED(LIB_RELEASE, "$RELEASE")
@@ -12,8 +12,8 @@ AC_DEFINE_UNQUOTED(LIBYGP_NAME, "$PACKAGE_NAME", [Name of the libYGP-package])
 AC_SUBST(PACKAGE_VERSION)
 AC_SUBST(RELEASE)
 
-LIBRELEASE=0.9.20
-dnl LIBRELEASE=$PACKAGE_VERSION
+dnl LIBRELEASE=0.9.20
+LIBRELEASE=$PACKAGE_VERSION
 AC_SUBST(LIBRELEASE)
 
 MYSUBDIRS="YGP"
@@ -40,7 +40,7 @@ AM_PROG_LIBTOOL
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
 
 AC_CHECK_PROG([HAVE_PERL], [perl], [yes], [no])
 if test "$HAVE_PERL" = "no"; then
@@ -144,18 +144,12 @@ AC_CHECK_HEADERS(boost/filesystem/path.hpp boost/shared_ptr.hpp \
 
 
 dnl Check gtkmm version
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.0.0 gthread-2.0 > 2.2.0,
+PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.0.0 gthread-2.0 > 2.2.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])],
 		  [AC_MSG_NOTICE(No GTK+: Checks will be only textual)])
-PKG_CHECK_MODULES(GTKMM, gtkmm-2.4 >= 2.4.0,
+PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.0.0,
                   [[MYSUBDIRS="$MYSUBDIRS XGP"]],
                   [AC_MSG_WARN([Subdir XGP will not be made])])
-
-if $PKG_CONFIG --exists "gtkmm-2.4 >= 2.6.0" ; then
-   GTKMM_VERSION=`$PKG_CONFIG --modversion gtkmm-2.4`
-   AC_DEFINE_UNQUOTED([HAVE_GTKMM26], $GTKMM_VERSION,
-                      [Set to version if GTKMM is version 2.6 or above])
-fi
 
 PKG_CHECK_MODULES(GIOMM, giomm-2.4 >= 2.4.0,
                   [AC_DEFINE(HAVE_GIOMM, 1, [Define if Giomm is installed (in a fitting version)])],
@@ -277,7 +271,7 @@ fi
 AC_SUBST(LIB_GMP)
 
 AC_CONFIG_FILES([Makefile YGP/Makefile YGP/Tests/Makefile XGP/Makefile \
-	        intl/Makefile XGP/Icons/Makefile po/Makefile.in \
+	        XGP/Icons/Makefile po/Makefile.in \
 	        doc/Makefile bin/Makefile XGP/Samples/Makefile \
 	        YGP/YGP.pc XGP/XGP.pc doc/YGP.doxy doc/XGP.doxy])
 AC_OUTPUT

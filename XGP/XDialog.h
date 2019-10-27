@@ -49,11 +49,9 @@ class XDialog : public Gtk::Dialog {
    } buttons;
 
    XDialog (const Glib::ustring& title, Gtk::Window& parent,
-            unsigned int buttons = OKCANCEL, bool modal = false, bool use_separator = false);
-   XDialog (const Glib::ustring& title, unsigned int buttons = OKCANCEL,
-            bool modal = false, bool use_separator = false);
-   XDialog (unsigned int buttons = OKCANCEL, bool modal = false,
-            bool use_separator = false);
+            unsigned int buttons = OKCANCEL, bool modal = false);
+   XDialog (const Glib::ustring& title, unsigned int buttons = OKCANCEL, bool modal = false);
+   XDialog (unsigned int buttons = OKCANCEL, bool modal = false);
 
    void init (unsigned int buttons = OKCANCEL);
 

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008 - 2010
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008 - 2011
 
 // This file is part of libYGP.
 //
@@ -49,7 +49,7 @@
 #include <gtkmm/messagedialog.h>
 
 #define CHECK 9
-#define TRACELEVEL 1
+#define TRACELEVEL 9
 #include <YGP/File.h>
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
@@ -245,53 +245,53 @@ void XFileList::setFilename (Gtk::TreeIter& line, const std::string& file) {
 /// \param event Datails about the event
 /// \returns bool true: Event has been handled; false else
 //-----------------------------------------------------------------------------
-bool XFileList::on_event (GdkEvent* event) {
-   TRACE2 ("XFileList::on_event (GdkEvent*) - " << event->type);
+bool XFileList::on_button_release_event (GdkEventButton* event) {
+   TRACE2 ("XFileList::on_button_release_event (GdkEventButton*) - " << event->button);
 
-   if (event->type == GDK_BUTTON_RELEASE) {
-      GdkEventButton* bev ((GdkEventButton*)(event));
-      if (bev->button == 3) {
-         if (pMenuPopAction) {
-            delete pMenuPopAction;
-            pMenuPopAction = NULL;
-	 }
-
-	 Gtk::TreeModel::Path pathAct;
-	 Gtk::TreeViewColumn* colFocus;
-	 get_cursor (pathAct, colFocus);
-
-         if (!pathAct.empty ()) {
-            TRACE8 ("XFileList::on_event (GdkEvent*) - Creating menu");
-            pMenuPopAction = new Gtk::Menu;
-
-            // Testing if $EDITOR exists and add that to list; else use VI
-            Glib::ustring editor (_("Open in %1 ..."));
-            const char* ed;
-            if ((ed = getenv ("EDITOR")) == NULL)
-               ed = "vi";
-            editor.replace (editor.find ("%1"), 2, ed);
-
-	    // Get selected row
-	    Check3 (get_model ());
-	    Gtk::TreeIter iAct (get_model ()->get_iter (pathAct)); Check3 (iAct);
-
-            pMenuPopAction->items ().push_back
-               (Gtk::Menu_Helpers::MenuElem
-                (editor,
-                 bind (mem_fun (*this, &XFileList::startInTerm),
-                       ed, iAct)));
-            pMenuPopAction->items ().push_back
-               (Gtk::Menu_Helpers::MenuElem (_("Rename/Move ..."),
-                 bind (mem_fun (*this, &XFileList::move), iAct)));
-            pMenuPopAction->items ().push_back
-               (Gtk::Menu_Helpers::MenuElem (_("Delete"),
-                 bind (mem_fun (*this, &XFileList::remove), iAct)));
-
-            addMenus (*pMenuPopAction, iAct);
-            pMenuPopAction->popup (bev->button, bev->time);
-         }
-         return true;
+   if (event->button == 3) {
+      if (pMenuPopAction) {
+	 delete pMenuPopAction;
+	 pMenuPopAction = NULL;
       }
+
+      Gtk::TreeModel::Path pathAct;
+      Gtk::TreeViewColumn* colFocus;
+      get_cursor (pathAct, colFocus);
+
+      if (!pathAct.empty ()) {
+	 TRACE8 ("XFileList::on_button_release_event (GdkEvent*) - Creating menu");
+	 pMenuPopAction = new Gtk::Menu;
+
+	 // Testing if $EDITOR exists and add that to list; else use VI
+	 Glib::ustring editor (_("Open in %1 ..."));
+	 const char* ed;
+	 if ((ed = getenv ("EDITOR")) == NULL)
+	    ed = "vi";
+	 editor.replace (editor.find ("%1"), 2, ed);
+
+	 // Get selected row
+	 Check3 (get_model ());
+	 Gtk::TreeIter iAct (get_model ()->get_iter (pathAct)); Check3 (iAct);
+
+	 Gtk::MenuItem* item (Gtk::manage(new Gtk::MenuItem (editor)));
+	 item->show ();
+	 item->signal_activate ().connect
+	    (bind (mem_fun (*this, &XFileList::startInTerm), ed, iAct));
+	 pMenuPopAction->append(*item);
+	 item = Gtk::manage(new Gtk::MenuItem (_("Rename/Move ...")));
+	 item->show ();
+	 item->signal_activate ().connect
+	    (bind (mem_fun (*this, &XFileList::move), iAct));
+	 pMenuPopAction->append(*item);
+	 item = Gtk::manage(new Gtk::MenuItem (_("Delete")));
+	 item->show ();
+	 item->signal_activate ().connect
+	    (bind (mem_fun (*this, &XFileList::remove), iAct));
+	 pMenuPopAction->append(*item);
+
+	 pMenuPopAction->popup (event->button, event->time);
+      }
+      return true;
    }
    return false;
 }

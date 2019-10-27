@@ -1,6 +1,6 @@
 SUBDIRS=.
 
-INCLUDES = -I$(top_srcdir) @GTKMM_CFLAGS@ -I$(top_srcdir)/intl  -I$(top_srcdir)/YGP -Wall -Wextra -Woverloaded-virtual -Weffc++
+AM_CPPFLAGS = -I$(top_srcdir) @GTKMM_CFLAGS@ -I$(top_srcdir)/intl  -I$(top_srcdir)/YGP -Wextra -Woverloaded-virtual
 
 # Settings for gettext
 localedir = $(datadir)/locale

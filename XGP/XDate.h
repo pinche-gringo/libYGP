@@ -31,7 +31,6 @@ namespace YGP {
 namespace Gtk {
    class HBox;
    class Calendar;
-   class Adjustment;
    class SpinButton;
 }
 
@@ -94,15 +93,11 @@ class XDate : public XDialog {
    typedef boost::scoped_ptr<Gtk::HBox>        PHBox;
    typedef boost::scoped_ptr<Gtk::Calendar>    PCalendar;
    typedef boost::scoped_ptr<Gtk::SpinButton>  PSpinButton;
-   typedef boost::scoped_ptr<Gtk::Adjustment>  PAdjustment;
 
    PHBox       client;
    PCalendar   cal;
-   PAdjustment adjHour;
    PSpinButton spinHour;
-   PAdjustment adjMinute;
    PSpinButton spinMinute;
-   PAdjustment adjSecond;
    PSpinButton spinSecond;
 
    YGP::ATimestamp& result;

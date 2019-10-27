@@ -25,6 +25,7 @@
 #if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
 #  include <libintl.h>
 #  ifdef CONVERT_TO_UTF8
+#     include <glibmm/convert.h>
 #     define _(String)                        Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, String))
 #  else
 #     define _(String)                        dgettext (LIBYGP_NAME, String)

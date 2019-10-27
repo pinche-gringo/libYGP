@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.16 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 01.02.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008, 2011
 
 // This file is part of libYGP.
 //
@@ -71,8 +71,7 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
      entryEnum (manage (new XGP::EnumEntry (metaEnum))),
      lblNum (manage (new XGP::XAttributeLabel<YGP::ANumeric> (numEntry))),
      entryNum (manage (new XGP::XAttributeEntry<YGP::ANumeric> (numEntry))),
-     adjNum (manage (new Gtk::Adjustment (0, 0, 10000000.0, 1, 100))),
-     spinNum (manage (new XGP::XAttributeSpinEntry<unsigned int> (n1, *adjNum))),
+     spinNum (manage (new XGP::XAttributeSpinEntry<unsigned int> (n1, Gtk::Adjustment::create (0, 0, 10000000.0, 1, 100)))),
      entryFile (manage (new XGP::XFileEntry ())),
      file_ (file) {
    TRACE9 ("Dialog::Dialog (ANumeric&, std::string&) - Num: " << numEntry
@@ -102,6 +101,7 @@ Dialog::Dialog (YGP::ANumeric& numEntry, std::string& file)
    lblFileEntry->set_mnemonic_widget (*entryEnum);
 
    entryEnum->set_active_text (metaEnum[n2]);
+   std::cout << "Value: " << entryEnum->get_active_text () << std::endl << std::flush;
    pClient->attach (*lblEnum,   0, 1, 3, 4, Gtk::FILL, Gtk::FILL, 5, 2);
    pClient->attach (*entryEnum, 1, 2, 3, 4, Gtk::FILL | Gtk::EXPAND, Gtk::FILL, 5, 2);
 
@@ -128,11 +128,17 @@ Dialog::~Dialog () {
 /// Handling of the OK button; closes dialog with commiting data
 //-----------------------------------------------------------------------------
 void Dialog::okEvent () {
+   std::cout << "okEvent" << std::endl << std::flush;
    ok->grab_focus ();              // So that AttributeEntry-fields are updated
+   std::cout << "okEvent - commit entry" << std::endl << std::flush;
    entryNum->commit ();
+   std::cout << "okEvent - commit spin" << std::endl << std::flush;
    spinNum->commit ();
+   std::cout << "okEvent - getFilename" << std::endl << std::flush;
    file_ = entryFile->get_text ();
 
+   std::cout << "okEvent - getEnumValue" << std::endl << std::flush;
+   std::cout << "okEvent " << entryEnum->get_active_text () << std::endl << std::flush;
    n2 = metaEnum[entryEnum->get_active_text ()];
    XGP::XDialog::okEvent ();
 }

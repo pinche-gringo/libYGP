@@ -58,7 +58,7 @@ class StatusObject {
    std::string getDetails () const { return child ? child->msg : ""; }
 
    /// Returns if the message has details
-   bool hasDetails () const { return child; }
+   bool hasDetails () const { return (bool)child; }
 
    /// Cleans the object (sets it again to undefined)
    void clean () { tp = UNDEFINED; msg.clear (); child.reset (NULL); }

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2008
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2008, 2011
 
 // This file is part of libYGP.
 //
@@ -26,7 +26,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
@@ -51,7 +51,8 @@ AutoContainer::AutoContainer () : Gtk::ScrolledWindow (), view (), width (-1) {
 /// @param hadjustment: Horizontal adjustment bar
 /// @param vadjustment: Vertical adjustment bar
 //-----------------------------------------------------------------------------
-AutoContainer::AutoContainer (Gtk::Adjustment& hadjustment, Gtk::Adjustment& vadjustment)
+AutoContainer::AutoContainer (const Glib::RefPtr<Gtk::Adjustment>& hadjustment,
+			      const Glib::RefPtr<Gtk::Adjustment>& vadjustment)
    : Gtk::ScrolledWindow (hadjustment, vadjustment), view (), width (-1) {
    init ();
 }
@@ -72,15 +73,15 @@ void AutoContainer::add (Gtk::Widget& child) {
    TRACE9 ("AutoContainer::add (Gtk::Widget&) - Child " << &child);
    Check2 (view.children ().size ());
 
-   Gtk::Box_Helpers::Child& line_ (view.children ()[view.children ().size () - 1]);
-   Gtk::HBox* line (dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
+   Gtk::Widget* last_ (view.get_children ().back ());
+   Gtk::HBox* line (dynamic_cast<Gtk::HBox*> (last_));
 
    // Check if the widget fits into the line
-   Gtk::Requisition lineReq, childReq;
-   line->size_request (lineReq);
-   child.size_request (childReq);
+   int lineX, lineY, childX, childY;
+   line->get_size_request (lineX, lineY);
+   child.get_size_request (childX, childY);
 
-   if (lineReq.width && ((childReq.width + lineReq.width + 10) > width)) {
+   if (lineX && ((childY + lineY + 10) > width)) {
       TRACE9 ("AutoContainer::checkLast (Gtk::HBox*, Gtk::Widget*) - Handle " <<  &child);
       line->show ();
       line = addLine ();
@@ -100,36 +101,35 @@ void AutoContainer::line_size_allocate (Gtk::Allocation& size, Gtk::HBox* line) 
            << line  << " to " << size.get_width () << " * " << size.get_height ());
    Check3 (line);
 
-   Gtk::Requisition lineReq;
-   line->size_request (lineReq);
+   int lineX, lineY;
+   line->get_size_request (lineX, lineY);
 
-   if ((size.get_width () - 8) < lineReq.width) {
+   if ((size.get_width () - 8) < lineY) {
       // First find line which has been resized
-       for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
-            i != view.children ().end (); ++i)
-           if ((i->get_widget () == line) && (line->children ().size () > 1)) {
+      for (std::vector<Gtk::Widget*>::const_iterator i (view.get_children ().begin ());
+            i != view.get_children ().end (); ++i)
+           if ((*i == line) && (line->get_children ().size () > 1)) {
               TRACE9 ("AutoContainer::line_size_allocate (Gtk::Allocation*, Gtk::HBox*) - Moving last elem");
 
-              Gtk::Box::BoxList::reverse_iterator j (line->children ().rbegin ());
-              Gtk::Widget* obj (j->get_widget ());
-              Check3 (obj);
-              obj->reference ();
-              line->remove (*obj);
+              std::vector<Gtk::Widget*>::reverse_iterator j (line->get_children ().rbegin ());
+              Check3 (*i);
+              (*i)->reference ();
+              line->remove (**i);
 
-              if (++i == view.children ().end ())
+              if (++i == view.get_children ().end ())
                  line = addLine ();
               else
-                 line = dynamic_cast<Gtk::HBox*> (i->get_widget ());
+                 line = dynamic_cast<Gtk::HBox*> (*i);
 
-              line->pack_start (*obj, Gtk::PACK_SHRINK, 5);
-              line->reorder_child (*obj, 0);
-              obj->unreference ();
+              line->pack_start (**i, Gtk::PACK_SHRINK, 5);
+              line->reorder_child (**i, 0);
+              (*i)->unreference ();
            }
    }
 }
 
 //-----------------------------------------------------------------------------
-/// Resize-request: Re-arrangethe children
+/// Resize-request: Re-arrange the children
 /// \param size New size of the container
 //-----------------------------------------------------------------------------
 void AutoContainer::on_size_allocate (Gtk::Allocation& size) {
@@ -142,26 +142,24 @@ void AutoContainer::on_size_allocate (Gtk::Allocation& size) {
    if (width != size.get_width ()) {
       width = size.get_width ();
       std::vector<Gtk::Widget*> widgets;
-      for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
-           i != view.children ().end (); ++i) {
-         Gtk::Box_Helpers::Child& line_ (*i);
-         Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
+      for (std::vector<Gtk::Widget*>::const_iterator i (view.get_children ().begin ());
+           i != view.get_children ().end (); ++i) {
+         Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (*i));
 
-         for (Gtk::Box::BoxList::const_iterator j (line.children ().begin ());
-              j != line.children ().end (); ++j) {
-            Gtk::Widget* obj (j->get_widget ());
-            TRACE9 ("AutoContainer::on_size_allocate (GtkAllocation*) - Storing " << obj);
-            Check3 (obj);
-            obj->reference ();
-            widgets.push_back (obj);
+         for (std::vector<Gtk::Widget*>::const_iterator j (line.get_children ().begin ());
+              j != line.get_children ().end (); ++j) {
+            TRACE9 ("AutoContainer::on_size_allocate (GtkAllocation*) - Storing " << *j);
+            Check3 (*j);
+            (*j)->reference ();
+            widgets.push_back (*j);
          }
       }
 
-      Gtk::Box::BoxList& children (view.children ());
+      std::vector<Gtk::Widget*> children (view.get_children ());
       children.erase (children.begin (), children.end ());
-      Check3 (view.children ().empty ());
+      Check3 (view.get_children ().empty ());
       addLine ();
-      Check3 (view.children ().size () == 1);
+      Check3 (view.get_children ().size () == 1);
 
       for (std::vector<Gtk::Widget*>::iterator i (widgets.begin ());
            i != widgets.end (); ++i) {
@@ -207,24 +205,22 @@ Gtk::HBox* AutoContainer::addLine () {
 void AutoContainer::remove (Gtk::Widget& widget) {
    TRACE4 ("AutoContainer::remove (Gtk::Widget&)");
 
-   for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
-        i != view.children ().end (); ++i) {
-      Gtk::Box_Helpers::Child& line_ (*i);
-      Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
+   for (std::vector<Gtk::Widget*>::const_iterator i (view.get_children ().begin ());
+        i != view.get_children ().end (); ++i) {
+      Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (*i));
 
       if (&line == &widget) {
          view.remove (widget);
          return;
       }
       else
-         for (Gtk::Box::BoxList::const_iterator j (line.children ().begin ());
-              j != line.children ().end (); ++j)
-            if (j->get_widget () == &widget) {
+         for (std::vector<Gtk::Widget*>::const_iterator j (line.get_children ().begin ());
+              j != line.get_children ().end (); ++j)
+            if (*j == &widget) {
                line.remove (widget);
 
                // Remove also the line, if it is empty (and not the last one)
-               if ((line.children ().empty ())
-                   && (view.children ().size () > 1))
+               if ((line.get_children ().empty ()) && (view.get_children ().size () > 1))
                   view.remove (line);
                return;
             }
@@ -240,12 +236,11 @@ void AutoContainer::remove (Gtk::Widget& widget) {
 void AutoContainer::insert (Gtk::Widget& widget, unsigned int pos) {
    TRACE4 ("AutoContainer::insert (Gtk::Widget&, unsigned int) - " << pos);
 
-   for (Gtk::Box::BoxList::const_iterator i (view.children ().begin ());
-        i != view.children ().end (); ++i) {
-      Gtk::Box_Helpers::Child& line_ (*i);
-      Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (line_.get_widget ()));
+   for (std::vector<Gtk::Widget*>::const_iterator i (view.get_children ().begin ());
+        i != view.get_children ().end (); ++i) {
+      Gtk::HBox& line (*dynamic_cast<Gtk::HBox*> (*i));
 
-      unsigned int count (line.children ().size ());
+      unsigned int count (line.get_children ().size ());
       if (pos > count)
          pos -= count;
       else {

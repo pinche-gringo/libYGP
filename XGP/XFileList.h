@@ -71,7 +71,7 @@ class XFileList : public Gtk::TreeView {
    virtual void setFilename (Gtk::TreeIter& line, const std::string& file);
 
  protected:
-   virtual bool on_event (GdkEvent* event);
+   virtual bool on_button_release_event (GdkEventButton* event);
 
    void startInTerm (const char* file, Gtk::TreeIter line);
    void startProgram (const char* file, Gtk::TreeIter line);

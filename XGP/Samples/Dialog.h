@@ -70,7 +70,6 @@ class Dialog : public XGP::XDialog {
    XGP::XAttributeLabel<YGP::ANumeric>* lblNum;
    XGP::XAttributeEntry<YGP::ANumeric>* entryNum;
 
-   Gtk::Adjustment* adjNum;
    XGP::XAttributeSpinEntry<unsigned int>* spinNum;
 
    XGP::XFileEntry* entryFile;

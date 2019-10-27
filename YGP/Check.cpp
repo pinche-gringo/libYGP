@@ -44,7 +44,7 @@ extern "C" {
 
 #if SYSTEM == UNIX
 #  ifdef HAVE_GTK
-#    include <gtk/gtkmessagedialog.h>
+#    include <gtk/gtk.h>
 
    typedef gboolean (*PFNINIT)(int *argc, char ***argv);
    typedef GtkWidget* (*PFNNEWMSGDLG)(GtkWindow *parent, GtkDialogFlags flags,

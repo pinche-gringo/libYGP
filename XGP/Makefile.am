@@ -25,10 +25,10 @@ $(include_HEADERS)
 
 libXGP_la_LDFLAGS=$(LIBS) -release $(LIBRELEASE) -no-undefined
 
-INCLUDES = -I $(top_srcdir) -I . -DPKGDIR=\"$(datadir)/XGP/\"	\
+AM_CPPFLAGS = -I $(top_srcdir) -I . -DPKGDIR=\"$(datadir)/XGP/\"	\
            @GIOMM_CFLAGS@ @GTKMM_CFLAGS@ @VIEWER_CFLAGS@	\
-           -I$(top_srcdir)/intl -Wextra -Wall
-AM_CXXFLAGS = -Woverloaded-virtual -Weffc++ -Wextra
+           -I$(top_srcdir)/intl -Wextra
+AM_CXXFLAGS = -Woverloaded-virtual -Wextra -std=gnu++11
 
 # Settings for gettext
 localedir = $(datadir)/locale

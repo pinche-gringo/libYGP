@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 20.05.2007
-//COPYRIGHT   : Copyright (C) 2007, 2008
+//COPYRIGHT   : Copyright (C) 2007, 2008, 2012
 
 // This file is part of libYGP.
 //
@@ -25,6 +25,8 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+
+#include <glibmm/main.h>
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>

@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
+//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2011
 
 // This file is part of libYGP.
 //
@@ -69,7 +69,7 @@ LoginDialog::LoginDialog (const Glib::ustring& title)
 
    ok = new Gtk::Button (_("_Login"), true);
    get_action_area ()->pack_start (*ok, false, false, 5);
-   ok->set_flags (Gtk::CAN_DEFAULT);
+   ok->set_can_default ();
    ok->grab_default ();
    ok->signal_clicked ().connect
        (sigc::bind<int> (sigc::mem_fun (*this, &LoginDialog::command), LOGIN));

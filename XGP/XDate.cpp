@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 2001 - 2006, 2008, 2009
+//COPYRIGHT   : Copyright (C) 2001 - 2006, 2008, 2009, 2011
 
 // This file is part of libYGP.
 //
@@ -31,7 +31,6 @@
 #include <gtkmm/box.h>
 #include <gtkmm/calendar.h>
 #include <gtkmm/spinbutton.h>
-#include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
 
 #include <YGP/Check.h>
@@ -55,19 +54,15 @@ namespace XGP {
 /// \param showFields Bitfield describing wich fields to show
 //-----------------------------------------------------------------------------
 XDate::XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields)
-   : XDialog (title, OKCANCEL)
-     , client (new Gtk::HBox)
-     , cal (new Gtk::Calendar ())
-     , adjHour (new Gtk::Adjustment (0, 0, 23, 1, 10, 10))
-     , spinHour (new Gtk::SpinButton (*adjHour, 1, 0))
-     , adjMinute (new Gtk::Adjustment (0, 0, 59, 1,10, 10))
-     , spinMinute (new Gtk::SpinButton (*adjMinute, 1, 0))
-     , adjSecond (new Gtk::Adjustment (0, 0, 59, 1, 10, 10))
-     , spinSecond (new Gtk::SpinButton (*adjSecond, 1, 0))
-     , result (date) {
-   Check3 (client); Check3 (showFields);
-   Check3 (cal); Check3 (spinHour); Check3 (adjHour); Check3 (spinMinute);
-   Check3 (adjMinute); Check3 (spinSecond); Check3 (adjSecond);
+   : XDialog (title, OKCANCEL),
+     client (new Gtk::HBox),
+     cal (new Gtk::Calendar ()),
+     spinHour (new Gtk::SpinButton (Gtk::Adjustment::create(0, 0, 23, 1, 10, 10), 1, 0)),
+     spinMinute (new Gtk::SpinButton (Gtk::Adjustment::create(0, 0, 59, 1, 10, 10), 1, 0)),
+     spinSecond (new Gtk::SpinButton (Gtk::Adjustment::create(0, 0, 59, 1, 10, 10), 1, 0)),
+     result (date) {
+   Check3 (client); Check3 (showFields); Check3 (cal);
+   Check3 (spinHour); Check3 (spinMinute); Check3 (spinSecond);
 
    TRACE9 ("XDate::XDate: Title '" << title << "', startvalue: " << date);
 
@@ -79,13 +74,13 @@ XDate::XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields)
       first = false;
 
       cal->grab_focus ();
-      cal->display_options (Gtk::CALENDAR_SHOW_HEADING
-                            | Gtk::CALENDAR_SHOW_DAY_NAMES
-                            | Gtk::CALENDAR_SHOW_WEEK_NUMBERS);
+      cal->set_display_options (Gtk::CALENDAR_SHOW_HEADING
+				| Gtk::CALENDAR_SHOW_DAY_NAMES
+				| Gtk::CALENDAR_SHOW_WEEK_NUMBERS);
       cal->show ();
       get_vbox ()->pack_start (*cal, false, false, 5);
       if (!(showFields & (SHOW_MONTH | SHOW_YEAR)))
-         cal->display_options (Gtk::CALENDAR_NO_MONTH_CHANGE);
+         cal->set_display_options (Gtk::CALENDAR_NO_MONTH_CHANGE);
    }
 
    // Create spinbuttons
