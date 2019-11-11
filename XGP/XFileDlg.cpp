@@ -82,41 +82,49 @@ FileDialog::~FileDialog () {
 void FileDialog::on_response (int cmd) {
    TRACE9 ("FileDialog::on_response (int) - " << cmd);
 
+   auto handleFile = [this] (std::string filename) {
+      TRACE8 ("FileDialog::on_response (int) - File selected: " << filename);
+
+      if (opt != NONE) {
+	struct stat fileInfo;
+	int rc(stat(filename.c_str(), &fileInfo));  // Get fileinfo
+
+	if (opt & MUST_EXIST)
+	   if (rc) {  // File does not exist: Show msg and exit
+	      Glib::ustring err(_("File `%1' does not exist!"));
+	      err.replace(err.find("%1"), 2, Glib::filename_to_utf8(filename));
+	      Gtk::MessageDialog dlg(err, Gtk::MESSAGE_ERROR);
+	      dlg.set_parent(*this);
+	      dlg.run();
+	      return;
+	   }
+
+	if (opt & ASK_OVERWRITE)
+	   if (!rc) {
+	      Glib::ustring msg(_("File `%1' exists! Overwrite?"));
+	      msg.replace(msg.find("%1"), 2, Glib::filename_to_utf8(filename));
+	      Gtk::MessageDialog dlg(msg, false, Gtk::MESSAGE_QUESTION,
+				     Gtk::BUTTONS_YES_NO);
+	      dlg.set_parent(*this);
+	      if (dlg.run() != Gtk::RESPONSE_YES)
+		 return;
+	   }
+      } // endif option set
+
+      sigSelected.emit (filename);
+   };
+
    switch (cmd) {
    case Gtk::RESPONSE_OK: {
-      const Glib::SListHandle<Glib::ustring> files (get_filenames ());
-      for (Glib::SListHandle<Glib::ustring>::const_iterator i (files.begin ());
-	   i != files.end (); ++i) {
-	 std::string filename (*i);
-	 TRACE8 ("FileDialog::on_response (int) - File selected: " << filename);
 
-	 if (opt != NONE) {
-	    struct stat fileInfo;
-	    int rc (stat (filename.c_str (), &fileInfo));       // Get fileinfo
-
-	    if (opt & MUST_EXIST)
-	       if (rc) {              // File does not exist: Show msg and exit
-		  Glib::ustring err (_("File `%1' does not exist!"));
-		  err.replace (err.find ("%1"), 2, Glib::filename_to_utf8 (filename));
-		  Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
-		  msg.run ();
-		  return;
-	       }
-
-	    if (opt & ASK_OVERWRITE)
-	       if (!rc) {
-		  Glib::ustring msg (_("File `%1' exists! Overwrite?"));
-		  msg.replace (msg.find ("%1"), 2, Glib::filename_to_utf8 (filename));
-		  Gtk::MessageDialog dlg (msg, false, Gtk::MESSAGE_QUESTION,
-					  Gtk::BUTTONS_YES_NO);
-		  if (dlg.run () != Gtk::RESPONSE_YES)
-		     return;
-	       }
-	 } // endif option set
-
-	 sigSelected.emit (filename);
+      if (get_select_multiple()) {
+	 Glib::SListHandle<Glib::ustring> files = get_filenames();
+	 for (auto i(files.begin()); i != files.end (); ++i)
+	    handleFile(*i);
       }
-   }
+      else
+	 handleFile(get_filename());
+   }  // Missing break is intentional
 
    case Gtk::RESPONSE_CANCEL:
       if (modal) {
