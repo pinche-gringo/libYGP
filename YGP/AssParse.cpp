@@ -68,7 +68,7 @@ AssignmentParse::~AssignmentParse () {
 /// \throw YGP::ParseError describing error if node doesn't contain a
 ///     valid assignment
 //-----------------------------------------------------------------------------
-std::string AssignmentParse::getNextNode () throw (std::exception) {
+std::string AssignmentParse::getNextNode () {
    TRACE1 ("AssignmentParse::getNextNode () - " << assignments);
    std::string node;
    bool quoted (false);

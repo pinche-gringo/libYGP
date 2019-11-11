@@ -49,7 +49,7 @@ class AssignmentParse {
       assignments = newAssignment;
       return *this; }
 
-   std::string getNextNode () throw (std::exception);
+   std::string getNextNode ();
 
    /// \name Accessing the values of the actual part; only valid after calling getNextNode
    //@{
