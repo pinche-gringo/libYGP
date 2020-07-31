@@ -41,6 +41,7 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.19])
 
 AC_CHECK_PROG([HAVE_PERL], [perl], [yes], [no])
 if test "$HAVE_PERL" = "no"; then

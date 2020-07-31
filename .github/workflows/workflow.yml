@@ -1,0 +1,17 @@
+name: CI for libYGP
+on: [push]
+
+jobs:
+  ubuntu-build:
+    name: Build on Ubuntu (latest)
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -yq libboost-all-dev
+      - name: Configure project
+        run: mkdir m4 && autopoint && aclocal -I m4 && libtoolize && automake -a && autoheader && autoconf
+      - name: Build project
+        run: ./configure --disable-nls && make -j2
