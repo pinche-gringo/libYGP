@@ -21,8 +21,6 @@
 
 #include <string>
 
-#include <boost/tokenizer.hpp>
-
 #include <exception>
 
 

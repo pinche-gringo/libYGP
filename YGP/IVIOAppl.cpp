@@ -368,8 +368,8 @@ void IVIOApplication::moveOption (unsigned int numOpt) const {
 /// path information.
 /// \returns const char* Name of programm
 //-----------------------------------------------------------------------------
-const char* IVIOApplication::name () const {
-   return fs::path (filename ()).filename ().c_str ();
+const char* IVIOApplication::name() const {
+   return fs::path(filename()).filename().c_str();
 }
 
 //-----------------------------------------------------------------------------

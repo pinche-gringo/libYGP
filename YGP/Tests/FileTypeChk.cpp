@@ -8,7 +8,7 @@
 //REVISION    : $Revision$
 //AUTHOR      : Markus Schwab
 //CREATED     : 29.7.2008
-//COPYRIGHT   : Copyright (C) 2008, 2009
+//COPYRIGHT   : Copyright (C) 2008 - 2020
 
 // This file is part of libYGP.
 //
@@ -47,11 +47,11 @@ int main (int argc, char* argv[]) {
    YGP::DirectorySearch ds ("FileTypes/*");
 
    YGP::FileTypeChecker::FileType aTypes[] = {
-      YGP::FileTypeChecker::PDF, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::HTML,
-      YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::MSOFFICE,
-      YGP::FileTypeChecker::MP3, YGP::FileTypeChecker::OOXML, YGP::FileTypeChecker::OGG,
-      YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::GIF,
-      YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::PNG, YGP::FileTypeChecker::RTF };
+      YGP::FileTypeChecker::OOXML, YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::HTML,
+      YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::MP3,
+      YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::PNG,
+      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::PDF, YGP::FileTypeChecker::OGG,
+      YGP::FileTypeChecker::GIF, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::JPEG };
 
    if ((file = ds.find ())) {
       unsigned int offset (0);

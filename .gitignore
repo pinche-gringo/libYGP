@@ -9,6 +9,7 @@ m4
 autom4te.cache
 *.pc
 Makefile
+Makefile.in
 config.*
 configure
 *.doxy
@@ -28,3 +29,5 @@ aclocal.m4
 *.pot
 *.gmo
 *.header
+YGP/Tests/*.log
+YGP/Tests/*.trs

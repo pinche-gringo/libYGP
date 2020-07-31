@@ -375,7 +375,7 @@ int ParseAttomic::checkValue (char ch) {
          case '9': if (isdigit (ch)) return asIs;
             break;
 
-         case 'X': if (isdigit (ch)) return asIs;
+         case 'X': if (isdigit (ch)) return asIs;  // Falling through is intentional
          case 'A': if (isalpha (ch)) return asIs;
             break;
 

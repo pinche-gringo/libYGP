@@ -8,7 +8,7 @@
 //REVISION    : $Revision: 1.18 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+//COPYRIGHT   : Copyright (C) 2001 - 2020
 
 // This file is part of libYGP.
 //
@@ -29,6 +29,7 @@
 #include <ygp-cfg.h>
 
 #include <cstdio>
+#include <unistd.h>
 
 #include <map>
 #include <vector>
