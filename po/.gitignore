@@ -1,5 +1,5 @@
 Makefile.in
-Makefile.in.in
 Makevars.template
 POTFILES
 Rules-quot
+insert-header.sin

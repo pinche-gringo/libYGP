@@ -1,0 +1,11 @@
+stages:
+  - test
+
+test:
+  before_script:
+    - aclocal -I m4 && libtoolize
+    - automake -a && autoheader && autoconf
+    - ./configure
+    - make -j6
+  script:
+    - make check
