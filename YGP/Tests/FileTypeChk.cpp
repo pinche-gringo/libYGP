@@ -47,11 +47,11 @@ int main (int argc, char* argv[]) {
    YGP::DirectorySearch ds ("FileTypes/*");
 
    YGP::FileTypeChecker::FileType aTypes[] = {
-      YGP::FileTypeChecker::OOXML, YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::HTML,
-      YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::MP3,
-      YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::PNG,
-      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::PDF, YGP::FileTypeChecker::OGG,
-      YGP::FileTypeChecker::GIF, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::JPEG };
+      YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::OGG, YGP::FileTypeChecker::MSOFFICE,
+      YGP::FileTypeChecker::PNG, YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::JPEG,
+      YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::OOXML,
+      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::MP3,
+      YGP::FileTypeChecker::GIF, YGP::FileTypeChecker::HTML, YGP::FileTypeChecker::PDF };
 
    if ((file = ds.find ())) {
       unsigned int offset (0);
@@ -59,10 +59,10 @@ int main (int argc, char* argv[]) {
 	 std::string name (file->path ());
 	 name += file->name ();
 
-	 check (chkExt.getType (name.c_str ())  == aTypes[offset]);
-	 check (chkCont.getType (name.c_str ()) == aTypes[offset]);
+	 check (chkExt.getType(name.c_str())  == aTypes[offset]);
+	 check (chkCont.getType(name.c_str()) == aTypes[offset]);
 	 ++offset;
-      } while ((file = ds.next ()));
+      } while ((file = ds.next()));
    }
    else
       std::cout << "    -> Warning: No files to check found!\n" << std::flush;
