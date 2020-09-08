@@ -60,8 +60,8 @@ class Entity {
       attributes.push_back (&newAttr);
    }
 
-   friend std::ostream& operator<< (std::ostream& out, const Entity& obj) throw ();
-   friend std::istream& operator>> (std::istream& in, Entity& obj) throw ();
+   friend std::ostream& operator<< (std::ostream& out, const Entity& obj);
+   friend std::istream& operator>> (std::istream& in, Entity& obj);
 
 
 #ifdef __STL_MEMBER_TEMPLATES

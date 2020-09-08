@@ -99,7 +99,7 @@ class TDialog : Dialog {
    T& obj;
    PCALLBACK cb;
 
-   virtual void okEvent () {
+   virtual void okEvent () override {
       Dialog::okEvent ();
       (obj.*cb) ();
    }

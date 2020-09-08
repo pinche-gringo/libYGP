@@ -407,11 +407,11 @@ bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
    // Check for StarOffice/MS-Office (StarOffice up to V5 uses a
    // MS-compatible format additional for the information, additional to
    // their own format, so they could also be parsed as MS-Office document)
-   if (!memcmp (buffer, ID_MSOFFICE, sizeof (ID_MSOFFICE) - 1)) {
-      char buffer[16];
-      stream.seekg (0x8c2, std::ios::beg);
-      stream.read (buffer, sizeof (buffer));
-      return !memcmp (buffer, ID_STAROFFICE, sizeof (ID_STAROFFICE) - 1);
+   if (!memcmp(buffer, ID_MSOFFICE, sizeof(ID_MSOFFICE) - 1)) {
+      char tmpbuffer[16];
+      stream.seekg(0x8c2, std::ios::beg);
+      stream.read(tmpbuffer, sizeof(tmpbuffer));
+      return !memcmp(tmpbuffer, ID_STAROFFICE, sizeof(ID_STAROFFICE) - 1);
    }
    return false;
 }
@@ -426,16 +426,16 @@ bool FileTypeCheckerByContent::isStarOffice (char* buffer, const char* text,
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isMSOffice (char* buffer, const char* text,
-					   unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isMSOffice(char* buffer, const char* text,
+					  unsigned int length, std::ifstream& stream) {
    // Check for StarOffice/MS-Office (StarOffice up to V5 uses a
    // MS-compatible format additional for the information, additional to
    // their own format, so they could also be parsed as MS-Office document)
-   if (!memcmp (buffer, ID_MSOFFICE, sizeof (ID_MSOFFICE) - 1)) {
-      char buffer[16];
-      stream.seekg (0x8c2, std::ios::beg);
-      stream.read (buffer, sizeof (buffer));
-      return memcmp (buffer, ID_STAROFFICE, sizeof (ID_STAROFFICE) - 1);
+   if (!memcmp(buffer, ID_MSOFFICE, sizeof(ID_MSOFFICE) - 1)) {
+      char tmpbuffer[16];
+      stream.seekg(0x8c2, std::ios::beg);
+      stream.read(tmpbuffer, sizeof(tmpbuffer));
+      return memcmp(tmpbuffer, ID_STAROFFICE, sizeof(ID_STAROFFICE) - 1);
    }
    return false;
 }
@@ -448,10 +448,10 @@ bool FileTypeCheckerByContent::isMSOffice (char* buffer, const char* text,
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isOfficeOpenXML (char* buffer, const char* text,
-						unsigned int length, std::ifstream& stream) {
-   TRACE1 (" FileTypeCheckerByContent::isOfficeOpenXML (...)");
-   return getFileOffsetInArchive (stream, buffer, "docProps/core.xml", 17);
+bool FileTypeCheckerByContent::isOfficeOpenXML(char* buffer, const char* text,
+                                               unsigned int length, std::ifstream& stream) {
+   TRACE1(" FileTypeCheckerByContent::isOfficeOpenXML (...)");
+   return getFileOffsetInArchive(stream, buffer, "docProps/core.xml", 17);
 }
 
 }

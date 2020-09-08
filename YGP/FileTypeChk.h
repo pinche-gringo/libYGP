@@ -73,7 +73,7 @@ class FileTypeCheckerByExtension : public FileTypeChecker {
    /// Gets the type of the passed file
    /// \param file File to analyse
    /// \returns unsigned int Type of file
-   virtual unsigned int getType (const char* file) const;
+   virtual unsigned int getType (const char* file) const override;
 
    void addType (const char* ext, unsigned int value);
 
@@ -103,7 +103,7 @@ class FileTypeCheckerByCaseExt : public FileTypeCheckerByExtension {
    /// Gets the type of the passed file
    /// \param file File to analyse
    /// \returns unsigned int Type of file
-   virtual unsigned int getType (const char* file) const;
+   virtual unsigned int getType (const char* file) const override;
 
  private:
    FileTypeCheckerByCaseExt (const FileTypeCheckerByCaseExt& other);
@@ -123,7 +123,7 @@ class FileTypeCheckerByContent : public FileTypeChecker {
    /// Gets the type of the passed file
    /// \param file File to analyse
    /// \returns unsigned int Type of file
-   virtual unsigned int getType (const char* file) const;
+   virtual unsigned int getType (const char* file) const override;
 
    typedef bool (*MATCHFNC)(char*, const char*, unsigned int, std::ifstream&);
    /// Adds a new handled type

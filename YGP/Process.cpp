@@ -216,8 +216,7 @@ pid_t Process::start (const char* file, const char* const arguments[],
       if (!errno)
 	 errno = rc;
       perror ("");
-      exit (1);
-      break; }
+      exit (1); }
 
    case -1:
       TRACE9 ("Process::start (const char*, const char*) - Fork failed");

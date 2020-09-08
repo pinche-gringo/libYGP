@@ -50,38 +50,38 @@ static const unsigned int ID_PKZIP_CENTRALFILEHDR (0x02014b50);
 //-----------------------------------------------------------------------------
 unsigned int getFileOffsetInArchive (std::istream& stream, char* buffer,
 				     const char* file, unsigned int lenFile) {
-   Check1 (buffer); Check1 (file);
+   Check1(buffer); Check1(file);
 
-   if (get4BytesLSB (buffer) == ID_PKZIP_LOCALHDR) {
-      char buffer[80];
-      memset (buffer, 0, sizeof (buffer));
-      stream.seekg (-22, std::ios::end);
-      stream.read (buffer, 22);
+   if (get4BytesLSB(buffer) == ID_PKZIP_LOCALHDR) {
+      char tmpbuffer[80];
+      memset(tmpbuffer, 0, sizeof (tmpbuffer));
+      stream.seekg(-22, std::ios::end);
+      stream.read(tmpbuffer, 22);
 
-      if (get4BytesLSB (buffer) == ID_PKZIP_END_CDR) {
+      if (get4BytesLSB(tmpbuffer) == ID_PKZIP_END_CDR) {
 	 // Skip to central directory record
-	 unsigned int cEntries (get4BytesLSB (buffer + 10));
-	 stream.seekg (get4BytesLSB (buffer + 16), std::ios::beg);
-	 TRACE6 ("getFileOffsetInArchive (2x const char*, unsigned int, std::ifstream&) - Start CDR: " << get4BytesLSB (buffer + 16) << " (" << cEntries << ')');
+	 unsigned int cEntries(get4BytesLSB(tmpbuffer + 10));
+	 stream.seekg(get4BytesLSB(tmpbuffer + 16), std::ios::beg);
+	 TRACE6 ("getFileOffsetInArchive(2x const char*, unsigned int, std::ifstream&) - Start CDR: " << get4BytesLSB(tmpbuffer + 16) << " (" << cEntries << ')');
 
 	 // Inspect all entries
 	 while (cEntries--) {
-	    stream.read (buffer, 46);
-	    if (get4BytesLSB (buffer) == ID_PKZIP_CENTRALFILEHDR) {
-	       unsigned int lenName (get2BytesLSB (buffer + 28));
-	       unsigned int lenSkip (get2BytesLSB (buffer + 30) + get2BytesLSB (buffer + 32));
-	       TRACE6 ("getFileOffsetInArchive (2x const char*, unsigned int, std::ifstream&) - Len of filename: " << lenName
-		       << "; Skipping: " << lenSkip);
+	    stream.read(tmpbuffer, 46);
+	    if (get4BytesLSB(tmpbuffer) == ID_PKZIP_CENTRALFILEHDR) {
+	       unsigned int lenName(get2BytesLSB(tmpbuffer + 28));
+	       unsigned int lenSkip(get2BytesLSB(tmpbuffer + 30) + get2BytesLSB(tmpbuffer + 32));
+	       TRACE6("getFileOffsetInArchive(2x const char*, unsigned int, std::ifstream&) - Len of filename: " << lenName
+		      << "; Skipping: " << lenSkip);
 
 	       // Check if the passed file has been found
 	       if (lenName == lenFile) {
-		  unsigned int posFile (get4BytesLSB (buffer + 42));
-		  stream.read (buffer, lenFile);
-		  if (!memcmp (file, buffer, lenFile))
+		  unsigned int posFile(get4BytesLSB(tmpbuffer + 42));
+		  stream.read(tmpbuffer, lenFile);
+		  if (!memcmp(file, tmpbuffer, lenFile))
 		     return posFile;
 		  lenName -= lenFile;
 	       }
-	       stream.seekg (lenName + lenSkip, std::ios::cur);
+	       stream.seekg(lenName + lenSkip, std::ios::cur);
 	    }
 	    else
 	       break;
@@ -174,10 +174,10 @@ void convertHTML2UTF8 (std::string& string) {
       std::string::size_type end (string.find (';', ++start));
       if (end != std::string::npos) {
 	 // Do a binary search for the found HTML-character
-	 unsigned int first (0), middle (0), last (sizeof (convTable) / sizeof (convTable[0]));
+	 unsigned int first (0), last (sizeof (convTable) / sizeof (convTable[0]));
 
 	 while (last > first) {
-	    middle = first + ((last - first) >> 1);
+            unsigned int middle(first + ((last - first) >> 1));
 
 	    if (string.compare (start, end - start, convTable[middle].html) > 0)
 	       first = middle + 1;

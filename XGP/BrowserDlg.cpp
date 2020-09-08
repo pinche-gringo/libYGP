@@ -99,12 +99,10 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
       cmd = browserNames[0];
 
    Gtk::RadioButtonGroup group;
-   Gtk::RadioButton* rb;
-
    std::string filename;
    for (unsigned int i (0);
 	i < (sizeof (browserNames) / sizeof (*browserNames)); ++i) {
-      rb = NULL;
+      Gtk::RadioButton* rb(NULL);
       try {
 	 filename = PKGDIR "Browser_";
 	 filename += browserNames[i];

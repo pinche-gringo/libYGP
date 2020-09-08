@@ -166,7 +166,8 @@ void ADate::assign (const char* pDate, unsigned int len) {
 #else
    day = month = 1;
    int read (0);
-   unsigned int _day, _year, _month;
+   unsigned int _day, _month;
+   int _year;
 
    switch (len) {
    case 12:
@@ -249,7 +250,7 @@ std::string ADate::toUnformattedString () const {
    char buffer[20] = "";
 
    if (isDefined ())
-      snprintf (buffer, sizeof (buffer), "%02d%02d%d", (unsigned)day, (unsigned)month, year);
+      snprintf (buffer, sizeof (buffer), "%02u%02u%d", (unsigned)day, (unsigned)month, year);
    return std::string (buffer);
 }
 
@@ -534,7 +535,7 @@ char ADate::maxDayOf (char month, int year) {
 
    if (month > (unsigned char)7)    // Adapt month after july for easier calc.
       --month;
-   return (unsigned char)(month & 1 ? 31 : 30);
+   return (unsigned char)((month & 1) ? 31 : 30);
 }
 
 //----------------------------------------------------------------------------
@@ -601,11 +602,11 @@ bool ADate::maxAdapt () {
 /// undefined.
 /// \param Day Day to set
 //----------------------------------------------------------------------------
-void ADate::setDay (char Day) throw (std::invalid_argument) {
+void ADate::setDay(char Day) throw (std::invalid_argument) {
    day = Day;
 
-   if (checkIntegrity ()) {
-      day = 1;
+   if (checkIntegrity()) {
+      undefine();
       throw (std::invalid_argument ("ADate::setDay"));
    }
    else
@@ -621,8 +622,8 @@ void ADate::setMonth (char Month) throw (std::invalid_argument) {
    month = Month;
 
    if (checkIntegrity ()) {
-      throw (std::invalid_argument ("ADate::setMonth"));
       undefine ();
+      throw (std::invalid_argument ("ADate::setMonth"));
    }
    else
       setDefined ();

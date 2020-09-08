@@ -42,7 +42,7 @@
 typedef struct Server {
    const char* name;
 
-   Server () { COUT ("Creating server"); }
+   Server (): name(NULL) { COUT ("Creating server"); }
    ~Server () { COUT ("Deleting server " << name); }
 } Server;
 typedef boost::shared_ptr<Server> HServer;
@@ -50,7 +50,7 @@ typedef boost::shared_ptr<Server> HServer;
 typedef struct Client {
    const char* name;
 
-   Client () { COUT ("Creating client"); }
+   Client (): name(NULL) { COUT ("Creating client"); }
    ~Client () { COUT ("Deleting client " << name); }
 } Client;
 typedef boost::shared_ptr<Client> HClient;

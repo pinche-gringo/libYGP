@@ -203,8 +203,9 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (YGP::CommError){
          break;
 
       case CMD_READ: {
-         unsigned int id, length;
+         unsigned int length;
          try {
+            unsigned int id;
             AttributeParse attrparse;
             ATTRIBUTE (attrparse, unsigned int, id, "Read");
             ATTRIBUTE (attrparse, unsigned int, length, "Length");
@@ -233,8 +234,8 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (YGP::CommError){
 	 break;
 
       case CMD_CLOSE: {
-         unsigned int id;
          try {
+            unsigned int id;
             AttributeParse attrparse;
             ATTRIBUTE (attrparse, unsigned int, id, "Close");
 
@@ -261,8 +262,8 @@ int RemoteDirSearchSrv::performCommands (int socket) throw (YGP::CommError){
          break;
 
       case CMD_ISEOF:
-         unsigned int id;
          try {
+            unsigned int id;
             AttributeParse attrparse;
             ATTRIBUTE (attrparse, unsigned int, id, "EOF");
 

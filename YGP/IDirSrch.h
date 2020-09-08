@@ -87,10 +87,10 @@ class IDirectorySearch {
    static unsigned long convertToSysAttribs (unsigned long attributes);
    static unsigned long convertFromSysAttribs (unsigned long attributes);
 
-   static const int FILE_NORMAL;    ///< "Normal" file (e.g. no directory; no device, ...)
-   static const int FILE_READONLY;      ///< File can not be altered/written to
-   static const int FILE_DIRECTORY;       ///< The file is actually a directory
-   static const int FILE_HIDDEN;        ///< The file is "hidden" in normal use
+   static const unsigned int FILE_NORMAL; ///< "Normal" file (e.g. no directory; no device, ...)
+   static const unsigned int FILE_READONLY;  ///< File can not be altered/written to
+   static const unsigned int FILE_DIRECTORY;  ///< The file is actually a directory
+   static const unsigned int FILE_HIDDEN;  ///< The file is "hidden" in normal use
 
  protected:
    File* pEntry;                       ///< Pointer to (last) found File object

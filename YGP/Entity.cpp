@@ -85,7 +85,7 @@ IAttribute* Entity::findAttribute (const std::string& name) const {
 /// \returns std::ostream& The stream
 /// \throws Anything that operator<< of the attributes might throw
 //-----------------------------------------------------------------------------
-std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
+std::ostream& operator<< (std::ostream& out, const Entity& obj) {
    std::vector<IAttribute*>::const_iterator i;
    std::string output;
    for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i)
@@ -101,7 +101,7 @@ std::ostream& operator<< (std::ostream& out, const Entity& obj) throw () {
 /// \returns std::ostream& The stream
 /// \throws Anything that operator>> of the attributes might throw
 //-----------------------------------------------------------------------------
-std::istream& operator>> (std::istream& in, Entity& obj) throw () {
+std::istream& operator>> (std::istream& in, Entity& obj) {
    AttributeParse attrs;
    for (std::vector<IAttribute*>::iterator i (obj.attributes.begin ());
 	i != obj.attributes.end (); ++i) {

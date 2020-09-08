@@ -150,9 +150,8 @@ void TraceDlg::okEvent () {
 void TraceDlg::levelChanged (const Glib::ustring& path, const Glib::ustring& value) {
    TRACE9 ("TraceDlg::valueChanged (2x const Glib::ustring&)");
 
-   Gtk::TreeModel::Row row (*lstObjects.get_model ()->get_iter (Gtk::TreeModel::Path (path)));
-
    try {
+      Gtk::TreeModel::Row row (*lstObjects.get_model ()->get_iter (Gtk::TreeModel::Path (path)));
       YGP::ANumeric nr (value);
       if ((nr > 9) || (nr < -1))
 	 throw std::invalid_argument (_("Level must be from -1 to 9!"));

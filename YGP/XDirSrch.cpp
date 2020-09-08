@@ -89,8 +89,6 @@ void _XDSaddNode (std::string& list, char prefix, const std::string& node) {
            << node);
    Check1 ((prefix == 'i') || (prefix == 'x'));
 
-   std::string temp;
-
    tokenizer val (node, boost::char_separator<char> (YGP::Path::SEPARATOR_STR));
    for (tokenizer::iterator i (val.begin ()); i != val.end (); ++i)
       list = prefix + (*i) + std::string (1, Path::SEPARATOR) + list;

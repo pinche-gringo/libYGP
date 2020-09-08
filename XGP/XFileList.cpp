@@ -134,7 +134,8 @@ void XFileList::loadIcons (const char* path, const char* files, unsigned int nam
       std::string type;
       while (file) {
 	 // Read icon-file and store it
-	 std::string filename (file->path ()); filename += file->name ();
+         filename = file->path();
+         filename += file->name ();
 	 TRACE5 ("XFileList::loadIcons (const char*, const char*, unsigned int) - Read icon " << filename);
 
 	 const char* pTypepart (file->name () + namePrefix);
@@ -388,18 +389,18 @@ void XFileList::move (Gtk::TreeIter line) {
 /// Removes the passed file; both from the system and from the list
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::remove (Gtk::TreeIter line) {
-   TRACE4 ("XFileList::remove (Gtk::TreeIter) - " << getFilename (line));
-   std::string entry (getFilename (line));
-   const char* args[] = { "rm", "-f", entry.c_str (), NULL };
-   if (execProgram (args[0], args, true)) {
-      Glib::RefPtr<Gtk::TreeStore> ptr (Glib::RefPtr<Gtk::TreeStore>::cast_dynamic (get_model ()));
+void XFileList::remove(Gtk::TreeIter line) {
+   TRACE4("XFileList::remove (Gtk::TreeIter) - " << getFilename(line));
+   std::string entry (getFilename(line));
+   const char* args[] = { "rm", "-f", entry.c_str(), NULL };
+   if (execProgram(args[0], args, true)) {
+      Glib::RefPtr<Gtk::TreeStore> ptr (Glib::RefPtr<Gtk::TreeStore>::cast_dynamic(get_model()));
       if (ptr)
 	 ptr->erase (line);
       else {
-	 Glib::RefPtr<Gtk::ListStore> ptr (Glib::RefPtr<Gtk::ListStore>::cast_dynamic (get_model ()));
-	 if (ptr)
-	    ptr->erase (line);
+	 Glib::RefPtr<Gtk::ListStore> lptr(Glib::RefPtr<Gtk::ListStore>::cast_dynamic(get_model()));
+	 if (lptr)
+	    lptr->erase(line);
       }
    }
 }
@@ -409,7 +410,7 @@ void XFileList::remove (Gtk::TreeIter line) {
 /// \param Menu where to add some entries to
 /// \param Line for which to add entries
 //-----------------------------------------------------------------------------
-void XFileList::addMenus (Gtk::Menu&, const Gtk::TreeIter&) {
+void XFileList::addMenus(Gtk::Menu&, const Gtk::TreeIter&) {
 }
 
 }

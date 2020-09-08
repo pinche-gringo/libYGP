@@ -88,24 +88,24 @@
 #     endif
 #  endif
 
-static const int FILE_NORMAL_    = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
-                                    | (S_ISVTX)|(S_IRWXU)|(S_IRWXG)|(S_IRWXO));
-static const int FILE_READONLY_  = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
-                                    | (S_ISVTX)|(S_IRUSR)|(S_IRGRP)|(S_IROTH)
-                                    | (S_IXUSR)|(S_IXGRP)|(S_IXOTH));
-static const int FILE_DIRECTORY_ = ((S_IFDIR)  |(S_ISUID)|(S_ISGID)|(S_ISVTX)
-                                    | (S_IRWXU)|(S_IRWXG)|(S_IRWXO));
-static const int FILE_HIDDEN_    = (1 << (sizeof (int) * 8 - 1));
+static const unsigned int FILE_NORMAL_  = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
+                                           | (S_ISVTX)|(S_IRWXU)|(S_IRWXG)|(S_IRWXO));
+static const unsigned int FILE_READONLY_  = ((S_IFREG)  |(S_IFLNK)|(S_ISUID)|(S_ISGID)
+                                             | (S_ISVTX)|(S_IRUSR)|(S_IRGRP)|(S_IROTH)
+                                             | (S_IXUSR)|(S_IXGRP)|(S_IXOTH));
+static const unsigned int FILE_DIRECTORY_ = ((S_IFDIR)  |(S_ISUID)|(S_ISGID)|(S_ISVTX)
+                                             | (S_IRWXU)|(S_IRWXG)|(S_IRWXO));
+static const unsigned int FILE_HIDDEN_    = (1U << (sizeof(int) * 8 - 1));
 
 #elif SYSTEM == WINDOWS
 
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 
-static const int FILE_NORMAL_    = ~FILE_ATTRIBUTE_DIRECTORY;
-static const int FILE_READONLY_  = FILE_ATTRIBUTE_READONLY;
-static const int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY;
-static const int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN;
+static const unsigned int FILE_NORMAL_    = ~FILE_ATTRIBUTE_DIRECTORY;
+static const unsigned int FILE_READONLY_  = FILE_ATTRIBUTE_READONLY;
+static const unsigned int FILE_DIRECTORY_ = FILE_ATTRIBUTE_DIRECTORY;
+static const unsigned int FILE_HIDDEN_    = FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN;
 
 #else
 #  error Not implemented yet!
@@ -119,10 +119,10 @@ namespace YGP {
 
 
 
-const int IDirectorySearch::FILE_NORMAL    = 1;
-const int IDirectorySearch::FILE_READONLY  = 2;
-const int IDirectorySearch::FILE_DIRECTORY = 4;
-const int IDirectorySearch::FILE_HIDDEN    = 8;
+const unsigned int IDirectorySearch::FILE_NORMAL    = 1;
+const unsigned int IDirectorySearch::FILE_READONLY  = 2;
+const unsigned int IDirectorySearch::FILE_DIRECTORY = 4;
+const unsigned int IDirectorySearch::FILE_HIDDEN    = 8;
 
 
 //-----------------------------------------------------------------------------

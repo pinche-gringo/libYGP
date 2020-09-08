@@ -30,6 +30,8 @@
 
 #include "YGP/Internal.h"
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 #include "YGP/CRegExp.h"

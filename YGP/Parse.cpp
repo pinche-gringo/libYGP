@@ -1135,7 +1135,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseE
 
       while (*ppAct) {                          // While list contains objects
          if ((rc = (**ppAct).doParse (stream,        // Parse (putback always)
-                                      (ppAct + 1) == NULL ? optional : true))
+                                      *(ppAct + 1) == NULL ? optional : true))
              == 0) {                                   // Break if match found
             TRACE8 ("ParseSelection::doParse -> " << getDescription () << " found entry");
             break;
