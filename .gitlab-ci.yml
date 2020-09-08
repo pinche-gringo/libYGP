@@ -1,11 +1,24 @@
 stages:
   - test
 
-test:
+.something: &prepare_repo
+  - aclocal -I m4 && libtoolize
+  - automake -a && autoheader && autoconf
+  - ./configure
+
+code_check:
+  stage: test
   before_script:
-    - aclocal -I m4 && libtoolize
-    - automake -a && autoheader && autoconf
-    - ./configure
+    *prepare_repo
+  script:
+    cppcheck YGP/ XGP/ --enable=all
+  only:
+    - master
+
+test:
+  stage: test
+  before_script:
+    - *prepare_repo
     - make -j6
   script:
     - make check
