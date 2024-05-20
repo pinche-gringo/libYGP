@@ -111,12 +111,12 @@ struct File {
    /// Default constructor; creates an empty file object (holding no file)
    File () : path_ (), entry (), status (), userExec (false)
       { *entry.d_name = '\0'; }
-   File (const char* name) throw (YGP::FileError);
-   File (const File& other);
+   File (const char* name) noexcept;
+   File (const File& other) noexcept;
    virtual ~File ();
 
-   File& operator= (const File& other);
-   File& operator= (const char* name) throw (YGP::FileError);
+   File& operator= (const File& other) noexcept;
+   File& operator= (const char* name);
 
    virtual File* clone () const;
 
@@ -168,11 +168,11 @@ struct File {
 
    /// \name File access
    //@{
-   virtual bool isEOF (void* file) const throw (YGP::FileError);
-   virtual void* open  (const char* mode) const throw (YGP::FileError);
-   virtual void close (void* file) const throw (YGP::FileError);
-   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (YGP::FileError);
-   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError);
+   virtual bool isEOF (void* file) const;
+   virtual void* open  (const char* mode) const;
+   virtual void close (void* file) const;
+   virtual int  read  (void* file, char* buffer, unsigned int length) const;
+   virtual int  write (void* file, const char* buffer, unsigned int length) const;
    //@}
 
    ///< Character to separte directories of the operating system
@@ -185,7 +185,7 @@ struct File {
 
    bool  userExec;   ///< Flag, if the file can be executed by the current user (don't access directly)
 
-   void throwErrorText (const char* error) const throw (YGP::FileError);
+   void throwErrorText (const char* error) const;
 
    /// Sets the path of the file (only internally)
    void path (const char* path) { path_ = path; }
@@ -212,12 +212,12 @@ struct File : protected WIN32_FIND_DATA {
    friend class RemoteDirSearch;
 
    File () : WIN32_FIND_DATA (), path_ () { }
-   File (const char* name) throw (YGP::FileError);
+   File (const char* name);
    File (const File& other);
    virtual ~File ();
 
    File& operator= (const File& other);
-   File& operator= (const char* name) throw (YGP::FileError);
+   File& operator= (const char* name);
 
    virtual File* clone () const;
 
@@ -252,11 +252,11 @@ struct File : protected WIN32_FIND_DATA {
 
    /// \name File access
    //@{
-   virtual bool isEOF (void* file) const throw (YGP::FileError);
-   virtual void* open  (const char* mode) const throw (YGP::FileError);
-   virtual void close (void* file) const throw (YGP::FileError);
-   virtual int  read  (void* file, char* buffer, unsigned int length) const throw (YGP::FileError);
-   virtual int  write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError);
+   virtual bool isEOF (void* file) const;
+   virtual void* open  (const char* mode) const;
+   virtual void close (void* file) const;
+   virtual int  read  (void* file, char* buffer, unsigned int length) const;
+   virtual int  write (void* file, const char* buffer, unsigned int length) const;
    //@}
 
    static const char DIRSEPARATOR;
@@ -264,7 +264,7 @@ struct File : protected WIN32_FIND_DATA {
  protected:
    std::string path_;
 
-   void throwErrorText (const char* error) const throw (YGP::FileError);
+   void throwErrorText (const char* error) const;
 
    void path (const char* path) { path_ = path; }
    void path (const std::string& path) { path_ = path; }

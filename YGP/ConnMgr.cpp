@@ -88,7 +88,7 @@ void ConnectionMgr::changeMode (modeConnect newMode) {
 /// \param port Port the server is listening at
 /// \throws YGP::CommError In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::connectTo (const char* target, unsigned int port) throw (YGP::CommError) {
+void ConnectionMgr::connectTo (const char* target, unsigned int port) {
    TRACE1 ("ConnectionMgr::connectTo (const char*, unsinged int) - "
            << target << ':' << port);
    server = new Socket (target, port);
@@ -100,7 +100,7 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port) throw (YGP
 /// \param port Port the server is listening at
 /// \throws YGP::CommError In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::listenAt (unsigned int port) throw (YGP::CommError) {
+void ConnectionMgr::listenAt (unsigned int port) {
    TRACE1 ("ConnectionMgr::listenAt (unsinged int) - " << port);
    server = new Socket (port);
    changeMode (SERVER);

@@ -220,7 +220,7 @@ bool FileRegularExpr::compare (const char* pAktRegExp, const char* pCompare) {
 /// \throw std::invalid_argument In case of an invalid regexp a describing text
 /// \pre pFileRegExp is a valid regexp
 //-----------------------------------------------------------------------------
-int FileRegularExpr::checkIntegrity () const throw (std::invalid_argument) {
+int FileRegularExpr::checkIntegrity () const {
    const char* pRegExp = getExpression ();
    if (!(pRegExp || *pRegExp))
       return 1;

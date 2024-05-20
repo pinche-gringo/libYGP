@@ -62,9 +62,9 @@ class ConnectDlg : public XDialog {
    ConnectDlg (unsigned int cMaxConnections, const Glib::ustring& defPort,
                YGP::ConnectionMgr& connMgr);
 
-   void* waitForConnections (void* socket) throw (YGP::CommError);
+   void* waitForConnections (void* socket);
    virtual YGP::Socket* addClient (int socket);
-   virtual void connect (const Glib::ustring& target, unsigned int port) throw (YGP::CommError);
+   virtual void connect (const Glib::ustring& target, unsigned int port);
 
    Gtk::Entry*  pTarget;  ///< Entry field holding the target computer (IP address or name)
    Gtk::Entry*  pPort;          ///< Entry field for the port of the connection

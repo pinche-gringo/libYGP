@@ -111,7 +111,7 @@ namespace YGP {
 ///    - In case of an error the output should contain a describing message
 //-----------------------------------------------------------------------------
 pid_t Process::start (const char* file, const char* const arguments[],
-		      int flags, int* fd) throw (YGP::ExecError)
+		      int flags, int* fd)
 {
    TRACE9 ("Process::start (const char*, const char*, int, int*) - " << file);
    Check1 (file);

@@ -87,8 +87,8 @@ class INISection {
    const IAttribute* findAttribute (const char* name) const;
    void addAttribute (const IAttribute& attribute);
 
-   int readFromStream (Xistream& stream) throw (YGP::ParseError);
-   int readAttributes (Xistream& stream) throw (YGP::ParseError);
+   int readFromStream (Xistream& stream);
+   int readAttributes (Xistream& stream);
    static void skipComments (Xistream& stream);
 
    /// Returns the name of the section
@@ -125,7 +125,7 @@ class INISection {
       ISectionParser ();
       virtual ~ISectionParser ();
 
-      int parse (Xistream& stream) throw (YGP::ParseError);
+      int parse (Xistream& stream);
 
     protected:
       virtual int foundSection (const char* name, unsigned int len) = 0;
@@ -407,7 +407,7 @@ template <class T, class M=std::map<std::string, T> > class INIMap : public INIS
 */
 class INIFile {
  public:
-   INIFile (const char* filename) throw (YGP::FileError);
+   INIFile (const char* filename);
    virtual ~INIFile ();
 
    void addSection (const INISection& section);
@@ -419,8 +419,8 @@ class INIFile {
       addEntity (obj, *addSection (section)); }
    void addEntity (const Entity& obj, INISection& section);
 
-   int read () throw (YGP::ParseError);
-   void open () throw (YGP::FileError);
+   int read ();
+   void open ();
 
    /// Returns the stream the data is parsed from.
    Xifstream& getFile () { return file; }
@@ -432,7 +432,7 @@ class INIFile {
    static void write (std::ostream& stream, const char* section,
                       const Entity& obj);
 
-   void overwrite () throw (YGP::ParseError, YGP::FileError);
+   void overwrite ();
    //@}
 
  protected:

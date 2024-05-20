@@ -71,7 +71,7 @@ namespace YGP {
 /// Defaultconstructor; creates an socket but without any connection.
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket () throw (YGP::CommError)
+Socket::Socket ()
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket ()");
 
@@ -84,7 +84,7 @@ Socket::Socket () throw (YGP::CommError)
 /// \param port Port to listen at
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (unsigned int port) throw (YGP::CommError)
+Socket::Socket (unsigned int port)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (unsigned int)");
 
@@ -100,7 +100,7 @@ Socket::Socket (unsigned int port) throw (YGP::CommError)
 /// \param port Port to write to
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (const char* server, unsigned int port) throw (YGP::CommError)
+Socket::Socket (const char* server, unsigned int port)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const char*, unsigned int)");
    Check1 (server);
@@ -118,7 +118,7 @@ Socket::Socket (const char* server, unsigned int port) throw (YGP::CommError)
 /// \param port Port to write to
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (const std::string& server, unsigned int port) throw (YGP::CommError)
+Socket::Socket (const std::string& server, unsigned int port)
    : sock (socket (PF_INET, SOCK_STREAM, 0)) {
    TRACE9 ("Socket::Socket (const std::string&, unsigned int)");
 
@@ -143,7 +143,7 @@ Socket::~Socket () {
 /// \returns Socket& Reference to self
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket& Socket::operator= (const Socket& rhs) throw (YGP::CommError) {
+Socket& Socket::operator= (const Socket& rhs) {
    if (&rhs != this) {
       close (sock);
       sock = socket (PF_INET, SOCK_STREAM, 0);
@@ -170,7 +170,7 @@ Socket& Socket::operator= (int socket) {
 /// \param port Port at which to listen
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-void Socket::listenAt (unsigned int port) const throw (YGP::CommError) {
+void Socket::listenAt (unsigned int port) const {
    TRACE9 ("Socket::listenAt (unsigned int) - " << port << " (" << sock << ')');
 
    struct sockaddr_in addr;
@@ -192,7 +192,7 @@ void Socket::listenAt (unsigned int port) const throw (YGP::CommError) {
 /// \returns unsigned int Number of the passed service
 /// \throw YGP::CommError in case of an invalid input
 //----------------------------------------------------------------------------
-unsigned int Socket::getPortOfService (const char* service) throw (YGP::CommError) {
+unsigned int Socket::getPortOfService (const char* service) {
    TRACE9 ("Socket::getPortOfService (const char*)");
 
    char* pTail = NULL;
@@ -223,7 +223,7 @@ unsigned int Socket::getPortOfService (const char* service) throw (YGP::CommErro
 /// \returns int Number of bytes read<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::read (std::string& input) const throw (YGP::CommError) {
+int Socket::read (std::string& input) const {
    TRACE9 ("Socket::read (std::string&)" << " (" << sock << ')');
 
    char buffer[80] = "";
@@ -255,7 +255,7 @@ int Socket::read (std::string& input) const throw (YGP::CommError) {
 /// \returns int Number of bytes read<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError) {
+int Socket::read (char* pBuffer, unsigned int lenBuffer) const {
    TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
 
    ssize_t cRead (::read (sock, pBuffer, lenBuffer));
@@ -278,7 +278,7 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommE
 /// \returns int Socket over which to communicate<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::waitForInput () const throw (YGP::CommError) {
+int Socket::waitForInput () const {
    TRACE9 ("Socket::waitForInput (Socket&) const - (" << sock << ')');
 
    struct sockaddr_in client;
@@ -299,7 +299,7 @@ int Socket::waitForInput () const throw (YGP::CommError) {
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c server not NULL
 //----------------------------------------------------------------------------
-void Socket::writeTo (const char* server, unsigned int port) const throw (YGP::CommError) {
+void Socket::writeTo (const char* server, unsigned int port) const {
    TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << server << ':' << port);
    Check1 (server);
 
@@ -332,7 +332,7 @@ void Socket::writeTo (const char* server, unsigned int port) const throw (YGP::C
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
 void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
-   throw (YGP::CommError) {
+   {
    TRACE5 ("Socket::write (const char*, int) const - " << pBuffer << " (" << sock << ')');
    Check1 (pBuffer);
 
@@ -347,7 +347,7 @@ void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
-void Socket::write (const char* pBuffer) const throw (YGP::CommError) {
+void Socket::write (const char* pBuffer) const {
    Check1 (pBuffer);
    TRACE9 ("Socket::write (const char*) const - (" << sock << ')');
 
@@ -360,13 +360,13 @@ void Socket::write (const char* pBuffer) const throw (YGP::CommError) {
 /// \param errNum Number of error; if !=0 an explaining text is appended
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-void Socket::throwError (const std::string& error, int errNum) throw (YGP::CommError) {
+void Socket::throwError (const std::string& error, int errNum) {
    std::string str (error);
    if (errNum) {
       str += ": ";
       str += strerror (errNum);
    }
-   throw (YGP::CommError (str));
+   throw YGP::CommError (str);
 }
 
 }

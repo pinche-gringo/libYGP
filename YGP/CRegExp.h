@@ -131,11 +131,11 @@ namespace YGP {
 */
 class RegularExpression : public IRegularExpression {
  public:
-   RegularExpression (const char* pRegExp) throw (std::invalid_argument);
+   RegularExpression (const char* pRegExp);
    virtual ~RegularExpression ();
 
-   virtual int checkIntegrity () const throw (std::invalid_argument);
-   RegularExpression& operator= (const char* pRegExp) throw (std::invalid_argument);
+   virtual int checkIntegrity () const;
+   RegularExpression& operator= (const char* pRegExp);
 
  protected:
    virtual bool compare (const char* pAktRegExp, const char* pCompare);
@@ -154,7 +154,7 @@ class RegularExpression : public IRegularExpression {
 #ifdef HAVE_REGEX_H
    regex_t regexp;
 
-   void init (const char* pRegExp) throw (std::invalid_argument);
+   void init (const char* pRegExp);
 #else
    bool doCompare (const char*& pAktRegExp, const char*& pCompare);
 

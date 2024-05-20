@@ -50,11 +50,11 @@ class ATime : public AttributValue {
    ATime (const ATime& other)     /// Copy constructor from another time object
        : AttributValue ((const AttributValue&)other)
        , hour (other.hour), min_ (other.min_), sec (other.sec), mode (other.mode) { }
-   ATime (char Hour, char minute, char second) throw (std::invalid_argument);
-   ATime (const char* pTime) throw (std::invalid_argument)
+   ATime (char Hour, char minute, char second);
+   ATime (const char* pTime)
       : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       operator= (pTime); }           ///< Constructor from a text (unformatted)
-   ATime (const std::string& time) throw (std::invalid_argument)
+   ATime (const std::string& time)
       : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
       operator= (time); }            ///< Constructor from a text (unformatted)
    ATime (const struct tm& tm) : AttributValue (), hour (0), min_ (0), sec (0), mode (MODE_LOCALE) {
@@ -68,10 +68,10 @@ class ATime : public AttributValue {
    /// \name Assignment methods
    //@{
    /// Assignment operator from an (unformatted) text
-   ATime& operator= (const std::string& time) throw (std::invalid_argument) {
+   ATime& operator= (const std::string& time) {
       assign (time.c_str (), time.length ());
       return *this; }
-   ATime& operator= (const char* pTime) throw (std::invalid_argument);
+   ATime& operator= (const char* pTime);
    ATime& operator= (const ATime& other);
    ATime& operator= (const struct tm& tm) { /// Assignment operator from broken down time
       setDefined (); hour = (unsigned char)tm.tm_hour;
@@ -82,16 +82,16 @@ class ATime : public AttributValue {
    void setGMT (const time_t& time) { /// Assignment operator from system time (GMT)
       operator= (*localtime (&time)); }
 
-   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+   virtual void readFromStream (std::istream& in);
 
    void assign (const char* pTime, unsigned int len);
    //@}
 
    /// Defining the object; setting it to a default value (of <tt>0:00:00</tt>)
    virtual void define () { setDefined (); hour = min_ = sec = 0; }
-   void setHour (char Hour) throw (std::invalid_argument);
-   void setMinute (char minute) throw (std::invalid_argument);
-   void setSecond (char second) throw (std::invalid_argument);
+   void setHour (char Hour);
+   void setMinute (char minute);
+   void setSecond (char second);
 
    // Query-functions
    char getHour () const { return hour; }                 ///< Returns the hour

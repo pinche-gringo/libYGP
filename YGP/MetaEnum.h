@@ -51,8 +51,8 @@ class MetaEnum {
 
    /// \name Accessing values (which must exist)
    //@{
-   std::string operator[] (int value) const throw (std::out_of_range);
-   int         operator[] (const std::string& value) const throw (std::out_of_range);
+   std::string operator[] (int value) const;
+   int         operator[] (const std::string& value) const;
    //@}
 
    /// Returns an iterator to the first element of the enumeration

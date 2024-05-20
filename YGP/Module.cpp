@@ -43,7 +43,7 @@ namespace YGP {
 ///                it is searched for in the default places)
 /// \throw std::string An describing text in case of an error
 //-----------------------------------------------------------------------------
-Module::Module (const char* module) throw (FileError) : hDLL () {
+Module::Module (const char* module) : hDLL () {
    TRACE3 ("Module::Module (const char*) - " << module);
    Check1 (module);
 
@@ -57,7 +57,7 @@ Module::Module (const char* module) throw (FileError) : hDLL () {
       }
    }
    if (!hDLL)
-      throw (FileError (dlerror ()));
+      throw FileError (dlerror ());
 #elif defined HAVE_WINDOWS_H
    if (!(hDLL = LoadLibrary (module))) {
       int err (GetLastError ());

@@ -57,36 +57,36 @@ namespace YGP {
 */
 class Socket {
  public:
-   Socket () throw (YGP::CommError);
+   Socket ();
    Socket (int socket) : sock (socket) { }  ///< Constructor from system socket
-   Socket (unsigned int port) throw (YGP::CommError);
-   Socket (const char* server, unsigned int port) throw (YGP::CommError);
-   Socket (const std::string& server, unsigned int port) throw (YGP::CommError);
+   Socket (unsigned int port);
+   Socket (const char* server, unsigned int port);
+   Socket (const std::string& server, unsigned int port);
    Socket (const Socket& other) : sock (other.sock) { }   ///< Copy constructor
    virtual ~Socket ();
 
-   Socket& operator= (const Socket& other) throw (YGP::CommError);
+   Socket& operator= (const Socket& other);
    Socket& operator= (int socket);
 
-   void listenAt (unsigned int port) const throw (YGP::CommError);
-   int waitForInput () const throw (YGP::CommError);
+   void listenAt (unsigned int port) const;
+   int waitForInput () const;
 
-   int  read (std::string& input) const throw (YGP::CommError);
-   int  read (char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError);
+   int  read (std::string& input) const;
+   int  read (char* pBuffer, unsigned int lenBuffer) const;
 
    /// Specifies the \c server and \c port to write to (for outgoing connections).
-   void writeTo (const std::string& server, unsigned int port) const throw (YGP::CommError) {
+   void writeTo (const std::string& server, unsigned int port) const {
       writeTo (server.c_str (), port); }
-   void writeTo (const char* server, unsigned int port) const throw (YGP::CommError);
+   void writeTo (const char* server, unsigned int port) const;
 
    /// Writes the content of \c output to the socket (which must have been connected to an address).
-   void write (const std::string& output) const throw (YGP::CommError) {
+   void write (const std::string& output) const {
       write (output.data (), output.length ()); }
-   void write (const char* pBuffer) const throw (YGP::CommError);
-   void write (const char* pBuffer, unsigned int lenBuffer) const throw (YGP::CommError);
+   void write (const char* pBuffer) const;
+   void write (const char* pBuffer, unsigned int lenBuffer) const;
 
    // General helper-functions
-   static unsigned int getPortOfService (const char* service) throw (YGP::CommError);
+   static unsigned int getPortOfService (const char* service);
 
    /// Convertion from a Socket to a system socket (represented by an integer).
    int number () const { return sock; }
@@ -94,7 +94,7 @@ class Socket {
    operator int () const { return sock; }
 
  protected:
-   static void throwError (const std::string& error, int errNum) throw (YGP::CommError);
+   static void throwError (const std::string& error, int errNum);
 
  private:
    // Prohibited manager-functions

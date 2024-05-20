@@ -75,11 +75,11 @@ ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
 /// \param Month Month of this object
 /// \param Year Year of this object
 /// \param Hour Hour of this object
-/// \param minute Minute of this object 
+/// \param minute Minute of this object
 /// \param second Other time-parameters
 //-----------------------------------------------------------------------------
 ATimestamp::ATimestamp (char Day, char Month, int Year, char Hour,
-                        char minute, char second) throw (std::invalid_argument)
+                        char minute, char second)
    : ADate (Day, Month, Year), ATime (Hour, minute, second) {
 }
 
@@ -113,7 +113,7 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 /// \throw std::invalid_argument if the parameters has a wrong format
 /// \remarks A NULL-pointer as parameter is not permitted!
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::operator= (const char* pValue) throw (std::invalid_argument) {
+ATimestamp& ATimestamp::operator= (const char* pValue) {
    Check3 (pValue);
    Check3 (!checkIntegrity ());
 
@@ -175,7 +175,7 @@ std::string ATimestamp::toString (const char* format) const {
 /// \param in Stream to parse
 /// \throw std::invalid_argument in case of a format error
 //-----------------------------------------------------------------------------
-void ATimestamp::readFromStream (std::istream& in) throw (std::invalid_argument) {
+void ATimestamp::readFromStream (std::istream& in) {
    char ch;
 
    ADate::readFromStream (in);

@@ -46,7 +46,7 @@ class AttributValue {
 
    /// Reads a value from the passed stream. To be implemented by derived
    /// objects (this class does nothing).
-   virtual void readFromStream (std::istream&) throw (std::invalid_argument) = 0;
+   virtual void readFromStream (std::istream&) = 0;
 
    /// Converts the attribute into an unformatted string.
    virtual std::string toUnformattedString () const { return ""; }

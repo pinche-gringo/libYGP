@@ -55,16 +55,16 @@ class ConnectionMgr {
    //@{
    /// Connect to \c server on the specified \c port.
    /// \throw YGP::CommError
-   void connectTo (const std::string& server, unsigned int port) throw (YGP::CommError) {
+   void connectTo (const std::string& server, unsigned int port) {
        connectTo (server.c_str (), port);
    }
-   void connectTo (const char* server, unsigned int port) throw (YGP::CommError);
+   void connectTo (const char* server, unsigned int port);
 
    //@}
 
    /// \name Server mode
    //@{
-   void listenAt (unsigned int port) throw (YGP::CommError);
+   void listenAt (unsigned int port);
    int  getNewConnection () const;
    Socket* addConnection (int socket);
 

@@ -101,7 +101,7 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 /// \param values Name of attribute to find
 /// \throw YGP::ParseError_argument in case of an unknown name or an invalid value
 //----------------------------------------------------------------------------
-void AttributeParse::assignValues (const std::string& values) const throw (YGP::ParseError) {
+void AttributeParse::assignValues (const std::string& values) const {
    TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
    AssignmentParse ass (values);
 
@@ -121,13 +121,13 @@ void AttributeParse::assignValues (const std::string& values) const throw (YGP::
             std::string error (_("Error assigning '%1' to %2"));
             error.replace (error.find ("%1"), 2, value);
             error.replace (error.find ("%2"), 2, ass.getActKey ());
-            throw (YGP::ParseError (error));
+            throw YGP::ParseError (error);
          }
       } // endif
       else {
          std::string error (_("Key '%1' not found"));
          error.replace (error.find ("%1"), 2, ass.getActKey ());
-	 throw (YGP::ParseError (error));
+	 throw YGP::ParseError (error);
       }
    } // end-while
 }

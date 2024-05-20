@@ -88,7 +88,7 @@ INISection::ISectionParser::~ISectionParser () {
 /// \returns int Status of parse
 /// \throw YGP::ParseError Error while parsing
 //-----------------------------------------------------------------------------
-int INISection::ISectionParser::parse (Xistream& stream) throw (YGP::ParseError) {
+int INISection::ISectionParser::parse (Xistream& stream) {
    INISection::skipComments (stream);
    return SectionHeader.parse (stream);
 }
@@ -181,7 +181,7 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /// \throw YGP::ParseError With text describing error if an unrecoverable
 ///     error occurs
 //-----------------------------------------------------------------------------
-int INISection::readFromStream (Xistream& stream) throw (YGP::ParseError) {
+int INISection::readFromStream (Xistream& stream) {
    TRACE9 ("INISection::readFromStream (Xistream&)");
    TSectionParser<INISection> hdrParser (*this, &INISection::foundSection);
 
@@ -204,7 +204,7 @@ int INISection::readFromStream (Xistream& stream) throw (YGP::ParseError) {
 /// \throw YGP::ParseError With text describing error if an unrecoverable
 ///     error occurs
 //-----------------------------------------------------------------------------
-int INISection::readAttributes (Xistream& stream) throw (YGP::ParseError) {
+int INISection::readAttributes (Xistream& stream) {
    TRACE9 ("INISection::readAttributes (Xistream&)");
    int rc (ParseObject::PARSE_OK);
 
@@ -294,7 +294,7 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// \throw YGP::FileError If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-INIFile::INIFile (const char* filename) throw (YGP::FileError)
+INIFile::INIFile (const char* filename)
    : file (), name (filename), sections (), sectionsToFree (), pSection (NULL) {
    Check3 (filename);
 
@@ -307,13 +307,13 @@ INIFile::INIFile (const char* filename) throw (YGP::FileError)
 /// thrown.
 /// \throw YGP::FileError If file couldn't be open a text describing the error
 //-----------------------------------------------------------------------------
-void INIFile::open () throw (YGP::FileError) {
+void INIFile::open () {
    file.open (name.c_str (), std::ios::in);
    if (!file) {
       std::string error (_("Could not open INI-file '%1': Reason: %2"));
       error.replace (error.find ("%1"), 2, name);
       error.replace (error.find ("%2"), 2, strerror (errno));
-      throw (YGP::FileError (error));
+      throw YGP::FileError (error);
    }
    file.init ();
 }
@@ -368,7 +368,7 @@ INISection* INIFile::addSection (const char* section) {
 /// \returns int Status of reading: <0 hard error; 0 OK, >0 soft error
 /// \throw YGP::ParseError With a message describing error in case of an invalid value
 //-----------------------------------------------------------------------------
-int INIFile::read () throw (YGP::ParseError) {
+int INIFile::read () {
   TRACE9 ("INIFile::read ()");
 
    // Parse the section-header; terminate on error
@@ -467,7 +467,7 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
 ///    - YGP::FileError in case file-access fails somehow
 ///    - YGP::ParseError in case of failing to parse the file (before overwriting it)
 //-----------------------------------------------------------------------------
-void INIFile::overwrite () throw (FileError, ParseError) {
+void INIFile::overwrite () {
    TRACE9 ("INIFile::overwrite ()");
 
    // First read the contents of the INI-file
@@ -518,13 +518,13 @@ void INIFile::overwrite () throw (FileError, ParseError) {
 	       std::string error (_("Invalid characters after section %1: %2"));
 	       error.replace (error.find ("%1"), 2, name);
 	       error.replace (error.find ("%2"), 2, &last, 1);
-	       throw (ParseError (error));
+	       throw ParseError (error);
 	    }
 	 }
 	 else {
 	    std::string error (_("Invalid section: %1"));
 	    error.replace (error.find ("%1"), 2, line);
-	    throw (ParseError (error));
+	    throw ParseError (error);
 	 }
       }
       else {

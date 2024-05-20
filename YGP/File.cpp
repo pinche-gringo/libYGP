@@ -58,7 +58,7 @@ const char File::DIRSEPARATOR = '\\';
 /// Copyconstructor
 /// \param other Object to copy
 //-----------------------------------------------------------------------------
-File::File (const File& other) : path_ (other.path_)
+File::File (const File& other) noexcept : path_ (other.path_)
 #if SYSTEM == UNIX
    , entry (other.entry), status (other.status), userExec (other.userExec)
 #elif SYSTEM == WINDOWS
@@ -71,9 +71,8 @@ File::File (const File& other) : path_ (other.path_)
 /// Constructor; create from a name
 /// \param name Pointer to
 /// character-array holding name of file to create
-/// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
-File::File (const char* name) throw (YGP::FileError)
+File::File (const char* name) noexcept
 #if SYSTEM == UNIX
    : path_ (), entry (), status (), userExec (false)
 #endif
@@ -94,7 +93,7 @@ File::~File () {
 /// \param other Object to copy
 /// \returns File& Reference to this
 //-----------------------------------------------------------------------------
-File& File::operator= (const File& other) {
+File& File::operator= (const File& other) noexcept {
    path_ = other.path_;
 #if SYSTEM == UNIX
    entry = other.entry;
@@ -112,7 +111,7 @@ File& File::operator= (const File& other) {
 /// \returns Reference to self
 /// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
-File& File::operator= (const char* name) throw (YGP::FileError) {
+File& File::operator= (const char* name) {
 #if SYSTEM == UNIX
    // If file exists, fill data-fields
    if (!stat (name, &status)) {
@@ -123,12 +122,12 @@ File& File::operator= (const char* name) throw (YGP::FileError) {
          path_ = "./";
          posName = name;
       }
-      strncpy (entry.d_name, posName, sizeof (entry.d_name));
+      strncpy (entry.d_name, posName, sizeof (entry.d_name) - 1);
 
       userExec = !access (name, X_OK);
    }
    else
-      throw (YGP::FileError (strerror (errno)));
+      throw YGP::FileError (strerror (errno));
 
 #elif SYSTEM == WINDOWS
    HANDLE hFile;
@@ -159,7 +158,7 @@ File& File::operator= (const char* name) throw (YGP::FileError) {
       char buffer[80];
       FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError (),
                      0, buffer, sizeof (buffer), NULL);
-      throw (YGP::FileError (buffer));
+      throw YGP::FileError (buffer);
    }
 #endif
 
@@ -266,7 +265,7 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 /// \returns void* Pointer to a handle for the opened file.
 /// \throw YGP::FileError In case of an error with a textual description
 //-----------------------------------------------------------------------------
-void* File::open  (const char* mode) const throw (YGP::FileError) {
+void* File::open (const char* mode) const {
    std::string file (path ()); file += name ();
    TRACE5 ("File::open  (const char*) const - " << file);
    Check1 (mode);
@@ -283,7 +282,7 @@ void* File::open  (const char* mode) const throw (YGP::FileError) {
 /// \param file Handle of opened file
 /// \throw YGP::FileError In case of an error with a textual description
 //-----------------------------------------------------------------------------
-void File::close (void* file) const throw (YGP::FileError) {
+void File::close (void* file) const {
    TRACE5 ("File::close  () const - " << path () << name ());
    Check1 (file);
 
@@ -302,7 +301,7 @@ void File::close (void* file) const throw (YGP::FileError) {
 /// \returns int Number of read bytes
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-int File::read (void* file, char* buffer, unsigned int length) const throw (YGP::FileError) {
+int File::read (void* file, char* buffer, unsigned int length) const {
    TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
    Check1 (file);
    Check1 (buffer);
@@ -325,7 +324,7 @@ int File::read (void* file, char* buffer, unsigned int length) const throw (YGP:
 /// \returns int Number of written bytes
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-int File::write (void* file, const char* buffer, unsigned int length) const throw (YGP::FileError) {
+int File::write (void* file, const char* buffer, unsigned int length) const {
    TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
    Check1 (file);
    Check1 (buffer);
@@ -342,7 +341,7 @@ int File::write (void* file, const char* buffer, unsigned int length) const thro
 /// \param file Handle of openeded file
 /// \returns bool True, if further data is available
 //-----------------------------------------------------------------------------
-bool File::isEOF (void* file) const throw (YGP::FileError) {
+bool File::isEOF (void* file) const {
    Check1 (file);
    return feof (static_cast <FILE*> (file)) != 0;
 }
@@ -355,14 +354,14 @@ bool File::isEOF (void* file) const throw (YGP::FileError) {
 /// \pre error != NULL, an ASCIIZ-string with the placeholders %1, %2
 /// \throw YGP::FileError In case of an error
 //-----------------------------------------------------------------------------
-void File::throwErrorText (const char* error) const throw (YGP::FileError) {
+void File::throwErrorText (const char* error) const {
    Check1 (error);
    std::string file (path ());
    file += name ();
    std::string err (_(error));
    err.replace (err.find ("%1"), 2, file);
    err.replace (err.find ("%2"), 2, strerror (errno));
-   throw (YGP::FileError (err));
+   throw YGP::FileError (err);
 }
 
 }

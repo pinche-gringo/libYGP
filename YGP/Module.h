@@ -37,7 +37,7 @@ namespace YGP {
  */
 class Module {
  public:
-   Module (const char* module) throw (FileError);
+   Module (const char* module);
    virtual ~Module ();
 
    void* getSymbol (const char* symbol) const;

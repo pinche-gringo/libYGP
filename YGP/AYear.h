@@ -44,22 +44,22 @@ class AYear : public AttributValue {
        : AttributValue ((const AttributValue&)other) , year (other.year) { }
    AYear (int Year)                      ///< Constructor; sets the passed year
       : AttributValue (true), year (Year) { }
-   AYear (const char* pYear) throw (std::invalid_argument) : AttributValue (), year (1900) {
+   AYear (const char* pYear) : AttributValue (), year (1900) {
        operator= (pYear); }                        ///< Constructor from a text
-   AYear (const std::string& year) throw (std::invalid_argument) : AttributValue (), year (1900) {
+   AYear (const std::string& year) : AttributValue (), year (1900) {
        operator= (year); }                         ///< Constructor from a text
    virtual ~AYear ();
 
    /// \name Assignment methods
    //@{
    /// Assignment operator from an (unformatted) text
-   AYear& operator= (const std::string& year) throw (std::invalid_argument) {
+   AYear& operator= (const std::string& year) {
       return operator= (year.c_str ()); }
    AYear& operator= (const AYear& other);
-   AYear& operator= (const char* pValue) throw (std::invalid_argument);
+   AYear& operator= (const char* pValue);
    AYear& operator= (int Year) { setDefined (); year = Year; return *this; }
 
-   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+   virtual void readFromStream (std::istream& in);
    //@}
 
    /// Defining the object; setting it to a default value (of <tt>1900</tt>)

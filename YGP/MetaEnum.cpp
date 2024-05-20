@@ -49,7 +49,7 @@ MetaEnum::~MetaEnum () {
 /// \remarks value must exist within the enum
 /// \throws std::out_of_range
 //-----------------------------------------------------------------------------
-std::string MetaEnum::operator[] (int value) const throw (std::out_of_range) {
+std::string MetaEnum::operator[] (int value) const {
    const_iterator i (values.find (value));
    if (i != values.end ())
       return i->second;
@@ -62,7 +62,7 @@ std::string MetaEnum::operator[] (int value) const throw (std::out_of_range) {
 /// \returns int Numeric value
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------
-int MetaEnum::operator[] (const std::string& value) const throw (std::out_of_range) {
+int MetaEnum::operator[] (const std::string& value) const {
    for (const_iterator i (values.begin ()); i != values.end (); ++i)
       if (i->second == value)
 	 return i->first;

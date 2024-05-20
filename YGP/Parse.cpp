@@ -1,14 +1,9 @@
-//$Id: Parse.cpp,v 1.61 2008/03/29 17:35:17 markus Rel $
-
 //PROJECT     : libYGP
 //SUBSYSTEM   : Parse
 //REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.61 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 23.8.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2020
 
 // This file is part of libYGP.
 //
@@ -27,7 +22,7 @@
 
 
 #ifdef _MSC_VER
-#pragma warning(disable:4786) // disable warning about truncating debug info
+#pragma warning(disable:4786)  // disable warning about truncating debug info
 #endif
 
 
@@ -37,6 +32,8 @@
 #include <map>
 #include <string>
 
+#define CHECK 9
+#define TRACELEVEL 9
 #include "YGP/Trace.h"
 #include "YGP/Thread.h"
 #include "YGP/XStream.h"
@@ -274,7 +271,7 @@ ParseAttomic& ParseAttomic::operator= (const ParseAttomic& other) {
 /// \param optional Flag, if node must be found
 /// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseAttomic::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
+int ParseAttomic::doParse (Xistream& stream, bool optional) {
    TRACE1 ("ParseAttomic::doParse (Xistream&, bool) - " << getDescription ());
 
    int ch ('\0');
@@ -334,7 +331,7 @@ int ParseAttomic::doParse (Xistream& stream, bool optional) throw (YGP::ParseErr
          if (buffer.size () > 23)
             buffer.replace (10, buffer.size () - 20, "...");
          error.replace (error.find ("%2"), 2, buffer);
-	 throw (YGP::ParseError (error));
+	 throw YGP::ParseError (error);
       } // end-if mandatory value not found
    } // endif error
    else
@@ -885,7 +882,7 @@ ParseToText::~ParseToText () {
 /// \param optional Flag, if node must be found
 /// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseToText::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
+int ParseToText::doParse (Xistream& stream, bool optional) {
    TRACE1 ("ParseToText::doParse (Xistream&, bool) - " << getDescription ());
 
    std::streampos oldPos (stream.tellg ()), lastPos (oldPos);
@@ -935,7 +932,7 @@ int ParseToText::doParse (Xistream& stream, bool optional) throw (YGP::ParseErro
       else {
          std::string error (_("Expected %1 not found"));
 	 error.replace (error.find ("%1"), 2, getDescription ());
-	 throw (YGP::ParseError (error));
+	 throw YGP::ParseError (error);
       }
    }
 }
@@ -1007,7 +1004,7 @@ ParseSequence& ParseSequence::operator= (const ParseSequence& other) {
 /// \returns int PARSE_OK if selection found; PARSE_ERROR if not
 /// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
+int ParseSequence::doParse (Xistream& stream, bool optional) {
    TRACE1 ("ParseSequence::doParse -> " << getDescription () << ' ' << maxCard);
 
    unsigned int i (0);
@@ -1046,7 +1043,7 @@ int ParseSequence::doParse (Xistream& stream, bool optional) throw (YGP::ParseEr
       error.replace (error.find ("%1"), 2, getDescription ());
       if (*ppAct)
          error.replace (error.find ("%2"), 2, (*ppAct)->getDescription ());
-      throw (YGP::ParseError (error));
+      throw YGP::ParseError (error);
    }
 
    TRACE8 ("ParseSequence::doParse -> " << getDescription () << " exiting with rc = " << rc);
@@ -1124,7 +1121,7 @@ ParseSelection& ParseSelection::operator= (const ParseSelection& other) {
 /// \returns int PARSE_OK if selection found; PARSE_ERROR if not
 /// \throw YGP::ParseError In case of a not recoverable error
 //-----------------------------------------------------------------------------
-int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseError) {
+int ParseSelection::doParse (Xistream& stream, bool optional) {
    TRACE1 ("ParseSelection::doParse -> " << getDescription () << ' ' << maxCard);
 
    unsigned int i (0);
@@ -1162,7 +1159,7 @@ int ParseSelection::doParse (Xistream& stream, bool optional) throw (YGP::ParseE
       std::string error;
       error = _("Expected selection %1");
       error.replace (error.find ("%1"), 2, getDescription ());
-      throw (YGP::ParseError (error));
+      throw YGP::ParseError (error);
    }
 
    TRACE8 ("ParseSelection::doParse -> " << getDescription ()

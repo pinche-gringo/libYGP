@@ -75,7 +75,7 @@ class AttributeParse {
    AttributeParse () : apAttrs () { }
    virtual ~AttributeParse ();
 
-   void assignValues (const std::string& values) const throw (YGP::ParseError);
+   void assignValues (const std::string& values) const;
 
    void addAttribute (IAttribute& attr);
 

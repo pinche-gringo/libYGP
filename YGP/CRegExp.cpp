@@ -95,7 +95,7 @@ const char WORDEND = '>';
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
-RegularExpression::RegularExpression (const char* pRegExp) throw (std::invalid_argument)
+RegularExpression::RegularExpression (const char* pRegExp)
    : IRegularExpression (pRegExp)
 #ifdef HAVE_REGEX_H
    , regexp ()
@@ -126,7 +126,7 @@ RegularExpression::~RegularExpression () {
 /// \pre The input is not copied, so it must be valid during the lifetime
 ///      of the regular expression.
 //----------------------------------------------------------------------------
-RegularExpression& RegularExpression::operator= (const char* pRegExp) throw (std::invalid_argument) {
+RegularExpression& RegularExpression::operator= (const char* pRegExp) {
    IRegularExpression::operator= (pRegExp);
 #ifdef HAVE_REGEX_H
    regfree (&regexp);
@@ -920,7 +920,7 @@ const char* RegularExpression::getRepeatFactor (const char* pRE, unsigned int& m
 /// \throw std::invalid_argument In case of an invalid regexp a describing text
 /// \pre \c pFileRegExp is a valid regexp
 //----------------------------------------------------------------------------
-int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
+int RegularExpression::checkIntegrity () const {
 #ifndef HAVE_REGEX_H
    const char* pRegExp = getExpression ();
    if (!pRegExp)
@@ -933,7 +933,7 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
       switch (*pRegExp) {
       case  REGIONBEGIN:
          if (!*++pRegExp)
-            throw (getError (RANGE_OPEN, pRegExp - getExpression ()));
+            throw getError (RANGE_OPEN, pRegExp - getExpression ());
 
          // Skip leading range-inversion
          if ((*pRegExp == NEGREGION1) || (*pRegExp == NEGREGION2))
@@ -946,14 +946,14 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
             switch (*pRegExp) {
             case RANGE:
                if (!pRegExp[1] || (pRegExp[1] == REGIONEND))
-                  throw (getError (REGION_OPEN, pRegExp - getExpression ()));
+                  throw getError (REGION_OPEN, pRegExp - getExpression ());
 
                if (pRegExp[-1] > pRegExp[1])
-                  throw (getError (INV_RANGE, pRegExp - getExpression ()));
+                  throw getError (INV_RANGE, pRegExp - getExpression ());
                break;
 
             case '\0':
-               throw (getError (REGION_OPEN, pRegExp - getExpression ()));
+               throw getError (REGION_OPEN, pRegExp - getExpression ());
             } // endif
 
             ++pRegExp;
@@ -971,10 +971,10 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
 
       case ESCAPE:
          if (!pRegExp[1])
-            throw (getError (ENDING_BACKSLASH, pRegExp - getExpression ()));
+            throw getError (ENDING_BACKSLASH, pRegExp - getExpression ());
 
          if (isdigit (pRegExp[1]) && ((pRegExp[1] - '1') > cGroups_))
-            throw (getError (INV_DIGIT, pRegExp - getExpression ()));
+            throw getError (INV_DIGIT, pRegExp - getExpression ());
 
          ++pRegExp;
          break;
@@ -983,14 +983,14 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
       case MULTIMATCHMAND:
       case MULTIMATCH1:
          if (!pPrevExpr)
-            throw (getError (NO_PREV_EXP, pRegExp - getExpression ()));
+            throw getError (NO_PREV_EXP, pRegExp - getExpression ());
          pPrevExpr = NULL;
          break;
 
       case BOUNDBEG:
          if (isdigit (pRegExp[1])) {        // Check if bound or just '{' found
             if (!pPrevExpr)
-               throw (getError (NO_PREV_EXP, pRegExp - getExpression ()));
+               throw getError (NO_PREV_EXP, pRegExp - getExpression ());
 
 	    char* pEnd;
             unsigned long min (strtoul (pRegExp + 1, &pEnd, 10));
@@ -1001,11 +1001,11 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
             TRACE7 ("RegularExpression::checkIntegrity () const - Bound: " << min
                     << '/' << max);
             if (min > max)
-               throw (getError (INV_BOUND, pRegExp - getExpression () + 1));
+               throw getError (INV_BOUND, pRegExp - getExpression () + 1);
 
             pRegExp = pEnd;
 	    if (*pRegExp != BOUNDEND)
-               throw (getError (INV_BOUND, pRegExp - getExpression ()));
+               throw getError (INV_BOUND, pRegExp - getExpression ());
          } // endif bound found
          break;
 
@@ -1017,7 +1017,7 @@ int RegularExpression::checkIntegrity () const throw (std::invalid_argument) {
    } // end-while
 
    if (cGroups_)
-      throw (getError (GROUP_OPEN, 0));
+      throw getError (GROUP_OPEN, 0);
 
 #endif
    return 0;
@@ -1065,12 +1065,12 @@ std::invalid_argument RegularExpression::getError (int rc, unsigned int pos) con
 /// \param pRegExp Pointer to ASCIIZ-string holding regexp
 /// \pre \c pRegExp is an ASCIIZ-string (not NULL)
 //----------------------------------------------------------------------------
-void RegularExpression::init (const char* pRegExp) throw (std::invalid_argument) {
+void RegularExpression::init (const char* pRegExp) {
    Check1 (pRegExp);
 
    int rc = regcomp (&regexp, pRegExp, REG_EXTENDED);
    if (rc)
-      throw (getError (rc, 0));
+      throw getError (rc, 0);
    }
 #endif
 

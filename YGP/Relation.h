@@ -61,7 +61,7 @@ class RelationManager {
 /**Functor for comparing boost::shared_ptrs.
  */
 template <class _Tp>
-struct lessDereferenced : public std::binary_function<_Tp, _Tp, bool> {
+struct lessDereferenced {
    /// Access to the functor
    /// \param __x First object to compare
    /// \param __y Second object to compare
@@ -105,7 +105,7 @@ class Relation1_1 : public IRelation {
    /// \param source Parent to relate
    /// \param target Child to relate with parent
    /// \throws std::overflow_error If cardinality would be invalidated
-   void relate (const S& source, const T& target) throw (std::overflow_error) {
+   void relate (const S& source, const T& target) {
       Check1 (source); Check1 (target);
       typename std::map<S, T >::const_iterator i (objects.find (source));
       if (i == objects.end ()) {
@@ -180,7 +180,7 @@ class Relation1_1 : public IRelation {
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
    /// \throws std::invalid_argument If the passed object is not related
-   S& getParent (const T& object) throw (std::invalid_argument) {
+   S& getParent (const T& object) {
       Check1 (object);
       for (typename std::map<S, T >::iterator i (objects.begin ());
 	   i != objects.end (); ++i)
@@ -192,7 +192,7 @@ class Relation1_1 : public IRelation {
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
    /// \throws std::invalid_argument If the passed object is not related
-   const S& getParent (const T& object) const throw (std::invalid_argument) {
+   const S& getParent (const T& object) const {
       Check1 (object);
       for (typename std::map<S, T >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i)
@@ -323,7 +323,7 @@ class Relation1_N : public IRelation {
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
    /// \throws std::invalid_argument If the passed object is not related
-   S getParent (const T& object) throw (std::invalid_argument) {
+   S getParent (const T& object) {
       Check1 (object);
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {
@@ -338,7 +338,7 @@ class Relation1_N : public IRelation {
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
    /// \throws std::invalid_argument If the passed object is not related
-   const S getParent (const T& object) const throw (std::invalid_argument) {
+   const S getParent (const T& object) const {
       Check1 (object);
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {
@@ -379,7 +379,7 @@ class Relation1_X : public Relation1_N<S, T> {
    /// \param source Parent to relate
    /// \param target Child to relate with parent
    /// \throws std::overflow_error If cardinality would be invalidated
-   void relate (S source, T target) throw (std::overflow_error) {
+   void relate (S source, T target) {
       Check1 (source); Check1 (target);
       typename std::map<S, std::vector<T> >::iterator i
 	 (Relation1_N<S, T>::objects.find (source));
@@ -394,7 +394,7 @@ class Relation1_X : public Relation1_N<S, T> {
    /// \param source Parent to relate
    /// \param targets Children to relate with parent
    /// \throws std::overflow_error If cardinality would be invalidated
-   void relate (const S& source, const std::vector<T>& targets) throw (std::overflow_error) {
+   void relate (const S& source, const std::vector<T>& targets) {
       Check1 (source); Check1 (targets.size ());
       if (targets.size () >= cRelated)
 	 throw std::overflow_error (IRelation::name ());
@@ -590,7 +590,7 @@ class RelationN_M : public IRelation {
    /// \param object Child whose parent should be returned
    /// \returns S The related parent
    /// \throws std::invalid_argument If the passed object is not related
-   const std::vector<S>& getParents (const T& object) const throw (std::invalid_argument) {
+   const std::vector<S>& getParents (const T& object) const {
       Check1 (object);
       for (typename std::map<S, std::vector<T> >::const_iterator i (objects.begin ());
 	   i != objects.end (); ++i) {

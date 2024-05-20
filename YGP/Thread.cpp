@@ -89,7 +89,7 @@ Thread::Thread ()
 /// \param pArgs Pointer to argument(s)
 /// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
-Thread::Thread (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError)
+Thread::Thread (THREAD_FUNCTION fnc, void* pArgs)
    : pArgs_ (pArgs)
 #ifdef HAVE_LIBPTHREAD
    , id ()
@@ -115,7 +115,7 @@ Thread::~Thread () {
 /// \param pArgs Pointer to parameters
 /// \throw YGP::ExecError describing the error
 //-----------------------------------------------------------------------------
-void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
+void Thread::init (THREAD_FUNCTION fnc, void* pArgs) {
 #ifdef HAVE_LIBPTHREAD
    if (pthread_create (&id, NULL, fnc, pArgs) != 0) {
 #elif  defined (HAVE_BEGINTHREAD)
@@ -128,7 +128,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
 #if defined (HAVE_LIBPTHREAD) || defined (HAVE_BEGINTHREAD)
       std::string err (_("Can't create thread!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
-      throw (YGP::ExecError (err));
+      throw YGP::ExecError (err);
    }
 #else
    canceled = false;
@@ -140,7 +140,7 @@ void Thread::init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
    case -1: {                        // Error creating process: Throw exception
       std::string err (_("Can't create background-process!\nReason: %1"));
       err.replace (err.find ("%1"), 2, strerror (errno));
-      throw (YGP::ExecError (err));
+      throw YGP::ExecError (err);
       }
    } // end-switch
 #endif

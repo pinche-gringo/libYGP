@@ -73,7 +73,7 @@ ATime::ATime (bool now) : AttributValue (), hour (0), min_ (0), sec (0), mode (M
 /// \param minute Minute to set
 /// \param second Second to set
 //-----------------------------------------------------------------------------
-ATime::ATime (char Hour, char minute, char second) throw (std::invalid_argument)
+ATime::ATime (char Hour, char minute, char second)
    : AttributValue (true), hour (Hour), min_ (minute), sec (second),
      mode (MODE_LOCALE) {
    int status (checkIntegrity ());
@@ -114,7 +114,7 @@ ATime& ATime::operator= (const ATime& other) {
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid time
 //-----------------------------------------------------------------------------
-ATime& ATime::operator= (const char* pTime) throw (std::invalid_argument) {
+ATime& ATime::operator= (const char* pTime) {
    Check3 (!checkIntegrity ());
 
    if (pTime)
@@ -287,7 +287,7 @@ std::string ATime::toString (const char* format) const {
 /// \param in Stream to parse
 /// \throw invalid_argument in case of an format error
 //-----------------------------------------------------------------------------
-void ATime::readFromStream (std::istream& in) throw (std::invalid_argument) {
+void ATime::readFromStream (std::istream& in) {
    if (in.eof ()) {
       undefine ();
       return;
@@ -540,7 +540,7 @@ bool ATime::maxAdapt () {
 /// \param Hour Hour to set
 /// \throw std::invalid_argument if the parameter is bigger than 23
 //-----------------------------------------------------------------------------
-void ATime::setHour (char Hour) throw (std::invalid_argument) {
+void ATime::setHour (char Hour) {
    if (hour > 23) {
       TRACE0 ("ATime::setHour -> Invalid parameter: " << Hour);
       throw std::invalid_argument ("ATime::setHour");
@@ -554,7 +554,7 @@ void ATime::setHour (char Hour) throw (std::invalid_argument) {
 /// \param minute Minute to set
 /// \throw std::invalid_argument if the parameter is bigger than 59
 //-----------------------------------------------------------------------------
-void ATime::setMinute (char minute) throw (std::invalid_argument) {
+void ATime::setMinute (char minute) {
    if (minute > 59) {
       TRACE0 ("ATime::setMinute -> Invalid parameter: " << minute);
       throw std::invalid_argument ("ATime::setMinute");
@@ -568,7 +568,7 @@ void ATime::setMinute (char minute) throw (std::invalid_argument) {
 /// \param second Second to set
 /// \throw std::invalid_argument if the parameter is bigger than 61
 //-----------------------------------------------------------------------------
-void ATime::setSecond (char second) throw (std::invalid_argument) {
+void ATime::setSecond (char second) {
    if (second > 61) {
       TRACE0 ("ATime::setSecond -> Invalid parameter: " << second);
       throw std::invalid_argument ("ATime::setSecond");

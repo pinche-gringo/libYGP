@@ -62,12 +62,12 @@ class Thread {
    /// Creates a new thread; the argument is passed directly to the thread function
    /// \param fnc Thread function to execute
    /// \param pArgs Argument to the thread
-   static Thread* create (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
+   static Thread* create (THREAD_FUNCTION fnc, void* pArgs) {
       return new Thread (fnc, pArgs); }
    /// Creates a new thread; a pointer to the thread ID is passed to the thread function
    /// \param fnc Thread function to execute
    /// \param pArgs Argument to the thread
-   static Thread* create2 (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError) {
+   static Thread* create2 (THREAD_FUNCTION fnc, void* pArgs) {
       Thread* t = new Thread;
       t->pArgs_ = pArgs;
       t->init (fnc, t);
@@ -105,10 +105,10 @@ class Thread {
 
  protected:
    Thread ();
-   Thread (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError);
+   Thread (THREAD_FUNCTION fnc, void* pArgs);
 
    void ret (void* rc) const;
-   void init (THREAD_FUNCTION fnc, void* pArgs) throw (YGP::ExecError);
+   void init (THREAD_FUNCTION fnc, void* pArgs);
 
    void* pArgs_;             ///< Pointer to (array of) arguments to the thread
 
@@ -150,13 +150,13 @@ template <class T> class OThread : public Thread {
    /// \param obj Object having a member to execute in a thread
    /// \param fnc Member to execute as thread
    /// \param pArgs Argument to the thread
-   static OThread<T>* create (T* obj, THREAD_OBJMEMBER fnc, void* pArgs) throw (YGP::ExecError) {
+   static OThread<T>* create (T* obj, THREAD_OBJMEMBER fnc, void* pArgs) {
       return new OThread<T> (obj, fnc, pArgs); }
    /// Creates a new thread; a pointer to the thread is passed to the thread function
    /// \param obj Object having a member to execute in a thread
    /// \param fnc Member to execute as thread
    /// \param pArgs Argument to the thread
-   static OThread<T>* create2 (T* obj, THREAD_OBJMEMBER fnc, void* pArgs) throw (YGP::ExecError) {
+   static OThread<T>* create2 (T* obj, THREAD_OBJMEMBER fnc, void* pArgs) {
       return new OThread<T> (obj, fnc, pArgs, true); }
 
 
@@ -167,7 +167,6 @@ template <class T> class OThread : public Thread {
    /// \param pArgs Argument to the thread
    /// \param threadAsArg Flag, if the thread expects its argument directly
    OThread (T* obj, THREAD_OBJMEMBER fnc, void* pArgs, bool threadAsArg = false)
-      throw (YGP::ExecError)
       : Thread (), indirect (threadAsArg), object (obj), callback (fnc) {
       // Don't create Thread directly with data, because the thread might start
       // without object and callback being initialized!!

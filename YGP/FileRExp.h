@@ -64,7 +64,7 @@ class FileRegularExpr : public IRegularExpression {
    FileRegularExpr (const char* pRegExp) : IRegularExpression (pRegExp) { }
    virtual ~FileRegularExpr ();
 
-   virtual int checkIntegrity () const throw (std::invalid_argument);
+   virtual int checkIntegrity () const;
    /// Assignmentoperator; specifies the regular expression to match.
    /// \pre The input is not copied, so it must be valid during the lifetime
    ///      of the regular expression.

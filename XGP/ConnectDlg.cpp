@@ -235,7 +235,7 @@ void ConnectDlg::valueChanged () const {
 /// Waits for connections
 /// \throw YGP::CommError In case of an connection error
 //----------------------------------------------------------------------------
-void* ConnectDlg::waitForConnections (void* pVoid) throw (YGP::CommError){
+void* ConnectDlg::waitForConnections (void* pVoid) {
    while (true) {
        int socket (cmgr.getNewConnection ());
        ((YGP::Thread*)pVoid)->isToCancel ();
@@ -265,7 +265,7 @@ YGP::Socket* ConnectDlg::addClient (int socket) {
 /// \param port Port the target is listening at
 /// \throw YGP::CommError In case of an connection error
 //----------------------------------------------------------------------------
-void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) throw (YGP::CommError) {
+void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) {
    TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"
            << target << ':' << port);
    cmgr.connectTo (target, port);

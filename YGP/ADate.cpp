@@ -65,11 +65,11 @@ ADate::ADate (bool now) : AYear (1900), day ((unsigned char)1), month ((unsigned
 /// \param Year Year to set
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
-ADate::ADate (char Day, char Month, int Year) throw (std::invalid_argument)
+ADate::ADate (char Day, char Month, int Year)
    : AYear (Year), day (Day), month (Month) {
    int status (checkIntegrity ());
    if (status)
-      throw (std::invalid_argument (status == 2 ? "Month" : "Day"));
+      throw std::invalid_argument (status == 2 ? "Month" : "Day");
 }
 
 //----------------------------------------------------------------------------
@@ -102,7 +102,7 @@ ADate& ADate::operator= (const ADate& other) {
 /// \return ADate& Reference to self
 /// \throw std::invalid_argument if the characters don't represent a valid date
 //----------------------------------------------------------------------------
-ADate& ADate::operator= (const char* pValue) throw (std::invalid_argument) {
+ADate& ADate::operator= (const char* pValue) {
    Check1 (!checkIntegrity ());
    TRACE5 ("ADate::operator= (const char*): " << pValue);
 
@@ -296,7 +296,7 @@ std::string ADate::toString (const char* format) const {
 /// \param in:Stream to parse
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
-void ADate::readFromStream (std::istream& in) throw (std::invalid_argument) {
+void ADate::readFromStream (std::istream& in) {
    if (in.eof ()) {
       undefine ();
       return;
@@ -602,12 +602,12 @@ bool ADate::maxAdapt () {
 /// undefined.
 /// \param Day Day to set
 //----------------------------------------------------------------------------
-void ADate::setDay(char Day) throw (std::invalid_argument) {
+void ADate::setDay(char Day) {
    day = Day;
 
    if (checkIntegrity()) {
       undefine();
-      throw (std::invalid_argument ("ADate::setDay"));
+      throw std::invalid_argument ("ADate::setDay");
    }
    else
       setDefined ();
@@ -618,12 +618,12 @@ void ADate::setDay(char Day) throw (std::invalid_argument) {
 /// undefined.
 /// \param Month Month to set
 //----------------------------------------------------------------------------
-void ADate::setMonth (char Month) throw (std::invalid_argument) {
+void ADate::setMonth (char Month) {
    month = Month;
 
    if (checkIntegrity ()) {
       undefine ();
-      throw (std::invalid_argument ("ADate::setMonth"));
+      throw std::invalid_argument ("ADate::setMonth");
    }
    else
       setDefined ();

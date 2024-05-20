@@ -128,7 +128,7 @@ class ParseObject {
    // Parsing
    static void skipWS (Xistream& stream);
    /// Tries to parse the object; See parseObject() for a detailed description
-   int parse (Xistream& stream) throw (YGP::ParseError) {
+   int parse (Xistream& stream) {
       Check1 (!checkIntegrity ());
       return doParse (stream, false); }
    /// Method to actual parse the object.
@@ -296,7 +296,7 @@ class ParseAttomic : public ParseObject {
    virtual int checkValue (char ch);
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
+   virtual int doParse (Xistream& stream, bool optional);
 
  private:
    // Prohibited manager functions
@@ -578,7 +578,7 @@ class ParseToText : public ParseAttomic {
       ParseAttomic::operator= (other);
       return *this; }
 
-   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
+   virtual int doParse (Xistream& stream, bool optional);
 
  private:
    // Prohibited manager functions
@@ -630,7 +630,7 @@ class ParseSequence : public ParseObject {
    virtual int checkIntegrity () const;
 
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
+   virtual int doParse (Xistream& stream, bool optional);
 
    ParseObject** ppList;       ///< Pointer to array of objects in the sequence
 
@@ -665,7 +665,7 @@ class ParseSelection : public ParseSequence {
 
  protected:
    // Parsing
-   virtual int doParse (Xistream& stream, bool optional) throw (YGP::ParseError);
+   virtual int doParse (Xistream& stream, bool optional);
 
  private:
    // Prohibited manager functions

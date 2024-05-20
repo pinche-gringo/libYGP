@@ -103,11 +103,11 @@ class ANumeric : public AttributValue {
       setDefined (); }
 
    /// Constructor; initializes the object from the passed text and defines it.
-   ANumeric (const char* pValue) throw (std::invalid_argument) : AttributValue (), value () {
+   ANumeric (const char* pValue) : AttributValue (), value () {
       operator= (pValue);
    }
    /// Constructor; initializes the object from the passed text and defines it.
-   ANumeric (const std::string& str) throw (std::invalid_argument)
+   ANumeric (const std::string& str)
       : AttributValue (), value () {
       operator= (str);
    }
@@ -116,9 +116,9 @@ class ANumeric : public AttributValue {
    /// \name Assignment methods
    //@{
    /// Assigning from a value
-   ANumeric& operator= (const int val) { return operator= ((const long)val); }
+   ANumeric& operator= (const int val) { return operator= ((long)val); }
    ANumeric& operator= (const unsigned int val) {    /// Assigning from a value
-      return operator= ((const unsigned long)val); }
+      return operator= ((unsigned long)val); }
    ANumeric& operator= (const unsigned long val) {   /// Assigning from a value
       setDefined ();
 #ifdef HAVE_LIBGMP
@@ -138,16 +138,16 @@ class ANumeric : public AttributValue {
       return *this;
    }
    /// Assign the value from the passed text
-   ANumeric& operator= (const std::string& value) throw (std::invalid_argument) {
+   ANumeric& operator= (const std::string& value) {
       return operator= (value.c_str ()); }
-   ANumeric& operator= (const char* pValue) throw (std::invalid_argument);
+   ANumeric& operator= (const char* pValue);
    ANumeric& operator= (const ANumeric& other);
    //@}
 
    virtual void define ();
    virtual std::string toString () const;
    virtual std::string toUnformattedString () const;
-   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+   virtual void readFromStream (std::istream& in);
 
    /// \name Convertion
    //@{

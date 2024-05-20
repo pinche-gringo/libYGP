@@ -74,7 +74,7 @@ class Process {
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static pid_t execAsync (const char* file, const char* const arguments[]) throw (YGP::ExecError) {
+   static pid_t execAsync (const char* file, const char* const arguments[]) {
       return start (file, arguments, NO_WAIT); }
 
    /// Executes a program. The execution of the calling process is
@@ -89,7 +89,7 @@ class Process {
    /// \remarks The called file must follow some convention:
    ///    - Return 0 if OK and !0 if an error occured
    ///    - In case of an error the output should contain a describing message
-   static void execute (const char* file, const char* const arguments[]) throw (YGP::ExecError) {
+   static void execute (const char* file, const char* const arguments[]) {
       start (file, arguments, WAIT); }
 
    /// Executes a program in the background. If either the file can not be
@@ -108,7 +108,7 @@ class Process {
    ///    - In case of an error the output should contain a describing message
    static pid_t execIOConnected (const char* file, const char* const arguments[],
 				 int* fd, unsigned int flags = CONNECT_STDOUT_AND_ERR)
-      throw (YGP::ExecError) {
+      {
       return start (file, arguments, flags & ~WAIT , fd); }
 
    /// Returns the process ID of the actual process
@@ -125,7 +125,7 @@ class Process {
 
  protected:
    static pid_t start (const char* file, const char* const arguments[],
-		       int flags, int* fd = NULL) throw (YGP::ExecError);
+		       int flags, int* fd = NULL);
 
  private:
    Process ();

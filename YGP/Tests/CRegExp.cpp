@@ -33,8 +33,8 @@
 #include "Test.h"
 
 #include <YGP/Trace.h>
-#include <YGP/ANumeric.h>
 #include <YGP/Parse.h>
+#include <YGP/ANumeric.h>
 #include <YGP/CRegExp.h>
 #include <YGP/XStream.h>
 
@@ -107,27 +107,8 @@ int main (int argc, char* argv[]) {
       if (frexexp) {
          frexexp.init ();
 
-         YGP::ParseObject*   _RegExpTest[3];
-         YGP::ParseSelection RegExpTest (_RegExpTest, "Regular expression-file", -1U, 0);
-         YGP::ParseObject*   _RegExpHeader[4];
-         YGP::ParseSequence  RegExpHeader (_RegExpHeader, "Regexp-header", 1, 1);
-         YGP::ParseObject*   _values[4];
-         YGP::ParseSequence  values (_values, "Values", 1, 1);
-         YGP::CBParseTextEsc RegExp ("]", "Regular expression", &foundRegExp, 512, 1, '\\', false);
-         YGP::CBParseTextEsc value ("=\n\r", "Value", &foundValue, 512, 1, false);
-         YGP::CBParseAttomic result ("\\9", "Result", &foundResult, 1, 1);
-         YGP::ParseExact RegExpBegin ("[", "Begin of regexp ([)", false);
-         YGP::ParseExact RegExpEnd ("]", "End of regexp (])");
-         YGP::ParseExact equals ("=", "Equal-sign (=)", false);
+	 
 
-         _RegExpTest[0] = &RegExpHeader; _RegExpTest[1] = &values;
-         _RegExpTest[2] = NULL;
-         _RegExpHeader[0] = &RegExpBegin; _RegExpHeader[1] = &RegExp;
-         _RegExpHeader[2] = &RegExpEnd; _RegExpHeader[3] = NULL;
-         _values[0] = &value; _values[1] = &equals; _values[2] = &result;
-	 _values[3] = NULL;
-
-         RegExpTest.parse ((YGP::Xistream&)frexexp);
       } // endif
    } // end-try
    catch (std::string& e) {

@@ -56,10 +56,10 @@ class ADate : public AYear {
    ADate (bool now);
    ADate (const ADate& other)     /// Copy constructor from another date object
       : AYear ((const AYear&)other) , day (other.day), month (other.month) { }
-   ADate (char Day, char Month, int Year) throw (std::invalid_argument);
-   ADate (const char* pDate) throw (std::invalid_argument) : AYear (), day (1), month (1) {
+   ADate (char Day, char Month, int Year);
+   ADate (const char* pDate) : AYear (), day (1), month (1) {
        operator= (pDate); }          ///< Constructor from a text (unformatted)
-   ADate (const std::string& date) throw (std::invalid_argument) : AYear (), day (1), month (1) {
+   ADate (const std::string& date) : AYear (), day (1), month (1) {
        operator= (date); }           ///< Constructor from a text (unformatted)
    ADate (const struct tm& tm) : AYear (), day (1), month (1) {
        operator= (tm); }                 ///< Constructor from broken down time
@@ -70,24 +70,24 @@ class ADate : public AYear {
    /// \name Assignment methods
    //@{
    /// Assignment operator from an (unformatted) text
-   ADate& operator= (const std::string& date) throw (std::invalid_argument) {
+   ADate& operator= (const std::string& date) {
       return operator= (date.c_str ()); }
    ADate& operator= (const struct tm& date);
    ADate& operator= (const time_t& date) {  /// Assignment operator from system time
       return operator= (*gmtime (&date)); }
    ADate& operator= (const ADate& other);
-   ADate& operator= (const char* pValue) throw (std::invalid_argument);
+   ADate& operator= (const char* pValue);
 
    void assign (const char* pTime, unsigned int len);
 
-   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+   virtual void readFromStream (std::istream& in);
    //@}
 
    /// Defining the object; setting it to a default value (of <tt>1/1/1900</tt>)
    virtual void define () {
       setDefined (); day = month = (unsigned char)1; year = 1900; }
-   void setDay (char Day) throw (std::invalid_argument);
-   void setMonth (char Month) throw (std::invalid_argument);
+   void setDay (char Day);
+   void setMonth (char Month);
    /// Sets the year of the date object
    void setYear (int Year) { setDefined (); year = Year; }
 

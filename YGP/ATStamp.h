@@ -45,10 +45,10 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    ATimestamp (const ATimestamp& other) : ADate ((const ADate&)other)
       , ATime ((const ATime&)other) { }  ///< Copy constructor from another ATimestamp object
    ATimestamp (char Day, char Month, int Year, char Hour,
-               char minute, char second) throw (std::invalid_argument);
-   ATimestamp (const char* pStamp) throw (std::invalid_argument) {
+               char minute, char second);
+   ATimestamp (const char* pStamp) {
       operator= (pStamp); }         ///< Constructor from an (unformatted) text
-   ATimestamp (const std::string& stamp) throw (std::invalid_argument) {
+   ATimestamp (const std::string& stamp) {
       operator= (stamp); }          ///< Constructor from an (unformatted) text
    ATimestamp (const struct tm& tm) {
       operator= (tm); }                ///< Constructor from a broken down time
@@ -69,16 +69,16 @@ class ATimestamp : virtual public ADate, virtual public ATime {
    /// \name Assignment methods
    //@{
    /// Assignment operator from an (unformatted) text
-   ATimestamp& operator= (const std::string& stamp) throw (std::invalid_argument) {
+   ATimestamp& operator= (const std::string& stamp) {
       return operator= (stamp.c_str ()); }
-   ATimestamp& operator= (const char* pValue) throw (std::invalid_argument);
+   ATimestamp& operator= (const char* pValue);
    ATimestamp& operator= (const struct tm& tm);
    ATimestamp& operator= (const ATimestamp& other);
    ATimestamp& operator= (const time_t& stamp) { return operator= (*gmtime (&stamp)); }
 
    ATimestamp& assignGMT (const time_t& stamp) { return operator= (*::localtime (&stamp)); }
 
-   virtual void readFromStream (std::istream& in) throw (std::invalid_argument);
+   virtual void readFromStream (std::istream& in);
    //@}
 
    /// Defining the object; setting it to a default value (of <tt>1/1/1900 0:0:0</tt>)

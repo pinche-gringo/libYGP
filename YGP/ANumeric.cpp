@@ -76,7 +76,7 @@ ANumeric::~ANumeric () {
 /// \throw invalid_argument in case of an exception
 /// \pre \c pValue a valid ASCIIZ-string
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator= (const char* pValue) throw (std::invalid_argument) {
+ANumeric& ANumeric::operator= (const char* pValue) {
    if (!(pValue && *pValue))
       undefine ();
    else {
@@ -237,7 +237,7 @@ std::string ANumeric::toString () const {
 ///     - Leading whitespaces in the stream are skipped.
 ///     - Parsing is stopped at EOF or at any non-digit.
 //-----------------------------------------------------------------------------
-void ANumeric::readFromStream (std::istream& in) throw (std::invalid_argument) {
+void ANumeric::readFromStream (std::istream& in) {
    undefine ();
 
    struct lconv* loc = localeconv ();                // Get locale-information
@@ -342,7 +342,7 @@ ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
 ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
    if (rhs.isDefined ()) {
       if (!isDefined ())                   // If this is not defined, set to 1
-         operator= ((const int)1);
+         operator= ((int)1);
 
 #ifdef HAVE_LIBGMP
       mpz_tdiv_q (value, value, rhs.value);

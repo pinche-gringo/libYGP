@@ -75,7 +75,7 @@ AYear& AYear::operator= (const AYear& other) {
 /// \return AYear& Reference to self
 /// \throw std::invalid_argument if the characters don't represent a valid year
 //----------------------------------------------------------------------------
-AYear& AYear::operator= (const char* pValue) throw (std::invalid_argument) {
+AYear& AYear::operator= (const char* pValue) {
    TRACE5 ("AYear::operator= (const char*): " << pValue);
    if (pValue && *pValue) {
       char* pTail = NULL;
@@ -112,7 +112,7 @@ std::string AYear::toUnformattedString () const {
 /// \param in Stream to parse
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
-void AYear::readFromStream (std::istream& in) throw (std::invalid_argument) {
+void AYear::readFromStream (std::istream& in) {
    char ch ('\0');
    in >> ch;
    in.unget ();
