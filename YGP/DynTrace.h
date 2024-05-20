@@ -107,7 +107,7 @@ class DynTraceManager {
    /**Functor for comparing pointers (which actually compares the values the
       pointers refers to).
    */
-   struct lessDereferenced : public std::binary_function<const char*, const char*, bool> {
+   struct lessDereferenced {
    /// Access to the functor
    /// \param x First object to compare
    /// \param y Second object to compare
