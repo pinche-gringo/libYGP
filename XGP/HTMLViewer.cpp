@@ -1,14 +1,11 @@
-//$Id: HTMLViewer.cpp,v 1.22 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : HTMLViewer
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.22 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008 - 2010
+//COPYRIGHT   : Copyright (C) 2003 - 2005, 2008 - 2010, 2026
 
 // This file is part of libYGP.
 //

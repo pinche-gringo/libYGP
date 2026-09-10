@@ -28,7 +28,7 @@
 
 // Forward declarations
 namespace Gtk {
-   class HBox;
+   class Box;
    class Label;
    class Button;
    class Image;
@@ -55,7 +55,7 @@ class XAbout : public XDialog {
    XAbout (const Glib::ustring& author, const Glib::ustring& program);
 
  private:
-   typedef boost::scoped_ptr<Gtk::HBox>   PHBox;
+   typedef boost::scoped_ptr<Gtk::Box>    PBox;
    typedef boost::scoped_ptr<Gtk::Label>  PLabel;
    typedef boost::scoped_ptr<Gtk::Image>  PImage;
 
@@ -68,7 +68,7 @@ class XAbout : public XDialog {
    PLabel gpl;
    PImage pIconAuthor;
    PImage pIconProgramm;
-   PHBox  client;
+   PBox   client;
 };
 
 }

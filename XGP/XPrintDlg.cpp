@@ -1,14 +1,11 @@
-//$Id: XPrintDlg.cpp,v 1.28 2008/06/11 18:23:19 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : PrintDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.28 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -45,6 +42,7 @@
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
+#include "XGP/XDialog.h"
 #include "XGP/XPrintDlg.h"
 
 
@@ -56,7 +54,7 @@ namespace XGP {
 PrintDialog::PrintDialog ()
    : XDialog (_("Print"), OKCANCEL), sigPrint (),
      lblCommand (new Gtk::Label (_("Print command: "))),
-     txtCommand (new Gtk::Entry), boxCommand (new Gtk::HBox) {
+     txtCommand (new Gtk::Entry), boxCommand (new Gtk::Box) {
    TRACE9 ("PrintDialog::PrintDialog (title) '" << title << '\'');
    init ();
 }
@@ -77,14 +75,14 @@ void PrintDialog::init () {
 
    // Command-box
    txtCommand->set_text ("lpr");
-   txtCommand->show ();
+   txtCommand->set_hexpand ();
 
-   lblCommand->show ();
-   boxCommand->pack_start (*lblCommand, false, false, 5);
-   boxCommand->pack_start (*txtCommand, true, false, 5);
-   boxCommand->show ();
+   lblCommand->set_margin (5);
+   boxCommand->append (*lblCommand);
+   txtCommand->set_margin (5);
+   boxCommand->append (*txtCommand);
 
-   get_vbox ()->pack_start (*boxCommand, true, false, 5);
+   get_content_area ()->append (*boxCommand);
 
    show ();
 
@@ -100,8 +98,8 @@ void PrintDialog::okEvent () {
    Check3 (txtCommand);
 
    if (!txtCommand->get_text_length ()) {                      // No input?
-      Gtk::MessageDialog msg (_("No print-command specified"), Gtk::MESSAGE_ERROR);
-      msg.run ();
+      Gtk::MessageDialog msg (_("No print-command specified"), false, Gtk::MessageType::ERROR);
+      runModal (msg);
       return;
    } // endif no input
 
@@ -111,8 +109,8 @@ void PrintDialog::okEvent () {
       std::string err (_("Could not run command `%1'\nReason: %2"));
       err.replace (err.find ("%1"), 2, txtCommand->get_text ());
       err.replace (err.find ("%2"), 2, strerror (errno));
-      Gtk::MessageDialog msg (err, Gtk::MESSAGE_ERROR);
-      msg.run ();
+      Gtk::MessageDialog msg (err, false, Gtk::MessageType::ERROR);
+      runModal (msg);
       return;
    } // endif error printing
 
@@ -127,7 +125,7 @@ void PrintDialog::okEvent () {
 //----------------------------------------------------------------------------
 PrintDialog* PrintDialog::create () {
     PrintDialog* dlg (new PrintDialog ());
-    dlg->signal_response ().connect (mem_fun (*dlg, &PrintDialog::free));
+    dlg->signal_response ().connect (sigc::mem_fun (*dlg, &PrintDialog::free));
     return dlg;
 }
 

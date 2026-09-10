@@ -1,14 +1,11 @@
-//$Id: MessageDlg.cpp,v 1.13 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : MessageDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.13 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 19.11.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2012
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2012, 2026
 
 // This file is part of libYGP.
 //
@@ -48,11 +45,19 @@ namespace XGP {
 /// \param obj StatusObject to display
 //-----------------------------------------------------------------------------
 MessageDlg::MessageDlg (const YGP::StatusObject& obj)
-   : Gtk::MessageDialog (obj.getMessage (), getButtonType (obj.getType ())),
-     detail (new Gtk::Label) , showDetail (new Gtk::Button), cb () {
-   get_vbox ()->pack_end (*detail, Gtk::PACK_EXPAND_WIDGET, 5);
-   get_action_area ()->pack_end (*showDetail, Gtk::PACK_SHRINK, 5);
+   : Gtk::MessageDialog (obj.getMessage (), false, getButtonType (obj.getType ())),
+     detail (Gtk::make_managed<Gtk::Label> ()),
+     showDetail (Gtk::make_managed<Gtk::Button> ()), cb () {
+   detail->set_vexpand ();
+   detail->set_margin (5);
+   detail->hide ();
+   get_content_area ()->append (*detail);
+
    showDetail->set_use_underline ();
+   showDetail->set_halign (Gtk::Align::END);
+   showDetail->set_margin (5);
+   showDetail->hide ();
+   get_content_area ()->append (*showDetail);
 
    if (obj.hasDetails ()) {
       showDetails (false);
@@ -66,8 +71,6 @@ MessageDlg::MessageDlg (const YGP::StatusObject& obj)
 /// Destructor
 //-----------------------------------------------------------------------------
 MessageDlg::~MessageDlg () {
-   delete detail;
-   delete showDetail;
 }
 
 
@@ -78,7 +81,7 @@ MessageDlg::~MessageDlg () {
 //----------------------------------------------------------------------------
 Gtk::MessageType MessageDlg::getButtonType (YGP::StatusObject::type tp) {
    return ((tp == YGP::StatusObject::ERROR)
-           ? Gtk::MESSAGE_ERROR : (Gtk::MessageType)tp);
+           ? Gtk::MessageType::ERROR : static_cast<Gtk::MessageType> (tp));
 }
 
 //----------------------------------------------------------------------------
@@ -92,7 +95,7 @@ void MessageDlg::showDetails (bool show) {
    show ? detail->show () : detail->hide ();
 
    Glib::signal_idle ().connect
-       (bind (mem_fun (*this, &MessageDlg::doRegister), !show));
+       (sigc::bind (sigc::mem_fun (*this, &MessageDlg::doRegister), !show));
 }
 
 //----------------------------------------------------------------------------
@@ -103,7 +106,7 @@ void MessageDlg::showDetails (bool show) {
 bool MessageDlg::doRegister (bool show) {
    cb.disconnect ();
    cb = showDetail->signal_clicked ().connect
-       (bind (mem_fun (*this, &MessageDlg::showDetails), show));
+       (sigc::bind (sigc::mem_fun (*this, &MessageDlg::showDetails), show));
    return false;
 }
 
@@ -115,7 +118,7 @@ bool MessageDlg::doRegister (bool show) {
 //----------------------------------------------------------------------------
 MessageDlg* MessageDlg::create (const YGP::StatusObject& obj) {
    MessageDlg* dlg (new MessageDlg (obj));
-   dlg->signal_response ().connect (mem_fun (*dlg, &MessageDlg::free));
+   dlg->signal_response ().connect (sigc::mem_fun (*dlg, &MessageDlg::free));
    return dlg;
 }
 

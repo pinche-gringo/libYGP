@@ -19,7 +19,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <gdkmm/window.h>
+#include <gdkmm/surface.h>
 
 
 namespace XGP {
@@ -29,6 +29,12 @@ namespace XGP {
  *
  * \note Create on heap (with new) as this class deletes itself when
  *       the animation has been finished.
+ *
+ * \remarks GTK4 (unlike GTK3) gives clients no way to programmatically
+ *     reposition a toplevel window - window placement is left entirely to
+ *     the compositor, particularly on Wayland - so animateTo() can no
+ *     longer actually move \a win; it is a no-op kept only so the
+ *     step-counted animate()/finish() lifecycle below still runs.
  */
 class AnimatedWindow : public sigc::trackable {
  public:
@@ -42,11 +48,11 @@ class AnimatedWindow : public sigc::trackable {
    virtual void finish ();
 
  protected:
-   AnimatedWindow (Glib::RefPtr<Gdk::Window> window);
+   AnimatedWindow (Glib::RefPtr<Gdk::Surface> window);
 
    void animateTo (int x, int y);
 
-   Glib::RefPtr<Gdk::Window> win;
+   Glib::RefPtr<Gdk::Surface> win;
 
  private:
    AnimatedWindow ();

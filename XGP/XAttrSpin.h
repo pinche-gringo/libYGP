@@ -35,8 +35,11 @@
 
 #include <gtkmm/spinbutton.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/eventcontrollerfocus.h>
 
 #include <YGP/ANumeric.h>
+
+#include <XGP/XDialog.h>
 
 
 namespace XGP {
@@ -63,13 +66,15 @@ template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : 
    : P (adjustment, climbRate, digits), attr_ (attr), inError (false) {
       P::set_numeric (false);
       P::signal_realize ().connect
-	 (mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
+	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
+      connectFocus ();
    }
    XAttributeSpinEntry (T& attr, double climbRate = 0.0, guint digits = 0)
    : P (climbRate, digits), attr_ (attr), inError (false) {
       P::set_numeric (false);
       P::signal_realize ().connect
-	 (mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
+	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
+      connectFocus ();
    }
 
    /// Destructor
@@ -105,16 +110,14 @@ template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : 
    T& getAttribute () { return attr_; }
 
  protected:
-   virtual bool on_focus_in_event (GdkEventFocus* ev) {
+   virtual void onFocusIn () {
       if (inError)
          inError = false;
       else {
 	 P::set_numeric ();
          P::set_value ((int)YGP::ANumeric (P::get_text ()));
-      }
-      return P::on_focus_in_event (ev); }
-   virtual bool on_focus_out_event (GdkEventFocus* ev) {
-      P::on_focus_out_event (ev);
+      } }
+   virtual void onFocusOut () {
       try {
          YGP::ANumeric temp (P::get_text ());
 	 P::set_numeric (false);
@@ -122,19 +125,24 @@ template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : 
       }
       catch (std::invalid_argument& e) {
          inError = true;
-         Gtk::MessageDialog msg (e.what (), Gtk::MESSAGE_ERROR);
+         Gtk::MessageDialog msg (e.what (), false, Gtk::MessageType::ERROR);
          msg.set_title (Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, "Invalid value!")));
-         msg.run ();
-         Glib::signal_idle ().connect (mem_fun (*this, &XAttributeSpinEntry::takeFocus));
-         return true;
-      }
-      return false; }
+         XGP::runModal (msg);
+         Glib::signal_idle ().connect (sigc::mem_fun (*this, &XAttributeSpinEntry::takeFocus));
+      } }
 
    bool takeFocus () {
       P::grab_focus ();
       return 0; }
 
  private:
+   void connectFocus () {
+      Glib::RefPtr<Gtk::EventControllerFocus> focus (Gtk::EventControllerFocus::create ());
+      focus->signal_enter ().connect (sigc::mem_fun (*this, &XAttributeSpinEntry::onFocusIn));
+      focus->signal_leave ().connect (sigc::mem_fun (*this, &XAttributeSpinEntry::onFocusOut));
+      P::add_controller (focus);
+   }
+
    XAttributeSpinEntry (const XAttributeSpinEntry&);
    const XAttributeSpinEntry& operator= (const XAttributeSpinEntry&);
 
@@ -150,14 +158,16 @@ XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, co
    : parent (adjustment, climbRate, digits), attr_ (attr), inError (false) {
       parent::set_numeric (false);
       parent::signal_realize ().connect
-	 (mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
+	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
+      connectFocus ();
    }
 template <> inline
 XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, double climbRate, guint digits)
    : parent (climbRate, digits), attr_ (attr), inError (false) {
       parent::set_numeric (false);
       parent::signal_realize ().connect
-	 (mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
+	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
+      connectFocus ();
    }
 
 /// Actualizes the value of the attribute with the value entered in the

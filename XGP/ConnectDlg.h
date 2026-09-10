@@ -24,7 +24,7 @@
 namespace Gtk {
    class Label;
    class Entry;
-   class Table;
+   class Grid;
 }
 namespace YGP {
    class Thread;
@@ -70,7 +70,7 @@ class ConnectDlg : public XDialog {
    Gtk::Entry*  pPort;          ///< Entry field for the port of the connection
    Gtk::Button* pWait;        ///< Button to wait for connections (server mode)
    Gtk::Button* pConnect;      ///< Button to connect to a server (client mode)
-   Gtk::Table*  pClient;          ///< Table holding the controls of the dialog
+   Gtk::Grid*   pClient;          ///< Grid holding the controls of the dialog
 
    YGP::ConnectionMgr& cmgr;                      ///< Class holding the connections
 

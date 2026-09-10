@@ -1,14 +1,11 @@
-//$Id: XAbout.cpp,v 1.30 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : MessageDialog
 //SUBSYSTEM   : XAbout
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.30 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005, 2008, 2009
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2008, 2009, 2024, 2026
 
 // This file is part of libYGP.
 //
@@ -26,6 +23,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
@@ -53,7 +51,7 @@ XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
    : XDialog (CANCEL), writer (new Gtk::Label (author)),
      gpl (new Gtk::Label (_("Distributed under the terms of the GNU General Public License"))),
      pIconAuthor (), pIconProgramm (),
-     client (new Gtk::HBox) {
+     client (new Gtk::Box) {
    Check1 (gpl); Check1 (writer); Check1 (client);
 
    TRACE9 ("XAbout::XAbout - Show: " << author);
@@ -61,16 +59,16 @@ XAbout::XAbout (const Glib::ustring& author, const Glib::ustring& program)
 
    set_title (program);
 
-   writer->set_justify (Gtk::JUSTIFY_CENTER);
-   gpl->set_justify (Gtk::JUSTIFY_CENTER);
+   writer->set_justify (Gtk::Justification::CENTER);
+   gpl->set_justify (Gtk::Justification::CENTER);
 
-   writer->show ();
-   client->pack_end (*writer, true, false, 5);         // Put text into client
-   client->show ();
-   get_vbox ()->pack_start (*client, true, false, 5);
+   writer->set_hexpand ();
+   writer->set_margin (5);
+   client->append (*writer);                           // Put text into client
+   get_content_area ()->append (*client);
 
-   gpl->show ();
-   get_vbox ()->pack_start (*gpl, true, true, 5);
+   gpl->set_margin (5);
+   get_content_area ()->append (*gpl);
 
    show ();
 }
@@ -91,10 +89,11 @@ XAbout::~XAbout () {
 void XAbout::setIconProgram (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
-   pIconProgramm.reset (new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData)));
+   pIconProgramm.reset (new Gtk::Image
+      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL))));
 
-   pIconProgramm->show ();
-   client->pack_start (*pIconProgramm, false, false, 5);
+   pIconProgramm->set_margin (5);
+   client->prepend (*pIconProgramm);
 }
 
 //-----------------------------------------------------------------------------
@@ -105,13 +104,11 @@ void XAbout::setIconProgram (const guint8* pIconData, int lenData) {
 void XAbout::setIconAuthor (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
-   pIconAuthor.reset (new Gtk::Image (Gdk::Pixbuf::create_from_inline (lenData, pIconData)));
+   pIconAuthor.reset (new Gtk::Image
+      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL))));
 
-   pIconAuthor->show ();
-   client->pack_end (*pIconAuthor, false, false, 5);
-
-   Check3 (writer);
-   client->reorder_child (*writer, 3);
+   pIconAuthor->set_margin (5);
+   client->append (*pIconAuthor);
 }
 
 //----------------------------------------------------------------------------
@@ -121,7 +118,7 @@ void XAbout::setIconAuthor (const guint8* pIconData, int lenData) {
 //----------------------------------------------------------------------------
 XAbout* XAbout::create (const Glib::ustring& author, const Glib::ustring& program) {
     XAbout* dlg (new XAbout (author, program));
-    dlg->signal_response ().connect (mem_fun (*dlg, &XAbout::free));
+    dlg->signal_response ().connect (sigc::mem_fun (*dlg, &XAbout::free));
     return dlg;
 }
 

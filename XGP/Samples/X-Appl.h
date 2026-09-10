@@ -26,6 +26,8 @@
 #include <gtkmm/statusbar.h>
 #include <gtkmm/scrolledwindow.h>
 
+#include <giomm/simpleaction.h>
+
 #include <YGP/ATStamp.h>
 #include <YGP/ANumeric.h>
 
@@ -94,7 +96,7 @@ class XAppl : public XGP::XApplication {
    static const char* xpmXAppl[];
 
    enum { SAVE = 0, PRINT, LAST };
-   Glib::RefPtr<Gtk::Action> apMenus[LAST];
+   Glib::RefPtr<Gio::SimpleAction> apMenus[LAST];
 };
 
 #endif

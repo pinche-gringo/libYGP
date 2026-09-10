@@ -44,7 +44,8 @@ template <class T> class XAttributeLabel : public Gtk::Label {
    /// Constructor; pass the attribute to manage. It is aligned according to
    /// the values.
    XAttributeLabel (const T& attr, gfloat x, gfloat y)
-      : Gtk::Label ("", x, y, false), attr_ (attr) { update (); }
+      : Gtk::Label ("", false), attr_ (attr) {
+      set_xalign (x); set_yalign (y); update (); }
    /// Destructor
    ~XAttributeLabel () { }
 
@@ -131,7 +132,8 @@ template <class T> class XAttributeLabel2 : public Gtk::Label {
    /// Constructor; pass the attribute to manage. It is aligned according to
    /// the values.
    XAttributeLabel2 (const T& attr, gfloat x, gfloat y)
-      : Gtk::Label ("", x, y, false), attr_ (attr) { update (); }
+      : Gtk::Label ("", false), attr_ (attr) {
+      set_xalign (x); set_yalign (y); update (); }
    /// Destructor
    ~XAttributeLabel2 () { }
 

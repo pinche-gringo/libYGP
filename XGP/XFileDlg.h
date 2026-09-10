@@ -21,6 +21,8 @@
 
 #include <string>
 
+#include <glibmm/main.h>
+
 #include <gtkmm/filechooserdialog.h>
 
 namespace XGP {
@@ -59,11 +61,11 @@ class FileDialog : public Gtk::FileChooserDialog {
 
    /// Creates the dialog
    static FileDialog* create (const Glib::ustring& title,
-			      Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+			      Gtk::FileChooser::Action action = Gtk::FileChooser::Action::OPEN,
 			      unsigned int dlgOption = NONE);
 
    /// Signal emitted, when OK is selected
-   sigc::signal<void, const std::string&> sigSelected;
+   sigc::signal<void (const std::string&)> sigSelected;
 
  protected:
    /// IDs for the possible commands (OK, CANCEL)
@@ -76,7 +78,7 @@ class FileDialog : public Gtk::FileChooserDialog {
    void free (int);
 
    FileDialog (const Glib::ustring& title,
-	       Gtk::FileChooserAction action = Gtk::FILE_CHOOSER_ACTION_OPEN,
+	       Gtk::FileChooser::Action action = Gtk::FileChooser::Action::OPEN,
 	       unsigned int dlgOption = NONE);
 
  private:
@@ -86,6 +88,8 @@ class FileDialog : public Gtk::FileChooserDialog {
 
    unsigned int opt;
    bool         modal;
+
+   Glib::RefPtr<Glib::MainLoop> pLoop;    ///< Nested loop used by execModal()
 };
 
 }

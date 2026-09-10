@@ -1,14 +1,11 @@
-//$Id: AnimWindow.cpp,v 1.3 2008/06/08 12:11:51 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : AnimatedWindow
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.3 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 20.05.2007
-//COPYRIGHT   : Copyright (C) 2007, 2008, 2012
+//COPYRIGHT   : Copyright (C) 2007, 2008, 2012, 2026
 
 // This file is part of libYGP.
 //
@@ -40,7 +37,7 @@ namespace XGP {
 /// Constructor
 /// \param window Window to animate
 //-----------------------------------------------------------------------------
-AnimatedWindow::AnimatedWindow (Glib::RefPtr<Gdk::Window> window)
+AnimatedWindow::AnimatedWindow (Glib::RefPtr<Gdk::Surface> window)
    : win (window), steps (10) {
    TRACE9 ("AnimatedWindow::AnimatedWindow ()");
 }
@@ -60,7 +57,7 @@ void AnimatedWindow::animate () {
    Check1 (win);
 
    start ();
-   if (win->is_visible ()) {
+   if (win->get_mapped ()) {
       steps = 10;
       Glib::signal_timeout ().connect (sigc::mem_fun (*this, &AnimatedWindow::animationStep), 20);
    }
@@ -95,23 +92,11 @@ bool AnimatedWindow::animationStep () {
 /// Animates a window to the passed position
 /// \param x X-coordinate of end-position (in root coordinates)
 /// \param y Y-coordinate of end-position (in root coordinates)
+/// \remarks No-op under GTK4: Gdk::Surface/Toplevel expose no way for a
+///     client to query or set a toplevel's position (see the class remarks).
 //-----------------------------------------------------------------------------
-void AnimatedWindow::animateTo (int x, int y) {
+void AnimatedWindow::animateTo (int, int) {
    Check1 (win);
-
-   int x2, y2;
-   win->get_origin (x2, y2);
-   TRACE5 ("AnimatedWindow::animationTo (2x int) - Current " << x2 << '/' << y2);
-   x -= x2;
-   y -= y2;
-
-   if (steps && win->is_visible ()) {
-      x /= (int)steps;
-      y /= (int)steps;
-   }
-   win->get_position (x2, y2);
-   win->move (x + x2, y + y2);
-   TRACE5 ("AnimatedWindow::animationTo (2x int) - Moving " << x << '/' << y);
 }
 
 //-----------------------------------------------------------------------------

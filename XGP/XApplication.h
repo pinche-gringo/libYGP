@@ -21,20 +21,17 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <gtkmm/main.h>
-#include <gtkmm/menu.h>
 #include <gtkmm/window.h>
-#include <gtkmm/uimanager.h>
+
+#include <giomm/menu.h>
+#include <giomm/simpleactiongroup.h>
 
 
 // Forward declarations
 namespace Gtk {
-   class Main;
-   class HBox;
-   class VBox;
+   class Box;
    class Label;
    class Image;
-   class AccelGroup;
 }
 
 namespace XGP {
@@ -82,21 +79,20 @@ class XApplication : public Gtk::Window {
    static void initI18n (const char* package, const char* dir);
 
  protected:
-   typedef boost::scoped_ptr<Gtk::VBox>    PVBox;     ///< Smart pointer for a vbox
+   typedef boost::scoped_ptr<Gtk::Box>    PVBox;     ///< Smart pointer for a (vertical) box
 
    virtual void setIconProgram (const guint8* iconData, int lenData);
 
    /// Returns the client window
-   Gtk::VBox* getClient () const { return vboxClient.get (); }
+   Gtk::Box* getClient () const { return vboxClient.get (); }
 
    // Protected data
    PVBox    vboxClient;                   ///< Client window of the application
 
-   Glib::RefPtr<Gtk::ActionGroup> grpAction;    ///< Actions of the application
-   Glib::RefPtr<Gtk::UIManager>   mgrUI;                        ///< UI-manager
+   Glib::RefPtr<Gio::SimpleActionGroup> grpAction;    ///< Actions of the application
 
-   // Help-menu
-   void addHelpMenu (Glib::ustring& uiString, bool withDynTrace = false);
+   /// Appends a "Help" submenu (and its actions) to the passed menu
+   void addHelpMenu (const Glib::RefPtr<Gio::Menu>& menu, bool withDynTrace = false);
 
    /// \name Help menu handling
    //@{
@@ -125,7 +121,7 @@ class XApplication : public Gtk::Window {
 class XInfoApplication : public XApplication {
  public:
    XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo, const Glib::ustring& copyright);
-   ~XInfoApplication ();     // No need to be virtual. There´s only 1 instance
+   ~XInfoApplication ();     // No need to be virtual. Thereï¿½s only 1 instance
 
  protected:
    // Add information
@@ -137,7 +133,7 @@ class XInfoApplication : public XApplication {
    XInfoApplication (const XInfoApplication&);
    const XInfoApplication& operator= (const XInfoApplication&);
 
-   typedef boost::scoped_ptr<Gtk::HBox>  PHBox;
+   typedef boost::scoped_ptr<Gtk::Box>   PHBox;
    typedef boost::scoped_ptr<Gtk::Label> PLabel;
    typedef boost::scoped_ptr<Gtk::Image> PImage;
 

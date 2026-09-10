@@ -31,10 +31,15 @@
 #include <fstream>
 #include <iomanip>
 
-#include <gtkmm/stock.h>
 #include <gtkmm/button.h>
+#include <gtkmm/native.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/application.h>
+#include <gtkmm/popovermenubar.h>
+
+#include <giomm/menu.h>
+#include <giomm/simpleactiongroup.h>
 
 #include <YGP/File.h>
 #include <YGP/Check.h>
@@ -45,6 +50,7 @@
 
 #include <XGP/XDate.h>
 #include <XGP/XAbout.h>
+#include <XGP/XDialog.h>
 #include <XGP/LoginDlg.h>
 #include <XGP/XFileDlg.h>
 #include <XGP/XPrintDlg.h>
@@ -81,80 +87,56 @@ XAppl::XAppl ()
 
    TRACE5 ("XAppl::XAppl () -> Create menus");
    Check3 (grpAction);
-   Glib::ustring ui ("<ui><menubar name='Menu'>"
-		     "  <menu action='File'>"
-		     "    <menuitem action='FOpen'/>"
-		     "    <menuitem action='FSave'/>"
-		     "    <menuitem action='FPrint'/>"
-		     "    <separator/>"
-		     "    <menuitem action='FQuit'/>"
-		     "  </menu>"
-		     "  <menu action='Dialogs'>"
-		     "    <menuitem action='DDialog'/>"
-		     "    <menuitem action='DDate'/>"
-		     "    <menuitem action='DConnection'/>"
-		     "    <menuitem action='DMsg'/>"
-		     "    <menuitem action='DLogin'/>"
-		     "    <menuitem action='DSearch'/>"
-		     "  </menu>"
-		     "  <menu action='Extras'>"
-		     "    <menuitem action='XAnimate'/>"
-		     "  </menu>");
 
-   grpAction->add (Gtk::Action::create ("File", "_File"));
-   grpAction->add (Gtk::Action::create ("FOpen", Gtk::Stock::OPEN),
-		   mem_fun (*this, &XAppl::open));
-   grpAction->add (apMenus[SAVE] = Gtk::Action::create ("FSave", Gtk::Stock::SAVE),
-		   mem_fun (*this, &XAppl::save));
-   grpAction->add (apMenus[PRINT] = Gtk::Action::create ("FPrint", Gtk::Stock::PRINT),
-		   mem_fun (*this, &XAppl::print));
-   grpAction->add (Gtk::Action::create ("FQuit", Gtk::Stock::QUIT),
-		   mem_fun (*this, &XAppl::hide));
-   grpAction->add (Gtk::Action::create ("Dialogs", "_Dialogs"));
-   grpAction->add (Gtk::Action::create ("DDialog", "_Dialog ...",
-					"Tests the common dialog"),
-		   Gtk::AccelKey ("<ctl>D"),
-		   mem_fun (*this, &XAppl::showDialog));
-   grpAction->add (Gtk::Action::create ("DDate", "Da_te ...",
-					"Tests the date dialog"),
-		   Gtk::AccelKey ("<ctl>T"),
-		   mem_fun (*this, &XAppl::showDateDialog));
-   grpAction->add (Gtk::Action::create ("DConnection", "_Connection ...",
-					"Tests the connection dialog"),
-		   Gtk::AccelKey ("<ctl>C"),
-		   mem_fun (*this, &XAppl::showConnectDialog));
-   grpAction->add (Gtk::Action::create ("DMsg", "_Messagedialog ...",
-					"Tests the message dialog"),
-		   Gtk::AccelKey ("<ctl>M"),
-		   mem_fun (*this, &XAppl::showMsgDialog));
-   grpAction->add (Gtk::Action::create ("DLogin", "_Logindialog ...",
-					"Tests the login dialog"),
-		   Gtk::AccelKey ("<ctl>L"),
-		   mem_fun (*this, &XAppl::showLoginDialog));
-   grpAction->add (Gtk::Action::create ("DSearch", Gtk::Stock::FIND, "_Searchdialog ...",
-					"Tests the search dialog"),
-		   mem_fun (*this, &XAppl::showSearchDialog));
-   grpAction->add (Gtk::Action::create ("Extras", "_Extras"));
-   grpAction->add (Gtk::Action::create ("XAnimate", "_Animate",
-					"Tests the animated window"),
-		   Gtk::AccelKey ("<ctl>A"),
-		   mem_fun (*this, &XAppl::animate));
-   addHelpMenu (ui, true);
-   ui += "</menubar></ui>";
-   mgrUI->insert_action_group (grpAction);
-   add_accel_group (mgrUI->get_accel_group ());
-   mgrUI->add_ui_from_string (ui);
+   Glib::RefPtr<Gio::Menu> menu (Gio::Menu::create ());
 
-   getClient ()->pack_start (*mgrUI->get_widget("/Menu"), Gtk::PACK_SHRINK);
+   Glib::RefPtr<Gio::Menu> menuFile (Gio::Menu::create ());
+   Glib::RefPtr<Gio::Menu> secFile (Gio::Menu::create ());
+   grpAction->add_action ("FOpen", sigc::mem_fun (*this, &XAppl::open));
+   secFile->append ("_Open", "win.FOpen");
+   apMenus[SAVE] = grpAction->add_action ("FSave", sigc::mem_fun (*this, &XAppl::save));
+   secFile->append ("_Save", "win.FSave");
+   apMenus[PRINT] = grpAction->add_action ("FPrint", sigc::mem_fun (*this, &XAppl::print));
+   secFile->append ("_Print", "win.FPrint");
+   menuFile->append_section (secFile);
+   grpAction->add_action ("FQuit", sigc::mem_fun (*this, &XAppl::hide));
+   menuFile->append ("_Quit", "win.FQuit");
+   menu->append_submenu ("_File", menuFile);
+
+   Glib::RefPtr<Gio::Menu> menuDialogs (Gio::Menu::create ());
+   grpAction->add_action ("DDialog", sigc::mem_fun (*this, &XAppl::showDialog));
+   menuDialogs->append ("_Dialog ...", "win.DDialog");
+   grpAction->add_action ("DDate", sigc::mem_fun (*this, &XAppl::showDateDialog));
+   menuDialogs->append ("Da_te ...", "win.DDate");
+   grpAction->add_action ("DConnection", sigc::mem_fun (*this, &XAppl::showConnectDialog));
+   menuDialogs->append ("_Connection ...", "win.DConnection");
+   grpAction->add_action ("DMsg", sigc::mem_fun (*this, &XAppl::showMsgDialog));
+   menuDialogs->append ("_Messagedialog ...", "win.DMsg");
+   grpAction->add_action ("DLogin", sigc::mem_fun (*this, &XAppl::showLoginDialog));
+   menuDialogs->append ("_Logindialog ...", "win.DLogin");
+   grpAction->add_action ("DSearch", sigc::mem_fun (*this, &XAppl::showSearchDialog));
+   menuDialogs->append ("_Searchdialog ...", "win.DSearch");
+   menu->append_submenu ("_Dialogs", menuDialogs);
+
+   Glib::RefPtr<Gio::Menu> menuExtras (Gio::Menu::create ());
+   grpAction->add_action ("XAnimate", sigc::mem_fun (*this, &XAppl::animate));
+   menuExtras->append ("_Animate", "win.XAnimate");
+   menu->append_submenu ("_Extras", menuExtras);
+
+   addHelpMenu (menu, true);
+
+   Gtk::PopoverMenuBar* menuBar (Gtk::make_managed<Gtk::PopoverMenuBar> (menu));
+   getClient ()->append (*menuBar);
 
    // Disable menus according to state of program
    TRACE7 ("XAppl::XAppl () -> Initialize menus");
-   apMenus[SAVE]->set_sensitive (false);
-   apMenus[PRINT]->set_sensitive (false);
+   apMenus[SAVE]->set_enabled (false);
+   apMenus[PRINT]->set_enabled (false);
 
    TRACE5 ("XAppl::XAppl () -> Create scrollwindow");
-   scroll.set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-   vboxClient->pack_start (scroll);
+   scroll.set_policy (Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+   scroll.set_hexpand (); scroll.set_vexpand ();
+   vboxClient->append (scroll);
 
    TRACE5 ("XAppl::XAppl () -> Create file-list");
    listFiles.append_column ("Size", cols.size);
@@ -162,15 +144,13 @@ XAppl::XAppl ()
    listFiles.get_column (0)->set_min_width (390);
    listFiles.get_column (1)->set_min_width (60);
    listFiles.get_column (2)->set_min_width (105);
-   listFiles.get_selection ()->set_mode (Gtk::SELECTION_MULTIPLE);
+   listFiles.get_selection ()->set_mode (Gtk::SelectionMode::MULTIPLE);
 
-   scroll.add (listFiles);
+   scroll.set_child (listFiles);
 
    TRACE5 ("XAppl::XAppl () -> Create statusbar");
    status.push ("Populate the list with File-Open or Dialogs-Dialog");
-   vboxClient->pack_end (status, Gtk::PACK_SHRINK);
-
-   show_all_children ();
+   vboxClient->append (status);
 }
 
 //-----------------------------------------------------------------------------
@@ -179,10 +159,10 @@ XAppl::XAppl ()
 void XAppl::open () {
    OTRACE3 (dt, "XAppl::open");
    XGP::FileDialog::create ("Add file(s)",
-			    Gtk::FILE_CHOOSER_ACTION_OPEN,
+			    Gtk::FileChooser::Action::OPEN,
 			    XGP::FileDialog::MUST_EXIST
 			    | XGP::FileDialog::MULTIPLE)
-      ->sigSelected.connect (mem_fun (*this, &XAppl::addFile));
+      ->sigSelected.connect (sigc::mem_fun (*this, &XAppl::addFile));
 }
 
 //-----------------------------------------------------------------------------
@@ -191,9 +171,9 @@ void XAppl::open () {
 void XAppl::save () {
    OTRACE3 (dt, "XAppl::save");
    XGP::FileDialog::create ("Save search result to ...",
-			    Gtk::FILE_CHOOSER_ACTION_SAVE,
+			    Gtk::FileChooser::Action::SAVE,
 			    XGP::FileDialog::ASK_OVERWRITE)
-      ->sigSelected.connect (mem_fun (*this, &XAppl::saveToFile));
+      ->sigSelected.connect (sigc::mem_fun (*this, &XAppl::saveToFile));
 }
 
 //-----------------------------------------------------------------------------
@@ -201,7 +181,7 @@ void XAppl::save () {
 //-----------------------------------------------------------------------------
 void XAppl::print () {
    OTRACE3 (dt, "XAppl::print");
-   XGP::PrintDialog::create ()->sigPrint.connect (mem_fun (*this, &XAppl::writeToStream));
+   XGP::PrintDialog::create ()->sigPrint.connect (sigc::mem_fun (*this, &XAppl::writeToStream));
 }
 
 //-----------------------------------------------------------------------------
@@ -245,16 +225,16 @@ void XAppl::showMsgDialog () {
 //-----------------------------------------------------------------------------
 void XAppl::showLoginDialog () {
    XGP::LoginDialog* dlg (XGP::LoginDialog::create (""));
-   dlg->get_window ()->set_transient_for (get_window ());
-   dlg->sigLogin.connect (mem_fun (*this, &XAppl::loginEvent));
+   dlg->set_transient_for (*this);
+   dlg->sigLogin.connect (sigc::mem_fun (*this, &XAppl::loginEvent));
 }
 
 //-----------------------------------------------------------------------------
 /// Opens a dialog to enter login data
 //-----------------------------------------------------------------------------
 void XAppl::showSearchDialog () {
-   XGP::SearchDialog::create (get_window ())->signalFind.connect
-      (mem_fun (*this, &XAppl::find));
+   XGP::SearchDialog::create (*this)->signalFind.connect
+      (sigc::mem_fun (*this, &XAppl::find));
 }
 
 //-----------------------------------------------------------------------------
@@ -302,12 +282,12 @@ void XAppl::addFile (const std::string& file) {
       row[cols.date] = t.toString ().c_str ();
 
       // Enable menus
-      apMenus[SAVE]->set_sensitive (true);
-      apMenus[PRINT]->set_sensitive (true);
+      apMenus[SAVE]->set_enabled (true);
+      apMenus[PRINT]->set_enabled (true);
    }
    catch (YGP::FileError& e) {
-      Gtk::MessageDialog dlg (e.what (), Gtk::MESSAGE_ERROR);
-      dlg.run ();
+      Gtk::MessageDialog dlg (e.what (), false, Gtk::MessageType::ERROR);
+      XGP::runModal (dlg);
    }
 }
 
@@ -323,8 +303,8 @@ void XAppl::saveToFile (const std::string& file) {
       std::string err ("Can't create file `%1'\n Reason: %2");
       err.replace (err.find ("%1"), 2, file);
       err.replace (err.find ("%2"), 2, strerror (errno));
-      Gtk::MessageDialog dlg (err, Gtk::MESSAGE_ERROR);
-      dlg.run ();
+      Gtk::MessageDialog dlg (err, false, Gtk::MessageType::ERROR);
+      XGP::runModal (dlg);
       return;
    }
    writeToStream (output);
@@ -385,14 +365,17 @@ void XAppl::find (const Glib::ustring& text) {
 //-----------------------------------------------------------------------------
 void XAppl::animate () {
    YGP::StatusObject obj (YGP::StatusObject::INFO, "Animated window");
-   Glib::signal_idle ().connect (bind (ptr_fun (&XAppl::doAnimate), XGP::MessageDlg::create (obj)));
+   Glib::signal_idle ().connect
+      (sigc::bind (sigc::ptr_fun (&XAppl::doAnimate), XGP::MessageDlg::create (obj)));
 }
 
 //-----------------------------------------------------------------------------
 /// Animates a window
 //-----------------------------------------------------------------------------
 bool XAppl::doAnimate (Gtk::Widget* winAnim) {
-   AnimWindow* albl (AnimWindow::create (winAnim->get_window ()));
+   Glib::RefPtr<Gdk::Surface> surface
+      (winAnim->get_native () ? winAnim->get_native ()->get_surface () : Glib::RefPtr<Gdk::Surface> ());
+   AnimWindow* albl (AnimWindow::create (surface));
    albl->animate ();
    return false;
 }
@@ -409,8 +392,15 @@ int main (int argc, char* argv[]) {
 
    XAppl::initI18n ();
 
-   Gtk::Main appl (argc, argv);
-   XAppl win;
-   appl.run (win);
-   return 0;
+   Glib::RefPtr<Gtk::Application> appl (Gtk::Application::create ("org.ygp.x-appl"));
+
+   // Keyboard accelerators for the actions set up in XAppl::XAppl()
+   appl->set_accel_for_action ("win.DDialog", "<Control>d");
+   appl->set_accel_for_action ("win.DDate", "<Control>t");
+   appl->set_accel_for_action ("win.DConnection", "<Control>c");
+   appl->set_accel_for_action ("win.DMsg", "<Control>m");
+   appl->set_accel_for_action ("win.DLogin", "<Control>l");
+   appl->set_accel_for_action ("win.XAnimate", "<Control>a");
+
+   return appl->make_window_and_run<XAppl> (argc, argv);
 }

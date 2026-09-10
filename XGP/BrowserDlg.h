@@ -29,7 +29,7 @@
 
 namespace Gtk {
    class Box;
-   class RadioButton;
+   class CheckButton;
 }
 
 
@@ -64,7 +64,7 @@ class BrowserDlg : public XDialog {
    virtual void okEvent ();
 
    Gtk::Box*         pboxOther;
-   std::vector<Gtk::RadioButton*> aBrowsers;
+   std::vector<Gtk::CheckButton*> aBrowsers;
    static const char*             browserNames[];
 
    typedef XAttributeEntry<Glib::ustring> XStringEntry;

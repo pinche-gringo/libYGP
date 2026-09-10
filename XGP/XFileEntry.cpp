@@ -1,14 +1,11 @@
-//$Id: XFileEntry.cpp,v 1.19 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.19 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 8.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2005, 2007, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2005, 2007, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -37,21 +34,27 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 /// Handling of the pressed key; Tries to complete the input to the first file
 /// matching the input.
-/// \param ev Event, containing input-information
+/// \param keyval Symbol of the pressed key
+/// \param keycode Hardware keycode of the pressed key
+/// \param state Modifier keys held while pressing the key
+/// \remarks GTK4 no longer provides on_key_press_event()/GdkEventKey; this
+///     relies on Gtk::EventControllerKey instead. As that controller sees
+///     the keypress independently of (and not necessarily after) the entry's
+///     own built-in text-input handling, get_text() below may not yet
+///     reflect the just-pressed key the way it reliably did under GTK3.
 //-----------------------------------------------------------------------------
-bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
-   Check1 (ev);
-   bool rc (Entry::on_key_press_event (ev));
+bool XFileEntry::onKeyPressed (guint keyval, guint /*keycode*/, Gdk::ModifierType state) {
+   bool rc (false);
 
-   TRACE5 ("XFileEntry::key_press_event_impl: Input: " << ev->keyval);
+   TRACE5 ("XFileEntry::onKeyPressed: Input: " << keyval);
 
-   if (((ev->state & 0x7) > 1)         // I tried to check only non-ctrl-chars
-       || (ev->keyval > 0xf000))         // (I've checked keysymdef.h & hope I
-      return rc;                       // got the japanese/korean-stuff right)
+   if (((static_cast<unsigned int> (state) & 0x7) > 1) // I tried to check only non-ctrl-chars
+       || (keyval > 0xf000))              // (I've checked keysymdef.h & hope I
+      return rc;                          // got the japanese/korean-stuff right)
 
    if (get_text_length ()) {
       std::string input (get_text ());
-      TRACE5 ("XFileEntry::key_press_event_impl: Text: " << input);
+      TRACE5 ("XFileEntry::onKeyPressed: Text: " << input);
 
       input += '*';
       const YGP::File* result;
@@ -60,7 +63,7 @@ bool XFileEntry::on_key_press_event (GdkEventKey* ev) {
          int len (get_text_length ());               // Complete name and mark
 
          input = result->path (); input += result->name ();// part after input
-         TRACE7 ("XFileEntry::key_press_event_impl: Changed input: " << input);
+         TRACE7 ("XFileEntry::onKeyPressed: Changed input: " << input);
          if (result->isDirectory ())
             input += YGP::File::DIRSEPARATOR;
          set_text (input);

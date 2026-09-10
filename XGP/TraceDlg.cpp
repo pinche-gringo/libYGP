@@ -1,14 +1,11 @@
-//$Id: TraceDlg.cpp,v 1.4 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 03.05.2006
-//COPYRIGHT   : Copyright (C) 2006, 2008
+//COPYRIGHT   : Copyright (C) 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -51,6 +48,7 @@
 
 #include <YGP/Trace.h>
 
+#include "XGP/XDialog.h"
 #include "TraceDlg.h"
 
 
@@ -75,7 +73,7 @@ class TraceObjColumns : public Gtk::TreeModel::ColumnRecord {
 //-----------------------------------------------------------------------------
 TraceDlg::TraceDlg ()
    : XGP::XDialog (OKCANCEL),
-     lstObjects (*manage (new Gtk::TreeView)) {
+     lstObjects (*Gtk::make_managed<Gtk::TreeView> ()) {
    set_title (_("Change trace-levels"));
 
    TraceObjColumns cols;
@@ -98,7 +96,7 @@ TraceDlg::TraceDlg ()
    Check3 (typeid (*r) == typeid (Gtk::CellRendererText));
    Gtk::CellRendererText* rText (dynamic_cast<Gtk::CellRendererText*> (r));
    rText->property_editable () = true;
-   rText->signal_edited ().connect (mem_fun (*this, &TraceDlg::levelChanged));
+   rText->signal_edited ().connect (sigc::mem_fun (*this, &TraceDlg::levelChanged));
 
    column = lstObjects.get_column (1);
    column->set_sort_column (cols.level);
@@ -115,9 +113,10 @@ TraceDlg::TraceDlg ()
       row[cols.level] = i->second->getLevel ();
    }
 
-   get_vbox ()->pack_start (lstObjects, Gtk::PACK_EXPAND_WIDGET, 5);
+   lstObjects.set_hexpand (); lstObjects.set_vexpand ();
+   lstObjects.set_margin (5);
+   get_content_area ()->append (lstObjects);
 
-   show_all_children ();
    show ();
 }
 
@@ -160,9 +159,9 @@ void TraceDlg::levelChanged (const Glib::ustring& path, const Glib::ustring& val
       row[cols.level] = nr;
    }
    catch (std::exception& e) {
-      Gtk::MessageDialog dlg (e.what (), Gtk::MESSAGE_ERROR);
+      Gtk::MessageDialog dlg (e.what (), false, Gtk::MessageType::ERROR);
       dlg.set_title (_("Invalid value!"));
-      dlg.run ();
+      runModal (dlg);
    }
 }
 

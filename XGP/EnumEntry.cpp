@@ -1,14 +1,11 @@
-//$Id: EnumEntry.cpp,v 1.2 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : EnumEntry
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 28.04.2005
-//COPYRIGHT   : Copyright (C) 2005, 2008, 2011
+//COPYRIGHT   : Copyright (C) 2005, 2008, 2011, 2026
 
 // This file is part of libYGP.
 //

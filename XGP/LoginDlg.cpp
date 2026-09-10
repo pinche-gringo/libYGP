@@ -1,14 +1,11 @@
-//$Id: LoginDlg.cpp,v 1.11 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : XGP - Login Dialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.11 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 16.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2011
+//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -29,7 +26,7 @@
 #include <unistd.h>
 
 #include <gtkmm/label.h>
-#include <gtkmm/table.h>
+#include <gtkmm/grid.h>
 
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
@@ -44,40 +41,40 @@ namespace XGP {
 /// \param title Title to display for dialog
 //-----------------------------------------------------------------------------
 LoginDialog::LoginDialog (const Glib::ustring& title)
-   : XGP::XDialog (NONE), sigLogin (), pClient (new Gtk::Table (2, 2)), txtUser (), txtPassword () {
+   : XGP::XDialog (NONE), sigLogin (), pClient (Gtk::make_managed<Gtk::Grid> ()),
+     txtUser (), txtPassword () {
    set_title (title.size () ? title : _("Enter login information"));
-
-   pClient->show ();
 
    txtPassword.set_visibility (false);
 
-   Gtk::Label* lbl (new Gtk::Label (_("_Userid:"), true));
+   Gtk::Label* lbl (Gtk::make_managed<Gtk::Label> (_("_Userid:"), true));
    lbl->set_mnemonic_widget (txtUser);
-   pClient->attach (*manage (lbl), 0, 1, 0, 1, Gtk::SHRINK, Gtk::SHRINK, 5, 5);
+   lbl->set_margin (5);
+   pClient->attach (*lbl, 0, 0);
 
-   lbl = new Gtk::Label (_("_Password:"), true);
+   lbl = Gtk::make_managed<Gtk::Label> (_("_Password:"), true);
    lbl->set_mnemonic_widget (txtPassword);
-   pClient->attach (*manage (lbl), 0, 1, 1, 2, Gtk::SHRINK, Gtk::SHRINK, 5, 5);
-   pClient->attach (txtUser, 1, 2, 0, 1, Gtk::FILL | Gtk::EXPAND,
-		    Gtk::FILL | Gtk::EXPAND, 5, 5);
-   pClient->attach (txtPassword, 1, 2, 1, 2, Gtk::FILL | Gtk::EXPAND,
-		    Gtk::FILL | Gtk::EXPAND, 5, 5);
+   lbl->set_margin (5);
+   pClient->attach (*lbl, 0, 1);
 
-   get_vbox ()->pack_start (*manage (pClient), false, false, 5);
+   txtUser.set_hexpand ();
+   txtUser.set_margin (5);
+   pClient->attach (txtUser, 1, 0);
 
-   txtUser.signal_changed ().connect (mem_fun (*this, &LoginDialog::inputChanged));
+   txtPassword.set_hexpand ();
+   txtPassword.set_margin (5);
+   pClient->attach (txtPassword, 1, 1);
 
-   ok = new Gtk::Button (_("_Login"), true);
-   get_action_area ()->pack_start (*ok, false, false, 5);
-   ok->set_can_default ();
-   ok->grab_default ();
-   ok->signal_clicked ().connect
-       (sigc::bind<int> (sigc::mem_fun (*this, &LoginDialog::command), LOGIN));
+   get_content_area ()->append (*pClient);
 
-   cancel = add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+   txtUser.signal_changed ().connect (sigc::mem_fun (*this, &LoginDialog::inputChanged));
+
+   ok = add_button (_("_Login"), LOGIN);
+   set_default_widget (*ok);
+
+   cancel = add_button (_("_Cancel"), static_cast<int> (Gtk::ResponseType::CANCEL));
 
    inputChanged ();
-   show_all_children ();
    show ();
 }
 
@@ -114,7 +111,7 @@ void LoginDialog::command (int id) {
    if (id == LOGIN) {
       Check3 (txtUser.get_text_length ());
       if (sigLogin.emit (txtUser.get_text (), txtPassword.get_text ()))
-	 response (Gtk::RESPONSE_OK);
+	 response (static_cast<int> (Gtk::ResponseType::OK));
    }
    else
       XDialog::command (id);

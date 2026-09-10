@@ -29,6 +29,9 @@ namespace Gtk {
 
 namespace XGP {
 
+/// Runs the passed dialog modally and returns the response-ID it was closed with
+int runModal (Gtk::Dialog& dlg);
+
 /**Baseclass for dialogs. Installs OK and/or Cancel buttons and registers
    a command handler for them. Pressing OK is reported with the okEvent()
    method; cancel with the cancelEvent() method. The baseclase destroys the
@@ -70,9 +73,6 @@ class XDialog : public Gtk::Dialog {
  private:
    XDialog (const XDialog& other);
    const XDialog& operator= (const XDialog& other);
-
-   void init ();
-   void handleOK ();
 };
 
 }

@@ -20,13 +20,12 @@
 
 
 #include <gtkmm/entry.h>
-#include <gtkmm/stock.h>
 
 #include <YGP/Check.h>
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class Table;
+   class Grid;
 }
 
 
@@ -46,7 +45,7 @@ class LoginDialog : public XGP::XDialog {
    /// \remarks Cares also about freeing the dialog
    static LoginDialog* create (const Glib::ustring& title) {
       LoginDialog* dlg (new LoginDialog (title));
-      dlg->signal_response ().connect (mem_fun (*dlg, &LoginDialog::free));
+      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &LoginDialog::free));
       return dlg;
    }
 
@@ -65,10 +64,10 @@ class LoginDialog : public XGP::XDialog {
    }
 
    /// Signal emitted, when Login is selected
-   sigc::signal<bool, const Glib::ustring&, const Glib::ustring&> sigLogin;
+   sigc::signal<bool (const Glib::ustring&, const Glib::ustring&)> sigLogin;
 
  protected:
-   Gtk::Table* pClient;             ///< Pointer to the client information area
+   Gtk::Grid* pClient;               ///< Pointer to the client information area
    Gtk::Entry txtUser;                 ///< Textfield, where user enters the ID
    Gtk::Entry txtPassword;       ///< Textfield, where user enters the password
 

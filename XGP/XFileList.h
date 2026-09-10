@@ -30,7 +30,11 @@
 
 // Forward declarations
 namespace Gtk {
+   class PopoverMenu;
+}
+namespace Gio {
    class Menu;
+   class SimpleActionGroup;
 }
 namespace YGP {
    struct File;
@@ -67,27 +71,32 @@ class XFileList : public Gtk::TreeView {
 
    static Glib::RefPtr<Gdk::Pixbuf> getIcon4File (const YGP::File& file);
 
-   virtual std::string getFilename (const Gtk::TreeIter& line) const;
-   virtual void setFilename (Gtk::TreeIter& line, const std::string& file);
+   virtual std::string getFilename (const Gtk::TreeModel::iterator& line) const;
+   virtual void setFilename (Gtk::TreeModel::iterator& line, const std::string& file);
 
  protected:
-   virtual bool on_button_release_event (GdkEventButton* event);
+   void onRightClick (int n_press, double x, double y);
 
-   void startInTerm (const char* file, Gtk::TreeIter line);
-   void startProgram (const char* file, Gtk::TreeIter line);
-   void executeProgram (const char* file, Gtk::TreeIter line);
+   void startInTerm (const char* file, Gtk::TreeModel::iterator line);
+   void startProgram (const char* file, Gtk::TreeModel::iterator line);
+   void executeProgram (const char* file, Gtk::TreeModel::iterator line);
 
    bool execProgram (const char* file, const char* const args[], bool sync);
 
    /// Method to add menus to the popup menu activated with the right mouse
    /// button (button 3)
-   virtual void addMenus (Gtk::Menu& menu, const Gtk::TreeIter& line);
+   /// \param menu Menu to append entries to
+   /// \param actions Action group backing \a menu; add the entries' actions here
+   /// \param line Row the popup menu was opened for
+   virtual void addMenus (const Glib::RefPtr<Gio::Menu>& menu,
+			  const Glib::RefPtr<Gio::SimpleActionGroup>& actions,
+			  const Gtk::TreeModel::iterator& line);
 
-   void move (Gtk::TreeIter line);
-   void remove (Gtk::TreeIter line);
+   void move (Gtk::TreeModel::iterator line);
+   void remove (Gtk::TreeModel::iterator line);
 
    /// Popup menu after pressing button 3
-   Gtk::Menu* pMenuPopAction;
+   Gtk::PopoverMenu* pMenuPopAction;
 
  private:
    XFileList (const XFileList&);

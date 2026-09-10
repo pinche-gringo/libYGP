@@ -1,14 +1,11 @@
-//$Id: XDialog.cpp,v 1.25 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : XDialog
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.25 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 04.01.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2011
+//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -25,10 +22,12 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <type_traits>
 
-#include <gtkmm/stock.h>
+#include <glibmm/main.h>
+
 #include <gtkmm/button.h>
-#include <gtkmm/accelgroup.h>
+// #include <gtkmm/accelgroup.h>
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
@@ -38,6 +37,29 @@
 
 
 namespace XGP {
+
+//-----------------------------------------------------------------------------
+/// Runs the passed dialog modally and returns the response-ID it was closed with
+/// \param dlg Dialog to run
+/// \returns int Response-ID the dialog was closed with
+/// \remarks Replaces the blocking Gtk::Dialog::run(), which GTK4 removed
+//-----------------------------------------------------------------------------
+int runModal (Gtk::Dialog& dlg) {
+   Glib::RefPtr<Glib::MainLoop> loop (Glib::MainLoop::create ());
+   int response (static_cast<int> (Gtk::ResponseType::NONE));
+
+   sigc::connection conn (dlg.signal_response ().connect ([&] (int r) {
+      response = r;
+      loop->quit ();
+   }));
+
+   dlg.set_modal (true);
+   dlg.show ();
+   loop->run ();
+   conn.disconnect ();
+
+   return response;
+}
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates the dialog with the specified buttons
@@ -78,8 +100,6 @@ XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
 //-----------------------------------------------------------------------------
 XDialog::~XDialog () {
    TRACE9 ("XDialog::~XDialog ()");
-   delete ok;
-   delete cancel;
 }
 
 
@@ -89,26 +109,14 @@ XDialog::~XDialog () {
 //-----------------------------------------------------------------------------
 void XDialog::init (unsigned int buttons) {
    TRACE9 ("XDialog::init ()");
-   if (buttons & OK) {
-      ok = manage (new Gtk::Button (Gtk::Stock::OK));
-      ok->signal_clicked ().connect (mem_fun (*this, &XDialog::handleOK));
-      get_action_area ()->pack_start (*ok, false, false, 5);
-      ok->set_can_default ();
-      ok->show ();
-   }
-   else
-      ok = NULL;
-   cancel = (buttons & CANCEL) ? add_button ((buttons & OK) ? Gtk::Stock::CANCEL
-					     :  Gtk::Stock::CLOSE,
-					     Gtk::RESPONSE_CANCEL) : NULL;
+   ok = (buttons & OK) ? add_button ("_OK", static_cast<int> (Gtk::ResponseType::OK)) : NULL;
+   cancel = (buttons & CANCEL) ? add_button ((buttons & OK) ? "_Cancel" : "_Close",
+					     static_cast<int> (Gtk::ResponseType::CANCEL)) : NULL;
 
-   get_action_area ()->set_homogeneous (false);
-
-   if (cancel)
-      cancel->grab_default ();
-   if (ok) {
-      ok->grab_default ();
-   }
+   if (ok)
+      set_default_widget (*ok);
+   else if (cancel)
+      set_default_widget (*cancel);
 }
 
 //-----------------------------------------------------------------------------
@@ -117,21 +125,16 @@ void XDialog::init (unsigned int buttons) {
 //-----------------------------------------------------------------------------
 void XDialog::on_response (int cmd) {
    TRACE9 ("XDialog::on_response (int) " << cmd);
-   if (cmd == Gtk::RESPONSE_CANCEL)
+   if (cmd == static_cast<int> (Gtk::ResponseType::OK)) {
+      if (!isDataOK ())
+	 return;
+      okEvent ();
+   }
+
+   if (cmd == static_cast<int> (Gtk::ResponseType::CANCEL))
       cancelEvent ();
    else
       command (cmd);
-}
-
-//-----------------------------------------------------------------------------
-/// Internal callback after pressing the OK button
-//-----------------------------------------------------------------------------
-void XDialog::handleOK () {
-   TRACE9 ("XDialog::handleOK ()");
-   if (isDataOK ()) {
-      okEvent ();
-      response (Gtk::RESPONSE_OK);
-   }
 }
 
 //-----------------------------------------------------------------------------

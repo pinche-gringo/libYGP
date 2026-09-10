@@ -19,9 +19,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#include <vector>
-
-#include <gtkmm/box.h>
+#include <gtkmm/flowbox.h>
 #include <gtkmm/scrolledwindow.h>
 
 
@@ -34,6 +32,10 @@ namespace XGP {
 
    The children are also rearranged, when the widget is resized (similar to the
    folders displayed by nautilus, konqueror or explorer, ...)
+
+   \remarks This is a thin wrapper around Gtk::FlowBox, which performs the
+       actual flow-layout/re-wrapping natively in GTK4; it exists to keep
+       the (simpler) interface of the original, hand-rolled implementation.
 */
 class AutoContainer : public Gtk::ScrolledWindow {
   public:
@@ -47,11 +49,8 @@ class AutoContainer : public Gtk::ScrolledWindow {
    void remove (Gtk::Widget& widget);
 
  protected:
-   void on_size_allocate (Gtk::Allocation& size);
-   void line_size_allocate (Gtk::Allocation& size, Gtk::HBox* line);
-
-   /// The vertical box used to display the other widgets
-   Gtk::VBox view;
+   /// The flow-box used to lay out (and automatically re-wrap) the children
+   Gtk::FlowBox view;
 
  private:
    // Prohibited manager functions
@@ -59,11 +58,6 @@ class AutoContainer : public Gtk::ScrolledWindow {
    const AutoContainer& operator= (const AutoContainer& other);
 
    void init ();
-   Gtk::HBox* addLine ();
-
-   bool checkLast (Gtk::HBox* line, Gtk::Widget* child);
-
-   int width;
 };
 
 }

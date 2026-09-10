@@ -38,15 +38,15 @@ class SearchDialog : public XGP::XDialog {
 
    /// Creates a search-dialog
    /// \param parent Parent window
-   static SearchDialog* create (const Glib::RefPtr<Gdk::Window>& parent) {
+   static SearchDialog* create (Gtk::Window& parent) {
       SearchDialog* dlg (new SearchDialog);
-      dlg->get_window ()->set_transient_for (parent);
-      dlg->signal_response ().connect (mem_fun (*dlg, &SearchDialog::free));
+      dlg->set_transient_for (parent);
+      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &SearchDialog::free));
       return dlg;
    }
 
    /// Signal emitted, when OK is selected
-   sigc::signal<void, const Glib::ustring&> signalFind;
+   sigc::signal<void (const Glib::ustring&)> signalFind;
 
  protected:
    SearchDialog ();

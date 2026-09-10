@@ -26,10 +26,9 @@
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class HBox;
+   class Box;
    class Label;
    class Entry;
-   class Gtk_Entry;
 }
 
 namespace XGP {
@@ -46,7 +45,7 @@ class PrintDialog : public XDialog {
    static PrintDialog* create ();
 
    /// Signal emitted, when OK is selected
-   sigc::signal<void, FILE*> sigPrint;
+   sigc::signal<void (FILE*)> sigPrint;
 
  private:
    // Prohibited manager-functions
@@ -57,7 +56,7 @@ class PrintDialog : public XDialog {
 
    void init ();
 
-   typedef boost::scoped_ptr<Gtk::HBox>   PHBox;
+   typedef boost::scoped_ptr<Gtk::Box>    PHBox;
    typedef boost::scoped_ptr<Gtk::Label>  PLabel;
    typedef boost::scoped_ptr<Gtk::Entry>  PEntry;
 

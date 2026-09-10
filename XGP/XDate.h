@@ -29,7 +29,7 @@ namespace YGP {
    class ATimestamp;
 }
 namespace Gtk {
-   class HBox;
+   class Box;
    class Calendar;
    class SpinButton;
 }
@@ -79,7 +79,7 @@ class XDate : public XDialog {
    static XDate* create (const Glib::ustring& title, YGP::ATimestamp& date,
                          int showFields = SHOW_ALL) {
       XDate* dlg (new XDate (title, date, showFields));
-      dlg->signal_response ().connect (mem_fun (*dlg, &XDate::free));
+      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &XDate::free));
       return dlg;
    }
 
@@ -90,7 +90,7 @@ class XDate : public XDialog {
 
    virtual void okEvent ();
 
-   typedef boost::scoped_ptr<Gtk::HBox>        PHBox;
+   typedef boost::scoped_ptr<Gtk::Box>         PHBox;
    typedef boost::scoped_ptr<Gtk::Calendar>    PCalendar;
    typedef boost::scoped_ptr<Gtk::SpinButton>  PSpinButton;
 

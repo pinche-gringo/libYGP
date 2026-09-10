@@ -29,8 +29,7 @@
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class HBox;
-   class Table;
+   class Grid;
 }
 namespace YGP {
    class ANumeric;
@@ -48,7 +47,7 @@ class Dialog : public XGP::XDialog {
 
    static Dialog* create (YGP::ANumeric& numEntry, std::string& file) {
       Dialog* dlg (new Dialog (numEntry, file));
-      dlg->signal_response ().connect (mem_fun (*dlg, &Dialog::free));
+      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &Dialog::free));
       return dlg;
    }
 
@@ -60,7 +59,7 @@ class Dialog : public XGP::XDialog {
    Dialog (const Dialog& other);
    const Dialog& operator= (const Dialog& other);
 
-   Gtk::Table* pClient;
+   Gtk::Grid* pClient;
 
    Gtk::Label* lblLabel;
    Gtk::Label* lblEntry;
@@ -91,7 +90,7 @@ class TDialog : Dialog {
    static Dialog* create (T& caller, const PCALLBACK callback,
                           YGP::ANumeric& numEntry, std::string& file) {
       Dialog* dlg (new TDialog (caller, callback, numEntry, file));
-      dlg->signal_response ().connect (mem_fun (*dlg, &TDialog<T>::free));
+      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &TDialog<T>::free));
       return dlg;
    }
 

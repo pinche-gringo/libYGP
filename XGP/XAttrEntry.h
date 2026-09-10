@@ -31,9 +31,13 @@
 #include <stdexcept>
 
 #include <glibmm/main.h>
+#include <glibmm/convert.h>
 
 #include <gtkmm/entry.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/eventcontrollerfocus.h>
+
+#include <XGP/XDialog.h>
 
 
 namespace XGP {
@@ -59,6 +63,11 @@ template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P 
    XAttributeEntry (T& attr)
       : temp (attr), attr_ (attr), inError (false) {
       P::set_text (attr_.toString ());
+
+      Glib::RefPtr<Gtk::EventControllerFocus> focus (Gtk::EventControllerFocus::create ());
+      focus->signal_enter ().connect (sigc::mem_fun (*this, &XAttributeEntry::onFocusIn));
+      focus->signal_leave ().connect (sigc::mem_fun (*this, &XAttributeEntry::onFocusOut));
+      P::add_controller (focus);
    }
    /// Destructor
    ~XAttributeEntry () { }
@@ -84,27 +93,23 @@ template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P 
    T& getAttribute () { return attr_; }
 
  protected:
-   virtual bool on_focus_in_event (GdkEventFocus* ev) {
+   virtual void onFocusIn () {
       if (inError)
          inError = false;
       else
-         P::set_text (temp.toUnformattedString ());
-      return P::on_focus_in_event (ev); }
-   virtual bool on_focus_out_event (GdkEventFocus* ev) {
-      P::on_focus_out_event (ev);
+         P::set_text (temp.toUnformattedString ()); }
+   virtual void onFocusOut () {
       try {
          temp = P::get_text ();
          P::set_text (temp.toString ());
       }
       catch (std::invalid_argument& e) {
          inError = true;
-         Gtk::MessageDialog msg (e.what (), Gtk::MESSAGE_ERROR);
+         Gtk::MessageDialog msg (e.what (), false, Gtk::MessageType::ERROR);
          msg.set_title (Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, "Invalid value!")));
-         msg.run ();
-         Glib::signal_idle ().connect (mem_fun (*this, &XAttributeEntry::takeFocus));
-         return true;
-      }
-      return false; }
+         XGP::runModal (msg);
+         Glib::signal_idle ().connect (sigc::mem_fun (*this, &XAttributeEntry::takeFocus));
+      } }
 
    bool takeFocus () {
       P::grab_focus ();
@@ -130,13 +135,11 @@ template <> inline void XAttributeEntry<std::string>::update () { parent::set_te
 template <> inline void XAttributeEntry<std::string>::setText (const Glib::ustring& value) {
    temp = Glib::locale_from_utf8 (value);
    parent::set_text (value); }
-/// Specialication of XAttributeEntry<T>::on_focus_in_event for strings
-template <> inline bool XAttributeEntry<std::string>::on_focus_in_event (GdkEventFocus* ev) {
-   return parent::on_focus_in_event (ev); }
-/// Specialication of XAttributeEntry<T>::on_focus_out_event for strings
-template <> inline bool XAttributeEntry<std::string>::on_focus_out_event (GdkEventFocus* ev) {
-   temp = parent::get_text ();
-   return parent::on_focus_out_event (ev); }
+/// Specialication of XAttributeEntry<T>::onFocusIn for strings
+template <> inline void XAttributeEntry<std::string>::onFocusIn () { }
+/// Specialication of XAttributeEntry<T>::onFocusOut for strings
+template <> inline void XAttributeEntry<std::string>::onFocusOut () {
+   temp = parent::get_text (); }
 
 /// Specialication of XAttributeEntry<T>::XAttributeEntry for ustrings
 template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustring& attr) : temp (attr)
@@ -146,13 +149,11 @@ template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustrin
 template <> inline void XAttributeEntry<Glib::ustring>::update () { parent::set_text (temp = attr_); }
 /// Specialication of XAttributeEntry<T>::setText for ustrings
 template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { parent::set_text (temp = value); }
-/// Specialication of XAttributeEntry<T>::on_focus_in_event for ustrings
-template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_in_event (GdkEventFocus* ev) {
-   return parent::on_focus_in_event (ev); }
-/// Specialication of XAttributeEntry<T>::on_focus_out_event for ustrings
-template <> inline bool XAttributeEntry<Glib::ustring>::on_focus_out_event (GdkEventFocus* ev) {
-   temp = parent::get_text ();
-   return parent::on_focus_out_event (ev); }
+/// Specialication of XAttributeEntry<T>::onFocusIn for ustrings
+template <> inline void XAttributeEntry<Glib::ustring>::onFocusIn () { }
+/// Specialication of XAttributeEntry<T>::onFocusOut for ustrings
+template <> inline void XAttributeEntry<Glib::ustring>::onFocusOut () {
+   temp = parent::get_text (); }
 
 }
 

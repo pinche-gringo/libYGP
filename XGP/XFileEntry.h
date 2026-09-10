@@ -19,6 +19,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <gtkmm/entry.h>
+#include <gtkmm/eventcontrollerkey.h>
 
 #include <YGP/DirSrch.h>
 
@@ -40,12 +41,17 @@ class XFileEntry : public Gtk::Entry {
    /// \param fileAttrs Attributes the files to display must have (default:
    /// Normal files, no directories)
    XFileEntry (int fileAttrs = YGP::IDirectorySearch::FILE_NORMAL) : Entry ()
-      , attrs (fileAttrs) { }
+      , attrs (fileAttrs) {
+      Glib::RefPtr<Gtk::EventControllerKey> keys (Gtk::EventControllerKey::create ());
+      keys->signal_key_pressed ().connect
+	 (sigc::mem_fun (*this, &XFileEntry::onKeyPressed), false);
+      add_controller (keys);
+   }
    /// Destructor
    ~XFileEntry () { }
 
  protected:
-   virtual bool on_key_press_event (GdkEventKey* ev);
+   bool onKeyPressed (guint keyval, guint keycode, Gdk::ModifierType state);
 
  private:
    int attrs;

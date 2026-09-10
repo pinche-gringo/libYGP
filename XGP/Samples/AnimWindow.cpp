@@ -31,9 +31,9 @@
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param window: Gdk::Window to animate
+/// \param window: Gdk::Surface to animate
 //-----------------------------------------------------------------------------
-AnimWindow::AnimWindow (Glib::RefPtr<Gdk::Window> window) : XGP::AnimatedWindow (window) {
+AnimWindow::AnimWindow (Glib::RefPtr<Gdk::Surface> window) : XGP::AnimatedWindow (window) {
 }
 
 //-----------------------------------------------------------------------------

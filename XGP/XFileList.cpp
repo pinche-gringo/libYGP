@@ -1,14 +1,11 @@
-//$Id: XFileList.cpp,v 1.51 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileList
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.51 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 17.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008 - 2011
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008 - 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -39,14 +36,22 @@
 #  include <giomm/themedicon.h>
 #endif
 
-#include <gtkmm/menu.h>
-#include <gtkmm/stock.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdkmm/display.h>
+
 #include <gtkmm/image.h>
+#include <gtkmm/gestureclick.h>
+#include <gtkmm/popovermenu.h>
 #include <gtkmm/icontheme.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/treestore.h>
 #include <gtkmm/adjustment.h>
 #include <gtkmm/messagedialog.h>
+
+#include <giomm/menu.h>
+#include <giomm/simpleactiongroup.h>
+
+#include "XGP/XDialog.h"
 
 #define CHECK 9
 #define TRACELEVEL 9
@@ -86,17 +91,22 @@ void XFileList::init () {
    Gtk::TreeView::Column* pColumn (new Gtk::TreeView::Column (_("File")));
 
    Gtk::CellRendererPixbuf* rPB (new Gtk::CellRendererPixbuf);
-   pColumn->pack_start (*manage (rPB), false);
+   pColumn->pack_start (*rPB, false);
    pColumn->add_attribute (*rPB, "pixbuf", 0);
 
    Gtk::CellRendererText* rTxt (new Gtk::CellRendererText);
-   pColumn->pack_start (*manage (rTxt));
+   pColumn->pack_start (*rTxt);
    pColumn->add_attribute (*rTxt, "text", 1);
    append_column (*pColumn);
 
 #if defined (PKGDIR) && !defined (HAVE_GIOMM)
    loadIcons (PKGDIR, "Icon_*.png", sizeof ("Icon_") - 1);
 #endif
+
+   Glib::RefPtr<Gtk::GestureClick> rightClick (Gtk::GestureClick::create ());
+   rightClick->set_button (GDK_BUTTON_SECONDARY);
+   rightClick->signal_pressed ().connect (sigc::mem_fun (*this, &XFileList::onRightClick));
+   add_controller (rightClick);
 }
 
 //-----------------------------------------------------------------------------
@@ -168,19 +178,23 @@ Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
    Glib::RefPtr<Gio::FileInfo> gInfo (gFile->query_info (G_FILE_ATTRIBUTE_STANDARD_ICON));
 
    Glib::RefPtr<const Gio::Icon> gIcon (gInfo->get_icon ());
-   Glib::RefPtr<const Gio::FileIcon> fIcon (Glib::RefPtr<const Gio::FileIcon>::cast_dynamic (gIcon));
+   Glib::RefPtr<const Gio::FileIcon> fIcon (std::dynamic_pointer_cast<const Gio::FileIcon> (gIcon));
    if (fIcon)
       return Gdk::Pixbuf::create_from_file (fIcon->get_file ()->get_path ());
    else {
-      Glib::RefPtr<const Gio::ThemedIcon> tIcon (Glib::RefPtr<const Gio::ThemedIcon>::cast_dynamic (gIcon));
+      Glib::RefPtr<const Gio::ThemedIcon> tIcon (std::dynamic_pointer_cast<const Gio::ThemedIcon> (gIcon));
       if (tIcon) {
 	 // icon = tIcon->get_names ();            // TODO: Fix when implemented
 	 const gchar* const* names (g_themed_icon_get_names (const_cast<GThemedIcon*> (tIcon->gobj ())));
 	 if (names) {
-	    Glib::RefPtr<Gtk::IconTheme> theme (Gtk::IconTheme::get_default ());
+	    Glib::RefPtr<Gtk::IconTheme> theme
+	       (Gtk::IconTheme::get_for_display (Gdk::Display::get_default ()));
 	    while (*names) {
 	       try {
-		  return theme->load_icon (*names, 16);
+		  Glib::RefPtr<Gtk::IconPaintable> icon (theme->lookup_icon (*names, 16));
+		  Glib::RefPtr<Gio::File> iconFile (icon ? icon->get_file () : Glib::RefPtr<Gio::File> ());
+		  if (iconFile)
+		     return Gdk::Pixbuf::create_from_file (iconFile->get_path ());
 	       }
 	       catch (...) { }
 	       ++names;
@@ -188,7 +202,7 @@ Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
 	 }
       }
    }
-   return Gdk::Pixbuf::create_from_inline (0, NULL);;
+   return Glib::RefPtr<Gdk::Pixbuf> ();
 #else
    Glib::RefPtr<Gdk::Pixbuf> actIcon (iconDef);
 
@@ -223,7 +237,7 @@ Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
 /// \param line Line in list to get the filename from
 /// \returns std::string Filename
 //----------------------------------------------------------------------------
-std::string XFileList::getFilename (const Gtk::TreeIter& line) const {
+std::string XFileList::getFilename (const Gtk::TreeModel::iterator& line) const {
    std::string file;
    Gtk::TreeRow row (*line);
    row.get_value (1, file);
@@ -236,65 +250,67 @@ std::string XFileList::getFilename (const Gtk::TreeIter& line) const {
 /// \param line Line in list to get the filename from
 /// \param file Filename to set
 //-----------------------------------------------------------------------------
-void XFileList::setFilename (Gtk::TreeIter& line, const std::string& file) {
+void XFileList::setFilename (Gtk::TreeModel::iterator& line, const std::string& file) {
    Gtk::TreeRow row (*line);
    row.set_value (1, file);
 }
 
 //-----------------------------------------------------------------------------
-/// Callback after clicking in list; if its by button 3: Display menu
-/// \param event Datails about the event
-/// \returns bool true: Event has been handled; false else
+/// Callback after right-clicking in the list: Display the popup menu
+/// \param x X-coordinate (widget-relative) of the click
+/// \param y Y-coordinate (widget-relative) of the click
 //-----------------------------------------------------------------------------
-bool XFileList::on_button_release_event (GdkEventButton* event) {
-   TRACE2 ("XFileList::on_button_release_event (GdkEventButton*) - " << event->button);
+void XFileList::onRightClick (int, double x, double y) {
+   TRACE2 ("XFileList::onRightClick (int, double, double) - " << x << '/' << y);
 
-   if (event->button == 3) {
-      if (pMenuPopAction) {
-	 delete pMenuPopAction;
-	 pMenuPopAction = NULL;
-      }
-
-      Gtk::TreeModel::Path pathAct;
-      Gtk::TreeViewColumn* colFocus;
-      get_cursor (pathAct, colFocus);
-
-      if (!pathAct.empty ()) {
-	 TRACE8 ("XFileList::on_button_release_event (GdkEvent*) - Creating menu");
-	 pMenuPopAction = new Gtk::Menu;
-
-	 // Testing if $EDITOR exists and add that to list; else use VI
-	 Glib::ustring editor (_("Open in %1 ..."));
-	 const char* ed;
-	 if ((ed = getenv ("EDITOR")) == NULL)
-	    ed = "vi";
-	 editor.replace (editor.find ("%1"), 2, ed);
-
-	 // Get selected row
-	 Check3 (get_model ());
-	 Gtk::TreeIter iAct (get_model ()->get_iter (pathAct)); Check3 (iAct);
-
-	 Gtk::MenuItem* item (Gtk::manage(new Gtk::MenuItem (editor)));
-	 item->show ();
-	 item->signal_activate ().connect
-	    (bind (mem_fun (*this, &XFileList::startInTerm), ed, iAct));
-	 pMenuPopAction->append(*item);
-	 item = Gtk::manage(new Gtk::MenuItem (_("Rename/Move ...")));
-	 item->show ();
-	 item->signal_activate ().connect
-	    (bind (mem_fun (*this, &XFileList::move), iAct));
-	 pMenuPopAction->append(*item);
-	 item = Gtk::manage(new Gtk::MenuItem (_("Delete")));
-	 item->show ();
-	 item->signal_activate ().connect
-	    (bind (mem_fun (*this, &XFileList::remove), iAct));
-	 pMenuPopAction->append(*item);
-
-	 pMenuPopAction->popup (event->button, event->time);
-      }
-      return true;
+   if (pMenuPopAction) {
+      pMenuPopAction->unparent ();
+      delete pMenuPopAction;
+      pMenuPopAction = NULL;
    }
-   return false;
+
+   Gtk::TreeModel::Path pathAct;
+   if (get_path_at_pos (static_cast<int> (x), static_cast<int> (y), pathAct)
+       && !pathAct.empty ()) {
+      TRACE8 ("XFileList::onRightClick (int, double, double) - Creating menu");
+
+      // Get selected row
+      Check3 (get_model ());
+      Gtk::TreeModel::iterator iAct (get_model ()->get_iter (pathAct)); Check3 (iAct);
+
+      Glib::RefPtr<Gio::SimpleActionGroup> actions (Gio::SimpleActionGroup::create ());
+      Glib::RefPtr<Gio::Menu> menu (Gio::Menu::create ());
+
+      // Testing if $EDITOR exists and add that to list; else use VI
+      Glib::ustring editor (_("Open in %1 ..."));
+      const char* ed;
+      if ((ed = getenv ("EDITOR")) == NULL)
+	 ed = "vi";
+      editor.replace (editor.find ("%1"), 2, ed);
+
+      actions->add_action
+	 ("open", sigc::bind (sigc::mem_fun (*this, &XFileList::startInTerm), ed, iAct));
+      menu->append (editor, "popup.open");
+
+      actions->add_action
+	 ("move", sigc::bind (sigc::mem_fun (*this, &XFileList::move), iAct));
+      menu->append (_("Rename/Move ..."), "popup.move");
+
+      actions->add_action
+	 ("delete", sigc::bind (sigc::mem_fun (*this, &XFileList::remove), iAct));
+      menu->append (_("Delete"), "popup.delete");
+
+      addMenus (menu, actions, iAct);
+
+      insert_action_group ("popup", actions);
+
+      pMenuPopAction = new Gtk::PopoverMenu (menu);
+      pMenuPopAction->set_parent (*this);
+      pMenuPopAction->set_has_arrow (false);
+      Gdk::Rectangle rect (static_cast<int> (x), static_cast<int> (y), 1, 1);
+      pMenuPopAction->set_pointing_to (rect);
+      pMenuPopAction->popup ();
+   }
 }
 
 //-----------------------------------------------------------------------------
@@ -302,7 +318,7 @@ bool XFileList::on_button_release_event (GdkEventButton* event) {
 /// \param file File to execute
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
+void XFileList::startInTerm (const char* file, Gtk::TreeModel::iterator line) {
    const char* term (getenv ("TERM"));
    if (term) {
       std::string entry (getFilename (line));
@@ -311,8 +327,8 @@ void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
    }
    else {
       Gtk::MessageDialog msg (_("Environment variable `TERM' not defined!"),
-                              Gtk::MESSAGE_ERROR);
-      msg.run ();
+                              false, Gtk::MessageType::ERROR);
+      runModal (msg);
    }
 }
 
@@ -321,7 +337,7 @@ void XFileList::startInTerm (const char* file, Gtk::TreeIter line) {
 /// \param file File to execute
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::startProgram (const char* file, Gtk::TreeIter line) {
+void XFileList::startProgram (const char* file, Gtk::TreeModel::iterator line) {
    std::string entry (getFilename (line));
    const char* args[] = { file, entry.c_str (), NULL };
    execProgram (args[0], args, false);
@@ -332,7 +348,7 @@ void XFileList::startProgram (const char* file, Gtk::TreeIter line) {
 /// \param file File to execute
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::executeProgram (const char* file, Gtk::TreeIter line) {
+void XFileList::executeProgram (const char* file, Gtk::TreeModel::iterator line) {
    std::string entry (getFilename (line));
    const char* args[] = { file, entry.c_str (), NULL };
    execProgram (args[0], args, true);
@@ -354,8 +370,8 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
       return true;
    }
    catch (YGP::ExecError& err) {
-      Gtk::MessageDialog msg (err.what (), Gtk::MESSAGE_ERROR);
-      msg.run ();
+      Gtk::MessageDialog msg (err.what (), false, Gtk::MessageType::ERROR);
+      runModal (msg);
    }
    return false;
 }
@@ -364,9 +380,9 @@ bool XFileList::execProgram (const char* file, const char* const args[], bool sy
 /// Moves the file in line to another location/name
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::move (Gtk::TreeIter line) {
+void XFileList::move (Gtk::TreeModel::iterator line) {
    std::string file (FileDialog::create (std::string ("Move file to ..."),
-					 Gtk::FILE_CHOOSER_ACTION_OPEN,
+					 Gtk::FileChooser::Action::OPEN,
 					 FileDialog::ASK_OVERWRITE)->execModal ());
 
    if (file.length ()) {
@@ -378,8 +394,8 @@ void XFileList::move (Gtk::TreeIter line) {
             setFilename (line, file);
          }
          catch (YGP::FileError& err) {
-            Gtk::MessageDialog msg (err.what (), Gtk::MESSAGE_ERROR);
-            msg.run ();
+            Gtk::MessageDialog msg (err.what (), false, Gtk::MessageType::ERROR);
+            runModal (msg);
          }
       }
    }
@@ -389,16 +405,16 @@ void XFileList::move (Gtk::TreeIter line) {
 /// Removes the passed file; both from the system and from the list
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
-void XFileList::remove(Gtk::TreeIter line) {
-   TRACE4("XFileList::remove (Gtk::TreeIter) - " << getFilename(line));
+void XFileList::remove(Gtk::TreeModel::iterator line) {
+   TRACE4("XFileList::remove (Gtk::TreeModel::iterator) - " << getFilename(line));
    std::string entry (getFilename(line));
    const char* args[] = { "rm", "-f", entry.c_str(), NULL };
    if (execProgram(args[0], args, true)) {
-      Glib::RefPtr<Gtk::TreeStore> ptr (Glib::RefPtr<Gtk::TreeStore>::cast_dynamic(get_model()));
+      Glib::RefPtr<Gtk::TreeStore> ptr (std::dynamic_pointer_cast<Gtk::TreeStore> (get_model()));
       if (ptr)
 	 ptr->erase (line);
       else {
-	 Glib::RefPtr<Gtk::ListStore> lptr(Glib::RefPtr<Gtk::ListStore>::cast_dynamic(get_model()));
+	 Glib::RefPtr<Gtk::ListStore> lptr (std::dynamic_pointer_cast<Gtk::ListStore> (get_model()));
 	 if (lptr)
 	    lptr->erase(line);
       }
@@ -408,9 +424,11 @@ void XFileList::remove(Gtk::TreeIter line) {
 //-----------------------------------------------------------------------------
 /// Adds further menus to the default popup-menu
 /// \param Menu where to add some entries to
+/// \param Action group backing the menu, to add the entries' actions to
 /// \param Line for which to add entries
 //-----------------------------------------------------------------------------
-void XFileList::addMenus(Gtk::Menu&, const Gtk::TreeIter&) {
+void XFileList::addMenus (const Glib::RefPtr<Gio::Menu>&,
+			  const Glib::RefPtr<Gio::SimpleActionGroup>&, const Gtk::TreeModel::iterator&) {
 }
 
 }

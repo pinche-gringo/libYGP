@@ -1,14 +1,11 @@
-//$Id: XFileDlg.cpp,v 1.32 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : XFileDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.32 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 14.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -30,12 +27,17 @@
 
 #include <string>
 
-#include <gtkmm/main.h>
-#include <gtkmm/stock.h>
+#include <glibmm/main.h>
+
+#include <giomm/file.h>
+#include <giomm/listmodel.h>
+
 #include <gtkmm/messagedialog.h>
 
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
+
+#include "XGP/XDialog.h"
 
 #define CONVERT_TO_UTF8
 #include "YGP/Internal.h"
@@ -52,13 +54,13 @@ namespace XGP {
 /// \param dlgOption Checks to perform after selecting OK
 //-----------------------------------------------------------------------------
 FileDialog::FileDialog (const Glib::ustring& title,
-			Gtk::FileChooserAction action, unsigned int dlgOption)
+			Gtk::FileChooser::Action action, unsigned int dlgOption)
    : Gtk::FileChooserDialog (title, action), sigSelected (), opt (dlgOption), modal (false) {
-   TRACE9 ("FileDialog::FileDialog (const Glib::ustring&, Gtk::FileChooserAction, unsigned int)");
+   TRACE9 ("FileDialog::FileDialog (const Glib::ustring&, Gtk::FileChooser::Action, unsigned int)");
 
-   add_button (Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-   add_button ((action == Gtk::FILE_CHOOSER_ACTION_SAVE)
-               ? Gtk::Stock::SAVE : Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+   add_button ("_Cancel", static_cast<int> (Gtk::ResponseType::CANCEL));
+   add_button ((action == Gtk::FileChooser::Action::SAVE) ? "_Save" : "_Open",
+               static_cast<int> (Gtk::ResponseType::OK));
 
    set_select_multiple (dlgOption & MULTIPLE);
    opt = opt & ~MULTIPLE;
@@ -93,9 +95,9 @@ void FileDialog::on_response (int cmd) {
 	   if (rc) {  // File does not exist: Show msg and exit
 	      Glib::ustring err(_("File `%1' does not exist!"));
 	      err.replace(err.find("%1"), 2, Glib::filename_to_utf8(filename));
-	      Gtk::MessageDialog dlg(err, Gtk::MESSAGE_ERROR);
-	      dlg.set_parent(*this);
-	      dlg.run();
+	      Gtk::MessageDialog dlg(err, false, Gtk::MessageType::ERROR);
+	      dlg.set_transient_for(*this);
+	      XGP::runModal (dlg);
 	      return;
 	   }
 
@@ -103,10 +105,10 @@ void FileDialog::on_response (int cmd) {
 	   if (!rc) {
 	      Glib::ustring msg(_("File `%1' exists! Overwrite?"));
 	      msg.replace(msg.find("%1"), 2, Glib::filename_to_utf8(filename));
-	      Gtk::MessageDialog dlg(msg, false, Gtk::MESSAGE_QUESTION,
-				     Gtk::BUTTONS_YES_NO);
-	      dlg.set_parent(*this);
-	      if (dlg.run() != Gtk::RESPONSE_YES)
+	      Gtk::MessageDialog dlg(msg, false, Gtk::MessageType::QUESTION,
+				     Gtk::ButtonsType::YES_NO);
+	      dlg.set_transient_for(*this);
+	      if (XGP::runModal (dlg) != static_cast<int> (Gtk::ResponseType::YES))
 		 return;
 	   }
       } // endif option set
@@ -115,21 +117,28 @@ void FileDialog::on_response (int cmd) {
    };
 
    switch (cmd) {
-   case Gtk::RESPONSE_OK: {
+   case Gtk::ResponseType::OK: {
 
       if (get_select_multiple()) {
-	 Glib::SListHandle<Glib::ustring> files = get_filenames();
-	 for (auto i(files.begin()); i != files.end (); ++i)
-	    handleFile(*i);
+	 Glib::RefPtr<Gio::ListModel> files (get_files ());
+	 guint count (files->get_n_items ());
+	 for (guint i (0); i < count; ++i) {
+	    auto file (std::dynamic_pointer_cast<Gio::File> (files->get_object (i)));
+	    if (file)
+	       handleFile (file->get_path ());
+	 }
       }
-      else
-	 handleFile(get_filename());
+      else {
+	 Glib::RefPtr<Gio::File> file (get_file ());
+	 if (file)
+	    handleFile (file->get_path ());
+      }
    }  // Missing break is intentional
 
-   case Gtk::RESPONSE_CANCEL:
+   case Gtk::ResponseType::CANCEL:
       if (modal) {
          modal = false;
-         Gtk::Main::quit ();
+         pLoop->quit ();
       }
       break;
    } // end-switch command-id
@@ -146,10 +155,14 @@ void FileDialog::on_response (int cmd) {
 std::string FileDialog::execModal () {
    Check2 (!(opt % MULTIPLE));
    set_modal (modal = true);
-   Gtk::Main::run ();
-   std:: string file (modal ? get_filename () : "");
+   pLoop = Glib::MainLoop::create ();
+   show ();
+   pLoop->run ();
+
+   Glib::RefPtr<Gio::File> file (modal ? get_file () : Glib::RefPtr<Gio::File> ());
+   std::string result (file ? file->get_path () : "");
    delete this;
-   return file;
+   return result;
 }
 
 
@@ -162,9 +175,9 @@ std::string FileDialog::execModal () {
 //  \returns FileDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
 FileDialog* FileDialog::create (const Glib::ustring& title,
-				Gtk::FileChooserAction action, unsigned int dlgOption) {
+				Gtk::FileChooser::Action action, unsigned int dlgOption) {
    FileDialog* dlg (new FileDialog (title, action, dlgOption));
-   dlg->signal_response ().connect (mem_fun (*dlg, &FileDialog::free));
+   dlg->signal_response ().connect (sigc::mem_fun (*dlg, &FileDialog::free));
    return dlg;
 }
 

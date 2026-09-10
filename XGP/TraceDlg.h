@@ -41,7 +41,7 @@ class TraceDlg : public XGP::XDialog {
    /// Creates a dialog
    static TraceDlg* create () {
       TraceDlg* dlg (new TraceDlg);
-      dlg->signal_response ().connect (mem_fun (*dlg, &TraceDlg::free));
+      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &TraceDlg::free));
       return dlg;
    }
 

@@ -1,14 +1,11 @@
-// $Id: Version.cpp,v 1.17 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : Version
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.17 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 10.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //

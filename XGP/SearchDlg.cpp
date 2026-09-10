@@ -1,14 +1,11 @@
-//$Id: SearchDlg.cpp,v 1.4 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libYGP
 //SUBSYSTEM   : XGP
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.4 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 18.12.2004
-//COPYRIGHT   : Copyright (C) 2004, 2006, 2008
+//COPYRIGHT   : Copyright (C) 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -45,22 +42,24 @@ Glib::ustring SearchDialog::last;
 /// (Default-)Constructor
 //-----------------------------------------------------------------------------
 SearchDialog::SearchDialog ()
-   : XGP::XDialog (OKCANCEL), signalFind (), find (new Gtk::Entry) {
+   : XGP::XDialog (OKCANCEL), signalFind (), find (Gtk::make_managed<Gtk::Entry> ()) {
    set_title (_("Search"));
 
-   Gtk::Label* lblFind (new Gtk::Label (_("_Find:"), true));
+   Gtk::Label* lblFind (Gtk::make_managed<Gtk::Label> (_("_Find:"), true));
    lblFind->set_mnemonic_widget (*find);
-   find->signal_changed ().connect (mem_fun (*this, &SearchDialog::inputChanged));
+   lblFind->set_margin (5);
+   find->signal_changed ().connect (sigc::mem_fun (*this, &SearchDialog::inputChanged));
+   find->set_hexpand ();
+   find->set_margin (5);
 
-   Gtk::Box* client (new Gtk::HBox ());
-   client->pack_start (*manage (lblFind), false, false, 5);
-   client->pack_start (*manage (find), Gtk::PACK_EXPAND_WIDGET, 5);
+   Gtk::Box* client (Gtk::make_managed<Gtk::Box> ());
+   client->append (*lblFind);
+   client->append (*find);
 
    find->set_text (last);
    ok->set_sensitive (last.size ());
 
-   get_vbox ()->pack_start (*manage (client), false, false, 5);
-   show_all_children ();
+   get_content_area ()->append (*client);
    show ();
 }
 

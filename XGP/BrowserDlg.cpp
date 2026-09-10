@@ -1,14 +1,11 @@
-//$Id: BrowserDlg.cpp,v 1.27 2008/03/30 13:39:17 markus Rel $
-
 //PROJECT     : libXGP
 //SUBSYSTEM   : BrowserDlg
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.27 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 13.01.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2008
+//COPYRIGHT   : Copyright (C) 2003 - 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -30,8 +27,9 @@
 #include <YGP/Internal.h>
 
 #include <gtkmm/box.h>
+#include <gtkmm/label.h>
 #include <gtkmm/image.h>
-#include <gtkmm/radiobutton.h>
+#include <gtkmm/checkbutton.h>
 
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
@@ -90,7 +88,7 @@ const char* BrowserDlg::browserNames[] = {
 //-----------------------------------------------------------------------------
 BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    : XDialog (_("Select a browser"), OKCANCEL),
-     pboxOther (new Gtk::HBox), aBrowsers (), path (cmd) {
+     pboxOther (new Gtk::Box), aBrowsers (), path (cmd) {
    TRACE3 ("BrowserDlg::BrowserDlg (Glib::ustring&) - " << cmd);
 
    unsigned int selection (-1U);
@@ -98,11 +96,11 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    if (cmd.empty ())
       cmd = browserNames[0];
 
-   Gtk::RadioButtonGroup group;
+   Gtk::CheckButton* firstBtn (NULL);
    std::string filename;
    for (unsigned int i (0);
 	i < (sizeof (browserNames) / sizeof (*browserNames)); ++i) {
-      Gtk::RadioButton* rb(NULL);
+      Gtk::CheckButton* rb(NULL);
       try {
 	 filename = PKGDIR "Browser_";
 	 filename += browserNames[i];
@@ -110,27 +108,36 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 	 TRACE1 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Loading: " << filename);
 	 Glib::RefPtr<Gdk::Pixbuf> img (Gdk::Pixbuf::create_from_file (filename));
 
-	 Gtk::HBox* boxRB (manage (new Gtk::HBox));
-	 Gtk::Label* lblRB (manage (new Gtk::Label (_(browserNames[i]), true)));
-	 Gtk::Image* imgRB (manage (new Gtk::Image (img)));
+	 Gtk::Box* boxRB (Gtk::make_managed<Gtk::Box> ());
+	 Gtk::Label* lblRB (Gtk::make_managed<Gtk::Label> (_(browserNames[i]), true));
+	 Gtk::Image* imgRB (Gtk::make_managed<Gtk::Image> (img));
 
-	 rb = manage (new Gtk::RadioButton (group));
-	 rb->add (*boxRB);
-	 boxRB->pack_start (*imgRB, Gtk::PACK_SHRINK, 5);
-	 boxRB->pack_start (*lblRB, Gtk::PACK_EXPAND_WIDGET, 5);
+	 rb = Gtk::make_managed<Gtk::CheckButton> ();
+	 rb->set_child (*boxRB);
+	 imgRB->set_margin (5);
+	 boxRB->append (*imgRB);
+	 lblRB->set_hexpand ();
+	 lblRB->set_margin (5);
+	 boxRB->append (*lblRB);
       }
       catch (Glib::Error& e) {
 	 TRACE9 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Failed loading icon " << browserNames[i] << ":\n\t" << e.what ());
-	 rb = manage (new Gtk::RadioButton (group, _(browserNames[i]), false));
+	 rb = Gtk::make_managed<Gtk::CheckButton> (_(browserNames[i]), false);
       }
 
       Check3 (rb);
-      rb->signal_clicked ().connect (bind (mem_fun (*this, &BrowserDlg::control), i));
+      if (firstBtn)
+	 rb->set_group (*firstBtn);
+      else
+	 firstBtn = rb;
+
+      rb->signal_toggled ().connect (sigc::bind (sigc::mem_fun (*this, &BrowserDlg::control), i));
       aBrowsers.push_back (rb);
 
+      rb->set_margin (5);
       (i == ((sizeof (browserNames) / sizeof (*browserNames)) - 1))
-	 ? pboxOther->pack_start (*rb, false, false, 5)
-	 : get_vbox ()->pack_start (*rb, false, false);
+	 ? pboxOther->append (*rb)
+	 : get_content_area ()->append (*rb);
       if (cmd == browserNames[i]) {
          rb->set_active (true);
 	 selection = i;
@@ -138,10 +145,11 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
       }
    }
 
-   pboxOther->pack_start (path, true, true);
-   get_vbox ()->pack_start (*pboxOther, false, false);
+   path.set_hexpand ();
+   path.set_margin (5);
+   pboxOther->append (path);
+   get_content_area ()->append (*pboxOther);
 
-   show_all_children ();
    show ();
 
    control (selection != -1U ? selection : 0);
@@ -187,7 +195,7 @@ void BrowserDlg::control (unsigned int cmd) {
 //----------------------------------------------------------------------------
 BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
    BrowserDlg* dlg (new BrowserDlg (cmd));
-   dlg->signal_response ().connect (mem_fun (*dlg, &BrowserDlg::free));
+   dlg->signal_response ().connect (sigc::mem_fun (*dlg, &BrowserDlg::free));
    return dlg;
 }
 
