@@ -42,6 +42,19 @@
 
 namespace XGP {
 
+const int ICON_SIZE (48);
+
+//-----------------------------------------------------------------------------
+/// Scales the passed pixbuf to the standard icon-size (if not already that size)
+/// \param pixbuf Pixbuf to scale
+/// \returns Glib::RefPtr<Gdk::Pixbuf> Scaled pixbuf
+//-----------------------------------------------------------------------------
+static Glib::RefPtr<Gdk::Pixbuf> scaleIcon (const Glib::RefPtr<Gdk::Pixbuf>& pixbuf) {
+   if ((pixbuf->get_width () == ICON_SIZE) && (pixbuf->get_height () == ICON_SIZE))
+      return pixbuf;
+   return pixbuf->scale_simple (ICON_SIZE, ICON_SIZE, Gdk::InterpType::BILINEAR);
+}
+
 //-----------------------------------------------------------------------------
 /// Constructor; adds all controls to the dialog and shows it.
 /// \param author Author, copyright, ... of the program displayed in the client
@@ -90,8 +103,9 @@ void XAbout::setIconProgram (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
    pIconProgramm.reset (new Gtk::Image
-      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL))));
+      (scaleIcon (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL)))));
 
+   pIconProgramm->set_pixel_size (ICON_SIZE);
    pIconProgramm->set_margin (5);
    client->prepend (*pIconProgramm);
 }
@@ -105,8 +119,9 @@ void XAbout::setIconAuthor (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
    pIconAuthor.reset (new Gtk::Image
-      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL))));
+      (scaleIcon (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL)))));
 
+   pIconAuthor->set_pixel_size (ICON_SIZE);
    pIconAuthor->set_margin (5);
    client->append (*pIconAuthor);
 }
