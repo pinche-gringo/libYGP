@@ -1,4 +1,4 @@
-/* ygp-cfg.h.in.  Generated from configure.ac by autoheader.  */
+ /* ygp-cfg.h.in.  Generated from configure.ac by autoheader.  */
 
 #ifndef YGP_CFG_H
 #define YGP_CFG_H
@@ -49,17 +49,17 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
-/* Define to 1 if the `closedir' function returns void instead of int. */
+/* Define to 1 if the 'closedir' function returns void instead of int. */
 #undef CLOSEDIR_VOID
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS
 
-/* Define to 1 if you have the `backtrace' function. */
+/* Define to 1 if you have the 'backtrace' function. */
 #undef HAVE_BACKTRACE
 
-/* Define to 1 if you have the `beginthread' function. */
+/* Define to 1 if you have the 'beginthread' function. */
 #undef HAVE_BEGINTHREAD
 
 /* Define to 1 if you have the <boost/filesystem/path.hpp> header file. */
@@ -93,7 +93,7 @@
 /* Set to 1 if Dillo exists, 0 if not */
 #undef HAVE_DILLO
 
-/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
+/* Define to 1 if you have the <dirent.h> header file, and it defines 'DIR'.
    */
 #undef HAVE_DIRENT_H
 
@@ -106,19 +106,19 @@
 /* Set to 1 if Firefox exists, 0 if not */
 #undef HAVE_FIREFOX
 
-/* Define to 1 if your system has a working POSIX `fnmatch' function. */
+/* Define to 1 if your system has a working POSIX 'fnmatch' function. */
 #undef HAVE_FNMATCH
 
-/* Define to 1 if you have the `fork' function. */
+/* Define to 1 if you have the 'fork' function. */
 #undef HAVE_FORK
 
 /* Set to 1 if Galeon exists, 0 if not */
 #undef HAVE_GALEON
 
-/* Define to 1 if you have the `getlogin' function. */
+/* Define to 1 if you have the 'getlogin' function. */
 #undef HAVE_GETLOGIN
 
-/* Define to 1 if you have the `getpid' function. */
+/* Define to 1 if you have the 'getpid' function. */
 #undef HAVE_GETPID
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
@@ -145,35 +145,35 @@
 /* Set to 1 if Konqueror exists, 0 if not */
 #undef HAVE_KONQUEROR
 
-/* Define to 1 if you have the `boost_filesystem' library
+/* Define to 1 if you have the 'boost_filesystem' library
    (-lboost_filesystem). */
 #undef HAVE_LIBBOOST_FILESYSTEM
 
-/* Define to 1 if you have the `dl' library (-ldl). */
+/* Define to 1 if you have the 'dl' library (-ldl). */
 #undef HAVE_LIBDL
 
-/* Define to 1 if you have the `gmp' library (-lgmp). */
+/* Define to 1 if you have the 'gmp' library (-lgmp). */
 #undef HAVE_LIBGMP
 
-/* Define to 1 if you have the `pthread' library (-lpthread). */
+/* Define to 1 if you have the 'pthread' library (-lpthread). */
 #undef HAVE_LIBPTHREAD
 
-/* Define to 1 if you have the `socket' library (-lsocket). */
+/* Define to 1 if you have the 'socket' library (-lsocket). */
 #undef HAVE_LIBSOCKET
 
-/* Define to 1 if you have the `stdc++' library (-lstdc++). */
+/* Define to 1 if you have the 'stdc++' library (-lstdc++). */
 #undef HAVE_LIBSTDC__
 
-/* Define to 1 if you have the `ws2_32' library (-lws2_32). */
+/* Define to 1 if you have the 'ws2_32' library (-lws2_32). */
 #undef HAVE_LIBWS2_32
 
-/* Define to 1 if you have the `mbtowc' function. */
+/* Define to 1 if you have the 'mbtowc' function. */
 #undef HAVE_MBTOWC
 
 /* Set to 1 if Mozilla exists, 0 if not */
 #undef HAVE_MOZILLA
 
-/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+/* Define to 1 if you have the <ndir.h> header file, and it defines 'DIR'. */
 #undef HAVE_NDIR_H
 
 /* Set to 1 if Netscape exists, 0 if not */
@@ -185,7 +185,7 @@
 /* Set to 1 if Opera exists, 0 if not */
 #undef HAVE_OPERA
 
-/* Define to 1 if you have the `pipe' function. */
+/* Define to 1 if you have the 'pipe' function. */
 #undef HAVE_PIPE
 
 /* Define to 1 if you have the <regex.h> header file. */
@@ -197,16 +197,16 @@
 /* Define for defined SIGBUS */
 #undef HAVE_SIGBUS
 
-/* Define to 1 if you have the `sleep' function. */
+/* Define to 1 if you have the 'sleep' function. */
 #undef HAVE_SLEEP
 
 /* Whether we have socklen_t */
 #undef HAVE_SOCKLEN_T
 
-/* Define to 1 if you have the `spawnvp' function. */
+/* Define to 1 if you have the 'spawnvp' function. */
 #undef HAVE_SPAWNVP
 
-/* Define to 1 if the system has the type `ssize_t'. */
+/* Define to 1 if the system has the type 'ssize_t'. */
 #undef HAVE_SSIZE_T
 
 /* Define to 1 if you have the <stdint.h> header file. */
@@ -218,10 +218,10 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define to 1 if you have the `strfmon' function. */
+/* Define to 1 if you have the 'strfmon' function. */
 #undef HAVE_STRFMON
 
-/* Define to 1 if you have the `strftime' function. */
+/* Define to 1 if you have the 'strftime' function. */
 #undef HAVE_STRFTIME
 
 /* Define to 1 if you have the <strings.h> header file. */
@@ -230,17 +230,17 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the `strptime' function. */
+/* Define to 1 if you have the 'strptime' function. */
 #undef HAVE_STRPTIME
 
 /* Define to 1 if you have the <syslog.h> header file. */
 #undef HAVE_SYSLOG_H
 
-/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines 'DIR'.
    */
 #undef HAVE_SYS_DIR_H
 
-/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines 'DIR'.
    */
 #undef HAVE_SYS_NDIR_H
 
@@ -256,16 +256,16 @@
 /* Define to 1 if you have the <sys/wait.h> header file. */
 #undef HAVE_SYS_WAIT_H
 
-/* Define to 1 if you have the `timegm' function. */
+/* Define to 1 if you have the 'timegm' function. */
 #undef HAVE_TIMEGM
 
-/* Define to 1 if you have the `tzset' function. */
+/* Define to 1 if you have the 'tzset' function. */
 #undef HAVE_TZSET
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Define to 1 if you have the `wcscoll' function. */
+/* Define to 1 if you have the 'wcscoll' function. */
 #undef HAVE_WCSCOLL
 
 /* Define if Webkit is installed */
@@ -277,19 +277,19 @@
 /* Define to 1 if you have the <winsock2.h> header file. */
 #undef HAVE_WINSOCK2_H
 
-/* Define to 1 if you have the `_beginthread' function. */
+/* Define to 1 if you have the '_beginthread' function. */
 #undef HAVE__BEGINTHREAD
 
-/* Define to 1 if you have the `_getpid' function. */
+/* Define to 1 if you have the '_getpid' function. */
 #undef HAVE__GETPID
 
-/* Define to 1 if you have the `_pipe' function. */
+/* Define to 1 if you have the '_pipe' function. */
 #undef HAVE__PIPE
 
-/* Define to 1 if you have the `_sleep' function. */
+/* Define to 1 if you have the '_sleep' function. */
 #undef HAVE__SLEEP
 
-/* Define to 1 if you have the `_tzset' function. */
+/* Define to 1 if you have the '_tzset' function. */
 #undef HAVE__TZSET
 
 /* Name of the libYGP-package */
@@ -301,19 +301,19 @@
 /* "Extension of shared objects" */
 #undef SHAREOBJ_EXT
 
-/* The size of `int', as computed by sizeof. */
+/* The size of 'int', as computed by sizeof. */
 #undef SIZEOF_INT
 
-/* The size of `long', as computed by sizeof. */
+/* The size of 'long', as computed by sizeof. */
 #undef SIZEOF_LONG
 
-/* The size of `short', as computed by sizeof. */
+/* The size of 'short', as computed by sizeof. */
 #undef SIZEOF_SHORT
 
-/* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */
+/* Define to 1 if the 'S_IS*' macros in <sys/stat.h> do not work properly. */
 #undef STAT_MACROS_BROKEN
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
@@ -322,7 +322,7 @@
    NULL-buffer */
 #undef STRFTIME_RETURNS_LENGTH
 
-/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+/* Define to 1 if your <sys/time.h> declares 'struct tm'. */
 #undef TM_IN_SYS_TIME
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most

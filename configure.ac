@@ -1,7 +1,7 @@
 dnl $Id: configure.in,v 1.102 2008/06/08 12:41:28 markus Rel $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)
+AC_PREREQ([2.72])
 AC_REVISION($Revision: 1.102 $)
 AC_INIT([libYGP],[0.9.50],[g17m0@users.sourceforge.net],[libYGP])
 
@@ -36,13 +36,14 @@ ALL_LINGUAS="de en es"
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
-AM_PROG_LIBTOOL
+LT_INIT
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT_VERSION([0.21])
 
+PKG_PROG_PKG_CONFIG
 AC_CHECK_PROG([HAVE_PERL], [perl], [yes], [no])
 if test "$HAVE_PERL" = "no"; then
     AC_MSG_WARN([Program 'perl' not found - bin/mgeni.pl will not work!])
@@ -145,10 +146,10 @@ AC_CHECK_HEADERS(boost/filesystem/path.hpp boost/shared_ptr.hpp \
 
 
 dnl Check gtkmm version
-PKG_CHECK_MODULES(GTK, gtk+-3.0 >= 3.0.0 gthread-2.0 > 2.2.0,
+PKG_CHECK_MODULES(GTK, gtk4 >= 4.0.0 gthread-2.0 > 2.2.0,
                   [AC_DEFINE(HAVE_GTK, 1, [Define if GTK is installed (in a fitting version)])],
 		  [AC_MSG_NOTICE(No GTK+: Checks will be only textual)])
-PKG_CHECK_MODULES(GTKMM, gtkmm-3.0 >= 3.0.0,
+PKG_CHECK_MODULES(GTKMM, gtkmm-4.0 >= 4.0.0,
                   [[MYSUBDIRS="$MYSUBDIRS XGP"]],
                   [AC_MSG_WARN([Subdir XGP will not be made])])
 
@@ -237,8 +238,7 @@ AC_RUN_IFELSE(
 
 dnl Enable special features
 AC_ARG_ENABLE(network-trav,
-              AC_HELP_STRING([--enable-network-trav],
-	                     [Adds classes to traverse directories over a network]))
+              AS_HELP_STRING([--enable-network-trav],[Adds classes to traverse directories over a network]))
 AC_ARG_ENABLE(debug,
               AS_HELP_STRING([[[[--enable-debug[=LEVEL]]]]],Enables additional traces),
               if test "$enableval" != "no"; then
@@ -261,7 +261,7 @@ AM_CONDITIONAL(WITH_NETWORK_TRAVERSING, test "$enable_network_trav" = "yes")
 
 LIB_GMP=""
 AC_ARG_WITH(gmp,
-            AC_HELP_STRING([--with-gmp], [Use GNU's multiple precision library (if available)]),
+            AS_HELP_STRING([--with-gmp],[Use GNU's multiple precision library (if available)]),
             [with_gmp=yes])
 if test "$with_gmp" == "yes"; then
    AC_CHECK_LIB(gmp, main)
