@@ -1,14 +1,11 @@
-//$Id: IVIOAppl.cpp,v 1.40 2008/03/29 17:35:17 markus Rel $
-
 //PROJECT     : libYGP
 //SUBSYSTEM   : IVIOApplication
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.40 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 21.6.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009, 2011
+//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -52,7 +49,7 @@ namespace YGP {
 /// \param ch Character to check
 /// \returns bool Result (true: char starts option)
 //-----------------------------------------------------------------------------
-static inline bool isOptionChar (const char ch) {
+static inline bool isOptionChar(const char ch) {
 #if SYSTEM == UNIX
    return ch == '-';
 #else
@@ -70,29 +67,29 @@ static inline bool isOptionChar (const char ch) {
 /// \param argv Array of pointers to argumetns
 /// \param pOpt Pointer to long-option-table
 //-----------------------------------------------------------------------------
-IVIOApplication::IVIOApplication (const int argc, const char* argv[],
-                                  const longOptions* pOpt)
-   : args (argc), ppArgs (argv), startArg (1), startOpt (1), pOptionParam (NULL)
-   , longOpt (NULL), numLongOpt (0) {
-   Check1 (args > 0); Check1 (ppArgs);
+IVIOApplication::IVIOApplication(const int argc, const char* argv[],
+				 const longOptions* pOpt)
+   : args(argc), ppArgs(argv), startArg(1), startOpt(1), pOptionParam(NULL)
+   , longOpt(NULL), numLongOpt(0) {
+   Check1(args > 0); Check1(ppArgs);
 
-   signal (SIGSEGV, handleSignal);
+   signal(SIGSEGV, handleSignal);
 #ifdef HAVE_SIGBUS
-   signal (SIGBUS, handleSignal);
+   signal(SIGBUS, handleSignal);
 #endif
 
    if (pOpt)
-      setLongOptions (pOpt);        // Store the long-option-array (if passed)
+      setLongOptions(pOpt);        // Store the long-option-array (if passed)
 }
 
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-IVIOApplication::~IVIOApplication () {
-   signal (SIGSEGV, SIG_DFL);
+IVIOApplication::~IVIOApplication() {
+   signal(SIGSEGV, SIG_DFL);
 #ifdef HAVE_SIGBUS
-   signal (SIGBUS, SIG_DFL);
+   signal(SIGBUS, SIG_DFL);
 #endif
 }
 
@@ -110,18 +107,18 @@ IVIOApplication::~IVIOApplication () {
 ///     - all short-entries not '\\0'
 ///     - An entry with an { NULL, '\\0' } at the end
 //-----------------------------------------------------------------------------
-void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
-   Check1 (pLongOpts);
-   Check1 (pLongOpts->longVal);         // At least one valid entry must exist
+void IVIOApplication::setLongOptions(const longOptions* pLongOpts) {
+   Check1(pLongOpts);
+   Check1(pLongOpts->longVal);         // At least one valid entry must exist
 
    longOpt = pLongOpts;
    while (pLongOpts->longVal != NULL) {
-      Check3 (pLongOpts->shortVal != '\0');
+      Check3(pLongOpts->shortVal != '\0');
       ++numLongOpt;
       pLongOpts++;
    } // end-while
 
-   Check3 (pLongOpts->shortVal == '\0'); // Last entry mustn't have a shortval
+   Check3(pLongOpts->shortVal == '\0'); // Last entry mustn't have a shortval
 }
 
 //-----------------------------------------------------------------------------
@@ -134,18 +131,18 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts) {
 ///     - all long-entries not NULL
 ///     - all short-entries not '\\0'
 //-----------------------------------------------------------------------------
-void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
-				      unsigned int numLongOpts) {
-   Check1 (numLongOpts); Check1 (pLongOpts);
-   Check1 (pLongOpts->longVal);         // At least one valid entry must exist
+void IVIOApplication::setLongOptions(const longOptions* pLongOpts,
+			      unsigned int numLongOpts) {
+   Check1(numLongOpts); Check1(pLongOpts);
+   Check1(pLongOpts->longVal);         // At least one valid entry must exist
 
    numLongOpt = numLongOpts;
    longOpt = pLongOpts;
 
 #if Check > 2
    while (numLongOpts--) {
-      Check (pLongOpts->shortVal != '\0');
-      Check (pLongOpts++->longVal);
+      Check(pLongOpts->shortVal != '\0');
+      Check(pLongOpts++->longVal);
    } // end-while
 #endif
 }
@@ -157,64 +154,64 @@ void IVIOApplication::setLongOptions (const longOptions* pLongOpts,
 /// of the application is performed.
 /// \returns int Status
 //-----------------------------------------------------------------------------
-int IVIOApplication::run () {
+int IVIOApplication::run() {
    try {
       // Get the home directory of the current user
       std::string userdir;
 #if SYSTEM == UNIX
-      const char* user = getenv ("HOME");
+      const char* user = getenv("HOME");
       if (user)
 	 userdir = user;
 #else
-      const char* env = getenv ("HOMEDRIVE");
+      const char* env = getenv("HOMEDRIVE");
       if (env) {
-         ret.replace (0, 1, env);
-         i = strlen (env);
+         ret.replace(0, 1, env);
+         i = strlen(env);
       }
       else
-         ret.replace (0, 1, i = 0, '\0');
+         ret.replace(0, 1, i = 0, '\0');
 
-      env = getenv ("HOMEPATH");
+      env = getenv("HOMEPATH");
       if (env)
-         ret.replace (i, 0, env);
+         ret.replace(i, 0, env);
 #endif
 
-      fs::path path (userdir); Check1 (path.is_complete ());
+      fs::path path(userdir); Check1(path.is_complete());
       std::string inifile;
 #if SYSTEM == UNIX
-      inifile = std::string (1, '.') + name ();
+      inifile = std::string(1, '.') + name();
 #else
-      inifile = name () + ".ini";
+      inifile = name() + ".ini";
 #endif
       path /= inifile;
-      readINIFile (path.c_str ());
+      readINIFile(path.c_str());
 
       char ch;
-      bool showHlp (false);
-      while ((ch = getOption ()) != '\0')
-         if ((ch == '?') || (ch == 'h') || !handleOption (ch)) {
+      bool showHlp(false);
+      while ((ch = getOption()) != '\0')
+         if ((ch == '?') || (ch == 'h') || !handleOption(ch)) {
             showHlp = true;
             break;
          }
 
-      if (shallShowInfo ())
-         std::cout << name () << " V" << description () << "\n\n";
+      if (shallShowInfo())
+         std::cout << name() << " V" << description() << "\n\n";
 
       if (showHlp) {
-         showHelp ();
+         showHelp();
          return -1;
       }
 
-      return perform (args - startArg, &ppArgs[startArg]);
+      return perform(args - startArg, &ppArgs[startArg]);
    }
    catch (std::exception& e) {
-      std::cerr << name () << _("-warning: Unhandled exception (std::exception): ") << e.what ();
+      std::cerr << name() << _("-warning: Unhandled exception(std::exception): ") << e.what();
    }
    catch (std::string& e) {
-      std::cerr << name () << _("-warning: Unhandled exception (std::string): ") << e;
+      std::cerr << name() << _("-warning: Unhandled exception(std::string): ") << e;
    }
    catch (...) {
-      std::cerr << name () << _("-warning: Unhandled exception!");
+      std::cerr << name() << _("-warning: Unhandled exception!");
    }
    return -2;
 }
@@ -229,9 +226,9 @@ int IVIOApplication::run () {
 ///     - NULL
 ///  \returns char* Parameter for the option
 //-----------------------------------------------------------------------------
-const char* IVIOApplication::getOptionValue () {
+const char* IVIOApplication::getOptionValue() {
    if (startOpt > startArg)
-      moveOption ();
+      moveOption();
 
    const char* pHelp;
 
@@ -243,7 +240,7 @@ const char* IVIOApplication::getOptionValue () {
          return NULL;
 
       pHelp = ppArgs[startOpt];
-      moveOption ();
+      moveOption();
    }
 
    ++startArg;
@@ -263,23 +260,23 @@ const char* IVIOApplication::getOptionValue () {
 /// \returns char Next option ('\\0' at last option)
 /// \remarks In non-UNIX-systems the slash (/) is also an option-char
 //-----------------------------------------------------------------------------
-char IVIOApplication::getOption () {
-   char option ('\0');
+char IVIOApplication::getOption() {
+   char option('\0');
 
    while (startOpt < args) {
-      Check3 (ppArgs[startOpt]); Check3 (*ppArgs[startOpt]);
+      Check3(ppArgs[startOpt]); Check3(*ppArgs[startOpt]);
 
       // Check parameters: Option start with - and are longer than 1 char
-      if (isOptionChar (*ppArgs[startOpt]) && ppArgs[startOpt][1]) {
+      if (isOptionChar(*ppArgs[startOpt]) && ppArgs[startOpt][1]) {
          if (!pOptionParam) {
             pOptionParam = ppArgs[startOpt] + 1;
-            Check3 (*pOptionParam);
+            Check3(*pOptionParam);
          } // endif init option-params
 
          option = *pOptionParam++;
          if (!option) {
-            Check3 (startOpt >= startArg);
-            moveOption ();                     // Move option before arguments
+            Check3(startOpt >= startArg);
+            moveOption();                     // Move option before arguments
 
             ++startOpt;
             ++startArg;
@@ -287,33 +284,32 @@ char IVIOApplication::getOption () {
             continue;
          } // endif actual option finished
 
-         if (isOptionChar (option)) {               // Specialhandling of "--"
+         if (isOptionChar(option)) {               // Specialhandling of "--"
             if (pOptionParam && *pOptionParam) {   // Text behind --? Long opt
                if (longOpt) {                    // Are long-options specified
-                  unsigned int i (numLongOpt);
-                  unsigned int found ((unsigned int)-1);
-                  const char* pEqual = strchr (pOptionParam, '=');
-                  unsigned int len (pEqual ? pEqual - pOptionParam
-                                           : strlen (pOptionParam));
+                  unsigned int i(numLongOpt);
+                  unsigned int found((unsigned int)-1);
+                  const char* pEqual = strchr(pOptionParam, '=');
+                  unsigned int len(pEqual ? pEqual - pOptionParam : strlen(pOptionParam));
 
                   while (i--) {
-                     Check3 (longOpt); Check3 (longOpt->longVal);
-                     if (!strncmp (longOpt[i].longVal, pOptionParam, len)) {
+                     Check3(longOpt); Check3(longOpt->longVal);
+                     if (!strncmp(longOpt[i].longVal, pOptionParam, len)) {
                         if (found == (unsigned int)-1)
                            found = i;
                         else {
-                           std::string error (_("-error: Option `%1' is ambiguous"));
-                           error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
-                           std::cerr << name () << error.c_str () << '\n';
+                           std::string error(_("-error: Option `%1' is ambiguous"));
+                           error.replace(error.find("%1"), 2, ppArgs[startOpt]);
+                           std::cerr << name() << error.c_str() << '\n';
                            return '?';
                         } // end-else option ambigous
                      } // endif option matches
                   } // end-while
 
                   if (found == (unsigned int)-1) {     // No long-option found
-                     std::string error (_("-error: Unrecognized option `%1'"));
-                     error.replace (error.find ("%1"), 2, ppArgs[startOpt]);
-                     std::cerr << name () << error.c_str () << '\n';
+                     std::string error(_("-error: Unrecognized option `%1'"));
+                     error.replace(error.find("%1"), 2, ppArgs[startOpt]);
+                     std::cerr << name() << error.c_str() << '\n';
                      return '?';
                    } // endif no longopt found
                   else {
@@ -325,7 +321,7 @@ char IVIOApplication::getOption () {
                } // endif no long-options defined
             }
             else {                           // Option --? Means end of option
-               moveOption ();
+               moveOption();
                ++startArg;
                option = '\0';
             }
@@ -344,17 +340,17 @@ char IVIOApplication::getOption () {
 /// arguments (indicated with startArg)
 /// \param numOpt Option (argument) to move
 //-----------------------------------------------------------------------------
-void IVIOApplication::moveOption (unsigned int numOpt) const {
-   Check1 (numOpt < args);
+void IVIOApplication::moveOption(unsigned int numOpt) const {
+   Check1(numOpt < args);
    if (numOpt == startArg)
       return;
 
-   Check3 (numOpt > startArg);
+   Check3(numOpt > startArg);
 
    const char* pHelp = ppArgs[numOpt];
 
    while (numOpt > startArg) {
-      Check3 (ppArgs[numOpt - 1]); Check3 (ppArgs[numOpt]);
+      Check3(ppArgs[numOpt - 1]); Check3(ppArgs[numOpt]);
 
       ppArgs[numOpt] = ppArgs[numOpt - 1];
       --numOpt;
@@ -376,8 +372,8 @@ const char* IVIOApplication::name() const {
 /// Initializes the program for internationalization by setting the current
 /// locale.
 //-----------------------------------------------------------------------------
-void IVIOApplication::initI18n () {
-   setlocale (LC_ALL, "");                         // Activate current locale
+void IVIOApplication::initI18n() {
+   setlocale(LC_ALL, "");                         // Activate current locale
 }
 
 //-----------------------------------------------------------------------------
@@ -388,13 +384,13 @@ void IVIOApplication::initI18n () {
 /// \remarks If the GNU gettext library is not installed or supported, the
 ///     methods only sets the locale!
 //-----------------------------------------------------------------------------
-void IVIOApplication::initI18n (const char* package, const char* dir) {
-   Check1 (package); Check1 (dir);
-   initI18n ();
+void IVIOApplication::initI18n(const char* package, const char* dir) {
+   Check1(package); Check1(dir);
+   initI18n();
 
 #ifdef HAVE_GETTEXT
-   bindtextdomain (package, dir);
-   textdomain (package);
+   bindtextdomain(package, dir);
+   textdomain(package);
 #endif
 }
 

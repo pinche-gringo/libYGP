@@ -32,8 +32,6 @@
 #include <map>
 #include <string>
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include "YGP/Trace.h"
 #include "YGP/Thread.h"
 #include "YGP/XStream.h"

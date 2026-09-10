@@ -1,14 +1,11 @@
-//$Id: Attribute.cpp,v 1.2 2008/03/29 17:35:17 markus Rel $
-
 //PROJECT     : libYGP
 //SUBSYSTEM   : MetaEnum
 //REFERENCES  :
 //TODO        :
 //BUGS        :
-//REVISION    : $Revision: 1.2 $
 //AUTHOR      : Markus Schwab
 //CREATED     : 2.8.2006
-//COPYRIGHT   : Copyright (C) 2006, 2008
+//COPYRIGHT   : Copyright (C) 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -40,20 +37,20 @@ namespace YGP {
 /// \param value Value to assign
 /// \returns bool True, if value was assigned successfully
 //-----------------------------------------------------------------------------
-bool MetaEnumAttribute::assignFromString (const char* value) const {
-   Check1 (value);
-   TRACE1 ("MetaEnumAttribute::assignFromString (const char*) - " << value);
+bool MetaEnumAttribute::assignFromString(const char* value) const {
+   Check1(value);
+   TRACE1("MetaEnumAttribute::assignFromString(const char*) - " << value);
    try {
       attr_ = list_[value];
-      TRACE9 ("MetaEnumAttribute::assignFromString (const char*) - Assigned: " << attr_);
+      TRACE9("MetaEnumAttribute::assignFromString(const char*) - Assigned: " << attr_);
    }
    catch (std::out_of_range&) {
       try {
-	 ANumeric nr (value);
-	 unsigned int iVal (nr);
-	 if (list_.exists (iVal)) {
+	 ANumeric nr(value);
+	 unsigned int iVal(nr);
+	 if (list_.exists(iVal)) {
 	    attr_ = iVal;
-	    TRACE9 ("MetaEnumAttribute::assignFromString (const char*) - Numeric: " << attr_);
+	    TRACE9("MetaEnumAttribute::assignFromString(const char*) - Numeric: " << attr_);
 	 }
       }
       catch (std::invalid_argument&) {
