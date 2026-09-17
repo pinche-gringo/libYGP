@@ -94,6 +94,7 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 	 ++index;
       char group (loc->grouping[--index]);
       const char* pSep = loc->thousands_sep;
+      int lenSep (strlen (pSep));
 
       if (!group)
 	 group = CHAR_MAX;
@@ -102,17 +103,18 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 	 TRACE9 ("ANumeric::operator= (const char*) - Len =  " << len
 		 << "; Group = " << (int)group << "; Index = " << index);
 	 len -= group;
-	 if (unformatted[len] == *pSep)
-	    unformatted.replace (len--, 1, 0, '\0');
+
+	 int sepStart (len - lenSep + 1);        // Start-index of the separator
+	 if ((sepStart >= 0) && !unformatted.compare (sepStart, lenSep, pSep)) {
+	    unformatted.erase (sepStart, lenSep);
+	    len -= lenSep;
+	 }
 	 else
 	    break;
 	 TRACE8 ("ANumeric::operator= (const char*) - Removed " << unformatted);
 
-	 if (index) {                    // Decrement group-pointer if more groups
+	 if (index)                      // Decrement group-pointer if more groups
 	    group = loc->grouping[--index];
-	    if (pSep[1])
-	       ++pSep;
-	 } // endif further grouping available
       } // end-while grouping necessary
 
 #ifdef HAVE_LIBGMP
@@ -208,6 +210,7 @@ std::string ANumeric::toString () const {
    int index (0);
    char group (loc->grouping[index]);
    const char* pSep = loc->thousands_sep;
+   size_t lenSep (strlen (pSep));
    if (!group)
       group = CHAR_MAX;
 
@@ -216,14 +219,11 @@ std::string ANumeric::toString () const {
               << (int)group << "; Index = " << index);
       len -= group;
       if (str[len - 1] != '-')
-         str.replace (len, 0, pSep, 1);
+         str.replace (len, 0, pSep, lenSep);
       TRACE8 ("ANumeric::toString () const - Inserted " << str);
 
-      if (loc->grouping[index + 1]) { // Increment group-pointer if more groups
+      if (loc->grouping[index + 1])   // Increment group-pointer if more groups
 	 group = loc->grouping[++index];
-         if (pSep[1])
-            ++pSep;
-      } // endif further grouping available
    } // end-while grouping necessary
 
    return str;
