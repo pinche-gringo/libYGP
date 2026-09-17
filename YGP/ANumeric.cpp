@@ -90,9 +90,7 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 
       int len (unformatted.length () - 1);
       int index (0);
-      while (loc->grouping[index])
-	 ++index;
-      char group (loc->grouping[--index]);
+      char group (loc->grouping[index]);
       const char* pSep = loc->thousands_sep;
       int lenSep (strlen (pSep));
 
@@ -113,8 +111,8 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 	    break;
 	 TRACE8 ("ANumeric::operator= (const char*) - Removed " << unformatted);
 
-	 if (index)                      // Decrement group-pointer if more groups
-	    group = loc->grouping[--index];
+	 if (loc->grouping[index + 1])   // Increment group-pointer if more groups
+	    group = loc->grouping[++index];
       } // end-while grouping necessary
 
 #ifdef HAVE_LIBGMP
