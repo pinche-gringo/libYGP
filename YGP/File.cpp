@@ -1,14 +1,11 @@
-//$Id: File.cpp,v 1.33 2008/03/29 17:35:17 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : File
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.33 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 28.3.2001
-//COPYRIGHT   : Copyright (C) 2000 - 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : File
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 28.3.2001
+// COPYRIGHT   : Copyright (C) 2000 - 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,15 +22,14 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
-#include <cstdio>
 #include <cerrno>
+#include <cstdio>
 #include <cstring>
 
 #if SYSTEM == UNIX
-#  include <unistd.h>
+#    include <unistd.h>
 #endif
 
 #include "YGP/Internal.h"
@@ -42,7 +38,6 @@
 
 #include "YGP/File.h"
 
-
 namespace YGP {
 
 #if SYSTEM == UNIX
@@ -50,19 +45,21 @@ const char File::DIRSEPARATOR = '/';
 #elif SYSTEM == WINDOWS
 const char File::DIRSEPARATOR = '\\';
 #else
-#  error Unsupported plattform!
+#    error Unsupported plattform!
 #endif
-
 
 //-----------------------------------------------------------------------------
 /// Copyconstructor
 /// \param other Object to copy
 //-----------------------------------------------------------------------------
-File::File (const File& other) noexcept : path_ (other.path_)
+File::File(const File& other) noexcept
+    : path_(other.path_)
 #if SYSTEM == UNIX
-   , entry (other.entry), status (other.status), userExec (other.userExec)
+      ,
+      entry(other.entry), status(other.status), userExec(other.userExec)
 #elif SYSTEM == WINDOWS
-   , WIN32_FIND_DATA (other)
+      ,
+      WIN32_FIND_DATA(other)
 #endif
 {
 }
@@ -72,37 +69,34 @@ File::File (const File& other) noexcept : path_ (other.path_)
 /// \param name Pointer to
 /// character-array holding name of file to create
 //-----------------------------------------------------------------------------
-File::File (const char* name) noexcept
+File::File(const char* name) noexcept
 #if SYSTEM == UNIX
-   : path_ (), entry (), status (), userExec (false)
+    : path_(), entry(), status(), userExec(false)
 #endif
 {
-   operator= (name);
+    operator=(name);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-File::~File () {
-}
-
-
+File::~File() {}
 
 //-----------------------------------------------------------------------------
 /// Assignment operator
 /// \param other Object to copy
 /// \returns File& Reference to this
 //-----------------------------------------------------------------------------
-File& File::operator= (const File& other) noexcept {
-   path_ = other.path_;
+File& File::operator=(const File& other) noexcept {
+    path_ = other.path_;
 #if SYSTEM == UNIX
-   entry = other.entry;
-   status = other.status;
-   userExec = other.userExec;
+    entry = other.entry;
+    status = other.status;
+    userExec = other.userExec;
 #elif SYSTEM == WINDOWS
-   (*(WIN32_FIND_DATA*)this) = other;
+    (*(WIN32_FIND_DATA*)this) = other;
 #endif
-   return *this;
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -111,58 +105,55 @@ File& File::operator= (const File& other) noexcept {
 /// \returns Reference to self
 /// \throw YGP::FileError with a string describing the error
 //-----------------------------------------------------------------------------
-File& File::operator= (const char* name) {
+File& File::operator=(const char* name) {
 #if SYSTEM == UNIX
-   // If file exists, fill data-fields
-   if (!stat (name, &status)) {
-      const char* posName (strrchr (name, DIRSEPARATOR));
-      if (posName)
-         path_.assign (name, ++posName - name);
-      else {
-         path_ = "./";
-         posName = name;
-      }
-      strncpy (entry.d_name, posName, sizeof (entry.d_name) - 1);
+    // If file exists, fill data-fields
+    if (!stat(name, &status)) {
+        const char* posName(strrchr(name, DIRSEPARATOR));
+        if (posName)
+            path_.assign(name, ++posName - name);
+        else {
+            path_ = "./";
+            posName = name;
+        }
+        strncpy(entry.d_name, posName, sizeof(entry.d_name) - 1);
 
-      userExec = !access (name, X_OK);
-   }
-   else
-      throw YGP::FileError (strerror (errno));
+        userExec = !access(name, X_OK);
+    }
+    else
+        throw YGP::FileError(strerror(errno));
 
 #elif SYSTEM == WINDOWS
-   HANDLE hFile;
-   BY_HANDLE_FILE_INFORMATION fileInfo;
-   if (((hFile = CreateFile (name, 0,
-                    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-                    NULL, OPEN_EXISTING, 0, NULL))
-        != INVALID_HANDLE_VALUE)
-       && GetFileInformationByHandle (hFile, &fileInfo)) {
-      const char* posName = strrchr (name, DIRSEPARATOR);
-      if (posName)
-         path_.assign (name, ++posName - name);
-      else {
-         path_ = ".\\";
-         posName = name;
-      }
-      strncpy (cFileName, posName, sizeof (cFileName));
-      dwFileAttributes = fileInfo.dwFileAttributes;
-      ftCreationTime = fileInfo.ftCreationTime;
-      ftLastAccessTime = fileInfo.ftLastAccessTime;
-      ftLastWriteTime = fileInfo.ftLastWriteTime;
-      nFileSizeHigh = fileInfo.nFileSizeHigh;
-      nFileSizeLow = fileInfo.nFileSizeLow;
+    HANDLE hFile;
+    BY_HANDLE_FILE_INFORMATION fileInfo;
+    if (((hFile = CreateFile(name, 0, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, 0, NULL)) !=
+         INVALID_HANDLE_VALUE) &&
+        GetFileInformationByHandle(hFile, &fileInfo)) {
+        const char* posName = strrchr(name, DIRSEPARATOR);
+        if (posName)
+            path_.assign(name, ++posName - name);
+        else {
+            path_ = ".\\";
+            posName = name;
+        }
+        strncpy(cFileName, posName, sizeof(cFileName));
+        dwFileAttributes = fileInfo.dwFileAttributes;
+        ftCreationTime = fileInfo.ftCreationTime;
+        ftLastAccessTime = fileInfo.ftLastAccessTime;
+        ftLastWriteTime = fileInfo.ftLastWriteTime;
+        nFileSizeHigh = fileInfo.nFileSizeHigh;
+        nFileSizeLow = fileInfo.nFileSizeLow;
 
-      CloseHandle (hFile);
-   }
-   else {
-      char buffer[80];
-      FormatMessage (FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError (),
-                     0, buffer, sizeof (buffer), NULL);
-      throw YGP::FileError (buffer);
-   }
+        CloseHandle(hFile);
+    }
+    else {
+        char buffer[80];
+        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 0, buffer, sizeof(buffer), NULL);
+        throw YGP::FileError(buffer);
+    }
 #endif
 
-   return *this;
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -170,9 +161,7 @@ File& File::operator= (const char* name) {
 /// object.
 /// \returns File* Pointer to newly created clone
 //-----------------------------------------------------------------------------
-File* File::clone () const {
-   return new File (*this);
-}
+File* File::clone() const { return new File(*this); }
 
 #if SYSTEM == WINDOWS
 
@@ -186,27 +175,27 @@ File* File::clone () const {
 ///       as executable.
 ///     - The call is only valid with a defined object
 //-----------------------------------------------------------------------------
-bool File::isExecuteable () const {
-   const char* pEnd = strrchr (cFileName, '.');
-   if (pEnd++) {
-      static char* aexeExtensions[] = { "EXE", "COM", "BAT" };
-      char   compExt[4];
-      unsigned int i;
+bool File::isExecuteable() const {
+    const char* pEnd = strrchr(cFileName, '.');
+    if (pEnd++) {
+        static char* aexeExtensions[] = {"EXE", "COM", "BAT"};
+        char compExt[4];
+        unsigned int i;
 
-      // Copy uppercase extension for compare
-      for (i = 0; i < sizeof (compExt); ++i) {
-         compExt[i] = toupper (*pEnd);
-         if (!*pEnd)
-            break;
-         ++pEnd;
-      }
+        // Copy uppercase extension for compare
+        for (i = 0; i < sizeof(compExt); ++i) {
+            compExt[i] = toupper(*pEnd);
+            if (!*pEnd)
+                break;
+            ++pEnd;
+        }
 
-      // Check if an extension matches
-      for (i = 0; i < (sizeof (aexeExtensions) / sizeof (aexeExtensions[0])); ++i)
-         if (*(unsigned int *)aexeExtensions[i] == *(unsigned int *)compExt)
-            return true;
-   }
-   return false;
+        // Check if an extension matches
+        for (i = 0; i < (sizeof(aexeExtensions) / sizeof(aexeExtensions[0])); ++i)
+            if (*(unsigned int*)aexeExtensions[i] == *(unsigned int*)compExt)
+                return true;
+    }
+    return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -215,10 +204,10 @@ bool File::isExecuteable () const {
 /// \returns time_t Filetime in system format
 /// \remarks The call is only valid after a successfull find.
 //-----------------------------------------------------------------------------
-time_t File::time () const {
-   struct tm fileTime;
-   time (fileTime);
-   return mktime (&fileTime);
+time_t File::time() const {
+    struct tm fileTime;
+    time(fileTime);
+    return mktime(&fileTime);
 }
 
 //-----------------------------------------------------------------------------
@@ -226,10 +215,10 @@ time_t File::time () const {
 /// \param time Broken down time structure to set
 /// \remarks The call is only valid with a valid object
 //-----------------------------------------------------------------------------
-void File::localtime (struct tm& time) const {
-   FILETIME fileTemp;
-   FileTimeToLocalFileTime (&ftLastWriteTime, &fileTemp);
-   setTime (fileTemp, time);
+void File::localtime(struct tm& time) const {
+    FILETIME fileTemp;
+    FileTimeToLocalFileTime(&ftLastWriteTime, &fileTemp);
+    setTime(fileTemp, time);
 }
 
 //-----------------------------------------------------------------------------
@@ -240,20 +229,21 @@ void File::localtime (struct tm& time) const {
 ///     - The tm_wday, tm_yday and tm_isdst-members are not set!
 ///     - The call is only valid with a valid object
 //-----------------------------------------------------------------------------
-void File::setTime (const FILETIME& time, struct tm& result) {
-   SYSTEMTIME sysTime;
-   FileTimeToSystemTime (&time, &sysTime);
+void File::setTime(const FILETIME& time, struct tm& result) {
+    SYSTEMTIME sysTime;
+    FileTimeToSystemTime(&time, &sysTime);
 
-   result.tm_sec = sysTime.wSecond;
-   result.tm_min = sysTime.wMinute;
-   result.tm_hour = sysTime.wHour;
-   result.tm_mday = sysTime.wDay;
-   result.tm_wday = sysTime.wDayOfWeek;
-   result.tm_mon = sysTime.wMonth - 1;
-   Check3 ((result.tm_mon >= 0) && (result.tm_mon <= 11));
-   result.tm_year = sysTime.wYear - 1900; Check3 (result.tm_year >= 0);
-   result.tm_yday = 0;
-   result.tm_isdst = 1;
+    result.tm_sec = sysTime.wSecond;
+    result.tm_min = sysTime.wMinute;
+    result.tm_hour = sysTime.wHour;
+    result.tm_mday = sysTime.wDay;
+    result.tm_wday = sysTime.wDayOfWeek;
+    result.tm_mon = sysTime.wMonth - 1;
+    Check3((result.tm_mon >= 0) && (result.tm_mon <= 11));
+    result.tm_year = sysTime.wYear - 1900;
+    Check3(result.tm_year >= 0);
+    result.tm_yday = 0;
+    result.tm_isdst = 1;
 }
 
 #endif
@@ -265,16 +255,17 @@ void File::setTime (const FILETIME& time, struct tm& result) {
 /// \returns void* Pointer to a handle for the opened file.
 /// \throw YGP::FileError In case of an error with a textual description
 //-----------------------------------------------------------------------------
-void* File::open (const char* mode) const {
-   std::string file (path ()); file += name ();
-   TRACE5 ("File::open  (const char*) const - " << file);
-   Check1 (mode);
+void* File::open(const char* mode) const {
+    std::string file(path());
+    file += name();
+    TRACE5("File::open(const char*) const - " << file);
+    Check1(mode);
 
-   FILE* pFile = fopen (file.c_str (), mode);
-   if (pFile == NULL)
-      throwErrorText (N_("Error opening file `%1'! Reason: %2"));
+    FILE* pFile = fopen(file.c_str(), mode);
+    if (pFile == NULL)
+        throwErrorText(N_("Error opening file `%1'! Reason: %2"));
 
-   return pFile;
+    return pFile;
 }
 
 //-----------------------------------------------------------------------------
@@ -282,12 +273,12 @@ void* File::open (const char* mode) const {
 /// \param file Handle of opened file
 /// \throw YGP::FileError In case of an error with a textual description
 //-----------------------------------------------------------------------------
-void File::close (void* file) const {
-   TRACE5 ("File::close  () const - " << path () << name ());
-   Check1 (file);
+void File::close(void* file) const {
+    TRACE5("File::close() const - " << path() << name());
+    Check1(file);
 
-   if (fclose (static_cast <FILE*> (file)))
-      throwErrorText (N_("Error closing file `%1'! Reason: %2"));
+    if (fclose(static_cast<FILE*>(file)))
+        throwErrorText(N_("Error closing file `%1'! Reason: %2"));
 }
 
 //-----------------------------------------------------------------------------
@@ -301,17 +292,17 @@ void File::close (void* file) const {
 /// \returns int Number of read bytes
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-int File::read (void* file, char* buffer, unsigned int length) const {
-   TRACE5 ("File::read  (char*, unsigned int) const - " << path () << name ());
-   Check1 (file);
-   Check1 (buffer);
-   Check1 (length);
+int File::read(void* file, char* buffer, unsigned int length) const {
+    TRACE5("File::read(char*, unsigned int) const - " << path() << name());
+    Check1(file);
+    Check1(buffer);
+    Check1(length);
 
-   int rc (fread (buffer, 1, length, static_cast <FILE*> (file)));
-   if (!rc)                              // Exception only if an error occured
-      if (ferror (static_cast <FILE*> (file)))
-         throwErrorText (N_("Error reading from file `%1'! Reason: %2"));
-   return rc;
+    int rc(fread(buffer, 1, length, static_cast<FILE*>(file)));
+    if (!rc) // Exception only if an error occured
+        if (ferror(static_cast<FILE*>(file)))
+            throwErrorText(N_("Error reading from file `%1'! Reason: %2"));
+    return rc;
 }
 
 //-----------------------------------------------------------------------------
@@ -324,16 +315,16 @@ int File::read (void* file, char* buffer, unsigned int length) const {
 /// \returns int Number of written bytes
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-int File::write (void* file, const char* buffer, unsigned int length) const {
-   TRACE5 ("File::write  (char*, unsigned int) const - " << path () << name ());
-   Check1 (file);
-   Check1 (buffer);
-   Check1 (length);
+int File::write(void* file, const char* buffer, unsigned int length) const {
+    TRACE5("File::write(char*, unsigned int) const - " << path() << name());
+    Check1(file);
+    Check1(buffer);
+    Check1(length);
 
-   int rc (fwrite (buffer, 1, length, static_cast <FILE*> (file)));
-   if ((unsigned int)rc < length)
-      throwErrorText (N_("Error writing to file `%1!' Reason: %2"));
-   return rc;
+    int rc(fwrite(buffer, 1, length, static_cast<FILE*>(file)));
+    if ((unsigned int)rc < length)
+        throwErrorText(N_("Error writing to file `%1!' Reason: %2"));
+    return rc;
 }
 
 //-----------------------------------------------------------------------------
@@ -341,9 +332,9 @@ int File::write (void* file, const char* buffer, unsigned int length) const {
 /// \param file Handle of openeded file
 /// \returns bool True, if further data is available
 //-----------------------------------------------------------------------------
-bool File::isEOF (void* file) const {
-   Check1 (file);
-   return feof (static_cast <FILE*> (file)) != 0;
+bool File::isEOF(void* file) const {
+    Check1(file);
+    return feof(static_cast<FILE*>(file)) != 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -354,15 +345,14 @@ bool File::isEOF (void* file) const {
 /// \pre error != NULL, an ASCIIZ-string with the placeholders %1, %2
 /// \throw YGP::FileError In case of an error
 //-----------------------------------------------------------------------------
-void File::throwErrorText (const char* error) const {
-   Check1 (error);
-   std::string file (path ());
-   file += name ();
-   std::string err (_(error));
-   err.replace (err.find ("%1"), 2, file);
-   err.replace (err.find ("%2"), 2, strerror (errno));
-   throw YGP::FileError (err);
+void File::throwErrorText(const char* error) const {
+    Check1(error);
+    std::string file(path());
+    file += name();
+    std::string err(_(error));
+    err.replace(err.find("%1"), 2, file);
+    err.replace(err.find("%2"), 2, strerror(errno));
+    throw YGP::FileError(err);
 }
 
-}
-
+} // namespace YGP
