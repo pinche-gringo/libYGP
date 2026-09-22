@@ -1,14 +1,11 @@
-//$Id: ANumeric.cpp,v 1.55 2008/06/10 21:47:20 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : ANumeric
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.55 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 22.7.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : ANumeric
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 22.7.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,43 +22,39 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <cstring>
 #include <cerrno>
-#include <clocale>
 #include <climits>
+#include <clocale>
+#include <cstring>
 
 #include <ygp-cfg.h>
 
 #ifndef HAVE_LIBGMP
-#  include <cctype>
-#  include <cstdlib>
+#    include <cctype>
+#    include <cstdlib>
 
-#  include <sstream>
+#    include <sstream>
 #endif
 
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #include "YGP/Check.h"
-#include "YGP/Trace.h"
 #include "YGP/Internal.h"
+#include "YGP/Trace.h"
 
 #include "YGP/ANumeric.h"
 
-
 namespace YGP {
-
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ANumeric::~ANumeric () {
+ANumeric::~ANumeric() {
 #ifdef HAVE_LIBGMP
-   mpz_clear (value);
+    mpz_clear(value);
 #endif
 }
-
 
 //-----------------------------------------------------------------------------
 /// Assignmentoperator; tries to extract an integer-value from the passed
@@ -76,61 +69,59 @@ ANumeric::~ANumeric () {
 /// \throw invalid_argument in case of an exception
 /// \pre \c pValue a valid ASCIIZ-string
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator= (const char* pValue) {
-   if (!(pValue && *pValue))
-      undefine ();
-   else {
-      TRACE9 ("ANumeric::operator= (const char*) - Setting " << pValue);
-      std::string unformatted (pValue);
+ANumeric& ANumeric::operator=(const char* pValue) {
+    if (!(pValue && *pValue))
+        undefine();
+    else {
+        TRACE9("ANumeric::operator=(const char*) - Setting " << pValue);
+        std::string unformatted(pValue);
 
-      struct lconv* loc = localeconv ();             // Get locale-information
-      TRACE9 ("ANumeric::operator= (const char*) - Locale-info = "
-	      << std::hex << (int)*loc->grouping << std::dec << " - " << loc->thousands_sep);
-      Check3 (strlen (loc->grouping) >= strlen (loc->thousands_sep));
+        struct lconv* loc = localeconv(); // Get locale-information
+        TRACE9("ANumeric::operator=(const char*) - Locale-info = " << std::hex << (int)*loc->grouping << std::dec
+                                                                    << " - " << loc->thousands_sep);
+        Check3(strlen(loc->grouping) >= strlen(loc->thousands_sep));
 
-      int len (unformatted.length () - 1);
-      int index (0);
-      char group (loc->grouping[index]);
-      const char* pSep = loc->thousands_sep;
-      int lenSep (strlen (pSep));
+        int len(unformatted.length() - 1);
+        int index(0);
+        char group(loc->grouping[index]);
+        const char* pSep = loc->thousands_sep;
+        int lenSep(strlen(pSep));
 
-      if (!group)
-	 group = CHAR_MAX;
+        if (!group)
+            group = CHAR_MAX;
 
-      while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
-	 TRACE9 ("ANumeric::operator= (const char*) - Len =  " << len
-		 << "; Group = " << (int)group << "; Index = " << index);
-	 len -= group;
+        while ((group != CHAR_MAX) && (len > group)) { // Check if grouping nec.
+            TRACE9("ANumeric::operator=(const char*) - Len =  " << len << "; Group = " << (int)group << "; Index = " << index);
+            len -= group;
 
-	 int sepStart (len - lenSep + 1);        // Start-index of the separator
-	 if ((sepStart >= 0) && !unformatted.compare (sepStart, lenSep, pSep)) {
-	    unformatted.erase (sepStart, lenSep);
-	    len -= lenSep;
-	 }
-	 else
-	    break;
-	 TRACE8 ("ANumeric::operator= (const char*) - Removed " << unformatted);
+            int sepStart(len - lenSep + 1); // Start-index of the separator
+            if ((sepStart >= 0) && !unformatted.compare(sepStart, lenSep, pSep)) {
+                unformatted.erase(sepStart, lenSep);
+                len -= lenSep;
+            } else
+                break;
+            TRACE8("ANumeric::operator=(const char*) - Removed " << unformatted);
 
-	 if (loc->grouping[index + 1])   // Increment group-pointer if more groups
-	    group = loc->grouping[++index];
-      } // end-while grouping necessary
+            if (loc->grouping[index + 1]) // Increment group-pointer if more groups
+                group = loc->grouping[++index];
+        } // end-while grouping necessary
 
 #ifdef HAVE_LIBGMP
-      if (mpz_set_str (value, unformatted.c_str (), 0))
+        if (mpz_set_str(value, unformatted.c_str(), 0))
 #else
-      char* pTail = NULL;
-      errno = 0;
-      value = strtol (unformatted.c_str (), &pTail, 0);
-      if (errno || ((pValue = pTail) && *pTail && !isspace (*pTail)))
+        char* pTail = NULL;
+        errno = 0;
+        value = strtol(unformatted.c_str(), &pTail, 0);
+        if (errno || ((pValue = pTail) && *pTail && !isspace(*pTail)))
 #endif
-	 {
-	    std::string e =  (_("Not a number: %1"));
-	    e.replace (e.find ("%1"), 2, pValue);
-	    throw std::invalid_argument (e.c_str ());
-	 }
-      setDefined ();
-   }
-   return *this;
+        {
+            std::string e = (_("Not a number: %1"));
+            e.replace(e.find("%1"), 2, pValue);
+            throw std::invalid_argument(e.c_str());
+        }
+        setDefined();
+    }
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -138,26 +129,26 @@ ANumeric& ANumeric::operator= (const char* pValue) {
 /// \param other Object to copy
 /// \returns ANumeric& Reference to self
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator= (const ANumeric& other) {
-   TRACE9 ("ANumeric& ANumeric::operator= (const ANumeric&)");
+ANumeric& ANumeric::operator=(const ANumeric& other) {
+    TRACE9("ANumeric& ANumeric::operator=(const ANumeric&)");
 #ifdef HAVE_LIBGMP
-   mpz_set (value, other.value);
+    mpz_set(value, other.value);
 #else
-   value = other.value;
+    value = other.value;
 #endif
-   AttributValue::operator= ((const AttributValue&) other);
-   return *this;
+    AttributValue::operator=((const AttributValue&)other);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
 /// Defines the object and sets the value to 0.
 //-----------------------------------------------------------------------------
-void ANumeric::define () {
-   setDefined ();
+void ANumeric::define() {
+    setDefined();
 #ifdef HAVE_LIBGMP
-   mpz_set_si (value, 0);
+    mpz_set_si(value, 0);
 #else
-   value = 0;
+    value = 0;
 #endif
 }
 
@@ -165,26 +156,27 @@ void ANumeric::define () {
 /// Converts the number into a string without any formatting.
 /// \returns std::string String-representation of ANumeric
 //-----------------------------------------------------------------------------
-std::string ANumeric::toUnformattedString () const {
-   std::string str ("");
+std::string ANumeric::toUnformattedString() const {
+    std::string str("");
 
-   if (isDefined ()) {
+    if (isDefined()) {
 #ifdef HAVE_LIBGMP
-      char* pString (mpz_get_str (NULL, 10, value)); Check3 (pString);
+        char* pString(mpz_get_str(NULL, 10, value));
+        Check3(pString);
 #else
-      std::ostringstream ostr;
-      ostr << value << '\0';
-      const char* pString = ostr.str ().c_str ();
+        std::ostringstream ostr;
+        ostr << value << '\0';
+        const char* pString = ostr.str().c_str();
 #endif
-      TRACE1 ("ANumeric::toUnformattedString -> value = " << pString);
+        TRACE1("ANumeric::toUnformattedString -> value = " << pString);
 
-      str = pString;                 // Copy unformatted string to return-value
+        str = pString; // Copy unformatted string to return-value
 #ifdef HAVE_LIBGMP
-      free (pString);
+        free(pString);
 #endif
-   }
+    }
 
-   return str;
+    return str;
 }
 
 //-----------------------------------------------------------------------------
@@ -193,38 +185,37 @@ std::string ANumeric::toUnformattedString () const {
 /// \returns std::string String-representation of ANumeric
 /// \remarks Initializes the locale-definition (if not already done)
 //-----------------------------------------------------------------------------
-std::string ANumeric::toString () const {
-   TRACE9 ("ANumeric::toString () const");
-   std::string str;
+std::string ANumeric::toString() const {
+    TRACE9("ANumeric::toString() const");
+    std::string str;
 
-   struct lconv* loc = localeconv ();                // Get locale-information
-   TRACE9 ("ANumeric::toString () const - Locale-info = " << std::hex << (long)(*loc->grouping)
-           << std::dec << " - " << loc->thousands_sep);
+    struct lconv* loc = localeconv(); // Get locale-information
+    TRACE9("ANumeric::toString() const - Locale-info = " << std::hex << (long)(*loc->grouping) << std::dec << " - "
+	   << loc->thousands_sep);
 
-   str = toUnformattedString ();
-   TRACE5 ("ANumeric::toString () const - " << str);
+    str = toUnformattedString();
+    TRACE5("ANumeric::toString() const - " << str);
 
-   int len (str.length ());
-   int index (0);
-   char group (loc->grouping[index]);
-   const char* pSep = loc->thousands_sep;
-   size_t lenSep (strlen (pSep));
-   if (!group)
-      group = CHAR_MAX;
+    int len(str.length());
+    int index(0);
+    char group(loc->grouping[index]);
+    const char* pSep = loc->thousands_sep;
+    size_t lenSep(strlen(pSep));
+    if (!group)
+        group = CHAR_MAX;
 
-   while ((group != CHAR_MAX) && (len > group)) {     // Check if grouping nec.
-      TRACE9 ("ANumeric::toString () const - Len =  " << len << "; Group = "
-              << (int)group << "; Index = " << index);
-      len -= group;
-      if (str[len - 1] != '-')
-         str.replace (len, 0, pSep, lenSep);
-      TRACE8 ("ANumeric::toString () const - Inserted " << str);
+    while ((group != CHAR_MAX) && (len > group)) { // Check if grouping nec.
+        TRACE9("ANumeric::toString() const - Len =  " << len << "; Group = " << (int)group << "; Index = " << index);
+        len -= group;
+        if (str[len - 1] != '-')
+            str.replace(len, 0, pSep, lenSep);
+        TRACE8("ANumeric::toString() const - Inserted " << str);
 
-      if (loc->grouping[index + 1])   // Increment group-pointer if more groups
-	 group = loc->grouping[++index];
-   } // end-while grouping necessary
+        if (loc->grouping[index + 1]) // Increment group-pointer if more groups
+            group = loc->grouping[++index];
+    } // end-while grouping necessary
 
-   return str;
+    return str;
 }
 
 //-----------------------------------------------------------------------------
@@ -235,39 +226,38 @@ std::string ANumeric::toString () const {
 ///     - Leading whitespaces in the stream are skipped.
 ///     - Parsing is stopped at EOF or at any non-digit.
 //-----------------------------------------------------------------------------
-void ANumeric::readFromStream (std::istream& in) {
-   undefine ();
+void ANumeric::readFromStream(std::istream& in) {
+    undefine();
 
-   struct lconv* loc = localeconv ();                // Get locale-information
+    struct lconv* loc = localeconv(); // Get locale-information
 
-   std::string help;
-   char ch, chSep;
-   const char* pSep = loc->thousands_sep;
+    std::string help;
+    char ch, chSep;
+    const char* pSep = loc->thousands_sep;
 
-   in >> ch;                                       // Skip leading whitespaces
-   while (!in.eof () && !isspace (ch)) {
-      if (strchr (pSep, ch)) {      // Skip thousand-seperators,
-         chSep = ch;
-         in.get (ch);
-      } // endif
-      else
-         chSep = '0';
+    in >> ch; // Skip leading whitespaces
+    while (!in.eof() && !isspace(ch)) {
+        if (strchr(pSep, ch)) { // Skip thousand-seperators,
+            chSep = ch;
+            in.get(ch);
+        } // endif
+        else
+            chSep = '0';
 
-      if (isdigit (ch))                     // add only digits; else terminate
-	 help += ch;
-      else {
-	 if (chSep != '0')
-	    in.putback (chSep);
-	 break;
-      } // end-else non-digit found
+        if (isdigit(ch)) // add only digits; else terminate
+            help += ch;
+        else {
+            if (chSep != '0')
+                in.putback(chSep);
+            break;
+        } // end-else non-digit found
 
-      in.get (ch);
-   } // end-while !eof
-   in.putback (ch);
+        in.get(ch);
+    } // end-while !eof
+    in.putback(ch);
 
-   operator= (help);
+    operator=(help);
 }
-
 
 //-----------------------------------------------------------------------------
 /// Adds another number-object to this object. An undefined number is treated
@@ -276,16 +266,16 @@ void ANumeric::readFromStream (std::istream& in) {
 /// \param rhs Value to add
 /// \returns ANumeric& Self
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator+= (const ANumeric& rhs) {
-   if (rhs.isDefined ()) {
+ANumeric& ANumeric::operator+=(const ANumeric& rhs) {
+    if (rhs.isDefined()) {
 #ifdef HAVE_LIBGMP
-      mpz_add (value, value, rhs.value);
+        mpz_add(value, value, rhs.value);
 #else
-      value += rhs.value;
+        value += rhs.value;
 #endif
-      setDefined ();
-   }
-   return *this;
+        setDefined();
+    }
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -295,16 +285,16 @@ ANumeric& ANumeric::operator+= (const ANumeric& rhs) {
 /// \param rhs Value to substract
 /// \returns ANumeric& Self
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
-   if (rhs.isDefined ()) {
+ANumeric& ANumeric::operator-=(const ANumeric& rhs) {
+    if (rhs.isDefined()) {
 #ifdef HAVE_LIBGMP
-      mpz_sub (value, value, rhs.value);
+        mpz_sub(value, value, rhs.value);
 #else
-      value -= rhs.value;
+        value -= rhs.value;
 #endif
-      setDefined ();
-   }
-   return *this;
+        setDefined();
+    }
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -314,18 +304,18 @@ ANumeric& ANumeric::operator-= (const ANumeric& rhs) {
 /// \param rhs Value to multiply
 /// \returns ANumeric& Self
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
-   if (rhs.isDefined ()) {
-      if (isDefined ())
+ANumeric& ANumeric::operator*=(const ANumeric& rhs) {
+    if (rhs.isDefined()) {
+        if (isDefined())
 #ifdef HAVE_LIBGMP
-         mpz_mul (value, value, rhs.value);
+            mpz_mul(value, value, rhs.value);
 #else
-         value *= rhs.value;
+            value *= rhs.value;
 #endif
-      else
-         operator= (rhs);
-   }
-   return *this;
+        else
+            operator=(rhs);
+    }
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -337,18 +327,18 @@ ANumeric& ANumeric::operator*= (const ANumeric& rhs) {
 /// \remarks If rhs is not defined this is not changed; if this is not defined,
 ///     it is set to 1/rhs
 //-----------------------------------------------------------------------------
-ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
-   if (rhs.isDefined ()) {
-      if (!isDefined ())                   // If this is not defined, set to 1
-         operator= ((int)1);
+ANumeric& ANumeric::operator/=(const ANumeric& rhs) {
+    if (rhs.isDefined()) {
+        if (!isDefined()) // If this is not defined, set to 1
+            operator=((int)1);
 
 #ifdef HAVE_LIBGMP
-      mpz_tdiv_q (value, value, rhs.value);
+        mpz_tdiv_q(value, value, rhs.value);
 #else
-      value /= rhs.value;
+        value /= rhs.value;
 #endif
-   } // endif rhs defined
-   return *this;
+    } // endif rhs defined
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -359,17 +349,16 @@ ANumeric& ANumeric::operator/= (const ANumeric& rhs) {
 /// \param other Object to compare
 /// \returns 1 if this > other; 0 if this == other; -1 else
 //-----------------------------------------------------------------------------
-int ANumeric::compare (const ANumeric& other) const {
-   if (isDefined () && other.isDefined ())     // Both sides defined -> compare
+int ANumeric::compare(const ANumeric& other) const {
+    if (isDefined() && other.isDefined()) // Both sides defined -> compare
 #ifdef HAVE_LIBGMP
-      return mpz_cmp (value, other.value);
+        return mpz_cmp(value, other.value);
 #else
-      return (value > other.value) ? 1 : (value < other.value) ? -1 : 0;
+        return (value > other.value) ? 1 : (value < other.value) ? -1 : 0;
 #endif
 
-   return isDefined () ? -1 : other.isDefined () ? 1 : 0;
+    return isDefined() ? -1 : other.isDefined() ? 1 : 0;
 }
-
 
 //-----------------------------------------------------------------------------
 /// Adds lhs and rhs and returns the result. If one object is defined, the
@@ -380,10 +369,10 @@ int ANumeric::compare (const ANumeric& other) const {
 /// \returns ANumeric Result of additon Note : Undefined values are
 ///     ignored
 //-----------------------------------------------------------------------------
-ANumeric operator+ (const ANumeric& lhs, const ANumeric& rhs) {
-   ANumeric result (lhs);
-   result += rhs;
-   return result;
+ANumeric operator+(const ANumeric& lhs, const ANumeric& rhs) {
+    ANumeric result(lhs);
+    result += rhs;
+    return result;
 }
 
 //-----------------------------------------------------------------------------
@@ -395,10 +384,10 @@ ANumeric operator+ (const ANumeric& lhs, const ANumeric& rhs) {
 /// \returns ANumeric Result of substraction Note : Undefined values are
 ///     ignored
 //-----------------------------------------------------------------------------
-ANumeric operator- (const ANumeric& lhs, const ANumeric& rhs) {
-   ANumeric result (lhs);
-   result -= rhs;
-   return result;
+ANumeric operator-(const ANumeric& lhs, const ANumeric& rhs) {
+    ANumeric result(lhs);
+    result -= rhs;
+    return result;
 }
 
 //-----------------------------------------------------------------------------
@@ -409,10 +398,10 @@ ANumeric operator- (const ANumeric& lhs, const ANumeric& rhs) {
 /// \param rhs Right-hand-side of mulitplication
 /// \returns ANumeric Result of mulitplication
 //-----------------------------------------------------------------------------
-ANumeric operator* (const ANumeric& lhs, const ANumeric& rhs) {
-   ANumeric result (lhs);
-   result *= rhs;
-   return result;
+ANumeric operator*(const ANumeric& lhs, const ANumeric& rhs) {
+    ANumeric result(lhs);
+    result *= rhs;
+    return result;
 }
 
 //-----------------------------------------------------------------------------
@@ -423,10 +412,10 @@ ANumeric operator* (const ANumeric& lhs, const ANumeric& rhs) {
 /// \param rhs Right-hand-side of division
 /// \returns ANumeric Result of division
 //-----------------------------------------------------------------------------
-ANumeric operator/ (const ANumeric& lhs, const ANumeric& rhs) {
-   ANumeric result (lhs);
-   result /= rhs;
-   return result;
+ANumeric operator/(const ANumeric& lhs, const ANumeric& rhs) {
+    ANumeric result(lhs);
+    result /= rhs;
+    return result;
 }
 
-}
+} // namespace YGP
