@@ -1,8 +1,6 @@
 #ifndef YGP_METAENUM_H
 #define YGP_METAENUM_H
 
-//$Id: MetaEnum.h,v 1.7 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,11 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <map>
-#include <string>
 #include <stdexcept>
-
+#include <string>
 
 namespace YGP {
 
@@ -30,57 +26,56 @@ namespace YGP {
  * can be accessed by number and name.
  */
 class MetaEnum {
- public:
-   typedef std::pair<int, std::string>  typePair;
-   typedef std::map<int, std::string>   typeEnum;
-   typedef typeEnum::iterator           iterator;
-   typedef typeEnum::const_iterator     const_iterator;
+  public:
+    typedef std::pair<int, std::string> typePair;
+    typedef std::map<int, std::string> typeEnum;
+    typedef typeEnum::iterator iterator;
+    typedef typeEnum::const_iterator const_iterator;
 
-   /// \name Check for existence
-   //@{
-   /// Checks if the integer value exists
-   /// \param value Value to check for
-   /// \returns bool True if the value exists
-   bool exists (int value) const { return values.find (value) != values.end (); }
-   bool exists (const std::string& value) const;
-   //@}
+    /// \name Check for existence
+    //@{
+    /// Checks if the integer value exists
+    /// \param value Value to check for
+    /// \returns bool True if the value exists
+    bool exists(int value) const { return values.find(value) != values.end(); }
+    bool exists(const std::string& value) const;
+    //@}
 
-   /// Inserts a new item into the object
-   /// \param value Value to insert; create with std::make_pair
-   void insert (const typePair& value) { values.insert (value); }
+    /// Inserts a new item into the object
+    /// \param value Value to insert; create with std::make_pair
+    void insert(const typePair& value) { values.insert(value); }
 
-   /// \name Accessing values (which must exist)
-   //@{
-   std::string operator[] (int value) const;
-   int         operator[] (const std::string& value) const;
-   //@}
+    /// \name Accessing values (which must exist)
+    //@{
+    std::string operator[](int value) const;
+    int operator[](const std::string& value) const;
+    //@}
 
-   /// Returns an iterator to the first element of the enumeration
-   /// \returns Iterator to the first element
-   iterator begin () { return values.begin (); }
-   /// Returns an iterator to the first element of the enumeration
-   /// \returns Iterator to the first element
-   const_iterator begin () const { return values.begin (); }
-   /// Returns an iterator after the last element of the enumeration
-   /// \returns Iterator after the last element
-   iterator end () { return values.end (); }
-   /// Returns an iterator after the last element of the enumeration
-   /// \returns Iterator after the last element
-   const_iterator end () const { return values.end (); }
+    /// Returns an iterator to the first element of the enumeration
+    /// \returns Iterator to the first element
+    iterator begin() { return values.begin(); }
+    /// Returns an iterator to the first element of the enumeration
+    /// \returns Iterator to the first element
+    const_iterator begin() const { return values.begin(); }
+    /// Returns an iterator after the last element of the enumeration
+    /// \returns Iterator after the last element
+    iterator end() { return values.end(); }
+    /// Returns an iterator after the last element of the enumeration
+    /// \returns Iterator after the last element
+    const_iterator end() const { return values.end(); }
 
- protected:
-   MetaEnum () : values () { }
-   virtual ~MetaEnum ();
+  protected:
+    MetaEnum() : values() {}
+    virtual ~MetaEnum();
 
- private:
-   // Prohibited manager methods
-   MetaEnum (const MetaEnum& other);
-   const MetaEnum& operator= (const MetaEnum& other);
+  private:
+    // Prohibited manager methods
+    MetaEnum(const MetaEnum& other);
+    const MetaEnum& operator=(const MetaEnum& other);
 
-   std::map<int, std::string> values;
+    std::map<int, std::string> values;
 };
 
-
-}
+} // namespace YGP
 
 #endif
