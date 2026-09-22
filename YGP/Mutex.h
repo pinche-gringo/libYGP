@@ -1,8 +1,6 @@
 #ifndef YGP_MUTEX_H
 #define YGP_MUTEX_H
 
-//$Id: Mutex.h,v 1.11 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,18 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #ifdef HAVE_LIBPTHREAD
-#  include <pthread.h>
+#    include <pthread.h>
 #elif HAVE_WINDOWS_H
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
 #else
-#  error Not yet implemented!
+#    error Not yet implemented!
 #endif
-
 
 namespace YGP {
 
@@ -46,41 +42,41 @@ namespace YGP {
    mutex first.
 */
 class Mutex {
- public:
+  public:
 #ifdef HAVE_LIBPTHREAD
-   /// Constructor; creates an (unlocked) mutex
-   Mutex ()  { pthread_mutex_init (&id, NULL); }
-   /// Destructor; the mutex is destroyed
-   ~Mutex () { pthread_mutex_destroy (&id); }
+    /// Constructor; creates an (unlocked) mutex
+    Mutex() { pthread_mutex_init(&id, NULL); }
+    /// Destructor; the mutex is destroyed
+    ~Mutex() { pthread_mutex_destroy(&id); }
 
-   /// Tries to lock the mutex, but without blocking, if it is already locked
-   bool trylock () { return !pthread_mutex_trylock (&id); }
-   /// Lock the mutex; the thread blocks, if it is already locked
-   void lock () { pthread_mutex_lock (&id); }
-   /// Unlock a previously locked mutex
-   void unlock () { pthread_mutex_unlock (&id); }
+    /// Tries to lock the mutex, but without blocking, if it is already locked
+    bool trylock() { return !pthread_mutex_trylock(&id); }
+    /// Lock the mutex; the thread blocks, if it is already locked
+    void lock() { pthread_mutex_lock(&id); }
+    /// Unlock a previously locked mutex
+    void unlock() { pthread_mutex_unlock(&id); }
 #elif HAVE_WINDOWS_H
-   /// Constructor; creates an (unlocked) mutex
-   Mutex () : hMutex (CreateMutex (NULL, false, NULL)) { }
-   /// Destructor; the mutex is destroyed
-   ~Mutex () { ReleaseMutex (hMutex); }
+    /// Constructor; creates an (unlocked) mutex
+    Mutex() : hMutex(CreateMutex(NULL, false, NULL)) {}
+    /// Destructor; the mutex is destroyed
+    ~Mutex() { ReleaseMutex(hMutex); }
 
-   /// Tries to lock the mutex, but without blocking, if it is already locked
-   bool trylock () { return WaitForSingleObject (hMutex, 0) == WAIT_OBJECT_0; }
-   /// Lock the mutex; the thread blocks, if it is already locked
-   void lock () { WaitForSingleObject (hMutex, INFINITE); }
-   /// Unlock a previously locked mutex
-   void unlock () { ReleaseMutex (hMutex); }
+    /// Tries to lock the mutex, but without blocking, if it is already locked
+    bool trylock() { return WaitForSingleObject(hMutex, 0) == WAIT_OBJECT_0; }
+    /// Lock the mutex; the thread blocks, if it is already locked
+    void lock() { WaitForSingleObject(hMutex, INFINITE); }
+    /// Unlock a previously locked mutex
+    void unlock() { ReleaseMutex(hMutex); }
 #endif
 
- private:
+  private:
 #ifdef HAVE_LIBPTHREAD
-   pthread_mutex_t id;
+    pthread_mutex_t id;
 #elif HAVE_WINDOWS_H
-   HANDLE hMutex;
+    HANDLE hMutex;
 #endif
 };
 
-}
+} // namespace YGP
 
 #endif
