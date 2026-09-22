@@ -1,14 +1,11 @@
-//$Id: Check.cpp,v 1.23 2008/06/10 21:47:20 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : Check
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.23 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 13.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Check
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 13.9.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #include <cstdio>
@@ -33,7 +29,7 @@
 #include <cstring>
 
 #ifdef HAVE_DLFCN_H
-#  include <dlfcn.h>
+#    include <dlfcn.h>
 #endif
 
 #include <iostream>
@@ -43,84 +39,80 @@
 extern "C" {
 
 #if SYSTEM == UNIX
-#  ifdef HAVE_GTK
-#    include <gtk/gtk.h>
+#    ifdef HAVE_GTK
+#        include <gtk/gtk.h>
 
-   typedef gboolean (*PFNINIT)(int *argc, char ***argv);
-   typedef GtkWidget* (*PFNNEWMSGDLG)(GtkWindow *parent, GtkDialogFlags flags,
-				      GtkMessageType type, GtkButtonsType buttons,
-				      const gchar *message_format, ...);
-   typedef void (*PFNSETTITLE)(GtkWindow *window, const gchar *title);
-   typedef void (*PFNSETSIZE)(GtkWindow *window, gint width, gint height);
-   typedef int (*PFNRUNDLG)(GtkDialog*);
-   typedef void (*PFNDESTROY)(GtkWidget*);
+typedef gboolean (*PFNINIT)(int* argc, char*** argv);
+typedef GtkWidget* (*PFNNEWMSGDLG)(GtkWindow* parent, GtkDialogFlags flags, GtkMessageType type, GtkButtonsType buttons,
+                                   const gchar* message_format, ...);
+typedef void (*PFNSETTITLE)(GtkWindow* window, const gchar* title);
+typedef void (*PFNSETSIZE)(GtkWindow* window, gint width, gint height);
+typedef int (*PFNRUNDLG)(GtkDialog*);
+typedef void (*PFNDESTROY)(GtkWidget*);
 
-   static bool show (const char* expr, const char* title) {
-#    ifdef HAVE_DLFCN_H
-      static void* hDLL = NULL;
-      static bool gtkOK (false);
+static bool show(const char* expr, const char* title) {
+#        ifdef HAVE_DLFCN_H
+    static void* hDLL = NULL;
+    static bool gtkOK(false);
 
-      if (!hDLL)
-	 hDLL = dlopen ("libgtk-x11-2.0.so", RTLD_LAZY);
+    if (!hDLL)
+        hDLL = dlopen("libgtk-x11-2.0.so", RTLD_LAZY);
 
-      if (hDLL && !gtkOK) {
-	 PFNINIT pfnInit ((PFNINIT)dlsym (hDLL, "gtk_init_check"));
-         if (pfnInit)
-	    gtkOK = pfnInit (NULL, NULL);
-      }
+    if (hDLL && !gtkOK) {
+        PFNINIT pfnInit((PFNINIT)dlsym(hDLL, "gtk_init_check"));
+        if (pfnInit)
+            gtkOK = pfnInit(NULL, NULL);
+    }
 
-      if (gtkOK) {
-	 PFNNEWMSGDLG pfnNewDlg ((PFNNEWMSGDLG)dlsym (hDLL, "gtk_message_dialog_new"));
-	 PFNSETTITLE pfnSetTitle ((PFNSETTITLE)dlsym (hDLL, "gtk_window_set_title"));
-	 PFNSETSIZE pfnSetSize ((PFNSETSIZE)dlsym (hDLL, "gtk_window_set_default_size"));
-	 PFNRUNDLG pfnRunDlg ((PFNRUNDLG)dlsym (hDLL, "gtk_dialog_run"));
-	 PFNDESTROY pfnDestroy ((PFNDESTROY)dlsym (hDLL, "gtk_widget_destroy"));
+    if (gtkOK) {
+        PFNNEWMSGDLG pfnNewDlg((PFNNEWMSGDLG)dlsym(hDLL, "gtk_message_dialog_new"));
+        PFNSETTITLE pfnSetTitle((PFNSETTITLE)dlsym(hDLL, "gtk_window_set_title"));
+        PFNSETSIZE pfnSetSize((PFNSETSIZE)dlsym(hDLL, "gtk_window_set_default_size"));
+        PFNRUNDLG pfnRunDlg((PFNRUNDLG)dlsym(hDLL, "gtk_dialog_run"));
+        PFNDESTROY pfnDestroy((PFNDESTROY)dlsym(hDLL, "gtk_widget_destroy"));
 
-	 if (pfnNewDlg && pfnSetTitle && pfnSetSize && pfnRunDlg && pfnDestroy) {
-	    GtkWidget* mbox (pfnNewDlg (NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR, GTK_BUTTONS_OK_CANCEL,
-					expr));
-	    pfnSetTitle ((GtkWindow*)mbox, title);
-	    pfnSetSize ((GtkWindow*)mbox, 300, -1);
-	    gint rc (pfnRunDlg ((GtkDialog*)mbox));
-	    pfnDestroy (mbox);
-	    return rc != GTK_RESPONSE_OK;
-	 }
-      }
+        if (pfnNewDlg && pfnSetTitle && pfnSetSize && pfnRunDlg && pfnDestroy) {
+            GtkWidget* mbox(pfnNewDlg(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK_CANCEL, expr));
+            pfnSetTitle((GtkWindow*)mbox, title);
+            pfnSetSize((GtkWindow*)mbox, 300, -1);
+            gint rc(pfnRunDlg((GtkDialog*)mbox));
+            pfnDestroy(mbox);
+            return rc != GTK_RESPONSE_OK;
+        }
+    }
+#        endif
+#    else
+static bool show(const char* expr, const char*) {
 #    endif
-#  else
-      static bool show (const char* expr, const char*) {
-#  endif
-         std::cerr << "Check failed! Continue y/n? ";
-         char ch;
-         std::cin >> ch;
-         return (ch != 'y') && (ch != 'Y'); }
+    std::cerr << "Check failed! Continue y/n? ";
+    char ch;
+    std::cin >> ch;
+    return (ch != 'y') && (ch != 'Y');
+}
 #elif SYSTEM == WINDOWS
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
 
-   inline bool show (const char* expr, const char* title) {
-      return MessageBox (NULL, expr, title,
-                         MB_OKCANCEL | MB_ICONERROR | MB_TASKMODAL) != IDOK; }
-
-#endif
-
-
-int check (const char* expr, const char* file, unsigned int line) {
-#if defined (__BORLANDC__) || defined (_MSC_VER)
-   // Arrays with dynamic lengths don't exist in some parts of the world
-   char title[MAX_PATH + 40];
-#else
-   char title[strlen (file) + 40];
-#endif
-   snprintf (title, sizeof (title), "Check in %s, line %u", file, line);
-   std::cerr << title << ": " << expr << '\n';
-   if (show (expr, title)) {
-      std::cerr << "\t-> Canceled\n";
-      exit (-1);
-   }
-   std::cerr << "\t-> Continue\n";
-   return 0;
+inline bool show(const char* expr, const char* title) {
+    return MessageBox(NULL, expr, title, MB_OKCANCEL | MB_ICONERROR | MB_TASKMODAL) != IDOK;
 }
 
+#endif
+
+int check(const char* expr, const char* file, unsigned int line) {
+#if defined(__BORLANDC__) || defined(_MSC_VER)
+    // Arrays with dynamic lengths don't exist in some parts of the world
+    char title[MAX_PATH + 40];
+#else
+    char title[strlen(file) + 40];
+#endif
+    snprintf(title, sizeof(title), "Check in %s, line %u", file, line);
+    std::cerr << title << ": " << expr << '\n';
+    if (show(expr, title)) {
+        std::cerr << "\t-> Canceled\n";
+        exit(-1);
+    }
+    std::cerr << "\t-> Continue\n";
+    return 0;
+}
 }
