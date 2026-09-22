@@ -1,8 +1,6 @@
 #ifndef YGP_IDIRSRCH_H
 #define YGP_IDIRSRCH_H
 
-//$Id: IDirSrch.h,v 1.19 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,11 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <string>
 
 #include <YGP/File.h>
-
 
 namespace YGP {
 
@@ -41,69 +37,73 @@ namespace YGP {
           system attribute set.
  */
 class IDirectorySearch {
- public:
-   /// Default constructor
-   IDirectorySearch () : pEntry (NULL) { }
-   virtual ~IDirectorySearch ();
+  public:
+    /// Default constructor
+    IDirectorySearch() : pEntry(NULL) {}
+    virtual ~IDirectorySearch();
 
-   /// Intended to set the files to search for; to be implemented by derived
-   /// classes.
-   virtual void setSearchValue (const std::string& search) = 0;
-   /// Returns the files to search for
-   std::string getSearchValue () const { return getDirectory () + getFileSpec (); }
-   /// Intended to return the directory part of the files to search for; to be
-   /// implemented by derived classes.
-   virtual std::string getDirectory () const = 0;
-   /// Intended to return the name/file part of the files to search for; to be
-   /// implemented by derived classes.
-   virtual std::string getFileSpec () const = 0;
+    /// Intended to set the files to search for; to be implemented by derived
+    /// classes.
+    virtual void setSearchValue(const std::string& search) = 0;
+    /// Returns the files to search for
+    std::string getSearchValue() const { return getDirectory() + getFileSpec(); }
+    /// Intended to return the directory part of the files to search for; to be
+    /// implemented by derived classes.
+    virtual std::string getDirectory() const = 0;
+    /// Intended to return the name/file part of the files to search for; to be
+    /// implemented by derived classes.
+    virtual std::string getFileSpec() const = 0;
 
-   /// \name Searching
-   //@{
-   /// Method to start a find the files previously specified. Additonally the
-   /// files returned must match the passed attributes.
-   ///
-   /// To be implemented by derived classes.
-   /// \returns const File* Pointer to found file or NULL
-   virtual const File* find (unsigned long attribs = FILE_NORMAL) = 0;
-   /// Method to find the next file matching the  previously specified values.
-   ///
-   /// To be implemented by derived classes.
-   /// \returns const File* Pointer to found file or NULL
-   virtual const File* next () = 0;
-   //@}
+    /// \name Searching
+    //@{
+    /// Method to start a find the files previously specified. Additonally the
+    /// files returned must match the passed attributes.
+    ///
+    /// To be implemented by derived classes.
+    /// \returns const File* Pointer to found file or NULL
+    virtual const File* find(unsigned long attribs = FILE_NORMAL) = 0;
+    /// Method to find the next file matching the  previously specified values.
+    ///
+    /// To be implemented by derived classes.
+    /// \returns const File* Pointer to found file or NULL
+    virtual const File* next() = 0;
+    //@}
 
-   /// Intended to check if the previously set search values are valid
-   /// (e.g. the directory is valid, ...)
-   ///
-   /// To be implemented by derived classes.
-   /// \returns \c True if values are OK, false otherwise
-   virtual bool isValid () const = 0;
-   /// Checks if the passed file is a "special" file (the system directories
-   /// `.' and `..').
-   static bool isSpecial (const char* pFile) {
-      return (bool)((*pFile == '.') ? ((pFile[1] == '.') ? !pFile[2] : !pFile[1]) : false); }
+    /// Intended to check if the previously set search values are valid
+    /// (e.g. the directory is valid, ...)
+    ///
+    /// To be implemented by derived classes.
+    /// \returns \c True if values are OK, false otherwise
+    virtual bool isValid() const = 0;
+    /// Checks if the passed file is a "special" file (the system directories
+    /// `.' and `..').
+    static bool isSpecial(const char* pFile) {
+        return (bool)((*pFile == '.') ? ((pFile[1] == '.') ? !pFile[2] : !pFile[1]) : false);
+    }
 
-   static unsigned long convertToSysAttribs (unsigned long attributes);
-   static unsigned long convertFromSysAttribs (unsigned long attributes);
+    static unsigned long convertToSysAttribs(unsigned long attributes);
+    static unsigned long convertFromSysAttribs(unsigned long attributes);
 
-   static const unsigned int FILE_NORMAL; ///< "Normal" file (e.g. no directory; no device, ...)
-   static const unsigned int FILE_READONLY;  ///< File can not be altered/written to
-   static const unsigned int FILE_DIRECTORY;  ///< The file is actually a directory
-   static const unsigned int FILE_HIDDEN;  ///< The file is "hidden" in normal use
+    static const unsigned int FILE_NORMAL;    ///< "Normal" file (e.g. no directory; no device, ...)
+    static const unsigned int FILE_READONLY;  ///< File can not be altered/written to
+    static const unsigned int FILE_DIRECTORY; ///< The file is actually a directory
+    static const unsigned int FILE_HIDDEN;    ///< The file is "hidden" in normal use
 
- protected:
-   File* pEntry;                       ///< Pointer to (last) found File object
+  protected:
+    File* pEntry; ///< Pointer to (last) found File object
 
-   /// Frees the buffer holding the last found file.
-   void clearEntry () { delete pEntry; pEntry = NULL; }
+    /// Frees the buffer holding the last found file.
+    void clearEntry() {
+        delete pEntry;
+        pEntry = NULL;
+    }
 
- private:
-   //@Section prohibited manager functions
-   IDirectorySearch (const IDirectorySearch&);
-   IDirectorySearch& operator= (const IDirectorySearch&);
+  private:
+    //@Section prohibited manager functions
+    IDirectorySearch(const IDirectorySearch&);
+    IDirectorySearch& operator=(const IDirectorySearch&);
 };
 
-}
+} // namespace YGP
 
 #endif
