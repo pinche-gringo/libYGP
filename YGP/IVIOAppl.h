@@ -16,10 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 namespace YGP {
 
-#define IVIOAPPL_HELP_OPTION    "help", 'h'
+#define IVIOAPPL_HELP_OPTION "help", 'h'
 
 /**Class to handle the startup of a program, which includes reading the data
    stored in an INI file and (afterwards) the parsing of the parameters
@@ -76,59 +75,58 @@ namespace YGP {
    As a further feature a stackdump is logged in case of a protection fault.
 */
 class IVIOApplication {
- public:
-   /// Helper-structure to store long-options
-   typedef struct {
-      const char* longVal;        ///< Pointer to the value of the long option
-      char  shortVal;  ///< Character representing the equivalent short option
-   } longOptions;
+  public:
+    /// Helper-structure to store long-options
+    typedef struct {
+        const char* longVal; ///< Pointer to the value of the long option
+        char shortVal;       ///< Character representing the equivalent short option
+    } longOptions;
 
-   IVIOApplication(const int argc, const char* argv[], const longOptions* pOpt = NULL);
-   virtual ~IVIOApplication();
+    IVIOApplication(const int argc, const char* argv[], const longOptions* pOpt = NULL);
+    virtual ~IVIOApplication();
 
-   int run();
+    int run();
 
-   static void initI18n();
-   static void initI18n(const char* package, const char* dir);
+    static void initI18n();
+    static void initI18n(const char* package, const char* dir);
 
- protected:
-   // Option-handling
-   /// Handle the options of the program. The current (parsed) option is passed.
-   virtual bool handleOption(const char option) = 0;
-   const char*  getOptionValue();
-   /// Returns the value to the current option, but without "consuming" it.
-   /// This enables to check the value.
-   const char*  checkOptionValue() const {
-      return(pOptionParam && *pOptionParam) ? pOptionParam : ppArgs[startOpt + 1]; }
-   void         setLongOptions(const longOptions* pLongOpts);
-   void         setLongOptions(const longOptions* pLongOpts, unsigned int numLongOpts);
-   /// Parses some initialization data from a file specified by \c pFile.
-   /// \param Name of file to read
-   virtual void readINIFile(const char*) { }
+  protected:
+    // Option-handling
+    /// Handle the options of the program. The current (parsed) option is passed.
+    virtual bool handleOption(const char option) = 0;
+    const char* getOptionValue();
+    /// Returns the value to the current option, but without "consuming" it.
+    /// This enables to check the value.
+    const char* checkOptionValue() const { return (pOptionParam && *pOptionParam) ? pOptionParam : ppArgs[startOpt + 1]; }
+    void setLongOptions(const longOptions* pLongOpts);
+    void setLongOptions(const longOptions* pLongOpts, unsigned int numLongOpts);
+    /// Parses some initialization data from a file specified by \c pFile.
+    /// \param Name of file to read
+    virtual void readINIFile(const char*) {}
 
-   /// \name Program-handling
-   //@{
-   /// Performs the job of the program.
-   virtual int         perform(int argc, const char* argv[]) = 0;
-   virtual const char* name() const;
-   /// Returns a description to the program.
-   virtual const char* description() const = 0;
-   /// Returns the name of the program as passed by the operating system (argv[0]).
-   const char* filename() const { return *ppArgs; }
-   //@}
+    /// \name Program-handling
+    //@{
+    /// Performs the job of the program.
+    virtual int perform(int argc, const char* argv[]) = 0;
+    virtual const char* name() const;
+    /// Returns a description to the program.
+    virtual const char* description() const = 0;
+    /// Returns the name of the program as passed by the operating system (argv[0]).
+    const char* filename() const { return *ppArgs; }
+    //@}
 
-   /// \name Help-handling
-   //@{
-   /// Returns true, if a short programm information (name and release) should
-   /// be displayed (default: Yes).
-   virtual bool shallShowInfo() const { return true; }
-   virtual void showHelp() const = 0;
-   //@}
+    /// \name Help-handling
+    //@{
+    /// Returns true, if a short programm information (name and release) should
+    /// be displayed (default: Yes).
+    virtual bool shallShowInfo() const { return true; }
+    virtual void showHelp() const = 0;
+    //@}
 
-    unsigned int args;    ///< Number of arguments passed to the program (argc)
-    const char** ppArgs;        ///< The arguments passed to the program (argv)
+    unsigned int args;   ///< Number of arguments passed to the program (argc)
+    const char** ppArgs; ///< The arguments passed to the program (argv)
 
- private:
+  private:
     // Prohobited manager functions
     IVIOApplication();
     IVIOApplication(const IVIOApplication&);
@@ -140,12 +138,12 @@ class IVIOApplication {
 
     unsigned int startArg;
     unsigned int startOpt;
-    const char*  pOptionParam;
+    const char* pOptionParam;
 
     const longOptions* longOpt;
-    unsigned int       numLongOpt;
+    unsigned int numLongOpt;
 };
 
-}
+} // namespace YGP
 
 #endif
