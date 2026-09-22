@@ -1,8 +1,6 @@
 #ifndef YGP_XSTREAM_H
 #define YGP_XSTREAM_H
 
-// $Id: XStream.h,v 1.22 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,15 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <fstream>
 
 #if SYSTEM == WINDOWS
-#  include <iosfwd>
+#    include <iosfwd>
 #endif
 
 #include <YGP/XStrBuf.h>
-
 
 namespace YGP {
 
@@ -48,37 +44,37 @@ namespace YGP {
 //    xin.open ("Test.Dat");
 //    xin.init ();
 template <class T> struct extStream : private extStreambuf, public T {
- public:
-   // Management-functions
-   /// Default constrcutor; Creates a stream
-   extStream () : extStreambuf (), T (), oldBuf (NULL) { }
-   /// Constructor; Creates a stream with a data sink (to read from)
-   extStream (const T& source) : extStreambuf (), T (source), oldBuf (NULL) { }
-   /// Destructor
-   ~extStream () { sios::rdbuf (oldBuf); }
+  public:
+    // Management-functions
+    /// Default constrcutor; Creates a stream
+    extStream() : extStreambuf(), T(), oldBuf(NULL) {}
+    /// Constructor; Creates a stream with a data sink (to read from)
+    extStream(const T& source) : extStreambuf(), T(source), oldBuf(NULL) {}
+    /// Destructor
+    ~extStream() { sios::rdbuf(oldBuf); }
 
-   /// Initializes the extended stream
-   void init () {
-      setSource (oldBuf = T::rdbuf ());
-      sios::rdbuf (this);
-   }
+    /// Initializes the extended stream
+    void init() {
+        setSource(oldBuf = T::rdbuf());
+        sios::rdbuf(this);
+    }
 
-   /// \name Accessing stream values
-   //@{
-   /// Returns the actual line of the stream read from
-   unsigned int getLine () const { return extStreambuf::getLine (); }
-   unsigned int getColumn () const { return extStreambuf::getColumn (); }
-   //@}
+    /// \name Accessing stream values
+    //@{
+    /// Returns the actual line of the stream read from
+    unsigned int getLine() const { return extStreambuf::getLine(); }
+    unsigned int getColumn() const { return extStreambuf::getColumn(); }
+    //@}
 
- private:
-   // Prohibited manager functions
-   extStream (const extStream&);
-   const struct extStream& operator= (const extStream&);
+  private:
+    // Prohibited manager functions
+    extStream(const extStream&);
+    const struct extStream& operator=(const extStream&);
 
-   std::streambuf* oldBuf;
+    std::streambuf* oldBuf;
 
-   // Used this type to work around Visual C's problem with calling ios::rdbuf
-   typedef std::ios sios;
+    // Used this type to work around Visual C's problem with calling ios::rdbuf
+    typedef std::ios sios;
 };
 
 /// Declare Xistream as shortcut
@@ -86,6 +82,6 @@ typedef extStream<std::istream> Xistream;
 /// Declare Xifstream as shortcut
 typedef extStream<std::ifstream> Xifstream;
 
-}
+} // namespace YGP
 
 #endif
