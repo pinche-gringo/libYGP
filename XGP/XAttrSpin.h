@@ -1,7 +1,5 @@
 #ifndef XGP_XATTSPIN_H
-#define XGP_XATTRSPIN_H
-
-//$Id: XAttrSpin.h,v 1.5 2008/05/18 13:21:27 markus Rel $
+#    define XGP_XATTRSPIN_H
 
 // This file is part of libYGP.
 //
@@ -18,29 +16,27 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#    include <ygp-cfg.h>
 
-#include <ygp-cfg.h>
+#    if defined(HAVE_GETTEXT) && defined(ENABLE_NLS)
+#        include <libintl.h>
+#    else
+#        define dgettext(pkg, text) (text)
+#    endif
 
-#if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
-#  include <libintl.h>
-#else
-#  define dgettext(pkg, text) (text)
-#endif
+#    include <cstdio>
+#    include <stdexcept>
 
-#include <cstdio>
-#include <stdexcept>
+#    include <glibmm/convert.h>
+#    include <glibmm/main.h>
 
-#include <glibmm/main.h>
-#include <glibmm/convert.h>
+#    include <gtkmm/eventcontrollerfocus.h>
+#    include <gtkmm/messagedialog.h>
+#    include <gtkmm/spinbutton.h>
 
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/messagedialog.h>
-#include <gtkmm/eventcontrollerfocus.h>
+#    include <YGP/ANumeric.h>
 
-#include <YGP/ANumeric.h>
-
-#include <XGP/XDialog.h>
-
+#    include <XGP/XDialog.h>
 
 namespace XGP {
 
@@ -57,134 +53,128 @@ namespace XGP {
    The commit() method transfers the input to the attribute.
 */
 template <typename T, typename P = Gtk::SpinButton> class XAttributeSpinEntry : public P {
-   typedef P parent;
+    typedef P parent;
 
- public:
-   /// Constructor; sets the attribute to handle.
-   XAttributeSpinEntry (T& attr, const Glib::RefPtr<Gtk::Adjustment>& adjustment,
-			double climbRate = 0.0, guint digits = 0)
-   : P (adjustment, climbRate, digits), attr_ (attr), inError (false) {
-      P::set_numeric (false);
-      P::signal_realize ().connect
-	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
-      connectFocus ();
-   }
-   XAttributeSpinEntry (T& attr, double climbRate = 0.0, guint digits = 0)
-   : P (climbRate, digits), attr_ (attr), inError (false) {
-      P::set_numeric (false);
-      P::signal_realize ().connect
-	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<T, P>::update));
-      connectFocus ();
-   }
+  public:
+    /// Constructor; sets the attribute to handle.
+    XAttributeSpinEntry(T& attr, const Glib::RefPtr<Gtk::Adjustment>& adjustment, double climbRate = 0.0, guint digits = 0)
+        : P(adjustment, climbRate, digits), attr_(attr), inError(false) {
+        P::set_numeric(false);
+        P::signal_realize().connect(sigc::mem_fun(*this, &XGP::XAttributeSpinEntry<T, P>::update));
+        connectFocus();
+    }
+    XAttributeSpinEntry(T& attr, double climbRate = 0.0, guint digits = 0) : P(climbRate, digits), attr_(attr), inError(false) {
+        P::set_numeric(false);
+        P::signal_realize().connect(sigc::mem_fun(*this, &XGP::XAttributeSpinEntry<T, P>::update));
+        connectFocus();
+    }
 
-   /// Destructor
-   ~XAttributeSpinEntry () { }
+    /// Destructor
+    ~XAttributeSpinEntry() {}
 
-   /// Returns if the field has been changed
-   bool hasChanged () const {
-      try {
-	 YGP::ANumeric value (P::get_text ());
-	 return value != attr_;
-      }
-      catch (std::invalid_argument&) {
-	 return true;
-      }
-   }
+    /// Returns if the field has been changed
+    bool hasChanged() const {
+        try {
+            YGP::ANumeric value(P::get_text());
+            return value != attr_;
+        }
+        catch (std::invalid_argument&) {
+            return true;
+        }
+    }
 
-   /// Actualizes the value of the attribute with the value entered in the
-   /// entry field.
-   void commit () { attr_ = (T)YGP::ANumeric (P::get_text ()); }
-   /// Actualizes the displayed value with the (changed) value of the
-   /// attribute.
-   void update () { setValue (attr_); }
-   /// Actualizes the displayed value with the passed value. The value of the
-   /// attribute is not (yet) changed (this happens at commit ()).
-   void setValue (T value) {
-      if (P::has_focus ())
-         P::set_value (value);
-      else
-	 P::set_text (YGP::ANumeric::toString (value));
-   }
+    /// Actualizes the value of the attribute with the value entered in the
+    /// entry field.
+    void commit() { attr_ = (T)YGP::ANumeric(P::get_text()); }
+    /// Actualizes the displayed value with the (changed) value of the
+    /// attribute.
+    void update() { setValue(attr_); }
+    /// Actualizes the displayed value with the passed value. The value of the
+    /// attribute is not (yet) changed (this happens at commit ()).
+    void setValue(T value) {
+        if (P::has_focus())
+            P::set_value(value);
+        else
+            P::set_text(YGP::ANumeric::toString(value));
+    }
 
-   /// Returns the handled attribute
-   T& getAttribute () { return attr_; }
+    /// Returns the handled attribute
+    T& getAttribute() { return attr_; }
 
- protected:
-   virtual void onFocusIn () {
-      if (inError)
-         inError = false;
-      else {
-	 P::set_numeric ();
-         P::set_value ((int)YGP::ANumeric (P::get_text ()));
-      } }
-   virtual void onFocusOut () {
-      try {
-         YGP::ANumeric temp (P::get_text ());
-	 P::set_numeric (false);
-         P::set_text (temp.toString ());
-      }
-      catch (std::invalid_argument& e) {
-         inError = true;
-         Gtk::MessageDialog msg (e.what (), false, Gtk::MessageType::ERROR);
-         msg.set_title (Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, "Invalid value!")));
-         XGP::runModal (msg);
-         Glib::signal_idle ().connect (sigc::mem_fun (*this, &XAttributeSpinEntry::takeFocus));
-      } }
+  protected:
+    virtual void onFocusIn() {
+        if (inError)
+            inError = false;
+        else {
+            P::set_numeric();
+            P::set_value((int)YGP::ANumeric(P::get_text()));
+        }
+    }
+    virtual void onFocusOut() {
+        try {
+            YGP::ANumeric temp(P::get_text());
+            P::set_numeric(false);
+            P::set_text(temp.toString());
+        }
+        catch (std::invalid_argument& e) {
+            inError = true;
+            Gtk::MessageDialog msg(e.what(), false, Gtk::MessageType::ERROR);
+            msg.set_title(Glib::locale_to_utf8(dgettext(LIBYGP_NAME, "Invalid value!")));
+            XGP::runModal(msg);
+            Glib::signal_idle().connect(sigc::mem_fun(*this, &XAttributeSpinEntry::takeFocus));
+        }
+    }
 
-   bool takeFocus () {
-      P::grab_focus ();
-      return 0; }
+    bool takeFocus() {
+        P::grab_focus();
+        return 0;
+    }
 
- private:
-   void connectFocus () {
-      Glib::RefPtr<Gtk::EventControllerFocus> focus (Gtk::EventControllerFocus::create ());
-      focus->signal_enter ().connect (sigc::mem_fun (*this, &XAttributeSpinEntry::onFocusIn));
-      focus->signal_leave ().connect (sigc::mem_fun (*this, &XAttributeSpinEntry::onFocusOut));
-      P::add_controller (focus);
-   }
+  private:
+    void connectFocus() {
+        Glib::RefPtr<Gtk::EventControllerFocus> focus(Gtk::EventControllerFocus::create());
+        focus->signal_enter().connect(sigc::mem_fun(*this, &XAttributeSpinEntry::onFocusIn));
+        focus->signal_leave().connect(sigc::mem_fun(*this, &XAttributeSpinEntry::onFocusOut));
+        P::add_controller(focus);
+    }
 
-   XAttributeSpinEntry (const XAttributeSpinEntry&);
-   const XAttributeSpinEntry& operator= (const XAttributeSpinEntry&);
+    XAttributeSpinEntry(const XAttributeSpinEntry&);
+    const XAttributeSpinEntry& operator=(const XAttributeSpinEntry&);
 
-   T& attr_;
-   bool inError;
+    T& attr_;
+    bool inError;
 };
 
-
 // Specialication for YGP::ANumeric
-template <> inline
-XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, const Glib::RefPtr<Gtk::Adjustment>& adjustment,
-			double climbRate, guint digits)
-   : parent (adjustment, climbRate, digits), attr_ (attr), inError (false) {
-      parent::set_numeric (false);
-      parent::signal_realize ().connect
-	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
-      connectFocus ();
-   }
-template <> inline
-XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry (YGP::ANumeric& attr, double climbRate, guint digits)
-   : parent (climbRate, digits), attr_ (attr), inError (false) {
-      parent::set_numeric (false);
-      parent::signal_realize ().connect
-	 (sigc::mem_fun (*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
-      connectFocus ();
-   }
+template <>
+inline XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry(YGP::ANumeric& attr,
+                                                               const Glib::RefPtr<Gtk::Adjustment>& adjustment, double climbRate,
+                                                               guint digits)
+    : parent(adjustment, climbRate, digits), attr_(attr), inError(false) {
+    parent::set_numeric(false);
+    parent::signal_realize().connect(sigc::mem_fun(*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
+    connectFocus();
+}
+template <>
+inline XAttributeSpinEntry<YGP::ANumeric>::XAttributeSpinEntry(YGP::ANumeric& attr, double climbRate, guint digits)
+    : parent(climbRate, digits), attr_(attr), inError(false) {
+    parent::set_numeric(false);
+    parent::signal_realize().connect(sigc::mem_fun(*this, &XGP::XAttributeSpinEntry<YGP::ANumeric, parent>::update));
+    connectFocus();
+}
 
 /// Actualizes the value of the attribute with the value entered in the
 /// entry field.
-template <> inline
-void XAttributeSpinEntry<YGP::ANumeric>::commit () { attr_ = parent::get_text (); }
+template <> inline void XAttributeSpinEntry<YGP::ANumeric>::commit() { attr_ = parent::get_text(); }
 
-   /// Actualizes the displayed value with the passed value. The value of the
-   /// attribute is not (yet) changed (this happens at commit ()).
-template <> inline
-void XAttributeSpinEntry<YGP::ANumeric>::setValue (YGP::ANumeric value) {
-   if (parent::has_focus ())
-      parent::set_value ((int)value);
-   else
-      parent::set_text (value.toString ());
-   }
+/// Actualizes the displayed value with the passed value. The value of the
+/// attribute is not (yet) changed (this happens at commit ()).
+template <> inline void XAttributeSpinEntry<YGP::ANumeric>::setValue(YGP::ANumeric value) {
+    if (parent::has_focus())
+        parent::set_value((int)value);
+    else
+        parent::set_text(value.toString());
 }
-
+} // namespace XGP
 
 #endif

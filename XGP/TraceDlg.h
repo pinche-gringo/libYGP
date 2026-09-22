@@ -1,8 +1,6 @@
 #ifndef XGP_TRACEDLG_H
 #define XGP_TRACEDLG_H
 
-//$Id: TraceDlg.h,v 1.3 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,13 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class TreeView;
+class TreeView;
 }
-
 
 namespace XGP {
 
@@ -34,28 +30,28 @@ namespace XGP {
    addHelpMenu() is called with <tt>withDynTrace</tt> set to true.
  */
 class TraceDlg : public XGP::XDialog {
- public:
-   TraceDlg ();
-   ~TraceDlg () override;
+  public:
+    TraceDlg();
+    ~TraceDlg() override;
 
-   /// Creates a dialog
-   static TraceDlg* create () {
-      auto* dlg (new TraceDlg);
-      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &TraceDlg::free));
-      return dlg;
-   }
+    /// Creates a dialog
+    static TraceDlg* create() {
+        auto* dlg(new TraceDlg);
+        dlg->signal_response().connect(sigc::mem_fun(*dlg, &TraceDlg::free));
+        return dlg;
+    }
 
- private:
-   //Prohibited manager functions
-   TraceDlg (const TraceDlg& other);
-   const TraceDlg& operator= (const TraceDlg& other);
+  private:
+    // Prohibited manager functions
+    TraceDlg(const TraceDlg& other);
+    const TraceDlg& operator=(const TraceDlg& other);
 
-   void levelChanged (const Glib::ustring& path, const Glib::ustring& value);
+    void levelChanged(const Glib::ustring& path, const Glib::ustring& value);
 
-   void okEvent () override;
-   Gtk::TreeView& lstObjects;
+    void okEvent() override;
+    Gtk::TreeView& lstObjects;
 };
 
-}
+} // namespace XGP
 
 #endif

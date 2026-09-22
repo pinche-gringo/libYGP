@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : EnumEntry
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 28.04.2005
-//COPYRIGHT   : Copyright (C) 2005, 2008, 2011, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : EnumEntry
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 28.04.2005
+// COPYRIGHT   : Copyright (C) 2005, 2008, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -22,11 +22,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <YGP/MetaEnum.h>
 
 #include "EnumEntry.h"
-
 
 namespace XGP {
 
@@ -34,15 +32,15 @@ namespace XGP {
 /// Constructor
 /// \param values MetaEnum whose values should be shown
 //-----------------------------------------------------------------------------
-EnumEntry::EnumEntry (const YGP::MetaEnum& values) {
-   for (auto i (values.begin ()); i != values.end (); ++i)
-      append (i->second);
-   // set_active (0);
+EnumEntry::EnumEntry(const YGP::MetaEnum& values) {
+    for (auto i(values.begin()); i != values.end(); ++i)
+        append(i->second);
+    // set_active (0);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-EnumEntry::~EnumEntry () = default;
+EnumEntry::~EnumEntry() = default;
 
-}
+} // namespace XGP

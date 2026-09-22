@@ -1,8 +1,6 @@
 #ifndef XGP_XFILEDLG_H
 #define XGP_XFILEDLG_H
 
-//$Id: XFileDlg.h,v 1.26 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -17,7 +15,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
-
 
 #include <string>
 
@@ -45,53 +42,52 @@ namespace XGP {
      See also the description of the parent for further options!
 */
 class FileDialog : public Gtk::FileChooserDialog {
- public:
-   /// Options for the dialog
-   enum { NONE = 0,           ///< Don't perform any checks on the entered file
-	  ASK_OVERWRITE = 1,              ///< Security question if file exists
-	  MUST_EXIST = 2,           ///< Only allow to select of existing files
-	  MULTIPLE = 0x80000000             ///< User can select multiple files
-   };
+  public:
+    /// Options for the dialog
+    enum {
+        NONE = 0,             ///< Don't perform any checks on the entered file
+        ASK_OVERWRITE = 1,    ///< Security question if file exists
+        MUST_EXIST = 2,       ///< Only allow to select of existing files
+        MULTIPLE = 0x80000000 ///< User can select multiple files
+    };
 
-   ~FileDialog () override;
+    ~FileDialog() override;
 
-   std::string execModal ();
+    std::string execModal();
 
-   void on_response (int cmd) override;
+    void on_response(int cmd) override;
 
-   /// Creates the dialog
-   static FileDialog* create (const Glib::ustring& title,
-			      Gtk::FileChooser::Action action = Gtk::FileChooser::Action::OPEN,
-			      unsigned int dlgOption = NONE);
+    /// Creates the dialog
+    static FileDialog* create(const Glib::ustring& title, Gtk::FileChooser::Action action = Gtk::FileChooser::Action::OPEN,
+                              unsigned int dlgOption = NONE);
 
-   /// Signal emitted, when OK is selected
-   sigc::signal<void (const std::string&)> sigSelected;
+    /// Signal emitted, when OK is selected
+    sigc::signal<void(const std::string&)> sigSelected;
 
- protected:
-   /// IDs for the possible commands (OK, CANCEL)
-   using commandID = enum { OK = 1, CANCEL };
+  protected:
+    /// IDs for the possible commands (OK, CANCEL)
+    using commandID = enum { OK = 1, CANCEL };
 
-   /// Callback after selecting a file
-   /// @param: Name of selected file
-   virtual void fileSelected (std::string&) { }
+    /// Callback after selecting a file
+    /// @param: Name of selected file
+    virtual void fileSelected(std::string&) {}
 
-   void free (int);
+    void free(int);
 
-   FileDialog (const Glib::ustring& title,
-	       Gtk::FileChooser::Action action = Gtk::FileChooser::Action::OPEN,
-	       unsigned int dlgOption = NONE);
+    FileDialog(const Glib::ustring& title, Gtk::FileChooser::Action action = Gtk::FileChooser::Action::OPEN,
+               unsigned int dlgOption = NONE);
 
- private:
-   // Prohibited manager-functions
-   FileDialog (const FileDialog&) = delete;
-   const FileDialog& operator= (const FileDialog&) = delete;
+  private:
+    // Prohibited manager-functions
+    FileDialog(const FileDialog&) = delete;
+    const FileDialog& operator=(const FileDialog&) = delete;
 
-   unsigned int opt;
-   bool         modal{false};
+    unsigned int opt;
+    bool modal{false};
 
-   Glib::RefPtr<Glib::MainLoop> pLoop;    ///< Nested loop used by execModal()
+    Glib::RefPtr<Glib::MainLoop> pLoop; ///< Nested loop used by execModal()
 };
 
-}
+} // namespace XGP
 
 #endif

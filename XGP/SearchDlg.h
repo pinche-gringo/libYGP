@@ -1,8 +1,6 @@
 #ifndef XGP_SEARCHDLG_H
 #define XGP_SEARCHDLG_H
 
-//$Id: SearchDlg.h,v 1.4 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,13 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class Entry;
+class Entry;
 }
-
 
 namespace XGP {
 
@@ -33,38 +29,38 @@ namespace XGP {
  * The dialog emits a signal with the entered search-text.
  */
 class SearchDialog : public XGP::XDialog {
- public:
-   virtual ~SearchDialog ();
+  public:
+    virtual ~SearchDialog();
 
-   /// Creates a search-dialog
-   /// \param parent Parent window
-   static SearchDialog* create (Gtk::Window& parent) {
-      SearchDialog* dlg (new SearchDialog);
-      dlg->set_transient_for (parent);
-      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &SearchDialog::free));
-      return dlg;
-   }
+    /// Creates a search-dialog
+    /// \param parent Parent window
+    static SearchDialog* create(Gtk::Window& parent) {
+        SearchDialog* dlg(new SearchDialog);
+        dlg->set_transient_for(parent);
+        dlg->signal_response().connect(sigc::mem_fun(*dlg, &SearchDialog::free));
+        return dlg;
+    }
 
-   /// Signal emitted, when OK is selected
-   sigc::signal<void (const Glib::ustring&)> signalFind;
+    /// Signal emitted, when OK is selected
+    sigc::signal<void(const Glib::ustring&)> signalFind;
 
- protected:
-   SearchDialog ();
+  protected:
+    SearchDialog();
 
- private:
-   //Prohibited manager functions
-   SearchDialog (const SearchDialog& other);
-   const SearchDialog& operator= (const SearchDialog& other);
+  private:
+    // Prohibited manager functions
+    SearchDialog(const SearchDialog& other);
+    const SearchDialog& operator=(const SearchDialog& other);
 
-   virtual void okEvent ();
+    virtual void okEvent();
 
-   void inputChanged ();
+    void inputChanged();
 
-   Gtk::Entry* find;
+    Gtk::Entry* find;
 
-   static Glib::ustring last;
+    static Glib::ustring last;
 };
 
-}
+} // namespace XGP
 
 #endif

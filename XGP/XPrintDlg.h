@@ -1,8 +1,6 @@
 #ifndef XGP_XPRINTDLG_H
 #define XGP_XPRINTDLG_H
 
-//$Id: XPrintDlg.h,v 1.22 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <cstdio>
 
 #include <boost/scoped_ptr.hpp>
@@ -26,10 +23,10 @@
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class Box;
-   class Label;
-   class Entry;
-}
+class Box;
+class Label;
+class Entry;
+} // namespace Gtk
 
 namespace XGP {
 
@@ -38,33 +35,33 @@ namespace XGP {
    This is a very basic interface; only supporting the line printer.
 */
 class PrintDialog : public XDialog {
- public:
-   PrintDialog ();
-   ~PrintDialog () override;
+  public:
+    PrintDialog();
+    ~PrintDialog() override;
 
-   static PrintDialog* create ();
+    static PrintDialog* create();
 
-   /// Signal emitted, when OK is selected
-   sigc::signal<void (FILE*)> sigPrint;
+    /// Signal emitted, when OK is selected
+    sigc::signal<void(FILE*)> sigPrint;
 
- private:
-   // Prohibited manager-functions
-   PrintDialog (const PrintDialog&) = delete;
-   const PrintDialog& operator= (const PrintDialog&) = delete;
+  private:
+    // Prohibited manager-functions
+    PrintDialog(const PrintDialog&) = delete;
+    const PrintDialog& operator=(const PrintDialog&) = delete;
 
-   void okEvent () override;
+    void okEvent() override;
 
-   void init ();
+    void init();
 
-   using PHBox = boost::scoped_ptr<Gtk::Box>;
-   using PLabel = boost::scoped_ptr<Gtk::Label>;
-   using PEntry = boost::scoped_ptr<Gtk::Entry>;
+    using PHBox = boost::scoped_ptr<Gtk::Box>;
+    using PLabel = boost::scoped_ptr<Gtk::Label>;
+    using PEntry = boost::scoped_ptr<Gtk::Entry>;
 
-   PLabel  lblCommand;
-   PEntry  txtCommand;
-   PHBox   boxCommand;
+    PLabel lblCommand;
+    PEntry txtCommand;
+    PHBox boxCommand;
 };
 
-}
+} // namespace XGP
 
 #endif

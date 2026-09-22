@@ -1,8 +1,6 @@
 #ifndef XGP_XDATE_H
 #define XGP_XDATE_H
 
-//$Id: XDate.h,v 1.18 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,22 +16,19 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <boost/scoped_ptr.hpp>
 
 #include <XGP/XDialog.h>
 
-
 // Forward declarations
 namespace YGP {
-   class ATimestamp;
+class ATimestamp;
 }
 namespace Gtk {
-   class Box;
-   class Calendar;
-   class SpinButton;
-}
-
+class Box;
+class Calendar;
+class SpinButton;
+} // namespace Gtk
 
 namespace XGP {
 
@@ -52,57 +47,57 @@ namespace XGP {
    (which are hopefully self explainatory).
 */
 class XDate : public XDialog {
- public:
-   /// Constructor
-   /// \param title Title to display for the dialog
-   /// \param date Date/time to preselect in the dialog
-   /// \param showFields Which fields to display; a combination of the \c
-   ///     SHOW_* values.
-   XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields = SHOW_ALL);
-   ~XDate () override;
+  public:
+    /// Constructor
+    /// \param title Title to display for the dialog
+    /// \param date Date/time to preselect in the dialog
+    /// \param showFields Which fields to display; a combination of the \c
+    ///     SHOW_* values.
+    XDate(const Glib::ustring& title, YGP::ATimestamp& date, int showFields = SHOW_ALL);
+    ~XDate() override;
 
-   /// Possible values to show
-   enum { SHOW_HOUR = 1,                    ///< Add a field to change the hour
-          SHOW_MINUTE = 2,                ///< Add a field to change the minute
-          SHOW_SECOND = 4,                ///< Add a field to change the second
-          SHOW_DAY = 8,                             ///< Add a calendar control
-          SHOW_MONTH = 16, ///< Enables to change month (and year) in the calender control
-          SHOW_YEAR = 32, ///< Enables to change year (and month) in the calender control
-          SHOW_ALL = -1            ///< Show all fields the dialog has to offer
-   };
+    /// Possible values to show
+    enum {
+        SHOW_HOUR = 1,   ///< Add a field to change the hour
+        SHOW_MINUTE = 2, ///< Add a field to change the minute
+        SHOW_SECOND = 4, ///< Add a field to change the second
+        SHOW_DAY = 8,    ///< Add a calendar control
+        SHOW_MONTH = 16, ///< Enables to change month (and year) in the calender control
+        SHOW_YEAR = 32,  ///< Enables to change year (and month) in the calender control
+        SHOW_ALL = -1    ///< Show all fields the dialog has to offer
+    };
 
-   /// Method to display the dialog; caring about freeing it afterwards
-   /// \param title Title to display for the dialog
-   /// \param date Date/time to preselect in the dialog
-   /// \param showFields Which fields to display; a combination of the \c
-   ///     SHOW_* values.
-   static XDate* create (const Glib::ustring& title, YGP::ATimestamp& date,
-                         int showFields = SHOW_ALL) {
-      auto* dlg (new XDate (title, date, showFields));
-      dlg->signal_response ().connect (sigc::mem_fun (*dlg, &XDate::free));
-      return dlg;
-   }
+    /// Method to display the dialog; caring about freeing it afterwards
+    /// \param title Title to display for the dialog
+    /// \param date Date/time to preselect in the dialog
+    /// \param showFields Which fields to display; a combination of the \c
+    ///     SHOW_* values.
+    static XDate* create(const Glib::ustring& title, YGP::ATimestamp& date, int showFields = SHOW_ALL) {
+        auto* dlg(new XDate(title, date, showFields));
+        dlg->signal_response().connect(sigc::mem_fun(*dlg, &XDate::free));
+        return dlg;
+    }
 
- private:
-   // Prohibited manager-functions
-   XDate (const XDate&) = delete;
-   const XDate& operator= (const XDate&) = delete;
+  private:
+    // Prohibited manager-functions
+    XDate(const XDate&) = delete;
+    const XDate& operator=(const XDate&) = delete;
 
-   void okEvent () override;
+    void okEvent() override;
 
-   using PHBox = boost::scoped_ptr<Gtk::Box>;
-   using PCalendar = boost::scoped_ptr<Gtk::Calendar>;
-   using PSpinButton = boost::scoped_ptr<Gtk::SpinButton>;
+    using PHBox = boost::scoped_ptr<Gtk::Box>;
+    using PCalendar = boost::scoped_ptr<Gtk::Calendar>;
+    using PSpinButton = boost::scoped_ptr<Gtk::SpinButton>;
 
-   PHBox       client;
-   PCalendar   cal;
-   PSpinButton spinHour;
-   PSpinButton spinMinute;
-   PSpinButton spinSecond;
+    PHBox client;
+    PCalendar cal;
+    PSpinButton spinHour;
+    PSpinButton spinMinute;
+    PSpinButton spinSecond;
 
-   YGP::ATimestamp& result;
+    YGP::ATimestamp& result;
 };
 
-}
+} // namespace XGP
 
 #endif

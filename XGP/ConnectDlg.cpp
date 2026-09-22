@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : X-windows
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 21.07.2003
-//COPYRIGHT   : Copyright (C) 2003 - 2006, 2008, 2009, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : X-windows
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 21.07.2003
+// COPYRIGHT   : Copyright (C) 2003 - 2006, 2008, 2009, 2026
 
 // This file is part of libYGP.
 //
@@ -22,37 +22,35 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
 #include <sstream>
 
-#include <gtkmm/label.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/grid.h>
+#include <gtkmm/label.h>
 #include <gtkmm/messagedialog.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace.h>
+#include <YGP/ConnMgr.h>
 #include <YGP/Socket.h>
 #include <YGP/Thread.h>
-#include <YGP/ConnMgr.h>
+#include <YGP/Trace.h>
 
 #include "XGP/ConnectDlg.h"
-
 
 namespace XGP {
 
 namespace {
-   /// Sets the horizontal/vertical margin of a widget
-   void setMargins (Gtk::Widget& w, int x, int y) {
-      w.set_margin_start (x);
-      w.set_margin_end (x);
-      w.set_margin_top (y);
-      w.set_margin_bottom (y);
-   }
+/// Sets the horizontal/vertical margin of a widget
+void setMargins(Gtk::Widget& w, int x, int y) {
+    w.set_margin_start(x);
+    w.set_margin_end(x);
+    w.set_margin_top(y);
+    w.set_margin_bottom(y);
 }
+} // namespace
 
 //-----------------------------------------------------------------------------
 /// Default constructor
@@ -61,82 +59,77 @@ namespace {
 /// \param defPort Default port to listen at/send to
 /// \param connMgr Connection manager; holding the connections to use
 //-----------------------------------------------------------------------------
-ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
-                        const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr)
-   : XDialog (_("Connect to"), OKCANCEL),
-     pTarget (Gtk::make_managed<Gtk::Entry> ()),
-     pPort (Gtk::make_managed<Gtk::Entry> ()),
-     pWait (Gtk::make_managed<Gtk::Button> (_("_Wait for connections"), true)),
-     pConnect (Gtk::make_managed<Gtk::Button> (_("Connec_t"), true)),
-     pClient (Gtk::make_managed<Gtk::Grid> ()),
-     cmgr (connMgr),
-     pExplain (Gtk::make_managed<Gtk::Label> (_("Click on \"Wait for connections\" "
-						 "to wait for connections from "
-						 "other computers.\n\nIf you want "
-						 "to connect to a server, enter its "
-						 "address (name or IP number) in "
-						 "the entry field and click on "
-						 "\"Connect\"."))),
-     pLblServer (Gtk::make_managed<Gtk::Label> (_("_Server:"), true)),
-     pLblPort (Gtk::make_managed<Gtk::Label> (_("_Port:"), true)),
-     port (defPort),  cMaxConns (cMaxConnections) {
-   TRACE8 ("ConnectDlg::ConnectDlg (unsigned int, const Glib::ustring&, ConnectionMgr&) - "
-           << cMaxConnections << "; Port: " << defPort);
+ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr)
+    : XDialog(_("Connect to"), OKCANCEL), pTarget(Gtk::make_managed<Gtk::Entry>()), pPort(Gtk::make_managed<Gtk::Entry>()),
+      pWait(Gtk::make_managed<Gtk::Button>(_("_Wait for connections"), true)),
+      pConnect(Gtk::make_managed<Gtk::Button>(_("Connec_t"), true)), pClient(Gtk::make_managed<Gtk::Grid>()), cmgr(connMgr),
+      pExplain(Gtk::make_managed<Gtk::Label>(_("Click on \"Wait for connections\" "
+                                               "to wait for connections from "
+                                               "other computers.\n\nIf you want "
+                                               "to connect to a server, enter its "
+                                               "address (name or IP number) in "
+                                               "the entry field and click on "
+                                               "\"Connect\"."))),
+      pLblServer(Gtk::make_managed<Gtk::Label>(_("_Server:"), true)), pLblPort(Gtk::make_managed<Gtk::Label>(_("_Port:"), true)),
+      port(defPort), cMaxConns(cMaxConnections) {
+    TRACE8("ConnectDlg::ConnectDlg(unsigned int, const Glib::ustring&, ConnectionMgr&) - " << cMaxConnections << "; Port: "
+	   << defPort);
 
-   pExplain->set_wrap ();
-   pExplain->set_xalign (0); pExplain->set_yalign (0);
-   pLblServer->set_xalign (0); pLblServer->set_yalign (0.5);
-   pLblPort->set_xalign (0); pLblPort->set_yalign (0.5);
-   pLblServer->set_mnemonic_widget (*pTarget);
-   pLblPort->set_mnemonic_widget (*pPort);
+    pExplain->set_wrap();
+    pExplain->set_xalign(0);
+    pExplain->set_yalign(0);
+    pLblServer->set_xalign(0);
+    pLblServer->set_yalign(0.5);
+    pLblPort->set_xalign(0);
+    pLblPort->set_yalign(0.5);
+    pLblServer->set_mnemonic_widget(*pTarget);
+    pLblPort->set_mnemonic_widget(*pPort);
 
-   pPort->set_text (defPort);
+    pPort->set_text(defPort);
 
-   pConnect->signal_clicked ().connect
-       (sigc::bind (sigc::mem_fun (*this, &ConnectDlg::on_response), static_cast<int> (CONNECT)));
-   pWait->signal_clicked ().connect
-       (sigc::bind (sigc::mem_fun (*this, &ConnectDlg::command), static_cast<int> (WAIT)));
+    pConnect->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &ConnectDlg::on_response), static_cast<int>(CONNECT)));
+    pWait->signal_clicked().connect(sigc::bind(sigc::mem_fun(*this, &ConnectDlg::command), static_cast<int>(WAIT)));
 
-   pExplain->set_hexpand (); pExplain->set_vexpand ();
-   setMargins (*pExplain, 5, 3);
-   pClient->attach (*pExplain, 0, 0, 3, 1);
+    pExplain->set_hexpand();
+    pExplain->set_vexpand();
+    setMargins(*pExplain, 5, 3);
+    pClient->attach(*pExplain, 0, 0, 3, 1);
 
-   setMargins (*pLblServer, 5, 3);
-   pClient->attach (*pLblServer, 0, 1, 1, 1);
+    setMargins(*pLblServer, 5, 3);
+    pClient->attach(*pLblServer, 0, 1, 1, 1);
 
-   pTarget->set_hexpand ();
-   setMargins (*pTarget, 5, 3);
-   pClient->attach (*pTarget, 1, 1, 1, 1);
+    pTarget->set_hexpand();
+    setMargins(*pTarget, 5, 3);
+    pClient->attach(*pTarget, 1, 1, 1, 1);
 
-   setMargins (*pLblPort, 5, 3);
-   pClient->attach (*pLblPort, 0, 2, 1, 1);
+    setMargins(*pLblPort, 5, 3);
+    pClient->attach(*pLblPort, 0, 2, 1, 1);
 
-   pPort->set_hexpand ();
-   setMargins (*pPort, 5, 3);
-   pClient->attach (*pPort, 1, 2, 1, 1);
+    pPort->set_hexpand();
+    setMargins(*pPort, 5, 3);
+    pClient->attach(*pPort, 1, 2, 1, 1);
 
-   setMargins (*pConnect, 5, 3);
-   pClient->attach (*pConnect, 2, 1, 1, 1);
+    setMargins(*pConnect, 5, 3);
+    pClient->attach(*pConnect, 2, 1, 1, 1);
 
-   setMargins (*pClient, 0, 5);
-   get_content_area ()->append (*pClient);
+    setMargins(*pClient, 0, 5);
+    get_content_area()->append(*pClient);
 
-   pWait->set_halign (Gtk::Align::END);
-   setMargins (*pWait, 5, 0);
-   get_content_area ()->append (*pWait);
+    pWait->set_halign(Gtk::Align::END);
+    setMargins(*pWait, 5, 0);
+    get_content_area()->append(*pWait);
 
-   pPort->signal_changed ().connect (sigc::mem_fun (*this, &ConnectDlg::valueChanged));
-   pTarget->signal_changed ().connect (sigc::mem_fun (*this, &ConnectDlg::valueChanged));
-   valueChanged ();
+    pPort->signal_changed().connect(sigc::mem_fun(*this, &ConnectDlg::valueChanged));
+    pTarget->signal_changed().connect(sigc::mem_fun(*this, &ConnectDlg::valueChanged));
+    valueChanged();
 
-   show ();
+    show();
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ConnectDlg::~ConnectDlg () = default;
-
+ConnectDlg::~ConnectDlg() = default;
 
 //----------------------------------------------------------------------------
 /// Performs the dialog (modal)
@@ -147,11 +140,10 @@ ConnectDlg::~ConnectDlg () = default;
 /// \returns ConnectDlg::modeConnect Mode of the connection
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
-void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
-                          YGP::ConnectionMgr& connMgr) {
-   std::ostringstream port;
-   port << defPort;
-   return perform (cMaxConnections, port.str (), connMgr);
+void ConnectDlg::perform(unsigned int cMaxConnections, unsigned int defPort, YGP::ConnectionMgr& connMgr) {
+    std::ostringstream port;
+    port << defPort;
+    return perform(cMaxConnections, port.str(), connMgr);
 }
 
 //----------------------------------------------------------------------------
@@ -163,109 +155,103 @@ void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
 /// \returns ConnectDlg::modeConnect Mode of the connection
 /// \remarks This method cares about freeing the dialog afterwards
 //----------------------------------------------------------------------------
-void ConnectDlg::perform (unsigned int cMaxConnections, const Glib::ustring& defPort,
-                          YGP::ConnectionMgr& connMgr) {
-   auto* dlg (new ConnectDlg (cMaxConnections, defPort, connMgr));
-   runModal (*dlg);
-   delete dlg;
+void ConnectDlg::perform(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr) {
+    auto* dlg(new ConnectDlg(cMaxConnections, defPort, connMgr));
+    runModal(*dlg);
+    delete dlg;
 }
 
 //----------------------------------------------------------------------------
 /// Command handler of the dialog
 /// \param action Selected command (button)
 //----------------------------------------------------------------------------
-void ConnectDlg::command (int action) {
-   TRACE8 ("ConnectDlg::command (int) - " << action);
+void ConnectDlg::command(int action) {
+    TRACE8("ConnectDlg::command(int) - " << action);
 
-   switch (action) {
-      case CONNECT: {
-         try {
-            Check3 (pPort->get_text_length ());
-            unsigned int prt (YGP::Socket::getPortOfService (pPort->get_text ().c_str ()));
-            connect (pTarget->get_text (), prt);
-            valueChanged ();
-            response (static_cast<int> (Gtk::ResponseType::OK));
-         }
-         catch (YGP::CommError& err) {
-            Glib::ustring msg (_("Can't connect to server!\n\nReason: %1"));
-            msg.replace (msg.find ("%1"), 2, err.what ());
-            Gtk::MessageDialog dlg (msg, false, Gtk::MessageType::ERROR,
-                                    Gtk::ButtonsType::CANCEL);
-            dlg.set_title (_("Connect error"));
-            runModal (dlg);
-         }
-         break;
-      }
+    switch (action) {
+    case CONNECT: {
+        try {
+            Check3(pPort->get_text_length());
+            unsigned int prt(YGP::Socket::getPortOfService(pPort->get_text().c_str()));
+            connect(pTarget->get_text(), prt);
+            valueChanged();
+            response(static_cast<int>(Gtk::ResponseType::OK));
+        }
+        catch (YGP::CommError& err) {
+            Glib::ustring msg(_("Can't connect to server!\n\nReason: %1"));
+            msg.replace(msg.find("%1"), 2, err.what());
+            Gtk::MessageDialog dlg(msg, false, Gtk::MessageType::ERROR, Gtk::ButtonsType::CANCEL);
+            dlg.set_title(_("Connect error"));
+            runModal(dlg);
+        }
+        break;
+    }
 
-      case WAIT:
-         try {
-            Check3 (pPort->get_text_length ());
-            unsigned int prt (YGP::Socket::getPortOfService (pPort->get_text ().c_str ()));
-            cmgr.listenAt (prt);
+    case WAIT:
+        try {
+            Check3(pPort->get_text_length());
+            unsigned int prt(YGP::Socket::getPortOfService(pPort->get_text().c_str()));
+            cmgr.listenAt(prt);
 
-            pThread = YGP::OThread<ConnectDlg>::create2
-                (this, &ConnectDlg::waitForConnections, nullptr);
-            pThread->allowCancelation ();
-            valueChanged ();
-         }
-         catch (YGP::CommError& err) {
-            Glib::ustring msg (_("Can't bind to port!\n\nReason: %1"));
-            msg.replace (msg.find ("%1"), 2, err.what ());
-            Gtk::MessageDialog dlg (msg, false, Gtk::MessageType::ERROR,
-                                    Gtk::ButtonsType::CANCEL);
-            dlg.set_title (_("Connect error"));
-            runModal (dlg);
-         }
-         break;
+            pThread = YGP::OThread<ConnectDlg>::create2(this, &ConnectDlg::waitForConnections, nullptr);
+            pThread->allowCancelation();
+            valueChanged();
+        }
+        catch (YGP::CommError& err) {
+            Glib::ustring msg(_("Can't bind to port!\n\nReason: %1"));
+            msg.replace(msg.find("%1"), 2, err.what());
+            Gtk::MessageDialog dlg(msg, false, Gtk::MessageType::ERROR, Gtk::ButtonsType::CANCEL);
+            dlg.set_title(_("Connect error"));
+            runModal(dlg);
+        }
+        break;
 
-      default:
-         Check (0);
-   }
+    default:
+        Check(0);
+    }
 }
 
 //----------------------------------------------------------------------------
 /// Callback if the OK button has been pressed
 //----------------------------------------------------------------------------
-void ConnectDlg::okEvent () {
-   TRACE8 ("ConnectDlg::okEvent () - " << (pThread ? "Waiting" : "Finish"));
-   if (pThread) {
-      pThread->cancel ();
-      pThread = nullptr;
-   }
+void ConnectDlg::okEvent() {
+    TRACE8("ConnectDlg::okEvent() - " << (pThread ? "Waiting" : "Finish"));
+    if (pThread) {
+        pThread->cancel();
+        pThread = nullptr;
+    }
 }
 //----------------------------------------------------------------------------
 /// Callback if the CANCEL button has been pressed
 //----------------------------------------------------------------------------
-void ConnectDlg::cancelEvent () {
-   TRACE8 ("ConnectDlg::cancelEvent () - " << (pThread ? "Waiting" : "Finish"));
-   if (pThread) {
-      pThread->cancel ();
-      pThread = nullptr;
-   }
-   cmgr.changeMode (YGP::ConnectionMgr::NONE);
+void ConnectDlg::cancelEvent() {
+    TRACE8("ConnectDlg::cancelEvent() - " << (pThread ? "Waiting" : "Finish"));
+    if (pThread) {
+        pThread->cancel();
+        pThread = nullptr;
+    }
+    cmgr.changeMode(YGP::ConnectionMgr::NONE);
 }
 
 //----------------------------------------------------------------------------
 /// Callback if the CANCEL buttons has been pressed
 //----------------------------------------------------------------------------
-void ConnectDlg::valueChanged () const {
-   pWait->set_sensitive (!pThread && pPort->get_text_length ()
-			 && (cMaxConns != cmgr.getClients ().size ()));
-   pConnect->set_sensitive (!pThread && pPort->get_text_length ()
-                            && pTarget->get_text_length ());
+void ConnectDlg::valueChanged() const {
+    pWait->set_sensitive(!pThread && pPort->get_text_length() && (cMaxConns != cmgr.getClients().size()));
+    pConnect->set_sensitive(!pThread && pPort->get_text_length() && pTarget->get_text_length());
 }
 
 //----------------------------------------------------------------------------
 /// Waits for connections
 /// \throw YGP::CommError In case of an connection error
 //----------------------------------------------------------------------------
-void* ConnectDlg::waitForConnections (void* pVoid) {
-   while (true) {
-       int socket (cmgr.getNewConnection ());
-       ((YGP::Thread*)pVoid)->isToCancel ();
-       addClient (socket);
-   }
-   return pVoid;
+void* ConnectDlg::waitForConnections(void* pVoid) {
+    while (true) {
+        int socket(cmgr.getNewConnection());
+        ((YGP::Thread*)pVoid)->isToCancel();
+        addClient(socket);
+    }
+    return pVoid;
 }
 
 //----------------------------------------------------------------------------
@@ -273,14 +259,14 @@ void* ConnectDlg::waitForConnections (void* pVoid) {
 /// \param socket Socket over which the client communicates
 /// \returns Socket* Pointer to created socket (or \c NULL)
 //----------------------------------------------------------------------------
-YGP::Socket* ConnectDlg::addClient (int socket) {
-   YGP::Socket* newSocket (cmgr.addConnection (socket));
-   if (cMaxConns == cmgr.getClients ().size ()) {
-      delete pThread;
-      pThread = nullptr;
-      pWait->set_sensitive (false);
-   }
-   return newSocket;
+YGP::Socket* ConnectDlg::addClient(int socket) {
+    YGP::Socket* newSocket(cmgr.addConnection(socket));
+    if (cMaxConns == cmgr.getClients().size()) {
+        delete pThread;
+        pThread = nullptr;
+        pWait->set_sensitive(false);
+    }
+    return newSocket;
 }
 
 //----------------------------------------------------------------------------
@@ -289,10 +275,9 @@ YGP::Socket* ConnectDlg::addClient (int socket) {
 /// \param port Port the target is listening at
 /// \throw YGP::CommError In case of an connection error
 //----------------------------------------------------------------------------
-void ConnectDlg::connect (const Glib::ustring& target, unsigned int port) {
-   TRACE3 ("PlayerConnectDlg::connect (const Glib::ustring&, unsigned int)"
-           << target << ':' << port);
-   cmgr.connectTo (target, port);
+void ConnectDlg::connect(const Glib::ustring& target, unsigned int port) {
+    TRACE3("PlayerConnectDlg::connect(const Glib::ustring&, unsigned int)" << target << ':' << port);
+    cmgr.connectTo(target, port);
 }
 
-}
+} // namespace XGP

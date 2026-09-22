@@ -1,8 +1,6 @@
 #ifndef XGP_GTKMOZVIEWER_H
 #define XGP_GTKMOZVIEWER_H
 
-//$Id: GtkMozViewer.h,v 1.3 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,26 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #ifdef HAVE_GTKMOZEMBED
 
-#include <gtk/gtkwidget.h>
+#    include <gtk/gtkwidget.h>
 
-#ifdef  __cplusplus
+#    ifdef __cplusplus
 extern "C" {
-#endif
+#    endif
 
-    GtkWidget* gtkMozEmbedInitialize ();
-    void       gtkMozEmbedDisplayURL (GtkWidget* ctrl, const char* url);
+GtkWidget* gtkMozEmbedInitialize();
+void gtkMozEmbedDisplayURL(GtkWidget* ctrl, const char* url);
 
-    const char* gtkMozEmbedGetError ();
+const char* gtkMozEmbedGetError();
 
-#ifdef  __cplusplus
+#    ifdef __cplusplus
 }
-#endif
-
+#    endif
 
 #endif // HAVE_GTMOZEMBED
 

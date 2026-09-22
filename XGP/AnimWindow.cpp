@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : AnimatedWindow
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 20.05.2007
-//COPYRIGHT   : Copyright (C) 2007, 2008, 2012, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : AnimatedWindow
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 20.05.2007
+// COPYRIGHT   : Copyright (C) 2007, 2008, 2012, 2026
 
 // This file is part of libYGP.
 //
@@ -22,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <glibmm/main.h>
 
 #include <YGP/Check.h>
@@ -32,62 +31,57 @@
 
 #include "AnimWindow.h"
 
-
 namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
 /// \param window Window to animate
 //-----------------------------------------------------------------------------
-AnimatedWindow::AnimatedWindow (Glib::RefPtr<Gdk::Surface> window)
-   : win (std::move(window)), steps (10) {
-   TRACE9 ("AnimatedWindow::AnimatedWindow ()");
+AnimatedWindow::AnimatedWindow(Glib::RefPtr<Gdk::Surface> window) : win(std::move(window)), steps(10) {
+    TRACE9("AnimatedWindow::AnimatedWindow()");
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-AnimatedWindow::~AnimatedWindow () {
-   TRACE9 ("AnimatedWindow::~AnimatedWindow ()");
-}
-
+AnimatedWindow::~AnimatedWindow() { TRACE9("AnimatedWindow::~AnimatedWindow()"); }
 
 //-----------------------------------------------------------------------------
 /// Starts the animation of the object
 //-----------------------------------------------------------------------------
-void AnimatedWindow::animate () {
-   Check1 (win);
+void AnimatedWindow::animate() {
+    Check1(win);
 
-   start ();
-   if (win->get_mapped ()) {
-      steps = 10;
-      Glib::signal_timeout ().connect (sigc::mem_fun (*this, &AnimatedWindow::animationStep), 20);
-   }
-   else {
-      cleanup ();
-      finish ();
-      delete this;
-   }
+    start();
+    if (win->get_mapped()) {
+        steps = 10;
+        Glib::signal_timeout().connect(sigc::mem_fun(*this, &AnimatedWindow::animationStep), 20);
+    }
+    else {
+        cleanup();
+        finish();
+        delete this;
+    }
 }
 
 //-----------------------------------------------------------------------------
 /// Performs a single step of the animated
 /// \returns bool True, if further steps are to be performed
 //-----------------------------------------------------------------------------
-bool AnimatedWindow::animationStep () {
-   TRACE8 ("AnimatedWindow::animationStep () - " << steps);
+bool AnimatedWindow::animationStep() {
+    TRACE8("AnimatedWindow::animationStep() - " << steps);
 
-   if (steps--) {
-      int x, y;
-      getEndPos (x, y);
-      animateTo (x, y);
-      return true;
-   }
+    if (steps--) {
+        int x, y;
+        getEndPos(x, y);
+        animateTo(x, y);
+        return true;
+    }
 
-   cleanup ();
-   finish ();
-   delete this;
-   return false;
+    cleanup();
+    finish();
+    delete this;
+    return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -97,26 +91,21 @@ bool AnimatedWindow::animationStep () {
 /// \remarks No-op under GTK4: Gdk::Surface/Toplevel expose no way for a
 ///     client to query or set a toplevel's position (see the class remarks).
 //-----------------------------------------------------------------------------
-void AnimatedWindow::animateTo (int, int) {
-   Check1 (win);
-}
+void AnimatedWindow::animateTo(int, int) { Check1(win); }
 
 //-----------------------------------------------------------------------------
 /// Additional actions before starting the animation
 //-----------------------------------------------------------------------------
-void AnimatedWindow::start () {
-}
+void AnimatedWindow::start() {}
 
 //-----------------------------------------------------------------------------
 /// Called when ending the animation; perform your cleanup here
 //-----------------------------------------------------------------------------
-void AnimatedWindow::cleanup () {
-}
+void AnimatedWindow::cleanup() {}
 
 //-----------------------------------------------------------------------------
 /// Additional actions after ending the animation
 //-----------------------------------------------------------------------------
-void AnimatedWindow::finish () {
-}
+void AnimatedWindow::finish() {}
 
-}
+} // namespace XGP

@@ -1,8 +1,6 @@
 #ifndef XGP_XATTRENTRY_H
 #define XGP_XATTRENTRY_H
 
-//$Id: XAttrEntry.h,v 1.22 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,27 +16,25 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
-#if defined (HAVE_GETTEXT) && defined (ENABLE_NLS)
-#  include <libintl.h>
+#if defined(HAVE_GETTEXT) && defined(ENABLE_NLS)
+#    include <libintl.h>
 #else
-#  define dgettext(pkg, text) (text)
+#    define dgettext(pkg, text) (text)
 #endif
 
 #include <cstdio>
 #include <stdexcept>
 
-#include <glibmm/main.h>
 #include <glibmm/convert.h>
+#include <glibmm/main.h>
 
 #include <gtkmm/entry.h>
-#include <gtkmm/messagedialog.h>
 #include <gtkmm/eventcontrollerfocus.h>
+#include <gtkmm/messagedialog.h>
 
 #include <XGP/XDialog.h>
-
 
 namespace XGP {
 
@@ -56,106 +52,110 @@ namespace XGP {
    The commit() method transfers the input to the attribute.
 */
 template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P {
-   using parent = P;
+    using parent = P;
 
- public:
-   /// Constructor; sets the attribute to handle.
-   XAttributeEntry (T& attr)
-      : temp (attr), attr_ (attr) {
-      P::set_text (attr_.toString ());
+  public:
+    /// Constructor; sets the attribute to handle.
+    XAttributeEntry(T& attr) : temp(attr), attr_(attr) {
+        P::set_text(attr_.toString());
 
-      Glib::RefPtr<Gtk::EventControllerFocus> focus (Gtk::EventControllerFocus::create ());
-      focus->signal_enter ().connect (sigc::mem_fun (*this, &XAttributeEntry::onFocusIn));
-      focus->signal_leave ().connect (sigc::mem_fun (*this, &XAttributeEntry::onFocusOut));
-      P::add_controller (focus);
-   }
-   /// Destructor
-   ~XAttributeEntry () override = default;
+        Glib::RefPtr<Gtk::EventControllerFocus> focus(Gtk::EventControllerFocus::create());
+        focus->signal_enter().connect(sigc::mem_fun(*this, &XAttributeEntry::onFocusIn));
+        focus->signal_leave().connect(sigc::mem_fun(*this, &XAttributeEntry::onFocusOut));
+        P::add_controller(focus);
+    }
+    /// Destructor
+    ~XAttributeEntry() override = default;
 
-   /// Returns if the field has been changed
-   bool hasChanged () const { return temp != attr_; }
+    /// Returns if the field has been changed
+    bool hasChanged() const { return temp != attr_; }
 
-   /// Actualizes the value of the attribute with the value entered in the
-   /// entry field.
-   void commit () { attr_ = temp; }
-   /// Actualizes the displayed value with the (changed) value of the
-   /// attribute.
-   void update () {
-      temp = attr_;
-      P::set_text (P::has_focus () ? temp.toUnformattedString () : temp.toString ()); }
-   /// Actualizes the displayed value with the passed value. The value of the
-   /// attribute is not (yet) changed (this happens at commit ()).
-   void setText (const Glib::ustring& value) {
-      temp = value;
-      P::set_text (P::has_focus () ? temp.toString () : temp.toUnformattedString ()); }
+    /// Actualizes the value of the attribute with the value entered in the
+    /// entry field.
+    void commit() { attr_ = temp; }
+    /// Actualizes the displayed value with the (changed) value of the
+    /// attribute.
+    void update() {
+        temp = attr_;
+        P::set_text(P::has_focus() ? temp.toUnformattedString() : temp.toString());
+    }
+    /// Actualizes the displayed value with the passed value. The value of the
+    /// attribute is not (yet) changed (this happens at commit ()).
+    void setText(const Glib::ustring& value) {
+        temp = value;
+        P::set_text(P::has_focus() ? temp.toString() : temp.toUnformattedString());
+    }
 
-   /// Returns the handled attribute
-   T& getAttribute () { return attr_; }
+    /// Returns the handled attribute
+    T& getAttribute() { return attr_; }
 
- protected:
-   virtual void onFocusIn () {
-      if (inError)
-         inError = false;
-      else
-         P::set_text (temp.toUnformattedString ()); }
-   virtual void onFocusOut () {
-      try {
-         temp = P::get_text ();
-         P::set_text (temp.toString ());
-      }
-      catch (std::invalid_argument& e) {
-         inError = true;
-         Gtk::MessageDialog msg (e.what (), false, Gtk::MessageType::ERROR);
-         msg.set_title (Glib::locale_to_utf8 (dgettext (LIBYGP_NAME, "Invalid value!")));
-         XGP::runModal (msg);
-         Glib::signal_idle ().connect (sigc::mem_fun (*this, &XAttributeEntry::takeFocus));
-      } }
+  protected:
+    virtual void onFocusIn() {
+        if (inError)
+            inError = false;
+        else
+            P::set_text(temp.toUnformattedString());
+    }
+    virtual void onFocusOut() {
+        try {
+            temp = P::get_text();
+            P::set_text(temp.toString());
+        }
+        catch (std::invalid_argument& e) {
+            inError = true;
+            Gtk::MessageDialog msg(e.what(), false, Gtk::MessageType::ERROR);
+            msg.set_title(Glib::locale_to_utf8(dgettext(LIBYGP_NAME, "Invalid value!")));
+            XGP::runModal(msg);
+            Glib::signal_idle().connect(sigc::mem_fun(*this, &XAttributeEntry::takeFocus));
+        }
+    }
 
-   bool takeFocus () {
-      P::grab_focus ();
-      return false; }
+    bool takeFocus() {
+        P::grab_focus();
+        return false;
+    }
 
- private:
-   XAttributeEntry (const XAttributeEntry&) = delete;
-   const XAttributeEntry& operator= (const XAttributeEntry&) = delete;
+  private:
+    XAttributeEntry(const XAttributeEntry&) = delete;
+    const XAttributeEntry& operator=(const XAttributeEntry&) = delete;
 
-   T  temp;
-   T& attr_;
-   bool inError{false};
+    T temp;
+    T& attr_;
+    bool inError{false};
 };
 
-
 /// Specialication of XAttributeEntry<T>::XAttributeEntry for strings
-template <> inline XAttributeEntry<std::string>::XAttributeEntry (std::string& attr) : temp (attr)
-     , attr_ (attr), inError (false) { parent::set_text (attr); }
-
-/// Specialication of XAttributeEntry<T>::update for strings
-template <> inline void XAttributeEntry<std::string>::update () { parent::set_text (temp = attr_); }
-/// Specialication of XAttributeEntry<T>::setText for strings
-template <> inline void XAttributeEntry<std::string>::setText (const Glib::ustring& value) {
-   temp = Glib::locale_from_utf8 (value);
-   parent::set_text (value); }
-/// Specialication of XAttributeEntry<T>::onFocusIn for strings
-template <> inline void XAttributeEntry<std::string>::onFocusIn () { }
-/// Specialication of XAttributeEntry<T>::onFocusOut for strings
-template <> inline void XAttributeEntry<std::string>::onFocusOut () {
-   temp = parent::get_text (); }
-
-/// Specialication of XAttributeEntry<T>::XAttributeEntry for ustrings
-template <> inline XAttributeEntry<Glib::ustring>::XAttributeEntry (Glib::ustring& attr) : temp (attr)
-     , attr_ (attr), inError (false) { parent::set_text (attr); }
-
-/// Specialication of XAttributeEntry<T>::update for ustrings
-template <> inline void XAttributeEntry<Glib::ustring>::update () { parent::set_text (temp = attr_); }
-/// Specialication of XAttributeEntry<T>::setText for ustrings
-template <> inline void XAttributeEntry<Glib::ustring>::setText (const Glib::ustring& value) { parent::set_text (temp = value); }
-/// Specialication of XAttributeEntry<T>::onFocusIn for ustrings
-template <> inline void XAttributeEntry<Glib::ustring>::onFocusIn () { }
-/// Specialication of XAttributeEntry<T>::onFocusOut for ustrings
-template <> inline void XAttributeEntry<Glib::ustring>::onFocusOut () {
-   temp = parent::get_text (); }
-
+template <> inline XAttributeEntry<std::string>::XAttributeEntry(std::string& attr) : temp(attr), attr_(attr), inError(false) {
+    parent::set_text(attr);
 }
 
+/// Specialication of XAttributeEntry<T>::update for strings
+template <> inline void XAttributeEntry<std::string>::update() { parent::set_text(temp = attr_); }
+/// Specialication of XAttributeEntry<T>::setText for strings
+template <> inline void XAttributeEntry<std::string>::setText(const Glib::ustring& value) {
+    temp = Glib::locale_from_utf8(value);
+    parent::set_text(value);
+}
+/// Specialication of XAttributeEntry<T>::onFocusIn for strings
+template <> inline void XAttributeEntry<std::string>::onFocusIn() {}
+/// Specialication of XAttributeEntry<T>::onFocusOut for strings
+template <> inline void XAttributeEntry<std::string>::onFocusOut() { temp = parent::get_text(); }
+
+/// Specialication of XAttributeEntry<T>::XAttributeEntry for ustrings
+template <>
+inline XAttributeEntry<Glib::ustring>::XAttributeEntry(Glib::ustring& attr) : temp(attr), attr_(attr), inError(false) {
+    parent::set_text(attr);
+}
+
+/// Specialication of XAttributeEntry<T>::update for ustrings
+template <> inline void XAttributeEntry<Glib::ustring>::update() { parent::set_text(temp = attr_); }
+/// Specialication of XAttributeEntry<T>::setText for ustrings
+template <> inline void XAttributeEntry<Glib::ustring>::setText(const Glib::ustring& value) { parent::set_text(temp = value); }
+/// Specialication of XAttributeEntry<T>::onFocusIn for ustrings
+template <> inline void XAttributeEntry<Glib::ustring>::onFocusIn() {}
+/// Specialication of XAttributeEntry<T>::onFocusOut for ustrings
+template <> inline void XAttributeEntry<Glib::ustring>::onFocusOut() { temp = parent::get_text(); }
+
+} // namespace XGP
 
 #endif

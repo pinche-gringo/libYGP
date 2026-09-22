@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : XDialog
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 04.01.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2011, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : XDialog
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 04.01.2003
+// COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -34,8 +34,6 @@
 
 #include "XGP/XDialog.h"
 
-
-
 namespace XGP {
 
 //-----------------------------------------------------------------------------
@@ -44,21 +42,21 @@ namespace XGP {
 /// \returns int Response-ID the dialog was closed with
 /// \remarks Replaces the blocking Gtk::Dialog::run(), which GTK4 removed
 //-----------------------------------------------------------------------------
-int runModal (Gtk::Dialog& dlg) {
-   Glib::RefPtr<Glib::MainLoop> loop (Glib::MainLoop::create ());
-   int response (static_cast<int> (Gtk::ResponseType::NONE));
+int runModal(Gtk::Dialog& dlg) {
+    Glib::RefPtr<Glib::MainLoop> loop(Glib::MainLoop::create());
+    int response(static_cast<int>(Gtk::ResponseType::NONE));
 
-   sigc::connection conn (dlg.signal_response ().connect ([&] (int r) {
-      response = r;
-      loop->quit ();
-   }));
+    sigc::connection conn(dlg.signal_response().connect([&](int r) {
+        response = r;
+        loop->quit();
+    }));
 
-   dlg.set_modal (true);
-   dlg.show ();
-   loop->run ();
-   conn.disconnect ();
+    dlg.set_modal(true);
+    dlg.show();
+    loop->run();
+    conn.disconnect();
 
-   return response;
+    return response;
 }
 
 //-----------------------------------------------------------------------------
@@ -66,9 +64,8 @@ int runModal (Gtk::Dialog& dlg) {
 /// \param buttons Bitfield for buttons to display
 /// \param modal Flag, if the dialog is modal
 //-----------------------------------------------------------------------------
-XDialog::XDialog (unsigned int buttons, bool modal)
-   : Gtk::Dialog (Glib::ustring (), modal), ok (nullptr), cancel (nullptr) {
-   init (buttons);
+XDialog::XDialog(unsigned int buttons, bool modal) : Gtk::Dialog(Glib::ustring(), modal), ok(nullptr), cancel(nullptr) {
+    init(buttons);
 }
 
 //-----------------------------------------------------------------------------
@@ -77,9 +74,9 @@ XDialog::XDialog (unsigned int buttons, bool modal)
 /// \param title Title to display
 /// \param modal Flag, if the dialog is modal
 //-----------------------------------------------------------------------------
-XDialog::XDialog (const Glib::ustring& title, unsigned int buttons, bool modal)
-   : Gtk::Dialog (title, modal), ok (nullptr), cancel (nullptr) {
-   init (buttons);
+XDialog::XDialog(const Glib::ustring& title, unsigned int buttons, bool modal)
+    : Gtk::Dialog(title, modal), ok(nullptr), cancel(nullptr) {
+    init(buttons);
 }
 
 //-----------------------------------------------------------------------------
@@ -89,76 +86,68 @@ XDialog::XDialog (const Glib::ustring& title, unsigned int buttons, bool modal)
 /// \param parent Parent of the dialog
 /// \param modal Flag, if the dialog is modal
 //-----------------------------------------------------------------------------
-XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
-                  unsigned int buttons, bool modal)
-   : Gtk::Dialog (title, parent, modal), ok (nullptr), cancel (nullptr) {
-   init (buttons);
+XDialog::XDialog(const Glib::ustring& title, Gtk::Window& parent, unsigned int buttons, bool modal)
+    : Gtk::Dialog(title, parent, modal), ok(nullptr), cancel(nullptr) {
+    init(buttons);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-XDialog::~XDialog () {
-   TRACE9 ("XDialog::~XDialog ()");
-}
-
+XDialog::~XDialog() { TRACE9("XDialog::~XDialog()"); }
 
 //-----------------------------------------------------------------------------
 /// Adds the specified buttons to the dialog
 /// \param buttons Bitfield for buttons to display
 //-----------------------------------------------------------------------------
-void XDialog::init (unsigned int buttons) {
-   TRACE9 ("XDialog::init ()");
-   ok = (buttons & OK) ? add_button ("_OK", static_cast<int> (Gtk::ResponseType::OK)) : nullptr;
-   cancel = (buttons & CANCEL) ? add_button ((buttons & OK) ? "_Cancel" : "_Close",
-					     static_cast<int> (Gtk::ResponseType::CANCEL)) : nullptr;
+void XDialog::init(unsigned int buttons) {
+    TRACE9("XDialog::init()");
+    ok = (buttons & OK) ? add_button("_OK", static_cast<int>(Gtk::ResponseType::OK)) : nullptr;
+    cancel = (buttons & CANCEL) ? add_button((buttons & OK) ? "_Cancel" : "_Close", static_cast<int>(Gtk::ResponseType::CANCEL))
+                                : nullptr;
 
-   if (ok)
-      set_default_widget (*ok);
-   else if (cancel)
-      set_default_widget (*cancel);
+    if (ok)
+        set_default_widget(*ok);
+    else if (cancel)
+        set_default_widget(*cancel);
 }
 
 //-----------------------------------------------------------------------------
 /// Callback after button-events
 /// \param cmd ID of pressed button
 //-----------------------------------------------------------------------------
-void XDialog::on_response (int cmd) {
-   TRACE9 ("XDialog::on_response (int) " << cmd);
-   if (cmd == static_cast<int> (Gtk::ResponseType::OK)) {
-      if (!isDataOK ())
-	 return;
-      okEvent ();
-   }
+void XDialog::on_response(int cmd) {
+    TRACE9("XDialog::on_response(int) " << cmd);
+    if (cmd == static_cast<int>(Gtk::ResponseType::OK)) {
+        if (!isDataOK())
+            return;
+        okEvent();
+    }
 
-   if (cmd == static_cast<int> (Gtk::ResponseType::CANCEL))
-      cancelEvent ();
-   else
-      command (cmd);
+    if (cmd == static_cast<int>(Gtk::ResponseType::CANCEL))
+        cancelEvent();
+    else
+        command(cmd);
 }
 
 //-----------------------------------------------------------------------------
 /// Callback after pressing the OK button; the user can override that to implemnt
 /// own behaviour
 //-----------------------------------------------------------------------------
-void XDialog::okEvent () {
-   TRACE9 ("XDialog::okEvent ()");
-}
+void XDialog::okEvent() { TRACE9("XDialog::okEvent()"); }
 
 //-----------------------------------------------------------------------------
 /// Callback after pressing the Cancel button
 //-----------------------------------------------------------------------------
-void XDialog::cancelEvent () {
-   TRACE9 ("XDialog::cancelEvent ()");
-}
+void XDialog::cancelEvent() { TRACE9("XDialog::cancelEvent()"); }
 
 //-----------------------------------------------------------------------------
 /// Checks if the data entered in the dialog is OK
 /// \returns bool True, if dialog can be left by selecting OK
 //-----------------------------------------------------------------------------
-bool XDialog::isDataOK () {
-   TRACE9 ("XDialog::isDataOK ()");
-   return true;
+bool XDialog::isDataOK() {
+    TRACE9("XDialog::isDataOK()");
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -166,17 +155,15 @@ bool XDialog::isDataOK () {
 /// \param action Selected action
 /// \remarks Must not be called
 //-----------------------------------------------------------------------------
-void XDialog::command (int action) {
-   TRACE9 ("XDialog::command (int) - " << action);
-}
+void XDialog::command(int action) { TRACE9("XDialog::command(int) - " << action); }
 
 //-----------------------------------------------------------------------------
 /// Frees the dialog.
 /// \remarks Call only if the dialog was created with new
 //-----------------------------------------------------------------------------
-void XDialog::free (int) {
-   TRACE9 ("XDialog::free (int)");
-   delete this;
+void XDialog::free(int) {
+    TRACE9("XDialog::free(int)");
+    delete this;
 }
 
-}
+} // namespace XGP

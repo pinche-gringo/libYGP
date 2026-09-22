@@ -1,8 +1,6 @@
 #ifndef XGP_XATTRIBUTE_H
 #define XGP_XATTRIBUTE_H
 
-//$Id: XAttribute.h,v 1.11 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,26 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <glibmm/ustring.h>
 
 #include <YGP/Attribute.h>
 
-
 namespace YGP {
 
 /// Specialization of Attribute<T>::assignFromString for Glib::ustring
-template <> inline bool Attribute<Glib::ustring>::assignFromString (const char* value) const {
-   Check3 (value);
-   attr_ = value;
-   return true;
+template <> inline bool Attribute<Glib::ustring>::assignFromString(const char* value) const {
+    Check3(value);
+    attr_ = value;
+    return true;
 }
 /// Specialization of Attribute<T>::getValue for Glib::ustring
-template <> inline std::string YGP::Attribute<Glib::ustring>::getValue () const { return attr_; }
+template <> inline std::string YGP::Attribute<Glib::ustring>::getValue() const { return attr_; }
 /// Specialization of Attribute<T>::getFormattedValue for Glib::ustring
-template <> inline std::string YGP::Attribute<Glib::ustring>::getFormattedValue () const { return getValue (); }
+template <> inline std::string YGP::Attribute<Glib::ustring>::getFormattedValue() const { return getValue(); }
 
-}
-
+} // namespace YGP
 
 #endif

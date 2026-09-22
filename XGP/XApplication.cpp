@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : XApplication
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 4.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2006, 2008 - 2010, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : XApplication
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 4.9.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2006, 2008 - 2010, 2026
 
 // This file is part of libYGP.
 //
@@ -22,10 +22,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <cstdlib>
-#include <csignal>
 #include <clocale>
+#include <csignal>
+#include <cstdlib>
 
 #include <sys/stat.h>
 
@@ -35,13 +34,13 @@
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
-#include <gtkmm/label.h>
 #include <gtkmm/image.h>
+#include <gtkmm/label.h>
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/shortcut.h>
 #include <gtkmm/shortcutaction.h>
-#include <gtkmm/shortcuttrigger.h>
 #include <gtkmm/shortcutcontroller.h>
+#include <gtkmm/shortcuttrigger.h>
 
 #include <giomm/menu.h>
 #include <giomm/simpleactiongroup.h>
@@ -50,20 +49,18 @@
 #include <YGP/Internal.h>
 
 #include <YGP/Check.h>
-#include <YGP/Trace.h>
 #include <YGP/Process.h>
 #include <YGP/StackTrc.h>
+#include <YGP/Trace.h>
 
-#include "XGP/XDialog.h"
-#include "XGP/TraceDlg.h"
-#include "XGP/HTMLViewer.h"
 #include "XGP/BrowserDlg.h"
+#include "XGP/HTMLViewer.h"
+#include "XGP/TraceDlg.h"
+#include "XGP/XDialog.h"
 
 #include "XGP/XApplication.h"
 
-
-using tokenizer = boost::tokenizer<boost::char_separator<char> >;
-
+using tokenizer = boost::tokenizer<boost::char_separator<char>>;
 
 namespace XGP {
 
@@ -73,37 +70,34 @@ namespace XGP {
 /// signals are trapped to produce a stackdump in the log file.
 /// \param pTitle Pointer to title of the application
 //-----------------------------------------------------------------------------
-XApplication::XApplication (const char* pTitle)
-   : vboxClient (new Gtk::Box (Gtk::Orientation::VERTICAL)),
-     grpAction (Gio::SimpleActionGroup::create ()),
-     helpBrowser (BrowserDlg::getDefaultBrowser ()) {
-   TRACE9 ("XApplication::XApplication (const char*) - " << pTitle);
-   signal (SIGSEGV, handleSignal);
+XApplication::XApplication(const char* pTitle)
+    : vboxClient(new Gtk::Box(Gtk::Orientation::VERTICAL)), grpAction(Gio::SimpleActionGroup::create()),
+      helpBrowser(BrowserDlg::getDefaultBrowser()) {
+    TRACE9("XApplication::XApplication(const char*) - " << pTitle);
+    signal(SIGSEGV, handleSignal);
 #ifdef HAVE_SIGBUS
-   signal (SIGBUS, handleSignal);
+    signal(SIGBUS, handleSignal);
 #endif
 
-   Check3 (pTitle);
-   set_title (pTitle);
+    Check3(pTitle);
+    set_title(pTitle);
 
-   Check3 (vboxClient);
-   insert_action_group ("win", grpAction);
-   set_child (*vboxClient);
+    Check3(vboxClient);
+    insert_action_group("win", grpAction);
+    set_child(*vboxClient);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-XApplication::~XApplication () {
-   TRACE9 ("XApplication::~XApplication () - start");
+XApplication::~XApplication() {
+    TRACE9("XApplication::~XApplication() - start");
 
-   signal (SIGSEGV, SIG_DFL);
+    signal(SIGSEGV, SIG_DFL);
 #ifdef HAVE_SIGBUS
-   signal (SIGBUS, SIG_DFL);
+    signal(SIGBUS, SIG_DFL);
 #endif
 }
-
-
 
 //-----------------------------------------------------------------------------
 /// Initializes the program for internationalization by setting the locale and
@@ -111,20 +105,21 @@ XApplication::~XApplication () {
 /// \param package Name of the message-catalog
 /// \param dir Root-directory for message-catalogs
 //-----------------------------------------------------------------------------
-void XApplication::initI18n (const char* package, const char* dir) {
-   Check1 (package); Check1 (dir);
+void XApplication::initI18n(const char* package, const char* dir) {
+    Check1(package);
+    Check1(dir);
 
-   initI18n ();
-   bindtextdomain (package, dir);
-   textdomain (package);
+    initI18n();
+    bindtextdomain(package, dir);
+    textdomain(package);
 }
 
 //-----------------------------------------------------------------------------
 /// Initializes the program for localization by setting the locale and loading
 /// the messagefile.
 //-----------------------------------------------------------------------------
-void XApplication::initI18n () {
-   setlocale (LC_ALL, "");                         // Activate current locale
+void XApplication::initI18n() {
+    setlocale(LC_ALL, ""); // Activate current locale
 }
 
 //-----------------------------------------------------------------------------
@@ -137,162 +132,154 @@ void XApplication::initI18n () {
 /// \param menu Top-level menu, to which the Help-submenu is appended
 /// \param withDynTrace Flag, if an entry to show the trace-window should be added
 //-----------------------------------------------------------------------------
-void XApplication::addHelpMenu (const Glib::RefPtr<Gio::Menu>& menu, bool withDynTrace) {
-   TRACE9 ("XApplication::addHelpMenu ()");
+void XApplication::addHelpMenu(const Glib::RefPtr<Gio::Menu>& menu, bool withDynTrace) {
+    TRACE9("XApplication::addHelpMenu()");
 
-   Glib::RefPtr<Gio::Menu> help (Gio::Menu::create ());
+    Glib::RefPtr<Gio::Menu> help(Gio::Menu::create());
 
-   if (getHelpfile ()) {
-      Glib::RefPtr<Gio::Menu> sec (Gio::Menu::create ());
+    if (getHelpfile()) {
+        Glib::RefPtr<Gio::Menu> sec(Gio::Menu::create());
 
-      grpAction->add_action ("HlpContent", sigc::mem_fun (*this, &XApplication::showHelp));
-      sec->append (_("_Contents"), "win.HlpContent");
+        grpAction->add_action("HlpContent", sigc::mem_fun(*this, &XApplication::showHelp));
+        sec->append(_("_Contents"), "win.HlpContent");
 
-      grpAction->add_action ("HlpSetBrowser", sigc::mem_fun (*this, &XApplication::selectHelpBrowser));
-      sec->append (_("Set help-_browser ..."), "win.HlpSetBrowser");
+        grpAction->add_action("HlpSetBrowser", sigc::mem_fun(*this, &XApplication::selectHelpBrowser));
+        sec->append(_("Set help-_browser ..."), "win.HlpSetBrowser");
 
-      help->append_section (sec);
+        help->append_section(sec);
 
-      Glib::RefPtr<Gtk::ShortcutController> ctrl (Gtk::ShortcutController::create ());
-      ctrl->add_shortcut
-	 (Gtk::Shortcut::create (Gtk::ShortcutTrigger::parse_string (_("F1")),
-				 Gtk::NamedAction::create ("win.HlpContent")));
-      add_controller (ctrl);
-   }
+        Glib::RefPtr<Gtk::ShortcutController> ctrl(Gtk::ShortcutController::create());
+        ctrl->add_shortcut(
+            Gtk::Shortcut::create(Gtk::ShortcutTrigger::parse_string(_("F1")), Gtk::NamedAction::create("win.HlpContent")));
+        add_controller(ctrl);
+    }
 
-   if (withDynTrace) {
-      Glib::RefPtr<Gio::Menu> sec (Gio::Menu::create ());
+    if (withDynTrace) {
+        Glib::RefPtr<Gio::Menu> sec(Gio::Menu::create());
 
-      grpAction->add_action ("HlpShowTraceObjs", sigc::mem_fun (*this, &XApplication::showTraceObjects));
-      sec->append (_("Set _trace-levels ..."), "win.HlpShowTraceObjs");
+        grpAction->add_action("HlpShowTraceObjs", sigc::mem_fun(*this, &XApplication::showTraceObjects));
+        sec->append(_("Set _trace-levels ..."), "win.HlpShowTraceObjs");
 
-      help->append_section (sec);
-   }
+        help->append_section(sec);
+    }
 
-   grpAction->add_action ("HlpAbout", sigc::mem_fun (*this, &XApplication::showAboutbox));
-   help->append (_("_About ..."), "win.HlpAbout");
+    grpAction->add_action("HlpAbout", sigc::mem_fun(*this, &XApplication::showAboutbox));
+    help->append(_("_About ..."), "win.HlpAbout");
 
-   menu->append_submenu (_("_Help"), help);
+    menu->append_submenu(_("_Help"), help);
 }
 
 //-----------------------------------------------------------------------------
 /// Shows the help to the program
 //-----------------------------------------------------------------------------
-void XApplication::showHelp () {
-   Check3 (getHelpfile ());
-   std::string file (getHelpfile ());
-   TRACE9 ("XApplication::command (int) - Show help " << file);
-   TRACE9 ("XApplication::command (int) - Protocoll: " << file.substr (0, 7));
+void XApplication::showHelp() {
+    Check3(getHelpfile());
+    std::string file(getHelpfile());
+    TRACE9("XApplication::command(int) - Show help " << file);
+    TRACE9("XApplication::command(int) - Protocoll: " << file.substr(0, 7));
 
-   // Test if file-protocoll or no protocoll at all
-   if (((file[0] == '/') && (file[1] != '/'))
-       || (file.starts_with ("file://"))) {
-      if (file[0] != '/')
-	 file.replace (0, 7, 0, '\0');
+    // Test if file-protocoll or no protocoll at all
+    if (((file[0] == '/') && (file[1] != '/')) || (file.starts_with("file://"))) {
+        if (file[0] != '/')
+            file.replace(0, 7, 0, '\0');
 
-      // If so: Check which language to use; either using the LANGUAGE
-      // environment variable or the locale settings
-      const char* pLang (getenv ("LANGUAGE"));
+        // If so: Check which language to use; either using the LANGUAGE
+        // environment variable or the locale settings
+        const char* pLang(getenv("LANGUAGE"));
 #ifdef HAVE_LC_MESSAGES
-      std::string lang (pLang ? pLang : setlocale (LC_MESSAGES, NULL));
+        std::string lang(pLang ? pLang : setlocale(LC_MESSAGES, NULL));
 #else
-      std::string lang (pLang ? pLang : getenv ("LANG"));
+        std::string lang(pLang ? pLang : getenv("LANG"));
 #endif
 
-      tokenizer ext (lang, boost::char_separator<char> (":"));
+        tokenizer ext(lang, boost::char_separator<char>(":"));
 
-      // Check every language-entry (while removing trailing specifiers)
-      std::string extension;
-      struct stat sfile;
-      for (tokenizer::iterator i (ext.begin ()); i != ext.end (); ++i) {
-	 extension = *i;
-	 std::string search;
-	 do {
-	    search = file + std::string (1, '.') + extension;
+        // Check every language-entry (while removing trailing specifiers)
+        std::string extension;
+        struct stat sfile;
+        for (tokenizer::iterator i(ext.begin()); i != ext.end(); ++i) {
+            extension = *i;
+            std::string search;
+            do {
+                search = file + std::string(1, '.') + extension;
 
-	    TRACE9 ("XApplication::command (int) - Checking for help-file "
-		    << search);
-	    if (!::stat (search.c_str (), &sfile) && (sfile.st_mode & S_IFREG))
-	       break;
+                TRACE9("XApplication::command(int) - Checking for help-file " << search);
+                if (!::stat(search.c_str(), &sfile) && (sfile.st_mode & S_IFREG))
+                    break;
 
-	    size_t pos (extension.rfind ('_'));
-	    if (pos == std::string::npos)
-	       pos = 0;
-	    extension.replace (pos, extension.length (), 0, '\0');
-	 } while (extension.size ());
+                size_t pos(extension.rfind('_'));
+                if (pos == std::string::npos)
+                    pos = 0;
+                extension.replace(pos, extension.length(), 0, '\0');
+            }
+            while (extension.size());
 
-	 if (extension.size ()) {
-	    file = search;
-	    break;
-	 }
-      } // end-for
+            if (extension.size()) {
+                file = search;
+                break;
+            }
+        } // end-for
 
-      // Nothing worked: Check if file exists directly; if not try english
-      if (::stat (file.c_str (), &sfile) || !(sfile.st_mode & S_IFREG))
-	 file += ".en";
-   } // endif file-protocoll
-   TRACE5 ("XApplication::command (int) - Starting browser with " << file);
+        // Nothing worked: Check if file exists directly; if not try english
+        if (::stat(file.c_str(), &sfile) || !(sfile.st_mode & S_IFREG))
+            file += ".en";
+    } // endif file-protocoll
+    TRACE5("XApplication::command(int) - Starting browser with " << file);
 
-   try {
-      file = "file://" + file;
+    try {
+        file = "file://" + file;
 
 #ifdef HAVE_GTKHTML
-      if (helpBrowser == "GTKHTML")
-	 HTMLViewer::create (file, get_title (), HTMLViewer::GTKHTML);
-      else
+        if (helpBrowser == "GTKHTML")
+            HTMLViewer::create(file, get_title(), HTMLViewer::GTKHTML);
+        else
 #endif
 #ifdef HAVE_GTKMOZEMBED
-      if (helpBrowser == "GTKMOZEMBED")
-	 HTMLViewer::create (file, get_title (), HTMLViewer::GTKMOZEMBED);
-      else
+            if (helpBrowser == "GTKMOZEMBED")
+            HTMLViewer::create(file, get_title(), HTMLViewer::GTKMOZEMBED);
+        else
 #endif
 #ifdef HAVE_WEBKIT
-      if (helpBrowser == "WEBKIT")
-	 HTMLViewer::create (file, get_title (), HTMLViewer::WEBKIT);
-      else
+            if (helpBrowser == "WEBKIT")
+            HTMLViewer::create(file, get_title(), HTMLViewer::WEBKIT);
+        else
 #endif
-      {
-	 const char* const args[] = { helpBrowser.c_str (), file.c_str (), nullptr };
-	 YGP::Process::execAsync (helpBrowser.c_str (), args);
-      }
-   }
-   catch (std::exception& error) {
-      if (*error.what ()) {
-	 Gtk::MessageDialog msg (Glib::locale_to_utf8 (error.what ()),
-				 false, Gtk::MessageType::ERROR);
-	 runModal (msg);
-      }
-   }
+        {
+            const char* const args[] = {helpBrowser.c_str(), file.c_str(), nullptr};
+            YGP::Process::execAsync(helpBrowser.c_str(), args);
+        }
+    }
+    catch (std::exception& error) {
+        if (*error.what()) {
+            Gtk::MessageDialog msg(Glib::locale_to_utf8(error.what()), false, Gtk::MessageType::ERROR);
+            runModal(msg);
+        }
+    }
 }
 
 //----------------------------------------------------------------------------
 /// Shows the dialog to select the browser to display the help
 //----------------------------------------------------------------------------
-void XApplication::selectHelpBrowser () {
-   Check3 (getHelpfile ());
-   BrowserDlg::create (helpBrowser);
+void XApplication::selectHelpBrowser() {
+    Check3(getHelpfile());
+    BrowserDlg::create(helpBrowser);
 }
 
 //----------------------------------------------------------------------------
 /// Shows the dialog to set the levels of the dynamic trace
 //----------------------------------------------------------------------------
-void XApplication::showTraceObjects () {
-   TraceDlg::create ()->set_transient_for (*this);
-}
+void XApplication::showTraceObjects() { TraceDlg::create()->set_transient_for(*this); }
 
 //----------------------------------------------------------------------------
 /// Returns the name of the help file to display.
 /// \returns const char* Name of help-file (NULL: none)
 //----------------------------------------------------------------------------
-const char* XApplication::getHelpfile () {
-   return nullptr;
-}
+const char* XApplication::getHelpfile() { return nullptr; }
 
 //----------------------------------------------------------------------------
 /// Displays the about box. See also XAbout for a dialog implementing one.
 //----------------------------------------------------------------------------
-void XApplication::showAboutbox () {
-}
+void XApplication::showAboutbox() {}
 
 //----------------------------------------------------------------------------
 /// Sets the program icon which is used by some window managers when minimising
@@ -306,11 +293,10 @@ void XApplication::showAboutbox () {
 ///     the icon in instead - so this is a no-op. XInfoApplication overrides
 ///     this to display the icon inside its client area.
 //----------------------------------------------------------------------------
-void XApplication::setIconProgram (const guint8* pIconData, int lenData) {
-   TRACE9 ("XApplication::setIconProgram (const char*, int) - " << lenData);
-   Check1 (pIconData);
+void XApplication::setIconProgram(const guint8* pIconData, int lenData) {
+    TRACE9("XApplication::setIconProgram(const char*, int) - " << lenData);
+    Check1(pIconData);
 }
-
 
 //-----------------------------------------------------------------------------
 /// Constructor for programs with program information in the client.
@@ -318,53 +304,49 @@ void XApplication::setIconProgram (const guint8* pIconData, int lenData) {
 /// \param prgInfo Text describing the application
 /// \param copyright Copyright-information
 //-----------------------------------------------------------------------------
-XInfoApplication::XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo,
-                                    const Glib::ustring& copyright)
-   : XApplication (pTitle), hboxTitle (new Gtk::Box (Gtk::Orientation::HORIZONTAL))
-     , vboxPrgInfo (new Gtk::Box (Gtk::Orientation::VERTICAL)), txtProgramm (new Gtk::Label (prgInfo))
-     , txtCopyright (new Gtk::Label (copyright)), iconPrg (nullptr)
-     , iconAuthor (nullptr) {
-   TRACE9 ("XInfoApplication::XInfoApplication ()");
+XInfoApplication::XInfoApplication(const char* pTitle, const Glib::ustring& prgInfo, const Glib::ustring& copyright)
+    : XApplication(pTitle), hboxTitle(new Gtk::Box(Gtk::Orientation::HORIZONTAL)),
+      vboxPrgInfo(new Gtk::Box(Gtk::Orientation::VERTICAL)), txtProgramm(new Gtk::Label(prgInfo)),
+      txtCopyright(new Gtk::Label(copyright)), iconPrg(nullptr), iconAuthor(nullptr) {
+    TRACE9("XInfoApplication::XInfoApplication()");
 
-   hboxTitle->set_margin (5);
-   vboxClient->append (*hboxTitle);
+    hboxTitle->set_margin(5);
+    vboxClient->append(*hboxTitle);
 
-   hboxTitle->append (*vboxPrgInfo);
+    hboxTitle->append(*vboxPrgInfo);
 
-   vboxPrgInfo->append (*txtProgramm);
-   vboxPrgInfo->append (*txtCopyright);
+    vboxPrgInfo->append(*txtProgramm);
+    vboxPrgInfo->append(*txtCopyright);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-XInfoApplication::~XInfoApplication () {
-   TRACE9 ("XInfoApplication::~XInfoApplication ()");
+XInfoApplication::~XInfoApplication() {
+    TRACE9("XInfoApplication::~XInfoApplication()");
 
-   txtCopyright->hide ();
-   txtProgramm->hide ();
-   vboxPrgInfo->hide ();
-   hboxTitle->hide ();
+    txtCopyright->hide();
+    txtProgramm->hide();
+    vboxPrgInfo->hide();
+    hboxTitle->hide();
 }
-
 
 //-----------------------------------------------------------------------------
 /// Sets an icon for the program from inline data
- /// \param pIconData Pointer to inline data for pixmap
- /// \param lenData: Length of inline data
- //-----------------------------------------------------------------------------
-void XInfoApplication::setIconProgram (const guint8* pIconData, int lenData) {
-   TRACE9 ("XInfoApplication::setIconProgram (const guint8*, int) - " << lenData);
-   Check1 (pIconData);
-   Check3 (hboxTitle);
+/// \param pIconData Pointer to inline data for pixmap
+/// \param lenData: Length of inline data
+//-----------------------------------------------------------------------------
+void XInfoApplication::setIconProgram(const guint8* pIconData, int lenData) {
+    TRACE9("XInfoApplication::setIconProgram(const guint8*, int) - " << lenData);
+    Check1(pIconData);
+    Check3(hboxTitle);
 
-   Glib::RefPtr<Gdk::Pixbuf> pic
-      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, nullptr)));
-   iconPrg.reset (new Gtk::Image (pic));
-   Check3 (iconPrg);
+    Glib::RefPtr<Gdk::Pixbuf> pic(Glib::wrap(gdk_pixbuf_new_from_inline(lenData, pIconData, false, nullptr)));
+    iconPrg.reset(new Gtk::Image(pic));
+    Check3(iconPrg);
 
-   iconPrg->set_margin (5);
-   hboxTitle->prepend (*iconPrg);
+    iconPrg->set_margin(5);
+    hboxTitle->prepend(*iconPrg);
 }
 
 //-----------------------------------------------------------------------------
@@ -372,18 +354,18 @@ void XInfoApplication::setIconProgram (const guint8* pIconData, int lenData) {
 /// \param pIconData Pointer to inline data for pixmap
 /// \param lenData: Length of inline data
 //-----------------------------------------------------------------------------
- void XInfoApplication::setIconAuthor (const guint8* pIconData, int lenData) {
-   TRACE9 ("XInfoApplication::setIconAuthor (const guint8*, int) - " << lenData);
-   Check1 (pIconData);
-   Check3 (hboxTitle); Check3 (vboxPrgInfo);
+void XInfoApplication::setIconAuthor(const guint8* pIconData, int lenData) {
+    TRACE9("XInfoApplication::setIconAuthor(const guint8*, int) - " << lenData);
+    Check1(pIconData);
+    Check3(hboxTitle);
+    Check3(vboxPrgInfo);
 
-   Glib::RefPtr<Gdk::Pixbuf> pic
-      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, nullptr)));
-   iconAuthor.reset (new Gtk::Image (pic));
-   Check3 (iconAuthor);
+    Glib::RefPtr<Gdk::Pixbuf> pic(Glib::wrap(gdk_pixbuf_new_from_inline(lenData, pIconData, false, nullptr)));
+    iconAuthor.reset(new Gtk::Image(pic));
+    Check3(iconAuthor);
 
-   iconAuthor->set_margin (5);
-   hboxTitle->append (*iconAuthor);
+    iconAuthor->set_margin(5);
+    hboxTitle->append(*iconAuthor);
 }
 
-}
+} // namespace XGP

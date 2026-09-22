@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : Version
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 10.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : Version
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 10.9.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -21,7 +21,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
-
 
 #include <YGP/Internal.h>
 
@@ -58,13 +57,12 @@
    GTKMM-2/GKT+-2).
  */
 
-static const char* Version = "\n!@$%" LIBYGP_NAME " V" PACKAGE_VERSION
-                             " Compiled on " __DATE__ "%$@!\n";
+static const char* Version = "\n!@$%" LIBYGP_NAME " V" PACKAGE_VERSION " Compiled on " __DATE__ "%$@!\n";
 
 // Function to initialize various global data
-static int _init () {
-   bindtextdomain (LIBYGP_NAME, LOCALEDIR);
-   return Version != (const void*)nullptr;
+static int _init() {
+    bindtextdomain(LIBYGP_NAME, LOCALEDIR);
+    return Version != (const void*)nullptr;
 }
 
-static const int init = _init ();
+static const int init = _init();

@@ -1,14 +1,12 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : PrintDialog
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 14.11.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : PrintDialog
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 14.11.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
 
-// This file is part of libYGP.
-//
 // libYGP is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -22,18 +20,17 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <cstdio>
 #include <cerrno>
+#include <cstdio>
 #include <cstring>
 
-#include <string>
 #include <fstream>
+#include <string>
 
 #include <gtkmm/box.h>
+#include <gtkmm/button.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/label.h>
-#include <gtkmm/button.h>
 #include <gtkmm/messagedialog.h>
 
 #include <YGP/Check.h>
@@ -45,77 +42,74 @@
 #include "XGP/XDialog.h"
 #include "XGP/XPrintDlg.h"
 
-
 namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates a small dialog to enter the print command.
 //-----------------------------------------------------------------------------
-PrintDialog::PrintDialog ()
-   : XDialog (_("Print"), OKCANCEL), sigPrint (),
-     lblCommand (new Gtk::Label (_("Print command: "))),
-     txtCommand (new Gtk::Entry), boxCommand (new Gtk::Box) {
-   TRACE9 ("PrintDialog::PrintDialog (title) '" << title << '\'');
-   init ();
+PrintDialog::PrintDialog()
+    : XDialog(_("Print"), OKCANCEL), sigPrint(), lblCommand(new Gtk::Label(_("Print command: "))), txtCommand(new Gtk::Entry),
+      boxCommand(new Gtk::Box) {
+    TRACE9("PrintDialog::PrintDialog ()");
+    init();
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-PrintDialog::~PrintDialog () {
-   TRACE9 ("PrintDialog::~PrintDialog");
-}
-
+PrintDialog::~PrintDialog() { TRACE9("PrintDialog::~PrintDialog"); }
 
 //-----------------------------------------------------------------------------
 /// Initialization of the class; creates the controls
 //-----------------------------------------------------------------------------
-void PrintDialog::init () {
-   Check3 (lblCommand); Check3 (txtCommand); Check3 (boxCommand);
+void PrintDialog::init() {
+    Check3(lblCommand);
+    Check3(txtCommand);
+    Check3(boxCommand);
 
-   // Command-box
-   txtCommand->set_text ("lpr");
-   txtCommand->set_hexpand ();
+    // Command-box
+    txtCommand->set_text("lpr");
+    txtCommand->set_hexpand();
 
-   lblCommand->set_margin (5);
-   boxCommand->append (*lblCommand);
-   txtCommand->set_margin (5);
-   boxCommand->append (*txtCommand);
+    lblCommand->set_margin(5);
+    boxCommand->append(*lblCommand);
+    txtCommand->set_margin(5);
+    boxCommand->append(*txtCommand);
 
-   get_content_area ()->append (*boxCommand);
+    get_content_area()->append(*boxCommand);
 
-   show ();
+    show();
 
-   txtCommand->grab_focus ();
+    txtCommand->grab_focus();
 }
 
 //-----------------------------------------------------------------------------
 /// Callback after pressing OK
 //-----------------------------------------------------------------------------
-void PrintDialog::okEvent () {
-   TRACE9 ("IPrintDialog::okEvent ()");
+void PrintDialog::okEvent() {
+    TRACE9("IPrintDialog::okEvent ()");
 
-   Check3 (txtCommand);
+    Check3(txtCommand);
 
-   if (!txtCommand->get_text_length ()) {                      // No input?
-      Gtk::MessageDialog msg (_("No print-command specified"), false, Gtk::MessageType::ERROR);
-      runModal (msg);
-      return;
-   } // endif no input
+    if (!txtCommand->get_text_length()) { // No input?
+        Gtk::MessageDialog msg(_("No print-command specified"), false, Gtk::MessageType::ERROR);
+        runModal(msg);
+        return;
+    } // endif no input
 
-   FILE* stream (nullptr);
-   stream = popen (txtCommand->get_text ().c_str (), "w");
-   if (!stream) {
-      std::string err (_("Could not run command `%1'\nReason: %2"));
-      err.replace (err.find ("%1"), 2, txtCommand->get_text ());
-      err.replace (err.find ("%2"), 2, strerror (errno));
-      Gtk::MessageDialog msg (err, false, Gtk::MessageType::ERROR);
-      runModal (msg);
-      return;
-   } // endif error printing
+    FILE* stream(nullptr);
+    stream = popen(txtCommand->get_text().c_str(), "w");
+    if (!stream) {
+        std::string err(_("Could not run command `%1'\nReason: %2"));
+        err.replace(err.find("%1"), 2, txtCommand->get_text());
+        err.replace(err.find("%2"), 2, strerror(errno));
+        Gtk::MessageDialog msg(err, false, Gtk::MessageType::ERROR);
+        runModal(msg);
+        return;
+    } // endif error printing
 
-   sigPrint.emit (stream);
-   pclose (stream);
+    sigPrint.emit(stream);
+    pclose(stream);
 }
 
 //----------------------------------------------------------------------------
@@ -123,10 +117,10 @@ void PrintDialog::okEvent () {
 /// after deleting.
 /// \returns IPrintDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
-PrintDialog* PrintDialog::create () {
-    auto* dlg (new PrintDialog ());
-    dlg->signal_response ().connect (sigc::mem_fun (*dlg, &PrintDialog::free));
+PrintDialog* PrintDialog::create() {
+    auto* dlg(new PrintDialog());
+    dlg->signal_response().connect(sigc::mem_fun(*dlg, &PrintDialog::free));
     return dlg;
 }
 
-}
+} // namespace XGP

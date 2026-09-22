@@ -1,11 +1,11 @@
-//PROJECT     : libXGP
-//SUBSYSTEM   : AutoContainer
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 04.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2008, 2011, 2026
+// PROJECT     : libXGP
+// SUBSYSTEM   : AutoContainer
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 04.07.2003
+// COPYRIGHT   : Copyright (C) 2003, 2004, 2008, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -22,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <climits>
 
 #include <YGP/Check.h>
@@ -30,69 +29,64 @@
 
 #include "XGP/AutoContainer.h"
 
-
 namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-AutoContainer::AutoContainer () : Gtk::ScrolledWindow (), view () {
-   init ();
-}
+AutoContainer::AutoContainer() : Gtk::ScrolledWindow(), view() { init(); }
 
 //-----------------------------------------------------------------------------
 /// Constructor; with two adjustment bars for the scrolled window
 /// @param hadjustment: Horizontal adjustment bar
 /// @param vadjustment: Vertical adjustment bar
 //-----------------------------------------------------------------------------
-AutoContainer::AutoContainer (const Glib::RefPtr<Gtk::Adjustment>& hadjustment,
-			      const Glib::RefPtr<Gtk::Adjustment>& vadjustment)
-   : Gtk::ScrolledWindow (), view () {
-   init ();
-   set_hadjustment (hadjustment);
-   set_vadjustment (vadjustment);
+AutoContainer::AutoContainer(const Glib::RefPtr<Gtk::Adjustment>& hadjustment, const Glib::RefPtr<Gtk::Adjustment>& vadjustment)
+    : Gtk::ScrolledWindow(), view() {
+    init();
+    set_hadjustment(hadjustment);
+    set_vadjustment(vadjustment);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-AutoContainer::~AutoContainer () = default;
-
+AutoContainer::~AutoContainer() = default;
 
 //-----------------------------------------------------------------------------
 /// Adding a child the the container
 /// \param child Child widget to add
 //-----------------------------------------------------------------------------
-void AutoContainer::add (Gtk::Widget& child) {
-   TRACE9 ("AutoContainer::add (Gtk::Widget&) - " << &child);
+void AutoContainer::add(Gtk::Widget& child) {
+    TRACE9("AutoContainer::add(Gtk::Widget&) - " << &child);
 
-   view.append (child);
+    view.append(child);
 }
 
 //-----------------------------------------------------------------------------
 /// Initializes the controls and member variables
 //-----------------------------------------------------------------------------
-void AutoContainer::init () {
-   set_policy (Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
-   set_has_frame ();
+void AutoContainer::init() {
+    set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+    set_has_frame();
 
-   view.set_homogeneous ();
-   view.set_selection_mode (Gtk::SelectionMode::NONE);
-   view.set_row_spacing (5);
-   view.set_column_spacing (5);
-   view.set_max_children_per_line (UINT_MAX);        // Wrap purely by width
+    view.set_homogeneous();
+    view.set_selection_mode(Gtk::SelectionMode::NONE);
+    view.set_row_spacing(5);
+    view.set_column_spacing(5);
+    view.set_max_children_per_line(UINT_MAX); // Wrap purely by width
 
-   set_child (view);
+    set_child(view);
 }
 
 //----------------------------------------------------------------------------
 /// Removes the passed widget from the container
 /// \param widget Widget to remove
 //----------------------------------------------------------------------------
-void AutoContainer::remove (Gtk::Widget& widget) {
-   TRACE4 ("AutoContainer::remove (Gtk::Widget&)");
+void AutoContainer::remove(Gtk::Widget& widget) {
+    TRACE4("AutoContainer::remove(Gtk::Widget&)");
 
-   view.remove (widget);
+    view.remove(widget);
 }
 
 //----------------------------------------------------------------------------
@@ -100,10 +94,10 @@ void AutoContainer::remove (Gtk::Widget& widget) {
 /// \param widget Widget to insert
 /// \param pos Position where to insert the widget
 //----------------------------------------------------------------------------
-void AutoContainer::insert (Gtk::Widget& widget, unsigned int pos) {
-   TRACE4 ("AutoContainer::insert (Gtk::Widget&, unsigned int) - " << pos);
+void AutoContainer::insert(Gtk::Widget& widget, unsigned int pos) {
+    TRACE4("AutoContainer::insert(Gtk::Widget&, unsigned int) - " << pos);
 
-   view.insert (widget, static_cast<int> (pos));
+    view.insert(widget, static_cast<int>(pos));
 }
 
-}
+} // namespace XGP

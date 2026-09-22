@@ -1,8 +1,6 @@
 #ifndef XGP_XAPPLICATION_H
 #define XGP_XAPPLICATION_H
 
-//$Id: XApplication.h,v 1.32 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <boost/scoped_ptr.hpp>
 
 #include <gtkmm/window.h>
@@ -26,13 +23,12 @@
 #include <giomm/menu.h>
 #include <giomm/simpleactiongroup.h>
 
-
 // Forward declarations
 namespace Gtk {
-   class Box;
-   class Label;
-   class Image;
-}
+class Box;
+class Label;
+class Image;
+} // namespace Gtk
 
 namespace XGP {
 
@@ -70,47 +66,46 @@ namespace XGP {
       -# As last ressort append a ".en" to the filename.
 */
 class XApplication : public Gtk::Window {
- public:
-   // Manager functions
-   XApplication (const char* pTitle);
-   ~XApplication () override;         // No need to be virtual. There's only 1 instance
+  public:
+    // Manager functions
+    XApplication(const char* pTitle);
+    ~XApplication() override; // No need to be virtual. There's only 1 instance
 
-   static void initI18n ();
-   static void initI18n (const char* package, const char* dir);
+    static void initI18n();
+    static void initI18n(const char* package, const char* dir);
 
- protected:
-   using PVBox = boost::scoped_ptr<Gtk::Box>;     ///< Smart pointer for a (vertical) box
+  protected:
+    using PVBox = boost::scoped_ptr<Gtk::Box>; ///< Smart pointer for a (vertical) box
 
-   virtual void setIconProgram (const guint8* iconData, int lenData);
+    virtual void setIconProgram(const guint8* iconData, int lenData);
 
-   /// Returns the client window
-   Gtk::Box* getClient () const { return vboxClient.get (); }
+    /// Returns the client window
+    Gtk::Box* getClient() const { return vboxClient.get(); }
 
-   // Protected data
-   PVBox    vboxClient;                   ///< Client window of the application
+    // Protected data
+    PVBox vboxClient; ///< Client window of the application
 
-   Glib::RefPtr<Gio::SimpleActionGroup> grpAction;    ///< Actions of the application
+    Glib::RefPtr<Gio::SimpleActionGroup> grpAction; ///< Actions of the application
 
-   /// Appends a "Help" submenu (and its actions) to the passed menu
-   void addHelpMenu (const Glib::RefPtr<Gio::Menu>& menu, bool withDynTrace = false);
+    /// Appends a "Help" submenu (and its actions) to the passed menu
+    void addHelpMenu(const Glib::RefPtr<Gio::Menu>& menu, bool withDynTrace = false);
 
-   /// \name Help menu handling
-   //@{
-   virtual const char* getHelpfile ();
-   virtual void showAboutbox ();
-   void showHelp ();
-   void selectHelpBrowser ();
-   void showTraceObjects ();
-   //@}
+    /// \name Help menu handling
+    //@{
+    virtual const char* getHelpfile();
+    virtual void showAboutbox();
+    void showHelp();
+    void selectHelpBrowser();
+    void showTraceObjects();
+    //@}
 
-   Glib::ustring helpBrowser;       ///< Name of the browser to show the help.
+    Glib::ustring helpBrowser; ///< Name of the browser to show the help.
 
- private:
-   // Protected manager functions
-   XApplication (const XApplication&) = delete;
-   const XApplication& operator= (const XApplication&) = delete;
+  private:
+    // Protected manager functions
+    XApplication(const XApplication&) = delete;
+    const XApplication& operator=(const XApplication&) = delete;
 };
-
 
 /**Baseclass for X-applications showing the program information inside the
    client.
@@ -119,33 +114,33 @@ class XApplication : public Gtk::Window {
    lines for program information and about the author.
 */
 class XInfoApplication : public XApplication {
- public:
-   XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo, const Glib::ustring& copyright);
-   ~XInfoApplication () override;     // No need to be virtual. There�s only 1 instance
+  public:
+    XInfoApplication(const char* pTitle, const Glib::ustring& prgInfo, const Glib::ustring& copyright);
+    ~XInfoApplication() override; // No need to be virtual. There�s only 1 instance
 
- protected:
-   // Add information
-   void setIconProgram (const guint8* iconData, int lenData) override;
-   void setIconAuthor (const guint8* iconData, int lenData);
+  protected:
+    // Add information
+    void setIconProgram(const guint8* iconData, int lenData) override;
+    void setIconAuthor(const guint8* iconData, int lenData);
 
- private:
-   // Protected manager functions
-   XInfoApplication (const XInfoApplication&) = delete;
-   const XInfoApplication& operator= (const XInfoApplication&) = delete;
+  private:
+    // Protected manager functions
+    XInfoApplication(const XInfoApplication&) = delete;
+    const XInfoApplication& operator=(const XInfoApplication&) = delete;
 
-   using PHBox = boost::scoped_ptr<Gtk::Box>;
-   using PLabel = boost::scoped_ptr<Gtk::Label>;
-   using PImage = boost::scoped_ptr<Gtk::Image>;
+    using PHBox = boost::scoped_ptr<Gtk::Box>;
+    using PLabel = boost::scoped_ptr<Gtk::Label>;
+    using PImage = boost::scoped_ptr<Gtk::Image>;
 
-   PHBox  hboxTitle;
-   PVBox  vboxPrgInfo;
-   PLabel txtProgramm;
-   PLabel txtCopyright;
+    PHBox hboxTitle;
+    PVBox vboxPrgInfo;
+    PLabel txtProgramm;
+    PLabel txtCopyright;
 
-   PImage iconPrg;
-   PImage iconAuthor;
+    PImage iconPrg;
+    PImage iconAuthor;
 };
 
-}
+} // namespace XGP
 
 #endif

@@ -1,8 +1,6 @@
 #ifndef XGP_ENUMENTRY_H
 #define XGP_ENUMENTRY_H
 
-//$Id: EnumEntry.h,v 1.3 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,15 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <gtkmm/comboboxtext.h>
 
-
 namespace YGP {
-   class MetaEnum;
+class MetaEnum;
 };
-
-
 
 namespace XGP {
 
@@ -34,17 +28,17 @@ namespace XGP {
    its values.
 */
 class EnumEntry : public Gtk::ComboBoxText {
- public:
-   EnumEntry (const YGP::MetaEnum& values);
-   virtual ~EnumEntry ();
+  public:
+    EnumEntry(const YGP::MetaEnum& values);
+    virtual ~EnumEntry();
 
- private:
-   // Protected manager functions
-   EnumEntry ();
-   EnumEntry (const EnumEntry& other);
-   const EnumEntry& operator= (const EnumEntry& other);
+  private:
+    // Protected manager functions
+    EnumEntry();
+    EnumEntry(const EnumEntry& other);
+    const EnumEntry& operator=(const EnumEntry& other);
 };
 
-}
+} // namespace XGP
 
 #endif

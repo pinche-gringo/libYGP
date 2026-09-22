@@ -1,8 +1,6 @@
 #ifndef XGP_HTMLVIEWER_H
 #define XGP_HTMLVIEWER_H
 
-//$Id: HTMLViewer.h,v 1.15 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,20 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
-#define HAVE_VIEWER
+#    define HAVE_VIEWER
 
-#include <string>
-#include <stdexcept>
-
+#    include <stdexcept>
+#    include <string>
 
 namespace Gtk {
-    class ScrolledWindow;
+class ScrolledWindow;
 }
 
-#include <XGP/XDialog.h>
-
+#    include <XGP/XDialog.h>
 
 namespace XGP {
 
@@ -40,36 +35,34 @@ namespace XGP {
  * Uses GTKHTML or GtkMozEmbed to display the HTML code.
  */
 class HTMLViewer : public XDialog {
- public:
-   class CreateError : public std::runtime_error {
-    public:
-      CreateError (const std::string& what) : std::runtime_error (what) { }
-   };
+  public:
+    class CreateError : public std::runtime_error {
+      public:
+        CreateError(const std::string& what) : std::runtime_error(what) {}
+    };
 
-   /// Supported widgets to display HTML
-   typedef enum { GTKHTML, GTKMOZEMBED, WEBKIT, LAST } widgetTypes;
+    /// Supported widgets to display HTML
+    typedef enum { GTKHTML, GTKMOZEMBED, WEBKIT, LAST } widgetTypes;
 
-   virtual ~HTMLViewer ();
+    virtual ~HTMLViewer();
 
-   static HTMLViewer* create (const std::string& file, const Glib::ustring& title,
-			      widgetTypes type) throw (CreateError);
-   void display (const std::string& file);
+    static HTMLViewer* create(const std::string& file, const Glib::ustring& title, widgetTypes type) throw(CreateError);
+    void display(const std::string& file);
 
- protected:
-   HTMLViewer (const std::string& file, const Glib::ustring& title,
-	       widgetTypes type) throw (CreateError);
+  protected:
+    HTMLViewer(const std::string& file, const Glib::ustring& title, widgetTypes type) throw(CreateError);
 
- private:
-   HTMLViewer (const HTMLViewer&);
-   const HTMLViewer& operator= (const HTMLViewer&);
+  private:
+    HTMLViewer(const HTMLViewer&);
+    const HTMLViewer& operator=(const HTMLViewer&);
 
-   int _display (const std::string file);
+    int _display(const std::string file);
 
-   GtkWidget*  htmlCtrl;
-   widgetTypes _type;
+    GtkWidget* htmlCtrl;
+    widgetTypes _type;
 };
 
-}
+} // namespace XGP
 
 #endif // HAVE_GTKHTML || HAVE_GTKMOZEMBED
 

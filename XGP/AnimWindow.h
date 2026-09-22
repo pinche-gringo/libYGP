@@ -1,8 +1,6 @@
 #ifndef XGP_ANIMWINDOW_H
 #define XGP_ANIMWINDOW_H
 
-//$Id: AnimWindow.h,v 1.4 2008/06/08 12:11:28 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,12 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <gdkmm/surface.h>
 
-
 namespace XGP {
-
 
 /**Class animating objects.
  *
@@ -37,33 +32,33 @@ namespace XGP {
  *     step-counted animate()/finish() lifecycle below still runs.
  */
 class AnimatedWindow : public sigc::trackable {
- public:
-   virtual ~AnimatedWindow ();
+  public:
+    virtual ~AnimatedWindow();
 
-   void animate ();
+    void animate();
 
-   virtual void getEndPos (int& x, int& y) = 0;
-   virtual void start ();
-   virtual void cleanup ();
-   virtual void finish ();
+    virtual void getEndPos(int& x, int& y) = 0;
+    virtual void start();
+    virtual void cleanup();
+    virtual void finish();
 
- protected:
-   AnimatedWindow (Glib::RefPtr<Gdk::Surface> window);
+  protected:
+    AnimatedWindow(Glib::RefPtr<Gdk::Surface> window);
 
-   void animateTo (int x, int y);
+    void animateTo(int x, int y);
 
-   Glib::RefPtr<Gdk::Surface> win;
+    Glib::RefPtr<Gdk::Surface> win;
 
- private:
-   AnimatedWindow ();
-   AnimatedWindow (const AnimatedWindow& other);
-   const AnimatedWindow& operator= (const AnimatedWindow& other);
+  private:
+    AnimatedWindow();
+    AnimatedWindow(const AnimatedWindow& other);
+    const AnimatedWindow& operator=(const AnimatedWindow& other);
 
-   bool animationStep ();
+    bool animationStep();
 
-   unsigned int steps;
+    unsigned int steps;
 };
 
-}
+} // namespace XGP
 
 #endif

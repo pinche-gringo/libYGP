@@ -1,8 +1,6 @@
 #ifndef XGP_MESSAGEDLG_H
 #define XGP_MESSAGEDLG_H
 
-//$Id: MessageDlg.h,v 1.7 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,50 +16,47 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <gtkmm/messagedialog.h>
 
-
 namespace Gtk {
-   class Label;
-   class Button;
-}
+class Label;
+class Button;
+} // namespace Gtk
 namespace YGP {
-   class StatusObject;
+class StatusObject;
 }
-
 
 namespace XGP {
 
 /**Message dialog, designed to display a StatusObject object.
  */
 class MessageDlg : public Gtk::MessageDialog {
- public:
-   MessageDlg (const YGP::StatusObject& obj);
-   virtual ~MessageDlg ();
+  public:
+    MessageDlg(const YGP::StatusObject& obj);
+    virtual ~MessageDlg();
 
-   static MessageDlg* create (const YGP::StatusObject& obj);
+    static MessageDlg* create(const YGP::StatusObject& obj);
 
-   void showDetails (bool show = true);
-   void update (const YGP::StatusObject& obj);
+    void showDetails(bool show = true);
+    void update(const YGP::StatusObject& obj);
 
- protected:
-   static Gtk::MessageType getButtonType (YGP::StatusObject::type tp);
-   void free (int);
+  protected:
+    static Gtk::MessageType getButtonType(YGP::StatusObject::type tp);
+    void free(int);
 
- private:
-   MessageDlg ();
-   MessageDlg (const MessageDlg&);
-   MessageDlg& operator= (const MessageDlg&);
+  private:
+    MessageDlg();
+    MessageDlg(const MessageDlg&);
+    MessageDlg& operator=(const MessageDlg&);
 
-   Gtk::Label*  detail;
-   Gtk::Button* showDetail;
+    Gtk::Label* detail;
+    Gtk::Button* showDetail;
 
-   sigc::connection cb;
+    sigc::connection cb;
 
-   bool doRegister (bool show);
+    bool doRegister(bool show);
 };
 
-}
+} // namespace XGP
 
 #endif

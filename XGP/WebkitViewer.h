@@ -1,8 +1,6 @@
 #ifndef XGP_WEBKITVIEWER_H
 #define XGP_WEBKITVIEWER_H
 
-//$Id$
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,26 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #ifdef HAVE_WEBKIT
 
-#include <gtk/gtkwidget.h>
+#    include <gtk/gtkwidget.h>
 
-#ifdef  __cplusplus
+#    ifdef __cplusplus
 extern "C" {
-#endif
+#    endif
 
-   GtkWidget* initialiseWebkit ();
-   void       webkitDisplayURL (GtkWidget* ctrl, const char* url);
+GtkWidget* initialiseWebkit();
+void webkitDisplayURL(GtkWidget* ctrl, const char* url);
 
-    const char* webkitGetError ();
+const char* webkitGetError();
 
-#ifdef  __cplusplus
+#    ifdef __cplusplus
 }
-#endif
-
+#    endif
 
 #endif // HAVE_WEBKIT
 

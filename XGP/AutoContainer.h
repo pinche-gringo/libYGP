@@ -1,8 +1,6 @@
 #ifndef XGP_AUTOCONTAINER_H
 #define XGP_AUTOCONTAINER_H
 
-//$Id: AutoContainer.h,v 1.7 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,10 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <gtkmm/flowbox.h>
 #include <gtkmm/scrolledwindow.h>
-
 
 namespace XGP {
 
@@ -39,27 +35,26 @@ namespace XGP {
 */
 class AutoContainer : public Gtk::ScrolledWindow {
   public:
-   AutoContainer ();
-   AutoContainer (const Glib::RefPtr<Gtk::Adjustment>& hadjustment,
-		  const Glib::RefPtr<Gtk::Adjustment>& vadjustment);
-   ~AutoContainer () override;
+    AutoContainer();
+    AutoContainer(const Glib::RefPtr<Gtk::Adjustment>& hadjustment, const Glib::RefPtr<Gtk::Adjustment>& vadjustment);
+    ~AutoContainer() override;
 
-   void insert (Gtk::Widget& widget, unsigned int pos);
-   virtual void add (Gtk::Widget& widget);
-   void remove (Gtk::Widget& widget);
+    void insert(Gtk::Widget& widget, unsigned int pos);
+    virtual void add(Gtk::Widget& widget);
+    void remove(Gtk::Widget& widget);
 
- protected:
-   /// The flow-box used to lay out (and automatically re-wrap) the children
-   Gtk::FlowBox view;
+  protected:
+    /// The flow-box used to lay out (and automatically re-wrap) the children
+    Gtk::FlowBox view;
 
- private:
-   // Prohibited manager functions
-   AutoContainer (const AutoContainer& other) = delete;
-   const AutoContainer& operator= (const AutoContainer& other) = delete;
+  private:
+    // Prohibited manager functions
+    AutoContainer(const AutoContainer& other) = delete;
+    const AutoContainer& operator=(const AutoContainer& other) = delete;
 
-   void init ();
+    void init();
 };
 
-}
+} // namespace XGP
 
 #endif

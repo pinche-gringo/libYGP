@@ -1,8 +1,6 @@
 #ifndef XGP_CONNECTDLG_H
 #define XGP_CONNECTDLG_H
 
-//$Id: ConnectDlg.h,v 1.11 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,21 +16,19 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <XGP/XDialog.h>
 
 namespace Gtk {
-   class Label;
-   class Entry;
-   class Grid;
-}
+class Label;
+class Entry;
+class Grid;
+} // namespace Gtk
 namespace YGP {
-   class Thread;
-   class Socket;
-   class CommError;
-   class ConnectionMgr;
-}
-
+class Thread;
+class Socket;
+class CommError;
+class ConnectionMgr;
+} // namespace YGP
 
 namespace XGP {
 
@@ -42,52 +38,49 @@ namespace XGP {
    The result of this actions is returned in the ConnectionMgr object.
 */
 class ConnectDlg : public XDialog {
- public:
-   ~ConnectDlg () override;
+  public:
+    ~ConnectDlg() override;
 
-   static void perform (unsigned int cMaxConnections,
-                        unsigned int defPort, YGP::ConnectionMgr& connMgr);
-   static void perform (unsigned int cMaxConnections,
-                        const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr);
+    static void perform(unsigned int cMaxConnections, unsigned int defPort, YGP::ConnectionMgr& connMgr);
+    static void perform(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr);
 
- protected:
-   enum { WAIT, CONNECT };
+  protected:
+    enum { WAIT, CONNECT };
 
-   void command (int action) override;
-   void cancelEvent () override;
-   void okEvent () override;
+    void command(int action) override;
+    void cancelEvent() override;
+    void okEvent() override;
 
-   void valueChanged () const;
+    void valueChanged() const;
 
-   ConnectDlg (unsigned int cMaxConnections, const Glib::ustring& defPort,
-               YGP::ConnectionMgr& connMgr);
+    ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr);
 
-   void* waitForConnections (void* socket);
-   virtual YGP::Socket* addClient (int socket);
-   virtual void connect (const Glib::ustring& target, unsigned int port);
+    void* waitForConnections(void* socket);
+    virtual YGP::Socket* addClient(int socket);
+    virtual void connect(const Glib::ustring& target, unsigned int port);
 
-   Gtk::Entry*  pTarget;  ///< Entry field holding the target computer (IP address or name)
-   Gtk::Entry*  pPort;          ///< Entry field for the port of the connection
-   Gtk::Button* pWait;        ///< Button to wait for connections (server mode)
-   Gtk::Button* pConnect;      ///< Button to connect to a server (client mode)
-   Gtk::Grid*   pClient;          ///< Grid holding the controls of the dialog
+    Gtk::Entry* pTarget;   ///< Entry field holding the target computer (IP address or name)
+    Gtk::Entry* pPort;     ///< Entry field for the port of the connection
+    Gtk::Button* pWait;    ///< Button to wait for connections (server mode)
+    Gtk::Button* pConnect; ///< Button to connect to a server (client mode)
+    Gtk::Grid* pClient;    ///< Grid holding the controls of the dialog
 
-   YGP::ConnectionMgr& cmgr;                      ///< Class holding the connections
+    YGP::ConnectionMgr& cmgr; ///< Class holding the connections
 
- private:
-   Gtk::Label*  pExplain;
-   Gtk::Label*  pLblServer;
-   Gtk::Label*  pLblPort;
+  private:
+    Gtk::Label* pExplain;
+    Gtk::Label* pLblServer;
+    Gtk::Label* pLblPort;
 
-   Glib::ustring port;
+    Glib::ustring port;
 
-   YGP::Thread*  pThread{nullptr};
-   unsigned int  cMaxConns;
+    YGP::Thread* pThread{nullptr};
+    unsigned int cMaxConns;
 
-   ConnectDlg (const ConnectDlg& other) = delete;
-   const ConnectDlg& operator= (const ConnectDlg& other) = delete;
+    ConnectDlg(const ConnectDlg& other) = delete;
+    const ConnectDlg& operator=(const ConnectDlg& other) = delete;
 };
 
-}
+} // namespace XGP
 
 #endif

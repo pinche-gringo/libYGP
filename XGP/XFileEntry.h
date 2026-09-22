@@ -1,8 +1,6 @@
 #ifndef XGP_XFILEENTRY_H
 #define XGP_XFILEENTRY_H
 
-//$Id: XFileEntry.h,v 1.14 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -23,7 +21,6 @@
 
 #include <YGP/DirSrch.h>
 
-
 namespace XGP {
 
 /**Enhances the ordinary entry field with completing the input to the first
@@ -36,27 +33,25 @@ namespace XGP {
    details.
 */
 class XFileEntry : public Gtk::Entry {
- public:
-   /// Constructor
-   /// \param fileAttrs Attributes the files to display must have (default:
-   /// Normal files, no directories)
-   XFileEntry (int fileAttrs = YGP::IDirectorySearch::FILE_NORMAL) : Entry ()
-      , attrs (fileAttrs) {
-      Glib::RefPtr<Gtk::EventControllerKey> keys (Gtk::EventControllerKey::create ());
-      keys->signal_key_pressed ().connect
-	 (sigc::mem_fun (*this, &XFileEntry::onKeyPressed), false);
-      add_controller (keys);
-   }
-   /// Destructor
-   ~XFileEntry () override = default;
+  public:
+    /// Constructor
+    /// \param fileAttrs Attributes the files to display must have (default:
+    /// Normal files, no directories)
+    XFileEntry(int fileAttrs = YGP::IDirectorySearch::FILE_NORMAL) : Entry(), attrs(fileAttrs) {
+        Glib::RefPtr<Gtk::EventControllerKey> keys(Gtk::EventControllerKey::create());
+        keys->signal_key_pressed().connect(sigc::mem_fun(*this, &XFileEntry::onKeyPressed), false);
+        add_controller(keys);
+    }
+    /// Destructor
+    ~XFileEntry() override = default;
 
- protected:
-   bool onKeyPressed (guint keyval, guint keycode, Gdk::ModifierType state);
+  protected:
+    bool onKeyPressed(guint keyval, guint keycode, Gdk::ModifierType state);
 
- private:
-   int attrs;
+  private:
+    int attrs;
 };
 
-}
+} // namespace XGP
 
 #endif
