@@ -1,8 +1,6 @@
 #ifndef YGP_CREGEXP_H
 #define YGP_CREGEXP_H
 
-//$Id: CRegExp.h,v 1.39 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,13 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifdef _MSC_VER
-#pragma warning(disable:4786) // disable warning about truncating debug info
+#    pragma warning(disable : 4786) // disable warning about truncating debug info
 #endif
 
 #warning Deprecated! Please use boost::Regex
-
 
 #include <ygp-cfg.h>
 
@@ -33,15 +29,15 @@
 // #undef HAVE_REGEXP_H
 
 #ifdef HAVE_REGEX_H
-#  include <sys/types.h>
-#  include <regex.h>
+#    include <regex.h>
+#    include <sys/types.h>
 #else
-#  include <ctype.h>
+#    include <ctype.h>
 #endif
 
+#include <stdexcept>
 #include <string>
 #include <vector>
-#include <stdexcept>
 
 #include <YGP/RegExp.h>
 
@@ -130,68 +126,63 @@ namespace YGP {
 
 */
 class RegularExpression : public IRegularExpression {
- public:
-   RegularExpression (const char* pRegExp);
-   virtual ~RegularExpression ();
+  public:
+    RegularExpression(const char* pRegExp);
+    virtual ~RegularExpression();
 
-   virtual int checkIntegrity () const;
-   RegularExpression& operator= (const char* pRegExp);
+    virtual int checkIntegrity() const;
+    RegularExpression& operator=(const char* pRegExp);
 
- protected:
-   virtual bool compare (const char* pAktRegExp, const char* pCompare);
+  protected:
+    virtual bool compare(const char* pAktRegExp, const char* pCompare);
 
- private:
-   // Prohibited manager functions
-   RegularExpression ();
-   RegularExpression (const RegularExpression&);
-   RegularExpression& operator= (const RegularExpression&);
+  private:
+    // Prohibited manager functions
+    RegularExpression();
+    RegularExpression(const RegularExpression&);
+    RegularExpression& operator=(const RegularExpression&);
 
-   std::invalid_argument getError (int rc, unsigned int pos) const;
+    std::invalid_argument getError(int rc, unsigned int pos) const;
 
-   enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT,
-          INV_RANGE, ENDING_BACKSLASH, INV_BOUND };
+    enum { REGION_OPEN, NO_PREV_EXP, RANGE_OPEN, GROUP_OPEN, INV_DIGIT, INV_RANGE, ENDING_BACKSLASH, INV_BOUND };
 
 #ifdef HAVE_REGEX_H
-   regex_t regexp;
+    regex_t regexp;
 
-   void init (const char* pRegExp);
+    void init(const char* pRegExp);
 #else
-   bool doCompare (const char*& pAktRegExp, const char*& pCompare);
+    bool doCompare(const char*& pAktRegExp, const char*& pCompare);
 
-   bool doCompGroup (const char*& pAktRegExp, const char* pEnd,
-                     const char*& pCompare, unsigned int min, unsigned int max);
-   bool doCompRegion (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
-   bool doCompChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
-   bool doCompEscChar (const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
-   bool compRegion (const char*& pAktRegExp, const char*& pCompare);
-   bool compGroup (const char*& pAktRegExp, const char*& pCompare);
-   bool compChar (const char*& pAktRegExp, const char*& pCompare);
-   bool compEscChar (const char*& pAktRegExp, const char*& pCompare);
+    bool doCompGroup(const char*& pAktRegExp, const char* pEnd, const char*& pCompare, unsigned int min, unsigned int max);
+    bool doCompRegion(const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+    bool doCompChar(const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+    bool doCompEscChar(const char*& pAktRegExp, const char* pEnd, const char*& pCompare);
+    bool compRegion(const char*& pAktRegExp, const char*& pCompare);
+    bool compGroup(const char*& pAktRegExp, const char*& pCompare);
+    bool compChar(const char*& pAktRegExp, const char*& pCompare);
+    bool compEscChar(const char*& pAktRegExp, const char*& pCompare);
 
-   bool isWordConstituent (char ch) const { return isalnum (ch) || (ch == '_'); }
-   bool isWordBorder (const char* pCompare) const;
-   bool isWordBeginn (const char* pCompare) const;
-   bool isWordEnd (const char* pCompare) const;
+    bool isWordConstituent(char ch) const { return isalnum(ch) || (ch == '_'); }
+    bool isWordBorder(const char* pCompare) const;
+    bool isWordBeginn(const char* pCompare) const;
+    bool isWordEnd(const char* pCompare) const;
 
-   typedef bool (RegularExpression::*MFCOMPARE) (const char*&, const char*, const char*&);
+    typedef bool (RegularExpression::*MFCOMPARE)(const char*&, const char*, const char*&);
 
-   const char* getRepeatFactor (const char* pRE, unsigned int& min,
-                                unsigned int& max) const;
-   bool compActREPart (MFCOMPARE fnCompare, const char*& pAktRegExp,
-                       const char* pEndRE, const char*& pCompare);
+    const char* getRepeatFactor(const char* pRE, unsigned int& min, unsigned int& max) const;
+    bool compActREPart(MFCOMPARE fnCompare, const char*& pAktRegExp, const char* pEndRE, const char*& pCompare);
 
-   bool compareParts (const char*& pAktRegExp, const char*& pCompare,
-                      bool inGroup = false);
-   const char* findEndOfAlternative (const char* pRegExp, bool inGroup = false) const;
-   const char* findEndOfRegion (const char* pRegExp) const;
-   const char* findEndOfGroup (const char* pRegExp) const;
+    bool compareParts(const char*& pAktRegExp, const char*& pCompare, bool inGroup = false);
+    const char* findEndOfAlternative(const char* pRegExp, bool inGroup = false) const;
+    const char* findEndOfRegion(const char* pRegExp) const;
+    const char* findEndOfGroup(const char* pRegExp) const;
 
-   const char* pStartCompare;
-   std::vector<std::string> groupValues;
-   unsigned int cGroups;
+    const char* pStartCompare;
+    std::vector<std::string> groupValues;
+    unsigned int cGroups;
 #endif
 };
 
-}
+} // namespace YGP
 
 #endif
