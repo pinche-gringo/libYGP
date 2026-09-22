@@ -68,12 +68,12 @@
 
 
     <h2>Installation</h2>
-    <p>Principally according the GNU make system:</p>
+    <p>The libraries are built with <a href="https://mesonbuild.com">Meson</a>:</p>
     <pre>
-  ./configure
-  make
-  [make check]
-  make install</pre>
+  meson setup build
+  meson compile -C build
+  [meson test -C build]
+  meson install -C build</pre>
 
     <p>See the file <a href="../INSTALL">INSTALL</a> for more details.</p>
 
@@ -98,16 +98,13 @@
       <dt><b>bin</b></dt>
       <dd>Contains scripts</dd>
       <dt><b>doc</b></dt>
-      <dd>Documentation. Generate it with <tt>make doc</tt> in the directory
+      <dd>Documentation. Generate it with <tt>meson compile -C build doc</tt>
         (needs <a href="www.doxygen.org">doxygen</a>).</dd>
       <dt><b>intl</b></dt>
       <dd>(GNU) Library for I18n</dd>
       <dt><b>po</b></dt>
       <dd>Translations of the messages</dd>
     </dl>
-
-    <p>Depending on your <tt>automake</tt> version you might also get a
-      <tt>m4</tt> and a <tt>autom4te.cache</tt> directory.</p>
 
 
     <h2>How to report bugs and/or send patches</h2>

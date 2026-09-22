@@ -1,10 +1,19 @@
 Prerequisites
 -------------
 
+To build the libraries you need
+
+  - Meson (at least version 1.1; https://mesonbuild.com/) and Ninja
+
+  - A C++ compiler supporting C++23
+
+  - Boost (at least the filesystem library; http://www.boost.org/)
+
+  - GNU gettext for the translations
+
 Parts of this libraries need
 
-  - Gtkmm (which itself needs GTK+); configure tests for version 2.2.0, but the
-    2.0 series might also work. Get if from http://www.gtkmm.org/.
+  - Gtkmm 4 (which itself needs GTK 4). Get if from http://www.gtkmm.org/.
 
   - libgtkhtml: Part of GNOME (http://www.gnome.org/)
 
@@ -23,111 +32,58 @@ library are missing). The libgtkhtml and GtkMozEmbed are used to
 display the help of (X-)applications (load faster as a full browser).
 
 
-How to build (if extracted from an (tar-)archive)
--------------------------------------------------
+How to build
+------------
 
 Inside the directory containing the source code type
 
-  ./configure [configure-options]
-  make [make-options]
+  meson setup build [options]     # Configure into the directory build
+  meson compile -C build          # Build
+  meson test -C build             # Run some tests on (some) classes
+  meson install -C build          # Install the whole thing
 
 
-How to build (the first time after checking out of CVS)
--------------------------------------------------------
+* Options
 
-Additional prerequiste software:
+  Options are passed to "meson setup" as -D<option>=<value>, or changed
+  later with "meson configure build -D<option>=<value>". Calling
+  "meson configure build" without further arguments lists all options with
+  their current values.
 
-  - CVS (obviously)
-  - GNU gettext
-  - libtool
-  - autoconf
-  - automake
+  --prefix=<path>               # default: /usr/local
+  -Dbuildtype=<type>            # plain, debug, debugoptimized (default)
+                                  or release
+  -Ddefault_library=shared      # Don't build static libs (shared, static
+                                  or both)
+  -Db_ndebug=true               # Define NDEBUG (disables the Checks)
+  -Dcheck_level=<level>         # Adds asserts and Checks (default: -1 = off)
+  -Dtrace_level=<level>         # Sets tracelevel (default: -1 = off)
+  -Dnls=disabled                # Disable national language support
+  -Dxgp=disabled|enabled        # Don't build/force building libXGP
+                                  (default: build it, if gtkmm is found)
+  -Dgmp=enabled                 # Use GNU's multiple precision library
+  -Dnetwork_traversing=true     # Adds classes to traverse directories over
+                                  a network
 
-The source can be obtained via (press enter when being asked for a
-password):
+  The compiler and its flags can be set through the environment when
+  running "meson setup" for the first time, e.g.:
 
-  cvs -d:pserver:anonymous@libymp.cvs.sourceforge.net:/cvsroot/libymp login
-  cvs -z3 -d:pserver:anonymous@libymp.cvs.sourceforge.net:/cvsroot/libymp co -P libYGP
+       CXX=clang++ CXXFLAGS=-march=native meson setup build
 
-
-Inside the directory containing the source code type
-
-  aclocal -I m4 && libtoolize
-  automake -a && autoheader && autoconf                      # Create configure
-  ./configure [configure-options]
-  make [make-options]
-
-
-* Common options for configure
-
-  --help                        # Overwhelming help to configure
-  --help=short                  # Reduces the output of configure --help
-  --prefix=<path>		# default: /usr/local
-  --disable-nls                 # Disable national language support
-  --disable-static		# Don't build static libs (only shared ones)
-  --enable-checks[=level]	# Adds asserts and Checks
-  --enable-debug[=level]	# Sets tracelevel & generation of debuginfo
-
-If you're using `csh' on an old version of System V, you might need to type
-`sh ./configure' instead to prevent `csh' from trying to execute `configure'
-itself.
-
-Running `configure' takes awhile.  While running, it prints some messages
-telling which features it is checking for.
+  Several build directories (e.g. with different options) can be used at
+  the same time.
 
 
-Compilers and Options
+* Additional targets (meson compile -C build <target>)
 
-     Some systems require unusual options for compilation or linking that
-  the `configure' script does not know about.  You can give `configure'
-  initial values for variables by setting them in the environment.  Using
-  a Bourne-compatible shell, you can do that on the command line like
-  this:
-       CC=c89 CFLAGS=-O2 LIBS=-lposix ./configure
-
-  Or on systems that have the `env' program, you can do it like this:
-       env CPPFLAGS=-I/usr/local/include LDFLAGS=-s ./configure
-
-  Compiling For Multiple Architectures
-
-     You can compile the package for more than one kind of computer at the
-  same time, by placing the object files for each architecture in their
-  own directory.  To do this, you must use a version of `make' that
-  supports the `VPATH' variable, such as GNU `make'.  `cd' to the
-  directory where you want the object files and executables to go and run
-  the `configure' script.  `configure' automatically checks for the
-  source code in the directory that `configure' is in and in `..'.
-
-     If you have to use a `make' that does not supports the `VPATH'
-  variable, you have to compile the package for one architecture at a time
-  in the source code directory.  After you have installed the package for
-  one architecture, use `make distclean' before reconfiguring for another
-  architecture.
-
-  Installation Names
-
-     By default, `make install' will install the package's files in
-  `/usr/local/bin', `/usr/local/man', etc.  You can specify an
-  installation prefix other than `/usr/local' by giving `configure' the
-  option `--prefix=PATH'.
-
-     You can specify separate installation prefixes for
-  architecture-specific files and architecture-independent files.  If you
-  give `configure' the option `--exec-prefix=PATH', the package will use
-  PATH as the prefix for installing programs and libraries.
-  Documentation and other data files will still use the regular prefix.
-
-     In addition, if you use an unusual directory layout you can give
-  options like `--bindir=PATH' to specify different values for particular
-  kinds of files.  Run `configure --help' for a list of the directories
-  you can set and what kinds of files go in them.
+  - X-Appl                      # The sample application of libXGP
+  - doc                         # Creates the documentation in the doc
+                                  subdirectory (needs doxygen)
+  - libYGP-pot                  # Updates the message template po/libYGP.pot
+  - libYGP-update-po            # Merges the template into the translations
 
 
-* Common options/targets for make:
+* Uninstall
 
-  - check			# Runs some tests on (some) classes
-  - install			# Installs the whole thing
-  - clean                       # Deletes the files created during the make
-  - uninstall                   # Uninstalls (after you found out what crap
+  ninja -C build uninstall      # Uninstalls (after you found out what crap
                                   this package actually contains)
-  - doc                         # Only in the doc subdirectory (needs doxygen)

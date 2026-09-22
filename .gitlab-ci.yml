@@ -2,9 +2,7 @@ stages:
   - test
 
 .something: &prepare_repo
-  - aclocal -I m4 && libtoolize
-  - automake -a && autoheader && autoconf
-  - ./configure
+  - meson setup build
 
 code_check:
   stage: test
@@ -19,6 +17,6 @@ test:
   stage: test
   before_script:
     - *prepare_repo
-    - make -j6
+    - meson compile -C build
   script:
-    - make check
+    - meson test -C build --print-errorlogs

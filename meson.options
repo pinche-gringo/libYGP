@@ -1,0 +1,12 @@
+option('xgp', type: 'feature', value: 'auto',
+       description: 'Build libXGP (needs gtkmm-4.0)')
+option('nls', type: 'feature', value: 'auto',
+       description: 'National language support (gettext)')
+option('gmp', type: 'feature', value: 'disabled',
+       description: 'Use GNU\'s multiple precision library')
+option('network_traversing', type: 'boolean', value: false,
+       description: 'Add classes to traverse directories over a network')
+option('trace_level', type: 'integer', min: -1, max: 9, value: -1,
+       description: 'Enable additional traces up to this level (-1: no traces)')
+option('check_level', type: 'integer', min: -1, max: 9, value: -1,
+       description: 'Enable additional (internal) checks up to this level (-1: no checks)')

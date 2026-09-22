@@ -42,9 +42,9 @@ Documentation
 Can be found in the doc-subdirectory; In HTML-format; the file index.html is a
 good starting point.
 
-Note that you have to generate the documentation first (type `make doc` in the
-doc subdirectory. You'll need doxygen for that (see and/or get it from
-www.doxygen.org)).
+Note that you have to generate the documentation first (type
+`meson compile -C build doc`. You'll need doxygen for that (see and/or get it
+from www.doxygen.org)).
 
 
 Samples

@@ -1,29 +1,8 @@
-*.[ao]
-*.l[ao]
 *~
-.deps
-.libs
-bin
-autom4te.cache
-*.pc
-Makefile
-Makefile.in
-config.log
-config.status
-configure
-*.doxy
-ygp-cfg.h
-stamp-h1
-install-sh
-missing
-depcomp
-libtool
-ltmain.sh
-aclocal.m4
-*-po
-*.sed
-*.pot
-*.gmo
-*.header
+# Meson build directories
+/build*/
+# Generated documentation
+/doc/YGP/
+/doc/XGP/
+# Files written by the tests
 YGP/Tests/*.log
-YGP/Tests/*.trs

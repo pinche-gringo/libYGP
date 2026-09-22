@@ -1,5 +1,1 @@
-Makefile.in
-Makevars.template
-POTFILES
-Rules-quot
-insert-header.sin
+*.pot
