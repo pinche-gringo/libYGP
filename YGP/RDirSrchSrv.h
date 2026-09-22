@@ -1,8 +1,6 @@
 #ifndef YGP_RDIRSRCHSRV_H
 #define YGP_RDIRSRCHSRV_H
 
-//$Id: RDirSrchSrv.h,v 1.17 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,12 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <string>
 
 #include <YGP/File.h>
 #include <YGP/Socket.h>
-
 
 namespace YGP {
 class CommError;
@@ -37,10 +33,12 @@ class CommError;
        <- <b>RC</b>=0
 
      - -> <b>Find</b>="<<tt>file</tt>>";<b>Attr</b>=<<tt>attr</tt>><br>
-       <- <b>RC</b>=0;<b>%File</b>="<<tt>file</tt>>";<b>Size</b>=<<tt>size</tt>><b>Time</b>=<<tt>timestamp</tt>><b>Attr</b>=<<tt>attributes</tt>>
+       <-
+   <b>RC</b>=0;<b>%File</b>="<<tt>file</tt>>";<b>Size</b>=<<tt>size</tt>><b>Time</b>=<<tt>timestamp</tt>><b>Attr</b>=<<tt>attributes</tt>>
 
      - -> <b>Next</b><br>
-       <- <b>RC</b>=0;<b>%File</b>="<<tt>file</tt>>";<b>Size</b>=<<tt>size</tt>><b>Time</b>=<<tt>timestamp</tt>><b>Attr</b>=<<tt>attributes</tt>>
+       <-
+   <b>RC</b>=0;<b>%File</b>="<<tt>file</tt>>";<b>Size</b>=<<tt>size</tt>><b>Time</b>=<<tt>timestamp</tt>><b>Attr</b>=<<tt>attributes</tt>>
 
      - -> <b>End</b><br>
        <- <b>RC</b>=0
@@ -64,20 +62,20 @@ class CommError;
      - <b>RC</b>=<<tt>status</tt>>[;<b>E</b>=<<tt>errortext</tt>>]
 */
 class RemoteDirSearchSrv {
- public:
-   //@Section manager-functions
-   RemoteDirSearchSrv ();
-   ~RemoteDirSearchSrv ();
+  public:
+    //@Section manager-functions
+    RemoteDirSearchSrv();
+    ~RemoteDirSearchSrv();
 
-   int performCommands (int socket) throw (YGP::CommError);
+    int performCommands(int socket) throw(YGP::CommError);
 
- private:
-   void writeResult (Socket& socket, const File& result) const throw (YGP::CommError);
-   int  writeError (Socket& socket, int error, bool desc = false) const throw (YGP::CommError);
+  private:
+    void writeResult(Socket& socket, const File& result) const throw(YGP::CommError);
+    int writeError(Socket& socket, int error, bool desc = false) const throw(YGP::CommError);
 
-   void handleArgError (Socket& sock, const std::string& error) const;
+    void handleArgError(Socket& sock, const std::string& error) const;
 };
 
-}
+} // namespace YGP
 
 #endif // RDIRSRCHSRV
