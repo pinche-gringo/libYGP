@@ -1,8 +1,6 @@
 #ifndef YGP_XSTRBUF_H
 #define YGP_XSTRBUF_H
 
-// $Id: XStrBuf.h,v 1.26 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,18 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #include <ios>
 #include <streambuf>
 
 #if SYSTEM == WINDOWS
-#  include <iosfwd>
+#    include <iosfwd>
 #endif
 
 #include <YGP/Check.h>
-
 
 namespace YGP {
 
@@ -56,65 +52,68 @@ namespace YGP {
    I was not able to figure out another way)
 */
 class extStreambuf : public std::streambuf {
- public:
-   // Manager-functions
-   extStreambuf ();
-   extStreambuf (std::streambuf& source);
-   extStreambuf (std::streambuf* source);
-   virtual ~extStreambuf ();
+  public:
+    // Manager-functions
+    extStreambuf();
+    extStreambuf(std::streambuf& source);
+    extStreambuf(std::streambuf* source);
+    virtual ~extStreambuf();
 
-   /// \name Exception-handling
-   //@{
-   virtual int overflow (int ch);
-   virtual int underflow ();
-   virtual int pbackfail (int c);
-   //@}
+    /// \name Exception-handling
+    //@{
+    virtual int overflow(int ch);
+    virtual int underflow();
+    virtual int pbackfail(int c);
+    //@}
 
-   /// \name Position handling
-   //@{
-   virtual std::streampos seekoff (std::streamoff, std::ios_base::seekdir,
-                                   std::ios_base::openmode mode = std::ios::in|std::ios::out);
-   virtual std::streampos seekpos (std::streampos pos,
-                                   std::ios_base::openmode  mode = std::ios::in|std::ios::out);
-   //@}
+    /// \name Position handling
+    //@{
+    virtual std::streampos seekoff(std::streamoff, std::ios_base::seekdir,
+                                   std::ios_base::openmode mode = std::ios::in | std::ios::out);
+    virtual std::streampos seekpos(std::streampos pos, std::ios_base::openmode mode = std::ios::in | std::ios::out);
+    //@}
 
-   /// \name Setting of data-sink
-   //@{
-   /// Sets the data sink to read from
-   void setSource (std::streambuf* source) { Check1 (source); pSource = source; }
-   /// Sets the data sink to read from
-   void setSource (std::streambuf& source) { pSource = &source; }
-   //@}
+    /// \name Setting of data-sink
+    //@{
+    /// Sets the data sink to read from
+    void setSource(std::streambuf* source) {
+        Check1(source);
+        pSource = source;
+    }
+    /// Sets the data sink to read from
+    void setSource(std::streambuf& source) { pSource = &source; }
+    //@}
 
-   /// \name Accessing stream values
-   //@{
-   /// Returns the actual line of the stream read from
-   unsigned int getLine () const { return line; }
-   /// Returns the actual column of the stream read from
-   unsigned int getColumn () const {
-      return (eback () > gptr ()) ? 0 : gptr () - eback ()
+    /// \name Accessing stream values
+    //@{
+    /// Returns the actual line of the stream read from
+    unsigned int getLine() const { return line; }
+    /// Returns the actual column of the stream read from
+    unsigned int getColumn() const {
+        return (eback() > gptr()) ? 0
+                                  : gptr() - eback()
 #ifdef __BORLANDC__
-	- 1;                        // BCC's gptr () points to next position
+                                        - 1; // BCC's gptr () points to next position
 #else
-      ;
+            ;
 #endif
-   }
-   //@}
+    }
+    //@}
 
- private:
-   // Prohibited manager functions
-   extStreambuf (const extStreambuf&);
-   const struct extStreamBuf& operator= (const extStreambuf&);
+  private:
+    // Prohibited manager functions
+    extStreambuf(const extStreambuf&);
+    const struct extStreamBuf& operator=(const extStreambuf&);
 
-   int checkIntegrity () const;
+    int checkIntegrity() const;
 
-   unsigned int line;
-   int          pushbackOffset;
+    unsigned int line;
+    int pushbackOffset;
 
-   std::streambuf* pSource;
-   char*           pBuffer;
+    std::streambuf* pSource;
+    char* pBuffer;
 };
 
-}
+} // namespace YGP
 
 #endif
