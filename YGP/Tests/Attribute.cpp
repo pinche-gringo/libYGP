@@ -1,14 +1,14 @@
 // $Id: Attribute.cpp,v 1.10 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test/Attribute
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.10 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test/Attribute
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.10 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 27.8.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
 
 // This file is part of libYGP.
 //
@@ -25,7 +25,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <iostream>
 
 #include <YGP/ATime.h>
@@ -33,26 +32,25 @@
 
 #include "Test.h"
 
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
-
-   std::cout << "Testing Attribute...\n";
-   long lattr;
-   YGP::Attribute<long> lAttr ("lAttr", lattr);
-   check (lAttr.assignFromString ("1234"));
-   check (lattr == 1234);
-   check (!lAttr.assignFromString ("abcde"));
-   check (!lAttr.assignFromString ("123z"));
-   YGP::ATime time;
-   YGP::Attribute<YGP::ATime> timeAttr ("timeAttr", time);
-   check (timeAttr.assignFromString ("121005"));
+    std::cout << "Testing Attribute...\n";
+    long lattr;
+    YGP::Attribute<long> lAttr("lAttr", lattr);
+    check(lAttr.assignFromString("1234"));
+    check(lattr == 1234);
+    check(!lAttr.assignFromString("abcde"));
+    check(!lAttr.assignFromString("123z"));
+    YGP::ATime time;
+    YGP::Attribute<YGP::ATime> timeAttr("timeAttr", time);
+    check(timeAttr.assignFromString("121005"));
 #ifndef __CYGWIN__
-   // Cygwin (at least in my version B20) seems to have problems with exceptions
-   check (!timeAttr.assignFromString ("12"));
+    // Cygwin (at least in my version B20) seems to have problems with exceptions
+    check(!timeAttr.assignFromString("12"));
 #endif
 
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

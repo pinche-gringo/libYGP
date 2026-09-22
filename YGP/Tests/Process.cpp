@@ -1,14 +1,14 @@
 // $Id: Process.cpp,v 1.12 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.12 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 23.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.12 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 23.10.2004
+// COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
 
 // This file is part of libYGP.
 //
@@ -25,19 +25,18 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #if SYSTEM == UNIX
-#  include <unistd.h>
-#  if !defined HAVE_PIPE && defined HAVE__PIPE
-#    define pipe(p)  _pipe((p), 256, 0)
-#  endif
+#    include <unistd.h>
+#    if !defined HAVE_PIPE && defined HAVE__PIPE
+#        define pipe(p) _pipe((p), 256, 0)
+#    endif
 #elif SYSTEM == WINDOWS
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
 
-#  define pipe(p)  _pipe((p), 256, O_TEXT | O_NOINHERIT)
+#    define pipe(p) _pipe((p), 256, O_TEXT | O_NOINHERIT)
 #endif
 
 #include <cerrno>
@@ -49,96 +48,95 @@
 
 #include "Test.h"
 
-const char  TESTCHAR = '\xf3';
+const char TESTCHAR = '\xf3';
 
+const char* argFile("Process.test");
+const char* argIOConnected("--io");
 
-const char* argFile ("Process.test");
-const char* argIOConnected ("--io");
+int main(int argc, char* argv[]) {
+    char buffer[8] = "";
 
+    if (argc == 1)
+        std::cout << "Testing processes ...\n";
+    else {
+        if (!strcmp(argv[1], argFile)) {
+            std::ofstream file(argv[1]);
+            file << TESTCHAR;
+            return 0;
+        }
+        else if (!strcmp(argv[1], argIOConnected)) {
+            std::cin.read(buffer, sizeof(buffer));
 
-int main (int argc, char* argv[]) {
-   char buffer[8] = "";
+            if (strcmp(buffer, argIOConnected)) {
+                std::cout << "Invalid input: '" << buffer << "'!\n";
+                return 2;
+            }
+            else {
+                std::cout << "O";
+                std::cout.flush();
+                std::cerr << "K";
+                std::cerr.flush();
+                return 3;
+            }
+        }
+        std::cout << "Invalid parameter!";
+        return 1;
+    }
 
-   if (argc == 1)
-      std::cout << "Testing processes ...\n";
-   else {
-      if (!strcmp (argv[1], argFile)) {
-	 std::ofstream file (argv[1]);
-	 file << TESTCHAR;
-	 return 0;
-      }
-      else if (!strcmp (argv[1], argIOConnected)) {
-	 std::cin.read (buffer, sizeof (buffer));
+    unsigned int cErrors(0);
+    try {
+        const char* arguments[] = {argv[0], argFile, NULL};
+        YGP::Process::execute(argv[0], arguments);
 
-	 if (strcmp (buffer, argIOConnected)) {
-	    std::cout << "Invalid input: '" << buffer << "'!\n";
-	    return 2;
-	 }
-	 else {
-	    std::cout << "O"; std::cout.flush ();
-	    std::cerr << "K"; std::cerr.flush ();
-	    return 3;
-	 }
-      }
-      std::cout << "Invalid parameter!";
-      return 1;
-   }
+        std::ifstream input(argFile);
+        check(input);
 
-   unsigned int cErrors (0);
-   try {
-      const char* arguments[] = { argv[0], argFile, NULL };
-      YGP::Process::execute (argv[0], arguments);
+        char ch;
+        input >> ch;
+        check(ch == TESTCHAR);
+        unlink(argFile);
 
-      std::ifstream input (argFile);
-      check (input);
+        int pipes[3];
+        check(!pipe(pipes));
 
-      char ch;
-      input >> ch;
-      check (ch == TESTCHAR);
-      unlink (argFile);
+        arguments[1] = argIOConnected;
+        pid_t pid(YGP::Process::execIOConnected(argv[0], arguments, pipes));
 
-      int pipes[3];
-      check (!pipe (pipes));
+        check(write(pipes[1], argIOConnected, strlen(argIOConnected)) != -1);
+        check(close(pipes[1]) != -1);
+        check(!*buffer);
+        unsigned int r(read(pipes[0], buffer, sizeof(buffer)));
+        check((r == 1) || (r == 2));
+        check(*buffer == 'O');
+        if (r == 1)
+            check((r = read(pipes[0], buffer + 1, sizeof(buffer) - 1)) == 1);
+        check(buffer[1] == 'K');
 
-      arguments[1] = argIOConnected;
-      pid_t pid (YGP::Process::execIOConnected (argv[0], arguments, pipes));
+        check(YGP::Process::waitForProcess(pid) == 3);
+        close(pipes[0]);
+        close(pipes[1]);
 
-      check (write (pipes[1], argIOConnected, strlen (argIOConnected)) != -1);
-      check (close (pipes[1]) != -1);
-      check (!*buffer);
-      unsigned int r (read (pipes[0], buffer, sizeof (buffer)));
-      check ((r == 1) || (r == 2));
-      check (*buffer == 'O');
-      if (r == 1)
-	 check ((r = read (pipes[0], buffer + 1, sizeof (buffer) - 1)) == 1);
-      check (buffer[1] == 'K');
+        check(!pipe(pipes));
+        pid =
+            YGP::Process::execIOConnected(argv[0], arguments, pipes, YGP::Process::CONNECT_STDOUT | YGP::Process::CONNECT_STDERR);
 
-      check (YGP::Process::waitForProcess (pid) == 3);
-      close (pipes[0]);
-      close (pipes[1]);
+        check(write(pipes[1], argIOConnected, strlen(argIOConnected)) != -1);
+        check(close(pipes[1]) != -1);
+        check(read(pipes[0], buffer + 2, sizeof(buffer) - 2) == 1);
+        check(buffer[2] == 'O');
+        check(read(pipes[2], buffer + 3, sizeof(buffer) - 3) == 1);
+        check(buffer[3] == 'K');
 
-      check (!pipe (pipes));
-      pid = YGP::Process::execIOConnected (argv[0], arguments, pipes,
-					   YGP::Process::CONNECT_STDOUT
-					   | YGP::Process::CONNECT_STDERR);
+        check(YGP::Process::waitForProcess(pid) == 3);
+        close(pipes[0]);
+        close(pipes[1]);
+    }
+    catch (YGP::ExecError& err) {
+        std::cerr << err.what() << '\n';
+        check(0);
+    }
 
-      check (write (pipes[1], argIOConnected, strlen (argIOConnected)) != -1);
-      check (close (pipes[1]) != -1);
-      check (read (pipes[0], buffer + 2, sizeof (buffer) - 2) == 1);
-      check (buffer[2] == 'O');
-      check (read (pipes[2], buffer + 3, sizeof (buffer) - 3) == 1);
-      check (buffer[3] == 'K');
-
-      check (YGP::Process::waitForProcess (pid) == 3);
-      close (pipes[0]);
-      close (pipes[1]);
-   }
-   catch (YGP::ExecError& err) {
-      std::cerr << err.what () << '\n';
-      check (0);
-   }
-
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

@@ -1,14 +1,14 @@
 // $Id$
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test/FileTypeChk
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision$
-//AUTHOR      : Markus Schwab
-//CREATED     : 29.7.2008
-//COPYRIGHT   : Copyright (C) 2008 - 2020
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test/FileTypeChk
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision$
+// AUTHOR      : Markus Schwab
+// CREATED     : 29.7.2008
+// COPYRIGHT   : Copyright (C) 2008 - 2020
 
 // This file is part of libYGP.
 //
@@ -25,49 +25,48 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <string>
 #include <iostream>
+#include <string>
 
-#include <YGP/File.h>
 #include <YGP/DirSrch.h>
+#include <YGP/File.h>
 #include <YGP/FileTypeChk.h>
 
 #include "Test.h"
 
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
+    std::cout << "Testing FileTypeChecker...\n";
+    YGP::FileTypeCheckerByExtension chkExt;
+    YGP::FileTypeCheckerByContent chkCont;
 
-   std::cout << "Testing FileTypeChecker...\n";
-   YGP::FileTypeCheckerByExtension chkExt;
-   YGP::FileTypeCheckerByContent chkCont;
+    const YGP::File* file;
+    YGP::DirectorySearch ds("FileTypes/*");
 
-   const YGP::File* file;
-   YGP::DirectorySearch ds ("FileTypes/*");
+    YGP::FileTypeChecker::FileType aTypes[] = {
+        YGP::FileTypeChecker::ABIWORD,    YGP::FileTypeChecker::OGG,        YGP::FileTypeChecker::MSOFFICE,
+        YGP::FileTypeChecker::PNG,        YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::JPEG,
+        YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::JPEG,       YGP::FileTypeChecker::OOXML,
+        YGP::FileTypeChecker::RTF,        YGP::FileTypeChecker::MSOFFICE,   YGP::FileTypeChecker::MP3,
+        YGP::FileTypeChecker::GIF,        YGP::FileTypeChecker::HTML,       YGP::FileTypeChecker::PDF};
 
-   YGP::FileTypeChecker::FileType aTypes[] = {
-      YGP::FileTypeChecker::ABIWORD, YGP::FileTypeChecker::OGG, YGP::FileTypeChecker::MSOFFICE,
-      YGP::FileTypeChecker::PNG, YGP::FileTypeChecker::OPENOFFICE, YGP::FileTypeChecker::JPEG,
-      YGP::FileTypeChecker::STAROFFICE, YGP::FileTypeChecker::JPEG, YGP::FileTypeChecker::OOXML,
-      YGP::FileTypeChecker::RTF, YGP::FileTypeChecker::MSOFFICE, YGP::FileTypeChecker::MP3,
-      YGP::FileTypeChecker::GIF, YGP::FileTypeChecker::HTML, YGP::FileTypeChecker::PDF };
+    if ((file = ds.find())) {
+        unsigned int offset(0);
+        do {
+            std::string name(file->path());
+            name += file->name();
 
-   if ((file = ds.find ())) {
-      unsigned int offset (0);
-      do {
-	 std::string name (file->path ());
-	 name += file->name ();
+            check(chkExt.getType(name.c_str()) == aTypes[offset]);
+            check(chkCont.getType(name.c_str()) == aTypes[offset]);
+            ++offset;
+        }
+        while ((file = ds.next()));
+    }
+    else
+        std::cout << "    -> Warning: No files to check found!\n" << std::flush;
 
-	 check (chkExt.getType(name.c_str())  == aTypes[offset]);
-	 check (chkCont.getType(name.c_str()) == aTypes[offset]);
-	 ++offset;
-      } while ((file = ds.next()));
-   }
-   else
-      std::cout << "    -> Warning: No files to check found!\n" << std::flush;
-
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

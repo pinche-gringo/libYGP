@@ -1,14 +1,14 @@
 // $Id: ATStamp.cpp,v 1.9 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test/ATStamp
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.9 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test/ATStamp
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.9 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 27.8.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
 
 // This file is part of libYGP.
 //
@@ -25,29 +25,27 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <iostream>
 
 #include <YGP/ATStamp.h>
 
 #include "Test.h"
 
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
+    std::cout << "Testing ATimestamp...\n";
+    YGP::ATimestamp now;
+    check(!now.isDefined());
+    YGP::ATimestamp early(false);
+    check(early.isDefined());
+    check(now < early);
 
-   std::cout << "Testing ATimestamp...\n";
-   YGP::ATimestamp now;
-   check (!now.isDefined ());
-   YGP::ATimestamp early (false);
-   check (early.isDefined ());
-   check (now < early);
+    now = YGP::ATimestamp::now();
+    check(now.isDefined());
+    check(now > early);
 
-   now = YGP::ATimestamp::now ();
-   check (now.isDefined ());
-   check (now > early);
-
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

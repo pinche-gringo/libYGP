@@ -1,14 +1,14 @@
 // $Id: PathDirSrch.cpp,v 1.13 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test/PathDirSrch
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.13 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test/PathDirSrch
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.13 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 27.8.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -25,7 +25,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <iostream>
 
 #include <YGP/File.h>
@@ -34,25 +33,23 @@
 
 #include "Test.h"
 
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
+    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
 
-   typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-
-   std::cout << "Testing PathDirectorySearch...\n";
+    std::cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX
-   const std::string path ("..:../../XGP");
+    const std::string path("..:../../XGP");
 #else
-   const std::string path ("..\\YGP;..\\XGP");
+    const std::string path("..\\YGP;..\\XGP");
 #endif
-   YGP::PathDirectorySearch pds (path, "?GP.pc.*");
-   check (pds.find (YGP::IDirectorySearch::FILE_NORMAL
-                    | YGP::IDirectorySearch::FILE_READONLY));
-   check (pds.next ());
-   check (!pds.next ());
+    YGP::PathDirectorySearch pds(path, "?GP.pc.*");
+    check(pds.find(YGP::IDirectorySearch::FILE_NORMAL | YGP::IDirectorySearch::FILE_READONLY));
+    check(pds.next());
+    check(!pds.next());
 
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

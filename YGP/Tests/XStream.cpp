@@ -1,14 +1,14 @@
 // $Id: XStream.cpp,v 1.13 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test/XStream
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.13 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test/XStream
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.13 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 27.8.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2005, 2008
 
 // This file is part of libYGP.
 //
@@ -36,31 +36,31 @@
 using namespace std;
 
 #if SYSTEM == UNIX
-#  define PATH ""
+#    define PATH ""
 #else
-#  define PATH "..\\YGP\\Tests\\"
+#    define PATH "..\\YGP\\Tests\\"
 #endif
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-   std::cout << "Testing XStream...\n";
+    std::cout << "Testing XStream...\n";
 
-   YGP::Xifstream xin;
-   xin.open (PATH "XStrBuf.test", std::ios::in);
-   check (xin);
-   if (xin) {
-      char c;
-      check (!xin.eof ());
+    YGP::Xifstream xin;
+    xin.open(PATH "XStrBuf.test", std::ios::in);
+    check(xin);
+    if (xin) {
+        char c;
+        check(!xin.eof());
 
-      xin.init ();
+        xin.init();
 
-      xin >> c >> c;
-      check (xin.getLine () == 1);
-      check (xin.getColumn () == 2);
-   }
+        xin >> c >> c;
+        check(xin.getLine() == 1);
+        check(xin.getColumn() == 2);
+    }
 
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

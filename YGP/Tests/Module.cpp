@@ -1,14 +1,14 @@
 // $Id: Module.cpp,v 1.2 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.2 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 2.6.2006
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.2 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 2.6.2006
+// COPYRIGHT   : Copyright (C) 2004 - 2006, 2008
 
 // This file is part of libYGP.
 //
@@ -25,31 +25,30 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #include <YGP/Module.h>
 
 #include "Test.h"
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-   try {
-      YGP::Module mod1 ("YGP-" LIBRELEASE);
-      YGP::Module mod2 ("libYGP-" LIBRELEASE);
-      YGP::Module mod3 ("libYGP-" LIBRELEASE SHAREOBJ_EXT);
+    try {
+        YGP::Module mod1("YGP-" LIBRELEASE);
+        YGP::Module mod2("libYGP-" LIBRELEASE);
+        YGP::Module mod3("libYGP-" LIBRELEASE SHAREOBJ_EXT);
 
-      check (mod1.getSymbol ("check"));
-      check (mod2.getSymbol ("check"));
-      check (mod3.getSymbol ("check"));
-   }
-   catch (YGP::FileError& e) {
-      std::cerr << e.what () << '\n';
-      check (0);
-   }
+        check(mod1.getSymbol("check"));
+        check(mod2.getSymbol("check"));
+        check(mod3.getSymbol("check"));
+    }
+    catch (YGP::FileError& e) {
+        std::cerr << e.what() << '\n';
+        check(0);
+    }
 
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }

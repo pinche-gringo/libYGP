@@ -18,21 +18,36 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
-#define ERROROUT(x) { ++cErrors; std::cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n" << std::flush; }
-#define TEST(x) { if (!(x)) { ERROROUT (#x) } }
-
+#define ERROROUT(x)                                                                                                              \
+    {                                                                                                                            \
+        ++cErrors;                                                                                                               \
+        std::cout << "    -> Failed (" << x << "; line " << __LINE__ << ")\n" << std::flush;                                     \
+    }
+#define TEST(x)                                                                                                                  \
+    {                                                                                                                            \
+        if (!(x)) {                                                                                                              \
+            ERROROUT(#x)                                                                                                         \
+        }                                                                                                                        \
+    }
 
 #ifdef VERBOSE
-#  define DEBUG 1
-#  define PRINT(x) { std::cout << "Checking: " << x << std::flush; }
-#  define check(x) { PRINT (#x "\n"); TEST(x) }
+#    define DEBUG 1
+#    define PRINT(x)                                                                                                             \
+        {                                                                                                                        \
+            std::cout << "Checking: " << x << std::flush;                                                                        \
+        }
+#    define check(x)                                                                                                             \
+        {                                                                                                                        \
+            PRINT(#x "\n");                                                                                                      \
+            TEST(x)                                                                                                              \
+        }
 #else
-#  define DEBUG 0
-#  define check(x) TEST(x)
-#  define PRINT(x)
+#    define DEBUG 0
+#    define check(x) TEST(x)
+#    define PRINT(x)
 #endif
 
 #endif

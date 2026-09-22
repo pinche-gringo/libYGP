@@ -1,14 +1,14 @@
 // $Id: PathSrch.cpp,v 1.10 2008/03/29 17:35:17 markus Rel $
 
-//PROJECT     : libYGP
-//SUBSYSTEM   : Test/PathSrch
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.10 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 27.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
+// PROJECT     : libYGP
+// SUBSYSTEM   : Test/PathSrch
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// REVISION    : $Revision: 1.10 $
+// AUTHOR      : Markus Schwab
+// CREATED     : 27.8.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2005, 2008, 2009
 
 // This file is part of libYGP.
 //
@@ -25,38 +25,36 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <iostream>
 
 #include <ygp-cfg.h>
 
-#include <YGP/PathSrch.h>
 #include <YGP/Internal.h>
+#include <YGP/PathSrch.h>
 
 #include "Test.h"
 
+int main(int argc, char* argv[]) {
+    unsigned int cErrors(0);
 
-int main (int argc, char* argv[]) {
-   unsigned int cErrors (0);
-
-   std::cout << "Testing PathSearch...\n";
+    std::cout << "Testing PathSearch...\n";
 #if SYSTEM == UNIX
-   YGP::PathSearch ps (".:..:/::/usr/:/usr");
-   check (ps.getNextNode () == ".");
-   check (ps.getNextNode () == "..");
-   check (ps.getNextNode () == "/");
-   check (ps.getNextNode () == "/usr/");
-   check (ps.getNextNode () == "/usr");
+    YGP::PathSearch ps(".:..:/::/usr/:/usr");
+    check(ps.getNextNode() == ".");
+    check(ps.getNextNode() == "..");
+    check(ps.getNextNode() == "/");
+    check(ps.getNextNode() == "/usr/");
+    check(ps.getNextNode() == "/usr");
 #else
-   YGP::PathSearch ps (".;..;\\;;\\usr\\;\\usr");
-   check (ps.getNextNode () == ".");
-   check (ps.getNextNode () == "..");
-   check (ps.getNextNode () == "\\");
-   check (ps.getNextNode () == "\\usr\\");
-   check (ps.getNextNode () == "\\usr");
+    YGP::PathSearch ps(".;..;\\;;\\usr\\;\\usr");
+    check(ps.getNextNode() == ".");
+    check(ps.getNextNode() == "..");
+    check(ps.getNextNode() == "\\");
+    check(ps.getNextNode() == "\\usr\\");
+    check(ps.getNextNode() == "\\usr");
 #endif
 
-   if (cErrors)
-      std::cout << "Failures: " << cErrors << '\n';
-   return cErrors ? 1 : 0;
+    if (cErrors)
+        std::cout << "Failures: " << cErrors << '\n';
+    return cErrors ? 1 : 0;
 }
