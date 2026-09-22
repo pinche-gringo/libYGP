@@ -24,6 +24,8 @@
 
 #include <YGP/StatusObj.h>
 
+#include <utility>
+
 namespace YGP {
 
 //-----------------------------------------------------------------------------
@@ -36,19 +38,19 @@ StatusObject::StatusObject() : tp(UNDEFINED), msg(), child() {}
 /// \param t Type of the object
 /// \param message Message of the object
 //-----------------------------------------------------------------------------
-StatusObject::StatusObject(type t, const std::string& message) : tp(t), msg(message), child() {}
+StatusObject::StatusObject(type t, std::string  message) : tp(t), msg(std::move(message)), child() {}
 
 //-----------------------------------------------------------------------------
 /// Copy constructor
 /// \param other Object to copy
 //-----------------------------------------------------------------------------
 StatusObject::StatusObject(const StatusObject& other)
-    : tp(other.tp), msg(other.msg), child(other.child ? new StatusObject(*other.child) : NULL) {}
+    : tp(other.tp), msg(other.msg), child(other.child ? new StatusObject(*other.child) : nullptr) {}
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-StatusObject::~StatusObject() {}
+StatusObject::~StatusObject() = default;
 
 //-----------------------------------------------------------------------------
 /// Assignment operator
@@ -58,7 +60,7 @@ StatusObject& StatusObject::operator=(const StatusObject& other) {
     if (&other != this) {
         tp = other.tp;
         msg = other.msg;
-        child.reset(other.child ? new StatusObject(*other.child) : NULL);
+        child.reset(other.child ? new StatusObject(*other.child) : nullptr);
     }
 
     return *this;

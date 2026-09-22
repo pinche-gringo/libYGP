@@ -48,37 +48,33 @@ namespace YGP {
    This class is not really (very) useful by itself but designed to be used by
    a RemoteDirSearch-object.
 */
-typedef struct RemoteFile : public File {
+using RemoteFile = struct RemoteFile : public File {
     /// Default constructor; creates an empty object (holding no file) with the
     /// socket for the communication
     RemoteFile(Socket& socket) : sock(socket) {}
     /// Copy constructor; with the socket for the communication
-    RemoteFile(const RemoteFile& o) : File(o), sock(o.sock) {}
-    virtual ~RemoteFile();
+    RemoteFile(const RemoteFile& o)  = default;
+    ~RemoteFile() override;
 
     /// Assignment operator; with the socket for the communication
-    RemoteFile& operator=(const RemoteFile& o) {
-        File::operator=(o);
-        sock = o.sock;
-        return *this;
-    }
+    RemoteFile& operator=(const RemoteFile& o) = default;
 
-    virtual File* clone() const;
+    File* clone() const override;
 
     //@Section file-access
-    virtual bool isEOF(void* file) const throw(YGP::FileError);
-    virtual void* open(const char* mode) const throw(YGP::FileError);
-    virtual void close(void* file) const throw(YGP::FileError);
-    virtual int read(void* file, char* buffer, unsigned int length) const throw(YGP::FileError);
-    virtual int write(void* file, const char* buffer, unsigned int length) const throw(YGP::FileError);
+    bool isEOF(void* file) const override;
+    void* open(const char* mode) const override;
+    void close(void* file) const override;
+    int read(void* file, char* buffer, unsigned int length) const override;
+    int write(void* file, const char* buffer, unsigned int length) const override;
 
   private:
     Socket& sock;
 
-    void handleServerMsg(const AttributeParse& attr, const char* pValue) const throw(YGP::FileError);
-    void handleServerError(const char*) const throw(YGP::FileError);
+    void handleServerMsg(const AttributeParse& attr, const char* pValue) const;
+    void handleServerError(const char*) const;
     bool isOK(const std::string& answer) const;
-} RemoteFile;
+};
 
 } // namespace YGP
 

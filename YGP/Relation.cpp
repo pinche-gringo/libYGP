@@ -56,7 +56,7 @@ void RelationManager::remove(const IRelation* relation) {
     TRACE9("RelationManager::remove(const IRelation*)");
     Check1(relation);
 
-    for (std::map<const char*, IRelation*>::iterator i(relations.begin()); i != relations.end(); ++i)
+    for (auto i(relations.begin()); i != relations.end(); ++i)
         if (i->second == relation) {
             relations.erase(i);
             return;
@@ -73,8 +73,8 @@ IRelation* RelationManager::getRelation(const char* name) {
     TRACE9("RelationManager::getRelation(const char*) - " << name);
     Check1(name);
 
-    std::map<const char*, IRelation*>::iterator i(relations.find(name));
-    return (i != relations.end()) ? i->second : NULL;
+    auto i(relations.find(name));
+    return (i != relations.end()) ? i->second : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ IRelation* RelationManager::getRelation(const char* name) {
 /// \returns const char* Name of the passed relation
 //-----------------------------------------------------------------------------
 const char* RelationManager::getRelationName(const IRelation& relation) {
-    std::map<const char*, IRelation*>::iterator i(relations.begin());
+    auto i(relations.begin());
     for (; i != relations.end(); ++i)
         if (i->second == &relation)
             break;

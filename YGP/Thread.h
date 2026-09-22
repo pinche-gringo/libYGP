@@ -51,7 +51,7 @@ namespace YGP {
 class Thread {
   public:
     /// Declaration of prototype of callback.
-    typedef void* (*THREAD_FUNCTION)(void*);
+    using THREAD_FUNCTION = void* (*)(void*);
 
     virtual ~Thread();
 
@@ -63,7 +63,7 @@ class Thread {
     /// \param fnc Thread function to execute
     /// \param pArgs Argument to the thread
     static Thread* create2(THREAD_FUNCTION fnc, void* pArgs) {
-        Thread* t = new Thread;
+        auto* t = new Thread;
         t->pArgs_ = pArgs;
         t->init(fnc, t);
         return t;
@@ -109,8 +109,8 @@ class Thread {
     void* pArgs_; ///< Pointer to (array of) arguments to the thread
 
   private:
-    Thread(const Thread&);
-    Thread& operator=(const Thread&);
+    Thread(const Thread&) = delete;
+    Thread& operator=(const Thread&) = delete;
 
 #ifdef HAVE_LIBPTHREAD
     pthread_t id;
@@ -137,10 +137,10 @@ class Thread {
 template <class T> class OThread : public Thread {
   public:
     /// Declaration of type of callback
-    typedef void* (T::*THREAD_OBJMEMBER)(void*);
+    using THREAD_OBJMEMBER = void* (T::*)(void*);
 
     /// Destructor
-    ~OThread() {}
+    ~OThread() override = default;
 
     /// Creates a new thread; the argument is passed directly to the thread function
     /// \param obj Object having a member to execute in a thread
@@ -168,11 +168,11 @@ template <class T> class OThread : public Thread {
     }
 
   private:
-    OThread(const OThread&);
-    OThread& operator=(const OThread&);
+    OThread(const OThread&) = delete;
+    OThread& operator=(const OThread&) = delete;
 
     static void* proxy(void* pArgs) {
-        OThread<T>* thread = static_cast<OThread<T>*>(pArgs);
+        auto* thread = static_cast<OThread<T>*>(pArgs);
         void* rc = ((thread->object)->*(thread->callback))(thread->indirect ? thread : thread->getArgs());
         delete thread;
         return rc;

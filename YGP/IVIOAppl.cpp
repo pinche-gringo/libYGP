@@ -64,7 +64,7 @@ static inline bool isOptionChar(const char ch) {
 /// \param pOpt Pointer to long-option-table
 //-----------------------------------------------------------------------------
 IVIOApplication::IVIOApplication(const int argc, const char* argv[], const longOptions* pOpt)
-    : args(argc), ppArgs(argv), startArg(1), startOpt(1), pOptionParam(NULL), longOpt(NULL), numLongOpt(0) {
+    : args(argc), ppArgs(argv), startArg(1), startOpt(1), pOptionParam(nullptr), longOpt(nullptr), numLongOpt(0) {
     Check1(args > 0);
     Check1(ppArgs);
 
@@ -105,7 +105,7 @@ void IVIOApplication::setLongOptions(const longOptions* pLongOpts) {
     Check1(pLongOpts->longVal); // At least one valid entry must exist
 
     longOpt = pLongOpts;
-    while (pLongOpts->longVal != NULL) {
+    while (pLongOpts->longVal != nullptr) {
         Check3(pLongOpts->shortVal != '\0');
         ++numLongOpt;
         pLongOpts++;
@@ -231,7 +231,7 @@ const char* IVIOApplication::getOptionValue() {
     else {
         ++startArg;
         if (++startOpt == args)
-            return NULL;
+            return nullptr;
 
         pHelp = ppArgs[startOpt];
         moveOption();
@@ -239,7 +239,7 @@ const char* IVIOApplication::getOptionValue() {
 
     ++startArg;
     ++startOpt;
-    pOptionParam = NULL;
+    pOptionParam = nullptr;
     return pHelp;
 }
 
@@ -275,7 +275,7 @@ char IVIOApplication::getOption() {
 
                 ++startOpt;
                 ++startArg;
-                pOptionParam = NULL;
+                pOptionParam = nullptr;
                 continue;
             } // endif actual option finished
 
@@ -283,7 +283,7 @@ char IVIOApplication::getOption() {
                 if (pOptionParam && *pOptionParam) { // Text behind --? Long opt
                     if (longOpt) {                   // Are long-options specified
                         unsigned int i(numLongOpt);
-                        unsigned int found((unsigned int)-1);
+                        auto found((unsigned int)-1);
                         const char* pEqual = strchr(pOptionParam, '=');
                         unsigned int len(pEqual ? pEqual - pOptionParam : strlen(pOptionParam));
 

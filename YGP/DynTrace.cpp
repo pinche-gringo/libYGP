@@ -67,7 +67,7 @@ void DynTraceManager::remove(const DynTrace* traceObj) {
     TRACE9("DynTraceManager::remove(const DynTrace*)");
     Check1(traceObj);
 
-    for (std::map<const char*, DynTrace*>::iterator i(traceObjs.begin()); i != traceObjs.end(); ++i)
+    for (auto i(traceObjs.begin()); i != traceObjs.end(); ++i)
         if (i->second == traceObj) {
             traceObjs.erase(i);
             return;

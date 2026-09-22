@@ -463,10 +463,10 @@ void convertUTF82HTML(std::string& string) {
     } convTable[] = {{'&', "&amp;"}, {'<', "&lt;"}, {'>', "&gt;"}, {'\'', "&lsquo;"}, {'"', "&quot;"}};
 
     for (unsigned int i(0); i < string.size(); ++i)
-        for (unsigned int j(0); j < (sizeof(convTable) / sizeof(convTable[0])); ++j)
-            if (string[i] == convTable[j].character) {
-                string.replace(i, 1, convTable[j].replace);
-                i += convTable[j].replace.length();
+        for (auto & j : convTable)
+            if (string[i] == j.character) {
+                string.replace(i, 1, j.replace);
+                i += j.replace.length();
             }
 }
 

@@ -284,7 +284,7 @@ struct File : protected WIN32_FIND_DATA {
 #endif
 
 /// Declare also a File, to not have to use <tt>struct File</tt>
-typedef struct File File;
+using File = struct File;
 
 } // namespace YGP
 

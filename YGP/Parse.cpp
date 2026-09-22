@@ -152,7 +152,7 @@ ParseSkip::ParseSkip(std::streamoff bytes, std::ios_base::seekdir seek) : ParseO
 /// Copy constructor
 /// \param other Object to copy
 //-----------------------------------------------------------------------------
-ParseSkip::ParseSkip(const ParseSkip& other) : ParseObject(other), offset(other.offset), seek(other.seek) {}
+ParseSkip::ParseSkip(const ParseSkip& other)  = default;
 
 //-----------------------------------------------------------------------------
 /// Destructor
@@ -941,7 +941,7 @@ int ParseSequence::doParse(Xistream& stream, bool optional) {
     unsigned int i(0);
     int rc(PARSE_OK);
 
-    ParseObject** ppAct = NULL;
+    ParseObject** ppAct = nullptr;
     while (i++ < maxCard) {
         ppAct = ppList;
         Check3(ppAct);
@@ -1059,7 +1059,7 @@ int ParseSelection::doParse(Xistream& stream, bool optional) {
 
         while (*ppAct) {                                                                 // While list contains objects
             if ((rc = (**ppAct).doParse(stream,                                          // Parse (putback always)
-                                        *(ppAct + 1) == NULL ? optional : true)) == 0) { // Break if match found
+                                        *(ppAct + 1) == nullptr ? optional : true)) == 0) { // Break if match found
                 TRACE8("ParseSelection::doParse -> " << getDescription() << " found entry");
                 break;
             } // endif

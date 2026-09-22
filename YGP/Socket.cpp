@@ -180,7 +180,7 @@ void Socket::listenAt(unsigned int port) const {
 unsigned int Socket::getPortOfService(const char* service) {
     TRACE9("Socket::getPortOfService(const char*)");
 
-    char* pTail = NULL;
+    char* pTail = nullptr;
     TRACE8("Passed service: " << service);
 
     errno = 0;

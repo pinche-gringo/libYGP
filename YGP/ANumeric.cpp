@@ -109,7 +109,7 @@ ANumeric& ANumeric::operator=(const char* pValue) {
 #ifdef HAVE_LIBGMP
         if (mpz_set_str(value, unformatted.c_str(), 0))
 #else
-        char* pTail = NULL;
+        char* pTail = nullptr;
         errno = 0;
         value = strtol(unformatted.c_str(), &pTail, 0);
         if (errno || ((pValue = pTail) && *pTail && !isspace(*pTail)))

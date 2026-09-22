@@ -115,14 +115,14 @@ class Process {
     static int waitForProcess(pid_t pid);
 
   protected:
-    static pid_t start(const char* file, const char* const arguments[], int flags, int* fd = NULL);
+    static pid_t start(const char* file, const char* const arguments[], int flags, int* fd = nullptr);
 
   private:
-    Process();
-    Process(const Process& other);
-    virtual ~Process();
+    Process() = delete;
+    Process(const Process& other) = delete;
+    virtual ~Process() = delete;
 
-    const Process& operator=(const Process& other);
+    const Process& operator=(const Process& other) = delete;
 
     static std::string readChildOutput(int file);
 };

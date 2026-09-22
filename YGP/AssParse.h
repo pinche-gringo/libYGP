@@ -19,6 +19,7 @@
 #include <string>
 
 #include <exception>
+#include <utility>
 
 namespace YGP {
 
@@ -35,7 +36,7 @@ namespace YGP {
 class AssignmentParse {
   public:
     /// Constructor; from the string to analyse
-    AssignmentParse(const std::string& assignments) : assignments(assignments), actKey(), actValue() {}
+    AssignmentParse(std::string  assignments) : assignments(std::move(assignments)), actKey(), actValue() {}
     ~AssignmentParse();
 
     /// Assignment operator; from the string to analyse
@@ -66,10 +67,10 @@ class AssignmentParse {
     static void escapeQuotes(std::string& value);
 
   private:
-    AssignmentParse();
-    AssignmentParse(const AssignmentParse& other);
+    AssignmentParse() = delete;
+    AssignmentParse(const AssignmentParse& other) = delete;
 
-    AssignmentParse& operator=(const AssignmentParse& other);
+    AssignmentParse& operator=(const AssignmentParse& other) = delete;
 
     std::string assignments;
 

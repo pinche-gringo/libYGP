@@ -33,7 +33,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-MetaEnum::~MetaEnum() {}
+MetaEnum::~MetaEnum() = default;
 
 //-----------------------------------------------------------------------------
 /// Returns the string-value of the passed value
@@ -43,7 +43,7 @@ MetaEnum::~MetaEnum() {}
 /// \throws std::out_of_range
 //-----------------------------------------------------------------------------
 std::string MetaEnum::operator[](int value) const {
-    const_iterator i(values.find(value));
+    auto i(values.find(value));
     if (i != values.end())
         return i->second;
     throw std::out_of_range("MetaEnum::operator[] (int)");
@@ -56,9 +56,9 @@ std::string MetaEnum::operator[](int value) const {
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------
 int MetaEnum::operator[](const std::string& value) const {
-    for (const_iterator i(values.begin()); i != values.end(); ++i)
-        if (i->second == value)
-            return i->first;
+    for (const auto & i : values)
+        if (i.second == value)
+            return i.first;
     throw std::out_of_range("MetaEnum::operator[] (const std::string&)");
 }
 
@@ -69,8 +69,8 @@ int MetaEnum::operator[](const std::string& value) const {
 /// \remarks value must exist within the enum
 //-----------------------------------------------------------------------------
 bool MetaEnum::exists(const std::string& value) const {
-    for (const_iterator i(values.begin()); i != values.end(); ++i)
-        if (i->second == value)
+    for (const auto & i : values)
+        if (i.second == value)
             return true;
     return false;
 }

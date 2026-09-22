@@ -53,7 +53,7 @@ const char* ATime::MODES[] = {"%X", "%H:%M", "%M:%S", "%H %M", "%M %S"};
 //-----------------------------------------------------------------------------
 ATime::ATime(bool now) : AttributValue(), hour(0), min_(0), sec(0), mode(MODE_LOCALE) {
     if (now)
-        operator=(time(NULL));
+        operator=(time(nullptr));
     else
         setDefined();
 }
@@ -76,7 +76,7 @@ ATime::ATime(char Hour, char minute, char second)
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ATime::~ATime() {}
+ATime::~ATime() = default;
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator from another ATime object
@@ -138,7 +138,7 @@ void ATime::assign(const char* pTime, unsigned int len) {
     struct tm result;
     memset(&result, '\0', sizeof(result));
 
-    const char* fail(NULL);
+    const char* fail(nullptr);
     switch (len) {
     case 8:
         fail = strptime(pTime, MODES[MODE_LOCALE], &result);
@@ -155,7 +155,7 @@ void ATime::assign(const char* pTime, unsigned int len) {
                                                        : strptime(pTime, MODES[(unsigned)mode + 2], &result));
         break;
     default:
-        fail = NULL;
+        fail = nullptr;
     } // endswitch
     operator=(result);
     if (!fail || (*fail && !isspace(*fail)) || checkIntegrity()) {

@@ -49,7 +49,7 @@ DirectorySearch::DirectorySearch()
     : IDirectorySearch(), searchDir(1, '.'), searchFile(), attr(0), offStrip(0)
 #if SYSTEM == UNIX
       ,
-      pDir(NULL)
+      pDir(nullptr)
 #else
       ,
       hSearch(INVALID_HANDLE_VALUE)
@@ -67,7 +67,7 @@ DirectorySearch::DirectorySearch()
 DirectorySearch::DirectorySearch(const std::string& search)
     : IDirectorySearch(), searchDir(), searchFile(), attr(0), offStrip(0),
 #if SYSTEM == UNIX
-      pDir(NULL)
+      pDir(nullptr)
 #else
       hSearch(INVALID_HANDLE_VALUE)
 #endif
@@ -107,7 +107,7 @@ const File* DirectorySearch::find(unsigned long attribs) {
     TRACE9("DirectorySearch::find(unsigned long) - opendir: " << (pDir ? "OK" : "Failed"));
     if (!pDir) {
         clearEntry();
-        return NULL;
+        return nullptr;
     }
 #else
 #    if SYSTEM == WINDOWS
@@ -162,7 +162,7 @@ const File* DirectorySearch::next() {
     std::string workfile(pEntry->path_);
     std::string temp;
     struct dirent* pDirEnt;
-    while ((pDirEnt = readdir(pDir)) != NULL) { // Files available?
+    while ((pDirEnt = readdir(pDir)) != nullptr) { // Files available?
         TRACE8("DirectorySearch::next() - found " << pDirEnt->d_name);
 
         if ((!(attr & FILE_HIDDEN)) && (*pDirEnt->d_name == '.') && searchFile[0] != '.')
@@ -186,7 +186,7 @@ const File* DirectorySearch::next() {
     } // end-while files available
 
     clearEntry();
-    return NULL;
+    return nullptr;
 #else
 #    if SYSTEM == WINDOWS
     // Attribut-handling: Files having attrs not specified here are not returned
@@ -229,7 +229,7 @@ void DirectorySearch::setSearchValue(const std::string& search) {
     TRACE8("DirectorySearch::setSearchValue(const std::string&) - " << search);
     Check3(!search.empty());
 
-    pEntry = NULL; // New search-value means new search with new result
+    pEntry = nullptr; // New search-value means new search with new result
     offStrip = 0;
 
     searchFile = search;
@@ -283,7 +283,7 @@ void DirectorySearch::cleanup() {
         Check3(!rc);
     }
 #    endif
-    pDir = NULL;
+    pDir = nullptr;
 #elif SYSTEM == WINDOWS
     FindClose(hSearch);
     hSearch = INVALID_HANDLE_VALUE;

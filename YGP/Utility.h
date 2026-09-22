@@ -28,8 +28,8 @@
 
 #if SIZEOF_SHORT == 2
 
-typedef short INT16;
-typedef unsigned short UINT16;
+using INT16 = short;
+using UINT16 = unsigned short;
 
 #elif SIZEOF_INT == 2
 
@@ -45,8 +45,8 @@ typedef unsigned long UINT16;
 
 #if SIZEOF_INT == 4
 
-typedef int INT32;
-typedef unsigned int UINT32;
+using INT32 = int;
+using UINT32 = unsigned int;
 
 #elif SIZEOF_LONG == 4
 

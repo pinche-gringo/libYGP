@@ -61,7 +61,7 @@ namespace YGP {
 /// Defaultconstructor; create the object but no actual thread
 //-----------------------------------------------------------------------------
 Thread::Thread()
-    : pArgs_(NULL)
+    : pArgs_(nullptr)
 #ifdef HAVE_LIBPTHREAD
       ,
       id(0)
@@ -112,7 +112,7 @@ Thread::~Thread() { TRACE3("Thread::~Thread()"); }
 //-----------------------------------------------------------------------------
 void Thread::init(THREAD_FUNCTION fnc, void* pArgs) {
 #ifdef HAVE_LIBPTHREAD
-    if (pthread_create(&id, NULL, fnc, pArgs) != 0) {
+    if (pthread_create(&id, nullptr, fnc, pArgs) != 0) {
 #elif defined(HAVE_BEGINTHREAD)
     callback = fnc;
     mutexes[id = _beginthread(threadFunction, 0, this)].lock();
@@ -178,7 +178,7 @@ void Thread::cancel() {
 //-----------------------------------------------------------------------------
 void Thread::allowCancelation(bool allow) {
 #ifdef HAVE_LIBPTHREAD
-    pthread_setcancelstate(allow ? PTHREAD_CANCEL_ENABLE : PTHREAD_CANCEL_DISABLE, NULL);
+    pthread_setcancelstate(allow ? PTHREAD_CANCEL_ENABLE : PTHREAD_CANCEL_DISABLE, nullptr);
 #endif
 }
 
@@ -205,7 +205,7 @@ void* Thread::waitForThread(unsigned long id) {
     TRACE3("Thread::waitForThread(unsigned long) - " << id);
 
 #ifdef HAVE_LIBPTHREAD
-    void* rc(NULL);
+    void* rc(nullptr);
     pthread_join((pthread_t)id, &rc);
     return rc;
 #elif defined HAVE_BEGINTHREAD

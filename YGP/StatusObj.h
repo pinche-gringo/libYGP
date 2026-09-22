@@ -31,15 +31,15 @@ namespace YGP {
 class StatusObject {
   public:
     /// The type of the object
-    typedef enum {
+    using type = enum {
         UNDEFINED, ///< The object contains no message
         INFO,      ///< The object contains an informational message
         WARNING,   ///< The object contains a warning message
         ERROR      ///< The object contains an error
-    } type;
+    };
 
     StatusObject();
-    StatusObject(type t, const std::string& message);
+    StatusObject(type t, std::string  message);
     StatusObject(const StatusObject& other);
     virtual ~StatusObject();
 
@@ -61,7 +61,7 @@ class StatusObject {
     void clean() {
         tp = UNDEFINED;
         msg.clear();
-        child.reset(NULL);
+        child.reset(nullptr);
     }
 
     void generalize(const std::string& message);

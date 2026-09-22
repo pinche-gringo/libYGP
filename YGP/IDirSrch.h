@@ -39,7 +39,7 @@ namespace YGP {
 class IDirectorySearch {
   public:
     /// Default constructor
-    IDirectorySearch() : pEntry(NULL) {}
+    IDirectorySearch()  = default;
     virtual ~IDirectorySearch();
 
     /// Intended to set the files to search for; to be implemented by derived
@@ -90,18 +90,18 @@ class IDirectorySearch {
     static const unsigned int FILE_HIDDEN;    ///< The file is "hidden" in normal use
 
   protected:
-    File* pEntry; ///< Pointer to (last) found File object
+    File* pEntry{nullptr}; ///< Pointer to (last) found File object
 
     /// Frees the buffer holding the last found file.
     void clearEntry() {
         delete pEntry;
-        pEntry = NULL;
+        pEntry = nullptr;
     }
 
   private:
     //@Section prohibited manager functions
-    IDirectorySearch(const IDirectorySearch&);
-    IDirectorySearch& operator=(const IDirectorySearch&);
+    IDirectorySearch(const IDirectorySearch&) = delete;
+    IDirectorySearch& operator=(const IDirectorySearch&) = delete;
 };
 
 } // namespace YGP

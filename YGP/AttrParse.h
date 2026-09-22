@@ -78,8 +78,8 @@ class AttributeParse {
     const IAttribute* findAttribute(const char* name) const;
 
   private:
-    AttributeParse(const AttributeParse&);
-    AttributeParse& operator=(const AttributeParse&);
+    AttributeParse(const AttributeParse&) = delete;
+    AttributeParse& operator=(const AttributeParse&) = delete;
 
     std::vector<IAttribute*> apAttrs; // Pointer to vector holding attributes
 };

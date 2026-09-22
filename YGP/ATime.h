@@ -58,7 +58,7 @@ class ATime : public AttributValue {
     ATime(const time_t& time, bool local = true) : AttributValue(), hour(0), min_(0), sec(0), mode(MODE_LOCALE) {
         local ? operator=(time) : operator=(*localtime(&time));
     }
-    virtual ~ATime();
+    ~ATime() override;
 
     /// \name Assignment methods
     //@{
@@ -83,13 +83,13 @@ class ATime : public AttributValue {
         operator=(*localtime(&time));
     }
 
-    virtual void readFromStream(std::istream& in);
+    void readFromStream(std::istream& in) override;
 
     void assign(const char* pTime, unsigned int len);
     //@}
 
     /// Defining the object; setting it to a default value (of <tt>0:00:00</tt>)
-    virtual void define() {
+    void define() override {
         setDefined();
         hour = min_ = sec = 0;
     }
@@ -102,12 +102,12 @@ class ATime : public AttributValue {
     char getMinute() const { return min_; } ///< Returns the minute
     char getSecond() const { return sec; }  ///< Returns the second
 
-    static ATime now() { return ATime(true); } ///< Returns the actual time
+    static ATime now() { return {true}; } ///< Returns the actual time
 
     /// \name Convertion
     //@{
-    virtual std::string toUnformattedString() const;
-    virtual std::string toString() const;
+    std::string toUnformattedString() const override;
+    std::string toString() const override;
     virtual std::string toString(const char* format) const;
 
     virtual struct tm toStructTM() const;

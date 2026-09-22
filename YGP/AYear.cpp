@@ -51,8 +51,7 @@ namespace YGP {
 //----------------------------------------------------------------------------
 /// Destructor
 //----------------------------------------------------------------------------
-AYear::~AYear () {
-}
+AYear::~AYear () = default;
 
 
 //----------------------------------------------------------------------------
@@ -78,7 +77,7 @@ AYear& AYear::operator= (const AYear& other) {
 AYear& AYear::operator= (const char* pValue) {
    TRACE5 ("AYear::operator= (const char*): " << pValue);
    if (pValue && *pValue) {
-      char* pTail = NULL;
+      char* pTail = nullptr;
       errno = 0;
       year = strtol (pValue, &pTail, 0);
       if (errno || (pTail && *pTail)) {

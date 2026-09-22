@@ -12,7 +12,7 @@ lib_LTLIBRARIES=libYGP.la
 # Settings for gettext
 localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
-AM_CXXFLAGS = -Woverloaded-virtual -Weffc++
+AM_CXXFLAGS = -std=c++23 -Woverloaded-virtual -Weffc++
 DEFAULT_INCLUDES =
 AM_CPPFLAGS = -I $(top_srcdir) -I $(top_srcdir)/intl @GTK_CFLAGS@ -Wall -Wextra
 LIBS = @LTLIBINTL@ @LIBS@

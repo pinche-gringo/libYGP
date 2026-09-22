@@ -19,6 +19,7 @@
 #include <string>
 
 #include <boost/tokenizer.hpp>
+#include <utility>
 
 #include <YGP/DirSrch.h>
 #include <YGP/Path.h>
@@ -56,9 +57,9 @@ class PathDirectorySearch : public DirectorySearch {
     /// to search for.
     /// \param path srcPath to search files in
     /// \param search Specification of files to search in path
-    PathDirectorySearch(const std::string& srcPath, const std::string& search)
-        : DirectorySearch(), srch(search), path(srcPath, boost::char_separator<char>(Path::SEPARATOR_STR)), i(path.begin()) {}
-    virtual ~PathDirectorySearch();
+    PathDirectorySearch(const std::string& srcPath, std::string  search)
+        : DirectorySearch(), srch(std::move(search)), path(srcPath, boost::char_separator<char>(Path::SEPARATOR_STR)), i(path.begin()) {}
+    ~PathDirectorySearch() override;
     //@}
 
     /// Sets/Changes the path to search in.
@@ -83,14 +84,14 @@ class PathDirectorySearch : public DirectorySearch {
         return find(attribs);
     }
 
-    virtual const File* find(unsigned long attribs = FILE_NORMAL);
-    virtual const File* next();
+    const File* find(unsigned long attribs = FILE_NORMAL) override;
+    const File* next() override;
     //@}
 
   private:
     std::string srch;
 
-    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+    using tokenizer = boost::tokenizer<boost::char_separator<char>>;
 
     tokenizer path;
     tokenizer::iterator i;

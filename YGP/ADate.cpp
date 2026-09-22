@@ -48,7 +48,7 @@ namespace YGP {
 //----------------------------------------------------------------------------
 ADate::ADate(bool now) : AYear(1900), day((unsigned char)1), month((unsigned char)1) {
     if (now)
-        operator=(time(NULL));
+        operator=(time(nullptr));
     else
         setDefined();
 }
@@ -70,7 +70,7 @@ ADate::ADate(char Day, char Month, int Year) : AYear(Year), day(Day), month(Mont
 //----------------------------------------------------------------------------
 /// Destructor
 //----------------------------------------------------------------------------
-ADate::~ADate() {}
+ADate::~ADate() = default;
 
 //----------------------------------------------------------------------------
 /// Assignment-operator
@@ -127,7 +127,7 @@ void ADate::assign(const char* pDate, unsigned int len) {
     struct tm result;
     memset(&result, '\0', sizeof(result));
 
-    const char* fail(NULL);
+    const char* fail(nullptr);
     switch (len) {
     case 12:
     case 11:
@@ -144,7 +144,7 @@ void ADate::assign(const char* pDate, unsigned int len) {
         fail = strptime(pDate, "%d %m %y", &result);
         break;
     default:
-        fail = NULL;
+        fail = nullptr;
     } // endswitch
     operator=(result);
     if (!fail || (*fail && !isspace(*fail)) || checkIntegrity()) {

@@ -47,7 +47,7 @@ namespace YGP {
 class ADate : public AYear {
   public:
     ADate() /// Default constructor; creates an undefined object
-        : AYear(1900), day(1), month(1) {}
+        : AYear(), day(1), month(1) {}
     ADate(bool now);
     ADate(const ADate& other) /// Copy constructor from another date object
         : AYear((const AYear&)other), day(other.day), month(other.month) {}
@@ -60,7 +60,7 @@ class ADate : public AYear {
     } ///< Constructor from a text (unformatted)
     ADate(const struct tm& tm) : AYear(), day(1), month(1) { operator=(tm); }  ///< Constructor from broken down time
     ADate(const time_t& date) : AYear(), day(1), month(1) { operator=(date); } ///< Construct from system time
-    virtual ~ADate();
+    ~ADate() override;
 
     /// \name Assignment methods
     //@{
@@ -75,12 +75,12 @@ class ADate : public AYear {
 
     void assign(const char* pTime, unsigned int len);
 
-    virtual void readFromStream(std::istream& in);
+    void readFromStream(std::istream& in) override;
     //@}
 
     /// Defining the object; setting it to a default value (of
     /// <tt>1/1/1900</tt>)
-    virtual void define() {
+    void define() override {
         setDefined();
         day = month = (unsigned char)1;
         year = 1900;
@@ -100,12 +100,12 @@ class ADate : public AYear {
     int getYear() const { return year; }    ///< Returns the actual year
     //@}
 
-    static ADate today() { return ADate(true); } ///< Returns the current date
+    static ADate today() { return {true}; } ///< Returns the current date
 
     /// \name Convertion
     //@{
-    virtual std::string toUnformattedString() const;
-    virtual std::string toString() const;
+    std::string toUnformattedString() const override;
+    std::string toString() const override;
     virtual std::string toString(const char* format) const;
 
     /// Converting into a system time

@@ -27,10 +27,10 @@ namespace YGP {
  */
 class MetaEnum {
   public:
-    typedef std::pair<int, std::string> typePair;
-    typedef std::map<int, std::string> typeEnum;
-    typedef typeEnum::iterator iterator;
-    typedef typeEnum::const_iterator const_iterator;
+    using typePair = std::pair<int, std::string>;
+    using typeEnum = std::map<int, std::string>;
+    using iterator = typeEnum::iterator;
+    using const_iterator = typeEnum::const_iterator;
 
     /// \name Check for existence
     //@{
@@ -70,8 +70,8 @@ class MetaEnum {
 
   private:
     // Prohibited manager methods
-    MetaEnum(const MetaEnum& other);
-    const MetaEnum& operator=(const MetaEnum& other);
+    MetaEnum(const MetaEnum& other) = delete;
+    const MetaEnum& operator=(const MetaEnum& other) = delete;
 
     std::map<int, std::string> values;
 };

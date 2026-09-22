@@ -73,14 +73,11 @@ class AttributValue {
     /// Constructor; the attribute is defined according the parameter.
     AttributValue(bool define) : defined(define) {}
     /// Copy constructor; assigns the value of \c other.
-    AttributValue(const AttributValue& other) : defined(other.defined) {}
-    virtual ~AttributValue() {} ///< Destructor
+    AttributValue(const AttributValue& other)  = default;
+    virtual ~AttributValue() = default; ///< Destructor
 
     /// Assignment operator; assigns the value of \c other.
-    AttributValue& operator=(const AttributValue& other) {
-        defined = other.defined;
-        return *this;
-    }
+    AttributValue& operator=(const AttributValue& other) = default;
 
     /// Defines the objects (sets to the default value)
     virtual void define() = 0;

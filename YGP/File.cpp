@@ -80,7 +80,7 @@ File::File(const char* name) noexcept
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-File::~File() {}
+File::~File() = default;
 
 //-----------------------------------------------------------------------------
 /// Assignment operator
@@ -262,7 +262,7 @@ void* File::open(const char* mode) const {
     Check1(mode);
 
     FILE* pFile = fopen(file.c_str(), mode);
-    if (pFile == NULL)
+    if (pFile == nullptr)
         throwErrorText(N_("Error opening file `%1'! Reason: %2"));
 
     return pFile;

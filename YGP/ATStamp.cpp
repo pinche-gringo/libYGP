@@ -74,7 +74,7 @@ ATimestamp::ATimestamp(char Day, char Month, int Year, char Hour, char minute, c
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ATimestamp::~ATimestamp() {}
+ATimestamp::~ATimestamp() = default;
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator from another timestamp object

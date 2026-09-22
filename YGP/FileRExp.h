@@ -58,9 +58,9 @@ class FileRegularExpr : public IRegularExpression {
     /// \pre The input is not copied, so it must be valid during the lifetime
     ///      of the regular expression.
     FileRegularExpr(const char* pRegExp) : IRegularExpression(pRegExp) {}
-    virtual ~FileRegularExpr();
+    ~FileRegularExpr() override;
 
-    virtual int checkIntegrity() const;
+    int checkIntegrity() const override;
     /// Assignmentoperator; specifies the regular expression to match.
     /// \pre The input is not copied, so it must be valid during the lifetime
     ///      of the regular expression.
@@ -70,13 +70,13 @@ class FileRegularExpr : public IRegularExpression {
     }
 
   protected:
-    virtual bool compare(const char* pAktRegExp, const char* pCompare);
+    bool compare(const char* pAktRegExp, const char* pCompare) override;
 
   private:
     // Prohibited manager functions
-    FileRegularExpr();
-    FileRegularExpr(const FileRegularExpr&);
-    const FileRegularExpr& operator=(const FileRegularExpr&);
+    FileRegularExpr() = delete;
+    FileRegularExpr(const FileRegularExpr&) = delete;
+    const FileRegularExpr& operator=(const FileRegularExpr&) = delete;
 
     std::invalid_argument getError(const char* error, unsigned int pos) const;
 };

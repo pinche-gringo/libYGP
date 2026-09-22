@@ -42,37 +42,37 @@ extern "C" {
 #    ifdef HAVE_GTK
 #        include <gtk/gtk.h>
 
-typedef gboolean (*PFNINIT)(int* argc, char*** argv);
-typedef GtkWidget* (*PFNNEWMSGDLG)(GtkWindow* parent, GtkDialogFlags flags, GtkMessageType type, GtkButtonsType buttons,
+using PFNINIT = gboolean (*)(int* argc, char*** argv);
+using PFNNEWMSGDLG = GtkWidget* (*)(GtkWindow* parent, GtkDialogFlags flags, GtkMessageType type, GtkButtonsType buttons,
                                    const gchar* message_format, ...);
-typedef void (*PFNSETTITLE)(GtkWindow* window, const gchar* title);
-typedef void (*PFNSETSIZE)(GtkWindow* window, gint width, gint height);
-typedef int (*PFNRUNDLG)(GtkDialog*);
-typedef void (*PFNDESTROY)(GtkWidget*);
+using PFNSETTITLE = void (*)(GtkWindow* window, const gchar* title);
+using PFNSETSIZE = void (*)(GtkWindow* window, gint width, gint height);
+using PFNRUNDLG = int (*)(GtkDialog*);
+using PFNDESTROY = void (*)(GtkWidget*);
 
 static bool show(const char* expr, const char* title) {
 #        ifdef HAVE_DLFCN_H
-    static void* hDLL = NULL;
+    static void* hDLL = nullptr;
     static bool gtkOK(false);
 
     if (!hDLL)
         hDLL = dlopen("libgtk-x11-2.0.so", RTLD_LAZY);
 
     if (hDLL && !gtkOK) {
-        PFNINIT pfnInit((PFNINIT)dlsym(hDLL, "gtk_init_check"));
+        auto pfnInit((PFNINIT)dlsym(hDLL, "gtk_init_check"));
         if (pfnInit)
-            gtkOK = pfnInit(NULL, NULL);
+            gtkOK = pfnInit(nullptr, nullptr);
     }
 
     if (gtkOK) {
-        PFNNEWMSGDLG pfnNewDlg((PFNNEWMSGDLG)dlsym(hDLL, "gtk_message_dialog_new"));
-        PFNSETTITLE pfnSetTitle((PFNSETTITLE)dlsym(hDLL, "gtk_window_set_title"));
-        PFNSETSIZE pfnSetSize((PFNSETSIZE)dlsym(hDLL, "gtk_window_set_default_size"));
-        PFNRUNDLG pfnRunDlg((PFNRUNDLG)dlsym(hDLL, "gtk_dialog_run"));
-        PFNDESTROY pfnDestroy((PFNDESTROY)dlsym(hDLL, "gtk_widget_destroy"));
+        auto pfnNewDlg((PFNNEWMSGDLG)dlsym(hDLL, "gtk_message_dialog_new"));
+        auto pfnSetTitle((PFNSETTITLE)dlsym(hDLL, "gtk_window_set_title"));
+        auto pfnSetSize((PFNSETSIZE)dlsym(hDLL, "gtk_window_set_default_size"));
+        auto pfnRunDlg((PFNRUNDLG)dlsym(hDLL, "gtk_dialog_run"));
+        auto pfnDestroy((PFNDESTROY)dlsym(hDLL, "gtk_widget_destroy"));
 
         if (pfnNewDlg && pfnSetTitle && pfnSetSize && pfnRunDlg && pfnDestroy) {
-            GtkWidget* mbox(pfnNewDlg(NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK_CANCEL, expr));
+            GtkWidget* mbox(pfnNewDlg(nullptr, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK_CANCEL, expr));
             pfnSetTitle((GtkWindow*)mbox, title);
             pfnSetSize((GtkWindow*)mbox, 300, -1);
             gint rc(pfnRunDlg((GtkDialog*)mbox));

@@ -67,11 +67,11 @@ class RemoteDirSearchSrv {
     RemoteDirSearchSrv();
     ~RemoteDirSearchSrv();
 
-    int performCommands(int socket) throw(YGP::CommError);
+    int performCommands(int socket);
 
   private:
-    void writeResult(Socket& socket, const File& result) const throw(YGP::CommError);
-    int writeError(Socket& socket, int error, bool desc = false) const throw(YGP::CommError);
+    void writeResult(Socket& socket, const File& result) const;
+    int writeError(Socket& socket, int error, bool desc = false) const;
 
     void handleArgError(Socket& sock, const std::string& error) const;
 };

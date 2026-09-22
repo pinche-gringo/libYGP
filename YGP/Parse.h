@@ -155,7 +155,7 @@ class ParseObject {
 
   private:
     // Prohibited manager functions
-    ParseObject();
+    ParseObject() = delete;
 
     const char* pDescription;
 };
@@ -168,15 +168,15 @@ class ParseEOF : public ParseObject {
   public:
     /// Default constructor
     ParseEOF() : ParseObject("EOF", false) {}
-    virtual ~ParseEOF();
+    ~ParseEOF() override;
 
     /// "Parses" the object. This class returns found, if there is no more
     /// data available to parse.
-    virtual int doParse(Xistream& stream, bool);
+    int doParse(Xistream& stream, bool) override;
 
   private:
-    ParseEOF(const ParseEOF&); // Not very usefull -> prohibit
-    ParseEOF& operator=(const ParseEOF&);
+    ParseEOF(const ParseEOF&) = delete; // Not very usefull -> prohibit
+    ParseEOF& operator=(const ParseEOF&) = delete;
 };
 
 /**Class to skip some characters (default from the current position in
@@ -190,7 +190,7 @@ class ParseSkip : public ParseObject {
   public:
     ParseSkip(std::streamoff bytes, std::ios_base::seekdir seek = std::ios::cur);
     ParseSkip(const ParseSkip& other);
-    virtual ~ParseSkip();
+    ~ParseSkip() override;
 
     /// Assignment operator
     ParseSkip& operator=(const ParseSkip& other) {
@@ -199,7 +199,7 @@ class ParseSkip : public ParseObject {
         return *this;
     }
 
-    virtual int doParse(Xistream& stream, bool);
+    int doParse(Xistream& stream, bool) override;
 
     /// Sets the number of bytes which are skipped while parsing the object.
     void setOffset(std::streamoff val) { offset = val; }
@@ -217,7 +217,7 @@ class ParseSkip : public ParseObject {
     std::ios_base::seekdir getWay() const { return seek; }
 
   private:
-    ParseSkip();
+    ParseSkip() = delete;
 
     std::streamoff offset;
     std::ios_base::seekdir seek;
@@ -261,7 +261,7 @@ class ParseAttomic : public ParseObject {
     ParseAttomic(const char* value, const char* description, unsigned int max = 1, unsigned int min = 1,
                  bool skipWhitespace = true, bool reportData = true);
     ParseAttomic(const ParseAttomic& other);
-    virtual ~ParseAttomic();
+    ~ParseAttomic() override;
 
     ParseAttomic& operator=(const ParseAttomic& other);
 
@@ -298,15 +298,15 @@ class ParseAttomic : public ParseObject {
         LAST
     }; ///< Last used error number
 
-    virtual int checkIntegrity() const;
+    int checkIntegrity() const override;
     virtual int checkValue(char ch);
 
     // Parsing
-    virtual int doParse(Xistream& stream, bool optional);
+    int doParse(Xistream& stream, bool optional) override;
 
   private:
     // Prohibited manager functions
-    ParseAttomic();
+    ParseAttomic() = delete;
 
     bool report;
 };
@@ -325,21 +325,18 @@ class ParseText : public ParseAttomic {
               bool reportData = true)
         : ParseAttomic(abort, description, max, min, skipWhitespace, reportData) {}
     /// Copy constructor
-    ParseText(const ParseText& other) : ParseAttomic(other) {}
-    virtual ~ParseText();
+    ParseText(const ParseText& other)  = default;
+    ~ParseText() override;
 
     /// Assignment operator
-    ParseText& operator=(const ParseText& other) {
-        ParseAttomic::operator=(other);
-        return *this;
-    }
+    ParseText& operator=(const ParseText& other) = default;
 
   protected:
-    virtual int checkValue(char ch);
+    int checkValue(char ch) override;
 
   private:
     // Prohibited manager functions
-    ParseText();
+    ParseText() = delete;
 };
 
 /**Class to parse text until a certain abort-criteria (as in
@@ -363,19 +360,19 @@ class ParseTextEsc : public ParseText {
     ParseTextEsc(const char* abort, const char* description, unsigned int max, unsigned int min = 1, char escape = '\\',
                  bool skipWhitespace = true, bool reportData = true);
     ParseTextEsc(const ParseTextEsc& other);
-    virtual ~ParseTextEsc();
+    ~ParseTextEsc() override;
 
     ParseTextEsc& operator=(const ParseTextEsc& other);
 
   protected:
-    virtual int checkValue(char ch);
+    int checkValue(char ch) override;
 
     char esc;  ///< Character escaping the end character(s)
     char last; ///< Last parsed character
 
   private:
     // Prohibited manager functions
-    ParseTextEsc();
+    ParseTextEsc() = delete;
 };
 
 /**Class to parse a quoted text-value until a specified abort-character is
@@ -391,7 +388,7 @@ class ParseTextEsc : public ParseText {
      - An opening parenthesis ({) is closed with a closing one (}).
      - An opening bracket "(" is closed with a closing one ")".
      - An opening square bracket ([) is closed with a closing one (]).
-     - An opening single quote (`) is closed with a closing one (´).
+     - An opening single quote (`) is closed with a closing one (ï¿½).
 
    See ParseObject for a general description of the parser.
 */
@@ -401,18 +398,18 @@ class ParseQuoted : public ParseText {
     ParseQuoted(char quote, const char* description, unsigned int max, unsigned int min = 1, bool skipWhitespace = true,
                 bool reportData = true);
     ParseQuoted(const ParseQuoted& other);
-    virtual ~ParseQuoted();
+    ~ParseQuoted() override;
 
     ParseQuoted& operator=(const ParseQuoted& other);
 
     static char getClosingChar(char ch);
 
   protected:
-    virtual int checkValue(char ch);
+    int checkValue(char ch) override;
 
   private:
     // Prohibited manager functions
-    ParseQuoted();
+    ParseQuoted() = delete;
 
     int pos;
     char pQuote[3];
@@ -433,7 +430,7 @@ class ParseQuoted : public ParseText {
      - An opening parenthesis ({) is closed with a closing one (}).
      - An opening bracket (() is closed with a closing one ()).
      - An opening square bracket ([) is closed with a closing one (]).
-     - An opening single quote (`) is closed with a closing one (´).
+     - An opening single quote (`) is closed with a closing one (ï¿½).
 
    See ParseObject for a general description of the parser.
 */
@@ -443,16 +440,16 @@ class ParseQuotedEsc : public ParseTextEsc {
     ParseQuotedEsc(char quote, const char* description, unsigned int max, unsigned int min = 1, char escape = '\\',
                    bool skipWhitespace = true, bool reportData = true);
     ParseQuotedEsc(const ParseQuotedEsc& other);
-    virtual ~ParseQuotedEsc();
+    ~ParseQuotedEsc() override;
 
     ParseQuotedEsc& operator=(const ParseQuotedEsc& other);
 
   protected:
-    virtual int checkValue(char ch);
+    int checkValue(char ch) override;
 
   private:
     // Prohibited manager functions
-    ParseQuotedEsc();
+    ParseQuotedEsc() = delete;
 
     int pos;
     char pQuote[3];
@@ -481,7 +478,7 @@ class ParseExact : public ParseAttomic {
         : ParseAttomic(value, description, max, min, skipWhitespace, reportData), pos(0) {}
     /// Copy constructor
     ParseExact(const ParseExact& other) : ParseAttomic(other), pos(0) {}
-    virtual ~ParseExact();
+    ~ParseExact() override;
 
     ParseExact& operator=(const ParseExact& other);
 
@@ -489,14 +486,14 @@ class ParseExact : public ParseAttomic {
     enum { POS_ERROR = ParseAttomic::LAST, LAST };
 
   protected:
-    virtual int checkIntegrity() const;
-    virtual int checkValue(char ch);
+    int checkIntegrity() const override;
+    int checkValue(char ch) override;
 
   private:
     unsigned int pos;
 
     // Prohibited manager functions
-    ParseExact();
+    ParseExact() = delete;
 };
 
 /**Class to parse exactly a certain text (not case-sensitive!)
@@ -523,25 +520,22 @@ class ParseUpperExact : public ParseExact {
                     bool reportData = true)
         : ParseExact(value, description, max, min, skipWhitespace, reportData) {}
     /// Copy constructor
-    ParseUpperExact(const ParseUpperExact& other) : ParseExact(other) {}
-    virtual ~ParseUpperExact();
+    ParseUpperExact(const ParseUpperExact& other)  = default;
+    ~ParseUpperExact() override;
 
     /// Assignment operator
-    ParseUpperExact& operator=(const ParseUpperExact& other) {
-        ParseExact::operator=(other);
-        return *this;
-    }
+    ParseUpperExact& operator=(const ParseUpperExact& other) = default;
 
   protected:
     // Possible errors of checkIntegrity
     enum { VALUE_NOT_UPPERCASE = ParseExact::LAST, LAST };
 
-    virtual int checkValue(char ch);
-    virtual int checkIntegrity() const;
+    int checkValue(char ch) override;
+    int checkIntegrity() const override;
 
   private:
     // Prohibited manager functions
-    ParseUpperExact();
+    ParseUpperExact() = delete;
 };
 
 /**Class to parse text until the specified text is found
@@ -560,20 +554,17 @@ class ParseToText : public ParseAttomic {
     ParseToText(const char* text, const char* description, unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)
         : ParseAttomic(text, description, max, min, skipWhitespace, false) {}
     /// Copy constructor
-    ParseToText(const ParseToText& other) : ParseAttomic(other) {}
-    virtual ~ParseToText();
+    ParseToText(const ParseToText& other)  = default;
+    ~ParseToText() override;
 
     /// Assignment operator
-    ParseToText& operator=(const ParseToText& other) {
-        ParseAttomic::operator=(other);
-        return *this;
-    }
+    ParseToText& operator=(const ParseToText& other) = default;
 
-    virtual int doParse(Xistream& stream, bool optional);
+    int doParse(Xistream& stream, bool optional) override;
 
   private:
     // Prohibited manager functions
-    ParseToText();
+    ParseToText() = delete;
 };
 
 /**Class to parse series of ParseObjects (sequences).
@@ -595,7 +586,7 @@ class ParseSequence : public ParseObject {
     ParseSequence(ParseObject* apObjectList[], const char* description, unsigned int max = 1, unsigned int min = 1,
                   bool skipWhitespace = true);
     ParseSequence(const ParseSequence& other);
-    virtual ~ParseSequence();
+    ~ParseSequence() override;
 
     ParseSequence& operator=(const ParseSequence& other);
 
@@ -616,10 +607,10 @@ class ParseSequence : public ParseObject {
     enum { MAX_MIN_ERROR = ParseObject::LAST, INVALID_LIST, LAST };
 
   protected:
-    virtual int checkIntegrity() const;
+    int checkIntegrity() const override;
 
     // Parsing
-    virtual int doParse(Xistream& stream, bool optional);
+    int doParse(Xistream& stream, bool optional) override;
 
     ParseObject** ppList; ///< Pointer to array of objects in the sequence
 
@@ -628,7 +619,7 @@ class ParseSequence : public ParseObject {
 
   private:
     // Prohibited manager functions
-    ParseSequence();
+    ParseSequence() = delete;
 };
 
 /**Class to parse a selection of one ParseObject out of a list.
@@ -646,17 +637,17 @@ class ParseSelection : public ParseSequence {
     ParseSelection(ParseObject* apObjectList[], const char* description, unsigned int max = 1, unsigned int min = 1,
                    bool skipWhitespace = true);
     ParseSelection(const ParseSelection& other);
-    virtual ~ParseSelection();
+    ~ParseSelection() override;
 
     ParseSelection& operator=(const ParseSelection& other);
 
   protected:
     // Parsing
-    virtual int doParse(Xistream& stream, bool optional);
+    int doParse(Xistream& stream, bool optional) override;
 
   private:
     // Prohibited manager functions
-    ParseSelection();
+    ParseSelection() = delete;
 };
 
 // Second part: Classes having an parameter for a callback-function
@@ -668,7 +659,7 @@ class ParseSelection : public ParseSequence {
    < 0 ... Error while parsing; abort parsing (unrecoverable error)
    If possible use the error-values in the error-enum
 */
-typedef int (*PARSECALLBACK)(const char*, unsigned int);
+using PARSECALLBACK = int (*)(const char*, unsigned int);
 
 /**Class to check if EOF is parsed
 
@@ -679,7 +670,7 @@ class CBParseEOF : public ParseEOF {
   public:
     /// Constructor; with callback to call if object is found
     CBParseEOF(PARSECALLBACK callback) : ParseEOF(), pCallback(callback) { Check1(pCallback); }
-    virtual ~CBParseEOF();
+    ~CBParseEOF() override;
 
     /// Sets the callback to the passed value
     void setCallback(PARSECALLBACK callback) {
@@ -688,11 +679,11 @@ class CBParseEOF : public ParseEOF {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
-    CBParseEOF(const CBParseEOF&); // Not very usefull -> prohibit
-    CBParseEOF& operator=(const CBParseEOF&);
+    CBParseEOF(const CBParseEOF&) = delete; // Not very usefull -> prohibit
+    CBParseEOF& operator=(const CBParseEOF&) = delete;
 
     PARSECALLBACK pCallback;
 };
@@ -708,7 +699,7 @@ class CBParseSkip : public ParseSkip {
     CBParseSkip(unsigned int bytes, PARSECALLBACK callback) : ParseSkip(bytes), pCallback(callback) { Check1(pCallback); }
     /// Copy constructor
     CBParseSkip(const CBParseSkip& other) : ParseSkip(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseSkip();
+    ~CBParseSkip() override;
 
     CBParseSkip& operator=(const CBParseSkip&);
 
@@ -719,7 +710,7 @@ class CBParseSkip : public ParseSkip {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
@@ -741,7 +732,7 @@ class CBParseAttomic : public ParseAttomic {
     }
     /// Copy constructor
     CBParseAttomic(const CBParseAttomic& other) : ParseAttomic(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseAttomic();
+    ~CBParseAttomic() override;
 
     CBParseAttomic& operator=(const CBParseAttomic& other);
 
@@ -752,11 +743,11 @@ class CBParseAttomic : public ParseAttomic {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     // Prohibited manager functions
-    CBParseAttomic();
+    CBParseAttomic() = delete;
 
     PARSECALLBACK pCallback;
 };
@@ -778,7 +769,7 @@ class CBParseText : public ParseText {
     }
     /// Copy constructor
     CBParseText(const CBParseText& other) : ParseText(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseText();
+    ~CBParseText() override;
 
     CBParseText& operator=(const CBParseText& other);
 
@@ -789,13 +780,13 @@ class CBParseText : public ParseText {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseText();
+    CBParseText() = delete;
 };
 
 /**Class to parse text til a certain abort-criteria (as in CBParseText). This
@@ -815,7 +806,7 @@ class CBParseTextEsc : public ParseTextEsc {
     }
     /// Copy constructor
     CBParseTextEsc(const CBParseTextEsc& other) : ParseTextEsc(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseTextEsc();
+    ~CBParseTextEsc() override;
 
     CBParseTextEsc& operator=(const CBParseTextEsc& other);
 
@@ -826,13 +817,13 @@ class CBParseTextEsc : public ParseTextEsc {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseTextEsc();
+    CBParseTextEsc() = delete;
 };
 
 /**Class to parse quoted text. If an object is found, the passed callback is
@@ -852,7 +843,7 @@ class CBParseQuoted : public ParseQuoted {
     }
     /// Copy constructor
     CBParseQuoted(const CBParseQuoted& other) : ParseQuoted(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseQuoted();
+    ~CBParseQuoted() override;
 
     CBParseQuoted& operator=(const CBParseQuoted& other);
 
@@ -863,13 +854,13 @@ class CBParseQuoted : public ParseQuoted {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseQuoted();
+    CBParseQuoted() = delete;
 };
 
 /**Class to parse quoted text. If an object is found, the passed callback is
@@ -889,7 +880,7 @@ class CBParseQuotedEsc : public ParseQuotedEsc {
     }
     /// Copy constructor
     CBParseQuotedEsc(const CBParseQuotedEsc& other) : ParseQuotedEsc(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseQuotedEsc();
+    ~CBParseQuotedEsc() override;
 
     CBParseQuotedEsc& operator=(const CBParseQuotedEsc& other);
 
@@ -900,13 +891,13 @@ class CBParseQuotedEsc : public ParseQuotedEsc {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseQuotedEsc();
+    CBParseQuotedEsc() = delete;
 };
 
 /**Class to parse exactly a certain text (case-sensitive!). If an object is
@@ -932,7 +923,7 @@ class CBParseExact : public ParseExact {
     }
     /// Copy constructor
     CBParseExact(const CBParseExact& other) : ParseExact(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseExact();
+    ~CBParseExact() override;
 
     CBParseExact& operator=(const CBParseExact& other);
 
@@ -943,13 +934,13 @@ class CBParseExact : public ParseExact {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseExact();
+    CBParseExact() = delete;
 };
 
 /**Class to parse exactly a certain text (not case-sensitive!). When an object
@@ -975,7 +966,7 @@ class CBParseUpperExact : public ParseUpperExact {
     }
     /// Sets the callback to the passed value
     CBParseUpperExact(const CBParseUpperExact& other) : ParseUpperExact(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseUpperExact();
+    ~CBParseUpperExact() override;
 
     CBParseUpperExact& operator=(const CBParseUpperExact& other);
 
@@ -986,13 +977,13 @@ class CBParseUpperExact : public ParseUpperExact {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseUpperExact();
+    CBParseUpperExact() = delete;
 };
 
 /**Class to parse text until the specified text is found.
@@ -1019,7 +1010,7 @@ class CBParseToText : public ParseToText {
     }
     /// Sets the callback to the passed value
     CBParseToText(const CBParseToText& other) : ParseToText(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseToText();
+    ~CBParseToText() override;
 
     CBParseToText& operator=(const CBParseToText& other);
 
@@ -1030,7 +1021,7 @@ class CBParseToText : public ParseToText {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
@@ -1055,7 +1046,7 @@ class CBParseSequence : public ParseSequence {
     }
     /// Copy constructor
     CBParseSequence(const CBParseSequence& other) : ParseSequence(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseSequence();
+    ~CBParseSequence() override;
 
     CBParseSequence& operator=(const CBParseSequence& other);
 
@@ -1066,13 +1057,13 @@ class CBParseSequence : public ParseSequence {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseSequence();
+    CBParseSequence() = delete;
 };
 
 /**Class to parse selections (list of ParseObjects where just one entry must
@@ -1091,7 +1082,7 @@ class CBParseSelection : public ParseSelection {
     }
     /// Copy constructor
     CBParseSelection(const CBParseSelection& other) : ParseSelection(other), pCallback(other.pCallback) { Check1(pCallback); }
-    virtual ~CBParseSelection();
+    ~CBParseSelection() override;
 
     CBParseSelection& operator=(const CBParseSelection& other);
 
@@ -1102,13 +1093,13 @@ class CBParseSelection : public ParseSelection {
     }
 
   protected:
-    virtual int found(const char* pFoundValue, unsigned int len);
+    int found(const char* pFoundValue, unsigned int len) override;
 
   private:
     PARSECALLBACK pCallback;
 
     // Prohibited manager functions
-    CBParseSelection();
+    CBParseSelection() = delete;
 };
 
 /* Third part: Classes having parameters for an object and a member-function
@@ -1127,25 +1118,25 @@ class CBParseSelection : public ParseSelection {
    description of how this class parses its object.
 */
 template <class T> class OFParseEOF : public ParseEOF {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     /// Constructor; with callback to call if object is found
     OFParseEOF(T& objToNotify, PTCALLBACK callback) : ParseEOF(), object(objToNotify), pCallback(callback) { Check1(pCallback); }
     /// Destructor
-    virtual ~OFParseEOF() {}
+    ~OFParseEOF() override = default;
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
     }
 
   private:
-    OFParseEOF(const OFParseEOF&); // Not very usefull -> prohibit
-    OFParseEOF& operator=(const OFParseEOF&);
+    OFParseEOF(const OFParseEOF&) = delete; // Not very usefull -> prohibit
+    OFParseEOF& operator=(const OFParseEOF&) = delete;
 
     T& object;
     PTCALLBACK pCallback;
@@ -1157,11 +1148,11 @@ template <class T> class OFParseEOF : public ParseEOF {
    description of how this class parses its object.
 */
 template <class T> class OFParseSkip : public ParseSkip {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     /// Constructor; with callback to call if object is found
-    OFParseSkip(unsigned int bytes, T& objToNotify, PTCALLBACK callback) : ParseSkip(), object(objToNotify), pCallback(callback) {
+    OFParseSkip(unsigned int bytes, T& objToNotify, PTCALLBACK callback) : ParseSkip(bytes), object(objToNotify), pCallback(callback) {
         Check1(pCallback);
     }
     /// Copy constructor
@@ -1169,7 +1160,7 @@ template <class T> class OFParseSkip : public ParseSkip {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseSkip() {}
+    ~OFParseSkip() override = default;
 
     /// Assignment operator
     OFParseSkip& operator=(const OFParseSkip& other) {
@@ -1181,7 +1172,7 @@ template <class T> class OFParseSkip : public ParseSkip {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1198,7 +1189,7 @@ template <class T> class OFParseSkip : public ParseSkip {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseAttomic : public ParseAttomic {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1213,7 +1204,7 @@ template <class T> class OFParseAttomic : public ParseAttomic {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseAttomic() {}
+    ~OFParseAttomic() override = default;
 
     /// Assignment operator
     OFParseAttomic& operator=(const OFParseAttomic& other) {
@@ -1225,7 +1216,7 @@ template <class T> class OFParseAttomic : public ParseAttomic {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1233,7 +1224,7 @@ template <class T> class OFParseAttomic : public ParseAttomic {
 
   private:
     // Prohibited manager functions
-    OFParseAttomic();
+    OFParseAttomic() = delete;
 
     T& object;
     PTCALLBACK pCallback;
@@ -1246,7 +1237,7 @@ template <class T> class OFParseAttomic : public ParseAttomic {
    description of how this class parses its object.
 */
 template <class T> class OFParseText : public ParseText {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1261,7 +1252,7 @@ template <class T> class OFParseText : public ParseText {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseText() {}
+    ~OFParseText() override = default;
 
     /// Assignment operator
     OFParseText& operator=(const OFParseText& other) {
@@ -1273,7 +1264,7 @@ template <class T> class OFParseText : public ParseText {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1284,7 +1275,7 @@ template <class T> class OFParseText : public ParseText {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseText();
+    OFParseText() = delete;
 };
 
 /**Class to parse text til a certain abort-criteria (as in OFParseText). This
@@ -1294,7 +1285,7 @@ template <class T> class OFParseText : public ParseText {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseTextEsc : public ParseTextEsc {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1309,7 +1300,7 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseTextEsc() {}
+    ~OFParseTextEsc() override = default;
 
     /// Assignment operator
     OFParseTextEsc& operator=(const OFParseTextEsc& other) {
@@ -1321,7 +1312,7 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1332,7 +1323,7 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseTextEsc();
+    OFParseTextEsc() = delete;
 };
 
 /**Class to parse quoted text; which is returned without the quotes.
@@ -1341,7 +1332,7 @@ template <class T> class OFParseTextEsc : public ParseTextEsc {
    a description of how this class parses its object.
 */
 template <class T> class OFParseQuoted : public ParseQuoted {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1356,7 +1347,7 @@ template <class T> class OFParseQuoted : public ParseQuoted {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseQuoted() {}
+    ~OFParseQuoted() override = default;
 
     /// Assignment operator
     OFParseQuoted& operator=(const OFParseQuoted& other) {
@@ -1368,7 +1359,7 @@ template <class T> class OFParseQuoted : public ParseQuoted {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1379,7 +1370,7 @@ template <class T> class OFParseQuoted : public ParseQuoted {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseQuoted();
+    OFParseQuoted() = delete;
 };
 
 /**Class to parse quoted text; which is returned without the quotes. The text
@@ -1390,7 +1381,7 @@ template <class T> class OFParseQuoted : public ParseQuoted {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1405,7 +1396,7 @@ template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseQuotedEsc() {}
+    ~OFParseQuotedEsc() override = default;
 
     /// Assignment operator
     OFParseQuotedEsc& operator=(const OFParseQuotedEsc& other) {
@@ -1417,7 +1408,7 @@ template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1428,7 +1419,7 @@ template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseQuotedEsc();
+    OFParseQuotedEsc() = delete;
 };
 
 /**Class to parse exactly a certain text (case-sensitive!). If an object is
@@ -1438,7 +1429,7 @@ template <class T> class OFParseQuotedEsc : public ParseQuotedEsc {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseExact : public ParseExact {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1458,19 +1449,19 @@ template <class T> class OFParseExact : public ParseExact {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseExact() {}
+    ~OFParseExact() override = default;
 
     /// Assignment operator
     OFParseExact& operator=(const OFParseExact& other) {
         pCallback = other.pCallback;
         Check1(pCallback);
-        ParseText::operator=(other);
+        ParseExact::operator=(other);
         return *this;
     }
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1481,7 +1472,7 @@ template <class T> class OFParseExact : public ParseExact {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseExact();
+    OFParseExact() = delete;
 };
 
 /**Class to parse exactly a certain text (not case-sensitive!). When an object
@@ -1491,7 +1482,7 @@ template <class T> class OFParseExact : public ParseExact {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseUpperExact : public ParseUpperExact {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1511,19 +1502,19 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseUpperExact() {}
+    ~OFParseUpperExact() override = default;
 
     /// Assignment operator
     OFParseUpperExact& operator=(const OFParseUpperExact& other) {
         pCallback = other.pCallback;
         Check1(pCallback);
-        ParseText::operator=(other);
+        ParseUpperExact::operator=(other);
         return *this;
     }
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1534,7 +1525,7 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseUpperExact();
+    OFParseUpperExact() = delete;
 };
 
 /**Class to parse text until the specified text is found.
@@ -1550,7 +1541,7 @@ template <class T> class OFParseUpperExact : public ParseUpperExact {
    description of how this class parses its object.
 */
 template <class T> class OFParseToText : public ParseToText {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     // Manager-functions
@@ -1565,7 +1556,7 @@ template <class T> class OFParseToText : public ParseToText {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseToText() {}
+    ~OFParseToText() override = default;
 
     /// Assignment operator
     OFParseToText& operator=(const OFParseToText& other) {
@@ -1577,7 +1568,7 @@ template <class T> class OFParseToText : public ParseToText {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1588,7 +1579,7 @@ template <class T> class OFParseToText : public ParseToText {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseToText();
+    OFParseToText() = delete;
 };
 
 /**Class to parse sequences (series of ParseObjects). Every ParseObject
@@ -1598,7 +1589,7 @@ template <class T> class OFParseToText : public ParseToText {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseSequence : public ParseSequence {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     /// Constructor; with callback to call if object is found
@@ -1612,7 +1603,7 @@ template <class T> class OFParseSequence : public ParseSequence {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseSequence() {}
+    ~OFParseSequence() override = default;
 
     /// Assignment operator
     OFParseSequence& operator=(const OFParseSequence& other) {
@@ -1624,7 +1615,7 @@ template <class T> class OFParseSequence : public ParseSequence {
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1635,7 +1626,7 @@ template <class T> class OFParseSequence : public ParseSequence {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseSequence();
+    OFParseSequence() = delete;
 };
 
 /**Class to parse selections (list of ParseObjects where just one entry must
@@ -1645,13 +1636,13 @@ template <class T> class OFParseSequence : public ParseSequence {
    for a description of how this class parses its object.
 */
 template <class T> class OFParseSelection : public ParseSelection {
-    typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+    using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
   public:
     /// Constructor; with callback to call if object is found
     OFParseSelection(ParseObject* apObjectList[], const char* description, T& objToNotify, PTCALLBACK callback,
                      unsigned int max = 1, unsigned int min = 1, bool skipWhitespace = true)
-        : ParseSelection(apObjectList, description, max, min, skipWhitespace, true), object(objToNotify), pCallback(callback) {
+        : ParseSelection(apObjectList, description, max, min, skipWhitespace), object(objToNotify), pCallback(callback) {
         Check1(pCallback);
     }
     /// Copy constructor
@@ -1659,19 +1650,19 @@ template <class T> class OFParseSelection : public ParseSelection {
         Check1(pCallback);
     }
     /// Destructor
-    virtual ~OFParseSelection() {}
+    ~OFParseSelection() override = default;
 
     /// Assignment operator
     OFParseSelection& operator=(const OFParseSelection& other) {
         pCallback = other.pCallback;
         Check1(pCallback);
-        ParseText::operator=(other);
+        ParseSelection::operator=(other);
         return *this;
     }
 
   protected:
     /// The object was parsed successfully: Notify via the callback
-    virtual int found(const char* pFoundValue, unsigned int len) {
+    int found(const char* pFoundValue, unsigned int len) override {
         Check1(pCallback);
         Check1(pFoundValue);
         return (object.*pCallback)(pFoundValue, len);
@@ -1682,7 +1673,7 @@ template <class T> class OFParseSelection : public ParseSelection {
     PTCALLBACK pCallback;
 
     // Prohibited manager functions
-    OFParseSelection();
+    OFParseSelection() = delete;
 };
 
 } // namespace YGP

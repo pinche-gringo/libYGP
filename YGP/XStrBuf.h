@@ -57,20 +57,20 @@ class extStreambuf : public std::streambuf {
     extStreambuf();
     extStreambuf(std::streambuf& source);
     extStreambuf(std::streambuf* source);
-    virtual ~extStreambuf();
+    ~extStreambuf() override;
 
     /// \name Exception-handling
     //@{
-    virtual int overflow(int ch);
-    virtual int underflow();
-    virtual int pbackfail(int c);
+    int overflow(int ch) override;
+    int underflow() override;
+    int pbackfail(int c) override;
     //@}
 
     /// \name Position handling
     //@{
-    virtual std::streampos seekoff(std::streamoff, std::ios_base::seekdir,
-                                   std::ios_base::openmode mode = std::ios::in | std::ios::out);
-    virtual std::streampos seekpos(std::streampos pos, std::ios_base::openmode mode = std::ios::in | std::ios::out);
+    std::streampos seekoff(std::streamoff, std::ios_base::seekdir,
+                                   std::ios_base::openmode mode = std::ios::in | std::ios::out) override;
+    std::streampos seekpos(std::streampos pos, std::ios_base::openmode mode = std::ios::in | std::ios::out) override;
     //@}
 
     /// \name Setting of data-sink
@@ -102,8 +102,8 @@ class extStreambuf : public std::streambuf {
 
   private:
     // Prohibited manager functions
-    extStreambuf(const extStreambuf&);
-    const struct extStreamBuf& operator=(const extStreambuf&);
+    extStreambuf(const extStreambuf&) = delete;
+    const struct extStreamBuf& operator=(const extStreambuf&) = delete;
 
     int checkIntegrity() const;
 

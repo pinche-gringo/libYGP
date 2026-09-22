@@ -81,7 +81,7 @@ RemoteDirSearchSrv::RemoteDirSearchSrv() {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-RemoteDirSearchSrv::~RemoteDirSearchSrv() {}
+RemoteDirSearchSrv::~RemoteDirSearchSrv() = default;
 
 //-----------------------------------------------------------------------------
 /// Handles the commands send from the client; the respectative action is
@@ -91,11 +91,11 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv() {}
 /// \returns int 0 in case of end-of-communication; 99 after the END-command
 /// \throw YGP::CommError In case of a communication problem
 //-----------------------------------------------------------------------------
-int RemoteDirSearchSrv::performCommands(int socket) throw(YGP::CommError) {
+int RemoteDirSearchSrv::performCommands(int socket) {
     std::string data;
 
     DirectorySearch dirSrch;
-    static FILE* pFile = NULL;
+    static FILE* pFile = nullptr;
 
     Socket sock(socket);
 
@@ -233,7 +233,7 @@ int RemoteDirSearchSrv::performCommands(int socket) throw(YGP::CommError) {
                 writeError(sock, errno);
             else
                 sock.write("RC=0", 4);
-            pFile = NULL;
+            pFile = nullptr;
         } break;
 
         case CMD_WRITE: {
@@ -277,7 +277,7 @@ int RemoteDirSearchSrv::performCommands(int socket) throw(YGP::CommError) {
 /// \param error Errornumber
 /// \param desc Flag if a description should be included
 //-----------------------------------------------------------------------------
-int RemoteDirSearchSrv::writeError(Socket& socket, int error, bool desc) const throw(YGP::CommError) {
+int RemoteDirSearchSrv::writeError(Socket& socket, int error, bool desc) const {
     std::string write("RC=");
     ANumeric err(error);
     write += err.toUnformattedString();
@@ -307,7 +307,7 @@ void RemoteDirSearchSrv::handleArgError(Socket& sock, const std::string& error) 
 /// \param socket Socket for communication
 /// \param result Found file
 //-----------------------------------------------------------------------------
-void RemoteDirSearchSrv::writeResult(Socket& socket, const File& result) const throw(YGP::CommError) {
+void RemoteDirSearchSrv::writeResult(Socket& socket, const File& result) const {
     std::string write("RC=0;File=\"");
     write += result.path();
     write += result.name();

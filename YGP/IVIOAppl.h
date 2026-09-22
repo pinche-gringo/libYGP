@@ -77,12 +77,12 @@ namespace YGP {
 class IVIOApplication {
   public:
     /// Helper-structure to store long-options
-    typedef struct {
+    using longOptions = struct {
         const char* longVal; ///< Pointer to the value of the long option
         char shortVal;       ///< Character representing the equivalent short option
-    } longOptions;
+    };
 
-    IVIOApplication(const int argc, const char* argv[], const longOptions* pOpt = NULL);
+    IVIOApplication(const int argc, const char* argv[], const longOptions* pOpt = nullptr);
     virtual ~IVIOApplication();
 
     int run();
@@ -128,9 +128,9 @@ class IVIOApplication {
 
   private:
     // Prohobited manager functions
-    IVIOApplication();
-    IVIOApplication(const IVIOApplication&);
-    const IVIOApplication& operator=(const IVIOApplication&);
+    IVIOApplication() = delete;
+    IVIOApplication(const IVIOApplication&) = delete;
+    const IVIOApplication& operator=(const IVIOApplication&) = delete;
 
     char getOption();
     void moveOption() const { moveOption(startOpt); }

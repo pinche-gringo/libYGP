@@ -116,7 +116,7 @@ class INISection {
     virtual int foundKey(const char* key, unsigned int);
     virtual int foundValue(const char* value, unsigned int);
 
-    const IAttribute* pFoundAttr;              ///< Pointer to last parsed attribute
+    const IAttribute* pFoundAttr{nullptr};              ///< Pointer to last parsed attribute
     std::vector<const IAttribute*> attributes; ///< Attributes of the section
 
   private:
@@ -134,10 +134,10 @@ class INISection {
         virtual int foundSection(const char* name, unsigned int len) = 0;
 
       private:
-        ISectionParser(const ISectionParser&);
-        ISectionParser& operator=(const ISectionParser&);
+        ISectionParser(const ISectionParser&) = delete;
+        ISectionParser& operator=(const ISectionParser&) = delete;
 
-        typedef OFParseAttomic<ISectionParser> OMParseAttomic;
+        using OMParseAttomic = OFParseAttomic<ISectionParser>;
 
         ParseObject* _SectionHeader[4];
         ParseSequence SectionHeader;
@@ -150,17 +150,17 @@ class INISection {
      */
     template <class T> class TSectionParser : public INISection::ISectionParser {
       public:
-        typedef int (T::*PTCALLBACK)(const char*, unsigned int);
+        using PTCALLBACK = int (T::*)(const char*, unsigned int);
 
         TSectionParser(T& parent, const PTCALLBACK& callback) : parent(parent), cb(callback) {}
-        ~TSectionParser() {}
+        ~TSectionParser() override = default;
 
       protected:
-        virtual int foundSection(const char* name, unsigned int len) { return (parent.*cb)(name, len); }
+        int foundSection(const char* name, unsigned int len) override { return (parent.*cb)(name, len); }
 
       private:
-        TSectionParser(const TSectionParser&);
-        TSectionParser& operator=(const TSectionParser&);
+        TSectionParser(const TSectionParser&) = delete;
+        TSectionParser& operator=(const TSectionParser&) = delete;
 
         T& parent;
         const PTCALLBACK& cb;
@@ -168,11 +168,11 @@ class INISection {
 
     const char* pName;
 
-    INISection(const INISection&);
-    INISection& operator=(const INISection&);
+    INISection(const INISection&) = delete;
+    INISection& operator=(const INISection&) = delete;
 
-    typedef OFParseAttomic<INISection> OMParseAttomic;
-    typedef OFParseText<INISection> OMParseText;
+    using OMParseAttomic = OFParseAttomic<INISection>;
+    using OMParseText = OFParseText<INISection>;
 
     // Parser-Objects
     ParseObject* _Attributes[4];
@@ -194,9 +194,9 @@ template <class T, class L = std::vector<T>> class INIList : public INISection {
     /// the parsed values
     /// \param name Name of the section
     /// \param values List to store the passed values
-    INIList(const char* name, L& values) : INISection(name), offset(0) { addAttribute(*new AttributeList<T, L>(name, values)); }
+    INIList(const char* name, L& values) : INISection(name) { addAttribute(*new AttributeList<T, L>(name, values)); }
     /// Destructor; Frees the internally used attribute list
-    ~INIList() {
+    ~INIList() override {
         Check3(attributes.size() == 1);
         delete attributes.front();
     }
@@ -221,10 +221,10 @@ template <class T, class L = std::vector<T>> class INIList : public INISection {
     /// Callback when a key is found while parsing the INI-file (during parsing
     /// the INIList).
     /// This method considers the \c key as offet for the value in the list.
-    virtual int foundKey(const char* key, unsigned int) {
+    int foundKey(const char* key, unsigned int) override {
         Check3(key);
         errno = 0;
-        char* pEnd = NULL;
+        char* pEnd = nullptr;
         offset = strtol(key, &pEnd, 10);
         Check3(pEnd);
         pFoundAttr = attributes.front();
@@ -236,14 +236,14 @@ template <class T, class L = std::vector<T>> class INIList : public INISection {
     /// parsing the INIList).
     ///
     /// This method assigns \c value to the previously parsed offset.
-    virtual int foundValue(const char* value, unsigned int len) {
+    int foundValue(const char* value, unsigned int len) override {
         Check3(pFoundAttr);
         return ((((AttributeList<T, L>*)pFoundAttr)->assign(offset, value, len) ? ParseObject::PARSE_OK
                                                                                 : ParseObject::PARSE_CB_ABORT));
     }
 
   private:
-    unsigned int offset;
+    unsigned int offset{0};
 };
 
 /**Class to parse all entries of a section into a list (map) of values (see
@@ -259,7 +259,7 @@ template <class T, class M = std::map<std::string, T>> class INIMap : public INI
     /// \param values Map to store the passed values
     INIMap(const char* name, M& values) : INISection(name) { addAttribute(*new AttributeMap<T, M>(name, values)); }
     /// Destructor; Frees the internally used attribute list
-    ~INIMap() {
+    ~INIMap() override {
         Check3(attributes.size() == 1);
         delete attributes.front();
     }
@@ -285,7 +285,7 @@ template <class T, class M = std::map<std::string, T>> class INIMap : public INI
     /// the INIMap).
     ///
     /// This method considers the \c key as offet for the value in the list.
-    virtual int foundKey(const char* key, unsigned int) {
+    int foundKey(const char* key, unsigned int) override {
         Check3(key);
         offset = key;
         pFoundAttr = attributes.front();
@@ -296,7 +296,7 @@ template <class T, class M = std::map<std::string, T>> class INIMap : public INI
     /// parsing the INIMap).
     ///
     /// This method assigns \c value to the previously parsed offset.
-    virtual int foundValue(const char* value, unsigned int len) {
+    int foundValue(const char* value, unsigned int len) override {
         Check3(pFoundAttr);
         return (
             (((AttributeMap<T>*)pFoundAttr)->assign(offset, value, len) ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT));
@@ -452,7 +452,7 @@ class INIFile {
     std::string name;
     std::vector<const INISection*> sections;
     std::vector<INISection*> sectionsToFree;
-    INISection* pSection;
+    INISection* pSection{nullptr};
 };
 
 } // namespace YGP

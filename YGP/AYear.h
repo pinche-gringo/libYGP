@@ -43,7 +43,7 @@ class AYear : public AttributValue {
         : AttributValue(true), year(Year) {}
     AYear(const char* pYear) : AttributValue(), year(1900) { operator=(pYear); }      ///< Constructor from a text
     AYear(const std::string& year) : AttributValue(), year(1900) { operator=(year); } ///< Constructor from a text
-    virtual ~AYear();
+    ~AYear() override;
 
     /// \name Assignment methods
     //@{
@@ -57,11 +57,11 @@ class AYear : public AttributValue {
         return *this;
     }
 
-    virtual void readFromStream(std::istream& in);
+    void readFromStream(std::istream& in) override;
     //@}
 
     /// Defining the object; setting it to a default value (of <tt>1900</tt>)
-    virtual void define() {
+    void define() override {
         setDefined();
         year = 1900;
     }
@@ -73,7 +73,7 @@ class AYear : public AttributValue {
 
     /// \name Convertion
     //@{
-    virtual std::string toUnformattedString() const;
+    std::string toUnformattedString() const override;
     //@}
 
     /// \name Calculation

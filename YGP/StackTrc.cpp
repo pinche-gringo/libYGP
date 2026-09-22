@@ -31,7 +31,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include <signal.h>
+#include <csignal>
 
 #ifdef HAVE_BACKTRACE
 #    include <execinfo.h>

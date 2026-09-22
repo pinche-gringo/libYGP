@@ -70,7 +70,7 @@ const IAttribute* AttributeParse::findAttribute(const char* name) const {
         if ((*i)->matches(name))
             return *i;
 
-    return NULL;
+    return nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -84,7 +84,7 @@ const IAttribute* AttributeParse::findAttribute(const std::string& name) const {
         if ((*i)->matches(name))
             return *i;
 
-    return NULL;
+    return nullptr;
 }
 
 //----------------------------------------------------------------------------

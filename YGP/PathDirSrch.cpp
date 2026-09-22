@@ -37,7 +37,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-PathDirectorySearch::~PathDirectorySearch() {}
+PathDirectorySearch::~PathDirectorySearch() = default;
 
 //-----------------------------------------------------------------------------
 /// Searches for first file matching the input specified by the constructor(s)
@@ -57,7 +57,7 @@ const File* PathDirectorySearch::find(unsigned long attribs) {
     do {
         if (i == path.end()) {
             clearEntry();
-            return NULL;
+            return nullptr;
         }
 
         // Build filename with next (= first on first call) node of path
@@ -92,7 +92,7 @@ const File* PathDirectorySearch::next() {
     while (!tmp) {
         if (i == path.end()) {
             clearEntry();
-            return NULL;
+            return nullptr;
         } // endif nodes available
 
         tmp = find(attr);

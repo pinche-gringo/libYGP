@@ -33,7 +33,7 @@
 
 namespace YGP {
 
-typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+using tokenizer = boost::tokenizer<boost::char_separator<char>>;
 
 //-----------------------------------------------------------------------------
 /// Checks the validity of the filename
@@ -50,7 +50,7 @@ bool _XDSfileIsValid(const std::string& files, const char* pFile) {
     if (files.empty())
         return true;
 
-    FileRegularExpr regexp(NULL);
+    FileRegularExpr regexp(nullptr);
     bool include(false);
 
     // Test every file in list

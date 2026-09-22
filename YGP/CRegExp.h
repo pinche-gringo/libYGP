@@ -128,19 +128,19 @@ namespace YGP {
 class RegularExpression : public IRegularExpression {
   public:
     RegularExpression(const char* pRegExp);
-    virtual ~RegularExpression();
+    ~RegularExpression() override;
 
-    virtual int checkIntegrity() const;
+    int checkIntegrity() const override;
     RegularExpression& operator=(const char* pRegExp);
 
   protected:
-    virtual bool compare(const char* pAktRegExp, const char* pCompare);
+    bool compare(const char* pAktRegExp, const char* pCompare) override;
 
   private:
     // Prohibited manager functions
-    RegularExpression();
-    RegularExpression(const RegularExpression&);
-    RegularExpression& operator=(const RegularExpression&);
+    RegularExpression() = delete;
+    RegularExpression(const RegularExpression&) = delete;
+    RegularExpression& operator=(const RegularExpression&) = delete;
 
     std::invalid_argument getError(int rc, unsigned int pos) const;
 

@@ -46,17 +46,17 @@ class ATimestamp : virtual public ADate, virtual public ATime {
     ATimestamp(const time_t& stamp, bool local = true) {
         local ? operator=(stamp) : assignGMT(stamp);
     } ///< Constructor from a system time
-    virtual ~ATimestamp();
+    ~ATimestamp() override;
 
     /// Checks if the object is defined (has a value)
     bool isDefined() const { return ATime::isDefined(); }
-    virtual void undefine() { /// Undefines the object (has no value anymore)
+    void undefine() override { /// Undefines the object (has no value anymore)
         ADate::undefine();
         ATime::undefine();
     }
 
     /// Returns the current date/time
-    static ATimestamp now() { return ATimestamp(true); }
+    static ATimestamp now() { return {true}; }
 
     /// \name Assignment methods
     //@{
@@ -69,11 +69,11 @@ class ATimestamp : virtual public ADate, virtual public ATime {
 
     ATimestamp& assignGMT(const time_t& stamp) { return operator=(*::localtime(&stamp)); }
 
-    virtual void readFromStream(std::istream& in);
+    void readFromStream(std::istream& in) override;
     //@}
 
     /// Defining the object; setting it to a default value (of <tt>1/1/1900 0:0:0</tt>)
-    virtual void define() {
+    void define() override {
         ADate::define();
         ATime::define();
     }
@@ -92,13 +92,13 @@ class ATimestamp : virtual public ADate, virtual public ATime {
 
     /// \name Convertion
     //@{
-    virtual std::string toUnformattedString() const;
-    virtual std::string toString() const;
-    virtual std::string toString(const char* format) const;
+    std::string toUnformattedString() const override;
+    std::string toString() const override;
+    std::string toString(const char* format) const override;
 
     /// Converting into a system time (GMT)
     time_t toSysTime() const { return toLocalTime(); }
-    struct tm toStructTM() const;
+    struct tm toStructTM() const override;
     time_t toGMTTime() const;
     time_t toLocalTime() const { /// Converting into a system time (local time)
         struct tm result(toStructTM());
@@ -138,11 +138,11 @@ class ATimestamp : virtual public ADate, virtual public ATime {
     //@}
 
     // Usefull utility-functions
-    int checkIntegrity() const;
+    int checkIntegrity() const override;
 
   protected:
-    virtual bool maxAdapt();
-    virtual bool minAdapt();
+    bool maxAdapt() override;
+    bool minAdapt() override;
 };
 
 } // namespace YGP

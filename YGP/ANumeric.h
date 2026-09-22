@@ -27,7 +27,7 @@ typedef mpz_t numType;
 #    ifdef HAVE_UNSIGNED_LONG_LONG
 typedef long long int numType;
 #    else
-typedef long int numType;
+using numType = long int;
 #    endif
 #endif
 #include <YGP/AttrVal.h>
@@ -104,7 +104,7 @@ class ANumeric : public AttributValue {
     ANumeric(const char* pValue) : AttributValue(), value() { operator=(pValue); }
     /// Constructor; initializes the object from the passed text and defines it.
     ANumeric(const std::string& str) : AttributValue(), value() { operator=(str); }
-    virtual ~ANumeric();
+    ~ANumeric() override;
 
     /// \name Assignment methods
     //@{
@@ -137,10 +137,10 @@ class ANumeric : public AttributValue {
     ANumeric& operator=(const ANumeric& other);
     //@}
 
-    virtual void define();
-    virtual std::string toString() const;
-    virtual std::string toUnformattedString() const;
-    virtual void readFromStream(std::istream& in);
+    void define() override;
+    std::string toString() const override;
+    std::string toUnformattedString() const override;
+    void readFromStream(std::istream& in) override;
 
     /// \name Convertion
     //@{

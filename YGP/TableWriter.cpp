@@ -71,7 +71,7 @@ TableWriter::TableWriter(const std::string& format, const char* startRow, const 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-TableWriter::~TableWriter() {}
+TableWriter::~TableWriter() = default;
 
 //-----------------------------------------------------------------------------
 /// Counts the number of columns
@@ -99,7 +99,7 @@ std::string TableWriter::getNextNode() {
     size_t pos(0);
     if (actCol == columns_.end()) {
         actCol = columns_.begin();
-        return std::string();
+        return {};
     }
     std::string token(*actCol);
     ++actCol;

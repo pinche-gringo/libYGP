@@ -43,7 +43,7 @@ namespace YGP {
 /// highly recommended. This method might be declared private (or at least
 /// protected) in the future.
 //-----------------------------------------------------------------------------
-extStreambuf::extStreambuf() : line(0), pushbackOffset(-1), pSource(NULL), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
+extStreambuf::extStreambuf() : line(0), pushbackOffset(-1), pSource(nullptr), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
     setbuf(pBuffer, lenBuffer);
 }
 
@@ -169,7 +169,7 @@ int extStreambuf::pbackfail(int c) {
     pSource->pubseekoff(-1, std::ios_base::cur);
 #endif
 
-    setg(NULL, NULL, NULL);
+    setg(nullptr, nullptr, nullptr);
     Check3(line != 0);
     if (c == '\n')
         --line;
@@ -193,7 +193,7 @@ std::streampos extStreambuf::seekoff(std::streamoff off, std::ios_base::seekdir 
     if (dir == std::ios_base::cur)
         off -= (egptr() - gptr());
     TRACE7("extStreambuf::seekoff(streamoff, _seek_dir, mode) - New value: " << off);
-    setg(NULL, NULL, NULL);
+    setg(nullptr, nullptr, nullptr);
     return off ? pSource->pubseekoff(off, dir, mode) : std::streampos(0);
 }
 
@@ -206,7 +206,7 @@ std::streampos extStreambuf::seekoff(std::streamoff off, std::ios_base::seekdir 
 std::streampos extStreambuf::seekpos(std::streampos pos, std::ios_base::openmode mode) {
     TRACE7("extStreambuf::seekpos(streampos, mode)");
     Check1(pSource);
-    setg(NULL, NULL, NULL);
+    setg(nullptr, nullptr, nullptr);
     return pSource->pubseekpos(pos, mode);
 }
 

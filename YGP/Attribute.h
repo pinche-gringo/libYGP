@@ -28,6 +28,7 @@
 #include <map>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <YGP/AssParse.h>
@@ -47,7 +48,7 @@ namespace YGP {
 class IAttribute {
   public:
     /// Destructor
-    virtual ~IAttribute() {}
+    virtual ~IAttribute() = default;
 
     /// Returns a copy of the attribute
     virtual IAttribute* clone() = 0;
@@ -81,13 +82,13 @@ class IAttribute {
     /// Constructor; creates an attribute with the specified name
     IAttribute(const char* pName) : name(pName) { Check3(pName); }
     /// Constructor; creates an attribute with the specified name
-    IAttribute(const std::string& name_) : name(name_) {}
+    IAttribute(std::string  name_) : name(std::move(name_)) {}
 
     /// Copyconstructor; clones the attribute
-    IAttribute(const IAttribute& other) : name(other.name) {}
+    IAttribute(const IAttribute& other)  = default;
 
   private:
-    const IAttribute& operator=(const IAttribute&);
+    const IAttribute& operator=(const IAttribute&) = delete;
 
     const std::string name;
 };
@@ -115,12 +116,12 @@ template <class T> class Attribute : public IAttribute {
     /// Constructor; creates an attribute with the specified name, referencing the attribute value
     Attribute(const std::string& name, T& attr) : IAttribute(name), attr_(attr) {}
     /// Destructor
-    ~Attribute() {}
+    ~Attribute() override = default;
 
     /// Returns a copy of the attribute
-    virtual IAttribute* clone() { return new Attribute<T>(*this); }
+    IAttribute* clone() override { return new Attribute<T>(*this); }
 
-    virtual bool assignFromString(const char* value) const {
+    bool assignFromString(const char* value) const override {
         try {
             attr_ = value;
         } catch (std::invalid_argument&) {
@@ -129,18 +130,18 @@ template <class T> class Attribute : public IAttribute {
         return true;
     }
 
-    virtual bool assign(const char* value, unsigned int) const { return assignFromString(value); }
+    bool assign(const char* value, unsigned int) const override { return assignFromString(value); }
 
     /// Returns a reference to the handled attribute value
     T& getAttribute() const { return attr_; }
-    virtual std::string getValue() const { return attr_.toUnformattedString(); }
-    virtual std::string getFormattedValue() const { return attr_.toString(); }
-    virtual std::string getQuotedValue() const { return getFormattedValue(); }
+    std::string getValue() const override { return attr_.toUnformattedString(); }
+    std::string getFormattedValue() const override { return attr_.toString(); }
+    std::string getQuotedValue() const override { return getFormattedValue(); }
 
   private:
     /// Copyconstructor; clones the attribute
     Attribute(const Attribute& other) : IAttribute((IAttribute&)other), attr_(other.attr_) {}
-    const Attribute& operator=(const Attribute&);
+    const Attribute& operator=(const Attribute&) = delete;
 
     T& attr_;
 };
@@ -191,7 +192,7 @@ template <> inline std::string Attribute<bool>::getFormattedValue() const { retu
 // Specialization of Attribute for ints
 template <> inline bool Attribute<short>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -206,7 +207,7 @@ template <> inline std::string Attribute<short>::getFormattedValue() const { ret
 
 template <> inline bool Attribute<unsigned short>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -221,7 +222,7 @@ template <> inline std::string Attribute<unsigned short>::getFormattedValue() co
 
 template <> inline bool Attribute<int>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -236,7 +237,7 @@ template <> inline std::string Attribute<int>::getFormattedValue() const { retur
 
 template <> inline bool Attribute<unsigned int>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -251,7 +252,7 @@ template <> inline std::string Attribute<unsigned int>::getFormattedValue() cons
 
 template <> inline bool Attribute<long>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -266,7 +267,7 @@ template <> inline std::string Attribute<long>::getFormattedValue() const { retu
 
 template <> inline bool Attribute<unsigned long>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -281,7 +282,7 @@ template <> inline std::string Attribute<unsigned long>::getFormattedValue() con
 
 template <> inline bool Attribute<double>::assignFromString(const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     attr_ = strtod(value, &pTail);
     Check3(pTail);
@@ -342,9 +343,9 @@ template <class T, class L = std::vector<T>> class AttributeList : public IAttri
     AttributeList(const std::string& name, L& list) : IAttribute(name), list_(list) {}
 
     /// Destructor
-    ~AttributeList() {}
+    ~AttributeList() override = default;
 
-    virtual IAttribute* clone() { return new AttributeList<T, L>(*this); }
+    IAttribute* clone() override { return new AttributeList<T, L>(*this); }
 
     /// Method to assign a value from a character-pointer to the attribute
     /// list.
@@ -354,13 +355,13 @@ template <class T, class L = std::vector<T>> class AttributeList : public IAttri
     /// (invalid offset or value) the assigning is stopped; leaving the
     /// previously (valid) entries assigned.
     /// \returns \c true on success; \c false otherwise
-    virtual bool assignFromString(const char* value) const {
+    bool assignFromString(const char* value) const override {
         AssignmentParse parse(value);
         std::string node;
         while (node = parse.getNextNode(), !node.empty()) {
             try {
                 errno = 0;
-                char* pEnd = NULL;
+                char* pEnd = nullptr;
                 unsigned int offset(strtol(parse.getActKey().c_str(), &pEnd, 10));
                 Check3(pEnd);
                 if (errno || *pEnd)
@@ -395,11 +396,11 @@ template <class T, class L = std::vector<T>> class AttributeList : public IAttri
     }
     /// Method to assign a value from a character-pointer to the attribute
     /// list. See assignFromString() for details.
-    virtual bool assign(const char* value, unsigned int length) const { return assignFromString(value); }
+    bool assign(const char* value, unsigned int length) const override { return assignFromString(value); }
 
     /// Returns the value of the attribute list. This is a string of <tt>
     /// [offset]=[value];</tt> entries.
-    std::string getValue() const {
+    std::string getValue() const override {
         std::string help;
         char number[20];
         for (unsigned int i(0); i < list_.size(); ++i) {
@@ -418,7 +419,7 @@ template <class T, class L = std::vector<T>> class AttributeList : public IAttri
 
   private:
     AttributeList(const AttributeList& o) : IAttribute((const IAttribute&)o), list_(o.list_) {}
-    const AttributeList& operator=(const AttributeList&);
+    const AttributeList& operator=(const AttributeList&) = delete;
 
     bool doAssignFromString(unsigned int offset, const char* value) const {
         list_.at(offset) = value;
@@ -466,7 +467,7 @@ template <> inline bool AttributeList<char*>::doAssignFromString(unsigned int of
 /// Specialization of AttributeList::doAssginFromString for short
 template <> inline bool AttributeList<short>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -476,7 +477,7 @@ template <> inline bool AttributeList<short>::doAssignFromString(unsigned int of
 /// Specialization of AttributeList::doAssginFromString for unsigned short
 template <> inline bool AttributeList<unsigned short>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -486,7 +487,7 @@ template <> inline bool AttributeList<unsigned short>::doAssignFromString(unsign
 /// Specialization of AttributeList::doAssignFromString for int
 template <> inline bool AttributeList<int>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -496,7 +497,7 @@ template <> inline bool AttributeList<int>::doAssignFromString(unsigned int offs
 /// Specialization of AttributeList::doAssignFromString for unsigned int
 template <> inline bool AttributeList<unsigned int>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -506,7 +507,7 @@ template <> inline bool AttributeList<unsigned int>::doAssignFromString(unsigned
 /// Specialization of AttributeList::doAssignFromString for unsigned long
 template <> inline bool AttributeList<long>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -516,7 +517,7 @@ template <> inline bool AttributeList<long>::doAssignFromString(unsigned int off
 /// Specialization of AttributeList::doAssignFromString for unsigned long
 template <> inline bool AttributeList<unsigned long>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -526,7 +527,7 @@ template <> inline bool AttributeList<unsigned long>::doAssignFromString(unsigne
 /// Specialization of AttributeList::doAssignFromString for double
 template <> inline bool AttributeList<double>::doAssignFromString(unsigned int offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     list_.at(offset) = strtod(value, &pTail);
     Check3(pTail);
@@ -547,7 +548,7 @@ template <> inline bool AttributeList<std::string>::assign(unsigned int offset, 
     Check3(value);
     try {
         if (list_.size() == offset)
-            list_.push_back(std::string(value, length));
+            list_.emplace_back(value, length);
         else
             list_.at(offset).assign(value, length);
     } catch (std::exception&) {
@@ -566,27 +567,27 @@ class MetaEnumAttribute : public IAttribute {
     MetaEnumAttribute(const std::string& name, const MetaEnum& list, unsigned int& attr)
         : IAttribute(name), attr_(attr), list_(list) {}
     /// Destructor
-    ~MetaEnumAttribute() {}
+    ~MetaEnumAttribute() override = default;
 
     /// Returns a copy of the attribute
-    virtual IAttribute* clone() { return new MetaEnumAttribute(*this); }
+    IAttribute* clone() override { return new MetaEnumAttribute(*this); }
 
-    virtual bool assignFromString(const char* value) const;
-    virtual bool assign(const char* value, unsigned int) const { return assignFromString(value); }
+    bool assignFromString(const char* value) const override;
+    bool assign(const char* value, unsigned int) const override { return assignFromString(value); }
 
     /// Returns a reference to the handled attribute value
     unsigned int& getAttribute() const { return attr_; }
-    virtual std::string getValue() const {
+    std::string getValue() const override {
         char buffer[20];
         snprintf(buffer, sizeof(buffer), "%d", attr_);
         return std::string(buffer);
     }
-    virtual std::string getFormattedValue() const { return list_[attr_]; }
+    std::string getFormattedValue() const override { return list_[attr_]; }
 
   private:
     /// Copyconstructor; clones the attribute
     MetaEnumAttribute(const MetaEnumAttribute& other) : IAttribute((IAttribute&)other), attr_(other.attr_), list_(other.list_) {}
-    const MetaEnumAttribute& operator=(const MetaEnumAttribute&);
+    const MetaEnumAttribute& operator=(const MetaEnumAttribute&) = delete;
 
     unsigned int& attr_;
     const MetaEnum& list_;
@@ -615,9 +616,9 @@ template <class T, class L = std::map<std::string, T>> class AttributeMap : publ
     /// Constructor; creates an attribute map with the specified name, referencing the (vector of) attribute values
     AttributeMap(const std::string& name, L& map) : IAttribute(name), map_(map) {}
     /// Destructor
-    ~AttributeMap() {}
+    ~AttributeMap() override = default;
 
-    virtual IAttribute* clone() { return new AttributeMap<T, L>(*this); }
+    IAttribute* clone() override { return new AttributeMap<T, L>(*this); }
 
     /// Method to assign a value from a character-pointer to the attribute
     /// map.
@@ -627,7 +628,7 @@ template <class T, class L = std::map<std::string, T>> class AttributeMap : publ
     /// (invalid offset or value) the assigning is stopped; leaving the
     /// previously (valid) entries assigned.
     /// \returns \c true on success; \c false otherwise
-    virtual bool assignFromString(const char* value) const {
+    bool assignFromString(const char* value) const override {
         AssignmentParse parse(value);
         std::string node;
         while (node = parse.getNextNode(), !node.empty()) {
@@ -643,7 +644,7 @@ template <class T, class L = std::map<std::string, T>> class AttributeMap : publ
 
     /// Method to assign a value from a character-pointer to the attribute
     /// map. See assignFromString() for details.
-    virtual bool assign(const char* value, unsigned int length) const { return assignFromString(value); }
+    bool assign(const char* value, unsigned int length) const override { return assignFromString(value); }
 
     /// Method to assign a value from a character-pointer to a single
     /// (specified) element of the map.
@@ -665,7 +666,7 @@ template <class T, class L = std::map<std::string, T>> class AttributeMap : publ
 
     /// Returns the value of the attribute map. This is a string of
     /// <tt>[offset]=[value];</tt> entries.
-    std::string getValue() const {
+    std::string getValue() const override {
         std::string help;
         for (typename L::const_iterator i(map_.begin()); i != map_.end(); ++i) {
             help += i->first;
@@ -678,7 +679,7 @@ template <class T, class L = std::map<std::string, T>> class AttributeMap : publ
 
   private:
     AttributeMap(const AttributeMap& o) : IAttribute((const IAttribute&)o), map_(o.map_) {}
-    const AttributeMap& operator=(const AttributeMap&);
+    const AttributeMap& operator=(const AttributeMap&) = delete;
 
     L& map_;
 };
@@ -711,7 +712,7 @@ template <> inline bool AttributeMap<char*>::assignFromString(const std::string&
 /// Specialization of AttributeMap::assginFromString for short
 template <> inline bool AttributeMap<short>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -721,7 +722,7 @@ template <> inline bool AttributeMap<short>::assignFromString(const std::string&
 /// Specialization of AttributeMap::assginFromString for unsigned short
 template <> inline bool AttributeMap<unsigned short>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -731,7 +732,7 @@ template <> inline bool AttributeMap<unsigned short>::assignFromString(const std
 /// Specialization of AttributeMap::assginFromString for int
 template <> inline bool AttributeMap<int>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -741,7 +742,7 @@ template <> inline bool AttributeMap<int>::assignFromString(const std::string& o
 /// Specialization of AttributeMap::assginFromString for unsigned int
 template <> inline bool AttributeMap<unsigned int>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -751,7 +752,7 @@ template <> inline bool AttributeMap<unsigned int>::assignFromString(const std::
 /// Specialization of AttributeMap::assginFromString for unsigned long
 template <> inline bool AttributeMap<long>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtol(value, &pTail, 10);
     Check3(pTail);
@@ -761,7 +762,7 @@ template <> inline bool AttributeMap<long>::assignFromString(const std::string& 
 /// Specialization of AttributeMap::assginFromString for unsigned long
 template <> inline bool AttributeMap<unsigned long>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtoul(value, &pTail, 10);
     Check3(pTail);
@@ -771,7 +772,7 @@ template <> inline bool AttributeMap<unsigned long>::assignFromString(const std:
 /// Specialization of AttributeMap::assginFromString for double
 template <> inline bool AttributeMap<double>::assignFromString(const std::string& offset, const char* value) const {
     Check3(value);
-    char* pTail = NULL;
+    char* pTail = nullptr;
     errno = 0;
     map_[offset] = strtod(value, &pTail);
     Check3(pTail);

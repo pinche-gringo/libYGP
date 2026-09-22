@@ -67,7 +67,7 @@ static inline bool isRegionNegator(const char ch) { return ch == NEGREGION1; }
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-FileRegularExpr::~FileRegularExpr() {}
+FileRegularExpr::~FileRegularExpr() = default;
 
 //-----------------------------------------------------------------------------
 /// Checks if the passed text matches the passed regular expression. Both

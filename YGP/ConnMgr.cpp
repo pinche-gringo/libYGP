@@ -35,7 +35,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::ConnectionMgr() : mode(NONE), server(NULL), connections() { TRACE9("ConnectionMgr::ConnectionMgr()"); }
+ConnectionMgr::ConnectionMgr() :  connections() { TRACE9("ConnectionMgr::ConnectionMgr()"); }
 
 //-----------------------------------------------------------------------------
 /// Destructor
@@ -51,8 +51,8 @@ ConnectionMgr::~ConnectionMgr() {
 //-----------------------------------------------------------------------------
 void ConnectionMgr::clearConnections() {
     TRACE6("ConnectionMgr::clearConnections()");
-    for (std::vector<Socket*>::iterator i(connections.begin()); i != connections.end(); ++i)
-        delete *i;
+    for (auto & connection : connections)
+        delete connection;
 
     connections.clear();
 }
@@ -67,7 +67,7 @@ void ConnectionMgr::changeMode(modeConnect newMode) {
 
         if (mode == SERVER) {
             delete server;
-            server = NULL;
+            server = nullptr;
         }
         mode = newMode;
     }
@@ -132,7 +132,7 @@ Socket* ConnectionMgr::addConnection(int socket) {
     }
     catch (YGP::CommError& e) {
         TRACE1("ConnectionMgr::addConnection(int) - Unexpected exception: " << e.what());
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -145,7 +145,7 @@ void ConnectionMgr::disconnect(const Socket* partner) {
     Check1(mode == NONE);
 
     if (mode == SERVER) {
-        std::vector<Socket*>::iterator i(find(connections.begin(), connections.end(), partner));
+        auto i(find(connections.begin(), connections.end(), partner));
         if (i == connections.end())
             return;
 
@@ -154,7 +154,7 @@ void ConnectionMgr::disconnect(const Socket* partner) {
             return;
     }
     delete server;
-    server = NULL;
+    server = nullptr;
     mode = NONE;
 }
 

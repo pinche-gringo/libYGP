@@ -43,7 +43,7 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-RemoteFile::~RemoteFile() {}
+RemoteFile::~RemoteFile() = default;
 
 //-----------------------------------------------------------------------------
 /// Duplicates (clones) the object and returns a pointer to the newly created
@@ -59,7 +59,7 @@ File* RemoteFile::clone() const { return new RemoteFile(*this); }
 /// \returns void* Pointer to a handle for the opened file.
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-void* RemoteFile::open(const char* mode) const throw(YGP::FileError) {
+void* RemoteFile::open(const char* mode) const {
     std::string file(path());
     file += name();
     TRACE5("RemoteFile::open(const char*) const - " << file);
@@ -92,7 +92,7 @@ void* RemoteFile::open(const char* mode) const throw(YGP::FileError) {
     }
     else
         handleServerError(buffer.data());
-    return 0;
+    return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -100,7 +100,7 @@ void* RemoteFile::open(const char* mode) const throw(YGP::FileError) {
 /// \param file Handle of opened file
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-void RemoteFile::close(void* file) const throw(YGP::FileError) {
+void RemoteFile::close(void* file) const {
     TRACE5("RemoteFile::close(void*) const - " << path() << name());
     Check3(file);
 
@@ -133,7 +133,7 @@ void RemoteFile::close(void* file) const throw(YGP::FileError) {
 /// \returns int Number of read bytes
 /// \throw YGP::FileError In case of an error a textual description
 //-----------------------------------------------------------------------------
-int RemoteFile::read(void* file, char* buffer, unsigned int length) const throw(YGP::FileError) {
+int RemoteFile::read(void* file, char* buffer, unsigned int length) const {
     TRACE5("RemoteFile::read(void*, char*, unsigned int) const - " << path() << name());
 
     Check3(file);
@@ -176,7 +176,7 @@ int RemoteFile::read(void* file, char* buffer, unsigned int length) const throw(
 /// Checks if further data is available for reading
 /// \param file Handle of openeded file
 //-----------------------------------------------------------------------------
-bool RemoteFile::isEOF(void* file) const throw(YGP::FileError) {
+bool RemoteFile::isEOF(void* file) const {
     TRACE5("RemoteFile::isEOF(void*) const - " << path() << name());
     Check3(file);
 
@@ -212,7 +212,7 @@ bool RemoteFile::isOK(const std::string& answer) const { return (answer.length()
 /// this is thrown to inform the client name and directory to analyze
 /// \param pAnswer Response from the server
 //-----------------------------------------------------------------------------
-void RemoteFile::handleServerError(const char* pAnswer) const throw(YGP::FileError) {
+void RemoteFile::handleServerError(const char* pAnswer) const {
     int rc;
     std::string error;
 
@@ -233,7 +233,7 @@ void RemoteFile::handleServerError(const char* pAnswer) const throw(YGP::FileErr
 /// \param attrs Attributes to manipulate
 /// \param pAnswer Data send from server
 //-----------------------------------------------------------------------------
-void RemoteFile::handleServerMsg(const AttributeParse& attrs, const char* pAnswer) const throw(YGP::FileError) {
+void RemoteFile::handleServerMsg(const AttributeParse& attrs, const char* pAnswer) const {
     Check3(pAnswer);
 
     try {
@@ -255,7 +255,7 @@ void RemoteFile::handleServerMsg(const AttributeParse& attrs, const char* pAnswe
 /// \returns int Number of written bytes
 /// \throw YGP::FileError In case of an error
 //-----------------------------------------------------------------------------
-int RemoteFile::write(void* file, const char* buffer, unsigned int length) const throw(YGP::FileError) {
+int RemoteFile::write(void* file, const char* buffer, unsigned int length) const {
     TRACE5("RemoteFile::write(void*, char*, unsigned int) const - " << path() << name());
     Check3(file);
     Check3(buffer);

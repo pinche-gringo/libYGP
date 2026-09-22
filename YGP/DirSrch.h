@@ -71,15 +71,15 @@ class DirectorySearch : public IDirectorySearch {
     //@Section manager-functions
     DirectorySearch();
     DirectorySearch(const std::string& search);
-    virtual ~DirectorySearch();
+    ~DirectorySearch() override;
 
-    virtual void setSearchValue(const std::string& search);
+    void setSearchValue(const std::string& search) override;
     /// Returns the directory part of the files to search for.
-    virtual std::string getDirectory() const { return searchDir; }
+    std::string getDirectory() const override { return searchDir; }
     /// Returns the file specification of the files to search for.
-    virtual std::string getFileSpec() const { return searchFile; }
+    std::string getFileSpec() const override { return searchFile; }
 
-    virtual bool isValid() const;
+    bool isValid() const override;
     static bool isValid(const std::string& dir);
 
     /// \name Searching
@@ -96,10 +96,10 @@ class DirectorySearch : public IDirectorySearch {
     /// Searches for previously specified files with the passed attributes.
     /// \param attribs Attributes the searched files must have
     /// \returns const File* Pointer to found file or NULL
-    virtual const File* find(unsigned long attribs = IDirectorySearch::FILE_NORMAL);
+    const File* find(unsigned long attribs = IDirectorySearch::FILE_NORMAL) override;
     /// Method to find the next file matching the  previously specified values.
     /// \returns const File* Pointer to found file or NULL
-    virtual const File* next();
+    const File* next() override;
     //@}
 
   protected:
@@ -122,8 +122,8 @@ class DirectorySearch : public IDirectorySearch {
 
   private:
     //@Section prohibited manager functions
-    DirectorySearch(const DirectorySearch&);
-    DirectorySearch& operator=(const DirectorySearch&);
+    DirectorySearch(const DirectorySearch&) = delete;
+    DirectorySearch& operator=(const DirectorySearch&) = delete;
 
     int offStrip;
 #if SYSTEM == UNIX

@@ -49,7 +49,7 @@ const char AssignmentParse::ESCAPE = '\\';
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-AssignmentParse::~AssignmentParse() {}
+AssignmentParse::~AssignmentParse() = default;
 
 //-----------------------------------------------------------------------------
 /// Returns the next assignment-statement. If the value of the assignment is

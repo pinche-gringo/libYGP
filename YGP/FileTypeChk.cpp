@@ -55,7 +55,7 @@ static const unsigned int ID_MP3(0xE0FF);
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-FileTypeChecker::~FileTypeChecker() {}
+FileTypeChecker::~FileTypeChecker() = default;
 
 //-----------------------------------------------------------------------------
 /// Defaultconstructor
@@ -102,7 +102,7 @@ FileTypeCheckerByExtension::FileTypeCheckerByExtension() : FileTypeChecker(), ty
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-FileTypeCheckerByExtension::~FileTypeCheckerByExtension() {}
+FileTypeCheckerByExtension::~FileTypeCheckerByExtension() = default;
 
 //-----------------------------------------------------------------------------
 /// Returns the type of the file (e.g. MS Word document) according to
@@ -128,7 +128,7 @@ unsigned int FileTypeCheckerByExtension::getType4Extension(const char* extension
     Check1(extension);
     TRACE3("FileTypeCheckerByExtension::getType4Extension(const char*) const - " << extension);
 
-    std::map<std::string, unsigned int>::const_iterator i(types.find(extension));
+    auto i(types.find(extension));
     return i != types.end() ? i->second : (unsigned int)UNKNOWN;
 }
 
@@ -146,7 +146,7 @@ void FileTypeCheckerByExtension::addType(const char* ext, unsigned int value) {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-FileTypeCheckerByCaseExt::~FileTypeCheckerByCaseExt() {}
+FileTypeCheckerByCaseExt::~FileTypeCheckerByCaseExt() = default;
 
 //-----------------------------------------------------------------------------
 /// Returns the type of the file (e.g. MS Word document) according to
@@ -172,29 +172,29 @@ unsigned int FileTypeCheckerByCaseExt::getType(const char* file) const {
 //-----------------------------------------------------------------------------
 FileTypeCheckerByContent::FileTypeCheckerByContent() : FileTypeChecker(), types() {
     // Create table of file-types
-    types.push_back(ID(0, sizeof(ID_PDF) - 1, ID_PDF, PDF));
-    types.push_back(ID(0, sizeof(ID_RTF) - 1, ID_RTF, RTF));
-    types.push_back(ID(0, sizeof(ID_ABIWORD) - 1, ID_ABIWORD, ABIWORD));
-    types.push_back(ID(0, sizeof(ID_ID3) - 1, ID_ID3, MP3));
-    types.push_back(ID(0, sizeof(ID_GIF87) - 1, ID_GIF87, GIF));
-    types.push_back(ID(0, sizeof(ID_GIF89) - 1, ID_GIF89, GIF));
-    types.push_back(ID(0, sizeof(ID_OGG) - 1, ID_OGG, OGG));
-    types.push_back(ID(0, sizeof(ID_JPEG) - 1, ID_JPEG, JPEG));
-    types.push_back(ID(0, sizeof(ID_PNG) - 1, ID_PNG, PNG));
-    types.push_back(ID(0, sizeof(ID_PNG) - 1, ID_PNG, PNG));
-    types.push_back(ID(0, 0, "", MP3, &isMP3));
-    types.push_back(ID(0, 0, "", OPENOFFICE, &isOOffice));
-    types.push_back(ID(0, 0, "", STAROFFICE, &isStarOffice));
-    types.push_back(ID(0, 0, "", MSOFFICE, &isMSOffice));
-    types.push_back(ID(0, 0, "", HTML, &isHTML));
-    types.push_back(ID(0, 0, "", OOXML, &isOfficeOpenXML));
+    types.emplace_back(0, sizeof(ID_PDF) - 1, ID_PDF, PDF);
+    types.emplace_back(0, sizeof(ID_RTF) - 1, ID_RTF, RTF);
+    types.emplace_back(0, sizeof(ID_ABIWORD) - 1, ID_ABIWORD, ABIWORD);
+    types.emplace_back(0, sizeof(ID_ID3) - 1, ID_ID3, MP3);
+    types.emplace_back(0, sizeof(ID_GIF87) - 1, ID_GIF87, GIF);
+    types.emplace_back(0, sizeof(ID_GIF89) - 1, ID_GIF89, GIF);
+    types.emplace_back(0, sizeof(ID_OGG) - 1, ID_OGG, OGG);
+    types.emplace_back(0, sizeof(ID_JPEG) - 1, ID_JPEG, JPEG);
+    types.emplace_back(0, sizeof(ID_PNG) - 1, ID_PNG, PNG);
+    types.emplace_back(0, sizeof(ID_PNG) - 1, ID_PNG, PNG);
+    types.emplace_back(0, 0, "", MP3, &isMP3);
+    types.emplace_back(0, 0, "", OPENOFFICE, &isOOffice);
+    types.emplace_back(0, 0, "", STAROFFICE, &isStarOffice);
+    types.emplace_back(0, 0, "", MSOFFICE, &isMSOffice);
+    types.emplace_back(0, 0, "", HTML, &isHTML);
+    types.emplace_back(0, 0, "", OOXML, &isOfficeOpenXML);
     TRACE9("FileTypeCheckerByContent::FileTypeCheckerByContent() - Known types " << types.size());
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-FileTypeCheckerByContent::~FileTypeCheckerByContent() {}
+FileTypeCheckerByContent::~FileTypeCheckerByContent() = default;
 
 //-----------------------------------------------------------------------------
 /// Returns the class of the file (e.g. MS Office document) according
@@ -214,19 +214,19 @@ unsigned int FileTypeCheckerByContent::getType(const char* file) const {
         stream.read(buffer, sizeof(buffer));
 
         // Check if first bytes identify the file
-        for (std::vector<ID>::const_iterator i(types.begin()); i != types.end(); ++i) {
-            TRACE9("FileTypeCheckerByContent::getType(const char*) - Type " << (i - types.begin()));
-            unsigned int len(i->text.length() ? i->text.length() : sizeof(buffer));
-            if (((i->start + len) > stream.tellg()) || (i->start != ((unsigned int)stream.tellg() - sizeof(buffer)))) {
-                TRACE3("FileTypeCheckerByContent::getType(const char*) - Skip to " << i->start);
-                stream.seekg(i->start, std::ios::beg);
+        for (const auto & type : types) {
+            TRACE9("FileTypeCheckerByContent::getType(const char*) - Type " << (&type - types.data()));
+            unsigned int len(type.text.length() ? type.text.length() : sizeof(buffer));
+            if (((type.start + len) > stream.tellg()) || (type.start != ((unsigned int)stream.tellg() - sizeof(buffer)))) {
+                TRACE3("FileTypeCheckerByContent::getType(const char*) - Skip to " << type.start);
+                stream.seekg(type.start, std::ios::beg);
                 stream.read(buffer, sizeof(buffer));
             }
 
             do {
-                TRACE9("Do call: " << i->fnCheck);
-                if (i->fnCheck(buffer, i->text.data(), len, stream))
-                    return i->type;
+                TRACE9("Do call: " << type.fnCheck);
+                if (type.fnCheck(buffer, type.text.data(), len, stream))
+                    return type.type;
 
                 if (len <= sizeof(buffer))
                     break;

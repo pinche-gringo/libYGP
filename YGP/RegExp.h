@@ -44,7 +44,7 @@ class IRegularExpression {
     /// Constructor; sets the regular expression
     IRegularExpression(const char* pExpression) : pRegExp(pExpression) {}
     /// Destructor
-    virtual ~IRegularExpression() {}
+    virtual ~IRegularExpression() = default;
 
     /// Assignment operator; sets the regular expression
     IRegularExpression& operator=(const char* pExpr) {
@@ -59,9 +59,9 @@ class IRegularExpression {
 
   private:
     // Prohibited manager functions
-    IRegularExpression();
-    IRegularExpression(const IRegularExpression&);
-    const IRegularExpression& operator=(const IRegularExpression&);
+    IRegularExpression() = delete;
+    IRegularExpression(const IRegularExpression&) = delete;
+    const IRegularExpression& operator=(const IRegularExpression&) = delete;
 
     const char* pRegExp;
 };

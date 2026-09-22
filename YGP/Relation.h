@@ -44,10 +44,10 @@ class RelationManager {
         relations[name] = relation;
     }
 
-    RelationManager();
-    RelationManager(const RelationManager& other);
-    const RelationManager& operator=(const RelationManager& other);
-    ~RelationManager();
+    RelationManager() = delete;
+    RelationManager(const RelationManager& other) = delete;
+    const RelationManager& operator=(const RelationManager& other) = delete;
+    ~RelationManager() = delete;
 
     static std::map<const char*, IRelation*> relations;
 };
@@ -76,8 +76,8 @@ class IRelation {
     const char* name() const { return RelationManager::getRelationName(*this); }
 
   private:
-    IRelation(const IRelation& other);
-    const IRelation& operator=(const IRelation& other);
+    IRelation(const IRelation& other) = delete;
+    const IRelation& operator=(const IRelation& other) = delete;
 };
 
 /**1-to-1 relation.
@@ -87,7 +87,7 @@ class IRelation {
 template <class S, class T> class Relation1_1 : public IRelation {
   public:
     Relation1_1(const char* name) : IRelation(name) {} ///< Defaultconstructor
-    virtual ~Relation1_1() {}                          ///< Destructor
+    ~Relation1_1() override = default;                          ///< Destructor
 
     /// Connects two objects
     /// \param source Parent to relate
@@ -187,8 +187,8 @@ template <class S, class T> class Relation1_1 : public IRelation {
     }
 
   private:
-    Relation1_1(const Relation1_1& other);
-    const Relation1_1& operator=(const Relation1_1& other);
+    Relation1_1(const Relation1_1& other) = delete;
+    const Relation1_1& operator=(const Relation1_1& other) = delete;
 
     std::map<S, T, lessDereferenced<S>> objects;
 };
@@ -202,7 +202,7 @@ template <class S, class T> class Relation1_N : public IRelation {
     /// Creates an 1-to-n relation.
     /// \param name Name of relation
     Relation1_N(const char* name) : IRelation(name) {} ///< Defaultctr
-    virtual ~Relation1_N() {}                          ///< Destructor
+    ~Relation1_N() override = default;                          ///< Destructor
 
     /// Connects two objects
     /// \param source Parent to relate
@@ -326,8 +326,8 @@ template <class S, class T> class Relation1_N : public IRelation {
     std::map<S, std::vector<T>, lessDereferenced<S>> objects;
 
   private:
-    Relation1_N(const Relation1_N& other);
-    const Relation1_N& operator=(const Relation1_N& other);
+    Relation1_N(const Relation1_N& other) = delete;
+    const Relation1_N& operator=(const Relation1_N& other) = delete;
 };
 
 /**1-to-N relation with a limited N.
@@ -340,7 +340,7 @@ template <class S, class T> class Relation1_X : public Relation1_N<S, T> {
     /// \param name Name of relation
     /// \param maxRelated The number of elements which can be related to the object
     Relation1_X(const char* name, unsigned int maxRelated) : Relation1_N<S, T>(name), cRelated(maxRelated) {}
-    virtual ~Relation1_X() {} ///< Destructor
+    virtual ~Relation1_X() = default; ///< Destructor
 
     /// Connects two objects
     /// \param source Parent to relate
@@ -371,8 +371,8 @@ template <class S, class T> class Relation1_X : public Relation1_N<S, T> {
     }
 
   private:
-    Relation1_X(const Relation1_X& other);
-    const Relation1_X& operator=(const Relation1_X& other);
+    Relation1_X(const Relation1_X& other) = delete;
+    const Relation1_X& operator=(const Relation1_X& other) = delete;
 
     unsigned int cRelated;
 };
@@ -387,7 +387,7 @@ template <class S, class T> class RelationN_M : public IRelation {
     /// Creates an 1-to-n relation.
     /// \param name Name of relation
     RelationN_M(const char* name) : IRelation(name) {} ///< Defaultctr
-    virtual ~RelationN_M() {}                          ///< Destructor
+    ~RelationN_M() override = default;                          ///< Destructor
 
     /// Connects two objects
     /// \param source Parent to relate
@@ -580,8 +580,8 @@ template <class S, class T> class RelationN_M : public IRelation {
     std::map<T, std::vector<S>, lessDereferenced<T>> parents;
 
   private:
-    RelationN_M(const RelationN_M& other);
-    const RelationN_M& operator=(const RelationN_M& other);
+    RelationN_M(const RelationN_M& other) = delete;
+    const RelationN_M& operator=(const RelationN_M& other) = delete;
 };
 
 } // namespace YGP

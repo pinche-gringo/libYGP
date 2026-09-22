@@ -42,11 +42,11 @@ class ConnectionMgr {
     virtual ~ConnectionMgr();
 
     /// Mode of the connections
-    typedef enum {
+    using modeConnect = enum {
         NONE,   ///< No action has been performed to set a mode
         CLIENT, ///< Manager has connected to a server
         SERVER  ///< Manager waited for connections from clients
-    } modeConnect;
+    };
 
     /// \name Client mode
     //@{
@@ -76,12 +76,12 @@ class ConnectionMgr {
     Socket* getSocket() const { return server; }
 
   private:
-    modeConnect mode;
-    Socket* server;
+    modeConnect mode{NONE};
+    Socket* server{nullptr};
     std::vector<Socket*> connections;
 
-    ConnectionMgr(const ConnectionMgr& other);
-    const ConnectionMgr& operator=(const ConnectionMgr& other);
+    ConnectionMgr(const ConnectionMgr& other) = delete;
+    const ConnectionMgr& operator=(const ConnectionMgr& other) = delete;
 };
 
 } // namespace YGP

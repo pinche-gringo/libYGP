@@ -55,7 +55,7 @@ IAttribute* Entity::findAttribute(const char* name) const {
         if ((*i)->matches(name))
             return *i;
 
-    return NULL;
+    return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ IAttribute* Entity::findAttribute(const std::string& name) const {
         if ((*i)->matches(name))
             return *i;
 
-    return NULL;
+    return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -96,9 +96,9 @@ std::ostream& operator<<(std::ostream& out, const Entity& obj) {
 //-----------------------------------------------------------------------------
 std::istream& operator>>(std::istream& in, Entity& obj) {
     AttributeParse attrs;
-    for (std::vector<IAttribute*>::iterator i(obj.attributes.begin()); i != obj.attributes.end(); ++i) {
-        TRACE9("operator>>(std::istream&, Entity& - Attribute " << (*i)->getName());
-        attrs.addAttribute(*(*i)->clone());
+    for (auto & attribute : obj.attributes) {
+        TRACE9("operator>>(std::istream&, Entity& - Attribute " << attribute->getName());
+        attrs.addAttribute(*attribute->clone());
     }
 
     char buffer[80];

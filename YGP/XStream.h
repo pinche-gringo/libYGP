@@ -47,11 +47,11 @@ template <class T> struct extStream : private extStreambuf, public T {
   public:
     // Management-functions
     /// Default constrcutor; Creates a stream
-    extStream() : extStreambuf(), T(), oldBuf(NULL) {}
+    extStream() : extStreambuf(), T(), oldBuf(nullptr) {}
     /// Constructor; Creates a stream with a data sink (to read from)
-    extStream(const T& source) : extStreambuf(), T(source), oldBuf(NULL) {}
+    extStream(const T& source) : extStreambuf(), T(source), oldBuf(nullptr) {}
     /// Destructor
-    ~extStream() { sios::rdbuf(oldBuf); }
+    ~extStream() override { sios::rdbuf(oldBuf); }
 
     /// Initializes the extended stream
     void init() {
@@ -68,19 +68,19 @@ template <class T> struct extStream : private extStreambuf, public T {
 
   private:
     // Prohibited manager functions
-    extStream(const extStream&);
-    const struct extStream& operator=(const extStream&);
+    extStream(const extStream&) = delete;
+    const struct extStream& operator=(const extStream&) = delete;
 
     std::streambuf* oldBuf;
 
     // Used this type to work around Visual C's problem with calling ios::rdbuf
-    typedef std::ios sios;
+    using sios = std::ios;
 };
 
 /// Declare Xistream as shortcut
-typedef extStream<std::istream> Xistream;
+using Xistream = extStream<std::istream>;
 /// Declare Xifstream as shortcut
-typedef extStream<std::ifstream> Xifstream;
+using Xifstream = extStream<std::ifstream>;
 
 } // namespace YGP
 

@@ -54,7 +54,7 @@ class Socket {
     Socket(unsigned int port);
     Socket(const char* server, unsigned int port);
     Socket(const std::string& server, unsigned int port);
-    Socket(const Socket& other) : sock(other.sock) {} ///< Copy constructor
+    Socket(const Socket& other)  = default; ///< Copy constructor
     virtual ~Socket();
 
     Socket& operator=(const Socket& other);
