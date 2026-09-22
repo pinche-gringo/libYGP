@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <iosfwd>
 #include <string>
 
@@ -27,130 +26,109 @@
 #undef INT32
 #undef UINT32
 
+#if SIZEOF_SHORT == 2
 
-#if SIZEOF_SHORT==2
+typedef short INT16;
+typedef unsigned short UINT16;
 
-typedef short            INT16;
-typedef unsigned short   UINT16;
+#elif SIZEOF_INT == 2
 
-#elif SIZEOF_INT==2
+typedef int INT16;
+typedef unsigned int UINT16;
 
-typedef int              INT16;
-typedef unsigned int     UINT16;
+#elif SIZEOF_LONG == 2
 
-#elif SIZEOF_LONG==2
-
-typedef long             INT16;
-typedef unsigned long    UINT16;
-
-#endif
-
-#if SIZEOF_INT==4
-
-typedef int              INT32;
-typedef unsigned int     UINT32;
-
-#elif SIZEOF_LONG==4
-
-typedef long             INT32;
-typedef unsigned long    UINT32;
-
-#elif SIZEOF_SHORT==4
-
-typedef short            INT32;
-typedef unsigned short   UINT32;
+typedef long INT16;
+typedef unsigned long UINT16;
 
 #endif
 
+#if SIZEOF_INT == 4
+
+typedef int INT32;
+typedef unsigned int UINT32;
+
+#elif SIZEOF_LONG == 4
+
+typedef long INT32;
+typedef unsigned long UINT32;
+
+#elif SIZEOF_SHORT == 4
+
+typedef short INT32;
+typedef unsigned short UINT32;
+
+#endif
 
 namespace YGP {
 
-
 #ifdef UINT16
 
-#  ifdef WORDS_BIGENDIAN
+#    ifdef WORDS_BIGENDIAN
 
-inline UINT16 get2BytesLSB (const char* pAddr) {
-   return ((unsigned char)(*pAddr) << 8) + (unsigned char)pAddr[1];
-}
+inline UINT16 get2BytesLSB(const char* pAddr) { return ((unsigned char)(*pAddr) << 8) + (unsigned char)pAddr[1]; }
 
-inline UINT16 get2BytesMSB (const char* pAddr) {
-   return *(UINT16*)pAddr;
-}
+inline UINT16 get2BytesMSB(const char* pAddr) { return *(UINT16*)pAddr; }
 
-#  else
+#    else
 
-inline UINT16 get2BytesLSB (const char* pAddr) {
-   return *(UINT16*)pAddr;
-}
+inline UINT16 get2BytesLSB(const char* pAddr) { return *(UINT16*)pAddr; }
 
-inline UINT16 get2BytesMSB (const char* pAddr) {
-   return ((unsigned char)(*pAddr) << 8) + (unsigned char)pAddr[1];
-}
+inline UINT16 get2BytesMSB(const char* pAddr) { return ((unsigned char)(*pAddr) << 8) + (unsigned char)pAddr[1]; }
 
-#  endif
+#    endif
 
 #else
 
-inline unsigned int get2BytesLSB (const char* pAddr) {
-   return ((unsigned char)(pAddr[1]) << 8) + (unsigned char)*pAddr;
+inline unsigned int get2BytesLSB(const char* pAddr) { return ((unsigned char)(pAddr[1]) << 8) + (unsigned char)*pAddr; }
+
+inline unsigned int get2BytesMSB(const char* pAddr) { return ((unsigned char)(*pAddr) << 8) + (unsigned char)pAddr[1]; }
+
+#endif
+
+#ifdef UINT16
+
+#    ifdef WORDS_BIGENDIAN
+
+inline UINT32 get4BytesLSB(const char* pAddr) {
+    return (((unsigned char)(*pAddr) << 24) + ((unsigned char)pAddr[1] << 16) + ((unsigned char)pAddr[2] << 8) +
+            ((unsigned char)pAddr[3]));
 }
 
-inline unsigned int get2BytesMSB (const char* pAddr) {
-   return ((unsigned char)(*pAddr) << 8) + (unsigned char)pAddr[1];
+inline UINT32 get4BytesMSB(const char* pAddr) { return *(UINT32*)pAddr; }
+
+#    else
+
+inline UINT32 get4BytesLSB(const char* pAddr) { return *(UINT32*)pAddr; }
+
+inline UINT32 get4BytesMSB(const char* pAddr) {
+    return (((unsigned char)(*pAddr) << 24) + ((unsigned char)pAddr[1] << 16) + ((unsigned char)pAddr[2] << 8) +
+            ((unsigned char)pAddr[3]));
+}
+
+#    endif
+
+#else
+
+inline unsigned long get4BytesLSB(const char* pAddr) {
+    return (((unsigned char)(pAddr[3]) << 24) + ((unsigned char)pAddr[2] << 16) + ((unsigned char)pAddr[1] << 8) +
+            ((unsigned char)*pAddr));
+}
+
+inline unsigned long get4BytesMSB(const char* pAddr) {
+    return (((unsigned char)(*pAddr) << 24) + ((unsigned char)pAddr[1] << 16) + ((unsigned char)pAddr[2] << 8) +
+            ((unsigned char)pAddr[3]));
 }
 
 #endif
 
+unsigned int getFileOffsetInArchive(std::istream& stream, char* buffer, const char* file, unsigned int lenFile);
 
-#ifdef UINT16
+void convertUTF82HTML(std::string& string);
+void convertHTML2UTF8(std::string& string);
+void convertHTMLUnicode2UTF8(std::string& string);
+std::string convertUnicode2UTF8(unsigned int unicode);
 
-#  ifdef WORDS_BIGENDIAN
-
-inline UINT32 get4BytesLSB (const char* pAddr) {
-   return (((unsigned char)(*pAddr) << 24) + ((unsigned char)pAddr[1] << 16)
-           + ((unsigned char)pAddr[2] << 8) + ((unsigned char)pAddr[3]));
-}
-
-inline UINT32 get4BytesMSB (const char* pAddr) {
-   return *(UINT32*)pAddr;
-}
-
-#  else
-
-inline UINT32 get4BytesLSB (const char* pAddr) {
-   return *(UINT32*)pAddr;
-}
-
-inline UINT32 get4BytesMSB (const char* pAddr) {
-   return (((unsigned char)(*pAddr) << 24) + ((unsigned char)pAddr[1] << 16)
-           + ((unsigned char)pAddr[2] << 8) + ((unsigned char)pAddr[3]));
-}
-
-#  endif
-
-#else
-
-inline unsigned long get4BytesLSB (const char* pAddr) {
-   return (((unsigned char)(pAddr[3]) << 24) + ((unsigned char)pAddr[2] << 16)
-           + ((unsigned char)pAddr[1] << 8) + ((unsigned char)*pAddr));
-}
-
-inline unsigned long get4BytesMSB (const char* pAddr) {
-   return (((unsigned char)(*pAddr) << 24) + ((unsigned char)pAddr[1] << 16)
-           + ((unsigned char)pAddr[2] << 8) + ((unsigned char)pAddr[3]));
-}
-
-#endif
-
-unsigned int getFileOffsetInArchive (std::istream& stream, char* buffer,
-				     const char* file, unsigned int lenFile);
-
-void convertUTF82HTML (std::string& string);
-void convertHTML2UTF8 (std::string& string);
-void convertHTMLUnicode2UTF8 (std::string& string);
-std::string convertUnicode2UTF8 (unsigned int unicode);
-
-}
+} // namespace YGP
 
 #endif
