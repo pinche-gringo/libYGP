@@ -1,8 +1,6 @@
 #ifndef YGP_EXCEPTION_H
 #define YGP_EXCEPTION_H
 
-//$Id: Exception.h,v 1.5 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,52 +16,45 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <stdexcept>
-
 
 namespace YGP {
 
 /**Exception indicating an error handling files
  */
 class FileError : public std::runtime_error {
- public:
-   FileError (const std::string& file) : std::runtime_error (file) { }
+  public:
+    FileError(const std::string& file) : std::runtime_error(file) {}
 };
-
 
 /**Exception indicating an error handling network communication
  */
 class CommError : public std::runtime_error {
- public:
-   CommError (const std::string& what) : std::runtime_error (what) { }
+  public:
+    CommError(const std::string& what) : std::runtime_error(what) {}
 };
-
 
 /**Exception indicating an error parsing
  */
 class ParseError : public std::runtime_error {
- public:
-   ParseError (const std::string& what) : std::runtime_error (what) { }
+  public:
+    ParseError(const std::string& what) : std::runtime_error(what) {}
 };
-
 
 /**Exception indicating an error executing a program
  */
 class ExecError : public std::runtime_error {
- public:
-   ExecError (const std::string& what) : std::runtime_error (what) { }
+  public:
+    ExecError(const std::string& what) : std::runtime_error(what) {}
 };
-
 
 /**Exception indicating an invalid value
  */
 class InvalidValue : public std::runtime_error {
- public:
-   InvalidValue (const std::string& what) : std::runtime_error (what) { }
+  public:
+    InvalidValue(const std::string& what) : std::runtime_error(what) {}
 };
 
-
-}
+} // namespace YGP
 
 #endif
