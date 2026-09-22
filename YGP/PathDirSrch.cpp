@@ -1,14 +1,11 @@
-//$Id: PathDirSrch.cpp,v 1.30 2008/03/29 17:35:17 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : PathDirSrch
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.30 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 23.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009
+// PROJECT     : libYGP
+// SUBSYSTEM   : PathDirSrch
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 23.9.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2004, 2008, 2009, 2026
 
 // This file is part of libYGP.
 //
@@ -25,26 +22,22 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <cerrno>
 
 #include "YGP/Internal.h"
 
+#include "YGP/Check.h"
 #include "YGP/File.h"
 #include "YGP/Path.h"
-#include "YGP/Check.h"
-#include "YGP/Trace.h"
 #include "YGP/PathDirSrch.h"
-
+#include "YGP/Trace.h"
 
 namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-PathDirectorySearch::~PathDirectorySearch () {
-}
-
+PathDirectorySearch::~PathDirectorySearch() {}
 
 //-----------------------------------------------------------------------------
 /// Searches for first file matching the input specified by the constructor(s)
@@ -56,29 +49,30 @@ PathDirectorySearch::~PathDirectorySearch () {
 /// \remarks Every node of the path is tilde-expanded (UNIX-like to the home
 ///     directory).
 //-----------------------------------------------------------------------------
-const File* PathDirectorySearch::find (unsigned long attribs) {
-   TRACE9 ("PathDirectorySearch::find (unsigned long) - " << srch);
-   Check1 (checkIntegrity () <= DirectorySearch::LAST);
+const File* PathDirectorySearch::find(unsigned long attribs) {
+    TRACE9("PathDirectorySearch::find(unsigned long) - " << srch);
+    Check1(checkIntegrity() <= DirectorySearch::LAST);
 
-   const File* rc;
-   do {
-      if (i == path.end ()) {
-         clearEntry ();
-         return NULL;
-      }
+    const File* rc;
+    do {
+        if (i == path.end()) {
+            clearEntry();
+            return NULL;
+        }
 
-      // Build filename with next (= first on first call) node of path
-      std::string node (Path::expandNode (*i));
-      ++i;
+        // Build filename with next (= first on first call) node of path
+        std::string node(Path::expandNode(*i));
+        ++i;
 
-      if (node[node.length () - 1] != File::DIRSEPARATOR)
-         node += File::DIRSEPARATOR;
-      node += srch;
-      TRACE5 ("PathDirectorySearch::find (unsigned long) - Search for: " << node);
-      setSearchValue (node);
-      rc = DirectorySearch::find (attribs);
-   } while (!rc);
-   return rc;
+        if (node[node.length() - 1] != File::DIRSEPARATOR)
+            node += File::DIRSEPARATOR;
+        node += srch;
+        TRACE5("PathDirectorySearch::find(unsigned long) - Search for: " << node);
+        setSearchValue(node);
+        rc = DirectorySearch::find(attribs);
+    }
+    while (!rc);
+    return rc;
 }
 
 //-----------------------------------------------------------------------------
@@ -90,20 +84,20 @@ const File* PathDirectorySearch::find (unsigned long attribs) {
 /// \remarks Every node of the path is tilde-expanded (UNIX-like to the home
 ///     directory).
 //-----------------------------------------------------------------------------
-const File* PathDirectorySearch::next () {
-   TRACE9 ("PathDirectorySearch::next (): " << srch);
-   Check1 (!checkIntegrity ());
+const File* PathDirectorySearch::next() {
+    TRACE9("PathDirectorySearch::next(): " << srch);
+    Check1(!checkIntegrity());
 
-   const File* tmp = DirectorySearch::next ();
-   while (!tmp) {
-      if (i == path.end ()) {
-         clearEntry ();
-         return NULL;
-      } // endif nodes available
+    const File* tmp = DirectorySearch::next();
+    while (!tmp) {
+        if (i == path.end()) {
+            clearEntry();
+            return NULL;
+        } // endif nodes available
 
-      tmp = find (attr);
-   } // end-while
-   return tmp;
+        tmp = find(attr);
+    } // end-while
+    return tmp;
 }
 
-}
+} // namespace YGP
