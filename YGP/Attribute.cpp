@@ -1,11 +1,11 @@
-//PROJECT     : libYGP
-//SUBSYSTEM   : MetaEnum
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//AUTHOR      : Markus Schwab
-//CREATED     : 2.8.2006
-//COPYRIGHT   : Copyright (C) 2006, 2008, 2026
+// PROJECT     : libYGP
+// SUBSYSTEM   : MetaEnum
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 2.8.2006
+// COPYRIGHT   : Copyright (C) 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -22,13 +22,11 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
+#include <YGP/ANumeric.h>
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
-#include <YGP/ANumeric.h>
 
 #include <YGP/Attribute.h>
-
 
 namespace YGP {
 
@@ -38,27 +36,26 @@ namespace YGP {
 /// \returns bool True, if value was assigned successfully
 //-----------------------------------------------------------------------------
 bool MetaEnumAttribute::assignFromString(const char* value) const {
-   Check1(value);
-   TRACE1("MetaEnumAttribute::assignFromString(const char*) - " << value);
-   try {
-      attr_ = list_[value];
-      TRACE9("MetaEnumAttribute::assignFromString(const char*) - Assigned: " << attr_);
-   }
-   catch (std::out_of_range&) {
-      try {
-	 ANumeric nr(value);
-	 unsigned int iVal(nr);
-	 if (list_.exists(iVal)) {
-	    attr_ = iVal;
-	    TRACE9("MetaEnumAttribute::assignFromString(const char*) - Numeric: " << attr_);
-	 }
-      }
-      catch (std::invalid_argument&) {
-	 return false;
-      }
-   }
-   return true;
+    Check1(value);
+    TRACE1("MetaEnumAttribute::assignFromString(const char*) - " << value);
+    try {
+        attr_ = list_[value];
+        TRACE9("MetaEnumAttribute::assignFromString(const char*) - Assigned: " << attr_);
+    }
+    catch (std::out_of_range&) {
+        try {
+            ANumeric nr(value);
+            unsigned int iVal(nr);
+            if (list_.exists(iVal)) {
+                attr_ = iVal;
+                TRACE9("MetaEnumAttribute::assignFromString(const char*) - Numeric: " << attr_);
+            }
+        }
+        catch (std::invalid_argument&) {
+            return false;
+        }
+    }
+    return true;
 }
 
-}
-
+} // namespace YGP
