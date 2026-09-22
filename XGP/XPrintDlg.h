@@ -40,7 +40,7 @@ namespace XGP {
 class PrintDialog : public XDialog {
  public:
    PrintDialog ();
-   virtual ~PrintDialog ();
+   ~PrintDialog () override;
 
    static PrintDialog* create ();
 
@@ -49,16 +49,16 @@ class PrintDialog : public XDialog {
 
  private:
    // Prohibited manager-functions
-   PrintDialog (const PrintDialog&);
-   const PrintDialog& operator= (const PrintDialog&);
+   PrintDialog (const PrintDialog&) = delete;
+   const PrintDialog& operator= (const PrintDialog&) = delete;
 
-   virtual void okEvent ();
+   void okEvent () override;
 
    void init ();
 
-   typedef boost::scoped_ptr<Gtk::Box>    PHBox;
-   typedef boost::scoped_ptr<Gtk::Label>  PLabel;
-   typedef boost::scoped_ptr<Gtk::Entry>  PEntry;
+   using PHBox = boost::scoped_ptr<Gtk::Box>;
+   using PLabel = boost::scoped_ptr<Gtk::Label>;
+   using PEntry = boost::scoped_ptr<Gtk::Entry>;
 
    PLabel  lblCommand;
    PEntry  txtCommand;

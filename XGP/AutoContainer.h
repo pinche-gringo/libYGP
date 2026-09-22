@@ -42,7 +42,7 @@ class AutoContainer : public Gtk::ScrolledWindow {
    AutoContainer ();
    AutoContainer (const Glib::RefPtr<Gtk::Adjustment>& hadjustment,
 		  const Glib::RefPtr<Gtk::Adjustment>& vadjustment);
-   virtual ~AutoContainer ();
+   ~AutoContainer () override;
 
    void insert (Gtk::Widget& widget, unsigned int pos);
    virtual void add (Gtk::Widget& widget);
@@ -54,8 +54,8 @@ class AutoContainer : public Gtk::ScrolledWindow {
 
  private:
    // Prohibited manager functions
-   AutoContainer (const AutoContainer& other);
-   const AutoContainer& operator= (const AutoContainer& other);
+   AutoContainer (const AutoContainer& other) = delete;
+   const AutoContainer& operator= (const AutoContainer& other) = delete;
 
    void init ();
 };

@@ -56,12 +56,12 @@ namespace XGP {
    The commit() method transfers the input to the attribute.
 */
 template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P {
-   typedef P parent;
+   using parent = P;
 
  public:
    /// Constructor; sets the attribute to handle.
    XAttributeEntry (T& attr)
-      : temp (attr), attr_ (attr), inError (false) {
+      : temp (attr), attr_ (attr) {
       P::set_text (attr_.toString ());
 
       Glib::RefPtr<Gtk::EventControllerFocus> focus (Gtk::EventControllerFocus::create ());
@@ -70,7 +70,7 @@ template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P 
       P::add_controller (focus);
    }
    /// Destructor
-   ~XAttributeEntry () { }
+   ~XAttributeEntry () override = default;
 
    /// Returns if the field has been changed
    bool hasChanged () const { return temp != attr_; }
@@ -113,15 +113,15 @@ template <typename T, typename P = Gtk::Entry> class XAttributeEntry : public P 
 
    bool takeFocus () {
       P::grab_focus ();
-      return 0; }
+      return false; }
 
  private:
-   XAttributeEntry (const XAttributeEntry&);
-   const XAttributeEntry& operator= (const XAttributeEntry&);
+   XAttributeEntry (const XAttributeEntry&) = delete;
+   const XAttributeEntry& operator= (const XAttributeEntry&) = delete;
 
    T  temp;
    T& attr_;
-   bool inError;
+   bool inError{false};
 };
 
 

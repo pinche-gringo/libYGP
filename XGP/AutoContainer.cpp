@@ -56,8 +56,7 @@ AutoContainer::AutoContainer (const Glib::RefPtr<Gtk::Adjustment>& hadjustment,
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-AutoContainer::~AutoContainer () {
-}
+AutoContainer::~AutoContainer () = default;
 
 
 //-----------------------------------------------------------------------------

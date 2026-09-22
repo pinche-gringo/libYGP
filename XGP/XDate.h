@@ -59,7 +59,7 @@ class XDate : public XDialog {
    /// \param showFields Which fields to display; a combination of the \c
    ///     SHOW_* values.
    XDate (const Glib::ustring& title, YGP::ATimestamp& date, int showFields = SHOW_ALL);
-   ~XDate ();
+   ~XDate () override;
 
    /// Possible values to show
    enum { SHOW_HOUR = 1,                    ///< Add a field to change the hour
@@ -78,21 +78,21 @@ class XDate : public XDialog {
    ///     SHOW_* values.
    static XDate* create (const Glib::ustring& title, YGP::ATimestamp& date,
                          int showFields = SHOW_ALL) {
-      XDate* dlg (new XDate (title, date, showFields));
+      auto* dlg (new XDate (title, date, showFields));
       dlg->signal_response ().connect (sigc::mem_fun (*dlg, &XDate::free));
       return dlg;
    }
 
  private:
    // Prohibited manager-functions
-   XDate (const XDate&);
-   const XDate& operator= (const XDate&);
+   XDate (const XDate&) = delete;
+   const XDate& operator= (const XDate&) = delete;
 
-   virtual void okEvent ();
+   void okEvent () override;
 
-   typedef boost::scoped_ptr<Gtk::Box>         PHBox;
-   typedef boost::scoped_ptr<Gtk::Calendar>    PCalendar;
-   typedef boost::scoped_ptr<Gtk::SpinButton>  PSpinButton;
+   using PHBox = boost::scoped_ptr<Gtk::Box>;
+   using PCalendar = boost::scoped_ptr<Gtk::Calendar>;
+   using PSpinButton = boost::scoped_ptr<Gtk::SpinButton>;
 
    PHBox       client;
    PCalendar   cal;

@@ -70,8 +70,7 @@ MessageDlg::MessageDlg (const YGP::StatusObject& obj)
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-MessageDlg::~MessageDlg () {
-}
+MessageDlg::~MessageDlg () = default;
 
 
 //----------------------------------------------------------------------------
@@ -117,7 +116,7 @@ bool MessageDlg::doRegister (bool show) {
 //  \returns MessageDlg*: Pointer to created dialog
 //----------------------------------------------------------------------------
 MessageDlg* MessageDlg::create (const YGP::StatusObject& obj) {
-   MessageDlg* dlg (new MessageDlg (obj));
+   auto* dlg (new MessageDlg (obj));
    dlg->signal_response ().connect (sigc::mem_fun (*dlg, &MessageDlg::free));
    return dlg;
 }

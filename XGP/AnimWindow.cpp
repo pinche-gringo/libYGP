@@ -28,6 +28,8 @@
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 
+#include <utility>
+
 #include "AnimWindow.h"
 
 
@@ -38,7 +40,7 @@ namespace XGP {
 /// \param window Window to animate
 //-----------------------------------------------------------------------------
 AnimatedWindow::AnimatedWindow (Glib::RefPtr<Gdk::Surface> window)
-   : win (window), steps (10) {
+   : win (std::move(window)), steps (10) {
    TRACE9 ("AnimatedWindow::AnimatedWindow ()");
 }
 

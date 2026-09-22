@@ -48,7 +48,7 @@ class XFileEntry : public Gtk::Entry {
       add_controller (keys);
    }
    /// Destructor
-   ~XFileEntry () { }
+   ~XFileEntry () override = default;
 
  protected:
    bool onKeyPressed (guint keyval, guint keycode, Gdk::ModifierType state);

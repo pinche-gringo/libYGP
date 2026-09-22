@@ -103,7 +103,7 @@ void XAbout::setIconProgram (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
    pIconProgramm.reset (new Gtk::Image
-      (scaleIcon (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL)))));
+      (scaleIcon (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, nullptr)))));
 
    pIconProgramm->set_pixel_size (ICON_SIZE);
    pIconProgramm->set_margin (5);
@@ -119,7 +119,7 @@ void XAbout::setIconAuthor (const guint8* pIconData, int lenData) {
    Check1 (client); Check1 (pIconData);
 
    pIconAuthor.reset (new Gtk::Image
-      (scaleIcon (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL)))));
+      (scaleIcon (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, nullptr)))));
 
    pIconAuthor->set_pixel_size (ICON_SIZE);
    pIconAuthor->set_margin (5);
@@ -132,7 +132,7 @@ void XAbout::setIconAuthor (const guint8* pIconData, int lenData) {
 /// \returns IPrintDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
 XAbout* XAbout::create (const Glib::ustring& author, const Glib::ustring& program) {
-    XAbout* dlg (new XAbout (author, program));
+    auto* dlg (new XAbout (author, program));
     dlg->signal_response ().connect (sigc::mem_fun (*dlg, &XAbout::free));
     return dlg;
 }

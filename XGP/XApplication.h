@@ -73,13 +73,13 @@ class XApplication : public Gtk::Window {
  public:
    // Manager functions
    XApplication (const char* pTitle);
-   ~XApplication ();         // No need to be virtual. There's only 1 instance
+   ~XApplication () override;         // No need to be virtual. There's only 1 instance
 
    static void initI18n ();
    static void initI18n (const char* package, const char* dir);
 
  protected:
-   typedef boost::scoped_ptr<Gtk::Box>    PVBox;     ///< Smart pointer for a (vertical) box
+   using PVBox = boost::scoped_ptr<Gtk::Box>;     ///< Smart pointer for a (vertical) box
 
    virtual void setIconProgram (const guint8* iconData, int lenData);
 
@@ -107,8 +107,8 @@ class XApplication : public Gtk::Window {
 
  private:
    // Protected manager functions
-   XApplication (const XApplication&);
-   const XApplication& operator= (const XApplication&);
+   XApplication (const XApplication&) = delete;
+   const XApplication& operator= (const XApplication&) = delete;
 };
 
 
@@ -121,21 +121,21 @@ class XApplication : public Gtk::Window {
 class XInfoApplication : public XApplication {
  public:
    XInfoApplication (const char* pTitle, const Glib::ustring& prgInfo, const Glib::ustring& copyright);
-   ~XInfoApplication ();     // No need to be virtual. There�s only 1 instance
+   ~XInfoApplication () override;     // No need to be virtual. There�s only 1 instance
 
  protected:
    // Add information
-   virtual void setIconProgram (const guint8* iconData, int lenData);
+   void setIconProgram (const guint8* iconData, int lenData) override;
    void setIconAuthor (const guint8* iconData, int lenData);
 
  private:
    // Protected manager functions
-   XInfoApplication (const XInfoApplication&);
-   const XInfoApplication& operator= (const XInfoApplication&);
+   XInfoApplication (const XInfoApplication&) = delete;
+   const XInfoApplication& operator= (const XInfoApplication&) = delete;
 
-   typedef boost::scoped_ptr<Gtk::Box>   PHBox;
-   typedef boost::scoped_ptr<Gtk::Label> PLabel;
-   typedef boost::scoped_ptr<Gtk::Image> PImage;
+   using PHBox = boost::scoped_ptr<Gtk::Box>;
+   using PLabel = boost::scoped_ptr<Gtk::Label>;
+   using PImage = boost::scoped_ptr<Gtk::Image>;
 
    PHBox  hboxTitle;
    PVBox  vboxPrgInfo;

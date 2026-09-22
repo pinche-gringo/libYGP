@@ -96,11 +96,11 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
    if (cmd.empty ())
       cmd = browserNames[0];
 
-   Gtk::CheckButton* firstBtn (NULL);
+   Gtk::CheckButton* firstBtn (nullptr);
    std::string filename;
    for (unsigned int i (0);
 	i < (sizeof (browserNames) / sizeof (*browserNames)); ++i) {
-      Gtk::CheckButton* rb(NULL);
+      Gtk::CheckButton* rb(nullptr);
       try {
 	 filename = PKGDIR "Browser_";
 	 filename += browserNames[i];
@@ -108,9 +108,9 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 	 TRACE1 ("BrowserDlg::BrowserDlg (Glib::ustring&) - Loading: " << filename);
 	 Glib::RefPtr<Gdk::Pixbuf> img (Gdk::Pixbuf::create_from_file (filename));
 
-	 Gtk::Box* boxRB (Gtk::make_managed<Gtk::Box> ());
-	 Gtk::Label* lblRB (Gtk::make_managed<Gtk::Label> (_(browserNames[i]), true));
-	 Gtk::Image* imgRB (Gtk::make_managed<Gtk::Image> (img));
+	 auto* boxRB (Gtk::make_managed<Gtk::Box> ());
+	 auto* lblRB (Gtk::make_managed<Gtk::Label> (_(browserNames[i]), true));
+	 auto* imgRB (Gtk::make_managed<Gtk::Image> (img));
 
 	 rb = Gtk::make_managed<Gtk::CheckButton> ();
 	 rb->set_child (*boxRB);
@@ -158,8 +158,7 @@ BrowserDlg::BrowserDlg (Glib::ustring& cmd)
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-BrowserDlg::~BrowserDlg () {
-}
+BrowserDlg::~BrowserDlg () = default;
 
 //-----------------------------------------------------------------------------
 /// Handling of the OK button; closes dialog with commiting data
@@ -194,7 +193,7 @@ void BrowserDlg::control (unsigned int cmd) {
 //  \returns BrowserDlg* Pointer to created dialog
 //----------------------------------------------------------------------------
 BrowserDlg* BrowserDlg::create (Glib::ustring& cmd) {
-   BrowserDlg* dlg (new BrowserDlg (cmd));
+   auto* dlg (new BrowserDlg (cmd));
    dlg->signal_response ().connect (sigc::mem_fun (*dlg, &BrowserDlg::free));
    return dlg;
 }

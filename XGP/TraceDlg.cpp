@@ -94,7 +94,7 @@ TraceDlg::TraceDlg ()
    Check3 (lstObjects.get_column_cell_renderer (1));
    Gtk::CellRenderer* r (lstObjects.get_column_cell_renderer (1)); Check3 (r);
    Check3 (typeid (*r) == typeid (Gtk::CellRendererText));
-   Gtk::CellRendererText* rText (dynamic_cast<Gtk::CellRendererText*> (r));
+   auto* rText (dynamic_cast<Gtk::CellRendererText*> (r));
    rText->property_editable () = true;
    rText->signal_edited ().connect (sigc::mem_fun (*this, &TraceDlg::levelChanged));
 
@@ -103,7 +103,7 @@ TraceDlg::TraceDlg ()
    column->set_resizable ();
 
    // Fill list with all available trace-objects
-   for (std::map<const char*, YGP::DynTrace*>::const_iterator i (YGP::DynTraceManager::getObjects ().begin ());
+   for (auto i (YGP::DynTraceManager::getObjects ().begin ());
 	i != YGP::DynTraceManager::getObjects ().end (); ++i) {
       Gtk::TreeRow row (*mObjects->append ());
       Check3 (i->first); Check3 (i->second);
@@ -123,8 +123,7 @@ TraceDlg::TraceDlg ()
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-TraceDlg::~TraceDlg () {
-}
+TraceDlg::~TraceDlg () = default;
 
 //-----------------------------------------------------------------------------
 /// Handling of the OK button; closes the dialog with commiting data

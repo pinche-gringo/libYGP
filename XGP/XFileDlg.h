@@ -53,11 +53,11 @@ class FileDialog : public Gtk::FileChooserDialog {
 	  MULTIPLE = 0x80000000             ///< User can select multiple files
    };
 
-   ~FileDialog ();
+   ~FileDialog () override;
 
    std::string execModal ();
 
-   void on_response (int cmd);
+   void on_response (int cmd) override;
 
    /// Creates the dialog
    static FileDialog* create (const Glib::ustring& title,
@@ -69,7 +69,7 @@ class FileDialog : public Gtk::FileChooserDialog {
 
  protected:
    /// IDs for the possible commands (OK, CANCEL)
-   typedef enum { OK = 1, CANCEL } commandID;
+   using commandID = enum { OK = 1, CANCEL };
 
    /// Callback after selecting a file
    /// @param: Name of selected file
@@ -83,11 +83,11 @@ class FileDialog : public Gtk::FileChooserDialog {
 
  private:
    // Prohibited manager-functions
-   FileDialog (const FileDialog&);
-   const FileDialog& operator= (const FileDialog&);
+   FileDialog (const FileDialog&) = delete;
+   const FileDialog& operator= (const FileDialog&) = delete;
 
    unsigned int opt;
-   bool         modal;
+   bool         modal{false};
 
    Glib::RefPtr<Glib::MainLoop> pLoop;    ///< Nested loop used by execModal()
 };

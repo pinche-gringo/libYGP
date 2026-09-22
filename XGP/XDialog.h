@@ -41,15 +41,15 @@ int runModal (Gtk::Dialog& dlg);
 */
 class XDialog : public Gtk::Dialog {
  public:
-   virtual ~XDialog ();
+   ~XDialog () override;
 
  protected:
    /// Possible buttons of the dialog: Any combination of OK and/or Cancel
-   typedef enum { NONE = 0,                         ///< Don't add any buttons
+   using buttons = enum { NONE = 0,                         ///< Don't add any buttons
 		  OK = 1,                                ///< Add an OK-button
 		  CANCEL = 2,                         ///< Add a Cancel-button
 		  OKCANCEL = (OK | CANCEL)        ///< Add OK & Cancel-buttons
-   } buttons;
+   };
 
    XDialog (const Glib::ustring& title, Gtk::Window& parent,
             unsigned int buttons = OKCANCEL, bool modal = false);
@@ -65,14 +65,14 @@ class XDialog : public Gtk::Dialog {
    virtual void command (int action);
    void free (int);
 
-   void on_response (int cmd);
+   void on_response (int cmd) override;
 
    Gtk::Button* ok;                                ///< OK button of the dialog
    Gtk::Button* cancel;                        ///< Cancel button of the dialog
 
  private:
-   XDialog (const XDialog& other);
-   const XDialog& operator= (const XDialog& other);
+   XDialog (const XDialog& other) = delete;
+   const XDialog& operator= (const XDialog& other) = delete;
 };
 
 }

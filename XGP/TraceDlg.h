@@ -36,11 +36,11 @@ namespace XGP {
 class TraceDlg : public XGP::XDialog {
  public:
    TraceDlg ();
-   virtual ~TraceDlg ();
+   ~TraceDlg () override;
 
    /// Creates a dialog
    static TraceDlg* create () {
-      TraceDlg* dlg (new TraceDlg);
+      auto* dlg (new TraceDlg);
       dlg->signal_response ().connect (sigc::mem_fun (*dlg, &TraceDlg::free));
       return dlg;
    }
@@ -52,7 +52,7 @@ class TraceDlg : public XGP::XDialog {
 
    void levelChanged (const Glib::ustring& path, const Glib::ustring& value);
 
-   virtual void okEvent ();
+   void okEvent () override;
    Gtk::TreeView& lstObjects;
 };
 

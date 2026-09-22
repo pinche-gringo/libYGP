@@ -45,14 +45,14 @@ SearchDialog::SearchDialog ()
    : XGP::XDialog (OKCANCEL), signalFind (), find (Gtk::make_managed<Gtk::Entry> ()) {
    set_title (_("Search"));
 
-   Gtk::Label* lblFind (Gtk::make_managed<Gtk::Label> (_("_Find:"), true));
+   auto* lblFind (Gtk::make_managed<Gtk::Label> (_("_Find:"), true));
    lblFind->set_mnemonic_widget (*find);
    lblFind->set_margin (5);
    find->signal_changed ().connect (sigc::mem_fun (*this, &SearchDialog::inputChanged));
    find->set_hexpand ();
    find->set_margin (5);
 
-   Gtk::Box* client (Gtk::make_managed<Gtk::Box> ());
+   auto* client (Gtk::make_managed<Gtk::Box> ());
    client->append (*lblFind);
    client->append (*find);
 
@@ -66,8 +66,7 @@ SearchDialog::SearchDialog ()
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-SearchDialog::~SearchDialog () {
-}
+SearchDialog::~SearchDialog () = default;
 
 //-----------------------------------------------------------------------------
 /// Handling of the OK button; closes the dialog with commiting data

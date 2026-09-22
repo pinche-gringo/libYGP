@@ -62,7 +62,7 @@
 #include "XGP/XApplication.h"
 
 
-typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+using tokenizer = boost::tokenizer<boost::char_separator<char> >;
 
 
 namespace XGP {
@@ -186,7 +186,7 @@ void XApplication::showHelp () {
 
    // Test if file-protocoll or no protocoll at all
    if (((file[0] == '/') && (file[1] != '/'))
-       || (file.substr (0, 7) == "file://")) {
+       || (file.starts_with ("file://"))) {
       if (file[0] != '/')
 	 file.replace (0, 7, 0, '\0');
 
@@ -252,7 +252,7 @@ void XApplication::showHelp () {
       else
 #endif
       {
-	 const char* const args[] = { helpBrowser.c_str (), file.c_str (), NULL };
+	 const char* const args[] = { helpBrowser.c_str (), file.c_str (), nullptr };
 	 YGP::Process::execAsync (helpBrowser.c_str (), args);
       }
    }
@@ -285,7 +285,7 @@ void XApplication::showTraceObjects () {
 /// \returns const char* Name of help-file (NULL: none)
 //----------------------------------------------------------------------------
 const char* XApplication::getHelpfile () {
-   return NULL;
+   return nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -322,8 +322,8 @@ XInfoApplication::XInfoApplication (const char* pTitle, const Glib::ustring& prg
                                     const Glib::ustring& copyright)
    : XApplication (pTitle), hboxTitle (new Gtk::Box (Gtk::Orientation::HORIZONTAL))
      , vboxPrgInfo (new Gtk::Box (Gtk::Orientation::VERTICAL)), txtProgramm (new Gtk::Label (prgInfo))
-     , txtCopyright (new Gtk::Label (copyright)), iconPrg (NULL)
-     , iconAuthor (NULL) {
+     , txtCopyright (new Gtk::Label (copyright)), iconPrg (nullptr)
+     , iconAuthor (nullptr) {
    TRACE9 ("XInfoApplication::XInfoApplication ()");
 
    hboxTitle->set_margin (5);
@@ -359,7 +359,7 @@ void XInfoApplication::setIconProgram (const guint8* pIconData, int lenData) {
    Check3 (hboxTitle);
 
    Glib::RefPtr<Gdk::Pixbuf> pic
-      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL)));
+      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, nullptr)));
    iconPrg.reset (new Gtk::Image (pic));
    Check3 (iconPrg);
 
@@ -378,7 +378,7 @@ void XInfoApplication::setIconProgram (const guint8* pIconData, int lenData) {
    Check3 (hboxTitle); Check3 (vboxPrgInfo);
 
    Glib::RefPtr<Gdk::Pixbuf> pic
-      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, NULL)));
+      (Glib::wrap (gdk_pixbuf_new_from_inline (lenData, pIconData, false, nullptr)));
    iconAuthor.reset (new Gtk::Image (pic));
    Check3 (iconAuthor);
 

@@ -35,7 +35,7 @@ namespace XGP {
 /// \param values MetaEnum whose values should be shown
 //-----------------------------------------------------------------------------
 EnumEntry::EnumEntry (const YGP::MetaEnum& values) {
-   for (YGP::MetaEnum::const_iterator i (values.begin ()); i != values.end (); ++i)
+   for (auto i (values.begin ()); i != values.end (); ++i)
       append (i->second);
    // set_active (0);
 }
@@ -43,7 +43,6 @@ EnumEntry::EnumEntry (const YGP::MetaEnum& values) {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-EnumEntry::~EnumEntry () {
-}
+EnumEntry::~EnumEntry () = default;
 
 }

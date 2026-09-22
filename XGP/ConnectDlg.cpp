@@ -79,7 +79,7 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
 						 "\"Connect\"."))),
      pLblServer (Gtk::make_managed<Gtk::Label> (_("_Server:"), true)),
      pLblPort (Gtk::make_managed<Gtk::Label> (_("_Port:"), true)),
-     port (defPort), pThread (NULL), cMaxConns (cMaxConnections) {
+     port (defPort),  cMaxConns (cMaxConnections) {
    TRACE8 ("ConnectDlg::ConnectDlg (unsigned int, const Glib::ustring&, ConnectionMgr&) - "
            << cMaxConnections << "; Port: " << defPort);
 
@@ -135,8 +135,7 @@ ConnectDlg::ConnectDlg (unsigned int cMaxConnections,
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ConnectDlg::~ConnectDlg () {
-}
+ConnectDlg::~ConnectDlg () = default;
 
 
 //----------------------------------------------------------------------------
@@ -166,7 +165,7 @@ void ConnectDlg::perform (unsigned int cMaxConnections, unsigned int defPort,
 //----------------------------------------------------------------------------
 void ConnectDlg::perform (unsigned int cMaxConnections, const Glib::ustring& defPort,
                           YGP::ConnectionMgr& connMgr) {
-   ConnectDlg* dlg (new ConnectDlg (cMaxConnections, defPort, connMgr));
+   auto* dlg (new ConnectDlg (cMaxConnections, defPort, connMgr));
    runModal (*dlg);
    delete dlg;
 }
@@ -205,7 +204,7 @@ void ConnectDlg::command (int action) {
             cmgr.listenAt (prt);
 
             pThread = YGP::OThread<ConnectDlg>::create2
-                (this, &ConnectDlg::waitForConnections, NULL);
+                (this, &ConnectDlg::waitForConnections, nullptr);
             pThread->allowCancelation ();
             valueChanged ();
          }
@@ -231,7 +230,7 @@ void ConnectDlg::okEvent () {
    TRACE8 ("ConnectDlg::okEvent () - " << (pThread ? "Waiting" : "Finish"));
    if (pThread) {
       pThread->cancel ();
-      pThread = NULL;
+      pThread = nullptr;
    }
 }
 //----------------------------------------------------------------------------
@@ -241,7 +240,7 @@ void ConnectDlg::cancelEvent () {
    TRACE8 ("ConnectDlg::cancelEvent () - " << (pThread ? "Waiting" : "Finish"));
    if (pThread) {
       pThread->cancel ();
-      pThread = NULL;
+      pThread = nullptr;
    }
    cmgr.changeMode (YGP::ConnectionMgr::NONE);
 }
@@ -278,7 +277,7 @@ YGP::Socket* ConnectDlg::addClient (int socket) {
    YGP::Socket* newSocket (cmgr.addConnection (socket));
    if (cMaxConns == cmgr.getClients ().size ()) {
       delete pThread;
-      pThread = NULL;
+      pThread = nullptr;
       pWait->set_sensitive (false);
    }
    return newSocket;

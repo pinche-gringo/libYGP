@@ -55,7 +55,7 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 FileDialog::FileDialog (const Glib::ustring& title,
 			Gtk::FileChooser::Action action, unsigned int dlgOption)
-   : Gtk::FileChooserDialog (title, action), sigSelected (), opt (dlgOption), modal (false) {
+   : Gtk::FileChooserDialog (title, action), sigSelected (), opt (dlgOption) {
    TRACE9 ("FileDialog::FileDialog (const Glib::ustring&, Gtk::FileChooser::Action, unsigned int)");
 
    add_button ("_Cancel", static_cast<int> (Gtk::ResponseType::CANCEL));
@@ -176,7 +176,7 @@ std::string FileDialog::execModal () {
 //----------------------------------------------------------------------------
 FileDialog* FileDialog::create (const Glib::ustring& title,
 				Gtk::FileChooser::Action action, unsigned int dlgOption) {
-   FileDialog* dlg (new FileDialog (title, action, dlgOption));
+   auto* dlg (new FileDialog (title, action, dlgOption));
    dlg->signal_response ().connect (sigc::mem_fun (*dlg, &FileDialog::free));
    return dlg;
 }

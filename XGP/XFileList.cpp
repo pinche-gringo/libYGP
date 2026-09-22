@@ -26,7 +26,7 @@
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
 
-#include <string.h>
+#include <cstring>
 
 #include <map>
 
@@ -80,21 +80,20 @@ namespace XGP {
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-XFileList::~XFileList () {
-}
+XFileList::~XFileList () = default;
 
 
 //-----------------------------------------------------------------------------
 /// Creates the first column for the list holding an icon for the file and its name
 //-----------------------------------------------------------------------------
 void XFileList::init () {
-   Gtk::TreeView::Column* pColumn (new Gtk::TreeView::Column (_("File")));
+   auto* pColumn (new Gtk::TreeView::Column (_("File")));
 
-   Gtk::CellRendererPixbuf* rPB (new Gtk::CellRendererPixbuf);
+   auto* rPB (new Gtk::CellRendererPixbuf);
    pColumn->pack_start (*rPB, false);
    pColumn->add_attribute (*rPB, "pixbuf", 0);
 
-   Gtk::CellRendererText* rTxt (new Gtk::CellRendererText);
+   auto* rTxt (new Gtk::CellRendererText);
    pColumn->pack_start (*rTxt);
    pColumn->add_attribute (*rTxt, "text", 1);
    append_column (*pColumn);
@@ -223,7 +222,7 @@ Glib::RefPtr<Gdk::Pixbuf> XFileList::getIcon4File (const YGP::File& file) {
             actIcon = (*i).second;
             break;
          } // endif icons available
-      } while ((pName = strchr (pName, '.')) != NULL);
+      } while ((pName = strchr (pName, '.')) != nullptr);
    } // end-else
 
    Check3 (actIcon);
@@ -266,7 +265,7 @@ void XFileList::onRightClick (int, double x, double y) {
    if (pMenuPopAction) {
       pMenuPopAction->unparent ();
       delete pMenuPopAction;
-      pMenuPopAction = NULL;
+      pMenuPopAction = nullptr;
    }
 
    Gtk::TreeModel::Path pathAct;
@@ -284,7 +283,7 @@ void XFileList::onRightClick (int, double x, double y) {
       // Testing if $EDITOR exists and add that to list; else use VI
       Glib::ustring editor (_("Open in %1 ..."));
       const char* ed;
-      if ((ed = getenv ("EDITOR")) == NULL)
+      if ((ed = getenv ("EDITOR")) == nullptr)
 	 ed = "vi";
       editor.replace (editor.find ("%1"), 2, ed);
 
@@ -322,7 +321,7 @@ void XFileList::startInTerm (const char* file, Gtk::TreeModel::iterator line) {
    const char* term (getenv ("TERM"));
    if (term) {
       std::string entry (getFilename (line));
-      const char* args[] = { term, "-e", file, entry.c_str (), NULL };
+      const char* args[] = { term, "-e", file, entry.c_str (), nullptr };
       execProgram (term, args, false);
    }
    else {
@@ -339,7 +338,7 @@ void XFileList::startInTerm (const char* file, Gtk::TreeModel::iterator line) {
 //-----------------------------------------------------------------------------
 void XFileList::startProgram (const char* file, Gtk::TreeModel::iterator line) {
    std::string entry (getFilename (line));
-   const char* args[] = { file, entry.c_str (), NULL };
+   const char* args[] = { file, entry.c_str (), nullptr };
    execProgram (args[0], args, false);
 }
 
@@ -350,7 +349,7 @@ void XFileList::startProgram (const char* file, Gtk::TreeModel::iterator line) {
 //-----------------------------------------------------------------------------
 void XFileList::executeProgram (const char* file, Gtk::TreeModel::iterator line) {
    std::string entry (getFilename (line));
-   const char* args[] = { file, entry.c_str (), NULL };
+   const char* args[] = { file, entry.c_str (), nullptr };
    execProgram (args[0], args, true);
 }
 
@@ -387,7 +386,7 @@ void XFileList::move (Gtk::TreeModel::iterator line) {
 
    if (file.length ()) {
       std::string entry (getFilename (line));
-      const char* args[] = { "mv", "-f", entry.c_str (), file.c_str (), NULL };
+      const char* args[] = { "mv", "-f", entry.c_str (), file.c_str (), nullptr };
       if (execProgram (args[0], args, true)) {
          try {
             YGP::File objFile (file.c_str ());
@@ -408,7 +407,7 @@ void XFileList::move (Gtk::TreeModel::iterator line) {
 void XFileList::remove(Gtk::TreeModel::iterator line) {
    TRACE4("XFileList::remove (Gtk::TreeModel::iterator) - " << getFilename(line));
    std::string entry (getFilename(line));
-   const char* args[] = { "rm", "-f", entry.c_str(), NULL };
+   const char* args[] = { "rm", "-f", entry.c_str(), nullptr };
    if (execProgram(args[0], args, true)) {
       Glib::RefPtr<Gtk::TreeStore> ptr (std::dynamic_pointer_cast<Gtk::TreeStore> (get_model()));
       if (ptr)

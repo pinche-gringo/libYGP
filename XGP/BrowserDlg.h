@@ -47,7 +47,7 @@ namespace XGP {
 class BrowserDlg : public XDialog {
  public:
    BrowserDlg (Glib::ustring& cmd);
-   virtual ~BrowserDlg ();
+   ~BrowserDlg () override;
 
    static BrowserDlg* create (Glib::ustring& cmd);
 
@@ -56,18 +56,18 @@ class BrowserDlg : public XDialog {
 
  private:
    //Prohibited manager functions
-   BrowserDlg ();
-   BrowserDlg (const BrowserDlg& other);
-   const BrowserDlg& operator= (const BrowserDlg& other);
+   BrowserDlg () = delete;
+   BrowserDlg (const BrowserDlg& other) = delete;
+   const BrowserDlg& operator= (const BrowserDlg& other) = delete;
 
    void control (unsigned int cmd);
-   virtual void okEvent ();
+   void okEvent () override;
 
    Gtk::Box*         pboxOther;
    std::vector<Gtk::CheckButton*> aBrowsers;
    static const char*             browserNames[];
 
-   typedef XAttributeEntry<Glib::ustring> XStringEntry;
+   using XStringEntry = XAttributeEntry<Glib::ustring>;
 
    XStringEntry path;
 };

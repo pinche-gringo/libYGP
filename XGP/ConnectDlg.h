@@ -43,7 +43,7 @@ namespace XGP {
 */
 class ConnectDlg : public XDialog {
  public:
-   virtual ~ConnectDlg ();
+   ~ConnectDlg () override;
 
    static void perform (unsigned int cMaxConnections,
                         unsigned int defPort, YGP::ConnectionMgr& connMgr);
@@ -53,9 +53,9 @@ class ConnectDlg : public XDialog {
  protected:
    enum { WAIT, CONNECT };
 
-   void command (int action);
-   void cancelEvent ();
-   void okEvent ();
+   void command (int action) override;
+   void cancelEvent () override;
+   void okEvent () override;
 
    void valueChanged () const;
 
@@ -81,11 +81,11 @@ class ConnectDlg : public XDialog {
 
    Glib::ustring port;
 
-   YGP::Thread*  pThread;
+   YGP::Thread*  pThread{nullptr};
    unsigned int  cMaxConns;
 
-   ConnectDlg (const ConnectDlg& other);
-   const ConnectDlg& operator= (const ConnectDlg& other);
+   ConnectDlg (const ConnectDlg& other) = delete;
+   const ConnectDlg& operator= (const ConnectDlg& other) = delete;
 };
 
 }

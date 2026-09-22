@@ -63,11 +63,11 @@ class FileColumns : public Gtk::TreeModel::ColumnRecord {
 class XFileList : public Gtk::TreeView {
  public:
    /// Constructor of the XFileList widget
-   XFileList () : pMenuPopAction (NULL) { init (); }
+   XFileList () : pMenuPopAction (nullptr) { init (); }
    /// Constructor of the XFileList widget; passing a model to display
    XFileList (const Glib::RefPtr<Gtk::TreeModel>& model) : Gtk::TreeView (model)
-      , pMenuPopAction (NULL) { init (); }
-   virtual ~XFileList ();
+      , pMenuPopAction (nullptr) { init (); }
+   ~XFileList () override;
 
    static Glib::RefPtr<Gdk::Pixbuf> getIcon4File (const YGP::File& file);
 
@@ -99,8 +99,8 @@ class XFileList : public Gtk::TreeView {
    Gtk::PopoverMenu* pMenuPopAction;
 
  private:
-   XFileList (const XFileList&);
-   XFileList& operator= (const XFileList&);
+   XFileList (const XFileList&) = delete;
+   XFileList& operator= (const XFileList&) = delete;
 
    void init ();
    static void loadIcons (const char* path, const char* files, unsigned int namePrefix);

@@ -67,7 +67,7 @@ int runModal (Gtk::Dialog& dlg) {
 /// \param modal Flag, if the dialog is modal
 //-----------------------------------------------------------------------------
 XDialog::XDialog (unsigned int buttons, bool modal)
-   : Gtk::Dialog (Glib::ustring (), modal), ok (NULL), cancel (NULL) {
+   : Gtk::Dialog (Glib::ustring (), modal), ok (nullptr), cancel (nullptr) {
    init (buttons);
 }
 
@@ -78,7 +78,7 @@ XDialog::XDialog (unsigned int buttons, bool modal)
 /// \param modal Flag, if the dialog is modal
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, unsigned int buttons, bool modal)
-   : Gtk::Dialog (title, modal), ok (NULL), cancel (NULL) {
+   : Gtk::Dialog (title, modal), ok (nullptr), cancel (nullptr) {
    init (buttons);
 }
 
@@ -91,7 +91,7 @@ XDialog::XDialog (const Glib::ustring& title, unsigned int buttons, bool modal)
 //-----------------------------------------------------------------------------
 XDialog::XDialog (const Glib::ustring& title, Gtk::Window& parent,
                   unsigned int buttons, bool modal)
-   : Gtk::Dialog (title, parent, modal), ok (NULL), cancel (NULL) {
+   : Gtk::Dialog (title, parent, modal), ok (nullptr), cancel (nullptr) {
    init (buttons);
 }
 
@@ -109,9 +109,9 @@ XDialog::~XDialog () {
 //-----------------------------------------------------------------------------
 void XDialog::init (unsigned int buttons) {
    TRACE9 ("XDialog::init ()");
-   ok = (buttons & OK) ? add_button ("_OK", static_cast<int> (Gtk::ResponseType::OK)) : NULL;
+   ok = (buttons & OK) ? add_button ("_OK", static_cast<int> (Gtk::ResponseType::OK)) : nullptr;
    cancel = (buttons & CANCEL) ? add_button ((buttons & OK) ? "_Cancel" : "_Close",
-					     static_cast<int> (Gtk::ResponseType::CANCEL)) : NULL;
+					     static_cast<int> (Gtk::ResponseType::CANCEL)) : nullptr;
 
    if (ok)
       set_default_widget (*ok);

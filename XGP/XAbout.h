@@ -44,7 +44,7 @@ namespace XGP {
 */
 class XAbout : public XDialog {
  public:
-   ~XAbout ();
+   ~XAbout () override;
 
    void setIconProgram (const guint8* iconData, int lenData);
    void setIconAuthor  (const guint8* iconData, int lenData);
@@ -55,14 +55,14 @@ class XAbout : public XDialog {
    XAbout (const Glib::ustring& author, const Glib::ustring& program);
 
  private:
-   typedef boost::scoped_ptr<Gtk::Box>    PBox;
-   typedef boost::scoped_ptr<Gtk::Label>  PLabel;
-   typedef boost::scoped_ptr<Gtk::Image>  PImage;
+   using PBox = boost::scoped_ptr<Gtk::Box>;
+   using PLabel = boost::scoped_ptr<Gtk::Label>;
+   using PImage = boost::scoped_ptr<Gtk::Image>;
 
    // Prohibited manager-functions
-   XAbout (const XAbout&);
+   XAbout (const XAbout&) = delete;
 
-   const XAbout& operator= (const XAbout&);
+   const XAbout& operator= (const XAbout&) = delete;
 
    PLabel writer;
    PLabel gpl;

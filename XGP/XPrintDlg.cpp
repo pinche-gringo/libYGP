@@ -103,7 +103,7 @@ void PrintDialog::okEvent () {
       return;
    } // endif no input
 
-   FILE* stream (NULL);
+   FILE* stream (nullptr);
    stream = popen (txtCommand->get_text ().c_str (), "w");
    if (!stream) {
       std::string err (_("Could not run command `%1'\nReason: %2"));
@@ -124,7 +124,7 @@ void PrintDialog::okEvent () {
 /// \returns IPrintDialog* Pointer to created dialog
 //----------------------------------------------------------------------------
 PrintDialog* PrintDialog::create () {
-    PrintDialog* dlg (new PrintDialog ());
+    auto* dlg (new PrintDialog ());
     dlg->signal_response ().connect (sigc::mem_fun (*dlg, &PrintDialog::free));
     return dlg;
 }

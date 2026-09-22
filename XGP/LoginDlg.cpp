@@ -47,7 +47,7 @@ LoginDialog::LoginDialog (const Glib::ustring& title)
 
    txtPassword.set_visibility (false);
 
-   Gtk::Label* lbl (Gtk::make_managed<Gtk::Label> (_("_Userid:"), true));
+   auto* lbl (Gtk::make_managed<Gtk::Label> (_("_Userid:"), true));
    lbl->set_mnemonic_widget (txtUser);
    lbl->set_margin (5);
    pClient->attach (*lbl, 0, 0);
@@ -81,8 +81,7 @@ LoginDialog::LoginDialog (const Glib::ustring& title)
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-LoginDialog::~LoginDialog () {
-}
+LoginDialog::~LoginDialog () = default;
 
 
 //-----------------------------------------------------------------------------
