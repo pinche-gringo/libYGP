@@ -1,14 +1,11 @@
-//$Id: ADate.cpp,v 1.56 2008/06/10 21:47:20 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : ADate
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.56 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 11.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : ADate
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 11.10.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -31,17 +28,16 @@
 #include <ygp-cfg.h>
 
 #if SYSTEM == WINDOWS
-#   define WIN32_LEAN_AND_MEAN
-#   include <windows.h>
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
 #endif
 
 #include <stdexcept>
 
-#include "YGP/Trace.h"
 #include "YGP/Internal.h"
+#include "YGP/Trace.h"
 
 #include "YGP/ADate.h"
-
 
 namespace YGP {
 
@@ -50,11 +46,11 @@ namespace YGP {
 /// of January, 1900 (now = false), or to the current day (now = true)
 /// \param now Flag which date to set (1900/1/1 (false) or now (true))
 //----------------------------------------------------------------------------
-ADate::ADate (bool now) : AYear (1900), day ((unsigned char)1), month ((unsigned char)1) {
-   if (now)
-      operator= (time (NULL));
-   else
-      setDefined ();
+ADate::ADate(bool now) : AYear(1900), day((unsigned char)1), month((unsigned char)1) {
+    if (now)
+        operator=(time(NULL));
+    else
+        setDefined();
 }
 
 //----------------------------------------------------------------------------
@@ -65,33 +61,31 @@ ADate::ADate (bool now) : AYear (1900), day ((unsigned char)1), month ((unsigned
 /// \param Year Year to set
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
-ADate::ADate (char Day, char Month, int Year)
-   : AYear (Year), day (Day), month (Month) {
-   int status (checkIntegrity ());
-   if (status)
-      throw std::invalid_argument (status == 2 ? "Month" : "Day");
+ADate::ADate(char Day, char Month, int Year) : AYear(Year), day(Day), month(Month) {
+    int status(checkIntegrity());
+    if (status)
+        throw std::invalid_argument(status == 2 ? "Month" : "Day");
 }
 
 //----------------------------------------------------------------------------
 /// Destructor
 //----------------------------------------------------------------------------
-ADate::~ADate () {
-}
-
+ADate::~ADate() {}
 
 //----------------------------------------------------------------------------
 /// Assignment-operator
 /// \param other Object to assign
 /// \return ADate& Reference to self
 //----------------------------------------------------------------------------
-ADate& ADate::operator= (const ADate& other) {
-   Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
-   TRACE5 ("ADate::operator=: " << other);
+ADate& ADate::operator=(const ADate& other) {
+    Check1(!checkIntegrity());
+    Check1(!other.checkIntegrity());
+    TRACE5("ADate::operator=: " << other);
 
-   day = other.day;
-   month = other.month;
-   AYear::operator= ((const AYear&) other);
-   return *this;
+    day = other.day;
+    month = other.month;
+    AYear::operator=((const AYear&)other);
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -102,15 +96,15 @@ ADate& ADate::operator= (const ADate& other) {
 /// \return ADate& Reference to self
 /// \throw std::invalid_argument if the characters don't represent a valid date
 //----------------------------------------------------------------------------
-ADate& ADate::operator= (const char* pValue) {
-   Check1 (!checkIntegrity ());
-   TRACE5 ("ADate::operator= (const char*): " << pValue);
+ADate& ADate::operator=(const char* pValue) {
+    Check1(!checkIntegrity());
+    TRACE5("ADate::operator=(const char*): " << pValue);
 
-   if (pValue && *pValue)
-      assign (pValue, strlen (pValue));
-   else
-      undefine ();
-   return *this;
+    if (pValue && *pValue)
+        assign(pValue, strlen(pValue));
+    else
+        undefine();
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -122,110 +116,108 @@ ADate& ADate::operator= (const char* pValue) {
 /// \throw std::invalid_argument if the parameter does not represent a
 ///     valid date
 //-----------------------------------------------------------------------------
-void ADate::assign (const char* pDate, unsigned int len) {
-   TRACE5 ("ADate::assign (const char*, unsigned int): " << pDate << " ("
-	   << len << ')');
-   if (!(len && pDate && *pDate)) {
-      undefine ();
-      return;
-   }
+void ADate::assign(const char* pDate, unsigned int len) {
+    TRACE5("ADate::assign(const char*, unsigned int): " << pDate << " (" << len << ')');
+    if (!(len && pDate && *pDate)) {
+        undefine();
+        return;
+    }
 
 #ifdef HAVE_STRPTIME
-   struct tm result;
-   memset (&result, '\0', sizeof (result));
+    struct tm result;
+    memset(&result, '\0', sizeof(result));
 
-   const char* fail (NULL);
-   switch (len) {
-   case 12:
-   case 11:
-   case 10:
-   case 9:
-      fail = strptime (pDate, "%x", &result);
-      break;
-   case 8:
-   case 7:
-      fail = strptime (pDate, "%d %m %Y", &result);
-      break;
-   case 6:
-   case 5:
-      fail = strptime (pDate, "%d %m %y", &result);
-      break;
-   default:
-      fail = NULL;
-   } // endswitch
-   operator= (result);
-   if (!fail || (*fail && !isspace (*fail)) || checkIntegrity ()) {
-      undefine ();
-      if (!fail)
-	 fail = pDate;
-      TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << fail);
-      std::string error (_("Invalid date: %1"));
-      error.replace (error.find ("%1"), 2, 1, char ((fail - pDate) + '0'));
-      throw std::invalid_argument (error);
-   }
+    const char* fail(NULL);
+    switch (len) {
+    case 12:
+    case 11:
+    case 10:
+    case 9:
+        fail = strptime(pDate, "%x", &result);
+        break;
+    case 8:
+    case 7:
+        fail = strptime(pDate, "%d %m %Y", &result);
+        break;
+    case 6:
+    case 5:
+        fail = strptime(pDate, "%d %m %y", &result);
+        break;
+    default:
+        fail = NULL;
+    } // endswitch
+    operator=(result);
+    if (!fail || (*fail && !isspace(*fail)) || checkIntegrity()) {
+        undefine();
+        if (!fail)
+            fail = pDate;
+        TRACE9("ADate::assign(const char*, unsigned int) - Failed: " << fail);
+        std::string error(_("Invalid date: %1"));
+        error.replace(error.find("%1"), 2, 1, char((fail - pDate) + '0'));
+        throw std::invalid_argument(error);
+    }
 #else
-   day = month = 1;
-   int read (0);
-   unsigned int _day, _month;
-   int _year;
+    day = month = 1;
+    int read(0);
+    unsigned int _day, _month;
+    int _year;
 
-   switch (len) {
-   case 12:
-   case 11:
-   case 10: {
-   case 9:
-      ADate tmp (22, 11, 2000);
-      std::string format (tmp.toString ());
-      size_t posY (format.find ("2000")); Check3 (posY != std::string::npos);
-      size_t posM (format.find ("11")); Check3 (posM != std::string::npos);
-      size_t posD (format.find ("22")); Check3 (posD != std::string::npos);
+    switch (len) {
+    case 12:
+    case 11:
+    case 10: {
+    case 9:
+        ADate tmp(22, 11, 2000);
+        std::string format(tmp.toString());
+        size_t posY(format.find("2000"));
+        Check3(posY != std::string::npos);
+        size_t posM(format.find("11"));
+        Check3(posM != std::string::npos);
+        size_t posD(format.find("22"));
+        Check3(posD != std::string::npos);
 
-      format.replace (posD, 2, "%2u");
-      format.replace (posM, 2, "%2u");
-      format.replace (posY, 2, "%2u");
+        format.replace(posD, 2, "%2u");
+        format.replace(posM, 2, "%2u");
+        format.replace(posY, 2, "%2u");
 
-      read = ((posY < posM)
-	      ? ((posD < posY)
-		 ? sscanf (pDate, format.c_str (), &_day, &_year, &_month)
-		 : ((posM < posY)
-		    ? sscanf (pDate, format.c_str (), &_year, &_day, &_month)
-		    : sscanf (pDate, format.c_str (), &_year, &_month, &_day)))
-	      : ((posD < posM)
-		 ? sscanf (pDate, format.c_str (), &_day, &_month, &_year)
-		 : ((posD < posY)
-		    ? sscanf (pDate, format.c_str (), &_month, &_day, &_year)
-		    : sscanf (pDate, format.c_str (), &_month, &_year, &_day))));
-      if (read != 3)
-	 read = -1;
-      break; }
+        read =
+            ((posY < posM) ? ((posD < posY) ? sscanf(pDate, format.c_str(), &_day, &_year, &_month)
+                                            : ((posM < posY) ? sscanf(pDate, format.c_str(), &_year, &_day, &_month)
+                                                             : sscanf(pDate, format.c_str(), &_year, &_month, &_day)))
+                           : ((posD < posM) ? sscanf(pDate, format.c_str(), &_day, &_month, &_year)
+                                            : ((posD < posY) ? sscanf(pDate, format.c_str(), &_month, &_day, &_year)
+                                                             : sscanf(pDate, format.c_str(), &_month, &_year, &_day))));
+        if (read != 3)
+            read = -1;
+        break;
+    }
 
-   case 8:
-   case 7:
-   case 6:
-   case 5:
-      read = sscanf (pDate, "%2u%2u%d", &_day, &_month, &_year);
-      if (read != 3)
-	 read = -1;
-      break;
-   default:
-      read = -1;
-   } // endswitch
-   TRACE5 ("ADate::assign (const char*, unsigned int) - Read: " << read);
+    case 8:
+    case 7:
+    case 6:
+    case 5:
+        read = sscanf(pDate, "%2u%2u%d", &_day, &_month, &_year);
+        if (read != 3)
+            read = -1;
+        break;
+    default:
+        read = -1;
+    } // endswitch
+    TRACE5("ADate::assign(const char*, unsigned int) - Read: " << read);
 
-   if ((read == -1) || checkIntegrity ()) {
-      undefine ();
-      TRACE9 ("ADate::assign (const char*, unsigned int) - Failed: " << pDate);
-      std::string error (_("Invalid date: %1"));
-      error.replace (error.find ("%1"), 2, 1, '0');
-   }
-   else {
-      day = _day;
-      month = _month;
-      year = _year;
-      setDefined ();
-   }
+    if ((read == -1) || checkIntegrity()) {
+        undefine();
+        TRACE9("ADate::assign(const char*, unsigned int) - Failed: " << pDate);
+        std::string error(_("Invalid date: %1"));
+        error.replace(error.find("%1"), 2, 1, '0');
+    } else {
+        day = _day;
+        month = _month;
+        year = _year;
+        setDefined();
+    }
 #endif
-   return;
+    return;
 }
 
 //----------------------------------------------------------------------------
@@ -233,12 +225,13 @@ void ADate::assign (const char* pDate, unsigned int len) {
 /// \param date Structure holding the date to assign
 /// \return ADate& Reference to self
 //----------------------------------------------------------------------------
-ADate& ADate::operator= (const struct tm& date) {
-   setDefined ();
-   year = date.tm_year + 1900;
-   month = (unsigned char)(date.tm_mon + 1);
-   setDay ((unsigned char)date.tm_mday); Check3 (!checkIntegrity ());
-   return *this;
+ADate& ADate::operator=(const struct tm& date) {
+    setDefined();
+    year = date.tm_year + 1900;
+    month = (unsigned char)(date.tm_mon + 1);
+    setDay((unsigned char)date.tm_mday);
+    Check3(!checkIntegrity());
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -246,12 +239,12 @@ ADate& ADate::operator= (const struct tm& date) {
 /// each entry is filled up with zeros.
 /// \return std::string String-representation of ADate
 //----------------------------------------------------------------------------
-std::string ADate::toUnformattedString () const {
-   char buffer[20] = "";
+std::string ADate::toUnformattedString() const {
+    char buffer[20] = "";
 
-   if (isDefined ())
-      snprintf (buffer, sizeof (buffer), "%02u%02u%d", (unsigned)day, (unsigned)month, year);
-   return std::string (buffer);
+    if (isDefined())
+        snprintf(buffer, sizeof(buffer), "%02u%02u%d", (unsigned)day, (unsigned)month, year);
+    return std::string(buffer);
 }
 
 //----------------------------------------------------------------------------
@@ -261,9 +254,7 @@ std::string ADate::toUnformattedString () const {
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
 //----------------------------------------------------------------------------
-std::string ADate::toString () const {
-   return toString ("%x");
-}
+std::string ADate::toString() const { return toString("%x"); }
 
 //----------------------------------------------------------------------------
 //// Converts the date into a string, in the specified format. The parameter
@@ -273,21 +264,21 @@ std::string ADate::toString () const {
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
 //----------------------------------------------------------------------------
-std::string ADate::toString (const char* format) const {
-   Check1 (format);
-   std::string result;
+std::string ADate::toString(const char* format) const {
+    Check1(format);
+    std::string result;
 
-   if (isDefined ()) {
-      struct tm tm (toStructTM ());
+    if (isDefined()) {
+        struct tm tm(toStructTM());
 #ifdef STRFTIME_RETURNS_LENGTH
-      char aBuffer[strftime (NULL, 200, format, &tm) + 1];
+        char aBuffer[strftime(NULL, 200, format, &tm) + 1];
 #else
-      char aBuffer[80];
+        char aBuffer[80];
 #endif
-      strftime (aBuffer, sizeof (aBuffer), format, &tm);
-      result = aBuffer;
-   }
-   return result;
+        strftime(aBuffer, sizeof(aBuffer), format, &tm);
+        result = aBuffer;
+    }
+    return result;
 }
 
 //----------------------------------------------------------------------------
@@ -296,22 +287,21 @@ std::string ADate::toString (const char* format) const {
 /// \param in:Stream to parse
 /// \throw std::invalid_argument in case of an invalid input
 //----------------------------------------------------------------------------
-void ADate::readFromStream (std::istream& in) {
-   if (in.eof ()) {
-      undefine ();
-      return;
-   }
+void ADate::readFromStream(std::istream& in) {
+    if (in.eof()) {
+        undefine();
+        return;
+    }
 
-   char buffer[40];
-   char* pb = buffer;
-   in >> *pb;
-   while (!in.eof () && !isspace (*pb)
-	  && ((unsigned int)(pb - buffer) < (sizeof (buffer) - 1)))
-      in.get (*++pb);
-   in.unget ();
-   *pb = '\0';
+    char buffer[40];
+    char* pb = buffer;
+    in >> *pb;
+    while (!in.eof() && !isspace(*pb) && ((unsigned int)(pb - buffer) < (sizeof(buffer) - 1)))
+        in.get(*++pb);
+    in.unget();
+    *pb = '\0';
 
-   operator= (buffer);
+    operator=(buffer);
 }
 
 //----------------------------------------------------------------------------
@@ -321,23 +311,23 @@ void ADate::readFromStream (std::istream& in) {
 /// \param rhs Value to add
 /// \return ADate& Self
 //----------------------------------------------------------------------------
-ADate& ADate::operator+= (const ADate& rhs) {
-   Check1 (!checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
+ADate& ADate::operator+=(const ADate& rhs) {
+    Check1(!checkIntegrity());
+    Check1(!rhs.checkIntegrity());
 
-   if (rhs.isDefined ()) {
-      if (isDefined ()) {
-         day += rhs.day;
-         month += rhs.month;
-         year += rhs.year;
+    if (rhs.isDefined()) {
+        if (isDefined()) {
+            day += rhs.day;
+            month += rhs.month;
+            year += rhs.year;
 
-         maxAdapt ();
-      }
-      else
-         operator= (rhs);
+            maxAdapt();
+        } else
+            operator=(rhs);
 
-      Check3 (!checkIntegrity ());
-   }
-   return *this;
+        Check3(!checkIntegrity());
+    }
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -347,26 +337,26 @@ ADate& ADate::operator+= (const ADate& rhs) {
 /// \param rhs Value to substract
 /// \return ADate& Self
 //----------------------------------------------------------------------------
-ADate& ADate::operator-= (const ADate& rhs) {
-   Check1 (!checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
+ADate& ADate::operator-=(const ADate& rhs) {
+    Check1(!checkIntegrity());
+    Check1(!rhs.checkIntegrity());
 
-   if (rhs.isDefined ()) {
-      if (isDefined ()) {
-         day -= rhs.day;
-         month -= rhs.month;
-         year -= rhs.year;
-      }
-      else {
-         setDefined ();
-         day = -rhs.day;
-         month = -rhs.month;
-         year = -rhs.year;
-      } // endif this not defined
+    if (rhs.isDefined()) {
+        if (isDefined()) {
+            day -= rhs.day;
+            month -= rhs.month;
+            year -= rhs.year;
+        } else {
+            setDefined();
+            day = -rhs.day;
+            month = -rhs.month;
+            year = -rhs.year;
+        } // endif this not defined
 
-      minAdapt ();
-      Check3 (!checkIntegrity ());
-   }
-   return *this;
+        minAdapt();
+        Check3(!checkIntegrity());
+    }
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -379,30 +369,29 @@ ADate& ADate::operator-= (const ADate& rhs) {
 /// \remarks In counterpart to the mathematic operators (operator+() and
 ///    operator-()) this method does not change the object if it is undefined!
 //----------------------------------------------------------------------------
-ADate& ADate::add (signed char Day, signed char Month, int Year) {
-   TRACE7 ("ADate::add: " << toString () << " + " << (int)Day << '.'
-	   << (int)Month << '.' << Year);
-   Check1 (!checkIntegrity ());
+ADate& ADate::add(signed char Day, signed char Month, int Year) {
+    TRACE7("ADate::add: " << toString() << " + " << (int)Day << '.' << (int)Month << '.' << Year);
+    Check1(!checkIntegrity());
 
-   if (isDefined ()) {
-      Year += Month / 12;
-      Month %= 12;
-      month += Month;
-      year += Year;
-      maxAdapt ();
+    if (isDefined()) {
+        Year += Month / 12;
+        Month %= 12;
+        month += Month;
+        year += Year;
+        maxAdapt();
 
-      signed char maxDay;
-      while (maxDay = maxDayOf (), Day > maxDay) {
-         Day -= maxDay;
-         ++month;
-	 maxAdapt ();
-      } // end-while passed days bigger than one month
-      day += Day;
-      maxAdapt ();
+        signed char maxDay;
+        while (maxDay = maxDayOf(), Day > maxDay) {
+            Day -= maxDay;
+            ++month;
+            maxAdapt();
+        } // end-while passed days bigger than one month
+        day += Day;
+        maxAdapt();
 
-      Check3 (!checkIntegrity ());
-   }
-   return *this;
+        Check3(!checkIntegrity());
+    }
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -415,34 +404,32 @@ ADate& ADate::add (signed char Day, signed char Month, int Year) {
 /// \remarks In counterpart to the mathematic operators (operator+() and
 ///    operator-()) this method does not change the object if it is undefined!
 //----------------------------------------------------------------------------
-ADate& ADate::sub (signed char Day, signed char Month, int Year) {
-   TRACE7 ("ADate::sub: " << toString () << " - " << (int)Day << '.'
-	   << (int)Month << '.' << Year);
-   Check1 (!checkIntegrity ());
+ADate& ADate::sub(signed char Day, signed char Month, int Year) {
+    TRACE7("ADate::sub: " << toString() << " - " << (int)Day << '.' << (int)Month << '.' << Year);
+    Check1(!checkIntegrity());
 
-   if (isDefined ()) {
-      Year += Month / 12;                      // Correct month and year first
-      Month %= 12;
-      month -= Month;
-      year -= Year;
-      minAdapt ();
+    if (isDefined()) {
+        Year += Month / 12; // Correct month and year first
+        Month %= 12;
+        month -= Month;
+        year -= Year;
+        minAdapt();
 
-      signed char maxDay;
-      while (maxDay = maxDayOf (month > 1 ? month - 1 : 12, year),
-	     Day > maxDay) {
-         Day -= maxDay;
-         --month;
-	 minAdapt ();
-      } // end-while passed days bigger than one month
-      if (Day) {
-	 day -= Day;
-	 minAdapt ();
-      }
+        signed char maxDay;
+        while (maxDay = maxDayOf(month > 1 ? month - 1 : 12, year), Day > maxDay) {
+            Day -= maxDay;
+            --month;
+            minAdapt();
+        } // end-while passed days bigger than one month
+        if (Day) {
+            day -= Day;
+            minAdapt();
+        }
 
-      Check3 (!checkIntegrity ());
-      Check3 (isDefined ());
-   }
-   return *this;
+        Check3(!checkIntegrity());
+        Check3(isDefined());
+    }
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -458,24 +445,20 @@ ADate& ADate::sub (signed char Day, signed char Month, int Year) {
 /// \param other Object to compare
 /// \return long >0 if this "younger" other; 0 if this == other; <0 else
 //----------------------------------------------------------------------------
-long ADate::compare (const ADate& other) const {
-   Check1 (!checkIntegrity ()); Check1 (!other.checkIntegrity ());
+long ADate::compare(const ADate& other) const {
+    Check1(!checkIntegrity());
+    Check1(!other.checkIntegrity());
 
-   // Both sides are defined -> return (approximated) difference
-   if (isDefined ()) {
-      if (other.isDefined ()) {
-         TRACE5 ("ADate::compare -> " << ((year - other.year) * 365
-                                          + ((month - other.month) * 31)
-                                          + day - other.day));
+    // Both sides are defined -> return (approximated) difference
+    if (isDefined()) {
+        if (other.isDefined()) {
+            TRACE5("ADate::compare -> " << ((year - other.year) * 365 + ((month - other.month) * 31) + day - other.day));
 
-         return ((year - other.year) * 365 + ((month - other.month) * 31)
-                 + day - other.day);
-      }
-      else
-         return 1;                    // this defined, other not: Return bigger
-   }
-   else
-      return other.isDefined () ? -1 : 0;
+            return ((year - other.year) * 365 + ((month - other.month) * 31) + day - other.day);
+        } else
+            return 1; // this defined, other not: Return bigger
+    } else
+        return other.isDefined() ? -1 : 0;
 }
 
 //----------------------------------------------------------------------------
@@ -486,12 +469,13 @@ long ADate::compare (const ADate& other) const {
 /// \param rhs Right-hand-side of addition
 /// \return ADate Result of additon
 //----------------------------------------------------------------------------
-ADate operator+ (const ADate& lhs, const ADate& rhs) {
-   Check1 (!lhs.checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
+ADate operator+(const ADate& lhs, const ADate& rhs) {
+    Check1(!lhs.checkIntegrity());
+    Check1(!rhs.checkIntegrity());
 
-   ADate result (lhs);
-   result += rhs;
-   return result;
+    ADate result(lhs);
+    result += rhs;
+    return result;
 }
 
 //----------------------------------------------------------------------------
@@ -502,12 +486,13 @@ ADate operator+ (const ADate& lhs, const ADate& rhs) {
 /// \param rhs Right-hand-side of substraction
 /// \return ADate Result of substraction
 //----------------------------------------------------------------------------
-ADate operator- (const ADate& lhs, const ADate& rhs) {
-   Check1 (!lhs.checkIntegrity ()); Check1 (!rhs.checkIntegrity ());
+ADate operator-(const ADate& lhs, const ADate& rhs) {
+    Check1(!lhs.checkIntegrity());
+    Check1(!rhs.checkIntegrity());
 
-   ADate result (lhs);
-   result -= rhs;
-   return result;
+    ADate result(lhs);
+    result -= rhs;
+    return result;
 }
 
 //----------------------------------------------------------------------------
@@ -515,10 +500,9 @@ ADate operator- (const ADate& lhs, const ADate& rhs) {
 /// \return int Status; 0: OK
 /// \remarks Even undefined dates must have valid values!
 //----------------------------------------------------------------------------
-int ADate::checkIntegrity () const {
-   TRACE9 ("ADate::checkIntegrity () const - " << (int)day << '.' << (int)month
-           << '.' << year);
-   return isDefined () ? ((month < 1) || (month > 12)) ? 2 : (day > maxDayOf ()) : 0;
+int ADate::checkIntegrity() const {
+    TRACE9("ADate::checkIntegrity() const - " << (int)day << '.' << (int)month << '.' << year);
+    return isDefined() ? ((month < 1) || (month > 12)) ? 2 : (day > maxDayOf()) : 0;
 }
 
 //----------------------------------------------------------------------------
@@ -527,15 +511,15 @@ int ADate::checkIntegrity () const {
 /// \param year Year to check
 /// \return char Maximal day for the passed parameters [28 - 31]
 //----------------------------------------------------------------------------
-char ADate::maxDayOf (char month, int year) {
-   Check1 ((month > 0) && (month < 13));
+char ADate::maxDayOf(char month, int year) {
+    Check1((month > 0) && (month < 13));
 
-   if (month == (unsigned char)2)              // Special-handling of february
-      return (unsigned char)(isLeapYear (year) ? 29 : 28);
+    if (month == (unsigned char)2) // Special-handling of february
+        return (unsigned char)(isLeapYear(year) ? 29 : 28);
 
-   if (month > (unsigned char)7)    // Adapt month after july for easier calc.
-      --month;
-   return (unsigned char)((month & 1) ? 31 : 30);
+    if (month > (unsigned char)7) // Adapt month after july for easier calc.
+        --month;
+    return (unsigned char)((month & 1) ? 31 : 30);
 }
 
 //----------------------------------------------------------------------------
@@ -543,31 +527,31 @@ char ADate::maxDayOf (char month, int year) {
 /// integer after the operation, true is returned.
 /// \return bool Flag, if object is integer
 //----------------------------------------------------------------------------
-bool ADate::minAdapt () {
-   TRACE7 ("ADate::minAdapt: " << toString ());
-   if (((unsigned char)(month - 1)) > 11) {
-      int mon (255 - (unsigned char)(month - 1));
-      year -= (mon / 12) + 1;
-      month = 12 - (mon % 12);
-   }
+bool ADate::minAdapt() {
+    TRACE7("ADate::minAdapt: " << toString());
+    if (((unsigned char)(month - 1)) > 11) {
+        int mon(255 - (unsigned char)(month - 1));
+        year -= (mon / 12) + 1;
+        month = 12 - (mon % 12);
+    }
 
-   TRACE9 ("ADate::minAdapt (month adapted (1)): " << toString ());
+    TRACE9("ADate::minAdapt(month adapted (1)): " << toString());
 
-   if ((signed char)day > maxDayOf ())
-      day = maxDayOf ();
-   else
-      while (((signed char)day) < 1) {               // Adapt date if underflow
-         --month;
-         if (month < 1) {
-            month = 12;
-            --year;
-            TRACE9 ("ADate::minAdapt (month adapted (2)): " << toString ());
-         }
-         day += maxDayOf ();
-         TRACE9 ("ADate::minAdapt (day adapted (1)): " << toString ());
-      } // endif day invalid
+    if ((signed char)day > maxDayOf())
+        day = maxDayOf();
+    else
+        while (((signed char)day) < 1) { // Adapt date if underflow
+            --month;
+            if (month < 1) {
+                month = 12;
+                --year;
+                TRACE9("ADate::minAdapt(month adapted (2)): " << toString());
+            }
+            day += maxDayOf();
+            TRACE9("ADate::minAdapt(day adapted (1)): " << toString());
+        } // endif day invalid
 
-   return !ADate::checkIntegrity ();      // Can only ensure proper ADate-part
+    return !ADate::checkIntegrity(); // Can only ensure proper ADate-part
 }
 
 //----------------------------------------------------------------------------
@@ -575,26 +559,26 @@ bool ADate::minAdapt () {
 /// integer after the operation, true is returned.
 /// \return bool Flag, if object is integer
 //----------------------------------------------------------------------------
-bool ADate::maxAdapt () {
-   TRACE7 ("ADate::maxAdapt: " << toString ());
-   if (((unsigned char)(month - 1)) > 11) {
-      year += month / 12;
-      month = month % 12;
-   }
+bool ADate::maxAdapt() {
+    TRACE7("ADate::maxAdapt: " << toString());
+    if (((unsigned char)(month - 1)) > 11) {
+        year += month / 12;
+        month = month % 12;
+    }
 
-   TRACE9 ("ADate::maxAdapt (month dapted (1)): " << toString ());
+    TRACE9("ADate::maxAdapt(month dapted (1)): " << toString());
 
-   unsigned char maxDay (maxDayOf ());               // Adapt date if overflow
-   while (day > maxDay) {
-      day -= maxDay;
-      ++month;
-   }
+    unsigned char maxDay(maxDayOf()); // Adapt date if overflow
+    while (day > maxDay) {
+        day -= maxDay;
+        ++month;
+    }
 
-   if (month > (unsigned char)12) {                 // Adapt month if overflow
-      month -= (unsigned char)12;     // Assuming calc. was with correct month
-      ++year;
-   }
-   return !ADate::checkIntegrity ();      // Can only ensure proper ADate-part
+    if (month > (unsigned char)12) { // Adapt month if overflow
+        month -= (unsigned char)12;  // Assuming calc. was with correct month
+        ++year;
+    }
+    return !ADate::checkIntegrity(); // Can only ensure proper ADate-part
 }
 
 //----------------------------------------------------------------------------
@@ -603,14 +587,13 @@ bool ADate::maxAdapt () {
 /// \param Day Day to set
 //----------------------------------------------------------------------------
 void ADate::setDay(char Day) {
-   day = Day;
+    day = Day;
 
-   if (checkIntegrity()) {
-      undefine();
-      throw std::invalid_argument ("ADate::setDay");
-   }
-   else
-      setDefined ();
+    if (checkIntegrity()) {
+        undefine();
+        throw std::invalid_argument("ADate::setDay");
+    } else
+        setDefined();
 }
 
 //----------------------------------------------------------------------------
@@ -618,15 +601,14 @@ void ADate::setDay(char Day) {
 /// undefined.
 /// \param Month Month to set
 //----------------------------------------------------------------------------
-void ADate::setMonth (char Month) {
-   month = Month;
+void ADate::setMonth(char Month) {
+    month = Month;
 
-   if (checkIntegrity ()) {
-      undefine ();
-      throw std::invalid_argument ("ADate::setMonth");
-   }
-   else
-      setDefined ();
+    if (checkIntegrity()) {
+        undefine();
+        throw std::invalid_argument("ADate::setMonth");
+    } else
+        setDefined();
 }
 
 //----------------------------------------------------------------------------
@@ -635,15 +617,15 @@ void ADate::setMonth (char Month) {
 /// \remarks It is not checked if the date is in the right range for a
 //        <tt>struct tm</tt> (after 1900 and before 2039)
 //----------------------------------------------------------------------------
-struct tm ADate::toStructTM () const {
-   struct tm result;
-   memset (&result, '\0', sizeof (result));
-   if (isDefined ()) {
-      result.tm_mday = day;
-      result.tm_mon = month - 1;
-      result.tm_year = year - 1900;
-   }
-   return result;
+struct tm ADate::toStructTM() const {
+    struct tm result;
+    memset(&result, '\0', sizeof(result));
+    if (isDefined()) {
+        result.tm_mday = day;
+        result.tm_mon = month - 1;
+        result.tm_year = year - 1900;
+    }
+    return result;
 }
 
-}
+} // namespace YGP
