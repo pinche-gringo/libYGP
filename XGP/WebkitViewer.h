@@ -20,7 +20,7 @@
 
 #ifdef HAVE_WEBKIT
 
-#    include <gtk/gtkwidget.h>
+#    include <gtk/gtk.h>
 
 #    ifdef __cplusplus
 extern "C" {

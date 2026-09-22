@@ -124,9 +124,10 @@
 /* GUI libraries */
 #mesondefine HAVE_GTK
 #mesondefine HAVE_GIOMM
-/* Defined to the API-version, if GTKHTML is installed */
-#mesondefine HAVE_GTKHTML
+/* Defined to the API-version, if WebKitGTK is installed */
 #mesondefine HAVE_WEBKIT
+/* Name of the WebKitGTK library to load */
+#mesondefine WEBKIT_LIBRARY
 
 /* Browsers (1 if existing, 0 if not) */
 #mesondefine HAVE_DILLO

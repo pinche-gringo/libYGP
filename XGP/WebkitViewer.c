@@ -30,11 +30,10 @@
 
 #ifdef HAVE_WEBKIT
 
+#include <stdio.h>
 #include <dlfcn.h>
 
 #include <YGP/Check.h>
-
-#include <webkit/webkitwebview.h>
 
 #include "WebkitViewer.h"
 
@@ -64,18 +63,18 @@ static PFNLOAD          pfnLoad = NULL;
 //----------------------------------------------------------------------------
 GtkWidget* initialiseWebkit () {
    TRACE ("Initialising Webkit viewer\n");
-   if (!g_thread_get_initialized ())
-      g_thread_init (NULL);
-
-   if (!hDLL)
-      hDLL = dlopen ("libwebkit-1.0" SHAREOBJ_EXT, 0x00001);
+   if (!hDLL) {
+      hDLL = dlopen (WEBKIT_LIBRARY, RTLD_LAZY);
+      if (!hDLL)
+         hDLL = dlopen ("libwebkitgtk-" HAVE_WEBKIT SHAREOBJ_EXT, RTLD_LAZY);
+   }
 
    if (hDLL) {
       TRACE ("Checking function pointers\n");
       if (!pfnNew) {
 	 TRACE ("Getting function pointers\n");
          pfnNew = (PFNNEWWEBKITVIEW)dlsym (hDLL, "webkit_web_view_new");
-         pfnLoad = (PFNLOAD)dlsym (hDLL, "webkit_web_view_open");
+         pfnLoad = (PFNLOAD)dlsym (hDLL, "webkit_web_view_load_uri");
 
          if (!(pfnNew && pfnLoad))
             return NULL;

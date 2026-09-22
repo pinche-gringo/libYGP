@@ -46,17 +46,17 @@ class HTMLViewer : public XDialog {
 
     virtual ~HTMLViewer();
 
-    static HTMLViewer* create(const std::string& file, const Glib::ustring& title, widgetTypes type) throw(CreateError);
+    static HTMLViewer* create(const std::string& file, const Glib::ustring& title, widgetTypes type);
     void display(const std::string& file);
 
   protected:
-    HTMLViewer(const std::string& file, const Glib::ustring& title, widgetTypes type) throw(CreateError);
+    HTMLViewer(const std::string& file, const Glib::ustring& title, widgetTypes type);
 
   private:
     HTMLViewer(const HTMLViewer&);
     const HTMLViewer& operator=(const HTMLViewer&);
 
-    int _display(const std::string file);
+    bool _display(const std::string file);
 
     GtkWidget* htmlCtrl;
     widgetTypes _type;

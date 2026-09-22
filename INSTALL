@@ -15,10 +15,7 @@ Parts of this libraries need
 
   - Gtkmm 4 (which itself needs GTK 4). Get if from http://www.gtkmm.org/.
 
-  - libgtkhtml: Part of GNOME (http://www.gnome.org/)
-
-  - GtkMozEmbed: A GTK+ widget embedding Mozilla (part of Firefox or
-    Seamonkey); Get it from http://www.mozilla.org/
+  - WebKitGTK 6.0 (the GTK 4 version of WebKitGTK; https://webkitgtk.org/)
 
   - A CORBA implementation (tested with MICO 2.3.9 (http://www.mico.org/))
 
@@ -28,8 +25,8 @@ Parts of this libraries need
 
 The package will compile without them, but you don't get the whole
 functionality (not surprisingly the CORBA- and/or the X-windows
-library are missing). The libgtkhtml and GtkMozEmbed are used to
-display the help of (X-)applications (load faster as a full browser).
+library are missing). WebKitGTK is used to display the help of
+(X-)applications (load faster as a full browser).
 
 
 How to build

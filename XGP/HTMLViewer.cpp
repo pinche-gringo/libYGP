@@ -23,19 +23,17 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ygp-cfg.h>
-#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
+#if defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
 
 #    define CONVERT_TO_UTF8
 #    include <YGP/Internal.h>
 
+#    include <glibmm/main.h>
 #    include <gtkmm/scrolledwindow.h>
 
 #    include <YGP/Check.h>
 #    include <YGP/Trace.h>
 
-#    ifdef HAVE_GTKHTML
-#        include "XGP/GTKViewer.h"
-#    endif
 #    ifdef HAVE_GTKMOZEMBED
 #        include "XGP/GtkMozViewer.h"
 #    endif
@@ -55,13 +53,13 @@ namespace XGP {
 /// \returns HTMLViewer* Pointer to the created dialog
 /// \throw CreateError in case of error
 //----------------------------------------------------------------------------
-HTMLViewer* HTMLViewer::create(const std::string& file, const Glib::ustring& title, widgetTypes type) throw(CreateError) {
+HTMLViewer* HTMLViewer::create(const std::string& file, const Glib::ustring& title, widgetTypes type) {
     TRACE9("HTMLViewer::create(const std::string&, const Glib::ustring&, widgetTypes) - " << file);
     Check1(file.size());
     Check(type < LAST);
 
     HTMLViewer* dlg(new HTMLViewer(file, title, type));
-    dlg->signal_response().connect(mem_fun(*dlg, &HTMLViewer::free));
+    dlg->signal_response().connect(sigc::mem_fun(*dlg, &HTMLViewer::free));
     return dlg;
 }
 
@@ -72,19 +70,13 @@ HTMLViewer* HTMLViewer::create(const std::string& file, const Glib::ustring& tit
 /// \param type Type of control to create
 /// \throw CreateError in case of error
 //----------------------------------------------------------------------------
-HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widgetTypes type) throw(CreateError)
+HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widgetTypes type)
     : XDialog(title + _(" Help"), XDialog::OK), htmlCtrl(NULL), _type(type) {
     TRACE9("HTMLViewer::HTMLViewer(const std::string&, const Glib::ustring&, widgetTypes) - " << file);
     Check1(file.size());
     Check1(type < LAST);
 
     switch (type) {
-#    ifdef HAVE_GTKHTML
-    case GTKHTML:
-        htmlCtrl = gtkhtmlInitialize();
-        break;
-#    endif
-
 #    ifdef HAVE_GTKMOZEMBED
     case GTKMOZEMBED:
         htmlCtrl = gtkMozEmbedInitialize();
@@ -103,20 +95,10 @@ HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widg
 
     if (htmlCtrl) {
         TRACE9("HTMLViewer::HTMLViewer(const std::string&, const Glib::ustring&, widgetTypes) - Resizing control");
-        resize(640, 400);
+        set_default_size(640, 400);
 
         TRACE9("HTMLViewer::HTMLViewer(const std::string&, const Glib::ustring&, widgetTypes) - Adding control");
         switch (type) {
-#    ifdef HAVE_GTKHTML
-        case GTKHTML: {
-            Gtk::ScrolledWindow* scrl(manage(new Gtk::ScrolledWindow));
-            scrl->add(*manage(Glib::wrap(htmlCtrl)));
-            scrl->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-            get_vbox()->pack_start(*scrl);
-            break;
-        }
-#    endif
-
 #    ifdef HAVE_GTKMOZEMBED
         case GTKMOZEMBED:
             get_vbox()->pack_start(*manage(Glib::wrap(htmlCtrl)));
@@ -125,10 +107,11 @@ HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widg
 
 #    ifdef HAVE_WEBKIT
         case WEBKIT: {
-            Gtk::ScrolledWindow* scrl(manage(new Gtk::ScrolledWindow));
-            scrl->add(*manage(Glib::wrap(htmlCtrl)));
-            scrl->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-            get_vbox()->pack_start(*scrl);
+            auto* scrl(Gtk::make_managed<Gtk::ScrolledWindow>());
+            scrl->set_child(*Gtk::manage(Glib::wrap(htmlCtrl)));
+            scrl->set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+            scrl->set_expand();
+            get_content_area()->append(*scrl);
             break;
         }
 #    endif
@@ -136,22 +119,14 @@ HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widg
             Check(0);
         }
 
-        show_all_children();
         TRACE9("HTMLViewer::HTMLViewer(const std::string&, const Glib::ustring&, widgetTypes) - Showing dialog");
         show();
-        Glib::signal_idle().connect(bind(mem_fun(*this, &HTMLViewer::_display), file));
+        Glib::signal_idle().connect(sigc::bind(sigc::mem_fun(*this, &HTMLViewer::_display), file));
     }
     else {
         std::string err;
 
         switch (type) {
-#    ifdef HAVE_GTKHTML
-        case GTKHTML:
-            err = _("Can't display the GtkHTML control!\n\nReason: %1");
-            err.replace(err.find("%1"), 2, gtkhtmlGetError());
-            break;
-#    endif
-
 #    ifdef HAVE_GTKMOZEMBED
         case GTKMOZEMBED:
             err = _("Can't display GtkMozEmbed control!\n\nReason: %1");
@@ -186,11 +161,6 @@ void HTMLViewer::display(const std::string& file) {
     Check1(file.size());
 
     switch (_type) {
-#    ifdef HAVE_GTKHTML
-    case GTKHTML:
-        gtkhtmlDisplayFile(htmlCtrl, file.c_str());
-        break;
-#    endif
 #    ifdef HAVE_GTKMOZEMBED
     case GTKMOZEMBED:
         gtkMozEmbedDisplayURL(htmlCtrl, file.c_str());
@@ -211,9 +181,9 @@ void HTMLViewer::display(const std::string& file) {
 /// Sets the HTML-document to display in the dialog; do be used from the idle-signal
 /// \param file File containing the HTML-document to display
 //----------------------------------------------------------------------------
-int HTMLViewer::_display(const std::string file) {
+bool HTMLViewer::_display(const std::string file) {
     display(file);
-    return 0;
+    return false;
 }
 
 } // namespace XGP

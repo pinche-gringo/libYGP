@@ -161,17 +161,19 @@ if not giomm_dep.found()
   message('Using own icon-handling')
 endif
 
-gtkhtml_dep = dependency('', required: false)
-foreach v : ['3.14', '3.8', '3.5', '3.1']
-  gtkhtml_dep = dependency('libgtkhtml-' + v, version: '>= ' + v + '.0', required: false)
-  if gtkhtml_dep.found()
-    conf.set_quoted('HAVE_GTKHTML', v)
+# Checking for WebKitGTK (loaded at run-time). XGP uses GTK 4, so only the
+# GTK 4 based versions are usable
+# Entries: [pkg-config name, API-version, name of the library to load]
+webkit_dep = dependency('', required: false)
+foreach w : [['webkitgtk-6.0', '6.0', 'libwebkitgtk-6.0.so.4']]
+  webkit_dep = dependency(w[0], required: false)
+  if webkit_dep.found()
+    conf.set_quoted('HAVE_WEBKIT', w[1])
+    conf.set_quoted('WEBKIT_LIBRARY', host_machine.system() == 'linux' ? w[2]
+                                      : 'lib' + w[0] + shareobj_ext)
     break
   endif
 endforeach
-
-webkit_dep = dependency('webkit-1.0', version: '>= 1.0.0', required: false)
-have += {'HAVE_WEBKIT': webkit_dep.found()}
 
 #-----------------------------------------------------------------------------
 # Programs
