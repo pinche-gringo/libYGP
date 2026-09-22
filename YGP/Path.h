@@ -1,8 +1,6 @@
 #ifndef PATH_H
 #define PATH_H
 
-//$Id$
-
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2 of the License, or
@@ -17,27 +15,25 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
 #include <string>
-
 
 namespace YGP {
 
 class Path {
- public:
-   static std::string expandNode (const std::string& input);
+  public:
+    static std::string expandNode(const std::string& input);
 
-   static const char SEPARATOR;
-   static const char* SEPARATOR_STR;
+    static const char SEPARATOR;
+    static const char* SEPARATOR_STR;
 
- private:
-   Path ();
-   Path (const Path& other);
-   ~Path ();
+  private:
+    Path();
+    Path(const Path& other);
+    ~Path();
 
-   const Path& operator= (const Path& other);
+    const Path& operator=(const Path& other);
 };
 
-}
+} // namespace YGP
 
 #endif

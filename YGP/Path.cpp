@@ -1,14 +1,11 @@
-//$Id$
-
-//PROJECT     : YGP
-//SUBSYSTEM   : YGP
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision$
-//AUTHOR      : Markus Schwab
-//CREATED     : 06.11.2009
-//COPYRIGHT   : Copyright (C) 2009
+// PROJECT     : YGP
+// SUBSYSTEM   : YGP
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 06.11.2009
+// COPYRIGHT   : Copyright (C) 2009, 2026
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,14 +21,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-
 #include "Path.h"
-
 
 #include <ygp-cfg.h>
 
-#if (SYSTEM == UNIX) && defined (HAVE_PWD_H)
-#  include <pwd.h>
+#if (SYSTEM == UNIX) && defined(HAVE_PWD_H)
+#    include <pwd.h>
 #endif
 #include <cctype>
 #include <cstdlib>
@@ -40,7 +35,6 @@
 #include "YGP/Trace.h"
 
 #include "YGP/Path.h"
-
 
 namespace YGP {
 
@@ -51,9 +45,8 @@ const char* Path::SEPARATOR_STR = ":";
 const char Path::SEPARATOR = ';';
 const char* Path::SEPARATOR_STR = ";";
 #else
-#  error Unsupported plattform!
+#    error Unsupported plattform!
 #endif
-
 
 //-----------------------------------------------------------------------------
 /// Performs tilde-expansion on the input. The expansion is only done under
@@ -69,57 +62,55 @@ const char* Path::SEPARATOR_STR = ";";
 /// \param input String to expand
 /// \returns std::string Expanded string or input (if not expandable)
 //-----------------------------------------------------------------------------
-std::string Path::expandNode (const std::string& input) {
-   TRACE9 ("Path::expandNode (const std::string&) - " << input);
+std::string Path::expandNode(const std::string& input) {
+    TRACE9("Path::expandNode(const std::string&) - " << input);
 
-   if (input.empty () || input[0] != '~')
-      return input;
+    if (input.empty() || input[0] != '~')
+        return input;
 
-   unsigned int i (1);
-   for (; i < input.length (); ++i) {
-      if (isspace (input[i]) || (input[i] == File::DIRSEPARATOR))
-         break;
+    unsigned int i(1);
+    for (; i < input.length(); ++i) {
+        if (isspace(input[i]) || (input[i] == File::DIRSEPARATOR))
+            break;
 
 #if SYSTEM == UNIX
-      if (input[i] == '\\')                     // Don't expand quoted strings
-         return input;
+        if (input[i] == '\\') // Don't expand quoted strings
+            return input;
 #endif
-   } // endfor
+    } // endfor
 
-   std::string ret (input);
-   if (i == 1) {                // No name after
+    std::string ret(input);
+    if (i == 1) { // No name after
 #if SYSTEM == UNIX
-      const char* user = getenv ("HOME");
-      if (user)
-         ret.replace (0, 1, user);
+        const char* user = getenv("HOME");
+        if (user)
+            ret.replace(0, 1, user);
 #else
-      const char* env = getenv ("HOMEDRIVE");
-      if (env) {
-         ret.replace (0, 1, env);
-         i = strlen (env);
-      }
-      else
-         ret.replace (0, 1, i = 0, '\0');
+        const char* env = getenv("HOMEDRIVE");
+        if (env) {
+            ret.replace(0, 1, env);
+            i = strlen(env);
+        }
+        else
+            ret.replace(0, 1, i = 0, '\0');
 
-      env = getenv ("HOMEPATH");
-      if (env)
-         ret.replace (i, 0, env);
+        env = getenv("HOMEPATH");
+        if (env)
+            ret.replace(i, 0, env);
 #endif
-   }
-#if (SYSTEM == UNIX) && defined (HAVE_PWD_H)
-   else {
-      std::string user (input.substr (1, i));
-      TRACE5 ("Path::expandNode (const std::string&) - Expanding user "
-              << user);
+    }
+#if (SYSTEM == UNIX) && defined(HAVE_PWD_H)
+    else {
+        std::string user(input.substr(1, i));
+        TRACE5("Path::expandNode(const std::string&) - Expanding user " << user);
 
-      struct passwd* entry (getpwnam (user.c_str ()));
-      if (entry)
-         ret.replace (0, i, entry->pw_dir);
-   }
+        struct passwd* entry(getpwnam(user.c_str()));
+        if (entry)
+            ret.replace(0, i, entry->pw_dir);
+    }
 #endif
-   TRACE1 ("Path::expandNode (const std::string&) - Expanded user "
-           << ret);
-   return ret;
+    TRACE1("Path::expandNode(const std::string&) - Expanded user " << ret);
+    return ret;
 }
 
-}
+} // namespace YGP
