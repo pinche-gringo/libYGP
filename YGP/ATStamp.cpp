@@ -1,14 +1,11 @@
-//$Id: ATStamp.cpp,v 1.28 2008/05/18 18:47:36 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : ATimestamp
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.28 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 13.10.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : ATimestamp
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 13.10.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <cstdio>
 
 #include <ygp-cfg.h>
@@ -38,24 +34,20 @@
 
 #include "YGP/ATStamp.h"
 
-
-#if !defined (HAVE_TIMEGM) && !defined (HAVE_TZSET)
-#  if defined (HAVE_TZSET)
-#     define tzset _tzset
-#  else
-#     error Need either timegm or tzset/_tzset!
-#  endif
+#if !defined(HAVE_TIMEGM) && !defined(HAVE_TZSET)
+#    if defined(HAVE_TZSET)
+#        define tzset _tzset
+#    else
+#        error Need either timegm or tzset/_tzset!
+#    endif
 #endif
-
 
 namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Defaultconstructor; the timestamp is not defined
 //-----------------------------------------------------------------------------
-ATimestamp::ATimestamp () : ADate (), ATime () {
-   TRACE5 ("ATimestamp::ATimestamp");
-}
+ATimestamp::ATimestamp() : ADate(), ATime() { TRACE5("ATimestamp::ATimestamp"); }
 
 //-----------------------------------------------------------------------------
 /// Constructor; depending on the parameter the timestamp is either set to the
@@ -63,9 +55,7 @@ ATimestamp::ATimestamp () : ADate (), ATime () {
 /// true).
 /// \param now Flag if current time or default time (1.1.1900) should be set
 //-----------------------------------------------------------------------------
-ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
-   TRACE5 ("ATimestamp::ATimestamp (" << (now ? "true)" : "false)"));
-}
+ATimestamp::ATimestamp(bool now) : ADate(now), ATime(now) { TRACE5("ATimestamp::ATimestamp (" << (now ? "true)" : "false)")); }
 
 //-----------------------------------------------------------------------------
 /// Constructor; sets the passed time. The object is undefined, if the passed
@@ -78,30 +68,27 @@ ATimestamp::ATimestamp (bool now) : ADate (now), ATime (now) {
 /// \param minute Minute of this object
 /// \param second Other time-parameters
 //-----------------------------------------------------------------------------
-ATimestamp::ATimestamp (char Day, char Month, int Year, char Hour,
-                        char minute, char second)
-   : ADate (Day, Month, Year), ATime (Hour, minute, second) {
-}
+ATimestamp::ATimestamp(char Day, char Month, int Year, char Hour, char minute, char second)
+    : ADate(Day, Month, Year), ATime(Hour, minute, second) {}
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ATimestamp::~ATimestamp () {
-}
-
+ATimestamp::~ATimestamp() {}
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator from another timestamp object
 /// \param other Object to assign
 /// \returns ATimestamp& Reference to self
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
-   Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
-   TRACE5 ("ATimestamp::operator=: " << other);
+ATimestamp& ATimestamp::operator=(const ATimestamp& other) {
+    Check3(!checkIntegrity());
+    Check3(!other.checkIntegrity());
+    TRACE5("ATimestamp::operator=: " << other);
 
-   ADate::operator= ((const ADate&)other);             // Calls checkIntegrity
-   ATime::operator= ((const ATime&)other);
-   return *this;
+    ADate::operator=((const ADate&)other); // Calls checkIntegrity
+    ATime::operator=((const ATime&)other);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -113,15 +100,15 @@ ATimestamp& ATimestamp::operator= (const ATimestamp& other) {
 /// \throw std::invalid_argument if the parameters has a wrong format
 /// \remarks A NULL-pointer as parameter is not permitted!
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::operator= (const char* pValue) {
-   Check3 (pValue);
-   Check3 (!checkIntegrity ());
+ATimestamp& ATimestamp::operator=(const char* pValue) {
+    Check3(pValue);
+    Check3(!checkIntegrity());
 
-   TRACE5 ("ATimestamp::operator= (const char*): " << pValue);
+    TRACE5("ATimestamp::operator=(const char*): " << pValue);
 
-   std::istringstream help (pValue);
-   readFromStream (help);
-   return *this;
+    std::istringstream help(pValue);
+    readFromStream(help);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -129,21 +116,21 @@ ATimestamp& ATimestamp::operator= (const char* pValue) {
 /// \param tm Object to assign as char-string
 /// \returns ATimestamp& Reference to self
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::operator= (const struct tm& tm) {
-   ADate::operator= (tm);
-   ATime::operator= (tm);
-   return *this;
+ATimestamp& ATimestamp::operator=(const struct tm& tm) {
+    ADate::operator=(tm);
+    ATime::operator=(tm);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
 /// Converts the object into a string, in the format DDMMYYYY[...] hhmmss.
 /// \returns String-representation of ATimestamp
 //-----------------------------------------------------------------------------
-std::string ATimestamp::toUnformattedString () const {
-   std::string ret (ADate::toUnformattedString ());
-   ret += ' ';
-   ret += ATime::toUnformattedString ();
-   return ret;
+std::string ATimestamp::toUnformattedString() const {
+    std::string ret(ADate::toUnformattedString());
+    ret += ' ';
+    ret += ATime::toUnformattedString();
+    return ret;
 }
 
 //-----------------------------------------------------------------------------
@@ -153,9 +140,7 @@ std::string ATimestamp::toUnformattedString () const {
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
 //-----------------------------------------------------------------------------
-std::string ATimestamp::toString () const {
-   return toString ("%x %X");
-}
+std::string ATimestamp::toString() const { return toString("%x %X"); }
 
 //-----------------------------------------------------------------------------
 /// Converts the object into a string, in the specified format. The parameter
@@ -164,9 +149,7 @@ std::string ATimestamp::toString () const {
 /// \remarks Only dates valid for <tt>struct tm</tt> can be printed (e.g. dates
 ///     after 1900)
 //-----------------------------------------------------------------------------
-std::string ATimestamp::toString (const char* format) const {
-   return ADate::toString (format);
-}
+std::string ATimestamp::toString(const char* format) const { return ADate::toString(format); }
 
 //-----------------------------------------------------------------------------
 /// Reads the timestamp in the format DDMMY[Y...] hhmmss (with leading zeros)
@@ -175,12 +158,12 @@ std::string ATimestamp::toString (const char* format) const {
 /// \param in Stream to parse
 /// \throw std::invalid_argument in case of a format error
 //-----------------------------------------------------------------------------
-void ATimestamp::readFromStream (std::istream& in) {
-   char ch;
+void ATimestamp::readFromStream(std::istream& in) {
+    char ch;
 
-   ADate::readFromStream (in);
-   in.get (ch);
-   ATime::readFromStream (in);
+    ADate::readFromStream(in);
+    in.get(ch);
+    ATime::readFromStream(in);
 }
 
 //-----------------------------------------------------------------------------
@@ -190,12 +173,13 @@ void ATimestamp::readFromStream (std::istream& in) {
 /// \param rhs Value to add
 /// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::operator+= (const ATimestamp& rhs) {
-   Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+ATimestamp& ATimestamp::operator+=(const ATimestamp& rhs) {
+    Check3(!checkIntegrity());
+    Check3(!rhs.checkIntegrity());
 
-   ATime::operator+= ((const ATime&)rhs);
-   ADate::operator+= ((const ADate&)rhs);
-   return *this;
+    ATime::operator+=((const ATime&)rhs);
+    ADate::operator+=((const ADate&)rhs);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -205,12 +189,13 @@ ATimestamp& ATimestamp::operator+= (const ATimestamp& rhs) {
 /// \param rhs Value to substract
 /// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
-   Check3 (!checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+ATimestamp& ATimestamp::operator-=(const ATimestamp& rhs) {
+    Check3(!checkIntegrity());
+    Check3(!rhs.checkIntegrity());
 
-   ATime::operator-= ((const ATime&)rhs);
-   ADate::operator-= ((const ADate&)rhs);
-   return *this;
+    ATime::operator-=((const ATime&)rhs);
+    ADate::operator-=((const ADate&)rhs);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -226,13 +211,12 @@ ATimestamp& ATimestamp::operator-= (const ATimestamp& rhs) {
 /// \param second Second to add
 /// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::add (char Day, char Month, int Year,
-                             char Hour, char minute ,char second) {
-   Check3 (!checkIntegrity ());
+ATimestamp& ATimestamp::add(char Day, char Month, int Year, char Hour, char minute, char second) {
+    Check3(!checkIntegrity());
 
-   ATime::add (Hour, minute, second);
-   ADate::add (Day, Month, Year);
-   return *this;
+    ATime::add(Hour, minute, second);
+    ADate::add(Day, Month, Year);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -248,13 +232,12 @@ ATimestamp& ATimestamp::add (char Day, char Month, int Year,
 /// \param second Second to substract
 /// \returns ATimestamp& Self
 //-----------------------------------------------------------------------------
-ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
-                             char Hour, char minute ,char second) {
-   Check3 (!checkIntegrity ());
+ATimestamp& ATimestamp::sub(char Day, char Month, int Year, char Hour, char minute, char second) {
+    Check3(!checkIntegrity());
 
-   ATime::sub (Hour, minute, second);
-   ADate::sub (Day, Month, Year);
-   return *this;
+    ATime::sub(Hour, minute, second);
+    ADate::sub(Day, Month, Year);
+    return *this;
 }
 
 //-----------------------------------------------------------------------------
@@ -272,17 +255,18 @@ ATimestamp& ATimestamp::sub (char Day, char Month, int Year,
 /// \returns long >0 if this is closer to the past than other; 0 if this
 ///      == other; <0 else
 //-----------------------------------------------------------------------------
-long ATimestamp::compare (const ATimestamp& other) const {
-   Check3 (!checkIntegrity ()); Check3 (!other.checkIntegrity ());
+long ATimestamp::compare(const ATimestamp& other) const {
+    Check3(!checkIntegrity());
+    Check3(!other.checkIntegrity());
 
-   // Both sides are defined -> return (approximated) difference
-   long rc (ADate::compare (other));
-   if (!rc) {
-      rc = ATime::compare (other);
+    // Both sides are defined -> return (approximated) difference
+    long rc(ADate::compare(other));
+    if (!rc) {
+        rc = ATime::compare(other);
 
-      TRACE5 ("ATimestamp::compare -> " << rc);
-   }
-   return rc;
+        TRACE5("ATimestamp::compare -> " << rc);
+    }
+    return rc;
 }
 
 //-----------------------------------------------------------------------------
@@ -293,12 +277,13 @@ long ATimestamp::compare (const ATimestamp& other) const {
 /// \param rhs Right-hand-side of addition
 /// \returns ATimestamp Result of additon
 //-----------------------------------------------------------------------------
-ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs) {
-   Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+ATimestamp operator+(const ATimestamp& lhs, const ATimestamp& rhs) {
+    Check3(!lhs.checkIntegrity());
+    Check3(!rhs.checkIntegrity());
 
-   ATimestamp result (lhs);
-   result += rhs;
-   return result;
+    ATimestamp result(lhs);
+    result += rhs;
+    return result;
 }
 
 //-----------------------------------------------------------------------------
@@ -309,12 +294,13 @@ ATimestamp operator+ (const ATimestamp& lhs, const ATimestamp& rhs) {
 /// \param rhs Right-hand-side of substraction
 /// \returns ATimestamp Result of substraction
 //-----------------------------------------------------------------------------
-ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs) {
-   Check3 (!lhs.checkIntegrity ()); Check3 (!rhs.checkIntegrity ());
+ATimestamp operator-(const ATimestamp& lhs, const ATimestamp& rhs) {
+    Check3(!lhs.checkIntegrity());
+    Check3(!rhs.checkIntegrity());
 
-   ATimestamp result (lhs);
-   result -= rhs;
-   return result;
+    ATimestamp result(lhs);
+    result -= rhs;
+    return result;
 }
 
 //-----------------------------------------------------------------------------
@@ -322,9 +308,9 @@ ATimestamp operator- (const ATimestamp& lhs, const ATimestamp& rhs) {
 /// times must have valid values!
 /// \returns int Status; 0: OK
 //-----------------------------------------------------------------------------
-int ATimestamp::checkIntegrity () const {
-   int rc (ATime::checkIntegrity ());
-   return rc ? rc * 10 : ADate::checkIntegrity ();
+int ATimestamp::checkIntegrity() const {
+    int rc(ATime::checkIntegrity());
+    return rc ? rc * 10 : ADate::checkIntegrity();
 }
 
 //-----------------------------------------------------------------------------
@@ -332,11 +318,11 @@ int ATimestamp::checkIntegrity () const {
 /// the operation, true is returned (else false).
 /// \returns bool True, if object is integer after the operation
 //-----------------------------------------------------------------------------
-bool ATimestamp::minAdapt () {
-   if (ATime::minAdapt ())
-      decDay ();
+bool ATimestamp::minAdapt() {
+    if (ATime::minAdapt())
+        decDay();
 
-   return ADate::minAdapt ();
+    return ADate::minAdapt();
 }
 
 //-----------------------------------------------------------------------------
@@ -344,10 +330,10 @@ bool ATimestamp::minAdapt () {
 /// the operation, true is returned (else false).
 /// \returns bool True, if object is integer after the operation
 //-----------------------------------------------------------------------------
-bool ATimestamp::maxAdapt () {
-   if (ATime::maxAdapt ())
-      incDay ();
-   return ADate::maxAdapt ();
+bool ATimestamp::maxAdapt() {
+    if (ATime::maxAdapt())
+        incDay();
+    return ADate::maxAdapt();
 }
 
 //-----------------------------------------------------------------------------
@@ -356,34 +342,34 @@ bool ATimestamp::maxAdapt () {
 /// \remarks It is not checked if the date is in the right range for a
 ///    <tt>struct tm</tt> (after 1900 and before 2039)
 //-----------------------------------------------------------------------------
-struct tm ATimestamp::toStructTM () const {
-   struct tm result (ADate::toStructTM ());
-   if (isDefined ()) {
-      result.tm_hour = getHour ();
-      result.tm_min = getMinute ();
-      result.tm_sec = getSecond ();
-   }
-   return result;
+struct tm ATimestamp::toStructTM() const {
+    struct tm result(ADate::toStructTM());
+    if (isDefined()) {
+        result.tm_hour = getHour();
+        result.tm_min = getMinute();
+        result.tm_sec = getSecond();
+    }
+    return result;
 }
 
 //-----------------------------------------------------------------------------
 /// Converts the object to a system-timestructure (as GMT).
 /// \returns time_t Converted time
 //-----------------------------------------------------------------------------
-time_t ATimestamp::toGMTTime () const {
+time_t ATimestamp::toGMTTime() const {
 #ifdef HAVE_TIMEGM
-   struct tm result (toStructTM ());
-   return timegm (&result);
+    struct tm result(toStructTM());
+    return timegm(&result);
 #else
-   std::string TZ (getenv ("TZ"));
-   putenv ("TZ=UTC");
-   tzset ();
-   time_t utcTime (toLocalTime ());
-   TZ = "TZ=" + TZ;
-   putenv (const_cast<char*> (TZ.c_str ()));
-   tzset ();
-   return utcTime;
+    std::string TZ(getenv("TZ"));
+    putenv("TZ=UTC");
+    tzset();
+    time_t utcTime(toLocalTime());
+    TZ = "TZ=" + TZ;
+    putenv(const_cast<char*>(TZ.c_str()));
+    tzset();
+    return utcTime;
 #endif
 }
 
-}
+} // namespace YGP
