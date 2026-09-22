@@ -1,8 +1,6 @@
 #ifndef YGP_ASSNPARSE_H
 #define YGP_ASSNPARSE_H
 
-//$Id: AssParse.h,v 1.19 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,11 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <string>
 
 #include <exception>
-
 
 namespace YGP {
 
@@ -37,50 +33,50 @@ namespace YGP {
    Empty assignments are silently ignored.
 */
 class AssignmentParse {
- public:
-   /// Constructor; from the string to analyse
-   AssignmentParse (const std::string& assignments) : assignments (assignments), actKey (), actValue () { }
-   ~AssignmentParse ();
+  public:
+    /// Constructor; from the string to analyse
+    AssignmentParse(const std::string& assignments) : assignments(assignments), actKey(), actValue() {}
+    ~AssignmentParse();
 
-   /// Assignment operator; from the string to analyse
-   AssignmentParse& operator= (const std::string& newAssignment) {
-      assignments = newAssignment;
-      return *this; }
+    /// Assignment operator; from the string to analyse
+    AssignmentParse& operator=(const std::string& newAssignment) {
+        assignments = newAssignment;
+        return *this;
+    }
 
-   std::string getNextNode ();
+    std::string getNextNode();
 
-   /// \name Accessing the values of the actual part; only valid after calling getNextNode
-   //@{
-   std::string getActKey () const { return actKey; }
-   std::string getActValue () const { return actValue; }
-   //@}
+    /// \name Accessing the values of the actual part; only valid after calling getNextNode
+    //@{
+    std::string getActKey() const { return actKey; }
+    std::string getActValue() const { return actValue; }
+    //@}
 
-   /// \name Building entries
-   //@{
-   static std::string makeAssignment (const char* key, const char* value,
-                                      size_t length = -1);
-   static std::string makeAssignment (const char* key, const std::string& value);
-   //@}
+    /// \name Building entries
+    //@{
+    static std::string makeAssignment(const char* key, const char* value, size_t length = -1);
+    static std::string makeAssignment(const char* key, const std::string& value);
+    //@}
 
-   static const char SEPARATOR;  ///< Character separating the entries - the semicolon (;)
-   static const char EQUALSIGN;  ///< Character separating the "key" from the "value"; the equal sign (=)
-   static const char QUOTE;  ///< Character which might quote the value; the quote (")
-   static const char ESCAPE;  ///< Character which escapes a quote inside a quoted value; the backslash (\)
+    static const char SEPARATOR; ///< Character separating the entries - the semicolon (;)
+    static const char EQUALSIGN; ///< Character separating the "key" from the "value"; the equal sign (=)
+    static const char QUOTE;     ///< Character which might quote the value; the quote (")
+    static const char ESCAPE;    ///< Character which escapes a quote inside a quoted value; the backslash (\)
 
-   static void escapeQuotes (std::string& value);
+    static void escapeQuotes(std::string& value);
 
- private:
-   AssignmentParse ();
-   AssignmentParse (const AssignmentParse& other);
+  private:
+    AssignmentParse();
+    AssignmentParse(const AssignmentParse& other);
 
-   AssignmentParse& operator= (const AssignmentParse& other);
+    AssignmentParse& operator=(const AssignmentParse& other);
 
-   std::string assignments;
+    std::string assignments;
 
-   std::string actKey;
-   std::string actValue;
+    std::string actKey;
+    std::string actValue;
 };
 
-}
+} // namespace YGP
 
 #endif
