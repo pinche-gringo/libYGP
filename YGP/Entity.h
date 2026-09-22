@@ -1,8 +1,6 @@
 #ifndef YGP_ENTITY_H
 #define YGP_ENTITY_H
 
-//$Id: Entity.h,v 1.14 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,19 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifdef _MSC_VER
-#pragma warning(disable:4786) // disable warning about truncating debug info
+#    pragma warning(disable : 4786) // disable warning about truncating debug info
 #endif
 
+#include <algorithm>
+#include <iosfwd>
 #include <string>
 #include <vector>
-#include <iosfwd>
-#include <algorithm>
 
-#include <YGP/Check.h>
 #include <YGP/Attribute.h>
-
+#include <YGP/Check.h>
 
 namespace YGP {
 
@@ -43,45 +39,43 @@ namespace YGP {
    utility \c mgeni (in the bin subdirectory).
 */
 class Entity {
-   friend class INIFile;
+    friend class INIFile;
 
- public:
-   /// Default constructor
-   Entity () : attributes () { };
-   virtual ~Entity ();
+  public:
+    /// Default constructor
+    Entity() : attributes() {};
+    virtual ~Entity();
 
-   IAttribute* findAttribute (const char* name) const;
-   IAttribute* findAttribute (const std::string& name) const;
+    IAttribute* findAttribute(const char* name) const;
+    IAttribute* findAttribute(const std::string& name) const;
 
-   /// Adds a new attribute to the entity.
-   void addAttribute (IAttribute& newAttr) {
-      Check3 (std::find (attributes.begin (), attributes.end (), &newAttr)
-              == attributes.end ());
-      attributes.push_back (&newAttr);
-   }
+    /// Adds a new attribute to the entity.
+    void addAttribute(IAttribute& newAttr) {
+        Check3(std::find(attributes.begin(), attributes.end(), &newAttr) == attributes.end());
+        attributes.push_back(&newAttr);
+    }
 
-   friend std::ostream& operator<< (std::ostream& out, const Entity& obj);
-   friend std::istream& operator>> (std::istream& in, Entity& obj);
-
+    friend std::ostream& operator<<(std::ostream& out, const Entity& obj);
+    friend std::istream& operator>>(std::istream& in, Entity& obj);
 
 #ifdef __STL_MEMBER_TEMPLATES
-   /// Add a copy of an attribute with a specific type to the entity.
-   /// \note This is not portable!
-   template <class AttrType>
-      void addAttribute (const char* name, const AttrType& attr) {
-      Check1 (name);
-      addAttribute (new Attribute<AttrType> (name, attr));  }
-   /// Add a copy of an attribute with a specific type to the entity.
-   /// \note This is not portable!
-   template <class AttrType>
-      void addAttribute (const std::string& name, const AttrType& attr) {
-      addAttribute (new Attribute<AttrType> (name, attr));  }
+    /// Add a copy of an attribute with a specific type to the entity.
+    /// \note This is not portable!
+    template <class AttrType> void addAttribute(const char* name, const AttrType& attr) {
+        Check1(name);
+        addAttribute(new Attribute<AttrType>(name, attr));
+    }
+    /// Add a copy of an attribute with a specific type to the entity.
+    /// \note This is not portable!
+    template <class AttrType> void addAttribute(const std::string& name, const AttrType& attr) {
+        addAttribute(new Attribute<AttrType>(name, attr));
+    }
 #endif
 
- private:
-   std::vector <IAttribute*> attributes;
+  private:
+    std::vector<IAttribute*> attributes;
 };
 
-}
+} // namespace YGP
 
 #endif
