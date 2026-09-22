@@ -1,14 +1,11 @@
-//$Id: Relation.cpp,v 1.6 2008/03/29 17:35:17 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : Relation
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.6 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 21.10.2004
-//COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2009
+// PROJECT     : libYGP
+// SUBSYSTEM   : Relation
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 21.10.2004
+// COPYRIGHT   : Copyright (C) 2004 - 2006, 2008, 2009, 2026
 
 // This file is part of libYGP.
 //
@@ -25,53 +22,46 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "YGP/Trace.h"
-
 
 #include "YGP/Relation.h"
 
-
 namespace YGP {
 
-
 std::map<const char*, IRelation*> RelationManager::relations;
-
 
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-IRelation::IRelation (const char* name) {
-   TRACE9 ("IRelation::IRelation (const char*) - " << name);
+IRelation::IRelation(const char* name) {
+    TRACE9("IRelation::IRelation(const char*) - " << name);
 
-   RelationManager::add (name, this);
+    RelationManager::add(name, this);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-IRelation::~IRelation () {
-   TRACE9 ("IRelation::~IRelation ()");
+IRelation::~IRelation() {
+    TRACE9("IRelation::~IRelation()");
 
-   RelationManager::remove (this);
+    RelationManager::remove(this);
 }
-
 
 //-----------------------------------------------------------------------------
 /// Removes the passed relation
 /// \param relation Relation to remove
 //-----------------------------------------------------------------------------
-void RelationManager::remove (const IRelation* relation) {
-   TRACE9 ("RelationManager::remove (const IRelation*)");
-   Check1 (relation);
+void RelationManager::remove(const IRelation* relation) {
+    TRACE9("RelationManager::remove(const IRelation*)");
+    Check1(relation);
 
-   for (std::map<const char*, IRelation*>::iterator i (relations.begin ());
-	i != relations.end (); ++i)
-      if (i->second == relation) {
-	 relations.erase (i);
-	 return;
-      }
-   Check3 (0);
+    for (std::map<const char*, IRelation*>::iterator i(relations.begin()); i != relations.end(); ++i)
+        if (i->second == relation) {
+            relations.erase(i);
+            return;
+        }
+    Check3(0);
 }
 
 //-----------------------------------------------------------------------------
@@ -79,12 +69,12 @@ void RelationManager::remove (const IRelation* relation) {
 /// \param name Name of relation to find
 /// \returns IRelation* Relation searched for or NULL
 //-----------------------------------------------------------------------------
-IRelation* RelationManager::getRelation (const char* name) {
-   TRACE9 ("RelationManager::getRelation (const char*) - " << name);
-   Check1 (name);
+IRelation* RelationManager::getRelation(const char* name) {
+    TRACE9("RelationManager::getRelation(const char*) - " << name);
+    Check1(name);
 
-   std::map<const char*, IRelation*>::iterator i (relations.find (name));
-   return (i != relations.end ()) ?  i->second : NULL;
+    std::map<const char*, IRelation*>::iterator i(relations.find(name));
+    return (i != relations.end()) ? i->second : NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -92,15 +82,13 @@ IRelation* RelationManager::getRelation (const char* name) {
 /// \param relation Relation to get the name for
 /// \returns const char* Name of the passed relation
 //-----------------------------------------------------------------------------
-const char* RelationManager::getRelationName (const IRelation& relation) {
-   std::map<const char*, IRelation*>::iterator i (relations.begin ());
-   for (; i != relations.end (); ++i)
-      if (i->second == &relation)
-	 break;
-   Check (i != relations.end ());
-   return i->first;
+const char* RelationManager::getRelationName(const IRelation& relation) {
+    std::map<const char*, IRelation*>::iterator i(relations.begin());
+    for (; i != relations.end(); ++i)
+        if (i->second == &relation)
+            break;
+    Check(i != relations.end());
+    return i->first;
 }
 
-
-}
-
+} // namespace YGP
