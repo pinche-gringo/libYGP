@@ -1,14 +1,11 @@
-//$Id: Socket.cpp,v 1.31 2008/06/10 21:47:20 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : Socket
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.31 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 24.3.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : Socket
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 24.3.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "ygp-cfg.h"
 
 #include <cerrno>
@@ -35,35 +31,30 @@
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 
-#include "YGP/Socket.h"
 #include "YGP/Internal.h"
-
+#include "YGP/Socket.h"
 
 #if HAVE_SYS_SOCKET_H
-#  include <sys/select.h>
-#  include <netinet/in.h>
-#  include <netdb.h>
+#    include <netdb.h>
+#    include <netinet/in.h>
+#    include <sys/select.h>
 
-#  include <unistd.h>
+#    include <unistd.h>
 #elif HAVE_WINSOCK2_H
-   // Define the macros/functions to access the socket-functions of Windows
-   // (of course they are different - probably just to show that they didn't
-   // steal the whole thing from BSD)
-#  define close	      closesocket
-   inline int write (int socket, const char* buffer, int length) {
-      return send (socket, buffer, length, 0); }
-   inline int read (int socket, char* buffer, int length) {
-      return recv (socket, buffer, length, 0); }
+// Define the macros/functions to access the socket-functions of Windows
+// (of course they are different - probably just to show that they didn't
+// steal the whole thing from BSD)
+#    define close closesocket
+inline int write(int socket, const char* buffer, int length) { return send(socket, buffer, length, 0); }
+inline int read(int socket, char* buffer, int length) { return recv(socket, buffer, length, 0); }
 #endif
 
-
 #ifndef HAVE_SSIZE_T
-typedef size_t  ssize_t;
+typedef size_t ssize_t;
 #endif
 #ifndef HAVE_SOCKLEN_T
 typedef int socklen_t;
 #endif
-
 
 namespace YGP {
 
@@ -71,12 +62,11 @@ namespace YGP {
 /// Defaultconstructor; creates an socket but without any connection.
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket ()
-   : sock (socket (PF_INET, SOCK_STREAM, 0)) {
-   TRACE9 ("Socket::Socket ()");
+Socket::Socket() : sock(socket(PF_INET, SOCK_STREAM, 0)) {
+    TRACE9("Socket::Socket()");
 
-   if (sock < 0)
-      throwError (_("Can't create socket"), errno);
+    if (sock < 0)
+        throwError(_("Can't create socket"), errno);
 }
 
 //----------------------------------------------------------------------------
@@ -84,13 +74,12 @@ Socket::Socket ()
 /// \param port Port to listen at
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (unsigned int port)
-   : sock (socket (PF_INET, SOCK_STREAM, 0)) {
-   TRACE9 ("Socket::Socket (unsigned int)");
+Socket::Socket(unsigned int port) : sock(socket(PF_INET, SOCK_STREAM, 0)) {
+    TRACE9("Socket::Socket(unsigned int)");
 
-   if (sock < 0)
-      throwError (_("Can't create socket"), errno);
-   listenAt (port);
+    if (sock < 0)
+        throwError(_("Can't create socket"), errno);
+    listenAt(port);
 }
 
 //----------------------------------------------------------------------------
@@ -100,15 +89,14 @@ Socket::Socket (unsigned int port)
 /// \param port Port to write to
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (const char* server, unsigned int port)
-   : sock (socket (PF_INET, SOCK_STREAM, 0)) {
-   TRACE9 ("Socket::Socket (const char*, unsigned int)");
-   Check1 (server);
+Socket::Socket(const char* server, unsigned int port) : sock(socket(PF_INET, SOCK_STREAM, 0)) {
+    TRACE9("Socket::Socket(const char*, unsigned int)");
+    Check1(server);
 
-   if (sock < 0)
-      throwError ("Can't create socket", errno);
+    if (sock < 0)
+        throwError("Can't create socket", errno);
 
-   writeTo (server, port);
+    writeTo(server, port);
 }
 
 //----------------------------------------------------------------------------
@@ -118,24 +106,22 @@ Socket::Socket (const char* server, unsigned int port)
 /// \param port Port to write to
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket::Socket (const std::string& server, unsigned int port)
-   : sock (socket (PF_INET, SOCK_STREAM, 0)) {
-   TRACE9 ("Socket::Socket (const std::string&, unsigned int)");
+Socket::Socket(const std::string& server, unsigned int port) : sock(socket(PF_INET, SOCK_STREAM, 0)) {
+    TRACE9("Socket::Socket(const std::string&, unsigned int)");
 
-   if (sock < 0)
-      throwError (_("Can't create socket"), errno);
+    if (sock < 0)
+        throwError(_("Can't create socket"), errno);
 
-   writeTo (server.c_str (), port);
+    writeTo(server.c_str(), port);
 }
 
 //----------------------------------------------------------------------------
 /// Destructor
 //----------------------------------------------------------------------------
-Socket::~Socket () {
-   TRACE9 ("Socket::~Socket ()");
-   ::close (sock);
+Socket::~Socket() {
+    TRACE9("Socket::~Socket()");
+    ::close(sock);
 }
-
 
 //----------------------------------------------------------------------------
 /// Assignment-operator; duplicates a socket. The old socket is closed.
@@ -143,14 +129,14 @@ Socket::~Socket () {
 /// \returns Socket& Reference to self
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-Socket& Socket::operator= (const Socket& rhs) {
-   if (&rhs != this) {
-      close (sock);
-      sock = socket (PF_INET, SOCK_STREAM, 0);
-      if (sock < 0)
-	 throwError (_("Can't create socket"), errno);
-   }
-   return *this;
+Socket& Socket::operator=(const Socket& rhs) {
+    if (&rhs != this) {
+        close(sock);
+        sock = socket(PF_INET, SOCK_STREAM, 0);
+        if (sock < 0)
+            throwError(_("Can't create socket"), errno);
+    }
+    return *this;
 }
 
 //----------------------------------------------------------------------------
@@ -158,31 +144,30 @@ Socket& Socket::operator= (const Socket& rhs) {
 /// \param socket: Socket to assign
 /// \returns Socket& Reference to self
 //----------------------------------------------------------------------------
-Socket& Socket::operator= (int socket) {
-   close (sock);
-   sock = socket;
-   return *this;
+Socket& Socket::operator=(int socket) {
+    close(sock);
+    sock = socket;
+    return *this;
 }
-
 
 //----------------------------------------------------------------------------
 /// Specifies the port to listen at (for incoming connections).
 /// \param port Port at which to listen
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-void Socket::listenAt (unsigned int port) const {
-   TRACE9 ("Socket::listenAt (unsigned int) - " << port << " (" << sock << ')');
+void Socket::listenAt(unsigned int port) const {
+    TRACE9("Socket::listenAt(unsigned int) - " << port << " (" << sock << ')');
 
-   struct sockaddr_in addr;
-   addr.sin_family = AF_INET;
-   addr.sin_port = htons (port);
-   addr.sin_addr.s_addr = htonl (INADDR_ANY);
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-   if (::bind (sock, (struct sockaddr*)&addr, sizeof (addr)) < 0)
-      throwError (_("Can't bind to port"), errno);
+    if (::bind(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+        throwError(_("Can't bind to port"), errno);
 
-   if (::listen (sock, 1) < 0)
-      throwError (_("Can't listen on port"), 0);
+    if (::listen(sock, 1) < 0)
+        throwError(_("Can't listen on port"), 0);
 }
 
 //----------------------------------------------------------------------------
@@ -192,28 +177,28 @@ void Socket::listenAt (unsigned int port) const {
 /// \returns unsigned int Number of the passed service
 /// \throw YGP::CommError in case of an invalid input
 //----------------------------------------------------------------------------
-unsigned int Socket::getPortOfService (const char* service) {
-   TRACE9 ("Socket::getPortOfService (const char*)");
+unsigned int Socket::getPortOfService(const char* service) {
+    TRACE9("Socket::getPortOfService(const char*)");
 
-   char* pTail = NULL;
-   TRACE8 ("Passed service: " << service);
+    char* pTail = NULL;
+    TRACE8("Passed service: " << service);
 
-   errno = 0;
-   int port = strtol (service, &pTail, 0);
-   if (errno || (pTail && *pTail)) {
-      struct servent* pServent = getservbyname (service, "tcp");
+    errno = 0;
+    int port = strtol(service, &pTail, 0);
+    if (errno || (pTail && *pTail)) {
+        struct servent* pServent = getservbyname(service, "tcp");
 
-      if (pServent)
-	 port = ntohs (pServent->s_port);
-      else {
-         std::string error (_("Port '%1' is neither numeric (decimal, octal or "
-                              "hexadecimal) nor a service"));
-         error.replace (error.find ("%1"), 2, service);
-	 throwError (error, 0);
-      }
-   }
+        if (pServent)
+            port = ntohs(pServent->s_port);
+        else {
+            std::string error(_("Port '%1' is neither numeric (decimal, octal or "
+                                "hexadecimal) nor a service"));
+            error.replace(error.find("%1"), 2, service);
+            throwError(error, 0);
+        }
+    }
 
-   return port;
+    return port;
 }
 
 //----------------------------------------------------------------------------
@@ -223,28 +208,27 @@ unsigned int Socket::getPortOfService (const char* service) {
 /// \returns int Number of bytes read<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::read (std::string& input) const {
-   TRACE9 ("Socket::read (std::string&)" << " (" << sock << ')');
+int Socket::read(std::string& input) const {
+    TRACE9("Socket::read(std::string&)" << " (" << sock << ')');
 
-   char buffer[80] = "";
-   ssize_t cRead;
-   input = "";
+    char buffer[80] = "";
+    ssize_t cRead;
+    input = "";
 
-   // Read from socket til either error or buffer not completely filled
-   while ((cRead = ::read (sock, buffer, sizeof (buffer))) != -1) {
-      input.append (buffer, cRead);
-      if ((unsigned int)cRead < sizeof (buffer))
-         break;
-   }
+    // Read from socket til either error or buffer not completely filled
+    while ((cRead = ::read(sock, buffer, sizeof(buffer))) != -1) {
+        input.append(buffer, cRead);
+        if ((unsigned int)cRead < sizeof(buffer))
+            break;
+    }
 
-   if (cRead == -1) {
-      TRACE9 ("Socket::read (std::string&) - error=" << errno << "; Bytes="
-              << cRead);
-      throwError (_("Error reading data"), errno);
-   }
+    if (cRead == -1) {
+        TRACE9("Socket::read(std::string&) - error=" << errno << "; Bytes=" << cRead);
+        throwError(_("Error reading data"), errno);
+    }
 
-   TRACE5 ("Socket::read (std::string&) - read: " << input.data ());
-   return input.length ();
+    TRACE5("Socket::read(std::string&) - read: " << input.data());
+    return input.length();
 }
 
 //----------------------------------------------------------------------------
@@ -255,15 +239,15 @@ int Socket::read (std::string& input) const {
 /// \returns int Number of bytes read<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::read (char* pBuffer, unsigned int lenBuffer) const {
-   TRACE9 ("Socket::read (const char*, int)" << " (" << sock << ')');
+int Socket::read(char* pBuffer, unsigned int lenBuffer) const {
+    TRACE9("Socket::read(const char*, int)" << " (" << sock << ')');
 
-   ssize_t cRead (::read (sock, pBuffer, lenBuffer));
-   if (cRead == -1)
-      throwError (_("Error reading data"), errno);
+    ssize_t cRead(::read(sock, pBuffer, lenBuffer));
+    if (cRead == -1)
+        throwError(_("Error reading data"), errno);
 
-   TRACE5 ("Socket::read (char*, int) - read: " << pBuffer);
-   return cRead;
+    TRACE5("Socket::read(char*, int) - read: " << pBuffer);
+    return cRead;
 }
 
 //----------------------------------------------------------------------------
@@ -278,18 +262,18 @@ int Socket::read (char* pBuffer, unsigned int lenBuffer) const {
 /// \returns int Socket over which to communicate<br>
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-int Socket::waitForInput () const {
-   TRACE9 ("Socket::waitForInput (Socket&) const - (" << sock << ')');
+int Socket::waitForInput() const {
+    TRACE9("Socket::waitForInput(Socket&) const - (" << sock << ')');
 
-   struct sockaddr_in client;
-   socklen_t size = sizeof (client);
+    struct sockaddr_in client;
+    socklen_t size = sizeof(client);
 
-   int newSocket (accept (sock, (struct sockaddr*)&client, &size));
-   if (newSocket < 0)
-      throwError (_("Error accepting connection"), errno);
+    int newSocket(accept(sock, (struct sockaddr*)&client, &size));
+    if (newSocket < 0)
+        throwError(_("Error accepting connection"), errno);
 
-   TRACE8 ("Socket::waitForInput (Socket&) const - assigning " << newSocket);
-   return newSocket;
+    TRACE8("Socket::waitForInput(Socket&) const - assigning " << newSocket);
+    return newSocket;
 }
 
 //----------------------------------------------------------------------------
@@ -299,28 +283,28 @@ int Socket::waitForInput () const {
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c server not NULL
 //----------------------------------------------------------------------------
-void Socket::writeTo (const char* server, unsigned int port) const {
-   TRACE9 ("Socket::writeTo (const char*, unsigned int) - " << server << ':' << port);
-   Check1 (server);
+void Socket::writeTo(const char* server, unsigned int port) const {
+    TRACE9("Socket::writeTo(const char*, unsigned int) - " << server << ':' << port);
+    Check1(server);
 
-   struct sockaddr_in name;
-   name.sin_family = AF_INET;
-   name.sin_port = htons (port);
+    struct sockaddr_in name;
+    name.sin_family = AF_INET;
+    name.sin_port = htons(port);
 
-   struct hostent* hostinfo = gethostbyname (server);
-   if (!hostinfo) {
-      std::string error (_("Can't resolve name '%1'"));
-      error.replace (error.find ("%1"), 2, server);
-      throwError (error, 0);
-   }
+    struct hostent* hostinfo = gethostbyname(server);
+    if (!hostinfo) {
+        std::string error(_("Can't resolve name '%1'"));
+        error.replace(error.find("%1"), 2, server);
+        throwError(error, 0);
+    }
 
-   name.sin_addr = *(struct in_addr*)hostinfo->h_addr;
+    name.sin_addr = *(struct in_addr*)hostinfo->h_addr;
 
-   if (connect (sock, (struct sockaddr*)&name, sizeof (name)) < 0) {
-      std::string error (_("Can't connect to server '%1'"));
-      error.replace (error.find ("%1"), 2, server);
-      throwError (error, errno);
-   }
+    if (connect(sock, (struct sockaddr*)&name, sizeof(name)) < 0) {
+        std::string error(_("Can't connect to server '%1'"));
+        error.replace(error.find("%1"), 2, server);
+        throwError(error, errno);
+    }
 }
 
 //----------------------------------------------------------------------------
@@ -331,13 +315,12 @@ void Socket::writeTo (const char* server, unsigned int port) const {
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
-void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
-   {
-   TRACE5 ("Socket::write (const char*, int) const - " << pBuffer << " (" << sock << ')');
-   Check1 (pBuffer);
+void Socket::write(const char* pBuffer, unsigned int lenBuffer) const {
+    TRACE5("Socket::write(const char*, int) const - " << pBuffer << " (" << sock << ')');
+    Check1(pBuffer);
 
-   if (::write (sock, pBuffer, lenBuffer) < 0)
-      throwError (_("Error sending data"), errno);
+    if (::write(sock, pBuffer, lenBuffer) < 0)
+        throwError(_("Error sending data"), errno);
 }
 
 //----------------------------------------------------------------------------
@@ -347,11 +330,11 @@ void Socket::write (const char* pBuffer, unsigned int lenBuffer) const
 /// \throw YGP::CommError in case of a communication error
 /// \pre \c pBuffer not NULL
 //----------------------------------------------------------------------------
-void Socket::write (const char* pBuffer) const {
-   Check1 (pBuffer);
-   TRACE9 ("Socket::write (const char*) const - (" << sock << ')');
+void Socket::write(const char* pBuffer) const {
+    Check1(pBuffer);
+    TRACE9("Socket::write(const char*) const - (" << sock << ')');
 
-   write (pBuffer, strlen (pBuffer));
+    write(pBuffer, strlen(pBuffer));
 }
 
 //----------------------------------------------------------------------------
@@ -360,14 +343,13 @@ void Socket::write (const char* pBuffer) const {
 /// \param errNum Number of error; if !=0 an explaining text is appended
 /// \throw YGP::CommError in case of a communication error
 //----------------------------------------------------------------------------
-void Socket::throwError (const std::string& error, int errNum) {
-   std::string str (error);
-   if (errNum) {
-      str += ": ";
-      str += strerror (errNum);
-   }
-   throw YGP::CommError (str);
+void Socket::throwError(const std::string& error, int errNum) {
+    std::string str(error);
+    if (errNum) {
+        str += ": ";
+        str += strerror(errNum);
+    }
+    throw YGP::CommError(str);
 }
 
-}
-
+} // namespace YGP
