@@ -1,8 +1,6 @@
 #ifndef YGP_FILEREXP_H
 #define YGP_FILEREXP_H
 
-//$Id: FileRExp.h,v 1.22 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,12 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #include <YGP/RegExp.h>
-
 
 namespace YGP {
 
@@ -57,33 +53,34 @@ namespace YGP {
    Use IRegularExpression::matches to check if the object matches some data.
 */
 class FileRegularExpr : public IRegularExpression {
- public:
-   /// Constructor; sets the regular expression to match
-   /// \pre The input is not copied, so it must be valid during the lifetime
-   ///      of the regular expression.
-   FileRegularExpr (const char* pRegExp) : IRegularExpression (pRegExp) { }
-   virtual ~FileRegularExpr ();
+  public:
+    /// Constructor; sets the regular expression to match
+    /// \pre The input is not copied, so it must be valid during the lifetime
+    ///      of the regular expression.
+    FileRegularExpr(const char* pRegExp) : IRegularExpression(pRegExp) {}
+    virtual ~FileRegularExpr();
 
-   virtual int checkIntegrity () const;
-   /// Assignmentoperator; specifies the regular expression to match.
-   /// \pre The input is not copied, so it must be valid during the lifetime
-   ///      of the regular expression.
-   FileRegularExpr& operator= (const char* pRegExp) {
-      IRegularExpression::operator= (pRegExp);
-      return *this; }
+    virtual int checkIntegrity() const;
+    /// Assignmentoperator; specifies the regular expression to match.
+    /// \pre The input is not copied, so it must be valid during the lifetime
+    ///      of the regular expression.
+    FileRegularExpr& operator=(const char* pRegExp) {
+        IRegularExpression::operator=(pRegExp);
+        return *this;
+    }
 
- protected:
-   virtual bool compare (const char* pAktRegExp, const char* pCompare);
+  protected:
+    virtual bool compare(const char* pAktRegExp, const char* pCompare);
 
- private:
-   // Prohibited manager functions
-   FileRegularExpr ();
-   FileRegularExpr (const FileRegularExpr&);
-   const FileRegularExpr& operator= (const FileRegularExpr&);
+  private:
+    // Prohibited manager functions
+    FileRegularExpr();
+    FileRegularExpr(const FileRegularExpr&);
+    const FileRegularExpr& operator=(const FileRegularExpr&);
 
-   std::invalid_argument getError (const char* error, unsigned int pos) const;
+    std::invalid_argument getError(const char* error, unsigned int pos) const;
 };
 
-}
+} // namespace YGP
 
 #endif
