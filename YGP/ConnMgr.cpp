@@ -1,14 +1,11 @@
-//$Id: ConnMgr.cpp,v 1.14 2008/06/11 17:53:40 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : YGP/ConnectionManager
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.14 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 23.07.2003
-//COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : YGP/ConnectionManager
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 23.07.2003
+// COPYRIGHT   : Copyright (C) 2003, 2004, 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,60 +22,54 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <algorithm>
 
 #include "YGP/Check.h"
-#include "YGP/Trace.h"
 #include "YGP/Socket.h"
+#include "YGP/Trace.h"
 
 #include "YGP/ConnMgr.h"
-
 
 namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::ConnectionMgr () : mode (NONE), server (NULL), connections () {
-   TRACE9 ("ConnectionMgr::ConnectionMgr ()");
-}
+ConnectionMgr::ConnectionMgr() : mode(NONE), server(NULL), connections() { TRACE9("ConnectionMgr::ConnectionMgr()"); }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::~ConnectionMgr () {
-   TRACE9 ("ConnectionMgr::~ConnectionMgr ()");
-   clearConnections ();
-   delete server;
+ConnectionMgr::~ConnectionMgr() {
+    TRACE9("ConnectionMgr::~ConnectionMgr()");
+    clearConnections();
+    delete server;
 }
-
 
 //-----------------------------------------------------------------------------
 /// Removes the available connections
 //-----------------------------------------------------------------------------
-void ConnectionMgr::clearConnections () {
-   TRACE6 ("ConnectionMgr::clearConnections ()");
-   for (std::vector<Socket*>::iterator i (connections.begin ());
-        i != connections.end (); ++i)
-      delete *i;
+void ConnectionMgr::clearConnections() {
+    TRACE6("ConnectionMgr::clearConnections()");
+    for (std::vector<Socket*>::iterator i(connections.begin()); i != connections.end(); ++i)
+        delete *i;
 
-   connections.clear ();
+    connections.clear();
 }
 
 //-----------------------------------------------------------------------------
 /// Changes the mode of the connection(s)
 //-----------------------------------------------------------------------------
-void ConnectionMgr::changeMode (modeConnect newMode) {
+void ConnectionMgr::changeMode(modeConnect newMode) {
     if (mode != newMode) {
-       TRACE3 ("ConnectionMgr::changeMode (modeConnect) - " << (int)newMode);
-       clearConnections ();
+        TRACE3("ConnectionMgr::changeMode(modeConnect) - " << (int)newMode);
+        clearConnections();
 
-       if (mode == SERVER) {
-          delete server;
-          server = NULL;
-       }
-       mode = newMode;
+        if (mode == SERVER) {
+            delete server;
+            server = NULL;
+        }
+        mode = newMode;
     }
 }
 
@@ -88,11 +79,10 @@ void ConnectionMgr::changeMode (modeConnect newMode) {
 /// \param port Port the server is listening at
 /// \throws YGP::CommError In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::connectTo (const char* target, unsigned int port) {
-   TRACE1 ("ConnectionMgr::connectTo (const char*, unsinged int) - "
-           << target << ':' << port);
-   server = new Socket (target, port);
-   changeMode (CLIENT);
+void ConnectionMgr::connectTo(const char* target, unsigned int port) {
+    TRACE1("ConnectionMgr::connectTo(const char*, unsinged int) - " << target << ':' << port);
+    server = new Socket(target, port);
+    changeMode(CLIENT);
 }
 
 //----------------------------------------------------------------------------
@@ -100,30 +90,29 @@ void ConnectionMgr::connectTo (const char* target, unsigned int port) {
 /// \param port Port the server is listening at
 /// \throws YGP::CommError In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::listenAt (unsigned int port) {
-   TRACE1 ("ConnectionMgr::listenAt (unsinged int) - " << port);
-   server = new Socket (port);
-   changeMode (SERVER);
+void ConnectionMgr::listenAt(unsigned int port) {
+    TRACE1("ConnectionMgr::listenAt(unsinged int) - " << port);
+    server = new Socket(port);
+    changeMode(SERVER);
 }
 
 //----------------------------------------------------------------------------
 /// Waits for a connection on the previously bound port
 /// \pre listenAt() must have been called before
 //----------------------------------------------------------------------------
-int ConnectionMgr::getNewConnection () const {
-   TRACE2 ("ConnectionMgr::getNewConnection ()");
-   Check1 (server);
-   Check1 (mode == SERVER);
+int ConnectionMgr::getNewConnection() const {
+    TRACE2("ConnectionMgr::getNewConnection()");
+    Check1(server);
+    Check1(mode == SERVER);
 
-   int socket (-1U);
-   try {
-       socket = server->waitForInput ();
-   }
-   catch (YGP::CommError& e) {
-      TRACE1 ("ConnectionMgr::getNewConnection () - Unexpected exception: "
-              << e.what ());
-   }
-   return socket;
+    int socket(-1U);
+    try {
+        socket = server->waitForInput();
+    }
+    catch (YGP::CommError& e) {
+        TRACE1("ConnectionMgr::getNewConnection() - Unexpected exception: " << e.what());
+    }
+    return socket;
 }
 
 //----------------------------------------------------------------------------
@@ -132,42 +121,41 @@ int ConnectionMgr::getNewConnection () const {
 /// \pre
 ///    - listenAt() must have been called before
 //----------------------------------------------------------------------------
-Socket* ConnectionMgr::addConnection (int socket) {
-   TRACE2 ("ConnectionMgr::addNewConnection (int) - " << socket);
-   Check1 (server);
-   Check1 (mode == SERVER);
+Socket* ConnectionMgr::addConnection(int socket) {
+    TRACE2("ConnectionMgr::addNewConnection(int) - " << socket);
+    Check1(server);
+    Check1(mode == SERVER);
 
-   try {
-       connections.push_back (new Socket (socket));
-       return connections.back ();
-   }
-   catch (YGP::CommError& e) {
-      TRACE1 ("ConnectionMgr::addConnection (int) - Unexpected exception: " << e.what ());
-      return NULL;
-   }
+    try {
+        connections.push_back(new Socket(socket));
+        return connections.back();
+    }
+    catch (YGP::CommError& e) {
+        TRACE1("ConnectionMgr::addConnection(int) - Unexpected exception: " << e.what());
+        return NULL;
+    }
 }
 
 //-----------------------------------------------------------------------------
 /// Disconnects one of the partners
 /// \param partner Partner to disconnect
 //-----------------------------------------------------------------------------
-void ConnectionMgr::disconnect (const Socket* partner) {
-   TRACE8 ("ConnectionMgr::disconnect (const Socket*)");
-   Check1 (mode == NONE);
+void ConnectionMgr::disconnect(const Socket* partner) {
+    TRACE8("ConnectionMgr::disconnect(const Socket*)");
+    Check1(mode == NONE);
 
-   if (mode == SERVER) {
-      std::vector<Socket*>::iterator i (find (connections.begin (), connections.end (), partner));
-      if (i == connections.end ())
-	 return;
+    if (mode == SERVER) {
+        std::vector<Socket*>::iterator i(find(connections.begin(), connections.end(), partner));
+        if (i == connections.end())
+            return;
 
-      connections.erase (i);
-      if (connections.size ())
-	 return;
-   }
-   delete server;
-   server = NULL;
-   mode = NONE;
+        connections.erase(i);
+        if (connections.size())
+            return;
+    }
+    delete server;
+    server = NULL;
+    mode = NONE;
 }
 
-
-}
+} // namespace YGP
