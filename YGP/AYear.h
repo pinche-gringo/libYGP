@@ -18,18 +18,15 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <string>
 
-#include <YGP/Check.h>
 #include <YGP/AttrVal.h>
-
+#include <YGP/Check.h>
 
 // Forward declarations
 namespace std {
-   class invalid_argument;
+class invalid_argument;
 }
-
 
 namespace YGP {
 
@@ -37,84 +34,89 @@ namespace YGP {
    values.
 */
 class AYear : public AttributValue {
- public:
-   AYear ()                /// Default constructor; creates an undefined object
-       : AttributValue (), year (1900) { }
-   AYear (const AYear& other)     /// Copy constructor from another year object
-       : AttributValue ((const AttributValue&)other) , year (other.year) { }
-   AYear (int Year)                      ///< Constructor; sets the passed year
-      : AttributValue (true), year (Year) { }
-   AYear (const char* pYear) : AttributValue (), year (1900) {
-       operator= (pYear); }                        ///< Constructor from a text
-   AYear (const std::string& year) : AttributValue (), year (1900) {
-       operator= (year); }                         ///< Constructor from a text
-   virtual ~AYear ();
+  public:
+    AYear() /// Default constructor; creates an undefined object
+        : AttributValue(), year(1900) {}
+    AYear(const AYear& other) /// Copy constructor from another year object
+        : AttributValue((const AttributValue&)other), year(other.year) {}
+    AYear(int Year) ///< Constructor; sets the passed year
+        : AttributValue(true), year(Year) {}
+    AYear(const char* pYear) : AttributValue(), year(1900) { operator=(pYear); }      ///< Constructor from a text
+    AYear(const std::string& year) : AttributValue(), year(1900) { operator=(year); } ///< Constructor from a text
+    virtual ~AYear();
 
-   /// \name Assignment methods
-   //@{
-   /// Assignment operator from an (unformatted) text
-   AYear& operator= (const std::string& year) {
-      return operator= (year.c_str ()); }
-   AYear& operator= (const AYear& other);
-   AYear& operator= (const char* pValue);
-   AYear& operator= (int Year) { setDefined (); year = Year; return *this; }
+    /// \name Assignment methods
+    //@{
+    /// Assignment operator from an (unformatted) text
+    AYear& operator=(const std::string& year) { return operator=(year.c_str()); }
+    AYear& operator=(const AYear& other);
+    AYear& operator=(const char* pValue);
+    AYear& operator=(int Year) {
+        setDefined();
+        year = Year;
+        return *this;
+    }
 
-   virtual void readFromStream (std::istream& in);
-   //@}
+    virtual void readFromStream(std::istream& in);
+    //@}
 
-   /// Defining the object; setting it to a default value (of <tt>1900</tt>)
-   virtual void define () { setDefined (); year = 1900; }
+    /// Defining the object; setting it to a default value (of <tt>1900</tt>)
+    virtual void define() {
+        setDefined();
+        year = 1900;
+    }
 
-   /// \name Query methods
-   //@{
-   operator int () const { return year; }                ///< Casting to an int
-   //@}
+    /// \name Query methods
+    //@{
+    operator int() const { return year; } ///< Casting to an int
+    //@}
 
-   /// \name Convertion
-   //@{
-   virtual std::string toUnformattedString () const;
-   //@}
+    /// \name Convertion
+    //@{
+    virtual std::string toUnformattedString() const;
+    //@}
 
-   /// \name Calculation
-   //@{
-   AYear& operator+= (const AYear& rhs);
-   AYear& operator-= (const AYear& rhs);
+    /// \name Calculation
+    //@{
+    AYear& operator+=(const AYear& rhs);
+    AYear& operator-=(const AYear& rhs);
 
-   friend AYear operator+ (const AYear& lhs, const AYear& rhs);
-   friend AYear operator- (const AYear& lhs, const AYear& rhs);
-   //@}
+    friend AYear operator+(const AYear& lhs, const AYear& rhs);
+    friend AYear operator-(const AYear& lhs, const AYear& rhs);
+    //@}
 
-   /// \name Comparison
-   //@{
-   bool operator== (const AYear& other) const { /// Compares two objects for equalnesss
-      return !compare (other); }
-   bool operator!= (const AYear& other) const { /// Compares if two objects are not equal
-      return compare (other) != 0; }
-   /// Checks if one object is "younger" than the other. See compare() for details
-   bool operator<  (const AYear& other) const { return compare (other) < 0; }
-   /// Checks if one object is "older" than the other. See compare() for details
-   bool operator>  (const AYear& other) const { return compare (other) > 0; }
-   /// Checks if one object is "younger"  than or equal to the other. See compare() for details
-   bool operator<= (const AYear& other) const {
-      return compare (other) <= 0; }
-   /// Checks if one object is "older" than or equal to the other. See compare() for details
-   bool operator>= (const AYear& other) const {
-      return compare (other) >= 0; }
-   long compare (const AYear& other) const;
-   //@}
+    /// \name Comparison
+    //@{
+    bool operator==(const AYear& other) const { /// Compares two objects for equalnesss
+        return !compare(other);
+    }
+    bool operator!=(const AYear& other) const { /// Compares if two objects are not equal
+        return compare(other) != 0;
+    }
+    /// Checks if one object is "younger" than the other. See compare() for details
+    bool operator<(const AYear& other) const { return compare(other) < 0; }
+    /// Checks if one object is "older" than the other. See compare() for details
+    bool operator>(const AYear& other) const { return compare(other) > 0; }
+    /// Checks if one object is "younger"  than or equal to the other. See compare() for details
+    bool operator<=(const AYear& other) const { return compare(other) <= 0; }
+    /// Checks if one object is "older" than or equal to the other. See compare() for details
+    bool operator>=(const AYear& other) const { return compare(other) >= 0; }
+    long compare(const AYear& other) const;
+    //@}
 
-   /// \name Usefull utility-functions
-   //@{
-   /// Returns the maximal day of the specified \c month (in the passed \c year)
-   static bool isLeapYear (int year);
-   bool isLeapYear () const {      /// Tests, if the actual year is a leap year
-      return isLeapYear (year); }
-   //@}
+    /// \name Usefull utility-functions
+    //@{
+    /// Returns the maximal day of the specified \c month (in the passed \c year)
+    static bool isLeapYear(int year);
+    bool isLeapYear() const { /// Tests, if the actual year is a leap year
+        return isLeapYear(year);
+    }
+    //@}
 
- protected:
-   int year;                                              ///< Stores the year
+  protected:
+    int year; ///< Stores the year
 };
 
-}
+} // namespace YGP
 
 #endif
