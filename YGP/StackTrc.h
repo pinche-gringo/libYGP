@@ -1,8 +1,6 @@
 #ifndef YGP_STACKTRC_H
 #define YGP_STACKTRC_H
 
-//$Id: StackTrc.h,v 1.4 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,13 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void handleSignal (int signal);           // Signalhandler; dumps stack
-extern void dumpStack ();                // Writes the sequence of the callers
+extern void handleSignal(int signal); // Signalhandler; dumps stack
+extern void dumpStack();              // Writes the sequence of the callers
 
 #ifdef __cplusplus
 }
