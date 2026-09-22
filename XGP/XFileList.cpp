@@ -52,8 +52,6 @@
 
 #include "XGP/XDialog.h"
 
-#define CHECK 9
-#define TRACELEVEL 9
 #include <YGP/Check.h>
 #include <YGP/File.h>
 #include <YGP/PathDirSrch.h>
