@@ -1,14 +1,11 @@
-// $Id: Version.cpp,v 1.22 2008/03/29 17:35:17 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : Version
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.22 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 10.9.1999
-//COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2009
+// PROJECT     : libYGP
+// SUBSYSTEM   : Version
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 10.9.1999
+// COPYRIGHT   : Copyright (C) 1999 - 2004, 2006, 2008, 2009, 2026
 
 // This file is part of libYGP.
 //
@@ -25,9 +22,7 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include "YGP/Internal.h"
-
 
 /**\mainpage Overview of the YGP library
 
@@ -58,52 +53,45 @@
    This namespace holds plattform independend classes of common use.
  */
 
-static const char* Version = "\n!@$%" LIBYGP_NAME " V" PACKAGE_VERSION
-                             " Compiled on " __DATE__ "%$@!\n";
+static const char* Version = "\n!@$%" LIBYGP_NAME " V" PACKAGE_VERSION " Compiled on " __DATE__ "%$@!\n";
 
 // Function to initialize various global data
-static int _init () {
-   bindtextdomain (LIBYGP_NAME, LOCALEDIR);
-   return Version == (const void*)0;
+static int _init() {
+    bindtextdomain(LIBYGP_NAME, LOCALEDIR);
+    return Version == (const void*)0;
 }
 
-
-static const int init = _init ();
-
+static const int init = _init();
 
 #ifndef HAVE_SYSLOG_H
-#  include <map>
-#  include <YGP/Log.h>
+#    include <YGP/Log.h>
+#    include <map>
 
-std::map <unsigned int, char*> YGP::Syslog::apAppl;
+std::map<unsigned int, char*> YGP::Syslog::apAppl;
 #endif
-
 
 #if SYSTEM == WINDOWS
 
-#  ifdef _MSC_VER
-#     pragma warning(disable:4786) // Disable warning about truncating debug info
-#  endif
+#    ifdef _MSC_VER
+#        pragma warning(disable : 4786) // Disable warning about truncating debug info
+#    endif
 
-#  include <map>
-#  include <YGP/Log.h>
+#    include <YGP/Log.h>
+#    include <map>
 
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
-
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
 
 extern "C" {
 
 /*--------------------------------------------------------------------------*/
-//Purpose   : DLL-entry point
-//Parameters: HANDLE hDLL: Handle to DLL
-//            DWORD reason: Reason for calling (attach/detach to/from
-//            process/thread
-//            LPVOID reserved
+// Purpose   : DLL-entry point
+// Parameters: HANDLE hDLL: Handle to DLL
+//             DWORD reason: Reason for calling (attach/detach to/from
+//             process/thread
+//             LPVOID reserved
 /*--------------------------------------------------------------------------*/
-int WINAPI dllEntry (HANDLE, DWORD, LPVOID) {
-   return true;
-}
+int WINAPI dllEntry(HANDLE, DWORD, LPVOID) { return true; }
 
 } // end extern "C"
 
