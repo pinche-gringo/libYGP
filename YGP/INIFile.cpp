@@ -1,14 +1,11 @@
-//$Id: INIFile.cpp,v 1.39 2008/03/29 17:10:28 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : INIFile
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.39 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 7.5.2000
-//COPYRIGHT   : Copyright (C) 2000 - 2009, 2011
+// PROJECT     : libYGP
+// SUBSYSTEM   : INIFile
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 7.5.2000
+// COPYRIGHT   : Copyright (C) 2000 - 2009, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -25,34 +22,30 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifdef _MSC_VER
-#pragma warning(disable:4786) // disable warning about truncating debug info
+#    pragma warning(disable : 4786) // disable warning about truncating debug info
 #endif
 
 #include <cstring>
 
 #include <sstream>
 
-#include <boost/spirit/include/classic_core.hpp>
-#include <boost/spirit/include/classic_rule.hpp>
 #include <boost/spirit/include/classic_actor.hpp>
 #include <boost/spirit/include/classic_confix.hpp>
+#include <boost/spirit/include/classic_core.hpp>
 #include <boost/spirit/include/classic_escape_char.hpp>
+#include <boost/spirit/include/classic_rule.hpp>
 
-#include <YGP/Trace.h>
 #include "YGP/Entity.h"
 #include "YGP/INIFile.h"
 #include "YGP/Internal.h"
-
+#include <YGP/Trace.h>
 
 #ifdef _MSC_VER
-#pragma warning(disable:4355) // disable warning about this in init-list
+#    pragma warning(disable : 4355) // disable warning about this in init-list
 #endif
 
-
 namespace spirit = BOOST_SPIRIT_CLASSIC_NS;
-
 
 // Define constant values; don't skip white-spaces after parsing
 
@@ -60,27 +53,25 @@ static unsigned int LEN_SECTIONNAME = 64;
 static unsigned int LEN_KEY = 64;
 static unsigned int LEN_VALUE = 512;
 
-
 namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates an object to parse the header of a section.
 //-----------------------------------------------------------------------------
-INISection::ISectionParser::ISectionParser ()
-   : SectionHeader (_SectionHeader, _("Section-header"), 1, 0)
-     , SectionBegin ("[", _("Start of section ([)"), false)
-     , SectionName ("\\X\\9_.", _("Name of section"), *this, &ISectionParser::foundSection, LEN_SECTIONNAME, 1)
-     , SectionEnd ("]", _("End of section (])"), false) {
-   _SectionHeader[0] = &SectionBegin; _SectionHeader[1] = &SectionName;
-   _SectionHeader[2] = &SectionEnd;   _SectionHeader[3] = NULL;
+INISection::ISectionParser::ISectionParser()
+    : SectionHeader(_SectionHeader, _("Section-header"), 1, 0), SectionBegin("[", _("Start of section ([)"), false),
+      SectionName("\\X\\9_.", _("Name of section"), *this, &ISectionParser::foundSection, LEN_SECTIONNAME, 1),
+      SectionEnd("]", _("End of section (])"), false) {
+    _SectionHeader[0] = &SectionBegin;
+    _SectionHeader[1] = &SectionName;
+    _SectionHeader[2] = &SectionEnd;
+    _SectionHeader[3] = NULL;
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-INISection::ISectionParser::~ISectionParser () {
-}
-
+INISection::ISectionParser::~ISectionParser() {}
 
 //-----------------------------------------------------------------------------
 /// Parses the section header
@@ -88,9 +79,9 @@ INISection::ISectionParser::~ISectionParser () {
 /// \returns int Status of parse
 /// \throw YGP::ParseError Error while parsing
 //-----------------------------------------------------------------------------
-int INISection::ISectionParser::parse (Xistream& stream) {
-   INISection::skipComments (stream);
-   return SectionHeader.parse (stream);
+int INISection::ISectionParser::parse(Xistream& stream) {
+    INISection::skipComments(stream);
+    return SectionHeader.parse(stream);
 }
 
 //-----------------------------------------------------------------------------
@@ -98,36 +89,32 @@ int INISection::ISectionParser::parse (Xistream& stream) {
 /// \param name Name of section
 /// \remarks name must be a valid ASCIIZ-string (not NULL)
 //-----------------------------------------------------------------------------
-INISection::INISection (const char* name)
-   : pFoundAttr (NULL), attributes (), pName (name),
-     Attributes (_Attributes, _("Attribute"), 1, 0),
-     Identifier ("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false),
-     equals ("=", _("Equal-sign (=)"), false),
-   Value ("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
-   TRACE9 ("INISection::INISection (const char*) - Create: " << pName);
-   Check1 (pName);
+INISection::INISection(const char* name)
+    : pFoundAttr(NULL), attributes(), pName(name), Attributes(_Attributes, _("Attribute"), 1, 0),
+      Identifier("\\X\\9_.", _("Identifier (key)"), *this, &INISection::foundKey, LEN_KEY, 1, false),
+      equals("=", _("Equal-sign (=)"), false), Value("\n", _("Value"), *this, &INISection::foundValue, LEN_VALUE, 0) {
+    TRACE9("INISection::INISection(const char*) - Create: " << pName);
+    Check1(pName);
 
-   _Attributes[0] = &Identifier;
-   _Attributes[1] = &equals;
-   _Attributes[2] = &Value;
-   _Attributes[3] = NULL;
+    _Attributes[0] = &Identifier;
+    _Attributes[1] = &equals;
+    _Attributes[2] = &Value;
+    _Attributes[3] = NULL;
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-INISection::~INISection () {
-}
-
+INISection::~INISection() {}
 
 //-----------------------------------------------------------------------------
 /// Adds an attribute to parse to the section
 /// \param attribute %Attribute to add
 //-----------------------------------------------------------------------------
-void INISection::addAttribute (const IAttribute& attribute) {
-   Check3 (!findAttribute (attribute.getName ()));
-   TRACE9 ("INISection::addAttribute (const IAttribute&) - " << attribute.getName ());
-   attributes.push_back (&attribute);
+void INISection::addAttribute(const IAttribute& attribute) {
+    Check3(!findAttribute(attribute.getName()));
+    TRACE9("INISection::addAttribute(const IAttribute&) - " << attribute.getName());
+    attributes.push_back(&attribute);
 }
 
 //-----------------------------------------------------------------------------
@@ -137,15 +124,15 @@ void INISection::addAttribute (const IAttribute& attribute) {
 /// \returns IAttribute* Pointer to attribute or NULL (if not found)
 /// \remarks name must not be a NULL pointer
 //-----------------------------------------------------------------------------
-const IAttribute* INISection::findAttribute (const char* name) const {
-   TRACE9 ("INISection::findAttribute (const char*) - " << name);
-   Check1 (name);
-   std::vector<const IAttribute*>::const_iterator i;
-   for (i = attributes.begin (); i != attributes.end (); ++i)
-      if ((*i)->matches (name))
-         return *i;
+const IAttribute* INISection::findAttribute(const char* name) const {
+    TRACE9("INISection::findAttribute(const char*) - " << name);
+    Check1(name);
+    std::vector<const IAttribute*>::const_iterator i;
+    for (i = attributes.begin(); i != attributes.end(); ++i)
+        if ((*i)->matches(name))
+            return *i;
 
-   return NULL;
+    return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -154,14 +141,14 @@ const IAttribute* INISection::findAttribute (const char* name) const {
 /// \param name Name of attribute to find
 /// \returns IAttribute* Pointer to attribute or NULL (if not found)
 //-----------------------------------------------------------------------------
-const IAttribute* INISection::findAttribute (const std::string& name) const {
-   TRACE9 ("INISection::findAttribute (const std::string&) - " << name);
-   std::vector<const IAttribute*>::const_iterator i;
-   for (i = attributes.begin (); i != attributes.end (); ++i)
-      if ((*i)->matches (name))
-         return *i;
+const IAttribute* INISection::findAttribute(const std::string& name) const {
+    TRACE9("INISection::findAttribute(const std::string&) - " << name);
+    std::vector<const IAttribute*>::const_iterator i;
+    for (i = attributes.begin(); i != attributes.end(); ++i)
+        if ((*i)->matches(name))
+            return *i;
 
-   return NULL;
+    return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -181,12 +168,12 @@ const IAttribute* INISection::findAttribute (const std::string& name) const {
 /// \throw YGP::ParseError With text describing error if an unrecoverable
 ///     error occurs
 //-----------------------------------------------------------------------------
-int INISection::readFromStream (Xistream& stream) {
-   TRACE9 ("INISection::readFromStream (Xistream&)");
-   TSectionParser<INISection> hdrParser (*this, &INISection::foundSection);
+int INISection::readFromStream(Xistream& stream) {
+    TRACE9("INISection::readFromStream(Xistream&)");
+    TSectionParser<INISection> hdrParser(*this, &INISection::foundSection);
 
-   int rc (hdrParser.parse (stream));
-   return rc ? rc : readAttributes (stream);
+    int rc(hdrParser.parse(stream));
+    return rc ? rc : readAttributes(stream);
 }
 
 //-----------------------------------------------------------------------------
@@ -204,17 +191,18 @@ int INISection::readFromStream (Xistream& stream) {
 /// \throw YGP::ParseError With text describing error if an unrecoverable
 ///     error occurs
 //-----------------------------------------------------------------------------
-int INISection::readAttributes (Xistream& stream) {
-   TRACE9 ("INISection::readAttributes (Xistream&)");
-   int rc (ParseObject::PARSE_OK);
+int INISection::readAttributes(Xistream& stream) {
+    TRACE9("INISection::readAttributes(Xistream&)");
+    int rc(ParseObject::PARSE_OK);
 
-   do {
-      pFoundAttr = NULL;
-      INISection::skipComments (stream);
-      rc = Attributes.parse (stream);
-   } while (pFoundAttr != NULL);
+    do {
+        pFoundAttr = NULL;
+        INISection::skipComments(stream);
+        rc = Attributes.parse(stream);
+    }
+    while (pFoundAttr != NULL);
 
-   return rc;
+    return rc;
 }
 
 //-----------------------------------------------------------------------------
@@ -222,13 +210,13 @@ int INISection::readAttributes (Xistream& stream) {
 /// line.
 /// \param stream Stream to read from
 //-----------------------------------------------------------------------------
-void INISection::skipComments (Xistream& stream) {
-   ParseExact semi (";", "Semicolon", true, false);
-   ParseText line ("\n", "EOL", -1U, 0, true, false);
+void INISection::skipComments(Xistream& stream) {
+    ParseExact semi(";", "Semicolon", true, false);
+    ParseText line("\n", "EOL", -1U, 0, true, false);
 
-   ParseObject::skipWS (stream);
-   while (semi.parse (stream) == ParseObject::PARSE_OK)
-      line.parse (stream);
+    ParseObject::skipWS(stream);
+    while (semi.parse(stream) == ParseObject::PARSE_OK)
+        line.parse(stream);
 }
 
 //-----------------------------------------------------------------------------
@@ -237,12 +225,12 @@ void INISection::skipComments (Xistream& stream) {
 /// \param int Unused length of the section name
 /// \returns int PARSE_OK, if name of section is OK
 //-----------------------------------------------------------------------------
-int INISection::foundSection (const char* section, unsigned int) {
-   TRACE5 ("INISection::foundSection (const char*, unsigned int): '" << section << '\'');
-   Check1 (section); Check3 (pName);
+int INISection::foundSection(const char* section, unsigned int) {
+    TRACE5("INISection::foundSection(const char*, unsigned int): '" << section << '\'');
+    Check1(section);
+    Check3(pName);
 
-   return strcmp (pName, section) ?
-      ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK;
+    return strcmp(pName, section) ? ParseObject::PARSE_CB_ABORT : ParseObject::PARSE_OK;
 }
 
 //-----------------------------------------------------------------------------
@@ -254,20 +242,20 @@ int INISection::foundSection (const char* section, unsigned int) {
 /// \returns int PARSE_OK, if key is found; else
 ///     ParseObject::PARSE_CB_ABORT.
 //-----------------------------------------------------------------------------
-int INISection::foundKey (const char* key, unsigned int) {
-   TRACE5 ("INISection::foundKey (const char*, unsigned int): '" << key << '\'');
-   Check1 (key);
+int INISection::foundKey(const char* key, unsigned int) {
+    TRACE5("INISection::foundKey(const char*, unsigned int): '" << key << '\'');
+    Check1(key);
 
-   // Search for attribute
-   std::vector<const IAttribute*>::iterator i;
-   for (i = attributes.begin (); i != attributes.end (); ++i) {
-      if ((*i)->matches (key)) {      // If attribute matches: Store for value
-	 pFoundAttr = *i;
-	 return ParseObject::PARSE_OK;
-      } // endif
-   } // end-for all attributes
+    // Search for attribute
+    std::vector<const IAttribute*>::iterator i;
+    for (i = attributes.begin(); i != attributes.end(); ++i) {
+        if ((*i)->matches(key)) { // If attribute matches: Store for value
+            pFoundAttr = *i;
+            return ParseObject::PARSE_OK;
+        } // endif
+    } // end-for all attributes
 
-   return ParseObject::PARSE_CB_ABORT;
+    return ParseObject::PARSE_CB_ABORT;
 }
 
 //-----------------------------------------------------------------------------
@@ -278,12 +266,12 @@ int INISection::foundKey (const char* key, unsigned int) {
 /// \returns int PARSE_OK, if value could be assigned successfully; else
 ///     ParseObject::PARSE_CB_ABORT
 //-----------------------------------------------------------------------------
-int INISection::foundValue (const char* value, unsigned int len) {
-   Check3 (value); Check3 (pFoundAttr);
-   TRACE5 ("INISection::foundValue (const char*, unsigned int): '" << value << '\'');
+int INISection::foundValue(const char* value, unsigned int len) {
+    Check3(value);
+    Check3(pFoundAttr);
+    TRACE5("INISection::foundValue(const char*, unsigned int): '" << value << '\'');
 
-   return pFoundAttr->assign (value, len) ?
-      ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
+    return pFoundAttr->assign(value, len) ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
 }
 
 //-----------------------------------------------------------------------------
@@ -294,12 +282,11 @@ int INISection::foundValue (const char* value, unsigned int len) {
 /// \throw YGP::FileError If file couldn't be open a text describing the error
 /// \remarks filename must be an ASCIIZ-string
 //-----------------------------------------------------------------------------
-INIFile::INIFile (const char* filename)
-   : file (), name (filename), sections (), sectionsToFree (), pSection (NULL) {
-   Check3 (filename);
+INIFile::INIFile(const char* filename) : file(), name(filename), sections(), sectionsToFree(), pSection(NULL) {
+    Check3(filename);
 
-   TRACE9 ("INIFile::INIFile (const char*): Read from " << filename);
-   open ();
+    TRACE9("INIFile::INIFile(const char*): Read from " << filename);
+    open();
 }
 
 //-----------------------------------------------------------------------------
@@ -307,35 +294,34 @@ INIFile::INIFile (const char* filename)
 /// thrown.
 /// \throw YGP::FileError If file couldn't be open a text describing the error
 //-----------------------------------------------------------------------------
-void INIFile::open () {
-   file.open (name.c_str (), std::ios::in);
-   if (!file) {
-      std::string error (_("Could not open INI-file '%1': Reason: %2"));
-      error.replace (error.find ("%1"), 2, name);
-      error.replace (error.find ("%2"), 2, strerror (errno));
-      throw YGP::FileError (error);
-   }
-   file.init ();
+void INIFile::open() {
+    file.open(name.c_str(), std::ios::in);
+    if (!file) {
+        std::string error(_("Could not open INI-file '%1': Reason: %2"));
+        error.replace(error.find("%1"), 2, name);
+        error.replace(error.find("%2"), 2, strerror(errno));
+        throw YGP::FileError(error);
+    }
+    file.init();
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-INIFile::~INIFile () {
-   std::vector<INISection*>::iterator i;
-   for (i = sectionsToFree.begin (); i != sectionsToFree.end (); ++i)
-      delete (*i);
+INIFile::~INIFile() {
+    std::vector<INISection*>::iterator i;
+    for (i = sectionsToFree.begin(); i != sectionsToFree.end(); ++i)
+        delete (*i);
 }
-
 
 //-----------------------------------------------------------------------------
 /// Adds the passed section to the list of sections to parse.
 /// \param section Specification of the section
 //-----------------------------------------------------------------------------
-void INIFile::addSection (const INISection& section) {
-   TRACE9 ("INIFile::addSection (const INISection&) - " << section.getName ());
-   Check3 (!findSection (section.getName ()));
-   sections.push_back (&section);
+void INIFile::addSection(const INISection& section) {
+    TRACE9("INIFile::addSection(const INISection&) - " << section.getName());
+    Check3(!findSection(section.getName()));
+    sections.push_back(&section);
 }
 
 //-----------------------------------------------------------------------------
@@ -345,16 +331,16 @@ void INIFile::addSection (const INISection& section) {
 /// \returns INISection* Pointer to new (or existing) section
 
 //-----------------------------------------------------------------------------
-INISection* INIFile::addSection (const char* section) {
-   TRACE9 ("INIFile::addSection (const char*) - " << section);
-   Check3 (section);
-   INISection* pSec = const_cast<INISection*> (findSection (section));
-   if (!pSec) {
-      pSec = new INISection (section);
-      sections.push_back (pSec);
-      sectionsToFree.push_back (pSec);
-   }
-   return pSec;
+INISection* INIFile::addSection(const char* section) {
+    TRACE9("INIFile::addSection(const char*) - " << section);
+    Check3(section);
+    INISection* pSec = const_cast<INISection*>(findSection(section));
+    if (!pSec) {
+        pSec = new INISection(section);
+        sections.push_back(pSec);
+        sectionsToFree.push_back(pSec);
+    }
+    return pSec;
 }
 
 //-----------------------------------------------------------------------------
@@ -368,25 +354,26 @@ INISection* INIFile::addSection (const char* section) {
 /// \returns int Status of reading: <0 hard error; 0 OK, >0 soft error
 /// \throw YGP::ParseError With a message describing error in case of an invalid value
 //-----------------------------------------------------------------------------
-int INIFile::read () {
-  TRACE9 ("INIFile::read ()");
+int INIFile::read() {
+    TRACE9("INIFile::read()");
 
-   // Parse the section-header; terminate on error
-   int rc = 0;
+    // Parse the section-header; terminate on error
+    int rc = 0;
 
-   do {
-      pSection = NULL;
+    do {
+        pSection = NULL;
 
-      INISection::TSectionParser<INIFile> hdrParser (*this, &INIFile::foundSection);
-      rc = hdrParser.parse ((Xistream&)file);
-      TRACE1 ("INIFile::read " << rc << '/' << pSection << '/' << file.eof ());
-      if (rc || file.eof () || !pSection)
-	 break;
+        INISection::TSectionParser<INIFile> hdrParser(*this, &INIFile::foundSection);
+        rc = hdrParser.parse((Xistream&)file);
+        TRACE1("INIFile::read " << rc << '/' << pSection << '/' << file.eof());
+        if (rc || file.eof() || !pSection)
+            break;
 
-      rc = pSection->readAttributes ((Xistream&)file);
-   } while (!rc); // end-do
+        rc = pSection->readAttributes((Xistream&)file);
+    }
+    while (!rc); // end-do
 
-   return rc;
+    return rc;
 }
 
 //-----------------------------------------------------------------------------
@@ -396,13 +383,13 @@ int INIFile::read () {
 /// \param name Name of section to find
 /// \returns Section* Pointer to section or NULL (if not found)
 //-----------------------------------------------------------------------------
-const INISection* INIFile::findSection (const char* name) const {
-   std::vector<const INISection*>::const_iterator i;
-   for (i = sections.begin (); i != sections.end (); ++i)
-      if ((*i)->matches (name))
-         return *i;
+const INISection* INIFile::findSection(const char* name) const {
+    std::vector<const INISection*>::const_iterator i;
+    for (i = sections.begin(); i != sections.end(); ++i)
+        if ((*i)->matches(name))
+            return *i;
 
-   return NULL;
+    return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -415,13 +402,13 @@ const INISection* INIFile::findSection (const char* name) const {
 /// \returns int PARSE_OK, if name of section is OK, else
 ///     ParseObject::PARSE_CB_ABORT.
 //-----------------------------------------------------------------------------
-int INIFile::foundSection (const char* section, unsigned int) {
-   Check3 (section);
-   TRACE5 ("INIFile::foundSection (const char* , unsigned int): '" << section << '\'');
+int INIFile::foundSection(const char* section, unsigned int) {
+    Check3(section);
+    TRACE5("INIFile::foundSection(const char* , unsigned int): '" << section << '\'');
 
-   pSection = const_cast<INISection*> (findSection (section));
+    pSection = const_cast<INISection*>(findSection(section));
 
-   return pSection ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
+    return pSection ? ParseObject::PARSE_OK : ParseObject::PARSE_CB_ABORT;
 }
 
 //-----------------------------------------------------------------------------
@@ -429,14 +416,13 @@ int INIFile::foundSection (const char* section, unsigned int) {
 /// \param obj Object whose attributes should be added
 /// \param section Section where to add the attributes
 //-----------------------------------------------------------------------------
-void INIFile::addEntity (const Entity& obj, INISection& section) {
-   TRACE9 ("INIFile::addEntity (const Entity&, INISection&) - adding "
-           << obj.attributes.size () << " attributes");
-   std::vector<IAttribute*>::const_iterator i;
-   for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i) {
-      Check3 (*i);
-      section.addAttribute (**i);
-   }
+void INIFile::addEntity(const Entity& obj, INISection& section) {
+    TRACE9("INIFile::addEntity(const Entity&, INISection&) - adding " << obj.attributes.size() << " attributes");
+    std::vector<IAttribute*>::const_iterator i;
+    for (i = obj.attributes.begin(); i != obj.attributes.end(); ++i) {
+        Check3(*i);
+        section.addAttribute(**i);
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -447,17 +433,17 @@ void INIFile::addEntity (const Entity& obj, INISection& section) {
 /// \param obj Object to write
 /// \remarks There is no error-handling; failures are silently ignored!
 //-----------------------------------------------------------------------------
-void INIFile::write (std::ostream& stream, const char* section, const Entity& obj) {
-   TRACE9 ("INIFile::write (std::ostream&, const char*, const Entity&) - Section:"
-           << section);
-   Check1 (section); Check1 (stream);
+void INIFile::write(std::ostream& stream, const char* section, const Entity& obj) {
+    TRACE9("INIFile::write(std::ostream&, const char*, const Entity&) - Section:" << section);
+    Check1(section);
+    Check1(stream);
 
-   writeSectionHeader (stream, section);
-   std::vector<IAttribute*>::const_iterator i;
-   for (i = obj.attributes.begin (); i != obj.attributes.end (); ++i) {
-      Check3 (*i);
-      stream << (*i)->getName () << '=' << (*i)->getValue () << '\n';
-   }
+    writeSectionHeader(stream, section);
+    std::vector<IAttribute*>::const_iterator i;
+    for (i = obj.attributes.begin(); i != obj.attributes.end(); ++i) {
+        Check3(*i);
+        stream << (*i)->getName() << '=' << (*i)->getValue() << '\n';
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -467,119 +453,116 @@ void INIFile::write (std::ostream& stream, const char* section, const Entity& ob
 ///    - YGP::FileError in case file-access fails somehow
 ///    - YGP::ParseError in case of failing to parse the file (before overwriting it)
 //-----------------------------------------------------------------------------
-void INIFile::overwrite () {
-   TRACE9 ("INIFile::overwrite ()");
+void INIFile::overwrite() {
+    TRACE9("INIFile::overwrite()");
 
-   // First read the contents of the INI-file
-   INISection* pSection (NULL);
-   std::string output, line;
-   char buffer[80];
-   while (!file.getline (buffer, sizeof (buffer)).eof ()) {
-      // Read til the end of the line
-      if (file.fail ()) {
-	 line += std::string (buffer, file.gcount ());
-	 continue;
-      }
-      else
-	 line.assign (buffer, file.gcount () - 1);
+    // First read the contents of the INI-file
+    INISection* pSection(NULL);
+    std::string output, line;
+    char buffer[80];
+    while (!file.getline(buffer, sizeof(buffer)).eof()) {
+        // Read til the end of the line
+        if (file.fail()) {
+            line += std::string(buffer, file.gcount());
+            continue;
+        }
+        else
+            line.assign(buffer, file.gcount() - 1);
 
-      TRACE2 ("INIFile::overwrite () - Read: " << line);
-      // Empty line (or starting with a white-space)
-      if (line.empty () || (isspace (line[0]))) {
-	 // First finish up old section, if any
-	 if (pSection) {
-	    output += getSectionAttributes (*pSection);
-	    pSection = NULL;
-	 }
-      }
-      // Section found?
-      else if (line[0] == '[') {
-	 size_t end (line.find (']', 1));
-	 if (end != std::string::npos) {
-	    // Find end of section; also accept comments behind it
-	    std::string name (line.substr (1, end - 1));
-	    TRACE5 ("INIFile::overwrite () - Section: " << name);
-	    TRACE9 ("INIFile::overwrite () - Remaining: " << line.substr (end + 1).size ());
-	    std::istringstream stream (line.substr (end + 1));
-	    char last ('\0');
-	    stream >> last;
-	    if (!stream || (last == ';')) {
-	       std::vector<const INISection*>::iterator i;
-	       for (i = sections.begin (); i != sections.end (); ++i) {
-		  TRACE9 ("Checking for " << (*i)->getName ());
-		  if ((*i)->matches (name.c_str ())) {
-		     pSection = const_cast <INISection*> (*i);
-		     sections.erase (i);
-		     break;
-		  }
-	       }
-	    }
-	    else {
-	       std::string error (_("Invalid characters after section %1: %2"));
-	       error.replace (error.find ("%1"), 2, name);
-	       error.replace (error.find ("%2"), 2, &last, 1);
-	       throw ParseError (error);
-	    }
-	 }
-	 else {
-	    std::string error (_("Invalid section: %1"));
-	    error.replace (error.find ("%1"), 2, line);
-	    throw ParseError (error);
-	 }
-      }
-      else {
-	 // Else an attribute has been found -> Handle it, if in a know section
-	 if (pSection) {
-	    std::string actKey, actValue, actComment;
+        TRACE2("INIFile::overwrite() - Read: " << line);
+        // Empty line (or starting with a white-space)
+        if (line.empty() || (isspace(line[0]))) {
+            // First finish up old section, if any
+            if (pSection) {
+                output += getSectionAttributes(*pSection);
+                pSection = NULL;
+            }
+        }
+        // Section found?
+        else if (line[0] == '[') {
+            size_t end(line.find(']', 1));
+            if (end != std::string::npos) {
+                // Find end of section; also accept comments behind it
+                std::string name(line.substr(1, end - 1));
+                TRACE5("INIFile::overwrite() - Section: " << name);
+                TRACE9("INIFile::overwrite() - Remaining: " << line.substr(end + 1).size());
+                std::istringstream stream(line.substr(end + 1));
+                char last('\0');
+                stream >> last;
+                if (!stream || (last == ';')) {
+                    std::vector<const INISection*>::iterator i;
+                    for (i = sections.begin(); i != sections.end(); ++i) {
+                        TRACE9("Checking for " << (*i)->getName());
+                        if ((*i)->matches(name.c_str())) {
+                            pSection = const_cast<INISection*>(*i);
+                            sections.erase(i);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    std::string error(_("Invalid characters after section %1: %2"));
+                    error.replace(error.find("%1"), 2, name);
+                    error.replace(error.find("%2"), 2, &last, 1);
+                    throw ParseError(error);
+                }
+            }
+            else {
+                std::string error(_("Invalid section: %1"));
+                error.replace(error.find("%1"), 2, line);
+                throw ParseError(error);
+            }
+        }
+        else {
+            // Else an attribute has been found -> Handle it, if in a know section
+            if (pSection) {
+                std::string actKey, actValue, actComment;
 
-	    spirit::rule<> startComment (spirit::ch_p (';') | '#');
-	    spirit::rule<> key (spirit::alpha_p >> *spirit::alnum_p);
-	    spirit::rule<> value (spirit::confix_p ('"', (*spirit::c_escape_ch_p)[spirit::assign_a (actValue)], '"')
-				  | (+(spirit::anychar_p - (startComment | spirit::space_p)))[spirit::assign_a (actValue)]);
-	    spirit::rule<> comment (startComment >> *spirit::anychar_p);
-	    spirit::rule<> assignment =
-	       (key[spirit::assign_a (actKey)] >> '=' >> value >> *spirit::space_p >>
-		(!comment)[spirit::assign_a (actComment)]);
+                spirit::rule<> startComment(spirit::ch_p(';') | '#');
+                spirit::rule<> key(spirit::alpha_p >> *spirit::alnum_p);
+                spirit::rule<> value(spirit::confix_p('"', (*spirit::c_escape_ch_p)[spirit::assign_a(actValue)], '"') |
+                                     (+(spirit::anychar_p - (startComment | spirit::space_p)))[spirit::assign_a(actValue)]);
+                spirit::rule<> comment(startComment >> *spirit::anychar_p);
+                spirit::rule<> assignment = (key[spirit::assign_a(actKey)] >> '=' >> value >> *spirit::space_p >>
+                                             (!comment)[spirit::assign_a(actComment)]);
 
-	    spirit::parse (line.c_str (), assignment);
+                spirit::parse(line.c_str(), assignment);
 
-	    TRACE5 ("INIFile::overwrite () - Attribute: " << actKey << '=' << actValue << '|' << actComment);
-	    // Check if the attribute is to be updated
-	    std::vector<const IAttribute*>::iterator i;
-	    for (i = pSection->attributes.begin ();
-		 i != pSection->attributes.end (); ++i)
-	       if ((*i)->matches (actKey.c_str ())) {
-		  TRACE8 ("INIFile::overwrite () - Replace with  " << actValue);
-		  std::string newLine (actKey + '=' + (*i)->getQuotedValue ());
+                TRACE5("INIFile::overwrite() - Attribute: " << actKey << '=' << actValue << '|' << actComment);
+                // Check if the attribute is to be updated
+                std::vector<const IAttribute*>::iterator i;
+                for (i = pSection->attributes.begin(); i != pSection->attributes.end(); ++i)
+                    if ((*i)->matches(actKey.c_str())) {
+                        TRACE8("INIFile::overwrite() - Replace with  " << actValue);
+                        std::string newLine(actKey + '=' + (*i)->getQuotedValue());
 
-		  if (actComment.size ()) {
-		     int blanks (line.size () - newLine.size () - actComment.size ());
-		     newLine += std::string ((blanks < 1) ? 1 : blanks, ' ');
-		     newLine += actComment;
-		  }
-		  line = newLine;
-		  pSection->attributes.erase (i);
-		  break;
-	       }
-	 }
-      }
-      output += line;
-      output += '\n';
-   }
-   file.close ();
+                        if (actComment.size()) {
+                            int blanks(line.size() - newLine.size() - actComment.size());
+                            newLine += std::string((blanks < 1) ? 1 : blanks, ' ');
+                            newLine += actComment;
+                        }
+                        line = newLine;
+                        pSection->attributes.erase(i);
+                        break;
+                    }
+            }
+        }
+        output += line;
+        output += '\n';
+    }
+    file.close();
 
-   std::ofstream ofile (name.c_str ());
-   ofile << output;
+    std::ofstream ofile(name.c_str());
+    ofile << output;
 
-   // Add sections not found
-   while (sections.size ()) {
-      ofile << getSectionAttributes (*sections[0]);
-      sections.erase (sections.begin ());
-   }
+    // Add sections not found
+    while (sections.size()) {
+        ofile << getSectionAttributes(*sections[0]);
+        sections.erase(sections.begin());
+    }
 
-   ofile.close ();
+    ofile.close();
 }
-
 
 //-----------------------------------------------------------------------------
 /// Gets the attributes of the passed section; as they should be written to the
@@ -587,18 +570,18 @@ void INIFile::overwrite () {
 /// \param section Section whose attributes are queried
 /// \returns std::string Attributes as written to INI-file
 //-----------------------------------------------------------------------------
-std::string INIFile::getSectionAttributes (const INISection& section) {
-   TRACE9 ("INIFile::getSectionAttributes (const INISection&) - " << section.getName ());
-   std::string output;
-   while (section.attributes.size ()) {
-      Check2 (section.attributes[0]);
-      output += section.attributes[0]->getName ();
-      output += '=';
-      output += section.attributes[0]->getQuotedValue ();
-      output += '\n';
-   }
-   TRACE9 ("INIFile::getSectionAttributes (const INISection&) - '" << output << '\'');
-   return output;
+std::string INIFile::getSectionAttributes(const INISection& section) {
+    TRACE9("INIFile::getSectionAttributes(const INISection&) - " << section.getName());
+    std::string output;
+    while (section.attributes.size()) {
+        Check2(section.attributes[0]);
+        output += section.attributes[0]->getName();
+        output += '=';
+        output += section.attributes[0]->getQuotedValue();
+        output += '\n';
+    }
+    TRACE9("INIFile::getSectionAttributes (const INISection&) - '" << output << '\'');
+    return output;
 }
 
-}
+} // namespace YGP
