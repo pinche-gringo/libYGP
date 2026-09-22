@@ -1,8 +1,6 @@
 #ifndef YGP_STATUSOBJ_H
 #define YGP_STATUSOBJ_H
 
-//$Id: StatusObj.h,v 1.6 2008/05/18 18:48:24 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,11 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <string>
 
 #include <boost/scoped_ptr.hpp>
-
 
 namespace YGP {
 
@@ -33,46 +29,51 @@ namespace YGP {
    information as sort of details).
 */
 class StatusObject {
- public:
-   /// The type of the object
-   typedef enum { UNDEFINED,               ///< The object contains no message
-                  INFO,      ///< The object contains an informational message
-                  WARNING,          ///< The object contains a warning message
-                  ERROR                      ///< The object contains an error
-   } type;
+  public:
+    /// The type of the object
+    typedef enum {
+        UNDEFINED, ///< The object contains no message
+        INFO,      ///< The object contains an informational message
+        WARNING,   ///< The object contains a warning message
+        ERROR      ///< The object contains an error
+    } type;
 
-   StatusObject ();
-   StatusObject (type t, const std::string& message);
-   StatusObject (const StatusObject& other);
-   virtual ~StatusObject ();
+    StatusObject();
+    StatusObject(type t, const std::string& message);
+    StatusObject(const StatusObject& other);
+    virtual ~StatusObject();
 
-   StatusObject& operator= (const StatusObject& other);
+    StatusObject& operator=(const StatusObject& other);
 
-   /// Returns the type of the message
-   type getType () const { return tp; }
+    /// Returns the type of the message
+    type getType() const { return tp; }
 
-   /// Returns the message
-   std::string getMessage () const { return msg; }
+    /// Returns the message
+    std::string getMessage() const { return msg; }
 
-   /// Returns the details of the message (after the object has been abstracted)
-   std::string getDetails () const { return child ? child->msg : ""; }
+    /// Returns the details of the message (after the object has been abstracted)
+    std::string getDetails() const { return child ? child->msg : ""; }
 
-   /// Returns if the message has details
-   bool hasDetails () const { return (bool)child; }
+    /// Returns if the message has details
+    bool hasDetails() const { return (bool)child; }
 
-   /// Cleans the object (sets it again to undefined)
-   void clean () { tp = UNDEFINED; msg.clear (); child.reset (NULL); }
+    /// Cleans the object (sets it again to undefined)
+    void clean() {
+        tp = UNDEFINED;
+        msg.clear();
+        child.reset(NULL);
+    }
 
-   void generalize (const std::string& message);
-   void setMessage (type t, const std::string& message);
+    void generalize(const std::string& message);
+    void setMessage(type t, const std::string& message);
 
- private:
-   type        tp;
-   std::string msg;
+  private:
+    type tp;
+    std::string msg;
 
-   boost::scoped_ptr<StatusObject> child;
+    boost::scoped_ptr<StatusObject> child;
 };
 
-}
+} // namespace YGP
 
 #endif
