@@ -1,8 +1,6 @@
 #ifndef YGP_ATTRPARSE_H
 #define YGP_ATTRPARSE_H
 
-//$Id: AttrParse.h,v 1.15 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,24 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifdef _MSC_VER
-#pragma warning(disable:4786) // disable warning about truncating debug info
+#    pragma warning(disable : 4786) // disable warning about truncating debug info
 #endif
 
 #include <string>
 #include <vector>
 
-#include <YGP/Exception.h>
 #include <YGP/Attribute.h>
-
+#include <YGP/Exception.h>
 
 namespace YGP {
 
 // Macros to set the attribute-values to parse into the attribute-parser
-#define ATTRIBUTE(APobj, type, var, name)  APobj.addAttribute (*new YGP::Attribute<type> (name, var));
-#define MEATTRIBUTE(APobj, meobj, var, name)  APobj.addAttribute (*new YGP::MetaEnumAttribute (name, meobj, var));
-
+#define ATTRIBUTE(APobj, type, var, name) APobj.addAttribute(*new YGP::Attribute<type>(name, var));
+#define MEATTRIBUTE(APobj, meobj, var, name) APobj.addAttribute(*new YGP::MetaEnumAttribute(name, meobj, var));
 
 /**Class to parse attribute-assignments from a string and sets its values
  into attribute-values.
@@ -47,9 +42,9 @@ namespace YGP {
     ATimestamp  time;
 
     AttributeParse attrs;
-    ATTRIBUTE (attrs, std::string, file, "File");
-    ATTRIBUTE (attrs, ANumeric, size, "Size");
-    ATTRIBUTE (attrs, ATimestamp, time, "Time");
+    ATTRIBUTE(attrs, std::string, file, "File");
+    ATTRIBUTE(attrs, ANumeric, size, "Size");
+    ATTRIBUTE(attrs, ATimestamp, time, "Time");
 
     try {
        attrs.assignValues ("File=\"ADate.cpp\";Time=01012000 121005;Size=18180");
@@ -69,26 +64,26 @@ namespace YGP {
        does not need to be the same!
 */
 class AttributeParse {
- public:
-   //Section manager-functions
-   /// Default constructor; creates an empty object
-   AttributeParse () : apAttrs () { }
-   virtual ~AttributeParse ();
+  public:
+    // Section manager-functions
+    /// Default constructor; creates an empty object
+    AttributeParse() : apAttrs() {}
+    virtual ~AttributeParse();
 
-   void assignValues (const std::string& values) const;
+    void assignValues(const std::string& values) const;
 
-   void addAttribute (IAttribute& attr);
+    void addAttribute(IAttribute& attr);
 
-   const IAttribute* findAttribute (const std::string& name) const;
-   const IAttribute* findAttribute (const char* name) const;
+    const IAttribute* findAttribute(const std::string& name) const;
+    const IAttribute* findAttribute(const char* name) const;
 
- private:
-   AttributeParse (const AttributeParse&);
-   AttributeParse& operator= (const AttributeParse&);
+  private:
+    AttributeParse(const AttributeParse&);
+    AttributeParse& operator=(const AttributeParse&);
 
-   std::vector<IAttribute*> apAttrs;   // Pointer to vector holding attributes
+    std::vector<IAttribute*> apAttrs; // Pointer to vector holding attributes
 };
 
-}
+} // namespace YGP
 
 #endif

@@ -1,14 +1,11 @@
-//$Id: AttrParse.cpp,v 1.19 2008/03/29 17:35:17 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : AttributeParse
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.19 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 26.8.2001
-//COPYRIGHT   : Copyright (C) 2001 - 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : AttributeParse
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 26.8.2001
+// COPYRIGHT   : Copyright (C) 2001 - 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -25,45 +22,41 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#include "YGP/Check.h"
-#include "YGP/Trace.h"
-#include "YGP/Internal.h"
 #include "YGP/AssParse.h"
+#include "YGP/Check.h"
+#include "YGP/Internal.h"
+#include "YGP/Trace.h"
 
 #include "YGP/AttrParse.h"
-
 
 namespace YGP {
 
 //----------------------------------------------------------------------------
 /// Destructor
 //----------------------------------------------------------------------------
-AttributeParse::~AttributeParse () {
-   std::vector<IAttribute*>::reverse_iterator i;
-   for (i = (apAttrs.rbegin ()); i != apAttrs.rend (); ++i)
-      delete *i;
+AttributeParse::~AttributeParse() {
+    std::vector<IAttribute*>::reverse_iterator i;
+    for (i = (apAttrs.rbegin()); i != apAttrs.rend(); ++i)
+        delete *i;
 }
-
 
 //----------------------------------------------------------------------------
 /// Adds an attribute to the request
 /// \param attribute Attribute to add
 /// \remark In the debug version a message is shown, if the attribute already exists
 //----------------------------------------------------------------------------
-void AttributeParse::addAttribute (IAttribute& attribute) {
-   TRACE5 ("AttributeParse::addAttribute (IAttribute&) - "
-           << attribute.getName ());
+void AttributeParse::addAttribute(IAttribute& attribute) {
+    TRACE5("AttributeParse::addAttribute(IAttribute&) - " << attribute.getName());
 
 #if CHECK > 1
-   if (findAttribute (attribute.getName ())) {
-      std::string error (_("Attribute '%1' already exists"));
-      error.replace (error.find ("%1"), 2, attribute.getName ());
-      CheckMsg (0, error.c_str ());
-   }
+    if (findAttribute(attribute.getName())) {
+        std::string error(_("Attribute '%1' already exists"));
+        error.replace(error.find("%1"), 2, attribute.getName());
+        CheckMsg(0, error.c_str());
+    }
 #endif
 
-   apAttrs.push_back (&attribute);
+    apAttrs.push_back(&attribute);
 }
 
 //----------------------------------------------------------------------------
@@ -71,13 +64,13 @@ void AttributeParse::addAttribute (IAttribute& attribute) {
 /// \param name Name of attribute to find
 /// \return IAttribute* Pointer to attribute or NULL (if not found)
 //----------------------------------------------------------------------------
-const IAttribute* AttributeParse::findAttribute (const char* name) const {
-   std::vector<IAttribute*>::const_iterator i;
-   for (i = apAttrs.begin (); i != apAttrs.end (); ++i)
-      if ((*i)->matches (name))
-         return *i;
+const IAttribute* AttributeParse::findAttribute(const char* name) const {
+    std::vector<IAttribute*>::const_iterator i;
+    for (i = apAttrs.begin(); i != apAttrs.end(); ++i)
+        if ((*i)->matches(name))
+            return *i;
 
-   return NULL;
+    return NULL;
 }
 
 //----------------------------------------------------------------------------
@@ -85,13 +78,13 @@ const IAttribute* AttributeParse::findAttribute (const char* name) const {
 /// \param name Name of attribute to find
 /// \return IAttribute* Pointer to attribute or NULL (if not found)
 //----------------------------------------------------------------------------
-const IAttribute* AttributeParse::findAttribute (const std::string& name) const {
-   std::vector<IAttribute*>::const_iterator i;
-   for (i = apAttrs.begin (); i != apAttrs.end (); ++i)
-      if ((*i)->matches (name))
-         return *i;
+const IAttribute* AttributeParse::findAttribute(const std::string& name) const {
+    std::vector<IAttribute*>::const_iterator i;
+    for (i = apAttrs.begin(); i != apAttrs.end(); ++i)
+        if ((*i)->matches(name))
+            return *i;
 
-   return NULL;
+    return NULL;
 }
 
 //----------------------------------------------------------------------------
@@ -101,35 +94,33 @@ const IAttribute* AttributeParse::findAttribute (const std::string& name) const 
 /// \param values Name of attribute to find
 /// \throw YGP::ParseError_argument in case of an unknown name or an invalid value
 //----------------------------------------------------------------------------
-void AttributeParse::assignValues (const std::string& values) const {
-   TRACE9 ("AttributeParse::assignValues (const std::string&) - " << values);
-   AssignmentParse ass (values);
+void AttributeParse::assignValues(const std::string& values) const {
+    TRACE9("AttributeParse::assignValues(const std::string&) - " << values);
+    AssignmentParse ass(values);
 
-   std::string node;
-   while (!((node = ass.getNextNode ()).empty ())) {
-      // Try to find the key
-      TRACE6 ("AttributeParse::assignValues (const std::string&) - Search for key "
-              << ass.getActKey ());
+    std::string node;
+    while (!((node = ass.getNextNode()).empty())) {
+        // Try to find the key
+        TRACE6("AttributeParse::assignValues(const std::string&) - Search for key " << ass.getActKey());
 
-      IAttribute* attr = const_cast<IAttribute*> (findAttribute (ass.getActKey ()));
-      if (attr) {
-	 std::string value (ass.getActValue ());
+        IAttribute* attr = const_cast<IAttribute*>(findAttribute(ass.getActKey()));
+        if (attr) {
+            std::string value(ass.getActValue());
 
-         TRACE5 ("AttributeParse::assignValues (const std::string&) - Assigning "
-                 << value << " (" << value.length () << ')');
-         if (!attr->assign (value.c_str (), value.length ())) {
-            std::string error (_("Error assigning '%1' to %2"));
-            error.replace (error.find ("%1"), 2, value);
-            error.replace (error.find ("%2"), 2, ass.getActKey ());
-            throw YGP::ParseError (error);
-         }
-      } // endif
-      else {
-         std::string error (_("Key '%1' not found"));
-         error.replace (error.find ("%1"), 2, ass.getActKey ());
-	 throw YGP::ParseError (error);
-      }
-   } // end-while
+            TRACE5("AttributeParse::assignValues(const std::string&) - Assigning " << value << " (" << value.length() << ')');
+            if (!attr->assign(value.c_str(), value.length())) {
+                std::string error(_("Error assigning '%1' to %2"));
+                error.replace(error.find("%1"), 2, value);
+                error.replace(error.find("%2"), 2, ass.getActKey());
+                throw YGP::ParseError(error);
+            }
+        } // endif
+        else {
+            std::string error(_("Key '%1' not found"));
+            error.replace(error.find("%1"), 2, ass.getActKey());
+            throw YGP::ParseError(error);
+        }
+    } // end-while
 }
 
-}
+} // namespace YGP
