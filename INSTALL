@@ -26,7 +26,7 @@ Parts of this libraries need
 The package will compile without them, but you don't get the whole
 functionality (not surprisingly the CORBA- and/or the X-windows
 library are missing). WebKitGTK is used to display the help of
-(X-)applications (load faster as a full browser).
+(X-)applications (loads faster as a full browser).
 
 
 How to build
