@@ -1,8 +1,6 @@
 #ifndef YGP_MODULE_H
 #define YGP_MODULE_H
 
-//$Id: Module.h,v 1.4 2008/05/18 13:21:27 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,16 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <ygp-cfg.h>
 
 #ifdef HAVE_DLFCN_H
-#  include <dlfcn.h>
+#    include <dlfcn.h>
 #elif defined HAVE_WINDOWS_H
-#  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
+#    define WIN32_LEAN_AND_MEAN
+#    include <windows.h>
 #endif
-
 
 #include <YGP/Exception.h>
 
@@ -36,24 +32,24 @@ namespace YGP {
 /**Dynamically loading of modules.
  */
 class Module {
- public:
-   Module (const char* module);
-   virtual ~Module ();
+  public:
+    Module(const char* module);
+    virtual ~Module();
 
-   void* getSymbol (const char* symbol) const;
+    void* getSymbol(const char* symbol) const;
 
- private:
-   Module ();
-   Module (const Module& other);
-   const Module& operator= (const Module& other);
+  private:
+    Module();
+    Module(const Module& other);
+    const Module& operator=(const Module& other);
 
 #ifdef HAVE_DLFCN_H
-   void* hDLL;
+    void* hDLL;
 #elif defined HAVE_WINDOWS_H
-   HMODULE hDLL;
+    HMODULE hDLL;
 #endif
 };
 
-}
+} // namespace YGP
 
 #endif
