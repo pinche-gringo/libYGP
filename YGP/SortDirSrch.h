@@ -1,8 +1,6 @@
 #ifndef YGP_SORTDIRSRCH_H
 #define YGP_SORTDIRSRCH_H
 
-//$Id: SortDirSrch.h,v 1.6 2008/06/11 17:53:40 markus Rel $
-
 // This file is part of libYGP.
 //
 // libYGP is free software: you can redistribute it and/or modify
@@ -18,20 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <cstring>
 
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 #include <YGP/DirSrch.h>
-
 
 namespace YGP {
 
 // Foreward declarations
 class File;
-
 
 /**Class to search for files in a certain directory. This search can
    be restricted to files matching certain name-criterias or by
@@ -49,72 +44,69 @@ class File;
    The result of the search is sorted alphabetically (by default; this can be
    changed to either size or last-access time).
 */
-template <class Parent = YGP::DirectorySearch>
-class SortedDirSearch : public Parent {
- public:
-   SortedDirSearch () : Parent (), inFirstFind (false) { }
-   /// Constructor from a search-string
-   /// \param search Files to search for
-   SortedDirSearch (const std::string& search)
-      : Parent (search), inFirstFind (false) { }
-   virtual ~SortedDirSearch () {
-      for (std::vector<File*>::iterator i (result.begin ()); i != result.end (); ++i)
-         delete *i;
-   }
+template <class Parent = YGP::DirectorySearch> class SortedDirSearch : public Parent {
+  public:
+    SortedDirSearch() : Parent(), inFirstFind(false) {}
+    /// Constructor from a search-string
+    /// \param search Files to search for
+    SortedDirSearch(const std::string& search) : Parent(search), inFirstFind(false) {}
+    virtual ~SortedDirSearch() {
+        for (std::vector<File*>::iterator i(result.begin()); i != result.end(); ++i)
+            delete *i;
+    }
 
-   /// \name Searching
-   //@{
-   /// Returns the first found file matching \c spec, having the attributes \c attribs
-   /// \param spec: Files to search for
-   /// \param attribs: Attributes the searched files must have
-   /// attribs
-   virtual const File* find (const std::string& spec, unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
-      Parent::setSearchValue (spec);
-      return find (attribs); }
-   /// Searches for previously specified files with the passed attributes.
-   /// \param attribs Attributes the searched files must have
-   /// \returns const File* Pointer to found file or NULL
-   virtual const File* find (unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
-      inFirstFind = true;
-      const File* file (Parent::find (attribs));
-      inFirstFind = false;
-      while (file) {
-	 result.push_back (new YGP::File (*file));
-	 file = Parent::next ();
-      } // endwhile
+    /// \name Searching
+    //@{
+    /// Returns the first found file matching \c spec, having the attributes \c attribs
+    /// \param spec: Files to search for
+    /// \param attribs: Attributes the searched files must have
+    /// attribs
+    virtual const File* find(const std::string& spec, unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
+        Parent::setSearchValue(spec);
+        return find(attribs);
+    }
+    /// Searches for previously specified files with the passed attributes.
+    /// \param attribs Attributes the searched files must have
+    /// \returns const File* Pointer to found file or NULL
+    virtual const File* find(unsigned long attribs = IDirectorySearch::FILE_NORMAL) {
+        inFirstFind = true;
+        const File* file(Parent::find(attribs));
+        inFirstFind = false;
+        while (file) {
+            result.push_back(new YGP::File(*file));
+            file = Parent::next();
+        } // endwhile
 
-      std::sort (result.begin (), result.end (), &SortedDirSearch::compareFiles);
-      return result.size () ? *result.begin () : NULL;
-   }
-   /// Method to find the next file matching the  previously specified values.
-   /// \returns const File* Pointer to found file or NULL
-   virtual const File* next () {
-      if (inFirstFind)
-         return Parent::next ();
+        std::sort(result.begin(), result.end(), &SortedDirSearch::compareFiles);
+        return result.size() ? *result.begin() : NULL;
+    }
+    /// Method to find the next file matching the  previously specified values.
+    /// \returns const File* Pointer to found file or NULL
+    virtual const File* next() {
+        if (inFirstFind)
+            return Parent::next();
 
-      if (result.size ()) {
-	 delete *result.begin ();
-	 result.erase (result.begin ());
-      }
-      return result.size () ? *result.begin () : NULL;
-   }
-   //@}
+        if (result.size()) {
+            delete *result.begin();
+            result.erase(result.begin());
+        }
+        return result.size() ? *result.begin() : NULL;
+    }
+    //@}
 
- protected:
-   /// Method to find the next file matching the  previously specified values.
-   /// \returns const File* Pointer to found file or NULL
-   static bool compareFiles (const File* a, const File* b) {
-      return strcmp (a->name (), b->name ()) < 0;
-   }
+  protected:
+    /// Method to find the next file matching the  previously specified values.
+    /// \returns const File* Pointer to found file or NULL
+    static bool compareFiles(const File* a, const File* b) { return strcmp(a->name(), b->name()) < 0; }
 
- private:
-   SortedDirSearch (const SortedDirSearch& other);
-   const SortedDirSearch& operator= (const SortedDirSearch& other);
+  private:
+    SortedDirSearch(const SortedDirSearch& other);
+    const SortedDirSearch& operator=(const SortedDirSearch& other);
 
-   bool inFirstFind;
-   std::vector<File*> result;
+    bool inFirstFind;
+    std::vector<File*> result;
 };
 
-}
+} // namespace YGP
 
 #endif
