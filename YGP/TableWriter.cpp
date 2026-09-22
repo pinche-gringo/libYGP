@@ -1,14 +1,11 @@
-//$Id: TableWriter.cpp,v 1.12 2008/06/11 17:53:40 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : TableWriter
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.12 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 27.11.2004
-//COPYRIGHT   : Copyright (C) 2004, 2005, 2007 - 2009, 2011
+// PROJECT     : libYGP
+// SUBSYSTEM   : TableWriter
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 27.11.2004
+// COPYRIGHT   : Copyright (C) 2004, 2005, 2007 - 2009, 2011, 2026
 
 // This file is part of libYGP.
 //
@@ -25,19 +22,17 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <cstring>
 
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
+#include <YGP/AssParse.h>
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
 #include <YGP/Utility.h>
-#include <YGP/AssParse.h>
 
 #include "TableWriter.h"
-
 
 namespace YGP {
 
@@ -58,35 +53,35 @@ namespace YGP {
 /// the object. This is especially important for the format parameter!
 /// Make sure to not pass a temporary object!
 //-----------------------------------------------------------------------------
-TableWriter::TableWriter (const std::string& format, const char* startRow, const char* endRow,
-			  const char* sepColumn, const char* startTab, const char* endTab, const char* sepTab,
-			  const char* startRowHdr, const char* endRowHdr, const char* sepHdrCol,
-			  const char* defColumns)
-   : rowStart (startRow), rowEnd (endRow), colSeparator (sepColumn), tabStart (startTab),
-     tabEnd (endTab), tabHeader (sepTab), rowHdrStart (startRowHdr ? startRowHdr : startRow),
-     rowHdrEnd (endRowHdr ? endRowHdr : endRow), colHdrSeparator (sepHdrCol ? sepHdrCol : sepColumn),
-     colDefinitions (defColumns), columns_ (format, boost::char_separator<char> ("|")),
-     actCol (columns_.begin ()) {
-   Check1 (rowStart); Check1 (rowEnd); Check1 (colSeparator);
-   Check1 (tabStart); Check1 (tabEnd); Check1 (tabHeader);
+TableWriter::TableWriter(const std::string& format, const char* startRow, const char* endRow, const char* sepColumn,
+                         const char* startTab, const char* endTab, const char* sepTab, const char* startRowHdr,
+                         const char* endRowHdr, const char* sepHdrCol, const char* defColumns)
+    : rowStart(startRow), rowEnd(endRow), colSeparator(sepColumn), tabStart(startTab), tabEnd(endTab), tabHeader(sepTab),
+      rowHdrStart(startRowHdr ? startRowHdr : startRow), rowHdrEnd(endRowHdr ? endRowHdr : endRow),
+      colHdrSeparator(sepHdrCol ? sepHdrCol : sepColumn), colDefinitions(defColumns),
+      columns_(format, boost::char_separator<char>("|")), actCol(columns_.begin()) {
+    Check1(rowStart);
+    Check1(rowEnd);
+    Check1(colSeparator);
+    Check1(tabStart);
+    Check1(tabEnd);
+    Check1(tabHeader);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-TableWriter::~TableWriter () {
-}
-
+TableWriter::~TableWriter() {}
 
 //-----------------------------------------------------------------------------
 /// Counts the number of columns
 /// \returns unsigned int Number of columns
 //-----------------------------------------------------------------------------
-unsigned int TableWriter::columns () const {
-   unsigned int cols (0);
-   for (tokenizer::iterator i (columns_.begin ()); i != columns_.end (); ++i)
-      ++cols;
-   return cols;
+unsigned int TableWriter::columns() const {
+    unsigned int cols(0);
+    for (tokenizer::iterator i(columns_.begin()); i != columns_.end(); ++i)
+        ++cols;
+    return cols;
 }
 
 //-----------------------------------------------------------------------------
@@ -94,54 +89,51 @@ unsigned int TableWriter::columns () const {
 /// \param ctrl Control character
 /// \param Flag, if special formatting of substitute is wanted
 //-----------------------------------------------------------------------------
-std::string TableWriter::getSubstitute (char ctrl, bool) const {
-   return std::string (1, ctrl);
-}
+std::string TableWriter::getSubstitute(char ctrl, bool) const { return std::string(1, ctrl); }
 
 //-----------------------------------------------------------------------------
 /// Returns the next token; special characters are expanded
 /// \returns std::string Next (expanded) token
 //-----------------------------------------------------------------------------
-std::string TableWriter::getNextNode () {
-   size_t pos (0);
-   if (actCol == columns_.end ()) {
-      actCol = columns_.begin ();
-      return std::string ();
-   }
-   std::string token (*actCol);
-   ++actCol;
+std::string TableWriter::getNextNode() {
+    size_t pos(0);
+    if (actCol == columns_.end()) {
+        actCol = columns_.begin();
+        return std::string();
+    }
+    std::string token(*actCol);
+    ++actCol;
 
-   TRACE2 ("TableWriter::getNextNode () - Node = '" << token << '\'');
+    TRACE2("TableWriter::getNextNode() - Node = '" << token << '\'');
 
-   std::string substitute;
-   size_t nPos (0);
-   while (((pos = token.find ('%', nPos)) != std::string::npos)
-          && (pos < (token.size () - 1))) {
-      if (token[pos + 1] == '*') {
-         substitute = "";
-         if ((pos + 1) < token.size ())
-            substitute = getSubstitute (token[nPos = pos + 2], true);
-      }
-      else if (token[pos + 1] != '(')
-         substitute = getSubstitute (token[nPos = pos + 1]);
-      else {
-         nPos = pos + 2;
-         do {
-            substitute = getSubstitute (token[nPos]);
-         } while (substitute.empty () && (token[++nPos] != ')') && token[nPos]);
+    std::string substitute;
+    size_t nPos(0);
+    while (((pos = token.find('%', nPos)) != std::string::npos) && (pos < (token.size() - 1))) {
+        if (token[pos + 1] == '*') {
+            substitute = "";
+            if ((pos + 1) < token.size())
+                substitute = getSubstitute(token[nPos = pos + 2], true);
+        }
+        else if (token[pos + 1] != '(')
+            substitute = getSubstitute(token[nPos = pos + 1]);
+        else {
+            nPos = pos + 2;
+            do {
+                substitute = getSubstitute(token[nPos]);
+            }
+            while (substitute.empty() && (token[++nPos] != ')') && token[nPos]);
 
-         // Now skip to next closing bracket
-         if (token[nPos])
-            if ((nPos = token.find (')', nPos)) == std::string::npos)
-               nPos = token.size ();
-      } // end-else '(' found
+            // Now skip to next closing bracket
+            if (token[nPos])
+                if ((nPos = token.find(')', nPos)) == std::string::npos)
+                    nPos = token.size();
+        } // end-else '(' found
 
-      TRACE9 ("TableWriter::getNextNode () - Replacing " << pos << '-' << nPos << " of "
-	      << token << " with " << substitute);
-      token.replace (pos, nPos - pos + 1, substitute);
-      nPos = pos + substitute.length ();
-   }
-   return token.empty () ? std::string (1, ' ') : token;
+        TRACE9("TableWriter::getNextNode() - Replacing " << pos << '-' << nPos << " of " << token << " with " << substitute);
+        token.replace(pos, nPos - pos + 1, substitute);
+        nPos = pos + substitute.length();
+    }
+    return token.empty() ? std::string(1, ' ') : token;
 }
 
 //-----------------------------------------------------------------------------
@@ -149,72 +141,68 @@ std::string TableWriter::getNextNode () {
 /// \param out Stream where to put the output
 /// \param title Title information; the columns must be seperated by an (|)
 //-----------------------------------------------------------------------------
-void TableWriter::printStart (std::ostream& out, const std::string& title) const {
-   TRACE9 ("TableWriter::printStart (std::ostream&, const std::string&) const");
+void TableWriter::printStart(std::ostream& out, const std::string& title) const {
+    TRACE9("TableWriter::printStart(std::ostream&, const std::string&) const");
 
-   out << tabStart;
-   if (colDefinitions) {
-      std::string col (colDefinitions);
-      size_t pos (0);
-      while (((pos = col.find ('%', pos)) != std::string::npos)
-	     && (pos < (col.size () - 1))) {
-	 switch (col[pos + 1]) {
-	 case '#': {
-	    std::ostringstream output;
-	    output << columns ();
-	    col.replace (pos, 2, output.str ());
-	    pos += output.str ().size ();
-	    break; }
+    out << tabStart;
+    if (colDefinitions) {
+        std::string col(colDefinitions);
+        size_t pos(0);
+        while (((pos = col.find('%', pos)) != std::string::npos) && (pos < (col.size() - 1))) {
+            switch (col[pos + 1]) {
+            case '#': {
+                std::ostringstream output;
+                output << columns();
+                col.replace(pos, 2, output.str());
+                pos += output.str().size();
+                break;
+            }
 
-	 case '%':
-	    col.replace (pos++, 1, "", 0);
-	    break;
+            case '%':
+                col.replace(pos++, 1, "", 0);
+                break;
 
-	 default:
-	    col.replace (pos, 2, std::string (columns (), col[pos + 1]));
-	    pos += columns ();
-	 } // end-switch
-      } // end-while
-      out << col;
-   }
-   if (title.size ()) {
-      out << rowHdrStart;
-      printHeaderLead (out);
+            default:
+                col.replace(pos, 2, std::string(columns(), col[pos + 1]));
+                pos += columns();
+            } // end-switch
+        } // end-while
+        out << col;
+    }
+    if (title.size()) {
+        out << rowHdrStart;
+        printHeaderLead(out);
 
-      tokenizer titles (title, boost::char_separator<char> ("|"));
-      tokenizer::iterator i (titles.begin ());
-      if (i != titles.end ())
-	 out << *i;
-      while (++i != titles.end ())
-         out << colHdrSeparator << *i;
+        tokenizer titles(title, boost::char_separator<char>("|"));
+        tokenizer::iterator i(titles.begin());
+        if (i != titles.end())
+            out << *i;
+        while (++i != titles.end())
+            out << colHdrSeparator << *i;
 
-      printHeaderTail (out);
-      out << rowHdrEnd;
-   }
-   out << tabHeader;
+        printHeaderTail(out);
+        out << rowHdrEnd;
+    }
+    out << tabHeader;
 }
 
 //-----------------------------------------------------------------------------
 /// Prints the end of a generic table
 /// \param out Stream where to put the output
 //-----------------------------------------------------------------------------
-void TableWriter::printEnd (std::ostream& out) const {
-   out << tabEnd << '\n';
-}
+void TableWriter::printEnd(std::ostream& out) const { out << tabEnd << '\n'; }
 
 //-----------------------------------------------------------------------------
 /// Prints something at the start of the table-header
 /// \param Stream where to put the output
 //-----------------------------------------------------------------------------
-void TableWriter::printHeaderLead (std::ostream&) const {
-}
+void TableWriter::printHeaderLead(std::ostream&) const {}
 
 //-----------------------------------------------------------------------------
 /// Prints something at the end of the table-header
 /// \param Stream where to put the output
 //-----------------------------------------------------------------------------
-void TableWriter::printHeaderTail (std::ostream&) const {
-}
+void TableWriter::printHeaderTail(std::ostream&) const {}
 
 //-----------------------------------------------------------------------------
 /// Changes the HTML special characters quote ("), ampersand (&), apostrophe
@@ -222,11 +210,11 @@ void TableWriter::printHeaderTail (std::ostream&) const {
 /// \param value String to change
 /// \returns std::string Changed string
 //-----------------------------------------------------------------------------
-std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
-   TRACE5 ("TableWriter::changeSpecialChars (const std::string&) - Changing: " << value);
-   std::string chg (value);
-   convertUTF82HTML (chg);
-   return chg;
+std::string TableWriter::changeHTMLSpecialChars(const std::string& value) {
+    TRACE5("TableWriter::changeSpecialChars(const std::string&) - Changing: " << value);
+    std::string chg(value);
+    convertUTF82HTML(chg);
+    return chg;
 }
 
 //-----------------------------------------------------------------------------
@@ -234,14 +222,14 @@ std::string TableWriter::changeHTMLSpecialChars (const std::string& value) {
 /// \param value String to change
 /// \returns std::string Changed string
 //-----------------------------------------------------------------------------
-std::string TableWriter::changeHTMLSpecialFileChars (const std::string& value) {
-   std::string chg (value);
-   for (unsigned int i (0); i < chg.size (); ++i)
-      if (chg[i] == ' ') {
-         chg.replace (i, 1, "%20");
-         i += 3;
-      }
-   return chg;
+std::string TableWriter::changeHTMLSpecialFileChars(const std::string& value) {
+    std::string chg(value);
+    for (unsigned int i(0); i < chg.size(); ++i)
+        if (chg[i] == ' ') {
+            chg.replace(i, 1, "%20");
+            i += 3;
+        }
+    return chg;
 }
 
 //-----------------------------------------------------------------------------
@@ -250,23 +238,20 @@ std::string TableWriter::changeHTMLSpecialFileChars (const std::string& value) {
 /// \param value String to change
 /// \returns std::string Changed string
 //-----------------------------------------------------------------------------
-std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
-   std::string chg (value);
-   static const char toChange[] = { '#', '$', '%', '&', '~', '_', '^', '\\',
-                                    '{', '}' };
-   static const char* changeTo[] = { "\\#", "\\$", "\\%", "\\&", "\\~", "\\_",
-                                    "\\^", "$\\backslash$", "\\{", "\\}" };
-   Check3 (sizeof (toChange) == (sizeof (changeTo) / sizeof (changeTo[0])));
+std::string TableWriter::changeLaTeXSpecialChars(const std::string& value) {
+    std::string chg(value);
+    static const char toChange[] = {'#', '$', '%', '&', '~', '_', '^', '\\', '{', '}'};
+    static const char* changeTo[] = {"\\#", "\\$", "\\%", "\\&", "\\~", "\\_", "\\^", "$\\backslash$", "\\{", "\\}"};
+    Check3(sizeof(toChange) == (sizeof(changeTo) / sizeof(changeTo[0])));
 
-   for (unsigned int i (0); i < chg.size (); ++i)
-      for (unsigned int j (0); j < sizeof (toChange); ++j)
-         if (chg[i] == toChange[j]) {
-            TRACE9 ("LaTeXWriter::changeSpecialChars (const std::string&) - Changing "
-                    << chg[i] << " with " << changeTo[j]);
-            chg.replace (i, 1, changeTo[j]);
-            i += strlen (changeTo[j]);
-         }
-   return chg;
+    for (unsigned int i(0); i < chg.size(); ++i)
+        for (unsigned int j(0); j < sizeof(toChange); ++j)
+            if (chg[i] == toChange[j]) {
+                TRACE9("LaTeXWriter::changeSpecialChars(const std::string&) - Changing " << chg[i] << " with " << changeTo[j]);
+                chg.replace(i, 1, changeTo[j]);
+                i += strlen(changeTo[j]);
+            }
+    return chg;
 }
 
 //-----------------------------------------------------------------------------
@@ -275,10 +260,10 @@ std::string TableWriter::changeLaTeXSpecialChars (const std::string& value) {
 /// \param value String to change
 /// \returns std::string Changed string
 //-----------------------------------------------------------------------------
-std::string TableWriter::changeQuotedSpecialChars (const std::string& value) {
-   std::string result (value);
-   AssignmentParse::escapeQuotes (result);
-   return result;
+std::string TableWriter::changeQuotedSpecialChars(const std::string& value) {
+    std::string result(value);
+    AssignmentParse::escapeQuotes(result);
+    return result;
 }
 
 //-----------------------------------------------------------------------------
@@ -286,11 +271,11 @@ std::string TableWriter::changeQuotedSpecialChars (const std::string& value) {
 /// \param out Stream where to put the output
 /// \param columns Number of columns
 //-----------------------------------------------------------------------------
-void TableWriter::printLaTeXHeaderLead (std::ostream& out, unsigned int columns) {
-   out << '{';
-   for (unsigned int i (0); i < columns; ++i)
-      out << 'l';
-   out << "}\n";
+void TableWriter::printLaTeXHeaderLead(std::ostream& out, unsigned int columns) {
+    out << '{';
+    for (unsigned int i(0); i < columns; ++i)
+        out << 'l';
+    out << "}\n";
 }
 
 //-----------------------------------------------------------------------------
@@ -298,8 +283,6 @@ void TableWriter::printLaTeXHeaderLead (std::ostream& out, unsigned int columns)
 /// \param out Stream where to put the output
 /// \param columns String describing the columns
 //-----------------------------------------------------------------------------
-void TableWriter::printLaTeXHeaderLead (std::ostream& out, const char* columns) {
-   out << '{' << columns << "}\n";
-}
+void TableWriter::printLaTeXHeaderLead(std::ostream& out, const char* columns) { out << '{' << columns << "}\n"; }
 
 } // end namespace YGP
