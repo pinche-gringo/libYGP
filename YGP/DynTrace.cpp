@@ -1,14 +1,11 @@
-//$Id: DynTrace.cpp,v 1.2 2008/03/29 17:35:17 markus Rel $
-
-//PROJECT     : libYGP
-//SUBSYSTEM   : DynTrace
-//REFERENCES  :
-//TODO        :
-//BUGS        :
-//REVISION    : $Revision: 1.2 $
-//AUTHOR      : Markus Schwab
-//CREATED     : 03.05.2006
-//COPYRIGHT   : Copyright (C) 2006, 2008
+// PROJECT     : libYGP
+// SUBSYSTEM   : DynTrace
+// REFERENCES  :
+// TODO        :
+// BUGS        :
+// AUTHOR      : Markus Schwab
+// CREATED     : 03.05.2006
+// COPYRIGHT   : Copyright (C) 2006, 2008, 2026
 
 // This file is part of libYGP.
 //
@@ -24,7 +21,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
-
 
 #include <YGP/Check.h>
 
@@ -46,43 +42,37 @@
 
 namespace YGP {
 
-
 std::map<const char*, DynTrace*, DynTraceManager::lessDereferenced> DynTraceManager::traceObjs;
-
 
 //-----------------------------------------------------------------------------
 /// Constructor
 /// \param subsystem Name of subsystem
 //-----------------------------------------------------------------------------
-DynTrace::DynTrace (const char* subsystem) : level (-1) {
-   TRACE1 ("DynTrace::DynTrace (const std::string&) - " << subsystem);
+DynTrace::DynTrace(const char* subsystem) : level(-1) {
+    TRACE1("DynTrace::DynTrace(const std::string&) - " << subsystem);
 
-   DynTraceManager::add (subsystem, this);
+    DynTraceManager::add(subsystem, this);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-DynTrace::~DynTrace () {
-   DynTraceManager::remove (this);
-}
-
+DynTrace::~DynTrace() { DynTraceManager::remove(this); }
 
 //-----------------------------------------------------------------------------
 /// Removes the passed relation
 /// \param relation Relation to remove
 //-----------------------------------------------------------------------------
-void DynTraceManager::remove (const DynTrace* traceObj) {
-   TRACE9 ("DynTraceManager::remove (const DynTrace*)");
-   Check1 (traceObj);
+void DynTraceManager::remove(const DynTrace* traceObj) {
+    TRACE9("DynTraceManager::remove(const DynTrace*)");
+    Check1(traceObj);
 
-   for (std::map<const char*, DynTrace*>::iterator i (traceObjs.begin ());
-	i != traceObjs.end (); ++i)
-      if (i->second == traceObj) {
-	 traceObjs.erase (i);
-	 return;
-      }
-   Check3 (0);
+    for (std::map<const char*, DynTrace*>::iterator i(traceObjs.begin()); i != traceObjs.end(); ++i)
+        if (i->second == traceObj) {
+            traceObjs.erase(i);
+            return;
+        }
+    Check3(0);
 }
 
-}
+} // namespace YGP
