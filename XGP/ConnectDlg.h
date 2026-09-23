@@ -16,6 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <memory>
+
+#include <boost/asio/ip/tcp.hpp>
+
 #include <XGP/XDialog.h>
 
 namespace Gtk {
@@ -25,8 +29,6 @@ class Grid;
 } // namespace Gtk
 namespace YGP {
 class Thread;
-class Socket;
-class CommError;
 class ConnectionMgr;
 } // namespace YGP
 
@@ -56,8 +58,8 @@ class ConnectDlg : public XDialog {
     ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr);
 
     void* waitForConnections(void* socket);
-    virtual YGP::Socket* addClient(int socket);
-    virtual void connect(const Glib::ustring& target, unsigned int port);
+    virtual boost::asio::ip::tcp::socket* addClient(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
+    virtual void connect(const Glib::ustring& target, const Glib::ustring& port);
 
     Gtk::Entry* pTarget;   ///< Entry field holding the target computer (IP address or name)
     Gtk::Entry* pPort;     ///< Entry field for the port of the connection

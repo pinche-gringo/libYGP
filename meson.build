@@ -94,7 +94,7 @@ have += {'HAVE_DCGETTEXT': enable_nls}
 #-----------------------------------------------------------------------------
 # Headers, functions, types
 #-----------------------------------------------------------------------------
-foreach h : ['regex.h', 'syslog.h', 'sys/socket.h', 'winsock2.h', 'windows.h', 'sys/wait.h',
+foreach h : ['regex.h', 'syslog.h', 'sys/socket.h', 'windows.h', 'sys/wait.h',
              'dlfcn.h']
   have += {'HAVE_' + h.underscorify().to_upper(): cc.has_header(h)}
 endforeach
@@ -114,8 +114,6 @@ foreach f : ['timegm', 'strfmon', 'beginthread', '_beginthread', 'pipe', '_pipe'
 endforeach
 have += {'HAVE_FNMATCH': cc.has_function('fnmatch', prefix: '#include <fnmatch.h>')}
 
-have += {'HAVE_SSIZE_T': cc.has_type('ssize_t', prefix: '#include <sys/types.h>')}
-have += {'HAVE_SOCKLEN_T': cc.has_type('socklen_t', prefix: '#include <sys/socket.h>')}
 foreach t : ['short', 'int', 'long']
   conf.set('SIZEOF_' + t.to_upper(), cc.sizeof(t))
 endforeach

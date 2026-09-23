@@ -18,11 +18,11 @@
 
 #include <string>
 
+#include <boost/asio/ip/tcp.hpp>
+
 #include <YGP/File.h>
-#include <YGP/Socket.h>
 
 namespace YGP {
-class CommError;
 
 /**Class for a server to enable remote directory searching.
    This is the server for the RemoteDirSearch-class.
@@ -60,6 +60,8 @@ class CommError;
 
    Errors are reported in the following format:
      - <b>RC</b>=<<tt>status</tt>>[;<b>E</b>=<<tt>errortext</tt>>]
+
+   Every message (in both directions) is terminated by a NUL character.
 */
 class RemoteDirSearchSrv {
   public:
@@ -67,13 +69,13 @@ class RemoteDirSearchSrv {
     RemoteDirSearchSrv();
     ~RemoteDirSearchSrv();
 
-    int performCommands(int socket);
+    int performCommands(boost::asio::ip::tcp::socket& sock);
 
   private:
-    void writeResult(Socket& socket, const File& result) const;
-    int writeError(Socket& socket, int error, bool desc = false) const;
+    void writeResult(boost::asio::ip::tcp::socket& socket, const File& result) const;
+    int writeError(boost::asio::ip::tcp::socket& socket, int error, bool desc = false) const;
 
-    void handleArgError(Socket& sock, const std::string& error) const;
+    void handleArgError(boost::asio::ip::tcp::socket& sock, const std::string& error) const;
 };
 
 } // namespace YGP

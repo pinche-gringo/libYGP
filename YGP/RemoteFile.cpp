@@ -36,6 +36,7 @@
 #include "YGP/Check.h"
 #include "YGP/Internal.h"
 #include "YGP/RemoteFile.h"
+#include "YGP/RemoteMsg.h"
 #include "YGP/Trace.h"
 
 namespace YGP {
@@ -73,13 +74,12 @@ void* RemoteFile::open(const char* mode) const {
         buffer += 'b';
 
     try {
-        sock.write(buffer);
-        sock.read(buffer);
+        RemoteMsg::send(sock, buffer);
+        RemoteMsg::receive(sock, pending, buffer);
     }
-    catch (YGP::CommError& e) {
+    catch (boost::system::system_error& e) {
         throw(YGP::FileError(e.what()));
     }
-    buffer += '\0';
 
     if (isOK(buffer)) {
         int id;
@@ -109,14 +109,12 @@ void RemoteFile::close(void* file) const {
     buffer += id.toUnformattedString();
 
     try {
-        sock.write(buffer);
-        sock.read(buffer);
+        RemoteMsg::send(sock, buffer);
+        RemoteMsg::receive(sock, pending, buffer);
     }
-    catch (std::domain_error& error) {
-        std::string err(error.what());
-        throw(YGP::FileError(err));
+    catch (boost::system::system_error& e) {
+        throw(YGP::FileError(e.what()));
     }
-    buffer += '\0';
 
     if (!isOK(buffer))
         handleServerError(buffer.data());
@@ -148,9 +146,8 @@ int RemoteFile::read(void* file, char* buffer, unsigned int length) const {
     text += ";Length=";
     text += id.toUnformattedString();
 
-    sock.write(text);
-    sock.read(text);
-    text += '\0';
+    RemoteMsg::send(sock, text);
+    RemoteMsg::receive(sock, pending, text);
 
     if (isOK(text)) {
         AttributeParse attrs;
@@ -185,14 +182,12 @@ bool RemoteFile::isEOF(void* file) const {
     buffer += id.toUnformattedString();
 
     try {
-        sock.write(buffer);
-        sock.read(buffer);
+        RemoteMsg::send(sock, buffer);
+        RemoteMsg::receive(sock, pending, buffer);
     }
-    catch (std::domain_error& error) {
-        std::string err(error.what());
-        throw err;
+    catch (boost::system::system_error& e) {
+        throw(YGP::FileError(e.what()));
     }
-    buffer += '\0';
 
     if (isOK(buffer))
         return true;
@@ -205,7 +200,7 @@ bool RemoteFile::isEOF(void* file) const {
 /// Checks if response from the server is
 /// \returns \c True if the server sent an RC=0 response
 //-----------------------------------------------------------------------------
-bool RemoteFile::isOK(const std::string& answer) const { return (answer.length() == 4) && !strcmp(answer.data(), "RC=0"); }
+bool RemoteFile::isOK(const std::string& answer) const { return (answer == "RC=0") || answer.starts_with("RC=0;"); }
 
 //-----------------------------------------------------------------------------
 /// Checks out the error send by the server; if it sends an explaining string
@@ -224,7 +219,7 @@ void RemoteFile::handleServerError(const char* pAnswer) const {
 
     if (!error.empty()) {
         error = _("Server returned an error: ") + error;
-        throw(error);
+        throw(YGP::FileError(error));
     }
 }
 
@@ -274,14 +269,12 @@ int RemoteFile::write(void* file, const char* buffer, unsigned int length) const
     text += '"';
 
     try {
-        sock.write(text);
-        sock.read(text);
+        RemoteMsg::send(sock, text);
+        RemoteMsg::receive(sock, pending, text);
     }
-    catch (std::domain_error& error) {
-        std::string err(error.what());
-        throw err;
+    catch (boost::system::system_error& e) {
+        throw(YGP::FileError(e.what()));
     }
-    text += '\0';
 
     if (isOK(text))
         return length;

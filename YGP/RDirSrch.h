@@ -19,11 +19,14 @@
 #include <cstddef>
 #include <cstring>
 #include <ctime>
+#include <string>
+
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/ip/tcp.hpp>
 
 #include <YGP/ATStamp.h>
 #include <YGP/AttrParse.h>
 #include <YGP/Exception.h>
-#include <YGP/Socket.h>
 #include <ygp-cfg.h>
 
 #include <YGP/IDirSrch.h>
@@ -51,13 +54,15 @@ namespace YGP {
 class RemoteDirSearch : public IDirectorySearch {
   public:
     //@Section manager-functions
-    RemoteDirSearch() : IDirectorySearch(), sock(-1), server(), files(), attrs(), file(), time(), attr(0), size(0) {}
+    RemoteDirSearch() : IDirectorySearch(), ctx(), sock(ctx), pending(), server(), files(), attrs(), file(), time(), attr(0), size(0) {}
     RemoteDirSearch(const std::string& search);
     RemoteDirSearch(const std::string& search, unsigned int port);
     ~RemoteDirSearch() override;
 
     //@Section initializing
-    void sendTo(const std::string& server, unsigned int port);
+    /// Specifies the partner (name and port) for the communication.
+    void sendTo(const std::string& server, unsigned int port) { sendTo(server, std::to_string(port)); }
+    void sendTo(const std::string& server, const std::string& port);
 
     //@Section manipulating
     void setSearchValue(const std::string& search) override;
@@ -70,20 +75,15 @@ class RemoteDirSearch : public IDirectorySearch {
     const File* next() override;
     //@}
 
-    enum FileType {
-        FILE_NORMAL = 0,    ///< Ordinary file
-        FILE_READONLY = 1,  ///< %File is readonly
-        FILE_DIRECTORY = 2, ///< %File is actually a directory
-        FILE_HIDDEN = 4     ///< %File is "hidden"
-    };
-
     bool isValid() const override;
     bool isValid(const std::string& dir);
 
     static const char SEPARATOR; ///< Separator between host and port
 
   protected:
-    Socket sock; ///< Socket for the communication
+    boost::asio::io_context ctx;        ///< Context for the I/O operations
+    boost::asio::ip::tcp::socket sock; ///< Socket for the communication
+    std::string pending;                ///< Data received, but not yet processed
 
   private:
     /// \name Section prohibited manager functions

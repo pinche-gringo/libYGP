@@ -24,36 +24,32 @@
 
 #include <algorithm>
 
+#include <boost/asio/connect.hpp>
+
 #include "YGP/Check.h"
-#include "YGP/Socket.h"
 #include "YGP/Trace.h"
 
 #include "YGP/ConnMgr.h"
+
+using boost::asio::ip::tcp;
 
 namespace YGP {
 
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::ConnectionMgr() :  connections() { TRACE9("ConnectionMgr::ConnectionMgr()"); }
+ConnectionMgr::ConnectionMgr() : ctx(), server(), acceptor(), connections() { TRACE9("ConnectionMgr::ConnectionMgr()"); }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::~ConnectionMgr() {
-    TRACE9("ConnectionMgr::~ConnectionMgr()");
-    clearConnections();
-    delete server;
-}
+ConnectionMgr::~ConnectionMgr() { TRACE9("ConnectionMgr::~ConnectionMgr()"); }
 
 //-----------------------------------------------------------------------------
 /// Removes the available connections
 //-----------------------------------------------------------------------------
 void ConnectionMgr::clearConnections() {
     TRACE6("ConnectionMgr::clearConnections()");
-    for (auto & connection : connections)
-        delete connection;
-
     connections.clear();
 }
 
@@ -64,11 +60,8 @@ void ConnectionMgr::changeMode(modeConnect newMode) {
     if (mode != newMode) {
         TRACE3("ConnectionMgr::changeMode(modeConnect) - " << (int)newMode);
         clearConnections();
-
-        if (mode == SERVER) {
-            delete server;
-            server = nullptr;
-        }
+        server.reset();
+        acceptor.reset();
         mode = newMode;
     }
 }
@@ -76,76 +69,83 @@ void ConnectionMgr::changeMode(modeConnect newMode) {
 //----------------------------------------------------------------------------
 /// Connect to \c server on the specified \c port.
 /// \param target Server to connect to
-/// \param port Port the server is listening at
-/// \throws YGP::CommError In case of a connection error
+/// \param port Port the server is listening at (numeric or service name)
+/// \throws boost::system::system_error In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::connectTo(const char* target, unsigned int port) {
-    TRACE1("ConnectionMgr::connectTo(const char*, unsinged int) - " << target << ':' << port);
-    server = new Socket(target, port);
+void ConnectionMgr::connectTo(const std::string& target, const std::string& port) {
+    TRACE1("ConnectionMgr::connectTo(const std::string&, const std::string&) - " << target << ':' << port);
+
+    auto sock(std::make_unique<tcp::socket>(ctx));
+    boost::asio::connect(*sock, tcp::resolver(ctx).resolve(target, port));
+
     changeMode(CLIENT);
+    server = std::move(sock);
 }
 
 //----------------------------------------------------------------------------
 /// Wait at port \c port for connections
-/// \param port Port the server is listening at
-/// \throws YGP::CommError In case of a connection error
+/// \param port Port to listen at (numeric or service name)
+/// \throws boost::system::system_error In case of a connection error
 //----------------------------------------------------------------------------
-void ConnectionMgr::listenAt(unsigned int port) {
-    TRACE1("ConnectionMgr::listenAt(unsinged int) - " << port);
-    server = new Socket(port);
+void ConnectionMgr::listenAt(const std::string& port) {
+    TRACE1("ConnectionMgr::listenAt(const std::string&) - " << port);
+
+    auto endpoints(tcp::resolver(ctx).resolve(tcp::v4(), "", port, tcp::resolver::passive));
+    auto listener(std::make_unique<tcp::acceptor>(ctx, endpoints.begin()->endpoint()));
+
     changeMode(SERVER);
+    acceptor = std::move(listener);
 }
 
 //----------------------------------------------------------------------------
 /// Waits for a connection on the previously bound port
+/// \returns std::unique_ptr<tcp::socket> Socket of the new connection (or
+///    \c NULL in case of an error)
 /// \pre listenAt() must have been called before
 //----------------------------------------------------------------------------
-int ConnectionMgr::getNewConnection() const {
+std::unique_ptr<tcp::socket> ConnectionMgr::getNewConnection() const {
     TRACE2("ConnectionMgr::getNewConnection()");
-    Check1(server);
+    Check1(acceptor);
     Check1(mode == SERVER);
 
-    int socket(-1U);
-    try {
-        socket = server->waitForInput();
-    }
-    catch (YGP::CommError& e) {
-        TRACE1("ConnectionMgr::getNewConnection() - Unexpected exception: " << e.what());
+    boost::system::error_code ec;
+    auto socket(std::make_unique<tcp::socket>(acceptor->accept(ec)));
+    if (ec) {
+        TRACE1("ConnectionMgr::getNewConnection() - Unexpected error: " << ec.message());
+        socket.reset();
     }
     return socket;
 }
 
 //----------------------------------------------------------------------------
 /// Adds a connection the the server connections
-/// \returns Socket* Pointer to created socket (or \c NULL)
+/// \param socket Socket of the connection (as returned by getNewConnection())
+/// \returns tcp::socket* Pointer to added socket (or \c NULL)
 /// \pre
 ///    - listenAt() must have been called before
 //----------------------------------------------------------------------------
-Socket* ConnectionMgr::addConnection(int socket) {
-    TRACE2("ConnectionMgr::addNewConnection(int) - " << socket);
-    Check1(server);
+tcp::socket* ConnectionMgr::addConnection(std::unique_ptr<tcp::socket> socket) {
+    TRACE2("ConnectionMgr::addConnection(std::unique_ptr<tcp::socket>)");
+    Check1(acceptor);
     Check1(mode == SERVER);
 
-    try {
-        connections.push_back(new Socket(socket));
-        return connections.back();
-    }
-    catch (YGP::CommError& e) {
-        TRACE1("ConnectionMgr::addConnection(int) - Unexpected exception: " << e.what());
+    if (!socket)
         return nullptr;
-    }
+
+    connections.push_back(std::move(socket));
+    return connections.back().get();
 }
 
 //-----------------------------------------------------------------------------
 /// Disconnects one of the partners
 /// \param partner Partner to disconnect
 //-----------------------------------------------------------------------------
-void ConnectionMgr::disconnect(const Socket* partner) {
-    TRACE8("ConnectionMgr::disconnect(const Socket*)");
-    Check1(mode == NONE);
+void ConnectionMgr::disconnect(const tcp::socket* partner) {
+    TRACE8("ConnectionMgr::disconnect(const tcp::socket*)");
+    Check1(mode != NONE);
 
     if (mode == SERVER) {
-        auto i(find(connections.begin(), connections.end(), partner));
+        auto i(std::find_if(connections.begin(), connections.end(), [partner](const auto& c) { return c.get() == partner; }));
         if (i == connections.end())
             return;
 
@@ -153,8 +153,8 @@ void ConnectionMgr::disconnect(const Socket* partner) {
         if (connections.size())
             return;
     }
-    delete server;
-    server = nullptr;
+    server.reset();
+    acceptor.reset();
     mode = NONE;
 }
 

@@ -33,9 +33,10 @@
 
 #include <string>
 
+#include <boost/asio/ip/tcp.hpp>
+
 #include <YGP/Exception.h>
 #include <YGP/File.h>
-#include <YGP/Socket.h>
 
 namespace YGP {
 
@@ -50,8 +51,8 @@ namespace YGP {
 */
 using RemoteFile = struct RemoteFile : public File {
     /// Default constructor; creates an empty object (holding no file) with the
-    /// socket for the communication
-    RemoteFile(Socket& socket) : sock(socket) {}
+    /// socket for the communication (and the data received but not yet processed)
+    RemoteFile(boost::asio::ip::tcp::socket& socket, std::string& pending) : sock(socket), pending(pending) {}
     /// Copy constructor; with the socket for the communication
     RemoteFile(const RemoteFile& o)  = default;
     ~RemoteFile() override;
@@ -69,7 +70,8 @@ using RemoteFile = struct RemoteFile : public File {
     int write(void* file, const char* buffer, unsigned int length) const override;
 
   private:
-    Socket& sock;
+    boost::asio::ip::tcp::socket& sock;
+    std::string& pending;
 
     void handleServerMsg(const AttributeParse& attr, const char* pValue) const;
     void handleServerError(const char*) const;

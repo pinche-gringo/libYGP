@@ -18,7 +18,7 @@ YGP/PathDirSrch.cpp
 YGP/RDirSrch.cpp
 YGP/RDirSrchSrv.cpp
 YGP/RemoteFile.cpp
-YGP/Socket.cpp
+YGP/ConnMgr.cpp
 YGP/Process.cpp
 XGP/XPrintDlg.cpp
 XGP/XFileDlg.cpp

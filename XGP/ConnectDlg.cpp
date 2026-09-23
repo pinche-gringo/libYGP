@@ -34,7 +34,6 @@
 
 #include <YGP/Check.h>
 #include <YGP/ConnMgr.h>
-#include <YGP/Socket.h>
 #include <YGP/Thread.h>
 #include <YGP/Trace.h>
 
@@ -172,14 +171,13 @@ void ConnectDlg::command(int action) {
     case CONNECT: {
         try {
             Check3(pPort->get_text_length());
-            unsigned int prt(YGP::Socket::getPortOfService(pPort->get_text().c_str()));
-            connect(pTarget->get_text(), prt);
+            connect(pTarget->get_text(), pPort->get_text());
             valueChanged();
             response(static_cast<int>(Gtk::ResponseType::OK));
         }
-        catch (YGP::CommError& err) {
+        catch (boost::system::system_error& err) {
             Glib::ustring msg(_("Can't connect to server!\n\nReason: %1"));
-            msg.replace(msg.find("%1"), 2, err.what());
+            msg.replace(msg.find("%1"), 2, err.code().message());
             Gtk::MessageDialog dlg(msg, false, Gtk::MessageType::ERROR, Gtk::ButtonsType::CANCEL);
             dlg.set_title(_("Connect error"));
             runModal(dlg);
@@ -190,16 +188,15 @@ void ConnectDlg::command(int action) {
     case WAIT:
         try {
             Check3(pPort->get_text_length());
-            unsigned int prt(YGP::Socket::getPortOfService(pPort->get_text().c_str()));
-            cmgr.listenAt(prt);
+            cmgr.listenAt(pPort->get_text());
 
             pThread = YGP::OThread<ConnectDlg>::create2(this, &ConnectDlg::waitForConnections, nullptr);
             pThread->allowCancelation();
             valueChanged();
         }
-        catch (YGP::CommError& err) {
+        catch (boost::system::system_error& err) {
             Glib::ustring msg(_("Can't bind to port!\n\nReason: %1"));
-            msg.replace(msg.find("%1"), 2, err.what());
+            msg.replace(msg.find("%1"), 2, err.code().message());
             Gtk::MessageDialog dlg(msg, false, Gtk::MessageType::ERROR, Gtk::ButtonsType::CANCEL);
             dlg.set_title(_("Connect error"));
             runModal(dlg);
@@ -243,13 +240,13 @@ void ConnectDlg::valueChanged() const {
 
 //----------------------------------------------------------------------------
 /// Waits for connections
-/// \throw YGP::CommError In case of an connection error
+/// \throw boost::system::system_error In case of an connection error
 //----------------------------------------------------------------------------
 void* ConnectDlg::waitForConnections(void* pVoid) {
     while (true) {
-        int socket(cmgr.getNewConnection());
+        auto socket(cmgr.getNewConnection());
         ((YGP::Thread*)pVoid)->isToCancel();
-        addClient(socket);
+        addClient(std::move(socket));
     }
     return pVoid;
 }
@@ -257,10 +254,10 @@ void* ConnectDlg::waitForConnections(void* pVoid) {
 //----------------------------------------------------------------------------
 /// Adds a connected client to the vector holding the connections
 /// \param socket Socket over which the client communicates
-/// \returns Socket* Pointer to created socket (or \c NULL)
+/// \returns tcp::socket* Pointer to added socket (or \c NULL)
 //----------------------------------------------------------------------------
-YGP::Socket* ConnectDlg::addClient(int socket) {
-    YGP::Socket* newSocket(cmgr.addConnection(socket));
+boost::asio::ip::tcp::socket* ConnectDlg::addClient(std::unique_ptr<boost::asio::ip::tcp::socket> socket) {
+    auto* newSocket(cmgr.addConnection(std::move(socket)));
     if (cMaxConns == cmgr.getClients().size()) {
         delete pThread;
         pThread = nullptr;
@@ -272,11 +269,11 @@ YGP::Socket* ConnectDlg::addClient(int socket) {
 //----------------------------------------------------------------------------
 /// Connects the client with the passed target
 /// \param target Name or IP address of target
-/// \param port Port the target is listening at
-/// \throw YGP::CommError In case of an connection error
+/// \param port Port the target is listening at (numeric or service name)
+/// \throw boost::system::system_error In case of an connection error
 //----------------------------------------------------------------------------
-void ConnectDlg::connect(const Glib::ustring& target, unsigned int port) {
-    TRACE3("PlayerConnectDlg::connect(const Glib::ustring&, unsigned int)" << target << ':' << port);
+void ConnectDlg::connect(const Glib::ustring& target, const Glib::ustring& port) {
+    TRACE3("ConnectDlg::connect(const Glib::ustring&, const Glib::ustring&)" << target << ':' << port);
     cmgr.connectTo(target, port);
 }
 

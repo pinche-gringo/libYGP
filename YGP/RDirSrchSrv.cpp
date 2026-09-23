@@ -42,7 +42,7 @@
 #include "YGP/Exception.h"
 #include "YGP/File.h"
 #include "YGP/RDirSrchSrv.h"
-#include "YGP/Socket.h"
+#include "YGP/RemoteMsg.h"
 #include "YGP/Trace.h"
 
 static const unsigned int CMD_NEXT = 0;
@@ -66,6 +66,8 @@ static const struct {
 } commands[] = {{"Next", 4},   {"Find=\"", 6}, {"Check=\"", 7}, {"End", 3}, {"Open=\"", 6},
                 {"Close=", 6}, {"Read=", 5},   {"Write=", 6},   {"EOF=", 4}};
 
+using boost::asio::ip::tcp;
+
 namespace YGP {
 
 //-----------------------------------------------------------------------------
@@ -87,22 +89,21 @@ RemoteDirSearchSrv::~RemoteDirSearchSrv() = default;
 /// Handles the commands send from the client; the respectative action is
 /// performed and data is returned accordingly.
 ///
-/// \param socket Socket for communication
+/// \param sock Socket for communication
 /// \returns int 0 in case of end-of-communication; 99 after the END-command
-/// \throw YGP::CommError In case of a communication problem
+/// \throw boost::system::system_error In case of a communication problem
 //-----------------------------------------------------------------------------
-int RemoteDirSearchSrv::performCommands(int socket) {
+int RemoteDirSearchSrv::performCommands(tcp::socket& sock) {
     std::string data;
+    std::string pending;
 
     DirectorySearch dirSrch;
     static FILE* pFile = nullptr;
 
-    Socket sock(socket);
-
     do {
-        sock.read(data);
-        data += '\0';
-        TRACE5("RemoteDirSearchSrv::performCommands(int) - Read: " << data.data());
+        if (!RemoteMsg::receive(sock, pending, data)) // Connection closed by client
+            break;
+        TRACE5("RemoteDirSearchSrv::performCommands(tcp::socket&) - Read: " << data.data());
 
         unsigned int i(0);
         for (; i < (sizeof(commands) / sizeof(commands[0])); ++i) {
@@ -112,7 +113,7 @@ int RemoteDirSearchSrv::performCommands(int socket) {
 
         switch (i) {     // Perform passed command
         case CMD_NEXT: { // Find next
-            TRACE9("RemoteDirSearchSrv::performCommands(int) - Find next");
+            TRACE9("RemoteDirSearchSrv::performCommands(tcp::socket&) - Find next");
             const File* file = dirSrch.next();
             if (file)
                 writeResult(sock, *file);
@@ -138,10 +139,10 @@ int RemoteDirSearchSrv::performCommands(int socket) {
                 break;
             }
 
-            TRACE9("RemoteDirSearchSrv::performCommands(int) - Find " << files.c_str());
+            TRACE9("RemoteDirSearchSrv::performCommands(tcp::socket&) - Find " << files.c_str());
 
             if (files.empty()) {
-                sock.write("RC=99;E=No file specified");
+                RemoteMsg::send(sock, "RC=99;E=No file specified");
                 break;
             }
 
@@ -153,10 +154,10 @@ int RemoteDirSearchSrv::performCommands(int socket) {
         } break;
 
         case CMD_CHECK: { // Check passed data
-            data[data.length() - 2] = '\0';
-            std::string argument(data.data() + commands[i].len);
-            TRACE9("RemoteDirSearchSrv::performCommands(int) - Checking " << argument.c_str());
-            sock.write(dirSrch.isValid(argument) ? "RC=0" : "RC=1");
+            // Strip command and closing quote
+            std::string argument(data, commands[i].len, data.length() - commands[i].len - 1);
+            TRACE9("RemoteDirSearchSrv::performCommands(tcp::socket&) - Checking " << argument.c_str());
+            RemoteMsg::send(sock, dirSrch.isValid(argument) ? "RC=0" : "RC=1");
         } break;
 
         case CMD_END: // End communication
@@ -180,7 +181,7 @@ int RemoteDirSearchSrv::performCommands(int socket) {
             pFile = fopen(file.c_str(), mode.c_str());
             if (pFile) {
                 std::string res("RC=0;ID=1");
-                sock.write(res);
+                RemoteMsg::send(sock, res);
             }
             else
                 writeError(sock, errno);
@@ -207,7 +208,7 @@ int RemoteDirSearchSrv::performCommands(int socket) {
                 ANumeric len(length);
                 send += len.toUnformattedString();
                 send += AssignmentParse::makeAssignment(";Data", contents, length);
-                sock.write(send.data(), send.length());
+                RemoteMsg::send(sock, send);
             }
             else {
                 Check3(errno);
@@ -232,14 +233,14 @@ int RemoteDirSearchSrv::performCommands(int socket) {
             if (fclose(pFile))
                 writeError(sock, errno);
             else
-                sock.write("RC=0", 4);
+                RemoteMsg::send(sock, "RC=0");
             pFile = nullptr;
         } break;
 
         case CMD_WRITE: {
             std::string err("RC=99;E=");
             err += _("Not yet implemented");
-            sock.write(err);
+            RemoteMsg::send(sock, err);
         } break;
 
         case CMD_ISEOF:
@@ -255,15 +256,15 @@ int RemoteDirSearchSrv::performCommands(int socket) {
                 break;
             }
 
-            sock.write(feof(pFile) ? "RC=0" : "RC=1");
+            RemoteMsg::send(sock, feof(pFile) ? "RC=0" : "RC=1");
             break;
 
         default: {
-            TRACE("RemoteDirSearchSrv::performCommands(int) - Invalid command " << data.data());
+            TRACE("RemoteDirSearchSrv::performCommands(tcp::socket&) - Invalid command " << data.data());
 
             std::string error("RC=99;E=");
             error += _("Invalid command");
-            sock.write(error);
+            RemoteMsg::send(sock, error);
         }
         } // end-switch
     }
@@ -277,7 +278,7 @@ int RemoteDirSearchSrv::performCommands(int socket) {
 /// \param error Errornumber
 /// \param desc Flag if a description should be included
 //-----------------------------------------------------------------------------
-int RemoteDirSearchSrv::writeError(Socket& socket, int error, bool desc) const {
+int RemoteDirSearchSrv::writeError(tcp::socket& socket, int error, bool desc) const {
     std::string write("RC=");
     ANumeric err(error);
     write += err.toUnformattedString();
@@ -286,7 +287,7 @@ int RemoteDirSearchSrv::writeError(Socket& socket, int error, bool desc) const {
         write += ";E=";
         write += strerror(error);
     }
-    socket.write(write);
+    RemoteMsg::send(socket, write);
     return error;
 }
 
@@ -295,11 +296,11 @@ int RemoteDirSearchSrv::writeError(Socket& socket, int error, bool desc) const {
 /// \param sock Reference to socket for output
 /// \param error Description of error in input
 //-----------------------------------------------------------------------------
-void RemoteDirSearchSrv::handleArgError(Socket& sock, const std::string& error) const {
+void RemoteDirSearchSrv::handleArgError(tcp::socket& sock, const std::string& error) const {
     std::string errText("RC=99;E=");
     errText += _("Invalid arguments: ");
     errText += error;
-    sock.write(errText.c_str(), errText.length());
+    RemoteMsg::send(sock, errText);
 }
 
 //-----------------------------------------------------------------------------
@@ -307,7 +308,7 @@ void RemoteDirSearchSrv::handleArgError(Socket& sock, const std::string& error) 
 /// \param socket Socket for communication
 /// \param result Found file
 //-----------------------------------------------------------------------------
-void RemoteDirSearchSrv::writeResult(Socket& socket, const File& result) const {
+void RemoteDirSearchSrv::writeResult(tcp::socket& socket, const File& result) const {
     std::string write("RC=0;File=\"");
     write += result.path();
     write += result.name();
@@ -325,7 +326,7 @@ void RemoteDirSearchSrv::writeResult(Socket& socket, const File& result) const {
     write += ";Attr=";
     write += attr.toUnformattedString();
 
-    socket.write(write);
+    RemoteMsg::send(socket, write);
 }
 
 } // namespace YGP

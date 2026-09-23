@@ -83,7 +83,6 @@
 #mesondefine HAVE_SYS_WAIT_H
 #mesondefine HAVE_SYSLOG_H
 #mesondefine HAVE_WINDOWS_H
-#mesondefine HAVE_WINSOCK2_H
 
 /* Available functions */
 #mesondefine HAVE_BACKTRACE
@@ -110,8 +109,6 @@
 
 /* Types and compiler characteristics */
 #mesondefine HAVE_SIGBUS
-#mesondefine HAVE_SOCKLEN_T
-#mesondefine HAVE_SSIZE_T
 #mesondefine SIZEOF_INT
 #mesondefine SIZEOF_LONG
 #mesondefine SIZEOF_SHORT

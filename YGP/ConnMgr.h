@@ -16,15 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <memory>
 #include <string>
 #include <vector>
 
-#include <YGP/Exception.h>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/ip/tcp.hpp>
 
 namespace YGP {
-
-// Forward declarations
-class Socket;
 
 /**Class to handle the connections an application can have.
 
@@ -51,34 +50,40 @@ class ConnectionMgr {
     /// \name Client mode
     //@{
     /// Connect to \c server on the specified \c port.
-    /// \throw YGP::CommError
-    void connectTo(const std::string& server, unsigned int port) { connectTo(server.c_str(), port); }
-    void connectTo(const char* server, unsigned int port);
+    /// \throw boost::system::system_error
+    void connectTo(const std::string& server, unsigned int port) { connectTo(server, std::to_string(port)); }
+    void connectTo(const std::string& server, const std::string& port);
 
     //@}
 
     /// \name Server mode
     //@{
-    void listenAt(unsigned int port);
-    int getNewConnection() const;
-    Socket* addConnection(int socket);
+    /// Wait at port \c port for connections
+    /// \throw boost::system::system_error
+    void listenAt(unsigned int port) { listenAt(std::to_string(port)); }
+    void listenAt(const std::string& port);
+    std::unique_ptr<boost::asio::ip::tcp::socket> getNewConnection() const;
+    boost::asio::ip::tcp::socket* addConnection(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
 
     /// Returns the clients already connected to the server
-    const std::vector<Socket*>& getClients() const { return connections; }
+    const std::vector<std::unique_ptr<boost::asio::ip::tcp::socket>>& getClients() const { return connections; }
     //@}
 
     /// Returns the actual mode of the connection
     modeConnect getMode() const { return mode; }
     void changeMode(modeConnect);
-    void disconnect(const Socket* partner);
+    void disconnect(const boost::asio::ip::tcp::socket* partner);
     void clearConnections();
-    /// Returns the Socket over which to communicate (might be NULL)
-    Socket* getSocket() const { return server; }
+    /// Returns the socket over which to communicate with the server (in
+    /// client mode; might be NULL)
+    boost::asio::ip::tcp::socket* getSocket() const { return server.get(); }
 
   private:
+    boost::asio::io_context ctx;
     modeConnect mode{NONE};
-    Socket* server{nullptr};
-    std::vector<Socket*> connections;
+    std::unique_ptr<boost::asio::ip::tcp::socket> server;
+    std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptor;
+    std::vector<std::unique_ptr<boost::asio::ip::tcp::socket>> connections;
 
     ConnectionMgr(const ConnectionMgr& other) = delete;
     const ConnectionMgr& operator=(const ConnectionMgr& other) = delete;

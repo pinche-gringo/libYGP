@@ -28,12 +28,15 @@
 
 #include <cctype>
 
+#include <boost/asio/connect.hpp>
+
 #include "YGP/ANumeric.h"
 #include "YGP/AttrParse.h"
 #include "YGP/Check.h"
 #include "YGP/Exception.h"
 #include "YGP/Internal.h"
 #include "YGP/RemoteFile.h"
+#include "YGP/RemoteMsg.h"
 #include "YGP/Trace.h"
 
 #include "YGP/RDirSrch.h"
@@ -49,30 +52,25 @@ const char RemoteDirSearch::SEPARATOR = ':';
 /// textual representation (e.g.: \c 80 or \c http).
 /// \param srch String identifying server/port and path to search;
 ///             in a format <tt>\<server\>:\<path\>:\<port\></tt>
-/// \throw YGP::CommError Containing error message in case of an error
+/// \throw boost::system::system_error Containing error message in case of an error
 //----------------------------------------------------------------------------
 RemoteDirSearch::RemoteDirSearch(const std::string& srch)
-    : IDirectorySearch(), sock(), server(), files(), attrs(), file(), time(), attr(0), size(0) {
+    : IDirectorySearch(), ctx(), sock(ctx), pending(), server(), files(), attrs(), file(), time(), attr(0), size(0) {
     TRACE9("RemoteDirSearch::RemoteDirSearch(const std::string&) - " << srch << ':');
 
-    int posPort(srch.rfind(SEPARATOR));
-    std::string sPort(srch);
-    sPort.replace(0, posPort, 0, '\0');
-
-    server = srch;
-    server.replace(posPort, server.length(), 0, '\0');
-
-    sendTo(server, Socket::getPortOfService(sPort.c_str()));
+    size_t posPort(srch.rfind(SEPARATOR));
+    Check1(posPort != std::string::npos);
+    sendTo(srch.substr(0, posPort), srch.substr(posPort + 1));
 }
 
 //----------------------------------------------------------------------------
 /// Constructor; sets the information for which files to search.
 /// \param srch String identifying server and path to search; \<server\>:\<path\>
 /// \param port Port number the server is listening at
-/// \throw YGP::CommError Containing error message in case of an error
+/// \throw boost::system::system_error Containing error message in case of an error
 //----------------------------------------------------------------------------
 RemoteDirSearch::RemoteDirSearch(const std::string& srch, unsigned int port)
-    : IDirectorySearch(), sock(), server(), files(), attrs(), file(), time(), attr(0), size(0) {
+    : IDirectorySearch(), ctx(), sock(ctx), pending(), server(), files(), attrs(), file(), time(), attr(0), size(0) {
     TRACE9("RemoteDirSearch::RemoteDirSearch(const std::string&, unsigned int) - " << srch << ':' << port);
 
     sendTo(srch, port);
@@ -84,7 +82,7 @@ RemoteDirSearch::RemoteDirSearch(const std::string& srch, unsigned int port)
 RemoteDirSearch::~RemoteDirSearch() {
     clearEntry();
     try {
-        sock.write("End", 3);
+        RemoteMsg::send(sock, "End");
     }
     catch (...) {
     }
@@ -93,24 +91,25 @@ RemoteDirSearch::~RemoteDirSearch() {
 //----------------------------------------------------------------------------
 /// Specifies the partner (name and port) for the communication.
 /// \param search String identifying server to connect to.
-/// \param port Port number the server is listening at.
-/// \throw YGP::CommError With an error message in case of an error
+/// \param port Port the server is listening at (numeric or service name).
+/// \throw boost::system::system_error With an error message in case of an error
 //----------------------------------------------------------------------------
-void RemoteDirSearch::sendTo(const std::string& search, unsigned int port) {
-    TRACE6("RemoteDirSearch::sendTo(const std::string&, unsigned int) - " << search << ':' << port);
+void RemoteDirSearch::sendTo(const std::string& search, const std::string& port) {
+    TRACE6("RemoteDirSearch::sendTo(const std::string&, const std::string&) - " << search << ':' << port);
 
     setSearchValue(search);
 
-    sock.writeTo(server, port);
+    boost::asio::connect(sock, boost::asio::ip::tcp::resolver(ctx).resolve(server, port));
+    pending.clear();
 
-    TRACE9("RemoteDirSearch::sendTo(const std::string&, unsigned int) - Setting attribs");
+    TRACE9("RemoteDirSearch::sendTo(const std::string&, const std::string&) - Setting attribs");
 
     ATTRIBUTE(attrs, std::string, file, "File");
     ATTRIBUTE(attrs, unsigned long, size, "Size");
     ATTRIBUTE(attrs, unsigned long, attr, "Attr");
     ATTRIBUTE(attrs, ATimestamp, time, "Time");
 
-    TRACE9("RemoteDirSearch::sendTo(const std::string&, unsigned int) - Finish");
+    TRACE9("RemoteDirSearch::sendTo(const std::string&, const std::string&) - Finish");
 }
 
 //----------------------------------------------------------------------------
@@ -132,7 +131,7 @@ const File* RemoteDirSearch::setFiledata(const char* pAnswer) {
         throw(YGP::FileError(e.what()));
     }
 
-    pEntry = new RemoteFile(sock);
+    pEntry = new RemoteFile(sock, pending);
 
     // Set filename
     size_t posDirEnd(file.rfind(File::DIRSEPARATOR));
@@ -169,7 +168,7 @@ const File* RemoteDirSearch::setFiledata(const char* pAnswer) {
 /// Only files matching also the attributes are returned!
 /// \param attribs Attributes of files to find
 /// \returns const File* Pointer to found file-object or \c NULL
-/// \throw YGP::FileError, YGP::CommError Containing error message in case of an error
+/// \throw YGP::FileError, boost::system::system_error Containing error message in case of an error
 /// \pre \c searchDir, \c pEntry already set
 //----------------------------------------------------------------------------
 const File* RemoteDirSearch::find(unsigned long attribs) {
@@ -181,13 +180,11 @@ const File* RemoteDirSearch::find(unsigned long attribs) {
 
     ANumeric attrs(attribs);
     buffer += attrs.toUnformattedString();
-    buffer += '\0';
 
     TRACE8("RemoteDirSearch::find(unsigned long) - Sending:\n\t" << buffer.length() << " bytes: " << buffer.data());
-    sock.write(buffer);
-    sock.read(buffer);
+    RemoteMsg::send(sock, buffer);
+    RemoteMsg::receive(sock, pending, buffer);
 
-    buffer += '\0';
     TRACE8("RemoteDirSearch::find(unsigned long) - Read:\n\t" << buffer.length() << " bytes: " << buffer.data());
 
     if (isOK(buffer))
@@ -202,16 +199,15 @@ const File* RemoteDirSearch::find(unsigned long attribs) {
 /// earlier find-calls.
 /// \return const File* Pointer to found file-object or NULL
 /// \pre A find must have been (successfully) performed
-/// \throw YGP::FileError, YGP::CommError Containing error message in case of an error
+/// \throw YGP::FileError, boost::system::system_error Containing error message in case of an error
 //----------------------------------------------------------------------------
 const File* RemoteDirSearch::next() {
     std::string buffer("Next");
 
     TRACE8("RemoteDirSearch::next() - Sending:\n\t" << buffer.length() << " bytes: " << buffer.data());
-    sock.write(buffer);
-    sock.read(buffer);
+    RemoteMsg::send(sock, buffer);
+    RemoteMsg::receive(sock, pending, buffer);
 
-    buffer += '\0';
     TRACE8("RemoteDirSearch::next() - Read:\n\t" << buffer.length() << " bytes: " << buffer.data());
 
     if (isOK(buffer))
@@ -226,7 +222,7 @@ const File* RemoteDirSearch::next() {
 /// this is thrown to inform the client.
 /// \param pAnswer Response from the server
 /// \return \c True if the remote directory does exist
-/// \throw YGP::CommError Error occured
+/// \throw YGP::FileError Error reported by the server
 //----------------------------------------------------------------------------
 void RemoteDirSearch::handleServerError(const char* pAnswer) {
     int rc;
@@ -242,12 +238,12 @@ void RemoteDirSearch::handleServerError(const char* pAnswer) {
         attrs.assignValues(pAnswer);
     }
     catch (YGP::ParseError& e) {
-        throw(YGP::CommError(e.what()));
+        throw(YGP::FileError(e.what()));
     }
 
     if (!error.empty()) {
         error = _("Server returned an error: ") + error;
-        throw(YGP::CommError(error));
+        throw(YGP::FileError(error));
     }
 }
 
@@ -279,7 +275,7 @@ bool RemoteDirSearch::isOK(const std::string& answer) const {
 //-----------------------------------------------------------------------------
 /// Checks if the directory-part of the object specifies an existing directory.
 /// \return bool True if the directory exists
-/// \throw YGP::CommError in case of an error during the communication
+/// \throw boost::system::system_error in case of an error during the communication
 //-----------------------------------------------------------------------------
 bool RemoteDirSearch::isValid() const { return const_cast<RemoteDirSearch*>(this)->isValid(files); }
 
@@ -329,7 +325,7 @@ std::string RemoteDirSearch::getFileSpec() const { return files.substr(files.rfi
 /// Checks if the passed string specifies an existing directory (on the server).
 /// \param dir Directory (without server-part) whose validity should be checked.
 /// \return bool True if the directory exists.
-/// \throw YGP::CommError in case of an error during the communication.
+/// \throw boost::system::system_error in case of an error during the communication.
 //----------------------------------------------------------------------------
 bool RemoteDirSearch::isValid(const std::string& dir) {
     TRACE5("RemoteDirSearch::isValid(const std::string&) - " << dir);
@@ -339,10 +335,10 @@ bool RemoteDirSearch::isValid(const std::string& dir) {
     write += '"';
     TRACE8("RemoteDirSearch::isValid(const std::string&) - Cmd = " << write);
 
-    sock.write(write.data(), write.length());
+    RemoteMsg::send(sock, write);
 
     std::string OK;
-    sock.read(OK);
+    RemoteMsg::receive(sock, pending, OK);
     TRACE6("RemoteDirSearch::isValid(const std::string&) - Answer: " << OK.data());
 
     return isOK(OK);

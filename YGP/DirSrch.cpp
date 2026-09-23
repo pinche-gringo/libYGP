@@ -150,6 +150,9 @@ const File* DirectorySearch::find(unsigned long attribs) {
 const File* DirectorySearch::next() {
     TRACE9("DirectorySearch::next()");
 
+    if (!pEntry) // No search started or search already finished (or failed)
+        return nullptr;
+
     Check3(!checkIntegrity());
     FileRegularExpr regExp(searchFile.c_str());
     Check3(!regExp.checkIntegrity());

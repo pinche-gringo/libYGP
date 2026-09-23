@@ -27,13 +27,6 @@ class FileError : public std::runtime_error {
     FileError(const std::string& file) : std::runtime_error(file) {}
 };
 
-/**Exception indicating an error handling network communication
- */
-class CommError : public std::runtime_error {
-  public:
-    CommError(const std::string& what) : std::runtime_error(what) {}
-};
-
 /**Exception indicating an error parsing
  */
 class ParseError : public std::runtime_error {
