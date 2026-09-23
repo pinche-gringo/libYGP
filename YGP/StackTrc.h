@@ -21,6 +21,7 @@ extern "C" {
 #endif
 
 extern void handleSignal(int signal); // Signalhandler; dumps stack
+[[deprecated("Use std::stacktrace")]]
 extern void dumpStack();              // Writes the sequence of the callers
 
 #ifdef __cplusplus

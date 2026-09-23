@@ -48,7 +48,7 @@ namespace YGP {
    and enables to get the paramters with its getArgs-method. This enables
    controlling the thread.
 */
-class Thread {
+class [[deprecated("Use std::thread or std::jthread")]] Thread {
   public:
     /// Declaration of prototype of callback.
     using THREAD_FUNCTION = void* (*)(void*);

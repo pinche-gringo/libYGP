@@ -31,7 +31,7 @@ namespace YGP {
 
 /**Dynamically loading of modules.
  */
-class Module {
+class [[deprecated("Use boost::dll::shared_library")]] Module {
   public:
     Module(const char* module);
     virtual ~Module();

@@ -41,7 +41,7 @@ namespace YGP {
    locked by another thread is suspended until the owning thread unlocks the
    mutex first.
 */
-class Mutex {
+class [[deprecated("Use std::mutex")]] Mutex {
   public:
 #ifdef HAVE_LIBPTHREAD
     /// Constructor; creates an (unlocked) mutex

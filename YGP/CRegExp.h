@@ -125,7 +125,7 @@ namespace YGP {
    \deprecated Please use boost::Regex
 
 */
-class RegularExpression : public IRegularExpression {
+class [[deprecated("Use boost::regex")]] RegularExpression : public IRegularExpression {
   public:
     RegularExpression(const char* pRegExp);
     ~RegularExpression() override;
