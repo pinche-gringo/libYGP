@@ -107,10 +107,13 @@ class extStreambuf : public std::streambuf {
 
     int checkIntegrity() const;
 
+    static constexpr unsigned int DEFAULT_BUFFER_LEN = 512;
+
     unsigned int line;
     int pushbackOffset;
 
     std::streambuf* pSource;
+    unsigned int lenBuffer;
     char* pBuffer;
 };
 

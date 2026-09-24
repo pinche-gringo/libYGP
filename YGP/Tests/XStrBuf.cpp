@@ -29,6 +29,8 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 #include <YGP/XStrBuf.h>
 #include <ygp-cfg.h>
@@ -79,6 +81,21 @@ int main(int argc, char* argv[]) {
         check((forAlpha == 16) && (afterAlpha == 12));
         check(str.getLine() == 5);
         check(str.getColumn() == 0);
+    }
+
+    // Growing the buffer of one object must not affect other objects
+    {
+        std::string longLine(1500, 'x');
+        longLine += '\n';
+        std::stringbuf src1(longLine), src2(longLine);
+        YGP::extStreambuf str1(src1), str2(src2);
+        std::istream in1(&str1), in2(&str2);
+
+        std::string line1, line2;
+        std::getline(in1, line1);
+        std::getline(in2, line2);
+        check(line1 == longLine.substr(0, 1500));
+        check(line2 == longLine.substr(0, 1500));
     }
 
     if (cErrors)

@@ -33,8 +33,6 @@
 
 #include "YGP/XStrBuf.h"
 
-static unsigned int lenBuffer = 512;
-
 namespace YGP {
 
 //-----------------------------------------------------------------------------
@@ -43,7 +41,7 @@ namespace YGP {
 /// highly recommended. This method might be declared private (or at least
 /// protected) in the future.
 //-----------------------------------------------------------------------------
-extStreambuf::extStreambuf() : line(0), pushbackOffset(-1), pSource(nullptr), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
+extStreambuf::extStreambuf() : line(0), pushbackOffset(-1), pSource(nullptr), lenBuffer(DEFAULT_BUFFER_LEN), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
     setbuf(pBuffer, lenBuffer);
 }
 
@@ -53,7 +51,7 @@ extStreambuf::extStreambuf() : line(0), pushbackOffset(-1), pSource(nullptr), pB
 /// \param source Actual datasink to use
 //-----------------------------------------------------------------------------
 extStreambuf::extStreambuf(std::streambuf& source)
-    : line(0), pushbackOffset(-1), pSource(&source), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
+    : line(0), pushbackOffset(-1), pSource(&source), lenBuffer(DEFAULT_BUFFER_LEN), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
     setbuf(pBuffer, lenBuffer);
 }
 
@@ -63,7 +61,7 @@ extStreambuf::extStreambuf(std::streambuf& source)
 /// \param source Actual datasink to use
 //-----------------------------------------------------------------------------
 extStreambuf::extStreambuf(std::streambuf* source)
-    : line(0), pushbackOffset(-1), pSource(source), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
+    : line(0), pushbackOffset(-1), pSource(source), lenBuffer(DEFAULT_BUFFER_LEN), pBuffer(static_cast<char*>(malloc(lenBuffer))) {
     setbuf(pBuffer, lenBuffer);
 }
 
