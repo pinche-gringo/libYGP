@@ -14,7 +14,7 @@ ygp_headers = files(
   'IDirSrch.h', 'File.h', 'AssParse.h', 'Attribute.h', 'AttrParse.h', 'Entity.h', 'Thread.h',
   'Mutex.h', 'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Process.h', 'StatusObj.h', 'Relation.h',
   'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Module.h', 'Exception.h',
-  'FileTypeChk.h', 'Utility.h',
+  'FileTypeChk.h', 'Utility.h', 'Random.h',
 )
 
 if get_option('network_traversing')
