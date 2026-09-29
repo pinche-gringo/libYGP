@@ -115,13 +115,11 @@ void FileDialog::on_response(int cmd) {
     case Gtk::ResponseType::OK: {
 
         if (get_select_multiple()) {
-            Glib::RefPtr<Gio::ListModel> files(get_files());
-            guint count(files->get_n_items());
-            for (guint i(0); i < count; ++i) {
-                auto file(std::dynamic_pointer_cast<Gio::File>(files->get_object(i)));
+            // get_files2() wraps the items as Gio::File (interface); wrapping them via
+            // ListModel::get_object() fails for implementations like GLocalFile
+            for (const auto& file : get_files2())
                 if (file)
                     handleFile(file->get_path());
-            }
         }
         else {
             Glib::RefPtr<Gio::File> file(get_file());
