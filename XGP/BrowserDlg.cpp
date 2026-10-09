@@ -38,12 +38,6 @@
 namespace XGP {
 
 const char* BrowserDlg::browserNames[] = {
-#ifdef HAVE_GTKHTML
-    N_("GTKHTML"),
-#endif
-#ifdef HAVE_GTKMOZEMBED
-    N_("GTKMOZEMBED"),
-#endif
 #ifdef HAVE_WEBKIT
     N_("WEBKIT"),
 #endif

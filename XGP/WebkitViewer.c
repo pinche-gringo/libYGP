@@ -86,7 +86,7 @@ GtkWidget* initialiseWebkit () {
 }
 
 //----------------------------------------------------------------------------
-/// Displays a URL in the GtkMozEmbed control
+/// Displays a URL in the Webkit control
 /// \param ctrl Webkit-widget
 /// \param file File to display
 /// \remarks Don't call with a NULL-pointer for file

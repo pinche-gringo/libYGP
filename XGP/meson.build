@@ -3,14 +3,14 @@ xgp_headers = files(
   'XFileDlg.h', 'XPrintDlg.h', 'XAttrLabel.h', 'XDialog.h', 'XAttrEntry.h', 'XAttribute.h',
   'ConnectDlg.h', 'HTMLViewer.h', 'AutoContainer.h', 'MessageDlg.h',
   'LoginDlg.h', 'XValue.h', 'SearchDlg.cpp', 'SearchDlg.h', 'EnumEntry.h', 'XAttrSpin.h',
-  'GtkMozViewer.h', 'TraceDlg.h', 'AnimWindow.h', 'WebkitViewer.h',
+  'TraceDlg.h', 'AnimWindow.h', 'WebkitViewer.h',
 )
 
 xgp_sources = files(
   'XDialog.cpp', 'XAbout.cpp', 'XApplication.cpp', 'XFileEntry.cpp', 'Version.cpp',
   'XFileList.cpp', 'XDate.cpp', 'XFileDlg.cpp', 'XPrintDlg.cpp', 'BrowserDlg.cpp',
   'ConnectDlg.cpp', 'HTMLViewer.cpp', 'AutoContainer.cpp', 'MessageDlg.cpp',
-  'LoginDlg.cpp', 'EnumEntry.cpp', 'GtkMozViewer.c', 'TraceDlg.cpp', 'AnimWindow.cpp',
+  'LoginDlg.cpp', 'EnumEntry.cpp', 'TraceDlg.cpp', 'AnimWindow.cpp',
   'WebkitViewer.c', 'SearchDlg.cpp',
 )
 

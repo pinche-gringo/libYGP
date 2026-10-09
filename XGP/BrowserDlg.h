@@ -36,7 +36,7 @@ namespace XGP {
    The dialog does check (at configure time), if the browsers are
    actually available.
 
-   If the gtkhtml library is available, there's also an entry which allows to
+   If WebKitGTK is available, there's also an entry which allows to
    select this widget.
  */
 class BrowserDlg : public XDialog {

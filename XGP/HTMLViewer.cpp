@@ -23,7 +23,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <ygp-cfg.h>
-#if defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
+#ifdef HAVE_WEBKIT
 
 #    define CONVERT_TO_UTF8
 #    include <YGP/Internal.h>
@@ -34,9 +34,6 @@
 #    include <YGP/Check.h>
 #    include <YGP/Trace.h>
 
-#    ifdef HAVE_GTKMOZEMBED
-#        include "XGP/GtkMozViewer.h"
-#    endif
 #    ifdef HAVE_WEBKIT
 #        include "XGP/WebkitViewer.h"
 #    endif
@@ -77,12 +74,6 @@ HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widg
     Check1(type < LAST);
 
     switch (type) {
-#    ifdef HAVE_GTKMOZEMBED
-    case GTKMOZEMBED:
-        htmlCtrl = gtkMozEmbedInitialize();
-        break;
-#    endif
-
 #    ifdef HAVE_WEBKIT
     case WEBKIT:
         htmlCtrl = initialiseWebkit();
@@ -99,12 +90,6 @@ HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widg
 
         TRACE9("HTMLViewer::HTMLViewer(const std::string&, const Glib::ustring&, widgetTypes) - Adding control");
         switch (type) {
-#    ifdef HAVE_GTKMOZEMBED
-        case GTKMOZEMBED:
-            get_vbox()->pack_start(*manage(Glib::wrap(htmlCtrl)));
-            break;
-#    endif
-
 #    ifdef HAVE_WEBKIT
         case WEBKIT: {
             auto* scrl(Gtk::make_managed<Gtk::ScrolledWindow>());
@@ -127,13 +112,6 @@ HTMLViewer::HTMLViewer(const std::string& file, const Glib::ustring& title, widg
         std::string err;
 
         switch (type) {
-#    ifdef HAVE_GTKMOZEMBED
-        case GTKMOZEMBED:
-            err = _("Can't display GtkMozEmbed control!\n\nReason: %1");
-            err.replace(err.find("%1"), 2, gtkMozEmbedGetError());
-            break;
-#    endif
-
 #    ifdef HAVE_WEBKIT
         case WEBKIT:
             err = _("Can't display Webkit control!\n\nReason: %1");
@@ -161,11 +139,6 @@ void HTMLViewer::display(const std::string& file) {
     Check1(file.size());
 
     switch (_type) {
-#    ifdef HAVE_GTKMOZEMBED
-    case GTKMOZEMBED:
-        gtkMozEmbedDisplayURL(htmlCtrl, file.c_str());
-        break;
-#    endif
 #    ifdef HAVE_WEBKIT
     case WEBKIT:
         webkitDisplayURL(htmlCtrl, file.c_str());

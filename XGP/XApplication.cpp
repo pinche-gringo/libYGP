@@ -229,16 +229,6 @@ void XApplication::showHelp() {
     try {
         file = "file://" + file;
 
-#ifdef HAVE_GTKHTML
-        if (helpBrowser == "GTKHTML")
-            HTMLViewer::create(file, get_title(), HTMLViewer::GTKHTML);
-        else
-#endif
-#ifdef HAVE_GTKMOZEMBED
-            if (helpBrowser == "GTKMOZEMBED")
-            HTMLViewer::create(file, get_title(), HTMLViewer::GTKMOZEMBED);
-        else
-#endif
 #ifdef HAVE_WEBKIT
             if (helpBrowser == "WEBKIT")
             HTMLViewer::create(file, get_title(), HTMLViewer::WEBKIT);

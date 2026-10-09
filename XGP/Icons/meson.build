@@ -1,7 +1,7 @@
 xgp_browser_icons = files(
   'Browser_epiphany.png', 'Browser_firefox.png', 'Browser_galeon.png', 'Browser_mozilla.png',
   'Browser_opera.png', 'Browser_netscape.png', 'Browser_konqueror.png',
-  'Browser_GTKMOZEMBED.png', 'Browser_GTKHTML.png', 'Browser_seamonkey.png',
+  'Browser_seamonkey.png',
   'Browser_dillo.png', 'Browser_WEBKIT.png',
 )
 install_data(xgp_browser_icons, install_dir: pkgdatadir_xgp)

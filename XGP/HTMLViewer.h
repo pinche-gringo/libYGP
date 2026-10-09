@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-#if defined HAVE_GTKHTML || defined HAVE_GTKMOZEMBED || defined HAVE_WEBKIT
+#ifdef HAVE_WEBKIT
 #    define HAVE_VIEWER
 
 #    include <stdexcept>
@@ -32,7 +32,7 @@ namespace XGP {
 
 /**Helper class to display a HTML document in a dialog.
  *
- * Uses GTKHTML or GtkMozEmbed to display the HTML code.
+ * Uses WebKitGTK to display the HTML code.
  */
 class HTMLViewer : public XDialog {
   public:
@@ -42,7 +42,7 @@ class HTMLViewer : public XDialog {
     };
 
     /// Supported widgets to display HTML
-    typedef enum { GTKHTML, GTKMOZEMBED, WEBKIT, LAST } widgetTypes;
+    typedef enum { WEBKIT, LAST } widgetTypes;
 
     virtual ~HTMLViewer();
 
@@ -64,6 +64,6 @@ class HTMLViewer : public XDialog {
 
 } // namespace XGP
 
-#endif // HAVE_GTKHTML || HAVE_GTKMOZEMBED
+#endif // HAVE_WEBKIT
 
 #endif

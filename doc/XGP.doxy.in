@@ -194,7 +194,7 @@ INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = HAVE_REGEX_H \
                          __STL_MEMBER_TEMPLATES \
                          SYSTEM=UNIX \
-                         HAVE_GTKHTML
+                         HAVE_WEBKIT
 EXPAND_AS_DEFINED      = 
 SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
