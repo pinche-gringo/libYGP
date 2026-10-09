@@ -151,6 +151,15 @@ XAppl::XAppl ()
    TRACE5 ("XAppl::XAppl () -> Create statusbar");
    status.push ("Populate the list with File-Open or Dialogs-Dialog");
    vboxClient->append (status);
+
+   TRACE5 ("XAppl::XAppl () -> Create animation window");
+   lblAnim.set_text ("Animated label");
+   fixedAnim.put (lblAnim, 0, 0);
+   winAnim.set_title ("Animation");
+   winAnim.set_default_size (350, 150);
+   winAnim.set_transient_for (*this);
+   winAnim.set_hide_on_close ();
+   winAnim.set_child (fixedAnim);
 }
 
 //-----------------------------------------------------------------------------
@@ -361,23 +370,26 @@ void XAppl::find (const Glib::ustring& text) {
 
 
 //-----------------------------------------------------------------------------
-/// Command animate - animates a window
+/// Command animate - shows a window with a label to animate
 //-----------------------------------------------------------------------------
 void XAppl::animate () {
-   YGP::StatusObject obj (YGP::StatusObject::INFO, "Animated window");
-   Glib::signal_idle ().connect
-      (sigc::bind (sigc::ptr_fun (&XAppl::doAnimate), XGP::MessageDlg::create (obj)));
+   fixedAnim.move (lblAnim, 0, 0);
+   winAnim.present ();
+
+   // Start the animation, once the label is visible
+   connAnim.disconnect ();
+   if (lblAnim.get_mapped ())
+      doAnimate ();
+   else
+      connAnim = lblAnim.signal_map ().connect (sigc::mem_fun (*this, &XAppl::doAnimate));
 }
 
 //-----------------------------------------------------------------------------
-/// Animates a window
+/// Animates the label inside the animation window
 //-----------------------------------------------------------------------------
-bool XAppl::doAnimate (Gtk::Widget* winAnim) {
-   Glib::RefPtr<Gdk::Surface> surface
-      (winAnim->get_native () ? winAnim->get_native ()->get_surface () : Glib::RefPtr<Gdk::Surface> ());
-   AnimWindow* albl (AnimWindow::create (surface));
-   albl->animate ();
-   return false;
+void XAppl::doAnimate () {
+   connAnim.disconnect ();
+   AnimWindow::create (fixedAnim, lblAnim)->animate ();
 }
 
 

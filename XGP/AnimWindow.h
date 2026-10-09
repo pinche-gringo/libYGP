@@ -16,20 +16,21 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gdkmm/surface.h>
+#include <sigc++/connection.h>
+#include <sigc++/trackable.h>
+
+namespace Gtk {
+class Fixed;
+class Widget;
+} // namespace Gtk
 
 namespace XGP {
 
-/**Class animating objects.
+/**Class animating a widget inside a Gtk::Fixed: The widget is moved in
+ * several steps from its current position to the one returned by getEndPos().
  *
  * \note Create on heap (with new) as this class deletes itself when
- *       the animation has been finished.
- *
- * \remarks GTK4 (unlike GTK3) gives clients no way to programmatically
- *     reposition a toplevel window - window placement is left entirely to
- *     the compositor, particularly on Wayland - so animateTo() can no
- *     longer actually move \a win; it is a no-op kept only so the
- *     step-counted animate()/finish() lifecycle below still runs.
+ *       the animation has been finished (or the widget is destroyed).
  */
 class AnimatedWindow : public sigc::trackable {
   public:
@@ -37,17 +38,21 @@ class AnimatedWindow : public sigc::trackable {
 
     void animate();
 
-    virtual void getEndPos(int& x, int& y) = 0;
+    /// Retrieves the position where to animate the widget to
+    /// \param x X-coordinate of end-position (relative to the Gtk::Fixed)
+    /// \param y Y-coordinate of end-position (relative to the Gtk::Fixed)
+    virtual void getEndPos(double& x, double& y) = 0;
     virtual void start();
     virtual void cleanup();
     virtual void finish();
 
   protected:
-    AnimatedWindow(Glib::RefPtr<Gdk::Surface> window);
+    AnimatedWindow(Gtk::Fixed& parent, Gtk::Widget& widget);
 
-    void animateTo(int x, int y);
+    void animateTo(double x, double y);
 
-    Glib::RefPtr<Gdk::Surface> win;
+    Gtk::Fixed& fixed;
+    Gtk::Widget& widget;
 
   private:
     AnimatedWindow();
@@ -55,8 +60,10 @@ class AnimatedWindow : public sigc::trackable {
     const AnimatedWindow& operator=(const AnimatedWindow& other);
 
     bool animationStep();
+    void end();
 
     unsigned int steps;
+    sigc::connection connTimer;
 };
 
 } // namespace XGP

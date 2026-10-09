@@ -24,10 +24,10 @@
 
 #include <glibmm/main.h>
 
+#include <gtkmm/fixed.h>
+
 #include <YGP/Check.h>
 #include <YGP/Trace.h>
-
-#include <utility>
 
 #include "AnimWindow.h"
 
@@ -35,32 +35,38 @@ namespace XGP {
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param window Window to animate
+/// \param parent Gtk::Fixed containing the widget
+/// \param widget Widget to animate; must be a child of \a parent
 //-----------------------------------------------------------------------------
-AnimatedWindow::AnimatedWindow(Glib::RefPtr<Gdk::Surface> window) : win(std::move(window)), steps(10) {
-    TRACE9("AnimatedWindow::AnimatedWindow()");
+AnimatedWindow::AnimatedWindow(Gtk::Fixed& parent, Gtk::Widget& widget) : fixed(parent), widget(widget), steps(10) {
+    TRACE9("AnimatedWindow::AnimatedWindow(Gtk::Fixed&, Gtk::Widget&)");
+    Check1(widget.get_parent() == &parent);
 }
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-AnimatedWindow::~AnimatedWindow() { TRACE9("AnimatedWindow::~AnimatedWindow()"); }
+AnimatedWindow::~AnimatedWindow() {
+    TRACE9("AnimatedWindow::~AnimatedWindow()");
+    connTimer.disconnect();
+}
 
 //-----------------------------------------------------------------------------
 /// Starts the animation of the object
 //-----------------------------------------------------------------------------
 void AnimatedWindow::animate() {
-    Check1(win);
-
     start();
-    if (win->get_mapped()) {
+    if (widget.get_mapped()) {
         steps = 10;
-        Glib::signal_timeout().connect(sigc::mem_fun(*this, &AnimatedWindow::animationStep), 20);
+        widget.signal_destroy().connect(sigc::mem_fun(*this, &AnimatedWindow::end));
+        connTimer = Glib::signal_timeout().connect(sigc::mem_fun(*this, &AnimatedWindow::animationStep), 20);
     }
     else {
-        cleanup();
-        finish();
-        delete this;
+        // Not visible: Just move the widget to its end-position
+        double x, y;
+        getEndPos(x, y);
+        fixed.move(widget, x, y);
+        end();
     }
 }
 
@@ -72,26 +78,44 @@ bool AnimatedWindow::animationStep() {
     TRACE8("AnimatedWindow::animationStep() - " << steps);
 
     if (steps--) {
-        int x, y;
+        double x, y;
         getEndPos(x, y);
         animateTo(x, y);
         return true;
     }
 
-    cleanup();
-    finish();
-    delete this;
+    end();
     return false;
 }
 
 //-----------------------------------------------------------------------------
-/// Animates a window to the passed position
-/// \param x X-coordinate of end-position (in root coordinates)
-/// \param y Y-coordinate of end-position (in root coordinates)
-/// \remarks No-op under GTK4: Gdk::Surface/Toplevel expose no way for a
-///     client to query or set a toplevel's position (see the class remarks).
+/// Ends the animation and deletes the object
 //-----------------------------------------------------------------------------
-void AnimatedWindow::animateTo(int, int) { Check1(win); }
+void AnimatedWindow::end() {
+    connTimer.disconnect();
+    cleanup();
+    finish();
+    delete this;
+}
+
+//-----------------------------------------------------------------------------
+/// Moves the widget one step closer to the passed position; in the last step
+/// it is placed exactly there.
+/// \param x X-coordinate of end-position (relative to the Gtk::Fixed)
+/// \param y Y-coordinate of end-position (relative to the Gtk::Fixed)
+//-----------------------------------------------------------------------------
+void AnimatedWindow::animateTo(double x, double y) {
+    double x2, y2;
+    fixed.get_child_position(widget, x2, y2);
+    TRACE5("AnimatedWindow::animateTo(2x double) - Current " << x2 << '/' << y2);
+
+    if (steps) {
+        x = x2 + (x - x2) / (steps + 1);
+        y = y2 + (y - y2) / (steps + 1);
+    }
+    fixed.move(widget, x, y);
+    TRACE5("AnimatedWindow::animateTo(2x double) - Moving to " << x << '/' << y);
+}
 
 //-----------------------------------------------------------------------------
 /// Additional actions before starting the animation

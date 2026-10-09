@@ -24,14 +24,14 @@
 class AnimWindow : public XGP::AnimatedWindow {
  public:
    virtual ~AnimWindow ();
-   static AnimWindow* create (Glib::RefPtr<Gdk::Surface> window) {
-      return new AnimWindow (window);
+   static AnimWindow* create (Gtk::Fixed& parent, Gtk::Widget& widget) {
+      return new AnimWindow (parent, widget);
    }
 
-   void getEndPos (int& x, int& y);
+   void getEndPos (double& x, double& y);
 
  protected:
-   AnimWindow (Glib::RefPtr<Gdk::Surface> window);
+   AnimWindow (Gtk::Fixed& parent, Gtk::Widget& widget);
 
  private:
    AnimWindow ();

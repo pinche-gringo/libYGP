@@ -23,6 +23,9 @@
 #include <string>
 #include <iosfwd>
 
+#include <gtkmm/fixed.h>
+#include <gtkmm/label.h>
+#include <gtkmm/window.h>
 #include <gtkmm/statusbar.h>
 #include <gtkmm/scrolledwindow.h>
 
@@ -59,7 +62,7 @@ class XAppl : public XGP::XApplication {
    void showSearchDialog ();
 
    void animate ();
-   static bool doAnimate (Gtk::Widget* winAnim);
+   void doAnimate ();
 
    void addActFile ();
    void addFile (const std::string& file);
@@ -85,6 +88,11 @@ class XAppl : public XGP::XApplication {
 
    Gtk::Statusbar      status;
    Gtk::ScrolledWindow scroll;
+
+   Gtk::Window      winAnim;
+   Gtk::Fixed       fixedAnim;
+   Gtk::Label       lblAnim;
+   sigc::connection connAnim;
 
    YGP::ATimestamp time;
    std::string     file;

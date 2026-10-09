@@ -31,9 +31,11 @@
 
 //-----------------------------------------------------------------------------
 /// Constructor
-/// \param window: Gdk::Surface to animate
+/// \param parent: Gtk::Fixed containing the widget
+/// \param widget: Widget to animate
 //-----------------------------------------------------------------------------
-AnimWindow::AnimWindow (Glib::RefPtr<Gdk::Surface> window) : XGP::AnimatedWindow (window) {
+AnimWindow::AnimWindow (Gtk::Fixed& parent, Gtk::Widget& widget)
+   : XGP::AnimatedWindow (parent, widget) {
 }
 
 //-----------------------------------------------------------------------------
@@ -44,9 +46,9 @@ AnimWindow::~AnimWindow () {
 
 
 //-----------------------------------------------------------------------------
-/// Retrieves the position where to animate the window to
+/// Retrieves the position where to animate the widget to
 //-----------------------------------------------------------------------------
-void AnimWindow::getEndPos (int& x, int& y) {
-   x = 50;
-   y= 20;
+void AnimWindow::getEndPos (double& x, double& y) {
+   x = 200;
+   y = 100;
 }
