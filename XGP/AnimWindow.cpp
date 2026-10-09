@@ -65,7 +65,7 @@ void AnimatedWindow::animate() {
         // Not visible: Just move the widget to its end-position
         double x, y;
         getEndPos(x, y);
-        fixed.move(widget, x, y);
+        moveTo(x, y);
         end();
     }
 }
@@ -105,16 +105,25 @@ void AnimatedWindow::end() {
 /// \param y Y-coordinate of end-position (relative to the Gtk::Fixed)
 //-----------------------------------------------------------------------------
 void AnimatedWindow::animateTo(double x, double y) {
-    double x2, y2;
-    fixed.get_child_position(widget, x2, y2);
-    TRACE5("AnimatedWindow::animateTo(2x double) - Current " << x2 << '/' << y2);
+    TRACE5("AnimatedWindow::animateTo(2x double) - Current " << posX << '/' << posY);
 
     if (steps) {
-        x = x2 + (x - x2) / (steps + 1);
-        y = y2 + (y - y2) / (steps + 1);
+        x = posX + (x - posX) / (steps + 1);
+        y = posY + (y - posY) / (steps + 1);
     }
-    fixed.move(widget, x, y);
+    moveTo(x, y);
     TRACE5("AnimatedWindow::animateTo(2x double) - Moving to " << x << '/' << y);
+}
+
+//-----------------------------------------------------------------------------
+/// Moves the widget to the passed position (and remembers it)
+/// \param x X-coordinate (relative to the Gtk::Fixed)
+/// \param y Y-coordinate (relative to the Gtk::Fixed)
+//-----------------------------------------------------------------------------
+void AnimatedWindow::moveTo(double x, double y) {
+    fixed.move(widget, x, y);
+    posX = x;
+    posY = y;
 }
 
 //-----------------------------------------------------------------------------

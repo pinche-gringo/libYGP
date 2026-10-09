@@ -29,6 +29,10 @@ namespace XGP {
 /**Class animating a widget inside a Gtk::Fixed: The widget is moved in
  * several steps from its current position to the one returned by getEndPos().
  *
+ * \remarks The position of the widget is stored (and not queried from the
+ *     Gtk::Fixed, which only reports it after the next layout); so set the
+ *     start position with moveTo() (e.g. in start()).
+ *
  * \note Create on heap (with new) as this class deletes itself when
  *       the animation has been finished (or the widget is destroyed).
  */
@@ -50,6 +54,15 @@ class AnimatedWindow : public sigc::trackable {
     AnimatedWindow(Gtk::Fixed& parent, Gtk::Widget& widget);
 
     void animateTo(double x, double y);
+    void moveTo(double x, double y);
+
+    /// Returns the current position of the widget
+    /// \param x X-coordinate (relative to the Gtk::Fixed)
+    /// \param y Y-coordinate (relative to the Gtk::Fixed)
+    void getPosition(double& x, double& y) const {
+        x = posX;
+        y = posY;
+    }
 
     /// Returns the number of remaining animation steps
     /// \returns unsigned int Remaining steps
@@ -67,6 +80,8 @@ class AnimatedWindow : public sigc::trackable {
     void end();
 
     unsigned int steps;
+    double posX{0}; ///< Current x-position of the widget
+    double posY{0}; ///< Current y-position of the widget
     sigc::connection connTimer;
 };
 
