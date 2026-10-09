@@ -1,3 +1,13 @@
+Overview of changes in version 0.9.50:
+
+  - Updated to C++-26
+  - Updated to GTKMM-4
+  - Updated to support Webkit-6
+  - Removed classes now provided (in a better way) by Boost
+  - Updated Build System to Meson
+  - Added automated tests
+
+
 Overview of Changes in version 0.9.43:
 
   - YGP: Adapted to work with glibc 2.13.90 and boost 1.46
