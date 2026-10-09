@@ -1,15 +1,15 @@
 # Deutsche Übersetzungen für libYGP
-# Copyright (C) 2002 - 2009 Markus Schwab
-# Markus Schwab <g17m0@users.sourceforge.net>, 2004.
+# Copyright (C) 2002 - 2026 Markus Schwab
+# Markus Schwab <markus.schwab.32@gmail.com>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.51 $)\n"
-"Report-Msgid-Bugs-To: g17m0@users.sourceforge.net\n"
+"Report-Msgid-Bugs-To: markus.schwab.32@gmail.com\n"
 "POT-Creation-Date: 2011-01-07 20:38+0100\n"
 "PO-Revision-Date: 2009-06-23 21:35+0200\n"
-"Last-Translator: Markus Schwab <g17m0@users.sourceforge.net>\n"
-"Language-Team: English <g17m0@users.sourceforge.net>\n"
+"Last-Translator: Markus Schwab <markus.schwab.32@gmail.com>\n"
+"Language-Team: English <markus.schwab.32@gmail.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -507,12 +507,3 @@ msgstr "_Paßwort:"
 #: XGP/LoginDlg.cpp:70
 msgid "_Login"
 msgstr ""
-
-#~ msgid "Not a valid assignment: '%1'"
-#~ msgstr "Keine gültige Zuweisung: '%1'"
-
-#~ msgid "Invalid value for an attribute: '%1'"
-#~ msgstr "Ungültiger Wert für das Attribut: '%1'"
-
-#~ msgid "Quoted value is not followed by a separator: '%1'"
-#~ msgstr "Dem Wert (in Anführungszeichen) folgt kein Trennzeichen: '%1'"

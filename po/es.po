@@ -1,15 +1,15 @@
 # Spanisch translation of messages for general library
-# Copyright (C) 2002 - 2009 Markus Schwab
-# Markus Schwab <g17m0@lycos.com>, 2004.
+# Copyright (C) 2002 - 2026 Markus Schwab
+# Markus Schwab <markus.schwab.32@gmail.com>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: libYGP 0.9 ($Revision: 1.49 $)\n"
-"Report-Msgid-Bugs-To: g17m0@users.sourceforge.net\n"
+"Report-Msgid-Bugs-To: markus.schwab.32@gmail.com\n"
 "POT-Creation-Date: 2011-01-07 20:38+0100\n"
 "PO-Revision-Date: 2009-06-23 21:35+0200\n"
-"Last-Translator: Markus Schwab <g17m0@users.sourceforge.net>\n"
-"Language-Team: English <g17m0@users.sourceforge.net>\n"
+"Last-Translator: Markus Schwab <markus.schwab.32@gmail.com>\n"
+"Language-Team: English <markus.schwab.32@gmail.com>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -506,12 +506,3 @@ msgstr "_Contraseña:"
 #: XGP/LoginDlg.cpp:70
 msgid "_Login"
 msgstr "C_onectar"
-
-#~ msgid "Not a valid assignment: '%1'"
-#~ msgstr "La asignación no es válida: '%1'"
-
-#~ msgid "Invalid value for an attribute: '%1'"
-#~ msgstr "Valor inválido por atributo: '%1'"
-
-#~ msgid "Quoted value is not followed by a separator: '%1'"
-#~ msgstr "Valor no es seguido de un separator: '%1'"
