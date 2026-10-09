@@ -52,6 +52,7 @@ unsigned int getFileOffsetInArchive(std::istream& stream, char* buffer, const ch
     if (get4BytesLSB(buffer) == ID_PKZIP_LOCALHDR) {
         char tmpbuffer[80];
         memset(tmpbuffer, 0, sizeof(tmpbuffer));
+        stream.clear();         // Reading the buffer might have failed for small files
         stream.seekg(-22, std::ios::end);
         stream.read(tmpbuffer, 22);
 
