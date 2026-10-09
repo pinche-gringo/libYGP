@@ -219,7 +219,7 @@ void ATime::assign(const char* pTime, unsigned int len) {
 /// \returns String-representation of ATime
 //-----------------------------------------------------------------------------
 std::string ATime::toUnformattedString() const {
-    char buffer[8] = "";
+    char buffer[10] = ""; // Enough for 3 unsigned chars, even if invalid (> 99)
 
     if (isDefined())
         snprintf(buffer, sizeof(buffer), "%02u%02u%02u", (unsigned)hour, (unsigned)min_, (unsigned)sec);
