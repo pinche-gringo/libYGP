@@ -1,4 +1,4 @@
-#ifndef XGP_XATTSPIN_H
+#ifndef XGP_XATTRSPIN_H
 #    define XGP_XATTRSPIN_H
 
 // This file is part of libYGP.
