@@ -28,6 +28,8 @@
 #include <clocale>
 
 #include <iostream>
+#include <locale>
+#include <stdexcept>
 
 #include <YGP/ANumeric.h>
 
@@ -96,6 +98,39 @@ int main(int argc, char* argv[]) {
     std::cout << YGP::ANumeric::toString(1234567) << '\n';
     std::cout << YGP::ANumeric::toString(12345678) << '\n';
 #endif
+
+    // The formatted value must be parsable again (in every available locale)
+    for (const char* locale : {"C", "de_AT.UTF-8", "en_US.UTF-8", "en_GB.UTF-8", "fr_FR.UTF-8"}) {
+        // Set the C++ locale too (like Glib::init does), as it influences streams
+        try {
+            std::locale::global(std::locale(locale));
+        }
+        catch (std::runtime_error&) {
+            continue;
+        }
+        try {
+            const YGP::ANumeric value(4711L);
+            check(YGP::ANumeric(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+        try {
+            const YGP::ANumeric value(-1234567890L);
+            check(YGP::ANumeric(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+        try {
+            const YGP::ANumeric value(7L);
+            check(YGP::ANumeric(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+    }
+    std::locale::global(std::locale::classic());
 
     if (cErrors)
         std::cout << "Failures: " << cErrors << '\n';

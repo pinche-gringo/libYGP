@@ -23,6 +23,7 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdio>
+#include <cstring>
 
 #include <ygp-cfg.h>
 
@@ -93,8 +94,8 @@ ATimestamp& ATimestamp::operator=(const ATimestamp& other) {
 
 //-----------------------------------------------------------------------------
 /// Assignment-operator from an const char-pointer. The timestamp must be
-/// passed as DDMMY[Y...] hhmmss. If the buffer does not represent a valid
-/// timestamp, an exception is thrown.
+/// passed either in the local format or as DDMMY[Y...] hhmmss. If the buffer
+/// does not represent a valid timestamp, an exception is thrown.
 /// \param pValue Character array specifying timestamp to assign
 /// \returns ATimestamp& Reference to self
 /// \throw std::invalid_argument if the parameters has a wrong format
@@ -105,6 +106,19 @@ ATimestamp& ATimestamp::operator=(const char* pValue) {
     Check3(!checkIntegrity());
 
     TRACE5("ATimestamp::operator=(const char*): " << pValue);
+
+#ifdef HAVE_STRPTIME
+    // Check for the format of the locale first (as returned by toString ()), as
+    // it might contain blanks (like 01:02:03 PM)
+    struct tm tm;
+    memset(&tm, '\0', sizeof(tm));
+    const char* end(strptime(pValue, "%x %X", &tm));
+    if (end && !*(end + strspn(end, " \t\n"))) {
+        operator=(tm);
+        if (!checkIntegrity())
+            return *this;
+    }
+#endif
 
     std::istringstream help(pValue);
     readFromStream(help);

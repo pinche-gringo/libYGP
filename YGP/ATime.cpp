@@ -140,9 +140,6 @@ void ATime::assign(const char* pTime, unsigned int len) {
 
     const char* fail(nullptr);
     switch (len) {
-    case 8:
-        fail = strptime(pTime, MODES[MODE_LOCALE], &result);
-        break;
     case 6:
         fail = strptime(pTime, "%H %M %S", &result);
         break;
@@ -154,8 +151,8 @@ void ATime::assign(const char* pTime, unsigned int len) {
         fail = ((pTime[1] == ':') || (pTime[2] == ':') ? strptime(pTime, MODES[mode], &result)
                                                        : strptime(pTime, MODES[(unsigned)mode + 2], &result));
         break;
-    default:
-        fail = nullptr;
+    default: // The format of the locale (e.g. HH:MM:SS or HH:MM:SS PM)
+        fail = strptime(pTime, MODES[MODE_LOCALE], &result);
     } // endswitch
     operator=(result);
     if (!fail || (*fail && !isspace(*fail)) || checkIntegrity()) {
@@ -472,7 +469,7 @@ int ATime::checkIntegrity() const {
 //-----------------------------------------------------------------------------
 /// Corrects the object after an (possible) underflows. If the hour has an
 /// underflow. true is returned, else false.
-/// \returns bool True, if there´s a underflow of hour
+/// \returns bool True, if there's an underflow of hour
 //-----------------------------------------------------------------------------
 bool ATime::minAdapt() {
     if (sec > 61) { // Adapt time if underflow
@@ -496,7 +493,7 @@ bool ATime::minAdapt() {
 //-----------------------------------------------------------------------------
 /// Corrects the object after an (possible) overflows. If the hour has an
 /// overflow true is returned, else false.
-/// \returns bool True, if there´s a overflow of the hour
+/// \returns bool True, if there's an overflow of the hour
 //-----------------------------------------------------------------------------
 bool ATime::maxAdapt() {
     if (sec > 59) { // Adapt time if overflow

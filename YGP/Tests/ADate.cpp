@@ -25,7 +25,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <clocale>
 #include <iostream>
+#include <stdexcept>
 
 #include <YGP/ADate.h>
 
@@ -76,6 +78,27 @@ int main(int argc, char* argv[]) {
     check(today.getDay() == 12);
     check(today.getMonth() == 11);
     check(today.getYear() == 2005);
+
+    // The formatted value must be parsable again (in every available locale)
+    for (const char* locale : {"C", "de_AT.UTF-8", "en_US.UTF-8", "en_GB.UTF-8", "fr_FR.UTF-8"}) {
+        if (!setlocale(LC_ALL, locale))
+            continue;
+        try {
+            const YGP::ADate value(12, 11, 2005);
+            check(YGP::ADate(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+        try {
+            const YGP::ADate value(1, 2, 1999);
+            check(YGP::ADate(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+    }
+    setlocale(LC_ALL, "C");
 
     if (cErrors)
         std::cout << "Failures: " << cErrors << '\n';

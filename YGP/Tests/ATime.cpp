@@ -25,7 +25,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <clocale>
 #include <iostream>
+#include <stdexcept>
 
 #include <YGP/ATime.h>
 
@@ -64,6 +66,27 @@ int main(int argc, char* argv[]) {
         std::cout << "Error: " << e.what() << '\n';
         check(!"Unhandled exception!");
     }
+
+    // The formatted value must be parsable again (in every available locale)
+    for (const char* locale : {"C", "de_AT.UTF-8", "en_US.UTF-8", "en_GB.UTF-8", "fr_FR.UTF-8"}) {
+        if (!setlocale(LC_ALL, locale))
+            continue;
+        try {
+            const YGP::ATime value(13, 14, 15);
+            check(YGP::ATime(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+        try {
+            const YGP::ATime value(1, 2, 3);
+            check(YGP::ATime(value.toString()) == value);
+        }
+        catch (std::invalid_argument& e) {
+            ERROROUT(locale << ": " << e.what());
+        }
+    }
+    setlocale(LC_ALL, "C");
 
     if (cErrors)
         std::cout << "Failures: " << cErrors << '\n';

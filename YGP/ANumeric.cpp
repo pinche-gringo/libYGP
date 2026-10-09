@@ -32,8 +32,6 @@
 #ifndef HAVE_LIBGMP
 #    include <cctype>
 #    include <cstdlib>
-
-#    include <sstream>
 #endif
 
 #include <stdexcept>
@@ -164,9 +162,9 @@ std::string ANumeric::toUnformattedString() const {
         char* pString(mpz_get_str(NULL, 10, value));
         Check3(pString);
 #else
-        std::ostringstream ostr;
-        ostr << value << '\0';
-        const char* pString = ostr.str().c_str();
+        // Not using a stream, as it might group the digits (if a global C++ locale is set)
+        const std::string number(std::to_string(value));
+        const char* pString = number.c_str();
 #endif
         TRACE1("ANumeric::toUnformattedString -> value = " << pString);
 

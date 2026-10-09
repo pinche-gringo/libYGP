@@ -127,25 +127,24 @@ void ADate::assign(const char* pDate, unsigned int len) {
     struct tm result;
     memset(&result, '\0', sizeof(result));
 
+    // Only digits (and blanks) are the unformatted DDMMY[...]; everything else
+    // is expected in the format of the locale (as returned by toString ())
     const char* fail(nullptr);
-    switch (len) {
-    case 12:
-    case 11:
-    case 10:
-    case 9:
+    if ((len <= 8) && (strspn(pDate, "0123456789 ") == len))
+        switch (len) {
+        case 8:
+        case 7:
+            fail = strptime(pDate, "%d %m %Y", &result);
+            break;
+        case 6:
+        case 5:
+            fail = strptime(pDate, "%d %m %y", &result);
+            break;
+        default:
+            fail = nullptr;
+        } // endswitch
+    else
         fail = strptime(pDate, "%x", &result);
-        break;
-    case 8:
-    case 7:
-        fail = strptime(pDate, "%d %m %Y", &result);
-        break;
-    case 6:
-    case 5:
-        fail = strptime(pDate, "%d %m %y", &result);
-        break;
-    default:
-        fail = nullptr;
-    } // endswitch
     operator=(result);
     if (!fail || (*fail && !isspace(*fail)) || checkIntegrity()) {
         undefine();
