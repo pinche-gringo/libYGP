@@ -51,6 +51,10 @@ class AnimatedWindow : public sigc::trackable {
 
     void animateTo(double x, double y);
 
+    /// Returns the number of remaining animation steps
+    /// \returns unsigned int Remaining steps
+    unsigned int getSteps() const { return steps; }
+
     Gtk::Fixed& fixed;
     Gtk::Widget& widget;
 
