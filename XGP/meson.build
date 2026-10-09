@@ -45,3 +45,4 @@ configure_file(input: 'XGP.pc.in', output: 'XGP.pc', configuration: pc_conf,
 
 subdir('Icons')
 subdir('Samples')
+subdir('Tests')
