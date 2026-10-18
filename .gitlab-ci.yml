@@ -11,8 +11,14 @@
 #   CI_PUSH_TOKEN: Project access token with scope "write_repository" (and a
 #                  role allowed to push to the release-branches)
 # Tags matching libYGP_V* should be protected, so the protected variable is available.
+#
+# The jobs run in an image with all dependencies (ci/Dockerfile), stored in the
+# container registry of the project. It's (re)built only if ci/Dockerfile changes
+# or the pipeline is started manually (Build -> Pipelines -> Run pipeline); do the
+# latter once to create the image initially.
 
 stages:
+  - image
   - test
   - release
   - bump
@@ -20,24 +26,41 @@ stages:
 variables:
   RELEASE_TAG_REGEX: '/^libYGP_V\d+\.\d+\.\d+$/'
   PACKAGE_NAME: libYGP
+  CI_IMAGE: $CI_REGISTRY_IMAGE/ci-base:latest
 
 default:
-  image: fedora:latest
-
-.install_deps: &install_deps
-  - dnf install -y --setopt=install_weak_deps=False
-      gcc gcc-c++ meson ninja-build git gettext gettext-devel perl
-      boost-devel gtkmm4.0-devel
+  image: $CI_IMAGE
 
 .get_version: &get_version
   - |
     VERSION=$(sed -n "s/^ *version: *'\([0-9][0-9.]*\)'.*/\1/p" meson.build | head -n 1)
   - echo "Project version $VERSION"
 
+# Builds the base image with the dependencies (with buildah, so no privileged
+# runner or docker-daemon is needed)
+build_image:
+  stage: image
+  image: quay.io/buildah/stable:latest
+  variables:
+    STORAGE_DRIVER: vfs
+    BUILDAH_ISOLATION: chroot
+  script:
+    - buildah login --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - buildah build --layers --tag "$CI_IMAGE" ci/
+    - buildah push "$CI_IMAGE"
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "push"
+      changes:
+        - ci/Dockerfile
+
 test:
   stage: test
-  before_script:
-    - *install_deps
+  needs:
+    - job: build_image
+      optional: true
   script:
     - meson setup build
     - meson compile -C build
@@ -54,8 +77,9 @@ test:
 
 code_check:
   stage: test
-  before_script:
-    - dnf install -y cppcheck
+  needs:
+    - job: build_image
+      optional: true
   script:
     - cppcheck YGP/ XGP/ --enable=all
   allow_failure: true
@@ -67,9 +91,6 @@ code_check:
 dist:
   stage: release
   needs: [test]
-  before_script:
-    - *install_deps
-    - dnf install -y curl
   script:
     - *get_version
     - |
@@ -131,8 +152,6 @@ bump_version:
   needs: [release]
   variables:
     GIT_DEPTH: 0
-  before_script:
-    - dnf install -y git
   script:
     - |
       if [ -z "$CI_PUSH_TOKEN" ]; then
