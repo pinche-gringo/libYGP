@@ -167,7 +167,7 @@ bump_version:
     - git diff --exit-code --quiet meson.build && { echo "Version not changed"; exit 1; }
     - git config user.name "$GITLAB_USER_NAME"
     - git config user.email "$GITLAB_USER_EMAIL"
-    - git commit -m "meson.build: Increased version to $NEW_VERSION" meson.build
+    - 'git commit -m "meson.build: Increased version to $NEW_VERSION" meson.build'
     - git push -o ci.skip
         "${CI_SERVER_PROTOCOL}://oauth2:${CI_PUSH_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/${CI_PROJECT_PATH}.git"
         "HEAD:refs/heads/$BRANCH"
