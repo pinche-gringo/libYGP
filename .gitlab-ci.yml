@@ -1,22 +1,175 @@
+# CI/CD for libYGP
+#
+# - Every push (and manually started pipelines) builds the project and runs the tests
+# - Pushing a tag named libYGP_V<major>.<minor>.<patch> additionally
+#     1. creates the source-tarball (meson dist) and uploads it to the package registry
+#     2. creates a GitLab release for the tag (notes taken from NEWS)
+#     3. commits an increased patch-level of the project version in meson.build
+#        to the branch the tag was created on
+#
+# Needed CI/CD variable (Settings -> CI/CD -> Variables, masked & protected):
+#   CI_PUSH_TOKEN: Project access token with scope "write_repository" (and a
+#                  role allowed to push to the release-branches)
+# Tags matching libYGP_V* should be protected, so the protected variable is available.
+
 stages:
   - test
+  - release
+  - bump
 
-.something: &prepare_repo
-  - meson setup build
+variables:
+  RELEASE_TAG_REGEX: '/^libYGP_V\d+\.\d+\.\d+$/'
+  PACKAGE_NAME: libYGP
 
-code_check:
-  stage: test
-  before_script:
-    *prepare_repo
-  script:
-    cppcheck YGP/ XGP/ --enable=all
-  only:
-    - master
+default:
+  image: fedora:latest
+
+.install_deps: &install_deps
+  - dnf install -y --setopt=install_weak_deps=False
+      gcc gcc-c++ meson ninja-build git gettext gettext-devel perl
+      boost-devel gtkmm4.0-devel
+
+.get_version: &get_version
+  - |
+    VERSION=$(sed -n "s/^ *version: *'\([0-9][0-9.]*\)'.*/\1/p" meson.build | head -n 1)
+  - echo "Project version $VERSION"
 
 test:
   stage: test
   before_script:
-    - *prepare_repo
-    - meson compile -C build
+    - *install_deps
   script:
+    - meson setup build
+    - meson compile -C build
     - meson test -C build --print-errorlogs
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - build/meson-logs/
+    reports:
+      junit: build/meson-logs/testlog.junit.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web"
+
+code_check:
+  stage: test
+  before_script:
+    - dnf install -y cppcheck
+  script:
+    - cppcheck YGP/ XGP/ --enable=all
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Builds the source-tarball, uploads it to the generic package registry and
+# prepares the release-notes
+dist:
+  stage: release
+  needs: [test]
+  before_script:
+    - *install_deps
+    - dnf install -y curl
+  script:
+    - *get_version
+    - |
+      if [ "$CI_COMMIT_TAG" != "${PACKAGE_NAME}_V${VERSION}" ]; then
+        echo "Tag $CI_COMMIT_TAG doesn't match the project version $VERSION in meson.build"
+        exit 1
+      fi
+    - meson setup build
+    - meson dist -C build --no-tests --formats xztar
+    - TARBALL="${PACKAGE_NAME}-${VERSION}.tar.xz"
+    - |
+      curl --fail --silent --show-error --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+           --upload-file "build/meson-dist/$TARBALL" \
+           "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${PACKAGE_NAME}/${VERSION}/${TARBALL}"
+    # Release notes: The section of this version in NEWS; else the tag message
+    - |
+      awk -v ver="$VERSION" '
+        tolower($0) ~ "^overview of changes in version " ver ":" { found = 1; next }
+        found && /^Overview of / { exit }
+        found { print }' NEWS > release-notes.md
+      if ! grep -q '[^[:space:]]' release-notes.md; then
+        echo "${CI_COMMIT_TAG_MESSAGE:-Release $VERSION}" > release-notes.md
+      fi
+    - echo "VERSION=$VERSION" > release.env
+    - echo "TARBALL=$TARBALL" >> release.env
+  artifacts:
+    paths:
+      - build/meson-dist/
+      - release-notes.md
+    reports:
+      dotenv: release.env
+  rules:
+    - if: $CI_COMMIT_TAG =~ $RELEASE_TAG_REGEX
+
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs:
+    - job: dist
+      artifacts: true
+  script:
+    - echo "Creating release $VERSION for tag $CI_COMMIT_TAG"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: '$PACKAGE_NAME $VERSION'
+    description: release-notes.md
+    assets:
+      links:
+        - name: $TARBALL
+          url: '${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${PACKAGE_NAME}/${VERSION}/${TARBALL}'
+          link_type: package
+  rules:
+    - if: $CI_COMMIT_TAG =~ $RELEASE_TAG_REGEX
+
+# Increases the patch-level of the project version in meson.build and commits
+# that on the branch containing the tagged commit
+bump_version:
+  stage: bump
+  needs: [release]
+  variables:
+    GIT_DEPTH: 0
+  before_script:
+    - dnf install -y git
+  script:
+    - |
+      if [ -z "$CI_PUSH_TOKEN" ]; then
+        echo "Variable CI_PUSH_TOKEN is not set; can't push the version increase"
+        exit 1
+      fi
+    - git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+    # Prefer the default branch, if it contains the tag; else the most recently changed branch
+    - |
+      BRANCHES=$(git for-each-ref --contains "$CI_COMMIT_SHA" --sort=-committerdate \
+                     --format='%(refname:lstrip=3)' refs/remotes/origin | grep -v '^HEAD$' || true)
+      if echo "$BRANCHES" | grep -qx "$CI_DEFAULT_BRANCH"; then
+        BRANCH=$CI_DEFAULT_BRANCH
+      else
+        BRANCH=$(echo "$BRANCHES" | head -n 1)
+      fi
+      if [ -z "$BRANCH" ]; then
+        echo "No branch contains the tagged commit $CI_COMMIT_SHA"
+        exit 1
+      fi
+      echo "Increasing version on branch $BRANCH"
+    - git checkout -B "$BRANCH" "origin/$BRANCH"
+    - *get_version
+    - |
+      if [ "$CI_COMMIT_TAG" != "${PACKAGE_NAME}_V${VERSION}" ]; then
+        echo "Version on $BRANCH is already $VERSION; nothing to do"
+        exit 0
+      fi
+    - NEW_VERSION="${VERSION%.*}.$(( ${VERSION##*.} + 1 ))"
+    - |
+      sed -i "0,/version: *'$VERSION'/s//version: '$NEW_VERSION'/" meson.build
+    - git diff --exit-code --quiet meson.build && { echo "Version not changed"; exit 1; }
+    - git config user.name "$GITLAB_USER_NAME"
+    - git config user.email "$GITLAB_USER_EMAIL"
+    - git commit -m "meson.build: Increased version to $NEW_VERSION" meson.build
+    - git push -o ci.skip
+        "${CI_SERVER_PROTOCOL}://oauth2:${CI_PUSH_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/${CI_PROJECT_PATH}.git"
+        "HEAD:refs/heads/$BRANCH"
+  rules:
+    - if: $CI_COMMIT_TAG =~ $RELEASE_TAG_REGEX
