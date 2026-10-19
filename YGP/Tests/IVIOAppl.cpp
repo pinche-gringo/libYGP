@@ -32,10 +32,10 @@
 #include <clocale>
 
 #include <iostream>
+#include <stacktrace>
 
 #include <YGP/IVIOAppl.h>
 #include <YGP/Log.h>
-#include <YGP/StackTrc.h>
 #include <YGP/Trace.h>
 
 #include "Test.h"
@@ -88,7 +88,8 @@ bool Application::handleOption(const char option) {
         YGP::Syslog log("Test");
 
         LOGDEBUG("Test-Stacktrace:");
-        dumpStack();
+        for (const auto& frame : std::stacktrace::current())
+            LOGINFO(std::to_string(frame).c_str());
     }
 
     return true;

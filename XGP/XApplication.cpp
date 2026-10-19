@@ -26,6 +26,9 @@
 #include <csignal>
 #include <cstdlib>
 
+#include <stacktrace>
+#include <string>
+
 #include <sys/stat.h>
 
 #include <boost/tokenizer.hpp>
@@ -49,8 +52,8 @@
 #include <YGP/Internal.h>
 
 #include <YGP/Check.h>
+#include <YGP/Log.h>
 #include <YGP/Process.h>
-#include <YGP/StackTrc.h>
 #include <YGP/Trace.h>
 
 #include "XGP/BrowserDlg.h"
@@ -63,6 +66,22 @@
 using tokenizer = boost::tokenizer<boost::char_separator<char>>;
 
 namespace XGP {
+
+//-----------------------------------------------------------------------------
+/// Signalhandler; dumps the stack into the log-file when a signal is caught
+/// and re-raises the signal (to abort the program correctly)
+/// \param sig Number of signal caught
+//-----------------------------------------------------------------------------
+static void handleSignal(int sig) {
+    signal(SIGSEGV, SIG_DFL);
+#ifdef HAVE_SIGBUS
+    signal(SIGBUS, SIG_DFL);
+#endif
+
+    for (const auto& frame : std::stacktrace::current())
+        LOGINFO(std::to_string(frame).c_str());
+    raise(sig);
+}
 
 //-----------------------------------------------------------------------------
 /// Constructor; creates a program-window showing only an empty menu and an

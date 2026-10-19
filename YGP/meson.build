@@ -1,7 +1,7 @@
 ygp_sources = files(
   'Path.cpp', 'IVIOAppl.cpp', 'DirSrch.cpp', 'ANumeric.cpp', 'AssParse.cpp', 'Parse.cpp',
   'FileRExp.cpp', 'Version.cpp', 'ATime.cpp', 'XStrBuf.cpp', 'AYear.cpp', 'ADate.cpp',
-  'PathDirSrch.cpp', 'ATStamp.cpp', 'INIFile.cpp', 'CRegExp.cpp', 'StackTrc.cpp',
+  'PathDirSrch.cpp', 'ATStamp.cpp', 'INIFile.cpp', 'CRegExp.cpp',
   'File.cpp', 'AttrParse.cpp', 'IDirSrch.cpp', 'Entity.cpp', 'Thread.cpp', 'XDirSrch.cpp',
   'Check.cpp', 'Process.cpp', 'ConnMgr.cpp', 'StatusObj.cpp', 'Relation.cpp', 'TableWriter.cpp',
   'MetaEnum.cpp', 'DynTrace.cpp', 'Module.cpp', 'Attribute.cpp', 'FileTypeChk.cpp', 'Utility.cpp',
@@ -10,7 +10,7 @@ ygp_sources = files(
 ygp_headers = files(
   'Path.h', 'ANumeric.h', 'DirSrch.h', 'IVIOAppl.h', 'AttrVal.h', 'FileRExp.h', 'XStrBuf.h',
   'XStream.h', 'Parse.h', 'Trace.h', 'Check.h', 'PathDirSrch.h', 'AYear.h', 'ADate.h',
-  'ATStamp.h', 'ATime.h', 'CRegExp.h', 'RegExp.h', 'Log.h', 'StackTrc.h',
+  'ATStamp.h', 'ATime.h', 'CRegExp.h', 'RegExp.h', 'Log.h',
   'IDirSrch.h', 'File.h', 'AssParse.h', 'Attribute.h', 'AttrParse.h', 'Entity.h', 'Thread.h',
   'Mutex.h', 'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Process.h', 'StatusObj.h', 'Relation.h',
   'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Module.h', 'Exception.h',
@@ -22,7 +22,7 @@ if get_option('network_traversing')
   ygp_headers += files('RemoteFile.h', 'RDirSrch.h', 'RDirSrchSrv.h')
 endif
 
-ygp_deps = [boost_dep, dl_dep, threads_dep, socket_dep, ws2_dep, intl_dep, gmp_dep]
+ygp_deps = [boost_dep, dl_dep, threads_dep, socket_dep, ws2_dep, intl_dep, gmp_dep, stacktrace_dep]
 if have_gtk
   # GTK is loaded dynamically (see Check.cpp); only the headers are needed
   ygp_deps += gtk_dep.partial_dependency(compile_args: true, includes: true)
@@ -43,7 +43,7 @@ endif
 
 ygp_dep = declare_dependency(link_with: libygp,
                              include_directories: top_inc,
-                             dependencies: [intl_dep, gmp_dep])
+                             dependencies: [intl_dep, gmp_dep, stacktrace_dep])
 
 install_headers(ygp_headers, subdir: 'YGP')
 

@@ -54,6 +54,9 @@ have += {'HAVE_LIBDL': dl_dep.found()}
 threads_dep = dependency('threads', required: false)
 have += {'HAVE_LIBPTHREAD': threads_dep.found()}
 
+# std::stacktrace lives in a separate library with libstdc++
+stacktrace_dep = cxx.find_library('stdc++exp', required: false)
+
 socket_dep = cc.find_library('socket', required: false)
 have += {'HAVE_LIBSOCKET': socket_dep.found()}
 ws2_dep = cc.find_library('ws2_32', required: false)
@@ -108,7 +111,7 @@ foreach h : ['dirent.h', 'sys/ndir.h', 'sys/dir.h', 'ndir.h']
 endforeach
 
 foreach f : ['timegm', 'strfmon', 'beginthread', '_beginthread', 'pipe', '_pipe', 'fork',
-             'spawnvp', 'sleep', '_sleep', 'getlogin', 'strftime', 'strptime', 'backtrace',
+             'spawnvp', 'sleep', '_sleep', 'getlogin', 'strftime', 'strptime',
              'getpid', '_getpid', 'wcscoll', 'mbtowc', 'tzset', '_tzset']
   have += {'HAVE_' + f.to_upper(): cc.has_function(f, dependencies: threads_dep)}
 endforeach

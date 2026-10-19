@@ -30,16 +30,33 @@
 #include <boost/filesystem/path.hpp>
 
 #include <iostream>
+#include <stacktrace>
 #include <string>
 
 #include "YGP/Check.h"
 #include "YGP/IVIOAppl.h"
 #include "YGP/Internal.h"
-#include "YGP/StackTrc.h"
+#include "YGP/Log.h"
 
 namespace fs = boost::filesystem;
 
 namespace YGP {
+
+//-----------------------------------------------------------------------------
+/// Signalhandler; dumps the stack into the log-file when a signal is caught
+/// and re-raises the signal (to abort the program correctly)
+/// \param sig Number of signal caught
+//-----------------------------------------------------------------------------
+static void handleSignal(int sig) {
+    signal(SIGSEGV, SIG_DFL);
+#ifdef HAVE_SIGBUS
+    signal(SIGBUS, SIG_DFL);
+#endif
+
+    for (const auto& frame : std::stacktrace::current())
+        LOGINFO(std::to_string(frame).c_str());
+    raise(sig);
+}
 
 //-----------------------------------------------------------------------------
 /// Checks char if it starts an option

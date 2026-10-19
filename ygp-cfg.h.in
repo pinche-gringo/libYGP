@@ -85,7 +85,6 @@
 #mesondefine HAVE_WINDOWS_H
 
 /* Available functions */
-#mesondefine HAVE_BACKTRACE
 #mesondefine HAVE_BEGINTHREAD
 #mesondefine HAVE__BEGINTHREAD
 #mesondefine HAVE_FNMATCH
