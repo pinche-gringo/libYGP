@@ -27,20 +27,16 @@
 #include <cctype>
 #include <cstring>
 
-#include <map>
 #include <string>
 
 #include "YGP/Internal.h"
-#include "YGP/Thread.h"
 #include "YGP/Trace.h"
 #include "YGP/XStream.h"
 
 #include "YGP/Parse.h"
 
-#define BUFFER (buffers[Thread::currentID()])
-
-/// Parse-buffers; one per thread
-static std::map<unsigned long, std::string> buffers;
+/// Parse-buffer; one per thread
+static thread_local std::string buffer;
 static char ESCAPE = '\\'; ///< Escape character for ParseAttomic()
 
 namespace YGP {
@@ -49,7 +45,10 @@ namespace YGP {
 /// Frees the buffer internally used while parsing.
 /// \remarks Don't delete the buffer while parsing (inside a callback)!
 //-----------------------------------------------------------------------------
-void ParseObject::freeBuffer() { buffers.erase(Thread::currentID()); }
+void ParseObject::freeBuffer() {
+    buffer.clear();
+    buffer.shrink_to_fit();
+}
 
 //-----------------------------------------------------------------------------
 /// Constructor The description must be valid during the LIFETIME (OR AT LEAST
@@ -241,7 +240,6 @@ int ParseAttomic::doParse(Xistream& stream, bool optional) {
     TRACE1("ParseAttomic::doParse(Xistream&, bool) - " << getDescription());
 
     int ch('\0');
-    std::string& buffer = BUFFER;
     unsigned int parsedChars(0);
     buffer = "";
 
@@ -563,14 +561,14 @@ ParseQuoted& ParseQuoted::operator=(const ParseQuoted& other) {
 ///    - ')' if ch == '('
 ///    - ']' if ch == '['
 ///    - '}' if ch == '{'
-///    - '´' if ch == '`'
+///    - 'Â´' if ch == '`'
 ///    - Else: ch
 /// \param ch Char to find match to
 /// \returns char Character "closing" the passed one
 //-----------------------------------------------------------------------------
 char ParseQuoted::getClosingChar(char ch) {
     static char open[] = "<([{`";
-    static char close[] = ">)]}´";
+    static char close[] = ">)]}\xb4"; // Latin-1 acute accent
     Check2(sizeof(open) == sizeof(close));
 
     for (unsigned int i(0); i < sizeof(open); ++i)
