@@ -1,3 +1,8 @@
+Overview of changes in version 0.9.61:
+
+  - Add a release script to tag according to the version in build.meson
+
+
 Overview of changes in version 0.9.60:
 
   - XGP::AnimWindow works again (derive from Gtk::Fixed instead of Gdk::Surface)
