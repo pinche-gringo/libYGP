@@ -11,6 +11,23 @@ if __name__ == "__main__":
     # The version in the project()-call of meson.build: version: '<major>.<minor>.<patch>'
     VERSION_REGEX = re.compile(r"^(\s*version:\s*')(\d+)\.(\d+)\.(\d+)(')", re.MULTILINE)
     PROJECT_REGEX = re.compile(r"^project\(\s*'([^']+)'", re.MULTILINE)
+    # A package name differing from the project name: package_name = '<name>' or
+    # <conf>.set_quoted('PACKAGE_NAME', '<name>'|<variable>)
+    PACKAGE_REGEX = re.compile(r"^\s*package_name\s*=\s*'([^']+)'", re.MULTILINE)
+    CONF_PACKAGE_REGEX = re.compile(r"\.set_quoted\(\s*'PACKAGE_NAME'\s*,\s*(?:'([^']+)'|(\w+)\s*\))")
+
+
+    def _package_name(content):
+        """Returns the package name defined in the content of meson.build (or None)"""
+        if match := PACKAGE_REGEX.search(content):
+            return match[1]
+        if match := CONF_PACKAGE_REGEX.search(content):
+            if match[1]:
+                return match[1]
+            # Value is a variable: Use its (string-)assignment
+            if value := re.search(fr"^\s*{match[2]}\s*=\s*'([^']+)'", content, re.MULTILINE):
+                return value[1]
+        return None
 
 
     class ExecuteError(Exception):
@@ -68,7 +85,7 @@ if __name__ == "__main__":
             print(f"No project-name or version (<major>.<minor>.<patch>) found in {mesonfile}",
                   file=sys.stderr)
             return -2
-        project = project[1]
+        project = _package_name(content) or project[1]
         major, minor, patch = [int(part) for part in version.group(2, 3, 4)]
 
         info = f"Version {major}.{minor}.{patch}"
