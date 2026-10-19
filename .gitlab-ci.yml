@@ -45,9 +45,9 @@ build_image:
     STORAGE_DRIVER: vfs
     BUILDAH_ISOLATION: chroot
   script:
-    - buildah login --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - buildah login --tls-verify=false --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - buildah build --layers --tag "$CI_IMAGE" ci/
-    - buildah push "$CI_IMAGE"
+    - buildah push --tls-verify=false "$CI_IMAGE"
   rules:
     - if: $CI_COMMIT_TAG
       when: never
