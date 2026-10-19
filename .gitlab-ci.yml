@@ -46,7 +46,7 @@ build_image:
     BUILDAH_ISOLATION: chroot
   script:
     - buildah login --tls-verify=false --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - buildah build --layers --tag "$CI_IMAGE" ci/
+    - buildah build --ulimit nofile=524288:524288 --layers --tag "$CI_IMAGE" ci/
     - buildah push --tls-verify=false "$CI_IMAGE"
   rules:
     - if: $CI_COMMIT_TAG
