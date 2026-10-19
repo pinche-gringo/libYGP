@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 if __name__ == "__main__":
+    import argparse
     import os.path
     import re
     import subprocess
@@ -32,11 +33,13 @@ if __name__ == "__main__":
         return stdout, stderr
 
 
-    def main(args):
-        if len(args) > 2:
-            print("Invalid number of arguments", file=sys.stderr)
-            print("Usage:", sys.argv[0], "[COMMENT]", file=sys.stderr)
-            return -1
+    def main():
+        parser = argparse.ArgumentParser(
+            description="Tags the version in meson.build, pushes the tag and increases the version")
+        parser.add_argument("-r", "--remote",
+                            help="Git remote to push to (default: the remote of the current branch)")
+        parser.add_argument("comment", nargs="?", help="Additional text for the tag-message")
+        args = parser.parse_args()
 
         try:
             current_branch = _execute("git", "symbolic-ref", "--short", "-q", "HEAD")[0].strip()
@@ -69,14 +72,26 @@ if __name__ == "__main__":
         major, minor, patch = [int(part) for part in version.group(2, 3, 4)]
 
         info = f"Version {major}.{minor}.{patch}"
-        if len(args) > 1:
-            info = ": ".join([info, args[1]])
+        if args.comment:
+            info = ": ".join([info, args.comment])
 
         # Named like expected by the release-jobs in .gitlab-ci.yml
         tag = f"{project}_V{major}.{minor}.{patch}"
 
+        remote = args.remote
         try:
-            remote = _execute("git", "config", f"branch.{current_branch}.remote")[0].strip()
+            if not remote:
+                remote = _execute("git", "config", f"branch.{current_branch}.remote")[0].strip()
+        except ExecuteError:
+            print(f"Branch '{current_branch}' has no remote; specify one with -r", file=sys.stderr)
+            return -2
+        try:
+            _execute("git", "remote", "get-url", remote)
+        except ExecuteError:
+            print(f"Remote '{remote}' doesn't exist", file=sys.stderr)
+            return -2
+
+        try:
             _execute("git", "tag", tag, "-m", info)
             # Push only the new tag; GitLab doesn't create pipelines for more than 4 tags at once
             _execute("git", "push", remote, f"refs/tags/{tag}")
@@ -92,10 +107,10 @@ if __name__ == "__main__":
         try:
             _execute("git", "add", mesonfile)
             _execute("git", "commit", "-m", f"meson.build: Increased version to {major}.{minor}.{patch}")
-            _execute("git", "push", "-o", "ci.skip")
+            _execute("git", "push", "-o", "ci.skip", remote, current_branch)
         except ExecuteError as err:
             print(err, file=sys.stderr)
             return 1
         return 0
 
-    sys.exit(main(sys.argv))
+    sys.exit(main())
