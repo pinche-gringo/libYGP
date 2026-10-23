@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
         try:
             _execute("git", "add", mesonfile)
-            _execute("git", "commit", "-m", f"meson.build: Increased version to {major}.{minor}.{patch}")
+            _execute("git", "commit", "-m", f"meson.build: Bump version to {major}.{minor}.{patch}")
             _execute("git", "push", "-o", "ci.skip", remote, current_branch)
         except ExecuteError as err:
             print(err, file=sys.stderr)
