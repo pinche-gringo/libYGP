@@ -1,5 +1,5 @@
 project('libYGP', ['c', 'cpp'],
-        version: '0.9.63',
+        version: '0.9.70',
         license: 'GPL-3.0-or-later',
         meson_version: '>= 1.1',
         default_options: ['cpp_std=c++23',
@@ -96,7 +96,7 @@ have += {'HAVE_DCGETTEXT': enable_nls}
 #-----------------------------------------------------------------------------
 # Headers, functions, types
 #-----------------------------------------------------------------------------
-foreach h : ['regex.h', 'syslog.h', 'sys/socket.h', 'windows.h', 'sys/wait.h',
+foreach h : ['syslog.h', 'sys/socket.h', 'windows.h', 'sys/wait.h',
              'dlfcn.h']
   have += {'HAVE_' + h.underscorify().to_upper(): cc.has_header(h)}
 endforeach

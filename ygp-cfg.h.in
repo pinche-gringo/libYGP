@@ -75,7 +75,6 @@
 #mesondefine HAVE_DIRENT_H
 #mesondefine HAVE_DLFCN_H
 #mesondefine HAVE_NDIR_H
-#mesondefine HAVE_REGEX_H
 #mesondefine HAVE_SYS_DIR_H
 #mesondefine HAVE_SYS_NDIR_H
 #mesondefine HAVE_SYS_SOCKET_H

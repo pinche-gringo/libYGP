@@ -191,8 +191,7 @@ EXPAND_ONLY_PREDEF     = NO
 SEARCH_INCLUDES        = YES
 INCLUDE_PATH           = 
 INCLUDE_FILE_PATTERNS  = 
-PREDEFINED             = HAVE_REGEX_H \
-                         __STL_MEMBER_TEMPLATES \
+PREDEFINED             = __STL_MEMBER_TEMPLATES \
                          SYSTEM=UNIX \
                          HAVE_WEBKIT
 EXPAND_AS_DEFINED      = 

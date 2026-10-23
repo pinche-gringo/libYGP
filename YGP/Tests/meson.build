@@ -1,6 +1,6 @@
 ygp_tests = [
   'IVIOAppl', 'ANumeric', 'AYear', 'ADate', 'ATime', 'ATStamp', 'XStrBuf', 'XStream', 'Parse',
-  'FileRExp', 'CRegExp', 'DirSrch', 'PathDirSrch', 'Attribute', 'AssParse', 'AttrParse',
+  'FileRExp', 'DirSrch', 'PathDirSrch', 'Attribute', 'AssParse', 'AttrParse',
   'INIFile', 'Relation', 'Process', 'MetaEnum', 'Entity', 'SortDirSrch', 'Module',
   'FileTypeChk',
 ]

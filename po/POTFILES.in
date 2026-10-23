@@ -9,7 +9,6 @@ YGP/ATime.cpp
 YGP/AYear.cpp
 YGP/AssParse.cpp
 YGP/AttrParse.cpp
-YGP/CRegExp.cpp
 YGP/File.cpp
 YGP/FileRExp.cpp
 YGP/INIFile.cpp

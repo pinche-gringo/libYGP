@@ -1,7 +1,5 @@
 #!/usr/bin/awk -f
 
-# $Id: mdef.awk,v 1.3 2002/12/17 20:40:27 markus Rel $
-
 # Script to generate a DEF-file out of the output of VC's dumpbin
 # Call without parameter; the utility it designed to run in a pipe
 # like in
@@ -21,7 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-BEGIN { OFS = ""; line = 0; entry = "§$%&" }
+BEGIN { OFS = ""; line = 0; entry = "" }
 
 /Dump of file/ {
    # Convert filename to classname
@@ -35,8 +33,6 @@ BEGIN { OFS = ""; line = 0; entry = "§$%&" }
       file = "ATimestamp"
    else if ($4 == "AttrParse")
       file = "AttriuteParse"
-   else if ($4 == "CRegExp")
-      file = "RegularExpression"
    else if ($4 == "DirSrch")
       file = "DirectorySearch"
    else if ($4 == "FileRExp")
@@ -68,7 +64,7 @@ BEGIN { OFS = ""; line = 0; entry = "§$%&" }
    entry = "SECT.*External.*(p.+: .+" file "::[^ ]+(.+))"
 }
 
-$0 ~ entry {
+entry != "" && $0 ~ entry {
    if ($0 !~ "deleting destructor") {
       start = ($5 == "()") ? 8 : 7
 
