@@ -1,3 +1,8 @@
+Overview of changes in version 0.9.63:
+
+  - Removed Remote-Directory search and related classes
+
+
 Overview of changes in version 0.9.62:
 
   - Add Github release handling
