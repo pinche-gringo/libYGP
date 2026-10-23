@@ -3,7 +3,7 @@ ygp_sources = files(
   'FileRExp.cpp', 'Version.cpp', 'ATime.cpp', 'XStrBuf.cpp', 'AYear.cpp', 'ADate.cpp',
   'PathDirSrch.cpp', 'ATStamp.cpp', 'INIFile.cpp',
   'File.cpp', 'AttrParse.cpp', 'IDirSrch.cpp', 'Entity.cpp', 'XDirSrch.cpp',
-  'Check.cpp', 'Process.cpp', 'ConnMgr.cpp', 'StatusObj.cpp', 'Relation.cpp', 'TableWriter.cpp',
+  'Check.cpp', 'Process.cpp', 'ConnMgr.cpp', 'Connection.cpp', 'StatusObj.cpp', 'Relation.cpp', 'TableWriter.cpp',
   'MetaEnum.cpp', 'DynTrace.cpp', 'Module.cpp', 'Attribute.cpp', 'FileTypeChk.cpp', 'Utility.cpp',
 )
 
@@ -12,12 +12,12 @@ ygp_headers = files(
   'XStream.h', 'Parse.h', 'Trace.h', 'Check.h', 'PathDirSrch.h', 'AYear.h', 'ADate.h',
   'ATStamp.h', 'ATime.h', 'Log.h',
   'IDirSrch.h', 'File.h', 'AssParse.h', 'Attribute.h', 'AttrParse.h', 'Entity.h',
-  'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Process.h', 'StatusObj.h', 'Relation.h',
+  'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Connection.h', 'Process.h', 'StatusObj.h', 'Relation.h',
   'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Module.h', 'Exception.h',
   'FileTypeChk.h', 'Utility.h', 'Random.h',
 )
 
-ygp_deps = [boost_dep, dl_dep, threads_dep, socket_dep, ws2_dep, intl_dep, gmp_dep, stacktrace_dep]
+ygp_deps = [boost_dep, dl_dep, threads_dep, socket_dep, ws2_dep, intl_dep, gmp_dep, stacktrace_dep, ssl_dep]
 if have_gtk
   # GTK is loaded dynamically (see Check.cpp); only the headers are needed
   ygp_deps += gtk_dep.partial_dependency(compile_args: true, includes: true)
@@ -38,7 +38,7 @@ endif
 
 ygp_dep = declare_dependency(link_with: libygp,
                              include_directories: top_inc,
-                             dependencies: [intl_dep, gmp_dep, stacktrace_dep])
+                             dependencies: [intl_dep, gmp_dep, stacktrace_dep, ssl_dep, threads_dep])
 
 install_headers(ygp_headers, subdir: 'YGP')
 

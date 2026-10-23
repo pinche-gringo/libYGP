@@ -18,8 +18,6 @@
 
 #include <memory>
 
-#include <boost/asio/ip/tcp.hpp>
-
 #include <sigc++/connection.h>
 
 #include <XGP/XDialog.h>
@@ -27,9 +25,11 @@
 namespace Gtk {
 class Label;
 class Entry;
+class PasswordEntry;
 class Grid;
 } // namespace Gtk
 namespace YGP {
+class Connection;
 class ConnectionMgr;
 } // namespace YGP
 
@@ -37,6 +37,9 @@ namespace XGP {
 
 /**Dialog to handle enable either waiting for clients to connect or to connect
    to a server.
+
+   The partners must enter the same password; it is passed to the
+   ConnectionMgr before waiting or connecting.
 
    The result of this actions is returned in the ConnectionMgr object.
 */
@@ -61,14 +64,18 @@ class ConnectDlg : public XDialog {
     void waitForConnection();
     void stopWaiting();
     bool pollConnections();
-    virtual boost::asio::ip::tcp::socket* addClient(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
+    virtual YGP::Connection* addClient(std::unique_ptr<YGP::Connection> connection);
     virtual void connect(const Glib::ustring& target, const Glib::ustring& port);
 
-    Gtk::Entry* pTarget;   ///< Entry field holding the target computer (IP address or name)
-    Gtk::Entry* pPort;     ///< Entry field for the port of the connection
-    Gtk::Button* pWait;    ///< Button to wait for connections (server mode)
-    Gtk::Button* pConnect; ///< Button to connect to a server (client mode)
-    Gtk::Grid* pClient;    ///< Grid holding the controls of the dialog
+    /// Row of pClient, from which on derived classes can add their controls
+    static constexpr int FIRST_FREE_ROW{4};
+
+    Gtk::Entry* pTarget;           ///< Entry field holding the target computer (IP address or name)
+    Gtk::Entry* pPort;             ///< Entry field for the port of the connection
+    Gtk::PasswordEntry* pPassword; ///< Entry field for the password the partners must know
+    Gtk::Button* pWait;            ///< Button to wait for connections (server mode)
+    Gtk::Button* pConnect;         ///< Button to connect to a server (client mode)
+    Gtk::Grid* pClient;            ///< Grid holding the controls of the dialog
 
     YGP::ConnectionMgr& cmgr; ///< Class holding the connections
 
@@ -76,6 +83,7 @@ class ConnectDlg : public XDialog {
     Gtk::Label* pExplain;
     Gtk::Label* pLblServer;
     Gtk::Label* pLblPort;
+    Gtk::Label* pLblPassword;
 
     Glib::ustring port;
 

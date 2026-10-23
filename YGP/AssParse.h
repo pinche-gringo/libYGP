@@ -28,8 +28,8 @@ namespace YGP {
    The single assignments are separated with a semicolon (;) and look like
    <tt>key=value</tt> or <tt>key="value"</tt>.
 
-   Quoted values can still contain the quotes, if they are escaped by
-   a leading backslash (\).
+   Quoted values can still contain the quotes (and backslashes), if they are
+   escaped by a leading backslash (\).
 
    Empty assignments are silently ignored.
 */
@@ -65,6 +65,7 @@ class AssignmentParse {
     static const char ESCAPE;    ///< Character which escapes a quote inside a quoted value; the backslash (\)
 
     static void escapeQuotes(std::string& value);
+    static void escape(std::string& value);
 
   private:
     AssignmentParse() = delete;

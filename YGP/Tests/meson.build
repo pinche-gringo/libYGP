@@ -2,7 +2,7 @@ ygp_tests = [
   'IVIOAppl', 'ANumeric', 'AYear', 'ADate', 'ATime', 'ATStamp', 'XStrBuf', 'XStream', 'Parse',
   'FileRExp', 'DirSrch', 'PathDirSrch', 'Attribute', 'AssParse', 'AttrParse',
   'INIFile', 'Relation', 'Process', 'MetaEnum', 'Entity', 'SortDirSrch', 'Module',
-  'FileTypeChk',
+  'FileTypeChk', 'ConnMgr',
 ]
 
 test_args = ['-DLOCALEDIR="@0@"'.format(localedir),

@@ -1,5 +1,5 @@
 project('libYGP', ['c', 'cpp'],
-        version: '0.9.71',
+        version: '0.9.80',
         license: 'GPL-3.0-or-later',
         meson_version: '>= 1.1',
         default_options: ['cpp_std=c++23',
@@ -68,6 +68,9 @@ Either it can't be found in your default link-path or install it using your
 package-manager or from its website at http://www.boost.org''')
 endif
 have += {'HAVE_LIBBOOST_FILESYSTEM': true}
+
+# OpenSSL secures the connections of the ConnectionMgr (TLS 1.3)
+ssl_dep = dependency('openssl', version: '>= 3.0')
 foreach h : ['boost/filesystem/path.hpp', 'boost/shared_ptr.hpp', 'boost/tokenizer.hpp',
              'boost/scoped_ptr.hpp', 'boost/spirit/include/classic_core.hpp']
   if not cxx.has_header(h, dependencies: boost_dep)

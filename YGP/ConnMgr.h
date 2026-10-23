@@ -16,13 +16,18 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <chrono>
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl/context.hpp>
+
+#include <YGP/Connection.h>
 
 namespace YGP {
 
@@ -35,6 +40,9 @@ namespace YGP {
 
    Of course an object can switch between the states, in which case the
    previously created connections are closed and removed.
+
+   All connections are secured with TLS; the partners must use the same
+   password (see setPassword() and Connection).
 */
 class ConnectionMgr {
   public:
@@ -47,6 +55,16 @@ class ConnectionMgr {
         CLIENT, ///< Manager has connected to a server
         SERVER  ///< Manager waited for connections from clients
     };
+
+    /// Default time to wait for the partner during establishing a connection
+    static constexpr std::chrono::milliseconds DEFAULT_TIMEOUT{10'000};
+
+    void setPassword(std::string_view password);
+    /// Sets the time to wait for the partner while establishing a connection
+    /// \param timeout Time to wait
+    void setTimeout(std::chrono::milliseconds timeout) { this->timeout = timeout; }
+    /// Returns the time to wait for the partner while establishing a connection
+    std::chrono::milliseconds getTimeout() const { return timeout; }
 
     /// \name Client mode
     //@{
@@ -63,36 +81,43 @@ class ConnectionMgr {
     /// \throw boost::system::system_error
     void listenAt(unsigned int port) { listenAt(std::to_string(port)); }
     void listenAt(const std::string& port);
-    std::unique_ptr<boost::asio::ip::tcp::socket> getNewConnection() const;
-    /// Callback receiving the socket of a new connection (or \c NULL in case of an error)
-    using NewConnectionHandler = std::function<void(std::unique_ptr<boost::asio::ip::tcp::socket>)>;
+    void stopListening();
+    std::unique_ptr<Connection> getNewConnection();
+    /// Callback receiving a new (authenticated) connection (or \c NULL in case of an error)
+    using NewConnectionHandler = std::function<void(std::unique_ptr<Connection>)>;
     void asyncGetNewConnection(NewConnectionHandler handler);
     void cancelGetNewConnection();
-    boost::asio::ip::tcp::socket* addConnection(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
+    Connection* addConnection(std::unique_ptr<Connection> connection);
 
     /// Returns the clients already connected to the server. Clients keep
     /// their position, so the entries of disconnected clients are NULL.
-    const std::vector<std::unique_ptr<boost::asio::ip::tcp::socket>>& getClients() const { return connections; }
+    const std::vector<std::unique_ptr<Connection>>& getClients() const { return connections; }
     //@}
 
     /// Returns the actual mode of the connection
     modeConnect getMode() const { return mode; }
     void changeMode(modeConnect);
-    void disconnect(const boost::asio::ip::tcp::socket* partner);
+    void disconnect(const Connection* partner);
     void clearConnections();
-    /// Returns the socket over which to communicate with the server (in
-    /// client mode; might be NULL)
-    boost::asio::ip::tcp::socket* getSocket() const { return server.get(); }
+    /// Returns the connection to the server (in client mode; might be NULL)
+    Connection* getServer() const { return server.get(); }
     /// Returns the context of the managed sockets (e.g. to run asynchronous
     /// operations on them)
     boost::asio::io_context& getContext() { return ctx; }
 
   private:
+    std::unique_ptr<Connection> secure(boost::asio::ip::tcp::socket socket, Connection::Stream::handshake_type type);
+
     boost::asio::io_context ctx;
+    boost::asio::ssl::context sslCtx;
+    bool haveCertificate{false}; ///< Flag, if sslCtx has a certificate (needed for server mode)
+    Connection::Key key;
+    bool haveKey{false}; ///< Flag, if key has been set (it's derived from an empty password otherwise)
+    std::chrono::milliseconds timeout{DEFAULT_TIMEOUT};
     modeConnect mode{NONE};
-    std::unique_ptr<boost::asio::ip::tcp::socket> server;
+    std::unique_ptr<Connection> server;
     std::unique_ptr<boost::asio::ip::tcp::acceptor> acceptor;
-    std::vector<std::unique_ptr<boost::asio::ip::tcp::socket>> connections;
+    std::vector<std::unique_ptr<Connection>> connections;
 
     ConnectionMgr(const ConnectionMgr& other) = delete;
     const ConnectionMgr& operator=(const ConnectionMgr& other) = delete;

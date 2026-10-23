@@ -26,6 +26,9 @@
 
 #include <boost/asio/connect.hpp>
 
+#include <openssl/crypto.h>
+#include <openssl/ssl.h>
+
 #include "YGP/Check.h"
 #include "YGP/Trace.h"
 
@@ -38,12 +41,35 @@ namespace YGP {
 //-----------------------------------------------------------------------------
 /// Default constructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::ConnectionMgr() : ctx(), server(), acceptor(), connections() { TRACE9("ConnectionMgr::ConnectionMgr()"); }
+ConnectionMgr::ConnectionMgr()
+    : ctx(), sslCtx(boost::asio::ssl::context::tls), key(), server(), acceptor(), connections() {
+    TRACE9("ConnectionMgr::ConnectionMgr()");
+
+    // Only TLS 1.3; the partners are authenticated by the password (not by certificates)
+    SSL_CTX_set_min_proto_version(sslCtx.native_handle(), TLS1_3_VERSION);
+    SSL_CTX_set_num_tickets(sslCtx.native_handle(), 0);
+    SSL_CTX_set_session_cache_mode(sslCtx.native_handle(), SSL_SESS_CACHE_OFF);
+    sslCtx.set_verify_mode(boost::asio::ssl::verify_none);
+}
 
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ConnectionMgr::~ConnectionMgr() { TRACE9("ConnectionMgr::~ConnectionMgr()"); }
+ConnectionMgr::~ConnectionMgr() {
+    TRACE9("ConnectionMgr::~ConnectionMgr()");
+    OPENSSL_cleanse(key.data(), key.size());
+}
+
+//-----------------------------------------------------------------------------
+/// Sets the password the partners must know. It is used for connections
+/// established afterwards.
+/// \param password Password (might be empty)
+//-----------------------------------------------------------------------------
+void ConnectionMgr::setPassword(std::string_view password) {
+    TRACE9("ConnectionMgr::setPassword(std::string_view)");
+    key = Connection::deriveKey(password);
+    haveKey = true;
+}
 
 //-----------------------------------------------------------------------------
 /// Removes the available connections
@@ -67,6 +93,31 @@ void ConnectionMgr::changeMode(modeConnect newMode) {
 }
 
 //----------------------------------------------------------------------------
+/// Performs the TLS handshake and the authentication over the passed socket
+/// \param socket Connected socket
+/// \param type Role of this side of the connection
+/// \returns std::unique_ptr<Connection> Established connection
+/// \throws boost::system::system_error In case of an error (also if the
+///     partner doesn't respond in time)
+//----------------------------------------------------------------------------
+std::unique_ptr<Connection> ConnectionMgr::secure(tcp::socket socket, Connection::Stream::handshake_type type) {
+    if (!haveKey)
+        setPassword("");
+
+    auto connection(std::make_unique<Connection>(std::move(socket), sslCtx));
+    Connection::Deadline deadline(*connection, timeout);
+    try {
+        connection->handshake(type, key);
+    }
+    catch (boost::system::system_error&) {
+        if (deadline.expired())
+            throw boost::system::system_error(make_error_code(ConnectionError::timeout));
+        throw;
+    }
+    return connection;
+}
+
+//----------------------------------------------------------------------------
 /// Connect to \c server on the specified \c port.
 /// \param target Server to connect to
 /// \param port Port the server is listening at (numeric or service name)
@@ -75,11 +126,12 @@ void ConnectionMgr::changeMode(modeConnect newMode) {
 void ConnectionMgr::connectTo(const std::string& target, const std::string& port) {
     TRACE1("ConnectionMgr::connectTo(const std::string&, const std::string&) - " << target << ':' << port);
 
-    auto sock(std::make_unique<tcp::socket>(ctx));
-    boost::asio::connect(*sock, tcp::resolver(ctx).resolve(target, port));
+    tcp::socket sock(ctx);
+    boost::asio::connect(sock, tcp::resolver(ctx).resolve(target, port));
+    auto connection(secure(std::move(sock), Connection::Stream::client));
 
     changeMode(CLIENT);
-    server = std::move(sock);
+    server = std::move(connection);
 }
 
 //----------------------------------------------------------------------------
@@ -90,6 +142,11 @@ void ConnectionMgr::connectTo(const std::string& target, const std::string& port
 void ConnectionMgr::listenAt(const std::string& port) {
     TRACE1("ConnectionMgr::listenAt(const std::string&) - " << port);
 
+    if (!haveCertificate) {
+        Connection::useEphemeralCertificate(sslCtx);
+        haveCertificate = true;
+    }
+
     auto endpoints(tcp::resolver(ctx).resolve(tcp::v4(), "", port, tcp::resolver::passive));
     auto listener(std::make_unique<tcp::acceptor>(ctx, endpoints.begin()->endpoint()));
 
@@ -98,48 +155,63 @@ void ConnectionMgr::listenAt(const std::string& port) {
 }
 
 //----------------------------------------------------------------------------
+/// Stops listening for connections (keeping the connected clients)
+//----------------------------------------------------------------------------
+void ConnectionMgr::stopListening() {
+    TRACE2("ConnectionMgr::stopListening()");
+    acceptor.reset();
+}
+
+//----------------------------------------------------------------------------
 /// Waits for a connection on the previously bound port
-/// \returns std::unique_ptr<tcp::socket> Socket of the new connection (or
+/// \returns std::unique_ptr<Connection> New (authenticated) connection (or
 ///    \c NULL in case of an error)
 /// \pre listenAt() must have been called before
 //----------------------------------------------------------------------------
-std::unique_ptr<tcp::socket> ConnectionMgr::getNewConnection() const {
+std::unique_ptr<Connection> ConnectionMgr::getNewConnection() {
     TRACE2("ConnectionMgr::getNewConnection()");
     Check1(acceptor);
     Check1(mode == SERVER);
 
-    boost::system::error_code ec;
-    auto socket(std::make_unique<tcp::socket>(acceptor->accept(ec)));
-    if (ec) {
-        TRACE1("ConnectionMgr::getNewConnection() - Unexpected error: " << ec.message());
-        socket.reset();
+    try {
+        return secure(acceptor->accept(), Connection::Stream::server);
     }
-    return socket;
+    catch (boost::system::system_error& error) {
+        TRACE1("ConnectionMgr::getNewConnection() - Unexpected error: " << error.what());
+        return nullptr;
+    }
 }
 
 //----------------------------------------------------------------------------
 /// Waits asynchronously for a connection on the previously bound port. The
 /// handler is called while running the context (see getContext()); it is not
 /// called if waiting is canceled.
-/// \param handler Callback receiving the socket of the new connection (or
+/// \param handler Callback receiving the new (authenticated) connection (or
 ///    \c NULL in case of an error)
 /// \pre listenAt() must have been called before
+/// \remarks The TLS handshake and the authentication are performed
+///    synchronously (but limited by the timeout) while running the context
 //----------------------------------------------------------------------------
 void ConnectionMgr::asyncGetNewConnection(NewConnectionHandler handler) {
     TRACE2("ConnectionMgr::asyncGetNewConnection(NewConnectionHandler)");
     Check1(acceptor);
     Check1(mode == SERVER);
 
-    acceptor->async_accept([handler = std::move(handler)](const boost::system::error_code& ec, tcp::socket socket) {
+    acceptor->async_accept([this, handler = std::move(handler)](const boost::system::error_code& ec, tcp::socket socket) {
         if (ec == boost::asio::error::operation_aborted)
             return;
 
-        if (ec) {
+        std::unique_ptr<Connection> connection;
+        if (ec)
             TRACE1("ConnectionMgr::asyncGetNewConnection() - Unexpected error: " << ec.message());
-            handler(nullptr);
-        }
         else
-            handler(std::make_unique<tcp::socket>(std::move(socket)));
+            try {
+                connection = secure(std::move(socket), Connection::Stream::server);
+            }
+            catch (boost::system::system_error& error) {
+                TRACE1("ConnectionMgr::asyncGetNewConnection() - Rejecting client: " << error.what());
+            }
+        handler(std::move(connection));
     });
 }
 
@@ -154,20 +226,19 @@ void ConnectionMgr::cancelGetNewConnection() {
 
 //----------------------------------------------------------------------------
 /// Adds a connection the the server connections
-/// \param socket Socket of the connection (as returned by getNewConnection())
-/// \returns tcp::socket* Pointer to added socket (or \c NULL)
+/// \param connection Connection (as returned by getNewConnection())
+/// \returns Connection* Pointer to added connection (or \c NULL)
 /// \pre
 ///    - listenAt() must have been called before
 //----------------------------------------------------------------------------
-tcp::socket* ConnectionMgr::addConnection(std::unique_ptr<tcp::socket> socket) {
-    TRACE2("ConnectionMgr::addConnection(std::unique_ptr<tcp::socket>)");
-    Check1(acceptor);
+Connection* ConnectionMgr::addConnection(std::unique_ptr<Connection> connection) {
+    TRACE2("ConnectionMgr::addConnection(std::unique_ptr<Connection>)");
     Check1(mode == SERVER);
 
-    if (!socket)
+    if (!connection)
         return nullptr;
 
-    connections.push_back(std::move(socket));
+    connections.push_back(std::move(connection));
     return connections.back().get();
 }
 
@@ -176,8 +247,8 @@ tcp::socket* ConnectionMgr::addConnection(std::unique_ptr<tcp::socket> socket) {
 /// (set to NULL), so the positions of the other clients don't change.
 /// \param partner Partner to disconnect
 //-----------------------------------------------------------------------------
-void ConnectionMgr::disconnect(const tcp::socket* partner) {
-    TRACE8("ConnectionMgr::disconnect(const tcp::socket*)");
+void ConnectionMgr::disconnect(const Connection* partner) {
+    TRACE8("ConnectionMgr::disconnect(const Connection*)");
     Check1(mode != NONE);
 
     if (mode == SERVER) {

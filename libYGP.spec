@@ -20,6 +20,7 @@ BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  gettext
 BuildRequires:  boost-devel
+BuildRequires:  openssl-devel
 BuildRequires:  gtkmm4.0-devel
 
 %description
@@ -31,6 +32,7 @@ INI-files, logging and processes.
 Summary:        Development files for libYGP
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       boost-devel
+Requires:       openssl-devel
 
 %description    devel
 Header files, pkg-config file and the development library to build

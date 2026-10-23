@@ -81,6 +81,16 @@ int main(int argc, char* argv[]) {
         check(attrs.getActValue() == K4VALUE);
 
         check(attrs.getNextNode().empty());
+
+        // Values with quotes and backslashes (also at the end) must survive a round trip
+        const std::string special("a\\\"b\\;c\\");
+        YGP::AssignmentParse roundTrip(YGP::AssignmentParse::makeAssignment("k", special) + "x=1");
+        check(!roundTrip.getNextNode().empty());
+        check(roundTrip.getActKey() == "k");
+        check(roundTrip.getActValue() == special);
+        check(!roundTrip.getNextNode().empty());
+        check(roundTrip.getActKey() == "x");
+        check(roundTrip.getActValue() == "1");
     }
     catch (std::exception& e) {
         std::cerr << "Test: Error: " << e.what() << '\n';

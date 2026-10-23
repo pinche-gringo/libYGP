@@ -75,10 +75,23 @@ std::string AssignmentParse::getNextNode() {
     TRACE1("AssignmentParse::getNextNode() - Remaining: " << assignments);
     spirit::parse(assignments.c_str(), assignment);
 
+    // Remove the backslashes escaping quotes or backslashes (left to right, so "\\\"" becomes \")
     if (quoted)
-        for (std::string::size_type pos(0); (pos = actValue.find("\\\"", pos)) != std::string::npos; ++pos)
-            actValue.replace(pos, 2, 1, '"');
+        for (std::string::size_type pos(0); (pos = actValue.find(ESCAPE, pos)) != std::string::npos; ++pos)
+            if ((pos + 1) < actValue.size() && ((actValue[pos + 1] == QUOTE) || (actValue[pos + 1] == ESCAPE)))
+                actValue.erase(pos, 1);
     return node;
+}
+
+//-----------------------------------------------------------------------------
+/// Escapes all quote- and backslash-characters inside a string, so it can be
+/// used as quoted value
+/// \param value String to check (and change)
+//-----------------------------------------------------------------------------
+void AssignmentParse::escape(std::string& value) {
+    TRACE9("AssignmentParse::escape(std::string&) - " << value);
+    for (size_t pos(0); (pos = value.find_first_of("\"\\", pos)) != std::string::npos; pos += 2)
+        value.insert(pos, 1, ESCAPE);
 }
 
 //-----------------------------------------------------------------------------
@@ -97,8 +110,8 @@ void AssignmentParse::escapeQuotes(std::string& value) {
 }
 
 //-----------------------------------------------------------------------------
-/// Makes an assignment-statement with quoted value. Every quote (") inside
-/// the value is escaped with a backslash (\).
+/// Makes an assignment-statement with quoted value. Every quote (") and
+/// backslash (\) inside the value is escaped with a backslash.
 /// \param key Name of key
 /// \param value Value of key
 /// \param length Length of value; if -1 value must be zero-terminated
@@ -111,7 +124,7 @@ std::string AssignmentParse::makeAssignment(const char* key, const char* value, 
     Check1(value);
 
     std::string temp(value, (length == -1U) ? strlen(value) : length);
-    escapeQuotes(temp);
+    escape(temp);
 
     std::string ret(key);
     ret += EQUALSIGN;
@@ -123,8 +136,8 @@ std::string AssignmentParse::makeAssignment(const char* key, const char* value, 
 }
 
 //-----------------------------------------------------------------------------
-/// Makes an assignment-statement with quoted value. Every quote (") inside
-/// the value is escaped with a backslash (\).
+/// Makes an assignment-statement with quoted value. Every quote (") and
+/// backslash (\) inside the value is escaped with a backslash.
 /// \param key Name of key
 /// \param value Value of key
 /// \returns std::string Created assignment
@@ -135,7 +148,7 @@ std::string AssignmentParse::makeAssignment(const char* key, const std::string& 
     Check1(key);
 
     std::string ret(value);
-    escapeQuotes(ret);
+    escape(ret);
 
     ret = std::string(key) + std::string(1, EQUALSIGN) + std::string(1, QUOTE) + ret;
     ret += QUOTE;

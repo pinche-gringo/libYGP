@@ -33,6 +33,7 @@
 #include <gtkmm/grid.h>
 #include <gtkmm/label.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/passwordentry.h>
 
 #include <YGP/Check.h>
 #include <YGP/ConnMgr.h>
@@ -61,6 +62,7 @@ void setMargins(Gtk::Widget& w, int x, int y) {
 //-----------------------------------------------------------------------------
 ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr)
     : XDialog(_("Connect to"), OKCANCEL), pTarget(Gtk::make_managed<Gtk::Entry>()), pPort(Gtk::make_managed<Gtk::Entry>()),
+      pPassword(Gtk::make_managed<Gtk::PasswordEntry>()),
       pWait(Gtk::make_managed<Gtk::Button>(_("_Wait for connections"), true)),
       pConnect(Gtk::make_managed<Gtk::Button>(_("Connec_t"), true)), pClient(Gtk::make_managed<Gtk::Grid>()), cmgr(connMgr),
       pExplain(Gtk::make_managed<Gtk::Label>(_("Click on \"Wait for connections\" "
@@ -69,9 +71,10 @@ ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPor
                                                "to connect to a server, enter its "
                                                "address (name or IP number) in "
                                                "the entry field and click on "
-                                               "\"Connect\"."))),
+                                               "\"Connect\".\n\nAll partners must "
+                                               "enter the same password."))),
       pLblServer(Gtk::make_managed<Gtk::Label>(_("_Server:"), true)), pLblPort(Gtk::make_managed<Gtk::Label>(_("_Port:"), true)),
-      port(defPort), cMaxConns(cMaxConnections) {
+      pLblPassword(Gtk::make_managed<Gtk::Label>(_("Pass_word:"), true)), port(defPort), cMaxConns(cMaxConnections) {
     TRACE8("ConnectDlg::ConnectDlg(unsigned int, const Glib::ustring&, ConnectionMgr&) - " << cMaxConnections << "; Port: "
 	   << defPort);
 
@@ -82,8 +85,12 @@ ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPor
     pLblServer->set_yalign(0.5);
     pLblPort->set_xalign(0);
     pLblPort->set_yalign(0.5);
+    pLblPassword->set_xalign(0);
+    pLblPassword->set_yalign(0.5);
     pLblServer->set_mnemonic_widget(*pTarget);
     pLblPort->set_mnemonic_widget(*pPort);
+    pLblPassword->set_mnemonic_widget(*pPassword);
+    pPassword->set_show_peek_icon();
 
     pPort->set_text(defPort);
 
@@ -108,6 +115,13 @@ ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPor
     pPort->set_hexpand();
     setMargins(*pPort, 5, 3);
     pClient->attach(*pPort, 1, 2, 1, 1);
+
+    setMargins(*pLblPassword, 5, 3);
+    pClient->attach(*pLblPassword, 0, 3, 1, 1);
+
+    pPassword->set_hexpand();
+    setMargins(*pPassword, 5, 3);
+    pClient->attach(*pPassword, 1, 3, 1, 1);
 
     setMargins(*pConnect, 5, 3);
     pClient->attach(*pConnect, 2, 1, 1, 1);
@@ -172,6 +186,7 @@ void ConnectDlg::command(int action) {
     case CONNECT: {
         try {
             Check3(pPort->get_text_length());
+            cmgr.setPassword(pPassword->get_text().raw());
             connect(pTarget->get_text(), pPort->get_text());
             valueChanged();
             response(static_cast<int>(Gtk::ResponseType::OK));
@@ -189,6 +204,7 @@ void ConnectDlg::command(int action) {
     case WAIT:
         try {
             Check3(pPort->get_text_length());
+            cmgr.setPassword(pPassword->get_text().raw());
             cmgr.listenAt(pPort->get_text());
 
             waitForConnection();
@@ -215,6 +231,9 @@ void ConnectDlg::command(int action) {
 void ConnectDlg::okEvent() {
     TRACE8("ConnectDlg::okEvent() - " << (poller.connected() ? "Waiting" : "Finish"));
     stopWaiting();
+
+    // Don't accept connections anymore (the partners are known)
+    cmgr.stopListening();
 }
 //----------------------------------------------------------------------------
 /// Callback if the CANCEL button has been pressed
@@ -231,14 +250,15 @@ void ConnectDlg::cancelEvent() {
 void ConnectDlg::valueChanged() const {
     pWait->set_sensitive(!poller.connected() && pPort->get_text_length() && (cMaxConns != cmgr.getClients().size()));
     pConnect->set_sensitive(!poller.connected() && pPort->get_text_length() && pTarget->get_text_length());
+    pPassword->set_sensitive(!poller.connected());
 }
 
 //----------------------------------------------------------------------------
 /// Waits (asynchronously) for the next connection
 //----------------------------------------------------------------------------
 void ConnectDlg::waitForConnection() {
-    cmgr.asyncGetNewConnection([this](std::unique_ptr<boost::asio::ip::tcp::socket> socket) {
-        addClient(std::move(socket));
+    cmgr.asyncGetNewConnection([this](std::unique_ptr<YGP::Connection> connection) {
+        addClient(std::move(connection));
         if (poller.connected())
             waitForConnection();
     });
@@ -267,16 +287,17 @@ bool ConnectDlg::pollConnections() {
 
 //----------------------------------------------------------------------------
 /// Adds a connected client to the vector holding the connections
-/// \param socket Socket over which the client communicates
-/// \returns tcp::socket* Pointer to added socket (or \c NULL)
+/// \param connection Connection over which the client communicates (NULL,
+///    if the client could not connect, e.g. because of a wrong password)
+/// \returns YGP::Connection* Pointer to added connection (or \c NULL)
 //----------------------------------------------------------------------------
-boost::asio::ip::tcp::socket* ConnectDlg::addClient(std::unique_ptr<boost::asio::ip::tcp::socket> socket) {
-    auto* newSocket(cmgr.addConnection(std::move(socket)));
+YGP::Connection* ConnectDlg::addClient(std::unique_ptr<YGP::Connection> connection) {
+    auto* newConnection(cmgr.addConnection(std::move(connection)));
     if (cMaxConns == cmgr.getClients().size()) {
         stopWaiting();
         pWait->set_sensitive(false);
     }
-    return newSocket;
+    return newConnection;
 }
 
 //----------------------------------------------------------------------------
