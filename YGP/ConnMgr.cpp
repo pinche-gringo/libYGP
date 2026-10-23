@@ -118,6 +118,41 @@ std::unique_ptr<tcp::socket> ConnectionMgr::getNewConnection() const {
 }
 
 //----------------------------------------------------------------------------
+/// Waits asynchronously for a connection on the previously bound port. The
+/// handler is called while running the context (see getContext()); it is not
+/// called if waiting is canceled.
+/// \param handler Callback receiving the socket of the new connection (or
+///    \c NULL in case of an error)
+/// \pre listenAt() must have been called before
+//----------------------------------------------------------------------------
+void ConnectionMgr::asyncGetNewConnection(NewConnectionHandler handler) {
+    TRACE2("ConnectionMgr::asyncGetNewConnection(NewConnectionHandler)");
+    Check1(acceptor);
+    Check1(mode == SERVER);
+
+    acceptor->async_accept([handler = std::move(handler)](const boost::system::error_code& ec, tcp::socket socket) {
+        if (ec == boost::asio::error::operation_aborted)
+            return;
+
+        if (ec) {
+            TRACE1("ConnectionMgr::asyncGetNewConnection() - Unexpected error: " << ec.message());
+            handler(nullptr);
+        }
+        else
+            handler(std::make_unique<tcp::socket>(std::move(socket)));
+    });
+}
+
+//----------------------------------------------------------------------------
+/// Cancels waiting for connections started with asyncGetNewConnection()
+//----------------------------------------------------------------------------
+void ConnectionMgr::cancelGetNewConnection() {
+    TRACE2("ConnectionMgr::cancelGetNewConnection()");
+    if (acceptor)
+        acceptor->cancel();
+}
+
+//----------------------------------------------------------------------------
 /// Adds a connection the the server connections
 /// \param socket Socket of the connection (as returned by getNewConnection())
 /// \returns tcp::socket* Pointer to added socket (or \c NULL)

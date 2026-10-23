@@ -27,6 +27,8 @@
 
 #include <sstream>
 
+#include <glibmm/main.h>
+
 #include <gtkmm/entry.h>
 #include <gtkmm/grid.h>
 #include <gtkmm/label.h>
@@ -34,7 +36,6 @@
 
 #include <YGP/Check.h>
 #include <YGP/ConnMgr.h>
-#include <YGP/Thread.h>
 #include <YGP/Trace.h>
 
 #include "XGP/ConnectDlg.h"
@@ -128,7 +129,7 @@ ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPor
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
-ConnectDlg::~ConnectDlg() = default;
+ConnectDlg::~ConnectDlg() { stopWaiting(); }
 
 //----------------------------------------------------------------------------
 /// Performs the dialog (modal)
@@ -190,8 +191,8 @@ void ConnectDlg::command(int action) {
             Check3(pPort->get_text_length());
             cmgr.listenAt(pPort->get_text());
 
-            pThread = YGP::OThread<ConnectDlg>::create2(this, &ConnectDlg::waitForConnections, nullptr);
-            pThread->allowCancelation();
+            waitForConnection();
+            poller = Glib::signal_timeout().connect(sigc::mem_fun(*this, &ConnectDlg::pollConnections), 100);
             valueChanged();
         }
         catch (boost::system::system_error& err) {
@@ -212,21 +213,15 @@ void ConnectDlg::command(int action) {
 /// Callback if the OK button has been pressed
 //----------------------------------------------------------------------------
 void ConnectDlg::okEvent() {
-    TRACE8("ConnectDlg::okEvent() - " << (pThread ? "Waiting" : "Finish"));
-    if (pThread) {
-        pThread->cancel();
-        pThread = nullptr;
-    }
+    TRACE8("ConnectDlg::okEvent() - " << (poller.connected() ? "Waiting" : "Finish"));
+    stopWaiting();
 }
 //----------------------------------------------------------------------------
 /// Callback if the CANCEL button has been pressed
 //----------------------------------------------------------------------------
 void ConnectDlg::cancelEvent() {
-    TRACE8("ConnectDlg::cancelEvent() - " << (pThread ? "Waiting" : "Finish"));
-    if (pThread) {
-        pThread->cancel();
-        pThread = nullptr;
-    }
+    TRACE8("ConnectDlg::cancelEvent() - " << (poller.connected() ? "Waiting" : "Finish"));
+    stopWaiting();
     cmgr.changeMode(YGP::ConnectionMgr::NONE);
 }
 
@@ -234,21 +229,40 @@ void ConnectDlg::cancelEvent() {
 /// Callback if the CANCEL buttons has been pressed
 //----------------------------------------------------------------------------
 void ConnectDlg::valueChanged() const {
-    pWait->set_sensitive(!pThread && pPort->get_text_length() && (cMaxConns != cmgr.getClients().size()));
-    pConnect->set_sensitive(!pThread && pPort->get_text_length() && pTarget->get_text_length());
+    pWait->set_sensitive(!poller.connected() && pPort->get_text_length() && (cMaxConns != cmgr.getClients().size()));
+    pConnect->set_sensitive(!poller.connected() && pPort->get_text_length() && pTarget->get_text_length());
 }
 
 //----------------------------------------------------------------------------
-/// Waits for connections
-/// \throw boost::system::system_error In case of an connection error
+/// Waits (asynchronously) for the next connection
 //----------------------------------------------------------------------------
-void* ConnectDlg::waitForConnections(void* pVoid) {
-    while (true) {
-        auto socket(cmgr.getNewConnection());
-        ((YGP::Thread*)pVoid)->isToCancel();
+void ConnectDlg::waitForConnection() {
+    cmgr.asyncGetNewConnection([this](std::unique_ptr<boost::asio::ip::tcp::socket> socket) {
         addClient(std::move(socket));
+        if (poller.connected())
+            waitForConnection();
+    });
+}
+
+//----------------------------------------------------------------------------
+/// Stops waiting for connections
+//----------------------------------------------------------------------------
+void ConnectDlg::stopWaiting() {
+    if (poller.connected()) {
+        poller.disconnect();
+        cmgr.cancelGetNewConnection();
     }
-    return pVoid;
+}
+
+//----------------------------------------------------------------------------
+/// Processes the connections which arrived in the meantime
+/// \returns bool True, if waiting should continue
+//----------------------------------------------------------------------------
+bool ConnectDlg::pollConnections() {
+    auto& ctx(cmgr.getContext());
+    ctx.restart();
+    ctx.poll();
+    return poller.connected();
 }
 
 //----------------------------------------------------------------------------
@@ -259,8 +273,7 @@ void* ConnectDlg::waitForConnections(void* pVoid) {
 boost::asio::ip::tcp::socket* ConnectDlg::addClient(std::unique_ptr<boost::asio::ip::tcp::socket> socket) {
     auto* newSocket(cmgr.addConnection(std::move(socket)));
     if (cMaxConns == cmgr.getClients().size()) {
-        delete pThread;
-        pThread = nullptr;
+        stopWaiting();
         pWait->set_sensitive(false);
     }
     return newSocket;

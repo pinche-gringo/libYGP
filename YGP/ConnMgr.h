@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -63,6 +64,10 @@ class ConnectionMgr {
     void listenAt(unsigned int port) { listenAt(std::to_string(port)); }
     void listenAt(const std::string& port);
     std::unique_ptr<boost::asio::ip::tcp::socket> getNewConnection() const;
+    /// Callback receiving the socket of a new connection (or \c NULL in case of an error)
+    using NewConnectionHandler = std::function<void(std::unique_ptr<boost::asio::ip::tcp::socket>)>;
+    void asyncGetNewConnection(NewConnectionHandler handler);
+    void cancelGetNewConnection();
     boost::asio::ip::tcp::socket* addConnection(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
 
     /// Returns the clients already connected to the server. Clients keep

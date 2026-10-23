@@ -18,7 +18,6 @@ YGP/Parse.cpp
 YGP/PathDirSrch.cpp
 YGP/ConnMgr.cpp
 YGP/Process.cpp
-YGP/Thread.cpp
 XGP/XPrintDlg.cpp
 XGP/XFileDlg.cpp
 XGP/XFileList.cpp

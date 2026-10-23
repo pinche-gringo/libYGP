@@ -20,6 +20,8 @@
 
 #include <boost/asio/ip/tcp.hpp>
 
+#include <sigc++/connection.h>
+
 #include <XGP/XDialog.h>
 
 namespace Gtk {
@@ -28,7 +30,6 @@ class Entry;
 class Grid;
 } // namespace Gtk
 namespace YGP {
-class Thread;
 class ConnectionMgr;
 } // namespace YGP
 
@@ -57,7 +58,9 @@ class ConnectDlg : public XDialog {
 
     ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPort, YGP::ConnectionMgr& connMgr);
 
-    void* waitForConnections(void* socket);
+    void waitForConnection();
+    void stopWaiting();
+    bool pollConnections();
     virtual boost::asio::ip::tcp::socket* addClient(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
     virtual void connect(const Glib::ustring& target, const Glib::ustring& port);
 
@@ -76,7 +79,7 @@ class ConnectDlg : public XDialog {
 
     Glib::ustring port;
 
-    YGP::Thread* pThread{nullptr};
+    sigc::connection poller; ///< Timer processing the pending connections while waiting
     unsigned int cMaxConns;
 
     ConnectDlg(const ConnectDlg& other) = delete;

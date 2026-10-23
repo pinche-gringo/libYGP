@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Testing DirectorySearch...\n";
     YGP::DirectorySearch ds;
-    check(ds.find(PATH "T*", YGP::IDirectorySearch::FILE_NORMAL | YGP::IDirectorySearch::FILE_READONLY));
+    check(ds.find(PATH "A*", YGP::IDirectorySearch::FILE_NORMAL | YGP::IDirectorySearch::FILE_READONLY));
     check(ds.next());
 
     check(ds.find(PATH ".*", YGP::IDirectorySearch::FILE_DIRECTORY | YGP::IDirectorySearch::FILE_HIDDEN));
