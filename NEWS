@@ -1,6 +1,7 @@
 Overview of changes in version 0.9.63:
 
   - Removed Remote-Directory search and related classes
+  - Removed Thread
 
 
 Overview of changes in version 0.9.62:
