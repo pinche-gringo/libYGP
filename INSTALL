@@ -59,8 +59,6 @@ Inside the directory containing the source code type
   -Dxgp=disabled|enabled        # Don't build/force building libXGP
                                   (default: build it, if gtkmm is found)
   -Dgmp=enabled                 # Use GNU's multiple precision library
-  -Dnetwork_traversing=true     # Adds classes to traverse directories over
-                                  a network
 
   The compiler and its flags can be set through the environment when
   running "meson setup" for the first time, e.g.:

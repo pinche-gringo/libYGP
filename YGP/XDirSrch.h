@@ -24,7 +24,6 @@ bool _XDSfileIsValid(const std::string&, const char*);
 void _XDSaddNode(std::string& list, char prefix, const std::string& node);
 
 class DirectorySearch;
-class RemoteDirSearch;
 class PathDirectorySearch;
 
 /**Template to add file in- and exlusion to the *DirectorySearch classes.
@@ -32,7 +31,6 @@ class PathDirectorySearch;
    There exists some predefined (typedef'ed) classes:
 
      - XDirectorySearch: for DirectorySearch
-     - XRemoteDirSearch: for RemoteDirSearch
      - XPathDirectorySearch: for PathDirectorySearch
 */
 template <class Parent> class XDirectorySearch : public Parent {
@@ -110,8 +108,6 @@ template <class Parent> class XDirectorySearch : public Parent {
 
 /// Declare ExtDirectorySearch as shortcut
 typedef XDirectorySearch<DirectorySearch> ExtDirectorySearch;
-/// Declare ExtRemoteDirSearch as shortcut
-typedef XDirectorySearch<RemoteDirSearch> ExtRemoteDirSearch;
 /// Declare ExtPathDirectorySearch as shortcut
 typedef XDirectorySearch<PathDirectorySearch> ExtPathDirectorySearch;
 

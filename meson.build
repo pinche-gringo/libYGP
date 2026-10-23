@@ -137,8 +137,6 @@ else
   warning('Disabling dynamic calculation of buffersize for strftime')
 endif
 
-have += {'HAVE_NETWORK_TRAVERSING': get_option('network_traversing')}
-
 #-----------------------------------------------------------------------------
 # GUI libraries
 #-----------------------------------------------------------------------------
@@ -226,7 +224,6 @@ subdir('doc')
 summary({'XGP': build_xgp,
          'NLS': enable_nls,
          'GMP': gmp_dep.found(),
-         'Network traversing': get_option('network_traversing'),
          'Trace level': get_option('trace_level'),
          'Check level': get_option('check_level')},
         bool_yn: true)

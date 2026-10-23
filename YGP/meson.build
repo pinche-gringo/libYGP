@@ -17,11 +17,6 @@ ygp_headers = files(
   'FileTypeChk.h', 'Utility.h', 'Random.h',
 )
 
-if get_option('network_traversing')
-  ygp_sources += files('RemoteFile.cpp', 'RDirSrch.cpp', 'RDirSrchSrv.cpp')
-  ygp_headers += files('RemoteFile.h', 'RDirSrch.h', 'RDirSrchSrv.h')
-endif
-
 ygp_deps = [boost_dep, dl_dep, threads_dep, socket_dep, ws2_dep, intl_dep, gmp_dep, stacktrace_dep]
 if have_gtk
   # GTK is loaded dynamically (see Check.cpp); only the headers are needed

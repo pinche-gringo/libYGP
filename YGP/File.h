@@ -101,7 +101,6 @@ class DirectorySearch;
 */
 struct File {
     friend class DirectorySearch; ///< Class mainly using File
-    friend class RemoteDirSearch; ///< Class mainly using File
 
     /// Default constructor; creates an empty file object (holding no file)
     File() : path_(), entry(), status(), userExec(false) { *entry.d_name = '\0'; }
@@ -203,7 +202,6 @@ struct File {
 
 struct File : protected WIN32_FIND_DATA {
     friend class DirectorySearch;
-    friend class RemoteDirSearch;
 
     File() : WIN32_FIND_DATA(), path_() {}
     File(const char* name);

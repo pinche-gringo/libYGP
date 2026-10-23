@@ -114,9 +114,6 @@
 #mesondefine STRFTIME_RETURNS_LENGTH
 #mesondefine WORDS_BIGENDIAN
 
-/* Optional features */
-#mesondefine HAVE_NETWORK_TRAVERSING
-
 /* GUI libraries */
 #mesondefine HAVE_GTK
 #mesondefine HAVE_GIOMM

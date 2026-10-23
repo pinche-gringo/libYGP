@@ -16,9 +16,6 @@ YGP/INIFile.cpp
 YGP/IVIOAppl.cpp
 YGP/Parse.cpp
 YGP/PathDirSrch.cpp
-YGP/RDirSrch.cpp
-YGP/RDirSrchSrv.cpp
-YGP/RemoteFile.cpp
 YGP/ConnMgr.cpp
 YGP/Process.cpp
 YGP/Thread.cpp
