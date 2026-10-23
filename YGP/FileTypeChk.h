@@ -38,6 +38,13 @@ namespace YGP {
  *   - PNG
  *   - RTF
  *   - StarOffice
+ *   - Office Open XML
+ *   - TIFF
+ *   - WebP
+ *   - FLAC
+ *   - MP4 (MPEG-4/QuickTime; e.g. M4A)
+ *   - EPUB
+ *   - SVG
  */
 class FileTypeChecker {
   public:
@@ -56,6 +63,12 @@ class FileTypeChecker {
         RTF,
         STAROFFICE,
         OOXML,
+        TIFF,
+        WEBP,
+        FLAC,
+        MP4,
+        EPUB,
+        SVG,
         LAST
     } FileType;
 
@@ -154,6 +167,8 @@ class FileTypeCheckerByContent : public FileTypeChecker {
     static bool isStarOffice(char* buffer, const char* text, unsigned int length, std::ifstream& stream);
     static bool isMSOffice(char* buffer, const char* text, unsigned int length, std::ifstream& stream);
     static bool isOfficeOpenXML(char* buffer, const char* text, unsigned int length, std::ifstream& stream);
+    static bool isWebP(char* buffer, const char* text, unsigned int length, std::ifstream& stream);
+    static bool isSVG(char* buffer, const char* text, unsigned int length, std::ifstream& stream);
 
   private:
     FileTypeCheckerByContent(const FileTypeCheckerByContent& other);

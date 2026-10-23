@@ -49,6 +49,11 @@ static const char ID_PNG[] = "\x89PNG\x0D\x0A\x1A\x0A";
 static const char ID_HTML[] = "<!DOCTYPE HTML";
 static const char ID_MSOFFICE[] = "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1";
 static const char ID_STAROFFICE[] = "SfxDocumentInfo";
+static const char ID_TIFF_LE[] = "II*";        // Followed by a 0-byte
+static const char ID_TIFF_BE[] = "MM\0*";
+static const char ID_FLAC[] = "fLaC";
+static const char ID_MP4[] = "ftyp";           // At offset 4
+static const char ID_EPUB[] = "mimetypeapplication/epub+zip"; // At offset 30
 
 static const unsigned int ID_MP3(0xE0FF);
 
@@ -65,17 +70,25 @@ FileTypeCheckerByExtension::FileTypeCheckerByExtension() : FileTypeChecker(), ty
     types.insert(types.end(), std::pair<std::string, unsigned int>("abw", ABIWORD));
     types.insert(types.end(), std::pair<std::string, unsigned int>("doc", MSOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("docx", OOXML));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("epub", EPUB));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("flac", FLAC));
     types.insert(types.end(), std::pair<std::string, unsigned int>("gif", GIF));
     types.insert(types.end(), std::pair<std::string, unsigned int>("htm", HTML));
     types.insert(types.end(), std::pair<std::string, unsigned int>("html", HTML));
     types.insert(types.end(), std::pair<std::string, unsigned int>("jpeg", JPEG));
     types.insert(types.end(), std::pair<std::string, unsigned int>("jpg", JPEG));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("m4a", MP4));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("m4b", MP4));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("m4v", MP4));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("mov", MP4));
     types.insert(types.end(), std::pair<std::string, unsigned int>("mp3", MP3));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("mp4", MP4));
     types.insert(types.end(), std::pair<std::string, unsigned int>("odg", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("odp", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("ods", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("odt", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("ogg", OGG));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("opus", OGG));
     types.insert(types.end(), std::pair<std::string, unsigned int>("pdf", PDF));
     types.insert(types.end(), std::pair<std::string, unsigned int>("php", HTML));
     types.insert(types.end(), std::pair<std::string, unsigned int>("png", PNG));
@@ -89,11 +102,15 @@ FileTypeCheckerByExtension::FileTypeCheckerByExtension() : FileTypeChecker(), ty
     types.insert(types.end(), std::pair<std::string, unsigned int>("sht", HTML));
     types.insert(types.end(), std::pair<std::string, unsigned int>("shtm", HTML));
     types.insert(types.end(), std::pair<std::string, unsigned int>("shtml", HTML));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("svg", SVG));
     types.insert(types.end(), std::pair<std::string, unsigned int>("sxc", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("sxd", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("sxi", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("sxm", OPENOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("sxw", OPENOFFICE));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("tif", TIFF));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("tiff", TIFF));
+    types.insert(types.end(), std::pair<std::string, unsigned int>("webp", WEBP));
     types.insert(types.end(), std::pair<std::string, unsigned int>("xls", MSOFFICE));
     types.insert(types.end(), std::pair<std::string, unsigned int>("xlsx", OOXML));
     TRACE9("FileTypeCheckerByExtension::FileTypeCheckerByExtension() - Known types " << types.size());
@@ -182,7 +199,14 @@ FileTypeCheckerByContent::FileTypeCheckerByContent() : FileTypeChecker(), types(
     types.emplace_back(0, sizeof(ID_JPEG) - 1, ID_JPEG, JPEG);
     types.emplace_back(0, sizeof(ID_PNG) - 1, ID_PNG, PNG);
     types.emplace_back(0, sizeof(ID_PNG) - 1, ID_PNG, PNG);
+    types.emplace_back(0, sizeof(ID_TIFF_LE), ID_TIFF_LE, TIFF);
+    types.emplace_back(0, sizeof(ID_TIFF_BE) - 1, ID_TIFF_BE, TIFF);
+    types.emplace_back(0, sizeof(ID_FLAC) - 1, ID_FLAC, FLAC);
+    types.emplace_back(0, 0, "", WEBP, &isWebP);
     types.emplace_back(0, 0, "", MP3, &isMP3);
+    types.emplace_back(4, sizeof(ID_MP4) - 1, ID_MP4, MP4);
+    types.emplace_back(30, sizeof(ID_EPUB) - 1, ID_EPUB, EPUB);
+    types.emplace_back(0, 0, "", SVG, &isSVG);
     types.emplace_back(0, 0, "", OPENOFFICE, &isOOffice);
     types.emplace_back(0, 0, "", STAROFFICE, &isStarOffice);
     types.emplace_back(0, 0, "", MSOFFICE, &isMSOffice);
@@ -347,6 +371,36 @@ bool FileTypeCheckerByContent::isHTML(char* buffer, const char* text, unsigned i
     skipHTMLComments(buffer, length, stream);
     TRACE3(" FileTypeCheckerByContent::isHTML(...): " << std::string(buffer, sizeof(ID_HTML) - 1));
     return !memcmp(buffer, ID_HTML, sizeof(ID_HTML) - 1);
+}
+
+//-----------------------------------------------------------------------------
+/// Checks if the buffer contains the start of a WebP image (a RIFF container
+/// of the form WEBP)
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
+//-----------------------------------------------------------------------------
+bool FileTypeCheckerByContent::isWebP(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+    return !memcmp(buffer, "RIFF", 4) && !memcmp(buffer + 8, "WEBP", 4);
+}
+
+//-----------------------------------------------------------------------------
+/// Checks if the buffer contains the start of an SVG image; the <svg>-element
+/// must be found (before any <html>-element)
+/// \param buffer Buffer to inspect
+/// \param text Text to match
+/// \param length Number of bytes to check
+/// \param stream Stream from where to read more characters
+/// \returns bool True, if the text matches
+//-----------------------------------------------------------------------------
+bool FileTypeCheckerByContent::isSVG(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+    std::string data(buffer, length);
+    std::transform(data.begin(), data.end(), data.begin(), [](unsigned char ch) { return std::tolower(ch); });
+    std::string::size_type posSVG(data.find("<svg"));
+    std::string::size_type posHTML(std::min(data.find("<html"), data.find("<!doctype html")));
+    return (posSVG != std::string::npos) && (posSVG < posHTML);
 }
 
 //-----------------------------------------------------------------------------

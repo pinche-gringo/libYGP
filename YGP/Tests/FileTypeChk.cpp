@@ -53,7 +53,11 @@ int main(int argc, char* argv[]) {
         {"MSWord.doc", YGP::FileTypeChecker::MSOFFICE},      {"OGG.ogg", YGP::FileTypeChecker::OGG},
         {"OpenOffice.odt", YGP::FileTypeChecker::OPENOFFICE}, {"PDF.pdf", YGP::FileTypeChecker::PDF},
         {"PNG.png", YGP::FileTypeChecker::PNG},              {"RTF.rtf", YGP::FileTypeChecker::RTF},
-        {"StarOffice.sdw", YGP::FileTypeChecker::STAROFFICE}};
+        {"StarOffice.sdw", YGP::FileTypeChecker::STAROFFICE}, {"TIFF.tif", YGP::FileTypeChecker::TIFF},
+        {"TIFF-BE.tiff", YGP::FileTypeChecker::TIFF},        {"WebP.webp", YGP::FileTypeChecker::WEBP},
+        {"FLAC.flac", YGP::FileTypeChecker::FLAC},           {"Opus.opus", YGP::FileTypeChecker::OGG},
+        {"M4A.m4a", YGP::FileTypeChecker::MP4},              {"QuickTime.mov", YGP::FileTypeChecker::MP4},
+        {"EPUB.epub", YGP::FileTypeChecker::EPUB},           {"SVG.svg", YGP::FileTypeChecker::SVG}};
 
     if ((file = ds.find())) {
         unsigned int cFiles(0);
