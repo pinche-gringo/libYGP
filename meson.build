@@ -52,7 +52,6 @@ dl_dep = dependency('dl', required: false)
 have += {'HAVE_LIBDL': dl_dep.found()}
 
 threads_dep = dependency('threads', required: false)
-have += {'HAVE_LIBPTHREAD': threads_dep.found()}
 
 # std::stacktrace lives in a separate library with libstdc++
 stacktrace_dep = cxx.find_library('stdc++exp', required: false)
@@ -110,7 +109,7 @@ foreach h : ['dirent.h', 'sys/ndir.h', 'sys/dir.h', 'ndir.h']
   endif
 endforeach
 
-foreach f : ['timegm', 'strfmon', 'beginthread', '_beginthread', 'pipe', '_pipe', 'fork',
+foreach f : ['timegm', 'strfmon', 'pipe', '_pipe', 'fork',
              'spawnvp', 'sleep', '_sleep', 'getlogin', 'strftime', 'strptime',
              'getpid', '_getpid', 'wcscoll', 'mbtowc', 'tzset', '_tzset']
   have += {'HAVE_' + f.to_upper(): cc.has_function(f, dependencies: threads_dep)}

@@ -12,7 +12,7 @@ ygp_headers = files(
   'XStream.h', 'Parse.h', 'Trace.h', 'Check.h', 'PathDirSrch.h', 'AYear.h', 'ADate.h',
   'ATStamp.h', 'ATime.h', 'CRegExp.h', 'RegExp.h', 'Log.h',
   'IDirSrch.h', 'File.h', 'AssParse.h', 'Attribute.h', 'AttrParse.h', 'Entity.h',
-  'Mutex.h', 'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Process.h', 'StatusObj.h', 'Relation.h',
+  'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Process.h', 'StatusObj.h', 'Relation.h',
   'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Module.h', 'Exception.h',
   'FileTypeChk.h', 'Utility.h', 'Random.h',
 )

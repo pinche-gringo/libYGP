@@ -63,7 +63,6 @@
 #mesondefine HAVE_LIBBOOST_FILESYSTEM
 #mesondefine HAVE_LIBDL
 #mesondefine HAVE_LIBGMP
-#mesondefine HAVE_LIBPTHREAD
 #mesondefine HAVE_LIBSOCKET
 #mesondefine HAVE_LIBWS2_32
 
@@ -85,8 +84,6 @@
 #mesondefine HAVE_WINDOWS_H
 
 /* Available functions */
-#mesondefine HAVE_BEGINTHREAD
-#mesondefine HAVE__BEGINTHREAD
 #mesondefine HAVE_FNMATCH
 #mesondefine HAVE_FORK
 #mesondefine HAVE_GETLOGIN
