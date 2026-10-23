@@ -65,7 +65,8 @@ class ConnectionMgr {
     std::unique_ptr<boost::asio::ip::tcp::socket> getNewConnection() const;
     boost::asio::ip::tcp::socket* addConnection(std::unique_ptr<boost::asio::ip::tcp::socket> socket);
 
-    /// Returns the clients already connected to the server
+    /// Returns the clients already connected to the server. Clients keep
+    /// their position, so the entries of disconnected clients are NULL.
     const std::vector<std::unique_ptr<boost::asio::ip::tcp::socket>>& getClients() const { return connections; }
     //@}
 
@@ -77,6 +78,9 @@ class ConnectionMgr {
     /// Returns the socket over which to communicate with the server (in
     /// client mode; might be NULL)
     boost::asio::ip::tcp::socket* getSocket() const { return server.get(); }
+    /// Returns the context of the managed sockets (e.g. to run asynchronous
+    /// operations on them)
+    boost::asio::io_context& getContext() { return ctx; }
 
   private:
     boost::asio::io_context ctx;

@@ -137,7 +137,8 @@ tcp::socket* ConnectionMgr::addConnection(std::unique_ptr<tcp::socket> socket) {
 }
 
 //-----------------------------------------------------------------------------
-/// Disconnects one of the partners
+/// Disconnects one of the partners. A disconnected client keeps its entry
+/// (set to NULL), so the positions of the other clients don't change.
 /// \param partner Partner to disconnect
 //-----------------------------------------------------------------------------
 void ConnectionMgr::disconnect(const tcp::socket* partner) {
@@ -149,8 +150,8 @@ void ConnectionMgr::disconnect(const tcp::socket* partner) {
         if (i == connections.end())
             return;
 
-        connections.erase(i);
-        if (connections.size())
+        i->reset();
+        if (std::any_of(connections.begin(), connections.end(), [](const auto& c) { return c != nullptr; }))
             return;
     }
     server.reset();
