@@ -270,12 +270,17 @@ void Connection::useEphemeralCertificate(boost::asio::ssl::context& ctx) {
     if (!cert)
         throwSSLError("X509_new");
 
-    X509_NAME* name(X509_get_subject_name(cert.get()));
+    // OpenSSL 4 returns the subject name of a certificate as const; so create it separately
+    std::unique_ptr<X509_NAME, decltype(&X509_NAME_free)> name(X509_NAME_new(), X509_NAME_free);
+    if (!name)
+        throwSSLError("X509_NAME_new");
+
     if (!X509_set_version(cert.get(), X509_VERSION_3) || !ASN1_INTEGER_set(X509_get_serialNumber(cert.get()), 1) ||
         !X509_gmtime_adj(X509_getm_notBefore(cert.get()), -60 * 60) ||
         !X509_gmtime_adj(X509_getm_notAfter(cert.get()), 60L * 60 * 24 * 365) || !X509_set_pubkey(cert.get(), key.get()) ||
-        !X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASC, reinterpret_cast<const unsigned char*>("libYGP"), -1, -1, 0) ||
-        !X509_set_issuer_name(cert.get(), name) || !X509_sign(cert.get(), key.get(), nullptr))
+        !X509_NAME_add_entry_by_txt(name.get(), "CN", MBSTRING_ASC, reinterpret_cast<const unsigned char*>("libYGP"), -1, -1, 0) ||
+        !X509_set_subject_name(cert.get(), name.get()) || !X509_set_issuer_name(cert.get(), name.get()) ||
+        !X509_sign(cert.get(), key.get(), nullptr))
         throwSSLError("Creating certificate");
 
     if ((SSL_CTX_use_certificate(ctx.native_handle(), cert.get()) != 1) ||
