@@ -10,7 +10,7 @@ ygp_sources = files(
 ygp_headers = files(
   'Path.h', 'ANumeric.h', 'DirSrch.h', 'IVIOAppl.h', 'AttrVal.h', 'FileRExp.h', 'XStrBuf.h',
   'XStream.h', 'Parse.h', 'Trace.h', 'Check.h', 'PathDirSrch.h', 'AYear.h', 'ADate.h',
-  'ATStamp.h', 'ATime.h', 'RegExp.h', 'Log.h',
+  'ATStamp.h', 'ATime.h', 'Log.h',
   'IDirSrch.h', 'File.h', 'AssParse.h', 'Attribute.h', 'AttrParse.h', 'Entity.h',
   'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Process.h', 'StatusObj.h', 'Relation.h',
   'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Module.h', 'Exception.h',

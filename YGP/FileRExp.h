@@ -19,7 +19,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <YGP/RegExp.h>
+#include <YGP/Check.h>
 
 namespace YGP {
 
@@ -50,27 +50,39 @@ namespace YGP {
    \note The \c pExpression-parameter is stored as is (and not copied); so
          take care it is valid during the life-time of the object.
 
-   Use IRegularExpression::matches to check if the object matches some data.
+   Use matches() to check if the object matches some data.
 */
-class FileRegularExpr : public IRegularExpression {
+class FileRegularExpr {
   public:
     /// Constructor; sets the regular expression to match
     /// \pre The input is not copied, so it must be valid during the lifetime
     ///      of the regular expression.
-    FileRegularExpr(const char* pRegExp) : IRegularExpression(pRegExp) {}
-    ~FileRegularExpr() override;
+    FileRegularExpr(const char* pRegExp) : pExpression(pRegExp) {}
+    ~FileRegularExpr();
 
-    int checkIntegrity() const override;
+    /// Checks, if the regular expression matches the passed text
+    /// \param pCompare Pointer to text to match
+    bool matches(const char* pCompare) {
+        Check1(pCompare);
+        Check1(pExpression);
+        Check1(!checkIntegrity());
+        return compare(pExpression, pCompare);
+    }
+
+    int checkIntegrity() const;
     /// Assignmentoperator; specifies the regular expression to match.
     /// \pre The input is not copied, so it must be valid during the lifetime
     ///      of the regular expression.
     FileRegularExpr& operator=(const char* pRegExp) {
-        IRegularExpression::operator=(pRegExp);
+        pExpression = pRegExp;
         return *this;
     }
 
   protected:
-    bool compare(const char* pAktRegExp, const char* pCompare) override;
+    /// Returns the regular expression
+    const char* getExpression() const { return pExpression; }
+
+    bool compare(const char* pAktRegExp, const char* pCompare);
 
   private:
     // Prohibited manager functions
@@ -79,6 +91,8 @@ class FileRegularExpr : public IRegularExpression {
     const FileRegularExpr& operator=(const FileRegularExpr&) = delete;
 
     std::invalid_argument getError(const char* error, unsigned int pos) const;
+
+    const char* pExpression;
 };
 
 } // namespace YGP
