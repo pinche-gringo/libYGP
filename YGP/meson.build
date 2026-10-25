@@ -4,7 +4,7 @@ ygp_sources = files(
   'PathDirSrch.cpp', 'ATStamp.cpp', 'INIFile.cpp',
   'File.cpp', 'AttrParse.cpp', 'IDirSrch.cpp', 'Entity.cpp', 'XDirSrch.cpp',
   'Check.cpp', 'Process.cpp', 'ConnMgr.cpp', 'Connection.cpp', 'StatusObj.cpp', 'Relation.cpp', 'TableWriter.cpp',
-  'MetaEnum.cpp', 'DynTrace.cpp', 'Module.cpp', 'Attribute.cpp', 'FileTypeChk.cpp', 'Utility.cpp',
+  'MetaEnum.cpp', 'DynTrace.cpp', 'Attribute.cpp', 'FileTypeChk.cpp', 'Utility.cpp',
 )
 
 ygp_headers = files(
@@ -13,7 +13,7 @@ ygp_headers = files(
   'ATStamp.h', 'ATime.h', 'Log.h',
   'IDirSrch.h', 'File.h', 'AssParse.h', 'Attribute.h', 'AttrParse.h', 'Entity.h',
   'INIFile.h', 'XDirSrch.h', 'ConnMgr.h', 'Connection.h', 'Process.h', 'StatusObj.h', 'Relation.h',
-  'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Module.h', 'Exception.h',
+  'TableWriter.h', 'MetaEnum.h', 'SortDirSrch.h', 'DynTrace.h', 'Exception.h',
   'FileTypeChk.h', 'Utility.h', 'Random.h',
 )
 
