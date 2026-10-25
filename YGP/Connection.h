@@ -36,7 +36,8 @@ namespace YGP {
 enum class ConnectionError {
     authenticationFailed = 1, ///< The partner doesn't know the password
     timeout,                  ///< The partner didn't respond in time
-    tooMuchData               ///< The partner sent more data than allowed
+    tooMuchData,              ///< The partner sent more data than allowed
+    passwordMissing           ///< No password has been set
 };
 
 const boost::system::error_category& connectionCategory();
@@ -57,8 +58,9 @@ inline boost::system::error_code make_error_code(ConnectionError error) {
 
    \note Someone pretending to be the server (or sitting in between) obtains
    the proof of the client, which allows an offline attack on the password.
-   The password is stretched (PBKDF2) to make this expensive, but it should
-   not be trivial nevertheless.
+   The password is stretched (PBKDF2, salted with the name of the
+   application) to make this expensive, but it should not be trivial
+   nevertheless.
 
    A TLS stream must not be used by several threads at once. Therefore all
    reading and writing methods lock the mutex of the connection. A thread
@@ -85,7 +87,9 @@ class Connection {
     /// waiting); use it not for reading or writing
     Socket& getSocket() { return stream.next_layer(); }
 
-    static Key deriveKey(std::string_view password);
+    void abort();
+
+    static Key deriveKey(std::string_view password, std::string_view application = {});
     static void useEphemeralCertificate(boost::asio::ssl::context& ctx);
 
     /**Class aborting the connection, if it is not destroyed in a given time.

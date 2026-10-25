@@ -25,6 +25,9 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
@@ -80,6 +83,37 @@ int main(int argc, char* argv[]) {
     }
     else
         std::cout << "    -> Warning: No files to check found!\n" << std::flush;
+
+    // Malformed files are detected in reasonable time
+    {
+        using namespace std::string_literals;
+        const auto dir(std::filesystem::temp_directory_path() /
+                       ("YGP-FileTypeChk-" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count())));
+        std::filesystem::create_directory(dir);
+
+        // ZIP file whose central directory claims (nearly) endless entries
+        std::string zip("PK\3\4"s + std::string(26, '\0') + std::string(600, 'A'));
+        zip += "PK\1\2"s + std::string(24, '\0') + "\3\0\xFF\xFF\0\0"s + std::string(12, '\0');
+        zip += "PK\5\6"s + std::string(6, '\0') + "\xFF\xFF\xFF\xFF\0\0"s + "\x76\x02\0\0\0\0"s;
+
+        const std::map<std::string, std::pair<std::string, unsigned int>> malformed = {
+            {"Unterminated.html", {"<!-- unterminated comment", YGP::FileTypeChecker::UNKNOWN}},
+            {"EndOfBuffer.html", {std::string(506, ' ') + "<!--", YGP::FileTypeChecker::UNKNOWN}},
+            {"LongComment.html", {"<!--" + std::string(1000, 'x') + "-->\n<!DOCTYPE HTML>", YGP::FileTypeChecker::HTML}},
+            {"Comments.html", {"<!-- a --> <!-- b - c -- d -->\n<!DOCTYPE HTML>", YGP::FileTypeChecker::HTML}},
+            {"Entries.zip", {zip, YGP::FileTypeChecker::UNKNOWN}}};
+        for (const auto& [name, test] : malformed) {
+            const auto path((dir / name).string());
+            std::ofstream(path, std::ios::binary) << test.first;
+
+            const auto start(std::chrono::steady_clock::now());
+            const unsigned int type(chkCont.getType(path.c_str()));
+            if (type != test.second)
+                ERROROUT(name << ": Type " << type);
+            check((std::chrono::steady_clock::now() - start) < std::chrono::seconds(2));
+        }
+        std::filesystem::remove_all(dir);
+    }
 
     if (cErrors)
         std::cout << "Failures: " << cErrors << '\n';

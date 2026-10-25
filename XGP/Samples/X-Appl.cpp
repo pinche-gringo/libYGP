@@ -206,7 +206,7 @@ void XAppl::showDateDialog () {
 //-----------------------------------------------------------------------------
 void XAppl::showConnectDialog () {
    OTRACE3 (dt, "XAppl::showConnectDialog ()");
-   static YGP::ConnectionMgr cmgr;
+   static YGP::ConnectionMgr cmgr ("X-Appl");
    XGP::ConnectDlg::perform (4, 4711, cmgr);
 }
 

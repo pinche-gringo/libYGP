@@ -70,6 +70,16 @@ static Glib::RefPtr<Gdk::Pixbuf> iconExe;
 static std::map<std::string, Glib::RefPtr<Gdk::Pixbuf>> icons;
 #endif
 
+//-----------------------------------------------------------------------------
+/// Returns the passed file name in a way, that it can't be mistaken by a
+/// program as option (or command, like "+cmd" for vi)
+/// \param file Name of file
+/// \returns std::string File name to pass as argument
+//-----------------------------------------------------------------------------
+static std::string asArgument(const std::string& file) {
+    return (file.size() && ((file[0] == '-') || (file[0] == '+'))) ? ("./" + file) : file;
+}
+
 namespace XGP {
 
 //-----------------------------------------------------------------------------
@@ -316,16 +326,14 @@ void XFileList::onRightClick(int, double x, double y) {
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::startInTerm(const char* file, Gtk::TreeModel::iterator line) {
-    const char* term(getenv("TERM"));
-    if (term) {
-        std::string entry(getFilename(line));
-        const char* args[] = {term, "-e", file, entry.c_str(), nullptr};
-        execProgram(term, args, false);
-    }
-    else {
-        Gtk::MessageDialog msg(_("Environment variable `TERM' not defined!"), false, Gtk::MessageType::ERROR);
-        runModal(msg);
-    }
+    // $TERM holds the type of the terminal, not the program to start it
+    const char* term(getenv("TERMINAL"));
+    if (!term)
+        term = "xterm";
+
+    std::string entry(asArgument(getFilename(line)));
+    const char* args[] = {term, "-e", file, entry.c_str(), nullptr};
+    execProgram(term, args, false);
 }
 
 //-----------------------------------------------------------------------------
@@ -334,7 +342,7 @@ void XFileList::startInTerm(const char* file, Gtk::TreeModel::iterator line) {
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::startProgram(const char* file, Gtk::TreeModel::iterator line) {
-    std::string entry(getFilename(line));
+    std::string entry(asArgument(getFilename(line)));
     const char* args[] = {file, entry.c_str(), nullptr};
     execProgram(args[0], args, false);
 }
@@ -345,7 +353,7 @@ void XFileList::startProgram(const char* file, Gtk::TreeModel::iterator line) {
 /// \param line Line in list of file to pass as argument
 //-----------------------------------------------------------------------------
 void XFileList::executeProgram(const char* file, Gtk::TreeModel::iterator line) {
-    std::string entry(getFilename(line));
+    std::string entry(asArgument(getFilename(line)));
     const char* args[] = {file, entry.c_str(), nullptr};
     execProgram(args[0], args, true);
 }

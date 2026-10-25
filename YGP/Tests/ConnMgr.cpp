@@ -27,6 +27,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <thread>
 
 #include <boost/asio/connect.hpp>
 
@@ -43,6 +44,11 @@ const char* PORT("47113");
 /// Accepts (in another thread) the next connection of the server
 std::future<std::unique_ptr<YGP::Connection>> accept(YGP::ConnectionMgr& server) {
     return std::async(std::launch::async, [&server] { return server.getNewConnection(); });
+}
+
+/// Connects a socket (not sending anything) to the server
+void connectSilent(boost::asio::ip::tcp::socket& socket) {
+    boost::asio::connect(socket, boost::asio::ip::tcp::resolver(socket.get_executor()).resolve("127.0.0.1", PORT));
 }
 
 } // namespace
@@ -88,6 +94,32 @@ int main() {
             }
         }
 
+        // A client not responding doesn't block others
+        {
+            boost::asio::io_context ctx;
+            boost::asio::ip::tcp::socket silent(ctx);
+            connectSilent(silent);
+
+            auto pending(accept(server));
+            YGP::ConnectionMgr client;
+            client.setPassword("secret");
+            client.connectTo("127.0.0.1", PORT);
+            check(client.getServer());
+            check(pending.get());
+        }
+
+        // A client not responding is rejected after the timeout
+        {
+            auto pending(accept(server));
+            boost::asio::io_context ctx;
+            boost::asio::ip::tcp::socket silent(ctx);
+            connectSilent(silent);
+
+            const auto start(std::chrono::steady_clock::now());
+            check(!pending.get());
+            check((std::chrono::steady_clock::now() - start) < 5s);
+        }
+
         // A wrong password is rejected on both sides
         {
             auto pending(accept(server));
@@ -104,21 +136,61 @@ int main() {
             check(!pending.get());
         }
 
-        // A client not responding is rejected after the timeout
+        // After a failed authentication the partner is blocked for some time
         {
             auto pending(accept(server));
-            boost::asio::io_context ctx;
-            boost::asio::ip::tcp::socket silent(ctx);
-            boost::asio::connect(silent, boost::asio::ip::tcp::resolver(ctx).resolve("127.0.0.1", PORT));
-
-            const auto start(std::chrono::steady_clock::now());
+            YGP::ConnectionMgr client;
+            client.setPassword("secret");
+            try {
+                client.connectTo("127.0.0.1", PORT);
+                check(!"Connected while blocked");
+            }
+            catch (boost::system::system_error&) {
+            }
             check(!pending.get());
-            check((std::chrono::steady_clock::now() - start) < 5s);
+        }
+        std::this_thread::sleep_for(1100ms);
+
+        // The name of the application is part of the password
+        {
+            auto pending(accept(server));
+            YGP::ConnectionMgr client("Other application");
+            client.setPassword("secret");
+            try {
+                client.connectTo("127.0.0.1", PORT);
+                check(!"Connected with other application");
+            }
+            catch (boost::system::system_error& e) {
+                check(e.code() == YGP::ConnectionError::authenticationFailed);
+            }
+            check(!pending.get());
         }
     }
     catch (std::exception& e) {
         std::cerr << "Test: Error: " << e.what() << '\n';
         ++cErrors;
+    }
+
+    // Connecting or listening requires a password
+    {
+        YGP::ConnectionMgr mgr;
+        try {
+            mgr.connectTo("127.0.0.1", PORT);
+            check(!"Connected without password");
+        }
+        catch (boost::system::system_error& e) {
+            check(e.code() == YGP::ConnectionError::passwordMissing);
+        }
+
+        mgr.setPassword("secret");
+        mgr.setPassword("");
+        try {
+            mgr.listenAt(PORT);
+            check(!"Listening without password");
+        }
+        catch (boost::system::system_error& e) {
+            check(e.code() == YGP::ConnectionError::passwordMissing);
+        }
     }
 
     if (cErrors)

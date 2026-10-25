@@ -52,10 +52,10 @@ namespace {
 
 /// Label to export the keying material of the TLS session with
 constexpr std::string_view EXPORT_LABEL("EXPORTER-libYGP-password-proof");
-/// Salt to derive the key from the password with
+/// Salt to derive the key from the password with (extended with the name of the application)
 constexpr std::string_view SALT("libYGP connection password");
 /// Number of iterations to derive the key from the password
-constexpr int KDF_ITERATIONS(200'000);
+constexpr int KDF_ITERATIONS(600'000);
 
 // The destructor of error_category is (intentionally) not virtual; categories are never deleted polymorphically
 #pragma GCC diagnostic push
@@ -72,6 +72,8 @@ class ConnectionCategory : public boost::system::error_category {
             return _("The partner did not respond in time");
         case ConnectionError::tooMuchData:
             return _("The partner sent too much data");
+        case ConnectionError::passwordMissing:
+            return _("No password has been set");
         }
         return _("Unknown error");
     }
@@ -240,14 +242,28 @@ bool Connection::readAvailable(std::string& buffer, std::size_t max, boost::syst
 }
 
 //-----------------------------------------------------------------------------
+/// Aborts the connection; operations running in other threads fail then
+/// \remarks Shutting the socket down (instead of closing it) is safe while
+///     another thread uses it
+//-----------------------------------------------------------------------------
+void Connection::abort() { ::shutdown(getSocket().native_handle(), SHUT_RDWR); }
+
+//-----------------------------------------------------------------------------
 /// Derives the key used to proof the knowledge of the password
 /// \param password Password
+/// \param application Name of the application; it is part of the salt, so
+///     work spent attacking the password of one application can't be reused
+///     for others
 /// \returns Key Derived key
 //-----------------------------------------------------------------------------
-Connection::Key Connection::deriveKey(std::string_view password) {
+Connection::Key Connection::deriveKey(std::string_view password, std::string_view application) {
+    std::string salt(SALT);
+    salt += '\0';
+    salt += application;
+
     Key key;
     if (!PKCS5_PBKDF2_HMAC(password.data(), static_cast<int>(password.size()),
-                           reinterpret_cast<const unsigned char*>(SALT.data()), static_cast<int>(SALT.size()),
+                           reinterpret_cast<const unsigned char*>(salt.data()), static_cast<int>(salt.size()),
                            KDF_ITERATIONS, EVP_sha256(), static_cast<int>(key.size()), key.data()))
         throwSSLError("PKCS5_PBKDF2_HMAC");
     return key;
@@ -294,15 +310,14 @@ void Connection::useEphemeralCertificate(boost::asio::ssl::context& ctx) {
 /// \param timeout Time after which the connection is aborted
 //-----------------------------------------------------------------------------
 Connection::Deadline::Deadline(Connection& connection, std::chrono::milliseconds timeout)
-    : watchdog([this, fd = connection.getSocket().native_handle(), timeout](std::stop_token stop) {
+    : watchdog([this, &connection, timeout](std::stop_token stop) {
           std::mutex mx;
           std::condition_variable_any cv;
           std::unique_lock lock(mx);
           if (!cv.wait_for(lock, stop, timeout, [&stop] { return stop.stop_requested(); })) {
               TRACE1("Connection::Deadline - Timeout; aborting connection");
               timedOut = true;
-              // Shutting the socket down (instead of closing it) is safe while another thread uses it
-              ::shutdown(fd, SHUT_RDWR);
+              connection.abort();
           }
       }) {}
 

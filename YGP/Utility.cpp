@@ -49,40 +49,43 @@ unsigned int getFileOffsetInArchive(std::istream& stream, char* buffer, const ch
     Check1(buffer);
     Check1(file);
 
-    if (get4BytesLSB(buffer) == ID_PKZIP_LOCALHDR) {
-        char tmpbuffer[80];
+    char tmpbuffer[80];
+    Check1(lenFile <= sizeof(tmpbuffer));
+    if ((lenFile <= sizeof(tmpbuffer)) && (get4BytesLSB(buffer) == ID_PKZIP_LOCALHDR)) {
         memset(tmpbuffer, 0, sizeof(tmpbuffer));
-        stream.clear();         // Reading the buffer might have failed for small files
+        stream.clear(); // Reading the buffer might have failed for small files
+        stream.seekg(0, std::ios::end);
+        const std::streamoff size(stream.tellg());
+        if (size < 22)
+            return 0;
+
         stream.seekg(-22, std::ios::end);
-        stream.read(tmpbuffer, 22);
-
-        if (get4BytesLSB(tmpbuffer) == ID_PKZIP_END_CDR) {
+        if (stream.read(tmpbuffer, 22) && (get4BytesLSB(tmpbuffer) == ID_PKZIP_END_CDR)) {
             // Skip to central directory record
-            unsigned int cEntries(get4BytesLSB(tmpbuffer + 10));
-            stream.seekg(get4BytesLSB(tmpbuffer + 16), std::ios::beg);
+            unsigned int cEntries(get2BytesLSB(tmpbuffer + 10));
+            const std::streamoff start(get4BytesLSB(tmpbuffer + 16));
             TRACE6("getFileOffsetInArchive(2x const char*, unsigned int, std::ifstream&) - Start CDR: "
-                   << get4BytesLSB(tmpbuffer + 16) << " (" << cEntries << ')');
+                   << start << " (" << cEntries << ')');
+            if (start >= size)
+                return 0;
+            stream.seekg(start, std::ios::beg);
 
-            // Inspect all entries
-            while (cEntries--) {
-                stream.read(tmpbuffer, 46);
-                if (get4BytesLSB(tmpbuffer) == ID_PKZIP_CENTRALFILEHDR) {
-                    unsigned int lenName(get2BytesLSB(tmpbuffer + 28));
-                    unsigned int lenSkip(get2BytesLSB(tmpbuffer + 30) + get2BytesLSB(tmpbuffer + 32));
-                    TRACE6("getFileOffsetInArchive(2x const char*, unsigned int, std::ifstream&) - Len of filename: "
-                           << lenName << "; Skipping: " << lenSkip);
-
-                    // Check if the passed file has been found
-                    if (lenName == lenFile) {
-                        unsigned int posFile(get4BytesLSB(tmpbuffer + 42));
-                        stream.read(tmpbuffer, lenFile);
-                        if (!memcmp(file, tmpbuffer, lenFile))
-                            return posFile;
-                        lenName -= lenFile;
-                    }
-                    stream.seekg(lenName + lenSkip, std::ios::cur);
+            // Inspect all entries (until the end of the file)
+            while (cEntries-- && stream.read(tmpbuffer, 46) && (get4BytesLSB(tmpbuffer) == ID_PKZIP_CENTRALFILEHDR)) {
+                unsigned int lenName(get2BytesLSB(tmpbuffer + 28));
+                unsigned int lenSkip(get2BytesLSB(tmpbuffer + 30) + get2BytesLSB(tmpbuffer + 32));
+                TRACE6("getFileOffsetInArchive(2x const char*, unsigned int, std::ifstream&) - Len of filename: "
+                       << lenName << "; Skipping: " << lenSkip);
+                // Check if the passed file has been found
+                if (lenName == lenFile) {
+                    unsigned int posFile(get4BytesLSB(tmpbuffer + 42));
+                    if (!stream.read(tmpbuffer, lenFile))
+                        break;
+                    if (!memcmp(file, tmpbuffer, lenFile))
+                        return posFile;
+                    lenName -= lenFile;
                 }
-                else
+                if (!stream.seekg(lenName + lenSkip, std::ios::cur))
                     break;
             } // end-while
         }
@@ -458,17 +461,29 @@ std::string convertUnicode2UTF8(unsigned int unicode) {
 /// \param string String to convert
 //-----------------------------------------------------------------------------
 void convertUTF82HTML(std::string& string) {
-    static struct {
-        char character;
-        std::string replace;
-    } convTable[] = {{'&', "&amp;"}, {'<', "&lt;"}, {'>', "&gt;"}, {'\'', "&lsquo;"}, {'"', "&quot;"}};
-
-    for (unsigned int i(0); i < string.size(); ++i)
-        for (auto & j : convTable)
-            if (string[i] == j.character) {
-                string.replace(i, 1, j.replace);
-                i += j.replace.length();
-            }
+    std::string result;
+    result.reserve(string.size());
+    for (char ch : string)
+        switch (ch) {
+        case '&':
+            result += "&amp;";
+            break;
+        case '<':
+            result += "&lt;";
+            break;
+        case '>':
+            result += "&gt;";
+            break;
+        case '\'':
+            result += "&lsquo;";
+            break;
+        case '"':
+            result += "&quot;";
+            break;
+        default:
+            result += ch;
+        }
+    string = std::move(result);
 }
 
 } // namespace YGP

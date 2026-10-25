@@ -135,6 +135,7 @@ ConnectDlg::ConnectDlg(unsigned int cMaxConnections, const Glib::ustring& defPor
 
     pPort->signal_changed().connect(sigc::mem_fun(*this, &ConnectDlg::valueChanged));
     pTarget->signal_changed().connect(sigc::mem_fun(*this, &ConnectDlg::valueChanged));
+    pPassword->signal_changed().connect(sigc::mem_fun(*this, &ConnectDlg::valueChanged));
     valueChanged();
 
     show();
@@ -248,8 +249,10 @@ void ConnectDlg::cancelEvent() {
 /// Callback if the CANCEL buttons has been pressed
 //----------------------------------------------------------------------------
 void ConnectDlg::valueChanged() const {
-    pWait->set_sensitive(!poller.connected() && pPort->get_text_length() && (cMaxConns != cmgr.getClients().size()));
-    pConnect->set_sensitive(!poller.connected() && pPort->get_text_length() && pTarget->get_text_length());
+    const bool havePassword(!pPassword->get_text().empty());
+    pWait->set_sensitive(!poller.connected() && havePassword && pPort->get_text_length() &&
+                         (cMaxConns != cmgr.getClients().size()));
+    pConnect->set_sensitive(!poller.connected() && havePassword && pPort->get_text_length() && pTarget->get_text_length());
     pPassword->set_sensitive(!poller.connected());
 }
 

@@ -57,6 +57,9 @@ static const char ID_EPUB[] = "mimetypeapplication/epub+zip"; // At offset 30
 
 static const unsigned int ID_MP3(0xE0FF);
 
+/// Maximal number of white-spaces and HTML comments skipped at the beginning of a file
+static const unsigned long MAX_HTML_SKIP(1024 * 1024);
+
 //-----------------------------------------------------------------------------
 /// Destructor
 //-----------------------------------------------------------------------------
@@ -271,7 +274,7 @@ unsigned int FileTypeCheckerByContent::getType(const char* file) const {
 /// Skips over HTML-comments and white-spaces. The buffer contains afterwards
 /// the first charcter not being a white-space or a HTML-comment.
 /// If the buffer contains only HTML-comments or white-spaces additional data
-/// is read from the passed stream
+/// is read from the passed stream (but at most MAX_HTML_SKIP bytes are skipped)
 /// \param buffer Buffer to inspect (and maybe re-fill with new data from stream)
 /// \param size Size of buffer
 /// \param stream Stream to read from
@@ -281,67 +284,66 @@ void FileTypeCheckerByContent::skipHTMLComments(char* buffer, unsigned int size,
     Check1(buffer);
     Check1(size > 3);
 
-    const char* pos(buffer);
-    unsigned int left(size);
-    do {
-        TRACE5("FileTypeCheckerByContent::skipHTMLComments(char*, unsigned int, std::ifstream&) - " << std::string(pos, 5));
+    unsigned int pos(0);    // Position of the next character to check
+    unsigned int valid(size); // Number of valid characters in the buffer
+    unsigned long skipped(0);
 
-        // Simply skip whitespaces
-        if (isspace(*pos)) {
+    // Moves the unchecked characters to the beginning of the buffer and fills
+    // it up from the stream; returns true, if something has been read
+    auto refill([&]() {
+        memmove(buffer, buffer + pos, valid - pos);
+        valid -= pos;
+        pos = 0;
+        stream.read(buffer + valid, size - valid);
+        const auto read(static_cast<unsigned int>(stream.gcount()));
+        valid += read;
+        memset(buffer + valid, 0, size - valid);
+        return read > 0;
+    });
+
+    bool inComment(false);
+    while (skipped < MAX_HTML_SKIP) {
+        const unsigned int left(valid - pos);
+        if (inComment) {
+            // Try to find the end of the comment (-->)
+            if (left < 3) {
+                if (refill())
+                    continue;
+                break; // Comment not terminated
+            }
+            if (!memcmp(buffer + pos, "-->", 3)) {
+                inComment = false;
+                pos += 3;
+                skipped += 3;
+            }
+            else {
+                ++pos;
+                ++skipped;
+            }
+        }
+        else if (!left) {
+            if (!refill())
+                break;
+        }
+        else if (isspace(static_cast<unsigned char>(buffer[pos]))) {
             ++pos;
-            --left;
+            ++skipped;
         }
         // Check for HTML comment (starting with <!--)
-        else if ((*pos == '<') && (pos[1] == '!') && (pos[2] == '-') && (pos[3] == '-')) {
+        else if (buffer[pos] == '<') {
+            if ((left < 4) && refill())
+                continue;
+            if (((valid - pos) < 4) || memcmp(buffer + pos, "<!--", 4))
+                break;
+            TRACE7("FileTypeCheckerByContent::skipHTMLComments(char*, unsigned int, std::ifstream&) - Comment at " << skipped);
+            inComment = true;
             pos += 4;
-            bool cont(true);
-            do {
-                // Try to find the end of the comment (-->)
-                pos = static_cast<const char*>(memchr(pos, '-', left));
-                if (pos) {
-                    TRACE7("FileTypeCheckerByContent::skipHTMLComments(char*, unsigned int, std::ifstream&) - EOC: \""
-                           << std::string(pos, (left > 4) ? 5 : left) << '"');
-                    left = size - (pos - buffer);
-                    if (left > 2) {
-                        // Found end-of-comment: Stop parsing and copy remaining
-                        // characters to the beginning of the buffer
-                        if ((pos[1] == '-') && (pos[2] == '>')) {
-                            cont = false;
-                            memcpy(buffer, pos + 3, left - 3);
-                        }
-                        else {
-                            // Only minus found; skip and continue
-                            ++pos;
-                            --left;
-                            continue;
-                        }
-                    }
-                    else
-                        // Reached end of buffer; store last unchecked chars
-                        memcpy(buffer, pos, left);
-                }
-                else
-                    // No minus found; re-fill the buffer completely
-                    left = 0;
-
-                TRACE9("FileTypeCheckerByContent::skipHTMLComments(char*, unsigned int, std::ifstream&) - Filling up: "
-                       << (size - left));
-                stream.read(buffer + left, size - left);
-                pos = buffer;
-                left += stream.gcount();
-            }
-            while (cont);
-        } // endif HTML comment
-        else {
-            if (pos != buffer) {
-                // No more whitespaces or comments: Copy data to beginning of buffer
-                memcpy(buffer, pos, left);
-                stream.read(buffer + left, size - left);
-            }
-            break;
+            skipped += 4;
         }
+        else
+            break;
     }
-    while (left);
+    refill();
 }
 
 //-----------------------------------------------------------------------------
@@ -444,7 +446,8 @@ bool FileTypeCheckerByContent::isStarOffice(char* buffer, const char* text, unsi
     // MS-compatible format additional for the information, additional to
     // their own format, so they could also be parsed as MS-Office document)
     if (!memcmp(buffer, ID_MSOFFICE, sizeof(ID_MSOFFICE) - 1)) {
-        char tmpbuffer[16];
+        char tmpbuffer[16] = {};
+        stream.clear();
         stream.seekg(0x8c2, std::ios::beg);
         stream.read(tmpbuffer, sizeof(tmpbuffer));
         return !memcmp(tmpbuffer, ID_STAROFFICE, sizeof(ID_STAROFFICE) - 1);
@@ -467,7 +470,8 @@ bool FileTypeCheckerByContent::isMSOffice(char* buffer, const char* text, unsign
     // MS-compatible format additional for the information, additional to
     // their own format, so they could also be parsed as MS-Office document)
     if (!memcmp(buffer, ID_MSOFFICE, sizeof(ID_MSOFFICE) - 1)) {
-        char tmpbuffer[16];
+        char tmpbuffer[16] = {};
+        stream.clear();
         stream.seekg(0x8c2, std::ios::beg);
         stream.read(tmpbuffer, sizeof(tmpbuffer));
         return memcmp(tmpbuffer, ID_STAROFFICE, sizeof(ID_STAROFFICE) - 1);

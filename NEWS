@@ -1,6 +1,8 @@
-Overview of changes in version 0.9.81:
+Overview of changes in version 1.0.00:
 
+  - Implement printing via GTK
   - Removed YGP::Module (use boost::dll::shared_library)
+  - Fix security issues
 
 
 Overview of changes in version 0.9.80:
