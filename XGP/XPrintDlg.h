@@ -17,49 +17,62 @@
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstdio>
+#include <string>
+#include <vector>
 
-#include <boost/scoped_ptr.hpp>
+#include <glibmm/refptr.h>
+#include <sigc++/signal.h>
+#include <sigc++/trackable.h>
 
-#include <XGP/XDialog.h>
+#include <gtkmm/printoperation.h>
 
 namespace Gtk {
-class Box;
-class Label;
-class Entry;
+class PrintContext;
+class Window;
 } // namespace Gtk
+
+namespace Pango {
+class Layout;
+}
 
 namespace XGP {
 
-/**Class to display a dialog to enter the command to print some text.
+/**Class to print plain text with the print dialog of the system.
 
-   This is a very basic interface; only supporting the line printer.
+   The text to print is collected (after the user confirmed the dialog) by
+   emitting sigPrint with a (temporary) file the text should be written to.
+   It is printed in a monospaced font; long lines are wrapped.
+
+   The object deletes itself after printing (or canceling).
 */
-class PrintDialog : public XDialog {
+class PrintDialog : public sigc::trackable {
   public:
-    PrintDialog();
-    ~PrintDialog() override;
+    ~PrintDialog();
 
-    static PrintDialog* create();
+    static PrintDialog* create(Gtk::Window* parent = nullptr);
 
-    /// Signal emitted, when OK is selected
+    /// Signal emitted, when printing has been confirmed; the text to print
+    /// must be written to the passed file
     sigc::signal<void(FILE*)> sigPrint;
 
   private:
+    explicit PrintDialog(Gtk::Window* parent);
+
     // Prohibited manager-functions
     PrintDialog(const PrintDialog&) = delete;
     const PrintDialog& operator=(const PrintDialog&) = delete;
 
-    void okEvent() override;
+    void run();
+    std::string collectText();
+    void beginPrint(const Glib::RefPtr<Gtk::PrintContext>& context);
+    void drawPage(const Glib::RefPtr<Gtk::PrintContext>& context, int page);
+    void done(Gtk::PrintOperation::Result result);
 
-    void init();
-
-    using PHBox = boost::scoped_ptr<Gtk::Box>;
-    using PLabel = boost::scoped_ptr<Gtk::Label>;
-    using PEntry = boost::scoped_ptr<Gtk::Entry>;
-
-    PLabel lblCommand;
-    PEntry txtCommand;
-    PHBox boxCommand;
+    Gtk::Window* parent;                       ///< Window the dialog belongs to (or NULL)
+    Glib::RefPtr<Gtk::PrintOperation> operation; ///< Running print operation
+    Glib::RefPtr<Pango::Layout> layout;         ///< Layout of the whole text
+    std::vector<int> baselines;                 ///< Baseline of every line (in Pango units)
+    std::vector<int> pages;                     ///< First line of every page
 };
 
 } // namespace XGP

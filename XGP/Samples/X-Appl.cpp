@@ -190,7 +190,7 @@ void XAppl::save () {
 //-----------------------------------------------------------------------------
 void XAppl::print () {
    OTRACE3 (dt, "XAppl::print");
-   XGP::PrintDialog::create ()->sigPrint.connect (sigc::mem_fun (*this, &XAppl::writeToStream));
+   XGP::PrintDialog::create (this)->sigPrint.connect (sigc::mem_fun (*this, &XAppl::writeToStream));
 }
 
 //-----------------------------------------------------------------------------
