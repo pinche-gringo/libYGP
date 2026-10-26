@@ -1,5 +1,5 @@
 project('libYGP', ['c', 'cpp'],
-        version: '1.0.1',
+        version: '1.0.01',
         license: 'GPL-3.0-or-later',
         meson_version: '>= 1.1',
         default_options: ['cpp_std=c++23',
