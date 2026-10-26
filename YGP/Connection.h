@@ -56,11 +56,15 @@ inline boost::system::error_code make_error_code(ConnectionError error) {
    same password. The proof is bound to the TLS session, so it can't be
    relayed by a man in the middle.
 
+   The key proving the knowledge of the password is derived from it with
+   PBKDF2, salted with a random value the client chooses for every connection
+   (and the name of the application). So work spent attacking the password
+   can't be precomputed or reused for other connections.
+
    \note Someone pretending to be the server (or sitting in between) obtains
-   the proof of the client, which allows an offline attack on the password.
-   The password is stretched (PBKDF2, salted with the name of the
-   application) to make this expensive, but it should not be trivial
-   nevertheless.
+   the proof of the client, which allows an offline attack on the password of
+   this one connection. The stretching makes this expensive, but the password
+   should not be trivial nevertheless.
 
    A TLS stream must not be used by several threads at once. Therefore all
    reading and writing methods lock the mutex of the connection. A thread
@@ -73,11 +77,12 @@ class Connection {
     using Socket = boost::asio::ip::tcp::socket;  ///< Type of the underlying socket
     using Stream = boost::asio::ssl::stream<Socket>; ///< Type of the TLS stream
     using Key = std::array<unsigned char, 32>;   ///< Key derived from the password
+    using Salt = std::array<unsigned char, 16>;  ///< Random salt of the key (chosen per connection)
 
     Connection(Socket socket, boost::asio::ssl::context& ctx);
     ~Connection();
 
-    void handshake(Stream::handshake_type type, const Key& key);
+    void handshake(Stream::handshake_type type, std::string_view password, std::string_view application = {});
 
     void write(std::string_view data);
     std::size_t read(char* buffer, std::size_t length);
@@ -89,7 +94,7 @@ class Connection {
 
     void abort();
 
-    static Key deriveKey(std::string_view password, std::string_view application = {});
+    static Key deriveKey(std::string_view password, const Salt& salt, std::string_view application = {});
     static void useEphemeralCertificate(boost::asio::ssl::context& ctx);
 
     /**Class aborting the connection, if it is not destroyed in a given time.

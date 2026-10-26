@@ -171,6 +171,24 @@ int main() {
         ++cErrors;
     }
 
+    // The key depends on the password, the (random) salt and the application
+    {
+        YGP::Connection::Salt salt;
+        for (unsigned int i(0); i < salt.size(); ++i)
+            salt[i] = static_cast<unsigned char>(i + 1);
+
+        const YGP::Connection::Key expected{0xd8, 0xdd, 0x03, 0xf5, 0xc9, 0x9c, 0x12, 0x11, 0x6c, 0x82, 0x5e,
+                                            0xdf, 0x51, 0x00, 0x70, 0x25, 0x38, 0x77, 0x0a, 0x0f, 0xca, 0x21,
+                                            0xb8, 0x70, 0x82, 0x0d, 0xdf, 0x2e, 0x25, 0x1f, 0x44, 0x9e};
+        const YGP::Connection::Key key(YGP::Connection::deriveKey("secret", salt, "App"));
+        check(key == expected);
+        check(YGP::Connection::deriveKey("secret", salt, "Other") != key);
+        check(YGP::Connection::deriveKey("Secret", salt, "App") != key);
+
+        salt[0] = 0;
+        check(YGP::Connection::deriveKey("secret", salt, "App") != key);
+    }
+
     // Connecting or listening requires a password
     {
         YGP::ConnectionMgr mgr;

@@ -52,15 +52,16 @@ constexpr std::size_t MAX_PENALTIES{4096};
 /// Performs the TLS handshake and the authentication over the passed connection
 /// \param connection Connection to secure
 /// \param type Role of this side of the connection
-/// \param key Key derived from the password
+/// \param password Password
+/// \param application Name of the application (part of the salt of the password)
 /// \param timeout Time to wait for the partner
 /// \throws boost::system::system_error In case of an error (also if the
 ///     partner doesn't respond in time)
-void authenticate(Connection& connection, Connection::Stream::handshake_type type, const Connection::Key& key,
-                  std::chrono::milliseconds timeout) {
+void authenticate(Connection& connection, Connection::Stream::handshake_type type, std::string_view password,
+                  std::string_view application, std::chrono::milliseconds timeout) {
     Connection::Deadline deadline(connection, timeout);
     try {
-        connection.handshake(type, key);
+        connection.handshake(type, password, application);
     }
     catch (boost::system::system_error&) {
         if (deadline.expired())
@@ -77,7 +78,7 @@ void authenticate(Connection& connection, Connection::Stream::handshake_type typ
 ///     salt of the password, so all partners must use the same name
 //-----------------------------------------------------------------------------
 ConnectionMgr::ConnectionMgr(std::string_view application)
-    : ctx(), sslCtx(boost::asio::ssl::context::tls), application(application), key(), server(), acceptor(),
+    : ctx(), sslCtx(boost::asio::ssl::context::tls), application(application), password(), server(), acceptor(),
       connections(), handler(), handshakes(), penalties() {
     TRACE9("ConnectionMgr::ConnectionMgr(std::string_view) - " << application);
 
@@ -94,25 +95,21 @@ ConnectionMgr::ConnectionMgr(std::string_view application)
 ConnectionMgr::~ConnectionMgr() {
     TRACE9("ConnectionMgr::~ConnectionMgr()");
     cancelGetNewConnection();
-    OPENSSL_cleanse(key.data(), key.size());
+    OPENSSL_cleanse(password.data(), password.size());
 }
 
 //-----------------------------------------------------------------------------
 /// Sets the password the partners must know. It is used for connections
 /// established afterwards.
-/// \param password Password; an empty password removes a previously set one
-///     (connecting and listening is not possible then)
+/// \param newPassword Password; an empty password removes a previously set
+///     one (connecting and listening is not possible then)
+/// \remarks The password itself is kept, as the key proving its knowledge is
+///     derived with a salt chosen per connection
 //-----------------------------------------------------------------------------
-void ConnectionMgr::setPassword(std::string_view password) {
+void ConnectionMgr::setPassword(std::string_view newPassword) {
     TRACE9("ConnectionMgr::setPassword(std::string_view)");
-    if (password.empty()) {
-        OPENSSL_cleanse(key.data(), key.size());
-        haveKey = false;
-    }
-    else {
-        key = Connection::deriveKey(password, application);
-        haveKey = true;
-    }
+    OPENSSL_cleanse(password.data(), password.size());
+    password.assign(newPassword);
 }
 
 //-----------------------------------------------------------------------------
@@ -120,7 +117,7 @@ void ConnectionMgr::setPassword(std::string_view password) {
 /// \throws boost::system::system_error If no password has been set
 //-----------------------------------------------------------------------------
 void ConnectionMgr::checkPassword() const {
-    if (!haveKey)
+    if (password.empty())
         throw boost::system::system_error(make_error_code(ConnectionError::passwordMissing));
 }
 
@@ -160,7 +157,7 @@ void ConnectionMgr::connectTo(const std::string& target, const std::string& port
     tcp::socket sock(ctx);
     boost::asio::connect(sock, tcp::resolver(ctx).resolve(target, port));
     auto connection(std::make_unique<Connection>(std::move(sock), sslCtx));
-    authenticate(*connection, Connection::Stream::client, key, timeout);
+    authenticate(*connection, Connection::Stream::client, password, application, timeout);
 
     changeMode(CLIENT);
     server = std::move(connection);
@@ -306,9 +303,9 @@ void ConnectionMgr::startHandshake(tcp::socket socket) {
         handshake.partner = partner;
         handshake.connection = std::move(connection);
         try {
-            handshake.worker = std::jthread([this, &handshake, key = key, timeout = timeout]() mutable {
+            handshake.worker = std::jthread([this, &handshake, password = password, timeout = timeout]() mutable {
                 try {
-                    authenticate(*handshake.connection, Connection::Stream::server, key, timeout);
+                    authenticate(*handshake.connection, Connection::Stream::server, password, application, timeout);
                 }
                 catch (boost::system::system_error& error) {
                     handshake.result = error.code();
@@ -316,7 +313,7 @@ void ConnectionMgr::startHandshake(tcp::socket socket) {
                 catch (std::exception&) {
                     handshake.result = make_error_code(boost::system::errc::io_error);
                 }
-                OPENSSL_cleanse(key.data(), key.size());
+                OPENSSL_cleanse(password.data(), password.size());
                 boost::asio::post(ctx, [this, id = handshake.id] { finishHandshake(id); });
             });
             return;

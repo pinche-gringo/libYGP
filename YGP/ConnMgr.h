@@ -150,8 +150,7 @@ class ConnectionMgr {
     boost::asio::ssl::context sslCtx;
     bool haveCertificate{false}; ///< Flag, if sslCtx has a certificate (needed for server mode)
     std::string application;     ///< Name of the application (part of the salt of the password)
-    Connection::Key key;
-    bool haveKey{false}; ///< Flag, if a password has been set
+    std::string password;        ///< Password the partners must know (empty: none set)
     std::chrono::milliseconds timeout{DEFAULT_TIMEOUT};
     modeConnect mode{NONE};
     std::unique_ptr<Connection> server;

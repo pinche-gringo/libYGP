@@ -2,6 +2,7 @@ Overview of changes in version 1.0.00:
 
   - Implement printing via GTK
   - Removed YGP::Module (use boost::dll::shared_library)
+  - YGP::ConnMgr: Salting password
   - Fix security issues
 
 

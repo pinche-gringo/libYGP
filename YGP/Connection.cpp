@@ -38,6 +38,7 @@
 
 #include <openssl/crypto.h>
 #include <openssl/evp.h>
+#include <openssl/rand.h>
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 
@@ -139,13 +140,20 @@ Connection::~Connection() { TRACE9("Connection::~Connection()"); }
 /// Performs the TLS handshake and the mutual proof of the password. The
 /// client proofs first, so the server doesn't reveal anything to clients not
 /// knowing the password.
+///
+/// The client chooses a random salt for the key and sends it together with
+/// its proof; the server derives the key only after receiving both (so a
+/// partner causing this work is penalized for a wrong proof, see
+/// ConnectionMgr).
 /// \param type Role of this side of the connection
-/// \param key Key derived from the password (see deriveKey())
+/// \param password Password
+/// \param application Name of the application (see deriveKey())
 /// \throw boost::system::system_error In case of an error (with the code
 ///     ConnectionError::authenticationFailed, if the proof was wrong)
 //-----------------------------------------------------------------------------
-void Connection::handshake(Stream::handshake_type type, const Key& key) {
-    TRACE3("Connection::handshake(handshake_type, const Key&) - " << ((type == Stream::client) ? "Client" : "Server"));
+void Connection::handshake(Stream::handshake_type type, std::string_view password, std::string_view application) {
+    TRACE3("Connection::handshake(handshake_type, std::string_view, std::string_view) - "
+           << ((type == Stream::client) ? "Client" : "Server"));
     std::lock_guard lock(mx);
     stream.handshake(type);
 
@@ -154,11 +162,28 @@ void Connection::handshake(Stream::handshake_type type, const Key& key) {
                                    EXPORT_LABEL.size(), nullptr, 0, 0) != 1)
         throwSSLError("SSL_export_keying_material");
 
+    // The message of the client: The salt followed by its proof
+    std::array<unsigned char, std::tuple_size_v<Salt> + std::tuple_size_v<Key>> request;
+    Salt salt;
+    if (type == Stream::client) {
+        if (RAND_bytes(salt.data(), static_cast<int>(salt.size())) != 1)
+            throwSSLError("RAND_bytes");
+    }
+    else {
+        boost::asio::read(stream, boost::asio::buffer(request));
+        std::copy_n(request.begin(), salt.size(), salt.begin());
+    }
+
+    Key key(deriveKey(password, salt, application));
     const Key own(proof(key, material, (type == Stream::client) ? 'C' : 'S'));
     const Key expected(proof(key, material, (type == Stream::client) ? 'S' : 'C'));
+    OPENSSL_cleanse(key.data(), key.size());
+
     Key received;
     if (type == Stream::client) {
-        boost::asio::write(stream, boost::asio::buffer(own));
+        std::copy(salt.begin(), salt.end(), request.begin());
+        std::copy(own.begin(), own.end(), request.begin() + salt.size());
+        boost::asio::write(stream, boost::asio::buffer(request));
 
         // The server closes the connection, if the proof is wrong
         boost::system::error_code error;
@@ -172,13 +197,12 @@ void Connection::handshake(Stream::handshake_type type, const Key& key) {
             throwError(ConnectionError::authenticationFailed);
     }
     else {
-        boost::asio::read(stream, boost::asio::buffer(received));
-        if (CRYPTO_memcmp(received.data(), expected.data(), received.size()))
+        if (CRYPTO_memcmp(request.data() + salt.size(), expected.data(), expected.size()))
             throwError(ConnectionError::authenticationFailed);
 
         boost::asio::write(stream, boost::asio::buffer(own));
     }
-    TRACE5("Connection::handshake(handshake_type, const Key&) - Authenticated");
+    TRACE5("Connection::handshake(handshake_type, std::string_view, std::string_view) - Authenticated");
 }
 
 //-----------------------------------------------------------------------------
@@ -251,13 +275,16 @@ void Connection::abort() { ::shutdown(getSocket().native_handle(), SHUT_RDWR); }
 //-----------------------------------------------------------------------------
 /// Derives the key used to proof the knowledge of the password
 /// \param password Password
+/// \param random Random salt (chosen per connection), so work spent
+///     attacking the password can't be precomputed or reused for other
+///     connections
 /// \param application Name of the application; it is part of the salt, so
-///     work spent attacking the password of one application can't be reused
-///     for others
+///     keys of one application are useless for others
 /// \returns Key Derived key
 //-----------------------------------------------------------------------------
-Connection::Key Connection::deriveKey(std::string_view password, std::string_view application) {
-    std::string salt(SALT);
+Connection::Key Connection::deriveKey(std::string_view password, const Salt& random, std::string_view application) {
+    std::string salt(random.begin(), random.end());
+    salt += SALT;
     salt += '\0';
     salt += application;
 
