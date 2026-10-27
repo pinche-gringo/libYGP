@@ -2,10 +2,9 @@
                      ===================================
 
 
-Some generally usefull classes; separated in a common part (subdir Common),
+Some generally usefull classes; separated in a common part (subdir YGP),
 designed to be independent of the used operating system or (GUI)
-library/system and in parts specific to such things (subdirs CORBA, Windows,
-X-windows).
+library/system and in parts specific to such things (subdir XGP).
 
 Up to 3 libraries are created:
 
@@ -14,14 +13,12 @@ Up to 3 libraries are created:
   - libXGP ..... Classes for the X-windows system; basing on gtkmm/gtk+ (only
                  made when a proper installation of gtkmm (formerly known as
                  Gtk--) is found).
-  - libCGP ..... Classes to be used with CORBA (only made when a CORBA-
-                 implementation (MICO) is found).
 
 
 The whole thing is:
 
-Copyright (C) 1999 - 2010  Markus Schwab <g17m0@users.sourceforge.net>
-----------------------------------------------------------------------
+Copyright (C) 1999 - 2026  Markus Schwab <pelotudo.gringo@gmail.com>
+--------------------------------------------------------------------
 
 This package is distributed under the GNU General Public License
 version 3; in the hope that it will be useful, but WITHOUT ANY
@@ -61,11 +58,8 @@ Structure
 ---------
 
    - YGP:     Contains common classes of general interest.
-   - CGP:     Classes and other stuff related to CORBA.
-   - Windows: Classes and other stuff related to M$ Windoze.
    - XGP:     Classes and other stuff related to X-windows.
    - doc:     Documentation
-   - intl:    Library for I18n
    - po:      Translations of the messages
    - bin:     Utilities; Helper scripts
 
@@ -74,7 +68,7 @@ How to report bugs and/or send patches
 --------------------------------------
 
 Bug reports and patches should be send to the e-mail address of the author (me)
-(g17m0@users.sourceforge.net).
+(pelotudo.gringo@gmail.com).
 
 Please include for bugs:
 
