@@ -21,6 +21,10 @@ variables:
   RELEASE_TAG_REGEX: '/^libYGP_V\d+\.\d+\.\d+$/'
   PACKAGE_NAME: libYGP
   CI_IMAGE: $CI_REGISTRY_IMAGE/ci-base:latest
+  # The server uses a self-signed CA; the runner provides it (tls-ca-file in its
+  # config.toml) as CI_SERVER_TLS_CA_FILE. Used by curl and release-cli
+  CURL_CA_BUNDLE: $CI_SERVER_TLS_CA_FILE
+  ADDITIONAL_CA_CERT_BUNDLE: $CI_SERVER_TLS_CA_FILE
 
 default:
   image: $CI_IMAGE
