@@ -129,6 +129,11 @@ template <> inline XAttributeEntry<std::string>::XAttributeEntry(std::string& at
     parent::set_text(attr);
 }
 
+/// Specialication of XAttributeEntry<T>::commit for strings; takes the text directly from the
+/// entry, as the string-constructor doesn't register for focus-events (which would update temp)
+template <> inline void XAttributeEntry<std::string>::commit() { attr_ = temp = parent::get_text(); }
+/// Specialication of XAttributeEntry<T>::hasChanged for strings
+template <> inline bool XAttributeEntry<std::string>::hasChanged() const { return parent::get_text() != attr_; }
 /// Specialication of XAttributeEntry<T>::update for strings
 template <> inline void XAttributeEntry<std::string>::update() { parent::set_text(temp = attr_); }
 /// Specialication of XAttributeEntry<T>::setText for strings
@@ -147,6 +152,10 @@ inline XAttributeEntry<Glib::ustring>::XAttributeEntry(Glib::ustring& attr) : te
     parent::set_text(attr);
 }
 
+/// Specialication of XAttributeEntry<T>::commit for ustrings; takes the text directly from the entry
+template <> inline void XAttributeEntry<Glib::ustring>::commit() { attr_ = temp = parent::get_text(); }
+/// Specialication of XAttributeEntry<T>::hasChanged for ustrings
+template <> inline bool XAttributeEntry<Glib::ustring>::hasChanged() const { return parent::get_text() != attr_; }
 /// Specialication of XAttributeEntry<T>::update for ustrings
 template <> inline void XAttributeEntry<Glib::ustring>::update() { parent::set_text(temp = attr_); }
 /// Specialication of XAttributeEntry<T>::setText for ustrings
