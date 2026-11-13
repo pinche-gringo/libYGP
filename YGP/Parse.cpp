@@ -528,6 +528,7 @@ ParseQuoted::ParseQuoted(const ParseQuoted& other) : ParseText(other), pos(0) {
     *pQuote = *other.pQuote;
     pQuote[1] = '\0';
     pQuote[2] = other.pQuote[2];
+    setValue(pQuote); // Don't refer to the quote of the other object
 }
 
 //-----------------------------------------------------------------------------
@@ -549,6 +550,7 @@ ParseQuoted& ParseQuoted::operator=(const ParseQuoted& other) {
         *pQuote = *other.pQuote;
         pQuote[1] = '\0';
         pQuote[2] = other.pQuote[2];
+        setValue(pQuote); // Don't refer to the quote of the other object
     } // endif other object
 
     pos = 0;
@@ -647,6 +649,7 @@ ParseQuotedEsc::ParseQuotedEsc(const ParseQuotedEsc& other) : ParseTextEsc(other
     *pQuote = *other.pQuote;
     pQuote[1] = '\0';
     pQuote[2] = other.pQuote[2];
+    setValue(pQuote); // Don't refer to the quote of the other object
 }
 
 //-----------------------------------------------------------------------------
@@ -668,6 +671,7 @@ ParseQuotedEsc& ParseQuotedEsc::operator=(const ParseQuotedEsc& other) {
         *pQuote = *other.pQuote;
         pQuote[1] = '\0';
         pQuote[2] = other.pQuote[2];
+        setValue(pQuote); // Don't refer to the quote of the other object
     } // endif other object
 
     pos = 0;

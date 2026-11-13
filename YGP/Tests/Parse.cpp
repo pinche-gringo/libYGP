@@ -110,6 +110,24 @@ int Application::perform(int, const char*[]) {
     YGP::ParseQuoted qText('"', "Quoted", 10, 1);
     YGP::CBParseQuotedEsc qEText('<', "QuotedEsc", foundQuotedText, 10, 1);
     YGP::ParseToText endMark("**END**", "End-marker");
+
+    // Copies must refer to their own quote, not to the one of the original
+    YGP::ParseQuoted qTextCopy(qText);
+    check(qTextCopy.getValue() != qText.getValue());
+    check(!strcmp(qTextCopy.getValue(), qText.getValue()));
+    YGP::ParseQuoted qTextAssigned('<', "Assigned", 10, 1);
+    qTextAssigned = qText;
+    check(qTextAssigned.getValue() != qText.getValue());
+    check(!strcmp(qTextAssigned.getValue(), qText.getValue()));
+
+    YGP::ParseQuotedEsc qEsc('<', "QuotedEsc", 10, 1);
+    YGP::ParseQuotedEsc qEscCopy(qEsc);
+    check(qEscCopy.getValue() != qEsc.getValue());
+    check(!strcmp(qEscCopy.getValue(), qEsc.getValue()));
+    YGP::ParseQuotedEsc qEscAssigned('"', "Assigned", 10, 1);
+    qEscAssigned = qEsc;
+    check(qEscAssigned.getValue() != qEsc.getValue());
+    check(!strcmp(qEscAssigned.getValue(), qEsc.getValue()));
     YGP::ParseEOF eof;
 
     YGP::Xifstream xstr;
