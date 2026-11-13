@@ -41,7 +41,7 @@ using namespace std;
 #    define PATH "..\\YGP\\Tests\\"
 #endif
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing XStream...\n";

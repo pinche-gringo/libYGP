@@ -30,6 +30,7 @@
 #include <cstdio>
 #include <unistd.h>
 
+#include <filesystem>
 #include <iostream>
 #include <map>
 #include <string>
@@ -50,7 +51,7 @@
 #    define PATH "..\\YGP\\Tests\\"
 #endif
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing INI-file parser...\n";
@@ -90,7 +91,7 @@ int main(int argc, char* argv[]) {
         INIATTR(Local, YGP::ADate, Attr4);
 
         try {
-            int rc = global.readFromStream((YGP::Xistream&)_inifile_.getFile());
+            int rc = global.readFromStream(reinterpret_cast<YGP::Xistream&>(_inifile_.getFile()));
             check(!rc);
         } // end-try
         catch (std::exception& e) {
@@ -123,7 +124,11 @@ int main(int argc, char* argv[]) {
                         "Key=Value                  ; Local value\n"
                         "ID=123\n";
 
-        std::string file(tmpnam(NULL));
+        std::string file((std::filesystem::temp_directory_path() / "YGP-INIFile-XXXXXX").string());
+        int fd(mkstemp(file.data()));
+        check(fd != -1);
+        if (fd != -1)
+            close(fd);
         std::ofstream ostr(file.c_str(), std::ios::binary | std::ios::out);
         ostr << output;
         ostr.close();

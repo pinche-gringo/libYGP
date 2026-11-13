@@ -43,7 +43,7 @@ static const char* TESTFILE = "..\\YGP\\Tests\\XStrBuf.test";
 static const char* TESTFILE = "XStrBuf.test";
 #endif
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing extStreambuf...\n";

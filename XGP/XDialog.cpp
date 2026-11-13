@@ -155,7 +155,7 @@ bool XDialog::isDataOK() {
 /// \param action Selected action
 /// \remarks Must not be called
 //-----------------------------------------------------------------------------
-void XDialog::command(int action) { TRACE9("XDialog::command(int) - " << action); }
+void XDialog::command([[maybe_unused]] int action) { TRACE9("XDialog::command(int) - " << action); }
 
 //-----------------------------------------------------------------------------
 /// Frees the dialog.

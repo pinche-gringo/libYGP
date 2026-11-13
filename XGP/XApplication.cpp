@@ -33,7 +33,6 @@
 
 #include <boost/tokenizer.hpp>
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
@@ -58,6 +57,7 @@
 
 #include "XGP/BrowserDlg.h"
 #include "XGP/HTMLViewer.h"
+#include "XGP/InlineImage.h"
 #include "XGP/TraceDlg.h"
 #include "XGP/XDialog.h"
 
@@ -302,7 +302,7 @@ void XApplication::showAboutbox() {}
 ///     the icon in instead - so this is a no-op. XInfoApplication overrides
 ///     this to display the icon inside its client area.
 //----------------------------------------------------------------------------
-void XApplication::setIconProgram(const guint8* pIconData, int lenData) {
+void XApplication::setIconProgram([[maybe_unused]] const guint8* pIconData, [[maybe_unused]] int lenData) {
     TRACE9("XApplication::setIconProgram(const char*, int) - " << lenData);
     Check1(pIconData);
 }
@@ -350,7 +350,7 @@ void XInfoApplication::setIconProgram(const guint8* pIconData, int lenData) {
     Check1(pIconData);
     Check3(hboxTitle);
 
-    Glib::RefPtr<Gdk::Pixbuf> pic(Glib::wrap(gdk_pixbuf_new_from_inline(lenData, pIconData, false, nullptr)));
+    Glib::RefPtr<Gdk::Pixbuf> pic(createPixbufFromInline(pIconData, lenData));
     iconPrg.reset(new Gtk::Image(pic));
     Check3(iconPrg);
 
@@ -369,7 +369,7 @@ void XInfoApplication::setIconAuthor(const guint8* pIconData, int lenData) {
     Check3(hboxTitle);
     Check3(vboxPrgInfo);
 
-    Glib::RefPtr<Gdk::Pixbuf> pic(Glib::wrap(gdk_pixbuf_new_from_inline(lenData, pIconData, false, nullptr)));
+    Glib::RefPtr<Gdk::Pixbuf> pic(createPixbufFromInline(pIconData, lenData));
     iconAuthor.reset(new Gtk::Image(pic));
     Check3(iconAuthor);
 

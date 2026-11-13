@@ -53,7 +53,7 @@ typedef struct Client {
 } Client;
 typedef boost::shared_ptr<Client> HClient;
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     YGP::Relation1_X<HServer, HClient> ServerClient("ServerClient-1:4", 4);

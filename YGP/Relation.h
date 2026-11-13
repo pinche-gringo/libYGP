@@ -110,7 +110,7 @@ template <class S, class T> class Relation1_1 : public IRelation {
     /// Disconnects two objects
     /// \param source Parent to unrelate
     /// \param target Child to unrelate from parent
-    void unrelate(const S& source, const T& target) {
+    void unrelate(const S& source, [[maybe_unused]] const T& target) {
         Check1(source);
         Check1(target);
         Check1(objects.find(source) != objects.end());

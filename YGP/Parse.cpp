@@ -337,7 +337,8 @@ int ParseAttomic::checkValue(char ch) {
 
             case 'X':
                 if (isdigit(ch))
-                    return asIs; // Falling through is intentional
+                    return asIs;
+                [[fallthrough]];
             case 'A':
                 if (isalpha(ch))
                     return asIs;
@@ -508,12 +509,13 @@ int ParseTextEsc::checkValue(char ch) {
 //-----------------------------------------------------------------------------
 ParseQuoted::ParseQuoted(char quote, const char* description, unsigned int max, unsigned int min, bool skipWhitespace,
                          bool reportData)
-    : ParseText(pQuote, description, max, min, skipWhitespace, reportData), pos(0) {
+    : ParseText("", description, max, min, skipWhitespace, reportData), pos(0) {
     TRACE9("ParseQuoted::ParseQuoted(char, const char*, 2x unsigned int, 2x bool)\n\t- " << getDescription());
 
     *pQuote = getClosingChar(quote);
     pQuote[1] = '\0';
     pQuote[2] = quote;
+    setValue(pQuote); // Can't be passed to the base-class, as it is not yet initialised there
 }
 
 //-----------------------------------------------------------------------------
@@ -626,12 +628,13 @@ int ParseQuoted::checkValue(char ch) {
 //-----------------------------------------------------------------------------
 ParseQuotedEsc::ParseQuotedEsc(char quote, const char* description, unsigned int max, unsigned int min, char escape,
                                bool skipWhitespace, bool reportData)
-    : ParseTextEsc(pQuote, description, max, min, escape, skipWhitespace, reportData), pos(0) {
+    : ParseTextEsc("", description, max, min, escape, skipWhitespace, reportData), pos(0) {
     TRACE9("ParseQuotedEsc::ParseQuotedEsc(char, const char*, 2x unsigned int, char, 2x bool)\n\t- " << getDescription());
 
     *pQuote = ParseQuoted::getClosingChar(quote);
     pQuote[1] = '\0';
     pQuote[2] = quote;
+    setValue(pQuote); // Can't be passed to the base-class, as it is not yet initialised there
 }
 
 //-----------------------------------------------------------------------------

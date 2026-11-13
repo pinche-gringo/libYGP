@@ -364,12 +364,12 @@ int INIFile::read() {
         pSection = nullptr;
 
         INISection::TSectionParser<INIFile> hdrParser(*this, &INIFile::foundSection);
-        rc = hdrParser.parse((Xistream&)file);
+        rc = hdrParser.parse(reinterpret_cast<Xistream&>(file));
         TRACE1("INIFile::read " << rc << '/' << pSection << '/' << file.eof());
         if (rc || file.eof() || !pSection)
             break;
 
-        rc = pSection->readAttributes((Xistream&)file);
+        rc = pSection->readAttributes(reinterpret_cast<Xistream&>(file));
     }
     while (!rc); // end-do
 

@@ -55,7 +55,7 @@ int dirSearchRecursive(const char* pFile) {
     return pFile ? dirSearchRecursive(NULL) : 0;
 }
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing File...\n";

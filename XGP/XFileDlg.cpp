@@ -126,7 +126,8 @@ void FileDialog::on_response(int cmd) {
             if (file)
                 handleFile(file->get_path());
         }
-    } // Missing break is intentional
+    }
+        [[fallthrough]];
 
     case Gtk::ResponseType::CANCEL:
         if (modal) {

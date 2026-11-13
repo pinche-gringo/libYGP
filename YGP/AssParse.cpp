@@ -22,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <boost/bind.hpp>
 
 #include <boost/spirit/include/classic_actor.hpp>
 #include <boost/spirit/include/classic_confix.hpp>

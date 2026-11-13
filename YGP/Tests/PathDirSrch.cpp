@@ -33,10 +33,8 @@
 
 #include "Test.h"
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
-
-    typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
 
     std::cout << "Testing PathDirectorySearch...\n";
 #if SYSTEM == UNIX

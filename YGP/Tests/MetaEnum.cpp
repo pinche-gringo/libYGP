@@ -51,7 +51,7 @@ class test : public YGP::MetaEnum {
 
 test* test::instance(NULL);
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing MetaEnum...\n";
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
         check(t[4].size());
         check(!"No exception");
     }
-    catch (std::out_of_range) {
+    catch (const std::out_of_range&) {
         check("Exception");
     }
     return cErrors ? 1 : 0;

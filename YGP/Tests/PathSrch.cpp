@@ -34,7 +34,7 @@
 
 #include "Test.h"
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing PathSearch...\n";

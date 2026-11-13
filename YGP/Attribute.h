@@ -396,7 +396,7 @@ template <class T, class L = std::vector<T>> class AttributeList : public IAttri
     }
     /// Method to assign a value from a character-pointer to the attribute
     /// list. See assignFromString() for details.
-    bool assign(const char* value, unsigned int length) const override { return assignFromString(value); }
+    bool assign(const char* value, unsigned int) const override { return assignFromString(value); }
 
     /// Returns the value of the attribute list. This is a string of <tt>
     /// [offset]=[value];</tt> entries.
@@ -644,7 +644,7 @@ template <class T, class L = std::map<std::string, T>> class AttributeMap : publ
 
     /// Method to assign a value from a character-pointer to the attribute
     /// map. See assignFromString() for details.
-    bool assign(const char* value, unsigned int length) const override { return assignFromString(value); }
+    bool assign(const char* value, unsigned int) const override { return assignFromString(value); }
 
     /// Method to assign a value from a character-pointer to a single
     /// (specified) element of the map.

@@ -28,6 +28,7 @@
 #include <cstdio>
 #include <unistd.h>
 
+#include <filesystem>
 #include <fstream>
 #include <string>
 
@@ -50,12 +51,15 @@ class test : public YGP::Entity {
     int nr;
 };
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing Entity...\n";
-    std::string tmp(tmpnam(NULL));
-    check(tmp.size());
+    std::string tmp((std::filesystem::temp_directory_path() / "YGP-Entity-XXXXXX").string());
+    int fd(mkstemp(tmp.data()));
+    check(fd != -1);
+    if (fd != -1)
+        close(fd);
     std::ofstream tmpFile(tmp.c_str());
     check(tmpFile);
     test obj1;

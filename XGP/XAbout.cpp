@@ -22,7 +22,6 @@
 // You should have received a copy of the GNU General Public License
 // along with libYGP.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
@@ -35,6 +34,8 @@
 
 #define CONVERT_TO_UTF8
 #include <YGP/Internal.h>
+
+#include "XGP/InlineImage.h"
 
 #include "XGP/XAbout.h"
 
@@ -102,7 +103,7 @@ void XAbout::setIconProgram(const guint8* pIconData, int lenData) {
     Check1(client);
     Check1(pIconData);
 
-    pIconProgramm.reset(new Gtk::Image(scaleIcon(Glib::wrap(gdk_pixbuf_new_from_inline(lenData, pIconData, false, nullptr)))));
+    pIconProgramm.reset(new Gtk::Image(scaleIcon(createPixbufFromInline(pIconData, lenData))));
 
     pIconProgramm->set_pixel_size(ICON_SIZE);
     pIconProgramm->set_margin(5);
@@ -118,7 +119,7 @@ void XAbout::setIconAuthor(const guint8* pIconData, int lenData) {
     Check1(client);
     Check1(pIconData);
 
-    pIconAuthor.reset(new Gtk::Image(scaleIcon(Glib::wrap(gdk_pixbuf_new_from_inline(lenData, pIconData, false, nullptr)))));
+    pIconAuthor.reset(new Gtk::Image(scaleIcon(createPixbufFromInline(pIconData, lenData))));
 
     pIconAuthor->set_pixel_size(ICON_SIZE);
     pIconAuthor->set_margin(5);

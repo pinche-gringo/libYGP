@@ -354,7 +354,7 @@ void FileTypeCheckerByContent::skipHTMLComments(char* buffer, unsigned int size,
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::matchFirstBytes(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::matchFirstBytes(char* buffer, const char* text, unsigned int length, std::ifstream&) {
     return !memcmp(buffer, text, length);
 }
 
@@ -367,7 +367,7 @@ bool FileTypeCheckerByContent::matchFirstBytes(char* buffer, const char* text, u
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isHTML(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isHTML(char* buffer, const char*, unsigned int length, std::ifstream& stream) {
     // Check for HTML-document; this must be the last test, as the buffer
     // might be updated
     skipHTMLComments(buffer, length, stream);
@@ -384,7 +384,7 @@ bool FileTypeCheckerByContent::isHTML(char* buffer, const char* text, unsigned i
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isWebP(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isWebP(char* buffer, const char*, unsigned int, std::ifstream&) {
     return !memcmp(buffer, "RIFF", 4) && !memcmp(buffer + 8, "WEBP", 4);
 }
 
@@ -397,7 +397,7 @@ bool FileTypeCheckerByContent::isWebP(char* buffer, const char* text, unsigned i
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isSVG(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isSVG(char* buffer, const char*, unsigned int length, std::ifstream&) {
     std::string data(buffer, length);
     std::transform(data.begin(), data.end(), data.begin(), [](unsigned char ch) { return std::tolower(ch); });
     std::string::size_type posSVG(data.find("<svg"));
@@ -413,7 +413,7 @@ bool FileTypeCheckerByContent::isSVG(char* buffer, const char* text, unsigned in
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isMP3(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isMP3(char* buffer, const char*, unsigned int, std::ifstream&) {
     // Check for MP3
     return (get2BytesLSB(buffer) & ID_MP3) == ID_MP3;
 }
@@ -427,7 +427,7 @@ bool FileTypeCheckerByContent::isMP3(char* buffer, const char* text, unsigned in
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isOOffice(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isOOffice(char* buffer, const char*, unsigned int, std::ifstream& stream) {
     return getFileOffsetInArchive(stream, buffer, "meta.xml", 8);
 }
 
@@ -441,7 +441,7 @@ bool FileTypeCheckerByContent::isOOffice(char* buffer, const char* text, unsigne
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isStarOffice(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isStarOffice(char* buffer, const char*, unsigned int, std::ifstream& stream) {
     // Check for StarOffice/MS-Office (StarOffice up to V5 uses a
     // MS-compatible format additional for the information, additional to
     // their own format, so they could also be parsed as MS-Office document)
@@ -465,7 +465,7 @@ bool FileTypeCheckerByContent::isStarOffice(char* buffer, const char* text, unsi
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isMSOffice(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isMSOffice(char* buffer, const char*, unsigned int, std::ifstream& stream) {
     // Check for StarOffice/MS-Office (StarOffice up to V5 uses a
     // MS-compatible format additional for the information, additional to
     // their own format, so they could also be parsed as MS-Office document)
@@ -487,7 +487,7 @@ bool FileTypeCheckerByContent::isMSOffice(char* buffer, const char* text, unsign
 /// \param stream Stream from where to read more characters
 /// \returns bool True, if the text matches
 //-----------------------------------------------------------------------------
-bool FileTypeCheckerByContent::isOfficeOpenXML(char* buffer, const char* text, unsigned int length, std::ifstream& stream) {
+bool FileTypeCheckerByContent::isOfficeOpenXML(char* buffer, const char*, unsigned int, std::ifstream& stream) {
     TRACE1(" FileTypeCheckerByContent::isOfficeOpenXML(...)");
     return getFileOffsetInArchive(stream, buffer, "docProps/core.xml", 17);
 }

@@ -55,7 +55,7 @@
 #define A3 K3 "=" KV3
 #define A4 K4 "=" KV4
 
-int main(int argc, char* argv[]) {
+int main() {
     unsigned int cErrors(0);
 
     std::cout << "Testing AssignmentParse ...\n";

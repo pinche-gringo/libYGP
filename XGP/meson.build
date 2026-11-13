@@ -11,7 +11,7 @@ xgp_sources = files(
   'XFileList.cpp', 'XDate.cpp', 'XFileDlg.cpp', 'XPrintDlg.cpp', 'BrowserDlg.cpp',
   'ConnectDlg.cpp', 'HTMLViewer.cpp', 'AutoContainer.cpp', 'MessageDlg.cpp',
   'LoginDlg.cpp', 'EnumEntry.cpp', 'TraceDlg.cpp', 'AnimWindow.cpp',
-  'WebkitViewer.c', 'SearchDlg.cpp',
+  'WebkitViewer.c', 'SearchDlg.cpp', 'InlineImage.cpp',
 )
 
 xgp_deps = [ygp_dep, gtkmm_dep, giomm_dep, dl_dep]

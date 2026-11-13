@@ -71,7 +71,7 @@ class Application : public YGP::IVIOApplication {
 
     static const longOptions lo[];
 
-    static int foundNumber(const char* pNumber, unsigned int) {
+    static int foundNumber([[maybe_unused]] const char* pNumber, unsigned int) {
         TRACE1("Found number: " << pNumber);
         return YGP::ParseObject::PARSE_OK;
     }
@@ -91,10 +91,10 @@ class Application : public YGP::IVIOApplication {
 
 const YGP::IVIOApplication::longOptions Application::lo[] = {{"help", 'h'}, {NULL, '\0'}};
 
-bool Application::handleOption(const char option) { return true; }
+bool Application::handleOption(const char) { return true; }
 void Application::showHelp() const { std::cout << "Usage: " << name() << " [--help]\n\n"; }
 
-int Application::perform(int argc, const char* argv[]) {
+int Application::perform(int, const char*[]) {
     std::cout << "Testing Parser...\n";
     YGP::CBParseAttomic nr("\\9", "Number", foundNumber, 4, 2);
     YGP::OFParseAttomic<Application> alpha("\\X", "Alphanum", *this, &Application::foundAlpha, 4, 2);
@@ -119,23 +119,23 @@ int Application::perform(int argc, const char* argv[]) {
         xstr.init();
 
         try {
-            check(!(nr.parse((YGP::Xistream&)xstr)));
-            check(!(alpha.parse((YGP::Xistream&)xstr)));
-            check(!seqANum.parse((YGP::Xistream&)xstr));
-            check(!selANum.parse((YGP::Xistream&)xstr));
-            check(!text.parse((YGP::Xistream&)xstr));
-            check(!text2.parse((YGP::Xistream&)xstr));
+            check(!(nr.parse(reinterpret_cast<YGP::Xistream&>(xstr))));
+            check(!(alpha.parse(reinterpret_cast<YGP::Xistream&>(xstr))));
+            check(!seqANum.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
+            check(!selANum.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
+            check(!text.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
+            check(!text2.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
             check(xstr.getLine() == 3);
             check(xstr.getColumn() == 8);
-            check(!skip.parse((YGP::Xistream&)xstr));
-            check(!qText.parse((YGP::Xistream&)xstr));
-            check(!qEText.parse((YGP::Xistream&)xstr));
+            check(!skip.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
+            check(!qText.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
+            check(!qEText.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
             // Don't check line number anymore, its undefined after skipping
             check(xstr.getColumn() == 0);
 
             // Test ParseToText and ParseEOF
-            check(!endMark.parse((YGP::Xistream&)xstr));
-            check(!eof.parse((YGP::Xistream&)xstr));
+            check(!endMark.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
+            check(!eof.parse(reinterpret_cast<YGP::Xistream&>(xstr)));
         } // end-try
         catch (YGP::ParseError& e) {
             std::cerr << "Error parsing Parser.test in line " << xstr.getLine() << " (" << xstr.getColumn() << "): " << e.what()
