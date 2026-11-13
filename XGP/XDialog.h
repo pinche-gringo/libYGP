@@ -40,7 +40,7 @@ class XDialog : public Gtk::Dialog {
 
   protected:
     /// Possible buttons of the dialog: Any combination of OK and/or Cancel
-    using buttons = enum {
+    enum buttons {
         NONE = 0,                ///< Don't add any buttons
         OK = 1,                  ///< Add an OK-button
         CANCEL = 2,              ///< Add a Cancel-button

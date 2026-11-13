@@ -31,7 +31,7 @@ namespace YGP {
 class StatusObject {
   public:
     /// The type of the object
-    using type = enum {
+    enum type {
         UNDEFINED, ///< The object contains no message
         INFO,      ///< The object contains an informational message
         WARNING,   ///< The object contains a warning message

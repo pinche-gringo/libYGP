@@ -66,7 +66,7 @@ class FileDialog : public Gtk::FileChooserDialog {
 
   protected:
     /// IDs for the possible commands (OK, CANCEL)
-    using commandID = enum { OK = 1, CANCEL };
+    enum commandID { OK = 1, CANCEL };
 
     /// Callback after selecting a file
     /// @param: Name of selected file

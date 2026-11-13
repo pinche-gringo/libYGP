@@ -77,7 +77,7 @@ namespace YGP {
 class IVIOApplication {
   public:
     /// Helper-structure to store long-options
-    using longOptions = struct {
+    struct longOptions {
         const char* longVal; ///< Pointer to the value of the long option
         char shortVal;       ///< Character representing the equivalent short option
     };

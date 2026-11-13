@@ -63,7 +63,7 @@ class ConnectionMgr {
     virtual ~ConnectionMgr();
 
     /// Mode of the connections
-    using modeConnect = enum {
+    enum modeConnect {
         NONE,   ///< No action has been performed to set a mode
         CLIENT, ///< Manager has connected to a server
         SERVER  ///< Manager waited for connections from clients
